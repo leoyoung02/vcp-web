@@ -1,0 +1,93 @@
+/* @import "@angular/material/prebuilt-themes/indigo-pink.css"; */
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap");
+
+/* base */
+@import "./tailwindcss/base.css";
+@import "./01-base/variables.css";
+@import "./01-base/document.css";
+@import "./01-base/font.css";
+@import "./01-base/heading.css";
+
+/* components */
+@import "./tailwindcss/components.css";
+@import "./02-components/link.css";
+@import "./02-components/button.css";
+
+/* utilities */
+@import "./tailwindcss/utilities.css";
+@import "./03-utilities/border.css";
+
+/* You can add global styles to this file, and also import other style files */
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Poppins", sans-serif;
+}
+
+.content-container {
+  min-height: calc(100% - 416px);
+}
+
+/** Material / tailwind fixes **/
+.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field
+  .mdc-notched-outline__notch {
+  border-right-style: hidden;
+}
+
+.mat-mdc-snack-bar-container {
+  position: absolute !important;
+}
+
+.mat-mdc-snack-bar-container.info-snackbar {
+  --mdc-snackbar-container-color: #1e1e1e;
+  --mat-mdc-snack-bar-button-color: #fff;
+  --mdc-snackbar-supporting-text-color: #fff;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+  border-radius: 10px !important;
+}
+
+.mat-mdc-snack-bar-container .mdc-snackbar__label {
+  font-size: 14px !important;
+}
+
+.mat-mdc-input-element {
+  box-shadow: none !important;
+}
+
+.sticky {
+  position: sticky !important;
+}
+
+[type="text"],
+[type="email"],
+[type="url"],
+[type="password"],
+[type="number"],
+[type="date"],
+[type="datetime-local"],
+[type="month"],
+[type="search"],
+[type="tel"],
+[type="time"],
+[type="week"],
+[multiple],
+textarea,
+select {
+  padding: 0;
+  /* border: none; */
+}
+
+input:checked ~ .dot {
+  transform: translateX(100%);
+  background-color: #48bb78 !important;
+}

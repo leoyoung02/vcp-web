@@ -1,0 +1,1752 @@
+import { CommonModule } from "@angular/common";
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Input,
+} from "@angular/core";
+import { Router } from "@angular/router";
+import { environment } from "@env/environment";
+import { TranslateService } from "@ngx-translate/core";
+import { LocalService, CompanyService, UserService } from "@share/services";
+import { MenuService } from "@lib/services";
+import { TutorsService } from "@features/services";
+import { FooterComponent, NavbarComponent } from "src/app/core/components";
+import { Subject, takeUntil } from "rxjs";
+import moment from "moment";
+import get from "lodash/get";
+import { ToastComponent } from "@share/components";
+
+@Component({
+  selector: "app-layout-main",
+  standalone: true,
+  imports: [CommonModule, NavbarComponent, FooterComponent, ToastComponent],
+  templateUrl: "./layout-main.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush,
+})
+export class LayoutMainComponent {
+  private destroy$ = new Subject<void>();
+
+  @Input() newUpdatesAvailable: any;
+
+  companies: any;
+  userId: any;
+  companyId: any;
+  language: any;
+  domain: any;
+  companyName: any;
+  imageSrc: any;
+  currentUser: any;
+  username: string = "";
+  notifications: any = [];
+  menus: any = [];
+  otherSettings: any;
+  hasMenuOrdering: boolean = false;
+  menuOrdering: any;
+  features: any;
+  tempData: any;
+  dashboardDetails: any;
+  superAdmin: boolean = false;
+  admin1: boolean = false;
+  admin2: boolean = false;
+  hasCustomMemberTypeSettings: boolean = false;
+  hasTutors: boolean = false;
+  isTutorUser: boolean = false;
+  tutorUsers: any = [];
+  apiPath: string = environment.api;
+  popupNotifications: any = [];
+  isVCPAdminRoute: boolean = false;
+  languages: any = [];
+  customMemberTypes: any = [];
+  mentors: any = [];
+  canCreatePlan: boolean = false;
+  canCreateClub: boolean = false;
+  canCreateCanalEmpleo: boolean = false;
+  canCreateCourse: boolean = false;
+  canManageEvents: boolean = false;
+  refreshMenu: boolean = false;
+  showSideMenu: boolean = false;
+  notificationsLength: number = 0;
+  expireDays: any;
+  cancelDays: any;
+  expireDaysDiff: any;
+  homeTextValue: any;
+  homeTextValueEn: any;
+  homeTextValueFr: any;
+  homeTextValueEu: any;
+  homeTextValueCa: any;
+  homeTextValueDe: any;
+  newMenuButton: any;
+  newMenuButtonTextValue: any;
+  newMenuButtonTextValueEn: any;
+  newMenuButtonTextValueFr: any;
+  newMenuButtonTextValueEu: any;
+  newMenuButtonTextValueCa: any;
+  newMenuButtonTextValueDe: any;
+  newMenuButtonUrl: any;
+  courseSubscriptions: any = [];
+  homeActive: boolean = false;
+  courseTutors: any = [];
+  isTutor: boolean = false;
+  courses: any = [];
+  hasEventCalendar: boolean = false;
+  coursesTitle: any;
+  customMemberTypeName: any;
+  userMemberTypes: any = [];
+  memberTypeExpirations: any = [];
+  courseWallPrefix: any;
+  courseWallPrefixTextValue: any;
+  courseWallPrefixTextValueEn: any;
+  courseWallPrefixTextValueFr: any;
+  courseWallPrefixTextValueEu: any;
+  courseWallPrefixTextValueCa: any;
+  courseWallPrefixTextValueDe: any;
+  courseWallMenu: any;
+  tutorId: any = 0;
+  onlyAssignedTutorAccess: boolean = false;
+  showContactUs: boolean = false;
+  contactUsDetails: any;
+  pageInit: boolean = false;
+  tutorManageStudentAccess: boolean = false;
+  courseExceptionUser: any = [];
+  hasCreditSetting: boolean = false;
+  hasCreditPackageSetting: boolean = false;
+  tutorsFeatureId: any;
+  coursesFeatureId: any;
+  hasCourses: boolean = false;
+  hasCategoryAccess: boolean = false;
+  roles: any;
+  company: any;
+  isAdmin: boolean = false;
+
+  constructor(
+    private _router: Router,
+    private _localService: LocalService,
+    private _companyService: CompanyService,
+    private _translateService: TranslateService,
+    private _menuService: MenuService,
+    private _userService: UserService,
+    private _tutorsService: TutorsService,
+    private cd: ChangeDetectorRef
+  ) {
+    this.language = this._localService.getLocalStorage(environment.lslanguage);
+    this._translateService.setDefaultLang(this.language || "es");
+    this._translateService.use(this.language || "es");
+  }
+
+  async ngOnInit() {
+    this.pageInit = true;
+    this.userId = this._localService.getLocalStorage(environment.lsuserId);
+    this.companyId = this._localService.getLocalStorage(
+      environment.lscompanyId
+    );
+    if (!this._localService.getLocalStorage(environment.lslang)) {
+      this._localService.setLocalStorage(environment.lslang, "es");
+    }
+    this.language =
+      this._localService.getLocalStorage(environment.lslang) || "es";
+
+    this.companies = this._localService.getLocalStorage(environment.lscompanies)
+      ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
+      : "";
+    if (!this.companies) {
+      this.companies = get(
+        await this._companyService.getCompanies().toPromise(),
+        "companies"
+      );
+    }
+    let company = this._companyService.getCompany(this.companies);
+    if (company && company[0]) {
+      this.company = company[0];
+      this.companyId = company[0].id;
+      this.domain = company[0].domain;
+      this.homeTextValue = company[0].home_text || "Inicio";
+      this.homeTextValueEn = company[0].home_text_en || "Home";
+      this.homeTextValueFr = company[0].home_text_fr || "Maison";
+      this.homeTextValueEu = company[0].home_text_eu || "Hasi";
+      this.homeTextValueCa = company[0].home_text_ca || "Inici";
+      this.homeTextValueDe = company[0].home_text_de || "Anfang";
+      this.newMenuButton = company[0].new_menu_button;
+      this.newMenuButtonTextValue = company[0].new_menu_button_text;
+      this.newMenuButtonTextValueEn = company[0].new_menu_button_text_en;
+      this.newMenuButtonTextValueFr = company[0].new_menu_button_text_fr;
+      this.newMenuButtonTextValueEu = company[0].new_menu_button_text_eu;
+      this.newMenuButtonTextValueCa = company[0].new_menu_button_text_ca;
+      this.newMenuButtonTextValueDe = company[0].new_menu_button_text_de;
+      this.newMenuButtonUrl = company[0].new_menu_button_url;
+      this.homeActive = company[0].show_home_menu == 1 ? true : false;
+      this.courseWallPrefix = company[0].course_wall_prefix;
+      this.courseWallPrefixTextValue = company[0].course_wall_prefix_text;
+      this.courseWallPrefixTextValueEn = company[0].course_wall_prefix_text_en;
+      this.courseWallPrefixTextValueFr = company[0].course_wall_prefix_text_fr;
+      this.courseWallPrefixTextValueEu = company[0].course_wall_prefix_text_eu;
+      this.courseWallPrefixTextValueCa = company[0].course_wall_prefix_text_ca;
+      this.courseWallPrefixTextValueDe = company[0].course_wall_prefix_text_de;
+      this.courseWallMenu = company[0].course_wall_menu;
+    }
+
+    this.features = this._localService.getLocalStorage(environment.lsfeatures)
+      ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
+      : "";
+    if (!this.features || this.features?.length == 0) {
+      this.features = await this._companyService
+        .getFeatures(this.domain)
+        .toPromise();
+    }
+
+    if (this.features && this.companyId > 0) {
+      let plansFeature = this.features.filter((f) => {
+        return f.feature_name == "Plans";
+      });
+      if (plansFeature?.length > 0) {
+        this.getPlanFeature();
+      }
+
+      let tutorsFeature = this.features.filter((f) => {
+        return f.feature_name == "Tutors";
+      });
+      if (tutorsFeature && tutorsFeature[0]) {
+        this.tutorsFeatureId = tutorsFeature[0].id;
+        this.hasTutors = tutorsFeature && tutorsFeature[0] ? true : false;
+        if (this.hasTutors) {
+          this.getTutors();
+        }
+      }
+
+      let coursesFeature = this.features.filter((f) => {
+        return f.feature_name == "Courses";
+      });
+      if (coursesFeature && coursesFeature[0]) {
+        this.coursesFeatureId = coursesFeature[0].id;
+        this.hasCourses = true;
+        this.getCourseFeature(coursesFeature[0]);
+      }
+    }
+
+    this._userService.currentRefreshNotification
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((refreshNotification) => {
+        if (refreshNotification) {
+          this.getCurrentUserNotifications();
+        }
+      });
+
+    this.getSettings();
+    if (this.userId) {
+      this.checkAdmin();
+    }
+  }
+
+  getSettings() {
+    if (!this.hasCourses || !this.hasTutors) {
+      let featureId = this.hasCourses
+        ? this.coursesFeatureId
+        : this.hasTutors
+        ? this.tutorsFeatureId
+        : 0;
+      this._menuService
+        .getMinCombinedMenuPrefetch(this.companyId, this.userId, featureId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data) => {
+          this.otherSettings = data[0] ? data[0]["other_settings"] : [];
+          this.currentUser = data[1] ? data[1]["CompanyUser"] : [];
+          this.roles = data[2] ? data[2]["role"] : [];
+          this.dashboardDetails = data[3] ? data[3]["dashboard_details"] : [];
+          let languages = data[4] ? data[4]["languages"] : [];
+          this.customMemberTypes = data[5] ? data[5]["languages"] : [];
+          let subfeatures = data[6] ? data[6]["subfeatures"] : [];
+          let courses_subfeatures = [];
+          let tutors_subfeatures = [];
+          if (this.hasCourses) {
+            courses_subfeatures = subfeatures;
+          }
+          if (this.hasTutors) {
+            tutors_subfeatures = subfeatures;
+          }
+          this.proceedFetchMenus(
+            languages,
+            courses_subfeatures,
+            tutors_subfeatures
+          );
+        });
+    } else {
+      this._menuService
+        .getCombinedCoursesTutorsMenuPrefetch(
+          this.companyId,
+          this.userId,
+          this.coursesFeatureId,
+          this.tutorsFeatureId
+        )
+        .pipe(takeUntil(this.destroy$))
+        .subscribe((data) => {
+          this.otherSettings = data[0] ? data[0]["other_settings"] : [];
+          this.currentUser = data[1] ? data[1]["CompanyUser"] : [];
+          this.roles = data[2] ? data[2]["role"] : [];
+          this.dashboardDetails = data[3] ? data[3]["dashboard_details"] : [];
+          let languages = data[4] ? data[4]["languages"] : [];
+          this.customMemberTypes = data[5] ? data[5]["languages"] : [];
+          let courses_subfeatures = data[6] ? data[6]["subfeatures"] : [];
+          let tutors_subfeatures = data[7] ? data[7]["subfeatures"] : [];
+          this.proceedFetchMenus(
+            languages,
+            courses_subfeatures,
+            tutors_subfeatures
+          );
+        });
+    }
+  }
+
+  checkAdmin() {
+    this._userService
+      .isAdminById(this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((res: any) => {
+        if (res.isAdmin) {
+          this.isAdmin = true;
+        }
+      });
+  }
+
+  proceedFetchMenus(languages, courses_subfeatures, tutors_subfeatures) {
+    this.mapSubfeatures(courses_subfeatures, tutors_subfeatures);
+    this.getOtherSettings();
+
+    this.languages = languages
+      ? languages.filter((lang) => {
+          return lang.status == 1;
+        })
+      : [];
+    if (this.languages && this.languages.length > 0) {
+      this.languages = this.languages.sort((a, b) => {
+        return b.default - a.default;
+      });
+    }
+
+    if (this.userId) {
+      this.imageSrc = this.currentUser
+        ? `${this.apiPath}/${this.currentUser.image}`
+        : "";
+      this.username =
+        this.currentUser && this.currentUser.first_name
+          ? `${this.currentUser.first_name} ${this.currentUser.last_name}`
+          : this.currentUser?.name || "";
+      let roles = this.roles;
+      if (roles && roles.length > 0) {
+        roles.forEach((role) => {
+          if (role.role == "Super Admin") {
+            this.superAdmin = true;
+          }
+          if (role.role == "Admin 1") {
+            this.admin1 = true;
+          }
+          if (role.role == "Admin 2") {
+            this.admin2 = true;
+          }
+          if (
+            this.companyId == 12 &&
+            (this.superAdmin || this.admin1 || this.admin2)
+          ) {
+            this.canManageEvents = true;
+          }
+        });
+      }
+
+      this.getExpireInformation();
+      this.getUserMemberTypes();
+      this.getCurrentUserNotifications();
+    }
+  }
+
+  async mapSubfeatures(courses_subfeatures, tutors_subfeatures) {
+    if (courses_subfeatures?.length > 0) {
+      this.onlyAssignedTutorAccess = courses_subfeatures.some(
+        (a) => a.name_en == "Tutors assigned to courses" && a.active == 1
+      );
+      this.hasCategoryAccess = courses_subfeatures.some(
+        (a) => a.name_en == "Category access" && a.active == 1
+      );
+    }
+
+    if (tutors_subfeatures?.length > 0) {
+      this.hasCreditSetting = tutors_subfeatures.some(
+        (a) => a.name_en == "Credits" && a.active == 1
+      );
+      this.hasCreditPackageSetting = tutors_subfeatures.some(
+        (a) => a.name_en == "Credit Packages" && a.active == 1
+      );
+      this.tutorManageStudentAccess = tutors_subfeatures.some(
+        (a) => a.name_en == "Allow Tutors to Manage Students" && a.active == 1
+      );
+    }
+  }
+
+  getUserMemberTypes() {
+    this._userService
+      .getUserMemberTypes(this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        async (response) => {
+          this.userMemberTypes = response["user_member_types"];
+          if (this.userMemberTypes && this.userMemberTypes.length > 0) {
+            let member_types_expirations: any[] = [];
+            this.userMemberTypes.forEach((umt) => {
+              let expireDays;
+              let expireDaysDiff;
+              let cancelDays;
+              let customMemberTypeName;
+              let customMemberTypeId;
+
+              if (umt.user_id && umt.expire_days && umt.expire_days > 0) {
+                var a = moment(umt.created_at).add(umt.expire_days, "days");
+                var b = moment(new Date());
+                let diff = a.diff(b, "days");
+
+                let difference = "";
+                if (diff > 0) {
+                  difference = `${this._translateService.instant(
+                    "dialog.expiresin"
+                  )} ${diff} ${this._translateService.instant(
+                    "dialog.expiresindays"
+                  )}`;
+                } else if (diff <= 0) {
+                  difference = this._translateService.instant(
+                    "dialog.expiredupgrade"
+                  );
+                }
+
+                expireDaysDiff = diff;
+                expireDays = difference;
+              } else if (
+                umt &&
+                umt.user_id &&
+                umt.cancelled == 1 &&
+                umt.cancelled_at
+              ) {
+                var subscription_date = umt.created_at;
+                var sub_date = moment(subscription_date);
+
+                var last_subscription_date;
+                if (
+                  this.customMemberTypes &&
+                  this.customMemberTypes.length > 0
+                ) {
+                  let member_type =
+                    this.customMemberTypes &&
+                    this.customMemberTypes.filter((mt) => {
+                      return mt.id == umt.custom_member_type_id;
+                    });
+
+                  if (member_type && member_type.length > 0) {
+                    if (member_type[0].trial_period == 1) {
+                      if (
+                        moment().isAfter(
+                          moment(sub_date).add(member_type[0].trial_days)
+                        )
+                      ) {
+                        last_subscription_date = moment(sub_date)
+                          .add(member_type[0].trial_days, "days")
+                          .format("YYYY-MM-DD");
+                      } else {
+                        last_subscription_date = moment(sub_date)
+                          .add(1, "months")
+                          .format("YYYY-MM-DD");
+                      }
+                    } else {
+                      last_subscription_date = moment(sub_date)
+                        .add(1, "months")
+                        .format("YYYY-MM-DD");
+                    }
+                  }
+                } else {
+                  for (
+                    let m = sub_date;
+                    m.diff(subscription_date, "months") <= 1;
+                    m.add(1, "months")
+                  ) {
+                    last_subscription_date = m.format("YYYY-MM-DD");
+                  }
+                }
+
+                var a = moment(last_subscription_date);
+                var b = moment(new Date());
+                let diff = a.diff(b, "days");
+
+                let difference = "";
+                if (diff > 0) {
+                  difference = `${this._translateService.instant(
+                    "dialog.cancelledin"
+                  )} ${diff} ${this._translateService.instant(
+                    "dialog.cancelledindays"
+                  )}`;
+                } else if (diff <= 0) {
+                  difference = this._translateService.instant(
+                    "dialog.cancelledrenew"
+                  );
+                }
+
+                cancelDays = difference;
+              } else if (umt.user_id && umt.custom_member_type_id > 0) {
+                let member_type =
+                  this.customMemberTypes &&
+                  this.customMemberTypes.filter((mt) => {
+                    return mt.id == umt.custom_member_type_id;
+                  });
+
+                if (member_type && member_type.length > 0) {
+                  let proceed = true;
+                  if (
+                    member_type[0].require_payment == 1 &&
+                    umt.subscription_id
+                  ) {
+                    proceed = false;
+                  }
+                  if (member_type[0].expire_days > 0 && proceed) {
+                    var a = moment(umt.created).add(
+                      member_type[0].expire_days,
+                      "days"
+                    );
+                    var b = moment(new Date());
+                    let diff = a.diff(b, "days");
+
+                    let difference = "";
+                    if (diff > 0) {
+                      difference = `${this._translateService.instant(
+                        "dialog.expiresin"
+                      )} ${diff} ${this._translateService.instant(
+                        "dialog.expiresindays"
+                      )}`;
+                    } else if (diff <= 0) {
+                      difference = this._translateService.instant(
+                        "dialog.expiredupgrade"
+                      );
+                    }
+
+                    expireDaysDiff = diff;
+                    expireDays = difference;
+                  }
+                }
+              }
+
+              if (expireDays) {
+                if (
+                  this.customMemberTypes &&
+                  this.customMemberTypes.length > 0
+                ) {
+                  let member_type =
+                    this.customMemberTypes &&
+                    this.customMemberTypes.filter((mt) => {
+                      return mt.id == umt.custom_member_type_id;
+                    });
+
+                  if (member_type && member_type.length > 0) {
+                    customMemberTypeName =
+                      this.language == "en"
+                        ? member_type[0].type
+                        : this.language == "fr"
+                        ? member_type[0].type_fr || member_type[0].type_es
+                        : this.language == "eu"
+                        ? member_type[0].type_eu || member_type[0].type_es
+                        : this.language == "ca"
+                        ? member_type[0].type_ca || member_type[0].type_es
+                        : this.language == "de"
+                        ? member_type[0].type_de || member_type[0].type_es
+                        : member_type[0].type_es;
+                    customMemberTypeId = member_type[0].id;
+                  }
+                }
+
+                member_types_expirations.push({
+                  expireDaysDiff,
+                  expireDays,
+                  cancelDays,
+                  customMemberTypeName,
+                  customMemberTypeId,
+                });
+              }
+            });
+            this.memberTypeExpirations = member_types_expirations;
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  getCourseFeature(coursesFeature) {
+    this.coursesTitle =
+      this.language == "en"
+        ? coursesFeature.name_en ||
+          coursesFeature.feature_name ||
+          coursesFeature.name_es ||
+          coursesFeature.feature_name_ES
+        : this.language == "fr"
+        ? coursesFeature.name_fr ||
+          coursesFeature.feature_name_FR ||
+          coursesFeature.name_es ||
+          coursesFeature.feature_name_ES
+        : this.language == "eu"
+        ? coursesFeature.name_eu ||
+          coursesFeature.feature_name_EU ||
+          coursesFeature.name_es ||
+          coursesFeature.feature_name_ES
+        : this.language == "ca"
+        ? coursesFeature.name_ca ||
+          coursesFeature.feature_name_CA ||
+          coursesFeature.name_es ||
+          coursesFeature.feature_name_ES
+        : this.language == "de"
+        ? coursesFeature.name_de ||
+          coursesFeature.feature_name_DE ||
+          coursesFeature.name_es ||
+          coursesFeature.feature_name_ES
+        : coursesFeature.name_es || coursesFeature.feature_name_ES;
+  }
+
+  getPlanFeature() {
+    this._companyService
+      .getCompanySubFeatures(1, this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response) => {
+          let subfeatures = response["subfeatures"];
+          let event_calendar_subfeature =
+            subfeatures &&
+            subfeatures.filter((sf) => {
+              return sf.subfeature_id == 94 && sf.active == 1;
+            });
+          if (
+            event_calendar_subfeature &&
+            event_calendar_subfeature.length > 0
+          ) {
+            this.hasEventCalendar = true;
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  getTutors() {
+    this._tutorsService
+      .getTutors(this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        async (response) => {
+          this.tutorUsers = response["tutors"];
+          if (this.tutorUsers) {
+            this.isTutorUser = this.tutorUsers.some(
+              (a) => a.user_id == this.userId
+            );
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  async getExpireInformation() {
+    if (
+      this.currentUser &&
+      this.currentUser.id &&
+      this.currentUser.expire_days &&
+      this.currentUser.expire_days > 0
+    ) {
+      var a = moment(this.currentUser.created).add(
+        this.currentUser.expire_days,
+        "days"
+      );
+      var b = moment(new Date());
+      let diff = a.diff(b, "days");
+
+      let difference = "";
+      if (diff > 0) {
+        difference = `${this._translateService.instant(
+          "dialog.expiresin"
+        )} ${diff} ${this._translateService.instant("dialog.expiresindays")}`;
+      } else if (diff <= 0) {
+        difference = this._translateService.instant("dialog.expiredupgrade");
+      }
+
+      this.expireDaysDiff = diff;
+      this.expireDays = difference;
+    } else if (
+      this.currentUser &&
+      this.currentUser.id &&
+      this.currentUser.cancelled == 1 &&
+      this.currentUser.cancelled_date
+    ) {
+      var subscription_date = this.currentUser.created;
+      var sub_date = moment(subscription_date);
+
+      var last_subscription_date;
+      if (this.customMemberTypes && this.customMemberTypes.length > 0) {
+        let member_type =
+          this.customMemberTypes &&
+          this.customMemberTypes.filter((mt) => {
+            return mt.id == this.currentUser.custom_member_type_id;
+          });
+
+        if (member_type && member_type.length > 0) {
+          if (member_type[0].trial_period == 1) {
+            if (
+              moment().isAfter(moment(sub_date).add(member_type[0].trial_days))
+            ) {
+              last_subscription_date = moment(sub_date)
+                .add(member_type[0].trial_days, "days")
+                .format("YYYY-MM-DD");
+            } else {
+              last_subscription_date = moment(sub_date)
+                .add(1, "months")
+                .format("YYYY-MM-DD");
+            }
+          } else {
+            last_subscription_date = moment(sub_date)
+              .add(1, "months")
+              .format("YYYY-MM-DD");
+          }
+        }
+      } else {
+        for (
+          let m = sub_date;
+          m.diff(subscription_date, "months") <= 1;
+          m.add(1, "months")
+        ) {
+          last_subscription_date = m.format("YYYY-MM-DD");
+        }
+      }
+
+      var a = moment(last_subscription_date);
+      var b = moment(new Date());
+      let diff = a.diff(b, "days");
+
+      let difference = "";
+      if (diff > 0) {
+        difference = `${this._translateService.instant(
+          "dialog.cancelledin"
+        )} ${diff} ${this._translateService.instant("dialog.cancelledindays")}`;
+      } else if (diff <= 0) {
+        difference = this._translateService.instant("dialog.cancelledrenew");
+      }
+
+      this.cancelDays = difference;
+    } else if (
+      this.currentUser.id &&
+      this.currentUser.custom_member_type_id > 0
+    ) {
+      let member_type =
+        this.customMemberTypes &&
+        this.customMemberTypes.filter((mt) => {
+          return mt.id == this.currentUser.custom_member_type_id;
+        });
+
+      if (member_type && member_type.length > 0) {
+        let proceed = true;
+        if (
+          member_type[0].require_payment == 1 &&
+          this.currentUser.subscription_id
+        ) {
+          proceed = false;
+        }
+        if (member_type[0].expire_days > 0 && proceed) {
+          var a = moment(this.currentUser.created).add(
+            member_type[0].expire_days,
+            "days"
+          );
+          var b = moment(new Date());
+          let diff = a.diff(b, "days");
+
+          let difference = "";
+          if (diff > 0) {
+            difference = `${this._translateService.instant(
+              "dialog.expiresin"
+            )} ${diff} ${this._translateService.instant(
+              "dialog.expiresindays"
+            )}`;
+          } else if (diff <= 0) {
+            difference = this._translateService.instant(
+              "dialog.expiredupgrade"
+            );
+          }
+
+          this.expireDaysDiff = diff;
+          this.expireDays = difference;
+        }
+      }
+    }
+
+    if (this.expireDays) {
+      if (this.customMemberTypes && this.customMemberTypes.length > 0) {
+        let member_type =
+          this.customMemberTypes &&
+          this.customMemberTypes.filter((mt) => {
+            return mt.id == this.currentUser.custom_member_type_id;
+          });
+
+        if (member_type && member_type.length > 0) {
+          this.customMemberTypeName =
+            this.language == "en"
+              ? member_type[0].type
+              : this.language == "fr"
+              ? member_type[0].type_fr || member_type[0].type_es
+              : this.language == "eu"
+              ? member_type[0].type_eu || member_type[0].type_es
+              : this.language == "ca"
+              ? member_type[0].type_ca || member_type[0].type_es
+              : this.language == "de"
+              ? member_type[0].type_de || member_type[0].type_es
+              : member_type[0].type_es;
+        }
+      }
+    }
+  }
+
+  async getCurrentUserNotifications() {
+    this._userService
+      .allUserNotifications(this.userId, this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          let allNotifications = data["notifications"];
+          if (allNotifications?.length > 0) {
+            this.notifications = this.sortNotifications(allNotifications);
+            this.popupNotifications =
+              this.notifications && this.notifications.length > 3
+                ? this.notifications.slice(0, 3)
+                : this.notifications;
+          }
+          this.cd.detectChanges();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  sortNotifications(allNotifications) {
+    let notifications = allNotifications;
+    let sorted_notifications: any = [];
+    this.notificationsLength = 0;
+
+    if (notifications && notifications.length > 0) {
+      // Get requests & invites
+      let invites_requests = notifications.filter((notification) => {
+        return (
+          notification.type == "VS_COMPANY_GROUP_INVITES" ||
+          notification.type == "VS_COMPANY_PLAN_INVITES" ||
+          notification.type == "VS_COMPANY_GROUP_PLAN_INVITES" ||
+          notification.type == "VS_COMPANY_PLAN_REQUESTS" ||
+          notification.type == "VS_COMPANY_GROUP_REQUESTS" ||
+          notification.type == "VS_COMPANY_BUDDY"
+        );
+      });
+      if (invites_requests && invites_requests.length > 0) {
+        let sorted_invited_requests = invites_requests.sort((a, b) => {
+          const oldDate: any = new Date(a.created);
+          const newDate: any = new Date(b.created);
+
+          return newDate - oldDate;
+        });
+        if (sorted_invited_requests && sorted_invited_requests.length > 0) {
+          sorted_invited_requests.forEach((sir) => {
+            if (sir.author_image.indexOf("/") == 0) {
+            } else {
+              sir.author_image = "/" + sir.author_image;
+            }
+
+            let match =
+              sorted_notifications &&
+              sorted_notifications.some((a) => a.object_id === sir.object_id);
+            if (!match) {
+              if (sir.read_status == 1 || sir.read_status == -1) {
+              } else {
+                this.notificationsLength += 1;
+                sorted_notifications.push(sir);
+              }
+            }
+          });
+        }
+      }
+    }
+
+    return sorted_notifications;
+  }
+
+  getOtherSettings() {
+    if (this.otherSettings) {
+      this.otherSettings.forEach((m) => {
+        if (m.title_es == "General") {
+          if (m.content) {
+            let menuOrderSettings = m.content.filter((c) => {
+              return c.title_en.indexOf("Menu items order") >= 0;
+            });
+            if (menuOrderSettings && menuOrderSettings[0]) {
+              this.hasMenuOrdering =
+                menuOrderSettings[0].active == 1 ? true : false;
+              if (this.hasMenuOrdering) {
+                this.getMenuOrdering();
+              } else {
+                this.getMenus();
+              }
+            }
+          }
+        }
+
+        if (m.title_es == "Módulos") {
+          if (m.content) {
+            let contactUsSettings = m.content.filter((c) => {
+              return c.title_en.indexOf("Contact Us") >= 0;
+            });
+            if (contactUsSettings && contactUsSettings[0]) {
+              this.showContactUs =
+                contactUsSettings[0].active == 1 ? true : false;
+              if (this.showContactUs) {
+                this.getContactUsDetails();
+              }
+            }
+          }
+        }
+
+        if (m.title_es == "Stripe") {
+          if (m.content) {
+            let customMemberTypeSettings = m.content.filter((c) => {
+              return (
+                c.title_en.indexOf(
+                  "Require Stripe payment on specific member types"
+                ) >= 0
+              );
+            });
+            if (customMemberTypeSettings && customMemberTypeSettings[0]) {
+              this.hasCustomMemberTypeSettings =
+                customMemberTypeSettings[0].active == 1 ? true : false;
+              if (this.hasCustomMemberTypeSettings) {
+                this.getCustomMemberTypes();
+              }
+            }
+          }
+        }
+      });
+    }
+  }
+
+  getContactUsDetails() {
+    this._companyService
+      .getContactUsDetails(this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        async (response) => {
+          this.contactUsDetails = response["contact_us_details"];
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  async getCustomMemberTypes() {
+    if (this.currentUser) {
+      let member_type_id = this.currentUser.custom_member_type_id;
+      this._companyService
+        .getCustomMemberTypePermissionsNew(member_type_id, this.companyId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          async (response) => {
+            let permissions = response["permissions"];
+            let plan_permission = permissions.filter((p) => {
+              return (
+                p.custom_member_type_id == member_type_id && p.feature_id == 1
+              );
+            });
+            if (plan_permission && plan_permission[0] && !this.superAdmin) {
+              this.canCreatePlan =
+                plan_permission[0].create == 1 ? true : false;
+            }
+
+            let club_permission = permissions.filter((p) => {
+              return (
+                p.custom_member_type_id == member_type_id && p.feature_id == 5
+              );
+            });
+            if (club_permission && club_permission[0] && !this.superAdmin) {
+              this.canCreateClub =
+                club_permission[0].create == 1 ? true : false;
+            }
+
+            let canalempleo_permission = permissions.filter((p) => {
+              return (
+                p.custom_member_type_id == member_type_id && p.feature_id == 18
+              );
+            });
+            if (
+              canalempleo_permission &&
+              canalempleo_permission[0] &&
+              !this.superAdmin
+            ) {
+              this.canCreateCanalEmpleo =
+                canalempleo_permission[0].create == 1 ? true : false;
+            }
+
+            let course_permission = permissions.filter((p) => {
+              return (
+                p.custom_member_type_id == member_type_id && p.feature_id == 11
+              );
+            });
+            if (course_permission && course_permission[0] && !this.superAdmin) {
+              this.canCreateCourse =
+                course_permission[0].create == 1 ? true : false;
+            }
+
+            this.canManageEvents =
+              this.canCreatePlan ||
+              this.canCreateClub ||
+              this.canCreateCanalEmpleo
+                ? true
+                : false;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
+  }
+
+  async getMenuOrdering() {
+    this._menuService
+      .getMenuOrder(this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        async (response) => {
+          this.menuOrdering = response.result;
+          this.getMenus();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  public async reloadMenu() {
+    this.refreshMenu = true;
+    this.userId = this._localService.getLocalStorage(environment.lsuserId);
+    this.companyId = this._localService.getLocalStorage(
+      environment.lscompanyId
+    );
+    this.domain = this._localService.getLocalStorage(environment.lsdomain);
+
+    if (!this.roles || this.roles?.length == 0) {
+      this.getSettings();
+    } else {
+      this.menus = [];
+      this._localService.removeLocalStorage(environment.lsmenus);
+      this.getMenuOrdering();
+    }
+  }
+
+  async getMenus() {
+    this.menus = this._localService.getLocalStorage(environment.lsmenus)
+      ? JSON.parse(this._localService.getLocalStorage(environment.lsmenus))
+      : [];
+    if (this.pageInit) {
+      this._localService.removeLocalStorage(environment.lsmenus);
+      this.menus = [];
+    }
+    if (
+      this.refreshMenu ||
+      !this.menus ||
+      (this.menus && this.menus.length == 0)
+    ) {
+      if (this.hasCourses) {
+        this._menuService
+          .getCombinedCourseMenuItemsPrefetch(
+            this.domain,
+            this.companyId,
+            this.currentUser?.custom_member_type_id,
+            this.tutorsFeatureId,
+            122,
+            this.coursesFeatureId,
+            this.userId
+          )
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((data) => {
+            this.features = data[0] ? data[0] : [];
+            let company_subfeatures = data[1] ? data[1]["subfeatures"] : [];
+            let permissions = data[2] ? data[2]["permissions"] : [];
+            let subfeatureMapping = data[3] ? data[3]["active"] : [];
+            let course_subfeatures = data[4] ? data[4]["subfeatures"] : [];
+            this.courseSubscriptions = data[5]
+              ? data[5]["course_subscriptions"]
+              : [];
+            this.courseTutors = data[6] ? data[6]["course_tutors"] : [];
+            this.courseExceptionUser = data[7]
+              ? data[7]["company_course_exception_user"]
+              : [];
+            this.courses = data[8] ? data[8]["courses"] : [];
+            this.proceedMenuItems(
+              company_subfeatures,
+              permissions,
+              subfeatureMapping,
+              course_subfeatures
+            );
+          });
+      } else {
+        this._menuService
+          .getMinCombinedMenuItemsPrefetch(
+            this.domain,
+            this.companyId,
+            this.currentUser?.custom_member_type_id,
+            this.tutorsFeatureId,
+            122
+          )
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((data) => {
+            this.features = data[0] ? data[0] : [];
+            let company_subfeatures = data[1] ? data[1]["subfeatures"] : [];
+            let permissions = data[2] ? data[2]["permissions"] : [];
+            let subfeatureMapping = data[3] ? data[3]["active"] : [];
+            this.proceedMenuItems(
+              company_subfeatures,
+              permissions,
+              subfeatureMapping,
+              []
+            );
+          });
+      }
+    }
+  }
+
+  proceedMenuItems(
+    company_subfeatures,
+    permissions,
+    subfeatureMapping,
+    course_subfeatures
+  ) {
+    if (this.features?.length === 0) {
+      return;
+    }
+
+    let has_course_wall_subfeature;
+    has_course_wall_subfeature = this.updateCoursesData(
+      has_course_wall_subfeature,
+      course_subfeatures
+    );
+
+    this.features = this.updateFeaturesMembers(company_subfeatures);
+    this.updateFeaturesPermissions(permissions);
+    this._localService.setLocalStorage(
+      environment.lsfeatures,
+      JSON.stringify(this.features)
+    );
+
+    let home_sequence = 1;
+    home_sequence = this.setHomeSequence(home_sequence);
+
+    this.getCompanyDetails();
+
+    let mmatch;
+    mmatch = this.renderHomeMenu(mmatch, home_sequence);
+    mmatch = this.renderDashboardMenu(mmatch);
+
+    for (let i = 0; this.features?.length > i; i++) {
+      let tempData;
+      let tempName = this.features[i].name_en
+        ? this.features[i].name_en
+        : this.features[i].feature_name;
+      let tempPath = this.features[i].feature_name
+        .replace(/\s/g, "")
+        .toLowerCase();
+      let name_ES = this.features[i].name_es
+        ? this.features[i].name_es
+        : this.features[i].feature_name_ES;
+      let name_FR = this.features[i].name_fr
+        ? this.features[i].name_fr
+        : this.features[i].feature_name_FR;
+      let name_EU = this.features[i].name_eu
+        ? this.features[i].name_eu
+        : this.features[i].feature_name_EU;
+      let name_CA = this.features[i].name_ca
+        ? this.features[i].name_ca
+        : this.features[i].feature_name_CA;
+      let name_DE = this.features[i].name_de
+        ? this.features[i].name_de
+        : this.features[i].feature_name_DE;
+
+      tempPath = tempPath == "cityagenda" ? "news" : tempPath;
+      tempName = tempPath == "cityagenda" ? "News" : tempName;
+
+      tempData = {
+        id: this.features[i].id,
+        path: tempPath,
+        name: tempName,
+        name_ES: name_ES,
+        name_FR: name_FR,
+        name_EU: name_EU,
+        name_CA: name_CA,
+        name_DE: name_DE,
+        show: true,
+        sequence: this.features[i].sequence ? this.features[i].sequence : 3 + i,
+      };
+
+      mmatch = this.menus.some((a) => a.name === tempData.name);
+      if (!mmatch) {
+        this.menus.push(tempData);
+      }
+    }
+
+    this.sortMenuOrdering();
+    mmatch = this.renderNewMenu(mmatch);
+    this.renderCourseWallMenu(has_course_wall_subfeature);
+    this.renderTutorsMenu(subfeatureMapping);
+    this.renderGenericWallMenu();
+
+    this._localService.setLocalStorage(
+      environment.lsmenus,
+      JSON.stringify(this.menus)
+    );
+    this._menuService.updateMenu(this.menus);
+    this.cd.detectChanges();
+  }
+
+  showMore = (arr, num) => {
+    return arr.splice(0, num);
+  };
+
+  updateCoursesData(has_course_wall_subfeature, course_subfeatures) {
+    if (this.hasCourses) {
+      let course_wall_subfeature = course_subfeatures?.filter((sf) => {
+        return sf.subfeature_id == 89 && sf.active == 1;
+      });
+      has_course_wall_subfeature =
+        course_wall_subfeature?.length > 0 ? true : false;
+      if (course_wall_subfeature?.length > 0 && this.userId > 0) {
+        this.isTutor =
+          this.courseTutors &&
+          this.courseTutors.some((a) => a.id == this.userId);
+        this.courseTutors.forEach((ct) => {
+          if (ct.id == this.userId) {
+            this.tutorId = ct.tutor_id;
+          }
+        });
+
+        let roles = this.roles;
+        let super_admin_role =
+          roles &&
+          roles.filter((r) => {
+            return r.role == "Super Admin";
+          });
+        if (super_admin_role && super_admin_role[0]) {
+          this.superAdmin = true;
+        }
+        if (this.isTutor || this.superAdmin) {
+          this.courses =
+            this.courses &&
+            this.courses.filter((c) => {
+              return c.status == 1 && c.wall_status == 1;
+            });
+
+          if (
+            this.tutorId &&
+            this.onlyAssignedTutorAccess &&
+            !this.superAdmin
+          ) {
+            this.courseSubscriptions = [];
+            this.courses = this.courses.filter((c) => {
+              let include = false;
+              c.course_tutors &&
+                c.course_tutors.forEach((ct) => {
+                  if (ct.tutor_id == this.tutorId && ct.course_id == c.id) {
+                    include = true;
+                  }
+                  this.courseExceptionUser?.forEach((cex) => {
+                    if (cex.course_id == c.id) {
+                      include = true;
+                    }
+                  });
+                });
+
+              if (include) {
+                return c;
+              }
+            });
+            if (this.courseSubscriptions?.length > 0) {
+              this.courseSubscriptions.length = 0;
+            }
+          }
+
+          if (this.courses && this.courses.length > 0) {
+            this.courses.forEach((course) => {
+              this.courseSubscriptions.push({
+                company_id: this.companyId,
+                user_id: this.userId,
+                course_id: course.id,
+                course: course,
+                subscription_id: course.hotmart_product_id ? null : "999",
+                hotmart_email: course.hotmart_product_id
+                  ? "tutor@email.com"
+                  : null,
+                hotmart_product_id: course.hotmart_product_id ? "999" : null,
+                hotmart_purchase_id: course.hotmart_product_id ? "999" : null,
+                hotmart_transaction: course.hotmart_product_id ? "999" : null,
+                created_at: course.hotmart_product_id
+                  ? moment().format("YYYY-MM-DD HH:mm:ss")
+                  : null,
+              });
+            });
+          }
+        }
+      }
+    }
+
+    return has_course_wall_subfeature;
+  }
+
+  updateFeaturesMembers(company_subfeatures) {
+    let filteredFeatures: any[] = [];
+    this.features &&
+      this.features.forEach((feature) => {
+        let include = false;
+
+        if (company_subfeatures) {
+          let subfeature = company_subfeatures.filter((f) => {
+            return f.feature_id == feature.id;
+          });
+
+          if (subfeature && subfeature[0]) {
+            if (subfeature[0].active == 1) {
+              if (this.currentUser) {
+                include = true;
+              }
+            } else {
+              include = true;
+            }
+          }
+        }
+
+        if (include) {
+          filteredFeatures.push(feature);
+        }
+      });
+
+    return filteredFeatures;
+  }
+
+  updateFeaturesPermissions(permissions) {
+    if (
+      this.features &&
+      this.hasCustomMemberTypeSettings &&
+      this.currentUser &&
+      !this.superAdmin
+    ) {
+      let member_type_id = this.currentUser.custom_member_type_id;
+      let member_type_permissions = permissions.filter((p) => {
+        return p.custom_member_type_id == member_type_id && p.view == 1;
+      });
+      if (member_type_permissions && member_type_permissions.length > 0) {
+        if (!this.superAdmin) {
+          this.features = this.features.filter((f) => {
+            let match = member_type_permissions.some(
+              (a) => a.feature_id == f.id
+            );
+            return match;
+          });
+        }
+      } else {
+        this.features = [];
+      }
+    } else {
+      if (this.features && this.currentUser && !this.superAdmin) {
+        let member_type_id = 1;
+        if (this.admin1) {
+          member_type_id = 2;
+        }
+        if (this.admin2) {
+          member_type_id = 3;
+        }
+        let member_type_permissions = permissions.filter((p) => {
+          return p.custom_member_type_id == member_type_id && p.view == 1;
+        });
+        if (
+          member_type_permissions &&
+          member_type_permissions.length > 0 &&
+          !this.superAdmin
+        ) {
+          this.features = this.features.filter((f) => {
+            let match = member_type_permissions.some(
+              (a) => a.feature_id == f.id
+            );
+            return match;
+          });
+        }
+      }
+    }
+  }
+
+  setHomeSequence(home_sequence) {
+    if (
+      (this.hasMenuOrdering || this.refreshMenu) &&
+      this.menuOrdering &&
+      this.menuOrdering.home_dashboard
+    ) {
+      let home_row = this.menuOrdering.home_dashboard.filter((hd) => {
+        return hd.path == "home";
+      });
+      if (home_row && home_row[0]) {
+        home_sequence = home_row[0].sequence;
+      }
+    }
+
+    return home_sequence;
+  }
+
+  getCompanyDetails() {
+    this.companies = this._localService.getLocalStorage(environment.lscompanies)
+      ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
+      : "";
+    let company = this._companyService.getCompany(this.companies);
+    if (company && company[0]) {
+      this.homeActive = company[0].show_home_menu == 1 ? true : false;
+      this.homeTextValue = company[0].home_text || "Inicio";
+      this.homeTextValueEn = company[0].home_text_en || "Home";
+      this.homeTextValueFr = company[0].home_text_fr || "Maison";
+      this.homeTextValueEu = company[0].home_text_eu || "Hasi";
+      this.homeTextValueCa = company[0].home_text_ca || "Inici";
+      this.homeTextValueDe = company[0].home_text_de || "Anfang";
+      this.newMenuButton = company[0].new_menu_button;
+      if (this.newMenuButton == 1) {
+        this.newMenuButtonTextValue = company[0].new_menu_button_text;
+        this.newMenuButtonTextValueEn = company[0].new_menu_button_text_en;
+        this.newMenuButtonTextValueFr = company[0].new_menu_button_text_fr;
+        this.newMenuButtonTextValueEu = company[0].new_menu_button_text_eu;
+        this.newMenuButtonTextValueCa = company[0].new_menu_button_text_ca;
+        this.newMenuButtonTextValueDe = company[0].new_menu_button_text_de;
+        this.newMenuButtonUrl = company[0].new_menu_button_url;
+      }
+      this.courseWallPrefix = company[0].course_wall_prefix;
+      if (this.courseWallPrefix == 1) {
+        this.courseWallPrefixTextValue = company[0].course_wall_prefix_text;
+        this.courseWallPrefixTextValueEn =
+          company[0].course_wall_prefix_text_en;
+        this.courseWallPrefixTextValueFr =
+          company[0].course_wall_prefix_text_fr;
+        this.courseWallPrefixTextValueEu =
+          company[0].course_wall_prefix_text_eu;
+        this.courseWallPrefixTextValueCa =
+          company[0].course_wall_prefix_text_ca;
+        this.courseWallPrefixTextValueDe =
+          company[0].course_wall_prefix_text_de;
+      }
+      this.courseWallMenu = company[0].course_wall_menu;
+    }
+  }
+
+  renderHomeMenu(mmatch, home_sequence) {
+    if (this.homeActive) {
+      this.tempData = {
+        id: 1,
+        path: "home",
+        name: this.homeTextValueEn,
+        name_ES: this.homeTextValue,
+        name_FR: this.homeTextValueFr,
+        name_EU: this.homeTextValueEu,
+        name_CA: this.homeTextValueCa,
+        name_DE: this.homeTextValueDe,
+        show: true,
+        sequence: home_sequence,
+      };
+      mmatch = this.menus.some((a) => a.name === this.tempData.name);
+      if (!mmatch) {
+        this.menus.push(this.tempData);
+      }
+    }
+
+    return mmatch;
+  }
+
+  renderDashboardMenu(mmatch) {
+    if (this.companyId != 32 && this.features?.length > 0) {
+      if (this.dashboardDetails?.active) {
+        let include_dashboard = false;
+        if (this.dashboardDetails.members_only == 1) {
+          if (this.currentUser) {
+            include_dashboard = true;
+          }
+        } else {
+          include_dashboard = true;
+        }
+
+        if (include_dashboard) {
+          let dashboard_sequence = 2;
+          if (
+            (this.hasMenuOrdering || this.refreshMenu) &&
+            this.menuOrdering &&
+            this.menuOrdering.home_dashboard
+          ) {
+            let dashboard_row = this.menuOrdering.home_dashboard.filter(
+              (hd) => {
+                return hd.path == "dashboard";
+              }
+            );
+            if (dashboard_row && dashboard_row[0]) {
+              dashboard_sequence = dashboard_row[0].sequence;
+            }
+          }
+          this.tempData = {
+            id: 2,
+            path: "dashboard",
+            name: this.dashboardDetails.title_en,
+            name_ES: this.dashboardDetails.title_es,
+            name_FR: this.dashboardDetails.title_fr,
+            name_EU: this.dashboardDetails.title_eu,
+            name_CA: this.dashboardDetails.title_ca,
+            name_DE: this.dashboardDetails.title_de,
+            show: true,
+            sequence: dashboard_sequence,
+          };
+
+          mmatch = this.menus.some((a) => a.name === this.tempData.name);
+          if (!mmatch) {
+            this.menus.push(this.tempData);
+          }
+        }
+      }
+    }
+
+    return mmatch;
+  }
+
+  sortMenuOrdering() {
+    if (
+      (this.hasMenuOrdering || this.refreshMenu) &&
+      this.menuOrdering &&
+      this.menus
+    ) {
+      this.menus = this.menus.sort((a, b) => {
+        return a.sequence - b.sequence;
+      });
+    }
+  }
+
+  renderNewMenu(mmatch) {
+    if (this.newMenuButton == 1) {
+      mmatch = this.menus.some(
+        (a) =>
+          a.name ===
+          (this.newMenuButtonTextValueEn || this.newMenuButtonTextValue)
+      );
+      if (!mmatch) {
+        this.menus.push({
+          id: this.menus.length + 100,
+          path: this.newMenuButtonUrl,
+          new_button: 1,
+          name: this.newMenuButtonTextValueEn || this.newMenuButtonTextValue,
+          name_ES: this.newMenuButtonTextValue,
+          name_FR: this.newMenuButtonTextValueFr || this.newMenuButtonTextValue,
+          name_EU: this.newMenuButtonTextValueEu || this.newMenuButtonTextValue,
+          name_CA: this.newMenuButtonTextValueCa || this.newMenuButtonTextValue,
+          name_DE: this.newMenuButtonTextValueDe || this.newMenuButtonTextValue,
+          show: true,
+          sequence: this.menus.length + 1,
+        });
+      }
+    }
+
+    return mmatch;
+  }
+
+  renderCourseWallMenu(has_course_wall_subfeature) {
+    if (this.courseSubscriptions && this.courseSubscriptions.length > 0) {
+      this.renderCourseWallsMenu();
+      this.renderCourseWallDropdownMenu(has_course_wall_subfeature);
+    }
+  }
+
+  renderCourseWallsMenu() {
+    this.courseSubscriptions.forEach((cs) => {
+      if (false) {
+      } else {
+        let menu_name = "";
+        if (cs.course) {
+          menu_name = `${cs.course.title || cs.course.title_en}`;
+        }
+        if (this.companyId == 27) {
+          menu_name = ``;
+          let course_title = "";
+          if (cs.course) {
+            if (
+              cs.course.title == "Asciende A Otro Nivel" ||
+              cs.course.title == "Asciende a Otro Nivel" ||
+              cs.course.title_en == "Asciende a Otro Nivel"
+            ) {
+              course_title = "AON";
+            } else if (
+              cs.course.title == "Asciende A Otro Nivel Express" ||
+              cs.course.title == "Asciende a Otro Nivel Express" ||
+              cs.course.title_en == "Asciende a Otro Nivel Express"
+            ) {
+              course_title = "AONE";
+            } else {
+              course_title = cs.course.title;
+            }
+            menu_name += `${course_title}`;
+          }
+
+          let cmatch = this.menus.some((a) => a.name === menu_name);
+          let group_id = cs.course ? cs.course.group_id : 0;
+          if (!cmatch && cs.course && cs.course.wall_status == 1) {
+            this.menus.push({
+              id: this.menus.length + 200,
+              course_wall: 1,
+              path: `activity-feed-${group_id}`,
+              name: menu_name,
+              name_ES: menu_name,
+              name_FR: menu_name,
+              name_EU: menu_name,
+              name_CA: menu_name,
+              name_DE: menu_name,
+              show: true,
+              sequence: this.menus.length + 1,
+            });
+          }
+        } else {
+          let cmatch = this.menus.some((a) => a.name === menu_name);
+          let group_id = cs.course ? cs.course.group_id : 0;
+          if (!cmatch && cs.course && cs.course.wall_status == 1) {
+            this.menus.push({
+              id: this.menus.length + 200,
+              course_wall: 1,
+              path: `activity-feed-${group_id}`,
+              name: menu_name,
+              name_ES: menu_name,
+              name_FR: menu_name,
+              name_EU: menu_name,
+              name_CA: menu_name,
+              name_DE: menu_name,
+              show: true,
+              sequence: this.menus.length + 1,
+            });
+          }
+        }
+      }
+    });
+  }
+
+  renderCourseWallDropdownMenu(has_course_wall_subfeature) {
+    if (has_course_wall_subfeature) {
+      var result = this.menus.filter((obj) => {
+        return obj.course_wall == 1;
+      });
+
+      if (result.length == 1) {
+        this.menus.forEach((element) => {
+          if (element.course_wall == 1) {
+            element.name_ES = this.courseWallPrefix
+              ? `${this.courseWallPrefixTextValue} ${element.name_ES}`
+              : element.name_ES;
+            element.name = this.courseWallPrefix
+              ? `${this.courseWallPrefixTextValue} ${element.name}`
+              : element.name;
+            element.name_FR = this.courseWallPrefix
+              ? `${this.courseWallPrefixTextValue} ${element.name_FR}`
+              : element.name_FR;
+            element.name_EU = this.courseWallPrefix
+              ? `${this.courseWallPrefixTextValue} ${element.name_EU}`
+              : element.name_EU;
+            element.name_CA = this.courseWallPrefix
+              ? `${this.courseWallPrefixTextValue} ${element.name_CA}`
+              : element.name_CA;
+            element.name_DE = this.courseWallPrefix
+              ? `${this.courseWallPrefixTextValue} ${element.name_DE}`
+              : element.name_DE;
+          }
+        });
+      }
+
+      if (result.length > 1) {
+        const mm = this.menus.slice(0, -result.length);
+        let m27 = this.menus.slice(
+          this.menus.length - result.length,
+          this.menus.length
+        );
+
+        m27.sort(function (a, b) {
+          if (a.name < b.name) {
+            return -1;
+          }
+          if (a.name > b.name) {
+            return 1;
+          }
+          return 0;
+        });
+
+        this.menus = mm;
+        this.menus.push({
+          subs: m27,
+          course_wall: 11,
+        });
+      }
+    }
+  }
+
+  renderTutorsMenu(subfeatureMapping) {
+    if (subfeatureMapping) {
+      let tempMenu = this.menus.filter((mn) => {
+        return mn.name != "Tutors";
+      });
+      this.menus = tempMenu;
+    }
+  }
+
+  renderGenericWallMenu() {
+    if (this.courseWallMenu) {
+      this.menus.push({
+        id: this.menus.length + 300,
+        course_wall: 1,
+        path: `/activity-feed-0`,
+        name: this._translateService.instant("sidebar.activityfeed"),
+        name_ES: this._translateService.instant("sidebar.activityfeed"),
+        name_FR: this._translateService.instant("sidebar.activityfeed"),
+        name_EU: this._translateService.instant("sidebar.activityfeed"),
+        name_CA: this._translateService.instant("sidebar.activityfeed"),
+        name_DE: this._translateService.instant("sidebar.activityfeed"),
+        show: true,
+        sequence: this.menus.length + 1,
+      });
+    }
+  }
+
+  getCourseTitle(course) {
+    return this.language == "en"
+      ? course.title_en
+        ? course.title_en || course.title
+        : course.title
+      : this.language == "fr"
+      ? course.title_fr
+        ? course.title_fr || course.title
+        : course.title
+      : this.language == "eu"
+      ? course.title_eu
+        ? course.title_eu || course.title
+        : course.title
+      : this.language == "ca"
+      ? course.title_ca
+        ? course.title_ca || course.title
+        : course.title
+      : this.language == "de"
+      ? course.title_de
+        ? course.title_de || course.title
+        : course.title
+      : course.title;
+  }
+
+  changedLanguage(lang) {
+    this._translateService.use(lang);
+    this._localService.setLocalStorage(environment.lslang, lang);
+    this._companyService.changeLanguage(lang);
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+}

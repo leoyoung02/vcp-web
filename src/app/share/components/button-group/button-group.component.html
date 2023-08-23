@@ -1,0 +1,19 @@
+<div class="inline-flex rounded-md shadow-sm" role="group" *ngIf="buttonList?.length > 0">
+    <ng-container *ngFor="let button of buttonList; let i = index;">
+        <button 
+            type="button" 
+            class="px-4 py-2 text-sm font-medium border border-gray-200 hover:bg-gray-100 hover:text-black focus:z-10"
+            [ngClass]="{
+                'rounded-l-lg': i == 0,
+                'rounded-r-md': i == buttonList?.length - 1
+            }"
+            [ngStyle]="{
+                'background-color': button?.selected ? buttonColor : '#fff',
+                'color': button?.selected ? '#fff' : buttonColor
+            }"
+            (click)="handleActionClick(button)"
+        >
+            {{button?.text}}
+        </button>
+    </ng-container>
+</div>  

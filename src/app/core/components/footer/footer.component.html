@@ -1,0 +1,61 @@
+<footer 
+    class="w-full max-w-full container mx-auto flex-shrink-0 p-0"
+    [ngStyle]="{
+        'background-color': footerBackgroundColor,
+        'color': footerTextColor
+    }"
+>
+    <!-- wrapper -->
+    <div class="container w-screen-xl max-w-screen-xl px-0 py-4 justify-between">
+        <div class="flex grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full py-8">
+            <div class="px-6 md:px-0 lg:px-0">
+                <app-logo [logoSrc]="logoSrc"></app-logo>
+                <div 
+                    class="py-4" 
+                    [ngStyle]="{'background-color': footerBackgroundColor,'color': footerTextColor}"
+                >
+                    <ng-container *ngIf="contactUsDetails?.email_address">
+                        <div 
+                            class="font-bold text-sm"
+                            [ngStyle]="{'border-color': footerTextColor}"
+                        >
+                            {{ getContactUsText(contactUsDetails) }}
+                        </div>
+                        <div>
+                            <a class="flex" [ngStyle]="{'color': footerTextColor}" target="_blank" href="mailto:{{ contactUsDetails?.email_address }}">
+                                <fa-icon class="fa flex items-center" [icon]="envelopeIcon"></fa-icon>
+                                <span class="pl-4 text-sm">{{ contactUsDetails?.email_address }}</span>
+                            </a>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+            <div class="px-6 md:px-0 lg:px-0">
+                <div *ngIf="(canShowTermsAndConditions && termsAndConditions) || (!canShowTermsAndConditions || termsAndConditionsURL)" class="py-1 hover:underline" (click)="openTermsAndConditions()">
+                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;">{{ 'footer.terms_and_conditions' | translate }}</a>
+                </div>
+                <div *ngIf="(canShowPrivacyPolicy && privacyPolicy) || (!canShowPrivacyPolicy || privacyPolicyURL)"  class="py-1 hover:underline" (click)="openPrivacyPolicy()">
+                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;">{{ 'footer.privacy_policy' | translate }}</a>
+                </div>
+                <div *ngIf="(canShowCookiePolicy && cookiePolicy) || (!canShowCookiePolicy || cookiePolicyURL)" class="py-1 hover:underline" (click)="openCookiePolicy()">
+                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;">{{ 'footer.cookies_policy' | translate }}</a>
+                </div>
+            </div>
+            <div class="px-6 md:px-0 lg:px-0 grid grid-rows-3 grid-flow-col">
+                <div *ngFor="let menu of menus" class="hover:underline">
+                    <a [ngStyle]="{'color': footerTextColor}" [routerLink]="['/', menu.path]" *ngIf="menu?.path">
+                        {{ getMenuTitle(menu) }}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- copyright -->
+    <span 
+        class="block py-4 text-sm text-center"
+        [ngStyle]="{'background-color': primaryColor, 'color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#1e1e1e' : '#fff'}"
+    >
+        {{companyName}} © {{ currentYear }} {{ 'landing.allrightsreserved' | translate }}. {{ packageJson.version }} - {{ 'landing.poweredby' | translate }} 🍀
+    </span>
+</footer>

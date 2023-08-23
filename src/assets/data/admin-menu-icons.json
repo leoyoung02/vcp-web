@@ -1,0 +1,22 @@
+[  
+    {  
+        "path": "admin/home",  
+        "icon": "./assets/images/new-design/icons/menus/Home.png", 
+        "activeicon": "./assets/images/new-design/icons/menus/Home-active.png"  
+    },
+    {  
+        "path": "admin/customers",  
+        "icon": "./assets/images/new-design/icons/menus/CityAgenda.png", 
+        "activeicon": "./assets/images/new-design/icons/menus/CityAgenda-active.png"  
+    },
+    {  
+        "path": "admin/pricing",  
+        "icon": "./assets/images/new-design/icons/menus/Job.png", 
+        "activeicon": "./assets/images/new-design/icons/menus/Job-active.png"  
+    },
+    {  
+        "path": "admin/support-tickets",
+        "icon": "./assets/images/new-design/icons/menus/Courses.png", 
+        "activeicon": "./assets/images/new-design/icons/menus/Courses-active.png"  
+    }
+]  
