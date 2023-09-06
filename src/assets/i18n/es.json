@@ -1,5 +1,7 @@
 {
     "landing": {
+        "authentication": "Autenticación",
+        "loggingyouin": "Iniciando sesión",
         "create": "CREA TU PROPIO PLAN",
         "looking": "Buscando ...",
         "looking-item-1":"Planes",

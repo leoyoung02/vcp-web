@@ -1,1 +1,95 @@
-<p>Clubs - List</p>
+<div
+    class="container flex items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3"
+    [ngClass]="{
+        'border border-b-2 border-l-0 border-r-0 border-t-0': showSectionTitleDivider || parentComponent,
+        'justify-between': showSectionTitleDivider || parentComponent,
+        'justify-end': !showSectionTitleDivider && !parentComponent
+    }"
+>
+    <h1 class="text-2xl" *ngIf="showSectionTitleDivider || parentComponent">{{ pageName }}</h1>
+    <div *ngIf="!parentComponent" class="flex">
+        <button 
+            class="flex items-center py-1.5 p-2.5 rounded-[10px] justify-evenly hover:bg-black"
+            *ngIf="canCreateGroup" 
+            [ngStyle]="{'background-color': buttonColor}" 
+            (click)="handleCreateRoute()"
+        >
+            <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+            </svg>
+            <span class="text-white text-sm">{{ createNewTitle(pageName) }}</span>
+        </button>
+        <button 
+            class="ml-4 text-white text-sm flex items-center py-1.5 p-2.5 rounded-[10px] justify-evenly hover:bg-black"
+            *ngIf="isMyClubsActive && myClubs?.title_es"
+            [ngStyle]="{'background-color': buttonColor}"
+            (click)="goToDashboard()"
+        >
+            {{ getMyClubsTitle() }}
+        </button>
+    </div>
+</div>
+<div class="pt-6" *ngIf="!parentComponent">
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+        <div class="relative mb-6" *ngIf="searchByKeyword">
+            <div class="flex items-center w-full max-w-full">
+                <div class="flex-auto">
+                    <app-search
+                        [searchText]="searchText"
+                        [placeholderText]="placeholderText"
+                        [buttonColor]="buttonColor"
+                        (onEnterPressed)="handleSearchChanged($event)"
+                        (doSearch)="handleSearchChanged($event)"
+                    >
+                    </app-search>
+                </div>
+                <div class="px-5">
+                    <app-icon-filter 
+                        [list]="list"
+                        (filterList)="filteredCity($event)"
+                    >
+                    </app-icon-filter>
+                </div>
+            </div>
+        </div>
+        <div class="relative pt-1.5 mb-6" *ngIf="categoryFilterActive">
+            <app-button-group class="relative flex justify-end"
+                [buttonColor]="buttonColor"
+                [buttonList]="buttonList"
+                [subcategoryList]="subButtonList"
+                (onButtonClick)="filteredCategory($event)"
+                (onSubButtonClick)="filteredSubcategory($event)"
+            >
+            </app-button-group>
+        </div>
+    </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 py-8">
+    <div class="h-auto w-full max-w-full rounded-lg hover:cursor-pointer hidden md:block lg:block" 
+        [ngClass]="{'col-span-2': isMobile}"
+        *ngIf="canCreateGroup && !parentComponent" [ngStyle]="{'background-color': buttonColor}">
+        <div class="h-full flex flex-col justify-center items-center min-h-[286px]" (click)="handleCreateRoute()">
+            <svg class="w-16 h-16 mb-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 5.757v8.486M5.757 10h8.486M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+            </svg>
+            <div class="text-white text-center text-xl">{{ createNewTitle(pageName) }}</div>
+        </div>
+    </div>
+    <ng-container *ngFor="let group of filteredGroup">
+        <div class="h-auto max-w-full rounded-lg hover:cursor-pointer relative" [routerLink]="['/clubs/details/', group?.id]">
+            <img class="h-auto w-full max-w-full rounded-lg" [ngSrc]="apiPath + '/get-image-group/' + group.image" [alt]="getGroupTitle(group)" width="296" height="286">
+            <div class="flex absolute -bottom-1 left-4 text-white pb-3 text-base font-semibold">
+               <ng-container *ngIf="group?.private">
+                    <svg class="w-5 h-5 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.5 8V4.5a3.5 3.5 0 1 0-7 0V8M8 12v3M2 8h12a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/>
+                    </svg>
+                </ng-container>
+                <ng-container *ngIf="group?.private">
+                    <svg class="w-5 h-5 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 8V4.5a3.5 3.5 0 1 0-7 0V8M8 12.167v3M2 8h12a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/>
+                      </svg>
+                </ng-container> {{ getGroupTitle(group) }}
+            </div>
+        </div>
+    </ng-container>
+</div>

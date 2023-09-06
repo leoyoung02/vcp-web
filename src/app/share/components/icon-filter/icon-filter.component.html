@@ -1,0 +1,28 @@
+
+<button id="dropdownNotificationButton" data-dropdown-toggle="dropdownNotification" class="inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button"> 
+    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
+        <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+          <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+          <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
+        </g>
+    </svg>
+</button>
+<!-- Dropdown menu -->
+<div id="dropdownNotification" class="mt-4 z-20 hidden w-48 max-w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" aria-labelledby="dropdownNotificationButton">
+    <div class="divide-y divide-gray-100 dark:divide-gray-700">
+        <ng-container *ngFor="let item of list">
+            <a href="javascript:;" class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700" (click)="handleFilter(item.city)">
+                <div class="w-full pl-3">
+                    <div class="text-gray-500 text-sm mb-1.5 dark:text-gray-400">
+                        <span class="text-gray-900 dark:text-white"
+                            [ngClass]="{'font-semibold': item?.selected}"
+                        >
+                            {{item?.text}}
+                        </span>
+                    </div>
+                </div>
+            </a>
+        </ng-container>
+    </div>
+</div>
+    

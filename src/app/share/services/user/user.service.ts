@@ -13,6 +13,9 @@ import {
     EDIT_CUSTOM_MEMBER_TYPE_URL,
     USER_URL,
     USER_ROLE_URL,
+    PROFILE_FIELDS_URL,
+    PROFILE_FIELDS_MAPPING_URL,
+    USER_GUID_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
@@ -60,6 +63,18 @@ export class UserService {
     return this._http.get(`${REGISTRATION_FIELDS_MAPPING_URL}/${id}`, { headers: this.headers }).pipe(map(res => res))
   }
 
+  getProfileFields(): Observable<any> {
+    return this._http.get(PROFILE_FIELDS_URL, { 
+      headers: this.headers 
+    }).pipe(map(res => res))
+  }
+
+  getProfileFieldMapping(id): Observable<any> {
+    return this._http.get(`${PROFILE_FIELDS_MAPPING_URL}/${id}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res))
+  }
+
   getCustomMemberTypes(id): Observable<any> {
     return this._http.get(`${MEMBER_TYPES_URL}/${id}`, { headers: this.headers }).pipe(map(res => res))
   }
@@ -78,5 +93,9 @@ export class UserService {
 
   getUserRole(id): Observable<any> {
     return this._http.get(`${USER_ROLE_URL}/${id}`, { headers: this.headers }).pipe(map(res => res))
+  }
+
+  getUserByGuid(guid) {
+    return this._http.get(`${USER_GUID_URL}/${guid}`, { headers: this.headers });
   }
 }

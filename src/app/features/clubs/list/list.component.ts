@@ -1,12 +1,766 @@
-import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { Component, HostListener, Input } from "@angular/core";
+import {
+  LangChangeEvent,
+  TranslateModule,
+  TranslateService,
+} from "@ngx-translate/core";
+import { CompanyService, LocalService } from "@share/services";
+import { Subject, takeUntil } from "rxjs";
+import { environment } from "@env/environment";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { ClubsService } from "@features/services";
+import { SearchComponent } from "@share/components/search/search.component";
+import { ButtonGroupComponent, IconFilterComponent } from "@share/components";
+import moment from "moment";
+import get from "lodash/get";
 
 @Component({
-  selector: 'clubs-list',
+  selector: 'app-clubs-list',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    SearchComponent,
+    ButtonGroupComponent,
+    IconFilterComponent,
+    NgOptimizedImage,
+    RouterModule
+  ],
   templateUrl: './list.component.html'
 })
-export class ListComponent {
+export class ClubsListComponent {
+  private destroy$ = new Subject<void>();
 
+  @Input() parentComponent: any;
+  @Input() limit: any;
+
+  languageChangeSubscription;
+  isMobile: boolean = false;
+  language: any;
+  email: any;
+  userId: any;
+  companyId: any;
+  domain: any;
+  companies: any;
+  primaryColor: any;
+  buttonColor: any;
+  hoverColor: any;
+  showSectionTitleDivider: boolean = false;
+  searchText: any;
+  placeholderText: any;
+  cities: any = [];
+  clubsFeature: any;
+  featureId: any;
+  pageName: any;
+  categoryFilterActive: boolean = false;
+  hasSubgroups: boolean = false;
+  searchByKeyword: boolean = false;
+  hasMobileLimit: boolean = false;
+  superAdmin: boolean = false;
+  canViewGroup: boolean = false;
+  canCreateGroup: boolean = false;
+  canManageGroup: boolean = false;
+  list: any;
+  supercategoriesList: any = [];
+  subcategories: any = [];
+  buttonList: any;
+  subButtonList: any = [];
+  allClubs: any = [];
+  groups: any = [];
+  filteredGroup: any = [];
+  selectedGroupFilterId: any;
+  selectedGroupFilter: any;
+  category_type: string = 'All';
+  activeGroupFilter: string = 'All';
+  clubCategoryMapping: any = [];
+  clubSubcategoryMapping: any = [];
+  subcats: any = [];
+  filterType: string = 'All';
+  apiPath: string = environment.api;
+  isMyClubsActive: boolean = false;
+  myClubs: any;
+  search: any;
+  selectedCity: any;
+
+  constructor(
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _translateService: TranslateService,
+    private _localService: LocalService,
+    private _companyService: CompanyService,
+    private _clubsService: ClubsService
+  ) { }
+
+  @HostListener("window:resize", [])
+  private onResize() {
+    this.isMobile = window.innerWidth < 768;
+  }
+
+  async ngOnInit() {
+    this.onResize();
+    
+    this.email = this._localService.getLocalStorage(environment.lsemail)
+    this.language = this._localService.getLocalStorage(environment.lslang)
+    this.userId = this._localService.getLocalStorage(environment.lsuserId)
+    this.companyId = this._localService.getLocalStorage(environment.lscompanyId)
+    this.domain = this._localService.getLocalStorage(environment.lsdomain)
+    this._translateService.use(this.language || 'es')
+    this.companies = this._localService.getLocalStorage(environment.lscompanies) ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies) ) : ''
+    if(!this.companies) { 
+      this.companies = get(await this._companyService.getCompanies().toPromise(), 'companies')
+    }
+    let company = this._companyService.getCompany(this.companies)
+    if(company && company[0]) {
+      this.domain = company[0].domain
+      this.companyId = company[0].id
+      this.primaryColor = company[0].primary_color
+      this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color
+      this.hoverColor = company[0].hover_color ? company[0].hover_color : company[0].primary_color
+      this.showSectionTitleDivider = company[0].show_section_title_divider
+    }
+
+    this.languageChangeSubscription =
+      this._translateService.onLangChange.subscribe(
+        (event: LangChangeEvent) => {
+          this.language = event.lang;
+          this.initializePage();
+        }
+      );
+
+    this.initializePage();
+  }
+
+  initializePage() {
+    this.initializeSearch();
+    this.fetchClubs();
+  }
+
+  initializeSearch() {
+    this.searchText = this._translateService.instant("guests.search");
+    this.placeholderText = this._translateService.instant(
+      "news.searchbykeyword"
+    );
+  }
+
+  fetchClubs() {
+    this._clubsService
+      .fetchClubs(this.companyId, this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          this.mapFeatures(data?.features_mapping);
+          this.mapSubfeatures(data?.settings?.subfeatures);
+
+          this.mapUserPermissions(data?.user_permissions);
+
+          this.cities = data?.cities;
+          this.mapDashboard(data?.settings?.dashboard);
+          this.initializeIconFilterList(this.cities);
+
+          this.supercategoriesList = data?.club_categories;
+          this.mapSubcategories(data?.club_subcategories);
+          this.clubCategoryMapping = data?.club_category_mapping;
+          this.clubSubcategoryMapping = data?.club_subcategory_mapping;
+          this.initializeButtonGroup();
+          this.formatClubs(data?.clubs);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  mapFeatures(features) {
+    this.clubsFeature = features?.find((f) => f.feature_id == 5);
+    console.log(this.clubsFeature)
+    this.featureId = this.clubsFeature?.feature_id;
+    this.pageName = this.getFeatureTitle(this.clubsFeature);
+  }
+
+  mapSubfeatures(subfeatures) {
+    if (subfeatures?.length > 0) {
+      this.categoryFilterActive = subfeatures.some(
+        (a) => a.name_en == "Categories filter" && a.active == 1
+      );
+      this.hasSubgroups = subfeatures.some(
+        (a) => a.name_en == "Subgroups" && a.active == 1
+      );
+      this.searchByKeyword = subfeatures.some(
+        (a) => a.name_en == "Search by keyword" && a.active == 1
+      );
+      this.hasMobileLimit = subfeatures.some(
+        (a) => a.name_en == "View more" && a.active == 1
+      );
+    }
+  }
+
+  mapUserPermissions(user_permissions) {
+    this.superAdmin = user_permissions?.super_admin_user ? true : false;
+    this.canViewGroup = user_permissions?.member_type_permissions?.find(
+      (f) => f.view == 1
+    )
+      ? true
+      : false;
+    this.canCreateGroup =
+      user_permissions?.create_plan_roles?.length > 0 ||
+      user_permissions?.member_type_permissions?.find((f) => f.create == 1);
+    this.canManageGroup = user_permissions?.member_type_permissions?.find(
+      (f) => f.manage == 1
+    )
+      ? true
+      : false;
+  }
+
+  mapDashboard(dashboard) {
+    this.isMyClubsActive = dashboard?.length > 0 ? (dashboard[0].active == 1 ? true : false) : false
+    if(this.isMyClubsActive) {
+      this.myClubs = dashboard[0]
+    }
+  }
+
+  getFeatureTitle(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.name_en ||
+          feature.feature_name ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "fr"
+        ? feature.name_fr ||
+          feature.feature_name_FR ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "eu"
+        ? feature.name_eu ||
+          feature.feature_name_EU ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "ca"
+        ? feature.name_ca ||
+          feature.feature_name_CA ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "de"
+        ? feature.name_de ||
+          feature.feature_name_DE ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : feature.name_es || feature.feature_name_ES
+      : "";
+  }
+
+  initializeButtonGroup() {
+    let categories = this.supercategoriesList;
+    this.buttonList = [
+      {
+        id: "All",
+        value: "All",
+        text: this._translateService.instant("plans.all"),
+        selected: true,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: "All",
+        name_CA: "All",
+        name_DE: "All",
+        name_EN: "All",
+        name_ES: "All",
+        name_EU: "All",
+        name_FR: "All",
+        sequence: 1,
+        status: 1,
+      },
+    ];
+
+    console.log(categories)
+    categories?.forEach((category) => {
+      this.buttonList.push({
+        id: category.id,
+        value: category.id,
+        text: this.getCategoryTitle(category),
+        selected: false,
+        fk_company_id: category.fk_company_id,
+        fk_supercategory_id: category.id,
+        name_CA: category.name_EN,
+        name_DE: category.name_DE,
+        name_EN: category.name_EN,
+        name_ES: category.name_ES,
+        name_EU: category.name_EU,
+        name_FR: category.name_FR,
+        sequence: category.sequence,
+        status: category.status,
+      });
+    });
+  }
+
+  initializeSubButtonGroup(subcats) {
+    this.subButtonList = [
+      {
+        id: "All",
+        value: "All",
+        text: this._translateService.instant("plans.all"),
+        selected: true,
+        fk_company_id: this.companyId,
+        category_id: "All",
+        name_CA: "All",
+        name_DE: "All",
+        name_EN: "All",
+        name_ES: "All",
+        name_EU: "All",
+        name_FR: "All",
+        sequence: 1,
+        status: 1,
+      },
+    ];
+
+    console.log(subcats)
+    subcats?.forEach((category) => {
+      this.subButtonList.push({
+        id: category.id,
+        value: category.id,
+        text: this.getSubcategoryTitle(category),
+        selected: false,
+        fk_company_id: category.fk_company_id,
+        category_id: category.category_id,
+        name_CA: category.name_EN,
+        name_DE: category.name_DE,
+        name_EN: category.name_EN,
+        name_ES: category.name_ES,
+        name_EU: category.name_EU,
+        name_FR: category.name_FR,
+        sequence: category.sequence,
+        status: category.status,
+      });
+    });
+  }
+
+  initializeIconFilterList(list) {
+    this.list = [
+      {
+        id: "All",
+        value: "",
+        text: this._translateService.instant("plans.all"),
+        selected: true,
+        company_id: this.companyId,
+        city: "",
+        province: "",
+        region: "",
+        country: "",
+        sequence: "",
+        campus: "",
+      },
+    ];
+
+    list?.forEach((item) => {
+      this.list.push({
+        id: item.id,
+        value: item.id,
+        text: item.city,
+        selected: false,
+        company_id: item.company_id,
+        city: item.city,
+        province: item.province,
+        region: item.region,
+        country: item.country,
+        sequence: item.sequence,
+        campus: item.campus,
+      });
+    });
+  }
+
+  mapSubcategories(club_subcategories) {
+    let subcategories = club_subcategories
+    this.subcategories = []
+
+    if(subcategories?.length > 0) {
+      subcategories.forEach(c => {
+        let category_en = ''
+        let category_es = ''
+        let category_fr = ''
+        let category_eu = ''
+        let category_ca = ''
+        let category_de = ''
+        if(this.supercategoriesList) {
+          let cat = this.supercategoriesList.filter(cat => {
+            return cat.id == c.category_id
+          })
+          if(cat && cat[0]) {
+            category_en = cat[0].name_EN
+            category_es = cat[0].name_ES
+            category_fr = cat[0].name_FR
+            category_eu = cat[0].name_EU
+            category_ca = cat[0].name_CA
+            category_de = cat[0].name_DE
+          }
+        }
+
+        let match = this.subcategories.some(a => a.id === c.id)
+        if(!match) {
+          this.subcategories.push({
+            id: c.id,
+            category_id: c.category_id,
+            category_EN: category_en,
+            category_ES: category_es,
+            category_FR: category_fr,
+            category_EU: category_eu,
+            category_CA: category_ca,
+            category_DE: category_de,
+            name_EN: c.name_EN,
+            name_ES: c.name_ES,
+            name_FR: c.name_FR,
+            name_EU: c.name_EU,
+            name_CA: c.name_CA,
+            name_DE: c.name_DE,
+            sequence: c.sequence
+          })
+        }
+      })
+    }
+
+    this.sortBySequence(this.supercategoriesList)
+    this.sortBySequence(this.subcategories)
+  }
+
+  sortBySequence(categories) {
+    let sorted_categories
+    if(categories) {
+      sorted_categories = categories.sort((a, b) => {
+        return a.sequence - b.sequence
+      })
+    }
+
+    return sorted_categories
+  }
+
+  getCategoryTitle(category) {
+    return this.language == "en"
+      ? category.name_EN || category.name_en
+      : this.language == "fr"
+      ? category.name_FR || category.name_fr
+      : this.language == "eu"
+      ? category.name_EU ||
+        category.name_eu ||
+        category.name_ES ||
+        category.name_es
+      : this.language == "ca"
+      ? category.name_CA ||
+        category.name_ca ||
+        category.name_ES ||
+        category.name_es
+      : this.language == "de"
+      ? category.name_DE ||
+        category.name_de ||
+        category.name_ES ||
+        category.name_es
+      : category.name_ES || category.name_es;
+  }
+
+  getSubcategoryTitle(category) {
+    return this.language == "en"
+      ? category.name_EN || category.name_en
+      : this.language == "fr"
+      ? category.name_FR
+      : this.language == "eu"
+      ? category.name_EU ||
+        category.name_eu ||
+        category.name_ES ||
+        category.name_es
+      : this.language == "ca"
+      ? category.name_CA ||
+        category.name_ca ||
+        category.name_ES ||
+        category.name_es
+      : this.language == "de"
+      ? category.name_DE ||
+        category.name_de ||
+        category.name_ES ||
+        category.name_es
+      : category.name_ES || category.name_es;
+  }
+
+  async formatClubs(clubs) {
+    this.groups = clubs?.length > this.limit && this.parentComponent ? clubs?.slice(0, this.limit) : clubs
+    if(parseInt(this.selectedGroupFilterId) > 0 && this.selectedGroupFilter) {
+      this.filteredGroup = []
+      
+      this.category_type = this.selectedGroupFilter
+      this.filteredGroup = clubs
+      this.activeGroupFilter = 'All'
+
+      if (this.selectedGroupFilterId !== 'All') {
+        this.activeGroupFilter = this.selectedGroupFilter
+        this.filteredGroup = await this.groups.filter(group => {
+          const hasCategory = this.clubCategoryMapping.filter(category => {
+            return category.id === parseInt(this.selectedGroupFilterId)
+          })
+
+          return hasCategory && hasCategory.length > 0
+        })
+
+        if(this.subcategories && this.subcategories.length > 0) {
+          this.subcats = this.subcategories.filter(sc => {
+            return sc.category_id == this.selectedGroupFilterId
+          })
+          this.filterType = 'All'
+        }
+      }
+
+      this.filteredGroup.sort((a, b) => {
+        const prevDate: any = new Date(a.created)
+        const currDate: any = new Date(b.created)
+
+        return currDate - prevDate
+      })
+    } else {
+      this.filteredGroup = this.groups
+    }
+
+    this.filteredGroup = this.sortAlphabetically(this.filteredGroup)
+    this.allClubs = this.filteredGroup
+  }
+
+  sortAlphabetically(array) {
+    if(array?.length > 0) {
+      array.sort((a, b) => 
+        this.language == 'en' && a.title_en ? 
+          a.title_en.localeCompare(b.title_en) : 
+          (this.language == 'fr' && a.title_fr ? 
+            a.title_fr.localeCompare(b.title_fr) : 
+              a.title.localeCompare(b.title)
+          )
+      )
+    }
+
+    return array
+  }
+
+  getGroupTitle(group) {
+    return this.language == 'en' ? (group.title_en ? (group.title_en || group.title_es) : group.title) :
+      (this.language == 'fr' ? (group.title_fr ? (group.title_fr || group.title) : group.title) : 
+          (this.language == 'eu' ? (group.title_eu ? (group.title_eu || group.title) : group.title) : 
+              (this.language == 'ca' ? (group.title_ca ? (group.title_ca || group.title) : group.title) : 
+                  (this.language == 'de' ? (group.title_de ? (group.title_de || group.title) : group.title) : group.title)
+              )
+          )
+      )
+  }
+
+  handleCreateRoute() {
+    this._router.navigate([`/clubs/edit/0`])
+  } 
+
+  createNewTitle(page) {
+    return `${this._translateService.instant('club-create.createyour')} ${this.pageName}`
+  }
+
+  goToDashboard() {
+    this._router.navigate(['/dashboard/5'])
+  }
+
+  handleSearchChanged(event) {
+    this.search = event || ''
+    this.searchGroups()
+  }
+
+  async searchGroups() {
+    this.filteredGroup = []
+    this.filteredGroup = this.groups
+    
+    let filter_category_id = 0
+    let filter_category = this.supercategoriesList.filter(cat => {
+      return cat.name_EN == this.activeGroupFilter || cat.name_ES == this.activeGroupFilter
+    })
+    if(filter_category && filter_category[0]) {
+      filter_category_id = filter_category[0].id
+    }
+
+    if (this.activeGroupFilter !== 'All') {
+      this.filteredGroup = await this.groups.filter(group => {
+        const { Company_Supercategories } = group
+        const hasCategory = Company_Supercategories.filter(category => {
+            return category.id === this.activeGroupFilter || category.fk_supercategory_id == this.activeGroupFilter
+        })
+
+        return hasCategory && hasCategory.length > 0
+      })
+
+      if(this.subcategories && this.subcategories.length > 0) {
+        this.subcats = this.subcategories.filter(sc => {
+          return sc.category_id == this.activeGroupFilter
+        })
+        this.filterType = 'All'
+      }
+    }
+
+    this.filteredGroup = this.sortAlphabetically(this.filteredGroup)
+
+    if(this.filterType != 'All') {
+      let category_id = 0
+      let category = this.subcats.filter(cat => {
+        return cat.name_EN == this.filterType || cat.name_ES == this.filterType
+      })
+      if(category && category[0]) {
+        category_id = category[0].id
+      }
+      this.filteredGroup = this.filteredGroup.filter(g => {
+        let match = g.Company_Subcategories && g.Company_Subcategories.some(a => a.fk_category_id == category_id)
+        return match
+      })
+    } else {
+      let cat = this.supercategoriesList.filter(c => {
+        return c.name_ES == this.activeGroupFilter
+      })
+      if(cat && cat[0]) {
+        this.filterSuperCategory(cat[0].id, cat[0].name_ES)
+      }
+    }
+
+    if(this.search) {
+      this.filteredGroup = this.filteredGroup.filter(group => {
+        let include = false
+
+        if(group.title.toLowerCase().indexOf(this.search.toLowerCase()) >= 0 
+          || (group.title_en && group.title_en.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+          || (group.title_fr && group.title_fr.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+          || (group.title_eu && group.title_eu.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+          || (group.title_ca && group.title_ca.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+          || (group.title_de && group.title_de.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+        ) {
+            include = true
+        }
+
+        return include
+      })
+    }
+
+    if(this.selectedCity) {
+      this.filteredGroup = this.filteredGroup.filter(group => {
+        return group.city == this.selectedCity
+      })
+    }
+  }
+
+  filterSuperCategory = async (filter, categoryName) => {
+    this.filteredGroup = []
+    
+    this.category_type = categoryName
+    this.filteredGroup = this.groups
+    this.activeGroupFilter = 'All'
+
+    this._localService.setLocalStorage(environment.lsselectedGroupFilterId, filter);
+    this._localService.setLocalStorage(environment.lsselectedGroupFilter, categoryName);
+
+    if (filter !== 'All') {
+      this.activeGroupFilter = categoryName
+      this.filteredGroup = await this.groups.filter(group => {
+        const hasCategory = this.clubCategoryMapping.filter(category => {
+          return category.fk_group_id == group.id && (category.id === filter || category.fk_supercategory_id == filter)
+        })
+
+        return hasCategory && hasCategory.length > 0
+      })
+
+      if(this.subcategories && this.subcategories.length > 0) {
+        this.subcats = this.subcategories.filter(sc => {
+          return sc.category_id == filter
+        })
+        this.filterType = 'All'
+      }
+    }
+
+    this.filteredGroup = this.sortAlphabetically(this.filteredGroup)
+
+    if(this.search) {
+      this.filteredGroup = this.filteredGroup.filter(group => {
+        let include = false
+
+        if(group.title.toLowerCase().indexOf(this.search.toLowerCase()) >= 0 
+          || (group.title_en && group.title_en.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+          || (group.title_fr && group.title_fr.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+          || (group.title_eu && group.title_eu.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+          || (group.title_ca && group.title_ca.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+          || (group.title_de && group.title_de.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+        ) {
+            include = true
+        }
+
+        return include
+      })
+    }
+
+    if(this.selectedCity) {
+      this.filteredGroup = this.filteredGroup.filter(group => {
+        return group.city == this.selectedCity
+      })
+    }
+  }
+
+  async filterSubcategories(category) {
+    if(category != 'All') {
+      this.filteredGroup = this.groups.filter(group => {
+        let include = false
+
+        if(group.Company_Subcategories) {
+          group.Company_Subcategories.forEach(sub => {
+            include = this.subcats.some(a => a.category_id === sub.fk_category_id)
+          })
+        }
+
+        return include
+      })
+
+      this.filterType = this.language == 'en' ? category.name_EN : category.name_ES
+      this.filteredGroup = this.filteredGroup.filter(g => {
+        let match = g.Company_Subcategories && g.Company_Subcategories.some(a => a.fk_category_id == category.id)
+        return match
+      })
+    } else {
+      this.filterType = 'All';
+      let cat = this.supercategoriesList.filter(c => {
+        return c.name_ES == this.activeGroupFilter
+      })
+      if(cat && cat[0]) {
+        this.filterSuperCategory(cat[0].id, cat[0].name_ES)
+      }
+    }
+  }
+
+  filteredCategory(category) {
+    this.buttonList?.forEach((item) => {
+      if (item.id === category.id) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    if (category.id == "All") {
+      this.subButtonList = [];
+    }
+
+    if(category) {
+      this.filterSuperCategory(category.id || 'All', category.name_ES)
+    }
+  }
+
+  filteredSubcategory(category) {
+    if(category) {
+      this.filterSubcategories(category && category.fk_supercategory_id == 'All' ? 'All' : category)
+    }
+  }
+
+  filteredCity(event) {
+    this.selectedCity = event || ''
+    this.searchGroups()
+  }
+
+  getMyClubsTitle() {
+    return (this.language == 'en' ? (this.myClubs.title_en ? (this.myClubs.title_en || this.myClubs.title_es) : this.myClubs.title_es) :
+      (this.language == 'fr' ? (this.myClubs.title_fr ? (this.myClubs.title_fr || this.myClubs.title_es) : this.myClubs.title_es) : 
+          (this.language == 'eu' ? (this.myClubs.title_eu ? (this.myClubs.title_eu || this.myClubs.title_es) : this.myClubs.title_es) : 
+              (this.language == 'ca' ? (this.myClubs.title_ca ? (this.myClubs.title_ca || this.myClubs.title_es) : this.myClubs.title_es) : 
+                  (this.language == 'de' ? (this.myClubs.title_de ? (this.myClubs.title_de || this.myClubs.title_es) : this.myClubs.title_es) : this.myClubs.title_es)
+              )
+          )
+      ))
+  }
 }

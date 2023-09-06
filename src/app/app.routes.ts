@@ -10,6 +10,12 @@ export const routes: Routes = [
         canMatch: [authGuard({ requiresAuthentication: false })],
     },
     {
+        path: 'sso/:token',
+        data: { layout: PageLayout.LeftBanner },
+        loadChildren: async () => (await import('@pages/sso')).routes,
+        canMatch: [authGuard({ requiresAuthentication: false })],
+    },
+    {
         path: 'payment',
         data: { layout: PageLayout.Blank },
         loadChildren: async () => (await import('@pages/payment')).routes,
@@ -61,6 +67,12 @@ export const routes: Routes = [
         path: 'courses',
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@features/courses')).routes,
+        canMatch: [authGuard()],
+    },
+    {
+        path: 'tutors',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/tutors')).routes,
         canMatch: [authGuard()],
     },
     {

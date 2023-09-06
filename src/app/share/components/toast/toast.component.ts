@@ -2,12 +2,15 @@ import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
+  Output,
   inject,
 } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { TranslateModule } from "@ngx-translate/core";
 import { AuthService } from "@lib/services";
+import { initFlowbite } from 'flowbite';
 
 @Component({
   selector: "app-toast",
@@ -18,6 +21,13 @@ import { AuthService } from "@lib/services";
 })
 export class ToastComponent {
     @Input() company: any;
+    @Input() update: any;
+    @Input() confirm: any;
+    @Input() title: any;
+    @Input() description: any;
+    @Input() acceptText: any;
+    @Input() cancelText: any;
+    @Output() onAccept = new EventEmitter();
 
     primaryColor: any;
     buttonColor: any;
@@ -26,6 +36,7 @@ export class ToastComponent {
     private readonly _authService = inject(AuthService);
 
     ngOnInit(): void {
+        initFlowbite();
         this.primaryColor = this.company.primary_color || this.company.button_color;
         this.buttonColor = this.company.button_color || this.company.primary_color;
     }
@@ -43,5 +54,9 @@ export class ToastComponent {
                 });
             }
         }
+    }
+
+    handleAccept() {
+        this.onAccept.emit();
     }
 }

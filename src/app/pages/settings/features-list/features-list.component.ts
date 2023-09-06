@@ -230,7 +230,6 @@ export class FeaturesListComponent {
   }
 
   getFeatureTitle(feature) {
-    console.log(feature)
     return feature ? (this.language == 'en' ? 
     (feature.name_en ? feature.name_en : feature.feature_name) : 
         (this.language == 'fr' ? (feature.name_fr ? feature.name_fr : feature.feature_name) :
@@ -323,8 +322,6 @@ export class FeaturesListComponent {
                   this._localService.getLocalStorage(environment.lsmenus)
                 )
               : [];
-            console.log("localstorage menus");
-            console.log(menus);
             let new_menus: any[] = [];
             if (menus?.length > 0) {
               new_menus = menus;
@@ -343,7 +340,6 @@ export class FeaturesListComponent {
             if (feature.status == 1) {
               let path = this.getFeaturePath(feature);
               let name = this.getFeatureName(feature);
-              console.log("path");
               if (path) {
                 new_menus.push({
                   id: feature.id,

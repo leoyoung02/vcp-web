@@ -1,4 +1,4 @@
-/* @import "@angular/material/prebuilt-themes/indigo-pink.css"; */
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
 @import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
@@ -36,7 +36,7 @@
   min-height: calc(100% - 416px);
 }
 
-/** Material / tailwind fixes **/
+/** Material / Tailwind fixes **/
 .mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field.mat-mdc-form-field
   .mdc-notched-outline__notch {
   border-right-style: hidden;
@@ -58,6 +58,7 @@
 
 .mat-mdc-snack-bar-container .mdc-snackbar__label {
   font-size: 14px !important;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .mat-mdc-input-element {
@@ -87,7 +88,247 @@ select {
   /* border: none; */
 }
 
+.mat-mdc-select-multiple{
+  padding: 0;
+  border: 0;
+}
+
+.mat-mdc-select-multiple, .mat-mdc-select-multiple:focus {
+  padding: 0;
+  border: 0;
+  --tw-ring-color: none !important;
+}
+
+.mat-mdc-cell {
+  align-items: flex-start;
+  padding: 10px !important;
+}
+
+.mat-mdc-header-cell {
+  padding: 10px !important;
+}
+
+.mat-column-image { 
+  flex: 0 0 5% !important;
+  width: 5% !important;
+}
+
+.mat-column-name {
+  flex: 0 0 30% !important;
+  width: 30% !important;
+}
+
+.mat-column-action {
+  flex: 0 0 15% !important;
+  width: 15% !important;
+}
+
+.mat-table-responsive {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+}
+
+mat-table {
+  width: 1200px;
+  max-width: 1200px;
+  margin-bottom: 1rem;
+  display: table;
+  border-collapse: collapse;
+  margin: 0px;
+}
+
 input:checked ~ .dot {
   transform: translateX(100%);
   background-color: #48bb78 !important;
+}
+
+.progress-circle .lock {
+    width: 47.6px;
+    height: 47.6px;
+}
+
+.progress-circle .set-size {
+    font-size: 47px;
+}
+.progress-circle .charts-container:after {
+    clear: both;
+    content: "";
+    display: table;
+}
+.progress-circle .pie-wrapper {
+    height: 1em;
+    width: 1em;
+    float: left;
+    margin: 0;
+    position: relative;
+}
+.progress-circle .pie-wrapper:nth-child(3n+1) {
+    clear: both;
+}
+.progress-circle .pie-wrapper .pie {
+    height: 100%;
+    width: 100%;
+    clip: rect(0, 1em, 1em, 0.5em);
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+.progress-circle .pie-wrapper .pie .half-circle {
+    height: 100%;
+    width: 100%;
+    border: 0.1em solid #8BA937;
+    border-radius: 50%;
+    clip: rect(0, 0.5em, 1em, 0);
+    left: 0;
+    position: absolute;
+    top: 0;
+}
+.progress-circle .pie-wrapper .label {
+    background: #1e1e1e;
+    border-radius: 50%;
+    bottom: 0.4em;
+    color: #ecf0f1;
+    cursor: default;
+    display: block;
+    left: 0.4em;
+    line-height: 2.8em;
+    position: absolute;
+    right: 0.4em;
+    text-align: center;
+    top: 0.4em;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 20px;
+    top: 13px;
+}
+.progress-circle .pie-wrapper .label .smaller {
+    color: #1e1e1e;
+    padding-bottom: 20px;
+    vertical-align: baseline;
+    font-weight: 600;
+    font-size: 13px;
+    line-height: 20px;
+}
+.progress-circle .pie-wrapper .shadow {
+    height: 100%;
+    width: 100%;
+    border: 0.1em solid #bdc3c7;
+    border-radius: 50%;
+}
+.progress-circle .pie-wrapper.style-2 .label {
+    background: none;
+    color: #1e1e1e;
+}
+.progress-circle .pie-wrapper.style-2 .label .smaller {
+    color: #1e1e1e;
+}
+.progress-circle .pie-wrapper.progress-30 .pie .half-circle, .progress-circle .pie-wrapper.progress-31 .pie .half-circle, .progress-circle .pie-wrapper.progress-32 .pie .half-circle, .progress-circle .pie-wrapper.progress-33 .pie .half-circle,
+.progress-circle .pie-wrapper.progress-34 .pie .half-circle, .progress-circle .pie-wrapper.progress-35 .pie .half-circle, .progress-circle .pie-wrapper.progress-36 .pie .half-circle, .progress-circle .pie-wrapper.progress-37 .pie .half-circle,
+.progress-circle .pie-wrapper.progress-38 .pie .half-circle, .progress-circle .pie-wrapper.progress-39 .pie .half-circle {
+    border-color: #8BA937;
+}
+.progress-circle .pie-wrapper.progress-30 .pie .left-side, .progress-circle .pie-wrapper.progress-31 .pie .left-side, .progress-circle .pie-wrapper.progress-32 .pie .left-side, .progress-circle .pie-wrapper.progress-33 .pie .left-side,
+.progress-circle .pie-wrapper.progress-34 .pie .left-side, .progress-circle .pie-wrapper.progress-35 .pie .left-side, .progress-circle .pie-wrapper.progress-36 .pie .left-side, .progress-circle .pie-wrapper.progress-37 .pie .left-side, 
+.progress-circle .pie-wrapper.progress-38 .pie .left-side, .progress-circle .pie-wrapper.progress-39 .pie .left-side{
+    transform: rotate(108deg);
+}
+.progress-circle .pie-wrapper.progress-30 .pie .right-side, .progress-circle .pie-wrapper.progress-31 .pie .right-side, .progress-circle .pie-wrapper.progress-32 .pie .right-side, .progress-circle .pie-wrapper.progress-33 .pie .right-side,
+.progress-circle .pie-wrapper.progress-34 .pie .right-side, .progress-circle .pie-wrapper.progress-35 .pie .right-side, .progress-circle .pie-wrapper.progress-36 .pie .right-side, .progress-circle .pie-wrapper.progress-37 .pie .right-side, 
+.progress-circle .pie-wrapper.progress-38 .pie .right-side, .progress-circle .pie-wrapper.progress-39 .pie .right-side {
+    display: none;
+}
+.progress-circle .pie-wrapper.progress-60 .pie {
+    clip: rect(auto, auto, auto, auto);
+}
+.progress-circle .pie-wrapper.progress-60 .pie .half-circle {
+    border-color: #9b59b6;
+}
+.progress-circle .pie-wrapper.progress-60 .pie .left-side {
+    transform: rotate(216deg);
+}
+.progress-circle .pie-wrapper.progress-60 .pie .right-side {
+    transform: rotate(180deg);
+}
+.progress-circle .pie-wrapper.progress-90 .pie {
+    clip: rect(auto, auto, auto, auto);
+}
+.progress-circle .pie-wrapper.progress-90 .pie .half-circle {
+    border-color: #e67e22;
+}
+.progress-circle .pie-wrapper.progress-90 .pie .left-side {
+    transform: rotate(324deg);
+}
+.progress-circle .pie-wrapper.progress-90 .pie .right-side {
+    transform: rotate(180deg);
+}
+.progress-circle .pie-wrapper.progress-45 .pie .half-circle {
+    border-color: #1abc9c;
+}
+.progress-circle .pie-wrapper.progress-45 .pie .left-side {
+    transform: rotate(162deg);
+}
+.progress-circle .pie-wrapper.progress-45 .pie .right-side {
+    display: none;
+}
+.progress-circle .pie-wrapper.progress-75 .pie {
+    clip: rect(auto, auto, auto, auto);
+}
+.progress-circle .pie-wrapper.progress-75 .pie .half-circle {
+    border-color: #8e44ad;
+}
+.progress-circle .pie-wrapper.progress-75 .pie .left-side {
+    transform: rotate(270deg);
+}
+.progress-circle .pie-wrapper.progress-75 .pie .right-side {
+    transform: rotate(180deg);
+}
+.progress-circle .pie-wrapper.progress-95 .pie {
+    clip: rect(auto, auto, auto, auto);
+}
+.progress-circle .pie-wrapper.progress-95 .pie .half-circle {
+    border-color: #e74c3c;
+}
+.progress-circle .pie-wrapper.progress-95 .pie .left-side {
+    transform: rotate(342deg);
+}
+.progress-circle .pie-wrapper.progress-95 .pie .right-side {
+    transform: rotate(180deg);
+}
+
+.progress-circle .pie-wrapper--solid {
+    border-radius: 50%;
+    overflow: hidden;
+}
+.progress-circle .pie-wrapper--solid:before {
+    border-radius: 0 100% 100% 0/50%;
+    content: "";
+    display: block;
+    height: 100%;
+    margin-left: 50%;
+    transform-origin: left;
+}
+.progress-circle .pie-wrapper--solid .label {
+    background: transparent;
+}
+.progress-circle .pie-wrapper--solid.progress-65 {
+    background: linear-gradient(to right, #e67e22 50%, #34495e 50%);
+}
+.progress-circle .pie-wrapper--solid.progress-65:before {
+    background: #e67e22;
+    transform: rotate(126deg);
+}
+.progress-circle .pie-wrapper--solid.progress-25 {
+    background: linear-gradient(to right, #9b59b6 50%, #34495e 50%);
+}
+.progress-circle .pie-wrapper--solid.progress-25:before {
+    background: #34495e;
+    transform: rotate(-270deg);
+}
+.progress-circle .pie-wrapper--solid.progress-88 {
+    background: linear-gradient(to right, #3498db 50%, #34495e 50%);
+}
+.progress-circle .pie-wrapper--solid.progress-88:before {
+    background: #3498db;
+    transform: rotate(43.2deg);
 }

@@ -152,7 +152,6 @@ export class NavbarComponent {
   }
 
   async ngOnInit() {
-    initFlowbite();
     this.companyName = this.company.entity_name;
     this.menuColor = this.company.menu_color || "#ffffff";
     this.primaryColor = this.company.primary_color || this.company.button_color;
@@ -166,6 +165,10 @@ export class NavbarComponent {
     this.courseWallPrefixTextValueEu = this.company?.course_wall_prefix_text_eu;
     this.courseWallPrefixTextValueCa = this.company?.course_wall_prefix_text_ca;
     this.courseWallPrefixTextValueDe = this.company?.course_wall_prefix_text_de;
+
+    setTimeout(() => {
+      initFlowbite();
+    }, 500)
   }
 
   ngOnDestroy() {

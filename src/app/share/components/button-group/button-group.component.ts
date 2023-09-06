@@ -18,7 +18,9 @@ import { initFlowbite } from "flowbite";
 export class ButtonGroupComponent {
   @Input() buttonColor: any;
   @Input() buttonList: any;
+  @Input() subcategoryList: any;
   @Output() onButtonClick = new EventEmitter();
+  @Output() onSubButtonClick = new EventEmitter();
 
   async ngOnInit() {
     initFlowbite();
@@ -26,5 +28,9 @@ export class ButtonGroupComponent {
 
   handleActionClick(event) {
       this.onButtonClick.emit(event);
+  }
+
+  handleSubActionClick(event) {
+    this.onSubButtonClick.emit(event);
   }
 }

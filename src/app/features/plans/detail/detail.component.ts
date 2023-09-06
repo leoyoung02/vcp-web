@@ -1,10 +1,2187 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { CommonModule, NgOptimizedImage, Location } from "@angular/common";
+import {
+  Component,
+  ElementRef,
+  Input,
+  ViewChild,
+  SecurityContext,
+} from "@angular/core";
+import { DomSanitizer } from "@angular/platform-browser";
+import { ActivatedRoute, Router } from "@angular/router";
+import { environment } from "@env/environment";
+import { PlansService } from "@features/services";
+import {
+  LangChangeEvent,
+  TranslateModule,
+  TranslateService,
+} from "@ngx-translate/core";
+import { BreadcrumbComponent, ToastComponent } from "@share/components";
+import {
+  LocalService,
+  ExcelService,
+  CompanyService,
+  UserService,
+} from "@share/services";
+import { Subject, takeUntil } from "rxjs";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { SafeContentHtmlPipe } from "@lib/pipes";
+import { FormsModule } from "@angular/forms";
+import { initFlowbite } from "flowbite";
+import get from "lodash/get";
+import momenttz from "moment-timezone";
+import moment from "moment";
+import "moment/locale/es";
+import "moment/locale/fr";
+import "moment/locale/eu";
+import "moment/locale/ca";
+import "moment/locale/de";
+
+declare const addeventatc: any;
 
 @Component({
-    selector: 'plans-list',
-    standalone: true,
-    imports: [CommonModule],
-    templateUrl: './detail.component.html',
+  selector: "app-plans-detail",
+  standalone: true,
+  imports: [
+    CommonModule,
+    TranslateModule,
+    FormsModule,
+    MatSnackBarModule,
+    BreadcrumbComponent,
+    NgOptimizedImage,
+    SafeContentHtmlPipe,
+    ToastComponent,
+  ],
+  templateUrl: "./detail.component.html",
 })
-export class DetailComponent {}
+export class PlanDetailComponent {
+  private destroy$ = new Subject<void>();
+
+  @Input() id!: number;
+  @Input() planTypeId!: number;
+
+  languageChangeSubscription;
+  apiPath: string = environment.api;
+  language: any;
+  emailDomain;
+  joinedParticipant;
+  pendingRequest: any;
+  planParticipants: any;
+  planComments: any = [];
+  superCategories = [];
+  plan: any = [];
+  planParticipantCount = 0;
+  tabTexts;
+  url: string = "";
+  group_id = null;
+  user;
+  seats = 0;
+  comment: any;
+  createdBy: string = "";
+  emailTo: string = "";
+  imageSrc: any = "";
+  videoSrc: any = "";
+  location: any = "";
+  isloading: boolean = true;
+  showOption: boolean = false;
+  speedMember: boolean = false;
+  showAction: boolean = false;
+  isCompanyPlanType: boolean = true;
+  openSuccessModal: boolean = false;
+  onSubmit: boolean = false;
+  terms: boolean = false;
+  today: any;
+  currentPlanType: any;
+  facebook: any;
+  mode: any;
+  activateWaitingList: boolean = false;
+  isInWaitingList: boolean = false;
+  userId: any;
+  companyId: any;
+  types: any;
+  categories: any;
+  subcategories: any;
+  eventType: any;
+  eventCategory: any;
+  eventSubcategory: any;
+  invitationLink: any;
+  zoomLink: any;
+  planDate: any;
+  limitDate: any;
+  endDate: any;
+  memberParticipants: any = [];
+  guestParticipants: any = [];
+  calendarStartDate: any;
+  calendarEndDate: any;
+  speedEvents: any;
+
+  isAddNewLink: boolean = false;
+  newLink: any;
+  editLink: any;
+  aliasId: any;
+  additionalInvitationLinks: any = [];
+  roles: any;
+  superAdmin: any;
+  admin1: any;
+  admin2: any;
+  hostUrl: any;
+  isAS: boolean = false;
+  isHRKlub: boolean = false;
+
+  groupOwner: boolean = false;
+  groupMember: boolean = false;
+
+  eventDates: any;
+  eventDate: any;
+  guestsPerEmployee: any;
+  planGuests: any;
+  employeeGuests: any;
+  allPlanParticipants: any;
+  issaving: boolean = false;
+  showError: boolean = false;
+  isPlanOpen: boolean = true;
+  errorMessage: any;
+  lottery: boolean = false;
+  waitingListPosition: any;
+  planDateValue: any;
+  waitingList: any = [];
+
+  pageName: any;
+  features: any;
+  subfeatures: any;
+  invitationLinkActive: boolean = false;
+  clubTitle: any;
+  guestMemberSeatActive: boolean = false;
+  waitingListActive: boolean = false;
+  waitingListButtonTextEn: any;
+  waitingListButtonTextEs: any;
+  waitingListCancelButtonTextEn: any;
+  waitingListCancelButtonTextEs: any;
+  waitingListNotification: boolean = false;
+
+  companies: any;
+  primaryColor: any;
+  buttonColor: any;
+
+  activityFeeEnabled: boolean = false;
+  showManageBilling: boolean = false;
+  planDateCanary: any;
+  showCanaryTime: boolean = false;
+  customEventRegistrationLanding: boolean = false;
+  garThematicMember: any;
+  garMember: boolean = false;
+  thematicMember: boolean = false;
+  showJoinButton: boolean = true;
+  eventDescription: any = "";
+
+  hasTypeOfActivity: boolean = false;
+  activityDays: any;
+  prolongedActivities: any = [];
+  typeOfActivity: any;
+  typeOfActivityDisplay: any;
+  typeOfActivities: any = [];
+
+  commentError: any = "";
+  CompanyGroupPlanComments: any;
+  CompanyPlanComments: any;
+  showChildComment: boolean = false;
+  selectedCommentId: any;
+  childComment: any;
+  heartComment: boolean = false;
+  locale: any;
+  showPastEvents: boolean = false;
+  additionalContent: any;
+  organizerComments: any;
+  participantsComments: any;
+  isPastEvent: boolean = false;
+  companyName: any = "";
+  planTitle: any = "";
+  planDescription: any = "";
+  plansFeature: any;
+  createdByImage: any;
+  otherSettings: any;
+  featureId: any;
+  hasCustomMemberTypeSettings: boolean = false;
+  planSubcategory: any;
+  repeatEvent: any;
+  showEditRepeatingEventConfirmationModal: boolean = false;
+  editRepeatEventQuestions: any = [];
+  editRepeatEventFormSubmitted: boolean = false;
+  editRepeatEventType: any;
+
+  canAssignMultipleCities: boolean = false;
+  activityCities: any = [];
+  canShowAddress: boolean = false;
+  emailInviteModal: boolean = false;
+  emailInviteQuestions: any = [];
+  emailInviteFormSubmitted: boolean = false;
+  hasEmailInvite: boolean = true;
+  hasFeatured: boolean = false;
+  featuredTextValue: any;
+  featuredTextValueEn: any;
+  featuredTextValueFr: any;
+  featuredTextValueEu: any;
+  featuredTextValueCa: any;
+  featuredTextValueDe: any;
+  blockResponseToComments: boolean = false;
+  showSeats: boolean = false;
+  isExternalRegistration: boolean = false;
+  parentEventId: any;
+  hasSpeaker: boolean = false;
+  hasGuestSpeaker: boolean = false;
+  members: any = [];
+  selectedSpeaker: any = "";
+  guestSpeaker: any = "";
+  membersSettings: any = {};
+  speaker: any;
+  hasClubAccess: boolean = false;
+  hasMemberAccess: boolean = false;
+  createdById: any;
+  hasRequestDNI: boolean = false;
+  requestDNI: boolean = false;
+  showUpdateDNIModal: boolean = false;
+  updateDNIFormSubmitted: boolean = false;
+  userDNI: any;
+  currentUser: any;
+  membersTitle: any;
+  hasAliasInvitationLink: boolean = false;
+  aliasInvLink: any = 0;
+  userRoles: any = [];
+  level1Title: string = "";
+  level2Title: string = "";
+  level3Title: string = "";
+  level4Title: string = "";
+  plansData: any;
+  planCreator: any;
+  joinStatusChecked: boolean = false;
+  userAliases: any;
+  planReactions: any;
+
+  showConfirmationModal: boolean = false;
+  selectedItem: any;
+  company: any;
+  confirmDeleteItemTitle: any;
+  confirmDeleteItemDescription: any;
+  acceptText: string = '';
+  cancelText: any = '';
+  allPlanComments: any = [];
+
+  @ViewChild("iframeEventDescription", { static: false }) iframeEventDescription: ElementRef | undefined;
+  @ViewChild("editor", { static: false }) editor: ElementRef | undefined;
+  @ViewChild("modalbutton", { static: false }) modalbutton: ElementRef | undefined;
+  
+  constructor(
+    private _route: ActivatedRoute,
+    private _router: Router,
+    private _plansService: PlansService,
+    private _companyService: CompanyService,
+    private _userService: UserService,
+    private _translateService: TranslateService,
+    private _localService: LocalService,
+    private _excelService: ExcelService,
+    private _location: Location,
+    private _snackBar: MatSnackBar,
+    private sanitizer: DomSanitizer
+  ) {}
+
+  async ngOnInit() {
+    this.url = this._router.url.substring(
+      this._router.url.lastIndexOf("/") + 1
+    );
+    this.language =
+      this._localService.getLocalStorage(environment.lslang) || "es";
+    this._translateService.use(this.language || "es");
+
+    moment.locale(this.language);
+    this.locale = {
+      daysOfWeek: moment.weekdaysMin(),
+      monthNames: moment.monthsShort(),
+      firstDay: moment.localeData().firstDayOfWeek(),
+      format: "DD-MM-YYYY",
+    };
+
+    this.emailDomain = this._localService.getLocalStorage(environment.lsemail);
+    this.userId = this._localService.getLocalStorage(environment.lsuserId);
+    this.companyId = this._localService.getLocalStorage(
+      environment.lscompanyId
+    );
+    this.today = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    this.companies = this._localService.getLocalStorage(environment.lscompanies)
+      ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
+      : "";
+    if (!this.companies) {
+      this.companies = get(
+        await this._companyService.getCompanies().toPromise(),
+        "companies"
+      );
+    }
+    let company = this._companyService.getCompany(this.companies);
+    if (company && company[0]) {
+      this.company = company[0]
+      this.emailDomain = company[0].domain;
+      this.companyId = company[0].id;
+      this.companyName = company[0].entity_name;
+      this.primaryColor = company[0].primary_color;
+      this.buttonColor = company[0].button_color
+        ? company[0].button_color
+        : company[0].primary_color;
+      this.featuredTextValue =
+        company[0].featured_text ||
+        this._translateService.instant("courses.featured");
+      this.featuredTextValueEn =
+        company[0].featured_text_en ||
+        this._translateService.instant("courses.featured");
+      this.featuredTextValueFr =
+        company[0].featured_text_fr ||
+        this._translateService.instant("courses.featured");
+      this.featuredTextValueEu =
+        company[0].featured_text_eu ||
+        this._translateService.instant("courses.featured");
+      this.featuredTextValueCa =
+        company[0].featured_text_ca ||
+        this._translateService.instant("courses.featured");
+      this.featuredTextValueDe =
+        company[0].featured_text_de ||
+        this._translateService.instant("courses.featured");
+    }
+
+    this.languageChangeSubscription =
+      this._translateService.onLangChange.subscribe(
+        (event: LangChangeEvent) => {
+          this.language = event.lang;
+          this.initializePage();
+        }
+      );
+
+    setTimeout(() => {
+      initFlowbite();
+    }, 100);
+    
+    this.getPlan();
+  }
+
+  getPlan() {
+    this._plansService
+      .fetchPlanDetailsCombined(
+        this.id,
+        this.planTypeId,
+        this.companyId,
+        this.userId
+      )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          this.plansData = data;
+          this.initializePage();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  initializePage() {
+    let data = this.plansData;
+    this.mapFeatures(data?.features_mapping);
+    this.mapSubfeatures(data);
+    this.mapUserPermissions(data?.user_permissions);
+    this.user = data?.user;
+    this.types = data?.types;
+    this.categories = data?.plan_categories;
+    this.subcategories = data?.plan_subcategories;
+    this.formatPlan(data?.plan, data?.user_permissions?.user, data?.user_permissions?.created_by_ue);
+    this.getTitles();
+    this.initializeBreadcrumb();
+  }
+
+  mapFeatures(features) {
+    this.plansFeature = features?.find((f) => f.feature_id == 1);
+    this.featureId = this.plansFeature?.id;
+    this.pageName = this.getFeatureTitle(this.plansFeature);
+
+    let clubFeature = features?.find((f) => f.feature_id == 5 && f.status == 1);
+    this.clubTitle = clubFeature ? this.getFeatureTitle(clubFeature) : "";
+
+    let membersFeature = features?.find(
+      (f) => f.feature_id == 15 && f.status == 1
+    );
+    this.hasMemberAccess = membersFeature ? true : false;
+    this.membersTitle = membersFeature
+      ? this.getFeatureTitle(membersFeature)
+      : "";
+  }
+
+  mapSubfeatures(data) {
+    let subfeatures = data?.settings?.subfeatures;
+    if (subfeatures?.length > 0) {
+      this.invitationLinkActive = subfeatures.some(
+        (a) => a.name_en == "Invitation link" && a.active == 1
+      );
+      this.guestMemberSeatActive = subfeatures.some(
+        (a) => a.name_en == "Classification filter" && a.active == 1
+      );
+      this.waitingListActive = subfeatures.some(
+        (a) => a.name_en == "Waiting list" && a.active == 1
+      );
+      this.activityFeeEnabled = subfeatures.some(
+        (a) => a.name_en == "Fee" && a.active == 1
+      );
+      this.showCanaryTime = subfeatures.some(
+        (a) => a.name_en == "Show Canary time" && a.active == 1
+      );
+      this.customEventRegistrationLanding = subfeatures.some(
+        (a) =>
+          a.name_en == "Custom landing page for event registration" &&
+          a.active == 1
+      );
+      this.hasTypeOfActivity = subfeatures.some(
+        (a) => a.name_en == "Type of activity" && a.active == 1
+      );
+      this.showPastEvents = subfeatures.some(
+        (a) => a.name_en == "Past" && a.active == 1
+      );
+      this.canAssignMultipleCities = subfeatures.some(
+        (a) => a.name_en == "Assign multiple cities" && a.active == 1
+      );
+      this.hasEmailInvite = subfeatures.some(
+        (a) => a.name_en == "Email invite" && a.active == 1
+      );
+      this.hasFeatured = subfeatures.some(
+        (a) => a.name_en == "Featured" && a.active == 1
+      );
+      this.blockResponseToComments = subfeatures.some(
+        (a) => a.name_en == "Block response to comments" && a.active == 1
+      );
+      this.hasSpeaker = subfeatures.some(
+        (a) => a.name_en == "Speaker" && a.active == 1
+      );
+      this.hasGuestSpeaker = subfeatures.some(
+        (a) => a.name_en == "Guest Speaker" && a.active == 1
+      );
+      this.hasRequestDNI = subfeatures.some(
+        (a) => a.name_en == "Request DNI" && a.active == 1
+      );
+      this.hasAliasInvitationLink = subfeatures.some(
+        (a) =>
+          a.name_en == "Add the alias in the event invitation link" &&
+          a.active == 1
+      );
+    }
+
+    if (this.waitingListActive) {
+      let subf = subfeatures.filter((sf) => {
+        return sf.name_en == "Waiting list";
+      });
+      if (subf?.length > 0) {
+        let waiting_list_details = data?.subfeature_options;
+        if (waiting_list_details) {
+          waiting_list_details.forEach((d) => {
+            if (d.option_id == 1) {
+              this.waitingListButtonTextEs = d.value;
+            }
+            if (d.option_id == 2) {
+              this.waitingListButtonTextEn = d.value;
+            }
+            if (d.option_id == 3) {
+              this.waitingListCancelButtonTextEs = d.value;
+            }
+            if (d.option_id == 4) {
+              this.waitingListCancelButtonTextEn = d.value;
+            }
+            if (d.option_id == 5) {
+              this.waitingListNotification = d.value ? true : false;
+            }
+          });
+        }
+      }
+    }
+    if (this.hasTypeOfActivity) {
+      this.typeOfActivities = data?.activity_types;
+    }
+    if (this.canAssignMultipleCities) {
+      this.activityCities = data?.activity_cities;
+      this.canShowAddress = true;
+    } else {
+      this.canShowAddress = true;
+    }
+    if (this.hasEmailInvite) {
+      this.emailInviteQuestions = data?.settings?.email_invite_questions;
+      console.log(this.emailInviteQuestions)
+      this._localService.setLocalStorage(
+        environment.lsemailinvitequestions,
+        this.emailInviteQuestions && this.emailInviteQuestions.length > 0
+          ? JSON.stringify(this.emailInviteQuestions)
+          : ""
+      );
+    }
+    if (this.hasAliasInvitationLink) {
+      this.aliasInvLink = 1;
+    }
+    if (this.userId > 0) {
+      this.getUserAliases(data?.user_permissions?.user_alias);
+      if (data?.settings?.club_presidents_mapping?.length > 0) {
+        this.getClubPresidents(data?.settings?.club_presidents_mapping);
+      }
+    }
+  }
+
+  mapUserPermissions(user_permissions) {
+    this.superAdmin = user_permissions?.super_admin ? true : false;
+    this.showOption =
+      user_permissions?.create_plan_roles?.length > 0 ||
+      user_permissions?.member_type_permissions?.find((f) => f.create == 1);
+  }
+
+  getFeatureTitle(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.name_en ||
+          feature.feature_name ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "fr"
+        ? feature.name_fr ||
+          feature.feature_name_FR ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "eu"
+        ? feature.name_eu ||
+          feature.feature_name_EU ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "ca"
+        ? feature.name_ca ||
+          feature.feature_name_CA ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "de"
+        ? feature.name_de ||
+          feature.feature_name_DE ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : feature.name_es || feature.feature_name_ES
+      : "";
+  }
+
+  initializeBreadcrumb() {
+    this.level1Title = this.pageName;
+    this.level2Title = this.getCategoryLabel();
+    this.level3Title = this.planTitle;
+    this.level4Title = "";
+  }
+
+  getTitles() {
+    if (this.plan && this.plan.id) {
+      this.planTitle =
+        this.language == "en"
+          ? this.plan.title_en
+          : this.language == "fr"
+          ? this.plan.title_fr || this.plan.title
+          : this.language == "eu"
+          ? this.plan.title_eu || this.plan.title
+          : this.language == "ca"
+          ? this.plan.title_ca || this.plan.title
+          : this.language == "de"
+          ? this.plan.title_de || this.plan.title
+          : this.plan.title;
+      this.planDescription =
+        this.language == "en"
+          ? this.plan.description_en || this.plan.description
+          : this.language == "fr"
+          ? this.plan.description_fr
+          : this.language == "eu"
+          ? this.plan.description_eu || this.plan.description
+          : this.language == "ca"
+          ? this.plan.description_ca || this.plan.description
+          : this.language == "de"
+          ? this.plan.description_de || this.plan.description
+          : this.plan.description;
+
+      if (
+        this.planDescription &&
+        this.planDescription.indexOf("[canva]") >= 0
+      ) {
+        var index = this.planDescription.indexOf("[canva]");
+        var endIndex = this.planDescription.indexOf("[/canva]");
+        var linkLength = endIndex - index;
+        var link = this.planDescription.substr(index + 7, linkLength - 7);
+        if (
+          link &&
+          link.indexOf("canva.com") >= 0 &&
+          link.indexOf("/watch?embed") < 0
+        ) {
+          link = link.replace("/watch", "/watch?embed");
+        }
+
+        let iframeHtml = `<iframe loading="lazy" style="position: absolute; width: 100%; height: 100%; top: 0; left: 0; border: none; padding: 0;margin: 0;" src="${link}" allowfullscreen="allowfullscreen" allow="fullscreen"></iframe>`;
+        let desc = this.planDescription.replace(link, "");
+        desc = desc.replace(
+          /\[canva\]/g,
+          '<div style="position: relative; width: 100%; height: 0; padding-top: 56.2500%;padding-bottom: 0; box-shadow: 0 2px 8px 0 rgba(63,69,81,0.16); margin-top: 1.6em; margin-bottom: 0.9em; overflow: hidden;border-radius: 8px; will-change: transform;">' +
+            iframeHtml
+        );
+        desc = desc.replace(/\[\/canva\]/g, "</div>");
+        this.planDescription = desc;
+      }
+
+      if (
+        this.planDescription &&
+        this.planDescription.indexOf("[vidalytics]") >= 0
+      ) {
+        var index = this.planDescription.indexOf("[vidalytics]");
+        var endIndex = this.planDescription.indexOf("[/vidalytics]");
+        var linkLength = endIndex - index;
+        var link = this.planDescription.substr(index + 12, linkLength - 12);
+
+        let iframeHtml = `<iframe style="border:none;" width="100%" height="400" id="video-container" src="https://preview.vidalytics.com/embed/${link}"></iframe>`;
+        let desc = this.planDescription.replace(link, "");
+        desc = desc.replace(/\[vidalytics\]/g, iframeHtml);
+        desc = desc.replace(/\[\/vidalytics\]/g, "");
+        this.planDescription = desc;
+      }
+
+      if (
+        this.planDescription &&
+        this.planDescription.indexOf("</script>") >= 0
+      ) {
+        this.eventDescription = this.sanitizer.sanitize(
+          SecurityContext.SCRIPT,
+          this.sanitizer.bypassSecurityTrustScript(this.planDescription)
+        );
+      } else {
+        this.eventDescription = this.sanitizer.sanitize(
+          SecurityContext.HTML,
+          this.sanitizer.bypassSecurityTrustHtml(this.planDescription)
+        );
+      }
+    }
+  }
+
+  getEventTitle(event) {
+    return this.language == "en"
+      ? event.title_en
+        ? event.title_en || event.title
+        : event.title
+      : this.language == "fr"
+      ? event.title_fr
+        ? event.title_fr || event.title
+        : event.title
+      : this.language == "eu"
+      ? event.title_eu
+        ? event.title_eu || event.title
+        : event.title
+      : this.language == "ca"
+      ? event.title_ca
+        ? event.title_ca || event.title
+        : event.title
+      : this.language == "de"
+      ? event.title_de
+        ? event.title_de || event.title
+        : event.title
+      : event.title;
+  }
+
+  getCategoryLabel() {
+    let category = "";
+
+    if (this.eventCategory) {
+      category = this.eventCategory;
+    } else {
+      if (this.categories?.length > 0) {
+        this.categories.forEach((cat: any) => {
+          let prefix = category ? ", " : "";
+          category += `${prefix}${
+            this.language == "en"
+              ? cat.name_EN || cat.name_ES
+              : this.language == "fr"
+              ? cat.name_FR || cat.name_ES
+              : this.language == "eu"
+              ? cat.name_EU || cat.name_ES
+              : this.language == "ca"
+              ? cat.name_CA || cat.name_ES
+              : this.language == "de"
+              ? cat.name_DE || cat.name_ES
+              : cat.name_ES
+          }`;
+        });
+      }
+    }
+
+    return category;
+  }
+
+  getUserAliases(aliases) {
+    if (aliases?.length > 0) {
+      aliases.forEach((data) => {
+        const { alias, id } = data;
+        let match = this.additionalInvitationLinks.some(
+          (a) => a.link === alias
+        );
+        if (!match) {
+          this.additionalInvitationLinks.push({
+            link: alias,
+            aliasId: id,
+            isEditLink: false,
+          });
+        }
+      });
+    }
+  }
+
+  getClubPresidents(club_presidents_mapping) {
+    let club =
+      club_presidents_mapping &&
+      club_presidents_mapping.filter((club) => {
+        return (
+          club.user_id == this.userId && club.club_id == this.plan.fk_group_id
+        );
+      });
+    if (club && club[0]) {
+      this.showOption = true;
+    }
+  }
+
+  formatPlan(plan, user, ue_user) {
+    this.user = user;
+    this.plan = plan?.details;
+    this.planCreator = plan?.created_by_user;
+    if (this.userId) {
+      this.userAliases = user?.user_alias;
+    }
+    this.imageSrc = `${this.apiPath}${this.plan.path}${this.plan.image}`;
+    this.eventDescription = this.sanitizer.sanitize(
+      SecurityContext.HTML,
+      this.sanitizer.bypassSecurityTrustHtml(this.plan.description)
+    );
+    this.group_id = this.plan.fk_group_id || null;
+    this.seats = parseInt(this.plan.seats) || 0;
+    this.showSeats = this.plan.show_seats == 1 ? true : false;
+    this.isExternalRegistration =
+      this.plan.external_registration == 1 ? true : false;
+    this.requestDNI = this.plan.request_dni == 1 ? true : false;
+    this.parentEventId = this.plan.parent_event_id;
+    this.speaker = this.plan.speaker_id;
+    if (this.speaker) {
+      this.selectedSpeaker = plan?.speaker;
+    }
+    this.formatComments(plan?.comments);
+    this.planReactions = plan?.reactions;
+    let today = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    if (this.plan?.plan_date) {
+      this.planDate = moment
+        .utc(this.plan.plan_date)
+        .locale(this.language)
+        .format("dddd, MMM D YYYY, HH:mm");
+      this.planDateCanary = moment
+        .utc(this.plan.plan_date)
+        .subtract(1, "hours")
+        .locale(this.language)
+        .format("HH:mm");
+
+      var date = moment(
+        this.plan.plan_date.replace("T", " ").replace(".000Z", "")
+      );
+      var zone = "Europe/Madrid";
+      this.calendarStartDate = momenttz.tz(date, zone).format();
+
+      if (this.plan.plan_date < today) {
+        this.isPastEvent = true;
+      }
+    }
+
+    if (this.plan.end_date) {
+      this.endDate = moment
+        .utc(this.plan.end_date)
+        .locale(this.language)
+        .format("dddd, MMM D YYYY, HH:mm");
+    }
+
+    this.getEmailTo();
+
+    if (this.userId) {
+      this.showOption = this.plan.fk_user_id === this.userId;
+    }
+    this.zoomLink = this.plan.zoom_link;
+
+    this.planParticipants = plan?.plan_participants;
+    if (this.plan?.event_subcategory_id > 0) {
+      let subcat =
+        this.subcategories &&
+        this.subcategories.filter((sc) => {
+          return (
+            sc.id == this.plan.event_subcategory_id &&
+            sc.category_id == this.plan.event_category_id
+          );
+        });
+      if (subcat && subcat[0]) {
+        this.planSubcategory =
+          this.language == "en"
+            ? subcat[0].name_en || subcat[0].name_es
+            : this.language == "fr"
+            ? subcat[0].name_fr || subcat[0].name_en
+            : subcat[0].name_es;
+      }
+    } else {
+      let subcategories1 = plan?.subcategories_mapping;
+      if (subcategories1) {
+        let subcats = [];
+        if (subcategories1) {
+          subcats = this.subcategories.filter((sc) => {
+            let match = subcategories1.some((a) => a.subcategory_id === sc.id);
+            return match;
+          });
+        }
+
+        if (subcats && subcats.length > 0) {
+          let planSubcategory = "";
+          subcats.forEach((s: any) => {
+            let text =
+              this.language == "en"
+                ? s.name_EN
+                : this.language == "fr"
+                ? s.name_FR
+                : this.language == "eu"
+                ? s.name_EU
+                : this.language == "ca"
+                ? s.name_CA
+                : this.language == "de"
+                ? s.name_DE
+                : s.name_ES;
+            if (planSubcategory == "") {
+              planSubcategory = text;
+            } else {
+              planSubcategory += ", " + text;
+            }
+          });
+          this.planSubcategory = planSubcategory;
+        }
+      }
+    }
+    this.planParticipantCount = this.planParticipants.length;
+    this.joinedParticipant = this.isUserJoined(this.planParticipants);
+    this.pendingRequest = this.checkPendingJoinRequest(plan?.requests, 0);
+    this.joinStatusChecked = true;
+
+    this.getInviteLink();
+
+    if (this.companyId == 32 && this.planTypeId != 4) {
+      this.getUECreatedBy(ue_user);
+    }
+
+    if (this.guestMemberSeatActive) {
+      if (this.planParticipants) {
+        this.planParticipants.forEach((participant: any) => {
+          if (participant) {
+            if (this.hasCustomMemberTypeSettings || this.companyId != 12) {
+              if (participant.custom_member_type_id > 0) {
+                let match = this.memberParticipants.some(
+                  (a) => a.user_id === participant.user_id
+                );
+                if (!match) {
+                  this.memberParticipants.push(participant);
+                }
+              } else {
+                let match = this.guestParticipants.some(
+                  (a) => a.user_id === participant.user_id
+                );
+                if (!match) {
+                  this.guestParticipants.push(participant);
+                }
+              }
+            } else {
+              if (participant.password) {
+                let match = this.memberParticipants.some(
+                  (a) => a.user_id === participant.user_id
+                );
+                if (!match) {
+                  this.memberParticipants.push(participant);
+                }
+              } else {
+                let match = this.guestParticipants.some(
+                  (a) => a.user_id === participant.user_id
+                );
+                if (!match) {
+                  this.guestParticipants.push(participant);
+                }
+              }
+            }
+          }
+        });
+      }
+    }
+
+    let available_seats = this.seats - this.planParticipantCount;
+    if (this.seats > 0 && available_seats <= 0) {
+      this.activateWaitingList = true;
+      this.waitingList = plan?.waiting_list;
+    }
+
+    if (
+      this.joinedParticipant &&
+      this.activityFeeEnabled &&
+      this.plan.price > 0
+    ) {
+      if (plan?.user_subscription?.subscription_id) {
+        this.showManageBilling = true;
+      }
+    }
+
+    if (this.hasTypeOfActivity) {
+      this.typeOfActivity = this.plan.activity_type_id;
+
+      if (this.typeOfActivity && this.typeOfActivities) {
+        let activity = this.typeOfActivities.filter((a) => {
+          return a.id == this.typeOfActivity;
+        });
+        if (activity && activity[0]) {
+          this.typeOfActivityDisplay =
+            this.language == "en" ? activity[0].name_en : activity[0].name_es;
+        }
+      }
+
+      this.activityDays = this.plan.activity_days;
+      if (this.activityDays && this.activityDays > 0) {
+        this.prolongedActivities = plan?.activities;
+      }
+    }
+
+    if (this.repeatEvent) {
+      if (this.parentEventId) {
+        this.editRepeatEventQuestions = [
+          {
+            id: 1,
+            question: this._translateService.instant(
+              "edit-plan.whatdoyouwanttoupdate"
+            ),
+            options: [
+              {
+                id: 1,
+                option: this._translateService.instant("edit-plan.justthisone"),
+              },
+              {
+                id: 2,
+                option: this._translateService.instant(
+                  "edit-plan.theentireseries"
+                ),
+              },
+            ],
+          },
+        ];
+      } else {
+        this.editRepeatEventQuestions = [
+          {
+            id: 1,
+            question: this._translateService.instant(
+              "edit-plan.whatdoyouwanttoupdate"
+            ),
+            options: [
+              {
+                id: 2,
+                option: this._translateService.instant(
+                  "edit-plan.theentireseries"
+                ),
+              },
+            ],
+          },
+        ];
+      }
+    }
+
+    this.repeatEvent =
+      this.plan?.repeat_event == 1 || this.plan?.parent_event_id > 0
+        ? true
+        : false;
+
+    setTimeout(function () {
+      addeventatc.refresh();
+    }, 200);
+  }
+
+  formatComments(comments) {
+    this.allPlanComments = comments
+    
+    let comment_rows:any[] = []
+    if(comments?.length > 0) {
+      comments?.forEach(comment => {
+        if(comment.parent_plan_comment_id == 0) {
+          let comment_children = this.allPlanComments?.filter(children => {
+            return children.parent_plan_comment_id == comment.id
+          })
+
+          comment_rows.push({
+            "id": comment.id,
+            "plan_id": comment.plan_id,
+            "user_id": comment.user_id,
+            "comment": comment.comment,
+            "parent_plan_comment_id": comment.parent_plan_comment_id,
+            "createdAt": comment.createdAt,
+            "updatedAt": comment.updatedAt,
+            "deletedAt": comment.deletedAt,
+            "image": comment.image,
+            "first_name": comment.first_name,
+            "last_name": comment.last_name,
+            "name": comment.name,
+            CommentChild: comment_children
+          })
+        }
+      })
+    }
+
+    this.planComments = comment_rows;
+    this.planComments?.sort((a: any, b: any) => {
+      const oldDate: any = new Date(a.createdAt);
+      const newDate: any = new Date(b.createdAt);
+      return newDate - oldDate;
+    });
+  }
+
+  getUECreatedBy(created_by) {
+    this.createdById = created_by ? created_by.id : "";
+    this.createdBy = created_by
+      ? `${created_by.first_name} ${created_by.last_name}`
+      : "";
+    this.createdByImage = `${this.apiPath}/${
+      created_by ? created_by.image : "empty_avater.png"
+    }`;
+  }
+
+  getEmailTo(invlink: any = "") {
+    this._plansService
+      .emailTemplate(
+        this.companyId,
+        this.id,
+        this.planTypeId,
+        this.userId,
+        this.aliasInvLink
+      )
+      .subscribe(
+        (response) => {
+          let template = response.template;
+          if (template) {
+            let txt = document.createElement("div");
+            let new_body = decodeURIComponent(template.body);
+            txt.innerHTML = new_body;
+            let email_body =
+              txt && txt?.textContent
+                ? encodeURIComponent(txt?.textContent)
+                : "";
+            this.emailTo = `mailto:?Subject=${template.subject}&ISO-8859-1&Body=${email_body}`;
+          } else {
+            if (this.planTypeId == 4) {
+              this.emailTo =
+                `mailto:?Subject=Shared Event&Body=` +
+                (!this.invitationLinkActive
+                  ? window.location.href
+                  : this.user.name +
+                    this._translateService.instant(
+                      "dialog.hasinvitedyoutooursession"
+                    ) +
+                    this.plan.title +
+                    "! " +
+                    this._translateService.instant(
+                      "dialog.interestedandwanttocome"
+                    ) +
+                    invlink +
+                    this._translateService.instant("lookingforward"));
+            } else {
+              this.emailTo =
+                `mailto:?Subject=Inquiries&body=` + window.location.href;
+            }
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  getInviteLink() {
+    if (this.invitationLinkActive && this.userId) {
+      if (this.customEventRegistrationLanding || this.companyId == 20) {
+        this._plansService
+          .getInviteLink(
+            this.userId,
+            this.id,
+            this.planTypeId,
+            this.aliasInvLink
+          )
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(
+            (response) => {
+              this.invitationLink = response;
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      } else {
+        this.invitationLink = this.plan.invitation_link;
+        let alias = this.user ? this.user.alias : "";
+        if (alias) {
+          if (this.plan.slug) {
+            this.invitationLink =
+              "https://" +
+              window.location.host +
+              "/share/event/" +
+              this.plan.slug +
+              "/" +
+              alias;
+          } else {
+            this._plansService
+              .updatePlanSlug(this.plan.id, this.plan.plan_type_id)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe(
+                (response) => {
+                  this.invitationLink =
+                    "https://" +
+                    window.location.host +
+                    "/share/event/" +
+                    response.plan.slug +
+                    "/" +
+                    alias;
+                },
+                (error) => {
+                  console.log(error);
+                }
+              );
+          }
+        } else {
+          if (this.user) {
+            this._plansService
+              .updateUserAlias(this.user.id)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe(
+                (response) => {
+                  if (this.plan.slug) {
+                    this.invitationLink =
+                      "https://" +
+                      window.location.host +
+                      "/share/event/" +
+                      this.plan.slug +
+                      "/" +
+                      response.alias;
+                  } else {
+                    this._plansService
+                      .updatePlanSlug(this.plan.id, this.plan.plan_type_id)
+                      .pipe(takeUntil(this.destroy$))
+                      .subscribe(
+                        (res) => {
+                          this.invitationLink =
+                            "https://" +
+                            window.location.host +
+                            "/share/event/" +
+                            res.plan.slug +
+                            "/" +
+                            alias;
+                        },
+                        (error) => {
+                          console.log(error);
+                        }
+                      );
+                  }
+                },
+                (error) => {
+                  console.log(error);
+                }
+              );
+          }
+        }
+      }
+    }
+  }
+
+  isUserJoined(planParticipants, eventIndex = 0) {
+    if (this.userId) {
+      return planParticipants.filter(
+        (CompanyPlanParticipants) =>
+          CompanyPlanParticipants.user_id == this.userId
+      ).length;
+    } else {
+      return 0;
+    }
+  }
+
+  checkPendingJoinRequest(pendingRequests, eventIndex = 0) {
+    if (pendingRequests) {
+      return pendingRequests?.filter(
+        (request) => request.fk_user_id == this.userId
+      ).length;
+    }
+  }
+
+  getAddress(plan) {
+    let address = plan.address;
+
+    if (!address && this.canAssignMultipleCities && this.activityCities) {
+      address = this.activityCities
+        .map((data) => {
+          return data.city;
+        })
+        .join(", ");
+    }
+
+    return address;
+  }
+
+  getEventDescription() {
+    let description = this.eventDescription;
+    if (this.plan?.zoom_link) {
+      description +=
+        '<br/> <a href="' +
+        this.plan.zoom_link +
+        '">' +
+        this.plan.zoom_link +
+        "</a>";
+    }
+    if (this.plan?.teams_link) {
+      description +=
+        '<br/> <a href="' +
+        this.plan.teams_link +
+        '">' +
+        this.plan.teams_link +
+        "</a>";
+    }
+    if (this.plan?.youtube_link) {
+      description +=
+        '<br/> <a href="' +
+        this.plan.youtube_link +
+        '">' +
+        this.plan.youtube_link +
+        "</a>";
+    }
+    return description;
+  }
+
+  async handleRequestJoin() {
+    const { id: user_id } = this.user;
+    let plan_type = this.planTypeId == 5 ? "company" : "employee";
+
+    if (this.planTypeId == 4) {
+      plan_type = "club";
+    }
+
+    let payload = {
+      plan_id: this.id,
+      plan_type,
+      user_id,
+      company_id: this.user.fk_company_id,
+      invited_by: 0,
+    };
+
+    if (this.invitationLinkActive) {
+      let invitedby = this._localService.getLocalStorage(
+        environment.lsinvitedby
+      );
+      let invited_by = 0;
+      let event_id = this._localService.getLocalStorage(
+        environment.lseventinvite
+      );
+
+      if (event_id == this.id) {
+        let user = get(
+          await this._userService.getUserById(invitedby).toPromise(),
+          "CompanyUser"
+        );
+        invited_by = user.id;
+      }
+
+      if (event_id == this.id && invited_by) {
+        payload = {
+          plan_id: this.id,
+          plan_type,
+          user_id,
+          company_id: this.user.fk_company_id,
+          invited_by: invited_by,
+        };
+      }
+    }
+
+    this.onSubmit = true;
+    this._plansService.addJoinRequest(payload).subscribe(
+      (response) => {
+        if (response) {
+          this.pendingRequest = true;
+          this.onSubmit = false;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  async handleJoin() {
+    if (this.requestDNI) {
+      let user = this.currentUser;
+      if (!user) {
+        user = this.user;
+      }
+      if (user && !user.dni) {
+        this.showUpdateDNIModal = true;
+      } else {
+        this.proceedJoin();
+      }
+    } else {
+      this.proceedJoin();
+    }
+  }
+
+  proceedJoin() {
+    if (this.planTypeId == 4) {
+      this.joinGroupPlan();
+    } else {
+      this.joinPlan();
+    }
+  }
+
+  joinPlan() {
+    if (
+      this.activityFeeEnabled &&
+      this.plan.stripe_pay == 1 &&
+      this.plan.price > 0
+    ) {
+      let userId = this.userId || 0;
+      this._router.navigate([
+        `/payment/activity/${this.id}/${this.planTypeId}/${userId}/activity`,
+      ]);
+    } else {
+      this.onSubmit = true;
+      this._plansService.addPlanParticipant(this.id, this.user.id).subscribe(
+        (response) => {
+          this.plan = response.CompanyPlan;
+          this.planParticipants = this.plan.CompanyPlanParticipants;
+          this.planParticipantCount = this.plan.CompanyPlanParticipants.length;
+          this.joinedParticipant = this.isUserJoined(
+            this.plan.CompanyPlanParticipants
+          );
+          this.onSubmit = false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  async joinGroupPlan() {
+    if (
+      this.activityFeeEnabled &&
+      this.plan.stripe_pay == 1 &&
+      this.plan.price > 0
+    ) {
+      let userId = this.userId || 0;
+      this._router.navigate([
+        `/payment/activity/${this.id}/${this.planTypeId}/${userId}/activity`,
+      ]);
+    } else {
+      const { id: user_id } = this.user;
+
+      const { id: group_plan_id, fk_company_id } = this.plan;
+
+      let payload = {
+        group_plan_id,
+        fk_company_id,
+        user_id,
+        invited_by: 0,
+      };
+
+      if (this.invitationLinkActive) {
+        let invitedby = this._localService.getLocalStorage(
+          environment.lsinvitedby
+        );
+        let invited_by = 0;
+        let event_id = this._localService.getLocalStorage(
+          environment.lseventinvite
+        );
+
+        if (event_id == group_plan_id) {
+          let user = get(
+            await this._userService.getUserById(invitedby).toPromise(),
+            "CompanyUser"
+          );
+          invited_by = user.id;
+        }
+
+        if (event_id == group_plan_id && invited_by > 0) {
+          payload = {
+            group_plan_id,
+            fk_company_id,
+            user_id,
+            invited_by: invited_by,
+          };
+        }
+      }
+
+      this.onSubmit = true;
+      this._plansService.addGroupPlanParticipant(payload).subscribe(
+        (response) => {
+          this.plan = response.CompanyGroupPlan;
+          this.planParticipants = this.plan.Company_Group_Plan_Participants;
+          this.planParticipantCount =
+            this.plan.Company_Group_Plan_Participants.length;
+          this.joinedParticipant = this.isUserJoined(
+            this.plan.Company_Group_Plan_Participants
+          );
+          this.onSubmit = false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  handleLeave() {
+    if (this.isCompanyPlanType) {
+      this.leavePlan();
+    } else {
+      this.leaveGroupPlan();
+    }
+  }
+
+  leavePlan() {
+    this.onSubmit = true;
+    this._plansService.removePlanParticipant(this.id, this.user.id).subscribe(
+      (response) => {
+        let plan_participants = this.planParticipants;
+        if(plan_participants?.length > 0) {
+          plan_participants.forEach((participant, index) => {
+            if(participant.user_id == this.userId) {
+              plan_participants.splice(index, 1);
+            }
+          })
+        }
+        this.planParticipants = plan_participants;
+        this.planParticipantCount = this.planParticipants?.length;
+        this.joinedParticipant = this.isUserJoined(
+          this.planParticipants
+        );
+        this.onSubmit = false;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  leaveGroupPlan() {
+    const { id: user_id } = this.user;
+
+    const { id: group_plan_id, fk_company_id } = this.plan;
+
+    const payload = {
+      group_plan_id,
+      fk_company_id,
+      user_id,
+    };
+
+    this.onSubmit = true;
+    this._plansService.removeGroupPlanParticipant(payload).subscribe(
+      (response) => {
+        let plan_participants = this.planParticipants;
+        if(plan_participants?.length > 0) {
+          plan_participants.forEach((participant, index) => {
+            if(participant.user_id == this.userId) {
+              plan_participants.splice(index, 1);
+            }
+          })
+        }
+        this.planParticipants = plan_participants;
+        this.planParticipantCount = this.planParticipants?.length;
+        this.joinedParticipant = this.isUserJoined(
+          this.planParticipants
+        );
+        this.onSubmit = false;
+        this.pendingRequest = false;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  yourBilling() {
+    this._companyService
+      .createOtherCustomerPortal(
+        this.userId,
+        this.companyId,
+        this.id,
+        "event",
+        this.planTypeId,
+        {}
+      )
+      .subscribe(
+        (res) => {
+          if (res["redirect_url"]) {
+            window.open(res["redirect_url"], "_blank");
+          }
+        },
+        (error) => {}
+      );
+  }
+
+  handleWaitingList() {
+    let payload = {
+      plan_id: this.id,
+      plan_type_id: this.planTypeId,
+      user_id: this.user.id,
+      company_id: this.user.fk_company_id,
+    };
+
+    if (!this.isInWaitingList) {
+      this._plansService.addToWaitingList(payload).subscribe(
+        (response) => {
+          this.isInWaitingList = true;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else {
+      this._plansService.removeFromWaitingList(payload).subscribe(
+        (response) => {
+          this.isInWaitingList = false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  downloadWaitingList() {
+    this._excelService.exportAsExcelFile(this.waitingList, "event-" + this.id);
+  }
+
+  getSeatsLabel() {
+    let seats;
+    if (
+      !this.guestMemberSeatActive ||
+      (this.guestMemberSeatActive && this.plan.guest_member_seats != 1)
+    ) {
+      seats = `${this.planParticipantCount} ${
+        this.planParticipantCount <= 1
+          ? this._translateService.instant("plan-details.attendee")
+          : this._translateService.instant("plan-details.attendees")
+      }`;
+      if (this.seats < 0 && !this.eventDates) {
+        seats = this._translateService.instant("plan-details.unlimitedseats");
+      }
+      return seats;
+    } else if (
+      this.guestMemberSeatActive &&
+      this.plan.guest_member_seats == 1
+    ) {
+      let memberText = this.membersTitle;
+
+      seats = `${this.planParticipantCount} ${
+        this.planParticipantCount <= 1
+          ? this._translateService.instant("plan-details.attendee")
+          : this._translateService.instant("plan-details.attendees")
+      }: ${this.memberParticipants.length} ${memberText}`;
+      seats +=
+        ", " +
+        this.guestParticipants.length +
+        " " +
+        (this.guestParticipants.length <= 1
+          ? this._translateService.instant("plan-details.guest")
+          : this._translateService.instant("plan-details.guests"));
+    }
+
+    return seats;
+  }
+
+  showAddNewLink() {
+    this.isAddNewLink = true;
+  }
+
+  sendEmailInvite() {
+    this.modalbutton?.nativeElement.click();
+  }
+
+  goToLink(link) {
+    window.open(link, "_blank");
+  }
+
+  async copyText() {
+    this.getInvitationLink();
+  }
+
+  async getInvitationLink() {
+    if (this.planTypeId == 4) {
+      if ((this.companyId == 12 || this.invitationLinkActive) && this.userId) {
+        if (this.customEventRegistrationLanding || this.companyId == 20) {
+          let invite_link = get(
+            await this._plansService
+              .getInviteLink(
+                this.userId,
+                this.id,
+                this.planTypeId,
+                this.aliasInvLink
+              )
+              .toPromise(),
+            "invite_link"
+          );
+          this.invitationLink = invite_link;
+          this.copyToClipboard();
+        } else {
+          this.invitationLink = this.plan.invitation_link;
+          let alias = this.user ? this.user.alias : "";
+          if (this.companyId == 12) {
+            this.user = this.user;
+            alias = this.user.alias;
+          }
+          if (alias) {
+            if (this.plan.slug) {
+              if (this.companyId == 12) {
+                this.invitationLink =
+                  "https://" +
+                  window.location.host +
+                  "/" +
+                  this.plan.slug +
+                  "/" +
+                  alias;
+              } else {
+                this.invitationLink =
+                  "https://" +
+                  window.location.host +
+                  "/share/event/" +
+                  this.plan.slug +
+                  "/" +
+                  alias;
+              }
+              this.copyToClipboard();
+            } else {
+              this._plansService
+                .updatePlanSlug(this.plan.id, this.plan.plan_type_id)
+                .subscribe(
+                  (response) => {
+                    if (this.companyId == 12) {
+                      this.invitationLink =
+                        "https://" +
+                        window.location.host +
+                        "/share/event/" +
+                        response.plan.slug +
+                        "/" +
+                        alias;
+                    } else {
+                      this.invitationLink =
+                        "https://" +
+                        window.location.host +
+                        "/" +
+                        response.plan.slug +
+                        "/" +
+                        alias;
+                    }
+                    this.copyToClipboard();
+                  },
+                  (error) => {
+                    console.log(error);
+                  }
+                );
+            }
+            if (this.companyId == 12) {
+              this.getUserAliases(this.userAliases);
+              this.copyToClipboard();
+            }
+          } else {
+            if (this.user) {
+              this._plansService.updateUserAlias(this.user.id).subscribe(
+                (response) => {
+                  if (this.plan.slug) {
+                    if (this.companyId == 12) {
+                      this.invitationLink =
+                        "https://" +
+                        window.location.host +
+                        "/" +
+                        this.plan.slug +
+                        "/" +
+                        response.alias;
+                    } else {
+                      this.invitationLink =
+                        "https://" +
+                        window.location.host +
+                        "/share/event/" +
+                        this.plan.slug +
+                        "/" +
+                        response.alias;
+                    }
+                    this.copyToClipboard();
+                  } else {
+                    this._plansService
+                      .updatePlanSlug(this.plan.id, this.plan.plan_type_id)
+                      .subscribe(
+                        (res) => {
+                          if (this.companyId == 12) {
+                            this.invitationLink =
+                              "https://" +
+                              window.location.host +
+                              "/" +
+                              res.plan.slug +
+                              "/" +
+                              alias;
+                          } else {
+                            this.invitationLink =
+                              "https://" +
+                              window.location.host +
+                              "/share/event/" +
+                              res.plan.slug +
+                              "/" +
+                              alias;
+                          }
+                          this.copyToClipboard();
+                        },
+                        (error) => {
+                          console.log(error);
+                        }
+                      );
+                  }
+                  if (this.companyId == 12) {
+                    this.getUserAliases(this.userAliases);
+                    this.copyToClipboard();
+                  }
+                },
+                (error) => {
+                  console.log(error);
+                }
+              );
+            }
+          }
+        }
+      }
+    } else {
+      if (this.invitationLinkActive && this.userId) {
+        if (this.customEventRegistrationLanding || this.companyId == 20) {
+          let invite_link = get(
+            await this._plansService
+              .getInviteLink(
+                this.userId,
+                this.id,
+                this.planTypeId,
+                this.aliasInvLink
+              )
+              .toPromise(),
+            "invite_link"
+          );
+          this.invitationLink = invite_link;
+          this.copyToClipboard();
+        } else {
+          this.invitationLink = this.plan.invitation_link;
+          let alias = this.user ? this.user.alias : "";
+          if (alias) {
+            if (this.plan.slug) {
+              this.invitationLink =
+                "https://" +
+                window.location.host +
+                "/share/event/" +
+                this.plan.slug +
+                "/" +
+                alias;
+              this.copyToClipboard();
+            } else {
+              this._plansService
+                .updatePlanSlug(this.plan.id, this.plan.plan_type_id)
+                .subscribe(
+                  (response) => {
+                    this.invitationLink =
+                      "https://" +
+                      window.location.host +
+                      "/share/event/" +
+                      response.plan.slug +
+                      "/" +
+                      alias;
+                    this.copyToClipboard();
+                  },
+                  (error) => {
+                    console.log(error);
+                  }
+                );
+            }
+          } else {
+            if (this.user) {
+              this._plansService.updateUserAlias(this.user.id).subscribe(
+                (response) => {
+                  if (this.plan.slug) {
+                    this.invitationLink =
+                      "https://" +
+                      window.location.host +
+                      "/share/event/" +
+                      this.plan.slug +
+                      "/" +
+                      response.alias;
+                    this.copyToClipboard();
+                  } else {
+                    this._plansService
+                      .updatePlanSlug(this.plan.id, this.plan.plan_type_id)
+                      .subscribe(
+                        (res) => {
+                          this.invitationLink =
+                            "https://" +
+                            window.location.host +
+                            "/share/event/" +
+                            res.plan.slug +
+                            "/" +
+                            alias;
+                          this.copyToClipboard();
+                        },
+                        (error) => {
+                          console.log(error);
+                        }
+                      );
+                  }
+                },
+                (error) => {
+                  console.log(error);
+                }
+              );
+            }
+          }
+        }
+      }
+    }
+  }
+
+  copyToClipboard() {
+    let selBox = document.createElement("textarea");
+    selBox.style.position = "fixed";
+    selBox.style.left = "0";
+    selBox.style.top = "0";
+    selBox.style.opacity = "0";
+
+    let link = !this.invitationLinkActive
+      ? window.location.href
+      : this.invitationLink;
+    selBox.value = link;
+
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand("copy");
+    document.body.removeChild(selBox);
+
+    this.open(this._translateService.instant("dialog.copiedlink"), "");
+  }
+
+  copyLink(link) {
+    let selBox = document.createElement("textarea");
+    selBox.style.position = "fixed";
+    selBox.style.left = "0";
+    selBox.style.top = "0";
+    selBox.style.opacity = "0";
+    selBox.value = link;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand("copy");
+    document.body.removeChild(selBox);
+
+    this.open(this._translateService.instant("dialog.copiedlink"), "");
+  }
+
+  async open(message: string, action: string) {
+    await this._snackBar.open(message, action, {
+      duration: 3000,
+      panelClass: ["info-snackbar"],
+    });
+  }
+
+  getReactions(child) {
+    return this.planReactions?.filter((pr) => {
+      return pr.fk_plan_comment_id == child.id;
+    });
+  }
+
+  addComment() {
+    if (this.planTypeId == 4) {
+      this.addGroupPlanComment();
+    } else {
+      this.addPlanComment();
+    }
+  }
+
+  addPlanComment() {
+    const value = this.comment;
+    this.commentError = "";
+    if (!this.comment) {
+      this.commentError = this._translateService.instant(
+        "plan-details.pleaseenteravalue"
+      );
+    } else {
+      this.onSubmit = true;
+      this._plansService
+        .addPlanComment(this.plan.id, this.user.id, this.comment)
+        .subscribe(
+          (response) => {
+            this.comment = "";
+            this.onSubmit = false;
+            this.refreshComments();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
+  }
+
+  addGroupPlanComment() {
+    const value = this.comment;
+    this.commentError = "";
+    if (!this.comment) {
+      this.commentError = this._translateService.instant(
+        "plan-details.pleaseenteravalue"
+      );
+    } else {
+      this.onSubmit = true;
+      this._plansService
+        .addGroupPlanComment(this.plan.id, this.user.id, this.comment)
+        .subscribe(
+          (response) => {
+            this.comment = "";
+            this.onSubmit = false;
+            this.refreshComments();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
+  }
+
+  refreshComments() {
+    this._plansService
+      .getGroupPlanComments(this.id, this.planTypeId)
+      .subscribe(async (response) => {
+        console.log(response)
+        if (this.planTypeId == 4) {
+          this.planComments =
+            response.CompanyGroupPlanComments.filter((data) => {
+              data.comment = data.comment.replaceAll("\n", "<br/>");
+              if (data.CommentChild && data.CommentChild.length > 0) {
+                data.CommentChild.filter((data) => {
+                  data.comment = data.comment.replaceAll("\n", "<br/>");
+                });
+              }
+              return data;
+            });
+        } else {
+          this.planComments = response.CompanyPlanComments.filter(
+            (data) => {
+              data.comment = data.comment.replaceAll("\n", "<br/>");
+              if (data.CommentChild && data.CommentChild.length > 0) {
+                data.CommentChild.filter((data) => {
+                  data.comment = data.comment.replaceAll("\n", "<br/>");
+                });
+              }
+              return data;
+            }
+          );
+        }
+      });
+  }
+
+  checkHeartReaction(comment) {
+    let reactions = this.planReactions?.filter((pr) => {
+      return pr.fk_plan_comment_id == comment.id;
+    });
+    let hasReacted = false;
+    if (reactions) {
+      reactions.forEach((react) => {
+        if (react.fk_user_id == this.userId) {
+          hasReacted = true;
+        }
+      });
+    }
+
+    return hasReacted;
+  }
+
+  toggleChildComment(id) {
+    this.showChildComment = true;
+    this.selectedCommentId = id;
+  }
+
+  toggleHeart(comment, state) {
+    this.selectedCommentId = comment.id;
+    this.heartComment = state;
+
+    if (state == false) {
+      let param = {
+        userId: this.userId,
+      };
+      this._plansService
+        .deleteGroupPlanCommentHeart(comment.id, this.planTypeId, param)
+        .subscribe(
+          (data) => {
+            let plan_reactions = this.planReactions;
+            if(plan_reactions?.length > 0) {
+              plan_reactions.forEach((reaction, index) => {
+                if(reaction.fk_plan_comment_id == comment.id && reaction.fk_user_id == this.userId) {
+                  plan_reactions.splice(index, 1);
+                }
+              })
+            }
+            this.planReactions = plan_reactions
+          },
+          async (err) => {
+            console.log(err);
+          }
+        );
+    } else {
+      let param = {
+        userId: this.userId,
+        heart: 1,
+      };
+      this._plansService
+        .heartGroupPlanComment(comment.id, this.planTypeId, param)
+        .subscribe(
+          (data) => {
+            let plan_reactions = this.planReactions;
+            plan_reactions.push({
+              id: this.planTypeId == 4 ? data.group_plan_comment_reaction.id : data.plan_comment_reaction.id,
+              fk_user_id: this.planTypeId == 4 ? data.group_plan_comment_reaction.fk_user_id : data.plan_comment_reaction.fk_user_id,
+              fk_plan_comment_id: this.planTypeId == 4 ? data.group_plan_comment_reaction.fk_group_plan_comment_id : data.plan_comment_reaction.fk_plan_comment_id,
+              heart: this.planTypeId == 4 ? data.group_plan_comment_reaction.heart : data.plan_comment_reaction.heart,
+              created: this.planTypeId == 4 ? data.group_plan_comment_reaction.created : data.plan_comment_reaction.created,
+            })
+            this.planReactions = plan_reactions
+          },
+          async (err) => {
+            console.log(err);
+          }
+        );
+    }
+  }
+
+  formatDate(value) {
+    if (value) {
+      const date = new Date(value);
+      if (typeof date == "object") {
+        const formatted = moment(date).format("MMM DD, YYYY, hh:mm A");
+        return formatted;
+      }
+    }
+    return value;
+  }
+
+  confirmDeleteComment(comment) {
+    this.showConfirmationModal = false;
+    this.selectedItem = comment;
+    this.confirmDeleteItemTitle = this._translateService.instant('dialog.confirmdelete');
+    this.confirmDeleteItemDescription = this._translateService.instant('dialog.confirmdeleteitem');
+    this.acceptText = "OK";
+    this.cancelText = this._translateService.instant('plan-details.cancel');
+    setTimeout(() => (this.showConfirmationModal = true));
+  }
+
+  deleteComment(id, planTypeId, confirmed) {
+    if (confirmed) {
+      this._plansService.deleteActivityComment(id, planTypeId).subscribe(
+        (response) => {
+          this.selectedItem = "";
+          this.refreshComments();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  addChildComment(comment) {
+    const value = this.childComment;
+    if (this.childComment) {
+      let param = {
+        userId: this.userId,
+        groupPlanId: this.id,
+        comment: this.childComment,
+        companyId: this.companyId,
+      };
+      this._plansService
+        .addGroupPlanCommentReply(comment.id, this.planTypeId, param)
+        .subscribe(
+          (data) => {
+            this.childComment = "";
+            this.showChildComment = false;
+            this.refreshComments();
+          },
+          async (err) => {
+            console.log(err);
+          }
+        );
+    }
+  }
+
+  confirm() {
+    this.deleteComment(this.selectedItem.id, this.planTypeId, true);
+    this.showConfirmationModal = false;
+  }
+
+  handleCloseInvite() {
+    this.emailInviteFormSubmitted = true
+    let answers = this.emailInviteQuestions
+    let incomplete = false
+    let hasYes = false
+    for (const question of answers) {
+        let answer = question.answer
+        
+        if(answer === undefined) {
+            answer = null
+        }
+        
+        if(!answer) {
+            incomplete = true
+        } else {
+            let q = question.options.filter(o => {
+                return o.id == question.answer
+            })
+            if(q && q[0]) {
+                if(q[0].option == 'Sí') {
+                    hasYes = true
+                }
+            }
+        }
+    }
+      
+    if(incomplete) {
+      return false
+    }
+
+    if(hasYes) {
+      let params = {
+        company_id: this.companyId,
+        event_id: this.id,
+        event_type_id: this.planTypeId,
+        user_id: this.userId || 0,
+        answers: answers,
+        aliasInvLink : this.aliasInvLink
+      }
+      
+      this._plansService.answerEmailInviteQuestion(params)
+        .subscribe(
+          response => {
+            this.open(this._translateService.instant('dialog.sentsuccessfully'), '')
+          },
+          error => {
+            console.log(error)
+            this.open(this._translateService.instant('dialog.error'), '')
+          }
+        )
+    }
+  }
+
+  duplicate() {}
+
+  handleEditRoute() {}
+
+  handleDelete() {}
+
+  handleGoBack() {
+    this._location.back();
+  }
+
+  ngOnDestroy() {
+    this.languageChangeSubscription?.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+}

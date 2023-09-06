@@ -1,5 +1,7 @@
 {
     "landing": {
+        "authentication": "Autenticació",
+        "loggingyouin": "T'està iniciant la sessió",
         "create": "CREA EL TEU PROPI PLA",
         "looking": "Cercant...",
         "looking-item-1":"Plans",

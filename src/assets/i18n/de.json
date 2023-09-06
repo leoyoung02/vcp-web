@@ -1,5 +1,7 @@
 {
     "landing": {
+        "authentication": "Authentifizierung",
+        "loggingyouin": "Ich melde mich an",
         "create": "ERSTELLEN SIE IHREN EIGENEN PLAN",
         "Looking": "Looking...",
         "looking-item-1":"Pläne",

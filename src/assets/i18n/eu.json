@@ -1,5 +1,7 @@
 {
     "landing": {
+        "authentication": "Autentifikazioa",
+        "loggingyouin": "Saioa hasten zaitu",
         "create": "SORTU ZURE PLANA",
         "looking": "Begira...",
         "looking-item-1":"Planak",

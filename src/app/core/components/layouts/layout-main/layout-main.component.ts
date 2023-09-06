@@ -118,6 +118,10 @@ export class LayoutMainComponent {
   roles: any;
   company: any;
   isAdmin: boolean = false;
+  title: string = '';
+  description: string = '';
+  acceptText: string = '';
+  cancelText: string = '';
 
   constructor(
     private _router: Router,
@@ -231,6 +235,10 @@ export class LayoutMainComponent {
         }
       });
 
+    this.title = this._translateService.instant('landing.newupdates');
+    this.description = `${this._translateService.instant('landing.newversion')}. ${this._translateService.instant('landing.stronglyrecommended')}`;
+    this.acceptText = this._translateService.instant('profile-settings.update');
+    this.cancelText = this._translateService.instant('inquiry.notnow');
     this.getSettings();
     if (this.userId) {
       this.checkAdmin();

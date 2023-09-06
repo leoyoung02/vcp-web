@@ -7,6 +7,6 @@ import { CommonModule } from '@angular/common';
   imports: [CommonModule],
   templateUrl: './detail.component.html'
 })
-export class DetailComponent {
+export class CourseDetailComponent {
 
 }

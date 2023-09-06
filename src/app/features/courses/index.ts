@@ -6,12 +6,12 @@ export const routes: Routes = [
         path: '',
         title: CustomTitleResolver,
         data: { titleKey: 'courses.courses'},
-        loadComponent: async () => (await import('./list/list.component')).ListComponent,
+        loadComponent: async () => (await import('./list/list.component')).CoursesListComponent,
     },
     {
-        path: 'detail/:id',
+        path: 'details/:id',
         title: CustomTitleResolver,
         data: { titleKey: 'course-create.course'},
-        loadComponent: async () => (await import('./detail/detail.component')).DetailComponent,
+        loadComponent: async () => (await import('./detail/detail.component')).CourseDetailComponent,
     }
 ];

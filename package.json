@@ -25,7 +25,9 @@
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "pnpm lint:fix",
-      "pnpm prettier"
+      "pnpm prettier",
+
+      "git add"
     ],
     "*.{css,pcss,less,scss,sass}": [
       "pnpm stylelint:fix",
@@ -53,13 +55,16 @@
     "@ngx-translate/http-loader": "^8.0.0",
     "@stripe/stripe-js": "^2.1.0",
     "crypto-js": "^4.1.1",
+    "file-saver": "^2.0.5",
     "flowbite": "^1.8.1",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
+    "moment-timezone": "^0.5.43",
     "ngx-stripe": "^16.2.0",
     "rxjs": "~7.8.0",
     "secure-web-storage": "^1.0.2",
     "tslib": "^2.3.0",
+    "xlsx": "^0.18.5",
     "zone.js": "~0.13.0"
   },
   "devDependencies": {
