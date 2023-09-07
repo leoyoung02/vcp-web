@@ -16,7 +16,7 @@ import moment from "moment";
 import get from "lodash/get";
 
 @Component({
-  selector: 'app-clubs-list',
+  selector: "app-clubs-list",
   standalone: true,
   imports: [
     CommonModule,
@@ -25,9 +25,9 @@ import get from "lodash/get";
     ButtonGroupComponent,
     IconFilterComponent,
     NgOptimizedImage,
-    RouterModule
+    RouterModule,
   ],
-  templateUrl: './list.component.html'
+  templateUrl: "./list.component.html",
 })
 export class ClubsListComponent {
   private destroy$ = new Subject<void>();
@@ -71,12 +71,12 @@ export class ClubsListComponent {
   filteredGroup: any = [];
   selectedGroupFilterId: any;
   selectedGroupFilter: any;
-  category_type: string = 'All';
-  activeGroupFilter: string = 'All';
+  category_type: string = "All";
+  activeGroupFilter: string = "All";
   clubCategoryMapping: any = [];
   clubSubcategoryMapping: any = [];
   subcats: any = [];
-  filterType: string = 'All';
+  filterType: string = "All";
   apiPath: string = environment.api;
   isMyClubsActive: boolean = false;
   myClubs: any;
@@ -90,7 +90,7 @@ export class ClubsListComponent {
     private _localService: LocalService,
     private _companyService: CompanyService,
     private _clubsService: ClubsService
-  ) { }
+  ) {}
 
   @HostListener("window:resize", [])
   private onResize() {
@@ -99,25 +99,36 @@ export class ClubsListComponent {
 
   async ngOnInit() {
     this.onResize();
-    
-    this.email = this._localService.getLocalStorage(environment.lsemail)
-    this.language = this._localService.getLocalStorage(environment.lslang)
-    this.userId = this._localService.getLocalStorage(environment.lsuserId)
-    this.companyId = this._localService.getLocalStorage(environment.lscompanyId)
-    this.domain = this._localService.getLocalStorage(environment.lsdomain)
-    this._translateService.use(this.language || 'es')
-    this.companies = this._localService.getLocalStorage(environment.lscompanies) ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies) ) : ''
-    if(!this.companies) { 
-      this.companies = get(await this._companyService.getCompanies().toPromise(), 'companies')
+
+    this.email = this._localService.getLocalStorage(environment.lsemail);
+    this.language = this._localService.getLocalStorage(environment.lslang);
+    this.userId = this._localService.getLocalStorage(environment.lsuserId);
+    this.companyId = this._localService.getLocalStorage(
+      environment.lscompanyId
+    );
+    this.domain = this._localService.getLocalStorage(environment.lsdomain);
+    this._translateService.use(this.language || "es");
+    this.companies = this._localService.getLocalStorage(environment.lscompanies)
+      ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
+      : "";
+    if (!this.companies) {
+      this.companies = get(
+        await this._companyService.getCompanies().toPromise(),
+        "companies"
+      );
     }
-    let company = this._companyService.getCompany(this.companies)
-    if(company && company[0]) {
-      this.domain = company[0].domain
-      this.companyId = company[0].id
-      this.primaryColor = company[0].primary_color
-      this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color
-      this.hoverColor = company[0].hover_color ? company[0].hover_color : company[0].primary_color
-      this.showSectionTitleDivider = company[0].show_section_title_divider
+    let company = this._companyService.getCompany(this.companies);
+    if (company && company[0]) {
+      this.domain = company[0].domain;
+      this.companyId = company[0].id;
+      this.primaryColor = company[0].primary_color;
+      this.buttonColor = company[0].button_color
+        ? company[0].button_color
+        : company[0].primary_color;
+      this.hoverColor = company[0].hover_color
+        ? company[0].hover_color
+        : company[0].primary_color;
+      this.showSectionTitleDivider = company[0].show_section_title_divider;
     }
 
     this.languageChangeSubscription =
@@ -173,7 +184,6 @@ export class ClubsListComponent {
 
   mapFeatures(features) {
     this.clubsFeature = features?.find((f) => f.feature_id == 5);
-    console.log(this.clubsFeature)
     this.featureId = this.clubsFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.clubsFeature);
   }
@@ -213,9 +223,10 @@ export class ClubsListComponent {
   }
 
   mapDashboard(dashboard) {
-    this.isMyClubsActive = dashboard?.length > 0 ? (dashboard[0].active == 1 ? true : false) : false
-    if(this.isMyClubsActive) {
-      this.myClubs = dashboard[0]
+    this.isMyClubsActive =
+      dashboard?.length > 0 ? (dashboard[0].active == 1 ? true : false) : false;
+    if (this.isMyClubsActive) {
+      this.myClubs = dashboard[0];
     }
   }
 
@@ -271,7 +282,7 @@ export class ClubsListComponent {
       },
     ];
 
-    console.log(categories)
+    console.log(categories);
     categories?.forEach((category) => {
       this.buttonList.push({
         id: category.id,
@@ -312,7 +323,6 @@ export class ClubsListComponent {
       },
     ];
 
-    console.log(subcats)
     subcats?.forEach((category) => {
       this.subButtonList.push({
         id: category.id,
@@ -368,33 +378,33 @@ export class ClubsListComponent {
   }
 
   mapSubcategories(club_subcategories) {
-    let subcategories = club_subcategories
-    this.subcategories = []
+    let subcategories = club_subcategories;
+    this.subcategories = [];
 
-    if(subcategories?.length > 0) {
-      subcategories.forEach(c => {
-        let category_en = ''
-        let category_es = ''
-        let category_fr = ''
-        let category_eu = ''
-        let category_ca = ''
-        let category_de = ''
-        if(this.supercategoriesList) {
-          let cat = this.supercategoriesList.filter(cat => {
-            return cat.id == c.category_id
-          })
-          if(cat && cat[0]) {
-            category_en = cat[0].name_EN
-            category_es = cat[0].name_ES
-            category_fr = cat[0].name_FR
-            category_eu = cat[0].name_EU
-            category_ca = cat[0].name_CA
-            category_de = cat[0].name_DE
+    if (subcategories?.length > 0) {
+      subcategories.forEach((c) => {
+        let category_en = "";
+        let category_es = "";
+        let category_fr = "";
+        let category_eu = "";
+        let category_ca = "";
+        let category_de = "";
+        if (this.supercategoriesList) {
+          let cat = this.supercategoriesList.filter((cat) => {
+            return cat.id == c.category_id;
+          });
+          if (cat && cat[0]) {
+            category_en = cat[0].name_EN;
+            category_es = cat[0].name_ES;
+            category_fr = cat[0].name_FR;
+            category_eu = cat[0].name_EU;
+            category_ca = cat[0].name_CA;
+            category_de = cat[0].name_DE;
           }
         }
 
-        let match = this.subcategories.some(a => a.id === c.id)
-        if(!match) {
+        let match = this.subcategories.some((a) => a.id === c.id);
+        if (!match) {
           this.subcategories.push({
             id: c.id,
             category_id: c.category_id,
@@ -410,25 +420,25 @@ export class ClubsListComponent {
             name_EU: c.name_EU,
             name_CA: c.name_CA,
             name_DE: c.name_DE,
-            sequence: c.sequence
-          })
+            sequence: c.sequence,
+          });
         }
-      })
+      });
     }
 
-    this.sortBySequence(this.supercategoriesList)
-    this.sortBySequence(this.subcategories)
+    this.sortBySequence(this.supercategoriesList);
+    this.sortBySequence(this.subcategories);
   }
 
   sortBySequence(categories) {
-    let sorted_categories
-    if(categories) {
+    let sorted_categories;
+    if (categories) {
       sorted_categories = categories.sort((a, b) => {
-        return a.sequence - b.sequence
-      })
+        return a.sequence - b.sequence;
+      });
     }
 
-    return sorted_categories
+    return sorted_categories;
   }
 
   getCategoryTitle(category) {
@@ -478,248 +488,309 @@ export class ClubsListComponent {
   }
 
   async formatClubs(clubs) {
-    this.groups = clubs?.length > this.limit && this.parentComponent ? clubs?.slice(0, this.limit) : clubs
-    if(parseInt(this.selectedGroupFilterId) > 0 && this.selectedGroupFilter) {
-      this.filteredGroup = []
-      
-      this.category_type = this.selectedGroupFilter
-      this.filteredGroup = clubs
-      this.activeGroupFilter = 'All'
+    this.groups =
+      clubs?.length > this.limit && this.parentComponent
+        ? clubs?.slice(0, this.limit)
+        : clubs;
+    if (parseInt(this.selectedGroupFilterId) > 0 && this.selectedGroupFilter) {
+      this.filteredGroup = [];
 
-      if (this.selectedGroupFilterId !== 'All') {
-        this.activeGroupFilter = this.selectedGroupFilter
-        this.filteredGroup = await this.groups.filter(group => {
-          const hasCategory = this.clubCategoryMapping.filter(category => {
-            return category.id === parseInt(this.selectedGroupFilterId)
-          })
+      this.category_type = this.selectedGroupFilter;
+      this.filteredGroup = clubs;
+      this.activeGroupFilter = "All";
 
-          return hasCategory && hasCategory.length > 0
-        })
+      if (this.selectedGroupFilterId !== "All") {
+        this.activeGroupFilter = this.selectedGroupFilter;
+        this.filteredGroup = await this.groups.filter((group) => {
+          const hasCategory = this.clubCategoryMapping.filter((category) => {
+            return category.id === parseInt(this.selectedGroupFilterId);
+          });
 
-        if(this.subcategories && this.subcategories.length > 0) {
-          this.subcats = this.subcategories.filter(sc => {
-            return sc.category_id == this.selectedGroupFilterId
-          })
-          this.filterType = 'All'
+          return hasCategory && hasCategory.length > 0;
+        });
+
+        if (this.subcategories && this.subcategories.length > 0) {
+          this.subcats = this.subcategories.filter((sc) => {
+            return sc.category_id == this.selectedGroupFilterId;
+          });
+          this.filterType = "All";
         }
       }
 
       this.filteredGroup.sort((a, b) => {
-        const prevDate: any = new Date(a.created)
-        const currDate: any = new Date(b.created)
+        const prevDate: any = new Date(a.created);
+        const currDate: any = new Date(b.created);
 
-        return currDate - prevDate
-      })
+        return currDate - prevDate;
+      });
     } else {
-      this.filteredGroup = this.groups
+      this.filteredGroup = this.groups;
     }
 
-    this.filteredGroup = this.sortAlphabetically(this.filteredGroup)
-    this.allClubs = this.filteredGroup
+    this.filteredGroup = this.sortAlphabetically(this.filteredGroup);
+    this.allClubs = this.filteredGroup;
   }
 
   sortAlphabetically(array) {
-    if(array?.length > 0) {
-      array.sort((a, b) => 
-        this.language == 'en' && a.title_en ? 
-          a.title_en.localeCompare(b.title_en) : 
-          (this.language == 'fr' && a.title_fr ? 
-            a.title_fr.localeCompare(b.title_fr) : 
-              a.title.localeCompare(b.title)
-          )
-      )
+    if (array?.length > 0) {
+      array.sort((a, b) =>
+        this.language == "en" && a.title_en
+          ? a.title_en.localeCompare(b.title_en)
+          : this.language == "fr" && a.title_fr
+          ? a.title_fr.localeCompare(b.title_fr)
+          : a.title.localeCompare(b.title)
+      );
     }
 
-    return array
+    return array;
   }
 
   getGroupTitle(group) {
-    return this.language == 'en' ? (group.title_en ? (group.title_en || group.title_es) : group.title) :
-      (this.language == 'fr' ? (group.title_fr ? (group.title_fr || group.title) : group.title) : 
-          (this.language == 'eu' ? (group.title_eu ? (group.title_eu || group.title) : group.title) : 
-              (this.language == 'ca' ? (group.title_ca ? (group.title_ca || group.title) : group.title) : 
-                  (this.language == 'de' ? (group.title_de ? (group.title_de || group.title) : group.title) : group.title)
-              )
-          )
-      )
+    return this.language == "en"
+      ? group.title_en
+        ? group.title_en || group.title_es
+        : group.title
+      : this.language == "fr"
+      ? group.title_fr
+        ? group.title_fr || group.title
+        : group.title
+      : this.language == "eu"
+      ? group.title_eu
+        ? group.title_eu || group.title
+        : group.title
+      : this.language == "ca"
+      ? group.title_ca
+        ? group.title_ca || group.title
+        : group.title
+      : this.language == "de"
+      ? group.title_de
+        ? group.title_de || group.title
+        : group.title
+      : group.title;
   }
 
   handleCreateRoute() {
-    this._router.navigate([`/clubs/edit/0`])
-  } 
+    this._router.navigate([`/clubs/edit/0`]);
+  }
 
   createNewTitle(page) {
-    return `${this._translateService.instant('club-create.createyour')} ${this.pageName}`
+    return `${this._translateService.instant("club-create.createyour")} ${
+      this.pageName
+    }`;
   }
 
   goToDashboard() {
-    this._router.navigate(['/dashboard/5'])
+    this._router.navigate(["/dashboard/5"]);
   }
 
   handleSearchChanged(event) {
-    this.search = event || ''
-    this.searchGroups()
+    this.search = event || "";
+    this.searchGroups();
   }
 
   async searchGroups() {
-    this.filteredGroup = []
-    this.filteredGroup = this.groups
-    
-    let filter_category_id = 0
-    let filter_category = this.supercategoriesList.filter(cat => {
-      return cat.name_EN == this.activeGroupFilter || cat.name_ES == this.activeGroupFilter
-    })
-    if(filter_category && filter_category[0]) {
-      filter_category_id = filter_category[0].id
+    this.filteredGroup = [];
+    this.filteredGroup = this.groups;
+
+    let filter_category_id = 0;
+    let filter_category = this.supercategoriesList.filter((cat) => {
+      return (
+        cat.name_EN == this.activeGroupFilter ||
+        cat.name_ES == this.activeGroupFilter
+      );
+    });
+    if (filter_category && filter_category[0]) {
+      filter_category_id = filter_category[0].id;
     }
 
-    if (this.activeGroupFilter !== 'All') {
-      this.filteredGroup = await this.groups.filter(group => {
-        const { Company_Supercategories } = group
-        const hasCategory = Company_Supercategories.filter(category => {
-            return category.id === this.activeGroupFilter || category.fk_supercategory_id == this.activeGroupFilter
-        })
+    if (this.activeGroupFilter !== "All") {
+      this.filteredGroup = await this.groups.filter((group) => {
+        const { Company_Supercategories } = group;
+        const hasCategory = Company_Supercategories.filter((category) => {
+          return (
+            category.id === this.activeGroupFilter ||
+            category.fk_supercategory_id == this.activeGroupFilter
+          );
+        });
 
-        return hasCategory && hasCategory.length > 0
-      })
+        return hasCategory && hasCategory.length > 0;
+      });
 
-      if(this.subcategories && this.subcategories.length > 0) {
-        this.subcats = this.subcategories.filter(sc => {
-          return sc.category_id == this.activeGroupFilter
-        })
-        this.filterType = 'All'
+      if (this.subcategories && this.subcategories.length > 0) {
+        this.subcats = this.subcategories.filter((sc) => {
+          return sc.category_id == this.activeGroupFilter;
+        });
+        this.filterType = "All";
       }
     }
 
-    this.filteredGroup = this.sortAlphabetically(this.filteredGroup)
+    this.filteredGroup = this.sortAlphabetically(this.filteredGroup);
 
-    if(this.filterType != 'All') {
-      let category_id = 0
-      let category = this.subcats.filter(cat => {
-        return cat.name_EN == this.filterType || cat.name_ES == this.filterType
-      })
-      if(category && category[0]) {
-        category_id = category[0].id
+    if (this.filterType != "All") {
+      let category_id = 0;
+      let category = this.subcats.filter((cat) => {
+        return cat.name_EN == this.filterType || cat.name_ES == this.filterType;
+      });
+      if (category && category[0]) {
+        category_id = category[0].id;
       }
-      this.filteredGroup = this.filteredGroup.filter(g => {
-        let match = g.Company_Subcategories && g.Company_Subcategories.some(a => a.fk_category_id == category_id)
-        return match
-      })
+      this.filteredGroup = this.filteredGroup.filter((g) => {
+        let match =
+          g.Company_Subcategories &&
+          g.Company_Subcategories.some((a) => a.fk_category_id == category_id);
+        return match;
+      });
     } else {
-      let cat = this.supercategoriesList.filter(c => {
-        return c.name_ES == this.activeGroupFilter
-      })
-      if(cat && cat[0]) {
-        this.filterSuperCategory(cat[0].id, cat[0].name_ES)
+      let cat = this.supercategoriesList.filter((c) => {
+        return c.name_ES == this.activeGroupFilter;
+      });
+      if (cat && cat[0]) {
+        this.filterSuperCategory(cat[0].id, cat[0].name_ES);
       }
     }
 
-    if(this.search) {
-      this.filteredGroup = this.filteredGroup.filter(group => {
-        let include = false
+    if (this.search) {
+      this.filteredGroup = this.filteredGroup.filter((group) => {
+        let include = false;
 
-        if(group.title.toLowerCase().indexOf(this.search.toLowerCase()) >= 0 
-          || (group.title_en && group.title_en.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-          || (group.title_fr && group.title_fr.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-          || (group.title_eu && group.title_eu.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-          || (group.title_ca && group.title_ca.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-          || (group.title_de && group.title_de.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+        if (
+          group.title.toLowerCase().indexOf(this.search.toLowerCase()) >= 0 ||
+          (group.title_en &&
+            group.title_en.toLowerCase().indexOf(this.search.toLowerCase()) >=
+              0) ||
+          (group.title_fr &&
+            group.title_fr.toLowerCase().indexOf(this.search.toLowerCase()) >=
+              0) ||
+          (group.title_eu &&
+            group.title_eu.toLowerCase().indexOf(this.search.toLowerCase()) >=
+              0) ||
+          (group.title_ca &&
+            group.title_ca.toLowerCase().indexOf(this.search.toLowerCase()) >=
+              0) ||
+          (group.title_de &&
+            group.title_de.toLowerCase().indexOf(this.search.toLowerCase()) >=
+              0)
         ) {
-            include = true
+          include = true;
         }
 
-        return include
-      })
+        return include;
+      });
     }
 
-    if(this.selectedCity) {
-      this.filteredGroup = this.filteredGroup.filter(group => {
-        return group.city == this.selectedCity
-      })
+    if (this.selectedCity) {
+      this.filteredGroup = this.filteredGroup.filter((group) => {
+        return group.city == this.selectedCity;
+      });
     }
   }
 
   filterSuperCategory = async (filter, categoryName) => {
-    this.filteredGroup = []
-    
-    this.category_type = categoryName
-    this.filteredGroup = this.groups
-    this.activeGroupFilter = 'All'
+    this.filteredGroup = [];
 
-    this._localService.setLocalStorage(environment.lsselectedGroupFilterId, filter);
-    this._localService.setLocalStorage(environment.lsselectedGroupFilter, categoryName);
+    this.category_type = categoryName;
+    this.filteredGroup = this.groups;
+    this.activeGroupFilter = "All";
 
-    if (filter !== 'All') {
-      this.activeGroupFilter = categoryName
-      this.filteredGroup = await this.groups.filter(group => {
-        const hasCategory = this.clubCategoryMapping.filter(category => {
-          return category.fk_group_id == group.id && (category.id === filter || category.fk_supercategory_id == filter)
-        })
+    this._localService.setLocalStorage(
+      environment.lsselectedGroupFilterId,
+      filter
+    );
+    this._localService.setLocalStorage(
+      environment.lsselectedGroupFilter,
+      categoryName
+    );
 
-        return hasCategory && hasCategory.length > 0
-      })
+    if (filter !== "All") {
+      this.activeGroupFilter = categoryName;
+      this.filteredGroup = await this.groups.filter((group) => {
+        const hasCategory = this.clubCategoryMapping.filter((category) => {
+          return (
+            category.fk_group_id == group.id &&
+            (category.id === filter || category.fk_supercategory_id == filter)
+          );
+        });
 
-      if(this.subcategories && this.subcategories.length > 0) {
-        this.subcats = this.subcategories.filter(sc => {
-          return sc.category_id == filter
-        })
-        this.filterType = 'All'
+        return hasCategory && hasCategory.length > 0;
+      });
+
+      if (this.subcategories && this.subcategories.length > 0) {
+        this.subcats = this.subcategories.filter((sc) => {
+          return sc.category_id == filter;
+        });
+        this.filterType = "All";
       }
     }
 
-    this.filteredGroup = this.sortAlphabetically(this.filteredGroup)
+    this.filteredGroup = this.sortAlphabetically(this.filteredGroup);
 
-    if(this.search) {
-      this.filteredGroup = this.filteredGroup.filter(group => {
-        let include = false
+    if (this.search) {
+      this.filteredGroup = this.filteredGroup.filter((group) => {
+        let include = false;
 
-        if(group.title.toLowerCase().indexOf(this.search.toLowerCase()) >= 0 
-          || (group.title_en && group.title_en.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-          || (group.title_fr && group.title_fr.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-          || (group.title_eu && group.title_eu.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-          || (group.title_ca && group.title_ca.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-          || (group.title_de && group.title_de.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+        if (
+          group.title.toLowerCase().indexOf(this.search.toLowerCase()) >= 0 ||
+          (group.title_en &&
+            group.title_en.toLowerCase().indexOf(this.search.toLowerCase()) >=
+              0) ||
+          (group.title_fr &&
+            group.title_fr.toLowerCase().indexOf(this.search.toLowerCase()) >=
+              0) ||
+          (group.title_eu &&
+            group.title_eu.toLowerCase().indexOf(this.search.toLowerCase()) >=
+              0) ||
+          (group.title_ca &&
+            group.title_ca.toLowerCase().indexOf(this.search.toLowerCase()) >=
+              0) ||
+          (group.title_de &&
+            group.title_de.toLowerCase().indexOf(this.search.toLowerCase()) >=
+              0)
         ) {
-            include = true
+          include = true;
         }
 
-        return include
-      })
+        return include;
+      });
     }
 
-    if(this.selectedCity) {
-      this.filteredGroup = this.filteredGroup.filter(group => {
-        return group.city == this.selectedCity
-      })
+    if (this.selectedCity) {
+      this.filteredGroup = this.filteredGroup.filter((group) => {
+        return group.city == this.selectedCity;
+      });
     }
-  }
+  };
 
   async filterSubcategories(category) {
-    if(category != 'All') {
-      this.filteredGroup = this.groups.filter(group => {
-        let include = false
+    if (category != "All") {
+      this.filteredGroup = this.groups.filter((group) => {
+        let include = false;
 
-        if(group.Company_Subcategories) {
-          group.Company_Subcategories.forEach(sub => {
-            include = this.subcats.some(a => a.category_id === sub.fk_category_id)
-          })
+        if (group.Company_Subcategories) {
+          group.Company_Subcategories.forEach((sub) => {
+            include = this.subcats.some(
+              (a) => a.category_id === sub.fk_category_id
+            );
+          });
         }
 
-        return include
-      })
+        return include;
+      });
 
-      this.filterType = this.language == 'en' ? category.name_EN : category.name_ES
-      this.filteredGroup = this.filteredGroup.filter(g => {
-        let match = g.Company_Subcategories && g.Company_Subcategories.some(a => a.fk_category_id == category.id)
-        return match
-      })
+      this.filterType =
+        this.language == "en" ? category.name_EN : category.name_ES;
+      this.filteredGroup = this.filteredGroup.filter((g) => {
+        let match =
+          g.Company_Subcategories &&
+          g.Company_Subcategories.some((a) => a.fk_category_id == category.id);
+        return match;
+      });
     } else {
-      this.filterType = 'All';
-      let cat = this.supercategoriesList.filter(c => {
-        return c.name_ES == this.activeGroupFilter
-      })
-      if(cat && cat[0]) {
-        this.filterSuperCategory(cat[0].id, cat[0].name_ES)
+      this.filterType = "All";
+      let cat = this.supercategoriesList.filter((c) => {
+        return c.name_ES == this.activeGroupFilter;
+      });
+      if (cat && cat[0]) {
+        this.filterSuperCategory(cat[0].id, cat[0].name_ES);
       }
     }
   }
@@ -737,30 +808,45 @@ export class ClubsListComponent {
       this.subButtonList = [];
     }
 
-    if(category) {
-      this.filterSuperCategory(category.id || 'All', category.name_ES)
+    if (category) {
+      this.filterSuperCategory(category.id || "All", category.name_ES);
     }
   }
 
   filteredSubcategory(category) {
-    if(category) {
-      this.filterSubcategories(category && category.fk_supercategory_id == 'All' ? 'All' : category)
+    if (category) {
+      this.filterSubcategories(
+        category && category.fk_supercategory_id == "All" ? "All" : category
+      );
     }
   }
 
   filteredCity(event) {
-    this.selectedCity = event || ''
-    this.searchGroups()
+    this.selectedCity = event || "";
+    this.searchGroups();
   }
 
   getMyClubsTitle() {
-    return (this.language == 'en' ? (this.myClubs.title_en ? (this.myClubs.title_en || this.myClubs.title_es) : this.myClubs.title_es) :
-      (this.language == 'fr' ? (this.myClubs.title_fr ? (this.myClubs.title_fr || this.myClubs.title_es) : this.myClubs.title_es) : 
-          (this.language == 'eu' ? (this.myClubs.title_eu ? (this.myClubs.title_eu || this.myClubs.title_es) : this.myClubs.title_es) : 
-              (this.language == 'ca' ? (this.myClubs.title_ca ? (this.myClubs.title_ca || this.myClubs.title_es) : this.myClubs.title_es) : 
-                  (this.language == 'de' ? (this.myClubs.title_de ? (this.myClubs.title_de || this.myClubs.title_es) : this.myClubs.title_es) : this.myClubs.title_es)
-              )
-          )
-      ))
+    return this.language == "en"
+      ? this.myClubs.title_en
+        ? this.myClubs.title_en || this.myClubs.title_es
+        : this.myClubs.title_es
+      : this.language == "fr"
+      ? this.myClubs.title_fr
+        ? this.myClubs.title_fr || this.myClubs.title_es
+        : this.myClubs.title_es
+      : this.language == "eu"
+      ? this.myClubs.title_eu
+        ? this.myClubs.title_eu || this.myClubs.title_es
+        : this.myClubs.title_es
+      : this.language == "ca"
+      ? this.myClubs.title_ca
+        ? this.myClubs.title_ca || this.myClubs.title_es
+        : this.myClubs.title_es
+      : this.language == "de"
+      ? this.myClubs.title_de
+        ? this.myClubs.title_de || this.myClubs.title_es
+        : this.myClubs.title_es
+      : this.myClubs.title_es;
   }
 }

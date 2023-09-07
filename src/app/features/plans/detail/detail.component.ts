@@ -262,14 +262,17 @@ export class PlanDetailComponent {
   company: any;
   confirmDeleteItemTitle: any;
   confirmDeleteItemDescription: any;
-  acceptText: string = '';
-  cancelText: any = '';
+  acceptText: string = "";
+  cancelText: any = "";
   allPlanComments: any = [];
 
-  @ViewChild("iframeEventDescription", { static: false }) iframeEventDescription: ElementRef | undefined;
+  @ViewChild("iframeEventDescription", { static: false })
+  iframeEventDescription: ElementRef | undefined;
   @ViewChild("editor", { static: false }) editor: ElementRef | undefined;
-  @ViewChild("modalbutton", { static: false }) modalbutton: ElementRef | undefined;
-  
+  @ViewChild("modalbutton", { static: false }) modalbutton:
+    | ElementRef
+    | undefined;
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -317,7 +320,7 @@ export class PlanDetailComponent {
     }
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
-      this.company = company[0]
+      this.company = company[0];
       this.emailDomain = company[0].domain;
       this.companyId = company[0].id;
       this.companyName = company[0].entity_name;
@@ -356,7 +359,7 @@ export class PlanDetailComponent {
     setTimeout(() => {
       initFlowbite();
     }, 100);
-    
+
     this.getPlan();
   }
 
@@ -389,7 +392,11 @@ export class PlanDetailComponent {
     this.types = data?.types;
     this.categories = data?.plan_categories;
     this.subcategories = data?.plan_subcategories;
-    this.formatPlan(data?.plan, data?.user_permissions?.user, data?.user_permissions?.created_by_ue);
+    this.formatPlan(
+      data?.plan,
+      data?.user_permissions?.user,
+      data?.user_permissions?.created_by_ue
+    );
     this.getTitles();
     this.initializeBreadcrumb();
   }
@@ -506,7 +513,6 @@ export class PlanDetailComponent {
     }
     if (this.hasEmailInvite) {
       this.emailInviteQuestions = data?.settings?.email_invite_questions;
-      console.log(this.emailInviteQuestions)
       this._localService.setLocalStorage(
         environment.lsemailinvitequestions,
         this.emailInviteQuestions && this.emailInviteQuestions.length > 0
@@ -998,33 +1004,33 @@ export class PlanDetailComponent {
   }
 
   formatComments(comments) {
-    this.allPlanComments = comments
-    
-    let comment_rows:any[] = []
-    if(comments?.length > 0) {
-      comments?.forEach(comment => {
-        if(comment.parent_plan_comment_id == 0) {
-          let comment_children = this.allPlanComments?.filter(children => {
-            return children.parent_plan_comment_id == comment.id
-          })
+    this.allPlanComments = comments;
+
+    let comment_rows: any[] = [];
+    if (comments?.length > 0) {
+      comments?.forEach((comment) => {
+        if (comment.parent_plan_comment_id == 0) {
+          let comment_children = this.allPlanComments?.filter((children) => {
+            return children.parent_plan_comment_id == comment.id;
+          });
 
           comment_rows.push({
-            "id": comment.id,
-            "plan_id": comment.plan_id,
-            "user_id": comment.user_id,
-            "comment": comment.comment,
-            "parent_plan_comment_id": comment.parent_plan_comment_id,
-            "createdAt": comment.createdAt,
-            "updatedAt": comment.updatedAt,
-            "deletedAt": comment.deletedAt,
-            "image": comment.image,
-            "first_name": comment.first_name,
-            "last_name": comment.last_name,
-            "name": comment.name,
-            CommentChild: comment_children
-          })
+            id: comment.id,
+            plan_id: comment.plan_id,
+            user_id: comment.user_id,
+            comment: comment.comment,
+            parent_plan_comment_id: comment.parent_plan_comment_id,
+            createdAt: comment.createdAt,
+            updatedAt: comment.updatedAt,
+            deletedAt: comment.deletedAt,
+            image: comment.image,
+            first_name: comment.first_name,
+            last_name: comment.last_name,
+            name: comment.name,
+            CommentChild: comment_children,
+          });
         }
-      })
+      });
     }
 
     this.planComments = comment_rows;
@@ -1444,18 +1450,16 @@ export class PlanDetailComponent {
     this._plansService.removePlanParticipant(this.id, this.user.id).subscribe(
       (response) => {
         let plan_participants = this.planParticipants;
-        if(plan_participants?.length > 0) {
+        if (plan_participants?.length > 0) {
           plan_participants.forEach((participant, index) => {
-            if(participant.user_id == this.userId) {
+            if (participant.user_id == this.userId) {
               plan_participants.splice(index, 1);
             }
-          })
+          });
         }
         this.planParticipants = plan_participants;
         this.planParticipantCount = this.planParticipants?.length;
-        this.joinedParticipant = this.isUserJoined(
-          this.planParticipants
-        );
+        this.joinedParticipant = this.isUserJoined(this.planParticipants);
         this.onSubmit = false;
       },
       (error) => {
@@ -1479,18 +1483,16 @@ export class PlanDetailComponent {
     this._plansService.removeGroupPlanParticipant(payload).subscribe(
       (response) => {
         let plan_participants = this.planParticipants;
-        if(plan_participants?.length > 0) {
+        if (plan_participants?.length > 0) {
           plan_participants.forEach((participant, index) => {
-            if(participant.user_id == this.userId) {
+            if (participant.user_id == this.userId) {
               plan_participants.splice(index, 1);
             }
-          })
+          });
         }
         this.planParticipants = plan_participants;
         this.planParticipantCount = this.planParticipants?.length;
-        this.joinedParticipant = this.isUserJoined(
-          this.planParticipants
-        );
+        this.joinedParticipant = this.isUserJoined(this.planParticipants);
         this.onSubmit = false;
         this.pendingRequest = false;
       },
@@ -1951,20 +1953,8 @@ export class PlanDetailComponent {
     this._plansService
       .getGroupPlanComments(this.id, this.planTypeId)
       .subscribe(async (response) => {
-        console.log(response)
         if (this.planTypeId == 4) {
-          this.planComments =
-            response.CompanyGroupPlanComments.filter((data) => {
-              data.comment = data.comment.replaceAll("\n", "<br/>");
-              if (data.CommentChild && data.CommentChild.length > 0) {
-                data.CommentChild.filter((data) => {
-                  data.comment = data.comment.replaceAll("\n", "<br/>");
-                });
-              }
-              return data;
-            });
-        } else {
-          this.planComments = response.CompanyPlanComments.filter(
+          this.planComments = response.CompanyGroupPlanComments.filter(
             (data) => {
               data.comment = data.comment.replaceAll("\n", "<br/>");
               if (data.CommentChild && data.CommentChild.length > 0) {
@@ -1975,6 +1965,16 @@ export class PlanDetailComponent {
               return data;
             }
           );
+        } else {
+          this.planComments = response.CompanyPlanComments.filter((data) => {
+            data.comment = data.comment.replaceAll("\n", "<br/>");
+            if (data.CommentChild && data.CommentChild.length > 0) {
+              data.CommentChild.filter((data) => {
+                data.comment = data.comment.replaceAll("\n", "<br/>");
+              });
+            }
+            return data;
+          });
         }
       });
   }
@@ -2013,14 +2013,17 @@ export class PlanDetailComponent {
         .subscribe(
           (data) => {
             let plan_reactions = this.planReactions;
-            if(plan_reactions?.length > 0) {
+            if (plan_reactions?.length > 0) {
               plan_reactions.forEach((reaction, index) => {
-                if(reaction.fk_plan_comment_id == comment.id && reaction.fk_user_id == this.userId) {
+                if (
+                  reaction.fk_plan_comment_id == comment.id &&
+                  reaction.fk_user_id == this.userId
+                ) {
                   plan_reactions.splice(index, 1);
                 }
-              })
+              });
             }
-            this.planReactions = plan_reactions
+            this.planReactions = plan_reactions;
           },
           async (err) => {
             console.log(err);
@@ -2037,13 +2040,28 @@ export class PlanDetailComponent {
           (data) => {
             let plan_reactions = this.planReactions;
             plan_reactions.push({
-              id: this.planTypeId == 4 ? data.group_plan_comment_reaction.id : data.plan_comment_reaction.id,
-              fk_user_id: this.planTypeId == 4 ? data.group_plan_comment_reaction.fk_user_id : data.plan_comment_reaction.fk_user_id,
-              fk_plan_comment_id: this.planTypeId == 4 ? data.group_plan_comment_reaction.fk_group_plan_comment_id : data.plan_comment_reaction.fk_plan_comment_id,
-              heart: this.planTypeId == 4 ? data.group_plan_comment_reaction.heart : data.plan_comment_reaction.heart,
-              created: this.planTypeId == 4 ? data.group_plan_comment_reaction.created : data.plan_comment_reaction.created,
-            })
-            this.planReactions = plan_reactions
+              id:
+                this.planTypeId == 4
+                  ? data.group_plan_comment_reaction.id
+                  : data.plan_comment_reaction.id,
+              fk_user_id:
+                this.planTypeId == 4
+                  ? data.group_plan_comment_reaction.fk_user_id
+                  : data.plan_comment_reaction.fk_user_id,
+              fk_plan_comment_id:
+                this.planTypeId == 4
+                  ? data.group_plan_comment_reaction.fk_group_plan_comment_id
+                  : data.plan_comment_reaction.fk_plan_comment_id,
+              heart:
+                this.planTypeId == 4
+                  ? data.group_plan_comment_reaction.heart
+                  : data.plan_comment_reaction.heart,
+              created:
+                this.planTypeId == 4
+                  ? data.group_plan_comment_reaction.created
+                  : data.plan_comment_reaction.created,
+            });
+            this.planReactions = plan_reactions;
           },
           async (err) => {
             console.log(err);
@@ -2066,10 +2084,14 @@ export class PlanDetailComponent {
   confirmDeleteComment(comment) {
     this.showConfirmationModal = false;
     this.selectedItem = comment;
-    this.confirmDeleteItemTitle = this._translateService.instant('dialog.confirmdelete');
-    this.confirmDeleteItemDescription = this._translateService.instant('dialog.confirmdeleteitem');
+    this.confirmDeleteItemTitle = this._translateService.instant(
+      "dialog.confirmdelete"
+    );
+    this.confirmDeleteItemDescription = this._translateService.instant(
+      "dialog.confirmdeleteitem"
+    );
     this.acceptText = "OK";
-    this.cancelText = this._translateService.instant('plan-details.cancel');
+    this.cancelText = this._translateService.instant("plan-details.cancel");
     setTimeout(() => (this.showConfirmationModal = true));
   }
 
@@ -2117,55 +2139,57 @@ export class PlanDetailComponent {
   }
 
   handleCloseInvite() {
-    this.emailInviteFormSubmitted = true
-    let answers = this.emailInviteQuestions
-    let incomplete = false
-    let hasYes = false
+    this.emailInviteFormSubmitted = true;
+    let answers = this.emailInviteQuestions;
+    let incomplete = false;
+    let hasYes = false;
     for (const question of answers) {
-        let answer = question.answer
-        
-        if(answer === undefined) {
-            answer = null
+      let answer = question.answer;
+
+      if (answer === undefined) {
+        answer = null;
+      }
+
+      if (!answer) {
+        incomplete = true;
+      } else {
+        let q = question.options.filter((o) => {
+          return o.id == question.answer;
+        });
+        if (q && q[0]) {
+          if (q[0].option == "Sí") {
+            hasYes = true;
+          }
         }
-        
-        if(!answer) {
-            incomplete = true
-        } else {
-            let q = question.options.filter(o => {
-                return o.id == question.answer
-            })
-            if(q && q[0]) {
-                if(q[0].option == 'Sí') {
-                    hasYes = true
-                }
-            }
-        }
-    }
-      
-    if(incomplete) {
-      return false
+      }
     }
 
-    if(hasYes) {
+    if (incomplete) {
+      return false;
+    }
+
+    if (hasYes) {
       let params = {
         company_id: this.companyId,
         event_id: this.id,
         event_type_id: this.planTypeId,
         user_id: this.userId || 0,
         answers: answers,
-        aliasInvLink : this.aliasInvLink
-      }
-      
-      this._plansService.answerEmailInviteQuestion(params)
-        .subscribe(
-          response => {
-            this.open(this._translateService.instant('dialog.sentsuccessfully'), '')
-          },
-          error => {
-            console.log(error)
-            this.open(this._translateService.instant('dialog.error'), '')
-          }
-        )
+        aliasInvLink: this.aliasInvLink,
+      };
+
+      this._plansService.answerEmailInviteQuestion(params).subscribe(
+        (response) => {
+          this.open(
+            this._translateService.instant("dialog.sentsuccessfully"),
+            ""
+          );
+        },
+        (error) => {
+          console.log(error);
+          this.open(this._translateService.instant("dialog.error"), "");
+        }
+      );
     }
   }
 

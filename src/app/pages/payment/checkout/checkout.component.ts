@@ -567,7 +567,6 @@ export class CheckoutComponent {
           this.stripeKey = response.key;
           this._stripeService.changeKey(this.stripeKey);
           this.changedKey = true;
-          console.log("Stripe Key: " + this.stripeKey);
         },
         (error) => {
           console.log(error);

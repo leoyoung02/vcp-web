@@ -1,4 +1,4 @@
- import { CommonModule, Location } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { environment } from "@env/environment";
 import {
@@ -55,7 +55,6 @@ import { MatSelectModule } from "@angular/material/select";
   ],
   templateUrl: "./admin-list.component.html",
 })
-
 export class AdminListComponent {
   private destroy$ = new Subject<void>();
 
@@ -230,12 +229,12 @@ export class AdminListComponent {
   }
 
   getPage() {
-    let page = '';
-    switch(this.list) {
-      case 'categories':
+    let page = "";
+    switch (this.list) {
+      case "categories":
         page = this._translateService.instant("categories.categories");
         break;
-      case 'contactdetails':
+      case "contactdetails":
         page = this._translateService.instant("clubs.contactdetails");
         break;
     }
@@ -251,7 +250,7 @@ export class AdminListComponent {
   }
 
   initializeButtonGroup() {
-    if (this.id != 11 && this.list == 'categories') {
+    if (this.id != 11 && this.list == "categories") {
       this.allButtonList = [
         {
           id: 1,
@@ -317,7 +316,7 @@ export class AdminListComponent {
       if (this.id == 11) {
         this.getCourseCategories();
       }
-    } else if(this.list == 'contactdetails') {
+    } else if (this.list == "contactdetails") {
       this.getContactDetailsFields();
     }
   }
@@ -424,7 +423,7 @@ export class AdminListComponent {
           this.initializeData(this.categories);
         },
         (error) => {
-          console.log(error)
+          console.log(error);
         }
       );
   }
@@ -449,7 +448,6 @@ export class AdminListComponent {
                 name_DE: mt.type_de || mt.type_es,
               });
             });
-            console.log(this.userRoles);
           }
         },
         (error) => {
@@ -496,16 +494,16 @@ export class AdminListComponent {
 
   getNameInDefaultLanguage(item, default_language) {
     return default_language == "en"
-      ? (item.name_EN || item.name_en) || (item.name_ES || item.name_es)
+      ? item.name_EN || item.name_en || item.name_ES || item.name_es
       : default_language == "fr"
-      ? (item.name_FR || item.name_fr) || (item.name_ES || item.name_es)
+      ? item.name_FR || item.name_fr || item.name_ES || item.name_es
       : default_language == "eu"
-      ? (item.name_EU || item.name_eu) || (item.name_ES || item.name_es)
+      ? item.name_EU || item.name_eu || item.name_ES || item.name_es
       : default_language == "ca"
-      ? (item.name_CA || item.name_ca) || (item.name_ES || item.name_es)
+      ? item.name_CA || item.name_ca || item.name_ES || item.name_es
       : default_language == "de"
-      ? (item.name_DE || item.name_de) || (item.name_ES || item.name_es)
-      : (item.name_ES || item.name_es);
+      ? item.name_DE || item.name_de || item.name_ES || item.name_es
+      : item.name_ES || item.name_es;
   }
 
   getCategoryName(item) {
@@ -583,9 +581,9 @@ export class AdminListComponent {
       this.initializeData(subcategories);
     } else {
       let list: any[] = [];
-      if(this.list == 'categories') {
+      if (this.list == "categories") {
         list = this.allCategories;
-      } else if(this.list == 'contactdetails') {
+      } else if (this.list == "contactdetails") {
         list = this.allContactFields;
       }
 
@@ -644,10 +642,15 @@ export class AdminListComponent {
 
   generateFormFields() {
     this.formFields = [];
-    if((this.list == "categories" || this.list == "contactdetails") && this.mode != "access") {
+    if (
+      (this.list == "categories" || this.list == "contactdetails") &&
+      this.mode != "access"
+    ) {
       this.languages.forEach((language, index) => {
-        let language_code = language.code.toUpperCase()
-        if(this.list == "contactdetails") { language_code = language.code }
+        let language_code = language.code.toUpperCase();
+        if (this.list == "contactdetails") {
+          language_code = language.code;
+        }
         this.formFields.push({
           id: index + 1,
           field_type: "text",
@@ -686,28 +689,24 @@ export class AdminListComponent {
           "your-admin-area.selectrole"
         ),
         required: true,
-      })
+      });
     }
-      
-    if(this.list == "contactdetails")  {
+
+    if (this.list == "contactdetails") {
       this.formFields.push({
         id: this.formFields?.length + 1,
         field_type: "checkbox",
         field: "active",
-        display_text: this._translateService.instant(
-          "your-admin-area.active"
-        ),
+        display_text: this._translateService.instant("your-admin-area.active"),
         required: false,
-      })
+      });
       this.formFields.push({
         id: this.formFields?.length + 1,
         field_type: "checkbox",
         field: "show_as_link",
-        display_text: this._translateService.instant(
-          "clubs.showaslink"
-        ),
+        display_text: this._translateService.instant("clubs.showaslink"),
         required: true,
-      })
+      });
     }
 
     if (this.formFields?.length > 0) {
@@ -781,10 +780,12 @@ export class AdminListComponent {
       }
     }
 
-    if(this.contactFields) {
-      let selected_row_item = this.completeContactFields.filter((contactField) => {
-        return contactField.id == row["guests.id"];
-      });
+    if (this.contactFields) {
+      let selected_row_item = this.completeContactFields.filter(
+        (contactField) => {
+          return contactField.id == row["guests.id"];
+        }
+      );
       if (selected_row_item?.length > 0) {
         selected_row = selected_row_item[0];
       }
@@ -1222,47 +1223,55 @@ export class AdminListComponent {
     }
 
     let params = {
-      name_es: this.form.get('name_es')?.value,
-      name_en: this.form.get('name_en')?.value || this.form.get('name_es')?.value,
-      name_fr: this.form.get('name_fr')?.value || this.form.get('name_es')?.value,
-      name_eu: this.form.get('name_eu')?.value || this.form.get('name_es')?.value,
-      name_ca: this.form.get('name_ca')?.value || this.form.get('name_es')?.value,
-      name_de: this.form.get('name_de')?.value || this.form.get('name_es')?.value,
-      sequence: this.form.get('sequence')?.value,
-      show_as_link: this.form.get('show_as_link')?.value || this.form.get('show_as_link')?.value || 0,
-      active: this.form.get('active')?.value || this.form.get('active')?.value || 0
+      name_es: this.form.get("name_es")?.value,
+      name_en:
+        this.form.get("name_en")?.value || this.form.get("name_es")?.value,
+      name_fr:
+        this.form.get("name_fr")?.value || this.form.get("name_es")?.value,
+      name_eu:
+        this.form.get("name_eu")?.value || this.form.get("name_es")?.value,
+      name_ca:
+        this.form.get("name_ca")?.value || this.form.get("name_es")?.value,
+      name_de:
+        this.form.get("name_de")?.value || this.form.get("name_es")?.value,
+      sequence: this.form.get("sequence")?.value,
+      show_as_link:
+        this.form.get("show_as_link")?.value ||
+        this.form.get("show_as_link")?.value ||
+        0,
+      active:
+        this.form.get("active")?.value || this.form.get("active")?.value || 0,
     };
 
     if (this.mode == "add") {
-      this._clubsService.addContactField(
-        this.companyId,
-        params
-      ).subscribe(
-        response => {
+      this._clubsService.addContactField(this.companyId, params).subscribe(
+        (response) => {
           this.initializeList();
         },
-        error => {
-            console.log(error);
-        }
-      )
-    } else if(this.mode == "edit") {
-      this._clubsService.editContactField(
-        this.selectedItem['guests.id'],
-        this.companyId,
-        params
-      ).subscribe(
-        (data) => {
-          this.open(
-            this._translateService.instant("dialog.savedsuccessfully"),
-            ""
-          );
-          this.initializeList();
-        },
-        (err) => {
-          console.log("err: ", err);
-          this.open(this._translateService.instant("dialog.error"), "");
+        (error) => {
+          console.log(error);
         }
       );
+    } else if (this.mode == "edit") {
+      this._clubsService
+        .editContactField(
+          this.selectedItem["guests.id"],
+          this.companyId,
+          params
+        )
+        .subscribe(
+          (data) => {
+            this.open(
+              this._translateService.instant("dialog.savedsuccessfully"),
+              ""
+            );
+            this.initializeList();
+          },
+          (err) => {
+            console.log("err: ", err);
+            this.open(this._translateService.instant("dialog.error"), "");
+          }
+        );
     }
   }
 
@@ -1306,20 +1315,19 @@ export class AdminListComponent {
   }
 
   getContactDetailsFields() {
-    this._clubsService.getContactFields(this.companyId)
-      .subscribe(
-        async (response) => {
-          let contactFields = response.fields;
-          this.completeContactFields = contactFields;
-          contactFields = this.formatContactFields(contactFields);
-          this.contactFields = this.sortBySequence(contactFields);
-          this.allContactFields = this.contactFields;
-          this.initializeData(this.contactFields);
-        },
-        error => {
-            console.log(error)
-        }
-      )
+    this._clubsService.getContactFields(this.companyId).subscribe(
+      async (response) => {
+        let contactFields = response.fields;
+        this.completeContactFields = contactFields;
+        contactFields = this.formatContactFields(contactFields);
+        this.contactFields = this.sortBySequence(contactFields);
+        this.allContactFields = this.contactFields;
+        this.initializeData(this.contactFields);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   formatContactFields(contactFields) {

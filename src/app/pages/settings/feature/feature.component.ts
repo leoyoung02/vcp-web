@@ -18,7 +18,7 @@ import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { initFlowbite } from 'flowbite';
+import { initFlowbite } from "flowbite";
 import { Subject, takeUntil } from "rxjs";
 import get from "lodash/get";
 @Component({
@@ -33,7 +33,7 @@ import get from "lodash/get";
     MatSnackBarModule,
     MatFormFieldModule,
     FormsModule,
-    SearchComponent
+    SearchComponent,
   ],
   templateUrl: "./feature.component.html",
 })
@@ -227,87 +227,88 @@ export class FeatureComponent {
   }
 
   initializeLanguage() {
-    this._companyService.getLanguages(this.companyId)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(
-      (response) => {
-        let languages = response.languages;
-        this.languages = languages
-          ? languages.filter((lang) => {
-              return lang.status == 1;
-            })
-          : [];
+    this._companyService
+      .getLanguages(this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response) => {
+          let languages = response.languages;
+          this.languages = languages
+            ? languages.filter((lang) => {
+                return lang.status == 1;
+              })
+            : [];
 
-        if (this.languages) {
-          let spanish = this.languages.filter((lang) => {
-            return lang.code == "es" && lang.status == 1;
-          });
-          this.isSpanishEnabled = spanish && spanish[0] ? true : false;
+          if (this.languages) {
+            let spanish = this.languages.filter((lang) => {
+              return lang.code == "es" && lang.status == 1;
+            });
+            this.isSpanishEnabled = spanish && spanish[0] ? true : false;
 
-          let french = this.languages.filter((lang) => {
-            return lang.code == "fr" && lang.status == 1;
-          });
-          this.isFrenchEnabled = french && french[0] ? true : false;
+            let french = this.languages.filter((lang) => {
+              return lang.code == "fr" && lang.status == 1;
+            });
+            this.isFrenchEnabled = french && french[0] ? true : false;
 
-          let english = this.languages.filter((lang) => {
-            return lang.code == "en" && lang.status == 1;
-          });
-          this.isEnglishEnabled = english && english[0] ? true : false;
+            let english = this.languages.filter((lang) => {
+              return lang.code == "en" && lang.status == 1;
+            });
+            this.isEnglishEnabled = english && english[0] ? true : false;
 
-          let basque = this.languages.filter((lang) => {
-            return lang.code == "eu" && lang.status == 1;
-          });
-          this.isBasqueEnabled = basque && basque[0] ? true : false;
+            let basque = this.languages.filter((lang) => {
+              return lang.code == "eu" && lang.status == 1;
+            });
+            this.isBasqueEnabled = basque && basque[0] ? true : false;
 
-          let catalan = this.languages.filter((lang) => {
-            return lang.code == "ca" && lang.status == 1;
-          });
-          this.isCatalanEnabled = catalan && catalan[0] ? true : false;
+            let catalan = this.languages.filter((lang) => {
+              return lang.code == "ca" && lang.status == 1;
+            });
+            this.isCatalanEnabled = catalan && catalan[0] ? true : false;
 
-          let german = this.languages.filter((lang) => {
-            return lang.code == "de" && lang.status == 1;
-          });
-          this.isGermanEnabled = german && german[0] ? true : false;
+            let german = this.languages.filter((lang) => {
+              return lang.code == "de" && lang.status == 1;
+            });
+            this.isGermanEnabled = german && german[0] ? true : false;
+          }
+        },
+        (error) => {
+          console.log(error);
         }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      );
   }
 
   initializeActionButtons() {
     this.actionButtons = [
-      { id: 1, name_en: 'Categories' },
-      { id: 2, name_en: 'Hide offers' },
-      { id: 3, name_en: 'Category access' },
-      { id: 4, name_en: 'Service subscription via Stripe' },
-      { id: 5, name_en: 'Contact details' },
-      { id: 6, name_en: 'Custom landing page for event registration' },
-      { id: 7, name_en: 'Email invite' },
-      { id: 8, name_en: 'Type of activity' },
-      { id: 9, name_en: 'Keap integration' },
-      { id: 10, name_en: 'Commissions' },
-      { id: 11, name_en: 'Hide offers' },
-      { id: 12, name_en: 'View more' },
-      { id: 13, name_en: 'Leads/References list' },
-      { id: 14, name_en: 'Subgroups' },
-      { id: 15, name_en: 'Created activities authorization' },
-      { id: 16, name_en: 'Featured' },
-      { id: 17, name_en: 'Hotmart integration' },
-      { id: 18, name_en: 'Course-specific wall access' },
-      { id: 19, name_en: 'Recurring' },
-      { id: 20, name_en: 'Order' },
-      { id: 21, name_en: 'Guest registration fields' },
-      { id: 22, name_en: 'Tutor types' },
-      { id: 23, name_en: 'Tutor percentage for bookings' },
-      { id: 24, name_en: 'Per hour commission' },
-      { id: 25, name_en: 'Student hours' },
-      { id: 26, name_en: 'Credit Packages' },
-      { id: 27, name_en: 'Tutor profile' },
-      { id: 28, name_en: 'Blog layout' },
-      { id: 29, name_en: 'Vimeo' },
-      { id: 30, name_en: 'Candidates display' },
+      { id: 1, name_en: "Categories" },
+      { id: 2, name_en: "Hide offers" },
+      { id: 3, name_en: "Category access" },
+      { id: 4, name_en: "Service subscription via Stripe" },
+      { id: 5, name_en: "Contact details" },
+      { id: 6, name_en: "Custom landing page for event registration" },
+      { id: 7, name_en: "Email invite" },
+      { id: 8, name_en: "Type of activity" },
+      { id: 9, name_en: "Keap integration" },
+      { id: 10, name_en: "Commissions" },
+      { id: 11, name_en: "Hide offers" },
+      { id: 12, name_en: "View more" },
+      { id: 13, name_en: "Leads/References list" },
+      { id: 14, name_en: "Subgroups" },
+      { id: 15, name_en: "Created activities authorization" },
+      { id: 16, name_en: "Featured" },
+      { id: 17, name_en: "Hotmart integration" },
+      { id: 18, name_en: "Course-specific wall access" },
+      { id: 19, name_en: "Recurring" },
+      { id: 20, name_en: "Order" },
+      { id: 21, name_en: "Guest registration fields" },
+      { id: 22, name_en: "Tutor types" },
+      { id: 23, name_en: "Tutor percentage for bookings" },
+      { id: 24, name_en: "Per hour commission" },
+      { id: 25, name_en: "Student hours" },
+      { id: 26, name_en: "Credit Packages" },
+      { id: 27, name_en: "Tutor profile" },
+      { id: 28, name_en: "Blog layout" },
+      { id: 29, name_en: "Vimeo" },
+      { id: 30, name_en: "Candidates display" },
     ];
   }
 
@@ -390,7 +391,7 @@ export class FeatureComponent {
   }
 
   performAction(row) {
-    switch(row.name_en) {
+    switch (row.name_en) {
       case "Categories":
       case "Category access":
       case "Contact details":
@@ -441,10 +442,15 @@ export class FeatureComponent {
   }
 
   openSettingModal(row) {
-    this.popupTitle = this.language == 'en' ? row.description_en : (this.language == 'fr' ? row.description_fr : row.description_es);
+    this.popupTitle =
+      this.language == "en"
+        ? row.description_en
+        : this.language == "fr"
+        ? row.description_fr
+        : row.description_es;
     this.selectedFeatureId = row.feature_id;
 
-    switch(row?.name_en) {
+    switch (row?.name_en) {
       case "Hide offers":
         this.getOfferHideDays();
         this.settingmodalbutton?.nativeElement.click();
@@ -453,7 +459,7 @@ export class FeatureComponent {
         this.getMobileLimitSettings();
         this.settingmodalbutton?.nativeElement.click();
         break;
-      case "Subgroups": 
+      case "Subgroups":
         this.getSubgroupTitles();
         this.settingmodalbutton?.nativeElement.click();
         break;
@@ -461,7 +467,7 @@ export class FeatureComponent {
         this.manageApproveClubActivities();
         this.settingmodalbutton?.nativeElement.click();
         break;
-      case "Featured": 
+      case "Featured":
         this.getSettingTitle(row);
         this.settingmodalbutton?.nativeElement.click();
         break;
@@ -472,15 +478,15 @@ export class FeatureComponent {
         break;
       case "Course-specific wall access":
         this.getSettingTitle(row);
-        this.manageApproveClubActivities('course');
+        this.manageApproveClubActivities("course");
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Recurring":
-        this.getEventSettings('recurring');
+        this.getEventSettings("recurring");
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Order":
-        this.getEventSettings('order');
+        this.getEventSettings("order");
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Guest registration fields":
@@ -498,7 +504,7 @@ export class FeatureComponent {
         break;
       case "Tutor profile":
         this.getSettingTitle(row);
-        this.manageApproveClubActivities('tutor');
+        this.manageApproveClubActivities("tutor");
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Vimeo":
@@ -517,7 +523,11 @@ export class FeatureComponent {
     this.placeholderText = this._translateService.instant(
       "news.searchbykeyword"
     );
-    this._router.navigate([`/settings/list/${row.feature_id}/${row?.name_en?.toLowerCase().replace(' ', '')}`])
+    this._router.navigate([
+      `/settings/list/${row.feature_id}/${row?.name_en
+        ?.toLowerCase()
+        .replace(" ", "")}`,
+    ]);
   }
 
   handleSearchChanged(event) {
@@ -526,8 +536,8 @@ export class FeatureComponent {
   }
 
   searchSettings(event) {
-    this.companySubfeatures = this.allCompanySubfeatures
-    if(event && this.companySubfeatures?.length > 0) {
+    this.companySubfeatures = this.allCompanySubfeatures;
+    if (event && this.companySubfeatures?.length > 0) {
       let company_subfeatures = this.companySubfeatures?.filter((feature) => {
         let include = false;
 
@@ -621,102 +631,104 @@ export class FeatureComponent {
   }
 
   getProfileFields() {
-    this._userService.getProfileFields()
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(
-      async (response) => {
-        let allProfileFields = response.profile_fields;
-        this.allProfileFields =
-          allProfileFields &&
-          allProfileFields.filter((f) => {
-            return f.field_type != "image";
-          });
+    this._userService
+      .getProfileFields()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        async (response) => {
+          let allProfileFields = response.profile_fields;
+          this.allProfileFields =
+            allProfileFields &&
+            allProfileFields.filter((f) => {
+              return f.field_type != "image";
+            });
 
-        this.getProfileFieldMapping();
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+          this.getProfileFieldMapping();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   getProfileFieldMapping() {
-    this._userService.getProfileFieldMapping(this.companyId)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(
-      async (response) => {
-        this.allProfileFieldMapping = response.profile_field_mapping;
-        let profile_fields: any[] = [];
-        let selected_fields: any[] = [];
-        if (this.allProfileFields) {
-          this.allProfileFields.forEach((field) => {
-            let match = this.allProfileFieldMapping.some(
-              (a) => a.field_id === field.id
-            );
-            if (!match) {
-              profile_fields.push(field);
-            }
-          });
-        }
-
-        if (this.allProfileFieldMapping) {
-          this.allProfileFieldMapping.forEach((field) => {
-            let reg_field = this.allProfileFields.filter((f) => {
-              return f.id == field.field_id;
+    this._userService
+      .getProfileFieldMapping(this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        async (response) => {
+          this.allProfileFieldMapping = response.profile_field_mapping;
+          let profile_fields: any[] = [];
+          let selected_fields: any[] = [];
+          if (this.allProfileFields) {
+            this.allProfileFields.forEach((field) => {
+              let match = this.allProfileFieldMapping.some(
+                (a) => a.field_id === field.id
+              );
+              if (!match) {
+                profile_fields.push(field);
+              }
             });
+          }
 
-            let fld = {};
-            if (reg_field && reg_field[0]) {
-              let field_display_en = reg_field[0].field_display_en;
-              if (field.field_display_en && field.field_display_en != null) {
-                field_display_en = field.field_display_en;
-              }
-              let field_display_es = reg_field[0].field_display_es;
-              if (field.field_display_es && field.field_display_es != null) {
-                field_display_es = field.field_display_es;
-              }
-              let field_desc_en = reg_field[0].field_desc_en;
-              if (field.field_desc_en && field.field_desc_en != null) {
-                field_desc_en = field.field_desc_en;
-              }
-              let field_desc_es = reg_field[0].field_desc_es;
-              if (field.field_desc_es && field.field_desc_es != null) {
-                field_desc_es = field.field_desc_es;
-              }
+          if (this.allProfileFieldMapping) {
+            this.allProfileFieldMapping.forEach((field) => {
+              let reg_field = this.allProfileFields.filter((f) => {
+                return f.id == field.field_id;
+              });
 
-              fld = {
-                id: reg_field[0].id,
-                field: reg_field[0].field,
-                field_type: reg_field[0].field_type,
-                field_display_en: field_display_en,
-                field_display_es: field_display_es,
-                field_group_en: reg_field[0].field_group_en,
-                field_group_es: reg_field[0].field_group_es,
-                field_desc_en: field_desc_en,
-                field_desc_es: field_desc_es,
-                active: reg_field[0].active,
-                required: reg_field[0].required,
-                created_at: reg_field[0].created_at,
-              };
-              if (reg_field[0].field == "sector") {
-                this.hasSectorField = true;
+              let fld = {};
+              if (reg_field && reg_field[0]) {
+                let field_display_en = reg_field[0].field_display_en;
+                if (field.field_display_en && field.field_display_en != null) {
+                  field_display_en = field.field_display_en;
+                }
+                let field_display_es = reg_field[0].field_display_es;
+                if (field.field_display_es && field.field_display_es != null) {
+                  field_display_es = field.field_display_es;
+                }
+                let field_desc_en = reg_field[0].field_desc_en;
+                if (field.field_desc_en && field.field_desc_en != null) {
+                  field_desc_en = field.field_desc_en;
+                }
+                let field_desc_es = reg_field[0].field_desc_es;
+                if (field.field_desc_es && field.field_desc_es != null) {
+                  field_desc_es = field.field_desc_es;
+                }
+
+                fld = {
+                  id: reg_field[0].id,
+                  field: reg_field[0].field,
+                  field_type: reg_field[0].field_type,
+                  field_display_en: field_display_en,
+                  field_display_es: field_display_es,
+                  field_group_en: reg_field[0].field_group_en,
+                  field_group_es: reg_field[0].field_group_es,
+                  field_desc_en: field_desc_en,
+                  field_desc_es: field_desc_es,
+                  active: reg_field[0].active,
+                  required: reg_field[0].required,
+                  created_at: reg_field[0].created_at,
+                };
+                if (reg_field[0].field == "sector") {
+                  this.hasSectorField = true;
+                }
+                selected_fields.push(fld);
               }
-              selected_fields.push(fld);
-            }
-          });
+            });
+          }
+
+          this.profileFields = profile_fields;
+          this.selectedFields = selected_fields;
+
+          if (this.hasSectorField) {
+            this.loadMemberLists();
+          }
+        },
+        (error) => {
+          console.log(error);
         }
-
-        this.profileFields = profile_fields;
-        this.selectedFields = selected_fields;
-
-        if (this.hasSectorField) {
-          this.loadMemberLists();
-        }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      );
   }
 
   loadMemberLists() {
@@ -741,32 +753,33 @@ export class FeatureComponent {
   }
 
   getSubfeatures() {
-    this._companyService.getSubFeaturesCombined(this.id, this.companyId)
-    .pipe(takeUntil(this.destroy$))
-    .subscribe(
-      async (response) => {
-        let subfeatures: any = [] 
-        subfeatures = response;
-        subfeatures?.map((data) => {
-          data.name = this.getSubfeatureName(data)
-          data.description = this.getSubfeatureDescription(data)
+    this._companyService
+      .getSubFeaturesCombined(this.id, this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        async (response) => {
+          let subfeatures: any = [];
+          subfeatures = response;
+          subfeatures?.map((data) => {
+            data.name = this.getSubfeatureName(data);
+            data.description = this.getSubfeatureDescription(data);
 
-          let action_button = this.actionButtons.find(
-            (c) => data.name_en == c.name_en && data.active == 1
-          );
-          data.show_action_button = action_button?.id > 0 ? true : false
-        });
-        this.companySubfeatures = subfeatures;
-        this.allCompanySubfeatures = subfeatures;
-        setTimeout(() => {
-          this.refreshDataSource(this.companySubfeatures);
-        }, 500);
-        this.isloading = false;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+            let action_button = this.actionButtons.find(
+              (c) => data.name_en == c.name_en && data.active == 1
+            );
+            data.show_action_button = action_button?.id > 0 ? true : false;
+          });
+          this.companySubfeatures = subfeatures;
+          this.allCompanySubfeatures = subfeatures;
+          setTimeout(() => {
+            this.refreshDataSource(this.companySubfeatures);
+          }, 500);
+          this.isloading = false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   refreshDataSource(list) {
@@ -802,7 +815,7 @@ export class FeatureComponent {
   }
 
   saveFeatureName() {
-    if(!this.featureNameEs) {
+    if (!this.featureNameEs) {
       return false;
     } else {
       let payload = {
@@ -811,53 +824,59 @@ export class FeatureComponent {
         name_fr: this.featureNameFr,
         name_eu: this.featureNameEu,
         name_ca: this.featureNameCa,
-        name_de: this.featureNameDe
-      }
-      this._companyService.editCompanyFeature(this.id, this.companyId, payload)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-          response => {
-              if (response) {
-                this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
-                // this.mainService.removeCompaniesCache()
-                // this.mainService.removeFeaturesCache()
-                // this.mainService.removeFeatureCache()
-                // this.mainService.removeFeatureMappingCache()
-                // this.mainService.removeSubfeatureCache()
-                // this.mainService.removeSubfeaturesCache()
-                // this.mainService.removeCompanyFeatureCache()
-                // this.mainService.removeCompanySubfeatureCache()
-                // this.mainLayout.reloadMenu()
-                // location.reload()
+        name_de: this.featureNameDe,
+      };
+      this._companyService
+        .editCompanyFeature(this.id, this.companyId, payload)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (response) => {
+            if (response) {
+              this.open(
+                this._translateService.instant("dialog.savedsuccessfully"),
+                ""
+              );
+              // this.mainService.removeCompaniesCache()
+              // this.mainService.removeFeaturesCache()
+              // this.mainService.removeFeatureCache()
+              // this.mainService.removeFeatureMappingCache()
+              // this.mainService.removeSubfeatureCache()
+              // this.mainService.removeSubfeaturesCache()
+              // this.mainService.removeCompanyFeatureCache()
+              // this.mainService.removeCompanySubfeatureCache()
+              // this.mainLayout.reloadMenu()
+              // location.reload()
 
-                let menus = this._localService.getLocalStorage(environment.lsmenus)
+              let menus = this._localService.getLocalStorage(
+                environment.lsmenus
+              )
                 ? JSON.parse(
                     this._localService.getLocalStorage(environment.lsmenus)
                   )
                 : [];
-                if (menus?.length > 0) {
-                 menus.forEach((menu, index) => {
-                    if (
-                      menu.path != "home" &&
-                      menu.path != "dashboard" &&
-                      menu.id == this.id
-                    ) {
-                      menu.name = this.featureNameEs
-                      menu.name_CA = this.featureNameCa
-                      menu.name_DE = this.featureNameDe
-                      menu.name_ES = this.featureNameEs
-                      menu.name_EU = this.featureNameEu
-                      menu.name_FR = this.featureNameFr
-                    }
-                  });
-                }
-                this._menuService.updateMenu(menus);
+              if (menus?.length > 0) {
+                menus.forEach((menu, index) => {
+                  if (
+                    menu.path != "home" &&
+                    menu.path != "dashboard" &&
+                    menu.id == this.id
+                  ) {
+                    menu.name = this.featureNameEs;
+                    menu.name_CA = this.featureNameCa;
+                    menu.name_DE = this.featureNameDe;
+                    menu.name_ES = this.featureNameEs;
+                    menu.name_EU = this.featureNameEu;
+                    menu.name_FR = this.featureNameFr;
+                  }
+                });
               }
+              this._menuService.updateMenu(menus);
+            }
           },
-          error => {
-              console.log(error)
+          (error) => {
+            console.log(error);
           }
-      )
+        );
     }
   }
 
@@ -868,10 +887,11 @@ export class FeatureComponent {
   }
 
   activate(id) {
-    this._companyService.activateSubfeature(this.id, this.companyId, id, {})
+    this._companyService
+      .activateSubfeature(this.id, this.companyId, id, {})
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        response => {
+        (response) => {
           if (response) {
             if (this.companySubfeatures) {
               this.companySubfeatures.forEach((feat) => {
@@ -887,22 +907,23 @@ export class FeatureComponent {
                 }
               });
             }
-            if(id == 89 || id == 122) {
-              location.reload()
+            if (id == 89 || id == 122) {
+              location.reload();
             }
           }
         },
-        error => {
-          console.log(error)
+        (error) => {
+          console.log(error);
         }
-      )
+      );
   }
 
   deactivate(id) {
-    this._companyService.deactivateSubfeature(this.id, this.companyId, id, {})
+    this._companyService
+      .deactivateSubfeature(this.id, this.companyId, id, {})
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        response => {
+        (response) => {
           if (response) {
             if (this.companySubfeatures) {
               this.companySubfeatures.forEach((feat) => {
@@ -917,16 +938,16 @@ export class FeatureComponent {
                   feat.show_action_button = false;
                 }
               });
-              if(id == 89 || id == 122) {
-                location.reload()
+              if (id == 89 || id == 122) {
+                location.reload();
               }
             }
           }
         },
-        error => {
-          console.log(error)
+        (error) => {
+          console.log(error);
         }
-      )
+      );
   }
 
   goBackToFeatures() {
@@ -1374,7 +1395,6 @@ export class FeatureComponent {
     //   .subscribe(
     //       response => {
     //         this.mobileLimitSettings = response.mobile_limit_settings
-    //         console.log(response.mobile_limit_settings)
     //         if(this.mobileLimitSettings && this.mobileLimitSettings.id) {
     //           this.mobileLimit = this.mobileLimitSettings.limit ? this.mobileLimitSettings.limit : ''
     //           this.desktopLimit = this.mobileLimitSettings.desktop_limit ? this.mobileLimitSettings.desktop_limit : ''
@@ -1546,16 +1566,30 @@ export class FeatureComponent {
   }
 
   getSettingTitle(setting) {
-    this.selectedSetting = setting
-    if(this.selectedSetting) {
-      this.selectedSettingTitle = this.language == 'en' ? (this.selectedSetting.name_en ? (this.selectedSetting.name_en || this.selectedSetting.name_es) : this.selectedSetting.name_es) :
-        (this.language == 'fr' ? (this.selectedSetting.name_fr ? (this.selectedSetting.name_fr || this.selectedSetting.name_es) : this.selectedSetting.name_es) :
-          (this.language == 'eu' ? (this.selectedSetting.name_eu ? (this.selectedSetting.name_eu || this.selectedSetting.name_es) : this.selectedSetting.name_es) :
-              (this.language == 'ca' ? (this.selectedSetting.name_ca ? (this.selectedSetting.name_ca || this.selectedSetting.name_es) : this.selectedSetting.name_es) :
-                  (this.language == 'de' ? (this.selectedSetting.name_de ? (this.selectedSetting.name_de || this.selectedSetting.name_es) : this.selectedSetting.name_es) : this.selectedSetting.name_es)
-              )
-          )
-        )
+    this.selectedSetting = setting;
+    if (this.selectedSetting) {
+      this.selectedSettingTitle =
+        this.language == "en"
+          ? this.selectedSetting.name_en
+            ? this.selectedSetting.name_en || this.selectedSetting.name_es
+            : this.selectedSetting.name_es
+          : this.language == "fr"
+          ? this.selectedSetting.name_fr
+            ? this.selectedSetting.name_fr || this.selectedSetting.name_es
+            : this.selectedSetting.name_es
+          : this.language == "eu"
+          ? this.selectedSetting.name_eu
+            ? this.selectedSetting.name_eu || this.selectedSetting.name_es
+            : this.selectedSetting.name_es
+          : this.language == "ca"
+          ? this.selectedSetting.name_ca
+            ? this.selectedSetting.name_ca || this.selectedSetting.name_es
+            : this.selectedSetting.name_es
+          : this.language == "de"
+          ? this.selectedSetting.name_de
+            ? this.selectedSetting.name_de || this.selectedSetting.name_es
+            : this.selectedSetting.name_es
+          : this.selectedSetting.name_es;
     }
   }
 

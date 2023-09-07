@@ -543,9 +543,10 @@ export class PlansListComponent {
   }
 
   mapDashboard(dashboard) {
-    this.isMyActivitiesActive = dashboard?.length > 1 ? (dashboard[1].active == 1 ? true : false) : false
-    if(this.isMyActivitiesActive) {
-      this.myActivities = dashboard[1]
+    this.isMyActivitiesActive =
+      dashboard?.length > 1 ? (dashboard[1].active == 1 ? true : false) : false;
+    if (this.isMyActivitiesActive) {
+      this.myActivities = dashboard[1];
     }
   }
 
@@ -2069,14 +2070,27 @@ export class PlansListComponent {
   }
 
   getFeaturedTitle() {
-    return this.language == 'en' ? (this.featuredTextValueEn ? (this.featuredTextValueEn || this.featuredTextValue) : this.featuredTextValue) :
-        (this.language == 'fr' ? (this.featuredTextValueFr ? (this.featuredTextValueFr || this.featuredTextValue) : this.featuredTextValue) : 
-            (this.language == 'eu' ? (this.featuredTextValueEu ? (this.featuredTextValueEu || this.featuredTextValue) : this.featuredTextValue) : 
-                (this.language == 'ca' ? (this.featuredTextValueCa ? (this.featuredTextValueCa || this.featuredTextValue) : this.featuredTextValue) : 
-                    (this.language == 'de' ? (this.featuredTextValueDe ? (this.featuredTextValueDe || this.featuredTextValue) : this.featuredTextValue) : this.featuredTextValue)
-                )
-            )
-        )
+    return this.language == "en"
+      ? this.featuredTextValueEn
+        ? this.featuredTextValueEn || this.featuredTextValue
+        : this.featuredTextValue
+      : this.language == "fr"
+      ? this.featuredTextValueFr
+        ? this.featuredTextValueFr || this.featuredTextValue
+        : this.featuredTextValue
+      : this.language == "eu"
+      ? this.featuredTextValueEu
+        ? this.featuredTextValueEu || this.featuredTextValue
+        : this.featuredTextValue
+      : this.language == "ca"
+      ? this.featuredTextValueCa
+        ? this.featuredTextValueCa || this.featuredTextValue
+        : this.featuredTextValue
+      : this.language == "de"
+      ? this.featuredTextValueDe
+        ? this.featuredTextValueDe || this.featuredTextValue
+        : this.featuredTextValue
+      : this.featuredTextValue;
   }
 
   ngOnDestroy() {

@@ -4,7 +4,12 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { RouterModule } from "@angular/router";
 import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
-import { LocalService, CompanyService, UserService, TokenStorageService } from "src/app/share/services";
+import {
+  LocalService,
+  CompanyService,
+  UserService,
+  TokenStorageService,
+} from "src/app/share/services";
 import { storage } from "src/app/core/utils/storage/storage.utils";
 import { CompanyLogoComponent } from "@share/components";
 import { COMPANY_IMAGE_URL } from "@lib/api-constants";
@@ -92,15 +97,21 @@ export class AuthComponent {
         this._tokenStorageService.saveRefreshToken(data["refreshToken"]);
         this._tokenStorageService.saveUser(data);
         this._localService.setLocalStorage(environment.lstoken, data["token"]);
-        this._localService.setLocalStorage(environment.lsrefreshtoken, data["refreshToken"]);
+        this._localService.setLocalStorage(
+          environment.lsrefreshtoken,
+          data["refreshToken"]
+        );
         this._localService.setLocalStorage(environment.lsuser, data);
         this._localService.setLocalStorage(environment.lsuserId, data["id"]);
-        this._localService.setLocalStorage(environment.lscompanyId, data["fk_company_id"]);
+        this._localService.setLocalStorage(
+          environment.lscompanyId,
+          data["fk_company_id"]
+        );
         this._localService.setLocalStorage(environment.lsdomain, this.domain);
         this._localService.setLocalStorage(environment.lsguid, data["guid"]);
         storage.setItem("appSession", {
-            user: environment.lsuserId,
-            token: environment.lstoken,
+          user: environment.lsuserId,
+          token: environment.lstoken,
         });
         location.href = `/`;
       });
