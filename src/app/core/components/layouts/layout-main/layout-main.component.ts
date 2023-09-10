@@ -9,7 +9,7 @@ import { Router } from "@angular/router";
 import { environment } from "@env/environment";
 import { TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
-import { MenuService } from "@lib/services";
+import { MenuService, NotificationsService } from "@lib/services";
 import { TutorsService } from "@features/services";
 import { FooterComponent, NavbarComponent } from "src/app/core/components";
 import { Subject, takeUntil } from "rxjs";
@@ -122,6 +122,13 @@ export class LayoutMainComponent {
   description: string = '';
   acceptText: string = '';
   cancelText: string = '';
+  isDashboardActive: boolean = false;
+  isMyClubsActive: boolean = false;
+  isMyActivitiesActive: boolean = false;
+  myClubs: any;
+  myActivities: any;
+  myClubsTitle: string = '';
+  myActivitiesTitle: string = '';
 
   constructor(
     private _router: Router,
@@ -131,6 +138,7 @@ export class LayoutMainComponent {
     private _menuService: MenuService,
     private _userService: UserService,
     private _tutorsService: TutorsService,
+    private _notificationsService: NotificationsService,
     private cd: ChangeDetectorRef
   ) {
     this.language = this._localService.getLocalStorage(environment.lslanguage);
@@ -260,6 +268,7 @@ export class LayoutMainComponent {
           this.currentUser = data[1] ? data[1]["CompanyUser"] : [];
           this.roles = data[2] ? data[2]["role"] : [];
           this.dashboardDetails = data[3] ? data[3]["dashboard_details"] : [];
+          this.mapDashboard(this.dashboardDetails);
           let languages = data[4] ? data[4]["languages"] : [];
           this.customMemberTypes = data[5] ? data[5]["languages"] : [];
           let subfeatures = data[6] ? data[6]["subfeatures"] : [];
@@ -302,6 +311,82 @@ export class LayoutMainComponent {
           );
         });
     }
+  }
+
+  mapDashboard(dashboard) {
+    if(this.dashboardDetails && this.dashboardDetails.active) {
+      this.isDashboardActive = true
+    }
+
+    if(this.isDashboardActive && this.dashboardDetails && 
+        this.dashboardDetails.sections && this.dashboardDetails.sections.length > 0
+    ) {
+      let myclubs = this.dashboardDetails.sections && this.dashboardDetails.sections.filter(section => { 
+        return section.content && section.content.length > 0 &&  section.content[0].option_en == 'Joined Clubs'
+      })
+      if(myclubs && myclubs.length > 0) {
+        this.isMyClubsActive = true
+        this.myClubs = myclubs[0]
+        this.myClubsTitle = this.getMyClubsTitle()
+      }
+
+      let myactivities = this.dashboardDetails.sections && this.dashboardDetails.sections.filter(section => { 
+        return section.content && section.content.length > 0 &&  section.content[0].option_en == 'Joined Activities'
+      })
+      if(myactivities && myactivities.length > 0) {
+        this.isMyActivitiesActive = true
+        this.myActivities = myactivities[0]
+        this.myActivitiesTitle = this.getMyActivitiesTitle()
+      }
+    }
+  }
+
+  getMyClubsTitle() {
+    return this.myClubs ? (this.language == "en"
+      ? this.myClubs.title_en
+        ? this.myClubs.title_en || this.myClubs.title_es
+        : this.myClubs.title_es
+      : this.language == "fr"
+      ? this.myClubs.title_fr
+        ? this.myClubs.title_fr || this.myClubs.title_es
+        : this.myClubs.title_es
+      : this.language == "eu"
+      ? this.myClubs.title_eu
+        ? this.myClubs.title_eu || this.myClubs.title_es
+        : this.myClubs.title_es
+      : this.language == "ca"
+      ? this.myClubs.title_ca
+        ? this.myClubs.title_ca || this.myClubs.title_es
+        : this.myClubs.title_es
+      : this.language == "de"
+      ? this.myClubs.title_de
+        ? this.myClubs.title_de || this.myClubs.title_es
+        : this.myClubs.title_es
+      : this.myClubs.title_es) : '';
+  }
+
+  getMyActivitiesTitle() {
+    return this.language == "en"
+      ? this.myActivities.title_en
+        ? this.myActivities.title_en || this.myActivities.title_es
+        : this.myActivities.title_es
+      : this.language == "fr"
+      ? this.myActivities.title_fr
+        ? this.myActivities.title_fr || this.myActivities.title_es
+        : this.myActivities.title_es
+      : this.language == "eu"
+      ? this.myActivities.title_eu
+        ? this.myActivities.title_eu || this.myActivities.title_es
+        : this.myActivities.title_es
+      : this.language == "ca"
+      ? this.myActivities.title_ca
+        ? this.myActivities.title_ca || this.myActivities.title_es
+        : this.myActivities.title_es
+      : this.language == "de"
+      ? this.myActivities.title_de
+        ? this.myActivities.title_de || this.myActivities.title_es
+        : this.myActivities.title_es
+      : this.myActivities.title_es;
   }
 
   checkAdmin() {
@@ -821,11 +906,11 @@ export class LayoutMainComponent {
           if (allNotifications?.length > 0) {
             this.notifications = this.sortNotifications(allNotifications);
             this.popupNotifications =
-              this.notifications && this.notifications.length > 3
-                ? this.notifications.slice(0, 3)
+              this.notifications && this.notifications.length > 1
+                ? this.notifications.slice(0, 1)
                 : this.notifications;
           }
-          this.cd.detectChanges();
+          this.cd.detectChanges()
         },
         (error) => {
           console.log(error);

@@ -123,6 +123,18 @@ select {
   width: 15% !important;
 }
 
+.manage-list .mat-column-title, .manage-list .mat-column-title_display,
+.manage-list .mat-column-type_display {
+    flex: 0 0 18% !important;
+    width: 18% !important;
+  }
+
+.manage-list .mat-column-plan_date_display, .manage-list .mat-column-date_display, 
+.manage-list .mat-column-status_display {
+  flex: 0 0 10% !important;
+  width: 10% !important;
+}
+
 .mat-table-responsive {
   display: block;
   width: 100%;
@@ -331,4 +343,34 @@ input:checked ~ .dot {
 .progress-circle .pie-wrapper--solid.progress-88:before {
     background: #3498db;
     transform: rotate(43.2deg);
+}
+
+.image-overlay {
+    position: relative;
+}
+  
+.image-overlay img {
+    width: 100%;
+    height: auto;
+}
+  
+.image-overlay::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+    height: 100%;
+    width: 100%;
+    background-image: linear-gradient(0deg, rgba(0, 0, 0, .6), transparent 35%);
+    pointer-events: none;
+    border-radius: 10px;
+}
+  
+.image-overlay-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 2;
+    padding: 1em;
 }

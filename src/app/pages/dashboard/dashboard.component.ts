@@ -1,9 +1,13 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { ClubsListComponent } from '@features/clubs/list/list.component';
+import { PlansListComponent } from '@features/plans/list/list.component';
 
 @Component({
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, PlansListComponent, ClubsListComponent],
     templateUrl: './dashboard.component.html',
 })
-export class DashboardComponent {}
+export class DashboardComponent {
+    @Input() mode: any;
+}

@@ -14,5 +14,11 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { layout: PageLayout.Main , titleKey: 'notification-popup.notifications' },
         loadComponent: async () => (await import('./notifications/notifications.component')).NotificationsComponent,
-    }
+    },
+    {
+        path: 'admin-lists',
+        title: CustomTitleResolver,
+        data: { layout: PageLayout.Main , titleKey: 'company-settings.managelanding' },
+        loadComponent: async () => (await import('./admin-lists/admin-lists.component')).AdminListsComponent,
+    },
 ];

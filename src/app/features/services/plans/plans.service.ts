@@ -8,6 +8,15 @@ import {
   ADD_PLAN_COMMENT_URL,
   ADD_TO_WAITING_LIST_URL,
   ANSWER_EMAIL_INVITE_QUESTIONS_URL,
+  CLEAR_CONFIRMATION_URL,
+  CLEAR_PARTICIPANT_ATTENDANCE_URL,
+  CLEAR_PLAN_CONFIRMATION_URL,
+  CLEAR_PLAN_PARTICIPANT_ATTENDANCE_URL,
+  CLUB_PLAN_DELETE_URL,
+  CONFIRM_PARTICIPANT_ATTENDANCE_URL,
+  CONFIRM_PARTICIPANT_URL,
+  CONFIRM_PLAN_PARTICIPANT_ATTENDANCE_URL,
+  CONFIRM_PLAN_PARTICIPANT_URL,
   COURSE_CATEGORIES_URL,
   COURSE_CATEGORY_ACCESS_URL,
   COURSE_CATEGORY_MAPPING_URL,
@@ -15,6 +24,7 @@ import {
   DASHBOARD_DETAILS_URL,
   DELETE_COMMENT_URL,
   DELETE_GROUP_PLAN_COMMENT_REACTION_URL,
+  DELETE_RECURRING_SERIES_URL,
   EVENT_CATEGORIES_URL,
   EVENT_CUSTOM_SUBCATEGORIES_URL,
   EVENT_SETTINGS_URL,
@@ -31,6 +41,7 @@ import {
   PAST_PLANS_URL,
   PLANS_CALENDAR_URL,
   PLANS_LIST_URL,
+  PLANS_MANAGEMENT_DATA_URL,
   PLANS_OTHER_DATA_URL,
   PLANS_URL,
   PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_INVITE_LINK_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
@@ -354,5 +365,79 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     return this._http.post(ANSWER_EMAIL_INVITE_QUESTIONS_URL, payload, { 
       headers: this.headers 
     }).pipe(map(res => res));
+  }
+
+  deletePlan(plan_id, plan_type_id): Observable<any> {
+    return this._http.delete(`${CLUB_PLAN_DELETE_URL}/${plan_id}/${plan_type_id}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  deleteRecurringPlan(params): Observable<any> {
+    return this._http.post(DELETE_RECURRING_SERIES_URL, params, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  fetchPlansManagementData(id: number = 0, userId: number = 0, role: string = ''): Observable<any> {
+    return this._http.get(`${PLANS_MANAGEMENT_DATA_URL}/${id}/${userId}/${role}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  confirmPlanParticipantAttendance(id, param): Observable<any> {
+    return this._http.post(
+      `${CONFIRM_PLAN_PARTICIPANT_ATTENDANCE_URL}/${id}`, 
+      param
+    ).pipe(map(res => res));
+  }
+
+  clearPlanParticipantAttendance(id, param): Observable<any> {
+    return this._http.post(
+      `${CLEAR_PLAN_PARTICIPANT_ATTENDANCE_URL}/${id}`, 
+      param
+    ).pipe(map(res => res));
+  }
+
+  confirmParticipantAttendance(id, param): Observable<any> {
+    return this._http.post(
+      `${CONFIRM_PARTICIPANT_ATTENDANCE_URL}/${id}`, 
+      param
+    ).pipe(map(res => res));
+  }
+
+  clearParticipantAttendance(id, param): Observable<any> {
+    return this._http.post(
+      `${CLEAR_PARTICIPANT_ATTENDANCE_URL}/${id}`, 
+      param
+    ).pipe(map(res => res));
+  }
+
+  confirmParticipant(id, param): Observable<any> {
+    return this._http.post(
+      `${CONFIRM_PARTICIPANT_URL}/${id}`, 
+      param
+    ).pipe(map(res => res));
+  }
+
+  clearConfirmation(id, param): Observable<any> {
+    return this._http.post(
+      `${CLEAR_CONFIRMATION_URL}/${id}`, 
+      param
+    ).pipe(map(res => res));
+  }
+
+  confirmPlanParticipant(id, param): Observable<any> {
+    return this._http.post(
+      `${CONFIRM_PLAN_PARTICIPANT_URL}/${id}`, 
+      param
+    ).pipe(map(res => res));
+  }
+
+  clearPlanConfirmation(id, param): Observable<any> {
+    return this._http.post(
+      `${CLEAR_PLAN_CONFIRMATION_URL}/${id}`, 
+      param
+    ).pipe(map(res => res));
   }
 }

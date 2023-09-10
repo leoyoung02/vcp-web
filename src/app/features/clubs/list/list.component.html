@@ -6,7 +6,7 @@
         'justify-end': !showSectionTitleDivider && !parentComponent
     }"
 >
-    <h1 class="text-2xl" *ngIf="showSectionTitleDivider || parentComponent">{{ pageName }}</h1>
+    <h1 class="text-2xl" *ngIf="showSectionTitleDivider || parentComponent">{{ view == 'joined' ? getMyClubsTitle() : pageName }}</h1>
     <div *ngIf="!parentComponent" class="flex">
         <button 
             class="flex items-center py-1.5 p-2.5 rounded-[10px] justify-evenly hover:bg-black"
@@ -76,19 +76,14 @@
         </div>
     </div>
     <ng-container *ngFor="let group of filteredGroup">
-        <div class="h-auto max-w-full rounded-lg hover:cursor-pointer relative" [routerLink]="['/clubs/details/', group?.id]">
+        <div class="image-overlay relative h-auto max-w-full rounded-lg hover:cursor-pointer relative" [routerLink]="['/clubs/details/', group?.id]">
             <img class="h-auto w-full max-w-full rounded-lg" [ngSrc]="apiPath + '/get-image-group/' + group.image" [alt]="getGroupTitle(group)" width="296" height="286">
-            <div class="flex absolute -bottom-1 left-4 text-white pb-3 text-base font-semibold">
+            <div class="flex image-overlay-content text-white leading-6 text-base font-semibold">
                <ng-container *ngIf="group?.private">
                     <svg class="w-5 h-5 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.5 8V4.5a3.5 3.5 0 1 0-7 0V8M8 12v3M2 8h12a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/>
                     </svg>
-                </ng-container>
-                <ng-container *ngIf="group?.private">
-                    <svg class="w-5 h-5 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 8V4.5a3.5 3.5 0 1 0-7 0V8M8 12.167v3M2 8h12a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/>
-                      </svg>
-                </ng-container> {{ getGroupTitle(group) }}
+                </ng-container>{{ getGroupTitle(group) }}
             </div>
         </div>
     </ng-container>

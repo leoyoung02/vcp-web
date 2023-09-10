@@ -35,6 +35,7 @@ export class PlansListComponent {
 
   @Input() parentComponent: any;
   @Input() limit: any;
+  @Input() view: any;
 
   languageChangeSubscription;
   language: any;
@@ -528,7 +529,7 @@ export class PlansListComponent {
   mapUserPermissions(user_permissions) {
     this.superAdmin = user_permissions?.super_admin_user ? true : false;
     this.canViewPlan = user_permissions?.member_type_permissions?.find(
-      (f) => f.view == 1
+      (f) => f.view == 1 && f.feature_id == 1
     )
       ? true
       : false;
@@ -536,7 +537,7 @@ export class PlansListComponent {
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find((f) => f.create == 1);
     this.canManagePlan = user_permissions?.member_type_permissions?.find(
-      (f) => f.manage == 1
+      (f) => f.manage == 1 && f.feature_id == 1
     )
       ? true
       : false;
@@ -604,7 +605,7 @@ export class PlansListComponent {
             data?.category_mappings?.plan_categories_mapping || [];
           this.planSubcategoriesMapping =
             data?.category_mappings?.plan_subcategories_mapping || [];
-          this.formatPlans();
+          this.formatPlans(data?.plan_participants);
         },
         (error) => {
           console.log(error);
@@ -612,8 +613,17 @@ export class PlansListComponent {
       );
   }
 
-  formatPlans() {
+  formatPlans(plan_participants) {
+    if(this.view == 'joined') {
+      this.plans = this.filterCreatedJoined(this.plans, plan_participants);
+    }
+
     let today = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
+    this.plans =
+    this.plans?.length > this.limit && this.parentComponent
+        ? this.plans?.slice(0, this.limit)
+        : this.plans;
+
     this.filteredPlan = this.plans.filter((plan) => {
       let endDateReached = true;
       if (plan.limit_date > plan.plan_date && plan?.limit_date >= today) {
@@ -635,6 +645,26 @@ export class PlansListComponent {
 
       return include;
     });
+  }
+
+  filterCreatedJoined(plans, plan_participants) {
+    let filtered_plans = plans
+
+    if(filtered_plans?.length > 0) {
+      filtered_plans = filtered_plans?.filter(plan => {
+        return plan.fk_user_id == this.userId || this.isJoinedMember(plan, plan_participants)
+      })
+    }
+
+    return filtered_plans;
+  }
+
+  isJoinedMember(plan, plan_participants) {
+    let joined_plans = plan_participants?.filter(p => {
+      return p.id == this.userId && plan.id == p.plan_id && p.plan_type_id == plan.plan_type_id
+    })
+
+    return joined_plans?.length > 0 ? true : false
   }
 
   getEventTitle(event) {

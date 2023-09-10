@@ -46,7 +46,6 @@ export class MenuService {
   }
 
   get menus(): any[] {
-    console.log('get menus')
     return this.menus$.getValue();
   }
 

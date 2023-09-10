@@ -4,7 +4,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
+  SimpleChange
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { initFlowbite } from "flowbite";
@@ -18,13 +19,18 @@ import { initFlowbite } from "flowbite";
 })
 export class IconFilterComponent {
     @Input() list: any;
+    @Input() icon: any;
     @Output() filterList = new EventEmitter();
+
+    ngOnChanges(changes: SimpleChange) {
+      initFlowbite();
+    }
 
     handleFilter(event) {
         this.filterList.emit(event);
     }
 
     async ngOnInit() {
-        initFlowbite();
+      initFlowbite();
     }
 }

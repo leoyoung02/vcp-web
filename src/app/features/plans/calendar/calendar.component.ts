@@ -224,35 +224,8 @@ export class PlansCalendarComponent {
       }
     
       getOtherSettings() {
-        // this._companyService.getOtherSettings(this.companyId)
-        //   .subscribe(
-        //     async (response) => {
-        //       this.otherSettings = response['other_settings'];
-    
-        //       if(this.otherSettings) {
-        //         this.otherSettings.forEach(m => {
-        //           if(m.title_es == 'General') {
-        //             if(m.content) {
-        //               let mondayCalendarSettings = m.content.filter(c => {
-        //                 return c.title_en.indexOf('Monday as calendar start day') >= 0
-        //               })
-        //               if(mondayCalendarSettings && mondayCalendarSettings[0]) {
-        //                 this.isMondayStart = mondayCalendarSettings[0].active == 1 ? true : false
-        //                 if(this.isMondayStart) {
-                          this.weekdays = ["L", "M", "X", "J", "V", "S", "D"];
-              //           }
-              //         }
-              //       }
-              //     }
-              //   });
-              // }
-    
-              this.getUser()
-          //   },
-          //   error => {
-          //     console.log(error)
-          //   }
-          // )
+        this.weekdays = ["L", "M", "X", "J", "V", "S", "D"];
+        this.getUser()
       }
     
       getUser() {

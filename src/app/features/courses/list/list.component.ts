@@ -347,12 +347,10 @@ export class CoursesListComponent {
   }
 
   getUserProgress(course) {
-    console.log(course);
     let progress = 0;
     let user_course = this.coursesProgress?.find(
       (cp) => cp.user_id == this.userId && cp.course_id == course.id
     );
-    console.log(user_course);
     if (user_course) {
       progress = user_course.progress;
     }

@@ -29,7 +29,11 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": ["src/theme/styles.css"],
+            "styles": [
+              "src/theme/styles.css",
+              "./node_modules/filepond/dist/filepond.min.css",
+              "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css"
+            ],
             "scripts": []
           },
           "configurations": {

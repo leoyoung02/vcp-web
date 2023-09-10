@@ -5,6 +5,9 @@
   <ng-container *ngIf="hasAccess('clubs') && !disableClubs">
     <app-clubs-list [parentComponent]="'home'" [limit]="mobileLimitClubs"></app-clubs-list>
   </ng-container>
+  <ng-container *ngIf="hasAccess('employmentchannel') && !disableJobOffers">
+    <app-job-offers-list [parentComponent]="'home'" [limit]="mobileLimitJobOffers"></app-job-offers-list>
+  </ng-container>
 </ng-container>
 <div *ngIf="!isloading && !hasLandingTemplate && hasPredefinedTemplate && predefinedTemplate">
   <div>

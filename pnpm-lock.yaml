@@ -62,12 +62,30 @@ dependencies:
   '@stripe/stripe-js':
     specifier: ^2.1.0
     version: 2.1.0
+  '@tinymce/tinymce-angular':
+    specifier: ^7.0.0
+    version: 7.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/forms@16.0.0)
   crypto-js:
     specifier: ^4.1.1
     version: 4.1.1
   file-saver:
     specifier: ^2.0.5
     version: 2.0.5
+  filepond:
+    specifier: ^4.30.4
+    version: 4.30.4
+  filepond-plugin-file-validate-size:
+    specifier: ^2.2.8
+    version: 2.2.8(filepond@4.30.4)
+  filepond-plugin-file-validate-type:
+    specifier: ^1.2.8
+    version: 1.2.8(filepond@4.30.4)
+  filepond-plugin-image-edit:
+    specifier: ^1.6.3
+    version: 1.6.3(filepond@4.30.4)
+  filepond-plugin-image-preview:
+    specifier: ^4.6.11
+    version: 4.6.11(filepond@4.30.4)
   flowbite:
     specifier: ^1.8.1
     version: 1.8.1
@@ -80,6 +98,9 @@ dependencies:
   moment-timezone:
     specifier: ^0.5.43
     version: 0.5.43
+  ngx-filepond:
+    specifier: ^7.0.1
+    version: 7.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)(filepond@4.30.4)
   ngx-stripe:
     specifier: ^16.2.0
     version: 16.2.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@stripe/stripe-js@2.1.0)
@@ -3748,6 +3769,20 @@ packages:
       tailwindcss: 3.3.2(ts-node@10.9.1)
     dev: true
 
+  /@tinymce/tinymce-angular@7.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/forms@16.0.0):
+    resolution: {integrity: sha512-IKNaG/ihlxE1XCfq6lzULbnsqZO9KNJtlpu5jo6JDJDL9zcFzj/N2A16Kk7rTj1yfmDoB1IXAk/BpMOvgDY8cg==}
+    peerDependencies:
+      '@angular/common': '>=14.0.0'
+      '@angular/core': '>=14.0.0'
+      '@angular/forms': '>=14.0.0'
+    dependencies:
+      '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
+      '@angular/forms': 16.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)(rxjs@7.8.0)
+      tinymce: 6.7.0
+      tslib: 2.5.0
+    dev: false
+
   /@tootallnate/once@2.0.0:
     resolution: {integrity: sha512-XCuKFP5PS55gnMVu3dty8KPatLqUoy/ZYzDzAGCQ8JNFCkLXzmI7vNHCR+XpbZaMWQK/vQubr7PkYq8g470J/A==}
     engines: {node: '>= 10'}
@@ -6053,6 +6088,42 @@ packages:
       minimatch: 5.1.0
     dev: true
 
+  /filepond-plugin-file-validate-size@2.2.8(filepond@4.30.4):
+    resolution: {integrity: sha512-yzb8scATmkWqPTP7oKQz6L8WwJm6Xmgc/fuq6DFGRaLz0I7372BUvBsxagBk/hypMIjvieNzhggm33Y60x3rcw==}
+    peerDependencies:
+      filepond: '>=3.1.2 <5.x'
+    dependencies:
+      filepond: 4.30.4
+    dev: false
+
+  /filepond-plugin-file-validate-type@1.2.8(filepond@4.30.4):
+    resolution: {integrity: sha512-UBTqIWbk5+5R0GBELI8svu01MHWjFSLfc9DfCMvFtHKXLdJMxY1p37ChC4YKQjhfODaTuvLnNVRsukMGMFZBBg==}
+    peerDependencies:
+      filepond: '>=1.x <5.x'
+    dependencies:
+      filepond: 4.30.4
+    dev: false
+
+  /filepond-plugin-image-edit@1.6.3(filepond@4.30.4):
+    resolution: {integrity: sha512-5q3RDaVlfvyI346ckF1DfKw4uN5rfAmUCv7HCG30jBZcGmepg8hFyjVM71uZXYeb4AgLhpCkSPP8Immwig8bzw==}
+    peerDependencies:
+      filepond: '>=3.7.2 <5.x'
+    dependencies:
+      filepond: 4.30.4
+    dev: false
+
+  /filepond-plugin-image-preview@4.6.11(filepond@4.30.4):
+    resolution: {integrity: sha512-0EmQ9HnOb/X0xc5rLcNRhhmdUbp7oiicRwQrcr90ZfVmPJOOZoX3ZGUEsEPj7luMI55huguhcVozdESxtqnuRw==}
+    peerDependencies:
+      filepond: '>=4.x <5.x'
+    dependencies:
+      filepond: 4.30.4
+    dev: false
+
+  /filepond@4.30.4:
+    resolution: {integrity: sha512-FCwsMvG9iiEs6uobdDrTaKsCgsqys0NuLgPPD8n37AYVYBiiDkrPkk9MSIU5rT2FahYcL1bScYI9huIPtlzqyA==}
+    dev: false
+
   /fill-range@7.0.1:
     resolution: {integrity: sha512-qOo9F+dMUmC2Lcb4BbVvnKJxTPjCm+RRpe4gDuGrzkL7mEVl/djYSu2OdQ2Pa302N4oqkSg9ir6jaLWJ2USVpQ==}
     engines: {node: '>=8'}
@@ -8008,6 +8079,19 @@ packages:
   /neo-async@2.6.2:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
+
+  /ngx-filepond@7.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)(filepond@4.30.4):
+    resolution: {integrity: sha512-22AZTIxsAUIFlsAFtAVWjJ84bjUVW0A9OYcsa7S+xxT3hzxwl2fPR3+/I91wK0dY5cPboLehKGrdZZa+SWWFQA==}
+    peerDependencies:
+      '@angular/common': '>=14.x'
+      '@angular/core': '>=14.x'
+      filepond: '>=4.19.1 <5.x'
+    dependencies:
+      '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
+      filepond: 4.30.4
+      tslib: 2.5.0
+    dev: false
 
   /ngx-stripe@16.2.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@stripe/stripe-js@2.1.0):
     resolution: {integrity: sha512-KLzfDNkfPNQMAG9H98p8g9qVsNXMHqea+CJKeJ8xVf3m4AMxhWUyd0N5uF9pMlOwGOV5c0S2n4OaUk2USnBj5w==}
@@ -10228,6 +10312,10 @@ packages:
   /thunky@1.1.0:
     resolution: {integrity: sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==}
     dev: true
+
+  /tinymce@6.7.0:
+    resolution: {integrity: sha512-Wf2RSobIXQ7XNw3/v4z1lPGiH3Pjsmc/6/7fG28aIS6uVWj/7IhvOPuwfJJDeOx0o0D3nSnoLHgR2KU8JAdE+w==}
+    dev: false
 
   /tmp@0.0.33:
     resolution: {integrity: sha512-jRCJlojKnZ3addtTOjdIqoRuPEKBvNXcGYqzO6zWZX8KfKEpnGY5jfggJQ3EjKuu8D4bJRr0y+cYJFmYbImXGw==}

@@ -76,6 +76,8 @@ export class NavbarComponent {
   @Input() tutorManageStudentAccess: any;
   @Input() hasCreditSetting: any;
   @Input() hasCreditPackageSetting: any;
+  @Input() myActivitiesTitle: any;
+  @Input() myClubsTitle: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;
@@ -168,7 +170,7 @@ export class NavbarComponent {
 
     setTimeout(() => {
       initFlowbite();
-    }, 500)
+    }, 1000)
   }
 
   ngOnDestroy() {

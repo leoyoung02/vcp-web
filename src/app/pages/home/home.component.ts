@@ -16,6 +16,7 @@ import { PlansListComponent } from "@features/plans/list/list.component";
 import { SafeContentHtmlPipe } from "@lib/pipes";
 import { ClubsListComponent } from "@features/clubs/list/list.component";
 import { CoursesListComponent } from "@features/courses/list/list.component";
+import { JobOffersListComponent } from "@features/job-offers/list/list.component";
 
 @Component({
   standalone: true,
@@ -27,6 +28,7 @@ import { CoursesListComponent } from "@features/courses/list/list.component";
     PlansListComponent,
     ClubsListComponent,
     CoursesListComponent,
+    JobOffersListComponent
   ],
   templateUrl: "./home.component.html",
 })

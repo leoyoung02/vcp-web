@@ -11,6 +11,7 @@ export const environment = {
     lsinitializationVector: 'encryptionIntVec',
     lssecretKey: 'vcompanyplatform',
     lsmenus: 'f8a6251d9b644185a084dc2f2884eae7',
+    lsnotifications: 'I7jlNfkP9EOLq6IpRnclWA==',
     lsuser: '+oo1uDXXL0qFzfW/YXWAvQ==',
     lsuserId: '/oaEWl3GziBp73gy8lKR5Q==',
     lscompanyId: 'zbvlf4/ZZ+Als1cO4N1o5Q==',

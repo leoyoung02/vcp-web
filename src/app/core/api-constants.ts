@@ -34,6 +34,7 @@ export const CREATE_PLAN_ROLES_URL = `${API_BASE}/company/other-settings/create-
 export const CITIES_URL = `${API_BASE}/company/cities`;
 export const SUBFEATURE_OPTIONS_MAPPING_URL = `/company/sub-feature/options/mapping`;
 export const STRIPE_CUSTOMER_PORTAL_URL = `${API_BASE}/company/customer/portal/create`;
+export const LISTS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/lists-management-data`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;
@@ -86,6 +87,23 @@ export const PROFILE_FIELDS_URL = `${API_BASE}/company/profile-fields`;
 export const PROFILE_FIELDS_MAPPING_URL = `${API_BASE}/company/profile-fields-mapping`;
 export const USER_GUID_URL = `${API_BASE}/guest/user-guid`;
 
+// NOTIFICATIONS
+export const ACCEPT_CLUB_NOTIFICATION_URL = `${API_BASE}/company-approve-join-group`;
+export const ACCEPT_PLAN_NOTIFICATION_URL = `${API_BASE}/company-approve-join-plan`;
+export const ACCEPT_CLUB_PLAN_NOTIFICATION_URL = `${API_BASE}/company-approve-join-group-plan`;
+export const ACCEPT_PLAN_REQUEST_NOTIFICATION_URL = `${API_BASE}/company-approve-join-plan-request`;
+export const DELETE_NOTIFICATION_URL = `${API_BASE}/company/notification/delete`;
+export const READ_NOTIFICATION_URL = `${API_BASE}/company-read-notification`;
+export const DECLINE_NOTIFICATION_URL = `${API_BASE}/company-decline-notification`;
+export const APPROVE_WAITING_LIST_URL = `${API_BASE}/company/waiting-list/approve`;
+export const REJECT_WAITING_LIST_URL = `${API_BASE}/company/waiting-list/reject`;
+export const ACCEPT_CLUB_REQUEST_URL = `${API_BASE}/company-approve-join-group-request`;
+export const COMMENT_DETAILS_URL = `${API_BASE}/company/comment/details`;
+export const APPROVE_CLUB_ACTIVITY_URL = `${API_BASE}/company/club-activity/approve`;
+export const APPROVE_BLOG_URL = `${API_BASE}/company/blog/approve`;
+export const REJECT_BLOG_URL = `${API_BASE}/company/reject/blog`;
+export const BLOG_REQUEST_DETAILS_URL = `${API_BASE}/company/blog/request`;
+
 // IMAGES
 export const COMPANY_IMAGE_URL = `${API_BASE}/get-image-company`;
 export const COURSE_UNIT_IMAGE_URL = `${API_BASE}/get-course-unit-file`;
@@ -133,10 +151,21 @@ export const ADD_GROUP_PLAN_COMMENT_REPLY_URL = `${API_BASE}/company/add-group-p
 export const GROUP_PLAN_COMMENTS_URL = `${API_BASE}/company/group-plan/comments`;
 export const DELETE_COMMENT_URL = `${API_BASE}/company/activities/comment/delete`;
 export const ANSWER_EMAIL_INVITE_QUESTIONS_URL = `${API_BASE}/company/email-invite/question/answer`;
+export const CLUB_PLAN_DELETE_URL = `${API_BASE}/company/group_plans/delete`;
+export const DELETE_RECURRING_SERIES_URL = `${API_BASE}/company/activities/recurring/series/delete`;
+export const CONFIRM_PLAN_PARTICIPANT_ATTENDANCE_URL = `${API_BASE}/company/company-plan/confirm/attendance`;
+export const CLEAR_PLAN_PARTICIPANT_ATTENDANCE_URL = `${API_BASE}/company/company-plan/clear/attendance`;
+export const CONFIRM_PARTICIPANT_ATTENDANCE_URL = `${API_BASE}/company/plan/confirm/attendance`;
+export const CLEAR_PARTICIPANT_ATTENDANCE_URL = `${API_BASE}/company/plan/clear/attendance`;
+export const CONFIRM_PARTICIPANT_URL = `${API_BASE}/company/plan/attendance/confirm`;
+export const CLEAR_CONFIRMATION_URL = `${API_BASE}/company/plan/clear/confirm`;
+export const CONFIRM_PLAN_PARTICIPANT_URL = `${API_BASE}/company/company-plan/attendance/confirm`;
+export const CLEAR_PLAN_CONFIRMATION_URL = `${API_BASE}/company/company-plan/clear/confirm`;
 
 export const PLANS_URL = `${API_BASE}/v2/plans`;
 export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;
 export const PLAN_DETAILS_URL = `${API_BASE}/v2/plan-details`;
+export const PLANS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/plans-management-data`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;
@@ -151,12 +180,27 @@ export const GROUP_SUBCATEGORY_DELETE_URL = `${API_BASE}/company/group/subcatego
 export const CONTACT_FIELDS_URL = `${API_BASE}/guest/contact/fields`;
 export const CONTACT_FIELDS_ADD_URL = `${API_BASE}/company/contact/field/add`;
 export const CONTACT_FIELDS_EDIT_URL = `${API_BASE}/company/contact/field/edit`;
+export const LEAVE_CLUB_URL = `${API_BASE}/company/group/member/remove`;
+export const DELETE_CLUB_COMMENT_URL = `${API_BASE}/company/group/comment/delete`;
+export const CLUB_COMMENTS_URL = `${API_BASE}/company/group/comments`;
+export const ADD_COMMENT_REACTION_URL = `${API_BASE}/heart-group-comment-new`;
+export const REMOVE_COMMENT_REACTION_URL = `${API_BASE}/delete-group-comment-heart-new`;
+export const ADD_CLUB_COMMENT_URL = `${API_BASE}/company/group/comment/add`;
+export const ADD_COMMENT_REPLY_URL = `${API_BASE}/add-group-comment-reply-new`;
+export const DELETE_CLUB_URL = `${API_BASE}/company/group/delete`;
+export const REQUEST_JOIN_URL = `${API_BASE}/company/group/join_request`;
+export const JOIN_CLUB_URL = `${API_BASE}/company/group/member/add`;
+export const CLUB_PLANS_URL = `${API_BASE}/company/groups-plans`;
 
 export const CLUBS_URL = `${API_BASE}/v2/clubs`;
+export const CLUB_URL = `${API_BASE}/v2/club-details`;
 
-// TUTORS
-export const TUTORS_URL = `${API_BASE}/company/tutors`;
-export const CREDIT_PACKAGES_URL = `${API_BASE}/company/credit/packages`;
+// JOB OFFERS
+export const JOB_OFFERS_URL = `${API_BASE}/v2/job-offers`;
+export const JOB_OFFER_URL = `${API_BASE}/v2/job-offer-details`;
+export const JOB_OFFER_MIN_URL = `${API_BASE}/v2/job-offer-details-min`;
+export const DELETE_JOB_OFFER_URL = `${API_BASE}/company/job/offer/delete`;
+export const REGISTER_JOB_OFFER_URL = `${API_BASE}/company/job/register/create`;
 
 // COURSES
 export const COURSE_SUBSCRIPTIONS_URL = `${API_BASE}/course-subscriptions`;
@@ -174,3 +218,7 @@ export const COURSE_CATEGORY_ACCESS_URL = `${API_BASE}/company/course/category/a
 export const USER_COURSES_URL = `${API_BASE}/guest/courses`;
 
 export const COURSES_COMBINED_URL = `${API_BASE}/v2/courses`;
+
+// TUTORS
+export const TUTORS_URL = `${API_BASE}/company/tutors`;
+export const CREDIT_PACKAGES_URL = `${API_BASE}/company/credit/packages`;

@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { COMPANY_IMAGE_URL } from "@lib/api-constants";
@@ -12,7 +12,7 @@ import get from "lodash/get";
 @Component({
   selector: "app-layout-left-banner",
   standalone: true,
-  imports: [CommonModule, TranslateModule],
+  imports: [CommonModule, TranslateModule, NgOptimizedImage],
   templateUrl: "./layout-left.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

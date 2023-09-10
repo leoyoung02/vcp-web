@@ -383,14 +383,14 @@
                     </div>
                     <div class="flex flex-wrap">
                         <ng-container *ngFor="let member of planParticipants">
-                            <ng-container *ngIf="member?.image">
+                            <div *ngIf="member?.image" class="mb-4">
                                 <img
                                     class="rounded-full mr-4" 
                                     width="65"
                                     height="65"
                                     [ngSrc]="apiPath + '/' + member.image"
                                 />
-                            </ng-container>
+                            </div>
                         </ng-container>
                     </div>
                 </div>

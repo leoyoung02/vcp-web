@@ -1,0 +1,36 @@
+<div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+    <div class="mb-6">
+        <div class="flex items-center w-full max-w-full">
+            <div class="flex-auto">
+                <app-search
+                    [searchText]="searchText"
+                    [placeholderText]="placeholderText"
+                    [buttonColor]="buttonColor"
+                    (onEnterPressed)="handleSearch($event)"
+                    (doSearch)="handleSearch($event)"
+                >
+                </app-search>
+            </div>
+            <div class="px-5">
+                <app-icon-filter 
+                    [list]="list"
+                    (filterList)="filterCity($event)"
+                >
+                </app-icon-filter>
+            </div>
+        </div>
+    </div>
+    <div class="pt-1.5 mb-6">
+        <button 
+            class="float-right flex items-center py-1.5 p-2.5 rounded-[10px] justify-evenly hover:bg-black"
+            *ngIf="canCreateClub" 
+            [ngStyle]="{'background-color': buttonColor}" 
+            (click)="handleCreateRoute()"
+        >
+            <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+            </svg>
+            <span class="text-white text-sm">{{ clubsTitle }}</span>
+        </button>
+    </div>
+</div>

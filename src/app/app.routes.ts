@@ -46,7 +46,7 @@ export const routes: Routes = [
         canMatch: [authGuard()],
     },
     {
-        path: 'dashboard',
+        path: 'dashboard/:mode',
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@pages/dashboard')).routes,
         canMatch: [authGuard()],
@@ -61,6 +61,12 @@ export const routes: Routes = [
         path: 'clubs',
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@features/clubs')).routes,
+        canMatch: [authGuard()],
+    },
+    {
+        path: 'employmentchannel',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/job-offers')).routes,
         canMatch: [authGuard()],
     },
     {

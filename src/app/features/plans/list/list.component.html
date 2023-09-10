@@ -10,7 +10,7 @@
     <h1 class="text-2xl" 
         [ngClass]="{'text-center mb-4': isMobile}" 
         *ngIf="showSectionTitleDivider || parentComponent">
-        {{ pageName }}
+        {{ view == 'joined' ? getMyActivitiesTitle() : pageName }}
     </h1>
     <div *ngIf="!parentComponent" class="flex">
         <button 
@@ -36,7 +36,7 @@
 </div>
 <div class="pt-6" *ngIf="!parentComponent">
     <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-        <div class="relative mb-6" *ngIf="searchByCityOrKeyword">
+        <div class="mb-6" *ngIf="searchByCityOrKeyword">
             <div class="flex items-center w-full max-w-full">
                 <div class="flex-auto">
                     <app-search
@@ -57,8 +57,8 @@
                 </div>
             </div>
         </div>
-        <div class="relative pt-1.5 mb-6" *ngIf="categoriesFilterActive">
-            <app-button-group class="relative flex justify-end"
+        <div class="pt-1.5 mb-6" *ngIf="categoriesFilterActive">
+            <app-button-group class="flex justify-end"
                 [buttonColor]="buttonColor"
                 [buttonList]="buttonList"
                 [subcategoryList]="subButtonList"
@@ -103,7 +103,7 @@
         </app-plans-calendar>
     </div>
     <ng-container *ngFor="let plan of filteredPlan">
-        <div class="h-auto max-w-full rounded-lg hover:cursor-pointer relative overflow-hidden" (click)="handleDetailsRoute(plan)">
+        <div class="image-overlay relative h-auto max-w-full rounded-lg hover:cursor-pointer relative overflow-hidden" (click)="handleDetailsRoute(plan)">
             <img class="h-auto w-full max-w-full rounded-lg" [ngSrc]="apiPath + plan.path + plan.image" [alt]="getEventTitle(plan)" width="296" height="286">
             <div *ngIf="plan?.credits == 1" class="absolute left-0 top-0 h-16 w-16">
                 <div 
@@ -116,8 +116,8 @@
             <div class="absolute top-1 right-4 text-white text-xs mt-2 bg-stone-700 py-1 px-3 rounded-xl opacity-6">
                 {{ getActivityDate(plan) }}
             </div>
-            <div class="flex absolute -bottom-1 left-4 text-white pb-3 text-base font-semibold">
-               <ng-container *ngIf="plan?.private && !plan?.private_type">
+            <div class="flex image-overlay-content text-white leading-6 text-base font-semibold">
+                <ng-container *ngIf="plan?.private && !plan?.private_type">
                     <svg class="w-5 h-5 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.5 8V4.5a3.5 3.5 0 1 0-7 0V8M8 12v3M2 8h12a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/>
                     </svg>
@@ -126,7 +126,7 @@
                     <svg class="w-5 h-5 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.5 8V4.5a3.5 3.5 0 1 0-7 0V8M8 12.167v3M2 8h12a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/>
                       </svg>
-                </ng-container> {{ getEventTitle(plan) }} {{plan?.credits}}
+                </ng-container> {{ getEventTitle(plan) }}
             </div>
         </div>
     </ng-container>

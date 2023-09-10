@@ -46,6 +46,7 @@ import {
   PLANS_OTHER_DATA_URL,
   SUBFEATURE_OPTIONS_MAPPING_URL,
   STRIPE_CUSTOMER_PORTAL_URL,
+  LISTS_MANAGEMENT_DATA_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -342,5 +343,11 @@ export class CompanyService {
         return result;
       })
     );
+  }
+
+  fetchAdministrarData(id: number = 0, userId: number = 0): Observable<any> {
+    return this._http.get(`${LISTS_MANAGEMENT_DATA_URL}/${id}/${userId}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
   }
 }

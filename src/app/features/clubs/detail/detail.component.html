@@ -1,1 +1,456 @@
-<p>Clubs - Detail</p>
+<div class="container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
+    <app-breadcrumb 
+        [level1Title]="level1Title"
+        [level2Title]="level2Title"
+        [level3Title]="level3Title"
+        [level4Title]="level4Title"
+        [buttonColor]="buttonColor"
+        (goBack)="handleGoBack()"
+    />
+    <div *ngIf="superAdmin || groupOwner || canCreate" class="mt-3 sm:mt-3 md:mt-0 lg:mt-0">
+        <button 
+            class="inline-block h-[40px] ml-4 text-sm px-6 py-2 font-semibold rounded-[10px] text-white focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
+            (click)="handleEditRoute()" 
+            [ngStyle]="{'background-color': buttonColor}"
+        >
+            {{ 'plan-details.edit' | translate }}
+        </button>
+        <button 
+            class="inline-block h-[40px] border rounded-[10px] ml-4 text-sm px-6 py-2 font-semibold rounded-[10px] focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
+            (click)="handleDelete()" 
+            [ngStyle]="{'color': buttonColor, 'border-color': buttonColor}"
+        >
+            {{ 'plan-details.delete' | translate }}
+        </button>
+    </div>
+</div>
+<div class="py-12">
+    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row">
+        <div class="mr-0 sm:mr-0 md:mr-8 lg:mr-8">
+            <img 
+                *ngIf="group?.image"
+                class="rounded-lg w-full sm:w-full md:w-[540px] lg:w-[540px] max-w-full md:max-w-full lg:max-w-[540px]" 
+                [ngSrc]="apiPath + '/get-image-group/' + group?.image" 
+                [alt]="groupTitle" 
+                width="540" 
+                height="540"
+            >
+        </div>
+        <div class="w-full">
+            <div *ngIf="groupTitle" class="container mb-4 flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
+                <div class="flex">
+                    <svg *ngIf="group?.private && !groupShow" [ngStyle]="{'color': buttonColor}" class="w-6 h-6 mr-2 pt-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.5 8V4.5a3.5 3.5 0 1 0-7 0V8M8 12v3M2 8h12a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/>
+                    </svg>
+                    <h1 class="text-2xl">{{ groupTitle }}</h1>
+                </div>
+            </div>
+            <div>
+                <button
+                    *ngIf="user && (((companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16) && !groupOwner && !joinedMember && group.private && pendingRequest) || 
+                        ((companyId == 12 || companyId == 14) && isNotGroupArea && !groupOwner && !joinedMember && group.private && pendingRequest))"
+                    class="btn text-lg w-full text-white text-base my-6 py-6" 
+                    [ngStyle]="{'background-color': buttonColor}"
+                    (click)="handleRequestJoin()" [disabled]="pendingRequest">
+                    {{ 'club-details.pending' | translate }}
+                </button>
+                <button
+                    *ngIf="user && !pendingRejected && (((companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16) && !groupOwner && !joinedMember && group.private) && !pendingRequest || 
+                        ((companyId == 12 || companyId == 14) && isNotGroupArea && !groupOwner && !joinedMember && group.private && !pendingRequest)) && !groupShow"
+                    class="btn text-lg w-full text-white text-base my-6 py-6"  
+                    [ngStyle]="{'background-color': buttonColor}"
+                    (click)="showTerms('request')" [disabled]="pendingRequest">
+                    {{ 'club-details.asktojoin' | translate }}
+                </button>
+                <button
+                    *ngIf="user && !pendingRejected && (((companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16) && !groupOwner && !joinedMember && !group.private) || 
+                        ((companyId == 12 || companyId == 14) && isNotGroupArea && !groupOwner && !joinedMember && !group.private))"
+                    class="btn text-lg w-full text-white text-base my-6 py-6" 
+                    [ngStyle]="{'background-color': buttonColor}" (click)="showTerms('club')">
+                    {{ 'club-details.join' | translate }}
+                </button>
+                <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row py-8 justify-between" 
+                    *ngIf="joinedMember || groupShow">
+                    <div class="flex items-center mr-4 p-3 bg-white rounded-lg w-full">
+                        <img class="w-6 h-6 object-fit mr-4" src="./assets/images/new-design/icons/check.png">
+                        <span>{{ 'club-details.youjoined' | translate }}</span>
+                    </div>
+                    <div class="w-full">
+                        <button
+                            class="btn w-full py-6 hover:bg-black hover:text-white text-lg"
+                            (click)="handleLeave()"
+                            [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}"
+                        >
+                            {{ 'club-details.leaveclub' | translate }}
+                        </button>
+                    </div>
+                </div>
+                <ng-container *ngIf="!(!groupOwner && (!canCreate || !joinedMember))">
+                    <button
+                        *ngIf="user && mode != 'delete' && companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16"
+                        class="mb-8 btn w-full py-6 hover:bg-black text-white hover:text-white text-lg" 
+                        [ngStyle]="{'background-color': buttonColor}"
+                        (click)="handleNavigate()">
+                        {{ 'crm.createnew' | translate }} <span style="text-transform:lowercase;"> {{ planTitle &&
+                            planTitle.indexOf('ctiv') >= 0 ? ('plans.activity' | translate) : ('plans.plan' |
+                            translate) }}</span>
+                    </button>
+                </ng-container>
+            </div>
+            <div class="flex items-center">
+                <ng-container *ngIf="group?.fk_user_id">
+                    <img
+                        class="rounded-full mr-3"
+                        [ngSrc]="createdByImage"
+                        width="48"
+                        height="48">
+                </ng-container>
+                <div *ngIf="createdBy">
+                    <div class="text-xs">{{ 'plan-details.createdby' | translate }}:</div>
+                    <div>{{ createdBy }}</div>
+                </div>
+            </div>
+            <div class="flex items-center my-4" *ngIf="getCategoryLabel()">
+                <img width="24" height="24" class="object-contain mr-6 ml-4" src="./assets/images/new-design/icons/Tag.png">
+                <div class="text-xl">{{ getCategoryLabel() }}</div>
+            </div>
+            <div class="flex items-center my-4" *ngIf="parentGroupName">
+                <img width="24" height="24" class="object-contain mr-6 ml-4" src="./assets/images/new-design/icons/Bulb.png">
+                <div class="text-xl">{{ parentGroupName }}</div>
+            </div>
+            <div class="flex items-center my-4" *ngIf="group?.city">
+                <img width="24" height="24" class="object-contain mr-6 ml-4" src="./assets/images/new-design/icons/Pin.png">
+                <div class="text-xl">{{ group?.city }}</div>
+            </div>
+            <ng-container *ngIf="hasContactDetails">
+                <ng-container *ngFor="let field of contactDetailsFields;">
+                    <div class="flex items-center my-4" *ngIf="getContactDetailValue(field)">
+                        <svg *ngIf="field?.field?.indexOf('email') >= 0" class="mr-6 ml-4 w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                            <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
+                            <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+                        </svg>
+                        <svg *ngIf="field?.field?.indexOf('phone') >= 0" class="mr-6 ml-4 w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 19 18">
+                            <path d="M18 13.446a3.02 3.02 0 0 0-.946-1.985l-1.4-1.4a3.054 3.054 0 0 0-4.218 0l-.7.7a.983.983 0 0 1-1.39 0l-2.1-2.1a.983.983 0 0 1 0-1.389l.7-.7a2.98 2.98 0 0 0 0-4.217l-1.4-1.4a2.824 2.824 0 0 0-4.218 0c-3.619 3.619-3 8.229 1.752 12.979C6.785 16.639 9.45 18 11.912 18a7.175 7.175 0 0 0 5.139-2.325A2.9 2.9 0 0 0 18 13.446Z"/>
+                        </svg>
+                        <svg *ngIf="field?.field?.indexOf('person') >= 0" class="mr-6 ml-4 w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 18">
+                            <path d="M7 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm2 1H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z"/>
+                        </svg>
+                        <svg *ngIf="field?.field?.indexOf('instagram') >= 0" class="mr-6 ml-4 w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M19 5h-1.382l-.171-.342A2.985 2.985 0 0 0 14.764 3H9.236a2.984 2.984 0 0 0-2.683 1.658L6.382 5H5a3 3 0 0 0-3 3v11a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8a3 3 0 0 0-3-3Zm-3.5 7a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0Z"/>
+                        </svg>
+                        <div class="text-xl">
+                            <ng-container *ngIf="!field.show_as_link">{{ getContactDetailValue(field) }}</ng-container>
+                            <ng-container *ngIf="field.show_as_link">
+                                <a [href]="getContactDetailValue(field)" target="_blank"
+                                    [ngStyle]="{'color': buttonColor}" style="word-break: break-word;">{{
+                                    getContactDetailValue(field) }}</a>
+                            </ng-container>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+    <ng-container *ngIf="groupShow || group.private == 0">
+        <div class="py-8" *ngIf="userId">
+            <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row items-center p-6 bg-white rounded-lg">
+                <div (click)="copyText()" class="flex items-center mr-8 hover:cursor-pointer">
+                    <svg class="w-6 h-6 text-black dark:text-white mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                        <path d="M5 9V4.13a2.96 2.96 0 0 0-1.293.749L.879 7.707A2.96 2.96 0 0 0 .13 9H5Zm11.066-9H9.829a2.98 2.98 0 0 0-2.122.879L7 1.584A.987.987 0 0 0 6.766 2h4.3A3.972 3.972 0 0 1 15 6v10h1.066A1.97 1.97 0 0 0 18 14V2a1.97 1.97 0 0 0-1.934-2Z"/>
+                        <path d="M11.066 4H7v5a2 2 0 0 1-2 2H0v7a1.969 1.969 0 0 0 1.933 2h9.133A1.97 1.97 0 0 0 13 18V6a1.97 1.97 0 0 0-1.934-2Z"/>
+                    </svg>
+                    <span>{{ 'plan-details.invitationlink' | translate }}</span>
+                </div>
+                <div (click)="goToLink(emailTo)" class="flex items-center mr-8 hover:cursor-pointer">
+                    <svg class="w-6 h-6 text-black dark:text-white mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
+                        <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
+                        <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
+                    </svg>
+                    <span>{{ 'plan-details.sharebyemail' | translate }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row py-12" *ngIf="groupShow || group.private == 0">
+            <div class="mr-0 sm:mr-0 md:mr-8 lg:mr-8">
+                <div class="w-full sm:w-full md:w-[540px] lg:w-[540px] max-w-full md:max-w-full lg:max-w-[540px]" *ngIf="group?.show_attendee">
+                    <div class="container mb-4 flex items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
+                        <h1 class="text-xl">{{ groupMemberCount }} {{ membersTitle || ('club-details.members' | translate) }}</h1>
+                    </div>
+                    <div class="flex flex-wrap">
+                        <ng-container *ngFor="let member of members">
+                            <div *ngIf="member?.image" class="mb-4">
+                                <img
+                                    class="rounded-full mr-4" 
+                                    width="65"
+                                    height="65"
+                                    [ngSrc]="apiPath + '/' + member.image"
+                                />
+                            </div>
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full">
+                <div *ngIf="group?.show_description">
+                    <div class="container mb-4 flex items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
+                        <h1 class="text-xl">{{ 'plan-create.description' | translate }}</h1>
+                    </div>
+                    <div [innerHTML]="groupDescription | safeContentHtml: 'html'"></div>
+                </div>
+            </div>
+        </div>
+        <div class="py-4" *ngIf="(group.show_comments && groupShow)  || group.private == 0">
+            <div class="container mb-4 flex items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
+                <h1 class="text-xl">{{ 'plan-details.comments' | translate }}</h1>
+            </div>
+            <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row py-12">
+                <div class="mr-0 sm:mr-0 md:mr-8 lg:mr-8">
+                    <div class="w-full sm:w-full md:w-[540px] lg:w-[540px] max-w-full md:max-w-full lg:max-w-[540px]">
+                        <div *ngFor="let comment of CompanyGroupComments" [ngClass]="{'ml-4 sm:ml-4 md:ml-20 lg:ml-20': comment?.parent_group_plan_comment_id > 0 || comment?.parent_plan_comment_id > 0}">
+                            <div>
+                                <div class="flex">
+                                    <img
+                                        src="{{apiPath + '/' + (comment?.image || comment?.CompanyUser?.image)}} "
+                                        [alt]="comment?.first_name"
+                                        class="rounded-full w-16 h-16 mr-4"
+                                        width="30"
+                                    >
+                                    <div class="w-full">
+                                        <div class="flex justify-between">
+                                            <div class="w-full">
+                                                <div class="font-bold">{{ comment?.first_name || comment?.CompanyUser?.first_name || 'anonymous' }}</div>
+                                                <div class="text-sm">{{ formatDate(comment?.createdAt) }}</div>
+                                            </div>
+                                            <div class="flex">
+                                                <div *ngIf="superAdmin || showOption" class="hover:cursor-pointer p-2 px-4 h-8 rounded-lg" (click)="confirmDeleteComment(comment)" [ngStyle]="{'background-color': buttonColor}">
+                                                    <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div class="flex items-center justify-center ml-4 bg-white rounded-lg p-2 px-6 h-8 hover:cursor-pointer">
+                                                    <img *ngIf="checkHeartReaction(comment) == false" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-unselected.png" (click)="toggleHeart(comment, true)">
+                                                    <img *ngIf="checkHeartReaction(comment) == true" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-selected.png" (click)="toggleHeart(comment, false)">
+                                                    <span>{{ comment?.Company_Group_Comment_Reactions?.length || 0 }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="mt-4" [innerHTML]="comment?.comment">
+                                        </div>
+                                        <div 
+                                            *ngIf="!blockResponseToComments || (blockResponseToComments && (superAdmin || showOption))"
+                                            class="text-white flex items-center justify-center py-2 px-8 w-[130px] max-w-[130px] mt-4 mb-8 rounded-lg" 
+                                            [ngStyle]="{'background-color': buttonColor}"
+                                            (click)="toggleChildComment(comment?.id)"
+                                        >
+                                            <img class="w-4 h-4 mr-2" src="./assets/images/new-design/icons/Respond.png">
+                                            <span class="text-xs">{{ 'club-details.comment' | translate }}</span>
+                                        </div>
+                                        <div *ngIf="showChildComment && selectedCommentId == comment?.id" class="mb-16">
+                                            <textarea name="" id="" cols="30" rows="3"
+                                                class="w-full rounded-lg p-4"
+                                                placeholder="{{ 'club-details.addanewcomment' | translate }}"
+                                                [(ngModel)]="childComment" >
+                                            </textarea>
+                                            <button (click)="addChildComment(comment)" 
+                                                class="btn text-white mb-8 float-right hover:cursor-pointer"
+                                                [ngStyle]="{'background-color': buttonColor}"
+                                            >
+                                                {{ 'club-details.addcomment' | translate }}
+                                            </button>
+                                        </div>
+                                        <div>
+                                            <div *ngFor="let child of comment?.CommentChild" class="mb-8 max-w-full">
+                                                <div class="flex justify-between">
+                                                    <img
+                                                        src="{{apiPath + '/' + (child?.image || child?.CompanyUser?.image)}} "
+                                                        [alt]="child.first_name"
+                                                        class="rounded-full w-16 h-16 mr-4"
+                                                        width="30"
+                                                    >
+                                                    <div class="name-date full w-5/6">
+                                                        <div class="flex justify-between">
+                                                            <div class="w-full">
+                                                                <div class="font-bold">{{ child?.first_name || child?.CompanyUser?.first_name || 'anonymous' }}</div>
+                                                                <div class="text-sm">{{ formatDate(child?.createdAt) }}</div>
+                                                            </div>
+                                                            <div class="flex">
+                                                                <div *ngIf="superAdmin || showOption" class="hover:cursor-pointer p-2 px-4 h-8 rounded-lg" (click)="confirmDeleteComment(child)" [ngStyle]="{'background-color': buttonColor}">
+                                                                    <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"></path>
+                                                                    </svg>
+                                                                </div>
+                                                                <div class="flex items-center justify-center ml-4 bg-white rounded-lg p-2 px-6 h-8 hover:cursor-pointer">
+                                                                    <img *ngIf="checkHeartReaction(child) == false" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-unselected.png" (click)="toggleHeart(child, true)">
+                                                                    <img *ngIf="checkHeartReaction(child) == true" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-selected.png" (click)="toggleHeart(child, false)">
+                                                                    <span>{{ child?.Company_Group_Comment_Reactions?.length || 0 }}</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mt-4" [innerHTML]="child?.comment">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="w-full" *ngIf="userId">
+                    <textarea 
+                        name="comment" 
+                        id="comment" 
+                        cols="30" 
+                        rows="3"
+                        class="w-full p-4 rounded-lg"
+                        placeholder="{{ 'plan-details.addanewcomment' | translate }}"
+                        [(ngModel)]="comment" 
+                    >
+                    </textarea>
+                    <div>
+                        <button
+                            (click)="addComment()"
+                            class="btn text-white px-12 float-right hover:cursor-pointer"
+                            [ngStyle]="{
+                                'background-color': buttonColor
+                            }"
+                        >
+                            {{ 'plan-details.comment' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+</div>
+<div *ngIf="showcaseList?.length > 0">
+    <app-list-showcase 
+        [title]="planTitle"
+        [list]="showcaseList"
+        [buttonColor]="buttonColor"
+        [primaryColor]="primaryColor"
+        [hoverColor]="hoverColor"
+    >
+    </app-list-showcase>
+</div>
+<button #modalbutton data-modal-target="item-modal" data-modal-toggle="item-modal" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+    &nbsp;
+</button>
+<div id="item-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="item-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="px-6 py-6 lg:px-8">
+                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                    {{ 'club-details.join' | translate }}
+                </h3>
+                <div>
+                    <div class="terms-container" *ngIf="!termsAndConditionsURL"
+                        [innerHtml]="termsAndConditions"></div>
+                    <div class="terms-container" *ngIf="!privacyPolicyURL"
+                        [innerHtml]="termsAndConditions"></div>
+                    <div class="terms-container" *ngIf="!cookiePolicyURL"
+                        [innerHtml]="termsAndConditions"></div>
+                    <div *ngIf="termsAndConditionsURL || privacyPolicyURL || cookiePolicyURL"
+                        [ngStyle]="{
+                            'height': termsAndConditionsURL || privacyPolicyURL || cookiePolicyURL ? '100%' : '41vh',
+                            'overflow-y': termsAndConditionsURL || privacyPolicyURL || cookiePolicyURL ? 'initial' : 'scroll'
+                        }">
+                        <div class="mb-4">{{ 'footer.policyintro' | translate }}</div>
+                        <div *ngIf="privacyPolicyURL">
+                            <label class="checkbox-container">
+                                <div class="flex mb-4">
+                                    <input 
+                                        id="terms-conditions" 
+                                        type="checkbox"
+                                        [(ngModel)]="acceptTermsAndConditions" 
+                                        [ngModelOptions]="{standalone: true}"
+                                        [ngStyle]="{'color': acceptTermsAndConditions ? 'text-blue-500' : 'text-gray-900'}"
+                                        class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    >
+                                    <label for="terms-conditions" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ 'footer.iacceptthe' | translate }}
+                                        <a [href]="language == 'en' ? (termsAndConditionsURLEn || termsAndConditionsURL) : (language == 'fr' ? (termsAndConditionsURLFr || termsAndConditionsURL) : termsAndConditionsURL)"
+                                            target="_blank" [ngStyle]="{'color': buttonColor}">
+                                            {{ 'register.termsandconditions' | translate }}
+                                        </a>
+                                    </label>
+                                </div>
+                            </label>
+                        </div>
+                        <div *ngIf="cookiePolicyURL">
+                            <label class="checkbox-container">
+                                <div class="flex mb-4">
+                                    <input 
+                                        id="cookie" 
+                                        type="checkbox"
+                                        [(ngModel)]="acceptCookiePolicy" 
+                                        [ngModelOptions]="{standalone: true}"
+                                        [ngStyle]="{'color': acceptCookiePolicy ? 'text-blue-500' : 'text-gray-900'}"
+                                        class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    >
+                                    <label for="cookie" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ 'footer.iacceptthe' | translate }}
+                                        <a [href]="language == 'en' ? (cookiePolicyURLEn || cookiePolicyURL) : (language == 'fr' ? (cookiePolicyURLFr || cookiePolicyURL) : cookiePolicyURL)"
+                                            target="_blank" [ngStyle]="{'color': buttonColor}">
+                                            {{ 'footer.cookies_policy' | translate }}
+                                        </a>
+                                    </label>
+                                </div>
+                            </label>
+                        </div>
+                        <div *ngIf="termsAndConditionsURL">
+                            <label class="checkbox-container">
+                                <div class="flex mb-4">
+                                    <input 
+                                        id="policy" 
+                                        type="checkbox"
+                                        [(ngModel)]="acceptPrivacyPolicy" 
+                                        [ngModelOptions]="{standalone: true}"
+                                        [ngStyle]="{'color': acceptPrivacyPolicy ? 'text-blue-500' : 'text-gray-900'}"
+                                        class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    >
+                                    <label for="policy" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">{{ 'footer.iacceptthe' | translate }}
+                                        <a [href]="language == 'en' ? (privacyPolicyURLEn || privacyPolicyURL) : (language == 'fr' ? (privacyPolicyURLFr || privacyPolicyURL) : privacyPolicyURL)"
+                                            target="_blank" [ngStyle]="{'color': buttonColor}">
+                                            {{ 'footer.privacy_policy' | translate }}
+                                        </a>
+                                    </label>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-8">
+                    <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        (click)="continueJoin()"
+                        [disabled]="getDisabledStatus()"
+                        data-modal-hide="item-modal" 
+                        [ngClass]="{'cursor-not-allowed': getDisabledStatus()}"
+                        [ngStyle]="{
+                            'background-color': buttonColor
+                        }"
+                    >
+                        {{ 'job-offers.agree' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-toast 
+    *ngIf="showConfirmationModal" 
+    [company]="company" 
+    [update]="false" 
+    [confirm]="true"
+    [title]="confirmDeleteItemTitle"
+    [description]="confirmDeleteItemDescription"
+    [acceptText]="acceptText"
+    [cancelText]="cancelText"
+    (onAccept)="confirm()"
+></app-toast>

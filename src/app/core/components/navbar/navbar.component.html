@@ -61,20 +61,15 @@
             data-popover-placement="bottom" 
           />
           <div data-popover id="popover-user-profile" 
-            role="tooltip" 
-            class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 w-80 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+            role="tooltip"
+            class="mt-6 absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 w-80 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
             <div class="p-6 rounded-t-lg" [ngStyle]="{'background-color': buttonColor}">
-              <div class="flex">
-                <div class="mr-3 shrink-0">
-                  <a href="#" class="block p-2 bg-gray-100 rounded-lg dark:bg-gray-700">
-                    <img *ngIf="imageSrc" [src]="imageSrc" class="w-8 h-8 rounded-full" [alt]="username">
-                  </a>
-                </div>
+              <div class="flex justify-between align-center items-center">
                 <div>
                     <p class="mb-1 text-base font-semibold leading-none text-white dark:text-white">
                       <a href="javascript:;" class="hover:underline">{{ username }}</a>
                     </p>
-                    <p class="mb-3 text-sm font-normal text-white" *ngIf="companyName">
+                    <p class="mb-1 text-sm font-normal text-white" *ngIf="companyName">
                       {{companyName}}
                     </p>
                     <div class="flex">
@@ -86,11 +81,6 @@
                           class="inline-flex items-center bg-white justify-center w-full px-5 py-2 mr-2 text-sm font-medium text-gray-900 border border-white rounded-lg focus:outline-none focus:z-10"
                         >
                           {{ 'landing.myprofile' | translate }}
-                        </button>
-                        <button id="dropdown-button" data-dropdown-toggle="dropdown-menu" data-dropdown-placement="right" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shrink-0 focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="button"> 
-                            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
-                                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
-                            </svg>
                         </button>
                     </div>
                     <div id="dropdown-menu" class="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
@@ -119,14 +109,14 @@
                             {{ "credit-package.mycredits" | translate }}
                           </a>
                         </li>
-                        <li *ngIf="hasAccess('clubs') && isMyClubsActive && myClubs?.title_es">
-                          <a [routerLink]="['/dashboard/5']" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                            {{ language == 'en' ? myClubs?.title_en : (language == 'fr' ? myClubs?.title_fr : myClubs?.title_es) }}
+                        <li *ngIf="hasAccess('plans') && myActivitiesTitle">
+                          <a [routerLink]="['/dashboard/1']" class="capitalize block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            {{ myActivitiesTitle }}
                           </a>
                         </li>
-                        <li *ngIf="isMyActivitiesActive && myActivities?.title_es">
-                          <a [routerLink]="['/dashboard/1']" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
-                            {{ language == 'en' ? myActivities?.title_en : (language == 'fr' ? myActivities?.title_fr : myActivities?.title_es) }}
+                        <li *ngIf="hasAccess('clubs') && myClubsTitle">
+                          <a [routerLink]="['/dashboard/5']" class="capitalize block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            {{ myClubsTitle }}
                           </a>
                         </li>
                         <li *ngIf="hasAccess('plans') && (company?.id == 12|| hasInvitations)">
@@ -145,7 +135,7 @@
                           </a>
                         </li>
                         <li *ngIf="hasAccess('plans') && (canManageEvents || isAdmin)">
-                          <a routerLink="/user-settings/events-management" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                          <a routerLink="/users/admin-lists" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
                             {{ 'company-settings.managelanding' | translate}}
                           </a>
                         </li>
@@ -162,30 +152,17 @@
                       </ul>
                     </div>
                 </div>
-              </div>
-            </div>
-            <div class="px-3 py-1 text-white">
-              <ng-container *ngFor="let notification of popupNotifications">
-                <div class="py-4">
-                  <div class="flex items-center font-bold" [ngStyle]="{'color': buttonColor}">
-                    <fa-icon class="fa flex items-center text-lg" [ngStyle]="{'color': buttonColor}" [icon]="bellIcon"></fa-icon>
-                    <span class="px-2 text-xs">{{ language == 'en' ? notification?.message_en : notification.message }}</span>
-                  </div>
-                  <div class="pl-6 opacity-70 text-xs" [ngStyle]="{'color': buttonColor}">{{notification?.created | date:'dd MMM yyyy' }}</div>
+                <div class="mr-3 shrink-0">
+                  <button id="dropdown-button" data-dropdown-toggle="dropdown-menu" data-dropdown-placement="right" class="inline-flex items-center px-3 py-2 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg shrink-0 focus:outline-none hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700" type="button"> 
+                    <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 3">
+                        <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z"/>
+                    </svg>
+                </button>
                 </div>
-              </ng-container>
-              <div 
-                class="text-sm flex justify-center border w-36 center mx-auto rounded-lg py-2 mb-4 hover:cursor-pointer" 
-                [ngStyle]="{'color': buttonColor, 'border-color': buttonColor}"
-                [routerLink]="['/users/notifications/', userid]"
-                *ngIf="notifications?.length > 0"
-              >
-                <fa-icon class="fa flex items-center px-1" [ngStyle]="{'color': buttonColor}" [icon]="bellIcon"></fa-icon>
-                {{ 'notification-popup.viewall' | translate }}
               </div>
             </div>
-            <div class="px-3 py-1 text-white">
-              <div (click)="logout()" class="flex justify-center border border-t-1 border-l-0 border-r-0 border-b-0 border-gray-200 hover:cursor-pointer text-center py-4" 
+            <div class="px-3 text-white">
+              <div (click)="logout()" class="flex justify-center hover:cursor-pointer text-center py-4" 
                 [ngStyle]="{'color': buttonColor}">
                 <svg
                     class

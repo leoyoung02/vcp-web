@@ -12,7 +12,6 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { ClubsService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
 import { ButtonGroupComponent, IconFilterComponent } from "@share/components";
-import moment from "moment";
 import get from "lodash/get";
 
 @Component({
@@ -34,6 +33,7 @@ export class ClubsListComponent {
 
   @Input() parentComponent: any;
   @Input() limit: any;
+  @Input() view: any;
 
   languageChangeSubscription;
   isMobile: boolean = false;
@@ -174,7 +174,7 @@ export class ClubsListComponent {
           this.clubCategoryMapping = data?.club_category_mapping;
           this.clubSubcategoryMapping = data?.club_subcategory_mapping;
           this.initializeButtonGroup();
-          this.formatClubs(data?.clubs);
+          this.formatClubs(data?.clubs, data?.club_members);
         },
         (error) => {
           console.log(error);
@@ -208,7 +208,7 @@ export class ClubsListComponent {
   mapUserPermissions(user_permissions) {
     this.superAdmin = user_permissions?.super_admin_user ? true : false;
     this.canViewGroup = user_permissions?.member_type_permissions?.find(
-      (f) => f.view == 1
+      (f) => f.view == 1 && f.feature_id == 5
     )
       ? true
       : false;
@@ -216,7 +216,7 @@ export class ClubsListComponent {
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find((f) => f.create == 1);
     this.canManageGroup = user_permissions?.member_type_permissions?.find(
-      (f) => f.manage == 1
+      (f) => f.manage == 1 && f.feature_id == 5
     )
       ? true
       : false;
@@ -282,7 +282,6 @@ export class ClubsListComponent {
       },
     ];
 
-    console.log(categories);
     categories?.forEach((category) => {
       this.buttonList.push({
         id: category.id,
@@ -487,11 +486,19 @@ export class ClubsListComponent {
       : category.name_ES || category.name_es;
   }
 
-  async formatClubs(clubs) {
+  async formatClubs(clubs, club_members) {
+    if(this.view == 'joined') {
+      this.groups = this.filterCreatedJoined(clubs, club_members);
+    }else {
+      this.groups = clubs;
+    }
+
     this.groups =
-      clubs?.length > this.limit && this.parentComponent
-        ? clubs?.slice(0, this.limit)
-        : clubs;
+      this.groups?.length > this.limit && this.parentComponent
+        ? this.groups?.slice(0, this.limit)
+        : this.groups;
+    
+    
     if (parseInt(this.selectedGroupFilterId) > 0 && this.selectedGroupFilter) {
       this.filteredGroup = [];
 
@@ -529,6 +536,26 @@ export class ClubsListComponent {
 
     this.filteredGroup = this.sortAlphabetically(this.filteredGroup);
     this.allClubs = this.filteredGroup;
+  }
+
+  filterCreatedJoined(clubs, club_members) {
+    let filtered_clubs = clubs
+
+    if(filtered_clubs?.length > 0) {
+      filtered_clubs = filtered_clubs?.filter(club => {
+        return club.fk_user_id == this.userId || this.isJoinedMember(club, club_members)
+      })
+    }
+
+    return filtered_clubs;
+  }
+
+  isJoinedMember(club, club_members) {
+    let joined_clubs = club_members?.filter(p => {
+      return p.user_id == this.userId && club.id == p.group_id
+    })
+
+    return joined_clubs?.length > 0 ? true : false
   }
 
   sortAlphabetically(array) {
@@ -822,12 +849,20 @@ export class ClubsListComponent {
   }
 
   filteredCity(event) {
+    this.list?.forEach((item) => {
+      if (item.city === event) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+    
     this.selectedCity = event || "";
     this.searchGroups();
   }
 
   getMyClubsTitle() {
-    return this.language == "en"
+    return this.myClubs ? (this.language == "en"
       ? this.myClubs.title_en
         ? this.myClubs.title_en || this.myClubs.title_es
         : this.myClubs.title_es
@@ -847,6 +882,12 @@ export class ClubsListComponent {
       ? this.myClubs.title_de
         ? this.myClubs.title_de || this.myClubs.title_es
         : this.myClubs.title_es
-      : this.myClubs.title_es;
+      : this.myClubs.title_es) : '';
+  }
+
+  ngOnDestroy() {
+    this.languageChangeSubscription?.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

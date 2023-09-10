@@ -2,10 +2,18 @@ import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {
+  ADD_CLUB_COMMENT_URL,
+  ADD_COMMENT_REACTION_URL,
+  ADD_COMMENT_REPLY_URL,
   CLUBS_URL,
+  CLUB_COMMENTS_URL,
+  CLUB_PLANS_URL,
+  CLUB_URL,
   CONTACT_FIELDS_ADD_URL,
   CONTACT_FIELDS_EDIT_URL,
   CONTACT_FIELDS_URL,
+  DELETE_CLUB_COMMENT_URL,
+  DELETE_CLUB_URL,
   GROUP_CATEGORIES_URL,
   GROUP_CATEGORY_ADD_URL,
   GROUP_CATEGORY_DELETE_URL,
@@ -14,6 +22,10 @@ import {
   GROUP_SUBCATEGORY_ADD_URL, 
   GROUP_SUBCATEGORY_DELETE_URL, 
   GROUP_SUBCATEGORY_EDIT_URL, 
+  JOIN_CLUB_URL, 
+  LEAVE_CLUB_URL, 
+  REMOVE_COMMENT_REACTION_URL, 
+  REQUEST_JOIN_URL, 
   SUBGROUP_TITLE_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
@@ -106,5 +118,75 @@ export class ClubsService {
     return this._http.get(`${CLUBS_URL}/${id}/${userId}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
+  }
+
+  fetchClub(id: number = 0, companyId: number = 0, userId: number = 0): Observable<any> {
+    return this._http.get(`${CLUB_URL}/${id}/${companyId}/${userId}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  removeGroupMember( group_id: number, user_id: number ): Observable<any> {
+    return this._http.post(`${LEAVE_CLUB_URL}/${group_id}/${user_id}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  deleteGroupComment(id) {
+    return this._http.delete(`${DELETE_CLUB_COMMENT_URL}/${id}`);
+  }
+
+  getGroupComments(id: number): Observable<any> {
+    return this._http.get(`${CLUB_COMMENTS_URL}/${id}`, {
+        headers: this.headers 
+      }).pipe(map(res => res));
+  }
+
+  deleteGroupCommentHeart(id, param) {
+    return this._http.post(`${REMOVE_COMMENT_REACTION_URL}/${id}`, param);
+  }
+
+  heartGroupComment(id, param): Observable<any> {
+    return this._http.post(`${ADD_COMMENT_REACTION_URL}/${id}`, param, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  addGroupComment( group_id: number, user_id: number, comment: string, company_id: number ): Observable<any> {
+    return this._http.post(`${ADD_CLUB_COMMENT_URL}/${group_id}/${user_id}?comment=${comment}&companyId=${company_id}`,
+      {'comment' : comment},
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addGroupCommentReply(id, param): Observable<any> {
+    return this._http.post(`${ADD_COMMENT_REPLY_URL}/${id}`, param, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  deleteGroup(group_id): Observable<any> {
+    return this._http.delete(`${DELETE_CLUB_URL}/${group_id}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+  
+  addJoinRequest( payload ): Observable<any> {
+    return this._http.post(REQUEST_JOIN_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addGroupMember( group_id: number, user_id: number ): Observable<any> {
+    return this._http.post(`${JOIN_CLUB_URL}/${group_id}/${user_id}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  getPlans(groupId): Observable<any> {
+    return this._http.get(`${CLUB_PLANS_URL}/${groupId}`, {
+      headers: this.headers 
+    }).pipe(map(res => res))
   }
 }

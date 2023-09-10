@@ -265,6 +265,7 @@ export class PlanDetailComponent {
   acceptText: string = "";
   cancelText: any = "";
   allPlanComments: any = [];
+  confirmMode: string = "";
 
   @ViewChild("iframeEventDescription", { static: false })
   iframeEventDescription: ElementRef | undefined;
@@ -388,7 +389,7 @@ export class PlanDetailComponent {
     this.mapFeatures(data?.features_mapping);
     this.mapSubfeatures(data);
     this.mapUserPermissions(data?.user_permissions);
-    this.user = data?.user;
+    this.user = data?.user_permissions?.user;
     this.types = data?.types;
     this.categories = data?.plan_categories;
     this.subcategories = data?.plan_subcategories;
@@ -403,7 +404,7 @@ export class PlanDetailComponent {
 
   mapFeatures(features) {
     this.plansFeature = features?.find((f) => f.feature_id == 1);
-    this.featureId = this.plansFeature?.id;
+    this.featureId = this.plansFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.plansFeature);
 
     let clubFeature = features?.find((f) => f.feature_id == 5 && f.status == 1);
@@ -532,10 +533,10 @@ export class PlanDetailComponent {
   }
 
   mapUserPermissions(user_permissions) {
-    this.superAdmin = user_permissions?.super_admin ? true : false;
+    this.superAdmin = user_permissions?.super_admin_user ? true : false;
     this.showOption =
       user_permissions?.create_plan_roles?.length > 0 ||
-      user_permissions?.member_type_permissions?.find((f) => f.create == 1);
+      user_permissions?.member_type_permissions?.find((f) => f.create == 1 && f.feature_id == 1);
   }
 
   getFeatureTitle(feature) {
@@ -2084,6 +2085,7 @@ export class PlanDetailComponent {
   confirmDeleteComment(comment) {
     this.showConfirmationModal = false;
     this.selectedItem = comment;
+    this.confirmMode = "comment";
     this.confirmDeleteItemTitle = this._translateService.instant(
       "dialog.confirmdelete"
     );
@@ -2100,6 +2102,7 @@ export class PlanDetailComponent {
       this._plansService.deleteActivityComment(id, planTypeId).subscribe(
         (response) => {
           this.selectedItem = "";
+          this.confirmMode = "";
           this.refreshComments();
         },
         (error) => {
@@ -2134,8 +2137,61 @@ export class PlanDetailComponent {
   }
 
   confirm() {
-    this.deleteComment(this.selectedItem.id, this.planTypeId, true);
-    this.showConfirmationModal = false;
+    if(this.confirmMode == 'comment') {
+      this.deleteComment(this.selectedItem.id, this.planTypeId, true);
+      this.showConfirmationModal = false;
+    } else if(this.confirmMode == 'plan') {
+      this.deletePlan(this.id, this.planTypeId, true, 0)
+    }
+  }
+
+  deletePlan(id, planTypeId, confirmed, editRepeatEventType: any = 0) {
+    if(confirmed) {
+      this._plansService.deletePlan(id, planTypeId)
+        .subscribe(
+          response => {
+            this.confirmMode = "";
+            this.onSubmit = false
+            if(editRepeatEventType == 2) {
+              this.deleteRecurringSeries(id, planTypeId)
+            } else {
+              this.goToPreviousScreen()
+            }
+          },
+          error => {
+            console.log(error)
+          }
+        )
+    } else {
+      this.onSubmit = false
+    }
+  }
+
+  deleteRecurringSeries(id, planTypeId) {
+    let params = {
+      plan_id: id,
+      plan_type_id: planTypeId,
+      repeat_event: this.plan.repeat_event,
+      parent_event_id: this.plan.parent_event_id,
+    }
+    this._plansService.deleteRecurringPlan(params)
+      .subscribe(
+        response => {
+          this.onSubmit = false
+          this.goToPreviousScreen('delete')
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  goToPreviousScreen(mode: string = '') {
+    if(mode == 'delete') {
+      location.href = '/plans'
+    } else {
+      this._router.navigate(['/plans'])
+    }  
   }
 
   handleCloseInvite() {
@@ -2197,7 +2253,22 @@ export class PlanDetailComponent {
 
   handleEditRoute() {}
 
-  handleDelete() {}
+  handleDelete() {
+    if(this.id) {
+      this.showConfirmationModal = false;
+      this.selectedItem = this.id;
+      this.confirmMode = "plan";
+      this.confirmDeleteItemTitle = this._translateService.instant(
+        "dialog.confirmdelete"
+      );
+      this.confirmDeleteItemDescription = this._translateService.instant(
+        "dialog.confirmdeleteitem"
+      );
+      this.acceptText = "OK";
+      this.cancelText = this._translateService.instant("plan-details.cancel");
+      setTimeout(() => (this.showConfirmationModal = true));
+    }
+  }
 
   handleGoBack() {
     this._location.back();
