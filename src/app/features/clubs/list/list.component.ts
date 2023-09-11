@@ -156,7 +156,7 @@ export class ClubsListComponent {
 
   fetchClubs() {
     this._clubsService
-      .fetchClubs(this.companyId, this.userId)
+      .fetchClubs(this.companyId, this.userId, 'active')
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {

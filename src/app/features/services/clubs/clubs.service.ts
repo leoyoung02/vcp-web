@@ -114,8 +114,8 @@ export class ClubsService {
     }).pipe(map(res => res));
   }
 
-  fetchClubs(id: number = 0, userId: number = 0): Observable<any> {
-    return this._http.get(`${CLUBS_URL}/${id}/${userId}`, { 
+  fetchClubs(id: number = 0, userId: number = 0, mode: string = 'active'): Observable<any> {
+    return this._http.get(`${CLUBS_URL}/${id}/${userId}/${mode}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }

@@ -12,9 +12,7 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlansService } from '@features/services';
-import { environment } from '@env/environment';
 import moment from "moment";
-import get from "lodash/get";
 
 @Component({
     selector: 'app-plans-admin-list',
@@ -53,7 +51,7 @@ export class PlansAdminListComponent {
     plansData: any = [];
     dataSource: any;
     displayedColumns = ["title", "plan_date_display", "attendees", "action"];
-    pageSize: number = 25;
+    pageSize: number = 10;
     pageIndex: number = 0;
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator | undefined;
     @ViewChild(MatSort, { static: false }) sort: MatSort | undefined;
@@ -335,6 +333,7 @@ export class PlansAdminListComponent {
                 this.planParticipants[index].clear_attended = 0;
               }
             })
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
           })
@@ -348,6 +347,7 @@ export class PlansAdminListComponent {
                 this.planParticipants[index].clear_attended = 0;
               }
             })
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
           })
@@ -371,6 +371,7 @@ export class PlansAdminListComponent {
                   this.planParticipants[index].clear_attended = 1;
               }
             })
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
           })
@@ -384,6 +385,7 @@ export class PlansAdminListComponent {
                   this.planParticipants[index].clear_attended = 1;
               }
             })
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
           })
@@ -406,6 +408,7 @@ export class PlansAdminListComponent {
                   this.planParticipants[index].clear_confirmed = 0;
               }
             })
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
           })
@@ -419,6 +422,7 @@ export class PlansAdminListComponent {
                   this.planParticipants[index].clear_confirmed = 0;
               }
             })
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
           })
@@ -441,6 +445,7 @@ export class PlansAdminListComponent {
                   this.planParticipants[index].clear_confirmed = 1;
               }
             })
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
           })
@@ -454,11 +459,19 @@ export class PlansAdminListComponent {
                   this.planParticipants[index].clear_confirmed = 1;
               }
             })
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
           })
         }
     }
+
+    async open(message: string, action: string) {
+      await this._snackBar.open(message, action, {
+          duration: 3000,
+          panelClass: ["info-snackbar"],
+      });
+  }
 
     filterCity(event) {
         this.list?.forEach((item) => {
@@ -538,6 +551,7 @@ export class PlansAdminListComponent {
         }
     
         this._excelService.exportAsExcelFile(event_data, 'event-' + event.id);
+        this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
     }
 
     ngOnDestroy() {
