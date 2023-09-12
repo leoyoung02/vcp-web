@@ -22,6 +22,7 @@ import { initFlowbite } from 'flowbite';
 export class ToastComponent {
     @Input() company: any;
     @Input() update: any;
+    @Input() done: any;
     @Input() confirm: any;
     @Input() title: any;
     @Input() description: any;

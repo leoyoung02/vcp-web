@@ -1,4 +1,4 @@
-import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { Component, HostListener, Input } from "@angular/core";
 import {
   LangChangeEvent,
@@ -8,7 +8,7 @@ import {
 import { CompanyService, LocalService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
-import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { JobOffersService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
 import { DateAgoPipe } from "@lib/pipes";

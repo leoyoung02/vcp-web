@@ -374,3 +374,66 @@ input:checked ~ .dot {
     z-index: 2;
     padding: 1em;
 }
+
+ng-multiselect-dropdown {
+    width: 100%;
+}
+
+ng-multiselect-dropdown .multiselect-dropdown .dropdown-btn {
+    background-color: #fff;
+    border-radius: 10px !important;
+    padding: 0.5rem !important;
+    border-color: rgb(209 213 219 / 1) !important;
+}
+
+ng-multiselect-dropdown .multiselect-dropdown .dropdown-btn > span {
+    font-size: 0.875rem;
+}
+
+ng-multiselect-dropdown .multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret:before {
+    background-position: right 1.3rem center;
+    background-repeat: no-repeat;
+    background-size: 0.75em 0.75em;
+    padding-right: 2.5rem;
+    top: 31% !important;
+    border-style: none !important;
+    background-image: url("data:image/svg+xml,%3csvg aria-hidden='true' xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 10 6'%3e %3cpath stroke='%236B7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 1 4 4 4-4'/%3e %3c/svg%3e");
+}
+
+ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
+    border-radius: 10px;
+}
+
+.ngx-mat-timepicker form .ngx-mat-timepicker-table .ngx-mat-timepicker-tbody tr td .mat-mdc-icon-button {
+    display: none;
+}
+
+.mat-datepicker-content {
+    background-color: #fff !important;
+    border-radius: 10px !important;
+}
+
+.ngx-mat-timepicker form .ngx-mat-timepicker-table .ngx-mat-timepicker-tbody tr td.ngx-mat-timepicker-spacer {
+    margin-top: 4px;
+    margin-left: -3px;
+    position: absolute;
+}
+
+.datetime-picker-field .mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper,
+.datetime-picker-field .mdc-text-field--filled:not(.mdc-text-field--disabled) {
+    background-color: #fff !important;
+    border-radius: 10px !important;
+}
+
+.datetime-picker-field .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::before,
+.datetime-picker-field .mdc-text-field--filled:not(.mdc-text-field--disabled) .mdc-line-ripple::after {
+    border: none !important;
+}
+
+.datetime-picker-field .mdc-text-field--filled.mdc-text-field--invalid:not(.mdc-text-field--disabled) {
+    border: solid 1px #f00;
+}
+
+.multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
+    max-width: 160px !important;
+}

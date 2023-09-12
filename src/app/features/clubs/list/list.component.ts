@@ -597,7 +597,7 @@ export class ClubsListComponent {
   }
 
   handleCreateRoute() {
-    this._router.navigate([`/clubs/edit/0`]);
+    this._router.navigate([`/clubs/create/0`]);
   }
 
   createNewTitle(page) {

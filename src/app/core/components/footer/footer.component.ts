@@ -3,13 +3,12 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  SimpleChanges,
   inject,
 } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { PACKAGE_JSON, providePackageJson } from "src/app/core/providers";
 import { LogoComponent } from "../logo/logo.component";
-import { LocalService, CompanyService } from "src/app/share/services";
+import { LocalService } from "src/app/share/services";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { 
   faEnvelope

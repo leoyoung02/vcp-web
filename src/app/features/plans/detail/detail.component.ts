@@ -202,6 +202,7 @@ export class PlanDetailComponent {
   otherSettings: any;
   featureId: any;
   hasCustomMemberTypeSettings: boolean = false;
+  planCategory: any;
   planSubcategory: any;
   repeatEvent: any;
   showEditRepeatingEventConfirmationModal: boolean = false;
@@ -572,7 +573,7 @@ export class PlanDetailComponent {
 
   initializeBreadcrumb() {
     this.level1Title = this.pageName;
-    this.level2Title = this.getCategoryLabel();
+    this.level2Title = "";
     this.level3Title = this.planTitle;
     this.level4Title = "";
   }
@@ -788,10 +789,11 @@ export class PlanDetailComponent {
       var date = moment(
         this.plan.plan_date.replace("T", " ").replace(".000Z", "")
       );
+      this.planDateValue = this.plan.plan_date.replace("T", " ").replace(".000Z", "");
       var zone = "Europe/Madrid";
       this.calendarStartDate = momenttz.tz(date, zone).format();
 
-      if (this.plan.plan_date < today) {
+      if (this.plan.plan_date < today || moment(this.plan.plan_date).isBefore(moment(new Date()))) {
         this.isPastEvent = true;
       }
     }
@@ -811,6 +813,25 @@ export class PlanDetailComponent {
     this.zoomLink = this.plan.zoom_link;
 
     this.planParticipants = plan?.plan_participants;
+    if (this.plan?.event_category_id > 0) {
+      this.getCategoryLabel()
+    } else {
+      let categories1 = plan?.categories_mapping;
+      if (categories1) {
+        let cats = [];
+        if (categories1) {
+          cats = this.categories.filter((sc) => {
+            let match = categories1.some((a) => a.fk_supercategory_id === sc.fk_supercategory_id);
+            return match;
+          });
+        }
+
+        if (cats?.length > 0) {
+          this.planCategory = cats ? cats?.map( (data: any) => { return data?.name_ES }).join() : '';
+          this.level2Title = this.planCategory
+        }
+      }
+    }
     if (this.plan?.event_subcategory_id > 0) {
       let subcat =
         this.subcategories &&
@@ -860,7 +881,8 @@ export class PlanDetailComponent {
               planSubcategory += ", " + text;
             }
           });
-          this.planSubcategory = planSubcategory;
+          
+          this.planSubcategory = subcats ? subcats?.map( (data: any) => { return data?.name_ES }).join() : '';
         }
       }
     }
@@ -2251,7 +2273,9 @@ export class PlanDetailComponent {
 
   duplicate() {}
 
-  handleEditRoute() {}
+  handleEditRoute() {
+    this._router.navigate([`/plans/edit/${this.id}/${this.planTypeId}`]);
+  }
 
   handleDelete() {
     if(this.id) {

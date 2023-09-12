@@ -8,21 +8,26 @@
         </div>
         <div class="ml-3 text-sm font-normal">
             <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">{{ title }}</span>
-            <div class="mb-4 text-xs font-normal">{{ description }}</div> 
-            <div class="grid grid-cols-2 gap-2">
+            <div class="flex justify-center" *ngIf="done">
+                <svg [ngStyle]="{'color': '#5cb85c'}" class="my-4 w-16 h-16 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                </svg>
+            </div>
+            <div class="mb-4 text-xs font-normal" [ngClass]="{'text-center': done}">{{ description }}</div> 
+            <div [ngClass]="{'grid grid-cols-2 gap-2': !done}">
                 <div>
                     <ng-container *ngIf="update">
                         <a href="javascript:;" (click)="applyUpdates()" [ngStyle]="{'background-color': buttonColor}" class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
                             {{ 'profile-settings.update' | translate }}
                         </a>
                     </ng-container>
-                    <ng-container *ngIf="confirm">
+                    <ng-container *ngIf="confirm || done">
                         <a href="javascript:;" (click)="handleAccept()" [ngStyle]="{'background-color': buttonColor}" class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800" data-dismiss-target="#toast-interactive">
                             {{ acceptText }}
                         </a>
                     </ng-container>
                 </div>
-                <div>
+                <div *ngIf="cancelText">
                     <a href="javascript:;" class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-gray-900 bg-white border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 dark:bg-gray-600 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:hover:border-gray-700 dark:focus:ring-gray-700">
                         {{ cancelText }}
                     </a>

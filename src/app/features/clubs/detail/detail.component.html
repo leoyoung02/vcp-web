@@ -91,7 +91,7 @@
                         class="mb-8 btn w-full py-6 hover:bg-black text-white hover:text-white text-lg" 
                         [ngStyle]="{'background-color': buttonColor}"
                         (click)="handleNavigate()">
-                        {{ 'crm.createnew' | translate }} <span style="text-transform:lowercase;"> {{ planTitle &&
+                        {{ 'crm.createnew' | translate }} <span class="lowercase ml-1"> {{ planTitle &&
                             planTitle.indexOf('ctiv') >= 0 ? ('plans.activity' | translate) : ('plans.plan' |
                             translate) }}</span>
                     </button>
@@ -199,7 +199,7 @@
                 </div>
             </div>
         </div>
-        <div class="py-4" *ngIf="(group.show_comments && groupShow)  || group.private == 0">
+        <div class="py-4" *ngIf="group.show_comments && (groupShow || group.private == 0)">
             <div class="container mb-4 flex items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
                 <h1 class="text-xl">{{ 'plan-details.comments' | translate }}</h1>
             </div>

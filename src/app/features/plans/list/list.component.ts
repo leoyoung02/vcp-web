@@ -1430,7 +1430,7 @@ export class PlansListComponent {
     if (this.user.custom_member_type_id == 60) {
       this.plan_type = 4;
     }
-    this._router.navigate([`/plans/create/${this.plan_type}`]);
+    this._router.navigate([`/plans/create/0/${this.plan_type}`]);
   }
 
   createNewTitle(page) {

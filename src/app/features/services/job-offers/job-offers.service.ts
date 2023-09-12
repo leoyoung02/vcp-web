@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { DELETE_JOB_OFFER_URL, JOB_OFFERS_URL, JOB_OFFER_MIN_URL, JOB_OFFER_URL, REGISTER_JOB_OFFER_URL } from "@lib/api-constants";
+import { DELETE_JOB_OFFER_URL, JOB_OFFERS_URL, JOB_OFFER_MIN_URL, JOB_OFFER_URL, REGISTER_JOB_OFFER_URL, JOB_OFFERS_DATA_URL, CREATE_JOB_OFFER_URL, EDIT_JOB_OFFER_URL } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
 @Injectable({
@@ -18,6 +18,12 @@ export class JobOffersService {
 
   fetchJobOffers(id: number = 0, userId: number = 0, mode: string = 'active'): Observable<any> {
     return this._http.get(`${JOB_OFFERS_URL}/${id}/${userId}/${mode}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  fetchJobOffersData(id: number = 0, userId: number = 0): Observable<any> {
+    return this._http.get(`${JOB_OFFERS_DATA_URL}/${id}/${userId}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }
@@ -46,6 +52,20 @@ export class JobOffersService {
         REGISTER_JOB_OFFER_URL,
         payload,
         { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addJobOffer(payload): Observable<any> {
+    return this._http.post(
+      CREATE_JOB_OFFER_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editJobOffer(id, payload): Observable<any> {
+    return this._http.post(
+      `${EDIT_JOB_OFFER_URL}/${id}`,
+      payload,
     ).pipe(map(res => res));
   }
 }

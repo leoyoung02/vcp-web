@@ -33,6 +33,7 @@
     ]
   },
   "dependencies": {
+    "@angular-material-components/datetime-picker": "^16.0.1",
     "@angular/animations": "^16.0.0",
     "@angular/cdk": "^16.2.0",
     "@angular/common": "^16.0.0",
@@ -64,7 +65,9 @@
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
+    "ng-multiselect-dropdown": "^1.0.0",
     "ngx-filepond": "^7.0.1",
+    "ngx-image-cropper": "^7.0.2",
     "ngx-stripe": "^16.2.0",
     "rxjs": "~7.8.0",
     "secure-web-storage": "^1.0.2",

@@ -161,6 +161,12 @@ export const CONFIRM_PARTICIPANT_URL = `${API_BASE}/company/plan/attendance/conf
 export const CLEAR_CONFIRMATION_URL = `${API_BASE}/company/plan/clear/confirm`;
 export const CONFIRM_PLAN_PARTICIPANT_URL = `${API_BASE}/company/company-plan/attendance/confirm`;
 export const CLEAR_PLAN_CONFIRMATION_URL = `${API_BASE}/company/company-plan/clear/confirm`;
+export const CREATE_CLUB_PLAN_URL = `${API_BASE}/company/group_plans/create-optimize`
+export const CREATE_PLAN_URL = `${API_BASE}/company/plans/create-optimize`;
+export const CREATE_PLAN_FOR_APPROVAL_URL = `${API_BASE}/company/club-activities/approval/notification`;
+export const ACTIVITY_CITIES_URL = `${API_BASE}/company/activity/cities`;
+export const EDIT_CLUB_PLAN_URL = `${API_BASE}/company/group_plans/edit-new`;
+export const EDIT_PLAN_URL = `${API_BASE}/company/plans/edit-new`;
 
 export const PLANS_URL = `${API_BASE}/v2/plans`;
 export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;
@@ -191,16 +197,22 @@ export const DELETE_CLUB_URL = `${API_BASE}/company/group/delete`;
 export const REQUEST_JOIN_URL = `${API_BASE}/company/group/join_request`;
 export const JOIN_CLUB_URL = `${API_BASE}/company/group/member/add`;
 export const CLUB_PLANS_URL = `${API_BASE}/company/groups-plans`;
+export const ADD_CLUB_URL = `${API_BASE}/company/group-optimize`;
+export const EDIT_CLUB_URL = `${API_BASE}/company/groups/edit-admin`;
 
 export const CLUBS_URL = `${API_BASE}/v2/clubs`;
+export const CLUBS_DATA_URL = `${API_BASE}/v2/clubs-other-data`;
 export const CLUB_URL = `${API_BASE}/v2/club-details`;
 
 // JOB OFFERS
 export const JOB_OFFERS_URL = `${API_BASE}/v2/job-offers`;
+export const JOB_OFFERS_DATA_URL = `${API_BASE}/v2/job-offers-other-data`;
 export const JOB_OFFER_URL = `${API_BASE}/v2/job-offer-details`;
 export const JOB_OFFER_MIN_URL = `${API_BASE}/v2/job-offer-details-min`;
 export const DELETE_JOB_OFFER_URL = `${API_BASE}/company/job/offer/delete`;
 export const REGISTER_JOB_OFFER_URL = `${API_BASE}/company/job/register/create`;
+export const CREATE_JOB_OFFER_URL = `${API_BASE}/company/job/offer/create-new`;
+export const EDIT_JOB_OFFER_URL = `${API_BASE}/company/job/offer/edit-new`;
 
 // COURSES
 export const COURSE_SUBSCRIPTIONS_URL = `${API_BASE}/course-subscriptions`;

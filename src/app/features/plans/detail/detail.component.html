@@ -197,8 +197,7 @@
                     </ng-container>
                 </ng-container>
                 <button
-                    *ngIf="(user && !plan?.limit_date && plan?.fk_user_id == user.id  && plan?.plan_date < today) || 
-                        (user && plan?.limit_date && plan?.fk_user_id == user.id && plan?.limit_date < today)"
+                    *ngIf="user && isPastEvent"
                     class="btn w-full text-white text-base my-6 py-6"
                     [ngStyle]="{
                         'background-color': buttonColor
@@ -269,9 +268,9 @@
                     <div>{{ createdBy || planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name) }}</div>
                 </div>
             </div>
-            <div class="flex items-center my-4" *ngIf="getCategoryLabel()">
+            <div class="flex items-center my-4" *ngIf="planCategory">
                 <img width="24" height="24" class="object-contain mr-6 ml-4" src="./assets/images/new-design/icons/Tag.png">
-                <div class="text-xl">{{ getCategoryLabel() }}</div>
+                <div class="text-xl">{{ planCategory }}</div>
             </div>
             <div class="flex items-center my-4" *ngIf="planSubcategory">
                 <img width="24" height="24" class="object-contain mr-6 ml-4" src="./assets/images/new-design/icons/Tag.png">

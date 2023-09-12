@@ -3,8 +3,10 @@ import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {
   ADD_CLUB_COMMENT_URL,
+  ADD_CLUB_URL,
   ADD_COMMENT_REACTION_URL,
   ADD_COMMENT_REPLY_URL,
+  CLUBS_DATA_URL,
   CLUBS_URL,
   CLUB_COMMENTS_URL,
   CLUB_PLANS_URL,
@@ -14,6 +16,7 @@ import {
   CONTACT_FIELDS_URL,
   DELETE_CLUB_COMMENT_URL,
   DELETE_CLUB_URL,
+  EDIT_CLUB_URL,
   GROUP_CATEGORIES_URL,
   GROUP_CATEGORY_ADD_URL,
   GROUP_CATEGORY_DELETE_URL,
@@ -120,6 +123,12 @@ export class ClubsService {
     }).pipe(map(res => res));
   }
 
+  fetchClubsData(id: number = 0, userId: number = 0, mode: string = 'active'): Observable<any> {
+    return this._http.get(`${CLUBS_DATA_URL}/${id}/${userId}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
   fetchClub(id: number = 0, companyId: number = 0, userId: number = 0): Observable<any> {
     return this._http.get(`${CLUB_URL}/${id}/${companyId}/${userId}`, { 
       headers: this.headers 
@@ -188,5 +197,19 @@ export class ClubsService {
     return this._http.get(`${CLUB_PLANS_URL}/${groupId}`, {
       headers: this.headers 
     }).pipe(map(res => res))
+  }
+
+  addClub(payload): Observable<any> {
+    return this._http.post(
+      ADD_CLUB_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editClub(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_CLUB_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
   }
 }

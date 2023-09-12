@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@angular-material-components/datetime-picker':
+    specifier: ^16.0.1
+    version: 16.0.1(@angular/cdk@16.2.0)(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/forms@16.0.0)(@angular/material@16.2.0)(@angular/platform-browser@16.0.0)
   '@angular/animations':
     specifier: ^16.0.0
     version: 16.0.0(@angular/core@16.0.0)
@@ -98,9 +101,15 @@ dependencies:
   moment-timezone:
     specifier: ^0.5.43
     version: 0.5.43
+  ng-multiselect-dropdown:
+    specifier: ^1.0.0
+    version: 1.0.0
   ngx-filepond:
     specifier: ^7.0.1
     version: 7.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)(filepond@4.30.4)
+  ngx-image-cropper:
+    specifier: ^7.0.2
+    version: 7.0.2(@angular/common@16.0.0)(@angular/core@16.0.0)
   ngx-stripe:
     specifier: ^16.2.0
     version: 16.2.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@stripe/stripe-js@2.1.0)
@@ -534,6 +543,25 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /@angular-material-components/datetime-picker@16.0.1(@angular/cdk@16.2.0)(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/forms@16.0.0)(@angular/material@16.2.0)(@angular/platform-browser@16.0.0):
+    resolution: {integrity: sha512-dbkwWiC8qL7NVlMclb1hvuZvuP2l1nvfnnmijEc/zGsoWeoLNDXn/+z/UQtMcbUphcwCzFt9CfHhhpGUGgQLgw==}
+    peerDependencies:
+      '@angular/cdk': ^16.0.0
+      '@angular/common': ^16.0.0
+      '@angular/core': ^16.0.0
+      '@angular/forms': ^16.0.0
+      '@angular/material': ^16.0.0
+      '@angular/platform-browser': ^16.0.0
+    dependencies:
+      '@angular/cdk': 16.2.0(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
+      '@angular/forms': 16.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)(rxjs@7.8.0)
+      '@angular/material': 16.2.0(@angular/animations@16.0.0)(@angular/cdk@16.2.0)(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/forms@16.0.0)(@angular/platform-browser@16.0.0)(rxjs@7.8.0)
+      '@angular/platform-browser': 16.0.0(@angular/animations@16.0.0)(@angular/common@16.0.0)(@angular/core@16.0.0)
+      tslib: 2.5.0
+    dev: false
 
   /@angular/animations@16.0.0(@angular/core@16.0.0):
     resolution: {integrity: sha512-Xx4Ffdo3sweg24MDVAXbDfxqkNPEuRgqOC1+f9171kf+w7cBEr4Bmy37DP7YkJceaU0xJH9imcx4708KeIjqkQ==}
@@ -8080,6 +8108,12 @@ packages:
     resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
     dev: true
 
+  /ng-multiselect-dropdown@1.0.0:
+    resolution: {integrity: sha512-7Dg2NQKiKTllfqidP7dQxe35aIvQQmbnUWXamhhuRzqbhKl/LQUeQoXxkYxFUwQPFBR9MVb5RJjS3d5Pds1KmQ==}
+    dependencies:
+      tslib: 2.5.0
+    dev: false
+
   /ngx-filepond@7.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)(filepond@4.30.4):
     resolution: {integrity: sha512-22AZTIxsAUIFlsAFtAVWjJ84bjUVW0A9OYcsa7S+xxT3hzxwl2fPR3+/I91wK0dY5cPboLehKGrdZZa+SWWFQA==}
     peerDependencies:
@@ -8090,6 +8124,17 @@ packages:
       '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
       '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
       filepond: 4.30.4
+      tslib: 2.5.0
+    dev: false
+
+  /ngx-image-cropper@7.0.2(@angular/common@16.0.0)(@angular/core@16.0.0):
+    resolution: {integrity: sha512-dbLME5kHdDQG6PPK0C0oczJuATYmjB0tOuotx/2sPaQZU8BUTKKOll+q1CGImFDT8Cn3+HpGAQk6vt6wlO9DrA==}
+    peerDependencies:
+      '@angular/common': '>=13.0.0'
+      '@angular/core': '>=13.0.0'
+    dependencies:
+      '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
       tslib: 2.5.0
     dev: false
 
