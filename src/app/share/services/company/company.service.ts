@@ -47,9 +47,12 @@ import {
   SUBFEATURE_OPTIONS_MAPPING_URL,
   STRIPE_CUSTOMER_PORTAL_URL,
   LISTS_MANAGEMENT_DATA_URL,
+  REPORTS_DATA_URL,
+  EDIT_TEAMS_REPORTS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
+import moment from 'moment';
 
 @Injectable({
   providedIn: "root",
@@ -349,5 +352,141 @@ export class CompanyService {
     return this._http.get(`${LISTS_MANAGEMENT_DATA_URL}/${id}/${userId}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
+  }
+
+  fetchReportsData(id: number = 0, userId: number = 0): Observable<any> {
+    return this._http.get(`${REPORTS_DATA_URL}/${id}/${userId}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  getReportData(id, type, start_date, end_date, period, year, campus, title) {
+    let params = `start_date=${moment(start_date).format('YYYY-MM-DD')}&end_date=${moment(end_date).format('YYYY-MM-DD')}&period=${period}&year=${year}&campus=${campus}&title=${title}`
+  
+    let url
+    switch(type) {
+      case 'joined':
+        url = `/company/reports/activities/joined/donut/${id}?${params}`
+        break
+      case 'clicks': 
+        url = `/company/reports/activities/clicked/${id}?${params}`
+        break
+      case 'attended': 
+        url = `/company/reports/activities/teams/${id}`
+        break
+      case 'clubs-joined': 
+        url = `/company/reports/clubs/joined/donut/${id}?${params}`
+        break
+      case 'clubs-generated':
+        url = `/company/reports/clubs/activities/generated/donut/${id}?${params}`
+        break
+      case 'joined-generated':
+        url = `/company/reports/clubs/activities/generated/joined/donut/${id}?${params}`
+        break
+      case 'offers-joined':
+        url = `/company/reports/canal-empleo/joined/${id}?${params}`
+        break
+      case 'offer-clicks':
+        url = `/company/reports/canal-empleo/clicked/${id}?${params}`
+        break
+      case 'teams-attended':
+        url = `/company/reports/activities/teams-msgraph/${id}/attended?${params}`
+        break
+      case 'teams-audio-time':
+        url = `/company/reports/activities/teams-msgraph/${id}/audio-time?${params}`
+        break
+      case 'teams-video-time':
+        url = `/company/reports/activities/teams-msgraph/${id}/video-time?${params}`
+        break
+      case 'teams-clicks':
+        url = `/company/reports/activities/teams/${id}?${params}`
+        break
+    }
+
+    return this._http.get(
+      environment.api + url,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  getExportData(url) {
+    return this._http.get(
+      environment.api + url,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  updateTeamsGraphSettings(id, payload): Observable<any> {
+    return this._http.post(`${EDIT_TEAMS_REPORTS_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getReportDetailsData(id, type, datapoint, date: any = '', area: any = '') {
+    let url
+    switch(type) {
+      case 'joined':
+        url = `/company/reports/activities/joined/details/${id}/${datapoint}`
+        break
+      case 'clicks': 
+        url = `/company/reports/activities/clicked/details/${id}/${date}/${datapoint}`
+        break
+      case 'attended': 
+        url = `/company/reports/activities/teams/${id}`
+        break
+      case 'clubs-joined': 
+        url = `/company/reports/clubs/joined/details/${id}/${datapoint}`
+        break
+      case 'clubs-generated':
+        url = `/company/reports/clubs/activities/generated/details/${id}/${datapoint}`
+        break
+      case 'joined-generated':
+        url = `/company/reports/clubs/activities/generated/joined/details/${id}/${datapoint}`
+        break
+      case 'offers-joined':
+        url = `/company/reports/canal-empleo/joined/details/${id}/${area}/${datapoint}`
+        break
+      case 'offer-clicks':
+        url = `/company/reports/canal-empleo/clicked/details/${id}/${area}/${datapoint}`
+        break
+      case 'cityagenda-clicks':
+        url = `/company/reports/city-agenda/clicked/details/${id}/${date}/${datapoint}`
+        break
+      case 'teams-attended':
+        let period = localStorage.getItem('period')
+        if(period) {
+          url = `/company/reports/activities/teams-msgraph/details/${id}/attended/${date}/${datapoint}?period_selected=${period}`
+        } else {
+          url = `/company/reports/activities/teams-msgraph/details/${id}/attended/${date}/${datapoint}`
+        }
+        break
+      case 'teams-audio-time':
+        url = `/company/reports/activities/teams-msgraph/details/${id}/audio-time/${date}/${datapoint}`
+        break
+      case 'teams-video-time':
+        url = `/company/reports/activities/teams-msgraph/details/${id}/video-time/${date}/${datapoint}`
+        break
+      case 'teams-clicks':
+        url = `/company/reports/activities/teams/details/${id}/${date}/${datapoint}`
+        break
+      case 'mentor-mentee-associations':
+        url = `/company/reports/mentors/associations/details/${id}/${datapoint}`
+        break
+      case 'mentor-active-conversations':
+        url = `/company/reports/mentors/conversations/details/${id}/${datapoint}`
+        break
+      case 'mentee-mentor-associations':
+        url = `/company/reports/mentees/associations/details/${id}/${datapoint}`
+        break
+      case 'mentee-active-conversations':
+        url = `/company/reports/mentees/conversations/details/${id}/${datapoint}`
+        break
+    }
+
+    return this._http.get(
+      environment.api + url,
+      { headers: this.headers }
+    ).pipe(map(res => res))
   }
 }

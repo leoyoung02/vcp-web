@@ -32,4 +32,16 @@ export const routes: Routes = [
         data: { titleKey: 'company-settings.lists'},
         loadComponent: async () => (await import('./admin-list/admin-list.component')).AdminListComponent,
     },
+    {
+        path: 'reports',
+        title: CustomTitleResolver,
+        data: { titleKey: 'company-settings.reports'},
+        loadComponent: async () => (await import('./reports/reports.component')).SettingsReportsComponent,
+    },
+    {
+        path: 'reports/details/:mode/:sub/:datapoint',
+        title: CustomTitleResolver,
+        data: { titleKey: 'customer.data'},
+        loadComponent: async () => (await import('./reports-data/reports-data.component')).ReportsDataComponent,
+    },
 ];

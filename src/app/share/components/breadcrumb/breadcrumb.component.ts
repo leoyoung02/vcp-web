@@ -5,6 +5,7 @@ import {
   EventEmitter,
   Input,
   Output,
+  SimpleChange,
 } from "@angular/core";
 
 @Component({
@@ -19,6 +20,8 @@ export class BreadcrumbComponent {
     @Input() level2Title: any;
     @Input() level3Title: any;
     @Input() level4Title: any;
+    @Input() level5Title: any;
+    @Input() level6Title: any;
     @Input() buttonColor;
     @Output() goBack = new EventEmitter();
 

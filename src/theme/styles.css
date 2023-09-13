@@ -108,12 +108,14 @@ select {
   padding: 10px !important;
 }
 
-.mat-column-image { 
+.mat-column-image,
+.mat-column-ID { 
   flex: 0 0 5% !important;
   width: 5% !important;
 }
 
-.mat-column-name {
+.mat-column-name,
+.mat-column-Email {
   flex: 0 0 30% !important;
   width: 30% !important;
 }
@@ -436,4 +438,58 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
 
 .multiselect-dropdown .dropdown-btn .selected-item-container .selected-item {
     max-width: 160px !important;
+}
+
+#chartA.flex {
+    display: flex;
+    justify-content: center;
+    margin-top: 80px;
+    margin-bottom: -80px;
+}
+
+.apexcharts-menu-item.exportCSV {
+    display: none;
+}
+
+.arrow_box {
+    padding: 10px 0;
+    min-width: 150px;
+    position: relative;
+}
+
+.arrow_box:after, .arrow_box:before {
+    right: 100%;
+    top: 50%;
+    border: solid transparent;
+    content: " ";
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+}
+      
+.arrow_box:after {
+    border-color: rgba(85, 85, 85, 0);
+    border-right-color: #555;
+    border-width: 10px;
+    margin-top: -10px;
+}
+
+.arrow_box:before {
+    border-color: rgba(0, 0, 0, 0);
+    border-right-color: #000000;
+    border-width: 13px;
+    margin-top: -13px;
+}
+
+.arrow_box .arrow_box_header {
+    border-bottom: solid 1px #fff;
+    padding: 0 10px 10px 10px;
+    font-weight: 600;
+    color: #fff;
+}
+
+.arrow_box .arrow_box_content {
+    padding: 10px 10px 0 10px;
+    color: #fff;
 }

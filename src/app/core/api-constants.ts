@@ -52,6 +52,10 @@ export const SUBFEATURE_ACTIVATE_URL = `${API_BASE}/company/feature/sub-feature/
 export const SUBFEATURE_DEACTIVATE_URL = `${API_BASE}/company/feature/sub-feature/deactivate`;
 export const SETTINGS_OPTIONS_URL = `${API_BASE}/company/other-settings-options-content`;
 
+// REPORTS
+export const REPORTS_DATA_URL = `${API_BASE}/v2/reports-data`;
+export const EDIT_TEAMS_REPORTS_URL = `${API_BASE}/company/reports/teams/graph/settings/edit`;
+
 // AUTH 
 export const LOGIN_URL = `${API_BASE}/company/login`;
 export const FORGOT_PASSWORD_URL = `${API_BASE}/central/reset-password`;

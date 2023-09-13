@@ -164,15 +164,11 @@ export class AdminListComponent {
       this._translateService.onLangChange.subscribe(
         (event: LangChangeEvent) => {
           this.language = event.lang;
-          this.rerenderList();
+          this.initialize();
         }
       );
   }
-
-  rerenderList() {
-    this.initialize();
-  }
-
+  
   initialize() {
     let companyFeatures = this._localService.getLocalStorage(
       environment.lsfeatures

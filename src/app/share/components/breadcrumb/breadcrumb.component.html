@@ -39,7 +39,33 @@
           <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
           </svg>
-          <span class="ml-1 text-xs font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{level4Title}}</span>
+          <ng-container *ngIf="level5Title">
+            <a href="javascript:;" class="ml-1 text-xs font-medium text-gray-700 md:ml-2 dark:text-gray-400">{{level4Title}}</a>
+          </ng-container>
+          <ng-container *ngIf="!level5Title">
+            <span class="ml-1 text-xs font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{level4Title}}</span>
+          </ng-container>
+        </div>
+      </li>
+      <li aria-current="page" *ngIf="level5Title">
+        <div class="flex items-center">
+          <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+          </svg>
+          <ng-container *ngIf="level6Title">
+            <a href="javascript:;" class="ml-1 text-xs font-medium text-gray-700 md:ml-2 dark:text-gray-400">{{level5Title}}</a>
+          </ng-container>
+          <ng-container *ngIf="!level6Title">
+            <span class="ml-1 text-xs font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{level5Title}}</span>
+          </ng-container>
+        </div>
+      </li>
+      <li aria-current="page" *ngIf="level6Title">
+        <div class="flex items-center">
+          <svg class="w-3 h-3 text-gray-400 mx-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
+          </svg>
+          <span class="ml-1 text-xs font-medium text-gray-500 md:ml-2 dark:text-gray-400">{{level6Title}}</span>
         </div>
       </li>
     </ol>
