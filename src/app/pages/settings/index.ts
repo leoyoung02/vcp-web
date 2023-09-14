@@ -44,4 +44,10 @@ export const routes: Routes = [
         data: { titleKey: 'customer.data'},
         loadComponent: async () => (await import('./reports-data/reports-data.component')).ReportsDataComponent,
     },
+    {
+        path: 'manage-list/:list',
+        title: CustomTitleResolver,
+        data: { titleKey: 'user-popup.admin'},
+        loadComponent: async () => (await import('./manage-list/manage-list.component')).ManageListComponent,
+    },
 ];

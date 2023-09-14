@@ -49,6 +49,17 @@ import {
   LISTS_MANAGEMENT_DATA_URL,
   REPORTS_DATA_URL,
   EDIT_TEAMS_REPORTS_URL,
+  MANAGE_MEMBER_TYPES_DATA_URL,
+  EDIT_MEMBER_TYPE_SEQUENCE_URL,
+  DELETE_MEMBER_TYPE_URL,
+  GENERATE_MEMBER_TYPE_LINK_URL,
+  EDIT_MEMBER_TYPE_URL,
+  ADD_MEMBER_TYPE_URL,
+  SAVE_MEMBER_TYPE_PERMISSIONS_URL,
+  DELETE_MEMBER_TYPE_FIELD_URL,
+  EDIT_MEMBER_TYPE_FIELD_URL,
+  ADD_MEMBER_TYPE_FIELD_URL,
+  MEMBER_TYPE_PROFILE_FIELDS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -488,5 +499,75 @@ export class CompanyService {
       environment.api + url,
       { headers: this.headers }
     ).pipe(map(res => res))
+  }
+
+  fetchManageMemberTypesData(id: number = 0, userId: number = 0): Observable<any> {
+    return this._http.get(`${MANAGE_MEMBER_TYPES_DATA_URL}/${id}/${userId}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  editProfileFieldSequence(params): Observable<any> {
+    return this._http.post(EDIT_MEMBER_TYPE_SEQUENCE_URL,
+        params
+    ).pipe(map(res => res));
+  }
+
+  deleteCustomMemberType(id): Observable<any> {
+    return this._http.post(`${DELETE_MEMBER_TYPE_URL}/${id}`, 
+        {}
+    ).pipe(map(res => res))
+  }
+
+  generateCartLink(payload): Observable<any> {
+    return this._http.post(GENERATE_MEMBER_TYPE_LINK_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addCustomMemberType(fd): Observable<any> {
+    return this._http.post(ADD_MEMBER_TYPE_URL, 
+        fd
+    ).pipe(map(res => res))
+  }
+
+  editCustomMemberType(id, payload): Observable<any> {
+    return this._http.post(`${EDIT_MEMBER_TYPE_URL}/${id}`, 
+        payload
+    ).pipe(map(res => res))
+  }
+
+  manageCustomMemberTypePermissions(payload): Observable<any> {
+    return this._http.post(SAVE_MEMBER_TYPE_PERMISSIONS_URL, 
+        payload
+    ).pipe(map(res => res))
+  }
+
+  addMemberTypeCustomProfileFields(payload): Observable<any> {
+    return this._http.post(ADD_MEMBER_TYPE_FIELD_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  updateMemberTypeCustomProfileFields(payload): Observable<any> {
+    return this._http.post(EDIT_MEMBER_TYPE_FIELD_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteMemberTypeCustomProfileFields(payload): Observable<any> {
+    return this._http.post(DELETE_MEMBER_TYPE_FIELD_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getCustomProfileFields(id): Observable<any> {
+    return this._http.get(`${MEMBER_TYPE_PROFILE_FIELDS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

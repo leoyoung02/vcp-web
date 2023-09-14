@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, HostListener } from "@angular/core";
+import { Component, HostListener, Input } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   LangChangeEvent,
@@ -35,6 +35,8 @@ import get from "lodash/get";
 })
 export class AdminListsComponent {
   private destroy$ = new Subject<void>();
+
+  @Input() individual: any;
 
   languageChangeSubscription;
   isMobile: boolean = false;

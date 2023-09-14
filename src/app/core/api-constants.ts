@@ -34,7 +34,19 @@ export const CREATE_PLAN_ROLES_URL = `${API_BASE}/company/other-settings/create-
 export const CITIES_URL = `${API_BASE}/company/cities`;
 export const SUBFEATURE_OPTIONS_MAPPING_URL = `/company/sub-feature/options/mapping`;
 export const STRIPE_CUSTOMER_PORTAL_URL = `${API_BASE}/company/customer/portal/create`;
+export const EDIT_MEMBER_TYPE_SEQUENCE_URL = `${API_BASE}/profile/fields/edit-sequence`;
+export const DELETE_MEMBER_TYPE_URL = `${API_BASE}/company/custom/member/type/delete`;
+export const GENERATE_MEMBER_TYPE_LINK_URL = `${API_BASE}/cart/link/generate`;
+export const ADD_MEMBER_TYPE_URL = `${API_BASE}/company/custom/member/type/add`;
+export const EDIT_MEMBER_TYPE_URL = `${API_BASE}/company/custom/member/type/edit`;
+export const SAVE_MEMBER_TYPE_PERMISSIONS_URL = `${API_BASE}/company/custom/member/type/permissions/manage`;
+export const ADD_MEMBER_TYPE_FIELD_URL = `${API_BASE}/company/member-type/custom/profile-fields/add`;
+export const EDIT_MEMBER_TYPE_FIELD_URL = `${API_BASE}/company/member-type/custom/profile-fields/update`;
+export const DELETE_MEMBER_TYPE_FIELD_URL = `${API_BASE}/company/member-type/custom/profile-fields/delete`;
+export const MEMBER_TYPE_PROFILE_FIELDS_URL = `${API_BASE}/company/custom/profile/fields`;
+
 export const LISTS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/lists-management-data`;
+export const MANAGE_MEMBER_TYPES_DATA_URL = `${API_BASE}/v2/manage-member-types-data`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;
@@ -90,6 +102,28 @@ export const EDIT_CUSTOM_MEMBER_TYPE_URL = `${API_BASE}/company/user/custom-memb
 export const PROFILE_FIELDS_URL = `${API_BASE}/company/profile-fields`;
 export const PROFILE_FIELDS_MAPPING_URL = `${API_BASE}/company/profile-fields-mapping`;
 export const USER_GUID_URL = `${API_BASE}/guest/user-guid`;
+export const ACTIVE_MEMBERS_URL = `${API_BASE}/company/admin/members`;
+export const FOR_CONFIRMATION_MEMBERS_URL = `${API_BASE}/company/members/for-confirm`;
+export const DELETED_MEMBERS_URL = `${API_BASE}/company/members/deleted`;
+export const NOT_APPROVED_MEMBERS_URL = `${API_BASE}/company/members/not-approved`;
+export const INCOMPLETE_MEMBERS_URL = `${API_BASE}/company/members/incomplete`;
+export const FOR_APPROVAL_MEMBERS_URL = `${API_BASE}/company/members/for-approval`;
+export const SALES_PERSON_LIST_URL = `${API_BASE}/company/guest/sales/person/list`;
+export const BULK_DELETE_USERS_URL = `${API_BASE}/company/users/bulk-delete`;
+export const BULK_PERMANENT_DELETE_USERS_URL = `${API_BASE}/company/users/bulk-delete-deletedUsers`;
+export const BULK_RECOVER_DELETED_USERS_URL = `${API_BASE}/company/users/bulk-recover-deletedUsers`;
+export const DELETE_USER_URL = `${API_BASE}/company/vcp-admin/user/delete`;
+export const PERMANENT_DELETE_USER_URL = `${API_BASE}/company/vcp-admin/deleted-user/delete`;
+export const RECOVER_DELETED_USER_URL = `${API_BASE}/company/vcp-admin/deleted-user/recover`;
+export const ADD_USER_URL = `${API_BASE}/company/vcp-admin/user/add`;
+export const ADD_DYNAMIC_USER_URL = `${API_BASE}/company/vcp/user/dynamic/custom/add`;
+export const EDIT_DYNAMIC_USER_URL = `${API_BASE}/company/user-details/dynamic/custom/update`;
+export const UPDATE_USER_STATUS_URL = `${API_BASE}/company/user/status/update`;
+export const BULK_UPDATE_USER_STATUS_URL = `${API_BASE}/company/bulk/user/status/update`;
+export const UPDATE_CONFIRM_USER_STATUS_URL = `${API_BASE}/company/user/confirm/status/update`;
+export const MEMBERS_LIST_URL = `${API_BASE}/company/members/custom-roles/list`;
+
+export const MANAGE_USERS_DATA_URL = `${API_BASE}/v2/manage-users-data`;
 
 // NOTIFICATIONS
 export const ACCEPT_CLUB_NOTIFICATION_URL = `${API_BASE}/company-approve-join-group`;

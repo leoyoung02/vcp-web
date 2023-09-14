@@ -1,0 +1,546 @@
+<div class="container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
+    <app-breadcrumb 
+        [level1Title]="level1Title"
+        [level2Title]="level2Title"
+        [level3Title]="level3Title"
+        [level4Title]="level4Title"
+        [buttonColor]="buttonColor"
+        (goBack)="handleGoBack()"
+    />
+    <div class="mt-3 sm:mt-3 md:mt-0 lg:mt-0">
+        <button 
+            class="ml-4 inline-block h-[40px] text-sm px-6 py-2 font-semibold rounded-[10px] text-white focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
+            [ngStyle]="{'background-color': buttonColor}"
+            (click)="addUser()"
+        >
+            {{ 'customer.createnewuser' | translate }}
+        </button>
+    </div>
+</div>
+<div class="pt-6">
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+        <div class="relative mb-6">
+            <div class="flex items-center w-full max-w-full">
+                <div class="flex-auto">
+                    <app-search
+                        [searchText]="searchText"
+                        [placeholderText]="placeholderText"
+                        [buttonColor]="buttonColor"
+                        (onEnterPressed)="handleSearchByName($event)"
+                        (doSearch)="handleSearchByName($event)"
+                    >
+                    </app-search>
+                </div>
+                <div *ngIf="hasCustomMemberTypeSettings">
+                    <select
+                        id="member-types"
+                        class="ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedCustomMemberTypeRole"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeCustomMemberTypeRoleFilter($event)"
+                    >
+                        <option value="">{{ 'company-settings.membertype' | translate }}</option>
+                        <option
+                            *ngFor="let type of memberTypes"                                
+                            [value]="type.type"
+                        >
+                            {{ language == 'en' ? type?.type : type?.type_es }}
+                        </option>
+                    </select>
+                </div>
+                <div class="px-5 ml-2">
+                    <app-icon-filter 
+                        [list]="citiesList"
+                        (filterList)="filterCity($event)"
+                    >
+                    </app-icon-filter>
+                </div>
+            </div>
+        </div>
+        <div class="relative pt-1.5 mb-6">
+            <app-button-group class="relative flex justify-end"
+                [buttonColor]="buttonColor"
+                [buttonList]="buttonList"
+                (onButtonClick)="filterMemberStatus($event)"
+            >
+            </app-button-group>
+        </div>
+    </div>
+</div>
+<div class="flex max-w-sm" *ngIf="selectedUsers && selectedUsers.length > 0 && isSuperAdmin">
+    <select
+        id="bulk-operation"
+        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        [(ngModel)]="selectedUserBulkAction"
+        [ngModelOptions]="{standalone: true}"
+    >
+        <option value="">{{ 'company-settings.bulkaction' | translate }}</option>
+        <option value="delete">{{ 'company-settings.delete' | translate }}</option>
+        <option value="editstatus">{{ 'your-admin-area.editstatus' | translate }}</option>
+        <option value="recover" *ngIf="memberStatusFilter == 'Deleted'">{{ 'company-settings.recover' | translate }}</option>
+    </select>
+    <button 
+        class="ml-4 inline-block h-[40px] bg-black text-sm px-6 py-2 font-semibold rounded-[10px] text-white focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
+        (click)="bulkOperateUser()"
+    >
+        {{ 'company-settings.apply' | translate }}
+    </button>
+</div>
+<div class="py-6">
+    <div class="w-full min-w-full">
+        <div class="mat-table-responsive users-table-container">
+            <div *ngIf="isUsersLoading" role="status" class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+                <svg aria-hidden="true" class="w-8 h-8 mr-2 mt-5 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
+                <span class="sr-only">Loading...</span>
+            </div>
+            <mat-table [dataSource]="dataSource" matSort>
+                <ng-container *ngIf="selectedFields && selectedFields?.length > 0">
+                    <ng-container matColumnDef="checked">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="checked">
+                            <div class="form-check" *ngIf="memberStatusFilter != 'All' && memberStatusFilter != 'Approval' && memberStatusFilter != 'Expired' && memberStatusFilter != 'Cancelled' ">
+                                <label class="checkbox-container"> 
+                                    <input 
+                                        type="checkbox" 
+                                        [checked]="row?.checked == 1"
+                                        (change)="onUserSelected($event, row)"
+                                    >
+                                    <span class="checkmark">
+                                    </span>
+                                </label>
+                            </div>
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="startup_name" *ngIf="companyId == 15">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.startupname' | translate }} </mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="startup_name">
+                            {{ row?.startup_name }}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="founder_name" *ngIf="companyId == 15">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.foundername' | translate }} </mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="founder_name">
+                            {{ row?.founder_name }}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="first_name" *ngIf="companyId != 15">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.firstname' | translate }} </mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="first_name">
+                            {{ row?.first_name }}
+                        </mat-cell>
+                    </ng-container>
+                    <ng-container matColumnDef="last_name" *ngIf="companyId != 15">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.lastname' | translate }} </mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="last_name">
+                            {{ row?.last_name }}
+                        </mat-cell>
+                    </ng-container>
+                </ng-container>
+                <ng-container matColumnDef="email">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.email' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="email"> {{ row.email }}</mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="user_role">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.role' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="user_role"> {{ getTranslatedRole(row) }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="invited_by">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'your-admin-area.invitedby' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="invited_by"> {{ row.invitedby || row.invited_by_name }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="created">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ companyId == 15 ? ('customer.registered' | translate) : ('edit-plan.start' | translate) }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="created">
+                        {{ getStartDate(row) | date:'dd/MM/yyyy'  }}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="reactivate">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ companyId == 15 ? ('customer.renewal' | translate) : ('edit-plan.renewal' | translate) }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="reactivate">
+                        {{ getReactivationDate(row) | date:'dd/MM/yyyy'  }}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="recordStatus">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.status' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="recordStatus">
+                        {{ row?.recordStatus | translate }}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="duration">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.duration' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="duration">
+                       {{ row?.duration }}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="finish">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.end' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="finish">
+                        {{ row?.end }}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'customer.action' | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="action" style="display:flex;">
+                        <ng-container *ngIf="actionConditionA(row?.recordStatus)">
+                            <div class="table-action">
+                               <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    *ngIf="memberStatusFilter != 'Deleted' && (isSuperAdmin || row.created_by == userId)"
+                                    [ngStyle]="{'background-color': buttonColor}" (click)="editUser(row, 'edit')"
+                                >
+                                    <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                        <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
+                                        <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
+                                    </svg>
+                                    <span class="sr-only">Icon description</span>
+                                </button>
+                                <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    *ngIf="isSuperAdmin || row.created_by == userId"
+                                    [ngStyle]="{'background-color': buttonColor}" (click)="deleteUser(row)"
+                                >
+                                    <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                        <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
+                                    </svg>
+                                    <span class="sr-only">Icon description</span>
+                                </button>
+                                <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    *ngIf="memberStatusFilter == 'Deleted' && (isSuperAdmin || row.created_by == userId)"
+                                    [ngStyle]="{'background-color': buttonColor}" (click)="recoverUser(row)"
+                                >
+                                    <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 1v5h-5M2 19v-5h5m10-4a8 8 0 0 1-14.947 3.97M1 10a8 8 0 0 1 14.947-3.97"/>
+                                    </svg>
+                                    <span class="sr-only">Icon description</span>
+                                </button>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="actionConditionB(row?.recordStatus)">
+                            <div class="table-action" style="display:flex;">
+                                <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    *ngIf="isSuperAdmin || row.created_by == userId"
+                                    [ngStyle]="{'background-color': buttonColor}" (click)="editUser(row, 'approve')"
+                                >
+                                    <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                        <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
+                                        <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
+                                    </svg>
+                                    <span class="sr-only">Icon description</span>
+                                </button>
+                                <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    *ngIf="isSuperAdmin || row.created_by == userId"
+                                    [ngStyle]="{'background-color': buttonColor}" (click)="editUser(row, 'deny')"
+                                >
+                                    <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                        <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
+                                        <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
+                                    </svg>
+                                    <span class="sr-only">Icon description</span>
+                                </button>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="memberStatusFilter == 'Incomplete'">
+                            <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                *ngIf="isSuperAdmin || row.created_by == userId"
+                                [ngStyle]="{'background-color': buttonColor}" (click)="editUserStatus(row)"
+                            >
+                                <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                    <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
+                                    <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
+                                </svg>
+                                <span class="sr-only">Icon description</span>
+                            </button>
+                        </ng-container>
+                        <ng-container *ngIf="memberStatusFilter == 'Confirm'">
+                            <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                *ngIf="isSuperAdmin || row.created_by == userId"
+                                [ngStyle]="{'background-color': buttonColor}" (click)="editUserConfirmStatus(row)"
+                            >
+                                <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                    <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
+                                    <path d="M13.243 3.2 7.359 9.081a.5.5 0 0 0-.136.256L6.51 12.9a.5.5 0 0 0 .59.59l3.566-.713a.5.5 0 0 0 .255-.136L16.8 6.757 13.243 3.2Z"/>
+                                </svg>
+                                <span class="sr-only">Icon description</span>
+                            </button>
+                        </ng-container>
+                    </mat-cell>
+                </ng-container>
+                <ng-container *ngIf="companyId == 15">
+                    <mat-header-row *matHeaderRowDef="asMemberDisplayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: asMemberDisplayedColumns">
+                    </mat-row>
+                </ng-container>
+                <ng-container *ngIf="companyId != 15">
+                    <mat-header-row *matHeaderRowDef="memberDisplayedColumns"></mat-header-row>
+                        <mat-row *matRowDef="let row; columns: memberDisplayedColumns">
+                    </mat-row>
+                </ng-container>
+            </mat-table>
+        </div>
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"
+            (page)="getPageDetails($event)"
+            [showFirstLastButtons]="true">
+        </mat-paginator>
+    </div>
+</div>
+<button #modalbutton data-modal-target="item-modal" data-modal-toggle="item-modal" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+    &nbsp;
+</button>
+<div id="item-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-h-full"
+        [ngClass]="{'max-w-2xl': dialogMode == 'adduser' || dialogMode == 'edituser',
+            'max-w-md': dialogMode != 'adduser' && dialogMode != 'edituser'
+        }"
+    >
+        <div class="relative bg-white rounded-lg shadow">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="item-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="px-6 py-6 lg:px-8">
+                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                    {{ dialogTitle }}
+                </h3>
+                <ng-container *ngIf="dialogMode == 'editstatus'">
+                    <form class="space-y-6">
+                        <div>
+                            <select 
+                                id="user-status" 
+                                [(ngModel)]="selectedUserStatus"
+                                [ngModelOptions]="{standalone: true}"
+                                class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                [ngStyle]="{'border-color': buttonColor}"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userStatusFormSubmitted && !selectedUserStatus }"
+                            >
+                                <option value="" disabled selected>{{ 'customer.selectrole' | translate }}*</option>
+                                <option value="Active">{{ 'company-settings.active' | translate }}</option>
+                                <option value="Approval">{{ 'company-settings.forapproval' | translate }}</option>
+                                <option value="Expired">{{ 'company-settings.expired' | translate }}</option>
+                                <option value="NotApproved">{{ 'company-settings.notapproved' | translate }}</option>
+                                <option value="Incomplete">{{ 'company-settings.incomplete' | translate }}</option>
+                                <option value="Cancelled">{{ 'company-settings.cancelled' | translate }}</option>
+                                <option value="Failed">{{ 'company-settings.failedpayments' | translate }}</option>
+                                <option value="Deleted">{{ 'company-settings.deleted' | translate }}</option>
+                            </select>
+                        </div>
+                        <div *ngIf="memberStatusFilter == 'Incomplete'">
+                            <select 
+                                id="user-role" 
+                                [(ngModel)]="selectedUserStatusRole"
+                                [ngModelOptions]="{standalone: true}"
+                                class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userStatusFormSubmitted && !selectedUserStatusRole }"
+                            >
+                                <option value="" disabled selected>{{ 'customer.selectrole' | translate }}*</option>
+                                <option
+                                    *ngFor="let role of memberRoles"
+                                    [value]="role.id"
+                                >
+                                    {{ role.role }}
+                                </option>
+                            </select>
+                        </div>
+                    </form>
+                </ng-container>
+                <ng-container *ngIf="dialogMode == 'adduser' || dialogMode == 'edituser'">
+                    <form 
+                        autocomplete="off"
+                        [formGroup]="userForm" 
+                        (ngSubmit)="saveDialog()"
+                        [ngClass]="{'submitted': userFormSubmitted}"
+                    >
+                        <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
+                            <div class="flex items-center justify-center relative">
+                                <select 
+                                    id="role" 
+                                    [(ngModel)]="selectedRole"
+                                    [ngModelOptions]="{standalone: true}"
+                                    class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    [ngStyle]="{'border-color': buttonColor}"
+                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedRole }"
+                                    (change)="changeMemberRoleGroup($event)"
+                                >
+                                    <option value="" disabled selected>{{ 'customer.selectrole' | translate }}*</option>
+                                    <option
+                                        *ngFor="let role of memberRoles"
+                                        [value]="role.id"
+                                    >
+                                        {{ role.role }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="flex items-center relative">
+                                <div class="flex items-center my-2">
+                                    <input 
+                                        id="super-admin" 
+                                        type="checkbox"
+                                        [(ngModel)]="superAdmin"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [ngStyle]="{'color': superAdmin ? buttonColor : 'text-blue-500'}"
+                                        class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    />
+                                    <label for="super-admin" class="ml-2 text-sm font-medium dark:text-gray-300">
+                                        Super admin
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center relative" *ngIf="showClubsDropdown">
+                                <select 
+                                    id="club-president" 
+                                    [(ngModel)]="selectedClubPresidentGroup"
+                                    [ngModelOptions]="{standalone: true}"
+                                    class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    [ngStyle]="{'border-color': buttonColor}"
+                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedClubPresidentGroup }"
+                                >
+                                    <option value="" disabled selected>{{ 'company-settings.selectgroup' | translate }}*</option>
+                                    <option
+                                        *ngFor="let group of memberRoleGroups"
+                                        [value]="group.id"
+                                    >
+                                        {{ group.title }}
+                                    </option>
+                                </select>
+                            </div>
+                            <ng-container *ngFor="let field of selectedFields; let i = index;">
+                                <ng-container *ngIf="!countryDropdown">
+                                    <ng-container *ngIf="field.field_type == 'text' && field.field != 'coupon'">
+                                        <div class="flex items-center justify-center relative">
+                                            <input 
+                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
+                                                type="text" 
+                                                class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                formControlName="{{ field?.field }}"
+                                                autocomplete="off"
+                                                placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}}*" 
+                                                [required]="field?.required"
+                                            >
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-container *ngIf="countryDropdown">
+                                    <ng-container *ngIf="field?.field != 'country' && field?.field != 'company_country' && field?.field != 'city' && field.field_type == 'text' && field.field != 'coupon'">
+                                        <div class="flex items-center justify-center relative">
+                                            <input 
+                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': field?.required && !userForm.get(field?.field)?.value }"
+                                                type="text" 
+                                                class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                formControlName="{{ field?.field }}"
+                                                autocomplete="off"
+                                                placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required == 1 ? '*' : ''}}" 
+                                                [required]="field?.required"
+                                            >
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="field.field_type == 'text' && (field?.field == 'country' || field?.field == 'company_country')">
+                                        <div class="flex items-center justify-center relative">
+                                            <select 
+                                                id="country" 
+                                                formControlName="{{ field?.field }}"
+                                                class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                [ngStyle]="{'border-color': buttonColor}"
+                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
+                                            >
+                                                <option value="">{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}</option>
+                                                <option
+                                                    *ngFor="let country of countries"
+                                                    [value]="country.country_name"
+                                                >
+                                                {{country.country_name}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="field?.field == 'city' && field.field_type == 'text'">
+                                        <div class="flex items-center justify-center relative">
+                                            <select 
+                                                id="city" 
+                                                formControlName="{{ field?.field }}"
+                                                class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                [ngStyle]="{'border-color': buttonColor}"
+                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
+                                            >
+                                                <option value="">{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}</option>
+                                                <option
+                                                    *ngFor="let city of cities"
+                                                    [value] ="city.city"
+                                                >
+                                                    {{city.city}}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                                <ng-container *ngIf="field.field_type == 'number'">
+                                    <input 
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
+                                        type="number" 
+                                        class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                        formControlName="{{ field?.field }}"
+                                        autocomplete="off"
+                                        placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}}*" 
+                                        [required]="field?.required"
+                                    >
+                                </ng-container>
+                                <ng-container *ngIf="field.field_type == 'password'">
+                                    <div class="flex items-center justify-center relative">
+                                        <input
+                                            class="text-sm shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                                            id="password"
+                                            [type]="fieldTextType ? 'text' : 'password'"
+                                            placeholder="{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}"
+                                            formControlName="{{ field?.field }}"
+                                            name="{{ field?.field }}"
+                                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
+                                        />
+                                        <fa-icon
+                                            class="fa absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
+                                            [icon]="!fieldTextType ? eyeSlashIcon : eyeIcon"
+                                            (click)="toggleFieldTextType()"
+                                        ></fa-icon>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                        <div class="flex items-center my-2">
+                            <input 
+                                id="send-mail" 
+                                type="checkbox"
+                                [(ngModel)]="sendMemberEmail"
+                                [ngModelOptions]="{standalone: true}"
+                                (change)="changeMemberEmailOption($event)"
+                                [ngStyle]="{'color': sendMemberEmail ? buttonColor : 'text-blue-500'}"
+                                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            />
+                            <label for="send-mail" class="ml-2 text-sm font-medium dark:text-gray-300">
+                                {{ 'company-settings.sendmemberemail' | translate }}
+                            </label>
+                        </div>
+                    </form>
+                </ng-container>
+                <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                    <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        (click)="saveDialog()"
+                        data-modal-hide="item-modal"
+                        [ngStyle]="{
+                            'background-color': buttonColor
+                        }"
+                    >
+                        {{ 'company-settings.save' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-toast 
+    *ngIf="showConfirmationModal" 
+    [company]="company" 
+    [update]="false" 
+    [confirm]="true"
+    [title]="confirmDeleteItemTitle"
+    [description]="confirmDeleteItemDescription"
+    [acceptText]="acceptText"
+    [cancelText]="cancelText"
+    (onAccept)="confirm()"
+></app-toast>

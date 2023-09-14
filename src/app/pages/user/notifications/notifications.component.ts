@@ -572,7 +572,6 @@ export class NotificationsComponent {
             this.confirmDeleteItemTitle = this._translateService.instant("dialog.confirmapprove");
             this.confirmDeleteItemDescription = this._translateService.instant("dialog.confirmapproveitem");
             this.acceptText = "OK";
-            this.cancelText = this._translateService.instant("plan-details.cancel");
             setTimeout(() => (this.showConfirmationModal = true));
           }
         }, error => {
@@ -611,7 +610,6 @@ export class NotificationsComponent {
             this.confirmDeleteItemTitle = this._translateService.instant("dialog.confirmreject");
             this.confirmDeleteItemDescription = this._translateService.instant("dialog.confirmrejectitem");
             this.acceptText = "OK";
-            this.cancelText = this._translateService.instant("plan-details.cancel");
             setTimeout(() => (this.showConfirmationModal = true));
           }
         }, error => {
@@ -845,7 +843,6 @@ export class NotificationsComponent {
         this.confirmDeleteItemTitle = this._translateService.instant("dialog.confirmdelete");
         this.confirmDeleteItemDescription = this._translateService.instant("dialog.confirmdeleteitem");
         this.acceptText = "OK";
-        this.cancelText = this._translateService.instant("plan-details.cancel");
         setTimeout(() => (this.showConfirmationModal = true));
     }
     

@@ -109,7 +109,8 @@ select {
 }
 
 .mat-column-image,
-.mat-column-ID { 
+.mat-column-ID,
+.mat-column-move { 
   flex: 0 0 5% !important;
   width: 5% !important;
 }
@@ -492,4 +493,9 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
 .arrow_box .arrow_box_content {
     padding: 10px 10px 0 10px;
     color: #fff;
+}
+
+.addeventatc .addeventatc_icon,
+.addeventatc {
+    z-index: initial !important;
 }

@@ -439,7 +439,6 @@ export class JobOfferDetailComponent {
         "dialog.confirmdeleteitem"
       );
       this.acceptText = "OK";
-      this.cancelText = this._translateService.instant("plan-details.cancel");
       setTimeout(() => (this.showConfirmationModal = true));
     }
   }

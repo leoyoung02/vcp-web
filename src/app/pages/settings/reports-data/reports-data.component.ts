@@ -16,8 +16,8 @@ import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { BreadcrumbComponent } from "@share/components";
 import { SearchComponent } from "@share/components/search/search.component";
-import { get } from "lodash";
 import moment from "moment";
+import get from "lodash/get";
 
 @Component({
   selector: "app-reports-data",

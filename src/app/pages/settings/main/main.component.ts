@@ -1436,7 +1436,7 @@ export class MainComponent {
       } else if (content == "Posts") {
         this._router.navigate([`/settings/posts`]);
       } else if (content == "Users") {
-        this._router.navigate([`/settings/users`]);
+        this._router.navigate([`/settings/manage-list/users`]);
       } else if (content == "Buddy") {
         this._router.navigate([`/settings/buddies`]);
       } else if (content == "Invoices") {
@@ -1445,7 +1445,7 @@ export class MainComponent {
         this._router.navigate([`/settings/tutors`]);
       }
     } else if (menu.value == "Users" && content == "Users") {
-      this._router.navigate([`/settings/users`]);
+      this._router.navigate([`/settings/manage-list/users`]);
     } else if (menu.value == "Users" && content == "Guests") {
       this._router.navigate([`/settings/guests`]);
     } else if (menu.value == "Tools" && content == "Support Tickets") {
@@ -1496,11 +1496,7 @@ export class MainComponent {
           `/settings/setting/${otherSettingsCategory.id}`,
         ]);
       } else if (content == "MemberTypes") {
-        if (!this.hasCustomMemberTypeSettings) {
-          this._router.navigate([`/settings/member-types`]);
-        } else {
-          this._router.navigate([`/settings/member-type-registration`]);
-        }
+        this._router.navigate([`/settings/manage-list/membertypes`]);
       } else if (content == "Dashboard") {
         this._router.navigate([`/settings/setting/5`]);
       } else if (content == "Automated Emails") {

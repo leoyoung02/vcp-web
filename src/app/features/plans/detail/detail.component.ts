@@ -427,7 +427,7 @@ export class PlanDetailComponent {
         (a) => a.name_en == "Invitation link" && a.active == 1
       );
       this.guestMemberSeatActive = subfeatures.some(
-        (a) => a.name_en == "Classification filter" && a.active == 1
+        (a) => a.name_en == "Guest/Member seats" && a.active == 1
       );
       this.waitingListActive = subfeatures.some(
         (a) => a.name_en == "Waiting list" && a.active == 1
@@ -2115,7 +2115,6 @@ export class PlanDetailComponent {
       "dialog.confirmdeleteitem"
     );
     this.acceptText = "OK";
-    this.cancelText = this._translateService.instant("plan-details.cancel");
     setTimeout(() => (this.showConfirmationModal = true));
   }
 
@@ -2289,7 +2288,6 @@ export class PlanDetailComponent {
         "dialog.confirmdeleteitem"
       );
       this.acceptText = "OK";
-      this.cancelText = this._translateService.instant("plan-details.cancel");
       setTimeout(() => (this.showConfirmationModal = true));
     }
   }
