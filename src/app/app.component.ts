@@ -136,7 +136,7 @@ export class AppComponent implements OnInit {
       }
 
       if (comp && comp[0] && comp[0].favicon_image) {
-        this.favIcon.href = `${this.logoImageSrc}${
+        this.favIcon.href = `${this.logoImageSrc}/${
           comp[0].favicon_image || comp[0].image
         }`;
       } else {

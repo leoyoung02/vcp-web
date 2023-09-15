@@ -1938,7 +1938,6 @@ export class ManageUsersComponent {
   initializeFormGroup() {
     this.formTemplate = [];
 
-    console.log(this.selectedFields);
     this.selectedFields.forEach((field) => {
       if (field.field_type) {
         this.formTemplate.push({

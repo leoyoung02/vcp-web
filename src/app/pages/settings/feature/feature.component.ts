@@ -836,17 +836,6 @@ export class FeatureComponent {
                 this._translateService.instant("dialog.savedsuccessfully"),
                 ""
               );
-              // this.mainService.removeCompaniesCache()
-              // this.mainService.removeFeaturesCache()
-              // this.mainService.removeFeatureCache()
-              // this.mainService.removeFeatureMappingCache()
-              // this.mainService.removeSubfeatureCache()
-              // this.mainService.removeSubfeaturesCache()
-              // this.mainService.removeCompanyFeatureCache()
-              // this.mainService.removeCompanySubfeatureCache()
-              // this.mainLayout.reloadMenu()
-              // location.reload()
-
               let menus = this._localService.getLocalStorage(
                 environment.lsmenus
               )

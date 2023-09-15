@@ -1,0 +1,58 @@
+<div class="container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
+    <app-breadcrumb 
+        [level1Title]="level1Title"
+        [level2Title]="level2Title"
+        [level3Title]="level3Title"
+        [level4Title]="level4Title"
+        [level5Title]="level5Title"
+        [level6Title]="level6Title"
+        [buttonColor]="buttonColor"
+        (goBack)="handleGoBack()"
+    />
+    <div class="mt-3 sm:mt-3 md:mt-0 lg:mt-0 flex">
+        <button 
+            class="ml-4 inline-block h-[40px] text-sm px-6 py-2 font-semibold rounded-[10px] text-white focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
+            [ngStyle]="{'background-color': buttonColor}"
+            (click)="save()"
+        >
+            {{ 'email.update' | translate }}
+        </button>
+    </div>
+</div>
+<div class="pt-6">
+    <div class="text-xs mb-4">***{{ 'email.datadesc' | translate }}</div>
+    <table *ngIf="shortcodes?.length > 0" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-2 py-1">
+                    {{ 'email.shorthand' | translate }}
+                </th>
+                <th scope="col" class="px-2 py-1">
+                    {{ 'email.description' | translate }}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let shortcode of shortcodes | paginate: { itemsPerPage: 5, currentPage: p }" 
+                class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="text-xs px-2 py-1 font-medium text-gray-900 dark:text-white">
+                    {{ shortcode.code }}
+                </th>
+                <td class="text-xs px-2 py-1">
+                    {{ shortcode.description }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="text-center text-xs mt-4" *ngIf="shortcodes?.length > 0">
+        <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+</div>
+<div class="pt-6">
+    <editor
+        *ngIf="editorToUse == 'tinymce'"
+        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+        [init]="tinymceInitialize()"
+        (onInit)="handleEditorInit($event)"
+    ></editor>
+</div>

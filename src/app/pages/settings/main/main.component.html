@@ -12,7 +12,7 @@
     </app-search>
 </div>
 <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid:cols-4 mb-12">
-    <div *ngFor="let menu of mainMenuItems" class="w-full rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+    <div *ngFor="let menu of mainMenuItems" class="w-full rounded-lg shadow bg-white dark:bg-gray-800 dark:border-gray-700">
         <div class="flex p-3 rounded-t-lg items-center" [ngStyle]="{'background-color': primaryColor == '#ffffff' || primaryColor == '#fff' ? buttonColor : primaryColor}">
             <img class="w-8 object-contain mr-4" [src]="menu.icon" />
             <div class="text-white uppercase text-base font-bold">{{ menu?.text }}</div>

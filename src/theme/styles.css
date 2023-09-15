@@ -61,6 +61,10 @@
   font-family: "Poppins", sans-serif !important;
 }
 
+.mdc-list-item__primary-text {
+    font-family: "Poppins", sans-serif !important;
+}
+
 .mat-mdc-input-element {
   box-shadow: none !important;
 }

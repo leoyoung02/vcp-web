@@ -44,9 +44,24 @@ export const ADD_MEMBER_TYPE_FIELD_URL = `${API_BASE}/company/member-type/custom
 export const EDIT_MEMBER_TYPE_FIELD_URL = `${API_BASE}/company/member-type/custom/profile-fields/update`;
 export const DELETE_MEMBER_TYPE_FIELD_URL = `${API_BASE}/company/member-type/custom/profile-fields/delete`;
 export const MEMBER_TYPE_PROFILE_FIELDS_URL = `${API_BASE}/company/custom/profile/fields`;
+export const ADD_CITY_URL = `${API_BASE}/company-admin-city-add`;
+export const EDIT_CITY_URL = `${API_BASE}/company-admin-city-edit`;
+export const DELETE_CITY_URL = `${API_BASE}/company-admin-city-delete`;
+export const EDIT_EMAIL_URL = `${API_BASE}/company/email/edit`;
+export const EDIT_MEMBER_EMAIL_URL = `${API_BASE}/company/member-email/edit`;
+export const UPLOAD_EMAIL_IMAGE_URL = `${API_BASE}/company/upload-notification-image`;
+export const ADD_COMPANY_LOGO_URL = `${API_BASE}/company-admin-branding-upload-logo`;
+export const ADD_COMPANY_BANNER_URL = `${API_BASE}/company-admin-branding-upload-banner`;
+export const EDIT_COMPANY_LOGO_URL = `${API_BASE}/company/entity/logo/edit`;
+export const EDIT_COMPANY_HEADER_IMAGE_URL = `${API_BASE}/company/entity/photo/edit`;
+export const EDIT_COMPANY_BANNER_IMAGE_URL = `${API_BASE}/company/entity/video/edit`;
+export const EDIT_COMPANY_FAVICON_URL = `${API_BASE}/company/entity/favicon/edit`;
+
 
 export const LISTS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/lists-management-data`;
 export const MANAGE_MEMBER_TYPES_DATA_URL = `${API_BASE}/v2/manage-member-types-data`;
+export const MANAGE_SETTINGS_DATA_URL = `${API_BASE}/v2/settings-data`;
+export const MANAGE_SETTINGS_EMAIL_DATA_URL = `${API_BASE}/v2/settings-email-data`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;
@@ -63,6 +78,20 @@ export const FEATURE_NAME_EDIT_URL = `${API_BASE}/company/feature/edit`;
 export const SUBFEATURE_ACTIVATE_URL = `${API_BASE}/company/feature/sub-feature/activate`;
 export const SUBFEATURE_DEACTIVATE_URL = `${API_BASE}/company/feature/sub-feature/deactivate`;
 export const SETTINGS_OPTIONS_URL = `${API_BASE}/company/other-settings-options-content`;
+export const ACTIVATE_OTHER_SETTING_URL = `${API_BASE}/company/other-settings/activate`;
+export const DEACTIVATE_OTHER_SETTING_URL = `${API_BASE}/company/other-settings/deactivate`;
+export const SAVE_NEW_BUTTON_MENU_URL = `${API_BASE}/company/menu/new/button/edit`;
+export const EDIT_MENU_ORDER_URL = `${API_BASE}/company/menu-order/update`;
+export const EDIT_PRIVACY_POLICY_URL = `${API_BASE}/company/privacy-policy/edit-url`;
+export const EDIT_COOKIE_POLICY_URL = `${API_BASE}/company/cookie-policy/edit-url`;
+export const EDIT_TERMS_AND_CONDITIONS_URL = `${API_BASE}/company/terms-conditions/edit-url`;
+export const EDIT_TERMS_URL = `${API_BASE}/company/terms-conditions/update`;
+export const EDIT_POLICY_URL = `${API_BASE}/company/policy/update`;
+export const EDIT_COOKIE_URL = `${API_BASE}/company/cookie-policy/update`;
+export const ACTIVATE_POLICY_URL = `${API_BASE}/company/policy/activate`;
+export const ACTIVATE_COOKIE_URL = `${API_BASE}/company/cookie-policy/activate`;
+export const ACTIVATE_TERMS_URL = `${API_BASE}/company/terms-conditions/activate`;
+export const EDIT_OTHER_SETTING_VALUE_URL = `${API_BASE}/company/other-settings/value/update`;
 
 // REPORTS
 export const REPORTS_DATA_URL = `${API_BASE}/v2/reports-data`;

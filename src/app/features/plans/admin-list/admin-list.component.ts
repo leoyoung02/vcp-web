@@ -107,7 +107,7 @@ export class PlansAdminListComponent {
 
     fetchPlansManagementData() {
         this._plansService
-          .fetchPlansManagementData(this.company?.id, this.userId, (this.superAdmin ? 'superadmin' : ''))
+          .fetchPlansManagementData(this.company?.id, this.userId, (this.superAdmin ? 'superadmin' : 'user'))
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {
@@ -486,7 +486,7 @@ export class PlansAdminListComponent {
     }
 
     handleCreateRoute() {
-        this._router.navigate([`/plans/create/4`]);
+        this._router.navigate([`/plans/create/0/4`]);
     }
 
     downloadEventExcel(event) {

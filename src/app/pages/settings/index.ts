@@ -50,4 +50,22 @@ export const routes: Routes = [
         data: { titleKey: 'user-popup.admin'},
         loadComponent: async () => (await import('./manage-list/manage-list.component')).ManageListComponent,
     },
+    {
+        path: 'setting/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'company-settings.setting'},
+        loadComponent: async () => (await import('./setting/setting.component')).SettingComponent,
+    },
+    {
+        path: 'email/:id/:type',
+        title: CustomTitleResolver,
+        data: { titleKey: 'plan-details.email'},
+        loadComponent: async () => (await import('./email/email.component')).EmailComponent,
+    },
+    {
+        path: 'menu-order',
+        title: CustomTitleResolver,
+        data: { titleKey: 'company-settings.menuorder'},
+        loadComponent: async () => (await import('./menu-order/menu-order.component')).MenuOrderComponent,
+    },
 ];

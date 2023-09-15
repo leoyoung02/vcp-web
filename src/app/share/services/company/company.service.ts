@@ -60,6 +60,34 @@ import {
   EDIT_MEMBER_TYPE_FIELD_URL,
   ADD_MEMBER_TYPE_FIELD_URL,
   MEMBER_TYPE_PROFILE_FIELDS_URL,
+  DELETE_CITY_URL,
+  EDIT_CITY_URL,
+  ADD_CITY_URL,
+  MANAGE_SETTINGS_DATA_URL,
+  MANAGE_SETTINGS_EMAIL_DATA_URL,
+  EDIT_EMAIL_URL,
+  EDIT_MEMBER_EMAIL_URL,
+  ACTIVATE_OTHER_SETTING_URL,
+  DEACTIVATE_OTHER_SETTING_URL,
+  UPLOAD_EMAIL_IMAGE_URL,
+  SAVE_NEW_BUTTON_MENU_URL,
+  EDIT_MENU_ORDER_URL,
+  EDIT_PRIVACY_POLICY_URL,
+  EDIT_COOKIE_POLICY_URL,
+  EDIT_TERMS_AND_CONDITIONS_URL,
+  EDIT_TERMS_URL,
+  EDIT_POLICY_URL,
+  EDIT_COOKIE_URL,
+  ACTIVATE_POLICY_URL,
+  ACTIVATE_COOKIE_URL,
+  ACTIVATE_TERMS_URL,
+  EDIT_OTHER_SETTING_VALUE_URL,
+  EDIT_COMPANY_FAVICON_URL,
+  EDIT_COMPANY_BANNER_IMAGE_URL,
+  EDIT_COMPANY_HEADER_IMAGE_URL,
+  EDIT_COMPANY_LOGO_URL,
+  ADD_COMPANY_BANNER_URL,
+  ADD_COMPANY_LOGO_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -569,5 +597,238 @@ export class CompanyService {
     return this._http.get(`${MEMBER_TYPE_PROFILE_FIELDS_URL}/${id}`,
       { headers: this.headers }
     ).pipe(map(res => res));
+  }
+
+  addCompanyCity(payload): Observable<any> {
+    return this._http.post(ADD_CITY_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editCompanyCity(id, payload): Observable<any> {
+    return this._http.post(
+        `${EDIT_CITY_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteCompanyCity(id): Observable<any> {
+    return this._http.post(`${DELETE_CITY_URL}/${id}`,
+        {},
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  fetchManageSettingsData(id: number = 0, companyId: number = 0): Observable<any> {
+    return this._http.get(`${MANAGE_SETTINGS_DATA_URL}/${id}/${companyId}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  fetchSettingsEmailData(id: number = 0, companyId: number = 0, type: string = ''): Observable<any> {
+    return this._http.get(`${MANAGE_SETTINGS_EMAIL_DATA_URL}/${id}/${companyId}/${type}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  updateEmail(id, type, payload): Observable<any> {
+    return this._http.post(`${EDIT_EMAIL_URL}/${id}/${type}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  updateMemberEmail(id, type, payload): Observable<any> {
+    return this._http.post(`${EDIT_MEMBER_EMAIL_URL}/${id}/${type}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  activateOtherSetting(id, companyId, payload): Observable<any> {
+    return this._http.post(
+        `${ACTIVATE_OTHER_SETTING_URL}/${id}/${companyId}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deactivateOtherSetting(id, companyId, payload): Observable<any> {
+    return this._http.post(
+        `${DEACTIVATE_OTHER_SETTING_URL}/${id}/${companyId}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  uploadNotificationImage(blob, filename): Observable<any> {
+    const formData = new FormData();
+    const file_name = 'email_' + this.getTimestamp();
+    formData.append('filename', file_name + '.jpg')
+    formData.append('image', blob, file_name + '.jpg');
+    return this._http.post(UPLOAD_EMAIL_IMAGE_URL, formData);
+  }
+
+  getTimestamp() {
+    const date = new Date();
+    const timestamp = date.getTime();
+
+    return timestamp;
+  }
+
+  saveNewMenuButton(payload): Observable<any> {
+    return this._http.post(SAVE_NEW_BUTTON_MENU_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  updateMenuOrder(payload): Observable<any> {
+    return this._http.post(EDIT_MENU_ORDER_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editPrivacyPolicyURL(id, payload): Observable<any> {
+    return this._http.post(
+        `${EDIT_PRIVACY_POLICY_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editCookiePolicyURL(id, payload): Observable<any> {
+    return this._http.post(
+        `${EDIT_COOKIE_POLICY_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editTermsAndConditionsURL(id, payload): Observable<any> {
+    return this._http.post(
+        `${EDIT_TERMS_AND_CONDITIONS_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  updateTermsAndConditions(id, payload): Observable<any> {
+    return this._http.post(
+        `${EDIT_TERMS_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  updatePrivatePolicy(id, payload): Observable<any> {
+    return this._http.post(
+        `${EDIT_POLICY_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  updateCookiePolicy(id, payload): Observable<any> {
+    return this._http.post(
+        `${EDIT_COOKIE_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  activatePrivacyPolicy(id, payload): Observable<any> {
+    return this._http.post(
+        `${ACTIVATE_POLICY_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  activateCookiePolicy(id, payload): Observable<any> {
+    return this._http.post(
+        `${ACTIVATE_COOKIE_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  activateTermsAndConditions(id, payload): Observable<any> {
+    return this._http.post(
+        `${ACTIVATE_TERMS_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  updateOtherSettingValue(id, payload): Observable<any> {
+    return this._http.post(
+        `${EDIT_OTHER_SETTING_VALUE_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addCompanyLogo(fd) {
+    return this._http.post(ADD_COMPANY_LOGO_URL, fd);
+  }
+
+  addCompanyBanner(fd) {
+    return this._http.post(ADD_COMPANY_BANNER_URL, fd);
+  }
+
+  editCompanyLogo( id, logo): Observable<any> {
+    let formData = new FormData()
+
+    if (logo) {
+        const filename = 'cl_' + this.getTimestamp();
+        formData.append('image', logo.image, filename + '.jpg');
+    }
+
+    return this._http.post(`${EDIT_COMPANY_LOGO_URL}/${id}`,
+        formData
+    ).pipe(map(res => res))
+  }
+
+  editCompanyPhoto( id, logo): Observable<any> {
+    let formData = new FormData()
+
+    if (logo) {
+        const filename = 'cl_' + this.getTimestamp();
+        formData.append('image', logo.image, filename + '.jpg');
+    }
+
+    return this._http.post(`${EDIT_COMPANY_HEADER_IMAGE_URL}/${id}`,
+        formData
+    ).pipe(map(res => res))
+  }
+
+  editCompanyVideo( id, logo): Observable<any> {
+    let formData = new FormData()
+
+    if (logo) {
+        const filename = 'cl_' + this.getTimestamp();
+        formData.append('image', logo.image, filename + '.jpg');
+    }
+
+    return this._http.post(`${EDIT_COMPANY_BANNER_IMAGE_URL}/${id}`,
+        formData
+    ).pipe(map(res => res))
+  }
+
+  editCompanyFavicon( id, logo): Observable<any> {
+    let formData = new FormData()
+
+    if (logo) {
+        const filename = 'cl_' + this.getTimestamp();
+        formData.append('image', logo.image, filename + '.jpg');
+    }
+
+    return this._http.post(`${EDIT_COMPANY_FAVICON_URL}/${id}`,
+        formData
+    ).pipe(map(res => res))
   }
 }

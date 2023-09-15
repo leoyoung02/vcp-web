@@ -20,6 +20,7 @@ export class ButtonGroupComponent {
   @Input() buttonList: any;
   @Input() subcategoryList: any;
   @Input() subsubcategoryList: any;
+  @Input() hiddenMainList: any;
   @Output() onButtonClick = new EventEmitter();
   @Output() onSubButtonClick = new EventEmitter();
   @Output() onSubSubButtonClick = new EventEmitter();

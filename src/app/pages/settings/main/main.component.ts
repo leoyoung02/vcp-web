@@ -633,33 +633,33 @@ export class MainComponent {
             text: this._translateService.instant("company-settings.members"),
             value: "Users",
           },
-          {
-            text: this._translateService.instant("guests.guests"),
-            value: "Guests",
-          },
-          {
-            text: this._translateService.instant(
-              "company-settings.userprofiles"
-            ),
-            value: "Profile",
-          },
+          // {
+          //   text: this._translateService.instant("guests.guests"),
+          //   value: "Guests",
+          // },
+          // {
+          //   text: this._translateService.instant(
+          //     "company-settings.userprofiles"
+          //   ),
+          //   value: "Profile",
+          // },
         ],
       },
-      {
-        icon: "./assets/images/new-design/icons/General.png",
-        text: this._translateService.instant("company-settings.channels"),
-        value: "Channels",
-        submenus: [
-          {
-            text: this._translateService.instant("company-settings.email"),
-            value: "Notifications",
-          },
-          {
-            text: this._translateService.instant("company-settings.wall"),
-            value: "Wall",
-          },
-        ],
-      },
+      // {
+      //   icon: "./assets/images/new-design/icons/General.png",
+      //   text: this._translateService.instant("company-settings.channels"),
+      //   value: "Channels",
+      //   submenus: [
+      //     {
+      //       text: this._translateService.instant("company-settings.email"),
+      //       value: "Notifications",
+      //     },
+      //     {
+      //       text: this._translateService.instant("company-settings.wall"),
+      //       value: "Wall",
+      //     },
+      //   ],
+      // },
       {
         icon: "./assets/images/new-design/icons/Personalization.png",
         text: this._translateService.instant(
@@ -671,10 +671,10 @@ export class MainComponent {
             text: this._translateService.instant("company-settings.modules"),
             value: "Features",
           },
-          {
-            text: this._translateService.instant("company-settings.agenda"),
-            value: "Dashboard",
-          },
+          // {
+          //   text: this._translateService.instant("company-settings.agenda"),
+          //   value: "Dashboard",
+          // },
         ],
       },
       {
@@ -682,18 +682,18 @@ export class MainComponent {
         text: this._translateService.instant("company-settings.adminaccess"),
         value: "AdminAccess",
         submenus: [
-          {
-            text: this._translateService.instant(
-              "company-settings.personalizehometemplate"
-            ),
-            value: "Customize home screen",
-          },
-          {
-            text: this._translateService.instant(
-              "company-settings.registration"
-            ),
-            value: "Registration",
-          },
+          // {
+          //   text: this._translateService.instant(
+          //     "company-settings.personalizehometemplate"
+          //   ),
+          //   value: "Customize home screen",
+          // },
+          // {
+          //   text: this._translateService.instant(
+          //     "company-settings.registration"
+          //   ),
+          //   value: "Registration",
+          // },
           {
             text: this._translateService.instant(
               "company-settings.membertypes"
@@ -702,110 +702,110 @@ export class MainComponent {
           },
         ],
       },
-      {
-        icon: "./assets/images/new-design/icons/General.png",
-        text: this._translateService.instant("company-settings.invoice"),
-        value: "AdminAccess",
-        submenus: [
-          {
-            text: this._translateService.instant("company-settings.invoices"),
-            value: "Invoices",
-          },
-          {
-            text: this._translateService.instant(
-              "company-settings.membercommissions"
-            ),
-            value: "Member Commissions",
-          },
-          {
-            text: this._translateService.instant(
-              "company-settings.affiliationcommissions"
-            ),
-            value: "Affiliate Commissions",
-          },
-          {
-            text: "MLM",
-            value: "MLM",
-          },
-          {
-            text: "Stripe",
-            value: "Stripe",
-          },
-          {
-            text: this._translateService.instant("members.offers"),
-            value: "Offers",
-          },
-        ],
-      },
+      // {
+      //   icon: "./assets/images/new-design/icons/General.png",
+      //   text: this._translateService.instant("company-settings.invoice"),
+      //   value: "AdminAccess",
+      //   submenus: [
+      //     {
+      //       text: this._translateService.instant("company-settings.invoices"),
+      //       value: "Invoices",
+      //     },
+      //     {
+      //       text: this._translateService.instant(
+      //         "company-settings.membercommissions"
+      //       ),
+      //       value: "Member Commissions",
+      //     },
+      //     {
+      //       text: this._translateService.instant(
+      //         "company-settings.affiliationcommissions"
+      //       ),
+      //       value: "Affiliate Commissions",
+      //     },
+      //     {
+      //       text: "MLM",
+      //       value: "MLM",
+      //     },
+      //     {
+      //       text: "Stripe",
+      //       value: "Stripe",
+      //     },
+      //     {
+      //       text: this._translateService.instant("members.offers"),
+      //       value: "Offers",
+      //     },
+      //   ],
+      // },
       {
         icon: "./assets/images/new-design/icons/Channels.png",
         text: this._translateService.instant("company-settings.tools"),
         value: "Tools",
         submenus: [
-          {
-            text: this._translateService.instant("company-settings.inquiries"),
-            value: "Surveys Home",
-          },
-          {
-            text: this._translateService.instant("company-settings.surveys"),
-            value: "Surveys",
-          },
+          // {
+          //   text: this._translateService.instant("company-settings.inquiries"),
+          //   value: "Surveys Home",
+          // },
+          // {
+          //   text: this._translateService.instant("company-settings.surveys"),
+          //   value: "Surveys",
+          // },
           {
             text: this._translateService.instant("company-settings.reports"),
             value: "Reports",
           },
-          {
-            text: this._translateService.instant(
-              "company-settings.landingscaptacion"
-            ),
-            value: "Landings",
-          },
-          {
-            text: this._translateService.instant(
-              "company-settings.gamification"
-            ),
-            value: "Gamification",
-          },
-          {
-            text: this._translateService.instant(
-              "company-settings.supporttickets"
-            ),
-            value: "Support Tickets",
-          },
+          // {
+          //   text: this._translateService.instant(
+          //     "company-settings.landingscaptacion"
+          //   ),
+          //   value: "Landings",
+          // },
+          // {
+          //   text: this._translateService.instant(
+          //     "company-settings.gamification"
+          //   ),
+          //   value: "Gamification",
+          // },
+          // {
+          //   text: this._translateService.instant(
+          //     "company-settings.supporttickets"
+          //   ),
+          //   value: "Support Tickets",
+          // },
         ],
       },
-      {
-        icon: "./assets/images/new-design/icons/General.png",
-        text: this._translateService.instant("company-settings.affiliation"),
-        value: "Affiliations",
-        submenus: [
-          {
-            text: this._translateService.instant("company-settings.affiliates"),
-            value: "Affiliates",
-          },
-          {
-            text: this._translateService.instant(
-              "company-settings.rrsstemplates"
-            ),
-            value: "RRSS Templates",
-          },
-        ],
-      },
+      // {
+      //   icon: "./assets/images/new-design/icons/General.png",
+      //   text: this._translateService.instant("company-settings.affiliation"),
+      //   value: "Affiliations",
+      //   submenus: [
+      //     {
+      //       text: this._translateService.instant("company-settings.affiliates"),
+      //       value: "Affiliates",
+      //     },
+      //     {
+      //       text: this._translateService.instant(
+      //         "company-settings.rrsstemplates"
+      //       ),
+      //       value: "RRSS Templates",
+      //     },
+      //   ],
+      // },
       {
         icon: "./assets/images/new-design/icons/Channels.png",
         text: this._translateService.instant("company-settings.communication"),
         value: "Communication",
         submenus: [
-          {
-            text: this._translateService.instant(
-              "company-settings.notificationssettings"
-            ),
-            value: "Notifications Settings",
-          },
-          {
-            text: this._translateService.instant("sidebar.yourmessages"),
-            value: "Notifications List",
-          },
+          // {
+          //   text: this._translateService.instant(
+          //     "company-settings.notificationssettings"
+          //   ),
+          //   value: "Notifications Settings",
+          // },
+          // {
+          //   text: this._translateService.instant("sidebar.yourmessages"),
+          //   value: "Notifications List",
+          // },
           {
             text: this._translateService.instant(
               "company-settings.automaticemails"
@@ -814,39 +814,39 @@ export class MainComponent {
           },
         ],
       },
-      {
-        icon: "./assets/images/new-design/icons/Channels.png",
-        text: this._translateService.instant(
-          "company-settings.dataadministration"
-        ),
-        value: "Data Administration",
-        submenus: [
-          {
-            text: this._translateService.instant("company-settings.import"),
-            value: "Import",
-          },
-          {
-            text: this._translateService.instant("company-settings.export"),
-            value: "Export",
-          },
-          {
-            text: this._translateService.instant("company-settings.databackup"),
-            value: "Data Backup",
-          },
-          {
-            text: this._translateService.instant("company-settings.storage"),
-            value: "Storage",
-          },
-          {
-            text: this._translateService.instant("company-settings.recyclebin"),
-            value: "Recycle Bin",
-          },
-          {
-            text: this._translateService.instant("company-settings.audittrail"),
-            value: "AuditTrail",
-          },
-        ],
-      },
+      // {
+      //   icon: "./assets/images/new-design/icons/Channels.png",
+      //   text: this._translateService.instant(
+      //     "company-settings.dataadministration"
+      //   ),
+      //   value: "Data Administration",
+      //   submenus: [
+      //     {
+      //       text: this._translateService.instant("company-settings.import"),
+      //       value: "Import",
+      //     },
+      //     {
+      //       text: this._translateService.instant("company-settings.export"),
+      //       value: "Export",
+      //     },
+      //     {
+      //       text: this._translateService.instant("company-settings.databackup"),
+      //       value: "Data Backup",
+      //     },
+      //     {
+      //       text: this._translateService.instant("company-settings.storage"),
+      //       value: "Storage",
+      //     },
+      //     {
+      //       text: this._translateService.instant("company-settings.recyclebin"),
+      //       value: "Recycle Bin",
+      //     },
+      //     {
+      //       text: this._translateService.instant("company-settings.audittrail"),
+      //       value: "AuditTrail",
+      //     },
+      //   ],
+      // },
       {
         icon: "./assets/images/new-design/icons/General.png",
         text: this._translateService.instant(
@@ -855,61 +855,61 @@ export class MainComponent {
         value: "ManagementSection",
         submenus: [],
       },
-      {
-        icon: "./assets/images/new-design/icons/Channels.png",
-        text: this._translateService.instant("company-settings.others"),
-        value: "Others All",
-        submenus: [
-          {
-            text: this._translateService.instant("company-settings.gatracking"),
-            value: "Google Analytics Tracking ID",
-          },
-          {
-            text: "Facebook Pixel",
-            value: "Facebook Pixel",
-          },
-          {
-            text: "Smartlook",
-            value: "Smartlook",
-          },
-          {
-            text: "Meta data",
-            value: "Meta data",
-          },
-        ],
-      },
+      // {
+      //   icon: "./assets/images/new-design/icons/Channels.png",
+      //   text: this._translateService.instant("company-settings.others"),
+      //   value: "Others All",
+      //   submenus: [
+      //     {
+      //       text: this._translateService.instant("company-settings.gatracking"),
+      //       value: "Google Analytics Tracking ID",
+      //     },
+      //     {
+      //       text: "Facebook Pixel",
+      //       value: "Facebook Pixel",
+      //     },
+      //     {
+      //       text: "Smartlook",
+      //       value: "Smartlook",
+      //     },
+      //     {
+      //       text: "Meta data",
+      //       value: "Meta data",
+      //     },
+      //   ],
+      // },
     ];
   }
 
   includeFeaturesSubmenuItems() {
     if (this.mainMenuItems) {
       this.mainMenuItems.forEach((mi) => {
-        if (mi.value == "Personalization") {
-          if (this.isPlanEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Events");
-            if (!match) {
-              mi.submenus.push({
-                text: `${this._translateService.instant(
-                  "company-settings.parameterize"
-                )} ${this.planTitle}`,
-                value: "Events",
-              });
-            }
-          }
-          if (this.isClubEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Groups");
-            if (!match) {
-              mi.submenus.push({
-                text: `${this._translateService.instant(
-                  "company-settings.parameterize"
-                )} ${this.clubTitle}`,
-                value: "Groups",
-              });
-            }
-          }
-        }
+        // if (mi.value == "Personalization") {
+        //   if (this.isPlanEnabled) {
+        //     let match =
+        //       mi.submenus && mi.submenus.some((a) => a.value === "Events");
+        //     if (!match) {
+        //       mi.submenus.push({
+        //         text: `${this._translateService.instant(
+        //           "company-settings.parameterize"
+        //         )} ${this.planTitle}`,
+        //         value: "Events",
+        //       });
+        //     }
+        //   }
+        //   if (this.isClubEnabled) {
+        //     let match =
+        //       mi.submenus && mi.submenus.some((a) => a.value === "Groups");
+        //     if (!match) {
+        //       mi.submenus.push({
+        //         text: `${this._translateService.instant(
+        //           "company-settings.parameterize"
+        //         )} ${this.clubTitle}`,
+        //         value: "Groups",
+        //       });
+        //     }
+        //   }
+        // }
 
         if (mi.value == "ManagementSection") {
           if (this.isPlanEnabled) {
@@ -1272,7 +1272,7 @@ export class MainComponent {
 
   getSettingsCategories() {
     this._companyService
-      .getOtherSettings(this.companyId)
+      .getOtherSettingsCategories()
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         async (response) => {
@@ -1314,6 +1314,7 @@ export class MainComponent {
               }
             }
           }
+          console.log(other_categories);
           this.otherSettingsCategories = other_categories;
         },
         (error) => {
@@ -1419,60 +1420,59 @@ export class MainComponent {
 
   showContent(content, menu) {
     if (menu.value == "ManagementSection") {
+      console.log("Content: " + content);
       if (content == "Events") {
-        this._router.navigate([`/settings/plans`]);
+        this._router.navigate([`/settings/manage-list/plans`]);
       } else if (content == "Groups") {
-        this._router.navigate([`/settings/clubs`]);
-      } else if (content == "Courses") {
-        this._router.navigate([`/settings/courses`]);
-      } else if (content == "Content") {
-        this._router.navigate([`/settings/blogs`]);
-      } else if (content == "Discounts") {
-        this._router.navigate([`/settings/discounts`]);
+        this._router.navigate([`/settings/manage-list/clubs`]);
       } else if (content == "JobOffers") {
-        this._router.navigate([`/settings/job-offers`]);
-      } else if (content == "Services") {
-        this._router.navigate([`/settings/services`]);
-      } else if (content == "Posts") {
-        this._router.navigate([`/settings/posts`]);
-      } else if (content == "Users") {
-        this._router.navigate([`/settings/manage-list/users`]);
-      } else if (content == "Buddy") {
-        this._router.navigate([`/settings/buddies`]);
-      } else if (content == "Invoices") {
-        this._router.navigate([`/settings/member-invoices`]);
-      } else if (content == "Tutors") {
-        this._router.navigate([`/settings/tutors`]);
+        this._router.navigate([`/settings/manage-list/canalempleo`]);
+      } else if (content == "Cities") {
+        this._router.navigate([`/settings/manage-list/cities`]);
       }
+      // else if (content == "Courses") {
+      //   this._router.navigate([`/settings/courses`]);
+      // } else if (content == "Content") {
+      //   this._router.navigate([`/settings/blogs`]);
+      // } else if (content == "Discounts") {
+      //   this._router.navigate([`/settings/discounts`]);
+      // } else if (content == "Services") {
+      //   this._router.navigate([`/settings/services`]);
+      // } else if (content == "Posts") {
+      //   this._router.navigate([`/settings/posts`]);
+      // } else if (content == "Buddy") {
+      //   this._router.navigate([`/settings/buddies`]);
+      // } else if (content == "Invoices") {
+      //   this._router.navigate([`/settings/member-invoices`]);
+      // } else if (content == "Tutors") {
+      //   this._router.navigate([`/settings/tutors`]);
+      // }
     } else if (menu.value == "Users" && content == "Users") {
       this._router.navigate([`/settings/manage-list/users`]);
-    } else if (menu.value == "Users" && content == "Guests") {
-      this._router.navigate([`/settings/guests`]);
-    } else if (menu.value == "Tools" && content == "Support Tickets") {
-      this._router.navigate([`/user-settings/support-tickets`]);
     } else if (menu.value == "Tools" && content == "Reports") {
       this._router.navigate([`/settings/reports`]);
-    } else if (menu.value == "Tools" && content == "Surveys") {
-      this._router.navigate([`/settings/surveys`]);
-    } else if (
-      menu.value == "Communication" &&
-      content == "Notifications List"
-    ) {
-      this._router.navigate([`/settings/notifications`]);
-    } else if (
-      menu.value == "Communication" &&
-      content == "Notifications Settings"
-    ) {
-      this._router.navigate([`/settings/notification-settings`]);
-    } else if (menu.value == "Data Administration" && content == "Export") {
-      this._router.navigate([`/settings/database`]);
-    } else if (menu.value == "Data Administration" && content == "AuditTrail") {
-      this._router.navigate([`/settings/audit-trail`]);
-    } else if (menu.value == "Others All") {
-      this._router.navigate([`/settings/setting/10`]);
-    } else if (menu.value == "Channels" && content == "Notifications") {
-      this.showEmailSettingsModal = true;
-    } else if (content == "Features") {
+    }
+    // else if (menu.value == "Users" && content == "Guests") {
+    //   this._router.navigate([`/settings/guests`]);
+    // } else if (menu.value == "Tools" && content == "Support Tickets") {
+    //   this._router.navigate([`/user-settings/support-tickets`]);
+    // } else if (menu.value == "Tools" && content == "Surveys") {
+    //   this._router.navigate([`/settings/surveys`]);
+    // } else if (
+    //   menu.value == "Communication" &&
+    //   content == "Notifications Settings"
+    // ) {
+    //   this._router.navigate([`/settings/notification-settings`]);
+    // } else if (menu.value == "Data Administration" && content == "Export") {
+    //   this._router.navigate([`/settings/database`]);
+    // } else if (menu.value == "Data Administration" && content == "AuditTrail") {
+    //   this._router.navigate([`/settings/audit-trail`]);
+    // } else if (menu.value == "Others All") {
+    //   this._router.navigate([`/settings/setting/10`]);
+    // } else if (menu.value == "Channels" && content == "Notifications") {
+    //   this.showEmailSettingsModal = true;
+    // }
+    else if (content == "Features") {
       this._router.navigate([`/settings/features`]);
     } else {
       let otherSettingsCategory;
@@ -1497,11 +1497,12 @@ export class MainComponent {
         ]);
       } else if (content == "MemberTypes") {
         this._router.navigate([`/settings/manage-list/membertypes`]);
-      } else if (content == "Dashboard") {
-        this._router.navigate([`/settings/setting/5`]);
       } else if (content == "Automated Emails") {
-        location.href = `/settings/setting/9`;
+        this._router.navigate([`/settings/setting/9`]);
       }
+      // else if (content == "Dashboard") {
+      //   this._router.navigate([`/settings/setting/5`]);
+      // }
     }
   }
 

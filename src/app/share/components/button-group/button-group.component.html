@@ -1,5 +1,7 @@
 <div [ngClass]="{'flex-col flex': subcategoryList?.length > 0}">
-    <div class="inline-flex rounded-md shadow-sm flex-wrap pb-4 justify-end sm:justify-end md:justify-end lg:justify-end pb-4 sm:pb-4 md:pb-0 lg:pb-0" role="group" *ngIf="buttonList?.length > 0">
+    <div class="inline-flex rounded-md shadow-sm flex-wrap pb-4 justify-end sm:justify-end md:justify-end lg:justify-end pb-4 sm:pb-4 md:pb-0 lg:pb-0" 
+        [ngClass]="{'hidden': hiddenMainList}"
+        role="group" *ngIf="buttonList?.length > 0">
         <ng-container *ngFor="let button of buttonList; let i = index;">
             <button 
                 type="button" 
