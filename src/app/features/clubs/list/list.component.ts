@@ -214,7 +214,7 @@ export class ClubsListComponent {
       : false;
     this.canCreateGroup =
       user_permissions?.create_plan_roles?.length > 0 ||
-      user_permissions?.member_type_permissions?.find((f) => f.create == 1);
+      user_permissions?.member_type_permissions?.find((f) => f.create == 1 && f.feature_id == 5);
     this.canManageGroup = user_permissions?.member_type_permissions?.find(
       (f) => f.manage == 1 && f.feature_id == 5
     )

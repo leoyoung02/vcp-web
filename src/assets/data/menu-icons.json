@@ -24,7 +24,7 @@
         "activeicon": "./assets/images/new-design/icons/menus/Job-active.png"   
     }, 
     {  
-        "path": "news",  
+        "path": "cityguide",  
         "icon": "./assets/images/new-design/icons/menus/CityAgenda.png",
         "facode": "fas fa-city",  
         "activeicon": "./assets/images/new-design/icons/menus/CityAgenda-active.png"   

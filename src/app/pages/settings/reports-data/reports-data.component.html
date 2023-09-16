@@ -65,34 +65,3 @@
         ></mat-paginator>
     </div>
 </div>
-<!-- <div class="d-flex mt-5" style="margin-top:0 !important;">
-    <div class="p-5 content sidebar" style="margin:0 !important;padding:0 !important;">
-        <div class="company-reports-container" *ngIf="!isloading">
-            <table>
-                <tr class="table-header">
-                    <ng-container *ngFor="let header of tableData?.headers; let i = index;">
-                        <th *ngIf="header?.name != 'ID' && header?.name != 'Club ID'">{{ header.name }}</th>
-                    </ng-container>
-                </tr>
-                <ng-container *ngFor="let row of tableData?.rows | paginate: {itemsPerPage: 10, currentPage: p}">
-                    <tr class="table-row">
-                        <ng-container *ngFor="let key of _.keys(row)">
-                            <ng-container *ngIf="key != 'id' && key != 'club_id'">
-                                <td *ngIf="key != 'date'">
-                                    <ng-container *ngIf="key != 'activity' && key != 'club' && key != 'offer' && key != 'teams'">{{ row[key] }}</ng-container>
-                                    <ng-container *ngIf="key == 'activity' || key == 'club' || key == 'offer' || key == 'teams'"><a href="javascript:;" (click)="goToDetails(row, key)" [ngStyle]="{'color': buttonColor}">{{ row[key] }}</a></ng-container>
-                                </td>
-                                <td *ngIf="key == 'date'">
-                                    {{ row[key] | date: 'dd MMM yyyy' }}
-                                </td>
-                            </ng-container>
-                        </ng-container>
-                    </tr>
-                </ng-container>
-            </table>
-            <div *ngIf="!isloading && tableData?.rows?.length > 0" class="center-align">
-                <pagination-controls (pageChange)="p = $event"></pagination-controls>
-            </div>
-        </div>
-    </div>
-</div> -->

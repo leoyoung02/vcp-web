@@ -858,7 +858,9 @@
         "viewmap":"View Map",
        "copylink": "Copy link",
         "share": "Share",
-        "cityguide": "City Guide"
+        "cityguide": "City Guide",
+        "distancefrom": "Distance from",
+        "kilometers": "kilometers"
     },
     "search": {
         "viewmore": "View more",

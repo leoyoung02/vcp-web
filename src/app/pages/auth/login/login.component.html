@@ -2,29 +2,31 @@
   <div class="w-full max-w-lg">
     <app-company-logo [logoSource]="logoSource" />
     <ng-container *ngIf="showSSOLogin">
-      <div
-        class="pt-6 flex items-center justify-center text-base mb-6 text-white"
-      >
-        {{ "login.loginviasso" | translate }}
-      </div>
-      <div
-        class="flex grid-container gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 items-center justify-center h-full mb-10"
-      >
-        <button
-          class="inline-block h-[40px] text-sm px-6 py-2 border-2 border-white text-white rounded-[10px] focus:ring-4 focus:ring-offset-black focus:outline-none"
-          (click)="loginUEStudent()"
-          [ngStyle]="{ 'background-color': buttonColor }"
+      <ng-container *ngIf="!loginAsAdmin">
+        <div
+          class="pt-6 flex items-center justify-center text-base mb-6 text-white"
         >
-          {{ "login.students" | translate }}
-        </button>
-        <button
-          class="inline-block h-[40px] text-sm px-6 py-2 border-2 border-white text-white rounded-[10px] focus:ring-4 focus:ring-offset-black focus:outline-none"
-          (click)="loginUEEmployee()"
-          [ngStyle]="{ 'background-color': buttonColor }"
+          {{ "login.loginviasso" | translate }}
+        </div>
+        <div
+          class="flex grid-container gap-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 items-center justify-center h-full mb-10"
         >
-          {{ "login.employees" | translate }}
-        </button>
-      </div>
+          <button
+            class="inline-block h-[40px] text-sm px-6 py-2 border-2 border-white text-white rounded-[10px] focus:ring-4 focus:ring-offset-black focus:outline-none"
+            (click)="loginUEStudent()"
+            [ngStyle]="{ 'background-color': buttonColor }"
+          >
+            {{ "login.students" | translate }}
+          </button>
+          <button
+            class="inline-block h-[40px] text-sm px-6 py-2 border-2 border-white text-white rounded-[10px] focus:ring-4 focus:ring-offset-black focus:outline-none"
+            (click)="loginUEEmployee()"
+            [ngStyle]="{ 'background-color': buttonColor }"
+          >
+            {{ "login.employees" | translate }}
+          </button>
+        </div>
+      </ng-container>
       <div
         class="flex items-center justify-center w-full mb-12 absolute h-32 m-auto left-0 right-0 top-0 bottom-0"
       >
@@ -53,7 +55,7 @@
     </ng-container>
     <ng-container *ngIf="(loginAsAdmin || !showSSOLogin)">
       <div
-        class="flex items-center justify-center pt-7 m-auto left-0 right-0 text-center mt-0 pt-8 mb-8 border border-t-2 border-l-0 border-r-0 border-b-0 border-white w-9/12"
+        class="flex items-center justify-center pt-7 m-auto left-0 right-0 text-center mt-0 pt-8 mb-8 border border-t-1 border-l-0 border-r-0 border-b-0 border-white w-9/12"
         [ngStyle]="{
           color:
             primaryColor == '#ffffff' || primaryColor == '#fff'

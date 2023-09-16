@@ -281,6 +281,12 @@ export const REGISTER_JOB_OFFER_URL = `${API_BASE}/company/job/register/create`;
 export const CREATE_JOB_OFFER_URL = `${API_BASE}/company/job/offer/create-new`;
 export const EDIT_JOB_OFFER_URL = `${API_BASE}/company/job/offer/edit-new`;
 
+// CITY GUIDES
+export const CITY_GUIDES_URL = `${API_BASE}/v2/city-guides`;
+export const CITY_GUIDE_URL = `${API_BASE}/v2/city-guide`;
+export const EDIT_CITY_GUIDE_LIKE_URL = `${API_BASE}/v2/city-guide/like/edit`;
+export const EDIT_CITY_GUIDE_URL = `${API_BASE}/company-admin-news-delete`;
+
 // COURSES
 export const COURSE_SUBSCRIPTIONS_URL = `${API_BASE}/course-subscriptions`;
 export const COURSE_TUTORS_URL = `${API_BASE}/course-tutors`;

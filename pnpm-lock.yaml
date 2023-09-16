@@ -26,6 +26,9 @@ dependencies:
   '@angular/forms':
     specifier: ^16.0.0
     version: 16.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)(rxjs@7.8.0)
+  '@angular/google-maps':
+    specifier: ^16.2.4
+    version: 16.2.4(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.0)
   '@angular/material':
     specifier: ^16.2.0
     version: 16.2.0(@angular/animations@16.0.0)(@angular/cdk@16.2.0)(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/forms@16.0.0)(@angular/platform-browser@16.0.0)(rxjs@7.8.0)
@@ -698,6 +701,20 @@ packages:
       '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
       '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
       '@angular/platform-browser': 16.0.0(@angular/animations@16.0.0)(@angular/common@16.0.0)(@angular/core@16.0.0)
+      rxjs: 7.8.0
+      tslib: 2.5.0
+    dev: false
+
+  /@angular/google-maps@16.2.4(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.0):
+    resolution: {integrity: sha512-9vOiUHiFdomu0CbqEBQmHLy45XhmeEwMD+iqQApGZDrmY6rtB4mOQwkpakkrWjn877SCuw9FGM5ATbCxaEPhvQ==}
+    peerDependencies:
+      '@angular/common': ^16.0.0 || ^17.0.0
+      '@angular/core': ^16.0.0 || ^17.0.0
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
+      '@types/google.maps': 3.54.1
       rxjs: 7.8.0
       tslib: 2.5.0
     dev: false
@@ -3929,6 +3946,10 @@ packages:
       '@types/qs': 6.9.7
       '@types/serve-static': 1.13.10
     dev: true
+
+  /@types/google.maps@3.54.1:
+    resolution: {integrity: sha512-zh6333O/yPfcvRxpBTjnNFJjiHiujvy+tTAWwvNj3LMy90Y+VLTom8n9gvmgjXhOHgHvYpgO2Xyz31wYEYN27A==}
+    dev: false
 
   /@types/http-proxy@1.17.9:
     resolution: {integrity: sha512-QsbSjA/fSk7xB+UXlCT3wHBy5ai9wOcNDWwZAtud+jXhwOM3l+EYZh8Lng4+/6n8uar0J7xILzqftJdJ/Wdfkw==}

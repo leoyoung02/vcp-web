@@ -535,7 +535,7 @@ export class PlansListComponent {
       : false;
     this.canCreatePlan =
       user_permissions?.create_plan_roles?.length > 0 ||
-      user_permissions?.member_type_permissions?.find((f) => f.create == 1);
+      user_permissions?.member_type_permissions?.find((f) => f.create == 1 && f.feature_id == 1);
     this.canManagePlan = user_permissions?.member_type_permissions?.find(
       (f) => f.manage == 1 && f.feature_id == 1
     )

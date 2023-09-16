@@ -70,6 +70,12 @@ export const routes: Routes = [
         canMatch: [authGuard()],
     },
     {
+        path: 'cityguide',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/city-guide')).routes,
+        canMatch: [authGuard()],
+    },
+    {
         path: 'courses',
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@features/courses')).routes,

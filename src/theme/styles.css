@@ -26,6 +26,10 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+.app.light {
+    background-color: #fff !important;
+}
+
 * {
   padding: 0;
   margin: 0;
@@ -502,4 +506,31 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
 .addeventatc .addeventatc_icon,
 .addeventatc {
     z-index: initial !important;
+}
+
+.ngx-pagination li:not(.small-screen),
+.ngx-pagination li:not(.pagination-previous),
+.ngx-pagination li:not(.pagination-next) {
+    font-size: small;
+}
+
+.ngx-pagination li.current {
+    background: transparent;
+    color: #f00;
+    font-weight: bold;
+    font-size: small;
+}
+
+.ngx-pagination .pagination-previous a::before, 
+.ngx-pagination .pagination-previous.disabled::before { 
+    font-family: 'Material Icons'; 
+    content: 'keyboard_arrow_right'; 
+    vertical-align: middle; 
+    display: inline; 
+}
+
+.map-container {
+    margin-left: 10%;
+    width: 90% !important;
+    border-radius: 30px;
 }

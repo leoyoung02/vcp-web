@@ -1264,8 +1264,8 @@ export class LayoutMainComponent {
         ? this.features[i].name_de
         : this.features[i].feature_name_DE;
 
-      tempPath = tempPath == "cityagenda" ? "news" : tempPath;
-      tempName = tempPath == "cityagenda" ? "News" : tempName;
+      tempPath = tempPath == "cityagenda" ? "cityguide" : tempPath;
+      tempName = tempPath == "cityagenda" ? "City Guide" : tempName;
 
       tempData = {
         id: this.features[i].id,

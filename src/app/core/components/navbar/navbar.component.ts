@@ -423,7 +423,7 @@ export class NavbarComponent {
       case "startups":
         icon = this.employmentIcon;
         break;
-      case "news":
+      case "cityguide":
       case "services":
         icon = this.serviceIcon;
         break;
