@@ -13,9 +13,8 @@ import { LocalService, CompanyService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { initFlowbite } from "flowbite";
-import { GoogleMapsModule } from "@angular/google-maps";
+import { GoogleMap, GoogleMapsModule, MapInfoWindow, MapMarker } from "@angular/google-maps";
 import get from "lodash/get";
-
 @Component({
   selector: "app-clubs-detail",
   standalone: true,
@@ -78,6 +77,18 @@ export class CityGuideDetailComponent {
   liked: boolean = false;
   cityGuideItems: any = [];
 
+  options: google.maps.MapOptions = {
+    mapTypeId: 'hybrid',
+    zoomControl: false,
+    scrollwheel: false,
+    disableDoubleClickZoom: true,
+    maxZoom: 15,
+    minZoom: 8,
+  };
+  infoContent = '';
+  @ViewChild(GoogleMap, { static: false }) map: GoogleMap | undefined;
+  @ViewChild(MapInfoWindow, { static: false }) info: MapInfoWindow | undefined;
+
   constructor(
     private _router: Router,
     private _cityGuidesService: CityGuidesService,
@@ -131,6 +142,14 @@ export class CityGuideDetailComponent {
       );
 
     this.getCityGuide();
+  }
+
+  zoomIn() {
+    
+  }
+ 
+  zoomOut() {
+    
   }
 
   getCityGuide() {
@@ -364,20 +383,17 @@ export class CityGuideDetailComponent {
     if (item?.latitude && item?.longitude) {
       markers.push({
         position: {
-          lat: center.lat + ((Math.random() - 0.5) * 2) / 10,
-          lng: center.lng + ((Math.random() - 0.5) * 2) / 10,
+          lat: center.lat,
+          lng: center.lng,
         },
-        label: {
-          color: "red",
-          text: "Marker label " + (markers.length + 1),
-        },
-        title: "Marker title " + (markers.length + 1),
-        options: { animation: google.maps.Animation.BOUNCE },
       });
     }
-
-    console.log(markers);
     return markers;
+  }
+
+  openInfo(marker: MapMarker, content) {
+    this.infoContent = content;
+    this.info?.open(marker);
   }
 
   handleDelete() {

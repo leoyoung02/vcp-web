@@ -59,6 +59,7 @@
             <div *ngFor="let item of cityGuideItems; let i = index;">
                 <div class="grid gap-0 sm:gap-0 md:gap-6 lg:gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3"
                     [ngClass]="{'mb-24': !item?.distance_from_city, 'mb-12': item?.distance_from_city}"
+                    *ngIf="item?.image || (item?.latitude && item?.longitude)"
                 >
                     <div class="col-span-1 mb-4 sm:mb-4 md:mb-0 lg:mb-0">
                         <img 
@@ -74,6 +75,7 @@
                     >
                         <google-map [height]="382" [center]="item?.center">
                             <map-marker
+                                #markerElem
                                 *ngFor="let marker of item?.markers"
                                 [position]="marker.position"
                                 [label]="marker.label"
