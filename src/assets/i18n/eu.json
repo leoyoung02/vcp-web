@@ -56,7 +56,12 @@
         "joinhere": "Batu hemen",
         "favicondesc": "Ezarri ikonoa arakatzailearen fitxan agertzea",
         "changeicon": "Aldatu fabicon",
-        "videodesc": "Bideoaren deskribapena"
+        "videodesc": "Bideoaren deskribapena",
+        "menu": "Menu",
+        "welcometitle1": "Ongi etorria",
+        "welcometitle2": "zaitugu",
+        "welcomedesc": "Aukera akademikoen mundu bat zure zain dago.",
+        "learnmore": "Gehiago ikasi"
     },
     "user-popup": {
         "myplans": "Nire planak",

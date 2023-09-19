@@ -17,6 +17,7 @@ import { SafeContentHtmlPipe } from "@lib/pipes";
 import { ClubsListComponent } from "@features/clubs/list/list.component";
 import { CoursesListComponent } from "@features/courses/list/list.component";
 import { JobOffersListComponent } from "@features/job-offers/list/list.component";
+import { MasonryComponent } from "@share/components";
 
 @Component({
   standalone: true,
@@ -28,7 +29,8 @@ import { JobOffersListComponent } from "@features/job-offers/list/list.component
     PlansListComponent,
     ClubsListComponent,
     CoursesListComponent,
-    JobOffersListComponent
+    JobOffersListComponent,
+    MasonryComponent,
   ],
   templateUrl: "./home.component.html",
 })
@@ -125,6 +127,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   profileHomeContentSetting: any = [];
   sectionOptions: any = [];
   showEventsCalendar: boolean = false;
+  companyName: any;
+  company: any;
 
   constructor(
     private _translateService: TranslateService,
@@ -153,7 +157,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       : "";
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
+      this.company = company[0];
       this.companyId = company[0].id;
+      this.companyName = company[0].entity_name;
       this.domain = company[0].domain;
       this.primaryColor = company[0].primary_color;
       this.buttonColor = company[0].button_color

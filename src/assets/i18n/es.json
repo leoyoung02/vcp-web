@@ -56,7 +56,12 @@
         "joinhere": "Únete aqui",
         "favicondesc": "Establecer ícono que aparece en la pestaña del navegador",
         "changeicon": "Cambiar favicon",
-        "videodesc": "Descripción del video"
+        "videodesc": "Descripción del video",
+        "menu": "Menú",
+        "welcometitle1": "Te damos bienvenida",
+        "welcometitle2": "a la",
+        "welcomedesc": "Un mundo de oportunidades académicas te espera.",
+        "learnmore": "Conoce más"
     },
     "user-popup": {
         "myplans": "Mis planes",

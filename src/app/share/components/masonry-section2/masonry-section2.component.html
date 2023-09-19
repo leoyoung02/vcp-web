@@ -1,0 +1,150 @@
+<div class="flex flex-wrap pt-4">
+    <div class="mr-0 sm:mr-0 md:mr-4 lg:mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0 w-full max-w-full sm:w-full sm:max-w-full md:w-[850px] md:max-w-[850px] lg:w-[850px] lg:max-w-[850px]">
+        <div class="flex flex-wrap hover:cursor-pointer" [routerLink]="[cityGuide1Data?.path]" *ngIf="cityGuide1Data?.id > 0">
+            <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]">
+                <img class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px] w-full max-w-full sm:w-full sm:max-w-full md:w-[344px] md:max-w-[344px] lg:w-[344px] lg:max-w-[344px] object-cover rounded-lg" 
+                    width="344" height="300" *ngIf="cityGuide1Data?.image" [ngSrc]="cityGuide1Data?.image" alt="">
+            </div>
+            <div class="p-9 py-4 h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px] w-full max-w-full sm:w-full sm:max-w-full md:w-[500px] md:max-w-[500px] lg:w-[500px] lg:max-w-[500px] rounded-r-lg">
+                <div class="flex flex-col justify-between">
+                    <div class="flex py-2 bg-emerald-950 rounded-[10px] mb-4 w-[180px] justify-center" *ngIf="cityGuide1Data?.featured">
+                        <div class="text-sm mr-2 text-white uppercase">{{ 'plans.recommended' | translate }}</div>
+                        <svg class="w-4 h-4 text-amber-400 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 17 20">
+                            <path d="M7.958 19.393a7.7 7.7 0 0 1-6.715-3.439c-2.868-4.832 0-9.376.944-10.654l.091-.122a3.286 3.286 0 0 0 .765-3.288A1 1 0 0 1 4.6.8c.133.1.313.212.525.347A10.451 10.451 0 0 1 10.6 9.3c.5-1.06.772-2.213.8-3.385a1 1 0 0 1 1.592-.758c1.636 1.205 4.638 6.081 2.019 10.441a8.177 8.177 0 0 1-7.053 3.795Z"/>
+                        </svg>
+                    </div>
+                    <div class="mb-2 text-xl font-medium">{{cityGuide1Data?.id}}: {{ cityGuide1Data?.title }}</div>
+                    <div class="text-xs">{{ cityGuide1Data?.excerpt }}</div>
+                    <div class="w-full border border-b-1 border-l-0 border-r-0 border-t-0 mb-8">&nbsp;</div>
+                    <div class="w-full h-16 flex justify-between items-center">
+                        <div class="flex items-center">
+                            <div class="flex" *ngFor="let like of cityGuide1Data?.likes; let i = index;">
+                                <img 
+                                    class="bg-slate-300 object-cover rounded-full w-[40px] h-[40px] max-w-[40px] max-h-[40px] rounded-full" 
+                                    [ngClass]="{'-ml-6': i > 0}"
+                                    width="40" 
+                                    height="40" 
+                                    [ngSrc]="like?.image">
+                            </div>
+                            <div class="text-xs ml-4">{{cityGuide1Data?.likes_text}}</div>
+                        </div>
+                        <div>
+                            <button 
+                                class="font-bold uppercase inline-block h-[40px] ml-4 border text-sm px-12 py-2 font-semibold rounded-[10px] focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
+                                [ngStyle]="{'border-color': buttonColor, color: buttonColor}"
+                            >
+                                {{ 'chat.read' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-wrap pt-4 hover:cursor-pointer" [routerLink]="[cityGuide2Data?.path]" *ngIf="cityGuide2Data?.id > 0">
+            <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]">
+                <img class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px] w-full max-w-full sm:w-full sm:max-w-full md:w-[344px] md:max-w-[344px] lg:w-[344px] lg:max-w-[344px] object-cover rounded-lg" 
+                    width="344" height="300" *ngIf="cityGuide2Data?.image" [ngSrc]="cityGuide2Data?.image" alt="">
+            </div>
+            <div class="p-9 py-4 h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px] w-full max-w-full sm:w-full sm:max-w-full md:w-[500px] md:max-w-[500px] lg:w-[500px] lg:max-w-[500px] rounded-r-lg">
+                <div class="flex flex-col justify-between">
+                    <div class="flex py-2 bg-emerald-950 rounded-[10px] mb-4 w-[180px] justify-center" *ngIf="cityGuide1Data?.featured">
+                        <div class="text-sm mr-2 text-white uppercase">{{ 'plans.recommended' | translate }}</div>
+                        <svg class="w-4 h-4 text-amber-400 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 17 20">
+                            <path d="M7.958 19.393a7.7 7.7 0 0 1-6.715-3.439c-2.868-4.832 0-9.376.944-10.654l.091-.122a3.286 3.286 0 0 0 .765-3.288A1 1 0 0 1 4.6.8c.133.1.313.212.525.347A10.451 10.451 0 0 1 10.6 9.3c.5-1.06.772-2.213.8-3.385a1 1 0 0 1 1.592-.758c1.636 1.205 4.638 6.081 2.019 10.441a8.177 8.177 0 0 1-7.053 3.795Z"/>
+                        </svg>
+                    </div>
+                    <div class="mb-2 text-xl font-medium">{{cityGuide2Data?.id}}: {{ cityGuide2Data?.title }}</div>
+                    <div class="text-xs">{{ cityGuide2Data?.excerpt }}</div>
+                    <div class="w-full border border-b-1 border-l-0 border-r-0 border-t-0 mb-8">&nbsp;</div>
+                    <div class="w-full h-16 flex justify-between items-center">
+                        <div class="flex items-center">
+                            <div class="flex" *ngFor="let like of cityGuide2Data?.likes; let i = index;">
+                                <img 
+                                    class="bg-slate-300 object-cover rounded-full w-[40px] h-[40px] max-w-[40px] max-h-[40px] rounded-full" 
+                                    [ngClass]="{'-ml-6': i > 0}"
+                                    width="40" 
+                                    height="40" 
+                                    [ngSrc]="like?.image">
+                            </div>
+                            <div class="text-xs ml-4">{{cityGuide2Data?.likes_text}}</div>
+                        </div>
+                        <div>
+                            <button 
+                                class="font-bold uppercase inline-block h-[40px] ml-4 border text-sm px-12 py-2 font-semibold rounded-[10px] focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
+                                [ngStyle]="{'border-color': buttonColor, color: buttonColor}"
+                            >
+                                {{ 'chat.read' | translate }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-full max-w-full sm:w-full sm:max-w-full md:w-[564px] md:max-w-[564px] lg:w-[564px] lg:max-w-[564px]">
+        <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px] mb-4">
+            <div class="flex h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px]">
+                <div class="w-4 rounded-l-lg" [ngStyle]="{'background-color': buttonColor}">&nbsp;</div>
+                <div class="flex flex-col justify-evenly w-full pl-9">
+                    <div class="font-semibold text-medium">{{jobOffer1Data?.title}}</div>
+                    <div class="text-sm">
+                        <span>{{jobOffer1Data?.type}}</span><span class="px-3">•</span><span>{{jobOffer1Data?.area}}</span>
+                    </div>
+                    <div class="underline text-sm" [ngStyle]="{'color': buttonColor}">
+                        {{'club-details.readmore' | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px] mb-4">
+            <div class="flex h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px]">
+                <div class="w-4 rounded-l-lg" [ngStyle]="{'background-color': buttonColor}">&nbsp;</div>
+                <div class="flex flex-col justify-evenly w-full pl-9">
+                    <div class="font-semibold text-medium">{{jobOffer2Data?.title}}</div>
+                    <div class="text-sm">
+                        <span>{{jobOffer2Data?.type}}</span><span class="px-3">•</span><span>{{jobOffer2Data?.area}}</span>
+                    </div>
+                    <div class="underline text-sm" [ngStyle]="{'color': buttonColor}">
+                        {{'landing.learnmore' | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px] mb-4">
+            <div class="flex h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px]">
+                <div class="w-4 rounded-l-lg" [ngStyle]="{'background-color': buttonColor}">&nbsp;</div>
+                <div class="flex flex-col justify-evenly w-full pl-9">
+                    <div class="font-semibold text-medium">{{jobOffer3Data?.title}}</div>
+                    <div class="text-sm">
+                        <span>{{jobOffer3Data?.type}}</span><span class="px-3">•</span><span>{{jobOffer3Data?.area}}</span>
+                    </div>
+                    <div class="underline text-sm" [ngStyle]="{'color': buttonColor}">
+                        {{'landing.learnmore' | translate }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[245px] md:max-h-[245px] lg:h-[245px] lg:max-h-[245px] w-full max-w-full sm:w-full sm:max-w-full md:w-[564px] md:max-w-[564px] lg:w-[564px] lg:max-w-[564px] hover:cursor-pointer" [routerLink]="[plan1Data?.path]">
+            <div class="relative">
+                <img class="object-cover h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[245px] md:max-h-[245px] lg:h-[245px] lg:max-h-[245px] w-full max-w-full sm:w-full sm:max-w-full md:w-[564px] md:max-w-[564px] lg:w-[564px] lg:max-w-[564px] object-cover rounded-lg" 
+                    width="564" height="245" *ngIf="plan1Data?.image" [ngSrc]="plan1Data?.image" alt="">
+                <div class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="flex flex-col ml-4"><h2 class="text-white text-lg font-bold">{{ plan1Data?.title }}</h2>
+                            <div class="text-white text-sm flex align-center items-center capitalize">
+                                <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                </svg>
+                                {{ plan1Data?.plan_date }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute inset-0 flex items-end justify-start pb-3 pl-4 text-sm text-white font-semibold">
+                    <span>{{ plan1Data?.address }}</span> <span class="px-3">•</span> <span>{{ 'category.free' | translate }}</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

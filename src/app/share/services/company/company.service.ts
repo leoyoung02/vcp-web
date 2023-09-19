@@ -88,6 +88,7 @@ import {
   EDIT_COMPANY_LOGO_URL,
   ADD_COMPANY_BANNER_URL,
   ADD_COMPANY_LOGO_URL,
+  HOME_DATA_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -830,5 +831,11 @@ export class CompanyService {
     return this._http.post(`${EDIT_COMPANY_FAVICON_URL}/${id}`,
         formData
     ).pipe(map(res => res))
+  }
+
+  fetchHomeData(id: number = 0): Observable<any> {
+    return this._http.get(`${HOME_DATA_URL}/${id}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
   }
 }

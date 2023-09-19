@@ -68,6 +68,8 @@ export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`
 export const HOME_TEMPLATE_URL = `${API_BASE}/company/home/template`;
 export const MOBILE_LIMIT_SETTINGS_URL = `${API_BASE}/mobile/settings/limit-all`;
 
+export const HOME_DATA_URL = `${API_BASE}/v2/home`;
+
 // SETTINGS
 export const SETTINGS_CATEGORY_URL = `${API_BASE}/company/settings/category/list/all`;
 export const SETTING_CATEGORY_URL = `${API_BASE}/company/settings/category`;

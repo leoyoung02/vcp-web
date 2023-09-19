@@ -56,7 +56,12 @@
         "joinhere": "Rejoignez ici",
         "favicondesc": "Définir l'affichage de l'icône dans l'onglet du navigateur",
         "changeicon": "Changer le favicon",
-        "videodesc": "Description de vidéo"
+        "videodesc": "Description de vidéo",
+        "menu": "Menu",
+        "welcometitle1": "Nous vous souhaitons",
+        "welcometitle2": "la bienvenue",
+        "welcomedesc": "Un monde d'opportunités académiques vous attend.",
+        "learnmore": "En savoir plus"
     },
     "user-popup": {
         "myplans": "Mes projets",

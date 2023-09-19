@@ -1,31 +1,31 @@
 [  
     {  
         "path": "home",  
-        "icon": "./assets/images/new-design/icons/menus/Home.png", 
+        "icon": "./assets/menu-icons/menu-icon-home.png", 
         "facode": "fa fa-home",
         "activeicon": "./assets/images/new-design/icons/menus/Home-active.png"  
     },  
     {  
         "path": "plans",  
-        "icon": "./assets/images/new-design/icons/menus/Plans.png",  
+        "icon": "./assets/menu-icons/menu-icon-plans.png",  
         "facode": "fas fa-calendar-alt",
         "activeicon": "./assets/images/new-design/icons/menus/Plans-active.png"   
     },  
     {  
         "path": "clubs",  
-        "icon": "./assets/images/new-design/icons/menus/Clubs.png",  
+        "icon": "./assets/menu-icons/menu-icon-clubs.png",  
         "facode": "fa fa-users",
         "activeicon": "./assets/images/new-design/icons/menus/Clubs-active.png"   
     },
     {  
         "path": "employmentchannel",  
-        "icon": "./assets/images/new-design/icons/menus/Job.png",
+        "icon": "./assets/menu-icons/menu-icon-employment-channel.png",
         "facode": "fa fa-sitemap",  
         "activeicon": "./assets/images/new-design/icons/menus/Job-active.png"   
     }, 
     {  
         "path": "cityguide",  
-        "icon": "./assets/images/new-design/icons/menus/CityAgenda.png",
+        "icon": "./assets/menu-icons/menu-icon-city-guide.png",
         "facode": "fas fa-city",  
         "activeicon": "./assets/images/new-design/icons/menus/CityAgenda-active.png"   
     }, 

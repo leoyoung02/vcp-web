@@ -56,7 +56,12 @@
         "joinhere": "Hier beitreten",
         "favicondesc": "Icon festlegen, das auf dem Browser-Tab angezeigt wird",
         "changeicon": "Favicon ändern",
-        "videodesc": "Videobeschreibung"
+        "videodesc": "Videobeschreibung",
+        "menu": "Menü",
+        "welcometitle1": "Wir begrüßen",
+        "welcometitle2": "Sie im",
+        "welcomedesc": "Eine Welt voller akademischer Möglichkeiten erwartet Sie.",
+        "learnmore": "Mehr erfahren"
     },
     "user-popup": {
         "myplans": "Meine Pläne",

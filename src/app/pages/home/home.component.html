@@ -1,4 +1,16 @@
-<ng-container *ngIf="!isloading && !hasLandingTemplate && hasPredefinedTemplate && hasDefaultPredefinedTemplate">
+<div class="pt-24 sm:pt-24 md:pt-4 lg:pt-4">
+  <h1 class="text-4xl font-bold mb-2">{{ 'landing.welcometitle1' | translate }}</h1>
+  <h1 class="text-4xl font-bold mb-2">{{ 'landing.welcometitle2' | translate }} <span [ngStyle]="{'color': buttonColor}">{{ companyName }}</span></h1>
+  <div class="text-sm mt-8">{{ 'landing.welcomedesc' | translate }}</div>
+</div>
+<div class="py-10">
+  <app-masonry
+    [userId]="userId"
+    [company]="company"
+  >
+  </app-masonry>
+</div>
+<!-- <ng-container *ngIf="!isloading && !hasLandingTemplate && hasPredefinedTemplate && hasDefaultPredefinedTemplate">
   <ng-container *ngIf="hasAccess('plans') && !disableActivities">
     <app-plans-list [parentComponent]="'home'" [limit]="mobileLimitActivities"></app-plans-list>
   </ng-container>
@@ -49,4 +61,4 @@
   <ng-container *ngIf="predefinedTemplate.has_events == 1 && hasAccess('plans') && !disableActivities">
     <app-plans-list [parentComponent]="'home'" [limit]="mobileLimitActivities"></app-plans-list>
   </ng-container>
-</div>
+</div> -->

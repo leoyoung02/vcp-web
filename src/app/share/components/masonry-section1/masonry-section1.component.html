@@ -1,0 +1,131 @@
+<div class="flex flex-wrap">
+    <div class="mr-0 sm:mr-0 md:mr-4 lg:mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0 hover:cursor-pointer" [routerLink]="[plan1Data?.path]" *ngIf="plan1Data?.id > 0">
+        <div class="relative">
+            <img class="object-cover w-full max-w-full sm:w-full sm:max-w-full md:w-[347px] md:max-w-[347px] lg:w-[347px] lg:max-w-[347px] h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[620px] md:max-h-[620px] lg:h-[620px] lg:max-h-[620px] rounded-lg" 
+                width="347" height="620" *ngIf="plan1Data?.image" [ngSrc]="plan1Data?.image" alt="">
+            <div class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="flex flex-col ml-4">
+                        <h2 class="text-white text-lg font-bold">{{ plan1Data?.title }}</h2>
+                        <div class="text-white text-sm flex align-center items-center capitalize">
+                            <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                            </svg>
+                            {{ plan1Data?.plan_date }}
+                        </div>
+                    </div>
+                </div>
+                <div class="absolute inset-0 flex items-end justify-start pb-3 pl-4 text-sm text-white font-semibold">
+                    <span>{{ plan1Data?.address }}</span> <span class="px-3">•</span> <span>{{ 'category.free' | translate }}</span>
+                </div>
+                <div *ngIf="plan1Data?.credits == 1" class="absolute inset-0 flex items-start justify-end pt-3 pr-4 text-sm text-white font-semibold">
+                    <div class="flex py-1.5 px-3 items-center rounded-lg" [ngStyle]="{'background-color': buttonColor}">
+                        <span class="text-xs text-white uppercase">{{ plan1Data?.featured_title }}</span>
+                        <svg class="ml-2 w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1 .586-1.414Z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="flex flex-wrap mb-5 relative" *ngIf="plan2Data?.id > 0">
+            <div class="relative h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px] w-full max-w-full sm:w-full sm:max-w-full lg:w-[347px] lg:max-w-[347px] mr-0 sm:mr-0 md:mr-4 lg:mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0 hover:cursor-pointer" 
+                [routerLink]="[plan1Data?.path]">
+                <img width="347" height="300" *ngIf="plan2Data?.image" [ngSrc]="plan2Data?.image" alt="" 
+                class="mr-4 object-cover h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px] w-full max-w-full sm:w-full sm:max-w-full lg:w-[347px] lg:max-w-[347px] rounded-lg">
+                <div class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="flex flex-col ml-4">
+                            <h2 class="text-white text-lg font-bold">{{ plan2Data?.title }}</h2>
+                            <div class="text-white text-sm flex align-center items-center capitalize">
+                                <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                </svg>
+                                {{ plan2Data?.plan_date }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 flex items-end justify-start pb-3 pl-4 text-sm text-white font-semibold">
+                        <span>{{ plan2Data?.address }}</span> <span class="px-3">•</span> <span>{{ 'category.free' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="relative h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px] w-full sm:max-w-full md:max-w-[347px] lg:w-[347px] lg:max-w-[347px] mr-0 sm:mr-0 md:mr-4 lg:mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0 hover:cursor-pointer" [routerLink]="[plan1Data?.path]" *ngIf="plan3Data?.id > 0">
+                <img class="object-cover h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px] w-full max-w-full sm:w-full sm:max-w-full lg:w-[347px] lg:max-w-[347px] rounded-lg" width="347" height="300" *ngIf="plan3Data?.image" [ngSrc]="plan3Data?.image" alt="">
+                <div class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="flex flex-col ml-4">
+                            <h2 class="text-white text-lg font-bold">{{ plan3Data?.title }}</h2>
+                            <div class="text-white text-sm flex align-center items-center capitalize">
+                                <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+                                </svg>
+                                {{ plan3Data?.plan_date }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="absolute inset-0 flex items-end justify-start pb-3 pl-4 text-sm text-white font-semibold">
+                        <span>{{ plan3Data?.address }}</span> <span class="px-3">•</span> <span>{{ 'category.free' | translate }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex flex-wrap hover:cursor-pointer" [routerLink]="[club1Data?.path]" *ngIf="club1Data?.id > 0">
+            <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]">
+                <img class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px] w-full max-w-full sm:w-full sm:max-w-full md:w-[344px] md:max-w-[344px] lg:w-[344px] lg:max-w-[344px] object-cover rounded-l-lg shadow" 
+                    width="347" height="300" *ngIf="club1Data?.image" [ngSrc]="club1Data?.image" alt="">
+            </div>
+            <div class="p-9 h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px] w-full max-w-full sm:w-full sm:max-w-full md:w-[369px] md:max-w-[369px] lg:w-[369px] lg:max-w-[369px] shadow rounded-r-lg" 
+                [ngStyle]="{'background-color': '#1C393D'}">
+                <div class="flex flex-col justify-between text-white">
+                    <div class="mb-6 font-bold">{{ club1Data?.title }}</div>
+                    <div class="p-2 border border-white rounded-[10px] cursor-pointer w-32 text-center text-xs font-bold mb-6">{{ 'club-details.join' | translate }}</div>
+                    <div class="flex text-xs text-white mb-6">
+                        <span>{{club2Data?.category}}</span> <span class="px-3">•</span> <span>{{club1Data?.city}}</span>
+                    </div>
+                    <div class="flex">
+                        <svg class="w-6 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 2-8.4 7.05a1 1 0 0 1-1.2 0L1 2m18 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1m18 0v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2"/>
+                        </svg>
+                        <svg class="w-6 h-4 ml-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 12.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 3h-2l-.447-.894A2 2 0 0 0 12.764 1H7.236a2 2 0 0 0-1.789 1.106L5 3H3a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V5a2 2 0 0 0-2-2Z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <div class="flex flex-col hover:cursor-pointer" [routerLink]="[club2Data?.path]">
+            <div class="w-full max-w-full sm:w-full sm:max-w-full md:w-[344px] md:max-w-[344px] lg:w-[344px] lg:max-w-[344px]">
+                <img class="object-cover h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[306px] md:max-h-[306px] lg:h-[306px] lg:max-h-[306px] w-full max-w-full sm:w-full sm:max-w-full md:w-[344px] md:max-w-[344px] lg:w-[344px] lg:max-w-[344px] rounded-t-lg shadow" 
+                    width="344" height="306" *ngIf="club2Data?.image" [ngSrc]="club2Data?.image" alt="">
+            </div>
+            <div class="p-9 h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[314px] md:max-h-[314px] lg:h-[314px] lg:max-h-[314px] w-full max-w-full sm:w-full sm:max-w-full md:w-[344px] md:max-w-[344px] lg:w-[344px] lg:max-w-[344px] shadow rounded-b-lg" 
+                [ngStyle]="{'background-color': buttonColor}">
+                <div class="flex flex-col justify-between text-white">
+                    <div class="mb-6 font-bold">{{ club2Data?.title }}</div>
+                    <div class="p-2 border border-white rounded-[10px] cursor-pointer w-32 text-center text-xs font-bold mb-6">UNIRSE</div>
+                    <div class="flex text-xs text-white mb-6">
+                        <span>{{club2Data?.category}}</span> <span class="px-3">•</span> <span>{{club2Data?.city}}</span>
+                    </div>
+                    <div class="flex">
+                        <svg class="w-6 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 2-8.4 7.05a1 1 0 0 1-1.2 0L1 2m18 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1m18 0v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2"/>
+                        </svg>
+                        <svg class="w-6 h-4 ml-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 12.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 3h-2l-.447-.894A2 2 0 0 0 12.764 1H7.236a2 2 0 0 0-1.789 1.106L5 3H3a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V5a2 2 0 0 0-2-2Z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

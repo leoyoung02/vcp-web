@@ -1,0 +1,28 @@
+<app-masonry-section1
+    *ngIf="section1Data"
+    [userId]="userId"
+    [company]="company"
+    [section1Data]="section1Data"
+    [clubCategories]="clubCategories"
+    [clubCategoryMapping]="clubCategoryMapping"
+></app-masonry-section1>
+<app-masonry-section2
+    *ngIf="section2Data"
+    [section2Data]="section2Data"
+    [userId]="userId"
+    [company]="company"
+    [cityGuideLikes]="cityGuideLikes"
+    [jobTypes]="jobTypes"
+    [jobAreas]="jobAreas"
+    [jobOfferAreas]="jobOfferAreas"
+></app-masonry-section2>
+<div class="py-4">
+    <app-masonry-section1
+        *ngIf="section3Data"
+        [userId]="userId"
+        [company]="company"
+        [section1Data]="section3Data"
+        [clubCategories]="clubCategories"
+        [clubCategoryMapping]="clubCategoryMapping"
+    ></app-masonry-section1>
+</div>

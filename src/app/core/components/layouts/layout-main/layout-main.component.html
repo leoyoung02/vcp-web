@@ -1,4 +1,4 @@
-<app-navbar 
+<!-- <app-navbar 
     [menus]="menus" 
     [company]="company"
     [otherSettings]="otherSettings"
@@ -48,4 +48,99 @@
     [menus]="menus" 
     [company]="company"
     [contactUsDetails]="contactUsDetails"
-></app-footer>
+></app-footer> -->
+
+<div class="flex">
+    <app-sidebar
+        [menus]="menus" 
+        [company]="company"
+        [otherSettings]="otherSettings"
+        [language]="language"
+        [languages]="languages"
+        [userid]="userId"
+        [username]="username" 
+        [isAdmin]="isAdmin" 
+        [currentUser]="currentUser"
+        [imageSrc]="imageSrc"
+        [notifications]="notifications"
+        [popupNotifications]="popupNotifications"
+        [canManageEvents]="canManageEvents"
+        [customMemberTypeName]="customMemberTypeName"
+        [expireDays]="expireDays"
+        [expireDaysDiff]="expireDaysDiff"
+        [cancelDays]="cancelDays"
+        [memberTypeExpirations]="memberTypeExpirations"
+        [hasEventCalendar]="hasEventCalendar"
+        [isTutorUser]="isTutorUser"
+        [hasTutors]="hasTutors"
+        [canCreateCourse]="canCreateCourse"
+        [coursesTitle]="coursesTitle"
+        [tutorManageStudentAccess]="tutorManageStudentAccess"
+        [hasCreditSetting]="hasCreditSetting"
+        [hasCreditPackageSetting]="hasCreditPackageSetting"
+        [myClubsTitle]="myClubsTitle"
+        [myActivitiesTitle]="myActivitiesTitle"
+        [buttonColor]="buttonColor"
+        (changeLanguage)="changedLanguage($event)" 
+    >
+    </app-sidebar>
+    <main class="container w-full max-w-full py-6 px-10 relative">
+        <div class="absolute top-10 left-7 md:hidden lg:hidden bg-white border-gray-200 dark:bg-gray-900">
+            <app-mobile-navbar 
+                [menus]="menus" 
+                [company]="company"
+                [otherSettings]="otherSettings"
+                [language]="language"
+                [languages]="languages"
+                [userid]="userId"
+                [username]="username" 
+                [isAdmin]="isAdmin" 
+                [currentUser]="currentUser"
+                [imageSrc]="imageSrc"
+                [notifications]="notifications"
+                [popupNotifications]="popupNotifications"
+                [canManageEvents]="canManageEvents"
+                [customMemberTypeName]="customMemberTypeName"
+                [expireDays]="expireDays"
+                [expireDaysDiff]="expireDaysDiff"
+                [cancelDays]="cancelDays"
+                [memberTypeExpirations]="memberTypeExpirations"
+                [hasEventCalendar]="hasEventCalendar"
+                [isTutorUser]="isTutorUser"
+                [hasTutors]="hasTutors"
+                [canCreateCourse]="canCreateCourse"
+                [coursesTitle]="coursesTitle"
+                [tutorManageStudentAccess]="tutorManageStudentAccess"
+                [hasCreditSetting]="hasCreditSetting"
+                [hasCreditPackageSetting]="hasCreditPackageSetting"
+                [myClubsTitle]="myClubsTitle"
+                [myActivitiesTitle]="myActivitiesTitle"
+                (changeLanguage)="changedLanguage($event)" 
+            ></app-mobile-navbar>
+        </div>
+        <div class="absolute right-10" *ngIf="userId">
+            <app-user-menu
+                [menus]="menus"
+                [company]="company"
+                [otherSettings]="otherSettings"
+                [language]="language"
+                [languages]="languages"
+                [userid]="userId"
+                [username]="username" 
+                [isAdmin]="isAdmin" 
+                [currentUser]="currentUser"
+                [imageSrc]="imageSrc"
+                [notifications]="notifications"
+                [popupNotifications]="popupNotifications"
+                [canManageEvents]="canManageEvents"
+                [customMemberTypeName]="customMemberTypeName"
+                [myClubsTitle]="myClubsTitle"
+                [myActivitiesTitle]="myActivitiesTitle"
+                [buttonColor]="buttonColor"
+                (changeLanguage)="changedLanguage($event)" 
+            >
+            </app-user-menu>
+        </div>
+        <ng-content></ng-content>
+    </main>
+</div>

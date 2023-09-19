@@ -56,7 +56,12 @@
         "joinhere": "Uneix-te aquí",
         "favicondesc": "Configura la icona que es mostri a la pestanya del navegador",
         "changeicon": "Canvia el favicon",
-        "videodesc": "Descripció del vídeo"
+        "videodesc": "Descripció del vídeo",
+        "menu": "Menú",
+        "welcometitle1": "Et donem benvinguda",
+        "welcometitle2": "a la",
+        "welcomedesc": "Un món d'oportunitats acadèmiques us espera.",
+        "learnmore": "Coneix més"
     },
     "user-popup": {
         "myplans": "Els meus plans",

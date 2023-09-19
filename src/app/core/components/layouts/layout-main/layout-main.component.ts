@@ -7,20 +7,35 @@ import {
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { environment } from "@env/environment";
-import { TranslateService } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
 import { MenuService, NotificationsService } from "@lib/services";
 import { TutorsService } from "@features/services";
-import { FooterComponent, NavbarComponent } from "src/app/core/components";
+import { FooterComponent, MobileNavbarComponent, 
+  //NavbarComponent 
+} from "src/app/core/components";
 import { Subject, takeUntil } from "rxjs";
+import { ToastComponent } from "@share/components";
+import { FormsModule } from "@angular/forms";
+import { SidebarComponent } from "@lib/components/sidebar/sidebar.component";
+import { UserMenuComponent } from "@lib/components/user-menu/user-menu";
 import moment from "moment";
 import get from "lodash/get";
-import { ToastComponent } from "@share/components";
 
 @Component({
   selector: "app-layout-main",
   standalone: true,
-  imports: [CommonModule, NavbarComponent, FooterComponent, ToastComponent],
+  imports: [
+    CommonModule, 
+    TranslateModule,
+    FormsModule,
+    // NavbarComponent, 
+    SidebarComponent,
+    FooterComponent, 
+    ToastComponent,
+    UserMenuComponent,
+    MobileNavbarComponent,
+  ],
   templateUrl: "./layout-main.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -129,6 +144,7 @@ export class LayoutMainComponent {
   myActivities: any;
   myClubsTitle: string = '';
   myActivitiesTitle: string = '';
+  buttonColor: any;
 
   constructor(
     private _router: Router,
@@ -172,6 +188,7 @@ export class LayoutMainComponent {
       this.company = company[0];
       this.companyId = company[0].id;
       this.domain = company[0].domain;
+      this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color;
       this.homeTextValue = company[0].home_text || "Inicio";
       this.homeTextValueEn = company[0].home_text_en || "Home";
       this.homeTextValueFr = company[0].home_text_fr || "Maison";
@@ -269,7 +286,8 @@ export class LayoutMainComponent {
           this.dashboardDetails = data[3] ? data[3]["dashboard_details"] : [];
           this.mapDashboard(this.dashboardDetails);
           let languages = data[4] ? data[4]["languages"] : [];
-          this.customMemberTypes = data[5] ? data[5]["languages"] : [];
+          this.customMemberTypes = data[5] ? data[5]["member_types"] : [];
+          this.getRoleName();
           let subfeatures = data[6] ? data[6]["subfeatures"] : [];
           let courses_subfeatures = [];
           let tutors_subfeatures = [];
@@ -309,6 +327,22 @@ export class LayoutMainComponent {
             tutors_subfeatures
           );
         });
+    }
+  }
+
+  getRoleName() {
+    if(this.customMemberTypes && this.customMemberTypes.length > 0) {
+      let member_type = this.customMemberTypes && this.customMemberTypes.filter(mt => {
+        return mt.id == this.currentUser?.custom_member_type_id
+      })
+
+      if(member_type && member_type.length > 0) {
+        this.customMemberTypeName = this.language == 'en' ? (member_type[0].type) : (this.language == 'fr' ? (member_type[0].type_fr || member_type[0].type_es) : 
+            (this.language == 'eu' ? (member_type[0].type_eu || member_type[0].type_es) : (this.language == 'ca' ? (member_type[0].type_ca || member_type[0].type_es) : 
+            (this.language == 'de' ? (member_type[0].type_de || member_type[0].type_es) : (member_type[0].type_es))
+          ))
+        )
+      }
     }
   }
 
