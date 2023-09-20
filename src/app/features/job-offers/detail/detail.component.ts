@@ -14,7 +14,7 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import { BreadcrumbComponent, ToastComponent } from "@share/components";
+import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import {
   LocalService,
   CompanyService,
@@ -40,6 +40,7 @@ import get from "lodash/get";
     BreadcrumbComponent,
     SafeContentHtmlPipe,
     ToastComponent,
+    PageTitleComponent,
   ],
   templateUrl: './detail.component.html'
 })
@@ -125,6 +126,7 @@ export class JobOfferDetailComponent {
   confirmDeleteItemDescription: any;
   acceptText: string = "";
   cancelText: string = "";
+  title: string = "";
 
   constructor(
     private _router: Router,
@@ -221,7 +223,7 @@ export class JobOfferDetailComponent {
   }
 
   mapFeatures(features) {
-    this.jobOffersFeature = features?.find((f) => f.feature_id == 5);
+    this.jobOffersFeature = features?.find((f) => f.feature_id == 18);
     this.featureId = this.jobOffersFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.jobOffersFeature);
   }
@@ -275,6 +277,7 @@ export class JobOfferDetailComponent {
 
   formatJobOffer(offer, job_offer_applications) {
     this.job = offer;
+    this.title = this.getOfferTitle(offer);
     if(this.job && job_offer_applications?.length > 0) {
       let user_job_application = job_offer_applications.filter(application => {
         return application.user_id == this.userId

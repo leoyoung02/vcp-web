@@ -13,7 +13,7 @@
                             <path d="M7.958 19.393a7.7 7.7 0 0 1-6.715-3.439c-2.868-4.832 0-9.376.944-10.654l.091-.122a3.286 3.286 0 0 0 .765-3.288A1 1 0 0 1 4.6.8c.133.1.313.212.525.347A10.451 10.451 0 0 1 10.6 9.3c.5-1.06.772-2.213.8-3.385a1 1 0 0 1 1.592-.758c1.636 1.205 4.638 6.081 2.019 10.441a8.177 8.177 0 0 1-7.053 3.795Z"/>
                         </svg>
                     </div>
-                    <div class="mb-2 text-xl font-medium">{{cityGuide1Data?.id}}: {{ cityGuide1Data?.title }}</div>
+                    <div class="mb-2 text-xl font-medium">{{ cityGuide1Data?.title }}</div>
                     <div class="text-xs">{{ cityGuide1Data?.excerpt }}</div>
                     <div class="w-full border border-b-1 border-l-0 border-r-0 border-t-0 mb-8">&nbsp;</div>
                     <div class="w-full h-16 flex justify-between items-center">
@@ -53,7 +53,7 @@
                             <path d="M7.958 19.393a7.7 7.7 0 0 1-6.715-3.439c-2.868-4.832 0-9.376.944-10.654l.091-.122a3.286 3.286 0 0 0 .765-3.288A1 1 0 0 1 4.6.8c.133.1.313.212.525.347A10.451 10.451 0 0 1 10.6 9.3c.5-1.06.772-2.213.8-3.385a1 1 0 0 1 1.592-.758c1.636 1.205 4.638 6.081 2.019 10.441a8.177 8.177 0 0 1-7.053 3.795Z"/>
                         </svg>
                     </div>
-                    <div class="mb-2 text-xl font-medium">{{cityGuide2Data?.id}}: {{ cityGuide2Data?.title }}</div>
+                    <div class="mb-2 text-xl font-medium">{{ cityGuide2Data?.title }}</div>
                     <div class="text-xs">{{ cityGuide2Data?.excerpt }}</div>
                     <div class="w-full border border-b-1 border-l-0 border-r-0 border-t-0 mb-8">&nbsp;</div>
                     <div class="w-full h-16 flex justify-between items-center">
@@ -81,7 +81,7 @@
             </div>
         </div>
     </div>
-    <div class="w-full max-w-full sm:w-full sm:max-w-full md:w-[564px] md:max-w-[564px] lg:w-[564px] lg:max-w-[564px]">
+    <div class="w-full max-w-full sm:w-full sm:max-w-full md:w-[564px] md:max-w-[564px] lg:w-[564px] lg:max-w-[564px]" [routerLink]="[jobOffer1Data?.path]">
         <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px] mb-4">
             <div class="flex h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px]">
                 <div class="w-4 rounded-l-lg" [ngStyle]="{'background-color': buttonColor}">&nbsp;</div>
@@ -90,13 +90,13 @@
                     <div class="text-sm">
                         <span>{{jobOffer1Data?.type}}</span><span class="px-3">•</span><span>{{jobOffer1Data?.area}}</span>
                     </div>
-                    <div class="underline text-sm" [ngStyle]="{'color': buttonColor}">
+                    <div class="underline text-sm hover:cursor-pointer" [ngStyle]="{'color': buttonColor}">
                         {{'club-details.readmore' | translate }}
                     </div>
                 </div>
             </div>
         </div>
-        <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px] mb-4">
+        <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px] mb-4" [routerLink]="[jobOffer2Data?.path]">
             <div class="flex h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px]">
                 <div class="w-4 rounded-l-lg" [ngStyle]="{'background-color': buttonColor}">&nbsp;</div>
                 <div class="flex flex-col justify-evenly w-full pl-9">
@@ -110,7 +110,7 @@
                 </div>
             </div>
         </div>
-        <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px] mb-4">
+        <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px] mb-4" [routerLink]="[jobOffer3Data?.path]">
             <div class="flex h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[107px] md:max-h-[107px] lg:h-[107px] lg:max-h-[107px]">
                 <div class="w-4 rounded-l-lg" [ngStyle]="{'background-color': buttonColor}">&nbsp;</div>
                 <div class="flex flex-col justify-evenly w-full pl-9">

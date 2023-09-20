@@ -1,5 +1,6 @@
-<div class="container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
-    <app-breadcrumb 
+
+<div class="hidden sm:hidden md:block lg:block">
+    <app-breadcrumb
         [level1Title]="level1Title"
         [level2Title]="level2Title"
         [level3Title]="level3Title"
@@ -7,138 +8,126 @@
         [buttonColor]="buttonColor"
         (goBack)="handleGoBack()"
     />
-    <div *ngIf="superAdmin || showOption" class="mt-3 sm:mt-3 md:mt-0 lg:mt-0">
-        <button 
-            class="inline-block h-[40px] bg-black text-sm px-6 py-2 font-semibold rounded-[10px] text-white focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
-            (click)="duplicate()"
-        >
-            {{ 'plan-details.duplicate' | translate }}
-        </button>
-        <button 
-            class="inline-block h-[40px] ml-4 text-sm px-6 py-2 font-semibold rounded-[10px] text-white focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
-            (click)="handleEditRoute()" 
-            [ngStyle]="{'background-color': buttonColor}"
-        >
-            {{ 'plan-details.edit' | translate }}
-        </button>
-        <button 
-            class="inline-block h-[40px] border rounded-[10px] ml-4 text-sm px-6 py-2 font-semibold rounded-[10px] focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
-            (click)="handleDelete()" 
-            [ngStyle]="{'color': buttonColor, 'border-color': buttonColor}"
-        >
-            {{ 'plan-details.delete' | translate }}
-        </button>
-    </div>
+</div>
+<app-page-title [title]="title" [subtitle]="subtitle"></app-page-title>
+<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4" *ngIf="superAdmin || showOption">
+    <button 
+        class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
+        (click)="duplicate()"
+        [ngStyle]="{'background-color': buttonColor}"
+    >
+        <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+            <path d="M5 9V4.13a2.96 2.96 0 0 0-1.293.749L.879 7.707A2.96 2.96 0 0 0 .13 9H5Zm11.066-9H9.829a2.98 2.98 0 0 0-2.122.879L7 1.584A.987.987 0 0 0 6.766 2h4.3A3.972 3.972 0 0 1 15 6v10h1.066A1.97 1.97 0 0 0 18 14V2a1.97 1.97 0 0 0-1.934-2Z"/>
+            <path d="M11.066 4H7v5a2 2 0 0 1-2 2H0v7a1.969 1.969 0 0 0 1.933 2h9.133A1.97 1.97 0 0 0 13 18V6a1.97 1.97 0 0 0-1.934-2Z"/>
+        </svg>
+        <span class="text-white text-md font-semibold uppercase">{{ 'plan-details.duplicate' | translate }}</span>
+    </button>
+    <button 
+        class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
+        (click)="handleEditRoute()" 
+        [ngStyle]="{'background-color': buttonColor}"
+    >
+        <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+        </svg>
+        <span class="text-white text-md font-semibold uppercase">{{ 'plan-details.edit' | translate }}</span>
+    </button>
+    <button 
+        class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 border h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
+        (click)="handleDelete()" 
+        [ngStyle]="{'color': buttonColor, 'border-color': buttonColor}"
+    >
+        <svg class="w-3 h-3 mr-1" [ngStyle]="{color: buttonColor}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+            <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
+        </svg>
+        <span class="text-md font-semibold uppercase" [ngStyle]="{'color': buttonColor}">{{ 'plan-details.delete' | translate }}</span>
+    </button>
 </div>
 <div class="py-12">
     <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row">
-        <div class="mr-0 sm:mr-0 md:mr-8 lg:mr-8">
+        <div class="relative mr-0 sm:mr-0 md:mr-8 lg:mr-8">
             <img 
                 *ngIf="plan?.image"
-                class="rounded-lg w-full sm:w-full md:w-[540px] lg:w-[540px] max-w-full md:max-w-full lg:max-w-[540px]" 
+                class="object-cover rounded-lg w-full sm:w-full md:w-[520px] lg:w-[520px] max-w-full md:max-w-full lg:max-w-[520px] h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[698px] md:max-h-[698px] lg:h-[698px] lg:max-h-[698px]" 
                 [ngSrc]="apiPath + plan?.path + plan?.image" 
                 [alt]="getEventTitle(plan)" 
-                width="540" 
-                height="540"
+                width="520" 
+                height="698"
             >
-        </div>
-        <div class="w-full">
-            <div *ngIf="planTitle" class="container mb-4 flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
-                <h1 class="text-2xl">{{ planTitle }}</h1>
-            </div>
-            <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row items-center capitalize" *ngIf="planDate">
-                {{ planDate }} {{ plan?.limit_date ? (limitDate ? ('- ' + limitDate) : '') : '' }}
-                <div class="ml-4">
-                    <div title="Add to Calendar" class="addeventatc add-calendar rounded-lg" *ngIf="userId">
-                        <span class="add" [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}">{{ 'plan-details.addtocalendar' | translate }}</span>
-                        <span class="start">{{ calendarStartDate | date:'MM/d/yyyy'}} {{calendarStartDate | date:'HH:mm' }}</span>
-                        <span *ngIf="calendarEndDate" class="end">{{ calendarEndDate | date:'MM/d/yyyy'}} {{calendarEndDate | date:'HH:mm' }}</span>
-                        <span class="timezone">Europe/Madrid</span>
-                        <span class="title">{{ plan?.title }}</span>
-                        <span class="description" [innerHtml]="getEventDescription() | safeContentHtml: 'html'"></span>
-                        <span class="location" *ngIf="canShowAddress && plan && getAddress(plan)">{{ getAddress(plan) }}</span>
+            <div class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="flex flex-col ml-4">
+                        <h2 class="text-white text-lg font-bold">{{ planTitle }}</h2>
+                    </div>
+                </div>
+                <div *ngIf="plan?.credits == 1" class="absolute inset-0 flex items-start justify-end pt-3 pr-4 text-sm text-white font-semibold">
+                    <div class="flex py-1.5 px-3 items-center rounded-lg" [ngStyle]="{'background-color': buttonColor}">
+                        <span class="text-xs text-white uppercase">{{ featuredTitle }}</span>
+                        <svg class="ml-2 w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1 .586-1.414Z"/>
+                        </svg>
                     </div>
                 </div>
             </div>
-            <div *ngIf="joinStatusChecked">
-                <ng-container *ngIf="!isExternalRegistration">
-                    <button
-                        *ngIf="!joinedParticipant
-                            && plan?.private
-                            && pendingRequest
-                            && !showOption
-                            && plan?.plan_date >= today"
-                        class="btn text-lg w-full text-white text-base my-6 py-6"
-                        [ngStyle]="{
-                            'background-color': buttonColor
-                        }"
-                        (click)="handleRequestJoin()"
-                        [disabled]="pendingRequest || onSubmit"
-                    >
-                        {{ 'plan-details.pending' | translate }}
-                    </button>
-                    <ng-container *ngIf="companyId != 12">
-                        <button
-                            *ngIf="!joinedParticipant
-                                && plan?.private
-                                && !pendingRequest
-                                && !showOption
-                                && !speedMember
-                                && plan?.plan_date >= today"
-                            class="btn text-lg w-full text-white text-base my-6 py-6"
-                            [ngStyle]="{
-                                'background-color': buttonColor
-                            }"
-                            (click)="handleRequestJoin()"
-                            [disabled]="pendingRequest || onSubmit"
-                        >
-                            {{ 'plan-details.asktojoin' | translate }}
-                        </button>
+        </div>
+        <div class="w-full">
+            <div class="mt-4 w-full sm:w-full md:w-8/12 lg:w-8/12">
+                <div class="flex flex-col">
+                    <div [innerHtml]="planTruncatedDescription"></div>
+                    <ng-container *ngIf="planDescription?.length > truncate">
+                        <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
+                        <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="!planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="readMore()">{{ 'club-details.readmore' | translate }}</div>
                     </ng-container>
-                    <ng-container *ngIf="companyId == 12 && showJoinButton">
-                        <button
-                            *ngIf="!joinedParticipant
-                                && plan?.private
-                                && !pendingRequest
-                                && !showOption
-                                && !speedMember
-                                && plan?.plan_date >= today"
-                            class="btn text-lg w-full text-white text-base my-6 py-6"
-                            [ngStyle]="{
-                                'background-color': buttonColor
-                            }"
-                            (click)="handleRequestJoin()"
-                            [disabled]="pendingRequest || onSubmit"
-                        >
-                            {{ 'plan-details.asktojoin' | translate }}
-                        </button>
-                    </ng-container>
-                    <ng-container *ngIf="companyId != 12 && companyId != 20">
-                        <button
-                            *ngIf="userId && ((!joinedParticipant
-                                && !plan?.private
-                                && (plan?.plan_date >= today || !isPastEvent)
-                                && !activateWaitingList) || (plan?.private && !joinedParticipant && speedMember)
-                                || (plan?.private && showOption && !joinedParticipant && (plan?.plan_date >= today || !isPastEvent)))"
-                            class="btn text-lg w-full text-white text-base my-6 py-6"
-                            [ngStyle]="{
-                                'background-color': buttonColor
-                            }"
-                            (click)="handleJoin()"
-                            [disabled]="onSubmit"
-                        >
-                            {{ activityFeeEnabled && plan?.stripe_pay == 1 && plan?.price > 0 ? (('service.pay' | translate) + ' ' + (plan?.price.replace('.00', '') + '€')) : ('plan-details.join' | translate) }}
-                        </button>
-                    </ng-container>
-                    <ng-container *ngIf="companyId == 20">
-                        <ng-container *ngIf="userId || (!userId && activityFeeEnabled && plan?.stripe_pay == 1 && plan?.price > 0)">
+                </div>
+                <div class="flex flex-row justify-between my-12">
+                    <div class="flex">
+                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
+                        </svg>
+                        <div class="capitalize font-semibold">{{ planDay }}</div>
+                    </div>
+                    <div class="flex">
+                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M10 6v4l3.276 3.276M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                        </svg>
+                        <div class="capitalize font-semibold">{{ planTime }}</div>
+                    </div>
+                    <div class="flex">
+                        <svg *ngIf="plan?.meeting_point" class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
+                            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                              <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                              <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
+                            </g>
+                        </svg>
+                        <div *ngIf="plan?.meeting_point" class="capitalize font-semibold">{{ plan?.meeting_point }}</div>
+                    </div>
+                </div>
+                <div class="flex justify-between">
+                    <div *ngIf="joinStatusChecked" class="flex justify-between items-center">
+                        <ng-container *ngIf="!isExternalRegistration">
                             <button
-                                *ngIf="((!joinedParticipant
+                                *ngIf="!joinedParticipant
+                                    && plan?.private
+                                    && pendingRequest
+                                    && !showOption
+                                    && plan?.plan_date >= today"
+                                    class="btn w-full max-w-full sm:w-full sm:max-w-full md:w-[310px] md:max-w-[310px] lg:w-[310px] lg:max-w-[310px] text-white text-base uppercase font-semibold"
+                                [ngStyle]="{
+                                    'background-color': buttonColor
+                                }"
+                                (click)="handleRequestJoin()"
+                                [disabled]="pendingRequest || onSubmit"
+                            >
+                                {{ 'plan-details.pending' | translate }}
+                            </button>
+                            <button
+                                *ngIf="userId && ((!joinedParticipant
                                     && !plan?.private
-                                    && plan?.plan_date >= today
+                                    && (plan?.plan_date >= today || !isPastEvent)
                                     && !activateWaitingList) || (plan?.private && !joinedParticipant && speedMember)
-                                    || (plan?.private && showOption && !joinedParticipant && plan?.plan_date >= today))"
-                                class="btn text-lg w-full text-white text-base my-6 py-6"
+                                    || (plan?.private && showOption && !joinedParticipant && (plan?.plan_date >= today || !isPastEvent)))"
+                                class="btn w-full max-w-full sm:w-full sm:max-w-full md:w-[310px] md:max-w-[310px] lg:w-[310px] lg:max-w-[310px] text-white text-base uppercase font-semibold"
                                 [ngStyle]="{
                                     'background-color': buttonColor
                                 }"
@@ -147,388 +136,228 @@
                             >
                                 {{ activityFeeEnabled && plan?.stripe_pay == 1 && plan?.price > 0 ? (('service.pay' | translate) + ' ' + (plan?.price.replace('.00', '') + '€')) : ('plan-details.join' | translate) }}
                             </button>
+                            <ng-container *ngIf="waitingListActive && plan?.waiting_list == 1">
+                                <button
+                                    *ngIf="activateWaitingList && !joinedParticipant"
+                                    class="btn w-full max-w-full sm:w-full sm:max-w-full md:w-[310px] md:max-w-[310px] lg:w-[310px] lg:max-w-[310px] text-white text-base uppercase font-semibold"
+                                    [ngStyle]="{
+                                        'background-color': isInWaitingList ? '#dc3545' : buttonColor
+                                    }"
+                                    (click)="handleWaitingList()"
+                                >
+                                    {{
+                                        !isInWaitingList ? 
+                                            (language == 'en' ? 
+                                                (waitingListButtonTextEn ? waitingListButtonTextEn : ('plan-details.joinwaitinglist' | translate)) 
+                                                : waitingListButtonTextEs ? waitingListButtonTextEs : ('plan-details.joinwaitinglist' | translate))
+                                            : 
+                                                (language == 'en' ? 
+                                                    (waitingListCancelButtonTextEn ? waitingListCancelButtonTextEn : (('plan-details.pendingwaitinglist' | translate) + ' ' + ('plan-details.cancelrequest' | translate)))
+                                                    : waitingListCancelButtonTextEs ? waitingListCancelButtonTextEs : (('plan-details.pendingwaitinglist' | translate) + ' ' + ('plan-details.cancelrequest' | translate)))
+                                    }}
+                                </button>
+                            </ng-container>
                         </ng-container>
-                    </ng-container>
-                    <ng-container *ngIf="companyId == 12 && showJoinButton">
-                        <button
-                            *ngIf="userId && ((!joinedParticipant
-                                && !plan?.private
-                                && plan?.plan_date >= today
-                                && !activateWaitingList) || (plan?.private && !joinedParticipant && speedMember)
-                                || (plan?.private && showOption && !joinedParticipant && plan?.plan_date >= today))"
-                            class="btn text-lg text-lg w-full text-white text-base my-6 py-6"
-                            [ngStyle]="{
-                                'background-color': buttonColor
-                            }"
-                            (click)="handleJoin()"
-                            [disabled]="onSubmit"
-                        >
-                            {{ activityFeeEnabled && plan?.stripe_pay == 1 && plan?.price > 0 ? (('service.pay' | translate) + ' ' + (plan?.price.replace('.00', '') + '€')) : ('plan-details.join' | translate) }}
-                        </button>
-                    </ng-container>
-                    <ng-container *ngIf="waitingListActive && plan?.waiting_list == 1">
-                        <button 
-                            *ngIf="activateWaitingList && (superAdmin || showOption) && waitingList?.length > 0"
-                            class="btn text-lg w-full text-white text-base my-6 py-6"
-                            style="background-color:#1e1e1e;"
-                            (click)="downloadWaitingList()"
-                        >
-                            {{ 'edit-plan.downloadwaitinglist' | translate }} ({{ waitingList?.length }})
-                        </button>
-                        <button
-                            *ngIf="activateWaitingList && !joinedParticipant"
-                            class="btn text-lg auto w-full text-white text-base my-6 py-6"
-                            [ngStyle]="{
-                                'background-color': isInWaitingList ? '#dc3545' : buttonColor
-                            }"
-                            (click)="handleWaitingList()"
-                        >
-                            {{
-                                !isInWaitingList ? 
-                                    (language == 'en' ? 
-                                        (waitingListButtonTextEn ? waitingListButtonTextEn : ('plan-details.joinwaitinglist' | translate)) 
-                                        : waitingListButtonTextEs ? waitingListButtonTextEs : ('plan-details.joinwaitinglist' | translate))
-                                    : 
-                                        (language == 'en' ? 
-                                            (waitingListCancelButtonTextEn ? waitingListCancelButtonTextEn : (('plan-details.pendingwaitinglist' | translate) + ' ' + ('plan-details.cancelrequest' | translate)))
-                                            : waitingListCancelButtonTextEs ? waitingListCancelButtonTextEs : (('plan-details.pendingwaitinglist' | translate) + ' ' + ('plan-details.cancelrequest' | translate)))
-                            }}
-                        </button>
-                    </ng-container>
-                </ng-container>
-                <button
-                    *ngIf="user && isPastEvent"
-                    class="btn w-full text-white text-base my-6 py-6"
-                    [ngStyle]="{
-                        'background-color': buttonColor
-                    }"
-                    (click)="handleEditRoute()"
-                    [disabled]="onSubmit"
-                >
-                    {{ 'plan-details.reopen' | translate }}
-                </button>
-                <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row py-8 justify-between" 
-                    *ngIf="joinedParticipant && (plan?.plan_date >= today || !isPastEvent)">
-                    <div class="flex items-center mr-4 p-3 bg-white rounded-lg w-full">
-                        <img class="w-6 h-6 object-fit mr-4" src="./assets/images/new-design/icons/check.png">
-                        <span>{{ 'plan-details.youjoined' | translate }}</span>
+                        <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between items-center mr-4" 
+                            *ngIf="joinedParticipant && (plan?.plan_date >= today || !isPastEvent)">
+                            <div class="flex items-center mr-4 bg-white rounded-lg w-full">
+                                <img class="w-6 h-6 object-fit mr-4" src="./assets/images/new-design/icons/check.png">
+                                <span class="text-sm uppercase font-semibold">{{ 'plan-details.youjoined' | translate }}</span>
+                            </div>
+                            <button
+                                class="btn w-2 text-sm text-white p-0"
+                                (click)="handleLeave()"
+                                [disabled]="onSubmit"
+                                [ngStyle]="{'background-color': buttonColor}"
+                            >
+                                <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"/>
+                                </svg>
+                            </button>
+                        </div>
                     </div>
-                    <div class="w-full">
-                        <button
-                            class="btn w-full py-6 hover:bg-black hover:text-white text-lg"
-                            (click)="handleLeave()"
-                            [disabled]="onSubmit"
-                            [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}"
-                        >
-                            {{ 'plan-details.leaveplan' | translate }}
-                        </button>
+                    <div title="Add to Calendar" class="addeventatc add-calendar rounded-lg" *ngIf="userId">
+                        <span class="add uppercase" [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}">{{ 'plan-details.addtocalendar' | translate }}</span>
+                        <span class="start">{{ calendarStartDate | date:'MM/d/yyyy'}} {{calendarStartDate | date:'HH:mm' }}</span>
+                        <span *ngIf="calendarEndDate" class="end">{{ calendarEndDate | date:'MM/d/yyyy'}} {{calendarEndDate | date:'HH:mm' }}</span>
+                        <span class="timezone">Europe/Madrid</span>
+                        <span class="title">{{ plan?.title }}</span>
+                        <span class="description" [innerHtml]="getEventDescription() | safeContentHtml: 'html'"></span>
+                        <span class="location" *ngIf="canShowAddress && plan && getAddress(plan)">{{ getAddress(plan) }}</span>
                     </div>
                 </div>
-                <button 
-                    *ngIf="showManageBilling"
-                    class="btn btn-semi-blue fit-content"
-                    [ngStyle]="{
-                        'background-color': buttonColor
-                    }"
-                    (click)="yourBilling()"
-                >
-                    {{ 'sidebar.yourbillingsingular' | translate }}
-                </button>
-            </div>
-            <div class="flex items-center">
-                <ng-container *ngIf="companyId == 32 && planTypeId != 4 && createdByImage">
-                    <img 
-                        class="rounded-full mr-3"
-                        [ngSrc]="createdByImage"
-                        width="48"
-                        height="48"
-                    > 
-                </ng-container>
-                <ng-container *ngIf="planCreator?.image">
-                    <ng-container *ngIf="plan?.fk_group_id > 0">
-                        <img 
-                            class="rounded-full mr-3"
-                            [ngSrc]="planCreator?.image?.indexOf('http') >= 0 ? planCreator?.image : (apiPath + '/get-image-group/' + planCreator.image)"
-                            width="48"
-                            height="48"
-                        >
-                    </ng-container>       
-                    <ng-container *ngIf="!plan?.fk_group_id && companyId != 32">
-                        <img 
-                            class="rounded-full mr-3"
-                            *ngIf="planCreator?.image"
-                            [ngSrc]="apiPath + '/' + planCreator?.image"
-                            width="48"
-                            height="48"
-                        > 
-                    </ng-container>
-                </ng-container>
-                <div *ngIf="createdBy || planCreator">
-                    <div class="text-xs">{{ 'plan-details.createdby' | translate }}:</div>
-                    <div>{{ createdBy || planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name) }}</div>
-                </div>
-            </div>
-            <div class="flex items-center my-4" *ngIf="planCategory">
-                <img width="24" height="24" class="object-contain mr-6 ml-4" src="./assets/images/new-design/icons/Tag.png">
-                <div class="text-xl">{{ planCategory }}</div>
-            </div>
-            <div class="flex items-center my-4" *ngIf="planSubcategory">
-                <img width="24" height="24" class="object-contain mr-6 ml-4" src="./assets/images/new-design/icons/Tag.png">
-                <div class="text-xl">{{ planSubcategory }}</div>
-            </div>
-            <ng-container *ngIf="showSeats && (superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant))">
-                <div class="flex items-center my-4">
-                    <img width="24" height="24" class="object-contain mr-6 ml-4" src="./assets/images/new-design/icons/Seat.png">
-                    <div class="text-xl">{{ getSeatsLabel() }}</div>
-                </div>
-            </ng-container>
-            <div class="flex items-center my-4" *ngIf="canShowAddress && plan && getAddress(plan)">
-                <img width="24" height="24" class="object-contain mr-6 ml-4" src="./assets/images/new-design/icons/Pin.png">
-                <div class="">
-                    <div *ngIf="companyId == 32" class="text-xl">{{ plan?.meeting_point ? plan?.meeting_point : '' }}{{ getAddress(plan) ? ((plan?.meeting_point ? ', ' : '') + getAddress(plan)) : '' }}</div>
-                    <div *ngIf="companyId != 32" class="text-xl">{{ getAddress(plan) }}</div>
-                </div>
-            </div>
-            <div class="flex items-center my-4" *ngIf="(companyId != 32 || (companyId == 32 && plan?.price > 0)) && plan?.show_price">
-                <img width="24" height="24" class="object-contain mr-6 ml-4" src="./assets/images/new-design/icons/Price.png">
-                <div class="text-xl">{{ plan?.price > 0 ? (plan?.price.replace('.00', '') + '€')  : ('category.free' | translate) }}</div>
-            </div>
-            <ng-container  *ngIf="superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant)">
-                <div class="flex items-center my-4" *ngIf="plan?.zoom_link">
-                    <svg class="mr-6 ml-4 w-6 h-6 text-black dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 14">
-                        <path d="M11 0H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm8.585 1.189a.994.994 0 0 0-.9-.138l-2.965.983a1 1 0 0 0-.685.949v8a1 1 0 0 0 .675.946l2.965 1.02a1.013 1.013 0 0 0 1.032-.242A1 1 0 0 0 20 12V2a1 1 0 0 0-.415-.811Z"/>
-                    </svg>                    
-                    <div class="text-xl"style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:85%;"><a [href]="plan?.zoom_link" [ngStyle]="{'color': buttonColor}" style="word-break:break-word;" target="_blank">{{ plan?.zoom_link_text || plan?.zoom_link }}</a></div>
-                </div>
-                <div class="flex items-center my-4" *ngIf="plan?.teams_link">
-                    <img width="24" height="24" class="object-contain mr-6 ml-4" src="./assets/images/new-design/icons/Link.png">
-                    <div class="item" style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis;width:85%;"><a [href]="plan?.teams_link" [ngStyle]="{'color': buttonColor}" style="word-break:break-word;" target="_blank">{{ plan?.teams_link_text || plan?.teams_link }}</a></div>
-                </div>
-                <div class="flex items-center my-4" *ngIf="plan?.youtube_link">
-                    <svg class="mr-6 ml-4 w-6 h-6 text-black dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 14">
-                        <path fill-rule="evenodd" d="M19.7 3.037a4.26 4.26 0 0 0-.789-1.964 2.84 2.84 0 0 0-1.984-.84c-2.767-.2-6.926-.2-6.926-.2s-4.157 0-6.928.2a2.836 2.836 0 0 0-1.983.84A4.225 4.225 0 0 0 .3 3.038a30.148 30.148 0 0 0-.2 3.206v1.5c.01 1.071.076 2.142.2 3.206.094.712.363 1.39.784 1.972.604.536 1.38.837 2.187.848 1.583.15 6.731.2 6.731.2s4.161 0 6.928-.2a2.844 2.844 0 0 0 1.985-.84 4.27 4.27 0 0 0 .787-1.965c.124-1.064.19-2.135.2-3.206V6.243a30.672 30.672 0 0 0-.202-3.206ZM8.008 9.59V3.97l5.4 2.819-5.4 2.8Z" clip-rule="evenodd"/>
-                    </svg>
-                    <div class="text-xl">
-                        <a [href]="plan?.youtube_link" [ngStyle]="{'color': buttonColor}" style="word-break:break-word;" target="_blank">{{ plan?.youtube_link_text || plan?.youtube_link }}</a>
-                    </div>
-                </div>
-                <div class="flex items-center my-4" *ngIf="plan?.credits == 1">
-                    <svg class="mr-6 ml-4 w-6 h-6 text-black dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1 .586-1.414Z"/>
-                    </svg>
-                    <div class="text-xl">{{ 'edit-plan.credits' | translate }}</div>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="hasSpeaker && selectedSpeaker && selectedSpeaker?.length > 0">
-                <div class="flex items-center my-4">
-                    <svg class="mr-6 ml-4 w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 18">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-2 3h4a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"/>
-                    </svg>
-                    <div class="text-xl">{{ selectedSpeaker?.first_name ? (selectedSpeaker?.first_name + ' ' + selectedSpeaker?.last_name) : selectedSpeaker?.name  }}</div>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="hasGuestSpeaker && guestSpeaker && guestSpeaker != 'null'">
-                <div class="flex items-center my-4">
-                    <svg class="mr-6 ml-4 w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 18">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 8a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Zm-2 3h4a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"/>
-                    </svg>
-                    <div class="text-xl" style="margin-bottom:0px;">{{ guestSpeaker == 'null' ? '' : guestSpeaker }}</div>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="isExternalRegistration">
-                <div>
-                    <small><i>* {{ 'edit-plan.externalregistration' | translate }}</i></small>
-                </div>
-            </ng-container>
-        </div>
-    </div>
-    <ng-container *ngIf="superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant)">
-        <div class="mb-6" *ngIf="!invitationLinkActive">&nbsp;</div>
-        <div class="py-8" *ngIf="userId && invitationLinkActive">
-            <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row items-center p-6 bg-white rounded-lg">
-                <div (click)="copyText()" class="flex items-center mr-8 hover:cursor-pointer">
-                    <svg class="w-6 h-6 text-black dark:text-white mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                        <path d="M5 9V4.13a2.96 2.96 0 0 0-1.293.749L.879 7.707A2.96 2.96 0 0 0 .13 9H5Zm11.066-9H9.829a2.98 2.98 0 0 0-2.122.879L7 1.584A.987.987 0 0 0 6.766 2h4.3A3.972 3.972 0 0 1 15 6v10h1.066A1.97 1.97 0 0 0 18 14V2a1.97 1.97 0 0 0-1.934-2Z"/>
-                        <path d="M11.066 4H7v5a2 2 0 0 1-2 2H0v7a1.969 1.969 0 0 0 1.933 2h9.133A1.97 1.97 0 0 0 13 18V6a1.97 1.97 0 0 0-1.934-2Z"/>
-                    </svg>
-                    <span>{{ 'plan-details.invitationlink' | translate }}</span>
-                </div>
-                <div (click)="goToLink(emailTo)" class="flex items-center mr-8 hover:cursor-pointer">
-                    <svg class="w-6 h-6 text-black dark:text-white mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-                        <path d="m10.036 8.278 9.258-7.79A1.979 1.979 0 0 0 18 0H2A1.987 1.987 0 0 0 .641.541l9.395 7.737Z"/>
-                        <path d="M11.241 9.817c-.36.275-.801.425-1.255.427-.428 0-.845-.138-1.187-.395L0 2.6V14a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2.5l-8.759 7.317Z"/>
-                    </svg>
-                    <span>{{ 'plan-details.sharebyemail' | translate }}</span>
-                </div>
-                <div (click)="sendEmailInvite()" class="flex items-cente mr-8 hover:cursor-pointer" *ngIf="hasEmailInvite && (superAdmin || showOption)">
-                    <svg class="w-6 h-6 text-black dark:text-white mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M16.922 11.76a1.56 1.56 0 0 0-.551-1.208L11.264 6.3a1.35 1.35 0 0 0-1.473-.2 1.542 1.542 0 0 0-.872 1.427v1.221a6.922 6.922 0 0 0-6 7.134v1.33A1.225 1.225 0 0 0 4.143 18.5a1.187 1.187 0 0 0 1.08-.73 4.72 4.72 0 0 1 3.7-2.868v1.085a1.546 1.546 0 0 0 .872 1.428 1.355 1.355 0 0 0 1.472-.2l5.108-4.25a1.56 1.56 0 0 0 .547-1.206Z"/>
-                        <path d="m21.428 10.205-5.517-4.949a1 1 0 1 0-1.336 1.488l5.517 5.014-5.611 5.088a1 1 0 1 0 1.344 1.482l5.611-5.088a2.049 2.049 0 0 0-.008-3.035Z"/>
-                    </svg>
-                    <span>{{ 'plan-details.emailinvite' | translate }}</span>
-                </div>
-            </div>
-            <div *ngIf="(admin1 || superAdmin) && companyId == 12">
-                <button class="btn" (click)="showAddNewLink()" [ngStyle]="{'background-color': buttonColor}">
-                    {{ 'plan-details.generateanotherlink' | translate }}
-                </button>
-            </div>
-        </div>
-        <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row py-12">
-            <div class="mr-0 sm:mr-0 md:mr-8 lg:mr-8">
-                <div class="w-full sm:w-full md:w-[540px] lg:w-[540px] max-w-full md:max-w-full lg:max-w-[540px]" *ngIf="plan?.show_attendee">
-                    <div class="container mb-4 flex items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
-                        <h1 class="text-xl">{{ planParticipantCount }} {{ planParticipantCount > 1 ? ('plan-details.attendees' | translate) : ('plan-details.attendee' | translate) }}</h1>
-                    </div>
-                    <div class="flex flex-wrap">
-                        <ng-container *ngFor="let member of planParticipants">
-                            <div *ngIf="member?.image" class="mb-4">
+                <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row my-12 items-center" *ngIf="plan?.show_attendee">
+                    <div class="mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0">
+                        <div class="flex flex-wrap">
+                            <ng-container *ngFor="let member of limitPlanParticipants; let i = index">
                                 <img
-                                    class="rounded-full mr-4" 
-                                    width="65"
-                                    height="65"
+                                    *ngIf="member?.image"
+                                    class="rounded-full" 
+                                    [ngClass]="{'-ml-6': i > 0}"
+                                    width="55"
+                                    height="55"
                                     [ngSrc]="apiPath + '/' + member.image"
                                 />
-                            </div>
-                        </ng-container>
+                            </ng-container>
+                        </div>
                     </div>
+                    <div>{{ planParticipantCount }} {{ planParticipantCount > 1 ? ('plan-details.attendees' | translate) : ('plan-details.attendee' | translate) }}</div>
                 </div>
-            </div>
-            <div class="w-full">
-                <div *ngIf="plan?.show_description">
-                    <div class="container mb-4 flex items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
-                        <h1 class="text-xl">{{ 'plan-create.description' | translate }}</h1>
+                <div class="flex">
+                    <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
+                        <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                          <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                          <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
+                        </g>
+                    </svg>
+                    <div class="capitalize font-semibold">{{ getAddress(plan) }}</div>
+                </div>
+                <div class="my-12 flex items-center">
+                    <div class="opacity-60 mr-4">{{ 'plan-details.createdby' | translate }}:</div>
+                    <div class="font-semibold">{{ createdBy || planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name) }}</div>
+                </div>
+                <div class="flex items-center" *ngIf="userId && invitationLinkActive && (superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant))">
+                    <div (click)="goToLink(emailTo)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">
+                        <img width="36" height="36" class="object-contain mr-6 ml-4" src="./assets/icons/link-chain.png">
+                        <div class="mt-10 text-center opacity-60">{{ 'plan-details.share' | translate }}</div>
                     </div>
-                    <div [innerHTML]="eventDescription | safeContentHtml: 'html'"></div>
+                    <div (click)="copyText()" class="flex flex-col items-center justify-center mr-16 hover:cursor-pointer">
+                        <img width="36" height="36" class="object-contain ml-6" src="./assets/icons/copy-paste.png">
+                        <div class="w-[36px] max-w-[36px] mt-6 text-center opacity-60">{{ 'plan-details.copylink' | translate }}</div>
+                    </div>
+                    <div (click)="sendEmailInvite()" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer" *ngIf="hasEmailInvite && (superAdmin || showOption)">
+                        <img width="36" height="36" class="object-contain" src="./assets/icons/mail-send.png">
+                        <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">{{ 'plan-details.sharebyemail' | translate }}</div>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="py-4" *ngIf="((userId && !showPastEvents) || (userId && showPastEvents && !isPastEvent)) && plan?.show_comments">
-            <div class="container mb-4 flex items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
-                <h1 class="text-xl">{{ 'plan-details.comments' | translate }}</h1>
-            </div>
-            <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row py-12">
-                <div class="mr-0 sm:mr-0 md:mr-8 lg:mr-8">
-                    <div class="w-full sm:w-full md:w-[540px] lg:w-[540px] max-w-full md:max-w-full lg:max-w-[540px]">
-                        <div *ngFor="let comment of planComments" [ngClass]="{'ml-4 sm:ml-4 md:ml-20 lg:ml-20': comment?.parent_group_plan_comment_id > 0 || comment?.parent_plan_comment_id > 0}">
+    </div>
+    <div class="py-4" *ngIf="((userId && !showPastEvents) || (userId && showPastEvents && !isPastEvent)) && plan?.show_comments">
+        <div class="container mb-4 flex items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3">
+            <h1 class="text-lg font-semibold">{{ 'plan-details.comments' | translate }}</h1>
+        </div>
+        <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row py-4">
+            <div class="mr-0 sm:mr-0 md:mr-8 lg:mr-8">
+                <div class="w-full sm:w-full md:w-[540px] lg:w-[540px] max-w-full md:max-w-full lg:max-w-[540px]">
+                    <div *ngFor="let comment of planComments" [ngClass]="{'ml-4 sm:ml-4 md:ml-20 lg:ml-20': comment?.parent_group_plan_comment_id > 0 || comment?.parent_plan_comment_id > 0}">
+                        <div class="border border-gray-300 border-b-1 border-t-0 border-l-0 border-r-0 mb-8">
+                            <div class="flex items-center">
+                                <img
+                                    src="{{apiPath + '/' + (comment?.image || comment?.CompanyUser?.image)}} "
+                                    [alt]="comment?.first_name"
+                                    class="rounded-full w-16 h-16 mr-4"
+                                    width="30"
+                                >
+                                <div class="w-full">
+                                    <div class="flex justify-between">
+                                        <div class="w-full">
+                                            <div class="font-bold">{{ comment?.first_name || comment?.CompanyUser?.first_name || 'anonymous' }}</div>
+                                            <div class="text-sm">{{ formatDate(comment?.createdAt) }}</div>
+                                        </div>
+                                        <div class="flex">
+                                            <div *ngIf="superAdmin || showOption" class="hover:cursor-pointer p-2 px-4 h-8 rounded-lg" (click)="confirmDeleteComment(comment)" [ngStyle]="{'background-color': buttonColor}">
+                                                <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"></path>
+                                                </svg>
+                                            </div>
+                                            <div class="flex items-center justify-center ml-4 bg-white rounded-lg p-2 px-6 h-8 hover:cursor-pointer">
+                                                <img *ngIf="checkHeartReaction(comment) == false" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-unselected.png" (click)="toggleHeart(comment, true)">
+                                                <img *ngIf="checkHeartReaction(comment) == true" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-selected.png" (click)="toggleHeart(comment, false)">
+                                                <span>{{ getReactions(comment)?.length || 0 }}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="mt-4" [innerHTML]="comment?.comment">
+                            </div>
+                            <div 
+                                *ngIf="!blockResponseToComments || (blockResponseToComments && (superAdmin || showOption))"
+                                class="text-white flex items-center justify-center py-2 px-8 w-[130px] max-w-[130px] mt-4 mb-8 rounded-lg" 
+                                [ngStyle]="{'background-color': buttonColor}"
+                                (click)="toggleChildComment(comment?.id)"
+                            >
+                                <img class="w-4 h-4 mr-2" src="./assets/images/new-design/icons/Respond.png">
+                                <span class="text-xs">{{ 'club-details.comment' | translate }}</span>
+                            </div>
+                            <div *ngIf="showChildComment && selectedCommentId == comment?.id" class="mb-16">
+                                <textarea name="" id="" cols="30" rows="3"
+                                    class="w-full rounded-lg p-4 border border-gray-300"
+                                    placeholder="{{ 'club-details.addanewcomment' | translate }}"
+                                    [(ngModel)]="childComment" >
+                                </textarea>
+                                <button (click)="addChildComment(comment)" 
+                                    class="btn text-white mb-8 float-right hover:cursor-pointer"
+                                    [ngStyle]="{'background-color': buttonColor}"
+                                >
+                                    {{ 'club-details.addcomment' | translate }}
+                                </button>
+                            </div>
                             <div>
-                                <div class="flex">
-                                    <img
-                                        src="{{apiPath + '/' + (comment?.image || comment?.CompanyUser?.image)}} "
-                                        [alt]="comment?.first_name"
-                                        class="rounded-full w-16 h-16 mr-4"
-                                        width="30"
-                                    >
-                                    <div class="w-full">
-                                        <div class="flex justify-between">
-                                            <div class="w-full">
-                                                <div class="font-bold">{{ comment?.first_name || comment?.CompanyUser?.first_name || 'anonymous' }}</div>
-                                                <div class="text-sm">{{ formatDate(comment?.createdAt) }}</div>
-                                            </div>
-                                            <div class="flex">
-                                                <div *ngIf="superAdmin || showOption" class="hover:cursor-pointer p-2 px-4 h-8 rounded-lg" (click)="confirmDeleteComment(comment)" [ngStyle]="{'background-color': buttonColor}">
-                                                    <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"></path>
-                                                    </svg>
-                                                </div>
-                                                <div class="flex items-center justify-center ml-4 bg-white rounded-lg p-2 px-6 h-8 hover:cursor-pointer">
-                                                    <img *ngIf="checkHeartReaction(comment) == false" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-unselected.png" (click)="toggleHeart(comment, true)">
-                                                    <img *ngIf="checkHeartReaction(comment) == true" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-selected.png" (click)="toggleHeart(comment, false)">
-                                                    <span>{{ getReactions(comment)?.length || 0 }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mt-4" [innerHTML]="comment?.comment">
-                                        </div>
-                                        <div 
-                                            *ngIf="!blockResponseToComments || (blockResponseToComments && (superAdmin || showOption))"
-                                            class="text-white flex items-center justify-center py-2 px-8 w-[130px] max-w-[130px] mt-4 mb-8 rounded-lg" 
-                                            [ngStyle]="{'background-color': buttonColor}"
-                                            (click)="toggleChildComment(comment?.id)"
+                                <div *ngFor="let child of comment?.CommentChild" class="mb-8 max-w-full">
+                                    <div class="flex justify-between items-center">
+                                        <img
+                                            src="{{apiPath + '/' + (child?.image || child?.CompanyUser?.image)}} "
+                                            [alt]="child.first_name"
+                                            class="rounded-full w-16 h-16 mr-4"
+                                            width="30"
                                         >
-                                            <img class="w-4 h-4 mr-2" src="./assets/images/new-design/icons/Respond.png">
-                                            <span class="text-xs">{{ 'club-details.comment' | translate }}</span>
-                                        </div>
-                                        <div *ngIf="showChildComment && selectedCommentId == comment?.id" class="mb-16">
-                                            <textarea name="" id="" cols="30" rows="3"
-                                                class="w-full rounded-lg p-4"
-                                                placeholder="{{ 'club-details.addanewcomment' | translate }}"
-                                                [(ngModel)]="childComment" >
-                                            </textarea>
-                                            <button (click)="addChildComment(comment)" 
-                                                class="btn text-white mb-8 float-right hover:cursor-pointer"
-                                                [ngStyle]="{'background-color': buttonColor}"
-                                            >
-                                                {{ 'club-details.addcomment' | translate }}
-                                            </button>
-                                        </div>
-                                        <div>
-                                            <div *ngFor="let child of comment?.CommentChild" class="mb-8 max-w-full">
-                                                <div class="flex justify-between">
-                                                    <img
-                                                        src="{{apiPath + '/' + (child?.image || child?.CompanyUser?.image)}} "
-                                                        [alt]="child.first_name"
-                                                        class="rounded-full w-16 h-16 mr-4"
-                                                        width="30"
-                                                    >
-                                                    <div class="name-date full w-5/6">
-                                                        <div class="flex justify-between">
-                                                            <div class="w-full">
-                                                                <div class="font-bold">{{ child?.first_name || child?.CompanyUser?.first_name || 'anonymous' }}</div>
-                                                                <div class="text-sm">{{ formatDate(child?.createdAt) }}</div>
-                                                            </div>
-                                                            <div class="flex">
-                                                                <div *ngIf="superAdmin || showOption" class="hover:cursor-pointer p-2 px-4 h-8 rounded-lg" (click)="confirmDeleteComment(child)" [ngStyle]="{'background-color': buttonColor}">
-                                                                    <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"></path>
-                                                                    </svg>
-                                                                </div>
-                                                                <div class="flex items-center justify-center ml-4 bg-white rounded-lg p-2 px-6 h-8 hover:cursor-pointer">
-                                                                    <img *ngIf="checkHeartReaction(child) == false" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-unselected.png" (click)="toggleHeart(child, true)">
-                                                                    <img *ngIf="checkHeartReaction(child) == true" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-selected.png" (click)="toggleHeart(child, false)">
-                                                                    <span>{{ getReactions(child)?.length || 0 }}</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mt-4" [innerHTML]="child?.comment">
-                                                        </div>
+                                        <div class="name-date full w-5/6">
+                                            <div class="flex justify-between">
+                                                <div class="w-full">
+                                                    <div class="font-bold">{{ child?.first_name || child?.CompanyUser?.first_name || 'anonymous' }}</div>
+                                                    <div class="text-sm">{{ formatDate(child?.createdAt) }}</div>
+                                                </div>
+                                                <div class="flex">
+                                                    <div *ngIf="superAdmin || showOption" class="hover:cursor-pointer p-2 px-4 h-8 rounded-lg" (click)="confirmDeleteComment(child)" [ngStyle]="{'background-color': buttonColor}">
+                                                        <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
+                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"></path>
+                                                        </svg>
+                                                    </div>
+                                                    <div class="flex items-center justify-center ml-4 bg-white rounded-lg p-2 px-6 h-8 hover:cursor-pointer">
+                                                        <img *ngIf="checkHeartReaction(child) == false" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-unselected.png" (click)="toggleHeart(child, true)">
+                                                        <img *ngIf="checkHeartReaction(child) == true" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-selected.png" (click)="toggleHeart(child, false)">
+                                                        <span>{{ getReactions(child)?.length || 0 }}</span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
+                                    </div>
+                                    <div class="mt-4" [innerHTML]="child?.comment">
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="w-full" *ngIf="userId">
-                    <textarea 
-                        name="comment" 
-                        id="comment" 
-                        cols="30" 
-                        rows="3"
-                        class="w-full p-4 rounded-lg"
-                        placeholder="{{ 'plan-details.addanewcomment' | translate }}"
-                        [(ngModel)]="comment" 
+            </div>
+            <div class="w-full pl-0 sm:pl-0 md:pl-24 lg:pl-24" *ngIf="userId">
+                <textarea 
+                    name="comment" 
+                    id="comment" 
+                    cols="30" 
+                    rows="8"
+                    class="w-full p-4 rounded-lg border border-gray-300"
+                    placeholder="{{ 'plan-details.addanewcomment' | translate }}"
+                    [(ngModel)]="comment" 
+                >
+                </textarea>
+                <div>
+                    <button
+                        (click)="addComment()"
+                        class="btn text-white px-12 mt-4 float-right hover:cursor-pointer uppercase"
+                        [ngStyle]="{
+                            'background-color': buttonColor
+                        }"
+                        [disabled]="onSubmit"
                     >
-                    </textarea>
-                    <div>
-                        <button
-                            (click)="addComment()"
-                            class="btn text-white px-12 float-right hover:cursor-pointer"
-                            [ngStyle]="{
-                                'background-color': buttonColor
-                            }"
-                            [disabled]="onSubmit"
-                        >
-                            {{ 'plan-details.comment' | translate }}
-                        </button>
-                    </div>
+                        {{ 'plan-details.comment' | translate }}
+                    </button>
                 </div>
             </div>
         </div>
-    </ng-container>
+    </div>
 </div>
 <button #modalbutton data-modal-target="item-modal" data-modal-toggle="item-modal" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
     &nbsp;

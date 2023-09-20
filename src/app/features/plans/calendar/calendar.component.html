@@ -10,6 +10,7 @@
             <div class="calendar row">
                 <div class="col-md-12">
                     <div class="calendar-month">
+                        <div class="current-month current-month pl-4 text-left font-semibold text-base text-black"><span>{{currentMonth}} {{currentYear}}</span></div>
                         <div class="calendar2 arrow-back" (click)="goToLastMonth()">
                             <span>
                                 <svg class="w-6 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -17,7 +18,6 @@
                                 </svg>
                             </span>
                         </div>
-                        <div class="current-month" [ngStyle]="{'color': buttonColor}"><span>{{currentMonth}} {{currentYear}}</span></div>
                         <div class="arrow-forward" (click)="goToNextMonth()">
                             <span>
                                 <svg class="w-6 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
@@ -28,8 +28,8 @@
                     </div>
                     <div class="calendar-body">
                         <div class="grid">
-                            <div class="calendar-weekday">
-                                <div class="col-1 weekdays" *ngFor="let weekday of weekdays; let i = index">{{weekday}}</div>
+                            <div class="calendar-weekday -ml-3">
+                                <div class="col-1 weekdays w-7 text-sm py-2 px-1 font-semibold text-black" *ngFor="let weekday of weekdays; let i = index">{{weekday}}</div>
                             </div>
                             <div class="calendar-date">
                                 <ng-container *ngFor="let day of daysInThisMonth">
@@ -45,7 +45,7 @@
                                         </ng-container>
                                     </ng-container>
                                     <div class='dayRep col-1' (click)="selectCalendar1(day, currentDate)">
-                                        <div class='dateOuter'>
+                                        <div class='dateOuter text-sm'>
                                             <div 
                                                 [ngStyle]="{
                                                     'background-color': currentDate.day == day.day && !initialDay1 && hasDateSelected ? buttonColor : (day.employeePlans.length > 0 || day.joinedExistingEmployeePlan || day.clubPlans.length > 0 || day.joinedExistingClubPlan ? calendarColor : 'transparent'),
@@ -66,23 +66,35 @@
             </div>
         </div>
     </div>
-    <div class="options">
-        <div class="flex items-center">
-            <input 
-                id="link-checkbox" 
-                type="checkbox"
-                [(ngModel)]="joinedCheck"
-                [ngModelOptions]="{standalone: true}"
-                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                [ngStyle]="{'color': joinedCheck ? buttonColor : 'text-blue-500'}"
-                (change)="loadPlans(joinedPlan, 4, $event, true)"
-            >
-            <label for="link-checkbox" 
-                class="ml-2 text-xs"
-                [ngStyle]="{'color':buttonColor}"
-            >
-                {{'calendar.activityjoined' | translate}}
-            </label>
+    <div class="options my-4 px-6">
+        <div class="flex items-center justify-between w-full">
+            <div>
+                <input 
+                    id="link-checkbox" 
+                    type="checkbox"
+                    [(ngModel)]="joinedCheck"
+                    [ngModelOptions]="{standalone: true}"
+                    class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    [ngStyle]="{'color': joinedCheck ? buttonColor : 'text-blue-500'}"
+                    (change)="loadPlans(joinedPlan, 4, $event, true)"
+                >
+                <label for="link-checkbox" 
+                    class="ml-2 text-xs"
+                >
+                    {{'calendar.activityjoined' | translate}}
+                </label>
+            </div>
+            <div *ngIf="calendarFilterMode">
+                <button
+                    class="h-[40px] flex items-center p-2 px-6 rounded-[15px] justify-evenly"
+                    [ngStyle]="{'background-color': buttonColor}" 
+                    (click)="handleExit()"
+                >
+                    <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"/>
+                    </svg>
+                </button>
+            </div>
         </div>
     </div>
 </div>

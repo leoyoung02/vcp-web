@@ -20,6 +20,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import {
   ButtonGroupComponent,
   NoAccessComponent,
+  PageTitleComponent,
   ToastComponent,
 } from "@share/components";
 import {
@@ -66,6 +67,7 @@ import get from "lodash/get";
     ImageCropperModule,
     FontAwesomeModule,
     ButtonGroupComponent,
+    PageTitleComponent,
     NoAccessComponent,
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,
@@ -389,6 +391,7 @@ export class PlanEditComponent {
   acceptText: string = "";
   cancelText: any = "";
   planId: number = 0;
+  pageTitle: string = "";
 
   constructor(
     private _route: ActivatedRoute,
@@ -600,6 +603,7 @@ export class PlanEditComponent {
     this.plansFeature = features?.find((f) => f.feature_id == 1);
     this.featureId = this.plansFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.plansFeature);
+    this.pageTitle = `${this.id > 0 ? this._translateService.instant('plan-create.edityouractivity') : this._translateService.instant('plan-create.createyouractivity')} ${this.pageName}` 
 
     this.clubsFeature = features?.find(
       (f) => f.feature_id == 5 && f.status == 1

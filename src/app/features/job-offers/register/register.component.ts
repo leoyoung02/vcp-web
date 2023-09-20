@@ -12,7 +12,7 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import { BreadcrumbComponent } from "@share/components";
+import { BreadcrumbComponent, PageTitleComponent } from "@share/components";
 import {
   LocalService,
   CompanyService,
@@ -43,6 +43,7 @@ registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPlug
     EditorModule,
     FilePondModule,
     BreadcrumbComponent,
+    PageTitleComponent,
     SafeContentHtmlPipe,
   ],
   templateUrl: './register.component.html'
@@ -130,6 +131,7 @@ export class JobOfferRegisterComponent {
             },
         },
     };
+  title: any;
 
     constructor(
         private _router: Router,
@@ -200,6 +202,7 @@ export class JobOfferRegisterComponent {
         let data = this.jobOfferData;
         this.mapFeatures(data?.features_mapping);
         this.job = data?.job_offer
+        this.title = this.getOfferTitle(this.job);
         this.initializeBreadcrumb();
     }
 

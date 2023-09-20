@@ -17,7 +17,7 @@ import { Subject, takeUntil } from "rxjs";
 import { ClubsService } from "@features/services";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ButtonGroupComponent, NoAccessComponent } from "@share/components";
+import { ButtonGroupComponent, NoAccessComponent, PageTitleComponent } from "@share/components";
 import {
   FormControl,
   FormGroup,
@@ -55,6 +55,7 @@ import get from "lodash/get";
     FontAwesomeModule,
     ButtonGroupComponent,
     NoAccessComponent,
+    PageTitleComponent,
   ],
   templateUrl: "./edit.component.html",
 })
@@ -179,6 +180,7 @@ export class ClubEditComponent {
   apiPath: string = environment.api;
   selectedAdminId: any;
   clubPresidentsMapping: any;
+  pageTitle: string = "";
 
   constructor(
     private _route: ActivatedRoute,
@@ -338,6 +340,7 @@ export class ClubEditComponent {
         : this._translateService.instant("club-create.grouptype") +
           " " +
           this.pageName;
+    this.pageTitle = `${this.id > 0 ? this._translateService.instant('club-create.createyour') : this._translateService.instant('edit-club.edityourclub')} ${this.pageName}`
   }
 
   mapSubfeatures(subfeatures, clubs, contact_details) {

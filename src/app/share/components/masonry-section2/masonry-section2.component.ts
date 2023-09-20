@@ -166,13 +166,13 @@ export class MasonrySection2Component {
 
     let dt = job_offers?.map(item => {
       let type_row = this.jobTypes?.filter(jt => {
-        return jt.id == item.type_id
+        return jt.id == item?.type_id
       })
 
       return {
         ...item,
         id: item?.id,
-        path: `/employmentchannel/details/${item.id}`,
+        path: `/employmentchannel/details/${item?.id}`,
         title: this.getOfferTitle(item),
         type: type_row?.length > 0 ? this.getTypeTitle(type_row[0]) : '',
         area: this.getAreaDisplay(item)
@@ -234,18 +234,18 @@ export class MasonrySection2Component {
   }
 
   getOfferTitle(offer) {
-    return this.language == 'en' ? (offer.title_en || offer.title) : (this.language == 'fr' ? (offer.title_fr || offer.title) :
+    return offer ? this.language == 'en' ? (offer.title_en || offer.title) : (this.language == 'fr' ? (offer.title_fr || offer.title) :
       (this.language == 'eu' ? (offer.title_eu || offer.title) : (this.language == 'ca' ? (offer.title_ca || offer.title) :
         (this.language == 'de' ? (offer.title_de || offer.title) : offer.title)
       ))
-    )
+    ) : ''
   }
 
   getAreaDisplay(offer) {
     let area_display = ''
 
     let job_areas = this.jobAreas?.filter(ja => {
-      return this.jobOfferAreas?.some((a) => a.job_offer_id === offer.id && a.area_id == ja.id);
+      return this.jobOfferAreas?.some((a) => a.job_offer_id === offer?.id && a.area_id == ja.id);
     })
 
     area_display = job_areas?.length > 1 ? job_areas?.map( (data) => { return data.title }).join(', ') : (job_areas?.length == 1 ? job_areas[0].title : '')

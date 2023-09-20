@@ -18,6 +18,7 @@ import {
 import {
   BreadcrumbComponent,
   ListShowcaseComponent,
+  PageTitleComponent,
   ToastComponent,
 } from "@share/components";
 import { LocalService, CompanyService } from "@share/services";
@@ -43,6 +44,7 @@ import get from "lodash/get";
     SafeContentHtmlPipe,
     ToastComponent,
     ListShowcaseComponent,
+    PageTitleComponent,
   ],
   templateUrl: "./detail.component.html",
 })
@@ -204,6 +206,13 @@ export class ClubDetailComponent {
   @ViewChild("modalbutton", { static: false }) modalbutton:
     | ElementRef
     | undefined;
+  title: any;
+  clubTruncatedDescription: any;
+  clubExpandedDescription: boolean = false;
+  truncate: number = 500;
+  categoryLabel: string = "";
+  clubCategoryMapping: any;
+  limitMembers: any;
 
   constructor(
     private _router: Router,
@@ -310,8 +319,9 @@ export class ClubDetailComponent {
       data?.user_permissions,
       data?.club_presidents_mapping
     );
-    this.categories = data?.types;
+    this.categories = data?.club_categories;
     this.subcategories = data?.club_subcategories;
+    this.clubCategoryMapping =  this.mapCategories(data?.club_category_mapping);
     this.formatClub(
       data?.club,
       data?.club_comments,
@@ -479,8 +489,6 @@ export class ClubDetailComponent {
         : this.clubFeature.name_es || this.clubFeature.feature_name_ES
       : "";
 
-    this.getCategoryLabel();
-
     if (this.group) {
       this.groupTitle =
         this.language == "en"
@@ -506,6 +514,14 @@ export class ClubDetailComponent {
           : this.language == "de"
           ? this.group.description_de || this.group.description
           : this.group.description;
+      this.title = this.groupTitle;
+
+      // Get excerpt
+      if(this.groupDescription && this.groupDescription.length > this.truncate) {
+        this.clubTruncatedDescription = this.getExcerpt(this.groupDescription);
+      } else {
+        this.clubTruncatedDescription = this.groupDescription;
+      }
 
       if (
         this.groupDescription &&
@@ -567,6 +583,70 @@ export class ClubDetailComponent {
     }
   }
 
+  getExcerpt(description) {
+    let charlimit = this.truncate;
+    if (!description || description.length <= charlimit) {
+      return description;
+    }
+
+    let without_html = description.replace(/<(?:.|\n)*?>/gm, "");
+    let shortened = without_html.substring(0, charlimit) + "...";
+    return shortened;
+  }
+
+  readMore() {
+    this.clubExpandedDescription = true;
+    this.clubTruncatedDescription = this.groupDescription;
+  }
+
+  showLess() {
+    this.clubExpandedDescription = false;
+    if(this.groupDescription?.length > this.truncate) {
+      this.clubTruncatedDescription = this.getExcerpt(this.groupDescription);
+    } else {
+      this.clubTruncatedDescription = this.groupDescription;
+    }
+  }
+
+  mapCategories(club_category_mapping) {
+    let categories = club_category_mapping?.map((cat) => {
+      let cat_row = this.categories?.filter((c) => {
+        return c.id == cat.fk_supercategory_id;
+      });
+      let categ = cat_row?.length > 0 ? cat_row[0] : {};
+      return {
+        ...cat,
+        name: this.getCategoryText(categ),
+        name_EN: categ?.name_EN,
+        name_ES: categ?.name_ES,
+        name_FR: categ?.name_FR,
+        name_EU: categ?.name_EU,
+        name_CA: categ?.name_CA,
+        name_DE: categ?.name_DE,
+      };
+    });
+
+    return categories;
+  }
+
+  getCategory() {
+    return this.clubCategoryMapping?.map( (data) => { return data.name }).join(', ') 
+  }
+
+  getCategoryText(cat) {
+    return  this.language == "en"
+    ? cat.name_EN || cat.name_ES
+    : this.language == "fr"
+    ? cat.name_FR
+    : this.language == "eu"
+    ? cat.name_EU || cat.name_ES
+    : this.language == "ca"
+    ? cat.name_CA || cat.name_ES
+    : this.language == "de"
+    ? cat.name_DE || cat.name_ES
+    : cat.name_ES
+  }
+
   getCategoryLabel() {
     let category = "";
 
@@ -594,9 +674,21 @@ export class ClubDetailComponent {
 
   initializeBreadcrumb() {
     this.level1Title = this.pageName;
-    this.level2Title = this.getCategoryLabel();
-    this.level3Title = this.planTitle;
+    this.level2Title = this.planTitle;
+    this.level3Title = "";
     this.level4Title = "";
+  }
+
+  createNewTitle(page) {
+    let plan = "plans.plan";
+    if (this.planTitle?.toLowerCase().indexOf("activ") >= 0) {
+      plan = "plans.activity";
+    } else if (this.planTitle?.toLowerCase().indexOf("event") >= 0) {
+      plan = "plans.event";
+    }
+    return `${this._translateService.instant(
+      "dashboard.new"
+    )} ${this._translateService.instant(plan)}`;
   }
 
   formatClub(
@@ -607,7 +699,7 @@ export class ClubDetailComponent {
     user,
     created_by_ue
   ) {
-    this.getPlans();
+    // this.getPlans();
     let subcategories = this.subcategories;
     if (subcategories) {
       subcategories.forEach((sc) => {
@@ -630,6 +722,7 @@ export class ClubDetailComponent {
     }
 
     this.group = club;
+    this.categoryLabel = this.getCategory();
     this.CompanyGroupComments = comments.filter((data) => {
       data.comment = data.comment.replaceAll("\n", "<br/>");
       if (data.CommentChild && data.CommentChild.length > 0) {
@@ -661,6 +754,7 @@ export class ClubDetailComponent {
       this.mapPendingRequests(pending_requests);
     }
     this.members = club_members;
+    this.limitMembers = club_members?.length > 9 ? club_members?.slice(0, 9) : club_members;
     this.groupMemberCount = this.members.length;
     this.joinedMember = this.isUserJoined(this.members);
     this.emailTo = `mailto:?Subject=Inquiries&body=` + window.location.href;

@@ -868,8 +868,6 @@ export class ReportsComponent {
     }
 
     if (this.selectedStartDate && this.selectedEndDate) {
-      console.log("start " + this.selectedStartDate);
-      console.log("end " + this.selectedEndDate);
       this.loadSubReportTypes(this.reportType, true, true);
     }
   }

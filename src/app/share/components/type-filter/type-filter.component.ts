@@ -11,13 +11,13 @@ import { FormsModule } from "@angular/forms";
 import { initFlowbite } from "flowbite";
 
 @Component({
-  selector: "app-icon-filter",
+  selector: "app-type-filter",
   standalone: true,
   imports: [CommonModule, FormsModule],
-  templateUrl: "./icon-filter.component.html",
+  templateUrl: "./type-filter.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class IconFilterComponent {
+export class TypeFilterComponent {
     @Input() list: any;
     @Input() icon: any;
     @Output() filterList = new EventEmitter();

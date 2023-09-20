@@ -1,114 +1,48 @@
-<div
-    class="container flex items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3"
-    [ngClass]="{
-        'flex-col': isMobile,
-        'border border-b-2 border-l-0 border-r-0 border-t-0': showSectionTitleDivider || parentComponent,
-        'justify-between': showSectionTitleDivider || parentComponent,
-        'justify-end': !showSectionTitleDivider && !parentComponent
-    }"
->
-    <h1 class="text-2xl" 
-        [ngClass]="{'text-center mb-4': isMobile}" 
-        *ngIf="showSectionTitleDivider || parentComponent">
-        {{ pageName }}
-    </h1>
-    <div *ngIf="!parentComponent" class="flex">
-        <button 
-            class="flex items-center py-1.5 p-2.5 rounded-[10px] justify-evenly hover:bg-black"
-            *ngIf="canCreateJobOffer" 
-            [ngStyle]="{'background-color': buttonColor}" 
-            (click)="handleCreateRoute()"
-        >
-            <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-            </svg>
-            <span class="text-white text-sm">{{ 'job-offers.createyouroffer' | translate }}</span>
-        </button>
-    </div>
+<app-page-title [title]="title" [subtitle]="subtitle"></app-page-title>
+<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4">
+    <button 
+        class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
+        *ngIf="canCreateJobOffer" 
+        [ngStyle]="{'background-color': buttonColor}" 
+        (click)="handleCreateRoute()"
+    >
+        <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+        </svg>
+        <span class="text-white text-md font-semibold uppercase">{{ 'dashboard.new' | translate }} {{ pageName }}</span>
+    </button>
 </div>
 <div class="pt-6" *ngIf="!parentComponent">
-    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-        <div class="relative mb-6">
-            <div class="flex items-center w-full max-w-full">
-                <div class="flex-auto">
-                    <app-search
-                        [searchText]="searchText"
-                        [placeholderText]="placeholderText"
-                        [buttonColor]="buttonColor"
-                        (onEnterPressed)="handleSearchChanged($event)"
-                        (doSearch)="handleSearchChanged($event)"
-                    >
-                    </app-search>
+    <div class="flex items-center w-full max-w-full">
+        <div class="w-full sm:w-full md:w-1/4 lg:w-1/4">
+            <app-search
+                [searchText]="searchText"
+                [placeholderText]="placeholderText"
+                [buttonColor]="buttonColor"
+                (onEnterPressed)="handleSearchChanged($event)"
+                (doSearch)="handleSearchChanged($event)"
+            >
+            </app-search>
+        </div>
+    </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 py-8">
+    <div *ngFor="let offer of jobOffers | paginate: {itemsPerPage: 8, currentPage: p}" class="hover:cursor-pointer w-full max-w-full bg-white rounded-lg dark:bg-gray-800 dark:border-gray-700" 
+        (click)="handleDetailsRoute(offer)">
+        <div class="flex h-full">
+            <div class="w-4 rounded-l-lg" [ngStyle]="{'background-color': buttonColor}">&nbsp;</div>
+            <div class="flex flex-col justify-evenly w-full pl-6">
+                <div class="font-semibold text-medium pt-3">{{ offer?.title_display }}</div>
+                <div class="text-sm py-3">
+                    <span>{{ offer?.type_display }}</span><span class="px-3">•</span><span>{{ offer?.area_display }}</span>
                 </div>
-                <div class="px-5">
-                    <app-icon-filter 
-                        [icon]="'label'"
-                        [list]="list"
-                        (filterList)="filteredArea($event)"
-                    >
-                    </app-icon-filter>
+                <div class="underline text-sm pb-3" [ngStyle]="{'color': buttonColor}">
+                    {{'landing.learnmore' | translate }}
                 </div>
             </div>
         </div>
     </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 py-8">
-    <div *ngFor="let offer of jobOffers" class="hover:cursor-pointer w-full max-w-full p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700" (click)="handleDetailsRoute(offer)">
-        <h5 class="mb-3 text-base font-semibold text-gray-900 md:text-xl dark:text-white">
-            {{ offer?.title_display }}
-        </h5>
-        <ul class="my-1 grid w-full gap-1 md:grid-cols-2">
-            <li>
-                <a href="javascript:;" class="flex items-center p-1 text-sm text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                    <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                        <path d="M17 16h-1V2a1 1 0 1 0 0-2H2a1 1 0 0 0 0 2v14H1a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2ZM5 4a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1V4Zm0 5V8a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H6a1 1 0 0 1-1-1Zm6 7H7v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3Zm2-7a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1V8a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1Zm0-4a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1Z"/>
-                    </svg>
-                    <span class="flex-1 ml-3 truncate">{{ offer?.company }}</span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;" class="flex items-center p-1 text-sm text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                    <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 20">
-                        <path d="M7 0a7 7 0 0 0-1 13.92V19a1 1 0 1 0 2 0v-5.08A7 7 0 0 0 7 0Zm0 5.5A1.5 1.5 0 0 0 5.5 7a1 1 0 0 1-2 0A3.5 3.5 0 0 1 7 3.5a1 1 0 0 1 0 2Z"/>
-                    </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">{{offer?.location}}</span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;" class="flex items-center p-1 text-sm text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                    <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="14" fill="currentColor" viewBox="0 0 20 14">
-                        <path d="M18.7 4.531 14.866.84A2.985 2.985 0 0 0 12.784 0H1.969A1.987 1.987 0 0 0 0 2v10a1.987 1.987 0 0 0 1.969 2h10.736a3.004 3.004 0 0 0 2.221-.983l3.912-4.309a3.023 3.023 0 0 0-.138-4.177Z"/>
-                    </svg>                
-                    <span class="flex-1 ml-3 truncate">
-                        {{ offer?.area_display }}
-                    </span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;" class="flex items-center p-1 text-sm text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                    <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M19.728 10.686c-2.38 2.256-6.153 3.381-9.875 3.381-3.722 0-7.4-1.126-9.571-3.371L0 10.437V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-7.6l-.272.286Z"/>
-                        <path d="m.135 7.847 1.542 1.417c3.6 3.712 12.747 3.7 16.635.01L19.605 7.9A.98.98 0 0 1 20 7.652V6a2 2 0 0 0-2-2h-3V3a3 3 0 0 0-3-3H8a3 3 0 0 0-3 3v1H2a2 2 0 0 0-2 2v1.765c.047.024.092.051.135.082ZM10 10.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5ZM7 3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1H7V3Z"/>
-                    </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">{{ offer?.type_display }}</span>
-                </a>
-            </li>
-            <li>
-                <a href="javascript:;" class="flex items-center p-1 text-sm text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                    <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 0a10 10 0 1 0 10 10A10.011 10.011 0 0 0 10 0Zm3.982 13.982a1 1 0 0 1-1.414 0l-3.274-3.274A1.012 1.012 0 0 1 9 10V6a1 1 0 0 1 2 0v3.586l2.982 2.982a1 1 0 0 1 0 1.414Z"/>
-                    </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">{{ offer?.created_at | dateAgo: (language || 'es') }}</span>
-                </a>
-            </li>
-            <li *ngIf="(isOfferCandidatesDisplayActive && candidatesDisplay > 0 && candidatesDisplay <= offer?.applications) || !isOfferCandidatesDisplayActive">
-                <a href="javascript:;" class="flex items-center p-1 text-sm text-gray-900 rounded-lg bg-gray-50 hover:bg-gray-100 group hover:shadow dark:bg-gray-600 dark:hover:bg-gray-500 dark:text-white">
-                    <svg class="w-3 h-3 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 16">
-                        <path d="M18 0H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2ZM5 12a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm0-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm0-3a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm10 6H9a1 1 0 0 1 0-2h6a1 1 0 0 1 0 2Zm0-3H9a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Zm0-3H9a1 1 0 0 1 0-2h6a1 1 0 1 1 0 2Z"/>
-                    </svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">{{ offer?.applications || 0 }} {{ 'job-offers.candidates' | translate }}</span>
-                </a>
-            </li>
-        </ul>
-    </div>
+<div *ngIf="jobOffers?.length > 0" class="text-center pb-8">
+    <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
 </div>

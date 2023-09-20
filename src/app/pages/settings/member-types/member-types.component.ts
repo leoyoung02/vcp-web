@@ -855,7 +855,6 @@ export class ManageMemberTypesComponent {
 
   moveDown(type, index, item) {
     let array = this.memberTypes;
-    console.log("down", array[index]);
     if (index < array.length - 1) {
       this.swap(array, index, index + 1);
       this.updateProfileFieldsSequence(type, array, item);

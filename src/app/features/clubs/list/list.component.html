@@ -1,90 +1,82 @@
-<div
-    class="container flex items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3"
-    [ngClass]="{
-        'border border-b-2 border-l-0 border-r-0 border-t-0': showSectionTitleDivider || parentComponent,
-        'justify-between': showSectionTitleDivider || parentComponent,
-        'justify-end': !showSectionTitleDivider && !parentComponent
-    }"
->
-    <h1 class="text-2xl" *ngIf="showSectionTitleDivider || parentComponent">{{ view == 'joined' ? getMyClubsTitle() : pageName }}</h1>
-    <div *ngIf="!parentComponent" class="flex">
-        <button 
-            class="flex items-center py-1.5 p-2.5 rounded-[10px] justify-evenly hover:bg-black"
-            *ngIf="canCreateGroup" 
-            [ngStyle]="{'background-color': buttonColor}" 
-            (click)="handleCreateRoute()"
-        >
-            <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-            </svg>
-            <span class="text-white text-sm">{{ createNewTitle(pageName) }}</span>
-        </button>
-        <button 
-            class="ml-4 text-white text-sm flex items-center py-1.5 p-2.5 rounded-[10px] justify-evenly hover:bg-black"
-            *ngIf="isMyClubsActive && myClubs?.title_es"
-            [ngStyle]="{'background-color': buttonColor}"
-            (click)="goToDashboard()"
-        >
-            {{ getMyClubsTitle() }}
-        </button>
-    </div>
+<app-page-title [title]="title" [subtitle]="subtitle"></app-page-title>
+<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4" *ngIf="view != 'joined'">
+    <button 
+        class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
+        *ngIf="canCreateGroup" 
+        [ngStyle]="{'background-color': buttonColor}" 
+        (click)="handleCreateRoute()"
+    >
+        <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+        </svg>
+        <span class="text-white text-md font-semibold uppercase">{{ createNewTitle(pageName) }}</span>
+    </button>
+    <button 
+        class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 border flex items-center h-[52px] p-3.5 px-8 rounded-[15px] justify-center"
+        *ngIf="isMyClubsActive && myClubs?.title_es"
+        [ngStyle]="{'border-color': buttonColor}"
+        (click)="goToDashboard()"
+    >
+        <span class="text-md font-semibold uppercase" [ngStyle]="{'color': buttonColor}">{{ getMyClubsTitle() }}</span>
+    </button>
 </div>
 <div class="pt-6" *ngIf="!parentComponent">
-    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-        <div class="relative mb-6" *ngIf="searchByKeyword">
-            <div class="flex items-center w-full max-w-full">
-                <div class="flex-auto">
-                    <app-search
-                        [searchText]="searchText"
-                        [placeholderText]="placeholderText"
-                        [buttonColor]="buttonColor"
-                        (onEnterPressed)="handleSearchChanged($event)"
-                        (doSearch)="handleSearchChanged($event)"
-                    >
-                    </app-search>
-                </div>
-                <div class="px-5">
-                    <app-icon-filter 
-                        [list]="list"
-                        (filterList)="filteredCity($event)"
-                    >
-                    </app-icon-filter>
-                </div>
-            </div>
-        </div>
-        <div class="relative pt-1.5 mb-6" *ngIf="categoryFilterActive">
-            <app-button-group class="relative flex justify-end"
+    <div class="flex flex-wrap items-center w-full max-w-full">
+        <div class="w-full sm:w-full md:w-1/4 lg:w-1/4">
+            <app-search
+                [searchText]="searchText"
+                [placeholderText]="placeholderText"
                 [buttonColor]="buttonColor"
-                [buttonList]="buttonList"
-                [subcategoryList]="subButtonList"
-                (onButtonClick)="filteredCategory($event)"
-                (onSubButtonClick)="filteredSubcategory($event)"
+                (onEnterPressed)="handleSearchChanged($event)"
+                (doSearch)="handleSearchChanged($event)"
             >
-            </app-button-group>
+            </app-search>
+        </div>
+        <div class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 mt-4 sm:mt-4 md:mt-0 lg:mt-0">
+            <app-filter
+                [buttonList]="buttonList"
+                [buttonColor]="buttonColor"
+                [list]="list"
+                (filterList)="filteredCity($event)"
+                (onButtonClick)="filteredCategory($event)"
+            ></app-filter>
         </div>
     </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-4 gap-8 py-8">
-    <div class="h-auto w-full max-w-full rounded-lg hover:cursor-pointer hidden md:block lg:block" 
-        [ngClass]="{'col-span-2': isMobile}"
-        *ngIf="canCreateGroup && !parentComponent" [ngStyle]="{'background-color': buttonColor}">
-        <div class="h-full flex flex-col justify-center items-center min-h-[286px]" (click)="handleCreateRoute()">
-            <svg class="w-16 h-16 mb-6 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 5.757v8.486M5.757 10h8.486M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-            </svg>
-            <div class="text-white text-center text-xl">{{ createNewTitle(pageName) }}</div>
-        </div>
-    </div>
-    <ng-container *ngFor="let group of filteredGroup">
-        <div class="image-overlay relative h-auto max-w-full rounded-lg hover:cursor-pointer relative" [routerLink]="['/clubs/details/', group?.id]">
-            <img class="h-auto w-full max-w-full rounded-lg" [ngSrc]="apiPath + '/get-image-group/' + group.image" [alt]="getGroupTitle(group)" width="296" height="286">
-            <div class="flex image-overlay-content text-white leading-6 text-base font-semibold">
-               <ng-container *ngIf="group?.private">
-                    <svg class="w-5 h-5 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.5 8V4.5a3.5 3.5 0 1 0-7 0V8M8 12v3M2 8h12a1 1 0 0 1 1 1v9a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1Z"/>
-                    </svg>
-                </ng-container>{{ getGroupTitle(group) }}
+<div class="w-full max-w-full sm:w-full sm:max-w-full md:w-10/12 md:max-w-10/12 lg:w-10/12 lg:max-w-10/12">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 py-8">
+        <ng-container *ngFor="let group of filteredGroup | paginate: {itemsPerPage: 8, currentPage: p}">
+            <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] lg:max-h-[267px] flex flex-col items-center bg-white rounded-lg shadow md:flex-row md:max-w-xl"
+                [routerLink]="['/clubs/details/', group?.id]"
+            >
+                <img class="object-cover rounded-t-lg h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] w-full max:w-full sm:w-full sm:max:w-full md:w-[244px] md:max:w-[244px] lg:w-[244px] lg:max:w-[244px] md:rounded-none md:rounded-l-lg" 
+                    *ngIf="group?.image" [ngSrc]="apiPath + '/get-image-group/' + group.image" [alt]="group?.title" width="192" height="256">
+                <div class="w-full flex-col justify-evenly items-center px-8 py-4 leading-normal h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px]"
+                    [ngStyle]="{'background-color': '#F8F4F4'}"
+                >
+                    <h5 class="mb-4 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ group?.title }}</h5>
+                    <div class="uppercase h-[52px] border rounded-[10px] cursor-pointer w-44 p-3 text-center text-base font-bold mb-6"
+                        [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}"
+                    >
+                        {{ 'club-details.join' | translate }}
+                    </div>
+                    <div class="flex text-sm mb-6">
+                        <span>{{ group?.category }}</span> <span class="px-3">•</span> <span>{{ group?.city }}</span>
+                    </div>
+                    <div class="flex">
+                        <svg class="w-6 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 2-8.4 7.05a1 1 0 0 1-1.2 0L1 2m18 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1m18 0v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2"/>
+                        </svg>
+                        <svg class="w-6 h-4 ml-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 12.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/>
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 3h-2l-.447-.894A2 2 0 0 0 12.764 1H7.236a2 2 0 0 0-1.789 1.106L5 3H3a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V5a2 2 0 0 0-2-2Z"/>
+                        </svg>
+                    </div>
+                </div>
             </div>
-        </div>
-    </ng-container>
+        </ng-container>
+    </div> 
+    <div *ngIf="filteredGroup?.length > 0" class="text-center">
+        <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
+    </div>
 </div>

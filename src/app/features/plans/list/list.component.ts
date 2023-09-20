@@ -12,7 +12,8 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { PlansService } from "@features/services";
 import { PlansCalendarComponent } from "../calendar/calendar.component";
 import { SearchComponent } from "@share/components/search/search.component";
-import { ButtonGroupComponent, IconFilterComponent } from "@share/components";
+import { FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
+import { NgxPaginationModule } from "ngx-pagination";
 import moment from "moment";
 import get from "lodash/get";
 
@@ -24,9 +25,11 @@ import get from "lodash/get";
     TranslateModule,
     PlansCalendarComponent,
     SearchComponent,
-    ButtonGroupComponent,
     IconFilterComponent,
+    FilterComponent,
+    PageTitleComponent,
     NgOptimizedImage,
+    NgxPaginationModule,
   ],
   templateUrl: "./list.component.html",
 })
@@ -163,6 +166,10 @@ export class PlansListComponent {
   list: any;
   planCategoriesMapping: any = [];
   planSubcategoriesMapping: any = [];
+  pageDescription: any;
+  title: any;
+  subtitle: any;
+  p: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -450,6 +457,7 @@ export class PlansListComponent {
           this.mapDashboard(data?.settings?.dashboard);
           this.initializeIconFilterList(this.cities);
 
+          this.mapPageTitle();
           this.types = data?.types;
           this.mapCategories(data?.plan_categories);
           this.subcategories = data?.plan_subcategories;
@@ -465,6 +473,7 @@ export class PlansListComponent {
     this.plansFeature = features?.find((f) => f.feature_id == 1);
     this.featureId = this.plansFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.plansFeature);
+    this.pageDescription = this.getFeatureDescription(this.plansFeature);
 
     let clubFeature = features?.find((f) => f.feature_id == 5 && f.status == 1);
     this.clubTitle = clubFeature ? this.getFeatureTitle(clubFeature) : "";
@@ -473,6 +482,11 @@ export class PlansListComponent {
       (f) => f.feature_id == 11 && f.status == 1
     );
     this.hasCourses = coursesFeature ? true : false;
+  }
+
+  mapPageTitle() {
+    this.title = this.view == 'joined' ? this.getMyActivitiesTitle() : this.pageName;
+    this.subtitle = this.pageDescription;
   }
 
   mapSubfeatures(subfeatures) {
@@ -582,6 +596,22 @@ export class PlansListComponent {
       : "";
   }
 
+  getFeatureDescription(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.description_en || feature.description_es
+        : this.language == "fr"
+        ? feature.description_fr || feature.description_es
+        : this.language == "eu"
+        ? feature.description_eu || feature.description_es
+        : this.language == "ca"
+        ? feature.description_ca || feature.description_es
+        : this.language == "de"
+        ? feature.description_de || feature.description_es
+        : feature.description_es
+      : "";
+  }
+
   mapCategories(plan_categories) {
     this.categories = this.types?.length > 0 ? plan_categories : [];
     this.categoryList = this.types?.length > 0 ? [] : plan_categories;
@@ -614,6 +644,14 @@ export class PlansListComponent {
   }
 
   formatPlans(plan_participants) {
+    let plans = this.plans?.map(plan => {
+      return {
+        ...plan,
+        excerpt: this.getPlanExcerpt(this.getPlanDescription(plan)),
+      }
+    })
+
+    this.plans = plans;
     if(this.view == 'joined') {
       this.plans = this.filterCreatedJoined(this.plans, plan_participants);
     }
@@ -645,6 +683,35 @@ export class PlansListComponent {
 
       return include;
     });
+
+    console.log(this.filteredPlan)
+  }
+
+  getPlanDescription(plan) {
+    return plan
+      ? this.language == "en"
+        ? plan.description_en || plan.description
+        : this.language == "fr"
+        ? plan.description_fr || plan.description
+        : this.language == "eu"
+        ? plan.description_eu || plan.description
+        : this.language == "ca"
+        ? plan.description_ca || plan.description
+        : this.language == "de"
+        ? plan.ldescription_de || plan.description
+        : plan.description
+      : "";
+  }
+
+  getPlanExcerpt(description) {
+    let charlimit = 100;
+    if (!description || description.length <= charlimit) {
+      return description;
+    }
+
+    let without_html = description.replace(/<(?:.|\n)*?>/gm, "");
+    let shortened = without_html.substring(0, charlimit) + "...";
+    return shortened;
   }
 
   filterCreatedJoined(plans, plan_participants) {
@@ -1441,7 +1508,7 @@ export class PlansListComponent {
       plan = "plans.event";
     }
     return `${this._translateService.instant(
-      "crm.createnew"
+      "dashboard.new"
     )} ${this._translateService.instant(plan)}`;
   }
 
@@ -2121,6 +2188,23 @@ export class PlansListComponent {
         ? this.featuredTextValueDe || this.featuredTextValue
         : this.featuredTextValue
       : this.featuredTextValue;
+  }
+
+  exitCalendarEventMode() {
+    this.selected = ''
+    this.calendarFilterMode = false
+    this.hasDateSelected = false
+    this.filterDate = ''
+    this.joinedPlan = false
+    this.initializePage()
+    this.notifyChild({
+        hasDateSelected: this.hasDateSelected,
+        joinedPlan: this.joinedPlan
+    })
+  }
+
+  notifyChild(params) {
+    this.childNotifier.next(params)
   }
 
   ngOnDestroy() {

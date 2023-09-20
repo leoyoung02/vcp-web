@@ -31,9 +31,11 @@ export class PlansCalendarComponent {
     @Input() admin2: any
     @Input() superAdmin: any
     @Input() canCreatePlan: any
+    @Input() calendarFilterMode: any
     @Input() notifier: Subject<boolean> | undefined
     @Output() handleCalendarDateChange = new EventEmitter()
     @Output() handleJoinChange = new EventEmitter()
+    @Output() handleExitCalendarFilter = new EventEmitter()
     
     apiPath: string = environment.api;
     user: any;
@@ -542,5 +544,9 @@ export class PlansCalendarComponent {
         return this.language == 'en' ? (event.title_en ? (event.title_en || event.title) : event.title) :
             (this.language == 'fr' ? (event.title_fr ? (event.title_fr || event.title) : event.title) : 
                 event.title)
+      }
+
+      handleExit() {
+        this.handleExitCalendarFilter.emit();
       }
 }

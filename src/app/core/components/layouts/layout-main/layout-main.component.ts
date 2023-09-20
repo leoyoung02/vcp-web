@@ -1228,6 +1228,43 @@ export class LayoutMainComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe((data) => {
             this.features = data[0] ? data[0] : [];
+            // Check if city agenda is activated, otherwise just add here for testing
+            let cityGuideFeature = this.features?.find((f) => f.id == 3);
+            if(cityGuideFeature?.id > 0) { } else {
+              this.features?.push({
+                app_image: "blog-icon.png",
+                app_path: "city-agenda-list",
+                description_ca: "Obtingueu més informació sobre els últims esdeveniments i mantingueu-vos actualitzats sobre el que està succeint.",
+                description_de: "Erfahren Sie mehr über die neuesten Veranstaltungen und bleiben Sie auf dem Laufenden.",
+                description_en: "Read these recommendations and feel at home!",
+                description_es: "¡Lee estas recomendaciones y siéntete como en casa!",
+                description_eu: "Lortu informazio gehiago azken ekitaldiei eta egon gertatzen ari denaren berri.",
+                description_fr: "En savoir plus sur les derniers événements et être au courant de ce qui se passe.",
+                entity_name: "Universidad Europea",
+                entity_type_name: "Company",
+                feature_name: "City Agenda",
+                feature_name_ca: "City Agenda",
+                feature_name_de: "City Agenda",
+                feature_name_es: "Contenidos",
+                feature_name_eu: "Udal Agenda",
+                feature_name_fr: "Ordre du jour de la ville",
+                id: 3,
+                image: "features_blog.jpg",
+                mapping_id: 182,
+                name: "Company",
+                name_ca: "City Agenda",
+                name_de: "City Agenda",
+                name_en: "City Guide",
+                name_es: "City Guide",
+                name_eu: "City Agenda",
+                name_fr: "Calendrier de la Ville",
+                sequence: 4
+              })
+              this.features = this.features?.sort((a, b) => {
+                return a.sequence - b.sequence;
+              });
+            }
+            
             let company_subfeatures = data[1] ? data[1]["subfeatures"] : [];
             let permissions = data[2] ? data[2]["permissions"] : [];
             let subfeatureMapping = data[3] ? data[3]["active"] : [];

@@ -11,7 +11,7 @@ import { Subject, takeUntil } from "rxjs";
 import { JobOffersService } from "@features/services";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ButtonGroupComponent, NoAccessComponent } from "@share/components";
+import { ButtonGroupComponent, NoAccessComponent, PageTitleComponent } from "@share/components";
 import {
   FormControl,
   FormGroup,
@@ -36,6 +36,7 @@ import get from "lodash/get";
     NgMultiSelectDropDownModule,
     EditorModule,
     ButtonGroupComponent,
+    PageTitleComponent,
     NoAccessComponent,
   ],
   templateUrl: "./edit.component.html",
@@ -78,6 +79,7 @@ export class JobOfferEditComponent {
   formSubmitted: boolean = false;
   job: any;
   status: boolean = false;
+  pageTitle: string = "";
 
   jobOfferForm: FormGroup = new FormGroup({
     title: new FormControl("", [Validators.required]),
@@ -196,6 +198,7 @@ export class JobOfferEditComponent {
       allowSearchFilter: true,
     };
     this.fetchJobOffersData();
+    this.pageTitle = this.id > 0 ? this._translateService.instant('job-offers.edityouroffer') : this._translateService.instant('job-offers.createyouroffer');
   }
 
   fetchJobOffersData() {

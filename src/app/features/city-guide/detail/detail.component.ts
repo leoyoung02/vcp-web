@@ -366,7 +366,7 @@ export class CityGuideDetailComponent {
         ...item,
         title: this.getCityGuideItemTitle(item),
         description: this.getCityGuideDescription(item),
-        image: `${environment.api}/get-image/${item?.image}`,
+        image: item?.image ? `${environment.api}/get-image/${item?.image}` : '',
         center,
         markers: this.getMarker(item, center),
         distance: item?.distance_from_city

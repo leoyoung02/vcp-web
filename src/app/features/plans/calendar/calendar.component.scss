@@ -37,20 +37,7 @@
         
         .calendar-body {
             position: relative;
-            height: 193px;
             padding-top: 12px;
-        }
-        
-        .calendar-body:after {
-            content: '';
-            width: 35px;
-            height: 4px;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-            bottom: 10px;
-            background: #c8c7cc;
-            border-radius: 2px;
         }
         
         .grid {
@@ -110,6 +97,10 @@
             align-items: center;
         }
 
+        .calendar-weekday {
+            margin-left: -6px !important;
+        }
+
         .calendar-date {
             margin-left: 6px;
             margin-right: -6px;
@@ -117,8 +108,8 @@
         
         .currentDate {
             float: left;
-            width: 23px;
-            height: 23px;
+            width: 35px;
+            height: 35px;
             border-radius: 50%;
             display: flex;
             align-items: center;
@@ -189,6 +180,10 @@
     .options {
         display: flex;
         padding: 8px 0 20px 15px;
+        margin-top: 95px !important;
+        padding-left: 35px !important;
+        padding-bottom: 0px !important;
+        margin-bottom: 0px !important;
     
         .plan {
             width: 100%;

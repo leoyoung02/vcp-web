@@ -11,8 +11,9 @@ import { environment } from "@env/environment";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { ClubsService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
-import { ButtonGroupComponent, IconFilterComponent } from "@share/components";
+import { FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
 import get from "lodash/get";
+import { NgxPaginationModule } from "ngx-pagination";
 
 @Component({
   selector: "app-clubs-list",
@@ -21,10 +22,12 @@ import get from "lodash/get";
     CommonModule,
     TranslateModule,
     SearchComponent,
-    ButtonGroupComponent,
     IconFilterComponent,
+    PageTitleComponent,
+    FilterComponent,
     NgOptimizedImage,
     RouterModule,
+    NgxPaginationModule,
   ],
   templateUrl: "./list.component.html",
 })
@@ -82,6 +85,10 @@ export class ClubsListComponent {
   myClubs: any;
   search: any;
   selectedCity: any;
+  title: any;
+  subtitle: any;
+  pageDescription: any;
+  p: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -169,6 +176,8 @@ export class ClubsListComponent {
           this.mapDashboard(data?.settings?.dashboard);
           this.initializeIconFilterList(this.cities);
 
+          this.mapPageTitle();
+
           this.supercategoriesList = data?.club_categories;
           this.mapSubcategories(data?.club_subcategories);
           this.clubCategoryMapping = data?.club_category_mapping;
@@ -182,10 +191,16 @@ export class ClubsListComponent {
       );
   }
 
+  mapPageTitle() {
+    this.title = this.view == 'joined' ? this.getMyClubsTitle() : this.pageName;
+    this.subtitle = this.pageDescription;
+  }
+
   mapFeatures(features) {
     this.clubsFeature = features?.find((f) => f.feature_id == 5);
     this.featureId = this.clubsFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.clubsFeature);
+    this.pageDescription = this.getFeatureDescription(this.clubsFeature);
   }
 
   mapSubfeatures(subfeatures) {
@@ -258,6 +273,22 @@ export class ClubsListComponent {
           feature.name_es ||
           feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
+      : "";
+  }
+
+  getFeatureDescription(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.description_en || feature.description_es
+        : this.language == "fr"
+        ? feature.description_fr || feature.description_es
+        : this.language == "eu"
+        ? feature.description_eu || feature.description_es
+        : this.language == "ca"
+        ? feature.description_ca || feature.description_es
+        : this.language == "de"
+        ? feature.description_de || feature.description_es
+        : feature.description_es
       : "";
   }
 
@@ -493,6 +524,17 @@ export class ClubsListComponent {
       this.groups = clubs;
     }
 
+    if(this.groups?.length > 0) {
+      let dt = this.groups?.map(item => {
+        return {
+          ...item,
+          title: this.getGroupTitle(item),
+          category: this.getCategory(item),
+        }
+      })
+      this.groups = dt;
+    }
+
     this.groups =
       this.groups?.length > this.limit && this.parentComponent
         ? this.groups?.slice(0, this.limit)
@@ -536,6 +578,33 @@ export class ClubsListComponent {
 
     this.filteredGroup = this.sortAlphabetically(this.filteredGroup);
     this.allClubs = this.filteredGroup;
+  }
+
+  getCategory(club) {
+    let category = ''
+    let club_category = this.clubCategoryMapping?.filter(cc => {
+      return cc.fk_group_id == club.id
+    })
+
+    if(club_category?.length > 0) {
+      let mapped = club_category?.map(cc => {
+        let category = this.supercategoriesList?.filter(c => {
+          return cc.fk_supercategory_id == c.id
+        })
+        let title = category?.length > 0 ? this.getCategoryTitle(category[0]) : ''
+        
+        return {
+          ...cc,
+          title,
+        }
+      })
+
+      if(mapped?.length > 0) {
+        category = mapped.map( (data) => { return data.title }).join(', ')
+      }
+    }
+
+    return category
   }
 
   filterCreatedJoined(clubs, club_members) {

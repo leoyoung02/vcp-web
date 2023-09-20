@@ -15,7 +15,7 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import { BreadcrumbComponent, ToastComponent } from "@share/components";
+import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import {
   LocalService,
   ExcelService,
@@ -48,6 +48,7 @@ declare const addeventatc: any;
     FormsModule,
     MatSnackBarModule,
     BreadcrumbComponent,
+    PageTitleComponent,
     NgOptimizedImage,
     SafeContentHtmlPipe,
     ToastComponent,
@@ -274,6 +275,16 @@ export class PlanDetailComponent {
   @ViewChild("modalbutton", { static: false }) modalbutton:
     | ElementRef
     | undefined;
+  pageDescription: any;
+  title: any;
+  subtitle: any;
+  featuredTitle: any;
+  planTruncatedDescription: any;
+  planExpandedDescription: boolean = false;
+  truncate: number = 200;
+  planDay: string = "";
+  planTime: string = "";
+  limitPlanParticipants: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -407,6 +418,8 @@ export class PlanDetailComponent {
     this.plansFeature = features?.find((f) => f.feature_id == 1);
     this.featureId = this.plansFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.plansFeature);
+    this.pageDescription = this.getFeatureDescription(this.plansFeature);
+    this.mapPageTitle();
 
     let clubFeature = features?.find((f) => f.feature_id == 5 && f.status == 1);
     this.clubTitle = clubFeature ? this.getFeatureTitle(clubFeature) : "";
@@ -418,6 +431,11 @@ export class PlanDetailComponent {
     this.membersTitle = membersFeature
       ? this.getFeatureTitle(membersFeature)
       : "";
+  }
+
+  mapPageTitle() {
+    this.title = this.pageName;
+    this.subtitle = this.pageDescription;
   }
 
   mapSubfeatures(data) {
@@ -571,6 +589,22 @@ export class PlanDetailComponent {
       : "";
   }
 
+  getFeatureDescription(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.description_en || feature.description_es
+        : this.language == "fr"
+        ? feature.description_fr || feature.description_es
+        : this.language == "eu"
+        ? feature.description_eu || feature.description_es
+        : this.language == "ca"
+        ? feature.description_ca || feature.description_es
+        : this.language == "de"
+        ? feature.description_de || feature.description_es
+        : feature.description_es
+      : "";
+  }
+
   initializeBreadcrumb() {
     this.level1Title = this.pageName;
     this.level2Title = "";
@@ -662,7 +696,25 @@ export class PlanDetailComponent {
           this.sanitizer.bypassSecurityTrustHtml(this.planDescription)
         );
       }
+
+      // Get excerpt
+      if(this.planDescription && this.planDescription.length > this.truncate) {
+        this.planTruncatedDescription = this.getExcerpt(this.planDescription);
+      } else {
+        this.planTruncatedDescription = this.planDescription;
+      }
     }
+  }
+
+  getExcerpt(description) {
+    let charlimit = this.truncate;
+    if (!description || description.length <= charlimit) {
+      return description;
+    }
+
+    let without_html = description.replace(/<(?:.|\n)*?>/gm, "");
+    let shortened = without_html.substring(0, charlimit) + "...";
+    return shortened;
   }
 
   getEventTitle(event) {
@@ -752,6 +804,7 @@ export class PlanDetailComponent {
   formatPlan(plan, user, ue_user) {
     this.user = user;
     this.plan = plan?.details;
+    this.featuredTitle = this.getFeaturedTitle();
     this.planCreator = plan?.created_by_user;
     if (this.userId) {
       this.userAliases = user?.user_alias;
@@ -786,6 +839,16 @@ export class PlanDetailComponent {
         .locale(this.language)
         .format("HH:mm");
 
+      this.planDay = moment
+        .utc(this.plan.plan_date)
+        .locale(this.language)
+        .format("D MMMM");
+
+      this.planTime = moment
+        .utc(this.plan.plan_date)
+        .locale(this.language)
+        .format("HH:mm") + " hr";
+
       var date = moment(
         this.plan.plan_date.replace("T", " ").replace(".000Z", "")
       );
@@ -813,6 +876,7 @@ export class PlanDetailComponent {
     this.zoomLink = this.plan.zoom_link;
 
     this.planParticipants = plan?.plan_participants;
+    this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
     if (this.plan?.event_category_id > 0) {
       this.getCategoryLabel()
     } else {
@@ -1024,6 +1088,30 @@ export class PlanDetailComponent {
     setTimeout(function () {
       addeventatc.refresh();
     }, 200);
+  }
+
+  getFeaturedTitle() {
+    return this.language == "en"
+      ? this.featuredTextValueEn
+        ? this.featuredTextValueEn || this.featuredTextValue
+        : this.featuredTextValue
+      : this.language == "fr"
+      ? this.featuredTextValueFr
+        ? this.featuredTextValueFr || this.featuredTextValue
+        : this.featuredTextValue
+      : this.language == "eu"
+      ? this.featuredTextValueEu
+        ? this.featuredTextValueEu || this.featuredTextValue
+        : this.featuredTextValue
+      : this.language == "ca"
+      ? this.featuredTextValueCa
+        ? this.featuredTextValueCa || this.featuredTextValue
+        : this.featuredTextValue
+      : this.language == "de"
+      ? this.featuredTextValueDe
+        ? this.featuredTextValueDe || this.featuredTextValue
+        : this.featuredTextValue
+      : this.featuredTextValue;
   }
 
   formatComments(comments) {
@@ -1379,6 +1467,7 @@ export class PlanDetailComponent {
         (response) => {
           this.plan = response.CompanyPlan;
           this.planParticipants = this.plan.CompanyPlanParticipants;
+          this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
           this.planParticipantCount = this.plan.CompanyPlanParticipants.length;
           this.joinedParticipant = this.isUserJoined(
             this.plan.CompanyPlanParticipants
@@ -1446,6 +1535,7 @@ export class PlanDetailComponent {
         (response) => {
           this.plan = response.CompanyGroupPlan;
           this.planParticipants = this.plan.Company_Group_Plan_Participants;
+          this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
           this.planParticipantCount =
             this.plan.Company_Group_Plan_Participants.length;
           this.joinedParticipant = this.isUserJoined(
@@ -1481,6 +1571,7 @@ export class PlanDetailComponent {
           });
         }
         this.planParticipants = plan_participants;
+        this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
         this.planParticipantCount = this.planParticipants?.length;
         this.joinedParticipant = this.isUserJoined(this.planParticipants);
         this.onSubmit = false;
@@ -1514,6 +1605,7 @@ export class PlanDetailComponent {
           });
         }
         this.planParticipants = plan_participants;
+        this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
         this.planParticipantCount = this.planParticipants?.length;
         this.joinedParticipant = this.isUserJoined(this.planParticipants);
         this.onSubmit = false;
@@ -2289,6 +2381,20 @@ export class PlanDetailComponent {
       );
       this.acceptText = "OK";
       setTimeout(() => (this.showConfirmationModal = true));
+    }
+  }
+
+  readMore() {
+    this.planExpandedDescription = true;
+    this.planTruncatedDescription = this.planDescription;
+  }
+
+  showLess() {
+    this.planExpandedDescription = false;
+    if(this.planDescription?.length > this.truncate) {
+      this.planTruncatedDescription = this.getExcerpt(this.planDescription);
+    } else {
+      this.planTruncatedDescription = this.planDescription;
     }
   }
 

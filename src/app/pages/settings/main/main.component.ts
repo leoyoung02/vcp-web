@@ -1420,7 +1420,6 @@ export class MainComponent {
 
   showContent(content, menu) {
     if (menu.value == "ManagementSection") {
-      console.log("Content: " + content);
       if (content == "Events") {
         this._router.navigate([`/settings/manage-list/plans`]);
       } else if (content == "Groups") {

@@ -12,8 +12,9 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { JobOffersService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
 import { DateAgoPipe } from "@lib/pipes";
-import { IconFilterComponent } from "@share/components";
+import { IconFilterComponent, PageTitleComponent } from "@share/components";
 import get from "lodash/get";
+import { NgxPaginationModule } from "ngx-pagination";
 
 @Component({
   selector: "app-job-offers-list",
@@ -23,7 +24,9 @@ import get from "lodash/get";
     TranslateModule,
     SearchComponent,
     IconFilterComponent,
-    DateAgoPipe
+    PageTitleComponent,
+    DateAgoPipe,
+    NgxPaginationModule,
   ],
   templateUrl: "./list.component.html",
 })
@@ -100,6 +103,11 @@ export class JobOffersListComponent {
   list: any[] = [];
   jobOfferAreasMapping: any = [];
   jobOfferApplicationsMapping: any = [];
+  pageDescription: any;
+  title: any;
+  subtitle: any;
+  companyName: any;
+  p: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -131,6 +139,7 @@ export class JobOffersListComponent {
     if (company && company[0]) {
       this.userEmailDomain = company[0].domain
       this.companyId = company[0].id
+      this.companyName = company[0].entity_name;
       this.primaryColor = company[0].primary_color
       this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color
       this.termsAndConditions = company[0].job_terms_and_conditions
@@ -192,6 +201,13 @@ export class JobOffersListComponent {
     this.jobOffersFeature = features?.find((f) => f.feature_id == 18);
     this.featureId = this.jobOffersFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.jobOffersFeature);
+    this.pageDescription = this.getFeatureDescription(this.jobOffersFeature);
+    this.mapPageTitle();
+  }
+
+  mapPageTitle() {
+    this.title =this.pageName;
+    this.subtitle = `${this.pageDescription} ${this.companyName}.`;
   }
 
   mapSubfeatures(subfeatures) {
@@ -246,6 +262,22 @@ export class JobOffersListComponent {
           feature.name_es ||
           feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
+      : "";
+  }
+
+  getFeatureDescription(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.description_en || feature.description_es
+        : this.language == "fr"
+        ? feature.description_fr || feature.description_es
+        : this.language == "eu"
+        ? feature.description_eu || feature.description_es
+        : this.language == "ca"
+        ? feature.description_ca || feature.description_es
+        : this.language == "de"
+        ? feature.description_de || feature.description_es
+        : feature.description_es
       : "";
   }
 
