@@ -45,7 +45,7 @@
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 gap-8 py-8">
     <div *ngIf="userId && showEventsCalendar && !parentComponent" 
-        class="w-full max-w-full sm:w-full sm:max-w-full md:w-[445px] md:max-w-[445px] lg:w-[445px] lg:max-w-[445px] rounded-lg py-4 shadow"
+        class="w-full max-w-full rounded-lg py-4 shadow"
         [ngStyle]="{'background-color': '#f8f4f4'}"
     >
         <app-plans-calendar
@@ -70,9 +70,9 @@
         </app-plans-calendar>
     </div>
     <ng-container *ngFor="let plan of filteredPlan | paginate: {itemsPerPage: 8, currentPage: p}">
-        <div class="bg-white rounded-lg w-full max-w-full sm:w-full sm:max-w-full md:w-[445px] md:max-w-[445px] lg:w-[445px] lg:max-w-[445px] hover:cursor-pointer" (click)="handleDetailsRoute(plan)">
+        <div class="bg-white rounded-lg w-full max-w-full hover:cursor-pointer" (click)="handleDetailsRoute(plan)">
             <div class="relative">
-                <img class="rounded-lg object-cover w-full max-w-full sm:w-full sm:max-w-full md:w-[445px] md:max-w-[445px] lg:w-[445px] lg:max-w-[445px] h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]" 
+                <img class="rounded-lg object-cover w-full h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]" 
                 width="445" height="300"
                 *ngIf="plan?.image" [ngSrc]="apiPath + plan.path + plan.image" 
                 [alt]="getEventTitle(plan)" [alt]="getEventTitle(plan)" />
@@ -104,7 +104,7 @@
             </div>
             <div>
                 <div class="text-sm font-semibold">
-                    <span>{{ 'category.free' | translate }}</span> <span class="px-3">•</span> <span>{{ plan?.address }}</span>
+                    <span>{{ 'category.free' | translate }}</span><span>{{ plan?.address ? (' • ' + plan?.address) : '' }}</span>
                 </div>
             </div>
         </div>

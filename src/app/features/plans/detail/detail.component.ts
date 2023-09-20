@@ -847,7 +847,7 @@ export class PlanDetailComponent {
       this.planTime = moment
         .utc(this.plan.plan_date)
         .locale(this.language)
-        .format("HH:mm") + " hr";
+        .format("HH:mm A");
 
       var date = moment(
         this.plan.plan_date.replace("T", " ").replace(".000Z", "")

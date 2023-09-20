@@ -534,3 +534,15 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
     width: 90% !important;
     border-radius: 30px;
 }
+
+.addeventatc .addeventatc_icon {
+    display: none;
+}
+
+.flex-gap-row {
+    margin: 0 -15px;
+}
+
+.flex-gap-col {
+    padding: 0 15px;
+}

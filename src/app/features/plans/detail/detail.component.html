@@ -1,4 +1,3 @@
-
 <div class="hidden sm:hidden md:block lg:block">
     <app-breadcrumb
         [level1Title]="level1Title"
@@ -44,11 +43,11 @@
     </button>
 </div>
 <div class="py-12">
-    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row">
-        <div class="relative mr-0 sm:mr-0 md:mr-8 lg:mr-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-0 sm:gap-8 md:gap-8 lg:gap-8 py-8">
+        <div class="relative mr-0 sm:mr-0 md:mr-8 lg:mr-83">
             <img 
                 *ngIf="plan?.image"
-                class="object-cover rounded-lg w-full sm:w-full md:w-[520px] lg:w-[520px] max-w-full md:max-w-full lg:max-w-[520px] h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[698px] md:max-h-[698px] lg:h-[698px] lg:max-h-[698px]" 
+                class="object-cover rounded-lg w-full max-w-full h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[698px] md:max-h-[698px] lg:h-[698px] lg:max-h-[698px]" 
                 [ngSrc]="apiPath + plan?.path + plan?.image" 
                 [alt]="getEventTitle(plan)" 
                 width="520" 
@@ -72,7 +71,7 @@
             </div>
         </div>
         <div class="w-full">
-            <div class="mt-4 w-full sm:w-full md:w-8/12 lg:w-8/12">
+            <div class="mt-4 w-full max-w-full">
                 <div class="flex flex-col">
                     <div [innerHtml]="planTruncatedDescription"></div>
                     <ng-container *ngIf="planDescription?.length > truncate">
@@ -103,8 +102,23 @@
                         <div *ngIf="plan?.meeting_point" class="capitalize font-semibold">{{ plan?.meeting_point }}</div>
                     </div>
                 </div>
-                <div class="flex justify-between">
-                    <div *ngIf="joinStatusChecked" class="flex justify-between items-center">
+                <div class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
+                    <div *ngIf="joinStatusChecked && !isExternalRegistration &&
+                        (
+                            (!joinedParticipant
+                            && plan?.private
+                            && pendingRequest
+                            && !showOption
+                            && plan?.plan_date >= today) ||
+                            (userId && ((!joinedParticipant
+                            && !plan?.private
+                            && (plan?.plan_date >= today || !isPastEvent)
+                            && !activateWaitingList) || (plan?.private && !joinedParticipant && speedMember)
+                            || (plan?.private && showOption && !joinedParticipant && (plan?.plan_date >= today || !isPastEvent)))) ||
+                            (waitingListActive && plan?.waiting_list == 1 && activateWaitingList && !joinedParticipant)
+                        )
+                    " 
+                        class="w-full max-w-full flex justify-between items-center flex-gap-col">
                         <ng-container *ngIf="!isExternalRegistration">
                             <button
                                 *ngIf="!joinedParticipant
@@ -112,7 +126,7 @@
                                     && pendingRequest
                                     && !showOption
                                     && plan?.plan_date >= today"
-                                    class="btn w-full max-w-full sm:w-full sm:max-w-full md:w-[310px] md:max-w-[310px] lg:w-[310px] lg:max-w-[310px] text-white text-base uppercase font-semibold"
+                                    class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold"
                                 [ngStyle]="{
                                     'background-color': buttonColor
                                 }"
@@ -127,7 +141,7 @@
                                     && (plan?.plan_date >= today || !isPastEvent)
                                     && !activateWaitingList) || (plan?.private && !joinedParticipant && speedMember)
                                     || (plan?.private && showOption && !joinedParticipant && (plan?.plan_date >= today || !isPastEvent)))"
-                                class="btn w-full max-w-full sm:w-full sm:max-w-full md:w-[310px] md:max-w-[310px] lg:w-[310px] lg:max-w-[310px] text-white text-base uppercase font-semibold"
+                                class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold"
                                 [ngStyle]="{
                                     'background-color': buttonColor
                                 }"
@@ -139,7 +153,7 @@
                             <ng-container *ngIf="waitingListActive && plan?.waiting_list == 1">
                                 <button
                                     *ngIf="activateWaitingList && !joinedParticipant"
-                                    class="btn w-full max-w-full sm:w-full sm:max-w-full md:w-[310px] md:max-w-[310px] lg:w-[310px] lg:max-w-[310px] text-white text-base uppercase font-semibold"
+                                    class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold"
                                     [ngStyle]="{
                                         'background-color': isInWaitingList ? '#dc3545' : buttonColor
                                     }"
@@ -158,50 +172,54 @@
                                 </button>
                             </ng-container>
                         </ng-container>
-                        <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between items-center mr-4" 
-                            *ngIf="joinedParticipant && (plan?.plan_date >= today || !isPastEvent)">
-                            <div class="flex items-center mr-4 bg-white rounded-lg w-full">
-                                <img class="w-6 h-6 object-fit mr-4" src="./assets/images/new-design/icons/check.png">
-                                <span class="text-sm uppercase font-semibold">{{ 'plan-details.youjoined' | translate }}</span>
-                            </div>
-                            <button
-                                class="btn w-2 text-sm text-white p-0"
-                                (click)="handleLeave()"
-                                [disabled]="onSubmit"
-                                [ngStyle]="{'background-color': buttonColor}"
-                            >
-                                <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"/>
-                                </svg>
-                            </button>
-                        </div>
                     </div>
-                    <div title="Add to Calendar" class="addeventatc add-calendar rounded-lg" *ngIf="userId">
-                        <span class="add uppercase" [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}">{{ 'plan-details.addtocalendar' | translate }}</span>
-                        <span class="start">{{ calendarStartDate | date:'MM/d/yyyy'}} {{calendarStartDate | date:'HH:mm' }}</span>
-                        <span *ngIf="calendarEndDate" class="end">{{ calendarEndDate | date:'MM/d/yyyy'}} {{calendarEndDate | date:'HH:mm' }}</span>
-                        <span class="timezone">Europe/Madrid</span>
-                        <span class="title">{{ plan?.title }}</span>
-                        <span class="description" [innerHtml]="getEventDescription() | safeContentHtml: 'html'"></span>
-                        <span class="location" *ngIf="canShowAddress && plan && getAddress(plan)">{{ getAddress(plan) }}</span>
+                    <div class="ml-4 w-full max-w-full flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between items-center" 
+                        *ngIf="joinedParticipant && (plan?.plan_date >= today || !isPastEvent)">
+                        <div class="flex items-center justify-center sm:justify-center md:justify-normal lg:justify-normal mr-4 bg-white rounded-lg w-full">
+                            <img class="w-6 h-6 object-fit mr-4" src="./assets/images/new-design/icons/check.png">
+                            <span class="text-base uppercase font-semibold">{{ 'plan-details.youjoined' | translate }}</span>
+                        </div>
+                        <button
+                            class="btn w-2 text-base text-white p-0 h-[52px]"
+                            (click)="handleLeave()"
+                            [disabled]="onSubmit"
+                            [ngStyle]="{'background-color': buttonColor}"
+                        >
+                            <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"/>
+                            </svg>
+                        </button>
+                    </div>
+                    <div class="w-full max-w-full flex-gap-col mt-4 sm:mt-4 md:mt-0 lg:mt-0">
+                        <div title="Add to Calendar" class="w-full max-w-full text-center addeventatc add-calendar rounded-lg" *ngIf="userId">
+                            <span class="add text-base uppercase" [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}">{{ 'plan-details.addtocalendar' | translate }}</span>
+                            <span class="start">{{ calendarStartDate | date:'MM/d/yyyy'}} {{calendarStartDate | date:'HH:mm' }}</span>
+                            <span *ngIf="calendarEndDate" class="end">{{ calendarEndDate | date:'MM/d/yyyy'}} {{calendarEndDate | date:'HH:mm' }}</span>
+                            <span class="timezone">Europe/Madrid</span>
+                            <span class="title">{{ plan?.title }}</span>
+                            <span class="description" [innerHtml]="getEventDescription() | safeContentHtml: 'html'"></span>
+                            <span class="location" *ngIf="canShowAddress && plan && getAddress(plan)">{{ getAddress(plan) }}</span>
+                        </div>
                     </div>
                 </div>
-                <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row my-12 items-center" *ngIf="plan?.show_attendee">
-                    <div class="mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0">
-                        <div class="flex flex-wrap">
-                            <ng-container *ngFor="let member of limitPlanParticipants; let i = index">
-                                <img
-                                    *ngIf="member?.image"
-                                    class="rounded-full" 
-                                    [ngClass]="{'-ml-6': i > 0}"
-                                    width="55"
-                                    height="55"
-                                    [ngSrc]="apiPath + '/' + member.image"
-                                />
-                            </ng-container>
+                <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row my-12 items-center">
+                    <ng-container  *ngIf="plan?.show_attendee && limitPlanParticipants?.length > 0">
+                        <div class="mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0">
+                            <div class="flex flex-wrap">
+                                <ng-container *ngFor="let member of limitPlanParticipants; let i = index">
+                                    <img
+                                        *ngIf="member?.image"
+                                        class="rounded-full" 
+                                        [ngClass]="{'-ml-6': i > 0}"
+                                        width="55"
+                                        height="55"
+                                        [ngSrc]="apiPath + '/' + member.image"
+                                    />
+                                </ng-container>
+                            </div>
                         </div>
-                    </div>
-                    <div>{{ planParticipantCount }} {{ planParticipantCount > 1 ? ('plan-details.attendees' | translate) : ('plan-details.attendee' | translate) }}</div>
+                        <div>{{ planParticipantCount }} {{ planParticipantCount > 1 ? ('plan-details.attendees' | translate) : ('plan-details.attendee' | translate) }}</div>
+                    </ng-container>
                 </div>
                 <div class="flex">
                     <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">

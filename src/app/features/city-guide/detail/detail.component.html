@@ -9,7 +9,7 @@
     />
 </div>
 <div class="py-10">
-    <div class="w-full sm:w-full md:w-[941px] lg:w-[941px]">
+    <div class="w-full max-w-full">
         <div class="text-4xl font-semibold">{{ cityGuideTitle }}</div>
         <div class="text-sm opacity-60 my-4">{{ cityGuideExcerpt }}</div>
         <!-- <div *ngIf="superAdmin || cityGuideOwner || canCreate" class="flex mt-3 sm:mt-3 md:mt-0 lg:mt-0">
@@ -47,7 +47,7 @@
         </div>
         <img 
             *ngIf="cityGuideImage"
-            class="rounded-[30px] object-cover object-top w-full sm:w-full md:w-[941px] lg:w-[941px] max-w-full md:max-w-full lg:max-w-[941px] sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
+            class="rounded-[30px] object-cover object-top w-full max-w-full sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
             width="941"
             height="382"
             [ngSrc]="cityGuideImage"
@@ -64,13 +64,13 @@
                     <div class="col-span-1 mb-4 sm:mb-4 md:mb-0 lg:mb-0" *ngIf="item?.image">
                         <img 
                             *ngIf="item?.image"
-                            class="rounded-[30px] object-cover object-top w-full sm:w-full md:w-[345px] lg:w-[345px] max-w-full md:max-w-full lg:max-w-[345px] sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
+                            class="rounded-[30px] object-cover object-top w-full max-w-full sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
                             width="345"
                             height="382"
                             [ngSrc]="item?.image"
                         />
                     </div>
-                    <div class="col-span-2 -ml-8 sm:-ml-8 md:ml-0 lg:ml-0sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
+                    <div class="col-span-2 -ml-8 sm:-ml-8 md:ml-0 lg:ml-0 sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
                         *ngIf="item?.latitude && item?.longitude"
                     >
                         <google-map [height]="382" [center]="item?.center">

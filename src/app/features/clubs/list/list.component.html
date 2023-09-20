@@ -43,24 +43,25 @@
         </div>
     </div>
 </div>
-<div class="w-full max-w-full sm:w-full sm:max-w-full md:w-10/12 md:max-w-10/12 lg:w-10/12 lg:max-w-10/12">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 py-8">
+<div class="w-full max-w-full">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-evenly relative h-full max-h-full gap-8 py-8">
         <ng-container *ngFor="let group of filteredGroup | paginate: {itemsPerPage: 8, currentPage: p}">
-            <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] lg:max-h-[267px] flex flex-col items-center bg-white rounded-lg shadow md:flex-row md:max-w-xl"
+            <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] lg:max-h-[267px] flex flex-col items-center bg-white rounded-lg shadow md:flex-row"
                 [routerLink]="['/clubs/details/', group?.id]"
             >
-                <img class="object-cover rounded-t-lg h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] w-full max:w-full sm:w-full sm:max:w-full md:w-[244px] md:max:w-[244px] lg:w-[244px] lg:max:w-[244px] md:rounded-none md:rounded-l-lg" 
-                    *ngIf="group?.image" [ngSrc]="apiPath + '/get-image-group/' + group.image" [alt]="group?.title" width="192" height="256">
-                <div class="w-full flex-col justify-evenly items-center px-8 py-4 leading-normal h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px]"
+                <img class="border object-cover rounded-t-lg h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] w-full max:w-full md:rounded-none md:rounded-l-lg" 
+                    *ngIf="group?.image" [ngSrc]="apiPath + '/get-image-group/' + group.image" [alt]="group?.title" width="192" height="256"
+                    [ngStyle]="{'border-color': '#F8F4F4'}">
+                <div class="w-full flex flex-col justify-evenly px-8 py-4 leading-normal h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px]"
                     [ngStyle]="{'background-color': '#F8F4F4'}"
                 >
-                    <h5 class="mb-4 text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ group?.title }}</h5>
-                    <div class="uppercase h-[52px] border rounded-[10px] cursor-pointer w-44 p-3 text-center text-base font-bold mb-6"
+                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ group?.title }}</h5>
+                    <div class="uppercase h-[52px] border rounded-[10px] cursor-pointer w-44 p-3 text-center text-base font-bold"
                         [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}"
                     >
                         {{ 'club-details.join' | translate }}
                     </div>
-                    <div class="flex text-sm mb-6">
+                    <div class="flex text-sm">
                         <span>{{ group?.category }}</span> <span class="px-3">•</span> <span>{{ group?.city }}</span>
                     </div>
                     <div class="flex">

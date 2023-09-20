@@ -26,8 +26,8 @@
         </div>
     </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 py-8">
-    <div *ngFor="let offer of jobOffers | paginate: {itemsPerPage: 8, currentPage: p}" class="hover:cursor-pointer w-full max-w-full bg-white rounded-lg dark:bg-gray-800 dark:border-gray-700" 
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 py-8">
+    <div *ngFor="let offer of jobOffers | paginate: {itemsPerPage: 12, currentPage: p}" class="hover:cursor-pointer w-full max-w-full bg-white rounded-lg dark:bg-gray-800 dark:border-gray-700" 
         (click)="handleDetailsRoute(offer)">
         <div class="flex h-full">
             <div class="w-4 rounded-l-lg" [ngStyle]="{'background-color': buttonColor}">&nbsp;</div>
