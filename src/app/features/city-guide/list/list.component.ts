@@ -285,6 +285,10 @@ export class CityGuideListComponent {
       let likes = data?.city_guide_likes?.filter((g) => {
         return g.object_id == guide.id;
       });
+      let limit_likes = likes
+      if(likes?.length > 5) {
+        limit_likes = likes.slice(0, 5)
+      }
 
       return {
         ...guide,
@@ -293,7 +297,7 @@ export class CityGuideListComponent {
         image: `${environment.api}/get-image/${guide.image}`,
         truncated_description: this.getExcerpt(description),
         excerpt: this.getCityGuideExcerpt(guide),
-        likes: this.formatLikes(likes, guide),
+        likes: this.formatLikes(limit_likes, guide),
         likes_text:
           likes?.length > 0
             ? `${likes?.length}+ ${this._translateService.instant(

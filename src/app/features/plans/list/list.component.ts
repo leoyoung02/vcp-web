@@ -2132,7 +2132,7 @@ export class PlansListComponent {
   }
 
   getMyActivitiesTitle() {
-    return this.language == "en"
+    return this.myActivities ? (this.language == "en"
       ? this.myActivities.title_en
         ? this.myActivities.title_en || this.myActivities.title_es
         : this.myActivities.title_es
@@ -2152,7 +2152,7 @@ export class PlansListComponent {
       ? this.myActivities.title_de
         ? this.myActivities.title_de || this.myActivities.title_es
         : this.myActivities.title_es
-      : this.myActivities.title_es;
+      : this.myActivities.title_es) : '';
   }
 
   handleDetailsRoute(plan) {

@@ -17,7 +17,7 @@
                 </div>
             </div>
             <div class="absolute inset-0 flex items-end justify-start pb-3 pl-4 text-sm text-white font-semibold">
-                <span>{{ plan1Data?.address ? (plan1Data?.address + ' • ') : '' }}</span> <span class="px-3">•</span> <span>{{ 'category.free' | translate }}</span>
+                <span>{{ plan1Data?.address }}</span><span *ngIf="plan1Data?.address" class="px-3">•</span><span>{{ 'category.free' | translate }}</span>
             </div>
             <div *ngIf="plan1Data?.credits == 1" class="absolute inset-0 flex items-start justify-end pt-3 pr-4 text-sm text-white font-semibold">
                 <div class="flex py-1.5 px-3 items-center rounded-lg" [ngStyle]="{'background-color': buttonColor}">
@@ -47,7 +47,7 @@
                 </div>
             </div>
             <div class="absolute inset-0 flex items-end justify-start pb-3 pl-4 text-sm text-white font-semibold">
-                <span>{{ plan2Data?.address ? (plan2Data?.address + ' • ') : '' }}</span><span>{{ 'category.free' | translate }}</span>
+                <span>{{ plan2Data?.address }}</span><span *ngIf="plan2Data?.address" class="px-3">•</span><span>{{ 'category.free' | translate }}</span>
             </div>
         </div>
     </div> 
@@ -69,7 +69,7 @@
                 </div>
             </div>
             <div class="absolute inset-0 flex items-end justify-start pb-3 pl-4 text-sm text-white font-semibold">
-                <span>{{ plan3Data?.address ? (plan3Data?.address + ' • ') : '' }}</span><span>{{ 'category.free' | translate }}</span>
+                <span>{{ plan3Data?.address }}</span><span *ngIf="plan3Data?.address" class="px-3">•</span><span>{{ 'category.free' | translate }}</span>
             </div>
         </div>
     </div> 

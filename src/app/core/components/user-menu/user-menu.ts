@@ -71,9 +71,9 @@ export class UserMenuComponent {
     }
 
     async ngOnInit() {
-      setTimeout(() => {
-        initFlowbite();
-      }, 500)
+      // setTimeout(() => {
+      //   initFlowbite();
+      // }, 500)
     }
 
     hasAccess(path) {
@@ -96,6 +96,14 @@ export class UserMenuComponent {
     logout(): void {
       this._authService.logout();
       this._router.navigate(["/auth/login"]);
+    }
+
+    toggleHover(event) {
+      if(event) {
+        setTimeout(() => {
+          initFlowbite();
+        }, 100)
+      }
     }
 
     ngOnDestroy() {

@@ -142,7 +142,7 @@
                 </div>
             </div>
             <div class="absolute inset-0 flex items-end justify-start pb-3 pl-4 text-sm text-white font-semibold">
-                <span>{{ plan1Data?.address ? (plan1Data?.address + ' • ') : '' }}</span><span>{{ 'category.free' | translate }}</span>
+                <span>{{ plan1Data?.address }}</span><span *ngIf="plan1Data?.address" class="px-3">•</span><span>{{ 'category.free' | translate }}</span>
             </div>
             <div *ngIf="plan1Data?.credits == 1" class="absolute inset-0 flex items-start justify-end pt-3 pr-4 text-sm text-white font-semibold">
                 <div class="flex py-1.5 px-3 items-center rounded-lg" [ngStyle]="{'background-color': buttonColor}">

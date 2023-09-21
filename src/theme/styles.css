@@ -546,3 +546,16 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
 .flex-gap-col {
     padding: 0 15px;
 }
+
+.main-sidebar {
+    height: 100%;
+    width: 85px;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #111;
+    transition: 0.5s;
+    overflow-x: hidden;
+    white-space: nowrap;
+}

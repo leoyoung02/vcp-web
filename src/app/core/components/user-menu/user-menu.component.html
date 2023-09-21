@@ -5,10 +5,12 @@
             *ngIf="imageSrc" 
             [src]="imageSrc" 
             [alt]="username" 
+            (mouseover)="toggleHover(true)" 
+            (mouseleave)="toggleHover(false)"
             data-popover-target="popover-user-profile" 
             data-popover-placement="bottom" 
         />
-        <button class="inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button"> 
+        <button [routerLink]="['/users/notifications/', userid]" class="inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button"> 
             <svg class="ml-2 w-6 h-6 text-slate-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 21">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C15 15.4 15 16 14.462 16H1.538C1 16 1 15.4 1 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 8 3.464ZM4.54 16a3.48 3.48 0 0 0 6.92 0H4.54Z"/>
             </svg>
@@ -21,7 +23,7 @@
     <div data-popover 
         id="popover-user-profile" 
         role="tooltip"
-        class="mt-2 absolute z-10 -ml-12 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 w-80 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+        class="mt-2 absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 w-80 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
         <div class="shadow">
             <div class="p-8 flex items-center rounded-t-lg">
                 <div>
@@ -91,7 +93,7 @@
                 <div 
                     class="text-white rounded-lg border border-white mt-8 mx-auto w-2/3 text-center p-2 uppercase text-sm font-semibold rounded-[15px] hover:cursor-pointer"
                     [ngStyle]="{'color': buttonColor, 'border-color': buttonColor}"
-                    routerLink="/settings/notifications"
+                    [routerLink]="['/users/notifications/', userid]"
                     *ngIf="notifications?.length > 0"
                   >
                     {{ 'notification-popup.viewall' | translate }}

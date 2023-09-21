@@ -41,8 +41,8 @@
     </div>
 </div>
 <div class="pt-6">
-    <ng-container *ngFor="let guide of cityGuides | paginate: {itemsPerPage: 5, currentPage: p}">
-        <div class="pb-20">
+    <div class="grid gap-12 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 pb-20">
+        <ng-container *ngFor="let guide of cityGuides | paginate: {itemsPerPage: 6, currentPage: p}"> 
             <div class="grid gap-12 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
                 <img 
                     class="rounded-[30px] object-cover object-top w-full max-w-full sm:h-auto md:h-[339px] lg:h-[339px] max-h-auto md:max-h-[339px] lg:max-h-[339px]"
@@ -58,7 +58,7 @@
                         </svg>
                     </div>
                     <div class="w-full max-w-full">
-                        <div class="text-4xl mb-4">{{ guide?.name }}</div>
+                        <div class="text-2xl mb-4">{{ guide?.name }}</div>
                         <div class="opacity-60">{{ guide?.excerpt }}</div>
                     </div>
                     <div class="w-full max-w-full border border-b-1 border-l-0 border-r-0 border-t-0 mb-8">&nbsp;</div>
@@ -66,7 +66,7 @@
                         <div class="flex items-center">
                             <div class="flex" *ngFor="let like of guide?.likes; let i = index;">
                                 <img 
-                                    class="bg-slate-300 object-cover rounded-full w-[62px] h-[62px] max-w-[62px] max-h-[62px] rounded-full" 
+                                    class="bg-slate-300 object-cover rounded-full w-[54px] h-[54px] max-w-[54px] max-h-[54px] rounded-full" 
                                     [ngClass]="{'-ml-8': i > 0}"
                                     width="62" 
                                     height="62" 
@@ -77,7 +77,7 @@
                         <div>
                             <button 
                                 (click)="goToDetails(guide)"
-                                class="font-bold uppercase inline-block h-[40px] ml-4 border text-sm px-12 py-2 font-semibold rounded-[10px] focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
+                                class="font-bold uppercase inline-block h-[40px] ml-4 border text-sm px-6 py-2 font-semibold rounded-[10px] focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
                                 [ngStyle]="{'border-color': buttonColor, color: buttonColor}"
                             >
                                 {{ 'chat.read' | translate }}
@@ -86,8 +86,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </ng-container>
+        </ng-container>
+    </div>
     <div *ngIf="cityGuides?.length > 0" class="text-center">
         <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
     </div>

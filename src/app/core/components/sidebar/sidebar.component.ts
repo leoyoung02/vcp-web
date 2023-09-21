@@ -81,6 +81,7 @@ export class SidebarComponent {
   @Input() myActivitiesTitle: any;
   @Input() myClubsTitle: any;
   @Input() buttonColor: any;
+  @Input() logoSource: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;
@@ -130,6 +131,7 @@ export class SidebarComponent {
   wallSelected: boolean = false;
   collapsed: boolean = true;
   search: any;
+  menuOpened: boolean = false;
 
   constructor(private _router: Router, private _authService: AuthService) {
     this.navigationSubscription = this._router.events.subscribe((e: any) => {
@@ -447,7 +449,7 @@ export class SidebarComponent {
   }
 
   getMenuTitle(menu) {
-    return this.language == "en"
+    let text = this.language == "en"
       ? menu.name
       : this.language == "fr"
       ? menu.name_FR || menu.name_ES
@@ -458,6 +460,11 @@ export class SidebarComponent {
       : this.language == "de"
       ? menu.name_DE || menu.name_ES
       : menu.name_ES;
+    if(text?.length > 15) {
+      text = text.slice(0, 14) + '...'
+    }
+
+    return text;
   }
 
   changeSelectedTab(path) {
@@ -487,5 +494,21 @@ export class SidebarComponent {
 
   handleKeyPressed() {
     this.toggleSidebar('', {});
+  }
+
+  navigateToPage(menu) {
+    if(menu?.new_button == 1) {
+      this.openUrl(menu?.path);
+    } else {
+      let link = menu?.path == 'home' ? '/' : menu?.path
+      this._router.navigate([link])
+    }
+  }
+
+  toggleHover(event) {
+   this.menuOpened = event;
+   setTimeout(() => {
+    initFlowbite();
+  }, 100)
   }
 }

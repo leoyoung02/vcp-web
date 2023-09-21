@@ -57,6 +57,7 @@
                 >
                     <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ group?.title }}</h5>
                     <div class="uppercase h-[52px] border rounded-[10px] cursor-pointer w-44 p-3 text-center text-base font-bold"
+                        *ngIf="!parentComponent"
                         [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}"
                     >
                         {{ 'club-details.join' | translate }}

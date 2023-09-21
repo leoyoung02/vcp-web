@@ -145,6 +145,7 @@ export class LayoutMainComponent {
   myClubsTitle: string = '';
   myActivitiesTitle: string = '';
   buttonColor: any;
+  logoSource: any;
 
   constructor(
     private _router: Router,
@@ -188,6 +189,7 @@ export class LayoutMainComponent {
       this.company = company[0];
       this.companyId = company[0].id;
       this.domain = company[0].domain;
+      this.logoSource = environment.api +  "/get-image-company/" +  (company[0].photo || company[0].image);
       this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color;
       this.homeTextValue = company[0].home_text || "Inicio";
       this.homeTextValueEn = company[0].home_text_en || "Home";
@@ -399,7 +401,7 @@ export class LayoutMainComponent {
   }
 
   getMyActivitiesTitle() {
-    return this.language == "en"
+    return this.myActivities ? (this.language == "en"
       ? this.myActivities.title_en
         ? this.myActivities.title_en || this.myActivities.title_es
         : this.myActivities.title_es
@@ -419,7 +421,7 @@ export class LayoutMainComponent {
       ? this.myActivities.title_de
         ? this.myActivities.title_de || this.myActivities.title_es
         : this.myActivities.title_es
-      : this.myActivities.title_es;
+      : this.myActivities.title_es) : '';
   }
 
   checkAdmin() {

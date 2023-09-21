@@ -72,7 +72,7 @@
     <ng-container *ngFor="let plan of filteredPlan | paginate: {itemsPerPage: 8, currentPage: p}">
         <div class="bg-white rounded-lg w-full max-w-full hover:cursor-pointer" (click)="handleDetailsRoute(plan)">
             <div class="relative">
-                <img class="rounded-lg object-cover w-full h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]" 
+                <img class="object-top rounded-lg object-cover w-full h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]" 
                 width="445" height="300"
                 *ngIf="plan?.image" [ngSrc]="apiPath + plan.path + plan.image" 
                 [alt]="getEventTitle(plan)" [alt]="getEventTitle(plan)" />
