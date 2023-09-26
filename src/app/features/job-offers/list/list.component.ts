@@ -108,6 +108,9 @@ export class JobOffersListComponent {
   subtitle: any;
   companyName: any;
   p: any;
+  createHover: boolean = true;
+  hover: boolean = false;
+  selectedOfferId: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -451,6 +454,15 @@ export class JobOffersListComponent {
 
   handleDetailsRoute(offer) {
     this._router.navigate([`/employmentchannel/details/${offer.id}`])
+  }
+
+  toggleCreateHover(event) {
+    this.createHover = event;
+  }
+
+  toggleHover(state, offer) {
+    this.hover = state
+    this.selectedOfferId = state ? offer.id : ''
   }
 
   ngOnDestroy() {

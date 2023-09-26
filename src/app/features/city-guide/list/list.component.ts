@@ -63,6 +63,9 @@ export class CityGuideListComponent {
   selectedCity: any;
   pageDescription: any;
   p: any;
+  createHover: boolean = false;
+  readHover: boolean = false;
+  selectedGuideId: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -442,6 +445,15 @@ export class CityGuideListComponent {
 
   goToDetails(guide) {
     this._router.navigate([`/cityguide/details/${guide?.id}`]);
+  }
+
+  toggleCreateHover(event) {
+    this.createHover = event;
+  }
+
+  toggleReadHover(event, guide) {
+    this.readHover = event;
+    this.selectedGuideId = event ? guide.id : ''
   }
 
   ngOnDestroy() {

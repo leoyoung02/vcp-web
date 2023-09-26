@@ -460,9 +460,6 @@ export class SidebarComponent {
       : this.language == "de"
       ? menu.name_DE || menu.name_ES
       : menu.name_ES;
-    if(text?.length > 15) {
-      text = text.slice(0, 14) + '...'
-    }
 
     return text;
   }

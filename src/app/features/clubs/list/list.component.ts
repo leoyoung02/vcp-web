@@ -89,6 +89,10 @@ export class ClubsListComponent {
   subtitle: any;
   pageDescription: any;
   p: any;
+  createHover: boolean = false;
+  myClubsHover: boolean = false;
+  hover: boolean = false;
+  selectedClubId: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -167,6 +171,7 @@ export class ClubsListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 
@@ -524,12 +529,23 @@ export class ClubsListComponent {
       this.groups = clubs;
     }
 
+    let joined_groups = this.filterCreatedJoined(clubs, club_members);
     if(this.groups?.length > 0) {
       let dt = this.groups?.map(item => {
+        let joined = false;
+        if(joined_groups?.length > 0) {
+          let joined_rows = joined_groups?.filter(jg => {
+            return jg.id == item.id
+          })
+          if(joined_rows?.length > 0) {
+            joined = true;
+          }
+        }
         return {
           ...item,
           title: this.getGroupTitle(item),
           category: this.getCategory(item),
+          is_member: joined
         }
       })
       this.groups = dt;
@@ -670,8 +686,15 @@ export class ClubsListComponent {
   }
 
   createNewTitle(page) {
-    return `${this._translateService.instant("club-create.createyour")} ${
-      this.pageName
+    let text = ''
+    if(page?.toLowerCase().indexOf("club") >= 0) {
+      text = this._translateService.instant('plans.club')
+    } else {
+      text = page
+    }
+
+    return `${this._translateService.instant("dashboard.new")} ${
+      text
     }`;
   }
 
@@ -952,6 +975,19 @@ export class ClubsListComponent {
         ? this.myClubs.title_de || this.myClubs.title_es
         : this.myClubs.title_es
       : this.myClubs.title_es) : '';
+  }
+
+  toggleCreateHover(event) {
+    this.createHover = event;
+  }
+
+  toggleMyClubsHover(event) {
+    this.myClubsHover = event;
+  }
+
+  toggleHover(state, club) {
+    this.hover = state
+    this.selectedClubId = state ? club.id : ''
   }
 
   ngOnDestroy() {

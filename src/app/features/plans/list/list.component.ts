@@ -170,6 +170,8 @@ export class PlansListComponent {
   title: any;
   subtitle: any;
   p: any;
+  createHover: boolean = false;
+  myActivitiesHover: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -2205,6 +2207,14 @@ export class PlansListComponent {
 
   notifyChild(params) {
     this.childNotifier.next(params)
+  }
+
+  toggleCreateHover(event) {
+    this.createHover = event;
+  }
+
+  toggleMyActivitiesHover(event) {
+    this.myActivitiesHover = event;
   }
 
   ngOnDestroy() {

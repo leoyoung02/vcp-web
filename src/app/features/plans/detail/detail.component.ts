@@ -285,6 +285,13 @@ export class PlanDetailComponent {
   planDay: string = "";
   planTime: string = "";
   limitPlanParticipants: any;
+  duplicateHover: boolean = false;
+  editHover: boolean = false;
+  deleteHover: boolean = false;
+  joinHover: boolean = false;
+  leaveHover: boolean = false;
+  addCommentHover: boolean = false;
+  addCalendarHover: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -2400,6 +2407,34 @@ export class PlanDetailComponent {
 
   handleGoBack() {
     this._location.back();
+  }
+
+  toggleDuplicateHover(event) {
+    this.duplicateHover = event;
+  }
+
+  toggleEditHover(event) {
+    this.editHover = event;
+  }
+
+  toggleDeleteHover(event) {
+    this.deleteHover = event;
+  }
+
+  toggleJoinHover(event) {
+    this.joinHover = event;
+  }
+
+  toggleLeaveHover(event) {
+    this.leaveHover = event;
+  }
+
+  toggleAddCommentHover(event) {
+    this.addCommentHover = event;
+  }
+
+  toggleAddCalendarHover(event) {
+    this.addCalendarHover = event;
   }
 
   ngOnDestroy() {

@@ -13,7 +13,13 @@
     <button 
         class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
         (click)="handleEditRoute()" 
-        [ngStyle]="{'background-color': buttonColor}"
+        [ngStyle]="{
+            'background-color': buttonColor,
+            'opacity': editHover ? 1.5 : 1,
+            'filter': editHover ? 'brightness(0.8)' : 'brightness(1)'
+        }"
+        (mouseover)="toggleEditHover(true)"
+        (mouseleave)="toggleEditHover(false)"
     >
         <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
@@ -23,12 +29,20 @@
     <button 
         class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 border h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
         (click)="handleDelete()" 
-        [ngStyle]="{'color': buttonColor, 'border-color': buttonColor}"
+        [ngStyle]="{
+            'border-color': deleteHover ? 'transparent' : buttonColor,
+            'background-color': deleteHover ? buttonColor : '#fff',
+        }"
+        (mouseover)="toggleDeleteHover(true)"
+        (mouseleave)="toggleDeleteHover(false)"
     >
-        <svg class="w-3 h-3 mr-1" [ngStyle]="{color: buttonColor}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+        <svg class="w-3 h-3 mr-1" [ngStyle]="{'color': deleteHover ? '#fff' : buttonColor}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
             <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
         </svg>
-        <span class="text-md font-semibold uppercase" [ngStyle]="{'color': buttonColor}">{{ 'plan-details.delete' | translate }}</span>
+        <span class="text-md font-semibold uppercase" 
+            [ngStyle]="{'color': deleteHover ? '#fff' : buttonColor}">
+            {{ 'plan-details.delete' | translate }}
+        </span>
     </button>
 </div>
 <div class="py-12">
@@ -61,9 +75,15 @@
         <button 
             type="button"
             class="inline-block h-[52px] mt-4 text-sm px-12 py-2 font-semibold rounded-[10px] text-white focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
-            [ngStyle]="{'background-color': buttonColor}"
+            [ngStyle]="{
+                'background-color': buttonColor,
+                'opacity': sendHover ? 1.5 : 1,
+                'filter': sendHover ? 'brightness(0.8)' : 'brightness(1)'
+            }"
             (click)="register()"
             *ngIf="!isRegistered"
+            (mouseover)="toggleSendHover(true)"
+            (mouseleave)="toggleSendHover(false)"
         >
             {{ 'job-offers.signmeup' | translate }}
         </button>

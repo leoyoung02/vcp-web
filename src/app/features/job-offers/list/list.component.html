@@ -3,8 +3,14 @@
     <button 
         class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
         *ngIf="canCreateJobOffer" 
-        [ngStyle]="{'background-color': buttonColor}" 
+        [ngStyle]="{
+            'background-color': buttonColor,
+            'opacity': createHover ? 1.5 : 1,
+            'filter': createHover ? 'brightness(0.8)' : 'brightness(1)'
+        }" 
         (click)="handleCreateRoute()"
+        (mouseover)="toggleCreateHover(true)"
+        (mouseleave)="toggleCreateHover(false)"
     >
         <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
@@ -27,16 +33,25 @@
     </div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 py-8">
-    <div *ngFor="let offer of jobOffers | paginate: {itemsPerPage: 12, currentPage: p}" class="hover:cursor-pointer w-full max-w-full bg-white rounded-lg dark:bg-gray-800 dark:border-gray-700" 
-        (click)="handleDetailsRoute(offer)">
+    <div *ngFor="let offer of jobOffers | paginate: {itemsPerPage: 12, currentPage: p}" 
+        class="hover:cursor-pointer w-full max-w-full bg-white rounded-lg dark:bg-gray-800 dark:border-gray-700" 
+        (click)="handleDetailsRoute(offer)"
+        (mouseover)="toggleHover(true, offer)"
+        (mouseleave)="toggleHover(false, offer)"
+    >
         <div class="flex h-full">
             <div class="w-4 rounded-l-lg" [ngStyle]="{'background-color': buttonColor}">&nbsp;</div>
-            <div class="flex flex-col justify-evenly w-full pl-6">
+            <div class="flex flex-col justify-evenly w-full pl-6"
+                [ngStyle]="{
+                    'background-color': hover && selectedOfferId == offer.id ? buttonColor : 'transparent',
+                    'color': hover && selectedOfferId == offer.id ? '#fff' : '#1e1e1e'
+                }"
+            >
                 <div class="font-semibold text-medium pt-3">{{ offer?.title_display }}</div>
                 <div class="text-sm py-3">
                     <span>{{ offer?.type_display }}</span><span class="px-3">•</span><span>{{ offer?.area_display }}</span>
                 </div>
-                <div class="underline text-sm pb-3" [ngStyle]="{'color': buttonColor}">
+                <div class="underline text-sm pb-3" [ngStyle]="{'color': hover && selectedOfferId == offer.id ? '#fff' : buttonColor}">
                     {{'landing.learnmore' | translate }}
                 </div>
             </div>

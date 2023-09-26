@@ -127,6 +127,9 @@ export class JobOfferDetailComponent {
   acceptText: string = "";
   cancelText: string = "";
   title: string = "";
+  editHover: boolean = false;
+  deleteHover: boolean = false;
+  sendHover: boolean = false;
 
   constructor(
     private _router: Router,
@@ -471,6 +474,18 @@ export class JobOfferDetailComponent {
       duration: 3000,
       panelClass: ["info-snackbar"],
     });
+  }
+
+  toggleEditHover(event) {
+    this.editHover = event;
+  }
+
+  toggleDeleteHover(event) {
+    this.deleteHover = event;
+  }
+
+  toggleSendHover(event) {
+    this.sendHover = event;
   }
 
   ngOnDestroy() {

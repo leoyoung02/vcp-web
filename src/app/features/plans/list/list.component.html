@@ -3,8 +3,14 @@
    <button 
         class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
         *ngIf="canCreatePlan" 
-        [ngStyle]="{'background-color': buttonColor}" 
+        [ngStyle]="{
+            'background-color': buttonColor,
+            'opacity': createHover ? 1.5 : 1,
+            'filter': createHover ? 'brightness(0.8)' : 'brightness(1)'
+        }" 
         (click)="handleCreateRoute()"
+        (mouseover)="toggleCreateHover(true)"
+        (mouseleave)="toggleCreateHover(false)"
     >
         <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
@@ -14,10 +20,18 @@
     <button 
         class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 border flex items-center h-[52px] p-3.5 px-8 rounded-[15px] justify-center"
         *ngIf="isMyActivitiesActive && myActivities?.title_es"
-        [ngStyle]="{'border-color': buttonColor}"
+        [ngStyle]="{
+            'border-color': myActivitiesHover ? 'transparent' : buttonColor,
+            'background-color': myActivitiesHover ? buttonColor : '#fff',
+        }"
         (click)="goToDashboard()"
+        (mouseover)="toggleMyActivitiesHover(true)"
+        (mouseleave)="toggleMyActivitiesHover(false)"
     >
-        <span class="text-md font-semibold uppercase" [ngStyle]="{'color': buttonColor}">{{ getMyActivitiesTitle() }}</span>
+        <span class="text-md font-semibold uppercase" 
+            [ngStyle]="{'color': myActivitiesHover ? '#fff' : buttonColor}">
+            {{ getMyActivitiesTitle() }}
+        </span>
     </button>
 </div>
 <div class="pt-6" *ngIf="!parentComponent && searchByCityOrKeyword">
@@ -109,7 +123,7 @@
             </div>
         </div>
     </ng-container>
-    <div *ngIf="filteredPlan?.length > 0" class="text-center">
-        <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
-    </div>
+</div>
+<div *ngIf="filteredPlan?.length > 0" class="text-center">
+    <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
 </div>

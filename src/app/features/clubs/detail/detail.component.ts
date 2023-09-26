@@ -213,6 +213,10 @@ export class ClubDetailComponent {
   categoryLabel: string = "";
   clubCategoryMapping: any;
   limitMembers: any;
+  editHover: boolean = false;
+  deleteHover: boolean = false;
+  joinHover: boolean = false;
+  leaveHover: boolean = false;
 
   constructor(
     private _router: Router,
@@ -1368,6 +1372,22 @@ export class ClubDetailComponent {
       duration: 3000,
       panelClass: ["info-snackbar"],
     });
+  }
+
+  toggleEditHover(event) {
+    this.editHover = event;
+  }
+
+  toggleDeleteHover(event) {
+    this.deleteHover = event;
+  }
+
+  toggleJoinHover(event) {
+    this.joinHover = event;
+  }
+
+  toggleLeaveHover(event) {
+    this.leaveHover = event;
   }
 
   ngOnDestroy() {
