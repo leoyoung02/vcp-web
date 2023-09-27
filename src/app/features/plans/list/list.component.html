@@ -1,7 +1,7 @@
 <app-page-title [title]="title" [subtitle]="subtitle"></app-page-title>
 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4" *ngIf="view != 'joined'">
    <button 
-        class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
+        class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0 transition duration-700 ease-in-out"
         *ngIf="canCreatePlan" 
         [ngStyle]="{
             'background-color': buttonColor,
@@ -18,7 +18,7 @@
         <span class="text-white text-md font-semibold uppercase">{{ createNewTitle(pageName) }}</span>
     </button>
     <button 
-        class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 border flex items-center h-[52px] p-3.5 px-8 rounded-[15px] justify-center"
+        class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 border flex items-center h-[52px] p-3.5 px-8 rounded-[15px] justify-center transition duration-700 ease-in-out"
         *ngIf="isMyActivitiesActive && myActivities?.title_es"
         [ngStyle]="{
             'border-color': myActivitiesHover ? 'transparent' : buttonColor,

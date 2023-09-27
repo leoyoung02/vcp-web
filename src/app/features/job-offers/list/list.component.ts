@@ -108,7 +108,7 @@ export class JobOffersListComponent {
   subtitle: any;
   companyName: any;
   p: any;
-  createHover: boolean = true;
+  createHover: boolean = false;
   hover: boolean = false;
   selectedOfferId: any;
 

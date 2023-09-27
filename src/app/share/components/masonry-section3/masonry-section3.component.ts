@@ -23,7 +23,7 @@ import "moment/locale/ca";
 import "moment/locale/de";
 
 @Component({
-  selector: "app-masonry-section1",
+  selector: "app-masonry-section3",
   standalone: true,
   imports: [
     CommonModule,
@@ -31,25 +31,25 @@ import "moment/locale/de";
     TranslateModule,
     NgOptimizedImage
   ],
-  templateUrl: "./masonry-section1.component.html",
+  templateUrl: "./masonry-section3.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MasonrySection1Component {
+export class MasonrySection3Component {
   private destroy$ = new Subject<void>();
 
   @Input() userId: any;
   @Input() company: any;
-  @Input() section1Data: any;
+  @Input() section3Data: any;
+  @Input() clubCategories: any;
+  @Input() clubCategoryMapping: any;
 
   languageChangeSubscription;
   language: any;
   buttonColor: any;
-  plan1Data: any = {}
-  plan2Data: any = {}
-  plan3Data: any = {}
-  plan4Data: any = {}
-  plan5Data: any = {}
-  plan6Data: any = {}
+  club1Data: any = {}
+  club2Data: any = {}
+  club3Data: any = {}
+  club4Data: any = {}
   featuredTextValue: any;
   featuredTextValueEn: any;
   featuredTextValueFr: any;
@@ -100,65 +100,38 @@ export class MasonrySection1Component {
   }
 
   ngOnChanges(changes: SimpleChange) {
-    let section1DataChange = changes["section1Data"];
-    if (section1DataChange?.currentValue?.length > 0) {
-      this.section1Data = section1DataChange?.currentValue;
+    let section3DataChange = changes["section3Data"];
+    if (section3DataChange?.currentValue?.length > 0) {
+      this.section3Data = section3DataChange?.currentValue;
       this.formatData();
     }
   }
 
   formatData() {
-    if(this.section1Data?.length > 0) {
-      this.plan1Data = this.section1Data?.length > 0 ? this.formatPlan(this.section1Data[0]) : {}
-      this.plan4Data = this.section1Data?.length >= 1 ? this.formatPlan(this.section1Data[1]) : {}
-      this.plan2Data = this.section1Data?.length >= 2 ? this.formatPlan(this.section1Data[2]) : {}
-      this.plan3Data = this.section1Data?.length >= 3 ? this.formatPlan(this.section1Data[3]) : {}
-      this.plan5Data = this.section1Data?.length >= 4 ? this.formatPlan(this.section1Data[4]) : {}
-      this.plan6Data = this.section1Data?.length >= 5 ? this.formatPlan(this.section1Data[5]) : {}
+    if(this.section3Data?.length > 0) {
+      this.club1Data = this.section3Data?.length > 0 ? this.formatClub(this.section3Data[0]) : {}
+      this.club2Data = this.section3Data?.length >= 1 ? this.formatClub(this.section3Data[1]) : {}
+      this.club3Data = this.section3Data?.length >= 2 ? this.formatClub(this.section3Data[2]) : {}
+      this.club4Data = this.section3Data?.length >= 3 ? this.formatClub(this.section3Data[3]) : {}
     }
   }
 
-  formatPlan(plan) {
-    let plans: any[] = []
-    plans.push(plan)
+  formatClub(club) {
+    let clubs: any[] = []
+    clubs.push(club)
 
-    let dt = plans?.map(item => {
+    let dt = clubs?.map(item => {
       return {
         ...item,
         id: item?.id,
-        path: `/plans/details/${item.id}/${item?.plan_type_id}`,
-        title: this.getPlanTitle(item),
-        image: `${environment.api}${item?.path}${item.image}`,
-        featured_title: this.getFeaturedTitle(),
-        plan_date: this.getActivityDate(item)
+        path: `/clubs/details/${item.id}`,
+        title: this.getClubTitle(item),
+        category: this.getCategory(item),
+        image: `${environment.api}/get-image-group/${item.image}`
       }
     })
 
     return dt[0]
-  }
-
-  getPlanTitle(event) {
-    return this.language == "en"
-      ? event.title_en
-        ? event.title_en || event.title
-        : event.title
-      : this.language == "fr"
-      ? event.title_fr
-        ? event.title_fr || event.title
-        : event.title
-      : this.language == "eu"
-      ? event.title_eu
-        ? event.title_eu || event.title
-        : event.title
-      : this.language == "ca"
-      ? event.title_ca
-        ? event.title_ca || event.title
-        : event.title
-      : this.language == "de"
-      ? event.title_de
-        ? event.title_de || event.title
-        : event.title
-      : event.title;
   }
 
   getClubTitle(club) {
@@ -167,55 +140,6 @@ export class MasonrySection1Component {
         (this.language == 'de' ? (club.title_de || club.title) : club.title)
       ))
     )) : ''
-  }
-
-  getActivityDate(activity) {
-    let date = moment
-      .utc(activity.plan_date)
-      .locale(this.language)
-      .format("D MMMM");
-    if (activity.limit_date) {
-      let start_month = moment
-        .utc(activity.plan_date)
-        .locale(this.language)
-        .format("M");
-      let end_month = moment
-        .utc(activity.limit_date)
-        .locale(this.language)
-        .format("M");
-      let activity_start_date = moment
-        .utc(activity.plan_date)
-        .locale(this.language)
-        .format("YYYY-MM-DD");
-      let activity_end_date = moment
-        .utc(activity.limit_date)
-        .locale(this.language)
-        .format("YYYY-MM-DD");
-
-      if (activity_start_date == activity_end_date) {
-        date = `${moment
-          .utc(activity.limit_date)
-          .locale(this.language)
-          .format("D MMMM")}`;
-      } else {
-        if (start_month == end_month) {
-          date = `${moment
-            .utc(activity.plan_date)
-            .locale(this.language)
-            .format("D")}-${moment(activity.limit_date)
-            .locale(this.language)
-            .format("D MMMM")}`;
-        } else {
-          date = `${moment
-            .utc(activity.plan_date)
-            .locale(this.language)
-            .format("D MMMM")}-${moment(activity.limit_date)
-            .locale(this.language)
-            .format("D MMMM")}`;
-        }
-      }
-    }
-    return date;
   }
 
   getFeaturedTitle() {
@@ -240,6 +164,41 @@ export class MasonrySection1Component {
         ? this.featuredTextValueDe || this.featuredTextValue
         : this.featuredTextValue
       : this.featuredTextValue;
+  }
+
+  getCategory(club) {
+    let category = ''
+    let club_category = this.clubCategoryMapping?.filter(cc => {
+      return cc.fk_group_id == club.id
+    })
+
+    if(club_category?.length > 0) {
+      let mapped = club_category?.map(cc => {
+        let category = this.clubCategories?.filter(c => {
+          return cc.fk_supercategory_id == c.id
+        })
+        let title = category?.length > 0 ? this.getCategoryTitle(category[0]) : ''
+        
+        return {
+          ...cc,
+          title,
+        }
+      })
+
+      if(mapped?.length > 0) {
+        category = mapped.map( (data) => { return data.title }).join(',')
+      }
+    }
+
+    return category
+  }
+
+  getCategoryTitle(category) {
+    return category ? (this.language == 'en' ? (category.name_EN || category.name_ES) : (this.language == 'fr' ? (category.name_fr || category.name_ES) : 
+        (this.language == 'eu' ? (category.name_eu || category.name_ES) : (this.language == 'ca' ? (category.name_ca || category.name_ES) : 
+        (this.language == 'de' ? (category.name_de || category.name_ES) : category.name_ES)
+      ))
+    )) : ''
   }
 
   ngOnDestroy() {

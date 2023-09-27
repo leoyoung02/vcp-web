@@ -1,7 +1,7 @@
 <app-page-title [title]="title" [subtitle]="subtitle"></app-page-title>
 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4" *ngIf="view != 'joined'">
     <button 
-        class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
+        class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0 transition duration-700 ease-in-out"
         *ngIf="canCreateGroup" 
         [ngStyle]="{
             'background-color': buttonColor,
@@ -18,7 +18,7 @@
         <span class="text-white text-md font-semibold uppercase">{{ createNewTitle(pageName) }}</span>
     </button>
     <button 
-        class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 border flex items-center h-[52px] p-3.5 px-8 rounded-[15px] justify-center"
+        class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 border flex items-center h-[52px] p-3.5 px-8 rounded-[15px] justify-center transition duration-700 ease-in-out"
         *ngIf="isMyClubsActive && myClubs?.title_es"
         [ngStyle]="{
             'border-color':  myClubsHover ? 'transparent' : buttonColor,
@@ -70,7 +70,7 @@
                     [ngStyle]="{'background-color': '#F8F4F4'}"
                 >
                     <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ group?.title }}</h5>
-                    <div class="uppercase h-[52px] border rounded-[10px] cursor-pointer w-44 p-3 text-center text-base font-bold"
+                    <div class="uppercase h-[52px] border rounded-[10px] cursor-pointer w-44 p-3 text-center text-base font-bold transition duration-700 ease-in-out"
                         *ngIf="!parentComponent && !group?.is_member"
                         [ngStyle]="{
                             'border-color': hover && selectedClubId == group.id ? 'transparent' : buttonColor,

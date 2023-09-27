@@ -3,8 +3,6 @@
     [userId]="userId"
     [company]="company"
     [section1Data]="section1Data"
-    [clubCategories]="clubCategories"
-    [clubCategoryMapping]="clubCategoryMapping"
 ></app-masonry-section1>
 <app-masonry-section2
     *ngIf="section2Data"
@@ -17,12 +15,12 @@
     [jobOfferAreas]="jobOfferAreas"
 ></app-masonry-section2>
 <div class="py-4">
-    <app-masonry-section1
+    <app-masonry-section3
         *ngIf="section3Data"
         [userId]="userId"
         [company]="company"
-        [section1Data]="section3Data"
+        [section3Data]="section3Data"
         [clubCategories]="clubCategories"
         [clubCategoryMapping]="clubCategoryMapping"
-    ></app-masonry-section1>
+    ></app-masonry-section3>
 </div>

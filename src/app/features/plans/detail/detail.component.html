@@ -11,7 +11,7 @@
 <app-page-title [title]="title" [subtitle]="subtitle"></app-page-title>
 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4" *ngIf="superAdmin || showOption">
     <button 
-        class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
+        class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0 transition duration-700 ease-in-out"
         (click)="duplicate()"
         [ngStyle]="{
             'background-color': buttonColor,
@@ -28,7 +28,7 @@
         <span class="text-white text-md font-semibold uppercase">{{ 'plan-details.duplicate' | translate }}</span>
     </button>
     <button 
-        class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
+        class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0 transition duration-700 ease-in-out"
         (click)="handleEditRoute()" 
         [ngStyle]="{
             'background-color': buttonColor,
@@ -44,7 +44,7 @@
         <span class="text-white text-md font-semibold uppercase">{{ 'plan-details.edit' | translate }}</span>
     </button>
     <button 
-        class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 border h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
+        class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 border h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0 transition duration-700 ease-in-out"
         (click)="handleDelete()" 
         [ngStyle]="{
             'border-color': deleteHover ? 'transparent' : buttonColor,
@@ -161,7 +161,7 @@
                                     && (plan?.plan_date >= today || !isPastEvent)
                                     && !activateWaitingList) || (plan?.private && !joinedParticipant && speedMember)
                                     || (plan?.private && showOption && !joinedParticipant && (plan?.plan_date >= today || !isPastEvent)))"
-                                class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold"
+                                class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold transition duration-700 ease-in-out"
                                 [ngStyle]="{
                                     'background-color': buttonColor,
                                     'opacity': joinHover ? 1.5 : 1,
@@ -203,7 +203,7 @@
                             <span class="text-base uppercase font-semibold">{{ 'plan-details.youjoined' | translate }}</span>
                         </div>
                         <button
-                            class="btn w-2 text-base text-white p-0 h-[52px]"
+                            class="btn w-2 text-base text-white p-0 h-[52px] transition duration-700 ease-in-out"
                             (click)="handleLeave()"
                             [disabled]="onSubmit"
                             [ngStyle]="{
@@ -219,7 +219,7 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="w-full max-w-full flex-gap-col mt-4 sm:mt-4 md:mt-0 lg:mt-0"
+                    <div class="w-full max-w-full flex-gap-col mt-4 sm:mt-4 md:mt-0 lg:mt-0 transition duration-700 ease-in-out"
                         (mouseover)="toggleAddCalendarHover(true)"
                         (mouseleave)="toggleAddCalendarHover(false)"
                     >
@@ -230,7 +230,7 @@
                                 'color': addCalendarHover ? '#fff' : buttonColor,
                             }"
                             *ngIf="userId">
-                            <span class="add text-base uppercase"
+                            <span class="add text-base uppercase transition duration-700 ease-in-out"
                                 [ngStyle]="{
                                     'color': addCalendarHover ? '#fff' : buttonColor,
                                 }"

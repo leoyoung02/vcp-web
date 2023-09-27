@@ -1,7 +1,7 @@
 <app-page-title [title]="title" [subtitle]="subtitle"></app-page-title>
 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4">
     <button 
-        class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0"
+        class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0 transition duration-700 ease-in-out"
         *ngIf="canCreateJobOffer" 
         [ngStyle]="{
             'background-color': buttonColor,
@@ -34,14 +34,14 @@
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 py-8">
     <div *ngFor="let offer of jobOffers | paginate: {itemsPerPage: 12, currentPage: p}" 
-        class="hover:cursor-pointer w-full max-w-full bg-white rounded-lg dark:bg-gray-800 dark:border-gray-700" 
+        class="hover:cursor-pointer w-full max-w-full bg-white rounded-[10px] transition duration-700 ease-in-out" 
         (click)="handleDetailsRoute(offer)"
         (mouseover)="toggleHover(true, offer)"
         (mouseleave)="toggleHover(false, offer)"
     >
         <div class="flex h-full">
             <div class="w-4 rounded-l-lg" [ngStyle]="{'background-color': buttonColor}">&nbsp;</div>
-            <div class="flex flex-col justify-evenly w-full pl-6"
+            <div class="flex flex-col justify-evenly w-full pl-6 rounded-r-[10px] transition duration-700 ease-in-out"
                 [ngStyle]="{
                     'background-color': hover && selectedOfferId == offer.id ? buttonColor : 'transparent',
                     'color': hover && selectedOfferId == offer.id ? '#fff' : '#1e1e1e'
@@ -51,7 +51,7 @@
                 <div class="text-sm py-3">
                     <span>{{ offer?.type_display }}</span><span class="px-3">•</span><span>{{ offer?.area_display }}</span>
                 </div>
-                <div class="underline text-sm pb-3" [ngStyle]="{'color': hover && selectedOfferId == offer.id ? '#fff' : buttonColor}">
+                <div class="underline text-sm pb-3 transition duration-700 ease-in-out" [ngStyle]="{'color': hover && selectedOfferId == offer.id ? '#fff' : buttonColor}">
                     {{'landing.learnmore' | translate }}
                 </div>
             </div>

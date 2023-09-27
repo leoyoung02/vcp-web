@@ -13,3 +13,4 @@ export * from './reports/reports.component';
 export * from './masonry/masonry.component';
 export * from './masonry-section1/masonry-section1.component';
 export * from './masonry-section2/masonry-section2.component';
+export * from './masonry-section3/masonry-section3.component';

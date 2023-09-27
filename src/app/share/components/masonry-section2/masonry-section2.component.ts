@@ -53,13 +53,17 @@ export class MasonrySection2Component {
   jobOffer1Data: any = {}
   jobOffer2Data: any = {}
   jobOffer3Data: any = {}
-  plan1Data: any = {}
+  jobOffer4Data: any = {}
   featuredTextValue: any;
   featuredTextValueEn: any;
   featuredTextValueFr: any;
   featuredTextValueEu: any;
   featuredTextValueCa: any;
   featuredTextValueDe: any;
+  readHover: boolean = false;
+  hover: boolean = false;
+  selectedOfferId: any;
+  selectedGuideId: any;
 
   constructor(
     private _translateService: TranslateService,
@@ -118,7 +122,7 @@ export class MasonrySection2Component {
       this.jobOffer1Data = this.section2Data?.length >= 2 ? this.formatJobOffer(this.section2Data[2]) : {}
       this.jobOffer2Data = this.section2Data?.length >= 3 ? this.formatJobOffer(this.section2Data[3]) : {}
       this.jobOffer3Data = this.section2Data?.length >= 4 ? this.formatJobOffer(this.section2Data[4]) : {}
-      this.plan1Data = this.section2Data?.length >= 5 ? this.formatPlan(this.section2Data[5]) : {}
+      this.jobOffer4Data = this.section2Data?.length >= 5 ? this.formatJobOffer(this.section2Data[5]) : {}
     }
   }
 
@@ -356,6 +360,16 @@ export class MasonrySection2Component {
         ? this.featuredTextValueDe || this.featuredTextValue
         : this.featuredTextValue
       : this.featuredTextValue;
+  }
+
+  toggleReadHover(event, guide) {
+    this.readHover = event;
+    this.selectedGuideId = event ? guide.id : ''
+  }
+
+  toggleHover(state, offer) {
+    this.hover = state
+    this.selectedOfferId = state ? offer.id : ''
   }
 
   ngOnDestroy() {
