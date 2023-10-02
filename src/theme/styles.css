@@ -530,8 +530,8 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
 }
 
 .map-container {
-    margin-left: 10%;
-    width: 90% !important;
+    margin-left: 50px;
+    width: 94% !important;
     border-radius: 30px;
 }
 

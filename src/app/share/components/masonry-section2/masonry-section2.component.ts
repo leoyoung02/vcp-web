@@ -134,6 +134,10 @@ export class MasonrySection2Component {
       let likes = this.cityGuideLikes?.filter((g) => {
         return g.object_id == item.id;
       });
+      let limit_likes = likes
+      if(likes?.length > 5) {
+        limit_likes = likes.slice(0, 5)
+      }
 
       return {
         ...item,
@@ -142,7 +146,7 @@ export class MasonrySection2Component {
         title: this.getCityGuideName(item),
         image: `${environment.api}/get-image/${item.image}`,
         excerpt: this.getCityGuideExcerpt(item),
-        likes: this.formatLikes(likes, item),
+        likes: this.formatLikes(limit_likes, item),
         likes_text:
           likes?.length > 0
             ? `${likes?.length}+ ${this._translateService.instant(
