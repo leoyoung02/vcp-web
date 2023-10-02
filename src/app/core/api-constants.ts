@@ -286,6 +286,8 @@ export const EDIT_JOB_OFFER_URL = `${API_BASE}/company/job/offer/edit-new`;
 // CITY GUIDES
 export const CITY_GUIDES_URL = `${API_BASE}/v2/city-guides`;
 export const CITY_GUIDE_URL = `${API_BASE}/v2/city-guide`;
+export const ADD_CITY_GUIDE_URL = `${API_BASE}/v2/city-guide/add`;
+export const EDIT_CITY_GUIDE_GENERAL_URL = `${API_BASE}/v2/city-guide/edit`;
 export const EDIT_CITY_GUIDE_LIKE_URL = `${API_BASE}/v2/city-guide/like/edit`;
 export const EDIT_CITY_GUIDE_URL = `${API_BASE}/company-admin-news-delete`;
 

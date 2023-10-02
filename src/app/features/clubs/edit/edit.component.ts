@@ -340,7 +340,7 @@ export class ClubEditComponent {
         : this._translateService.instant("club-create.grouptype") +
           " " +
           this.pageName;
-    this.pageTitle = `${this.id > 0 ? this._translateService.instant('club-create.createyour') : this._translateService.instant('edit-club.edityourclub')} ${this.pageName}`
+    this.pageTitle = `${this.id > 0 ? this._translateService.instant('edit-club.edityourclub') : this._translateService.instant('club-create.createyour')} ${this.pageName}`
   }
 
   mapSubfeatures(subfeatures, clubs, contact_details) {

@@ -76,6 +76,8 @@ export class CityGuideDetailComponent {
   reacted: boolean = false;
   liked: boolean = false;
   cityGuideItems: any = [];
+  editHover: boolean = false;
+  deleteHover: boolean = false;
 
   options: google.maps.MapOptions = {
     mapTypeId: 'hybrid',
@@ -500,6 +502,14 @@ export class CityGuideDetailComponent {
 
   handleEditRoute() {
     this._router.navigate([`/cityguide/edit/${this.id}`]);
+  }
+
+  toggleEditHover(event) {
+    this.editHover = event;
+  }
+
+  toggleDeleteHover(event) {
+    this.deleteHover = event;
   }
 
   handleGoBack() {

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { CITY_GUIDES_URL, CITY_GUIDE_URL, EDIT_CITY_GUIDE_LIKE_URL, EDIT_CITY_GUIDE_URL } from "@lib/api-constants";
+import { ADD_CITY_GUIDE_URL, CITY_GUIDES_URL, CITY_GUIDE_URL, EDIT_CITY_GUIDE_GENERAL_URL, EDIT_CITY_GUIDE_LIKE_URL, EDIT_CITY_GUIDE_URL } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
 @Injectable({
@@ -38,6 +38,20 @@ export class CityGuidesService {
     return this._http.post(EDIT_CITY_GUIDE_LIKE_URL,
       payload,
       { headers: this.headers },
+    ).pipe(map(res => res));
+  }
+
+  addCityGuide(payload): Observable<any> {
+    return this._http.post(
+      ADD_CITY_GUIDE_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editCityGuide(payload): Observable<any> {
+    return this._http.post(
+      EDIT_CITY_GUIDE_GENERAL_URL,
+      payload,
     ).pipe(map(res => res));
   }
 }
