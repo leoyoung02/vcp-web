@@ -18,6 +18,7 @@ import { TypeFilterComponent } from "../type-filter/type-filter.component";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FilterComponent {
+    @Input() mode;
     @Input() buttonColor;
     @Input() list: any;
     @Input() icon: any;
@@ -26,6 +27,24 @@ export class FilterComponent {
     @Output() onButtonClick = new EventEmitter();
 
     isActiveFilter: boolean = false;
+
+    async ngOnInit() {
+      let selected = this.mode == 'clubs' ? localStorage.getItem('club-filter-city') : (this.mode == 'plans' ? localStorage.getItem('plan-filter-city') : '');
+      this.isActiveFilter = selected ? true : false;
+
+      if(selected && this.mode == 'plans') {
+        console.log(this.list)
+        if(this.list?.length > 0) {
+          this.list.forEach(item => {
+            if(item.city == selected) {
+              item.selected = true;
+            } else {
+              item.selected = false;
+            }
+          })
+        }
+      }
+    }
 
     showFilter() {
       this.isActiveFilter = !this.isActiveFilter;

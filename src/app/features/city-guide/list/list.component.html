@@ -1,6 +1,7 @@
-<div class="pt-4">
-    <h1 class="text-4xl font-bold mb-2">{{ pageName }}</h1>
-    <div class="text-sm">{{ pageDescription }}</div>
+<app-page-title [title]="pageName" [subtitle]="pageDescription"></app-page-title>
+<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4">
+    <!-- <h1 class="text-4xl font-bold mb-2">{{ pageName }}</h1>
+    <div class="text-sm">{{ pageDescription }}</div> -->
     <div>
         <button 
             class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-evenly mt-4 transition duration-700 ease-in-out"
@@ -49,12 +50,12 @@
 <div class="pt-6">
     <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-[85px] pb-20">
         <ng-container *ngFor="let guide of cityGuides | paginate: {itemsPerPage: 6, currentPage: p}"> 
-            <div class="h-full max-h-full grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0 sm:gap-0 md:gap-8 lg:gap-8 justify-evenly"
+            <div class="h-full max-h-full sm:h-full sm:max-h-full md:h-[339px] md:max-h-[339px] lg:h-[339px] lg:max-h-[339px] grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-0 sm:gap-0 md:gap-8 lg:gap-8 justify-evenly"
                 [ngStyle]="{'background-color': '#F5F5F5'}"
             >
                 <div>
                     <img 
-                        class="rounded-l-[10px] object-cover object-top w-full max-w-full h-full max-h-full"
+                        class="rounded-l-[10px] object-cover object-top w-full max-w-full h-full max-h-full sm:h-full sm:max-h-full md:h-[339px] md:max-h-[339px] lg:h-[339px] lg:max-h-[339px]"
                         width="526"
                         height="339"
                         [ngSrc]="guide.image"
@@ -68,10 +69,10 @@
                         </svg>
                     </div>
                     <div class="w-full max-w-full">
-                        <div class="text-4xl mb-4">{{ guide?.name }}</div>
-                        <div class="opacity-60">{{ guide?.excerpt }}</div>
+                        <div class="text-[1.7rem] mb-4 leading-[29px]">{{ guide?.name }}</div>
+                        <div class="opacity-60 leading-5 text-[0.9rem]">{{ guide?.excerpt }}</div>
                     </div>
-                    <div class="w-full max-w-full border border-b-1 border-l-0 border-r-0 border-t-0 mb-8">&nbsp;</div>
+                    <div class="w-full max-w-full border border-b-1 border-l-0 border-r-0 border-t-0">&nbsp;</div>
                     <div class="w-full max-w-full flex justify-between items-center flex-wrap h-full max-h-full">
                         <div class="flex items-center">
                             <div class="flex" *ngFor="let like of guide?.likes; let i = index;">

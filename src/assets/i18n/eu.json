@@ -550,7 +550,9 @@
         "subgroups": "Azpitaldeak",
         "youjoined": "Klub honetan sartu zara",
         "leaveclub": "Utzi klub hau",
-        "pleasecontactadministrator": "Mesedez, jarri harremanetan administratzailearekin"
+        "pleasecontactadministrator": "Mesedez, jarri harremanetan administratzailearekin",
+        "downloadmembers": "Deskargatu kideak (XLSX)",
+        "downloadedsuccessfully": "Ondo deskargatu da. Mesedez, egiaztatu zure deskarga karpeta"
     },
     "club-create": {
         "fillup": "Bete formularioa zure kluba sortzeko",

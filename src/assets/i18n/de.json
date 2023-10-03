@@ -550,7 +550,9 @@
         "subgroups": "Untergruppen",
         "youjoined": "Du bist diesem Club beigetreten",
         "leaveclub": "Diesen Club verlassen",
-        "pleasecontactadministrator": "Bitte wenden Sie sich an den Administrator"
+        "pleasecontactadministrator": "Bitte wenden Sie sich an den Administrator",
+        "downloadmembers": "Alle Mitglieder (XLSX)",
+        "downloadedsuccessfully": "S'ha baixat korrektament. Verbessern Sie Ihren Teppichboden."
     },
     "club-create": {
         "fillup": "Füllen Sie das Formular aus, um Ihren eigenen Club zu gründen",

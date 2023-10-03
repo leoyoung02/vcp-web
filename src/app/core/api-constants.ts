@@ -268,6 +268,7 @@ export const JOIN_CLUB_URL = `${API_BASE}/company/group/member/add`;
 export const CLUB_PLANS_URL = `${API_BASE}/company/groups-plans`;
 export const ADD_CLUB_URL = `${API_BASE}/company/group-optimize`;
 export const EDIT_CLUB_URL = `${API_BASE}/company/groups/edit-admin`;
+export const CLUB_MEMBERS_URL = `${API_BASE}/company/club/all-members`;
 
 export const CLUBS_URL = `${API_BASE}/v2/clubs`;
 export const CLUBS_DATA_URL = `${API_BASE}/v2/clubs-other-data`;

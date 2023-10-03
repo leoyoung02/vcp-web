@@ -9,6 +9,7 @@ import {
   CLUBS_DATA_URL,
   CLUBS_URL,
   CLUB_COMMENTS_URL,
+  CLUB_MEMBERS_URL,
   CLUB_PLANS_URL,
   CLUB_URL,
   CONTACT_FIELDS_ADD_URL,
@@ -211,5 +212,11 @@ export class ClubsService {
       `${EDIT_CLUB_URL}/${id}`,
       payload,
     ).pipe(map(res => res));
+  }
+
+  getAllClubMembers(id: number): Observable<any> {
+    return this._http.get(`${CLUB_MEMBERS_URL}/${id}`, {
+      headers: this.headers 
+    }).pipe(map(res => res));
   }
 }

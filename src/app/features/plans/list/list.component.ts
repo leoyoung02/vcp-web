@@ -686,7 +686,18 @@ export class PlansListComponent {
       return include;
     });
 
-    console.log(this.filteredPlan)
+    let selected = localStorage.getItem('plan-filter-city');
+    if(selected && this.list?.length > 0) {
+      this.list.forEach(item => {
+        if(item.city == selected) {
+          item.selected = true;
+          this.selectedCity = selected;
+        } else {
+          item.selected = false;
+        }
+      })
+      this.searchPlans("new");
+    }
   }
 
   getPlanDescription(plan) {
@@ -738,7 +749,7 @@ export class PlansListComponent {
 
   getEventTitle(event) {
     return this.language == "en"
-      ? event.title_en
+      ? (event.title_en && event.title_en != 'undefined')
         ? event.title_en || event.title
         : event.title
       : this.language == "fr"
@@ -1858,6 +1869,7 @@ export class PlansListComponent {
     });
 
     this.selectedCity = event || "";
+    localStorage.setItem('plan-filter-city', this.selectedCity);
     this.searchPlans("new");
   }
 

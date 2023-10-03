@@ -1,5 +1,5 @@
-<div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 justify-evenly relative"> 
-    <div class="row-span-2 rounded-lg relative cursor-pointer" 
+<div class="h-[600px] max-h-[600px] grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-[16px] justify-evenly relative"> 
+    <div class="h-[600px] max-h-[600px] row-span-2 rounded-lg relative cursor-pointer" 
         [routerLink]="[club1Data?.path]" *ngIf="club1Data?.id > 0">
         <div class="grid grid-cols-1 justify-evenly relative h-full max-h-full sm:h-full">
             <img class="border object-cover w-full max-w-full h-full max-h-full max-h-full rounded-t-lg shadow" 
@@ -25,11 +25,11 @@
             </div> 
         </div>
     </div>
-    <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 rounded-lg cursor-pointer h-full max-h-full"
+    <div class="h-full max-h-full col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 rounded-lg cursor-pointer h-full max-h-full"
         [routerLink]="[club2Data?.path]" *ngIf="club1Data?.id > 0">
-        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-evenly h-full max-h-full">
+        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-evenly h-full max-h-full sm:h-full sm:max-h-full md:h-[292px] md:max-h-[292px] lg:h-[292px] lg:max-h-[292px]">
             <div class="rounded-l-lg">
-                <img class="border h-full max-h-full w-full max-w-full object-contain rounded-l-lg shadow" 
+                <img class="border h-full max-h-full sm:h-full sm:max-h-full md:h-[292px] md:max-h-[292px] lg:h-[292px] lg:max-h-[292px] w-full max-w-full object-contain rounded-l-lg shadow" 
                     width="347" height="300" *ngIf="club1Data?.image" [ngSrc]="club2Data?.image" alt=""
                     [ngStyle]="{'border-color': '#1C393D'}">
             </div> 
@@ -53,7 +53,7 @@
             </div> 
         </div>
     </div>
-    <div class="row-span-2 rounded-lg relative cursor-pointer" 
+    <div class="h-[600px] max-h-[600px] row-span-2 rounded-lg relative cursor-pointer" 
         [routerLink]="[club1Data?.path]" *ngIf="club3Data?.id > 0">
         <div class="grid grid-cols-1 justify-evenly relative h-full max-h-full">
             <img class="border object-cover w-full max-w-full h-full max-h-full max-h-full rounded-t-lg shadow" 
@@ -79,11 +79,11 @@
             </div> 
         </div>
     </div>
-    <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 rounded-lg cursor-pointer h-full max-h-full"
+    <div class="h-full max-h-full col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 rounded-lg cursor-pointer h-full max-h-full"
         [routerLink]="[club4Data?.path]" *ngIf="club1Data?.id > 0">
-        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-evenly h-full max-h-full">
+        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-evenly h-full max-h-full sm:h-full sm:max-h-full md:h-[292px] md:max-h-[292px] lg:h-[292px] lg:max-h-[292px]">
             <div class="rounded-l-lg">
-                <img class="border h-full max-h-full w-full max-w-full object-contain rounded-l-lg shadow" 
+                <img class="border h-full max-h-full sm:h-full sm:max-h-full md:h-[292px] md:max-h-[292px] lg:h-[292px] lg:max-h-[292px] w-full max-w-full object-contain rounded-l-lg shadow" 
                     width="347" height="300" *ngIf="club1Data?.image" [ngSrc]="club4Data?.image" alt=""
                     [ngStyle]="{'border-color': '#1C393D'}">
             </div> 

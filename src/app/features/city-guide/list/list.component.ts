@@ -11,7 +11,7 @@ import { environment } from "@env/environment";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { CityGuidesService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
-import { IconFilterComponent } from "@share/components";
+import { IconFilterComponent, PageTitleComponent } from "@share/components";
 import { NgxPaginationModule } from "ngx-pagination";
 import get from "lodash/get";
 
@@ -26,6 +26,7 @@ import get from "lodash/get";
     NgOptimizedImage,
     RouterModule,
     NgxPaginationModule,
+    PageTitleComponent
   ],
   templateUrl: "./list.component.html",
 })
@@ -312,6 +313,19 @@ export class CityGuideListComponent {
 
     this.cityGuides = city_guides;
     this.allCityGuides = city_guides;
+
+    let selected = localStorage.getItem('city-guide-filter-city');
+    if(selected && this.list?.length > 0) {
+      this.list.forEach(item => {
+        if(item.city == selected) {
+          item.selected = true;
+          this.selectedCity = selected;
+        } else {
+          item.selected = false;
+        }
+      })
+      this.filteredCity(selected);
+    }
   }
 
   getCityGuideName(guide) {
@@ -401,6 +415,7 @@ export class CityGuideListComponent {
     });
 
     this.selectedCity = event || "";
+    localStorage.setItem('city-guide-filter-city', this.selectedCity);
     this.filterCityGuides();
   }
 
@@ -440,6 +455,7 @@ export class CityGuideListComponent {
       this.cityGuides = this.cityGuides.filter((guide) => {
         return guide.city_id == city?.id;
       });
+      console.log(this.cityGuides)
     }
   }
 

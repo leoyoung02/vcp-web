@@ -525,7 +525,7 @@ export class ClubsListComponent {
   async formatClubs(clubs, club_members) {
     if(this.view == 'joined') {
       this.groups = this.filterCreatedJoined(clubs, club_members);
-    }else {
+    } else {
       this.groups = clubs;
     }
 
@@ -594,6 +594,19 @@ export class ClubsListComponent {
 
     this.filteredGroup = this.sortAlphabetically(this.filteredGroup);
     this.allClubs = this.filteredGroup;
+
+    let selected = localStorage.getItem('club-filter-city');
+    if(selected && this.list?.length > 0) {
+      this.list.forEach(item => {
+        if(item.city == selected) {
+          item.selected = true;
+          this.selectedCity = selected;
+        } else {
+          item.selected = false;
+        }
+      })
+      this.searchGroups();
+    }
   }
 
   getCategory(club) {
@@ -950,6 +963,7 @@ export class ClubsListComponent {
     });
     
     this.selectedCity = event || "";
+    localStorage.setItem('club-filter-city', this.selectedCity);
     this.searchGroups();
   }
 

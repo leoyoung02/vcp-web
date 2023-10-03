@@ -21,7 +21,7 @@ import {
   PageTitleComponent,
   ToastComponent,
 } from "@share/components";
-import { LocalService, CompanyService } from "@share/services";
+import { LocalService, CompanyService, ExcelService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -217,11 +217,13 @@ export class ClubDetailComponent {
   deleteHover: boolean = false;
   joinHover: boolean = false;
   leaveHover: boolean = false;
+  clubMembers: any[] = [];
 
   constructor(
     private _router: Router,
     private _clubsService: ClubsService,
     private _companyService: CompanyService,
+    private _excelService: ExcelService,
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _location: Location,
@@ -336,6 +338,7 @@ export class ClubDetailComponent {
     );
     this.getTitles();
     this.initializeBreadcrumb();
+    this.getAllClubMembers();
   }
 
   mapFeatures(features) {
@@ -1365,6 +1368,23 @@ export class ClubDetailComponent {
     }
 
     return status;
+  }
+
+  getAllClubMembers() {
+    this._clubsService.getAllClubMembers(this.id)
+    .subscribe(
+      response => {
+        this.clubMembers = response.all_club_members
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  downloadMembers() {
+    this._excelService.exportAsExcelFile(this.clubMembers, 'clubes-miembros-' + this.id);
+    this.open(this._translateService.instant('club-details.downloadedsuccessfully'), '');
   }
 
   async open(message: string, action: string) {

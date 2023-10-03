@@ -9,8 +9,8 @@
     />
 </div>
 <div class="py-10">
-    <div class="max-w-[941px]">
-        <div class="text-4xl font-semibold">{{ cityGuideTitle }}</div>
+    <div class="w-full max-w-full">
+        <div class="text-4xl font-semibold pt-24 sm:pt-24 md:pt-4 lg:pt-4">{{ cityGuideTitle }}</div>
         <div class="text-sm opacity-60 my-4">{{ cityGuideExcerpt }}</div>
         <div *ngIf="superAdmin || cityGuideOwner || canCreate" class="flex mt-3 sm:mt-3 md:mt-0 lg:mt-0">
             <button 
@@ -58,56 +58,62 @@
         </div>
         <img 
             *ngIf="cityGuideImage"
-            class="rounded-[30px] object-cover object-top w-full max-w-full sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
+            class="rounded-[30px] object-cover object-top w-full max-w-full sm:w-full sm:max-w-full md:w-[941px] md:max-w-[941px] lg:w-[941px] lg:max-w-[941px] sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
             width="941"
             height="382"
             [ngSrc]="cityGuideImage"
         />
-        <div class="mt-10">
+        <div class="mt-10 w-full max-w-full sm:w-full sm:max-w-full md:w-[941px] md:max-w-[941px] lg:w-[941px] lg:max-w-[941px]">
             <div class="whitespace-pre-wrap text-bse" [innerHtml]="cityGuideDescription"></div>
         </div>
         <div class="pt-12">
-            <div *ngFor="let item of cityGuideItems; let i = index;">
-                <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3"
-                    [ngClass]="{'mb-24': !item?.distance_from_city, 'mb-12': item?.distance_from_city}"
-                    *ngIf="item?.image || (item?.latitude && item?.longitude)"
-                >
-                    <div class="col-span-1 mb-4 sm:mb-4 md:mb-0 lg:mb-0" *ngIf="item?.image">
+            <div *ngFor="let item of cityGuideItems; let i = index; odd as isOdd; even as isEven;"
+                [ngClass]="{'w-full max-w-full sm:w-full sm:max-w-full md:w-[941px] md:max-w-[941px] lg:w-[941px] lg:max-w-[941px]': !item?.image}"
+            >
+                <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row mb-24">
+                    <div *ngIf="item?.image && !isOdd" [ngClass]="{'mr-0 sm:mr-0 md:mr-[50px] lg:mr-[50px]': item?.image && !isOdd}">
                         <img 
                             *ngIf="item?.image"
-                            class="rounded-[30px] object-cover object-top w-full max-w-full sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
+                            class="rounded-[30px] object-cover object-top w-full max-w-full sm:w-full sm:max-w-full md:w-[345px] md:max-w-[345px] lg:w-[345px] lg:max-w-[345px] sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
                             width="345"
                             height="382"
                             [ngSrc]="item?.image"
                         />
                     </div>
-                    <div class="col-span-2 -ml-8 sm:-ml-8 md:ml-0 lg:ml-0 sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
-                        *ngIf="item?.latitude && item?.longitude"
-                    >
-                        <google-map [height]="382" [center]="item?.center">
-                            <map-marker
-                                #markerElem
-                                *ngFor="let marker of item?.markers"
-                                [position]="marker.position"
-                                [label]="marker.label"
-                                [title]="marker.title"
-                                [options]="marker.options"
-                            >
-                            </map-marker>
-                        </google-map>
-                    </div>
-                </div>
-                <div *ngIf="item?.distance_from_city" class="flex mb-12 items-center">
-                    <svg class="mr-2 w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
-                        <path d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
-                    </svg>
-                    <span class="text-sm">{{'cityguide-details.distancefrom' | translate}}: {{item?.distance}} {{'cityguide-details.kilometers' | translate}}</span>
-                </div>
-                <div class="flex flex-row mb-24">
-                    <div class="mr-[50px] text-9xl font-bold" [ngStyle]="{'color': buttonColor}">{{ i + 1 }}</div>
-                    <div>
+                    <div class="mr-0 sm:mr-0 md:mr-[50px] lg:mr-[50px] text-9xl font-bold" [ngStyle]="{'color': buttonColor}">{{ i + 1 }}</div>
+                    <div [ngClass]="{'mr-0 sm:mr-0 md:mr-[50px] lg:mr-[50px]': item?.image && isOdd}">
                         <div class="text-xl font-bold mb-6">{{ item?.title }}</div>
                         <div class="text-base whitespace-pre-wrap" [innerHtml]="item?.description"></div>
+                        <div *ngIf="item?.distance_from_city" class="flex my-6 items-center">
+                            <svg class="mr-2 w-4 h-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                                <path d="M8 0a7.992 7.992 0 0 0-6.583 12.535 1 1 0 0 0 .12.183l.12.146c.112.145.227.285.326.4l5.245 6.374a1 1 0 0 0 1.545-.003l5.092-6.205c.206-.222.4-.455.578-.7l.127-.155a.934.934 0 0 0 .122-.192A8.001 8.001 0 0 0 8 0Zm0 11a3 3 0 1 1 0-6 3 3 0 0 1 0 6Z"/>
+                            </svg>
+                            <span class="text-sm">{{'cityguide-details.distancefrom' | translate}}: {{item?.distance}} {{'cityguide-details.kilometers' | translate}}</span>
+                        </div>
+                        <div class="col-span-2 mt-8 sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
+                            *ngIf="item?.latitude && item?.longitude"
+                        >
+                            <google-map [height]="382" [center]="item?.center">
+                                <map-marker
+                                    #markerElem
+                                    *ngFor="let marker of item?.markers"
+                                    [position]="marker.position"
+                                    [label]="marker.label"
+                                    [title]="marker.title"
+                                    [options]="marker.options"
+                                >
+                                </map-marker>
+                            </google-map>
+                        </div>
+                    </div>
+                    <div class="pt-14" *ngIf="item?.image && isOdd">
+                        <img 
+                            *ngIf="item?.image"
+                            class="rounded-[30px] object-cover object-top w-full max-w-full sm:w-full sm:max-w-full md:w-[345px] md:max-w-[345px] lg:w-[345px] lg:max-w-[345px] sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
+                            width="345"
+                            height="382"
+                            [ngSrc]="item?.image"
+                        />
                     </div>
                 </div>
             </div>

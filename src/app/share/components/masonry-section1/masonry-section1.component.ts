@@ -139,7 +139,7 @@ export class MasonrySection1Component {
 
   getPlanTitle(event) {
     return this.language == "en"
-      ? event.title_en
+      ? (event.title_en && event.title_en != 'undefined')
         ? event.title_en || event.title
         : event.title
       : this.language == "fr"

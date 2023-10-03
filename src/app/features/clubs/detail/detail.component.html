@@ -188,13 +188,23 @@
                     <div class="opacity-60 mr-4">{{ 'plan-details.createdby' | translate }}:</div>
                     <div class="font-semibold">{{ createdBy }}</div>
                 </div>
-                <div class="flex items-center" *ngIf="hasContactDetails">
-                    <ng-container *ngFor="let field of contactDetailsFields;">
-                        <ng-container *ngIf="getContactDetailValue(field) && field?.field?.indexOf('instagram') >= 0">
-                            <a [href]="getContactDetailValue(field)" target="_blank" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">
-                                <img width="36" height="36" class="object-contain mr-6 ml-4" src="./assets/icons/instagram.png">
-                                <a class="w-[80px] max-w-[80px] mt-4 text-center opacity-60" [href]="getContactDetailValue(field)" target="_blank">{{ 'landing.visitinstagram' | translate }}</a>
-                            </a>
+                <div class="flex items-center" *ngIf="hasContactDetails || (superAdmin || groupOwner || canCreate)">
+                    <ng-container *ngIf="superAdmin || groupOwner || canCreate">
+                        <div class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer" (click)="downloadMembers()">
+                            <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 1v4a1 1 0 0 1-1 1H1m8-2h3M9 7h3m-4 3v6m-4-3h8m3-11v16a.969.969 0 0 1-.932 1H1.934A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.829 1h8.239A.969.969 0 0 1 15 2ZM4 10h8v6H4v-6Z"/>
+                            </svg>     
+                            <span class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">{{'club-details.downloadmembers' | translate}}</span>
+                        </div>             
+                    </ng-container>
+                    <ng-container *ngIf="hasContactDetails">
+                        <ng-container *ngFor="let field of contactDetailsFields;">
+                            <ng-container *ngIf="getContactDetailValue(field) && field?.field?.indexOf('instagram') >= 0">
+                                <a [href]="getContactDetailValue(field)" target="_blank" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">
+                                    <img width="36" height="36" class="object-contain mr-6 ml-4" src="./assets/icons/instagram.png">
+                                    <a class="w-[80px] max-w-[80px] mt-4 text-center opacity-60" [href]="getContactDetailValue(field)" target="_blank">{{ 'landing.visitinstagram' | translate }}</a>
+                                </a>
+                            </ng-container>
                         </ng-container>
                     </ng-container>
                 </div>

@@ -551,7 +551,9 @@
         "youjoined": "You have joined this club",
         "leaveclub": "Leave this club",
         "pleasecontactadministrator": "Please contact your administrator",
-        "clubactivities": "Club activities"
+        "clubactivities": "Club activities",
+        "downloadmembers": "Download members (XLSX)",
+        "downloadedsuccessfully": "Downloaded successfully. Please check your downloads folder"
     },
     "club-create": {
         "fillup": "Fill in the form to create your own club",

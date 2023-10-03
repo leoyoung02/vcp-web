@@ -93,3 +93,12 @@
         <ng-content></ng-content>
     </main>
 </div>
+<app-toast 
+    *ngIf="newUpdatesAvailable" 
+    [company]="company" 
+    [update]="true" 
+    [confirm]="false"
+    [title]="title"
+    [description]="description"
+    [acceptText]="acceptText"
+></app-toast>
