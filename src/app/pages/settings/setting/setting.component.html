@@ -988,14 +988,16 @@
                             </ng-container>
                             <div class="flex items-center justify-between relative ml-4">
                                 <label
-                                    for="status"
+                                    for="setting-status-{{item.id}}"
                                     class="flex items-center w-full justify-between cursor-pointer"
                                 >
                                     <div class="relative mr-1">
                                         <input
-                                            id="status"
+                                            id="setting-status-{{item.id}}"
+                                            name="setting-status"
                                             type="checkbox"
                                             class="sr-only"
+                                            [value]="item.id"
                                             [(ngModel)]="item.active"
                                             [ngModelOptions]="{standalone: true}"
                                             (change)="toggleChange($event, item)"

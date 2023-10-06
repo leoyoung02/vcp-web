@@ -336,8 +336,6 @@ export class MainComponent {
     if (!this.isInitialLoad) {
       this.initializePage();
     }
-    // this.isLoading = true;
-    // this.isLoading = false;
   }
 
   async initializePage() {
@@ -421,6 +419,8 @@ export class MainComponent {
           }
 
           let companyFeatures = this.companyFeatures;
+          console.log('companyFeatures')
+          console.log(companyFeatures)
           if (companyFeatures) {
             let planFeature = companyFeatures.filter((f) => {
               return f.feature_name == "Plans" && f.status == 1;
@@ -485,8 +485,9 @@ export class MainComponent {
                     discountFeature[0].feature_name_ES;
             }
 
+            // Check if city agenda is activated, otherwise just add here for testing
             let cityAgendaFeature = companyFeatures.filter((f) => {
-              return f.feature_name == "City Agenda" && f.status == 1;
+              return f.feature_name == "City Agenda" && (f.status == 1 || this.companyId == 32);
             });
             if (cityAgendaFeature?.length > 0) {
               this.blogTitle =
@@ -942,7 +943,8 @@ export class MainComponent {
               });
             }
           }
-          if (this.isBlogEnabled) {
+          // Check if city agenda is activated, otherwise just add here for testing
+          if (this.isBlogEnabled || this.companyId == 32) {
             let match =
               mi.submenus && mi.submenus.some((a) => a.value === "Content");
             if (!match) {
@@ -1314,7 +1316,6 @@ export class MainComponent {
               }
             }
           }
-          console.log(other_categories);
           this.otherSettingsCategories = other_categories;
         },
         (error) => {
@@ -1428,6 +1429,8 @@ export class MainComponent {
         this._router.navigate([`/settings/manage-list/canalempleo`]);
       } else if (content == "Cities") {
         this._router.navigate([`/settings/manage-list/cities`]);
+      } else if (content == "Content") {
+        this._router.navigate([`/settings/manage-list/cityguide`]);
       }
       // else if (content == "Courses") {
       //   this._router.navigate([`/settings/courses`]);

@@ -16,6 +16,7 @@ import { environment } from "@env/environment";
 import { PlansAdminListComponent } from "@features/plans/admin-list/admin-list.component";
 import { ClubsAdminListComponent } from "@features/clubs/admin-list/admin-list.component";
 import { JobOffersAdminListComponent } from "@features/job-offers/admin-list/admin-list.component";
+import { CityGuideAdminListComponent } from "@features/city-guide/admin-list/admin-list.component";
 import get from "lodash/get";
 
 @Component({
@@ -29,7 +30,8 @@ import get from "lodash/get";
     IconFilterComponent,
     PlansAdminListComponent,
     ClubsAdminListComponent,
-    JobOffersAdminListComponent
+    JobOffersAdminListComponent,
+    CityGuideAdminListComponent,
   ],
   templateUrl: "./admin-lists.component.html",
 })
@@ -64,10 +66,14 @@ export class AdminListsComponent {
   jobOffersFeature: any;
   jobOffersFeatureId: any;
   jobOffersTitle: any;
+  cityGuideFeature: any;
+  cityGuideFeatureId: any;
+  cityGuideTitle: any;
   superAdmin: boolean = false;
   canCreatePlan: boolean = false;
   canCreateClub: boolean = false;
   canCreateJobOffer: boolean = false;
+  canCreateCityGuide: boolean = false;
   cities: any = [];
   hasSalesProcess: any;
   admin1: boolean = false;
@@ -167,7 +173,7 @@ export class AdminListsComponent {
   }
 
   mapFeatures(features) {
-    this.plansFeature = features?.find((f) => f.feature_id == 1);
+    this.plansFeature = features?.find((f) => f.feature_id == 1 && f.status == 1);
     this.plansFeatureId = this.plansFeature?.feature_id;
     this.plansTitle = this.plansFeature
       ? this.getFeatureTitle(this.plansFeature)
@@ -188,6 +194,28 @@ export class AdminListsComponent {
     this.jobOffersTitle = this.jobOffersFeature
       ? this.getFeatureTitle(this.jobOffersFeature)
       : "";
+
+    // Check if city agenda is activated, otherwise just add here for testing
+    this.cityGuideFeature = features?.find(
+      (f) => f.feature_id == 3 && f.status == 1
+    );
+    // Check if city agenda is activated, otherwise just add here for testing
+    if(!this.cityGuideFeature && this.companyId == 32) {
+      this.cityGuideFeature = {
+        feature_id: 3,
+        name_ca: "City Agenda",
+        name_de: "City Agenda",
+        name_en: "City Guide",
+        name_es: "City Guide",
+        name_eu: "City Agenda",
+        name_fr: "Calendrier de la Ville",
+        status: 1
+      }
+    }
+    this.cityGuideFeatureId = this.cityGuideFeature?.feature_id;
+    this.cityGuideTitle = this.cityGuideFeature
+      ? this.getFeatureTitle(this.cityGuideFeature)
+      : "";
   }
 
   mapUserPermissions(user_permissions) {
@@ -206,6 +234,11 @@ export class AdminListsComponent {
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find(
         (f) => f.create == 1 && f.feature_id == 18
+      );
+    this.canCreateCityGuide =
+      user_permissions?.create_plan_roles?.length > 0 ||
+      user_permissions?.member_type_permissions?.find(
+        (f) => f.create == 1 && f.feature_id == 3
       );
   }
 

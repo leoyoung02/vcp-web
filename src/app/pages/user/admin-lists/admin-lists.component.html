@@ -64,3 +64,17 @@
     [status]="status"
 >
 </app-job-offers-admin-list>
+<app-city-guide-admin-list 
+    *ngIf="filter == 'cityguide'"
+    [list]="list"
+    [company]="company"
+    [buttonColor]="buttonColor"
+    [primaryColor]="primaryColor"
+    [canCreateCityGuide]="canCreateCityGuide"
+    [cityGuideTitle]="cityGuideTitle"
+    [userId]="userId"
+    [superAdmin]="superAdmin"
+    [language]="language"
+    [status]="status"
+>
+</app-city-guide-admin-list>

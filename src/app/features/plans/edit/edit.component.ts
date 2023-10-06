@@ -101,6 +101,7 @@ export class PlanEditComponent {
   url = "";
   user: any;
   company_id: any;
+  endDate: any;
 
   terms: boolean = false;
   buttonDisabled: boolean = false;
@@ -1590,9 +1591,11 @@ export class PlanEditComponent {
     if (start_date_time < today_date_time) {
       this.showError = true;
       this.startDateTimeError = true;
-      this.errorMessage = this._translateService.instant(
-        "dialog.lessthantodaydate"
+      this.open(
+        this._translateService.instant("dialog.lessthantodaydate"),
+        ""
       );
+      this.issaving = false;
       setTimeout(() => {
         this.scrollToTop();
       }, 1000);
@@ -1611,12 +1614,17 @@ export class PlanEditComponent {
         "HH:mm"
       );
       end_date = end_date + " " + end_time;
+      this.endDate = end_date;
 
       let end_date_time = new Date(end_date).getTime();
       if (end_date_time <= start_date_time) {
         this.showError = true;
         this.endDateTimeError = true;
-        this.errorMessage = this._translateService.instant("dialog.dateerror");
+        this.open(
+          this._translateService.instant("dialog.dateerror"),
+          ""
+        );
+        this.issaving = false;
         setTimeout(() => {
           this.scrollToTop();
         }, 1000);
@@ -1634,6 +1642,7 @@ export class PlanEditComponent {
       this.planForm.get("plan_date")?.errors ||
       this.checkDescription()
     ) {
+      this.issaving = false;
       this.scrollToTop();
       return false;
     }
@@ -1643,6 +1652,7 @@ export class PlanEditComponent {
     if (this.hasTypeOfActivity) {
       if (this.showProlongedActivitySection) {
         if (!this.prolongedDaysNumber) {
+          this.issaving = false;
           this.scrollToTop();
           return false;
         }
@@ -1652,6 +1662,7 @@ export class PlanEditComponent {
             return !a.location;
           });
           if (incomplete_loc && incomplete_loc[0]) {
+            this.issaving = false;
             this.scrollToTop();
             return false;
           }
@@ -1662,9 +1673,11 @@ export class PlanEditComponent {
     if (!this.imgSrc) {
       this.noImage = true;
       this.showError = true;
-      this.errorMessage = this._translateService.instant(
-        "dialog.pleaseuploadanimage"
+      this.open(
+        this._translateService.instant("dialog.pleaseuploadanimage"),
+        ""
       );
+      this.issaving = false;
       this.scrollToTop();
       return false;
     } else {
@@ -1777,6 +1790,7 @@ export class PlanEditComponent {
     this.plan.plan_date = start_date;
     if (this.planForm.get("end_date")?.value) {
       this.plan.end_datetime = end_date;
+      this.plan.end_date = this.endDate;
     }
     if (this.eventType) {
       this.plan.event_type_id = this.eventType;

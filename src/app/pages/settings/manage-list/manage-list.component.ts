@@ -10,12 +10,13 @@ import {
 } from "@ngx-translate/core";
 import { Subject, takeUntil } from "rxjs";
 import { CompanyService, LocalService } from "@share/services";
-import { environment } from "@env/environment";
-import get from "lodash/get";
-import { BreadcrumbComponent, ButtonGroupComponent } from "@share/components";
+import { BreadcrumbComponent, ButtonGroupComponent, PageTitleComponent } from "@share/components";
 import { JobOffersAdminListComponent } from "@features/job-offers/admin-list/admin-list.component";
 import { ClubsAdminListComponent } from "@features/clubs/admin-list/admin-list.component";
 import { ManageCitiesComponent } from "../cities/cities.component";
+import { CityGuideAdminListComponent } from "@features/city-guide/admin-list/admin-list.component";
+import { environment } from "@env/environment";
+import get from "lodash/get";
 
 @Component({
   selector: "app-manage-list",
@@ -31,6 +32,8 @@ import { ManageCitiesComponent } from "../cities/cities.component";
     PlansAdminListComponent,
     ClubsAdminListComponent,
     JobOffersAdminListComponent,
+    CityGuideAdminListComponent,
+    PageTitleComponent,
   ],
   templateUrl: "./manage-list.component.html",
 })
@@ -59,10 +62,14 @@ export class ManageListComponent {
   jobOffersFeature: any;
   jobOffersFeatureId: any;
   jobOffersTitle: any;
+  cityGuideFeature: any;
+  cityGuideFeatureId: any;
+  cityGuideTitle: any;
   superAdmin: boolean = false;
-  canCreatePlan: any;
-  canCreateClub: any;
-  canCreateJobOffer: any;
+  canCreatePlan: boolean = false;
+  canCreateClub: boolean = false;
+  canCreateJobOffer: boolean = false;
+  canCreateCityGuide: boolean = false;
   buttonList: any[] = [];
   filter: any;
   company: any;
@@ -129,7 +136,8 @@ export class ManageListComponent {
     if (
       this.list == "plans" ||
       this.list == "clubs" ||
-      this.list == "canalempleo"
+      this.list == "canalempleo" ||
+      this.list == "cityguide"
     ) {
       this.fetchAdministrarData();
     }
@@ -178,11 +186,14 @@ export class ManageListComponent {
       case "canalempleo":
         this.listTitle = this.jobOffersTitle;
         break;
+      case "cityguide":
+        this.listTitle = this.cityGuideTitle;
+        break;
     }
   }
 
   mapFeatures(features) {
-    this.plansFeature = features?.find((f) => f.feature_id == 1);
+    this.plansFeature = features?.find((f) => f.feature_id == 1 && f.status == 1);
     this.plansFeatureId = this.plansFeature?.feature_id;
     this.plansTitle = this.plansFeature
       ? this.getFeatureTitle(this.plansFeature)
@@ -203,6 +214,27 @@ export class ManageListComponent {
     this.jobOffersTitle = this.jobOffersFeature
       ? this.getFeatureTitle(this.jobOffersFeature)
       : "";
+
+    this.cityGuideFeature = features?.find(
+      (f) => f.feature_id == 3 && f.status == 1
+    );
+    // Check if city agenda is activated, otherwise just add here for testing
+    if(!this.cityGuideFeature && this.companyId == 32) {
+      this.cityGuideFeature = {
+        feature_id: 3,
+        name_ca: "City Agenda",
+        name_de: "City Agenda",
+        name_en: "City Guide",
+        name_es: "City Guide",
+        name_eu: "City Agenda",
+        name_fr: "Calendrier de la Ville",
+        status: 1
+      }
+    }
+    this.cityGuideFeatureId = this.cityGuideFeature?.feature_id;
+    this.cityGuideTitle = this.cityGuideFeature
+      ? this.getFeatureTitle(this.cityGuideFeature)
+      : "";
   }
 
   mapUserPermissions(user_permissions) {
@@ -221,6 +253,11 @@ export class ManageListComponent {
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find(
         (f) => f.create == 1 && f.feature_id == 18
+      );
+    this.canCreateCityGuide =
+      user_permissions?.create_plan_roles?.length > 0 ||
+      user_permissions?.member_type_permissions?.find(
+        (f) => f.create == 1 && f.feature_id == 3
       );
   }
 

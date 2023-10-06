@@ -994,43 +994,44 @@ export class ClubEditComponent {
 
     let formData = new FormData();
 
+    console.log('title_en: ' + this.clubForm?.value?.title_en)
     formData.append("entity_id", this.companyId.toString());
     formData.append("user_id", this.userId.toString());
     formData.append(
       "title",
-      this.clubForm["title_es"]
-        ? this.clubForm["title_es"]
-        : this.clubForm["title"]
+      this.clubForm?.value?.title_es
+        ? this.clubForm?.value?.title_es
+        : this.clubForm?.value?.title
     );
     formData.append(
       "title_en",
-      this.clubForm["title_en"]
-        ? this.clubForm["title_en"]
-        : this.clubForm["title"]
+      this.clubForm?.value?.title_en
+        ? this.clubForm?.value?.title_en
+        : this.clubForm?.value?.title
     );
     formData.append(
       "title_fr",
-      this.clubForm["title_fr"]
-        ? this.clubForm["title_fr"]
-        : this.clubForm["title"]
+      this.clubForm?.value?.title_fr
+        ? this.clubForm?.value?.title_fr
+        : this.clubForm?.value?.title
     );
     formData.append(
       "title_eu",
-      this.clubForm["title_eu"]
-        ? this.clubForm["title_eu"]
-        : this.clubForm["title"]
+      this.clubForm?.value?.title_eu
+        ? this.clubForm?.value?.title_eu
+        : this.clubForm?.value?.title
     );
     formData.append(
       "title_ca",
-      this.clubForm["title_ca"]
-        ? this.clubForm["title_ca"]
-        : this.clubForm["title"]
+      this.clubForm?.value?.title_ca
+        ? this.clubForm?.value?.title_ca
+        : this.clubForm?.value?.title
     );
     formData.append(
       "title_de",
-      this.clubForm["title_de"]
-        ? this.clubForm["title_de"]
-        : this.clubForm["title"]
+      this.clubForm?.value?.title_de
+        ? this.clubForm?.value?.title_de
+        : this.clubForm?.value?.title
     );
     formData.append(
       "category_id",
@@ -1084,39 +1085,39 @@ export class ClubEditComponent {
     formData.append("user_admin", admin);
     formData.append(
       "description",
-      this.clubForm["description_es"]
-        ? this.clubForm["description_es"]
-        : this.clubForm["description"]
+      this.clubForm?.value?.description_es
+        ? this.clubForm?.value?.description_es
+        : this.clubForm?.value?.description
     );
     formData.append(
       "description_en",
-      this.clubForm["description_en"]
-        ? this.clubForm["description_en"]
-        : this.clubForm["description"]
+      this.clubForm?.value?.description_en
+        ? this.clubForm?.value?.description_en
+        : this.clubForm?.value?.description
     );
     formData.append(
       "description_fr",
-      this.clubForm["description_fr"]
-        ? this.clubForm["description_fr"]
-        : this.clubForm["description"]
+      this.clubForm?.value?.description_fr
+        ? this.clubForm?.value?.description_fr
+        : this.clubForm?.value?.description
     );
     formData.append(
       "description_eu",
-      this.clubForm["description_eu"]
-        ? this.clubForm["description_eu"]
-        : this.clubForm["description"]
+      this.clubForm?.value?.description_eu
+        ? this.clubForm?.value?.description_eu
+        : this.clubForm?.value?.description
     );
     formData.append(
       "description_ca",
-      this.clubForm["description_ca"]
-        ? this.clubForm["description_ca"]
-        : this.clubForm["description"]
+      this.clubForm?.value?.description_ca
+        ? this.clubForm?.value?.description_ca
+        : this.clubForm?.value?.description
     );
     formData.append(
       "description_de",
-      this.clubForm["description_de"]
-        ? this.clubForm["description_de"]
-        : this.clubForm["description"]
+      this.clubForm?.value?.description_de
+        ? this.clubForm?.value?.description_de
+        : this.clubForm?.value?.description
     );
     formData.append("setting", this.setting);
     formData.append("fk_company_id", this.companyId.toString());

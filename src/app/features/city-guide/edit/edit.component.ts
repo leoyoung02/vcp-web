@@ -380,6 +380,7 @@ export class CityGuideEditComponent {
         ...item,
         title: this.getCityGuideItemTitle(item),
         description: this.getCityGuideDescription(item),
+        truncated_description: this.getCityGuideDescriptionTruncated(item),
         image: item?.image ? `${environment.api}/get-image/${item?.image}` : '',
         distance: item?.distance_from_city
           ? item?.distance_from_city?.replace(".00", "")?.replace(".", "")
@@ -427,6 +428,31 @@ export class CityGuideEditComponent {
         ? guide.description_DE || guide.description_ES
         : guide.description_ES
       : "";
+  }
+
+  getCityGuideDescriptionTruncated(guide) {
+    let description = guide
+      ? this.language == "en"
+        ? guide.description_EN || guide.description_ES
+        : this.language == "fr"
+        ? guide.description_FR || guide.description_ES
+        : this.language == "eu"
+        ? guide.description_EU || guide.description_ES
+        : this.language == "ca"
+        ? guide.description_CA || guide.description_ES
+        : this.language == "de"
+        ? guide.description_DE || guide.description_ES
+        : guide.description_ES
+      : "";
+
+      let charlimit = 180;
+      if (!description || description.length <= charlimit) {
+        return description;
+      }
+  
+      let without_html = description.replace(/<(?:.|\n)*?>/gm, "");
+      let shortened = without_html.substring(0, charlimit) + "...";
+      return shortened;
   }
 
   mapFeatures(features) {

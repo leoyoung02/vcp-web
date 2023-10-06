@@ -1,8 +1,9 @@
+<app-page-title title="{{ 'company-settings.managelanding' | translate }}"></app-page-title>
 <app-manage-users *ngIf="list == 'users'"></app-manage-users>
 <app-manage-membertypes *ngIf="list == 'membertypes'"></app-manage-membertypes>
 <app-manage-cities *ngIf="list == 'cities'"></app-manage-cities>
-<ng-container *ngIf="list == 'plans' || list == 'clubs' || list == 'canalempleo'">
-    <div class="mb-8 container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
+<ng-container *ngIf="list == 'plans' || list == 'clubs' || list == 'canalempleo' || list == 'cityguide'">
+    <div class="mb-8 container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
         <app-breadcrumb 
             [level1Title]="level1Title"
             [level2Title]="level2Title"
@@ -65,5 +66,19 @@
         [status]="status"
     >
     </app-job-offers-admin-list>
+    <app-city-guide-admin-list 
+        *ngIf="list == 'cityguide' && !isLoading"
+        [list]="citiesList"
+        [company]="company"
+        [buttonColor]="buttonColor"
+        [primaryColor]="primaryColor"
+        [canCreateCityGuide]="canCreateCityGuide"
+        [cityGuideTitle]="cityGuideTitle"
+        [userId]="userId"
+        [superAdmin]="superAdmin"
+        [language]="language"
+        [status]="status"
+    >
+    </app-city-guide-admin-list>
 </ng-container>
 

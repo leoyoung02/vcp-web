@@ -70,19 +70,43 @@
             </div>
             <div class="flex items-center justify-center mb-4 relative">
                 <input 
+                    *ngIf="selectedLanguage == 'es'"
                     [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': planForm.get('title_es')?.errors }"
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                    [formControlName]="selectedLanguage == 'en' ? 'title_en' : 
-                        (selectedLanguage == 'fr' ? 'title_fr' : (
-                            selectedLanguage == 'eu' ? 'title_eu' : 
-                                (selectedLanguage == 'ca' ? 'title_ca' : 
-                                    (selectedLanguage == 'de' ? 'title_de' : 'title_es')
-                                )
-                            )
-                        )" 
+                    formControlName="title_es" 
                     placeholder="{{ 'club-create.title' | translate }}*" 
                     required>
+                <input 
+                    *ngIf="selectedLanguage == 'en'"
+                    type="text" 
+                    class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                    formControlName="title_en" 
+                    placeholder="{{ 'club-create.title' | translate }}">
+                <input 
+                    *ngIf="selectedLanguage == 'fr'"
+                    type="text" 
+                    class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                    formControlName="title_fr" 
+                    placeholder="{{ 'club-create.title' | translate }}">
+                <input 
+                    *ngIf="selectedLanguage == 'eu'"
+                    type="text" 
+                    class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                    formControlName="title_eu" 
+                    placeholder="{{ 'club-create.title' | translate }}">
+                <input 
+                    *ngIf="selectedLanguage == 'ca'"
+                    type="text" 
+                    class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                    formControlName="title_ca" 
+                    placeholder="{{ 'club-create.title' | translate }}">
+                <input 
+                    *ngIf="selectedLanguage == 'de'"
+                    type="text" 
+                    class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                    formControlName="title_de" 
+                    placeholder="{{ 'club-create.title' | translate }}">
             </div>
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
                 <div class="flex items-center justify-center relative">
@@ -96,7 +120,7 @@
                 </div>
                 <div *ngIf="isPlanDurationActive">
                     <mat-form-field class="w-full datetime-picker-field">
-                        <input matInput [ngxMatDatetimePicker]="picker1" placeholder="{{ 'plan-create.enddate' | translate }} {{pageName}}*" 
+                        <input matInput [ngxMatDatetimePicker]="picker1" placeholder="{{ 'plan-create.enddate' | translate }} {{pageName}}" 
                         formControlName="end_date">
                         <ngx-mat-datepicker-toggle matSuffix [for]="picker1"></ngx-mat-datepicker-toggle>
                         <ngx-mat-datetime-picker #picker1></ngx-mat-datetime-picker>
@@ -726,6 +750,7 @@
             </div>
             <div class="flex items-center justify-center mb-4 relative">
                 <editor
+                    *ngIf="selectedLanguage == 'es'"
                     class="w-full"
                     apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
                     [init]="{
@@ -748,14 +773,137 @@
                         valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
                     }"
                     id="description"
-                    [formControlName]="selectedLanguage == 'en' ? 'descriptionEn' : 
-                        (selectedLanguage == 'fr' ? 'descriptionFr' : (
-                            selectedLanguage == 'eu' ? 'descriptionEu' : 
-                                (selectedLanguage == 'ca' ? 'descriptionCa' : 
-                                    (selectedLanguage == 'de' ? 'descriptionDe' : 'descriptionEs')
-                                )
-                            )
-                        )" 
+                    formControlName="descriptionEs" 
+                ></editor>
+                <editor
+                    *ngIf="selectedLanguage == 'en'"
+                    class="w-full"
+                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                    [init]="{
+                        height: 183,
+                        menubar: false,
+                        plugins: [
+                        'advlist autolink lists link image imagetools charmap print',
+                        'preview anchor searchreplace visualblocks code',
+                        'fullscreen insertdatetime media table paste',
+                        'help wordcount',
+                        'code media'
+                        ],
+                        toolbar:
+                        'undo redo | formatselect | bold italic | \
+                        alignleft aligncenter alignright alignjustify | \
+                        media | \
+                        paste pastetext | \
+                        image imagetools | \
+                        bullist numlist outdent indent | help',
+                        valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                    }"
+                    id="description"
+                    formControlName="descriptionEn" 
+                ></editor>
+                <editor
+                    *ngIf="selectedLanguage == 'fr'"
+                    class="w-full"
+                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                    [init]="{
+                        height: 183,
+                        menubar: false,
+                        plugins: [
+                        'advlist autolink lists link image imagetools charmap print',
+                        'preview anchor searchreplace visualblocks code',
+                        'fullscreen insertdatetime media table paste',
+                        'help wordcount',
+                        'code media'
+                        ],
+                        toolbar:
+                        'undo redo | formatselect | bold italic | \
+                        alignleft aligncenter alignright alignjustify | \
+                        media | \
+                        paste pastetext | \
+                        image imagetools | \
+                        bullist numlist outdent indent | help',
+                        valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                    }"
+                    id="description"
+                    formControlName="descriptionFr" 
+                ></editor>
+                <editor
+                    *ngIf="selectedLanguage == 'eu'"
+                    class="w-full"
+                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                    [init]="{
+                        height: 183,
+                        menubar: false,
+                        plugins: [
+                        'advlist autolink lists link image imagetools charmap print',
+                        'preview anchor searchreplace visualblocks code',
+                        'fullscreen insertdatetime media table paste',
+                        'help wordcount',
+                        'code media'
+                        ],
+                        toolbar:
+                        'undo redo | formatselect | bold italic | \
+                        alignleft aligncenter alignright alignjustify | \
+                        media | \
+                        paste pastetext | \
+                        image imagetools | \
+                        bullist numlist outdent indent | help',
+                        valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                    }"
+                    id="description"
+                    formControlName="descriptionEu" 
+                ></editor>
+                <editor
+                    *ngIf="selectedLanguage == 'ca'"
+                    class="w-full"
+                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                    [init]="{
+                        height: 183,
+                        menubar: false,
+                        plugins: [
+                        'advlist autolink lists link image imagetools charmap print',
+                        'preview anchor searchreplace visualblocks code',
+                        'fullscreen insertdatetime media table paste',
+                        'help wordcount',
+                        'code media'
+                        ],
+                        toolbar:
+                        'undo redo | formatselect | bold italic | \
+                        alignleft aligncenter alignright alignjustify | \
+                        media | \
+                        paste pastetext | \
+                        image imagetools | \
+                        bullist numlist outdent indent | help',
+                        valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                    }"
+                    id="description"
+                    formControlName="descriptionCa" 
+                ></editor>
+                <editor
+                    *ngIf="selectedLanguage == 'de'"
+                    class="w-full"
+                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                    [init]="{
+                        height: 183,
+                        menubar: false,
+                        plugins: [
+                        'advlist autolink lists link image imagetools charmap print',
+                        'preview anchor searchreplace visualblocks code',
+                        'fullscreen insertdatetime media table paste',
+                        'help wordcount',
+                        'code media'
+                        ],
+                        toolbar:
+                        'undo redo | formatselect | bold italic | \
+                        alignleft aligncenter alignright alignjustify | \
+                        media | \
+                        paste pastetext | \
+                        image imagetools | \
+                        bullist numlist outdent indent | help',
+                        valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                    }"
+                    id="description"
+                    formControlName="descriptionDe" 
                 ></editor>
             </div>
             <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
