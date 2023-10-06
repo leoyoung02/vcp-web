@@ -867,7 +867,9 @@
         "viewmap": "Afficher la carte",
         "copylink": "Copier le lien",
         "share": "Partage",
-        "cityguide": "Guide de la ville"
+        "cityguide": "Guide de la ville",
+        "latitude": "Latitude",
+        "longitude": "Longitude"
     },
     "search": {
         "viewmore": "Voir plus",

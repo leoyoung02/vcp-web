@@ -290,8 +290,8 @@ export class CityGuideListComponent {
         return g.object_id == guide.id;
       });
       let limit_likes = likes
-      if(likes?.length > 5) {
-        limit_likes = likes.slice(0, 5)
+      if(likes?.length > 3) {
+        limit_likes = likes.slice(0, 3)
       }
 
       return {

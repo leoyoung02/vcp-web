@@ -17,7 +17,8 @@ import { Subject, takeUntil } from "rxjs";
 import { CityGuidesService } from "@features/services";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ButtonGroupComponent, NoAccessComponent, PageTitleComponent } from "@share/components";
+import { MatTabsModule } from "@angular/material/tabs";
+import { ButtonGroupComponent, NoAccessComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import {
   FormControl,
   FormGroup,
@@ -49,12 +50,14 @@ import get from "lodash/get";
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    MatTabsModule,
     EditorModule,
     ImageCropperModule,
     FontAwesomeModule,
     ButtonGroupComponent,
     NoAccessComponent,
     PageTitleComponent,
+    ToastComponent,
   ],
   templateUrl: "./edit.component.html",
 })
@@ -166,6 +169,63 @@ export class CityGuideEditComponent {
   cityGuideDescription: any;
   cityGuideOwner: boolean = false;
   cityGuideItems: any = [];
+  tabIndex = 0;
+  tabSelected: boolean = false;
+  itemMode: string = '';
+  createHover: boolean = false;
+  cancelHover: boolean = false;
+  selectedItem: any;
+  showConfirmationModal: boolean = false;
+  confirmDeleteItemTitle: any;
+  confirmDeleteItemDescription: any;
+  acceptText: string = "";
+  cancelText: any = "";
+  confirmMode: string = "";
+
+  cityGuideItemForm: FormGroup = new FormGroup({
+    title_ES: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(150),
+    ]),
+    title_EN: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(150),
+    ]),
+    title_FR: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(150),
+    ]),
+    title_EU: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(150),
+    ]),
+    title_CA: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(150),
+    ]),
+    title_DE: new FormControl("", [
+      Validators.required,
+      Validators.maxLength(150),
+    ]),
+    description_ES: new FormControl("", [Validators.required]),
+    description_EN: new FormControl("", [Validators.required]),
+    description_FR: new FormControl("", [Validators.required]),
+    description_EU: new FormControl("", [Validators.required]),
+    description_CA: new FormControl("", [Validators.required]),
+    description_DE: new FormControl("", [Validators.required]),
+    latitude: new FormControl(""),
+    longitude: new FormControl(""),
+    distance_from_city: new FormControl(""),
+  });
+  itemImgSrc: any;
+  itemCroppedImage: any = "";
+  itemFile: any = [];
+  itemImageChangedEvent: any = "";
+  issavingitem: boolean = false;
+  title: any;
+  itemdescription: any;
+  @ViewChild("modalbutton2", { static: false })
+  modalbutton2: ElementRef<HTMLInputElement> = {} as ElementRef;
 
   constructor(
     private _route: ActivatedRoute,
@@ -237,6 +297,7 @@ export class CityGuideEditComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data);
           this.mapFeatures(data?.features_mapping);
           this.mapUserPermissions(data?.user_permissions);
 
@@ -302,6 +363,70 @@ export class CityGuideEditComponent {
       this.imgSrc = `${this.apiPath}/get-image/${image}`;
       this.status = status == 1 ? true : false;
     }
+
+    this.cityGuideItems = this.formatCityGuideItems(data?.city_guide_items);
+  }
+
+  formatCityGuideItems(data) {
+    let items = data?.map((item) => {
+      let center;
+      if (item.latitude && item?.longitude) {
+        center = {
+          lat: item?.latitude ? parseFloat(item?.latitude) : 0,
+          lng: item?.longitude ? parseFloat(item?.longitude) : 0,
+        };
+      }
+      return {
+        ...item,
+        title: this.getCityGuideItemTitle(item),
+        description: this.getCityGuideDescription(item),
+        image: item?.image ? `${environment.api}/get-image/${item?.image}` : '',
+        distance: item?.distance_from_city
+          ? item?.distance_from_city?.replace(".00", "")?.replace(".", "")
+          : "",
+      };
+    });
+    return items;
+  }
+
+  getCityGuideItemTitle(guide) {
+    return this.language == "en"
+      ? guide.title_EN
+        ? guide.title_EN || guide.title_ES
+        : guide.title_ES
+      : this.language == "fr"
+      ? guide.title_FR
+        ? guide.title_FR || guide.title_ES
+        : guide.title_ES
+      : this.language == "eu"
+      ? guide.title_EU
+        ? guide.title_EU || guide.title_ES
+        : guide.title_ES
+      : this.language == "ca"
+      ? guide.title_CA
+        ? guide.title_CA || guide.title_ES
+        : guide.title_ES
+      : this.language == "de"
+      ? guide.title_DE
+        ? guide.title_de || guide.title_ES
+        : guide.title_ES
+      : guide.title_ES;
+  }
+
+  getCityGuideDescription(guide) {
+    return guide
+      ? this.language == "en"
+        ? guide.description_EN || guide.description_ES
+        : this.language == "fr"
+        ? guide.description_FR || guide.description_ES
+        : this.language == "eu"
+        ? guide.description_EU || guide.description_ES
+        : this.language == "ca"
+        ? guide.description_CA || guide.description_ES
+        : this.language == "de"
+        ? guide.description_DE || guide.description_ES
+        : guide.description_ES
+      : "";
   }
 
   mapFeatures(features) {
@@ -534,6 +659,18 @@ export class CityGuideEditComponent {
     return false;
   }
 
+  itemValidationCheck() {
+    let code = this.defaultLanguage?.length > 0 ? this.defaultLanguage[0].code : "es";
+    if (
+      this.cityGuideItemForm?.value["title_" + code?.toString()?.toUpperCase()] &&
+      this.cityGuideItemForm?.value["description_" + code?.toString()?.toUpperCase()]
+    ) {
+      return true;
+    }
+
+    return false;
+  }
+
   setDescription() {
     if (this.editorToUse == "tinymce" && this.editor) {
       if (this.cityGuideForm.controls["description"]) {
@@ -641,6 +778,125 @@ export class CityGuideEditComponent {
     if (this.cityGuideForm.controls["description_DE"]) {
       this.cityGuideForm.controls["description_DE"].setValue(
         this.cityGuideForm
+          .get("description_DE")
+          ?.value?.replace("*|MC:SUBJECT|*", "")
+          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
+          .replace(
+            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
+            ""
+          )
+          .replace("<!--*|END:IF|*-->", "")
+      );
+    }
+  }
+
+  setItemDescription() {
+    if (this.editorToUse == "tinymce" && this.editor) {
+      if (this.cityGuideItemForm.controls["description"]) {
+        this.cityGuideItemForm.controls["description"].setValue(
+          this.editor.getContent()
+        );
+      }
+      if (this.cityGuideItemForm.controls["descrition_EN"]) {
+        this.cityGuideItemForm.controls["description_EN"].setValue(
+          this.editor.getContent()
+        );
+      }
+      if (this.cityGuideItemForm.controls["description_FR"]) {
+        this.cityGuideItemForm.controls["description_FR"].setValue(
+          this.editor.getContent()
+        );
+      }
+      if (this.cityGuideItemForm.controls["description_EU"]) {
+        this.cityGuideItemForm.controls["description_EU"].setValue(
+          this.editor.getContent()
+        );
+      }
+      if (this.cityGuideItemForm.controls["description_CA"]) {
+        this.cityGuideItemForm.controls["description_CA"].setValue(
+          this.editor.getContent()
+        );
+      }
+      if (this.cityGuideItemForm.controls["description_DE"]) {
+        this.cityGuideItemForm.controls["description_DE"].setValue(
+          this.editor.getContent()
+        );
+      }
+    }
+
+    if (this.cityGuideItemForm.controls["description"]) {
+      this.cityGuideItemForm.controls["description"].setValue(
+        this.cityGuideItemForm
+          .get("description")
+          ?.value?.replace("*|MC:SUBJECT|*", "")
+          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
+          .replace(
+            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
+            ""
+          )
+          .replace("<!--*|END:IF|*-->", "")
+      );
+    }
+
+    if (this.cityGuideItemForm.controls["description_EN"]) {
+      this.cityGuideItemForm.controls["description_EN"].setValue(
+        this.cityGuideItemForm
+          .get("description_EN")
+          ?.value?.replace("*|MC:SUBJECT|*", "")
+          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
+          .replace(
+            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
+            ""
+          )
+          .replace("<!--*|END:IF|*-->", "")
+      );
+    }
+
+    if (this.cityGuideItemForm.controls["description_FR"]) {
+      this.cityGuideItemForm.controls["description_FR"].setValue(
+        this.cityGuideItemForm
+          .get("description_FR")
+          ?.value?.replace("*|MC:SUBJECT|*", "")
+          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
+          .replace(
+            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
+            ""
+          )
+          .replace("<!--*|END:IF|*-->", "")
+      );
+    }
+
+    if (this.cityGuideItemForm.controls["description_EU"]) {
+      this.cityGuideItemForm.controls["description_EU"].setValue(
+        this.cityGuideItemForm
+          .get("description_EU")
+          ?.value?.replace("*|MC:SUBJECT|*", "")
+          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
+          .replace(
+            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
+            ""
+          )
+          .replace("<!--*|END:IF|*-->", "")
+      );
+    }
+
+    if (this.cityGuideItemForm.controls["description_CA"]) {
+      this.cityGuideItemForm.controls["description_CA"].setValue(
+        this.cityGuideItemForm
+          .get("description_CA")
+          ?.value?.replace("*|MC:SUBJECT|*", "")
+          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
+          .replace(
+            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
+            ""
+          )
+          .replace("<!--*|END:IF|*-->", "")
+      );
+    }
+
+    if (this.cityGuideItemForm.controls["description_DE"]) {
+      this.cityGuideItemForm.controls["description_DE"].setValue(
+        this.cityGuideItemForm
           .get("description_DE")
           ?.value?.replace("*|MC:SUBJECT|*", "")
           .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
@@ -861,6 +1117,300 @@ export class CityGuideEditComponent {
         }
       );
     }
+  }
+
+  changeTab(event) {
+    this.tabSelected = true;
+  }
+
+  handleCreateItem() {
+    this.itemMode = 'add';
+    this.itemImgSrc = '';
+    this.cityGuideItemForm.reset();
+  }
+
+  handleEdit(item) {
+    this.selectedItem = item;
+    this.itemMode = 'edit';
+
+    this.cityGuideItemForm.controls["title_ES"].setValue(item.title_ES);
+    this.cityGuideItemForm.controls["title_EN"].setValue(item.title_EN);
+    this.cityGuideItemForm.controls["title_FR"].setValue(item.title_FR);
+    this.cityGuideItemForm.controls["title_EU"].setValue(item.title_EU);
+    this.cityGuideItemForm.controls["title_CA"].setValue(item.title_CA);
+    this.cityGuideItemForm.controls["title_DE"].setValue(item.title_DE);
+    this.cityGuideItemForm.controls["description_ES"].setValue(item.description_ES);
+    this.cityGuideItemForm.controls["description_EN"].setValue(item.description_EN);
+    this.cityGuideItemForm.controls["description_FR"].setValue(item.description_FR);
+    this.cityGuideItemForm.controls["description_EU"].setValue(item.description_EU);
+    this.cityGuideItemForm.controls["description_CA"].setValue(item.description_CA);
+    this.cityGuideItemForm.controls["description_DE"].setValue(item.description_DE);
+    this.cityGuideItemForm.controls["latitude"].setValue(item.latitude);
+    this.cityGuideItemForm.controls["longitude"].setValue(item.longitude);
+    this.cityGuideItemForm.controls["distance_from_city"].setValue(item.distance_from_city);
+    this.itemImgSrc = item.image;
+  }
+
+  handleDelete(item) {
+    this.selectedItem = item;
+    if (item.id) {
+      this.showConfirmationModal = false;
+      this.confirmDeleteItemTitle = this._translateService.instant(
+        "dialog.confirmdelete"
+      );
+      this.confirmDeleteItemDescription = this._translateService.instant(
+        "dialog.confirmdeleteitem"
+      );
+      this.acceptText = "OK";
+      setTimeout(() => (this.showConfirmationModal = true));
+    }
+  }
+
+  confirm() {
+    this.deleteCityGuideItem(this.selectedItem?.id, true);
+  }
+
+  deleteCityGuideItem(id, confirmed) {
+    if (confirmed) {
+      this._cityGuidesService.deleteCityGuideItem(id).subscribe(
+        (response) => {
+          this.open(
+            this._translateService.instant("dialog.deletedsuccessfully"),
+            ""
+          );
+          this.cityGuideItems.forEach((cat, index) => {
+            if (cat.id == id) {
+              this.cityGuideItems.splice(index, 1);
+            }
+          });
+          this.showConfirmationModal = false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  handleCancel() {
+    this.itemMode = '';
+    this.selectedItem = '';
+  }
+
+  toggleCreateHover(event) {
+    this.createHover = event;
+  }
+
+  toggleCancelHover(event) {
+    this.cancelHover = event;
+  }
+
+  saveCityGuideItem() {
+    this.errorMessage = "";
+    this.formSubmitted = true;
+    this.issavingitem = true;
+
+    let code = this.defaultLanguage?.length > 0 ? this.defaultLanguage[0].code : "es";
+    this.title = this.cityGuideItemForm.get("title_" + code)?.value || "";
+    this.itemdescription = this.cityGuideItemForm.get("description_" + code)?.value || "";
+
+    if (
+      this.cityGuideItemForm.get("title_" + code)?.errors
+    ) {
+      this.scrollToTop();
+      this.issavingitem = false;
+      return false;
+    }
+
+    if (!this.itemValidationCheck()) {
+      this.scrollToTop();
+      this.issavingitem = false;
+      return false;
+    }
+
+    this.setItemDescription();
+
+    this.cityGuideItemForm["title"] = this.name;
+    this.cityGuideItemForm["description"] = this.description;
+    this.cityGuideItemForm.value.title = this.title;
+    this.cityGuideItemForm.value.description = this.itemdescription;
+
+    let formData = new FormData();
+
+    formData.append("company_id", this.companyId.toString());
+    formData.append("user_id", this.userId.toString());
+    formData.append(
+      "title_ES",
+      this.cityGuideItemForm?.value["title_ES"]
+        ? this.cityGuideItemForm?.value["title_ES"]
+        : this.cityGuideItemForm?.value["title"]
+    );
+    formData.append(
+      "title_EN",
+      this.cityGuideItemForm?.value["title_EN"]
+        ? this.cityGuideItemForm?.value["title_EN"]
+        : this.cityGuideItemForm?.value["title"]
+    );
+    formData.append(
+      "title_FR",
+      this.cityGuideItemForm?.value["name_FR"]
+        ? this.cityGuideItemForm?.value["name_FR"]
+        : this.cityGuideItemForm?.value["name"]
+    );
+    formData.append(
+      "title_EU",
+      this.cityGuideItemForm?.value["title_EU"]
+        ? this.cityGuideItemForm?.value["title_EU"]
+        : this.cityGuideItemForm?.value["title"]
+    );
+    formData.append(
+      "title_CA",
+      this.cityGuideItemForm?.value["title_CA"]
+        ? this.cityGuideItemForm?.value["title_CA"]
+        : this.cityGuideItemForm?.value["title"]
+    );
+    formData.append(
+      "title_DE",
+      this.cityGuideItemForm?.value["title_DE"]
+        ? this.cityGuideItemForm?.value["title_DE"]
+        : this.cityGuideItemForm?.value["title"]
+    );
+    formData.append("city_id", this.selectedCity);
+    formData.append(
+      "description_ES",
+      this.cityGuideItemForm?.value["description_ES"]
+        ? this.cityGuideItemForm?.value["description_ES"]
+        : this.cityGuideItemForm?.value["description"]
+    );
+    formData.append(
+      "description_EN",
+      this.cityGuideItemForm?.value["description_EN"]
+        ? this.cityGuideItemForm?.value["description_EN"]
+        : this.cityGuideItemForm?.value["description"]
+    );
+    formData.append(
+      "description_FR",
+      this.cityGuideItemForm?.value["description_FR"]
+        ? this.cityGuideItemForm?.value["description_FR"]
+        : this.cityGuideItemForm?.value["description"]
+    );
+    formData.append(
+      "description_EU",
+      this.cityGuideItemForm?.value["description_EU"]
+        ? this.cityGuideItemForm?.value["description_EU"]
+        : this.cityGuideItemForm?.value["description"]
+    );
+    formData.append(
+      "description_CA",
+      this.cityGuideItemForm?.value["description_CA"]
+        ? this.cityGuideItemForm?.value["description_CA"]
+        : this.cityGuideItemForm?.value["description"]
+    );
+    formData.append(
+      "description_DE",
+      this.cityGuideItemForm?.value["description_DE"]
+        ? this.cityGuideItemForm?.value["description_DE"]
+        : this.cityGuideItemForm?.value["description"]
+    );
+    formData.append('latitude', this.cityGuideItemForm?.value["latitude"] || '');
+    formData.append('longitude', this.cityGuideItemForm?.value["longitude"] || '');
+    formData.append('distance_from_city', this.cityGuideItemForm?.value["distance_from_city"] || '');
+    formData.append('city_guide_id', this.id);
+
+    if(this.selectedItem?.id > 0) {
+      formData.append('id', this.selectedItem?.id);
+    }
+
+    if (this.itemFile?.image) {
+      const filename = "cg_" + this.userId + "_" + this.getTimestamp();
+      formData.append("destination", "./uploads/groups/");
+      formData.append("filepath", "./uploads/groups/" + filename + ".jpg");
+      formData.append("filenamewoextension", filename);
+      formData.append("image", this.itemFile.image, filename + ".jpg");
+    }
+
+    if (this.selectedItem?.id > 0) {
+      //   Edit
+      this._cityGuidesService.editCityGuideItem(formData).subscribe(
+        (response) => {
+          this.open(
+            this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+          this.fetchCityGuideData();
+          this.itemMode = '';
+          this.issavingitem = false;
+        },
+        (error) => {
+          this.issavingitem = false;
+          this.open(this._translateService.instant("dialog.error"), "");
+        }
+      );
+    } else {
+      // Create
+      this._cityGuidesService.addCityGuideItem(formData).subscribe(
+        (response) => {
+          if (response.id > 0) {
+            this.open(
+              this._translateService.instant("dialog.savedsuccessfully"),
+              ""
+            );
+            this.fetchCityGuideData();
+            this.itemMode = '';
+            this.issavingitem = false;
+          } else {
+            this.issavingitem = false;
+            this.open(this._translateService.instant("dialog.error"), "");
+          }
+        },
+        (error) => {
+          this.issavingitem = false;
+          this.open(this._translateService.instant("dialog.error"), "");
+        }
+      );
+    }
+  }
+
+  itemFileChangeEvent(event: any): void {
+    this.itemImageChangedEvent = event;
+    const file = event.target.files[0];
+    if (file.size > 2000000) {
+    } else {
+      initFlowbite();
+      setTimeout(() => {
+        this.modalbutton2?.nativeElement.click();
+      }, 500);
+    }
+  }
+
+  itemImageCropped(event: ImageCroppedEvent) {
+    if (event.base64) {
+      this.itemImgSrc = this.itemCroppedImage = event.base64;
+      this.itemFile = {
+        name: "image",
+        image: base64ToFile(event.base64),
+      };
+    }
+  }
+
+  itemImageLoaded() {
+    // show cropper
+  }
+
+  itemCropperReady() {
+    // cropper ready
+  }
+
+  itemLoadImageFailed() {
+    // show message
+  }
+
+  itemImageCropperModalSave() {
+    this.showImageCropper = false;
+  }
+
+  itemImageCropperModalClose() {
+    this.showImageCropper = false;
   }
 
   async open(message: string, action: string) {

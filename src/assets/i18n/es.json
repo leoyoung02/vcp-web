@@ -868,7 +868,9 @@
         "share": "Comparte",
         "cityguide": "Guía de la ciudad",
         "distancefrom": "Distancia desde",
-        "kilometers": "kilómetros"
+        "kilometers": "kilómetros",
+        "latitude": "Latitud",
+        "longitude": "Longitud"
     },
     "search": {
         "viewmore": "Ver más",

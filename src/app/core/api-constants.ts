@@ -291,6 +291,9 @@ export const ADD_CITY_GUIDE_URL = `${API_BASE}/v2/city-guide/add`;
 export const EDIT_CITY_GUIDE_GENERAL_URL = `${API_BASE}/v2/city-guide/edit`;
 export const EDIT_CITY_GUIDE_LIKE_URL = `${API_BASE}/v2/city-guide/like/edit`;
 export const EDIT_CITY_GUIDE_URL = `${API_BASE}/company-admin-news-delete`;
+export const ADD_CITY_GUIDE_ITEM_URL = `${API_BASE}/v2/city-guide-item/add`;
+export const EDIT_CITY_GUIDE_ITEM_URL = `${API_BASE}/v2/city-guide-item/edit`;
+export const DELETE_CITY_GUIDE_ITEM_URL = `${API_BASE}/v2/city-guide-item/delete`;
 
 // COURSES
 export const COURSE_SUBSCRIPTIONS_URL = `${API_BASE}/course-subscriptions`;

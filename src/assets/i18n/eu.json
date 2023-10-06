@@ -865,7 +865,11 @@
         "viewmap":"Ikusi mapa",
         "copylink": "Kopiatu esteka",
         "share": "Partekatu",
-        "cityguide": "Hiri Gida"
+        "cityguide": "Hiri Gida",
+        "distancefrom": "Distantzia", 
+        "kilometers": "kilometro",
+        "latitude": "Latitude",
+        "longitude": "Longitude"
     },
     "search": {
         "viewmore": "Ikusi gehiago",

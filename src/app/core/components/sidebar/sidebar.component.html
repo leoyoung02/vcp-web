@@ -62,8 +62,8 @@
     <div class="p-1 flex items-center mr-3">
       <img
         *ngIf="!menuOpened"
-        [src]="language == 'es' ? './assets/menu-icons/menu-icon-es.png' : './assets/menu-icons/menu-icon-es.png'"
-        class="cursor-pointer w-[30px] max-w-[30px] h-[23px] max-h-[23px]"
+        [src]="language == 'en' ? './assets/menu-icons/menu-icon-en.png' : './assets/menu-icons/menu-icon-es.png'"
+        class="cursor-pointer w-[30px] max-w-[30px] h-[23px] max-h-[23px] rounded-[5px]"
         alt=""
       />
       <ng-container *ngIf="menuOpened">

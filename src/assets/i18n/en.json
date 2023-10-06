@@ -864,11 +864,13 @@
     },
     "cityguide-details": {
         "viewmap":"View Map",
-       "copylink": "Copy link",
+        "copylink": "Copy link",
         "share": "Share",
         "cityguide": "City Guide",
         "distancefrom": "Distance from",
-        "kilometers": "kilometers"
+        "kilometers": "kilometers",
+        "latitude": "Latitude",
+        "longitude": "Longitude"
     },
     "search": {
         "viewmore": "View more",

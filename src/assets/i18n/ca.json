@@ -865,7 +865,11 @@
         "viewmap":"Veure Mapa",
         "copylink": "Copiar enllaç",
         "share": "Comparteix",
-        "cityguide": "Guia de la ciutat"
+        "cityguide": "Guia de la ciutat",
+        "distancefrom": "Distància des de", 
+        "kilometers": "quilòmetres",
+        "latitude": "Latitud",
+        "longitude": "Longitud"
     },
     "search": {
         "viewmore": "Veure més",

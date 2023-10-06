@@ -865,7 +865,11 @@
         "viewmap":"Karte anzeigen",
         "copylink": "Link kopieren",
         "share": "Teilen",
-        "cityguide": "Stadtführer"
+        "cityguide": "Stadtführer",
+        "distancefrom": "Entfernung von", 
+        "kilometers": "Kilometer",
+        "latitude": "Breitengrad",
+        "longitude": "Längengrad"
     },
     "search": {
         "viewmore": "Mehr anzeigen",

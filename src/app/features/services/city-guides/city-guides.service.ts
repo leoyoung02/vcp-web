@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { ADD_CITY_GUIDE_URL, CITY_GUIDES_URL, CITY_GUIDE_URL, EDIT_CITY_GUIDE_GENERAL_URL, EDIT_CITY_GUIDE_LIKE_URL, EDIT_CITY_GUIDE_URL } from "@lib/api-constants";
+import { ADD_CITY_GUIDE_ITEM_URL, ADD_CITY_GUIDE_URL, CITY_GUIDES_URL, CITY_GUIDE_URL, DELETE_CITY_GUIDE_ITEM_URL, EDIT_CITY_GUIDE_GENERAL_URL, EDIT_CITY_GUIDE_ITEM_URL, EDIT_CITY_GUIDE_LIKE_URL, EDIT_CITY_GUIDE_URL } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
 @Injectable({
@@ -52,6 +52,26 @@ export class CityGuidesService {
     return this._http.post(
       EDIT_CITY_GUIDE_GENERAL_URL,
       payload,
+    ).pipe(map(res => res));
+  }
+
+  addCityGuideItem(payload): Observable<any> {
+    return this._http.post(
+      ADD_CITY_GUIDE_ITEM_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editCityGuideItem(payload): Observable<any> {
+    return this._http.put(
+      EDIT_CITY_GUIDE_ITEM_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteCityGuideItem(id): Observable<any> {
+    return this._http.delete(`${DELETE_CITY_GUIDE_ITEM_URL}/${id}`,
+        { headers: this.headers }
     ).pipe(map(res => res));
   }
 }
