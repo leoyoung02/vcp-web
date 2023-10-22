@@ -70,7 +70,8 @@
         "logout": "Déconnexion",
         "companysettings": "Paramètres",
         "reports": "Rapports",
-        "guests": "Invités"
+        "guests": "Invités", 
+        "nounreadmessages": "Aucun message non lu"
     },
     "footer":{
         "contact":"CONTACT",
@@ -995,7 +996,9 @@
         "unlockdate": "Déverrouiller la date",
         "needpreviouslessoncomplete": "La leçon précédente doit d'abord être terminée",
         "blockedmoduletext": "Texte du module bloqué",
-        "text": "Texte"
+        "text": "Texte",
+        "coursecontent": "Contenu du cours",
+        "viewclass": "Afficher la classe"
     },
     "course-lesson": {
         "section": "Section"
@@ -3109,7 +3112,8 @@
         "spanish": "Espagnol",
         "tutorprice": "Prix du tutorat", 
         "tutoringlanguages": "Entrez les langues du tutorat en les séparant par des virgules (Anglais, Espagnol)",
-        "filterbycity" : "Filtrer par ville"
+        "filterbycity" : "Filtrer par ville",
+        "learnmore": "Apprenez à le connaître"
     },
     "general-details": {
         "name" : "Nom",

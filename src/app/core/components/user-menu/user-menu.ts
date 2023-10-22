@@ -52,6 +52,15 @@ export class UserMenuComponent {
     @Input() myActivitiesTitle: any;
     @Input() myClubsTitle: any;
     @Input() buttonColor: any;
+    @Input() isTutorMenuVisible: any;
+    @Input() manageMembers: any;
+    @Input() userTypeName: any;
+    @Input() superTutor: any;
+    @Input() cityAdmin: any;
+    @Input() hasCreditSetting: any;
+    @Input() hasCreditPackageSetting: any;
+    @Input() isTutorUser: any;
+    @Input() showProfileButton: any;
     @Output() changeLanguage = new EventEmitter();
 
     companyName: any;
@@ -60,7 +69,6 @@ export class UserMenuComponent {
 
     navigationSubscription;
     hasActivityFeed: boolean = false;
-    showProfileButton: boolean = false;
     myActivities: any = [];
     isMyClubsActive: boolean = false;
     isMyActivitiesActive: boolean = false;
@@ -71,9 +79,7 @@ export class UserMenuComponent {
     }
 
     async ngOnInit() {
-      // setTimeout(() => {
-      //   initFlowbite();
-      // }, 500)
+      
     }
 
     hasAccess(path) {

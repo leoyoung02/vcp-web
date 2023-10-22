@@ -7,6 +7,7 @@
     <ng-container *ngIf="isActiveFilter">
         <div class="ml-14" *ngIf="list?.length > 0">
             <app-icon-filter 
+                [mode]="mode"
                 [list]="list"
                 (filterList)="filteredCity($event)"
             >

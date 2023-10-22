@@ -69,6 +69,7 @@ export const HOME_TEMPLATE_URL = `${API_BASE}/company/home/template`;
 export const MOBILE_LIMIT_SETTINGS_URL = `${API_BASE}/mobile/settings/limit-all`;
 
 export const HOME_DATA_URL = `${API_BASE}/v2/home`;
+export const HOME_COURSES_TUTORS_TESTIMONIALS_DATA_URL = `${API_BASE}/v2/home-courses-tutors-testimonials`;
 
 // SETTINGS
 export const SETTINGS_CATEGORY_URL = `${API_BASE}/company/settings/category/list/all`;
@@ -309,9 +310,19 @@ export const COURSE_CATEGORY_MAPPING_URL = `${API_BASE}/guest/course/category-ma
 export const COURSE_CATEGORIES_URL = `${API_BASE}/guest/course/categories`;
 export const COURSE_CATEGORY_ACCESS_URL = `${API_BASE}/company/course/category/access/all`;
 export const USER_COURSES_URL = `${API_BASE}/guest/courses`;
+export const VIMEO_EMBED_URL = `${API_BASE}/course/vimeo/video`;
 
 export const COURSES_COMBINED_URL = `${API_BASE}/v2/courses`;
+export const COURSE_DETAILS_URL = `${API_BASE}/v2/course-details`;
+export const COURSE_UNIT_DETAILS_URL = `${API_BASE}/v2/course-unit-details`;
 
 // TUTORS
 export const TUTORS_URL = `${API_BASE}/company/tutors`;
 export const CREDIT_PACKAGES_URL = `${API_BASE}/company/credit/packages`;
+
+export const TUTORS_COMBINED_URL = `${API_BASE}/v2/tutors`;
+export const TUTOR_DETAILS_URL = `${API_BASE}/v2/tutor-details`;
+
+// TESTIMONIALS
+export const TESTIMONIALS_URL = `${API_BASE}/v2/testimonials`;
+export const TESTIMONIAL_DETAILS_URL = `${API_BASE}/v2/testimonial-details`;

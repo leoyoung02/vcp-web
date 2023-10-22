@@ -114,6 +114,12 @@
         "domain": "universidadeuropea.com"
     },
     {  
+        "id": 32,  
+        "name": "Universidad Europea",
+        "url": "ue.vistingo.com",
+        "domain": "universidadeuropea.com"
+    },
+    {  
         "id": 33,  
         "name": "Club Woman New Life",
         "url": "clubwomannewlife.vistingo.com",
@@ -267,6 +273,12 @@
         "id": 52,  
         "name": "CURSO GENIUS",
         "url": "cursogeniusstaging.vistingo.com",
+        "domain": "cursogenius.com"
+    },
+    {  
+        "id": 52,  
+        "name": "CURSO GENIUS",
+        "url": "genius.vistingo.com",
         "domain": "cursogenius.com"
     },
     {

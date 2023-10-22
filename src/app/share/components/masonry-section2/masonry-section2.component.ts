@@ -29,7 +29,7 @@ import "moment/locale/de";
     CommonModule,
     RouterModule,
     TranslateModule,
-    NgOptimizedImage
+    NgOptimizedImage,
   ],
   templateUrl: "./masonry-section2.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -81,6 +81,7 @@ export class SidebarComponent {
   @Input() myActivitiesTitle: any;
   @Input() myClubsTitle: any;
   @Input() buttonColor: any;
+  @Input() hoverColor: any;
   @Input() logoSource: any;
   @Output() changeLanguage = new EventEmitter();
 
@@ -132,6 +133,10 @@ export class SidebarComponent {
   collapsed: boolean = true;
   search: any;
   menuOpened: boolean = false;
+  menuHover: boolean = false;
+  hoveredMenuPath: any;
+  searchHover: boolean = false;
+  settingsHover: boolean = false;
 
   constructor(private _router: Router, private _authService: AuthService) {
     this.navigationSubscription = this._router.events.subscribe((e: any) => {
@@ -504,8 +509,21 @@ export class SidebarComponent {
 
   toggleHover(event) {
    this.menuOpened = event;
-   setTimeout(() => {
-    initFlowbite();
-  }, 100)
+    setTimeout(() => {
+      initFlowbite();
+    }, 100);
+  }
+
+  toggleMenuHover(event, menu) {
+    this.hoveredMenuPath = menu.path;
+    this.menuHover = event;
+  }
+
+  toggleSearchHover(event) {
+    this.searchHover = event;
+  }
+
+  toggleSettingsHover(event) {
+    this.settingsHover = event;
   }
 }

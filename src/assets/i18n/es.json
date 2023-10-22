@@ -70,7 +70,8 @@
         "logout": "Cerrar sesión",
         "companysettings": "Configuración",
         "reports": "Informes",
-        "guests": "Invitados"
+        "guests": "Invitados", 
+        "nounreadmessages": "No hay mensajes no leídos"
     },
     "footer":{
         "contact":"CONTACTO",
@@ -1001,7 +1002,9 @@
         "entertext": "Ingrese el texto que se mostrará en el botón para reservar sesión",
         "needpreviouslessoncomplete": "La lección anterior debe completarse primero",
         "blockedmoduletext": "Texto del módulo bloqueado",
-        "text": "Texto"
+        "text": "Texto",
+        "coursecontent":"Contenido del curso",
+        "viewclass": "Ver clase"
     },
     "course-lesson": {
         "section": "Sección"
@@ -3108,7 +3111,7 @@
         "newquestion": "Nueva pregunta",
         "classesconducted": "Clases realizadas",
         "tutorsince": "Tutor/a desde",
-        "tutor": "Tutora",
+        "tutor": "Tutor",
         "tutorprofile": "Perfil del tutor",
         "hourpackages": "Paquetes",
         "createnewpackage": "Crear nuevo paquete",
@@ -3137,7 +3140,8 @@
         "spanish": "Español",
         "tutorprice": "Precio de tutoría", 
         "tutoringlanguages": "Ingrese los idiomas de tutoría separados por comas (Inglés, Español)",
-        "filterbycity" : "Filtrar por ciudad"
+        "filterbycity" : "Filtrar por ciudad",
+        "learnmore": "Conócelo"
     },
     "general-details": {
         "name" : "Nombre",

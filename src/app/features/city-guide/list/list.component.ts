@@ -455,7 +455,6 @@ export class CityGuideListComponent {
       this.cityGuides = this.cityGuides.filter((guide) => {
         return guide.city_id == city?.id;
       });
-      console.log(this.cityGuides)
     }
   }
 

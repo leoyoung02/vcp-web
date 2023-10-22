@@ -4,17 +4,477 @@ import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-transla
 import { CompanyService, LocalService } from '@share/services';
 import { Subject, takeUntil } from 'rxjs';
 import { environment } from '@env/environment';
-import { ActivatedRoute, Router } from '@angular/router';
-import { CoursesService, TutorsService } from '@features/services';
-import moment from "moment";
+import { TutorsService } from '@features/services';
+import { FilterComponent, PageTitleComponent } from '@share/components';
+import { SearchComponent } from "@share/components/search/search.component";
+import { NgxPaginationModule } from "ngx-pagination";
+import { TutorCardComponent } from '@share/components/card/tutor/tutor.component';
 import get from 'lodash/get';
 
 @Component({
   selector: 'app-courses-list',
   standalone: true,
-  imports: [CommonModule, TranslateModule, NgOptimizedImage],
+  imports: [
+    CommonModule, 
+    TranslateModule, 
+    NgOptimizedImage,
+    PageTitleComponent,
+    SearchComponent,
+    TutorCardComponent,
+    FilterComponent,
+    NgxPaginationModule,
+  ],
   templateUrl: './list.component.html'
 })
 export class TutorsListComponent {
-  
+  private destroy$ = new Subject<void>();
+
+  @Input() parentComponent: any;
+  @Input() limit: any;
+
+  languageChangeSubscription;
+  user: any;
+  email: any;
+  language: any;
+  companyId: any = 0;
+  companies: any;
+  domain: any;
+  pageTitle: any;
+  features: any;
+
+  primaryColor: any;
+  buttonColor: any;
+  hoverColor: any;
+  userId: any;
+  subfeatures: any;
+  superAdmin: boolean = false;
+  pageName: any;
+  pageDescription: any;
+  showSectionTitleDivider: boolean = false;
+  isMobile: boolean = false;
+  tutorsFeature: any;
+  featureId: any;
+  searchText: any;
+  placeholderText: any;
+  search: any;
+  p: any;
+  tutors: any = [];
+  allTutors: any = [];
+  list: any[] = [];
+  buttonList: any;
+  tutorTypes: any;
+  cities: any = [];
+  allTutorTypes: any = [];
+  selectedCity: any = '';
+  selectedType: any = '';
+
+  constructor(
+    private _translateService: TranslateService,
+    private _localService: LocalService,
+    private _companyService: CompanyService,
+    private _tutorsService: TutorsService
+  ) {}
+
+  @HostListener("window:resize", [])
+  private onResize() {
+    this.isMobile = window.innerWidth < 768;
+  }
+
+  async ngOnInit() {
+    this.onResize();
+
+    this.email = this._localService.getLocalStorage(environment.lsemail);
+    this.userId = this._localService.getLocalStorage(environment.lsuserId);
+    this.companyId = this._localService.getLocalStorage(
+      environment.lscompanyId
+    );
+    this.language = this._localService.getLocalStorage(environment.lslang);
+    this._translateService.use(this.language || "es");
+    this.companies = this._localService.getLocalStorage(environment.lscompanies)
+      ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
+      : "";
+    if (!this.companies) {
+      this.companies = get(
+        await this._companyService.getCompanies().toPromise(),
+        "companies"
+      );
+    }
+    let company = this._companyService.getCompany(this.companies);
+    if (company && company[0]) {
+      this.domain = company[0].domain;
+      this.companyId = company[0].id;
+      this.primaryColor = company[0].primary_color;
+      this.buttonColor = company[0].button_color
+        ? company[0].button_color
+        : company[0].primary_color;
+      this.hoverColor = company[0].hover_color
+        ? company[0].hover_color
+        : company[0].primary_color;
+      this.showSectionTitleDivider = company[0].show_section_title_divider;
+      this._localService.setLocalStorage(
+        environment.lscompanyId,
+        this.companyId
+      );
+    }
+
+    this.languageChangeSubscription =
+      this._translateService.onLangChange.subscribe(
+        (event: LangChangeEvent) => {
+          this.language = event.lang;
+          this.initializePage();
+        }
+      );
+
+    this.initializePage();
+  }
+
+  initializePage() {
+    this.initializeSearch();
+    this.fetchTutors();
+  }
+
+  initializeSearch() {
+    this.searchText = this._translateService.instant("guests.search");
+    this.placeholderText = this._translateService.instant(
+      "news.searchbykeyword"
+    );
+  }
+
+  fetchTutors() {
+    this._tutorsService
+      .fetchTutorsCombined(this.companyId, this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          this.mapFeatures(data?.features_mapping);
+          this.mapSubfeatures(data?.settings?.subfeatures);
+          this.mapUserPermissions(data?.user_permissions);
+          this.tutorTypes = data?.tutor_types;
+          this.allTutors = data?.tutors;
+          
+          this.cities = data?.cities;
+          this.initializeIconFilterList(this.cities);
+
+          this.allTutorTypes = data?.all_tutor_types;
+          this.initializeButtonGroup();
+
+          this.formatTutors(data?.tutors);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  mapFeatures(features) {
+    this.tutorsFeature = features?.find((f) => f.feature_id == 20);
+    this.featureId = this.tutorsFeature?.id;
+    this.pageName = this.getFeatureTitle(this.tutorsFeature);
+    this.pageDescription = this.getFeatureDescription(this.tutorsFeature);
+  }
+
+  mapSubfeatures(subfeatures) {
+    if (subfeatures?.length > 0) {
+      
+    }
+  }
+
+  mapUserPermissions(user_permissions) {
+    this.superAdmin = user_permissions?.super_admin_user ? true : false;
+  }
+
+  formatTutors(tutors) {
+    tutors = tutors?.map((item) => {
+      return {
+        ...item,
+        id: item?.id,
+        path: `/tutors/details/${item.user_id}`,
+        image: `${environment.api}/${item.image}`,
+        rating: this.getTutorRating(item),
+        types: this.getTutorTypes(item)
+      };
+    });
+
+    this.tutors = tutors;
+    this.allTutors = tutors;
+
+    let selected = localStorage.getItem('tutor-filter-city');
+    if(selected && this.list?.length > 0) {
+      this.list.forEach(item => {
+        if(item.city == selected) {
+          item.selected = true;
+          this.selectedCity = selected;
+        } else {
+          item.selected = false;
+        }
+      })
+      this.searchTutors();
+    }
+  }
+
+  getTutorRating(item) {
+    let rating
+
+    if(item?.tutor_ratings?.length > 0){
+      let rating_array = item['tutor_ratings']
+      let tut_rating = 0.0
+      let no_of_rating = 0
+      rating_array.forEach((tr) => {
+          tut_rating += tr.tutor_rating ? parseFloat(tr.tutor_rating) : 0
+          no_of_rating++
+      })
+      rating = (tut_rating/no_of_rating).toFixed(1);
+    }
+
+    return rating
+  }
+
+  getTutorTypes(item) {
+    let types:any = []
+    if(this.tutorTypes?.length > 0){
+        types = []
+        this.tutorTypes.forEach(tt => {
+            let typeTutor = tt.tutorTypes.name_ES
+            if(tt.tutor_id == item.id && !(types).includes(typeTutor)){
+                (types)?.push(typeTutor)
+            }
+        })
+    }
+
+    if(this.tutorTypes?.length > 0){
+        this.tutorTypes.forEach(tt => {
+            let typeTutor = tt.name_ES
+            item?.tutor_type_tags?.forEach(ttt => {
+                if(ttt.type_id == tt.id && !(types)?.includes(typeTutor)){
+                    (types)?.push(typeTutor)
+                }
+            })
+        })
+    }
+
+    return types
+  }
+
+  getFeatureTitle(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.name_en ||
+          feature.feature_name ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "fr"
+        ? feature.name_fr ||
+          feature.feature_name_FR ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "eu"
+        ? feature.name_eu ||
+          feature.feature_name_EU ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "ca"
+        ? feature.name_ca ||
+          feature.feature_name_CA ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "de"
+        ? feature.name_de ||
+          feature.feature_name_DE ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : feature.name_es || feature.feature_name_ES
+      : "";
+  }
+
+  getFeatureDescription(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.description_en || feature.description_es
+        : this.language == "fr"
+        ? feature.description_fr || feature.description_es
+        : this.language == "eu"
+        ? feature.description_eu || feature.description_es
+        : this.language == "ca"
+        ? feature.description_ca || feature.description_es
+        : this.language == "de"
+        ? feature.description_de || feature.description_es
+        : feature.description_es
+      : "";
+  }
+
+  initializeIconFilterList(list) {
+    this.list = [
+      {
+        id: "All",
+        value: "",
+        text: this._translateService.instant("plans.all"),
+        selected: true,
+        company_id: this.companyId,
+        city: "",
+        province: "",
+        region: "",
+        country: "",
+        sequence: "",
+        campus: "",
+      },
+    ];
+
+    list?.forEach((item) => {
+      this.list.push({
+        id: item.id,
+        value: item.id,
+        text: item.city,
+        selected: false,
+        company_id: item.company_id,
+        city: item.city,
+        province: item.province,
+        region: item.region,
+        country: item.country,
+        sequence: item.sequence,
+        campus: item.campus,
+      });
+    });
+  }
+
+  initializeButtonGroup() {
+    let categories = this.allTutorTypes;
+    this.buttonList = [
+      {
+        id: "All",
+        value: "All",
+        text: this._translateService.instant("plans.all"),
+        selected: true,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: "All",
+        name_CA: "All",
+        name_DE: "All",
+        name_EN: "All",
+        name_ES: "All",
+        name_EU: "All",
+        name_FR: "All",
+        sequence: 1,
+        status: 1,
+      },
+    ];
+
+    if(categories?.length > 0) {
+      categories = categories.sort((a, b) => {
+        return b.id - a.id
+      })
+    }
+
+    categories?.forEach((category) => {
+      this.buttonList.push({
+        id: category.id,
+        value: category.id,
+        text: this.getTutorTypeTitle(category),
+        selected: false,
+        fk_company_id: category.company_id,
+        fk_supercategory_id: category.id,
+        name_CA: category.name_CA,
+        name_DE: category.name_DE,
+        name_EN: category.name_EN,
+        name_ES: category.name_ES,
+        name_EU: category.name_EU,
+        name_FR: category.name_FR,
+        sequence: category.sequence,
+        status: category.status,
+      });
+    });
+
+    if(this.buttonList?.length > 0) {
+      this.buttonList.sort((a, b) =>
+        a.text.localeCompare(b.text)
+      )
+    }
+  }
+
+  getTutorTypeTitle(type) {
+    return type ? (this.language == 'en' ? (type.name_EN ? (type.name_EN || type.name_ES) : type.name_ES) :
+        (this.language == 'fr' ? (type.name_FR ? (type.name_FR || type.name_ES) : type.name_ES) : 
+            (this.language == 'eu' ? (type.name_EU ? (type.name_EU || type.name_ES) : type.name_ES) : 
+                (this.language == 'ca' ? (type.name_CA ? (type.name_CA || type.name_ES) : type.name_ES) : 
+                    (this.language == 'de' ? (type.name_DE ? (type.name_DE || type.name_ES) : type.name_ES) : type.name_ES)
+                )
+            )
+        )
+    ) : '';
+  }
+
+  handleSearchChanged(event) {
+    this.search = event || "";
+    this.searchTutors();
+  }
+
+  filteredList(event) {
+    this.list?.forEach((item) => {
+      if (item.city === event) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+    
+    this.selectedCity = event || "";
+    localStorage.setItem('tutor-filter-city', this.selectedCity);
+    this.searchTutors();
+  }
+
+  filteredType(category) {
+    this.buttonList?.forEach((item) => {
+      if (item.id === category.id) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    this.selectedType = event || "";
+    this.searchTutors();
+  }
+
+  searchTutors() {
+    let tutors = this.allTutors
+    if (this.search) {
+        this.search = this.search.toLowerCase()
+        tutors = tutors.filter(m => {
+            let include = false
+            let tutor_type_match = m?.types.some(a => ((a.toString().toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+
+            if (
+                (m.name && ((m.name).normalize("NFD").replace(/\p{Diacritic}/gu, "")).toLowerCase().indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+                || (m.first_name && ((m.first_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+                || (m.last_name && ((m.last_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+                || tutor_type_match
+                ) {
+                include = true
+            }
+
+            return include
+        })
+    }
+
+    if(this.selectedType) {
+        let selected_type
+        if(this.allTutorTypes?.length > 0) {
+            let row = this.allTutorTypes?.filter(typ => {
+                return typ.id == this.selectedType
+            })
+            selected_type = row?.length > 0 ? row[0] : ''
+        }
+        if(selected_type) {
+            tutors = tutors?.filter(tutor => {
+                return tutor?.types.some(a => a == selected_type.name_ES || a == selected_type.name_EN || a == selected_type.name_FR || a == selected_type.name_EU || a == selected_type.name_CA || a == selected_type.name_DE)
+            })
+        }
+    }
+
+    if(this.selectedCity) {
+      tutors = tutors.filter(m => {
+        return m?.city == this.selectedCity
+      })
+    }
+
+    this.tutors = tutors;
+  }
 }

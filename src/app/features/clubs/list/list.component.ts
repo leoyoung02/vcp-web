@@ -12,8 +12,8 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { ClubsService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
 import { FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
-import get from "lodash/get";
 import { NgxPaginationModule } from "ngx-pagination";
+import get from "lodash/get";
 
 @Component({
   selector: "app-clubs-list",

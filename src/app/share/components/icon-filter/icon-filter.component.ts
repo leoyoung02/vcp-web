@@ -18,6 +18,7 @@ import { initFlowbite } from "flowbite";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class IconFilterComponent {
+    @Input() mode: any;
     @Input() list: any;
     @Input() icon: any;
     @Output() filterList = new EventEmitter();

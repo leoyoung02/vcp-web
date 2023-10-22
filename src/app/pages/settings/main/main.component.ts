@@ -56,6 +56,7 @@ export class MainComponent {
   isServiceEnabled: boolean = false;
   isCourseEnabled: boolean = false;
   isBuddyEnabled: boolean = false;
+  isTestimonialsEnabled: boolean = false;
   canLinkQuizToCourse: boolean = false;
   hasCoursePayment: boolean = false;
   hasCourseCategories: boolean = false;
@@ -117,6 +118,7 @@ export class MainComponent {
   placeholderText: any = "";
   isLoading: boolean = false;
   languageChangeSubscription: any;
+  testimonialsTitle: any;
 
   constructor(
     private _router: Router,
@@ -419,8 +421,6 @@ export class MainComponent {
           }
 
           let companyFeatures = this.companyFeatures;
-          console.log('companyFeatures')
-          console.log(companyFeatures)
           if (companyFeatures) {
             let planFeature = companyFeatures.filter((f) => {
               return f.feature_name == "Plans" && f.status == 1;
@@ -583,6 +583,27 @@ export class MainComponent {
                     tutorsFeature[0].feature_name_ES;
             }
           }
+
+          let testimonialFeature = companyFeatures.filter((f) => {
+            return f.feature_name == "Testimonials" && f.status == 1;
+          });
+          if (testimonialFeature?.length > 0) {
+            this.isTestimonialsEnabled = true;
+            this.testimonialsTitle =
+              this.language == "en"
+                ? testimonialFeature[0].name_en || testimonialFeature[0].feature_name
+                : this.language == "fr"
+                ? testimonialFeature[0].name_fr || testimonialFeature[0].feature_name_FR
+                : this.language == "eu"
+                ? testimonialFeature[0].name_eu || testimonialFeature[0].feature_name_EU
+                : this.language == "ca"
+                ? testimonialFeature[0].name_ca || testimonialFeature[0].feature_name_CA
+                : this.language == "de"
+                ? testimonialFeature[0].name_de || testimonialFeature[0].feature_name_DE
+                : testimonialFeature[0].name_es ||
+                  testimonialFeature[0].feature_name_ES;
+          }
+
 
           this.companyFeatures =
             this.companyFeatures &&
@@ -1020,11 +1041,22 @@ export class MainComponent {
 
           if (this.isTutorsEnabled) {
             let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Discounts");
+              mi.submenus && mi.submenus.some((a) => a.value === "Tutors");
             if (!match) {
               mi.submenus.push({
                 text: this.tutorsTitle,
                 value: "Tutors",
+              });
+            }
+          }
+
+          if (this.isTestimonialsEnabled) {
+            let match =
+              mi.submenus && mi.submenus.some((a) => a.value === "Testimonials");
+            if (!match) {
+              mi.submenus.push({
+                text: this.testimonialsTitle,
+                value: "Testimonials",
               });
             }
           }

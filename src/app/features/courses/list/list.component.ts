@@ -10,8 +10,11 @@ import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
 import { ActivatedRoute, Router } from "@angular/router";
 import { CoursesService, TutorsService } from "@features/services";
-import { ButtonGroupComponent } from "@share/components";
+import { ButtonGroupComponent, PageTitleComponent } from "@share/components";
 import { COURSE_IMAGE_URL } from "@lib/api-constants";
+import { CourseCardComponent } from "@share/components/card/course/course.component";
+import { SearchComponent } from "@share/components/search/search.component";
+import { NgxPaginationModule } from "ngx-pagination";
 import moment from "moment";
 import get from "lodash/get";
 
@@ -23,6 +26,10 @@ import get from "lodash/get";
     TranslateModule,
     ButtonGroupComponent,
     NgOptimizedImage,
+    PageTitleComponent,
+    CourseCardComponent,
+    SearchComponent,
+    NgxPaginationModule,
   ],
   templateUrl: "./list.component.html",
 })
@@ -107,6 +114,16 @@ export class CoursesListComponent {
   tutorsFeature: any;
   pageName: any;
   coursesProgress: any;
+  pageDescription: any;
+  p: any;
+  canViewCourse: boolean = false;
+  canCreateCourse: boolean = false;
+  canManageCourse: boolean = false;
+  createHover: boolean = false;
+  searchText: any;
+  placeholderText: any;
+  search: any;
+  allCoursesList: any = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -173,7 +190,15 @@ export class CoursesListComponent {
   }
 
   initializePage() {
+    this.initializeSearch();
     this.fetchCourses();
+  }
+
+  initializeSearch() {
+    this.searchText = this._translateService.instant("guests.search");
+    this.placeholderText = this._translateService.instant(
+      "news.searchbykeyword"
+    );
   }
 
   fetchCourses() {
@@ -190,7 +215,13 @@ export class CoursesListComponent {
           );
           this.mapUserPermissions(data?.user_permissions);
           this.coursesProgress = data?.courses_progress || [];
-          this.formatCourses(data?.courses);
+          this.allCoursesList = data?.courses
+          
+          if(data?.courses?.length > 0) {
+            this.getCoursesData(data?.courses);
+          } else {
+            this.formatCourses(data?.courses);
+          }
         },
         (error) => {
           console.log(error);
@@ -202,6 +233,7 @@ export class CoursesListComponent {
     this.coursesFeature = features?.find((f) => f.feature_id == 11);
     this.featureId = this.coursesFeature?.id;
     this.pageName = this.getFeatureTitle(this.coursesFeature);
+    this.pageDescription = this.getFeatureDescription(this.coursesFeature);
 
     let tutorsFeature = features?.find(
       (f) => f.feature_id == 20 && f.status == 1
@@ -271,6 +303,21 @@ export class CoursesListComponent {
 
   mapUserPermissions(user_permissions) {
     this.superAdmin = user_permissions?.super_admin_user ? true : false;
+    this.canViewCourse = user_permissions?.member_type_permissions?.find(
+      (f) => f.view == 1 && f.feature_id == 11
+    )
+      ? true
+      : false;
+    this.canCreateCourse =
+      user_permissions?.create_plan_roles?.length > 0 ||
+      user_permissions?.member_type_permissions?.find(
+        (f) => f.create == 1 && f.feature_id == 11
+      );
+    this.canManageCourse = user_permissions?.member_type_permissions?.find(
+      (f) => f.manage == 1 && f.feature_id == 11
+    )
+      ? true
+      : false;
   }
 
   getFeatureTitle(feature) {
@@ -301,6 +348,22 @@ export class CoursesListComponent {
           feature.name_es ||
           feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
+      : "";
+  }
+
+  getFeatureDescription(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.description_en || feature.description_es
+        : this.language == "fr"
+        ? feature.description_fr || feature.description_es
+        : this.language == "eu"
+        ? feature.description_eu || feature.description_es
+        : this.language == "ca"
+        ? feature.description_ca || feature.description_es
+        : this.language == "de"
+        ? feature.description_de || feature.description_es
+        : feature.description_es
       : "";
   }
 
@@ -357,16 +420,351 @@ export class CoursesListComponent {
     return progress;
   }
 
+  getCoursesData(courses_list) {
+    this._coursesService.getCombinedCoursesPrefetch(this.companyId, this.userId).subscribe(data => {
+      this.courseSubscriptions = data[0] ? data[0]['course_subscriptions'] : []
+      this.courseTutors = data[1] ? data[1]['course_tutors'] : []
+      this.courseCategoriesAccessRoles = data[2] ? data[2]['roles'] : []
+      this.courseCategoryMapping = data[3] ? data[3]['CompanyCourseCategoryMapping'] : []
+      this.user = data[4] ? data[4]['CompanyUser'] : []
+      this.allCourseCategories = data[5] ? data[5]['CompanySupercategory'] : []
+      this.courseExceptionUser = data[6] ? data[6]['company_course_exception_user'] : []
+      let roles = data[7] ? data[7]['role'] : []
+      this.superAdmin = roles && roles.some(a => a.role == 'Super Admin')
+      this.isAdmin = roles && roles.some(a => a.role == 'Super Admin' || a.role == 'Admin 1' || a.role == 'Admin 2')
+      let subfeatures = data[8] ? data[8]['subfeatures'] : []
+      let tutorSubfeatures = data[9] ? data[9]['subfeatures'] : []
+      this.mapTutorSubfeatures(tutorSubfeatures)
+      this.filterCourses(courses_list);
+    }, error => {
+      
+    })
+  }
+
+  async mapTutorSubfeatures(subfeatures) {
+    if(subfeatures?.length > 0) {
+      this.showMemberCoursesOnly = this.companyId == 52 || 27 ? true : false;
+    }
+  }
+
+  filterCourses(courses_list) {
+    let courses = courses_list && courses_list.filter(c => {
+      return c. status == 1
+    })
+
+    let all_courses: any[] = []
+    let courseIdArray: any[] = []
+    if(courses?.length > 0) {
+      let tutor = this.courseTutors?.filter(ct => {
+        return ct.id == this.userId
+      })
+      courses?.forEach(course => {
+        let show_buy_now = true
+        if(this.hasCoursePayment && course.price > 0) {
+          let course_subscription = this.courseSubscriptions && this.courseSubscriptions.filter(c => {
+            return c.user_id == this.userId && c.course_id == course.id
+          })
+          if(course_subscription && course_subscription[0]) {
+            show_buy_now = false
+          }
+        } else {
+          show_buy_now = false
+        }
+
+        let isTutor = this.courseTutors && this.courseTutors.some(a => a.id == this.userId)
+        if(isTutor && this.onlyAssignedTutorAccess && !(this.superAdmin || this.isAdmin)) {
+            let course_tutors_id = course?.tutor_ids ? course.tutor_ids : []
+            let course_access = false
+            if(course_tutors_id?.length > 0){
+              course_tutors_id.forEach((id => {
+                if(id == tutor[0].tutor_id){
+                  course_access = true
+                }
+              }))
+            }
+            if(course_access){
+              show_buy_now = false
+              course.exception_access = 1
+            }else{
+              course.unassigned_status = 1
+            }
+            this.courseExceptionUser.forEach(cex => {
+              if(this.userId == cex.user_id && cex.exception_access == 1 && course.id == cex.course_id){
+                show_buy_now = false
+                course.exception_access = 1
+                course.unassigned_status = 0
+              }
+            })
+        }
+
+        if(show_buy_now) {
+          let isTutor = this.courseTutors && this.courseTutors.some(a => a.id == this.userId)
+          if(isTutor) {
+            show_buy_now = false
+          }
+        } else {
+          if(!this.isAdmin && !this.superAdmin) {
+            let include
+            let is_category_exist = this.courseCategoryMapping && this.courseCategoryMapping.filter((f)=>f.course_id==course.id)
+            if(is_category_exist?.length > 0) {
+              this.allCourseCategories.forEach(cc => {
+                let has_access = false
+                if(this.courseCategoriesAccessRoles) {
+                  let user_type_roles = this.courseCategoriesAccessRoles.filter(r => {
+                    return r.role_id == this.user?.custom_member_type_id
+                  })
+                  if(user_type_roles) {
+                    user_type_roles.forEach(utr => {
+                      if(utr.category_id == cc.id) {
+                        has_access = true
+                      }
+                    })
+                  }
+                }
+
+                let match = this.courseCategoryMapping.some(a => a.category_id == cc.id && a.course_id == course.id)
+
+                if(match && has_access) {
+                  include = true
+                }
+              })
+            } else{
+              include = true                
+            }
+            show_buy_now = !include
+            if(include){
+              courseIdArray.push(course.id)  
+            }
+          }
+        }
+
+        var plainDescription = course.description ? course.description.replace(/<[^>]*>/g, '') : '';
+        var plainDescriptionEn = course.description_en ? course.description_en.replace(/<[^>]*>/g, '') : '';
+        var plainDescriptionFr = course.description_fr ? course.description_fr.replace(/<[^>]*>/g, '') : '';
+        var plainDescriptionEu = course.description_eu ? course.description_eu.replace(/<[^>]*>/g, '') : '';
+        var plainDescriptionCa = course.description_ca ? course.description_ca.replace(/<[^>]*>/g, '') : '';
+        var plainDescriptionDe = course.description_de ? course.description_de.replace(/<[^>]*>/g, '') : '';
+
+        if(this.superAdmin || this.isAdmin){
+          course.locked = 0
+          course.exception_access = 1
+          course.unassigned_status = 0
+          if(show_buy_now){
+            show_buy_now = false
+          }
+        }
+        all_courses.push({
+          "id": course.id,
+          "title": course.title,
+          "title_en": course.title_en,
+          "title_fr": course.title_fr,
+          "title_eu": course.title_eu,
+          "title_ca": course.title_ca,
+          "title_de": course.title_de,
+          "description": plainDescription,
+          "description_en": plainDescriptionEn,
+          "description_fr": plainDescriptionFr,
+          "description_eu": plainDescriptionEu,
+          "description_ca": plainDescriptionCa,
+          "description_de": plainDescriptionDe,
+          "date": course.date,
+          "month_name": course.month_name,
+          "image": course.image,
+          "points": course.points,
+          "user_points": course.user_points,
+          "created_by": course.created_by,
+          "created_at": course.created_at,
+          "course_users": course.course_users,
+          "price": course.price,
+          "product_id": course.product_id,
+          "plan_id": course.plan_id,
+          "payment_type": course.payment_type,
+          "show_buy_now": show_buy_now,
+          "difficulty": course.difficulty,
+          "difficulty_en": course.difficulty_en,
+          "difficulty_es": course.difficulty_es,
+          "difficulty_fr": course.difficulty_fr,
+          "difficulty_eu": course.difficulty_eu,
+          "difficulty_ca": course.difficulty_ca,
+          "difficulty_de": course.difficulty_de,
+          "duration": course.duration,
+          "duration_unit": course.duration_unit,
+          "duration_unit_en": course.duration_unit_en,
+          "duration_unit_es": course.duration_unit_es,
+          "duration_unit_fr": course.duration_unit_fr,
+          "duration_unit_eu": course.duration_unit_eu,
+          "duration_unit_ca": course.duration_unit_ca,
+          "duration_unit_de": course.duration_unit_de,
+          "course_participants": course.course_participants,
+          "course_quiz": course.course_quiz,
+          "hotmart_product_id": course.hotmart_product_id,
+          "hotmart_product_ucode": course.hotmart_product_ucode,
+          "hotmart_product_photo": course.hotmart_product_photo,
+          "hotmart_reference": course.hotmart_reference,
+          "hotmart_seller_id": course.hotmart_seller_id,
+          "hotmart_affiliation_id": course.hotmart_affiliation_id,
+          "hotmart_show": course.hotmart_show,
+          "hotmart_currency": course.hotmart_currency,
+          "payment_method": course.payment_method,
+          "video_cover": course.video_cover,
+          "status": course.status,
+          "group_id": course.group_id,
+          "locked": course.locked,
+          "button_color": course.button_color,
+          "cta_status": course.cta_status,
+          "cta_text": course.cta_text,
+          "cta_link": course.cta_link,
+          "buy_now_status": course.buy_now_status,
+          "exception_access": course.exception_access == 1 ? 1 : 0,
+          "unassigned_status": course.unassigned_status == 1 ? 1 : 0,
+          "course_categories": course.course_categories
+        })
+      });
+    }
+
+    let isTutor = this.courseTutors && this.courseTutors.some(a => a.id == this.userId)
+    if((this.showCoursesByAccess || this.showMemberCoursesOnly) && !isTutor && !this.superAdmin){
+      all_courses = all_courses.filter((ac: any) => {
+        let include = courseIdArray.indexOf(ac.id) != -1
+        
+        if(!include && this.showMemberCoursesOnly) {
+          this.courseExceptionUser?.forEach(ceu => {
+            if(ceu.course_id == ac.id && ceu.exception_access == 1){
+              include = true
+            }
+          })
+        }
+        return include
+      })
+    }
+
+    this.courses = all_courses 
+    this.filteredcourses = this.courses
+    this.filteredcourses = this.filteredcourses.sort((a, b) => {
+      return b.id - a.id
+    })
+    
+    if(this.hasCategoryAccess) {
+      this.showCoursesWithAccess();
+    } else {
+      if(this.hasHotmartIntegration) {
+        this.filteredcourses = this.filteredcourses && this.filteredcourses.filter(c => {
+          return !c.hotmart_product_id || (this.hasHotmartIntegration && c.hotmart_product_id && c.hotmart_show == 1 && this.hotmartSettings.show == 1)
+        })
+      }
+
+      this.formatCourses(this.filteredcourses);
+    }
+  }
+
+  async showCoursesWithAccess() {
+    if(!this.isAdmin && !this.superAdmin){
+      this.filteredcourses = this.filteredcourses && this.filteredcourses.map(c => {
+        if(this.allCourseCategories){
+          let is_category_exist = this.courseCategoryMapping.filter((f)=>f.course_id==c.id)
+          if(is_category_exist.length > 0) {
+            let include = false;
+            this.allCourseCategories.forEach(cc => {
+              let has_access = false
+              if(this.courseCategoriesAccessRoles) {
+                let user_type_roles = this.courseCategoriesAccessRoles.filter(r => {
+                  return r.role_id == this.user.custom_member_type_id
+                })
+                if(user_type_roles) {
+                  user_type_roles.forEach(utr => {
+                    if(utr.category_id == cc.id) {
+                      has_access = true
+                    }
+                  })
+                }
+              }
+  
+              let match = this.courseCategoryMapping.some(a => a.category_id == cc.id && a.course_id == c.id)
+              if(match && has_access) {
+                include = true
+              }
+            })
+            this.courseExceptionUser?.forEach(ceu => {
+              if(ceu.course_id == c.id && ceu.exception_access == 1){
+                include = true
+              }
+            })
+            if(include){
+              return c;
+            } else {
+              if(c.price == 0) {
+                return {...c, locked: 1}
+              }else {
+                return c
+              }
+            }
+          } else {
+            return c
+          }
+        } else {
+          return c
+        }
+      })
+    }
+
+    if(this.hasHotmartIntegration) {
+      this.filteredcourses = this.filteredcourses && this.filteredcourses.filter(c => {
+        return !c.hotmart_product_id || (this.hasHotmartIntegration && c.hotmart_product_id && c.hotmart_show == 1 && this.hotmartSettings?.show == 1)
+      })
+    }
+
+    this.formatCourses(this.filteredcourses);
+  }
+
   formatCourses(courses) {
     this.courses = courses?.map((course) => {
+
       let progress = this.getUserProgress(course);
+      let category_texts = this.getCategoriesDisplay(course);
+
       return {
         ...course,
+        path: `/courses/details/${course.id}`,
         title_language: this.getCourseTitle(course),
         progress: progress,
         button_text: this.getButtonText(course, progress),
+        image: `${COURSE_IMAGE_URL}/${course.image}`,
+        category: category_texts?.map((data) => { return data.label }).join(', '),
       };
     });
+  }
+
+  getCategoriesDisplay(course) {
+    let list_categories: any[] = []
+    if(course?.course_categories?.length > 0) {
+      course?.course_categories?.forEach(category => {
+        list_categories.push({
+          label: this.getCategoryLabel(category)
+        })
+      })
+    }
+    return list_categories
+  }
+
+  getCategoryLabel(category) {
+    return category
+      ? this.language == "en"
+        ? category.name_EN ||
+          category.name_ES
+        : this.language == "fr"
+        ? category.name_FR ||
+          category.name_ES
+        : this.language == "eu"
+        ? category.name_EU ||
+          category.name_ES
+        : this.language == "ca"
+        ? category.name_CA ||
+          category.name_ES
+        : this.language == "de"
+        ? category.name_DE ||
+          category.name_ES
+        : category.name_ES
+      : "";
   }
 
   getButtonText(course, progress: number = 0) {
@@ -459,6 +857,40 @@ export class CoursesListComponent {
     }
 
     return show;
+  }
+
+  handleCreateRoute() {
+    this._router.navigate([`/testimonials/create/0`]);
+  }
+
+  toggleCreateHover(event) {
+    this.createHover = event;
+  }
+
+  handleSearchChanged(event) {
+    this.search = event || "";
+    
+    if(this.search) {
+      let courses_list = this.allCoursesList?.filter(course => {
+        let include = false;
+
+        if (
+          (course?.title && ((course?.title).normalize("NFD").replace(/\p{Diacritic}/gu, "")).toLowerCase().indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+          || (course?.title_en && ((course?.title_en.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+          || (course?.title_fr && ((course?.title_fr.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+          || (course?.title_eu && ((course?.title_eu.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+          || (course?.title_ca && ((course?.title_ca.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+          || (course?.title_de && ((course?.title_de.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+          ) {
+          include = true
+        }
+
+        return include;
+      })
+      this.filterCourses(courses_list)
+    } else {
+      this.filterCourses(this.allCoursesList)
+    }
   }
 
   ngOnDestroy() {

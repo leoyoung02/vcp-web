@@ -993,8 +993,6 @@ export class ClubEditComponent {
     this.clubForm.value.description = this.description;
 
     let formData = new FormData();
-
-    console.log('title_en: ' + this.clubForm?.value?.title_en)
     formData.append("entity_id", this.companyId.toString());
     formData.append("user_id", this.userId.toString());
     formData.append(

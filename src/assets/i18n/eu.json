@@ -70,7 +70,8 @@
         "logout": "Ikusi",
         "companysettings": "Ezarpenak",
         "reports": "Txostenak",
-        "guests": "Gonbidatuak"
+        "guests": "Gonbidatuak", 
+        "nounreadmessages": "Ez dago irakurri gabeko mezurik"
     },
     "footer": {
         "contact":"HARREMANETARAKO",
@@ -996,7 +997,9 @@
         "unlockdate": "Desblokeatzeko data",
         "needpreviouslessoncomplete": "Aurreko ikasgaia egin behar da lehenik",
         "blockedmoduletext": "Blokeatutako moduluaren testua",
-        "text": "Testua"
+        "text": "Testua",
+        "coursecontent":"Ikastaroaren edukia",
+        "viewclass": "Ikusi klasea"
     },
     "course-lesson": {
         "section": "Atala"
@@ -3114,7 +3117,8 @@
         "spanish": "Gaztelania",
         "tutorprice": "Tutoretza Prezioa", 
         "tutoringlanguages": "Idatzi tutoretzako hizkuntzak komaz bereizita (Ingelesa, Gaztelania)",
-        "filterbycity" : "Iragazi hiriaren arabera"
+        "filterbycity" : "Iragazi hiriaren arabera",
+        "learnmore": "Ezagutu"
     },
     "general-details": {
         "name" : "Izena",

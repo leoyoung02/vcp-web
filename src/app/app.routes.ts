@@ -94,6 +94,12 @@ export const routes: Routes = [
         canMatch: [authGuard()],
     },
     {
+        path: 'testimonials',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/testimonials')).routes,
+        canMatch: [authGuard()],
+    },
+    {
         path: '**',
         data: { layout: PageLayout.Blank },
         loadComponent: async () => (await import('@pages/screens/not-found/not-found.component')).NotFoundComponent,

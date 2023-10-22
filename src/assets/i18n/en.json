@@ -70,7 +70,8 @@
         "logout": "Log out",
         "companysettings": "Settings",
         "reports": "Reports",
-        "guests": "Guests"
+        "guests": "Guests",
+        "nounreadmessages": "No unread messages"
     },
     "footer": {
         "contact":"CONTACT",
@@ -1001,7 +1002,9 @@
         "entertext": "Enter text that will show in the button for booking session",
         "needpreviouslessoncomplete": "The previous lesson needs to be completed first",
         "blockedmoduletext": "Blocked module text",
-        "text": "Text"
+        "text": "Text",
+        "coursecontent":"Course content",
+        "viewclass": "View class"
     },
     "course-lesson": {
         "section": "Section"
@@ -3154,8 +3157,8 @@
         "spanish": "Spanish",
         "tutorprice": "Tutoring Price",
         "tutoringlanguages": "Enter tutoring languages in comma sepearted (English, Spanish)",
-        "filterbycity" : "Filter by city"
-
+        "filterbycity" : "Filter by city",
+        "learnmore": "Get to know more"
     },
     "general-details": {
         "name" : "Name",

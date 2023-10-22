@@ -18,6 +18,7 @@ import { ClubsListComponent } from "@features/clubs/list/list.component";
 import { CoursesListComponent } from "@features/courses/list/list.component";
 import { JobOffersListComponent } from "@features/job-offers/list/list.component";
 import { MasonryComponent } from "@share/components";
+import { VideoSectionComponent } from "@share/components/video-section/video-section.component";
 
 @Component({
   standalone: true,
@@ -31,6 +32,7 @@ import { MasonryComponent } from "@share/components";
     CoursesListComponent,
     JobOffersListComponent,
     MasonryComponent,
+    VideoSectionComponent,
   ],
   templateUrl: "./home.component.html",
 })
@@ -195,6 +197,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.getLandingTemplateBySlug(this.companySlug);
       }
       this.getSettingsTitle();
+      if(this.userId) {
+        this.getUserDetails();
+      }
 
       if (company[0].predefined_template == 1) {
         this.hasPredefinedTemplate = true;

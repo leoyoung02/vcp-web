@@ -29,6 +29,7 @@
         [myClubsTitle]="myClubsTitle"
         [myActivitiesTitle]="myActivitiesTitle"
         [buttonColor]="buttonColor"
+        [hoverColor]="hoverColor"
         [logoSource]="logoSource"
         (changeLanguage)="changedLanguage($event)" 
     >
@@ -86,6 +87,15 @@
                 [myClubsTitle]="myClubsTitle"
                 [myActivitiesTitle]="myActivitiesTitle"
                 [buttonColor]="buttonColor"
+                [isTutorMenuVisible]="isTutorMenuVisible"
+                [manageMembers]="manageMembers"
+                [userTypeName]="userTypeName"
+                [superTutor]="superTutor"
+                [cityAdmin]="cityAdmin"
+                [hasCreditSetting]="hasCreditSetting"
+                [hasCreditPackageSetting]="hasCreditPackageSetting"
+                [isTutorUser]="isTutorUser"
+                [showProfileButton]="showProfileButton"
                 (changeLanguage)="changedLanguage($event)" 
             >
             </app-user-menu>

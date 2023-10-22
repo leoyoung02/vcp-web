@@ -4,9 +4,18 @@
   <div class="text-sm mt-8">{{ 'landing.welcomedesc' | translate }}</div>
 </div>
 <div class="py-10">
+  <app-video-section 
+    [templateData]="predefinedTemplate" 
+    [company]="company"
+    *ngIf="predefinedTemplate?.has_video == 1 && predefinedTemplate?.video_file">
+  </app-video-section>
   <app-masonry
     [userId]="userId"
+    [superAdmin]="superAdmin"
     [company]="company"
+    [section1Mode]="companyId == 32 ? 'plans' : (companyId == 52 ? 'courses' : '')"
+    [section2Mode]="companyId == 32 ? 'cityguide-employmentchannel' : (companyId == 52 ? 'testimonials-tutors' : '')"
+    [section3Mode]="companyId == 32 ? 'clubs' : ''"
   >
   </app-masonry>
 </div>

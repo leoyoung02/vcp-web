@@ -70,7 +70,8 @@
         "logout": "Abmelden",
         "companysettings": "Einstellungen",
         "reports": "Berichte",
-        "guests": "Gäste"
+        "guests": "Gäste", 
+        "nounreadmessages": "Keine ungelesenen Nachrichten"
     },
     "footer": {
         "contact": "KONTAKT",
@@ -996,7 +997,9 @@
         "unlockdate": "Freischaltdatum",
         "needpreviouslessoncomplete": "Die vorherige Lektion muss zuerst abgeschlossen werden",
         "blockedmoduletext": "Blockierter Modultext",
-        "text": "Texto"
+        "text": "Texto",
+        "coursecontent": "Kursinhalt",
+        "viewclass": "Klasse anzeigen"
     },
     "course-lesson": {
         "section": "Abschnitt"
@@ -3113,7 +3116,8 @@
         "spanish": "Spanisch",
         "tutorprice": "Nachhilfepreis", 
         "tutoringlanguages": "Geben Sie die Nachhilfesprachen durch Kommas getrennt ein (Englisch, Spanisch)",
-        "filterbycity" : "Nach Stadt filtern"
+        "filterbycity" : "Nach Stadt filtern",
+        "learnmore": "Lernen Sie es kennen"
     },
     "general-details": {
         "name" : "Name",

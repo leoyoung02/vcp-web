@@ -70,7 +70,8 @@
         "logout": "Tancar sessió",
         "companysettings": "Configuració",
         "reports": "Informes",
-        "guests": "Convidats"
+        "guests": "Convidats",
+        "nounreadmessages": "No hi ha missatges no llegits"
     },
     "footer": {
         "contact":"CONTACTE",
@@ -999,7 +1000,9 @@
         "entertext": "Introduïu el text que es mostrarà al botó per a la sessió de reserva",
         "needpreviouslessoncomplete": "Primer s'ha de completar la lliçó anterior",
         "blockedmoduletext": "Text del mòdul bloquejat",
-        "text": "Text"
+        "text": "Text",
+        "coursecontent":"Contingut del curs",
+        "viewclass": "Mostra la classe"
     },
     "course-lesson": {
         "section": "Secció"
@@ -3126,7 +3129,8 @@
         "spanish": "Espanyol",
         "tutorprice": "Preu de tutoria", 
         "tutoringlanguages": "Introduïu els idiomes de la tutorització separats per comes (Anglès, Espanyol)",
-        "filterbycity" : "Filtra per ciutat"
+        "filterbycity" : "Filtra per ciutat",
+        "learnmore": "Coneix-ho"
     },
     "general-details": {
         "name" : "Nom",

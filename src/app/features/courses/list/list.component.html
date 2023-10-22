@@ -1,58 +1,62 @@
-<div
-    class="container flex items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3"
-    [ngClass]="{
-        'border border-b-2 border-l-0 border-r-0 border-t-0': showSectionTitleDivider || parentComponent,
-        'justify-between': showSectionTitleDivider || parentComponent,
-        'justify-end': !showSectionTitleDivider && !parentComponent
-    }"
->
-    <h1 class="text-2xl" *ngIf="showSectionTitleDivider || parentComponent">{{ pageName }}</h1>
+<app-page-title [title]="pageName" [subtitle]="pageDescription"></app-page-title>
+<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4">
+    <div>
+        <button 
+            class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-evenly mt-4 transition duration-700 ease-in-out"
+            *ngIf="canCreateCourse" 
+            [ngStyle]="{
+                'background-color': buttonColor,
+                'opacity': createHover ? 1.5 : 1,
+                'filter': createHover ? 'brightness(0.8)' : 'brightness(1)'
+            }"
+            (click)="handleCreateRoute()"
+            (mouseover)="toggleCreateHover(true)"
+            (mouseleave)="toggleCreateHover(false)"
+        >
+            <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+            </svg>
+            <span class="text-white text-md font-semibold uppercase">{{ 'dashboard.new' | translate }} {{ pageName }}</span>
+        </button>
+    </div>
 </div>
-<div class="pt-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 py-2">
-        <ng-container *ngFor="let course of courses">
-            <div class="max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                <a href="javascript:;">
-                    <img class="object-cover rounded-t-lg w-full h-[166px] max-h-[166px]" [ngSrc]="courseSrc + '/' + course?.image" alt="" width="294" height="166" />
-                </a>
-                <div class="p-5 pb-12 relative">
-                    <div class="min-h-[120px] flex justify-between">
-                        <div>
-                            <a href="javascript:;">
-                               <h5 class="mb-2 text-base font-bold tracking-tight text-gray-900 dark:text-white leading-5">{{ course?.title_language }}</h5>
-                            </a>
-                            <div class="progress-text text-sm" *ngIf="superAdmin || (!(course?.show_buy_now || course?.locked == 1 || !hasCourseStarted(course)))">{{ course?.progress || 0 }}% {{ 'courses.complete' | translate }}</div>
-                        </div>
-                        <div>
-                            <img class="w-[47px] h-[47px] -mt-3 -mr-1" *ngIf="!superAdmin && (course?.show_buy_now || course?.locked == 1 || !hasCourseStarted(course))" src="./assets/images/new-design/icons/Progress-Lock.png" />
-                            <div class="progress-circle -mt-3 -mr-1" *ngIf="superAdmin || (!(course?.show_buy_now || course?.locked == 1 || !hasCourseStarted(course)))">
-                                <ng-container>
-                                    <div class="set-size charts-container">
-                                        <div class="pie-wrapper progress{{ course?.progress == 0 ? '' : '-' }}{{ course?.progress || 0 }} style-2">
-                                            <span class="label">{{ course?.progress }}<span class="smaller">%</span></span>
-                                            <div class="pie">
-                                                <div class="left-side half-circle"></div>
-                                                <div class="right-side half-circle"></div>
-                                            </div>
-                                            <div class="shadow"></div>
-                                        </div>
-                                    </div>
-                                </ng-container>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="absolute bottom-6">
-                        <a href="javacript:;" [ngStyle]="{'background-color': course?.button_color || buttonColor}" class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-                            {{ course?.button_text }}
-                            <ng-container *ngIf="course?.button_text == ('courses.continue' | translate)">
-                                <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                                </svg>
-                            </ng-container>
-                        </a>
-                    </div>
+<div class="pt-10">
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
+        <div class="relative mb-6">
+            <div class="flex items-center w-full max-w-full">
+                <div class="flex-auto">
+                    <app-search
+                        [searchText]="searchText"
+                        [placeholderText]="placeholderText"
+                        [buttonColor]="buttonColor"
+                        (onEnterPressed)="handleSearchChanged($event)"
+                        (doSearch)="handleSearchChanged($event)"
+                    >
+                    </app-search>
                 </div>
             </div>
+        </div>
+    </div>
+</div>
+<div class="pt-6">
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 py-2 pb-20">
+        <ng-container *ngFor="let course of courses | paginate: {itemsPerPage: 6, currentPage: p}">
+            <app-course-card
+                [id]="course?.id"
+                [path]="course?.path"
+                [title]="course?.title"
+                [category]="course?.category"
+                [price]="course?.price"
+                [image]="course?.image"
+                [progress]="course?.progress"
+                [buttonText]="course?.button_text"
+                [page]="'list'"
+                [buttonColor]="buttonColor"
+            >
+            </app-course-card>
         </ng-container>
+    </div>
+    <div *ngIf="courses?.length > 0" class="text-center">
+        <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>

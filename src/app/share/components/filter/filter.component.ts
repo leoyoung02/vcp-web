@@ -29,11 +29,18 @@ export class FilterComponent {
     isActiveFilter: boolean = false;
 
     async ngOnInit() {
-      let selected = this.mode == 'clubs' ? localStorage.getItem('club-filter-city') : (this.mode == 'plans' ? localStorage.getItem('plan-filter-city') : '');
+      let selected = this.mode == 'clubs' ? 
+        localStorage.getItem('club-filter-city') : 
+        (this.mode == 'plans' ? 
+          localStorage.getItem('plan-filter-city') : 
+            (this.mode == 'tutors' ? 
+              localStorage.getItem('tutor-filter-city') : 
+              ''
+            )
+        );
       this.isActiveFilter = selected ? true : false;
 
       if(selected && this.mode == 'plans') {
-        console.log(this.list)
         if(this.list?.length > 0) {
           this.list.forEach(item => {
             if(item.city == selected) {

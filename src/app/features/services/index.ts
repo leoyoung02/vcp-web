@@ -4,3 +4,4 @@ export * from './clubs/clubs.service';
 export * from './job-offers/job-offers.service';
 export * from './city-guides/city-guides.service';
 export * from './courses/courses.service';
+export * from './testimonials/testimonials.service';

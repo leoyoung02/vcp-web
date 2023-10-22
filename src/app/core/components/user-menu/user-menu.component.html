@@ -28,19 +28,29 @@
             <div class="p-8 flex items-center rounded-t-lg">
                 <div>
                     <img 
-                        class="w-32 h32 object-cover rounded-full mr-7" 
+                        class="w-32 h-32 object-cover rounded-full mr-6" 
                         *ngIf="imageSrc" 
                         [src]="imageSrc" 
                         [alt]="username"
                     />
                 </div>
-                <div>
+                <div class="ml-4 leading-5">
                     <div class="text-black text-lg font-semibold">{{ username }}</div>
-                    <div class="mt-2 opacity-60">{{ customMemberTypeName }}</div>
+                    <div class="mt-1 opacity-60">{{ userTypeName }}</div>
                 </div>
             </div>
             <div>
                 <div class="p-8 pt-0 pb-2">
+                    <ng-container *ngIf="showProfileButton">
+                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/users/profile/', userid]">
+                            <div>
+                                <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.656 12.115a3 3 0 0 1 5.682-.015M13 5h3m-3 3h3m-3 3h3M2 1h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Zm6.5 4.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/>
+                                </svg>
+                            </div>
+                            <div>{{ 'landing.myprofile' | translate }}</div>
+                        </div>
+                    </ng-container>
                     <ng-container *ngIf="hasAccess('clubs') && myClubsTitle">
                         <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/dashboard/5']">
                             <div>
@@ -74,10 +84,55 @@
                             <div>{{ 'company-settings.managelanding' | translate}}</div>
                         </div>
                     </ng-container>
+                    <ng-container *ngIf="hasAccess('tutors') && isTutorMenuVisible">
+                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/tutors/my-lessons']">
+                            <div>
+                                <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
+                                </svg>
+                            </div>
+                            <div>{{ 'tutors.mylessons' | translate }}</div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="hasAccess('tutors') && (superTutor || isAdmin)">
+                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/tutors/bookings/history']">
+                            <div>
+                                <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 16.5c0-1-8-2.7-9-2V1.8c1-1 9 .707 9 1.706M10 16.5V3.506M10 16.5c0-1 8-2.7 9-2V1.8c-1-1-9 .707-9 1.706"/>
+                                </svg>
+                            </div>
+                            <div>{{ 'tutors.bookings' | translate }} {{ 'ranking.history' | translate }}</div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="hasAccess('tutors') && hasCreditSetting && hasCreditPackageSetting && !(isTutorUser || superTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0)">
+                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/users/my-credits']">
+                            <div>
+                                <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.905 1.316 15.633 6M18 10h-5a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h5m0-5a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1m0-5V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h15a1 1 0 0 0 1-1v-3m-6.367-9L7.905 1.316 2.352 6h9.281Z"/>
+                                </svg>
+                            </div>
+                            <div>{{ "credit-package.mycredits" | translate }}</div>
+                        </div>
+                    </ng-container>
                 </div>
             </div>
             <div [ngStyle]="{'background-color': buttonColor}" class="p-8">
-                <ng-container *ngFor="let notification of popupNotifications">
+                <ng-container *ngIf="popupNotifications?.length > 0">
+                    <ng-container *ngFor="let notification of popupNotifications">
+                        <div class="flex mb-3">
+                            <div class="mr-2">
+                                <svg class="-mt-1.5 w-5 h-5 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 20">
+                                    <path d="M12.133 10.632v-1.8A5.406 5.406 0 0 0 7.979 3.57.946.946 0 0 0 8 3.464V1.1a1 1 0 0 0-2 0v2.364a.946.946 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C1.867 13.018 0 13.614 0 14.807 0 15.4 0 16 .538 16h12.924C14 16 14 15.4 14 14.807c0-1.193-1.867-1.789-1.867-4.175ZM3.823 17a3.453 3.453 0 0 0 6.354 0H3.823Z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <div class="text-white -mt-2 text-xs">{{ language == 'en' ? notification?.message_en : notification.message }}</div>
+                                <div class="text-white text-xs mt-2">{{ notification.created | dateAgo: (language || 'es') }}</div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="popupNotifications?.length == 0">
                     <div class="flex mb-3">
                         <div class="mr-2">
                             <svg class="-mt-1.5 w-5 h-5 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 20">
@@ -85,8 +140,7 @@
                             </svg>
                         </div>
                         <div>
-                            <div class="text-white -mt-2 text-xs">{{ language == 'en' ? notification?.message_en : notification.message }}</div>
-                            <div class="text-white text-xs mt-2">{{ notification.created | dateAgo: (language || 'es') }}</div>
+                            <div class="text-white -mt-2 text-xs text-center">{{ 'user-popup.nounreadmessages' | translate }}</div>
                         </div>
                     </div>
                 </ng-container>

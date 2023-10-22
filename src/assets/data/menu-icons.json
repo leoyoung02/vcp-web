@@ -55,7 +55,7 @@
     },
     {  
         "path": "courses",  
-        "icon": "./assets/images/new-design/icons/menus/Courses.png",
+        "icon": "./assets/menu-icons/menu-icon-courses.png",
         "facode": "fas fa-chalkboard-teacher",  
         "activeicon": "./assets/images/new-design/icons/menus/Courses-active.png"   
     },
@@ -67,7 +67,7 @@
     },
     {  
         "path": "tutors",  
-        "icon": "./assets/images/new-design/icons/menus/Buddy.png",
+        "icon": "./assets/menu-icons/menu-icon-colleague.png",
         "facode": "fas fa-user-friends",  
         "activeicon": "./assets/images/new-design/icons/menus/Buddy-active.png"   
     },
@@ -75,6 +75,12 @@
         "path": "blog",  
         "icon": "./assets/images/new-design/icons/menus/CityAgenda.png",
         "facode": "fas fa-edit",  
+        "activeicon": "./assets/images/new-design/icons/menus/CityAgenda-active.png"   
+    },
+    {  
+        "path": "testimonials",  
+        "icon": "./assets/menu-icons/menu-icon-testimonials.png",
+        "facode": "fa fa-edit",  
         "activeicon": "./assets/images/new-design/icons/menus/CityAgenda-active.png"   
     }
 ]  

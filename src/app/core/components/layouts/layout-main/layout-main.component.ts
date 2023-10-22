@@ -11,9 +11,7 @@ import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
 import { MenuService, NotificationsService } from "@lib/services";
 import { TutorsService } from "@features/services";
-import { FooterComponent, MobileNavbarComponent, 
-  //NavbarComponent 
-} from "src/app/core/components";
+import { FooterComponent, MobileNavbarComponent } from "src/app/core/components";
 import { Subject, takeUntil } from "rxjs";
 import { ToastComponent } from "@share/components";
 import { FormsModule } from "@angular/forms";
@@ -29,7 +27,6 @@ import get from "lodash/get";
     CommonModule, 
     TranslateModule,
     FormsModule,
-    // NavbarComponent, 
     SidebarComponent,
     FooterComponent, 
     ToastComponent,
@@ -145,7 +142,14 @@ export class LayoutMainComponent {
   myClubsTitle: string = '';
   myActivitiesTitle: string = '';
   buttonColor: any;
+  hoverColor: any;
   logoSource: any;
+  isTutorMenuVisible: boolean = false;
+  userTypeName: any;
+  manageMembers: boolean = false;
+  superTutor: boolean = false;
+  cityAdmin:  boolean = false;
+  showProfileButton: boolean = false;
 
   constructor(
     private _router: Router,
@@ -191,6 +195,7 @@ export class LayoutMainComponent {
       this.domain = company[0].domain;
       this.logoSource = environment.api +  "/get-image-company/" +  (company[0].photo || company[0].image);
       this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color;
+      this.hoverColor = company[0].hover_color ? company[0].hover_color : company[0].primary_color;
       this.homeTextValue = company[0].home_text || "Inicio";
       this.homeTextValueEn = company[0].home_text_en || "Home";
       this.homeTextValueFr = company[0].home_text_fr || "Maison";
@@ -289,6 +294,7 @@ export class LayoutMainComponent {
           this.mapDashboard(this.dashboardDetails);
           let languages = data[4] ? data[4]["languages"] : [];
           this.customMemberTypes = data[5] ? data[5]["member_types"] : [];
+          this.getUserTypeInformation();
           this.getRoleName();
           let subfeatures = data[6] ? data[6]["subfeatures"] : [];
           let courses_subfeatures = [];
@@ -320,7 +326,8 @@ export class LayoutMainComponent {
           this.roles = data[2] ? data[2]["role"] : [];
           this.dashboardDetails = data[3] ? data[3]["dashboard_details"] : [];
           let languages = data[4] ? data[4]["languages"] : [];
-          this.customMemberTypes = data[5] ? data[5]["languages"] : [];
+          this.customMemberTypes = data[5] ? data[5]["member_types"] : [];
+          this.getUserTypeInformation();
           let courses_subfeatures = data[6] ? data[6]["subfeatures"] : [];
           let tutors_subfeatures = data[7] ? data[7]["subfeatures"] : [];
           this.proceedFetchMenus(
@@ -429,7 +436,7 @@ export class LayoutMainComponent {
       .isAdminById(this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe((res: any) => {
-        if (res.isAdmin) {
+        if (res.isAdmin || this.userTypeName?.indexOf("Admin") >= 0) {
           this.isAdmin = true;
         }
       });
@@ -479,9 +486,32 @@ export class LayoutMainComponent {
         });
       }
 
+      this.getUserTypeInformation();
       this.getExpireInformation();
       this.getUserMemberTypes();
       this.getCurrentUserNotifications();
+    }
+  }
+
+  getUserTypeInformation() {
+    if(this.customMemberTypes?.length > 0 && this.currentUser?.custom_member_type_id > 0) {
+      let custom_member_type = this.customMemberTypes.find(f => f.id == this.currentUser.custom_member_type_id);
+      this.manageMembers = custom_member_type?.manage_members ? true : false;
+      this.getUserType()
+    }
+  }
+
+  getUserType() {
+    let member_type = this.customMemberTypes && this.customMemberTypes.filter(mt => {
+      return mt.id == this.currentUser?.custom_member_type_id
+    })
+
+    if(member_type && member_type.length > 0) {
+      this.userTypeName = this.language == 'en' ? (member_type[0].type) : (this.language == 'fr' ? (member_type[0].type_fr || member_type[0].type_es) : 
+          (this.language == 'eu' ? (member_type[0].type_eu || member_type[0].type_es) : (this.language == 'ca' ? (member_type[0].type_ca || member_type[0].type_es) : 
+          (this.language == 'de' ? (member_type[0].type_de || member_type[0].type_es) : (member_type[0].type_es))
+        ))
+      )
     }
   }
 
@@ -767,6 +797,15 @@ export class LayoutMainComponent {
             this.isTutorUser = this.tutorUsers.some(
               (a) => a.user_id == this.userId
             );
+            let super_tutor = this.tutorUsers?.filter(tutor => {
+              return tutor?.user_id == this.userId && tutor?.super_tutor == 1
+            })
+            this.superTutor = super_tutor?.length > 0 ? true : false
+          }
+
+          let cityAdmins = response['city_admins']
+          if(cityAdmins?.length > 0) {
+            this.cityAdmin = cityAdmins.some(a => a.user_id == this.userId)
           }
         },
         (error) => {
@@ -1019,6 +1058,14 @@ export class LayoutMainComponent {
                 this.getMenus();
               }
             }
+
+            let profileButtonSettings = m.content.filter(c => {
+              return c.title_en.indexOf('My Profile') >= 0
+            })
+
+            if(profileButtonSettings && profileButtonSettings[0]) {
+              this.showProfileButton = profileButtonSettings[0].active == 1 ? true : false
+            }
           }
         }
 
@@ -1199,6 +1246,45 @@ export class LayoutMainComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe((data) => {
             this.features = data[0] ? data[0] : [];
+            // Check if city agenda is activated, otherwise just add here for testing
+            let cityGuideFeature = this.features?.find((f) => f.id == 3);
+            if(cityGuideFeature?.id > 0) { } else {
+              if(this.companyId == 32) {
+                this.features?.push({
+                  app_image: "blog-icon.png",
+                  app_path: "city-agenda-list",
+                  description_ca: "Obtingueu més informació sobre els últims esdeveniments i mantingueu-vos actualitzats sobre el que està succeint.",
+                  description_de: "Erfahren Sie mehr über die neuesten Veranstaltungen und bleiben Sie auf dem Laufenden.",
+                  description_en: "Read these recommendations and feel at home!",
+                  description_es: "¡Lee estas recomendaciones y siéntete como en casa!",
+                  description_eu: "Lortu informazio gehiago azken ekitaldiei eta egon gertatzen ari denaren berri.",
+                  description_fr: "En savoir plus sur les derniers événements et être au courant de ce qui se passe.",
+                  entity_name: "Universidad Europea",
+                  entity_type_name: "Company",
+                  feature_name: "City Agenda",
+                  feature_name_ca: "City Agenda",
+                  feature_name_de: "City Agenda",
+                  feature_name_es: "Contenidos",
+                  feature_name_eu: "Udal Agenda",
+                  feature_name_fr: "Ordre du jour de la ville",
+                  id: 3,
+                  image: "features_blog.jpg",
+                  mapping_id: 182,
+                  name: "Company",
+                  name_ca: "City Agenda",
+                  name_de: "City Agenda",
+                  name_en: "City Guide",
+                  name_es: "City Guide",
+                  name_eu: "City Agenda",
+                  name_fr: "Calendrier de la Ville",
+                  sequence: 4
+                })
+                this.features = this.features?.sort((a, b) => {
+                  return a.sequence - b.sequence;
+                });
+              }
+            }
+
             let company_subfeatures = data[1] ? data[1]["subfeatures"] : [];
             let permissions = data[2] ? data[2]["permissions"] : [];
             let subfeatureMapping = data[3] ? data[3]["active"] : [];
@@ -1233,38 +1319,40 @@ export class LayoutMainComponent {
             // Check if city agenda is activated, otherwise just add here for testing
             let cityGuideFeature = this.features?.find((f) => f.id == 3);
             if(cityGuideFeature?.id > 0) { } else {
-              this.features?.push({
-                app_image: "blog-icon.png",
-                app_path: "city-agenda-list",
-                description_ca: "Obtingueu més informació sobre els últims esdeveniments i mantingueu-vos actualitzats sobre el que està succeint.",
-                description_de: "Erfahren Sie mehr über die neuesten Veranstaltungen und bleiben Sie auf dem Laufenden.",
-                description_en: "Read these recommendations and feel at home!",
-                description_es: "¡Lee estas recomendaciones y siéntete como en casa!",
-                description_eu: "Lortu informazio gehiago azken ekitaldiei eta egon gertatzen ari denaren berri.",
-                description_fr: "En savoir plus sur les derniers événements et être au courant de ce qui se passe.",
-                entity_name: "Universidad Europea",
-                entity_type_name: "Company",
-                feature_name: "City Agenda",
-                feature_name_ca: "City Agenda",
-                feature_name_de: "City Agenda",
-                feature_name_es: "Contenidos",
-                feature_name_eu: "Udal Agenda",
-                feature_name_fr: "Ordre du jour de la ville",
-                id: 3,
-                image: "features_blog.jpg",
-                mapping_id: 182,
-                name: "Company",
-                name_ca: "City Agenda",
-                name_de: "City Agenda",
-                name_en: "City Guide",
-                name_es: "City Guide",
-                name_eu: "City Agenda",
-                name_fr: "Calendrier de la Ville",
-                sequence: 4
-              })
-              this.features = this.features?.sort((a, b) => {
-                return a.sequence - b.sequence;
-              });
+              if(this.companyId == 32) {
+                this.features?.push({
+                  app_image: "blog-icon.png",
+                  app_path: "city-agenda-list",
+                  description_ca: "Obtingueu més informació sobre els últims esdeveniments i mantingueu-vos actualitzats sobre el que està succeint.",
+                  description_de: "Erfahren Sie mehr über die neuesten Veranstaltungen und bleiben Sie auf dem Laufenden.",
+                  description_en: "Read these recommendations and feel at home!",
+                  description_es: "¡Lee estas recomendaciones y siéntete como en casa!",
+                  description_eu: "Lortu informazio gehiago azken ekitaldiei eta egon gertatzen ari denaren berri.",
+                  description_fr: "En savoir plus sur les derniers événements et être au courant de ce qui se passe.",
+                  entity_name: "Universidad Europea",
+                  entity_type_name: "Company",
+                  feature_name: "City Agenda",
+                  feature_name_ca: "City Agenda",
+                  feature_name_de: "City Agenda",
+                  feature_name_es: "Contenidos",
+                  feature_name_eu: "Udal Agenda",
+                  feature_name_fr: "Ordre du jour de la ville",
+                  id: 3,
+                  image: "features_blog.jpg",
+                  mapping_id: 182,
+                  name: "Company",
+                  name_ca: "City Agenda",
+                  name_de: "City Agenda",
+                  name_en: "City Guide",
+                  name_es: "City Guide",
+                  name_eu: "City Agenda",
+                  name_fr: "Calendrier de la Ville",
+                  sequence: 4
+                })
+                this.features = this.features?.sort((a, b) => {
+                  return a.sequence - b.sequence;
+                });
+              }
             }
             
             let company_subfeatures = data[1] ? data[1]["subfeatures"] : [];
@@ -1859,6 +1947,8 @@ export class LayoutMainComponent {
         return mn.name != "Tutors";
       });
       this.menus = tempMenu;
+    } else {
+      this.isTutorMenuVisible = true
     }
   }
 
