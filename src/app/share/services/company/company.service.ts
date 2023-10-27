@@ -90,6 +90,8 @@ import {
   ADD_COMPANY_LOGO_URL,
   HOME_DATA_URL,
   HOME_COURSES_TUTORS_TESTIMONIALS_DATA_URL,
+  SECTORS_URL,
+  AS_SECTORS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -845,5 +847,17 @@ export class CompanyService {
     return this._http.get(`${HOME_COURSES_TUTORS_TESTIMONIALS_DATA_URL}/${id}/${userId}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
+  }
+
+  getBusinessCategories(): Observable<any> {
+    return this._http.get(AS_SECTORS_URL,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getCompanyBusinessCategories(id): Observable<any> {
+    return this._http.get(`${SECTORS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

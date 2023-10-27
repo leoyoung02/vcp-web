@@ -19,7 +19,7 @@ import { COURSE_IMAGE_URL } from "@lib/api-constants";
 import get from "lodash/get";
 
 @Component({
-  selector: 'app-courses-detail',
+  selector: 'app-courses-detail-old',
   standalone: true,
   imports: [
     CommonModule,

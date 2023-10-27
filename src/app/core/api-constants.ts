@@ -56,7 +56,11 @@ export const EDIT_COMPANY_LOGO_URL = `${API_BASE}/company/entity/logo/edit`;
 export const EDIT_COMPANY_HEADER_IMAGE_URL = `${API_BASE}/company/entity/photo/edit`;
 export const EDIT_COMPANY_BANNER_IMAGE_URL = `${API_BASE}/company/entity/video/edit`;
 export const EDIT_COMPANY_FAVICON_URL = `${API_BASE}/company/entity/favicon/edit`;
-
+export const SECTORS_URL = `${API_BASE}/company/business-categories`;
+export const CIVIL_STATUS_URL = `${API_BASE}/company/civil-status`;
+export const WELLBEING_ACTIVITIES_URL = `${API_BASE}/company/wellbeing-activities`;
+export const AREA_GROUPS_URL = `${API_BASE}/company/profile/area-groups`;
+export const AS_SECTORS_URL = `${API_BASE}/guest/as/business-categories`;
 
 export const LISTS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/lists-management-data`;
 export const MANAGE_MEMBER_TYPES_DATA_URL = `${API_BASE}/v2/manage-member-types-data`;
@@ -154,6 +158,21 @@ export const UPDATE_USER_STATUS_URL = `${API_BASE}/company/user/status/update`;
 export const BULK_UPDATE_USER_STATUS_URL = `${API_BASE}/company/bulk/user/status/update`;
 export const UPDATE_CONFIRM_USER_STATUS_URL = `${API_BASE}/company/user/confirm/status/update`;
 export const MEMBERS_LIST_URL = `${API_BASE}/company/members/custom-roles/list`;
+export const USER_COURSE_CREDITS_URL = `${API_BASE}/company/user-course-credits`;
+export const USER_CREDITS_URL = `${API_BASE}/company/user/credits`;
+export const USER_BOOKINGS_URL = `${API_BASE}/company/bookings`;
+export const USER_MEMBER_TYPE_URL = `${API_BASE}/user/member-type`;
+export const USER_TYPE_PROFILE_FIELDS_URL = `${API_BASE}/company/member-type/custom/profile/fields`;
+export const PROFILE_FIELD_SETTINGS_URL = `${API_BASE}/company/custom/profile/fields/settings`;
+export const AS_USER_DETAILS_URL = `${API_BASE}/company/as/user`;
+export const EDIT_USER_PROFILE_URL = `${API_BASE}/company/profile/dynamic/update`;
+export const EDIT_USER_PHOTO_URL = `${API_BASE}/company/personal/photo/update`;
+export const EDIT_USER_COMPANY_LOGO_URL = `${API_BASE}/company/company/logo/update`;
+export const EDIT_USER_AS_LOGO_URL = `${API_BASE}/company/user/signup/as/logo`;
+export const EDIT_USER_PROFILE_FIELDS_SETTINGS_URL = `${API_BASE}/company/profile/settings/manage`;
+export const GUARDIAN_STUDENTS_URL = `${API_BASE}/company/guardian/students`;
+export const DENY_USER_URL = `${API_BASE}/company/member/deny`;
+
 
 export const MANAGE_USERS_DATA_URL = `${API_BASE}/v2/manage-users-data`;
 
@@ -270,6 +289,8 @@ export const CLUB_PLANS_URL = `${API_BASE}/company/groups-plans`;
 export const ADD_CLUB_URL = `${API_BASE}/company/group-optimize`;
 export const EDIT_CLUB_URL = `${API_BASE}/company/groups/edit-admin`;
 export const CLUB_MEMBERS_URL = `${API_BASE}/company/club/all-members`;
+export const ALL_CLUBS_URL = `${API_BASE}/company/groups`;
+export const CLUB_PRESIDENTS_URL = `${API_BASE}/company/club/presidents/mapping`;
 
 export const CLUBS_URL = `${API_BASE}/v2/clubs`;
 export const CLUBS_DATA_URL = `${API_BASE}/v2/clubs-other-data`;
@@ -311,6 +332,13 @@ export const COURSE_CATEGORIES_URL = `${API_BASE}/guest/course/categories`;
 export const COURSE_CATEGORY_ACCESS_URL = `${API_BASE}/company/course/category/access/all`;
 export const USER_COURSES_URL = `${API_BASE}/guest/courses`;
 export const VIMEO_EMBED_URL = `${API_BASE}/course/vimeo/video`;
+export const MARK_COMPLETE_URL = `${API_BASE}/course/unit/complete`;
+export const RESET_STATUS_URL = `${API_BASE}/course/unit/reset`;
+export const COURSE_SECTIONS_URL = `${API_BASE}/course-sections`;
+export const COURSE_CTA_URL = `${API_BASE}/course-cta`;
+export const COURSE_DOWNLOADS_URL = `${API_BASE}/company/course/downloads`;
+export const VISIT_COURSE_UNIT_URL = `${API_BASE}/company/course/unit-visited`;
+export const SAVE_COURSE_SESSION_URL = `${API_BASE}/company/course/session`;
 
 export const COURSES_COMBINED_URL = `${API_BASE}/v2/courses`;
 export const COURSE_DETAILS_URL = `${API_BASE}/v2/course-details`;
@@ -319,6 +347,37 @@ export const COURSE_UNIT_DETAILS_URL = `${API_BASE}/v2/course-unit-details`;
 // TUTORS
 export const TUTORS_URL = `${API_BASE}/company/tutors`;
 export const CREDIT_PACKAGES_URL = `${API_BASE}/company/credit/packages`;
+export const CREDIT_PACKAGE_URL = `${API_BASE}/company/credit/package`;
+export const UPDATE_CALENDLY_URL = `${API_BASE}/company/member/calendly/set`;
+export const ASK_TUTOR_QUESTION_URL = `${API_BASE}/company/tutor/question/new`;
+export const CALENDLY_EVENT_URL = `${API_BASE}/guest/calendly/event`;
+export const ADD_TUTOR_BOOKING_URL = `${API_BASE}/company/tutor/booking/add`;
+export const COURSE_TUTOR_TYPES_URL = `${API_BASE}/company/tutor/type/courses`;
+export const BOOKING_CONFIRMATION_EMAIL_URL = `${API_BASE}/tutor/booking-confirmation/send-email`;
+export const PAY_CREDIT_PACKAGE_URL = `${API_BASE}/company/credit-package/pay`;
+export const TUTOR_TYPES_URL = `${API_BASE}/company/tutor/types`;
+export const TUTOR_PACKAGES_URL = `${API_BASE}/company/tutor/packages`;
+export const TUTOR_URL = `${API_BASE}/company/tutor`;
+export const TUTOR_ACCOUNT_IDS_URL = `${API_BASE}/company/tutor/account-ids`;
+export const STRIPE_ACCOUNT_IDS_URL = `${API_BASE}/company/other-settings/stripe/accounts-id`;
+export const ADD_STRIPE_CONNECT_URL = `${API_BASE}/company/tutor/stripe-connect/add`;
+export const STRIPE_LOGIN_URL = `${API_BASE}/company/stripe-connect/login`;
+export const TUTOR_USER_PACKAGES_URL = `${API_BASE}/company/tutor/user-packages`;
+export const CANCEL_BOOKING_URL = `${API_BASE}/tutor/booking/cancel`;
+export const ADD_TUTOR_RATING_URL = `${API_BASE}/company/tutor/rating`;
+export const EDIT_BOOKING_STATUS_URL = `${API_BASE}/company/booking/edit-status`;
+export const TRANSFER_COMMISSION_URL = `${API_BASE}/guest/tutor/booking/transfer/commision`;
+export const ADD_FEEDBACK_URL = `${API_BASE}/tutor/booking/feedback/add`;
+export const ADD_NOTES_URL = `${API_BASE}/tutor/booking/notes/add`;
+export const BOOKING_NOTES_URL = `${API_BASE}/company/tutor/booking/notes`;
+export const BOOKING_HISTORY_URL = `${API_BASE}/company/student/booking/history`;
+export const TUTOR_COMMISSIONS_URL = `${API_BASE}/tutor/commissions`;
+export const BULK_TRANSFER_COMMISSION_URL = `${API_BASE}/tutor/commissions/bulk-transfer`;
+export const BOOKINGS_HISTORY_URL = `${API_BASE}/company/bookings-history`;
+export const TUTOR_SETTINGS_URL = `${API_BASE}/company/tutor/settings`;
+export const ASSIGNED_TUTORS_URL = `${API_BASE}/tutors/assigned`;
+export const ASSIGN_TUTOR_COURSES_URL = `${API_BASE}/company/tutor-courses/assign`;
+export const TUTOR_COURSES_URL = `${API_BASE}/company/tutor-courses`;
 
 export const TUTORS_COMBINED_URL = `${API_BASE}/v2/tutors`;
 export const TUTOR_DETAILS_URL = `${API_BASE}/v2/tutor-details`;

@@ -119,6 +119,7 @@ export class MainComponent {
   isLoading: boolean = false;
   languageChangeSubscription: any;
   testimonialsTitle: any;
+  transferCommissionsByBulk: boolean = false;
 
   constructor(
     private _router: Router,
@@ -581,10 +582,11 @@ export class MainComponent {
                   ? tutorsFeature[0].name_de || tutorsFeature[0].feature_name_DE
                   : tutorsFeature[0].name_es ||
                     tutorsFeature[0].feature_name_ES;
+              this.getTutorSubfeatures(tutorsFeature[0].id);
             }
           }
 
-          let testimonialFeature = companyFeatures.filter((f) => {
+          let testimonialFeature = companyFeatures?.filter((f) => {
             return f.feature_name == "Testimonials" && f.status == 1;
           });
           if (testimonialFeature?.length > 0) {
@@ -604,7 +606,6 @@ export class MainComponent {
                   testimonialFeature[0].feature_name_ES;
           }
 
-
           this.companyFeatures =
             this.companyFeatures &&
             this.companyFeatures.sort((a, b) => {
@@ -617,6 +618,27 @@ export class MainComponent {
           console.log(error);
         }
       );
+  }
+
+  async getTutorSubfeatures(tutorsFeatureId) {
+    let tutor_subfeatures = get(await this._companyService.getSubFeatures(tutorsFeatureId).toPromise(), 'subfeatures');
+    if(tutor_subfeatures?.length > 0) {
+      let subfeature_name = 'Transfer commissions by bulk'
+      let sub = tutor_subfeatures.filter(sf => {
+          return sf.name_en == subfeature_name
+      })
+      let subfeature = sub?.length > 0 ? sub[0] : ''
+      if(subfeature) {
+        let subfeatures = get(await this._companyService.getCompanySubFeatures(subfeature?.feature_id, this.companyId).toPromise(), 'subfeatures')
+        if(subfeatures?.length > 0) {
+          let feat = subfeatures.find((f) => f.feature_id == subfeature?.feature_id && f.subfeature_id == subfeature?.id && f.company_id == parseInt(this.companyId))
+          if(feat?.active == 1) {
+            this.transferCommissionsByBulk = true;
+            this.includeFeaturesSubmenuItems();
+          }
+        }
+      }
+    }
   }
 
   getMainMenuItems() {
@@ -1040,19 +1062,27 @@ export class MainComponent {
           }
 
           if (this.isTutorsEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Tutors");
+            let match = mi.submenus && mi.submenus.some((a) => a.value === "Tutors");
             if (!match) {
               mi.submenus.push({
                 text: this.tutorsTitle,
                 value: "Tutors",
               });
             }
+
+            if(this.transferCommissionsByBulk) {
+                let match =  mi.submenus && mi.submenus.some(a => a.value === 'TutorCommissions')
+                if(!match) {
+                  mi.submenus.push({
+                      text: this._translateService.instant('tutors.commissions'),
+                      value: 'TutorCommissions'
+                  })
+                }
+            }
           }
 
           if (this.isTestimonialsEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Testimonials");
+            let match = mi.submenus && mi.submenus.some((a) => a.value === "Testimonials");
             if (!match) {
               mi.submenus.push({
                 text: this.testimonialsTitle,
@@ -1463,10 +1493,14 @@ export class MainComponent {
         this._router.navigate([`/settings/manage-list/cities`]);
       } else if (content == "Content") {
         this._router.navigate([`/settings/manage-list/cityguide`]);
+      }  else if (content == "TutorCommissions") {
+        this._router.navigate([`/settings/manage-list/commissions`]);
+      } else if (content == "Courses") {
+        this._router.navigate([`/settings/manage-list/courses`]);
+      } else if (content == "Tutors") {
+        this._router.navigate([`/settings/manage-list/tutors`]);
       }
-      // else if (content == "Courses") {
-      //   this._router.navigate([`/settings/courses`]);
-      // } else if (content == "Content") {
+      // else if (content == "Content") {
       //   this._router.navigate([`/settings/blogs`]);
       // } else if (content == "Discounts") {
       //   this._router.navigate([`/settings/discounts`]);
@@ -1478,9 +1512,7 @@ export class MainComponent {
       //   this._router.navigate([`/settings/buddies`]);
       // } else if (content == "Invoices") {
       //   this._router.navigate([`/settings/member-invoices`]);
-      // } else if (content == "Tutors") {
-      //   this._router.navigate([`/settings/tutors`]);
-      // }
+      // } 
     } else if (menu.value == "Users" && content == "Users") {
       this._router.navigate([`/settings/manage-list/users`]);
     } else if (menu.value == "Tools" && content == "Reports") {

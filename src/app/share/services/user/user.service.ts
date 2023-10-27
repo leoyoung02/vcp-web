@@ -37,6 +37,37 @@ import {
     BULK_UPDATE_USER_STATUS_URL,
     UPDATE_USER_STATUS_URL,
     MEMBERS_LIST_URL,
+    USER_COURSE_CREDITS_URL,
+    CREDIT_PACKAGES_URL,
+    COURSES_URL,
+    CREDIT_PACKAGE_URL,
+    PAY_CREDIT_PACKAGE_URL,
+    FEATURES_MAPPING_URL,
+    USER_CREDITS_URL,
+    TUTOR_ACCOUNT_IDS_URL,
+    TUTOR_USER_PACKAGES_URL,
+    TUTORS_URL,
+    OTHER_SETTINGS_URL,
+    USER_BOOKINGS_URL,
+    USER_MEMBER_TYPE_URL,
+    USER_TYPE_PROFILE_FIELDS_URL,
+    PROFILE_FIELD_SETTINGS_URL,
+    TUTOR_SETTINGS_URL,
+    AS_USER_DETAILS_URL,
+    SECTORS_URL,
+    CIVIL_STATUS_URL,
+    WELLBEING_ACTIVITIES_URL,
+    AREA_GROUPS_URL,
+    EDIT_USER_PROFILE_URL,
+    EDIT_USER_PHOTO_URL,
+    EDIT_USER_COMPANY_LOGO_URL,
+    EDIT_USER_AS_LOGO_URL,
+    EDIT_USER_PROFILE_FIELDS_SETTINGS_URL,
+    COURSE_SUBSCRIPTIONS_URL,
+    COURSE_EXCEPION_USERS_URL,
+    ASSIGNED_TUTORS_URL,
+    GUARDIAN_STUDENTS_URL,
+    DENY_USER_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
@@ -247,6 +278,254 @@ export class UserService {
 
   getMembersCustomRoles(companyId): Observable<any> {
     return this._http.get(`${MEMBERS_LIST_URL}/${companyId}`, 
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getUserCourseCredits(id): Observable<any> {
+    return this._http.get(`${USER_COURSE_CREDITS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  getCombinedMenuCreditsPrefetch(companyId) {
+    let creditPackages = this._http.get(`${CREDIT_PACKAGES_URL}/${companyId}`);
+    let courses = this._http.get(`${COURSES_URL}/${companyId}`);
+    
+    return forkJoin([
+      creditPackages,
+      courses
+    ])
+  }
+
+  getCreditPackages(id): Observable<any> {
+    return this._http.get(`${CREDIT_PACKAGES_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getCreditPackage(id, companyId): Observable<any> {
+    return this._http.get(
+      `${CREDIT_PACKAGE_URL}/${id}/${companyId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  subscribeCreditPackage(packageId, userId, companyId, payload): Observable<any> {
+    return this._http.post(
+      `${PAY_CREDIT_PACKAGE_URL}/${packageId}/${userId}/${companyId}`,
+      payload
+    ).pipe(
+      map(res => {
+        const result = res
+        return result;
+      })
+    );
+  }
+
+  getCombinedCreditsPrefetch(companyId, featureId, courseFeatureId, userId) {
+    let subfeatures = this._http.get(`${FEATURES_MAPPING_URL}/${companyId}/${featureId}`);
+    let courseSubfeatures = this._http.get(`${FEATURES_MAPPING_URL}/${companyId}/${courseFeatureId}`);
+    let creditPackages = this._http.get(`${CREDIT_PACKAGES_URL}/${companyId}`);
+    let courses = this._http.get(`${COURSES_URL}/${companyId}`);
+    let userCredits = this._http.get(`${USER_CREDITS_URL}/${userId}/${companyId}`);
+    let userCourseCredits = this._http.get(`${USER_COURSE_CREDITS_URL}/${userId}`);
+    
+    return forkJoin([
+      subfeatures,
+      courseSubfeatures,
+      creditPackages,
+      courses,
+      userCredits,
+      userCourseCredits
+    ])
+  }
+
+  getCombinedBookingsPrefetch(companyId, tutorsFeatureId, coursesFeatureId, userId) {
+    let subfeatures = this._http.get(`${FEATURES_MAPPING_URL}/${companyId}/20`);
+    let courses_subfeatures = this._http.get(`${FEATURES_MAPPING_URL}/${companyId}/11`);
+    let other_settings = this._http.get(`${OTHER_SETTINGS_URL}/${companyId}`);
+    let CompanyUser = this._http.get(`${USER_URL}/${userId}`);
+    let role = this._http.get(`${USER_ROLE_URL}/${userId}`);
+    let tutors = this._http.get(`${TUTORS_URL}/${companyId}`);
+    let account_ids = this._http.get(`${TUTOR_ACCOUNT_IDS_URL}/${userId}/${companyId}`);
+    let packages = this._http.get(`${TUTOR_USER_PACKAGES_URL}/${userId}/${companyId}`);
+    let member_types = this._http.get(`${MEMBER_TYPES_URL}/${companyId}`);
+
+    return forkJoin([
+      subfeatures,
+      courses_subfeatures,
+      other_settings,
+      CompanyUser,
+      role,
+      tutors,
+      account_ids,
+      packages,
+      member_types
+    ])
+  }
+
+  getUserBookings(userId, companyId, role): Observable<any> {
+    return this._http.get(`${USER_BOOKINGS_URL}/${companyId}/${userId}/${role}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  getUserMemberType(id): Observable<any> {
+    return this._http.get(`${USER_MEMBER_TYPE_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  getCombinedProfilePrefetch(companyId, userId, membersFeatureId, tutorFeatureId) {
+    let other_settings = this._http.get(`${OTHER_SETTINGS_URL}/${companyId}`);
+    let CompanyUser = this._http.get(`${USER_URL}/${userId}`);
+    let members_subfeatures = this._http.get(`${FEATURES_MAPPING_URL}/${companyId}/${membersFeatureId}`);
+    let tutors_subfeatures = this._http.get(`${FEATURES_MAPPING_URL}/${companyId}/${tutorFeatureId}`);
+
+    return forkJoin([
+      other_settings,
+      CompanyUser,
+      members_subfeatures,
+      tutors_subfeatures
+    ])
+  }
+
+  getCombinedProfileDetailsPrefetch(companyId, userId) {
+    let tutor = this._http.get(`${TUTOR_SETTINGS_URL}/${userId}`);
+    let user = this._http.get(`${AS_USER_DETAILS_URL}/${userId}`);
+    let categories = this._http.get(`${SECTORS_URL}/${companyId}`);
+    let civil_status = this._http.get(CIVIL_STATUS_URL);
+    let wellbeing_activities = this._http.get(WELLBEING_ACTIVITIES_URL);
+    let result = this._http.get(`${AREA_GROUPS_URL}/${userId}/${companyId}`);
+
+    return forkJoin([
+      tutor,
+      user,
+      categories,
+      civil_status,
+      wellbeing_activities,
+      result
+    ])
+  }
+
+  getMemberTypeCustomProfileFields(companyId, memberTypeId): Observable<any> {
+    return this._http.get(`${USER_TYPE_PROFILE_FIELDS_URL}/${companyId}/${memberTypeId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  memberProfileFieldSettings(id): Observable<any> {
+    return this._http.get(`${PROFILE_FIELD_SETTINGS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  updateProfileDynamic(id, formData): Observable<any> {
+    return this._http.post(
+      `${EDIT_USER_PROFILE_URL}/${id}`,
+      formData
+    ).pipe(map(res => res))
+  }
+
+  updateProfileImage(id, file) {
+    let formData = new FormData();
+
+    if (file) {
+      const filename = 'profile_' + this.getTimestamp();
+      formData.append('destination', './uploads/profile_images/');
+      formData.append('filepath', ('./uploads/profile_images/' + filename + '.jpg'));
+      formData.append('filenamewoextension', filename);
+      formData.append('image', file.image, filename + '.jpg');
+      formData.append('image_file', filename + '.jpg');
+    }
+
+    return this._http.post(`${EDIT_USER_PHOTO_URL}/${id}`, formData);
+  }
+
+  updateCompanyLogoImage(id, file) {
+    let formData = new FormData();
+
+    if (file) {
+      const filename = 'profile_' + this.getTimestamp();
+      formData.append('destination', './uploads/profile_images/');
+      formData.append('filepath', ('./uploads/profile_images/' + filename + '.jpg'));
+      formData.append('filenamewoextension', filename);
+      formData.append('image', file.image, filename + '.jpg');
+      formData.append('image_file', filename + '.jpg');
+    }
+
+    return this._http.post(`${EDIT_USER_COMPANY_LOGO_URL}/${id}`, formData);
+  }
+
+  public getTimestamp() {
+    const date = new Date();
+    const timestamp = date.getTime();
+
+    return timestamp;
+  }
+
+  updateASLogo(id, logoFile): Observable<any> {
+    let formData = new FormData();
+
+    if (logoFile) {
+      const filename = 'as_logo_' + this.getTimestamp();
+      formData.append('image', logoFile.image[0], filename + '.jpg');
+    }
+
+    return this._http.post(`${EDIT_USER_AS_LOGO_URL}/${id}`,
+      formData
+    ).pipe(
+      map(res => {
+        const result = res
+        return result;
+      })
+    );
+  }
+
+  manageProfileFieldSettings(id, payload): Observable<any> {
+    return this._http.post(`${EDIT_USER_PROFILE_FIELDS_SETTINGS_URL}/${id}`, 
+        payload
+    ).pipe(map(res => res))
+  }
+
+  getCombinedUserCoursesPrefetch(userId) {
+    let courseSubscriptions = this._http.get(`${COURSE_SUBSCRIPTIONS_URL}/${userId}`);
+    let courseExceptionUser = this._http.get(`${COURSE_EXCEPION_USERS_URL}/${userId}`);
+    let userCourseCredits = this._http.get(`${USER_COURSE_CREDITS_URL}/${userId}`);
+
+    return forkJoin([
+        courseSubscriptions,
+        courseExceptionUser,
+        userCourseCredits
+    ])
+  }
+
+  getUserAsignedTutors(id): Observable<any> {
+    return this._http.get(`${ASSIGNED_TUTORS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  getGuardianStudents(id, companyId): Observable<any> {
+    return this._http.get(`${GUARDIAN_STUDENTS_URL}/${id}/${companyId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  denyMember(id): Observable<any> {
+    return this._http.post(
+      `${DENY_USER_URL}/${id}`,
+      {}
+    ).pipe(
+      map(result => {
+        return result;
+      })
+    );
+  }
+
+  getMembersNotApproved(companyId): Observable<any> {
+    return this._http.get(`${NOT_APPROVED_MEMBERS_URL}/${companyId}`, 
       { headers: this.headers }
     ).pipe(map(res => res));
   }

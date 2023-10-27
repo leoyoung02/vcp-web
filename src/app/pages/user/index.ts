@@ -21,4 +21,16 @@ export const routes: Routes = [
         data: { layout: PageLayout.Main , titleKey: 'company-settings.managelanding' },
         loadComponent: async () => (await import('./admin-lists/admin-lists.component')).AdminListsComponent,
     },
+    {
+        path: 'my-credits',
+        title: CustomTitleResolver,
+        data: { layout: PageLayout.Main , titleKey: 'credit-package.mycredits' },
+        loadComponent: async () => (await import('./my-credits/my-credits.component')).MyCreditsComponent,
+    },
+    {
+        path: 'my-lessons',
+        title: CustomTitleResolver,
+        data: { layout: PageLayout.Main , titleKey: 'tutors.mylessons' },
+        loadComponent: async () => (await import('./my-lessons/my-lessons.component')).MyLessonsComponent,
+    },
 ];

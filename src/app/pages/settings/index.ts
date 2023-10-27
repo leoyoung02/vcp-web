@@ -53,7 +53,7 @@ export const routes: Routes = [
     {
         path: 'setting/:id',
         title: CustomTitleResolver,
-        data: { titleKey: 'company-settings.setting'},
+        data: { titleKey: 'company-settings.settings'},
         loadComponent: async () => (await import('./setting/setting.component')).SettingComponent,
     },
     {

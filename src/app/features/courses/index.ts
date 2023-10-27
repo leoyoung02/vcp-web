@@ -8,11 +8,17 @@ export const routes: Routes = [
         data: { titleKey: 'courses.courses'},
         loadComponent: async () => (await import('./list/list.component')).CoursesListComponent,
     },
+    // {
+    //     path: 'details/:id',
+    //     title: CustomTitleResolver,
+    //     data: { titleKey: 'course-create.course'},
+    //     loadComponent: async () => (await import('./detail/detail.component')).CourseDetailComponent,
+    // },
     {
         path: 'details/:id',
         title: CustomTitleResolver,
         data: { titleKey: 'course-create.course'},
-        loadComponent: async () => (await import('./detail/detail.component')).CourseDetailComponent,
+        loadComponent: async () => (await import('./detail-old/detail.component')).CourseDetailComponent,
     },
     {
         path: 'unit/:courseId/:unitId',

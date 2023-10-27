@@ -150,7 +150,11 @@
         "generalmemberreplysetting": "General répond",
         "generalmemberreplysettingdesc": "Activer pour permettre aux membres de publier des réponses aux messages", 
         "sectiontitledivider": "Atalen izenburuak eta lerro zatitzailea",
-        "selectprofile": "Hautatu profila"
+        "selectprofile": "Hautatu profila",
+        "personaldata": "Datu pertsonalak",
+        "coursedata": "Ikastaroaren datuak",
+        "admincitymap": "Admin SEDE erabiltzailea hautatutako hiriari esleituko zaio",
+        "assignments": "Lanak"
     },
     "dashboard": {
         "recommended": "Zuretzako gomendatua",
@@ -964,7 +968,7 @@
         "complete": "osatu",
         "points": "puntuak",
         "completebutton": "Osatu",
-        "markacomplete": "Markatu osatuta",
+        "markascomplete": "Markatu osatuta",
         "module": "MODULUA",
         "selectmodule": "Hautatu modulua",
         "lessoncompleted": "Ikasgaia amaitu da!",
@@ -1654,7 +1658,8 @@
         "submit": "Bidali",
         "surveycompleted": "Inkesta behar bezala bete duzu.",
         "quizcocompleted": "Galdetegia bete duzu dagoeneko.",
-        "thankyou": "Eskerrik asko zure parte hartzeagatik."
+        "thankyou": "Eskerrik asko zure parte hartzeagatik.",
+        "rate": "Eman balorazioa"
     },
     "crm": {
         "all": "Guztiak",
@@ -1998,7 +2003,12 @@
         "numberofcandidates": "Hautagai kopurua",
         "videoavailabile": "Egin bideo hau beti eskuragarri",
         "bookingcommissionperhour": "Ezarri tutorearen komisioa orduko",
-        "manage": "Kudeatu"
+        "manage": "Kudeatu",
+        "managemembers": "Kudeatu kideak",
+        "givefeedback": "Eman iritzia",
+        "feedback": "Iritzia",
+        "bookingscity": "Kudeatu ikasleen erreserbak hiriaren arabera",
+        "settype": "Ezarri kide mota"
     },
     "guest-landing": {
         "templates": "Txantiloiak",
@@ -2893,6 +2903,8 @@
         "confirmapproveitem": "Benetan nahi al duzu elementu hau onartu?",
         "confirmrejectitem": "Benetan elementu hau baztertu nahi duzu?",
         "confirmdeleteitem": "Benetan nahi duzu elementu hau ezabatu?",
+        "confirmdeleteitemsubscription": "Harpidetza aktibatuta daukazu, erabiltzailea kendu ere ezeztatu. ¿Jarraitu?",
+        "confirmcancelitem": "Benetan nahi duzu ezeztatu artikulu hau?",
         "confirmdeleteMember": "Ziurtatu ezabatu nahi duzula?",
         "accept":"onartu",
         "cancel":"bertan behera utzi",
@@ -2916,7 +2928,12 @@
         "acceptedsuccessfully": "Ondo onartu da",
         "deactivatedsuccessfully": "Desactivado con éxito",
         "activatedsuccessfully": "Activada con éxito",
-        "gutxienez": "gutxienez",
+        "recoveredsuccessfully": "Recuperado exitosamente",
+        "transferreddsuccessfully": "Transferido exitosamente",
+        "confirmtransfer": "Confirmar transferencia",
+        "confirmtransferitem": "¿Realmente deseas transferir los elementos seleccionados?",
+        "transferid": "ID de transfert",
+        "atleast": "gutxienez",
         "characters": "pertsonaiak",
         "maximumof": "gehienez",
         "exceeds": "gainditzen du",
@@ -3109,7 +3126,7 @@
         "scheduleddate": "Programatutako data",
         "registereddate": "Erregistratutako data",
         "completeddate": "Osatze-data",
-        "bookingconfirmed": "Zure erreserba berretsi da",
+        "bookingconfirmed": "Zure erreserba berretsi da. Begiratu sarrera-ontzia zure erreserbaren xehetasunekin.",
         "individualtutoring": "Banakako Tutoretza",
         "selecttutortype" : "Bilatu tutore motaren arabera",
         "searchtutor":"Bilatu gako-hitz, izena, hiria...",
@@ -3118,7 +3135,17 @@
         "tutorprice": "Tutoretza Prezioa", 
         "tutoringlanguages": "Idatzi tutoretzako hizkuntzak komaz bereizita (Ingelesa, Gaztelania)",
         "filterbycity" : "Iragazi hiriaren arabera",
-        "learnmore": "Ezagutu"
+        "assigntutors": "Tutoreak esleitu",
+        "assignstudents": "Esleitu ikasleak",
+        "mystudents": "Nire ikasleak",
+        "groupby": "Taldekatu",
+        "learnmore": "Ezagutu",
+        "bookingdate": "Erreserba-data",
+        "bookingstarttime": "Erreserbak hasteko ordua",
+        "bookingendtime": "Erreserbaren amaiera-ordua",
+        "commissions": "Komisioak",
+        "transfercompleted": "Transferentzia amaitu da",
+        "pendingtransfer": "Transferentzia zain"
     },
     "general-details": {
         "name" : "Izena",
@@ -3206,7 +3233,6 @@
         "years": "urteak",
         "timeavailable": "Denbora Eskuragarri"
     },
-
     "stripe-account": {
         "secretkey": "Giltza sekretua",
         "publishablekey": "Argitara daitekeen gakoa",
@@ -3223,7 +3249,8 @@
         "mainaccounttext": "Hau da Stripe ezarpen orrian ezarritako kontu nagusia. Izenaren eremua bakarrik edita daiteke. Gakoak editatzeko, joan ",
         "mainaccounttextcontinue": "atalera eta desgaitu hainbat konturen ezarpenak.",
         "setupaccount": "Konfiguratu Stripe Connect",
-        "other": "Bestela"
+        "other": "Bestela",
+        "stripeconnectdesc": "Les comissions per reservar sessions amb estudiants es pagaran al vostre compte connectat. Per configurar-lo, seguiu el procés d'incorporació i pengeu els documents de verificació necessaris. Un cop hàgiu configurat correctament, també podeu accedir al tauler del vostre compte connectat des d'aquesta pàgina ."
     },
     "booking-error" : {
         "insufficientbalanceadmintext": "Transferentziaren zain, funts nahikorik ez dagoelako",
@@ -3240,7 +3267,8 @@
         "availablecredits": "Eskuragarri dauden kredituak",
         "purchasehistory": "Erosketa Historia",
         "failed":"huts egin zuen",
-        "selectcredits": "Hautatu erosteko kredituak"
+        "selectcredits": "Hautatu erosteko kredituak", 
+        "paymentconfirmed": "Eskerrik asko erosketagatik. Honek zure ordainketa amaitu dela berresten du."
     },
     "password": {
         "better": "Hobe da edukitzea:",

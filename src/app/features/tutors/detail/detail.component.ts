@@ -12,9 +12,10 @@ import { BreadcrumbComponent, ToastComponent } from "@share/components";
 import { LocalService, CompanyService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
-import { initFlowbite } from "flowbite";
 import { TutorCardComponent } from "@share/components/card/tutor/tutor.component";
 import { CalendlyComponent } from "../calendly/calendly.component";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from "@angular/forms";
+import { initFlowbite } from 'flowbite';
 import get from "lodash/get";
 
 @Component({
@@ -28,7 +29,9 @@ import get from "lodash/get";
     NgOptimizedImage,
     ToastComponent,
     TutorCardComponent,
-    CalendlyComponent
+    CalendlyComponent,
+    FormsModule,
+    ReactiveFormsModule,
   ],
   templateUrl: './detail.component.html'
 })
@@ -64,9 +67,6 @@ export class TutorDetailComponent {
   acceptText: string = "";
   cancelText: any = "";
   confirmMode: string = "";
-  @ViewChild("modalbutton", { static: false }) modalbutton:
-    | ElementRef
-    | undefined;
   featureId: any;
   courseFeatureId: any;
   tutorsFeature: any;
@@ -110,6 +110,7 @@ export class TutorDetailComponent {
   userCourses: any = [];
   courseExceptionUser: any = [];
   workingCourses: any = [];
+  selectedTutorType: any;
   selectedTutorTypes: any = [];
   selectedWorkingCourse: any;
   selectedWorkingCourses: any = [];
@@ -117,11 +118,36 @@ export class TutorDetailComponent {
   selectedWorkingPackages: any = [];
   packages: any = [];
   workingPackages: any = [];
-  firstReload: boolean = false;
+  firstReload: boolean = true;
   selectedWorkingPackage: any;
   me: any;
   remainingCourseCredits: any = 0;
   creditsPercentage: any;
+  selectedCalendlyPackage: any = '';
+  calendlyEventLinkRoute: any = '';
+  apiPath: string = environment.api + "/";
+  setupCalendlyForm: FormGroup = new FormGroup({
+    'link': new FormControl("", [Validators.required]),
+    'personal_access_token': new FormControl('', [Validators.required])
+  });
+  setupCalendlyFormSubmitted: boolean = false;
+  questionForm: any;
+  questionFormSubmitted: boolean = false;
+  message: any = '';
+  dialogMode: string = "";
+  dialogTitle: any;
+  errorMessage: string = '';
+  processing: boolean = false;
+  @ViewChild("modalbutton", { static: false }) modalbutton:
+    | ElementRef
+    | undefined;
+  @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+    | ElementRef
+    | undefined;
+  isTutorUser: boolean = false;
+  superTutor: boolean = false;
+  customMemberTypes: any = [];
+  isAdminRole: boolean = false;
 
   constructor(
     private _router: Router,
@@ -195,13 +221,32 @@ export class TutorDetailComponent {
 
   initializePage() {
     let data = this.tutorData;
+    console.log(data);
     this.user = data?.user_permissions?.user;
     this.tutorTypes = data?.tutor_types;
+    this.checkTutorRole(data?.tutors || []);
+    this.getMemberType(data?.member_types || []);
     this.mapFeatures(data?.features_mapping);
     this.mapSubfeatures(data);
     this.mapUserPermissions(data?.user_permissions);
-    this.formatTutor(data?.tutor);
+    this.formatTutor(data);
     this.initializeBreadcrumb(data);
+  }
+
+  checkTutorRole(tutors) {
+    if(tutors?.length > 0) {
+        this.isTutorUser = tutors?.some(a => a.user_id == this.userId)
+        let super_tutor = tutors?.filter(tutor => {
+            return tutor?.user_id == this.userId && tutor?.super_tutor == 1
+        })
+        this.superTutor = super_tutor?.length > 0 ? true : false
+    }
+  }
+
+  getMemberType(member_types) {
+    this.customMemberTypes = member_types;
+    let admin = this.customMemberTypes.find((f) => f.type?.indexOf('Admin') >= 0 && this.user.custom_member_type_id == f.id)
+    this.isAdminRole = admin?.id > 0 ? true : false
   }
 
   mapFeatures(features) {
@@ -215,15 +260,15 @@ export class TutorDetailComponent {
   mapSubfeatures(data) {
     let subfeatures = data?.settings?.subfeatures;
     if (subfeatures?.length > 0) {
-      this.showCalendly = subfeatures.some(a => a.name_en == 'Calendly' && a.active == 1 && a.feature_id == 11)
-      this.showTutorTypes = subfeatures.some(a => a.name_en == 'Tutor types' && a.active == 1 && a.feature_id == 11)
-      this.hasStudentHours = subfeatures.some(a => a.name_en == 'Student hours' && a.active == 1 && a.feature_id == 11)
-      this.showTutorCategories = subfeatures.some(a => a.name_en == 'Show Tutor Category' && a.active == 1 && a.feature_id == 11)
-      this.hideCoursePackage = subfeatures.some(a => a.name_en == 'Hide course and package' && a.active == 1 && a.feature_id == 11)
-      this.hasFreeBooking = subfeatures.some(a => a.name_en == 'Free Calendly Scheduling' && a.active == 1 && a.feature_id == 11)
-      this.courseCreditSetting = subfeatures.some(a => a.name_en == 'Credits' && a.active == 1 && a.feature_id == 11)
-      this.hasCreditPackageSetting = subfeatures.some(a => a.name_en == 'Credit Packages' && a.active == 1 && a.feature_id == 11)
-      this.separateCourseCredits = subfeatures.some(a => a.name_en == 'Separate credits by course' && a.active == 1 && a.feature_id == 11)
+      this.showCalendly = subfeatures.some(a => a.name_en == 'Calendly' && a.active == 1 && a.feature_id == 20)
+      this.showTutorTypes = subfeatures.some(a => a.name_en == 'Tutor types' && a.active == 1 && a.feature_id == 20)
+      this.hasStudentHours = subfeatures.some(a => a.name_en == 'Student hours' && a.active == 1 && a.feature_id == 20)
+      this.showTutorCategories = subfeatures.some(a => a.name_en == 'Show Tutor Category' && a.active == 1 && a.feature_id == 20)
+      this.hideCoursePackage = subfeatures.some(a => a.name_en == 'Hide course and package' && a.active == 1 && a.feature_id == 20)
+      this.hasFreeBooking = subfeatures.some(a => a.name_en == 'Free Calendly Scheduling' && a.active == 1 && a.feature_id == 20)
+      this.courseCreditSetting = subfeatures.some(a => a.name_en == 'Credits' && a.active == 1 && a.feature_id == 20)
+      this.hasCreditPackageSetting = subfeatures.some(a => a.name_en == 'Credit Packages' && a.active == 1 && a.feature_id == 20)
+      this.separateCourseCredits = subfeatures.some(a => a.name_en == 'Separate credits by course' && a.active == 1 && a.feature_id == 20)
       
       this.hasCategoryAccess = subfeatures.some(a => a.name_en == 'Category access' && a.active == 1 && a.feature_id == 11)
       this.showCoursesByAccess = subfeatures.some(a => a.name_en == 'Show Courses' && a.active == 1 && a.feature_id == 11)
@@ -274,7 +319,7 @@ export class TutorDetailComponent {
   }
 
   formatTutor(data) {
-    this.tutor = data;
+    this.tutor = data?.tutor;
     this.tutorImage = `${environment.api}/${this.tutor?.image}`;
     this.tutorRating = this.getTutorRating(this.tutor);
     this.types = this.getTutorTypes(this.tutor);
@@ -287,6 +332,7 @@ export class TutorDetailComponent {
     this.tutorCalendlyUrl = this.tutor?.calendly_url;
     this.tutorCalendlyUrlFixed = this.tutor?.calendly_url;
 
+    this.packages = data?.packages;
     let tutorCategory = data?.tutor_types;
     this.tutorTypeTags = data?.tutor_type_tags?.length > 0 ? data?.tutor_type_tags : [];
     if(tutorCategory?.length > 0 && !this.showTutorCategories){
@@ -318,6 +364,10 @@ export class TutorDetailComponent {
     }
 
     this.courses = data?.courses;
+
+    console.log('all courses');
+    console.log(this.courses);
+
     this.courseSubscriptions = data?.course_subscriptions;
     this.userCourseCredits = data?.user_course_credits;
     this.courseCategoryMapping = data?.course_category_mapping;
@@ -357,8 +407,8 @@ export class TutorDetailComponent {
   getUserCourses() {
     let courses = this.courses;
 
-    // console.log("user courses");
-    // console.log(courses);
+    console.log("user courses");
+    console.log(courses);
 
     let all_courses: any[] = []
     let courseIdArray: any[] = []
@@ -473,8 +523,8 @@ export class TutorDetailComponent {
     this.userCourses = this.userCourses.sort((a, b) => {
       return b.id - a.id
     })
-    // console.log("user courses 1")
-    // console.log(this.userCourses)
+    console.log("user courses 1")
+    console.log(this.userCourses)
 
     if(this.hasCategoryAccess) {
       this.showCoursesWithAccess()
@@ -530,7 +580,69 @@ export class TutorDetailComponent {
     })
   }
 
-  async preLoadCalendly() {       
+  selectTutorType(type) {
+    this.selectedTutorType = type || ''
+    if(!this.hideCoursePackage){
+    if(this.hasSelectedTutorType(type)) {
+        this.selectedTutorTypes && this.selectedTutorTypes.forEach((typ , index)=> {
+            if(typ.id == type.id) {
+              this.selectedTutorTypes.splice(index, 1)
+            }
+        });
+        
+        this.selectedWorkingCourses?.length > 0 && this.selectedWorkingCourses.forEach((typ , index)=> {
+            this.workingCourses.forEach(wc => {
+                if(typ.id == wc.id) {
+                    this.selectedWorkingCourses.splice(index, 1)
+                }
+            })
+        });
+
+        this.selectedWorkingPackages?.length > 0 && this.selectedWorkingPackages.forEach((typ , index)=> {
+            this.workingPackages.forEach(wp => {
+                if(typ.id == wp.id) {
+                    this.tutorCalendlyUrl = this.tutorCalendlyUrlFixed
+                    this.selectedWorkingPackages.splice(index, 1)
+                }
+            })
+        });
+    } else {
+        let match = this.selectedTutorTypes.some(a => a.id === type.id)
+        if(!match) {
+            this.selectedTutorTypes.push(type)
+        }
+    }
+    var typesArr: any[] = []
+    this.selectedTutorTypes.forEach(element => {
+        typesArr.push(element.id);
+    });
+    
+    
+    this._tutorsService.getCoursesFromTutorTypes(this.userId ? this.userId : 0, this.companyId, typesArr).subscribe(
+        async response => {
+            var arr = response.courses
+            var stemp = this.courses;
+            let type_row = stemp && stemp.filter(att => {
+                return arr.includes(att.id)
+            })
+            this.workingCourses = type_row;
+    });
+    
+    this._localService.setLocalStorage(environment.lstutortypes, this.selectedTutorTypes && this.selectedTutorTypes.length > 0 ? JSON.stringify(this.selectedTutorTypes) : '')
+    }
+  }
+
+  hasSelectedTutorType(type) {
+    let match = false
+
+    if(this.selectedTutorTypes && this.selectedTutorTypes.length > 0) {
+        match = this.selectedTutorTypes.some(a => a.id === type.id)
+    }
+    
+    return match
+  }
+
+  async preLoadCalendly() {
     let courseIdArray: any[] = []
     this.companyCourseTutor.forEach(cct => {
         courseIdArray.push(cct.course_id)
@@ -544,8 +656,8 @@ export class TutorDetailComponent {
         this.workingCourses.push(this.courses[0])
     }
 
-    // console.log("working courses");
-    // console.log(this.workingCourses);
+    console.log("working courses");
+    console.log(this.workingCourses);
 
     let selectedcourse = this.courses[0]
     if(this.workingCourses?.length > 1 && this.userCourses?.length > 0) {
@@ -588,8 +700,8 @@ export class TutorDetailComponent {
     this.selectedWorkingCourse = course || ''
     this._localService.setLocalStorage("selectedWorkingCourse", this.selectedWorkingCourse ? this.selectedWorkingCourse.id : 0);
 
-    // console.log("selected working course");
-    // console.log(this.selectedWorkingCourse);
+    console.log("selected working course");
+    console.log(this.selectedWorkingCourse);
 
     this.getRemainingCourseCredits();
 
@@ -814,6 +926,104 @@ export class TutorDetailComponent {
 
   close() {
     this.showCalendarSection = false;
+  }
+
+  handleSettingsClick() {
+    this.setupCalendlyFormSubmitted = false;
+    this.setupCalendlyForm.controls['link'].setValue(this.tutor?.calendly_url || '');
+    this.setupCalendlyForm.controls['personal_access_token'].setValue(this.tutor?.personal_access_token);
+    this.dialogMode = "settings";
+    this.dialogTitle =  this._translateService.instant('members.setupcalendly');
+    this.modalbutton?.nativeElement.click();
+  }
+
+  handleQuestionClick() {
+    this.dialogMode = "question";
+    this.dialogTitle =  this._translateService.instant('members.askmeaquestion');
+    this.modalbutton?.nativeElement.click();
+  }
+
+  canBook() {
+    if(
+      this.courseCreditSetting && (
+        (
+            (!this.separateCourseCredits && this.remainingCourseCredits > 0) || 
+            (this.separateCourseCredits && this.separateRemainingCourseCredits > 0) ||
+            (this.isTutorUser || this.superTutor || this.superAdmin || this.isAdminRole)
+        )
+      )
+    ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  saveCalendlySettings() {
+    this.setupCalendlyFormSubmitted = true
+
+    if(!this.isValidCalendlyForm()) {
+      return false
+    }
+
+    let personal_access_token = this.setupCalendlyForm.value?.personal_access_token;
+    let link = this.setupCalendlyForm.value?.link;
+
+    let params = {
+      company_id: this.companyId,
+      user_id: this.tutor?.user_id,
+      link,
+      tutor_id: this.tutor?.id,
+      personal_access_token,
+    }
+    this._tutorsService.updateMemberCalendly(params).subscribe(data => {
+      this.tutor.calendly_url = link;
+      this.tutor.personal_access_token = personal_access_token;
+      this.closemodalbutton?.nativeElement.click();
+      this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+    }, err => {
+      console.log('err: ', err);
+    })
+  }
+
+  async open(message: string, action: string) {
+    await this._snackBar.open(message, action, {
+      duration: 3000,
+      panelClass: ["info-snackbar"],
+    });
+  }
+
+  isValidCalendlyForm() {
+    let valid = true;
+    Object.keys(this.setupCalendlyForm?.controls).forEach(key => {
+        const controlErrors: ValidationErrors = this.setupCalendlyForm?.get(key)?.errors!;
+        if(controlErrors != null) {
+            valid = false;
+        }
+    });
+    return valid;
+  }
+
+  sendNewQuestion() {
+    this.errorMessage = ''
+    this.questionFormSubmitted = true
+    this.processing = true
+
+    let params = {
+      'company_id': this.companyId,
+      'user_id': this.userId,
+      'tutor_id': this.tutor?.user_id,
+      'message': this.message,
+    }
+
+    this._tutorsService.newQuestion(params).subscribe(data => {
+      this.processing = false;
+      this.closemodalbutton?.nativeElement.click();
+      this.open(this._translateService.instant('dialog.sentsuccessfully'), '');
+    }, err => {
+        console.log('err: ', err);
+        this.errorMessage = this._translateService.instant('dialog.error');
+    })
   }
 
   ngOnDestroy() {

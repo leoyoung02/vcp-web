@@ -2,7 +2,9 @@ import { CommonModule, NgOptimizedImage } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
+  Output,
   SimpleChange,
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
@@ -15,6 +17,7 @@ import {
 import { LocalService } from "@share/services";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
+import { StarRatingComponent } from "@lib/components";
 
 @Component({
   selector: "app-tutor-card",
@@ -23,7 +26,8 @@ import { initFlowbite } from "flowbite";
     CommonModule,
     RouterModule,
     TranslateModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    StarRatingComponent,
   ],
   templateUrl: "./tutor.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -44,6 +48,8 @@ export class TutorCardComponent {
   @Input() page: any;
   @Input() buttonColor: any;
   @Input() showSettings: any;
+  @Output() onSettingsClick = new EventEmitter();
+  @Output() onQuestionClick = new EventEmitter();
 
   languageChangeSubscription;
   language: any;
@@ -72,6 +78,14 @@ export class TutorCardComponent {
   formatData() {
     
   }
+
+  handleSettingsClick() {
+    this.onSettingsClick.emit();
+}
+
+handleQuestionClick() {
+    this.onQuestionClick.emit();
+}
 
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();

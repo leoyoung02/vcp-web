@@ -13,5 +13,23 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'tutors.tutor'},
         loadComponent: async () => (await import('./detail/detail.component')).TutorDetailComponent,
-    }
+    },
+    {
+        path: 'payment/credits/:id/:userId',
+        title: CustomTitleResolver,
+        data: { titleKey: 'credit-package.creditpackage'},
+        loadComponent: async () => (await import('./credits/credits.component')).CreditsComponent,
+    },
+    {
+        path: 'stripe-connect',
+        title: CustomTitleResolver,
+        data: { titleKey: 'Stripe Connect'},
+        loadComponent: async () => (await import('./stripe-connect/stripe-connect.component')).StripeConnectComponent,
+    },
+    {
+        path: 'bookings/history',
+        title: CustomTitleResolver,
+        data: { titleKey: 'ranking.history'},
+        loadComponent: async () => (await import('./history/history.component')).HistoryComponent,
+    },
 ];

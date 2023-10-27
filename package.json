@@ -70,6 +70,7 @@
     "ng-apexcharts": "^1.8.0",
     "ng-multiselect-dropdown": "^1.0.0",
     "ngx-color-picker": "^14.0.0",
+    "ngx-doc-viewer": "^15.0.1",
     "ngx-filepond": "^7.0.1",
     "ngx-image-cropper": "^7.0.2",
     "ngx-pagination": "^6.0.3",

@@ -116,6 +116,9 @@ dependencies:
   ngx-color-picker:
     specifier: ^14.0.0
     version: 14.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/forms@16.0.0)
+  ngx-doc-viewer:
+    specifier: ^15.0.1
+    version: 15.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)
   ngx-filepond:
     specifier: ^7.0.1
     version: 7.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)(filepond@4.30.4)
@@ -5558,6 +5561,10 @@ packages:
       esutils: 2.0.3
     dev: true
 
+  /docviewhelper@0.0.2:
+    resolution: {integrity: sha512-4ETJdDT//5Q8qcEGY9UjYo6dZiFzn3CHXAoSli4w35uehVdkKschIoRjG3exesc5jyVc9Zrch3oZKZR/5i4ZQQ==}
+    dev: false
+
   /dom-serialize@2.2.1:
     resolution: {integrity: sha512-Yra4DbvoW7/Z6LBN560ZwXMjoNOSAN2wRsKFGc4iBeso+mpIA6qj1vfdf9HpMaKAqG6wXTy+1SYEzmNpKXOSsQ==}
     dependencies:
@@ -8188,6 +8195,20 @@ packages:
       '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
       '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
       '@angular/forms': 16.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)(rxjs@7.8.0)
+      tslib: 2.5.0
+    dev: false
+
+  /ngx-doc-viewer@15.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0):
+    resolution: {integrity: sha512-8FtA79/cIQUVagSU+IAno00VKzkfs/ep3p4rzsa7RXCbEGzXhbtCFOaqzuJN18PTaV0h9q3gpCcs2YRQ9ppSQw==}
+    peerDependencies:
+      '@angular/common': '>= 10.0.0'
+      '@angular/core': '>= 10.0.0'
+      '@angular/platform-browser': '>= 10.0.0'
+    dependencies:
+      '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
+      '@angular/platform-browser': 16.0.0(@angular/animations@16.0.0)(@angular/common@16.0.0)(@angular/core@16.0.0)
+      docviewhelper: 0.0.2
       tslib: 2.5.0
     dev: false
 

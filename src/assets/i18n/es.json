@@ -150,7 +150,11 @@
         "generalmemberreplysetting": "Respuestas generales",
         "generalmemberreplysettingdesc": "Active para permitir a los miembros publicar respuestas a los mensajes",
         "sectiontitledivider": "Títulos de secciones y linea divisoria",
-        "selectprofile": "Seleccionar perfil"
+        "selectprofile": "Seleccionar perfil",
+        "personaldata": "Datos personales",
+        "coursedata": "Datos del curso",
+        "admincitymap": "El usuario administrador SEDE será asignado a la ciudad seleccionada",
+        "assignments": "Asignaciones"
     },
     "dashboard": {
         "recommended": "Recomendado para ti",
@@ -967,7 +971,7 @@
         "complete": "completar",
         "points": "puntos",
         "completebutton": "Completar",
-        "markascomplete": "Marcar como completo",
+        "markascomplete": "Marcar completo",
         "module": "MÓDULO",
         "selectmodule": "Seleccionar módulo",
         "lessoncompleted": "¡Lección completada!",
@@ -1657,7 +1661,8 @@
         "submit": "Enviar",
         "surveycompleted": "Ha completado con éxito la encuesta.",
         "quizcompleted": "Ya ha completado el cuestionario.",
-        "thankyou": "Gracias por su participación."
+        "thankyou": "Gracias por su participación.",
+        "rate": "Proporcionar calificación"
     },
     "crm": {
         "all": "Todos",
@@ -2002,7 +2007,12 @@
         "numberofcandidates": "Número de candidatos",
         "videoavailabile": "Haz que este video esté siempre disponible",
         "bookingcommissionperhour": "Establecer comisión de tutor por hora",
-        "manage": "Gestionar"
+        "manage": "Gestionar",
+        "managemembers": "Administrar miembros",
+        "givefeedback": "Dar comentarios",
+        "feedback": "Comentario",
+        "bookingscity": "Gestionar reservas de estudiantes por ciudad",
+        "settype": "Establecer tipo de miembro"
     },
     "guest-landing": {
         "templates": "Plantillas",
@@ -2907,6 +2917,7 @@
         "confirmrejectitem": "¿Realmente desea rechazar este elemento?",
         "confirmdeleteitem": "¿Realmente desea eliminar este elemento?",
         "confirmdeleteitemsubscription": "Esto tiene una suscripción paga activa, eliminar al usuario también cancelará su suscripción activa. ¿Continuar?",
+        "confirmcancelitem": "¿Realmente deseas cancelar este artículo?",
         "confirmdeleteMember": "Está seguro de que desea eliminar?",
         "confirmrecoveruser": "De verdad quieres recuperar a esta usuaria?",
         "accept":"Aceptar",
@@ -2932,6 +2943,10 @@
         "deactivatedsuccessfully": "Desactivado con éxito",
         "activatedsuccessfully": "Activada con éxito",
         "recoveredsuccessfully": "Recuperado con éxito",
+        "transferreddsuccessfully": "Transferido exitosamente",
+        "confirmtransfer": "Confirmar transferencia",
+        "confirmtransferitem": "¿Realmente deseas transferir los elementos seleccionados?",
+        "transferid": "ID de transferencia",
         "atleast": "al menos",
         "characters": "caracteres",
         "maximumof": "máximo de",
@@ -3132,7 +3147,7 @@
         "scheduleddate": "Fecha programada",
         "registereddate": "Fecha de registro",
         "completeddate": "Fecha de finalización", 
-        "bookingconfirmed": "Su reserva ha sido confirmada",
+        "bookingconfirmed": "Su reserva ha sido confirmada. Consulta tu bandeja de entrada con los detalles de tu reserva.",
         "individualtutoring": "Tutoría individual",
         "selecttutortype" : "Buscar por tipo de tutor",
         "searchtutor":"Busca por palabra clave, nombre, ciudad...",
@@ -3141,7 +3156,17 @@
         "tutorprice": "Precio de tutoría", 
         "tutoringlanguages": "Ingrese los idiomas de tutoría separados por comas (Inglés, Español)",
         "filterbycity" : "Filtrar por ciudad",
-        "learnmore": "Conócelo"
+        "assigntutors": "Asignar tutores",
+        "assignstudents": "Asignar estudiantes",
+        "mystudents": "Mis alumnos",
+        "groupby": "Agrupar por",
+        "learnmore": "Conócelo",
+        "bookingdate": "Fecha de reserva",
+        "bookingstarttime": "Hora de inicio de la reserva",
+        "bookingendtime": "Hora de finalización de la reserva",
+        "commissions": "Comisiones",
+        "transfercompleted": "Transferencia completada",
+        "pendingtransfer": "Transferencia pendiente"
     },
     "general-details": {
         "name" : "Nombre",
@@ -3229,7 +3254,6 @@
         "years": "años",
         "timeavailable": "Tiempo disponible"
     },
-
     "stripe-account": {
         "secretkey": "Clave privada",
         "publishablekey": "Clave publicable",
@@ -3246,7 +3270,8 @@
         "mainaccounttext": "Esta es la cuenta principal configurada en la página de configuración de Stripe. Solo el campo de nombre es editable. Para editar las claves, vaya a",
         "mainaccounttextcontinue": "y deshabilite la configuración de múltiples cuentas.",
         "setupaccount": "Configurar Stripe Connect",
-        "other": "Otro"
+        "other": "Otro",
+        "stripeconnectdesc": "Las comisiones por reservar sesiones con estudiantes se pagarán a su cuenta conectada. Para configurar, realice el proceso de incorporación y cargue los documentos de verificación requeridos. Una vez configurado correctamente, también podrá acceder al panel de control de su cuenta conectada desde esta página."
 
     },
     "booking-error" : {
@@ -3264,7 +3289,8 @@
         "availablecredits": "Créditos Disponibles",
         "purchasehistory": "Historial de compras",
         "failed":"fallido",
-        "selectcredits": "Seleccionar créditos para comprar"
+        "selectcredits": "Seleccionar créditos para comprar", 
+        "paymentconfirmado": "Gracias por su compra. Esto confirma que su pago se ha completado."
     },
     "password": {
         "better": "Es mejor tener:",

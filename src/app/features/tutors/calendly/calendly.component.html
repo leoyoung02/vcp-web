@@ -8,7 +8,17 @@
     </div>
     <div #container 
         class="calendly-inline-widget" 
-        style="min-width:320px;height:600px;" 
+        style="min-width:320px;height:559px;min-height:559px;" 
         data-auto-load="false">
     </div>
 </div>
+<app-toast 
+    *ngIf="showConfirmationModal" 
+    [company]="company" 
+    [update]="false" 
+    [confirm]="true"
+    [title]="confirmItemTitle"
+    [description]="confirmItemDescription"
+    [acceptText]="acceptText"
+    (onAccept)="confirm()"
+></app-toast>

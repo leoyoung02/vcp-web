@@ -150,7 +150,11 @@
         "generalmemberreplysetting": "Erantzun orokorrak",
         "generalmemberreplysettingdesc": "Aktibatu kideei mezuak erantzunak bidaltzeko baimenak", 
         "sectiontitledivider": "Títols de seccions i línia divisòria",
-        "selectprofile": "Selecciona el perfil"
+        "selectprofile": "Selecciona el perfil",
+        "personaldata": "Dades personals",
+        "coursedata": "Dades del curs",
+        "admincitymap": "L'usuari administrador SEDE s'assignarà a la ciutat seleccionada",
+        "assignments": "Tasques"
     },
     "dashboard": {
         "recommended": "Recomanat per a tu",
@@ -965,7 +969,7 @@
         "complete": "completar",
         "points": "punts",
         "completbutton": "Completar",
-        "markascomplete": "Marcar com a complet",
+        "markascomplete": "Marcar complet",
         "module": "MÒDUL",
         "selectmodule": "Seleccionar mòdul",
         "lessoncompleted": "Lliçó completada!",
@@ -1657,7 +1661,8 @@
         "submit": "Enviar",
         "surveycompleted": "Ha completat amb èxit l'enquesta.",
         "quizcompleted": "Ja ha completat el qüestionari.",
-        "thankyou": "Gràcies per la seva participació."
+        "thankyou": "Gràcies per la seva participació.",
+        "rate": "Proporcioneu una puntuació"
     },
     "crm": {
         "all": "Tots",
@@ -2002,7 +2007,12 @@
         "numberofcandidates": "Nombre de candidats",
         "videoavailabile": "Feu que aquest vídeo estigui sempre disponible",
         "bookingcommissionperhour": "Establir comissió de tutor per hora",
-        "manage": "Gestionar"
+        "manage": "Gestionar",
+        "managemembers": "Gestiona els membres",
+        "givefeedback": "Envia comentaris",
+        "feedback": "Feedback",
+        "bookingscity": "Gestioneu les reserves d'estudiants per ciutat",
+        "settype": "Estableix el tipus de membre"
     },
     "guest-landing": {
         "templates": "Plantilles",
@@ -2904,6 +2914,7 @@
         "confirmrejectitem": "Realment voleu rebutjar aquest element?",
         "confirmdeleteitem": "Realment voleu suprimir aquest element?",
         "confirmdeleteitemsubscription": "Aquest té una subscripció de pagament activa, la supressió de l'usuari també cancel·larà la seva subscripció activa. Continuar?",
+        "confirmcancelitem": "¿Realment voleu cancel·lar aquest article?",
         "confirmdeleteMember":"Esteu segur que voleu suprimir-lo?",
         "confirmrecoveruser": "Realment voleu recuperar aquest usuari?",
         "accept":"Acceptar",
@@ -2929,6 +2940,10 @@
         "deactivatedsuccessfully": "Desactivat amb èxit",
         "activatedsuccessfully": "Activat amb èxit",
         "recoveredsuccessfully": "Recuperat amb èxit",
+        "transferreddsuccessfully": "Transferit correctament",
+        "confirmtransfer": "Confirmar la transferència",
+        "confirmtransferitem": "De veritat voleu transferir els elements seleccionats?",
+        "transferid": "ID de transferència",
         "atleast": "almenys",
         "characters": "personatges",
         "maximumof": "màxim de",
@@ -3121,7 +3136,7 @@
         "scheduleddate": "Data programada",
         "registereddate": "Data de registre",
         "completeddate": "Data completada",
-        "bookingconfirmed": "La vostra reserva ha estat confirmada",
+        "bookingconfirmed": "La teva reserva s'ha confirmat. Consulta la teva safata d'entrada amb els detalls de la teva reserva.",
         "individualtutoring": "Tutoria individual",
         "selecttutortype" : "Cerca per tipus de tutor",
         "searchtutor":"Cerca per paraula clau, nom, ciutat...",
@@ -3130,7 +3145,17 @@
         "tutorprice": "Preu de tutoria", 
         "tutoringlanguages": "Introduïu els idiomes de la tutorització separats per comes (Anglès, Espanyol)",
         "filterbycity" : "Filtra per ciutat",
-        "learnmore": "Coneix-ho"
+        "assigntutors": "Assigna tutors",
+        "assignstudents": "Assignar estudiants",
+        "mystudents": "Els meus estudiants",
+        "groupby": "Agrupa per",
+        "learnmore": "Coneix-ho",
+        "bookingdate": "Data de reserva",
+        "bookingstarttime": "Hora d'inici de la reserva",
+        "bookingendtime": "Hora de finalització de la reserva",
+        "commissions": "Comissions",
+        "transfercompleted": "Transferència completada",
+        "pendingtransfer": "Pendent de transferència"
     },
     "general-details": {
         "name" : "Nom",
@@ -3252,7 +3277,8 @@
         "availablecredits": "Crèdits disponibles",
         "purchasehistory": "Historial de compres",
         "failed":"fracassat",
-        "selectcredits": "Seleccioneu els crèdits per comprar"
+        "selectcredits": "Seleccioneu els crèdits per comprar", 
+        "paymentconfirmed": "Gràcies per la teva compra. Això confirma que el teu pagament s'ha completat."
     },
     "password": {
         "better": "És millor tenir:",

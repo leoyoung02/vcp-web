@@ -68,7 +68,7 @@
                 (changeLanguage)="changedLanguage($event)" 
             ></app-mobile-navbar>
         </div>
-        <div class="absolute right-10" *ngIf="userId">
+        <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20" *ngIf="userId">
             <app-user-menu
                 [menus]="menus"
                 [company]="company"
@@ -96,6 +96,13 @@
                 [hasCreditPackageSetting]="hasCreditPackageSetting"
                 [isTutorUser]="isTutorUser"
                 [showProfileButton]="showProfileButton"
+                [perHourCommission]="perHourCommission"
+                [tutorManageStudentAccess]="tutorManageStudentAccess"
+                [separateCourseCredits]="separateCourseCredits"
+                [courseSubscriptions]="courseSubscriptions"
+                [userCourseCredits]="userCourseCredits"
+                [courses]="courses"
+                [creditPackages]="creditPackages"
                 (changeLanguage)="changedLanguage($event)" 
             >
             </app-user-menu>

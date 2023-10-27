@@ -2,7 +2,7 @@
 <app-manage-users *ngIf="list == 'users'"></app-manage-users>
 <app-manage-membertypes *ngIf="list == 'membertypes'"></app-manage-membertypes>
 <app-manage-cities *ngIf="list == 'cities'"></app-manage-cities>
-<ng-container *ngIf="list == 'plans' || list == 'clubs' || list == 'canalempleo' || list == 'cityguide'">
+<ng-container *ngIf="list == 'plans' || list == 'clubs' || list == 'canalempleo' || list == 'cityguide' || list == 'commissions'">
     <div class="mb-8 container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
         <app-breadcrumb 
             [level1Title]="level1Title"
@@ -14,7 +14,7 @@
         />
         <div class="pt-1.5 mb-6">
             <app-button-group class="flex justify-end"
-                [hiddenMainList]=true
+                [hiddenMainList]="list == 'commissions' ? false : true"
                 [buttonColor]="buttonColor"
                 [buttonList]="buttonList"
                 [subcategoryList]="subButtonList"
@@ -80,5 +80,16 @@
         [status]="status"
     >
     </app-city-guide-admin-list>
+    <app-commissions-admin-list
+        *ngIf="list == 'commissions' && !isLoading"
+        [company]="company"
+        [buttonColor]="buttonColor"
+        [primaryColor]="primaryColor"
+        [userId]="userId"
+        [superAdmin]="superAdmin"
+        [language]="language"
+        [status]="filter"
+    >
+    </app-commissions-admin-list>
 </ng-container>
 

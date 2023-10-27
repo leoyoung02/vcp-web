@@ -10,7 +10,31 @@
 </div>
 <div class="pb-10">
     <div class="w-full max-w-full sm:w-full sm:max-w-full md:w-6/12 md:max-w-6/12 lg:w-6/12 lg:max-w-6/12">
-        <div class="text-4xl font-semibold pt-24 sm:pt-24 md:pt-4 lg:pt-4">{{ courseUnitTitle }}</div>
+        <div class="flex justify-between items-center align-center pt-24 sm:pt-24 md:pt-4 lg:pt-4">
+            <div class="text-4xl font-semibold">{{ courseUnitTitle }}</div>
+            <div class="flex items-center">
+                <div 
+                    [ngStyle]="{'background-color': buttonColor}"
+                    class="text-sm rounded-[15px] text-white py-2 uppercase px-4 hover:cursor-pointer" 
+                    (click)="markComplete(courseUnit?.id, true)" 
+                    *ngIf="courseUnit?.Company_Course_Unit_Users[0]?.progress != 100 && !isModuleLocked && canAccessLesson()"
+                >
+                    {{ 'course-details.completebutton' | translate }}
+                </div>
+                <div class="flex items-center align-center uppercase bg-white text-sm mr-8" *ngIf="courseUnit?.Company_Course_Unit_Users[0]?.progress == 100">
+                    <img class="w-4 h-4 mr-2" src="./assets/images/new-design/icons/Progress-completed.png" />
+                    {{ 'courses.completed' | translate }}
+                </div>
+                <div 
+                    *ngIf="courseUnit?.Company_Course_Unit_Users[0]?.progress == 100"
+                    [ngStyle]="{'background-color': buttonColor}"
+                    class="text-sm rounded-[15px] text-white py-2 uppercase px-4 hover:cursor-pointer" 
+                    (click)="resetStatus(courseUnit.id, true)" 
+                >
+                    {{ 'company-reports.reset' | translate }}
+                </div>
+        </div>
+        </div>
         <p *ngIf="courseUnit && !isModuleLocked" [innerHTML]="getVideoDescription(courseUnit)" class="pt-8"></p>
     </div>
 </div>
@@ -150,7 +174,7 @@
                         <path d="M5 5V.13a2.98 2.98 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Zm1.5 10c.828 0 1.5-.448 1.5-1s-.672-1-1.5-1-1.5.448-1.5 1 .672 1 1.5 1Z"/>
                         <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM12 10a1 1 0 0 1-1-1 2.971 2.971 0 0 0-1-2.237V13.5a.963.963 0 0 1-.037.185c.019.104.031.21.037.315a3.283 3.283 0 0 1-3.5 3A3.283 3.283 0 0 1 3 14a3.283 3.283 0 0 1 3.5-3 3.942 3.942 0 0 1 1.5.3V5a1 1 0 0 1 1.316-.948C9.467 4.1 13 5.321 13 9a1 1 0 0 1-1 1Z"/>
                     </svg>
-                    <svg *ngIf="!(download?.file?.indexOf('pdf') >= 0 || download?.file?.indexOf('mp3') >= 0) || download?.file?.indexOf('mp4') >= 0" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+                    <svg *ngIf="!(download?.file?.indexOf('pdf') >= 0 || download?.file?.indexOf('mp3') >= 0 || download?.file?.indexOf('mp4') >= 0)" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
                         <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M6 1v4a1 1 0 0 1-1 1H1m14-4v16a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2Z"/>
                     </svg>
                 </div>

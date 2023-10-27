@@ -142,8 +142,8 @@ select {
 
 .manage-list .mat-column-plan_date_display, .manage-list .mat-column-date_display, 
 .manage-list .mat-column-status_display {
-  flex: 0 0 10% !important;
-  width: 10% !important;
+  flex: 0 0 15% !important;
+  width: 15% !important;
 }
 
 .mat-table-responsive {
@@ -557,4 +557,146 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
     background-color: #111;
     transition: 0.5s;
     overflow-x: hidden;
+}
+
+.bg-opacity-50 {
+    --tw-bg-opacity: 0.1 !important;
+}
+
+/* The Play-Button using CSS-Only */
+.box-video .bt-play {
+    position: absolute;
+    top:60%;
+    left:50%;
+    margin:-30px 0 0 -30px;
+    display: inline-block;
+    width: 60px;
+    height: 60px;
+    background: rgba(255,255,255,0.1);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    border-radius: 50%;
+    text-indent: -999em;
+    cursor: pointer;
+    z-index: 9;
+    -webkit-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+  
+/* The Play-Triangle */
+.box-video .bt-play:after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    height: 0;
+    width: 0;
+    margin: -12px 0 0 -6px;
+    border: solid transparent;
+    border-left-color: #fff;
+    border-width: 12px 20px;
+    -webkit-transition: all .3s ease-out;
+    transition: all .3s ease-out;
+}
+
+.box-video:hover .bt-play {
+    transform: scale(1.1);
+}
+  
+/* When Class added the Cover gets hidden... */
+.box-video.open .bg-video, .box-video.open .cover-title-container {
+    visibility: hidden;
+    opacity: 0;
+  
+    -webkit-transition: all .6s .8s;
+    transition: all .6s .8s;  
+}
+  
+/* and iframe shows up */
+.box-video.open .video-container {
+    opacity: 1 !important;
+    -webkit-transition: all .6s .8s;
+    transition: all .6s .8s;
+}
+
+.credits-box {
+    font-size: 30px;
+    margin-bottom: 14px;
+    height: 85px;
+    width: 24%;
+    border: 2px solid #cdcdcd;
+    border-radius: 10px;
+    font-weight: 600;
+    background: #fbfbfb;
+}
+
+.selected-credits-box {
+    font-size: 30px;
+    margin-bottom: 14px;
+    height: 85px;
+    width: 24%;
+    border: 2px solid #8edcd1;
+    background-color: #e6f1ef;
+    border-radius: 10px;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+}
+
+.selected-credits-box::before {
+    border-color: transparent transparent #00bfbd;
+    border-style: solid;
+    border-width: 0px 27px 27px;
+    content: "";
+    height: 0;
+    left: -25px;
+    position: absolute;
+    top: -10px;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    width: 0;
+}
+
+.credit-wrapper {
+    display: flex;
+    gap: 5%;
+    flex-wrap: wrap;
+}
+
+.price-wrapper {
+    margin-top: -5px;
+    font-size: 18px;
+    opacity: 0.7;
+}
+
+.full-width mat-header-row,
+.mat-table-responsive.table mat-header-row {
+    z-index: 1 !important;
+}
+
+.full-width mat-header-row,
+.full-width mat-row {
+    display: table-row;
+}
+
+.full-width mat-cell,
+.full-width .mat-mdc-header-cell {
+    background: inherit;
+    word-wrap: initial;
+    display: table-cell;
+    padding: 6px;
+    line-break: inherit;
+    width: auto;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+}
+
+.full-width-container {
+    display: block !important;
+    width: 100%;
+    margin-top: 25px;
+    width: 100%;
+    overflow: auto;
+    height: 58vh;
 }

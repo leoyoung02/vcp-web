@@ -150,7 +150,11 @@
         "generalmemberreplysetting": "Allgemeine Antworten",
         "generalmemberreplysettingdesc": "Aktivieren Sie, damit die Mitglieder Antworten auf Nachrichten veröffentlichen können", 
         "sectiontitledivider": "Títols de seccions i línia divisòria",
-        "selectprofile": "Profil auswählen"
+        "selectprofile": "Profil auswählen",
+        "personaldata": "Persönliche Daten",
+        "coursedata": "Kursdaten",
+        "admincitymap": "Der Admin-SEDE-Benutzer wird der ausgewählten Stadt zugewiesen.",
+        "assignments": "Aufgaben"
     },
     "dashboard": {
         "empfohlen": "Empfohlen für Sie",
@@ -964,7 +968,7 @@
         "complete": "komplett",
         "points": "Punkte",
         "completebutton": "Fertig",
-        "markascomplete": "Als abgeschlossen markieren",
+        "markascomplete": "Abgeschlossen markieren",
         "modul": "MODUL",
         "selectmodule": "Modul auswählen",
         "lessoncompleted": "Lektion abgeschlossen!",
@@ -1653,7 +1657,8 @@
         "submit": "Absenden",
         "surveycompleted": "Sie haben die Umfrage erfolgreich abgeschlossen.",
         "quizcocompleted": "Sie haben das Quiz bereits abgeschlossen.",
-        "thankyou": "Vielen Dank für Ihre Teilnahme."
+        "thankyou": "Vielen Dank für Ihre Teilnahme.",
+        "rate": "Bewertung abgeben"
     },
     "crm": {
         "all": "Alles",
@@ -1997,7 +2002,12 @@
         "numberofcandidates": "Anzahl der Kandidaten",
         "videoavailabile": "Machen Sie dieses Video immer verfügbar",
         "bookingcommissionperhour": "Legen Sie die Lehrerprovision pro Stunde fest",
-        "manage": "verwalten"
+        "manage": "verwalten",
+        "managemembers": "Mitglieder verwalten",
+        "givefeedback": "Feedback geben",
+        "feedback": "Rückmeldung",
+        "bookingscity": "Verwalten Sie Studentenbuchungen nach Stadt",
+        "settype": "Mitgliedstyp festlegen"
     },
     "guest-landing": {
         "templates": "Vorlagen",
@@ -2893,6 +2903,8 @@
         "confirmapproveitem": "Möchten Sie diesen Artikel wirklich genehmigen?",
         "confirmrejectitem": "Wollen Sie diesen Artikel wirklich ablehnen?",
         "confirmdeleteitem": "Sind Sie sicher, dass Sie löschen möchten?",
+        "confirmdeleteitemsubscription": "Es muss ein Abonnement aktiviert werden. Beseitigen Sie den Benutzer und brechen Sie die Aktivierung des Abonnements ab. Fortfahren?",
+        "confirmcancelitem": "Möchten Sie diesen Artikel wirklich abbrechen?",
         "confirmdeleteMember":"Esteu segur que voleu suprimir-lo?",
         "accept":"Akzeptieren",
         "cancel":"stornieren",
@@ -2916,6 +2928,11 @@
         "acceptedsuccessfully": "Erfolgreich akzeptiert",
         "deactivatedsuccessfully": "Erfolgreich deaktiviert",
         "activatedsuccessfully": "Erfolgreich aktiviert",
+        "recoveredsuccessfully": "Erfolgreich wiederhergestellt",
+        "transferreddsuccessfully": "Erfolgreich übertragen",
+        "confirmtransfer": "Übertragung bestätigen",
+        "confirmtransferitem": "Möchten Sie die ausgewählten Elemente wirklich übertragen?",
+        "transferid": "Transfer-ID",
         "atleast": "mindestens",
         "characters": "Zeichen",
         "maximumof": "maximal von",
@@ -3108,7 +3125,7 @@
         "scheduleddate": "Geplantes Datum",
         "registereddate": "Registrierungsdatum",
         "completeddate": "Abgeschlossenes Datum",
-        "bookingconfirmed": "Ihre Reservierung wurde bestätigt",
+        "bookingconfirmed": "Ihre Buchung wurde bestätigt. Überprüfen Sie Ihren Posteingang mit Einzelheiten zu Ihrer Buchung.",
         "individualtutoring": "Individuelle Nachhilfe",
         "selecttutortype" : "Suche nach Tutortyp",
         "searchtutor":"Suche nach Stichwort, Name, Stadt...",
@@ -3117,7 +3134,17 @@
         "tutorprice": "Nachhilfepreis", 
         "tutoringlanguages": "Geben Sie die Nachhilfesprachen durch Kommas getrennt ein (Englisch, Spanisch)",
         "filterbycity" : "Nach Stadt filtern",
-        "learnmore": "Lernen Sie es kennen"
+        "assigntutors": "Tutoren zuweisen",
+        "assignstudents": "Studenten zuweisen",
+        "mystudents": "Meine Schüler",
+        "groupby": "Gruppieren nach",
+        "learnmore": "Lernen Sie es kennen",
+        "bookingdate": "Buchungsdatum",
+        "bookingstarttime": "Buchungsstartzeit",
+        "bookingendtime": "Endzeit der Buchung",
+        "commissions": "Provisionen",
+        "transfercompleted": "Übertragung abgeschlossen",
+        "pendingtransfer": "Übertragung ausstehend"
     },
     "general-details": {
         "name" : "Name",
@@ -3205,7 +3232,6 @@
         "years": "Jahre",
         "timeavailable": "Verfügbare Zeit"
     },
-
     "stripe-account": {
         "secretkey": "Geheimer Schlüssel",
         "publishablekey": "Veröffentlichbarer Schlüssel",
@@ -3222,7 +3248,8 @@
         "mainaccounttext": "Dies ist das Hauptkonto, das auf der Stripe-Einstellungsseite festgelegt wird. Nur das Namensfeld kann bearbeitet werden. Um Schlüssel zu bearbeiten, gehen Sie zu ",
         "mainaccounttextcontinue": "und deaktivieren Sie mehrere Kontoeinstellungen.",
         "setupaccount": "Richten Sie Stripe Connect ein",
-        "other": "Andere"
+        "other": "Andere",
+        "stripeconnectdesc": "Provisionen für die Buchung von Sitzungen mit Studenten werden an Ihr verbundenes Konto ausgezahlt. Richten Sie es ein, indem Sie den Onboarding-Prozess durchlaufen und die erforderlichen Verifizierungsdokumente hochladen. Nach erfolgreicher Einrichtung können Sie von dieser Seite aus auch auf das Dashboard Ihres verbundenen Kontos zugreifen."
     },
     "booking-error" : {
         "insufficientbalanceadmintext": "Ausstehende Überweisung aufgrund unzureichender Mittel",
@@ -3239,7 +3266,8 @@
         "availablecredits": "Verfügbare Credits",
         "purchasehistory": "Kaufhistorie",
         "failed":"fehlgeschlagen",
-        "selectcredits": "Wählen Sie Credits zum Kauf aus"
+        "selectcredits": "Wählen Sie Credits zum Kauf aus", 
+        "paymentconfirmed": "Vielen Dank für Ihren Kauf. Hiermit wird bestätigt, dass Ihre Zahlung abgeschlossen wurde."
     },
     "password": {
         "better": "Es ist besser zu haben:",

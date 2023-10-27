@@ -170,7 +170,6 @@ export class CourseUnitComponent {
 
   initializePage() {
     let data = this.courseUnitData;
-    console.log(data)
     this.user = data?.user_permissions?.user;
     this.mapFeatures(data?.features_mapping);
     this.mapSubfeatures(data);
@@ -526,6 +525,57 @@ export class CourseUnitComponent {
     document.body.appendChild(link);
     link.click();
     link.remove();
+  }
+
+  markComplete(id, refresh = false) {
+    const payload = {
+      user_id: this.user.id
+    }
+    this._coursesService.markComplete(id, payload).subscribe(
+      response => {
+        if(this.courseUnit?.Company_Course_Unit_Users?.length > 0) {
+          this.courseUnit.Company_Course_Unit_Users[0].progress = 100;
+        }
+        
+        this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  resetStatus(id, refresh = false) {
+    const payload = {
+      user_id: this.user.id
+    }
+    this._coursesService.resetStatus(id, payload).subscribe(
+      response => {
+        if(this.courseUnit?.Company_Course_Unit_Users?.length > 0) {
+          this.courseUnit.Company_Course_Unit_Users[0].progress = 0;
+        }
+        
+        this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+      },
+      error => {
+          console.log(error);
+      }
+    );
+  }
+
+  canAccessLesson() {
+    let result = true
+    if(!this.courseUnit?.video_always_available && this.hasMarkAsComplete && !this.isModuleLocked) {
+      if(this.courseUnit.id > 0) {
+        // Check progress
+        if(this.courseUnit?.Company_Course_Unit_Users[0] && this.courseUnit?.Company_Course_Unit_Users[0].progress == 100) {
+        } else {
+          result = false
+        }
+      }
+    }
+
+    return result
   }
 
   handleGoBack() {

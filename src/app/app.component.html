@@ -3,7 +3,7 @@
 </ng-template>
 <ng-container [ngSwitch]="layout">
     <ng-container *ngIf="isAuthenticated$ | async; else notAuthorized">
-        <app-layout-main *ngSwitchCase="PageLayout.Main" [newUpdatesAvailable]="newUpdatesAvailable">
+        <app-layout-main class="main-layout" *ngSwitchCase="PageLayout.Main" [newUpdatesAvailable]="newUpdatesAvailable">
             <ng-container *ngTemplateOutlet="content"></ng-container>
         </app-layout-main>
 
@@ -11,7 +11,7 @@
             <ng-container *ngTemplateOutlet="content"></ng-container>
         </app-layout-left-banner>
 
-        <app-layout-main *ngSwitchDefault>
+        <app-layout-main class="main-layout" *ngSwitchDefault>
             <ng-container *ngTemplateOutlet="content"></ng-container>
         </app-layout-main>
     </ng-container>

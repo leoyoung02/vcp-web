@@ -10,6 +10,22 @@
             data-popover-target="popover-user-profile" 
             data-popover-placement="bottom" 
         />
+        <div *ngIf="hasCreditSetting && userid && !(isTutorUser || superTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0)">
+            <app-credits-display 
+                [currentUser]="currentUser"
+                [primaryColor]="primaryColor"
+                [buttonColor]="buttonColor"
+                [userId]="userid"
+                [companyId]="company?.id"
+                [separateCourseCredits]="separateCourseCredits"
+                [courseSubscriptions]="courseSubscriptions"
+                [userCourseCredits]="userCourseCredits"
+                [language]="language"
+                [courses]="courses"
+                [creditPackages]="creditPackages"
+            >
+            </app-credits-display>
+        </div>
         <button [routerLink]="['/users/notifications/', userid]" class="inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button"> 
             <svg class="ml-2 w-6 h-6 text-slate-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 21">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C15 15.4 15 16 14.462 16H1.538C1 16 1 15.4 1 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 8 3.464ZM4.54 16a3.48 3.48 0 0 0 6.92 0H4.54Z"/>
@@ -85,7 +101,7 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="hasAccess('tutors') && isTutorMenuVisible">
-                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/tutors/my-lessons']">
+                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/users/my-lessons']">
                             <div>
                                 <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
@@ -107,11 +123,45 @@
                     <ng-container *ngIf="hasAccess('tutors') && hasCreditSetting && hasCreditPackageSetting && !(isTutorUser || superTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0)">
                         <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/users/my-credits']">
                             <div>
+                                <img src="./assets/images/icons/credits.png" class="w-[28px] pr-2" />
+                            </div>
+                            <div class="pl-[5px]">{{ "credit-package.mycredits" | translate }}</div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="hasAccess('tutors') && isTutorUser && !(userTypeName?.indexOf('Admin Sede') >= 0) && !superTutor">
+                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" routerLink="/tutors/stripe-connect">
+                            <div>
                                 <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.905 1.316 15.633 6M18 10h-5a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h5m0-5a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1m0-5V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h15a1 1 0 0 0 1-1v-3m-6.367-9L7.905 1.316 2.352 6h9.281Z"/>
                                 </svg>
                             </div>
-                            <div>{{ "credit-package.mycredits" | translate }}</div>
+                            <div>Stripe Connect</div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="(isTutorUser || superTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0) && tutorManageStudentAccess && !(userTypeName?.indexOf('Admin TUTORES') >= 0)">
+                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" routerLink="/settings/students-management">
+                            <div>
+                                <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                      <path d="M19 11V9a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L12 2.757V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L2.929 4.343a1 1 0 0 0 0 1.414l.536.536L2.757 8H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535L8 17.243V18a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H18a1 1 0 0 0 1-1Z"/>
+                                      <path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div>{{ 'course-students.managestudents' | translate }}</div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="manageMembers">
+                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" routerLink="/settings/users''">
+                            <div>
+                                <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                    <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                      <path d="M19 11V9a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L12 2.757V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L2.929 4.343a1 1 0 0 0 0 1.414l.536.536L2.757 8H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535L8 17.243V18a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H18a1 1 0 0 0 1-1Z"/>
+                                      <path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                    </g>
+                                </svg>
+                            </div>
+                            <div>{{ 'company-settings.managemembers' | translate }}</div>
                         </div>
                     </ng-container>
                 </div>

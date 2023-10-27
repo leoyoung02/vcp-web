@@ -340,6 +340,16 @@
                                 </option>
                             </select>
                         </div>
+                        <div class="mt-8 w-full sm:w-full md:w-5/12 lg:w-5/12 mx-auto">
+                            <button 
+                                class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                data-modal-hide="item-modal"
+                                [ngStyle]="{'background-color': buttonColor}"
+                                (click)="updateUserStatus()"
+                            >
+                                {{ 'your-admin-area.save' | translate }}
+                            </button>
+                        </div>
                     </form>
                 </ng-container>
                 <ng-container *ngIf="dialogMode == 'adduser' || dialogMode == 'edituser'">
@@ -351,26 +361,31 @@
                     >
                         <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
                             <div class="flex items-center justify-center relative">
-                                <select 
-                                    id="role" 
-                                    [(ngModel)]="selectedRole"
-                                    [ngModelOptions]="{standalone: true}"
-                                    class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    [ngStyle]="{'border-color': buttonColor}"
-                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedRole }"
-                                    (change)="changeMemberRoleGroup($event)"
-                                >
-                                    <option value="" disabled selected>{{ 'customer.selectrole' | translate }}*</option>
-                                    <option
-                                        *ngFor="let role of memberRoles"
-                                        [value]="role.id"
+                                <div class="w-full max-w-full">
+                                    <label for="role" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        {{'your-admin-area.role' | translate}}
+                                    </label>
+                                    <select 
+                                        id="role" 
+                                        [(ngModel)]="selectedRole"
+                                        [ngModelOptions]="{standalone: true}"
+                                        class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        [ngStyle]="{'border-color': buttonColor}"
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedRole }"
+                                        (change)="changeMemberRoleGroup($event)"
                                     >
-                                        {{ role.role }}
-                                    </option>
-                                </select>
+                                        <option value="" disabled selected>{{ 'customer.selectrole' | translate }}*</option>
+                                        <option
+                                            *ngFor="let role of memberRoles"
+                                            [value]="role.id"
+                                        >
+                                            {{ role.role }}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
                             <div class="flex items-center relative">
-                                <div class="flex items-center my-2">
+                                <div class="flex items-center my-2 mt-10">
                                     <input 
                                         id="super-admin" 
                                         type="checkbox"
@@ -384,90 +399,152 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="flex items-center relative" *ngIf="hasTutors">
+                                <div class="flex items-center my-1">
+                                    <input 
+                                        id="tutor" 
+                                        type="checkbox"
+                                        (change)="checkTutor($event)" 
+                                        [(ngModel)]="tutor"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [ngStyle]="{'color': tutor ? buttonColor : 'text-blue-500'}"
+                                        class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    />
+                                    <label for="tutor" class="ml-2 text-sm font-medium dark:text-gray-300">
+                                        {{'tutors.tutor' | translate}}
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="flex items-center relative" *ngIf="hasTutors && tutor">
+                                <div class="flex items-center my-1">
+                                    <input 
+                                        id="supertutor" 
+                                        type="checkbox"
+                                        (change)="checkSuperTutor($event)" 
+                                        [(ngModel)]="superTutor"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [ngStyle]="{'color': superTutor ? buttonColor : 'text-blue-500'}"
+                                        class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    />
+                                    <label for="supertutor" class="ml-2 text-sm font-medium dark:text-gray-300">
+                                        {{'company-settings.supertutor' | translate}}
+                                    </label>
+                                </div>
+                            </div>
                             <div class="flex items-center justify-center relative" *ngIf="showClubsDropdown">
-                                <select 
-                                    id="club-president" 
-                                    [(ngModel)]="selectedClubPresidentGroup"
-                                    [ngModelOptions]="{standalone: true}"
-                                    class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    [ngStyle]="{'border-color': buttonColor}"
-                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedClubPresidentGroup }"
-                                >
-                                    <option value="" disabled selected>{{ 'company-settings.selectgroup' | translate }}*</option>
-                                    <option
-                                        *ngFor="let group of memberRoleGroups"
-                                        [value]="group.id"
+                                <div class="w-full max-w-full">
+                                    <label for="role" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        {{'your-admin-area.club' | translate}}
+                                    </label>
+                                    <select 
+                                        id="club-president" 
+                                        [(ngModel)]="selectedClubPresidentGroup"
+                                        [ngModelOptions]="{standalone: true}"
+                                        class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        [ngStyle]="{'border-color': buttonColor}"
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedClubPresidentGroup }"
                                     >
-                                        {{ group.title }}
-                                    </option>
-                                </select>
+                                        <option value="" disabled selected>{{ 'company-settings.selectgroup' | translate }}*</option>
+                                        <option
+                                            *ngFor="let group of memberRoleGroups"
+                                            [value]="group.id"
+                                        >
+                                            {{ group.title }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-span-2">
+                                <div class="uppercase border border-b-2 border-l-0 border-r-0 border-t-0 border-gray-200 font-semibold">
+                                    {{'settings.personaldata' | translate}}
+                                </div>
                             </div>
                             <ng-container *ngFor="let field of selectedFields; let i = index;">
                                 <ng-container *ngIf="!countryDropdown">
                                     <ng-container *ngIf="field.field_type == 'text' && field.field != 'coupon'">
                                         <div class="flex items-center justify-center relative">
-                                            <input 
-                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
-                                                type="text" 
-                                                class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                                formControlName="{{ field?.field }}"
-                                                autocomplete="off"
-                                                placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}}*" 
-                                                [required]="field?.required"
-                                            >
+                                            <div class="w-full max-w-full">
+                                                <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                    {{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required ? '*' : ''}}
+                                                </label>
+                                                <input 
+                                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
+                                                    type="text" 
+                                                    class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                    formControlName="{{ field?.field }}"
+                                                    autocomplete="off"
+                                                    placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}}*" 
+                                                    [required]="field?.required"
+                                                >
+                                            </div>
                                         </div>
                                     </ng-container>
                                 </ng-container>
                                 <ng-container *ngIf="countryDropdown">
                                     <ng-container *ngIf="field?.field != 'country' && field?.field != 'company_country' && field?.field != 'city' && field.field_type == 'text' && field.field != 'coupon'">
                                         <div class="flex items-center justify-center relative">
-                                            <input 
-                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': field?.required && !userForm.get(field?.field)?.value }"
-                                                type="text" 
-                                                class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                                formControlName="{{ field?.field }}"
-                                                autocomplete="off"
-                                                placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required == 1 ? '*' : ''}}" 
-                                                [required]="field?.required"
-                                            >
+                                            <div class="w-full max-w-full">
+                                                <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                    {{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required ? '*' : ''}}
+                                                </label>
+                                                <input 
+                                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': field?.required && !userForm.get(field?.field)?.value }"
+                                                    type="text" 
+                                                    class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                    formControlName="{{ field?.field }}"
+                                                    autocomplete="off"
+                                                    placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required == 1 ? '*' : ''}}" 
+                                                    [required]="field?.required"
+                                                >
+                                            </div>
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="field.field_type == 'text' && (field?.field == 'country' || field?.field == 'company_country')">
                                         <div class="flex items-center justify-center relative">
-                                            <select 
-                                                id="country" 
-                                                formControlName="{{ field?.field }}"
-                                                class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                [ngStyle]="{'border-color': buttonColor}"
-                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
-                                            >
-                                                <option value="">{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}</option>
-                                                <option
-                                                    *ngFor="let country of countries"
-                                                    [value]="country.country_name"
+                                            <div class="w-full max-w-full">
+                                                <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                    {{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required ? '*' : ''}}
+                                                </label>
+                                                <select 
+                                                    id="country" 
+                                                    formControlName="{{ field?.field }}"
+                                                    class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                    [ngStyle]="{'border-color': buttonColor}"
+                                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
                                                 >
-                                                {{country.country_name}}
-                                                </option>
-                                            </select>
+                                                    <option value="">{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}</option>
+                                                    <option
+                                                        *ngFor="let country of countries"
+                                                        [value]="country.country_name"
+                                                    >
+                                                    {{country.country_name}}
+                                                    </option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="field?.field == 'city' && field.field_type == 'text'">
                                         <div class="flex items-center justify-center relative">
-                                            <select 
-                                                id="city" 
-                                                formControlName="{{ field?.field }}"
-                                                class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                [ngStyle]="{'border-color': buttonColor}"
-                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
-                                            >
-                                                <option value="">{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}</option>
-                                                <option
-                                                    *ngFor="let city of cities"
-                                                    [value] ="city.city"
+                                            <div class="w-full max-w-full">
+                                                <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                    {{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required ? '*' : ''}}
+                                                </label>
+                                                <select 
+                                                    id="city" 
+                                                    formControlName="{{ field?.field }}"
+                                                    class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                    [ngStyle]="{'border-color': buttonColor}"
+                                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
                                                 >
-                                                    {{city.city}}
-                                                </option>
-                                            </select>
+                                                    <option value="">{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}</option>
+                                                    <option
+                                                        *ngFor="let city of cities"
+                                                        [value] ="city.city"
+                                                    >
+                                                        {{city.city}}
+                                                    </option>
+                                                </select>
+                                            </div>
                                         </div>
                                     </ng-container>
                                 </ng-container>
@@ -484,25 +561,145 @@
                                 </ng-container>
                                 <ng-container *ngIf="field.field_type == 'password'">
                                     <div class="flex items-center justify-center relative">
-                                        <input
-                                            class="text-sm shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
-                                            id="password"
-                                            [type]="fieldTextType ? 'text' : 'password'"
-                                            placeholder="{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}"
-                                            formControlName="{{ field?.field }}"
-                                            name="{{ field?.field }}"
-                                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
-                                        />
-                                        <fa-icon
-                                            class="fa absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"
-                                            [icon]="!fieldTextType ? eyeSlashIcon : eyeIcon"
-                                            (click)="toggleFieldTextType()"
-                                        ></fa-icon>
+                                        <div class="w-full max-w-full">
+                                            <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                {{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required ? '*' : ''}}
+                                            </label>
+                                            <input
+                                                class="text-sm shadow appearance-none border rounded-[10px] w-full py-2 px-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                                                id="password"
+                                                [type]="fieldTextType ? 'text' : 'password'"
+                                                placeholder="{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}"
+                                                formControlName="{{ field?.field }}"
+                                                name="{{ field?.field }}"
+                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
+                                            />
+                                            <fa-icon
+                                                class="fa absolute inset-y-0 right-0 flex items-center px-4 pt-7 text-gray-600"
+                                                [icon]="!fieldTextType ? eyeSlashIcon : eyeIcon"
+                                                (click)="toggleFieldTextType()"
+                                            ></fa-icon>
+                                        </div>
                                     </div>
                                 </ng-container>
                             </ng-container>
                         </div>
-                        <div class="flex items-center my-2">
+                        <ng-container>
+                            <div *ngIf="superTutor || isGuardianType || userTypeName == 'Admin TUTORES'"
+                                class="uppercase border border-b-2 border-l-0 border-r-0 border-t-0 border-gray-200 font-semibold">
+                                {{ 'settings.assignments' | translate }}
+                            </div>
+                            <ng-container *ngIf="userTypeName == 'Admin TUTORES'">
+                                <div class="text-left block my-6 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ 'tutors.assigntutors' | translate }}
+                                </div>
+                                <div class="mb-6">
+                                    <ng-multiselect-dropdown
+                                        id="tutor-type"
+                                        class="create-native-select"
+                                        placeholder="{{ 'tutors.assigntutors' | translate }}"
+                                        [settings]="tutorDropDownSettings"
+                                        [data]="tutorToAssign"
+                                        [(ngModel)]="selectedAssignedTutor"
+                                        [ngModelOptions]="{standalone: true}"
+                                    >
+                                    </ng-multiselect-dropdown>
+                                </div>
+                            </ng-container>
+                            <ng-container *ngIf="superTutor || isGuardianType">
+                                <div class="text-left block my-6 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ 'tutors.assignstudents' | translate }}
+                                </div>
+                                <div class="mb-6">
+                                    <ng-multiselect-dropdown
+                                        id="tutor-type"
+                                        class="create-native-select"
+                                        placeholder="{{ 'tutors.assignstudents' | translate }}"
+                                        [settings]="studentDropDownSettings"
+                                        [data]="allMembers"
+                                        [(ngModel)]="selectedAssignedStudent"
+                                        [ngModelOptions]="{standalone: true}"
+                                    >
+                                    </ng-multiselect-dropdown>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                        <div class="nt-8" *ngIf="userMode == 'edit' && hasCourses && hasCategoryAccess">
+                            <div class="uppercase border border-b-2 border-l-0 border-r-0 border-t-0 border-gray-200 font-semibold">
+                                {{'settings.coursedata' | translate}}
+                            </div>
+                            <div class="text-left block my-6 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{ 'general-details.course' | translate }}
+                            </div>
+                            <div class="mb-2">
+                                <ng-multiselect-dropdown
+                                    id="course"
+                                    class="create-native-select"
+                                    placeholder="{{ 'keap.selectcourse' | translate }}"
+                                    [settings]="courseDropDownSettings"
+                                    [data]="courses"
+                                    [(ngModel)]="selectedCourses"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (onSelect)="handleChangeCourse($event)"
+                                    (onSelectAll)="handleSelectAllCourse($event)"
+                                    (onDeSelect)="handleDeselectCourse($event)"
+                                    (onDeSelectAll)="handleDeSelectAllCourse($event)"
+                                >
+                                </ng-multiselect-dropdown>
+                            </div>
+                        </div>
+                        <ng-container *ngIf="userMode == 'edit' && courseCreditSetting && isSuperAdmin">
+                            <ng-container *ngIf="!superAdmin && !superTutor && !tutor && !isGuardianType && !(userTypeName?.indexOf('Admin') >= 0)">
+                                <div *ngIf="(separateCourseCredits && selectedCourses?.length > 0 && courseCreditsList?.length > 0) || !separateCourseCredits" 
+                                    class="my-4 uppercase border border-b-2 border-l-0 border-r-0 border-t-0 border-gray-200 font-semibold">
+                                    {{'course-create.coursecredits' | translate}}
+                                </div>
+                                <ng-container *ngIf="separateCourseCredits && selectedCourses?.length > 0 && courseCreditsList?.length > 0">
+                                    <div class="grid gap-6 grid-cols-2">
+                                        <ng-container *ngFor="let credit of courseCreditsList">
+                                            <div class="mt-2">
+                                                <label for="credit" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                    {{credit?.title}}
+                                                </label>
+                                                <input 
+                                                    id="credit-{{credit.id}}"
+                                                    placeholder="{{ 'course-create.credits' | translate }}"
+                                                    class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': credit?.credits < 0 }"
+                                                    [(ngModel)]="credit.credits"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    name="course_credits"
+                                                    autocomplete="off"
+                                                    type="number"
+                                                    min="0"
+                                                >
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="!separateCourseCredits">
+                                    <div class="relative">
+                                        <label for="credit" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            {{ 'course-create.credits' | translate }} 
+                                        </label>
+                                        <input 
+                                            id="credit"
+                                            placeholder="{{ 'course-create.credits' | translate }}"
+                                            class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': remainingCourseCredits < 0 }"
+                                            [(ngModel)]="remainingCourseCredits"
+                                            [ngModelOptions]="{standalone: true}"
+                                            name="course_credits"
+                                            autocomplete="off"
+                                            type="number"
+                                            min="0"
+
+                                        >
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                        <div class="flex items-center my-2 mt-10" *ngIf="userMode == 'add'">
                             <input 
                                 id="send-mail" 
                                 type="checkbox"
@@ -516,19 +713,19 @@
                                 {{ 'company-settings.sendmemberemail' | translate }}
                             </label>
                         </div>
+                        <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                            <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                (click)="saveDialog()"
+                                data-modal-hide="item-modal"
+                                [ngStyle]="{
+                                    'background-color': buttonColor
+                                }"
+                            >
+                                {{ 'company-settings.save' | translate }}
+                            </button>
+                        </div>
                     </form>
                 </ng-container>
-                <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
-                    <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        (click)="saveDialog()"
-                        data-modal-hide="item-modal"
-                        [ngStyle]="{
-                            'background-color': buttonColor
-                        }"
-                    >
-                        {{ 'company-settings.save' | translate }}
-                    </button>
-                </div>
             </div>
         </div>
     </div>

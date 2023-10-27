@@ -16,7 +16,7 @@ import { Subject, takeUntil } from "rxjs";
 import { ToastComponent } from "@share/components";
 import { FormsModule } from "@angular/forms";
 import { SidebarComponent } from "@lib/components/sidebar/sidebar.component";
-import { UserMenuComponent } from "@lib/components/user-menu/user-menu";
+import { UserMenuComponent } from "@lib/components/user-menu/user-menu.component";
 import moment from "moment";
 import get from "lodash/get";
 
@@ -150,6 +150,10 @@ export class LayoutMainComponent {
   superTutor: boolean = false;
   cityAdmin:  boolean = false;
   showProfileButton: boolean = false;
+  perHourCommission: boolean = false;
+  separateCourseCredits: boolean = false;
+  userCourseCredits: any;
+  creditPackages: any;
 
   constructor(
     private _router: Router,
@@ -535,7 +539,49 @@ export class LayoutMainComponent {
       this.tutorManageStudentAccess = tutors_subfeatures.some(
         (a) => a.name_en == "Allow Tutors to Manage Students" && a.active == 1
       );
+      this.perHourCommission = tutors_subfeatures.some(
+        (a) => a.name_en == "Per hour commission" && a.active == 1
+      );
+      this.separateCourseCredits = tutors_subfeatures.some(
+        (a) => a.name_en == "Separate credits by course" && a.active == 1
+      );
+
+      if(this.hasCreditPackageSetting) {
+        this.getCreditPackages();
+      }
+
+      if(this.separateCourseCredits && this.userId > 0) {
+        this.getUserCourseCredits();
+      }
     }
+  }
+
+  getUserCourseCredits() {
+    this._userService.getUserCourseCredits(this.userId)
+      .subscribe(
+        async (response) => {
+          this.userCourseCredits = response['user_course_credits']
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  getCreditPackages() {
+    this._userService.getCreditPackages(this.companyId)
+      .subscribe(
+        response => {
+          if(response?.credit_packages){
+            this.creditPackages = response.credit_packages?.filter(cp => {
+              return cp.status == 1
+            })
+          }
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
   getUserMemberTypes() {

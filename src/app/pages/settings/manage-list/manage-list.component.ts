@@ -15,6 +15,7 @@ import { JobOffersAdminListComponent } from "@features/job-offers/admin-list/adm
 import { ClubsAdminListComponent } from "@features/clubs/admin-list/admin-list.component";
 import { ManageCitiesComponent } from "../cities/cities.component";
 import { CityGuideAdminListComponent } from "@features/city-guide/admin-list/admin-list.component";
+import { CommissionsAdminListComponent } from "@features/tutors/commissions-admin-list/commissions-admin-list.component";
 import { environment } from "@env/environment";
 import get from "lodash/get";
 
@@ -33,6 +34,7 @@ import get from "lodash/get";
     ClubsAdminListComponent,
     JobOffersAdminListComponent,
     CityGuideAdminListComponent,
+    CommissionsAdminListComponent,
     PageTitleComponent,
   ],
   templateUrl: "./manage-list.component.html",
@@ -137,8 +139,34 @@ export class ManageListComponent {
       this.list == "plans" ||
       this.list == "clubs" ||
       this.list == "canalempleo" ||
-      this.list == "cityguide"
+      this.list == "cityguide" ||
+      this.list == "commissions"
     ) {
+      if(this.list == 'commissions') {
+        this.buttonList = [
+          {
+            id: 1,
+            value: "Pending",
+            text: this._translateService.instant('tutors.pendingtransfer'),
+            selected: true,
+            fk_company_id: this.companyId,
+            filter: "Pending",
+          },
+          {
+            id: 2,
+            value: "Completed",
+            text: this._translateService.instant('tutors.transfercompleted'),
+            selected: false,
+            fk_company_id: this.companyId,
+            filter: "Completed",
+          }
+        ];
+      }
+      let filter = this.buttonList?.find((f) => f.selected);
+      if (filter) {
+        this.filter = filter.filter;
+      }
+      this.subButtonList = [];
       this.fetchAdministrarData();
     }
   }
@@ -166,7 +194,10 @@ export class ManageListComponent {
           this.getListTitle();
           this.initializeBreadcrumb();
           this.initializeIconFilterList(this.cities);
-          this.initializeButtonGroup();
+
+          if(this.list != 'commissions') {
+            this.initializeButtonGroup();
+          }
           this.isLoading = false;
         },
         (error) => {
@@ -188,6 +219,9 @@ export class ManageListComponent {
         break;
       case "cityguide":
         this.listTitle = this.cityGuideTitle;
+        break;
+      case "commissions":
+        this.listTitle = this._translateService.instant('tutors.commissions');
         break;
     }
   }
@@ -362,12 +396,35 @@ export class ManageListComponent {
       });
     }
 
+    if(this.list == 'commissions') {
+      list.push({
+        id: 1,
+        value: "Pending",
+        text: this._translateService.instant('tutors.pendingtransfer'),
+        selected: true,
+        fk_company_id: this.companyId,
+        filter: "Pending",
+      });
+      list.push({
+        id: 2,
+        value: "Completed",
+        text: this._translateService.instant('tutors.transfercompleted'),
+        selected: false,
+        fk_company_id: this.companyId,
+        filter: "Completed",
+      });
+    }
+
     this.buttonList = list;
+    
     let filter = this.buttonList?.find((f) => f.selected);
     if (filter) {
       this.filter = filter.filter;
     }
-    this.initializeSubButtonGroup();
+
+    if(this.list != 'commissions') {
+      this.initializeSubButtonGroup();
+    }
   }
 
   initializeSubButtonGroup() {
@@ -443,7 +500,11 @@ export class ManageListComponent {
     });
 
     this.filter = event.filter;
-    this.initializeSubButtonGroup();
+    if(this.list != 'commissions') {
+      this.initializeSubButtonGroup();
+    } else {
+      this.status = event;
+    }
   }
 
   filterByStatus(event) {

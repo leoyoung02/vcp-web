@@ -35,6 +35,8 @@ import {
 import { initFlowbite } from "flowbite";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
+import { ClubsService, CoursesService, TutorsService } from "@features/services";
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import moment from "moment";
 import get from "lodash/get";
 
@@ -51,6 +53,7 @@ import get from "lodash/get";
     MatSortModule,
     FontAwesomeModule,
     MatSnackBarModule,
+    NgMultiSelectDropDownModule,
     SearchComponent,
     BreadcrumbComponent,
     IconFilterComponent,
@@ -110,7 +113,7 @@ export class ManageUsersComponent {
     "last_name",
     "email",
     "user_role",
-    "invited_by",
+    // "invited_by",
     "recordStatus",
     "action",
   ];
@@ -288,11 +291,29 @@ export class ManageUsersComponent {
   selectedConfirmItem: any;
   selectedConfirmMode: string = "";
   customMemberProfileFields: any;
+  isGuardianType: boolean = false;
+  coursesFeatureId: any;
+  hasCourses: boolean = false;
+  hasCategoryAccess: boolean = false;
+  hasCourseCategories: boolean = false;
+  courseCategories: any = [];
+  courseCategoryMapping: any;
+  separateCourseCredits: boolean = false;
+  courseCreditsList: any = [];
+  courseCategoriesAccessRoles: any;
+  courseSubscriptions: any;
+  courseExceptionUser: any;
+  userCourseCredits: any;
+  userTypeName: any;
+  coursesFeature: any;
 
   constructor(
     private _router: Router,
     private _companyService: CompanyService,
     private _userService: UserService,
+    private _clubsService: ClubsService,
+    private _tutorsService: TutorsService,
+    private _coursesService: CoursesService,
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _excelService: ExcelService,
@@ -420,6 +441,9 @@ export class ManageUsersComponent {
           this.cities = data?.cities;
           this.superAdmins = data?.super_admins;
           this.customMemberProfileFields = data?.custom_member_profile_fields;
+          this.courseCategories = data?.course_categories;
+          this.courseCategoryMapping = data?.course_category_mapping;
+          this.courseCategoriesAccessRoles = data?.course_category_access_roles;
           this.initializeIconFilterList(this.cities);
           this.initializeButtonGroup();
         },
@@ -443,10 +467,19 @@ export class ManageUsersComponent {
     this.hasBuddy = this.buddyFeatureId > 0 ? true : false;
 
     this.tutorsFeature = features?.find(
-      (f) => f.feature_id == 19 && f.status == 1
+      (f) => f.feature_id == 20 && f.status == 1
     );
     this.tutorsFeatureId = this.tutorsFeature?.feature_id;
     this.hasTutors = this.tutorsFeatureId > 0 ? true : false;
+
+    this.coursesFeature = features?.find(
+      (f) => f.feature_id == 11 && f.status == 1
+    );
+    this.coursesFeatureId = this.tutorsFeature?.feature_id;
+    this.hasCourses = this.coursesFeatureId > 0 ? true : false;
+
+    if(this.hasTutors) { this.getTutors() }
+    if(this.hasCourses) { this.getCourses() }
   }
 
   mapSubfeatures(data: any) {
@@ -463,6 +496,12 @@ export class ManageUsersComponent {
       );
       this.courseCreditSetting = subfeatures.some(
         (a) => a.name_en == "Credits" && a.active == 1
+      );
+      this.hasCategoryAccess = subfeatures.some(
+        (a) => a.name_en == "Category access" && a.active == 1
+      );
+      this.separateCourseCredits = subfeatures.some(
+        (a) => a.name_en == "Separate credits by course" && a.active == 1
       );
     }
 
@@ -2361,15 +2400,16 @@ export class ManageUsersComponent {
                   this.membersIncomplete2.splice(idx, 1);
                 }
               });
+              let incomplete = this.membersIncomplete;
+              let incomplete2 = this.membersIncomplete2;
               this.resetUserStatusForm();
+              this.memberStatusFilter = "Incomplete";
+              this.getMembers(false);
+              this.refreshMembers(incomplete);
               this.open(
                 this._translateService.instant("dialog.savedsuccessfully"),
                 ""
               );
-              this.memberStatusFilter = "Incomplete";
-              this.dataSource = this.membersIncomplete;
-              this.getMembers(true);
-              location.reload();
             },
             (error) => {
               console.log(error);
@@ -2403,15 +2443,16 @@ export class ManageUsersComponent {
                 }
               });
             });
+            let incomplete = this.membersIncomplete;
+            let incomplete2 = this.membersIncomplete2;
             this.resetUserStatusForm();
+            this.memberStatusFilter = "Incomplete";
+            this.getMembers(false);
+            this.refreshMembers(incomplete);
             this.open(
               this._translateService.instant("dialog.savedsuccessfully"),
               ""
             );
-            this.memberStatusFilter = "Incomplete";
-            this.dataSource = this.membersIncomplete;
-            this.getMembers(true);
-            location.reload();
           },
           (error) => {
             console.log(error);
@@ -2445,6 +2486,8 @@ export class ManageUsersComponent {
     this.selectedRequiredMember = "";
     this.isMentor = false;
     this.errorMessage = "";
+    this.courseCreditsList = [];
+    this.selectedCourses = [];
     if (this.hasBuddy && this.mentors && this.mentors.length > 0) {
       this.isMentor = this.mentors.some(
         (a) => a.user_id === this.selectedUser.id
@@ -2549,95 +2592,122 @@ export class ManageUsersComponent {
           }
         }
 
-        this.selectedRole = selected_role;
-        if (this.hasCustomMemberTypeSettings) {
-          //   this.tutores = get(await this.mainService.getTutors(this.companyId).toPromise(), 'tutors')
-          if (this.tutores?.length > 0) {
-            let match = this.tutores.some((a) => a.user_id == user.id);
-            this.tutor = match ? true : false;
+        setTimeout(async () => {
+          this.selectedRole = selected_role;
+
+          if(this.hasCategoryAccess && this.hasCourses && this.courseCategories?.length > 0 && this.courseCategoryMapping?.length > 0) {
+            this.mapUserTypeCourses(this.selectedRole);
           }
-
-          if (this.tutor) {
-            let super_match = this.tutores.some(
-              (a) => a.user_id == user.id && a.super_tutor == 1
-            );
-            this.superTutor = super_match ? true : false;
-            let super_tutor = this.tutores.filter((tut) => {
-              return tut.user_id == user.id && tut.super_tutor == 1;
-            });
-
-            if (super_tutor && super_tutor.length > 0) {
-              let assigned_tutor_ids: any[] = [];
-              this.tutorToAssign = this.tutorToAssign2;
-              this.tutorToAssign =
-                this.tutorToAssign?.length > 0
-                  ? this.tutorToAssign.filter((tta) => {
-                      return (
-                        (!tta.parent_tutor_id ||
-                          tta.parent_tutor_id == super_tutor[0].id) &&
-                        tta.super_tutor != 1
-                      );
-                    })
-                  : [];
-              this.tutores.forEach((tuts) => {
-                if (
-                  tuts.parent_tutor_id &&
-                  tuts.parent_tutor_id == super_tutor[0]?.id
-                ) {
-                  assigned_tutor_ids.push(tuts.id);
-                }
-              });
-
-              this.selectedAssignedTutor =
-                assigned_tutor_ids.length > 0
-                  ? this.tutorToAssign.filter((tta) => {
-                      return assigned_tutor_ids.indexOf(tta.id) != -1;
-                    })
-                  : "";
-
-              if (super_tutor?.length > 0) {
-                let assigned_student_ids: any[] = [];
-                super_tutor[0].super_tutor_students?.forEach((student) => {
-                  let member = this.allMembers.filter((member) => {
-                    return member.id == student.user_id;
-                  });
-                  if (member?.length > 0) {
-                    assigned_student_ids.push(member[0]);
-                  }
-                });
-                this.selectedAssignedStudent = assigned_student_ids;
+  
+          if (this.hasCustomMemberTypeSettings) {
+            if(this.hasTutors) {
+              if(this.tutorToAssign2?.length > 0) {
+                let match = this.tutorToAssign2?.some((a) => a.user_id == user.id);
+                this.tutor = match ? true : false;
               }
             }
-          }
-          this.checkClubPresident();
-
-          if (this.showClubsDropdown) {
-            // this.memberRoleGroups = get(await this.mainService.getGroups(this.domain).toPromise(), 'CompanyGroup')
-            this.memberRoleGroups = this.handleSortClubs(this.memberRoleGroups);
-            let own_club =
-              this.memberRoleGroups &&
-              this.memberRoleGroups.filter((club) => {
-                return club.fk_user_id == this.selectedUser.id;
+  
+            let selected = this.memberTypes?.find((f) => f.id == this.selectedRole)
+            this.isGuardianType = selected?.guardian == 1 ? true : false
+  
+            if(this.tutor) {
+              let super_match = this.tutorToAssign2?.some(
+                (a) => a.user_id == user.id && a.super_tutor == 1
+              );
+              this.superTutor = super_match ? true : false;
+              let super_tutor = this.tutorToAssign2?.filter((tut) => {
+                return tut.user_id == user.id && tut.super_tutor == 1;
               });
-            if (own_club && own_club[0]) {
-              this.selectedClubPresidentGroup = own_club[0].id;
-            } else {
-              //   let club_presidents_mapping = get(await this.mainService.getClubPresidents(this.companyId).toPromise(), 'club_presidents_mapping')
-              //   if(club_presidents_mapping && club_presidents_mapping.length > 0) {
-              //     let club = club_presidents_mapping && club_presidents_mapping.filter(club => {
-              //       return club.user_id == this.selectedUser.id
-              //     })
-              //     if(club && club[0]) {
-              //       this.selectedClubPresidentGroup = club[0].club_id
-              //     }
-              //   }
+  
+              if (super_tutor && super_tutor.length > 0) {
+                let assigned_tutor_ids: any[] = [];
+                this.tutorToAssign = this.tutorToAssign2;
+                this.tutorToAssign =
+                  this.tutorToAssign?.length > 0
+                    ? this.tutorToAssign.filter((tta) => {
+                        return (
+                          (!tta.parent_tutor_id ||
+                            tta.parent_tutor_id == super_tutor[0].id) &&
+                          tta.super_tutor != 1
+                        );
+                      })
+                    : [];
+                this.tutorToAssign2?.forEach((tuts) => {
+                  if (
+                    tuts.parent_tutor_id &&
+                    tuts.parent_tutor_id == super_tutor[0]?.id
+                  ) {
+                    assigned_tutor_ids.push(tuts.id);
+                  }
+                });
+  
+                this.selectedAssignedTutor =
+                  assigned_tutor_ids.length > 0
+                    ? this.tutorToAssign.filter((tta) => {
+                        return assigned_tutor_ids.indexOf(tta.id) != -1;
+                      })
+                    : "";
+  
+                if (super_tutor?.length > 0) {
+                  let assigned_student_ids: any[] = [];
+                  super_tutor[0].super_tutor_students?.forEach((student) => {
+                    let member = this.allMembers.filter((member) => {
+                      return member.id == student.user_id;
+                    });
+                    if (member?.length > 0) {
+                      assigned_student_ids.push(member[0]);
+                    }
+                  });
+                  this.selectedAssignedStudent = assigned_student_ids;
+                }
+              }
             }
+  
+            if(this.isGuardianType) {
+              let guardian_students = get(await this._userService.getGuardianStudents(user.id, this.companyId).toPromise(), 'guardian_students');
+              if(guardian_students?.length > 0) {
+                let assigned_student_ids: any[] = []
+                guardian_students?.forEach(student => {
+                  let member = this.allMembers.filter(member => {
+                    return member.id == student.user_id
+                  })
+                  if(member?.length > 0) {
+                    assigned_student_ids.push(member[0])
+                  }
+                })
+                this.selectedAssignedStudent = assigned_student_ids
+              }
+            }
+  
+            this.checkClubPresident();
+  
+            if (this.showClubsDropdown) {
+              this.memberRoleGroups = this.handleSortClubs(this.memberRoleGroups);
+              let own_club =
+                this.memberRoleGroups &&
+                this.memberRoleGroups.filter((club) => {
+                  return club.fk_user_id == this.selectedUser.id;
+                });
+              if (own_club && own_club[0]) {
+                this.selectedClubPresidentGroup = own_club[0].id;
+              } else {
+                let club_presidents_mapping = get(await this._clubsService.getClubPresidents(this.companyId).toPromise(), 'club_presidents_mapping')
+                if(club_presidents_mapping && club_presidents_mapping.length > 0) {
+                  let club = club_presidents_mapping && club_presidents_mapping.filter(club => {
+                    return club.user_id == this.selectedUser.id
+                  })
+                  if(club && club[0]) {
+                    this.selectedClubPresidentGroup = club[0].club_id
+                  }
+                }
+              }
+            }
+  
+            this.getCustomProfileFields();
+          } else {
+            this.loadFieldValues();
           }
-
-          this.getCustomProfileFields();
-        } else {
-          this.loadFieldValues();
-        }
+        }, 500);
       }
     }
 
@@ -2666,6 +2736,95 @@ export class ManageUsersComponent {
     this.selectedRole = "";
     this.modalbutton?.nativeElement.click();
     this.showEditUserModal = true;
+  }
+
+  mapUserTypeCourses(custom_member_type_id) {
+    if(custom_member_type_id > 0) {
+      let member_type_row = this.memberTypes?.filter(mt => {
+        return mt.id == custom_member_type_id
+      })
+      if(member_type_row?.length > 0) {
+        this.userTypeName = member_type_row[0].type
+        if(member_type_row[0].id == 313) {
+          this.getUserAssignedTutors()
+        }
+      }
+    }
+    this._userService.getCombinedUserCoursesPrefetch(this.selectedUser?.id).subscribe(data => {
+      this.courseSubscriptions = data[0] ? data[0]['course_subscriptions'] : []
+      this.courseExceptionUser = data[1] ? data[1]['company_course_exception_user'] : []
+      this.userCourseCredits = data[2] ? data[2]['user_course_credits'] : []
+      this.mapCourseUserCredits();
+    })
+  }
+
+  getUserAssignedTutors() {
+    this._userService.getUserAsignedTutors(this.selectedUser?.id).subscribe(data => {
+      let assigned_tutors = data?.assigned_tutors
+      let filtered = this.tutorToAssign.filter(tta => {
+        let match = assigned_tutors?.some(a => a.tutor_id == tta.id);
+        return match
+      })
+      this.selectedAssignedTutor = filtered?.length > 0 ? filtered : ''
+    })
+  }
+
+  mapCourseUserCredits() {
+    let selected_courses: any[] = []
+    if(this.courseSubscriptions?.length > 0) {
+      this.courseSubscriptions?.forEach(event => {
+        let course_item
+        if(event?.course) {
+          course_item = event?.course
+        } else {
+          let course_row = this.courses?.filter(c => {
+            return c.id == event?.course_id
+          })
+          if(course_row?.length > 0) {
+            course_item = course_row[0]
+          }
+        }
+
+        if(this.courseCreditSetting) {
+          let match = this.courseCreditsList.some(a => a.id === course_item?.id)
+
+          let credits = 0
+          let course = this.userCourseCredits?.filter((data) => {
+            return data.course_id == course_item?.id
+          })
+          if(course?.length > 0) {
+            credits = course[0].remaining_credits
+          }
+  
+          if(!match) {
+            this.courseCreditsList.push({
+              id: course_item?.id,
+              title: course_item?.title,
+              credits,
+            })
+          }
+        }
+
+        let course_row = this.courses?.filter(c => {
+          return c.id == course_item?.id
+        })
+        if(course_row?.length > 0) {
+          let course_match = selected_courses?.some(a => a.id === course_row[0].id)
+          if(!course_match) {
+            selected_courses.push({
+              id: course_row[0].id,
+              title: course_row[0].title
+            })
+          }
+        }
+      })
+    }
+
+    if(selected_courses?.length > 0) {
+      setTimeout(() => {
+        this.selectedCourses = selected_courses;
+      }, 500);
+    }
   }
 
   async getCustomProfileFields() {
@@ -3273,6 +3432,26 @@ export class ManageUsersComponent {
         : 0;
       formData["send_member_email"] = this.sendMemberEmail ? 1 : 0;
       formData["super_admin"] = this.superAdmin ? 1 : 0;
+      formData['tutor'] = this.tutor ? 1 : 0;
+      formData['super_tutor'] = this.superTutor ? 1 : 0;
+      formData['assigned_tutors'] = this.selectedAssignedTutor;
+      formData['assigned_students'] = this.selectedAssignedStudent;
+      formData['guardian'] = this.isGuardianType ? 1 : 0;
+
+      if(this.courseCreditsList?.length && this.isSuperAdmin) {
+        formData['separate_course_credits'] = this.separateCourseCredits ? 1 : 0
+        formData['user_course_credits'] = this.courseCreditsList
+      }
+      if(this.selectedCourses?.length && this.isSuperAdmin) {
+        let user_courses: any[] = []
+        this.selectedCourses?.forEach(c => {
+          user_courses.push({
+            id: c?.id,
+            title: c?.title
+          })
+        })
+        formData['user_courses'] = user_courses;
+      }
 
       if (this.startDate) {
         let start_date =
@@ -3377,6 +3556,7 @@ export class ManageUsersComponent {
           )
           .subscribe(
             (response) => {
+              this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
               this.reloadMembersInfo("Active");
             },
             (error) => {
@@ -3385,30 +3565,30 @@ export class ManageUsersComponent {
             }
           );
       } else if (this.userMode == "deny") {
-        // this.loginService.denyMember(
-        //   this.selectedUser.id
-        // ).subscribe(
-        //   async response => {
-        //     this.showEditUserModal = false
-        //     if(this.membersForApproval) {
-        //       this.membersForApproval.forEach((p, idx) => {
-        //         if(p.id == this.selectedUser.id) {
-        //           this.membersForApproval.splice(idx, 1);
-        //         }
-        //       })
-        //       this.membersForApproval2 = this.membersForApproval
-        //     }
-        //     this.membersNotApproved = get(await this.mainService.getMembersNotApproved(this.companyId).toPromise(), 'all_members')
-        //     this.membersNotApproved2 = this.membersNotApproved
-        //     this.filterMemberStatus('Active')
-        //     setTimeout(() => {
-        //       this.filterMemberStatus('Approval')
-        //     }, 500)
-        //   },
-        //   error => {
-        //     console.log(error)
-        //     this.open(this._translateService.instant('dialog.error'), null)
-        //   });
+        this._userService.denyMember(
+          this.selectedUser.id
+        ).subscribe(
+          async response => {
+            this.showEditUserModal = false
+            if(this.membersForApproval) {
+              this.membersForApproval.forEach((p, idx) => {
+                if(p.id == this.selectedUser.id) {
+                  this.membersForApproval.splice(idx, 1);
+                }
+              })
+              this.membersForApproval2 = this.membersForApproval
+            }
+            this.membersNotApproved = get(await this._userService.getMembersNotApproved(this.companyId).toPromise(), 'all_members')
+            this.membersNotApproved2 = this.membersNotApproved
+            this.filterMemberStatus('Active')
+            setTimeout(() => {
+              this.filterMemberStatus('Approval')
+            }, 500)
+          },
+          error => {
+            console.log(error)
+            this.open(this._translateService.instant('dialog.error'), '')
+          });
       }
     }
   }
@@ -4230,60 +4410,59 @@ export class ManageUsersComponent {
   }
 
   async checkTutor(event) {
-    // this.tutor = event.target.checked
-    // if(!this.tutor){
-    //   this.superTutor = false;
-    //   this.selectedAssignedTutor = ''
-    // }
-    // this.checkClubPresident();
-    // if(!this.memberRoleGroups || (this.memberRoleGroups && this.memberRoleGroups.length == 0) || this.showClubsDropdown) {
-    //   this.memberRoleGroups = get(await this.mainService.getGroups(this.domain).toPromise(), 'CompanyGroup')
-    //   this.memberRoleGroups = this.handleSortClubs(this.memberRoleGroups)
-    // }
+    this.tutor = event.target.checked
+    if(!this.tutor){
+      this.superTutor = false;
+      this.selectedAssignedTutor = ''
+    }
+    this.checkClubPresident();
+    if(!this.memberRoleGroups || (this.memberRoleGroups && this.memberRoleGroups.length == 0) || this.showClubsDropdown) {
+      this.memberRoleGroups = get(await this._clubsService.getGroups(this.domain).toPromise(), 'CompanyGroup')
+      this.memberRoleGroups = this.handleSortClubs(this.memberRoleGroups)
+    }
   }
 
   async checkSuperTutor(event) {
-    //   this.tutorToAssign = get(await this.mainService.getTutors(this.companyId).toPromise(), 'tutors')
-    //   let super_tutor = this.tutores.filter(tut => {
-    //     return (tut.user_id == this.selectedUser?.id && tut.super_tutor == 1)
-    //   })
-    //   this.tutorToAssign = this.tutorToAssign?.length > 0 ? this.tutorToAssign.filter(tta => {
-    //     return !tta.parent_tutor_id || tta.super_tutor != 1
-    //   }) : [  ]
-    //   this.superTutor = event.target.checked
-    //   if(!this.superTutor || super_tutor?.length == 0){
-    //     this.selectedAssignedTutor = ''
-    //   }
+      this.tutorToAssign = get(await this._tutorsService.getTutors(this.companyId).toPromise(), 'tutors')
+      let super_tutor = this.tutorToAssign2?.filter(tut => {
+        return (tut.user_id == this.selectedUser?.id && tut.super_tutor == 1)
+      })
+      this.tutorToAssign = this.tutorToAssign?.length > 0 ? this.tutorToAssign.filter(tta => {
+        return !tta.parent_tutor_id || tta.super_tutor != 1
+      }) : [  ]
+      this.superTutor = event.target.checked
+      if(!this.superTutor || super_tutor?.length == 0){
+        this.selectedAssignedTutor = ''
+      }
   }
 
   assignTutor(row) {
-    console.log(row);
     this.selectedTutor = row;
     this.getSelectedCourses();
   }
 
   getSelectedCourses() {
-    // let tutor = this.tutorToAssign2?.filter(t => {
-    //   return t.user_id == this.selectedTutor?.id
-    // })
-    // if(tutor?.length > 0) {
-    //   this.mainService.getTutorCourses(tutor[0].id).subscribe(
-    //     response => {
-    //       let course_tutors = response['tutor_courses'] || []
-    //       course_tutors?.forEach(cd => {
-    //         let title = this.getCourseTitle(cd.course_id)
-    //         if(title) {
-    //           this.selectedCourses.push({
-    //             id: cd.id,
-    //             title: title
-    //           })
-    //         }
-    //       })
-    //       this.showAssignTutorModal = true
-    //     })
-    // } else {
-    //   this.showAssignTutorModal = true
-    // }
+    let tutor = this.tutorToAssign2?.filter(t => {
+      return t.user_id == this.selectedTutor?.id
+    })
+    if(tutor?.length > 0) {
+      this._tutorsService.getTutorCourses(tutor[0].id).subscribe(
+        response => {
+          let course_tutors = response['tutor_courses'] || []
+          course_tutors?.forEach(cd => {
+            let title = this.getCourseTitle(cd.course_id)
+            if(title) {
+              this.selectedCourses.push({
+                id: cd.id,
+                title: title
+              })
+            }
+          })
+          this.showAssignTutorModal = true
+        })
+    } else {
+      this.showAssignTutorModal = true
+    }
   }
 
   getCourseTitle(course_id) {
@@ -4318,27 +4497,26 @@ export class ManageUsersComponent {
   }
 
   assignCourses() {
-    // console.log(this.selectedCourses)
-    // let tutor = this.tutorToAssign2?.filter(t => {
-    //   return t.user_id == this.selectedTutor?.id
-    // })
-    // let params = {
-    //   course_id: this.selectedCourses ? this.selectedCourses.map((data) => { return data.id }).join() : '',
-    //   tutor_id: tutor?.length > 0 ? tutor[0].id : 0,
-    // }
-    // if(this.selectedCourses?.length > 0) {
-    //   this.mainService.assignTutorCourses(params)
-    //   .subscribe(
-    //     response => {
-    //       this.open(this._translateService.instant("dialog.savedsuccessfully"), null);
-    //       this.showAssignTutorModal = false
-    //     },
-    //     error => {
-    //       this.isLinkProcessing = false
-    //       console.log(error)
-    //     }
-    //   )
-    // }
+    let tutor = this.tutorToAssign2?.filter(t => {
+      return t.user_id == this.selectedTutor?.id
+    })
+    let params = {
+      course_id: this.selectedCourses ? this.selectedCourses.map((data) => { return data.id }).join() : '',
+      tutor_id: tutor?.length > 0 ? tutor[0].id : 0,
+    }
+    if(this.selectedCourses?.length > 0) {
+      this._tutorsService.assignTutorCourses(params)
+      .subscribe(
+        response => {
+          this.open(this._translateService.instant("dialog.savedsuccessfully"), '');
+          this.showAssignTutorModal = false
+        },
+        error => {
+          this.isLinkProcessing = false
+          console.log(error)
+        }
+      )
+    }
   }
 
   actionConditionA(recordStatus) {
@@ -4459,6 +4637,90 @@ export class ManageUsersComponent {
 
   toggleFieldTextType() {
     this.fieldTextType = !this.fieldTextType;
+  }
+
+  getTutors() {
+    this._tutorsService.getTutors(this.companyId)
+      .subscribe(
+        async (response) => {
+          this.tutorToAssign2 = response['tutors']
+          this.tutorToAssign = this.tutorToAssign2
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  getCourses() {
+    this._coursesService.getAllCourses(this.companyId)
+      .subscribe(
+        async (response) => {
+          let courses = response['courses']
+          this.courses = courses?.filter(course => {
+            return course.status == 1
+          })
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  handleChangeCourse(event) {
+    let credits = 0;
+    let course = this.courses?.filter((data) => {
+      return data.id == event.id
+    })
+    if(course?.length > 0) {
+      credits = course[0].course_credits
+    }
+    
+    let match = this.courseCreditsList.some(a => a.id === event.id)
+    if(!match) {
+      this.courseCreditsList.push({
+        id: event.id,
+        title: event.title,
+        credits,
+      })
+    }
+  }
+
+  handleSelectAllCourse(items) {
+    if(items?.length > 0) {
+      items?.forEach(event => {
+        let credits = 0;
+        let course = this.courses?.filter((data) => {
+          return data.id == event.id
+        })
+        if(course?.length > 0) {
+          credits = course[0].course_credits
+        }
+        
+        let match = this.courseCreditsList.some(a => a.id === event.id)
+        if(!match) {
+          this.courseCreditsList.push({
+            id: event.id,
+            title: event.title,
+            credits,
+          })
+        }
+      })
+    }
+  }
+
+  handleDeSelectAllCourse(items) {
+    this.courseCreditsList = [];
+  }
+
+  handleDeselectCourse(event) {
+    if(this.courseCreditsList?.length > 0) {
+      this.courseCreditsList && this.courseCreditsList.forEach((credit, index) => {
+        if(credit.id == event.id) {
+          this.courseCreditsList.splice(index, 1)
+        }
+      })
+    }
   }
 
   handleGoBack() {

@@ -150,7 +150,11 @@
         "generalmemberreplysetting": "General Replies",
         "generalmemberreplysettingdesc": "Activate to allow members to post responses to messages",
         "sectiontitledivider": "Section title and dividing line",
-        "selectprofile": "Select profile"
+        "selectprofile": "Select profile",
+        "personaldata": "Personal data",
+        "coursedata": "Course data",
+        "admincitymap": "Admin SEDE user will be assigned to the city selected",
+        "assignments": "Assignments"
     },
     "dashboard": {
         "recommended": "Recommended for you",
@@ -967,7 +971,7 @@
         "complete": "complete",
         "points": "points",
         "completebutton": "Complete",
-        "markascomplete": "Mark as complete",
+        "markascomplete": "Mark complete",
         "module": "MODULE",
         "selectmodule": "Select module",
         "lessoncompleted": "Lesson completed!",
@@ -1658,7 +1662,8 @@
         "submit": "Submit",
         "surveycompleted": "You have successfully completed the survey.",
         "quizcompleted": "You have already completed the quiz.",
-        "thankyou": "Thank you for your participation."
+        "thankyou": "Thank you for your participation.",
+        "rate": "Provide rating"
     },
     "crm": {
         "all": "All",
@@ -2003,7 +2008,12 @@
         "numberofcandidates": "Number of candidates",
         "videoavailabile": "Make this video always available",
         "bookingcommissionperhour": "Set tutor commission per hour",
-        "manage": "Manage"
+        "manage": "Manage",
+        "managemembers": "Manage members",
+        "givefeedback": "Give feedback",
+        "feedback": "Feedback",
+        "bookingscity": "Manage student bookings by city",
+        "settype": "Set member type"
     },
     "guest-landing": {
         "templates": "Templates",
@@ -2923,6 +2933,7 @@
         "confirmrejectitem": "Do you really want to reject this item?",
         "confirmdeleteitem": "Do you really want to delete this item?",
         "confirmdeleteitemsubscription": "This has an active paid subscription, deleting the user will also cancel his active subscription. Continue?",
+        "confirmcancelitem": "Do you really want to cancel this item?",
         "confirmdeleteMember": "Are you sure you want to delete?",
         "confirmrecoveruser": "Do you really want to recover this user?",
         "accept":"Accept",
@@ -2948,6 +2959,10 @@
         "deactivatedsuccessfully": "Deactivated successfully",
         "activatedsuccessfully": "Activated successfully",
         "recoveredsuccessfully": "Recovered successfully",
+        "transferreddsuccessfully": "Transferred successfully",
+        "confirmtransfer": "Confirm transfer",
+        "confirmtransferitem": "Do you really want to transfer the selected items?",
+        "transferid": "Transfer ID",
         "atleast": "at least",
         "characters": "characters",
         "maximumof": "maximum of",
@@ -3149,7 +3164,7 @@
         "scheduleddate": "Scheduled date",
         "registereddate": "Registered date",
         "completeddate": "Completed date",
-        "bookingconfirmed": "Your booking has been confirmed",
+        "bookingconfirmed": "Your booking has been confirmed. Check your inbox with details of your booking.",
         "individualtutoring": "Individual Tutoring",
         "selecttutortype" : "Search by tutor type",
         "searchtutor":"Search by keyword, name, city...",
@@ -3158,7 +3173,17 @@
         "tutorprice": "Tutoring Price",
         "tutoringlanguages": "Enter tutoring languages in comma sepearted (English, Spanish)",
         "filterbycity" : "Filter by city",
-        "learnmore": "Get to know more"
+        "assigntutors": "Assign tutors",
+        "assignstudents": "Assign students",
+        "mystudents": "My students",
+        "groupby": "Group by",
+        "learnmore": "Get to know more",
+        "bookingdate": "Booking date",
+        "bookingstarttime": "Booking start time",
+        "bookingendtime": "Booking end time",
+        "commissions": "Commissions",
+        "transfercompleted": "Transfer completed",
+        "pendingtransfer": "Pending transfer"
     },
     "general-details": {
         "name" : "Name",
@@ -3246,7 +3271,6 @@
         "years": "years",
         "timeavailable": "Time Available"
     },
-
     "stripe-account": {
         "secretkey": "Secret Key",
         "publishablekey": "Publishable Key",
@@ -3263,7 +3287,8 @@
         "mainaccounttext": "This is the main account set in the Stripe setting page. Only name field is editable.To edit keys got to the",
         "mainaccounttextcontinue": "and disable multiple account settings.",
         "setupaccount": "Setup Stripe Connect",
-        "other": "Other"
+        "other": "Other",
+        "stripeconnectdesc": "Commissions on booking sessions with students will be paid out to your connected account. Set up by going through the onboarding process and uploading required verification documents. Once successfully set up, you can also access your connected account dashboard from this page."
     },
     "booking-error" : {
         "insufficientbalanceadmintext": "Pending Transfer due to insuffcient funds",
@@ -3280,7 +3305,8 @@
         "availablecredits": "Available Credits",
         "purchasehistory": "Purchase History",
         "failed":"failed",
-        "selectcredits": "Select credits to purchase"
+        "selectcredits": "Select credits to purchase",
+        "paymentconfirmed": "Thank you for your purchase. This confirms that your payment has been completed."
     },
     "password": {
         "better": "It's better to have:",

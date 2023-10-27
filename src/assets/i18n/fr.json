@@ -150,7 +150,11 @@
         "generalmemberreplysetting": "General répond",
         "generalmemberreplysettingdesc": "Activer pour permettre aux membres de publier des réponses aux messages", 
         "sectiontitledivider": "Titres de section et ligne de séparation",
-        "selectprofile": "Sélectionner un profil"
+        "selectprofile": "Sélectionner un profil",
+        "personaldata": "Données personnelles",
+        "coursedata": "Données du cours",
+        "admincitymap": "Admin SEDE erabiltzailea hautatutako hiriari esleituko zaio",
+        "assignments": "Devoirs"
     },
     "dashboard": {
         "recommended": "Recommandé pour vous",
@@ -963,7 +967,7 @@
         "complete": "complet",
         "points": "points",
         "completebutton": "Terminé",
-        "markascomplete": "Marquer comme terminé",
+        "markascomplete": "Marquer terminé",
         "module": "MODULE",
         "selectmodule": "Sélectionner un module",
         "lessoncompleted": "Leçon terminée !",
@@ -1653,7 +1657,8 @@
         "submit": "Soumettre",
         "surveycompleted": "Vous avez répondu avec succès à l'enquête.",
         "quizcompleted": "Vous avez déjà terminé le quiz.",
-        "thankyou": "Merci pour votre participation."
+        "thankyou": "Merci pour votre participation.",
+        "rate": "Fournir une note"
     },
     "crm": {
         "all": "Tous",
@@ -1996,7 +2001,12 @@
         "numberofcandidates": "Nombre de candidats",
         "videoavailabile": "Rendre cette vidéo toujours disponible",
         "bookingcommissionperhour": "Définir la commission du tuteur par heure",
-        "manage": "Gérer"
+        "manage": "Gérer",
+        "managemembers": "Gérer les membres",
+        "givefeedback": "Dar comentarios",
+        "feedback": "Retour",
+        "bookingscity": "Gérer les réservations des étudiants par ville",
+        "settype": "Définir le type de membre"
     },
     "guest-landing": {
         "templates": "Modèles",
@@ -2885,10 +2895,13 @@
         "confirmcancel": "Confirmer l'annulation",
         "confirmreactivation": "Confirmer la réactivation",
         "confirmupdate": "Confirmer la mise à jour du statut",
-        "confirmupdateitem": "Voulez-vous vraiment mettre à jour le statut ?",
-        "confirmapproveitem": "Voulez-vous vraiment approuver cet article ?",
-        "confirmrejectitem": "Voulez-vous vraiment rejeter cet élément ?",
-        "confirmdeleteMember": "Voulez-vous vraiment supprimer cet élément ?",
+        "confirmupdateitem": "Voulez-vous vraiment mettre à jour le statut?",
+        "confirmapproveitem": "Voulez-vous vraiment approuver cet article?",
+        "confirmrejectitem": "Voulez-vous vraiment rejeter cet élément?",
+        "confirmdeleteitem": "Vous souhaitez vraiment supprimer cet élément ?",
+        "confirmdeleteitemsubscription": "Cet abonnement est activé, vous pouvez également supprimer l'utilisateur et annuler votre abonnement actif. Continuer?",
+        "confirmcancelitem": "¿Realmente deseas cancelar este artículo?",
+        "confirmdeleteMember": "Voulez-vous vraiment supprimer cet élément?",
         "accept":"Accepter",
         "cancel":"Annuler",
         "confirmreactivationitem": "La réactivation de l'utilisateur le déplacera vers la liste Pour approbation. Voulez-vous continuer ?",
@@ -2905,12 +2918,17 @@
         "pick3categories": "Choisir jusqu'à 3 catégories",
         "picksubcategory": "Choisir une sous-catégorie",
         "deletedsuccessfully": "Suppression réussie",
+        "cancelledsuccessfully": "Annulé avec succès",
         "savedsuccessfully": "Enregistré avec succès",
         "reactivatedsuccessfully": "Réactivé avec succès",
         "sentsuccessfully": "Envoyé avec succès",
         "acceptedsuccessfully": "Accepté avec succès",
         "deactivatedsuccessfully": "Désactivé avec succès",
         "activatedsuccessfully": "Activé avec succès",
+        "recoveredsuccessfully": "Recuperado exitosamente",
+        "transferreddsuccessfully": "Transferido exitosamente",
+        "confirmtransfer": "Confirmer le transfert",
+        "confirmtransferitem": "Vous souhaitez vraiment transférer les éléments sélectionnés ?",
         "atleast": "au moins",
         "characters": "personnages",
         "maximumof": "maximum of",
@@ -3104,7 +3122,7 @@
         "scheduleddate": "Date prévue",
         "registereddate": "Date d'enregistrement",
         "completeddate": "Date d'achèvement",
-        "bookingconfirmed": "Votre réservation a été confirmée",
+        "bookingconfirmed": "Votre réservation a été confirmée. Vérifiez votre boîte de réception avec les détails de votre réservation.",
         "individualtutoring": "Tutorat individuel",
         "selecttutortype" : "Recherche par type de tuteur",
         "searchtutor":"Recherche par mot clé, nom, ville...",
@@ -3113,7 +3131,17 @@
         "tutorprice": "Prix du tutorat", 
         "tutoringlanguages": "Entrez les langues du tutorat en les séparant par des virgules (Anglais, Espagnol)",
         "filterbycity" : "Filtrer par ville",
-        "learnmore": "Apprenez à le connaître"
+        "assigntutors": "Attribuer des tuteurs",
+        "assignstudents": "Attribuer des étudiants",
+        "mystudents": "Mes étudiants",
+        "groupby": "Regrouper par",
+        "learnmore": "Apprenez à le connaître",
+        "bookingdate": "Date de réservation",
+        "bookingstarttime": "Heure de début de la réservation",
+        "bookingendtime": "Heure de fin de réservation",
+        "commissions": "Commissions",
+        "transfercompleted": "Transfert terminé",
+        "endingtransfer": "Transfert en attente"
     },
     "general-details": {
         "name" : "Nom",
@@ -3201,7 +3229,6 @@
         "years": "années",
         "timeavailable": "Le temps disponible"
     },
-
     "stripe-account": {
         "secretkey": "Clef secrète",
         "publishablekey": "Clé publiable",
@@ -3218,7 +3245,8 @@
         "mainaccounttext": "Il s'agit du compte principal défini dans la page de configuration de Stripe. Seul le champ du nom est modifiable. Pour modifier les clés, accédez à ",
         "mainaccounttextcontinue": "et désactivez plusieurs paramètres de compte.",
         "setupaccount": "Configurer Stripe Connect",
-        "other": "Autre"
+        "other": "Autre",
+        "stripeconnectdesc": "Les commissions sur la réservation de sessions avec des étudiants seront versées sur votre compte connecté. Configurez-le en suivant le processus d'intégration et en téléchargeant les documents de vérification requis. Une fois la configuration réussie, vous pouvez également accéder au tableau de bord de votre compte connecté à partir de cette page."
     },
     "booking-error" : {
         "insufficientbalanceadmintext": "Transfert en attente en raison de fonds insuffisants",
@@ -3235,7 +3263,8 @@
         "availablecredits": "Crédits disponibles",
         "purchasehistory": "Historique d'achat",
         "failed":"échoué",
-        "selectcredits": "Sélectionnez les crédits à acheter"
+        "selectcredits": "Sélectionnez les crédits à acheter", 
+        "paymentconfirmed": "Merci pour votre achat. Cela confirme que votre paiement a été effectué."
     },
     "password": {
         "better": "C'est mieux d'avoir :",
