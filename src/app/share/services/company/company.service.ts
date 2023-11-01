@@ -92,6 +92,8 @@ import {
   HOME_COURSES_TUTORS_TESTIMONIALS_DATA_URL,
   SECTORS_URL,
   AS_SECTORS_URL,
+  EDIT_HOME_VIDEO_SETTINGS_URL,
+  EDIT_HOME_MODULE_SETTINGS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -858,6 +860,18 @@ export class CompanyService {
   getCompanyBusinessCategories(id): Observable<any> {
     return this._http.get(`${SECTORS_URL}/${id}`,
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  updateHomeVideoSettings(params): Observable<any> {
+    return this._http.put(EDIT_HOME_VIDEO_SETTINGS_URL,
+        params,
+    ).pipe(map(res => res));
+  }
+
+  updateHomeModuleSettings(params): Observable<any> {
+    return this._http.put(EDIT_HOME_MODULE_SETTINGS_URL,
+        params,
     ).pipe(map(res => res));
   }
 }

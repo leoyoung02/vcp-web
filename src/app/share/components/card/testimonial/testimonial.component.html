@@ -17,8 +17,13 @@
         </div>
     </div>
 </div>
-<div *ngIf="page == 'list' || page == 'detail'" [routerLink]="[path]"
-    [ngClass]="{'w-full max-w-full': page == 'detail'}"
+<div *ngIf="page == 'list' || page == 'detail'" 
+    [routerLink]="[path]" 
+    [attr.disabled]="page == 'detail' ? true : null"
+    [ngClass]="{'w-full max-w-full': page == 'detail', 
+        'pointer-events-auto hover:cursor-pointer': page != 'detail',
+        'pointer-events-none': page == 'detail'  
+    }"
 >
     <div class="my-8 sm:my-8 md:mb-0 lg:my-0 rounded-lg h-full max-h-full sm:h-full sm:max-h-full md:h-[591px] md:max-h-[591px] lg:h-[591px] lg:max-h-[591px] flex flex-col justify-evenly"
         [ngStyle]="{'background-color': '#1C393D'}">
@@ -37,7 +42,7 @@
         <div class="relative flex justify-between items-center rounded-t-[0px] sm:rounded-t-[0px] md:rounded-t-[200px] lg:rounded-t-[200px] px-16 h-full max-h-full sm:h-full sm:max-h-full md:h-[351px] md:max-h-[351px] lg:h-[351px] lg:max-h-[351px] rounded-b-lg"
         [ngStyle]="{'background-color': '#E6583D'}">
             <div class="hidden sm:hidden md:block lg:block -mt-[32px] absolute top-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-8 h-8 bg-[#E6583D]"></div>
-            <div class="flex flex-col justify-between text-white text-center">
+            <div class="w-full max-w-full flex flex-col justify-between text-white text-center">
                 <div class="py-8 sm:py-8 md:py-0 lg:py-0 leading-5 text-[0.9rem]" [innerHtml]="shortdescription"></div>
                 <div class="py-4 capitalize">{{date}}</div>
             </div>

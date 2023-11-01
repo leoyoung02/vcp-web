@@ -3013,7 +3013,9 @@
         "confirmupdateaccesstext": "Möchten Sie den Zugang zu den Tutoren dieses Mitglieds wirklich aktualisieren?",
         "confirmupdateaccess": "Bestätigen Sie die Zugriffsaktualisierung",
         "changehomevideotitledesc": "Um den Titel und die Beschreibung für ein bestimmtes Mitglied festzulegen, ändern Sie das Mitglied im Dropdown-Menü und geben Sie dann die Texte ein.",
-        "changehomevideodesc": "Um das Video für ein bestimmtes Mitglied festzulegen, ändern Sie hier im Dropdown das Mitglied und geben Sie dann die Texte ein."
+        "changehomevideodesc": "Um das Video für ein bestimmtes Mitglied festzulegen, ändern Sie hier im Dropdown das Mitglied und geben Sie dann die Texte ein.",
+        "confirmresend": "Erneutes Senden bestätigen",
+        "confirmresendemail": "Möchten Sie die Kurszugangs-E-Mail wirklich erneut senden?"
     },
     "buddy": {
         "mentorprofile": "Mentorprofil",
@@ -3200,7 +3202,8 @@
         "managestudents": "Studenten verwalten",
         "selectcoursetoassignstudents": "Sélectionnez le cours pour affecter les étudiants",
         "errormessage": "Bitte wählen Sie Kurs und Benutzer aus",
-        "unassignstudentstocourses": "Zuweisung des Studenten zum Kurs aufheben"
+        "unassignstudentstocourses": "Zuweisung des Studenten zum Kurs aufheben",
+        "unassign": "Zuweisung"
     },
     "checkout": {
         "linkgenerated": "Link wurde generiert und in Ihre Zwischenablage kopiert",
@@ -3286,5 +3289,11 @@
         "uppercase": "Muss mindestens 1 Großbuchstabe enthalten",
         "lowercase": "Muss mindestens 1 Kleinbuchstabe enthalten",
         "specialcharacter": "Muss mindestens 1 Sonderzeichen enthalten"
+    },
+    "testimonials": {
+        "tags": "Tags",
+        "gallery": "Galerie",
+        "socialmedia": "Social-Media-URL",
+        "author": "Autor"
     }
 }

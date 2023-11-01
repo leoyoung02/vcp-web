@@ -146,11 +146,21 @@ export class TutorsListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
           this.mapUserPermissions(data?.user_permissions);
           this.tutorTypes = data?.tutor_types;
-          this.allTutors = data?.tutors;
+          console.log(this.tutorTypes);
+
+          let tutors = data?.tutors?.filter(tutor => {
+            return tutor.status == 1
+          });
+          if(data?.user?.custom_member_type_id == 282) {
+            this.allTutors = this.filter30idiomasTutors(tutors);
+          } else {
+            this.allTutors = tutors;
+          }
           
           this.cities = data?.cities;
           this.initializeIconFilterList(this.cities);
@@ -158,12 +168,28 @@ export class TutorsListComponent {
           this.allTutorTypes = data?.all_tutor_types;
           this.initializeButtonGroup();
 
-          this.formatTutors(data?.tutors);
+          this.formatTutors(this.allTutors);
         },
         (error) => {
           console.log(error);
         }
       );
+  }
+
+  filter30idiomasTutors(tutors) {
+    let filtered_tutors = tutors;
+
+    filtered_tutors = filtered_tutors?.filter(tutor => {
+      let include = false
+      
+      if(tutor?.courseTutor?.length > 0) {
+        include = tutor?.courseTutor.some(a => a.course_id == 131)
+      }
+
+      return include
+    })
+
+    return filtered_tutors;
   }
 
   mapFeatures(features) {
@@ -429,7 +455,7 @@ export class TutorsListComponent {
       }
     });
 
-    this.selectedType = event || "";
+    this.selectedType = category?.id || "";
     this.searchTutors();
   }
 

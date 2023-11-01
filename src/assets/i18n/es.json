@@ -3027,7 +3027,9 @@
         "confirmupdateaccesstext": "¿Realmente desea actualizar el acceso a los tutores de este miembro?",
         "confirmupdateaccess": "Confirmar actualización de acceso",
         "changehomevideotitledesc": "Para establecer el título y la descripción de un miembro específico, cambie el miembro en el menú desplegable y luego ingrese los textos.",
-        "changehomevideodesc": "Para configurar el video para un miembro específico, cambie el miembro en el menú desplegable aquí y luego ingrese los textos."
+        "changehomevideodesc": "Para configurar el video para un miembro específico, cambie el miembro en el menú desplegable aquí y luego ingrese los textos.",
+        "confirmresend": "Confirmar reenvío",
+        "confirmresendemail": "¿Realmente deseas reenviar el correo electrónico de acceso al curso?"
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",
@@ -3222,7 +3224,8 @@
         "managestudents": "Administrar Alumnos",
         "selectcoursetoassignstudents": "Seleccionar curso para asignar estudiantes",
         "errormessage": "Seleccione el curso y los usuarios",
-        "unassignstudentstocourses": "Desasignar estudiante del curso"
+        "unassignstudentstocourses": "Desasignar estudiante del curso",
+        "unassign": "Desasignar"
     },
     "checkout": {
         "linkgenerated": "El enlace ha sido generado y copiado a tu portapapeles",
@@ -3309,5 +3312,11 @@
         "uppercase": "Debe contener al menos 1 carácter en mayúscula",
         "lowercase": "Debe contener al menos 1 carácter en minúscula",
         "specialcharacter": "Debe contener al menos 1 carácter especial"
+    },
+    "testimonials": {
+        "tags": "Etiquetas",
+        "gallery": "Galería",
+        "socialmedia": "URL de redes sociales",
+        "author": "Autor"
     }
 }

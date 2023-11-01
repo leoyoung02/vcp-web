@@ -8,10 +8,10 @@
         (goBack)="handleGoBack()"
     />
 </div>
-<!-- <div class="pt-10">
+<div class="pt-10">
     <div class="w-full max-w-full sm:w-full sm:max-w-full md:w-6/12 md:max-w-6/12 lg:w-6/12 lg:max-w-6/12">
         <div class="text-4xl font-semibold pt-24 sm:pt-24 md:pt-4 lg:pt-4">{{ courseTitle }}</div>
-        <div *ngIf="superAdmin || canCreate" class="flex mt-3 sm:mt-3 md:mt-0 lg:mt-0">
+        <!-- <div *ngIf="superAdmin || canCreate" class="flex mt-3 sm:mt-3 md:mt-0 lg:mt-0">
             <button 
                 class="h-[52px] flex items-center p-3.5 px-8 sm:px-8 md:px-12 lg:px-12 rounded-[15px] justify-evenly mt-4 mr-4"
                 (click)="handleEditRoute()" 
@@ -43,30 +43,14 @@
                 </svg>
                 <span [ngStyle]="{'color': deleteHover ? '#fff' : buttonColor}" class="text-md font-semibold uppercase">{{ 'plan-details.delete' | translate }}</span>
             </button>
-        </div>
+        </div> -->
     </div>
-</div> -->
+</div>
 <div class="course-container pt-10">
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3" *ngIf="course">
         <div class="col-span-1 pr-0 sm:pr-0 md:pr-[58px] lg:pr-[58px]" 
-            [ngClass]="{'h-full sm:h-full md:h-[510px] lg:h-[510px]' : canAccessLesson() && course?.course_modules?.length > 0}">
-            <div class="text-4xl font-semibold pt-24 sm:pt-24 md:pt-8 lg:pt-8">{{ courseTitle }}</div>
-            <ng-container *ngIf="hasCourseStarted(course) && (!course?.locked && showBuyNow) && !superAdmin">
-                <div class="no-access" style="padding-left:15px;">
-                    {{ 'courses.noaccess' | translate }}
-                </div>
-                <div class="buy-now-container">
-                    <button 
-                        [ngStyle]="{'background-color': buttonColor}"
-                        (click)="buyNow(course)"
-                        class="buy-now"
-                    >
-                        {{ 'courses.buynow' | translate }} - €{{ course?.price?.replace(".", ",") }}
-                    </button>
-                </div>
-            </ng-container>
+            [ngClass]="{'h-full sm:h-full md:h-[510px] lg:h-[510px]': canAccessLesson() && course?.course_modules?.length > 0 && !(hasCourseStarted(course) && course?.locked == 1 && !superAdmin) && !(hasCourseStarted(course) && (!course?.locked && showBuyNow) && !superAdmin)}">
             <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
-                <!-- <div class="course-progress" *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title">{{ courseProgress }}% {{ 'course-details.complete' | translate }}</div> -->
                 <div *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title && courseProgress > 0" class="mt-2 mb-4">
                     <div class="w-full bg-gray-200 rounded-[10px] dark:bg-gray-700">
                         <div class="text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" 
@@ -356,9 +340,9 @@
                         </ng-container>
                     </div>
                     <ng-container *ngIf="canAccessLesson() || superAdmin">
-                        <div class="cta-container" *ngIf="selectedUnit?.cta == 1 && (!isModuleLocked || superAdmin)">
+                        <div class="flex justify-evenly flex-wrap py-8" *ngIf="selectedUnit?.cta == 1 && (!isModuleLocked || superAdmin)">
                             <ng-container *ngIf="ctaList?.length > 0">
-                                <a *ngFor="let item of ctaList" class="cta" [href]="item?.cta_link" target="_blank" [ngStyle]="{'background-color': buttonColor}">
+                                <a *ngFor="let item of ctaList" class="cta rounded-[10px] text-white py-4 font-semibold px-8 hover:cursor-pointer" [href]="item?.cta_link" target="_blank" [ngStyle]="{'background-color': buttonColor}">
                                     {{ item?.cta_text }}
                                 </a>
                             </ng-container>
@@ -452,8 +436,14 @@
             {{ 'course-details.nounitsfound' | translate }}
         </div>
     </ng-container>
+    <ng-container *ngIf="hasCourseStarted(course) && (!course?.locked && showBuyNow) && !superAdmin">
+        <div class="no-access text-center">
+            {{ 'courses.noaccess' | translate }} 123
+        </div>
+        <app-no-access></app-no-access>
+    </ng-container>
     <div *ngIf="hasCourseStarted(course) && course?.locked == 1 && !superAdmin" class="center">
-        {{ 'courses.blocked' | translate }}
+        <app-no-access></app-no-access>
     </div>
     <div *ngIf="!hasCourseStarted(course) && !superAdmin" class="center">
         {{ getCourseNotStartedText(course) }}

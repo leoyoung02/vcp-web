@@ -288,6 +288,9 @@ export class ManageUsersComponent {
   @ViewChild("modalbutton", { static: false }) modalbutton:
     | ElementRef
     | undefined;
+  @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+  | ElementRef
+  | undefined;
   selectedConfirmItem: any;
   selectedConfirmMode: string = "";
   customMemberProfileFields: any;
@@ -3526,7 +3529,9 @@ export class ManageUsersComponent {
                     "dialog." + this.getErrorMsg(response.existing_vcp_user.id)
                   );
               } else {
+                this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
                 this.reloadMembersInfo();
+                this.closemodalbutton?.nativeElement.click();
               }
             },
             (error) => {
@@ -3556,8 +3561,9 @@ export class ManageUsersComponent {
           )
           .subscribe(
             (response) => {
-              this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
               this.reloadMembersInfo("Active");
+              this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+              this.closemodalbutton?.nativeElement.click();
             },
             (error) => {
               console.log(error);
@@ -3603,7 +3609,7 @@ export class ManageUsersComponent {
         this.memberStatusFilter = "Active";
       }
       this.getMembers();
-      this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+      // this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
     }, 500);
   }
 

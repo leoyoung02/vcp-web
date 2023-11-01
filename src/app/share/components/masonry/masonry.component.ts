@@ -179,8 +179,10 @@ export class MasonryComponent {
 
   formatCoursesTestimonialsData() {
     if(this.data) {
+      console.log(this.data)
       let testimonials = this?.data?.testimonials?.length >= 2 ? this?.data?.testimonials?.slice(0, 2) : this?.data?.testimonials;
       let tutors = this?.data?.tutors?.length >= 2 ? this?.data?.tutors?.slice(0, 4) : this?.data?.tutors;
+      this.user = this?.data?.user;
       this.section21Data = []
         .concat(testimonials)
         .concat(tutors)
@@ -245,12 +247,14 @@ export class MasonryComponent {
       })
       courses?.forEach(course => {
         let show_buy_now = true
+        let user_subscribed = false
         if(this.hasCoursePayment && course.price > 0) {
           let course_subscription = this.courseSubscriptions && this.courseSubscriptions.filter(c => {
             return c.user_id == this.userId && c.course_id == course.id
           })
           if(course_subscription && course_subscription[0]) {
             show_buy_now = false
+            user_subscribed = true
           }
         } else {
           show_buy_now = false
@@ -270,6 +274,7 @@ export class MasonryComponent {
             if(course_access){
               show_buy_now = false
               course.exception_access = 1
+              user_subscribed = true
             }else{
               course.unassigned_status = 1
             }
@@ -278,6 +283,7 @@ export class MasonryComponent {
                 show_buy_now = false
                 course.exception_access = 1
                 course.unassigned_status = 0
+                user_subscribed = true
               }
             })
         }
@@ -288,7 +294,7 @@ export class MasonryComponent {
             show_buy_now = false
           }
         } else {
-          if(!this.isAdmin && !this.superAdmin) {
+          if(!this.isAdmin && !this.superAdmin && !user_subscribed) {
             let include
             let is_category_exist = this.courseCategoryMapping && this.courseCategoryMapping.filter((f)=>f.course_id==course.id)
             if(is_category_exist?.length > 0) {

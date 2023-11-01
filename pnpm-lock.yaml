@@ -110,6 +110,9 @@ dependencies:
   ng-apexcharts:
     specifier: ^1.8.0
     version: 1.8.0(@angular/common@16.0.0)(@angular/core@16.0.0)(apexcharts@3.42.0)(rxjs@7.8.0)
+  ng-gallery:
+    specifier: ^11.0.0
+    version: 11.0.0(@angular/cdk@16.2.0)(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.0)
   ng-multiselect-dropdown:
     specifier: ^1.0.0
     version: 1.0.0
@@ -8175,6 +8178,21 @@ packages:
       '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
       '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
       apexcharts: 3.42.0
+      rxjs: 7.8.0
+      tslib: 2.5.0
+    dev: false
+
+  /ng-gallery@11.0.0(@angular/cdk@16.2.0)(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.0):
+    resolution: {integrity: sha512-xG0WD4Hd8FrKAinrH+dseH3dpbthhgc+n6EKUCv1WuwdUJC7YiEMuPOl1aV2t8DxSblVUokR2w5Y6pAFRo9Ixw==}
+    peerDependencies:
+      '@angular/cdk': '>=16.0.0'
+      '@angular/common': '>=16.0.0'
+      '@angular/core': '>=16.0.0'
+      rxjs: '>=7.0.0'
+    dependencies:
+      '@angular/cdk': 16.2.0(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
       rxjs: 7.8.0
       tslib: 2.5.0
     dev: false

@@ -1707,6 +1707,10 @@ export class SettingComponent {
     };
   }
 
+  goToHomeSettings() {
+    this._router.navigate([`/settings/home-template`])
+  }
+
   handleGoBack() {
     this._location.back();
   }

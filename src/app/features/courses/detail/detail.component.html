@@ -12,7 +12,7 @@
     <div class="w-full max-w-full sm:w-full sm:max-w-full md:w-6/12 md:max-w-6/12 lg:w-6/12 lg:max-w-6/12">
         <div class="text-4xl font-semibold pt-24 sm:pt-24 md:pt-4 lg:pt-4">{{ courseTitle }}</div>
         <div class="text-sm opacity-60 my-4" [innerHtml]="courseDescription"></div>
-        <div *ngIf="superAdmin || canCreate" class="flex mt-3 sm:mt-3 md:mt-0 lg:mt-0">
+        <!-- <div *ngIf="superAdmin || canCreate" class="flex mt-3 sm:mt-3 md:mt-0 lg:mt-0">
             <button 
                 class="h-[52px] flex items-center p-3.5 px-8 sm:px-8 md:px-12 lg:px-12 rounded-[15px] justify-evenly mt-4 mr-4"
                 (click)="handleEditRoute()" 
@@ -44,7 +44,7 @@
                 </svg>
                 <span [ngStyle]="{'color': deleteHover ? '#fff' : buttonColor}" class="text-md font-semibold uppercase">{{ 'plan-details.delete' | translate }}</span>
             </button>
-        </div>
+        </div> -->
         <div class="text-lg font-semibold my-8">{{'course-details.coursecontent' | translate}}</div>
     </div>
 </div>

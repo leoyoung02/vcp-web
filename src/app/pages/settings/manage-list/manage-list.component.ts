@@ -16,6 +16,9 @@ import { ClubsAdminListComponent } from "@features/clubs/admin-list/admin-list.c
 import { ManageCitiesComponent } from "../cities/cities.component";
 import { CityGuideAdminListComponent } from "@features/city-guide/admin-list/admin-list.component";
 import { CommissionsAdminListComponent } from "@features/tutors/commissions-admin-list/commissions-admin-list.component";
+import { TestimonialsAdminListComponent } from "@features/testimonials/admin-list/admin-list.component";
+import { TutorsAdminListComponent } from "@features/tutors/admin-list/admin-list.component";
+import { CoursesAdminListComponent } from "@features/courses/admin-list/admin-list.component";
 import { environment } from "@env/environment";
 import get from "lodash/get";
 
@@ -35,6 +38,9 @@ import get from "lodash/get";
     JobOffersAdminListComponent,
     CityGuideAdminListComponent,
     CommissionsAdminListComponent,
+    TestimonialsAdminListComponent,
+    TutorsAdminListComponent,
+    CoursesAdminListComponent,
     PageTitleComponent,
   ],
   templateUrl: "./manage-list.component.html",
@@ -67,11 +73,22 @@ export class ManageListComponent {
   cityGuideFeature: any;
   cityGuideFeatureId: any;
   cityGuideTitle: any;
+  testimonialsFeature: any;
+  testimonialsFeatureId: any;
+  testimonialsTitle: any;
+  tutorsFeature: any;
+  tutorsFeatureId: any;
+  tutorsTitle: any;
+  coursesFeature: any;
+  coursesFeatureId: any;
+  coursesTitle: any;
   superAdmin: boolean = false;
   canCreatePlan: boolean = false;
   canCreateClub: boolean = false;
   canCreateJobOffer: boolean = false;
   canCreateCityGuide: boolean = false;
+  canCreateTestimonial: boolean = false;
+  canCreateCourse: boolean = false;
   buttonList: any[] = [];
   filter: any;
   company: any;
@@ -140,7 +157,10 @@ export class ManageListComponent {
       this.list == "clubs" ||
       this.list == "canalempleo" ||
       this.list == "cityguide" ||
-      this.list == "commissions"
+      this.list == "commissions" ||
+      this.list == "testimonials" ||
+      this.list == "tutors" ||
+      this.list == "courses"
     ) {
       if(this.list == 'commissions') {
         this.buttonList = [
@@ -161,6 +181,8 @@ export class ManageListComponent {
             filter: "Completed",
           }
         ];
+      } else if(this.list == 'testimonials' || this.list == 'tutors' || this.list == 'courses') {
+        this.buttonList = [];
       }
       let filter = this.buttonList?.find((f) => f.selected);
       if (filter) {
@@ -195,7 +217,7 @@ export class ManageListComponent {
           this.initializeBreadcrumb();
           this.initializeIconFilterList(this.cities);
 
-          if(this.list != 'commissions') {
+          if(this.list != 'commissions' && this.list != 'testimonials' && this.list != 'tutors' && this.list != 'courses') {
             this.initializeButtonGroup();
           }
           this.isLoading = false;
@@ -222,6 +244,15 @@ export class ManageListComponent {
         break;
       case "commissions":
         this.listTitle = this._translateService.instant('tutors.commissions');
+        break;
+      case "testimonials":
+        this.listTitle = this.testimonialsTitle;
+        break;
+      case "tutors":
+        this.listTitle = this.tutorsTitle;
+        break;
+      case "courses":
+        this.listTitle = this.coursesTitle;
         break;
     }
   }
@@ -269,6 +300,30 @@ export class ManageListComponent {
     this.cityGuideTitle = this.cityGuideFeature
       ? this.getFeatureTitle(this.cityGuideFeature)
       : "";
+
+    this.testimonialsFeature = features?.find(
+      (f) => f.feature_id == 23 && f.status == 1
+    );
+    this.testimonialsFeatureId = this.testimonialsFeature?.feature_id;
+    this.testimonialsTitle = this.testimonialsFeature
+      ? this.getFeatureTitle(this.testimonialsFeature)
+      : "";
+
+    this.tutorsFeature = features?.find(
+      (f) => f.feature_id == 20 && f.status == 1
+    );
+    this.tutorsFeatureId = this.tutorsFeature?.feature_id;
+    this.tutorsTitle = this.tutorsFeature
+      ? this.getFeatureTitle(this.tutorsFeature)
+      : "";
+
+    this.coursesFeature = features?.find(
+      (f) => f.feature_id == 11 && f.status == 1
+    );
+    this.coursesFeatureId = this.coursesFeature?.feature_id;
+    this.coursesTitle = this.coursesFeature
+      ? this.getFeatureTitle(this.coursesFeature)
+      : "";
   }
 
   mapUserPermissions(user_permissions) {
@@ -292,6 +347,16 @@ export class ManageListComponent {
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find(
         (f) => f.create == 1 && f.feature_id == 3
+      );
+    this.canCreateTestimonial =
+      user_permissions?.create_plan_roles?.length > 0 ||
+      user_permissions?.member_type_permissions?.find(
+        (f) => f.create == 1 && f.feature_id == 23
+      );
+    this.canCreateCourse =
+      user_permissions?.create_plan_roles?.length > 0 ||
+      user_permissions?.member_type_permissions?.find(
+        (f) => f.create == 1 && f.feature_id == 11
       );
   }
 
@@ -500,7 +565,7 @@ export class ManageListComponent {
     });
 
     this.filter = event.filter;
-    if(this.list != 'commissions') {
+    if(this.list != 'commissions' && this.list != 'testimonials' && this.list != 'courses') {
       this.initializeSubButtonGroup();
     } else {
       this.status = event;

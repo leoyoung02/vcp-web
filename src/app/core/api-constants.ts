@@ -61,6 +61,8 @@ export const CIVIL_STATUS_URL = `${API_BASE}/company/civil-status`;
 export const WELLBEING_ACTIVITIES_URL = `${API_BASE}/company/wellbeing-activities`;
 export const AREA_GROUPS_URL = `${API_BASE}/company/profile/area-groups`;
 export const AS_SECTORS_URL = `${API_BASE}/guest/as/business-categories`;
+export const EDIT_HOME_VIDEO_SETTINGS_URL = `${API_BASE}/company/home/video/update`;
+export const EDIT_HOME_MODULE_SETTINGS_URL = `${API_BASE}/company/home/module/update`;
 
 export const LISTS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/lists-management-data`;
 export const MANAGE_MEMBER_TYPES_DATA_URL = `${API_BASE}/v2/manage-member-types-data`;
@@ -339,10 +341,42 @@ export const COURSE_CTA_URL = `${API_BASE}/course-cta`;
 export const COURSE_DOWNLOADS_URL = `${API_BASE}/company/course/downloads`;
 export const VISIT_COURSE_UNIT_URL = `${API_BASE}/company/course/unit-visited`;
 export const SAVE_COURSE_SESSION_URL = `${API_BASE}/company/course/session`;
+export const COURSE_STUDENTS_URL = `${API_BASE}/course/students/report`;
+export const NO_COURSE_STUDENTS_URL = `${API_BASE}/course/students/not-assigned`;
+export const ASSIGN_USER_COURSES_URL = `${API_BASE}/course/students/assigned`;
+export const UNASSIGN_USER_COURSE_URL = `${API_BASE}/course/students/unassigned`;
+export const RESEND_ACCESS_URL = `${API_BASE}/course/student/resend-access`;
+export const COURSE_UNITS_URL = `${API_BASE}/course/units`;
+export const EDIT_STUDENT_CREDIT_URL = `${API_BASE}/company/student/credits/edit`;
+export const EDIT_COURSE_STATUS_URL = `${API_BASE}/courses/edit-status`;
+export const EDIT_COURSE_LOCK_URL = `${API_BASE}/courses/edit-locked`;
+export const DELETE_COURSE_URL = `${API_BASE}/company-admin-course/delete`;
+export const DUPLICATE_COURSE_URL = `${API_BASE}/courses/copy`;
+export const ADD_COURSE_URL = `${API_BASE}/company-admin-course/add`;
+export const EDIT_VIDEO_PHOTO_URL = `${API_BASE}/course-video-photo/edit`;
+export const ADD_COURSE_MODULE__URL = `${API_BASE}/company/course/module/add`;
+export const EDIT_COURSE_MODULE_URL = `${API_BASE}/company/course/module/edit`;
+export const DELETE_COURSE_MODULE_URL = `${API_BASE}/company/course/module/delete`;
+export const EDIT_SEQUENCE_URL = `${API_BASE}/course/number/edit-list`;
+export const EDIT_COURSE_URL = `${API_BASE}/company-admin-course/edit/image`;
+export const ADD_COURSE_DOWNLOAD_URL = `${API_BASE}/company/course/download/add`;
+export const EDIT_COURSE_DOWNLOAD_URL = `${API_BASE}/company/course/download/edit`;
+export const DELETE_COURSE_DOWNLOAD_URL = `${API_BASE}/company/course/download/delete`;
+export const ADD_COURSE_UNIT_URL = `${API_BASE}/company/course/lesson/add`;
+export const EDIT_COURSE_UNIT_PHOTO_URL = `${API_BASE}/course-unit-video-photo/edit`;
+export const ADMIN_COURSE_UNITS_URL = `${API_BASE}/company-admin-course-lessons`;
+export const EDIT_COURSE_UNIT_URL = `${API_BASE}/company/course/lesson/edit`;
+export const DELETE_COURSE_UNIT_URL = `${API_BASE}/company-admin-course/lesson/delete`;
+export const UNIT_TYPES_URL = `${API_BASE}/company-admin-course-lesson-types`;
+export const ADD_CTA_URL = `${API_BASE}/course-cta/add`;
+export const EDIT_CTA_URL = `${API_BASE}/course-cta/edit`;
+export const DELETE_CTA_URL = `${API_BASE}/course-cta/delete`;
 
 export const COURSES_COMBINED_URL = `${API_BASE}/v2/courses`;
 export const COURSE_DETAILS_URL = `${API_BASE}/v2/course-details`;
+export const COURSE_DETAILS_ADMIN_URL = `${API_BASE}/v2/course-details-admin`;
 export const COURSE_UNIT_DETAILS_URL = `${API_BASE}/v2/course-unit-details`;
+export const COURSES_ADMIN_LIST_URL = `${API_BASE}/v2/courses-list`;
 
 // TUTORS
 export const TUTORS_URL = `${API_BASE}/company/tutors`;
@@ -378,10 +412,18 @@ export const TUTOR_SETTINGS_URL = `${API_BASE}/company/tutor/settings`;
 export const ASSIGNED_TUTORS_URL = `${API_BASE}/tutors/assigned`;
 export const ASSIGN_TUTOR_COURSES_URL = `${API_BASE}/company/tutor-courses/assign`;
 export const TUTOR_COURSES_URL = `${API_BASE}/company/tutor-courses`;
+export const TUTOR_COURSES_ACCESS_URL = `${API_BASE}/company/tutor/course-access`;
+export const ASSIGN_TUTOR_COURSE_URL = `${API_BASE}/company/tutor/course-assign`;
+export const EDIT_TUTOR_URL = `${API_BASE}/company/tutor/edit`;
 
 export const TUTORS_COMBINED_URL = `${API_BASE}/v2/tutors`;
 export const TUTOR_DETAILS_URL = `${API_BASE}/v2/tutor-details`;
 
 // TESTIMONIALS
+export const TESTIMONIALS_DATA_URL = `${API_BASE}/guest/testimonials-data`;
+export const ADD_TESTIMONIAL_URL = `${API_BASE}/company/testimonial/add`;
+export const EDIT_TESTIMONIAL_URL = `${API_BASE}/company/testimonial/edit`;
+export const DELETE_TESTIMONIAL_URL = `${API_BASE}/company/testimonial/delete`;
+
 export const TESTIMONIALS_URL = `${API_BASE}/v2/testimonials`;
 export const TESTIMONIAL_DETAILS_URL = `${API_BASE}/v2/testimonial-details`;

@@ -82,37 +82,6 @@
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'plans.student' | translate }} </mat-header-cell>
                         <mat-cell *matCellDef="let row" data-label="student_name"> {{ row.student_name }} </mat-cell>
                     </ng-container>
-                    <!-- <ng-container matColumnDef="tutor_commission">
-                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutor-stripe.commission' | translate }} </mat-header-cell>
-                        <mat-cell *matCellDef="let row" data-label="tutor_commission">
-                            {{ row?.pending_transfer || !row?.can_receive_commission || row?.tutor_commission == '0€' ? '' : row?.tutor_commission }} 
-                            <ng-container *ngIf="row.pending_transfer && row?.can_receive_commission">
-                                <svg 
-                                    data-tooltip-target="tooltip-transfer"
-                                    class="w-6 h-6 text-gray-800 dark:text-white" 
-                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
-                                </svg>
-                                <div id="tooltip-transfer" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                    {{ 'booking-error.insufficientbalancetutortext' | translate }}
-                                    <div class="tooltip-arrow" data-popper-arrow></div>
-                                </div>
-                            </ng-container>
-                            <ng-container *ngIf="!row?.can_receive_commission">
-                                <svg 
-                                    data-tooltip-target="tooltip-commission"
-                                    [ngStyle]="{'color': '#c24130'}"
-                                    class="w-6 h-6 dark:text-white" 
-                                    aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
-                                </svg>
-                                <div id="tooltip-commission" role="tooltip" class="absolute z-10 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-gray-900 rounded-lg shadow-sm opacity-0 tooltip dark:bg-gray-700">
-                                    {{ 'booking-error.commissionnotapplicable' | translate }}
-                                    <div class="tooltip-arrow" data-popper-arrow></div>
-                                </div>
-                            </ng-container>
-                        </mat-cell>
-                    </ng-container> -->
                     <ng-container matColumnDef="status">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'landing.status' | translate }} </mat-header-cell>
                         <mat-cell *matCellDef="let row" data-label="status"> 
@@ -137,8 +106,6 @@
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'guests.notes' | translate }} </mat-header-cell>
                         <mat-cell *matCellDef="let row" data-label="notes"> 
                             <ng-container *ngIf="isGuardianType || superAdmin || superTutor || (row?.tutor_user_id == userId) || cityAdmin">
-                                <!-- <i class="icon-action fa fa-pencil-square-o" aria-hidden="true" style="margin-right:10px;" (click)="openNotes(row)"></i>
-                                <i class="icon-action fa fa-eye" aria-hidden="true" (click)="viewNotes(row)"></i> -->
                                 <button (click)="addNotes(row)" 
                                     class="btn btn-add my-1 mr-2 text-white"
                                     [ngStyle]="{'background-color': buttonColor}"

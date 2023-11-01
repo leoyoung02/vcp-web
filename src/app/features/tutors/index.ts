@@ -32,4 +32,10 @@ export const routes: Routes = [
         data: { titleKey: 'ranking.history'},
         loadComponent: async () => (await import('./history/history.component')).HistoryComponent,
     },
+    {
+        path: 'edit/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'landing.edit'},
+        loadComponent: async () => (await import('./edit/edit.component')).TutorEditComponent,
+    }
 ];

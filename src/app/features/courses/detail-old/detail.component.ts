@@ -8,7 +8,7 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import { BreadcrumbComponent, ToastComponent } from "@share/components";
+import { BreadcrumbComponent, NoAccessComponent, ToastComponent } from "@share/components";
 import { LocalService, CompanyService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule, MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
@@ -34,6 +34,7 @@ import get from "lodash/get";
     NgOptimizedImage,
     ToastComponent,
     CourseUnitCardComponent,
+    NoAccessComponent,
     NgxPaginationModule,
     MatExpansionModule,
     NgxDocViewerModule,
@@ -253,11 +254,14 @@ export class CourseDetailComponent {
 
   getCourse() {
     this._coursesService
-      .fetchCourse(this.id, this.companyId, this.userId)
+      .fetchCourseCombined(this.id, this.companyId, this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          this.courseData = data;
+          let course_data =  data[0] ? data[0] : []
+          this.courseSubscriptions = data[1] ? data[1]['course_subscriptions'] : []
+          this.courseTutors = data[2] ? data[2]['course_tutors'] : []
+          this.courseData = course_data;
           this.initializePage();
         },
         (error) => {
@@ -474,13 +478,13 @@ export class CourseDetailComponent {
       this.getCourseDownloads()
     }
 
-    let units = this.courseUnits.filter(cm => {
+    let units = this.courseUnits?.filter(cm => {
       return cm.module_id == this.selectedModuleId
     })
 
     var countCompleted = 0;
     units.forEach(unit => {
-      let unitUser = unit.Company_Course_Unit_Users.find(element => element.user_id == this.userId);
+      let unitUser = unit?.Company_Course_Unit_Users?.find(element => element.user_id == this.userId);
       if (unitUser && unitUser.progress == 100) {
         countCompleted = countCompleted + 1;
       }

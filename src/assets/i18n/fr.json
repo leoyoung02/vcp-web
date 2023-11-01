@@ -3010,7 +3010,9 @@
         "confirmupdateaccesstext": "Voulez-vous vraiment mettre à jour l'accès aux tuteurs de ce membre ?",
         "confirmupdateaccess": "Confirmer la mise à jour de l'accès",
         "changehomevideotitledesc": "Pour définir le titre et la description d'un membre spécifique, modifiez le membre dans le menu déroulant, puis saisissez les textes.",
-        "changehomevideodesc": "Pour définir la vidéo pour un membre spécifique, modifiez le membre dans la liste déroulante ici, puis saisissez les textes."
+        "changehomevideodesc": "Pour définir la vidéo pour un membre spécifique, modifiez le membre dans la liste déroulante ici, puis saisissez les textes.",
+        "confirmresend": "Confirmer le renvoi",
+        "confirmresendemail": "Voulez-vous vraiment renvoyer l'e-mail d'accès au cours ?"
     },
     "buddy": {
         "mentorprofile": "Profil du mentor",
@@ -3197,7 +3199,8 @@
         "managestudents": "Gérer les étudiants",
         "selectcoursetoassignstudents": "Sélectionnez le cours pour affecter les étudiants",
         "errormessage": "Veuillez sélectionner le cours et les utilisateurs",
-        "unassignstudentstocourses": "Désaffecter l'élève du cours"
+        "unassignstudentstocourses": "Désaffecter l'élève du cours",
+        "unassign": "Désaffecter"
     },
     "checkout": {
         "linkgenerated": "Le lien a été généré et copié dans votre presse-papiers",
@@ -3283,5 +3286,11 @@
         "uppercase": "Doit contenir au moins 1 caractère majuscule",
         "lowercase": "Doit contenir au moins 1 caractère minuscule",
         "specialcharacter": "Doit contenir au moins 1 caractère spécial"
+    },
+    "testimonials": {
+        "tags": "Balises",
+        "gallery": "Galerie",
+        "socialmedia": "URL du réseau social",
+        "author": "Auteur"
     }
 }

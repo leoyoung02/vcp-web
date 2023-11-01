@@ -3,7 +3,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
-  SimpleChange,
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { Subject } from "rxjs";
@@ -15,6 +14,7 @@ import {
 import { LocalService } from "@share/services";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
+import { FormsModule } from "@angular/forms";
 
 @Component({
   selector: "app-testimonial-card",
@@ -23,6 +23,7 @@ import { initFlowbite } from "flowbite";
     CommonModule,
     RouterModule,
     TranslateModule,
+    FormsModule,
     NgOptimizedImage
   ],
   templateUrl: "./testimonial.component.html",

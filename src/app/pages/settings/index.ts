@@ -68,4 +68,16 @@ export const routes: Routes = [
         data: { titleKey: 'company-settings.menuorder'},
         loadComponent: async () => (await import('./menu-order/menu-order.component')).MenuOrderComponent,
     },
+    {
+        path: 'students-management',
+        title: CustomTitleResolver,
+        data: { titleKey: 'course-students.managestudents'},
+        loadComponent: async () => (await import('./manage-students/manage-students.component')).ManageStudentsComponent,
+    },
+    {
+        path: 'home-template',
+        title: CustomTitleResolver,
+        data: { titleKey: 'company-settings.personalizehometemplate'},
+        loadComponent: async () => (await import('./home-template/home-template.component')).HomeTemplateSettingComponent,
+    },
 ];

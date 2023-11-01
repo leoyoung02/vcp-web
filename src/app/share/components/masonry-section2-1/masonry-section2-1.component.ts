@@ -47,6 +47,7 @@ export class MasonrySection21Component {
   @Input() tags: any;
   @Input() tagMapping: any;
   @Input() tutorTypes: any;
+  @Input() user: any;
 
   languageChangeSubscription;
   language: any;
@@ -193,8 +194,8 @@ export class MasonrySection21Component {
       return {
         ...item,
         id: item?.id,
-        path: `/tutors/details/${item.id}`,
-        image: `${environment.api}/${item.image}`,
+        path:  `/tutors/details/${item?.id}`,
+        image: `${environment.api}/${item?.image}`,
         rating: this.getTutorRating(item),
         types: this.getTutorTypes(item)
       }
@@ -224,9 +225,9 @@ export class MasonrySection21Component {
     let types:any = []
     if(this.tutorTypes?.length > 0){
         types = []
-        this.tutorTypes.forEach(tt => {
+        this.tutorTypes?.forEach(tt => {
             let typeTutor = tt.tutorTypes.name_ES
-            if(tt.tutor_id == item.id && !(types).includes(typeTutor)){
+            if(tt.tutor_id == item?.id && !(types).includes(typeTutor)){
                 (types)?.push(typeTutor)
             }
         })

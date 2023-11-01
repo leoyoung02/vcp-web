@@ -221,7 +221,6 @@ export class TutorDetailComponent {
 
   initializePage() {
     let data = this.tutorData;
-    console.log(data);
     this.user = data?.user_permissions?.user;
     this.tutorTypes = data?.tutor_types;
     this.checkTutorRole(data?.tutors || []);
@@ -644,7 +643,7 @@ export class TutorDetailComponent {
 
   async preLoadCalendly() {
     let courseIdArray: any[] = []
-    this.companyCourseTutor.forEach(cct => {
+    this.companyCourseTutor?.forEach(cct => {
         courseIdArray.push(cct.course_id)
     })
 

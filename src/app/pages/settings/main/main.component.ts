@@ -726,12 +726,12 @@ export class MainComponent {
         text: this._translateService.instant("company-settings.adminaccess"),
         value: "AdminAccess",
         submenus: [
-          // {
-          //   text: this._translateService.instant(
-          //     "company-settings.personalizehometemplate"
-          //   ),
-          //   value: "Customize home screen",
-          // },
+          {
+            text: this._translateService.instant(
+              "company-settings.personalizehometemplate"
+            ),
+            value: "Customize home screen",
+          },
           // {
           //   text: this._translateService.instant(
           //     "company-settings.registration"
@@ -1048,18 +1048,18 @@ export class MainComponent {
             });
           }
 
-          if (this.hasCustomInvoice) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Invoices");
-            if (!match) {
-              mi.submenus.push({
-                text: this._translateService.instant(
-                  "company-settings.invoices"
-                ),
-                value: "Invoices",
-              });
-            }
-          }
+          // if (this.hasCustomInvoice) {
+          //   let match =
+          //     mi.submenus && mi.submenus.some((a) => a.value === "Invoices");
+          //   if (!match) {
+          //     mi.submenus.push({
+          //       text: this._translateService.instant(
+          //         "company-settings.invoices"
+          //       ),
+          //       value: "Invoices",
+          //     });
+          //   }
+          // }
 
           if (this.isTutorsEnabled) {
             let match = mi.submenus && mi.submenus.some((a) => a.value === "Tutors");
@@ -1499,45 +1499,14 @@ export class MainComponent {
         this._router.navigate([`/settings/manage-list/courses`]);
       } else if (content == "Tutors") {
         this._router.navigate([`/settings/manage-list/tutors`]);
+      } else if (content == "Testimonials") {
+        this._router.navigate([`/settings/manage-list/testimonials`]);
       }
-      // else if (content == "Content") {
-      //   this._router.navigate([`/settings/blogs`]);
-      // } else if (content == "Discounts") {
-      //   this._router.navigate([`/settings/discounts`]);
-      // } else if (content == "Services") {
-      //   this._router.navigate([`/settings/services`]);
-      // } else if (content == "Posts") {
-      //   this._router.navigate([`/settings/posts`]);
-      // } else if (content == "Buddy") {
-      //   this._router.navigate([`/settings/buddies`]);
-      // } else if (content == "Invoices") {
-      //   this._router.navigate([`/settings/member-invoices`]);
-      // } 
     } else if (menu.value == "Users" && content == "Users") {
       this._router.navigate([`/settings/manage-list/users`]);
     } else if (menu.value == "Tools" && content == "Reports") {
       this._router.navigate([`/settings/reports`]);
     }
-    // else if (menu.value == "Users" && content == "Guests") {
-    //   this._router.navigate([`/settings/guests`]);
-    // } else if (menu.value == "Tools" && content == "Support Tickets") {
-    //   this._router.navigate([`/user-settings/support-tickets`]);
-    // } else if (menu.value == "Tools" && content == "Surveys") {
-    //   this._router.navigate([`/settings/surveys`]);
-    // } else if (
-    //   menu.value == "Communication" &&
-    //   content == "Notifications Settings"
-    // ) {
-    //   this._router.navigate([`/settings/notification-settings`]);
-    // } else if (menu.value == "Data Administration" && content == "Export") {
-    //   this._router.navigate([`/settings/database`]);
-    // } else if (menu.value == "Data Administration" && content == "AuditTrail") {
-    //   this._router.navigate([`/settings/audit-trail`]);
-    // } else if (menu.value == "Others All") {
-    //   this._router.navigate([`/settings/setting/10`]);
-    // } else if (menu.value == "Channels" && content == "Notifications") {
-    //   this.showEmailSettingsModal = true;
-    // }
     else if (content == "Features") {
       this._router.navigate([`/settings/features`]);
     } else {
@@ -1566,9 +1535,6 @@ export class MainComponent {
       } else if (content == "Automated Emails") {
         this._router.navigate([`/settings/setting/9`]);
       }
-      // else if (content == "Dashboard") {
-      //   this._router.navigate([`/settings/setting/5`]);
-      // }
     }
   }
 

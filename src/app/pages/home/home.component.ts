@@ -425,46 +425,46 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getSettingsTitle() {
-    // this.mainService
-    // .getCategorySetting(4)
-    // .subscribe(
-    //     response => {
-    //         this.sectionOptions = response['section_options']
-    //         if(this.sectionOptions && this.sectionOptions?.length > 0){
-    //             this.getSetttingSectionOptions()
-    //         }
-    //     },
-    //     error => {
-    //         console.log(error);
-    //     }
-    // )
+    this._companyService
+    .getCategorySetting(4)
+    .subscribe(
+        response => {
+            this.sectionOptions = response['section_options']
+            if(this.sectionOptions && this.sectionOptions?.length > 0){
+                this.getSetttingSectionOptions()
+            }
+        },
+        error => {
+            console.log(error);
+        }
+    )
   }
 
   getSetttingSectionOptions() {
-    // if(this.sectionOptions){
-    //  let option = this.sectionOptions.filter(f => {
-    //      return f.title_en == 'Allow different content based on profile'
-    //  })
-    //  if(option && option?.length > 0){
-    //      this.profileHomeContentSetting = option[0]
-    //      this.getOtherSettingsSectionOptionContent(this.profileHomeContentSetting.id, this.profileHomeContentSetting.section_id)
-    //  }
-    // }
+    if(this.sectionOptions){
+     let option = this.sectionOptions.filter(f => {
+         return f.title_en == 'Allow different content based on profile'
+     })
+     if(option && option?.length > 0){
+         this.profileHomeContentSetting = option[0]
+         this.getOtherSettingsSectionOptionContent(this.profileHomeContentSetting.id, this.profileHomeContentSetting.section_id)
+     }
+    }
   }
 
   async getOtherSettingsSectionOptionContent(option_id, section_id) {
-    // await this.mainService.getOtherSettingsSectionOptionContent(option_id, section_id, this.companyId)
-    // .subscribe(
-    //     async response => {
-    //         let optionContent = []
-    //         optionContent.push(response['option_content']);
-    //         optionContent?.forEach(oc => {
-    //             if(this.profileHomeContentSetting['id'] == oc['option_id'] && this.profileHomeContentSetting['section_id'] == oc['section_id']){
-    //                 this.hasProfileHomeContent = oc.active ? true : false
-    //             }
-    //         })
-    //     }
-    // )
+    await this._companyService.getOtherSettingsSectionOptionContent(option_id, section_id, this.companyId)
+    .subscribe(
+        async response => {
+            let optionContent: any[] = []
+            optionContent.push(response['option_content']);
+            optionContent?.forEach(oc => {
+                if(this.profileHomeContentSetting['id'] == oc['option_id'] && this.profileHomeContentSetting['section_id'] == oc['section_id']){
+                    this.hasProfileHomeContent = oc.active ? true : false
+                }
+            })
+        }
+    )
   }
 
   getUserDetails() {

@@ -3043,8 +3043,9 @@
         "confirmupdateaccesstext": "Do you really want to update the access to tutors of this member?",
         "confirmupdateaccess": "Confirm access update",
         "changehomevideotitledesc": "To set Title and Desciption for specific member, change the member in dropdown then enter the texts.",
-        "changehomevideodesc": "To set video for specific member, change the member in dropdown here then enter the texts."
-
+        "changehomevideodesc": "To set video for specific member, change the member in dropdown here then enter the texts.",
+        "confirmresend": "Confirm resend",
+        "confirmresendemail": "Do you really want to resend the course access email?"
     },
     "buddy": {
         "mentorprofile": "Mentor profile",
@@ -3239,7 +3240,8 @@
         "managestudents": "Manage Students",
         "selectcoursetoassignstudents": "Select course to assign students",
         "errormessage": "Please select course and users",
-        "unassignstudentstocourses": "Unassign student from course"
+        "unassignstudentstocourses": "Unassign student from course",
+        "unassign": "Unassign"
     },
     "checkout": {
         "linkgenerated": "Link has been generated and copied to your clipboard",
@@ -3325,5 +3327,11 @@
         "uppercase": "Must contain at least 1 uppercase character",
         "lowercase": "Must contain at least 1 lowercase character",
         "specialcharacter": "Must contain at least 1 special character"
+    },
+    "testimonials": {
+        "tags": "Tags",
+        "gallery": "Gallery",
+        "socialmedia": "Social Media URL",
+        "author": "Author"
     }
 }

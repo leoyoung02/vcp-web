@@ -221,19 +221,26 @@ export class TestimonialDetailComponent {
 
   deleteTestimonial(id, confirmed) {
     if (confirmed) {
-      // this._cityGuidesService.deleteCityGuide(id, this.userId).subscribe(
-      //   (response) => {
-      //     this.open(
-      //       this._translateService.instant("dialog.deletedsuccessfully"),
-      //       ""
-      //     );
-      //     this._location.back();
-      //   },
-      //   (error) => {
-      //     console.log(error);
-      //   }
-      // );
+      this._testimonialsService.deleteTestimonial(id).subscribe(
+        (response) => {
+          this.open(
+            this._translateService.instant("dialog.deletedsuccessfully"),
+            ""
+          );
+          this._location.back();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
+  }
+
+  async open(message: string, action: string) {
+    await this._snackBar.open(message, action, {
+      duration: 3000,
+      panelClass: ["info-snackbar"],
+    });
   }
 
   toggleDeleteHover(event) {

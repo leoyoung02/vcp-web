@@ -700,3 +700,32 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
     overflow: auto;
     height: 58vh;
 }
+
+.course-students .mat-column-name,
+.course-students .mat-column-course {
+    flex: 0 0 12% !important;
+    width: 12% !important;
+}
+
+.course-students .mat-column-action,
+.course-students .mat-column-status,
+.course-students .mat-column-unit_details,
+.course-students .mat-column-credits ,
+.assign-course-students .mat-column-checked{
+    flex: 0 0 5% !important;
+    width: 5% !important;
+}
+
+.course-students .mat-column-unassign {
+    flex: 0 0 6% !important;
+    width: 6% !important;
+}
+
+.course-students .mat-column-start_date {
+    flex: 0 0 8% !important;
+    width: 8% !important;
+}
+
+.course-students .mat-column-email {
+    font-size: 13px;
+}

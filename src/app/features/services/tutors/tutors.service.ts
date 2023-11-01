@@ -9,6 +9,7 @@ import {
   ADD_TUTOR_RATING_URL,
   ASK_TUTOR_QUESTION_URL,
   ASSIGN_TUTOR_COURSES_URL,
+  ASSIGN_TUTOR_COURSE_URL,
   BOOKINGS_HISTORY_URL,
   BOOKING_CONFIRMATION_EMAIL_URL,
   BOOKING_HISTORY_URL,
@@ -24,6 +25,7 @@ import {
   COURSE_TUTOR_TYPES_URL,
   CREDIT_PACKAGES_URL,
   EDIT_BOOKING_STATUS_URL,
+  EDIT_TUTOR_URL,
   FEATURES_MAPPING_URL,
   MEMBER_TYPES_URL,
   OTHER_SETTINGS_URL,
@@ -34,6 +36,7 @@ import {
   TUTORS_URL,
   TUTOR_ACCOUNT_IDS_URL,
   TUTOR_COMMISSIONS_URL,
+  TUTOR_COURSES_ACCESS_URL,
   TUTOR_COURSES_URL,
   TUTOR_DETAILS_URL,
   TUTOR_PACKAGES_URL,
@@ -301,5 +304,39 @@ export class TutorsService {
     return this._http.get(`${TUTOR_COURSES_URL}/${id}`,
       { headers: this.headers }
     );
+  }
+
+  getTutorCoursesAccess(companyId, userId, tutorId): Observable<any> {
+    return this._http.get(`${TUTOR_COURSES_ACCESS_URL}/${companyId}/${userId}/${tutorId}`,
+      { headers: this.headers}
+    ).pipe(map(res => res))
+  }
+
+  assignCourseToTutors(companyId, userId, payload): Observable<any> {
+    return this._http.post(`${ASSIGN_TUTOR_COURSE_URL}/${companyId}/${userId}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editTutor(payload): Observable<any> {
+    return this._http.put(EDIT_TUTOR_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getCourseTutorTypes(id): Observable<any> {
+    return this._http.get(
+      `${COURSE_TUTOR_TYPES_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getTutorPackages(id): Observable<any> {
+    return this._http.get(
+      `${TUTOR_PACKAGES_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

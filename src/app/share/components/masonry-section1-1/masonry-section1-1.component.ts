@@ -49,6 +49,7 @@ export class MasonrySection11Component {
   @Input() tutorsData: any;
   @Input() tutorTypes: any;
   @Input() coursesProgress: any;
+  @Input() user: any;
   languageChangeSubscription;
   language: any;
   buttonColor: any;
@@ -128,13 +129,15 @@ export class MasonrySection11Component {
     if(this.coursesData?.length > 0) {
       this.course1Data = this.coursesData?.length > 0 ? this.formatCourse(this.coursesData[0]) : {}
       this.course2Data = this.coursesData?.length >= 2 ? this.formatCourse(this.coursesData[1]) : {}
-      this.course3Data = this.coursesData?.length >= 3 ? this.formatCourse(this.coursesData[2]) : {}
-      this.course4Data = this.coursesData?.length >= 4 ? this.formatCourse(this.coursesData[3]) : {}
-      this.course5Data = this.coursesData?.length >= 5 ? this.formatCourse(this.coursesData[4]) : {}
-      this.course6Data = this.coursesData?.length >= 6 ? this.formatCourse(this.coursesData[5]) : {}
+      if(this.coursesData?.length >= 6) {
+        this.course3Data = this.coursesData?.length >= 3 ? this.formatCourse(this.coursesData[2]) : {}
+        this.course4Data = this.coursesData?.length >= 4 ? this.formatCourse(this.coursesData[3]) : {}
+        this.course5Data = this.coursesData?.length >= 5 ? this.formatCourse(this.coursesData[4]) : {}
+        this.course6Data = this.coursesData?.length >= 6 ? this.formatCourse(this.coursesData[5]) : {}
+      }
     }
 
-    if(this.tutorsData?.length > 0 && this.coursesData?.length <= 2) {
+    if(this.tutorsData?.length > 0 && (this.coursesData?.length <= 2 || this.coursesData?.length < 6)) {
       this.tutor1Data = this.tutorsData?.length > 0 ? this.formatTutor(this.tutorsData[0]) : {}
       this.tutor2Data = this.tutorsData?.length >= 2 ? this.formatTutor(this.tutorsData[1]) : {}
       this.tutor3Data = this.tutorsData?.length >= 3 ? this.formatTutor(this.tutorsData[2]) : {}
@@ -340,7 +343,7 @@ export class MasonrySection11Component {
       return {
         ...item,
         id: item?.id,
-        path: `/tutors/details/${item.id}`,
+        path: `/tutors/details/${item?.id}`,
         image: `${environment.api}/${item.image}`,
         rating: this.getTutorRating(item),
         types: this.getTutorTypes(item)

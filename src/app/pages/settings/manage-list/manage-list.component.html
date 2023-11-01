@@ -2,7 +2,7 @@
 <app-manage-users *ngIf="list == 'users'"></app-manage-users>
 <app-manage-membertypes *ngIf="list == 'membertypes'"></app-manage-membertypes>
 <app-manage-cities *ngIf="list == 'cities'"></app-manage-cities>
-<ng-container *ngIf="list == 'plans' || list == 'clubs' || list == 'canalempleo' || list == 'cityguide' || list == 'commissions'">
+<ng-container *ngIf="list == 'plans' || list == 'clubs' || list == 'canalempleo' || list == 'cityguide' || list == 'commissions' || list == 'testimonials' || list == 'tutors' || list == 'courses'">
     <div class="mb-8 container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
         <app-breadcrumb 
             [level1Title]="level1Title"
@@ -91,5 +91,42 @@
         [status]="filter"
     >
     </app-commissions-admin-list>
+    <app-testimonials-admin-list
+        *ngIf="list == 'testimonials' && !isLoading"
+        [company]="company"
+        [buttonColor]="buttonColor"
+        [primaryColor]="primaryColor"
+        [canCreateTestimonial]="canCreateTestimonial"
+        [testimonialsTitle]="testimonialsTitle"
+        [userId]="userId"
+        [superAdmin]="superAdmin"
+        [language]="language"
+        [status]="filter"
+    >
+    </app-testimonials-admin-list>
+    <app-tutors-admin-list
+        *ngIf="list == 'tutors' && !isLoading"
+        [company]="company"
+        [buttonColor]="buttonColor"
+        [primaryColor]="primaryColor"
+        [tutorsTitle]="tutorsTitle"
+        [userId]="userId"
+        [superAdmin]="superAdmin"
+        [language]="language"
+        [status]="filter"
+    >
+    </app-tutors-admin-list>
+    <app-courses-admin-list
+        *ngIf="list == 'courses' && !isLoading"
+        [company]="company"
+        [buttonColor]="buttonColor"
+        [primaryColor]="primaryColor"
+        [canCreateCourse]="canCreateCourse"
+        [coursesTitle]="coursesTitle"
+        [userId]="userId"
+        [superAdmin]="superAdmin"
+        [language]="language"
+        [status]="filter"
+    >
+    </app-courses-admin-list>
 </ng-container>
-

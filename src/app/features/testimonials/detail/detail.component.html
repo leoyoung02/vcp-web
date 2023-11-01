@@ -66,7 +66,18 @@
         </div>
         <div [ngStyle]="{'background-color': '#F6F6F6'}" 
             [innerHtml]="testimonial?.description" 
-            class="w-full max-w-full flex flex-col items-center justify-center whitespace-pre-wrap p-6 py-6 px-10 sm:px-10 md:px-24 lg:px-24 text-sm">
+            class="h-full max-h-full sm:h-full sm:max-h-full md:h-[591px] md:max-h-[591px] lg:h-[591px] lg:max-h-[591px] w-full max-w-full flex flex-col items-center justify-center whitespace-pre-wrap p-6 py-6 px-10 text-sm">
         </div>
     </div>
 </div>
+<app-toast 
+    *ngIf="showConfirmationModal" 
+    [company]="company" 
+    [update]="false" 
+    [confirm]="true"
+    [title]="confirmDeleteItemTitle"
+    [description]="confirmDeleteItemDescription"
+    [acceptText]="acceptText"
+    [cancelText]="cancelText"
+    (onAccept)="confirm()"
+></app-toast>

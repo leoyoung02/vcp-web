@@ -250,7 +250,7 @@ export class CoursesListComponent {
   mapSubfeatures(subfeatures, categories, hotmart_settings) {
     if (subfeatures?.length > 0) {
       this.hasCoursePayment = subfeatures.some(
-        (a) => a.name_en == "Filter" && a.active == 1
+        (a) => a.name_en == "Course fee" && a.active == 1
       );
       this.hasCategoryAccess = subfeatures.some(
         (a) => a.name_en == "Category access" && a.active == 1
@@ -460,12 +460,14 @@ export class CoursesListComponent {
       })
       courses?.forEach(course => {
         let show_buy_now = true
+        let user_subscribed = false
         if(this.hasCoursePayment && course.price > 0) {
           let course_subscription = this.courseSubscriptions && this.courseSubscriptions.filter(c => {
             return c.user_id == this.userId && c.course_id == course.id
           })
           if(course_subscription && course_subscription[0]) {
             show_buy_now = false
+            user_subscribed = true
           }
         } else {
           show_buy_now = false
@@ -493,6 +495,8 @@ export class CoursesListComponent {
                 show_buy_now = false
                 course.exception_access = 1
                 course.unassigned_status = 0
+                user_subscribed = true
+                user_subscribed = true
               }
             })
         }
@@ -503,7 +507,7 @@ export class CoursesListComponent {
             show_buy_now = false
           }
         } else {
-          if(!this.isAdmin && !this.superAdmin) {
+          if(!this.isAdmin && !this.superAdmin && !user_subscribed) {
             let include
             let is_category_exist = this.courseCategoryMapping && this.courseCategoryMapping.filter((f)=>f.course_id==course.id)
             if(is_category_exist?.length > 0) {
@@ -718,7 +722,6 @@ export class CoursesListComponent {
 
   formatCourses(courses) {
     this.courses = courses?.map((course) => {
-
       let progress = this.getUserProgress(course);
       let category_texts = this.getCategoriesDisplay(course);
 
@@ -841,6 +844,10 @@ export class CoursesListComponent {
         : this._translateService.instant("courses.logintoaccess");
     }
 
+    if(!text && course?.locked == 1) {
+      text = this._translateService.instant("courses.blocked");
+    }
+
     return text;
   }
 
@@ -860,7 +867,7 @@ export class CoursesListComponent {
   }
 
   handleCreateRoute() {
-    this._router.navigate([`/testimonials/create/0`]);
+    this._router.navigate([`/courses/create/0`]);
   }
 
   toggleCreateHover(event) {

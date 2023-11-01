@@ -3014,7 +3014,9 @@
         "confirmupdateaccesstext": "Benetan eguneratu nahi duzu kide honen tutoreetarako sarbidea?",
         "confirmupdateaccess": "Berretsi sarbide-eguneratzea",
         "changehomevideotitledesc": "Kide zehatz baten izenburua eta deskribapena ezartzeko, aldatu kidea goitibeherako menuan eta idatzi testuak.",
-        "changehomevideodesc": "Kide zehatz baten bideoa ezartzeko, aldatu hemen goitibeherako kidea eta idatzi testuak."
+        "changehomevideodesc": "Kide zehatz baten bideoa ezartzeko, aldatu hemen goitibeherako kidea eta idatzi testuak.",
+        "confirmresend": "Berretsi berriro bidali",
+        "confirmresendemail": "Benetan nahi al duzu ikastaroaren sarbide-mezua berriro bidali?"
     },
     "buddy": {
         "mentorprofile": "Tutorearen profila",
@@ -3201,7 +3203,8 @@
         "managestudents": "Kudeatu Ikasleak",
         "selectcoursetoassignstudents": "Hautatu ikastaroa ikasleak esleitzeko",
         "errormessage": "Hautatu ikastaroa eta erabiltzaileak",
-        "unassignstudentstocourses": "Kendu ikaslea ikastarotik"
+        "unassignstudentstocourses": "Kendu ikaslea ikastarotik",
+        "unassign": "Kendu"
     },
     "checkout": {
         "linkgenerated": "Esteka sortu eta zure arbelean kopiatu da",
@@ -3287,5 +3290,11 @@
         "uppercase": "Gutxienez karaktere maiuskula bat izan behar du",
         "lowercase": "Gutxienez karaktere minuskula bat izan behar du",
         "specialcharacter": "Gutxienez karaktere berezi bat izan behar du"
+    },
+    "testimonials": {
+        "tags": "Etiketak",
+        "gallery": "Galeria",
+        "socialmedia": "Sare sozialen URLa",
+        "author": "Egilea"
     }
 }

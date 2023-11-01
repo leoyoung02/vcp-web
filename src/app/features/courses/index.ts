@@ -8,12 +8,6 @@ export const routes: Routes = [
         data: { titleKey: 'courses.courses'},
         loadComponent: async () => (await import('./list/list.component')).CoursesListComponent,
     },
-    // {
-    //     path: 'details/:id',
-    //     title: CustomTitleResolver,
-    //     data: { titleKey: 'course-create.course'},
-    //     loadComponent: async () => (await import('./detail/detail.component')).CourseDetailComponent,
-    // },
     {
         path: 'details/:id',
         title: CustomTitleResolver,
@@ -25,5 +19,23 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'course-create.unit'},
         loadComponent: async () => (await import('./unit/unit.component')).CourseUnitComponent,
+    },
+    {
+        path: 'students/assign',
+        title: CustomTitleResolver,
+        data: { titleKey: 'course-students.assignstudentstocourses'},
+        loadComponent: async () => (await import('./assign-courses/assign-courses.component')).CoursesAssignStudentsComponent,
+    },
+    {
+        path: 'create/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'signup.create'},
+        loadComponent: async () => (await import('./edit/edit.component')).CourseEditComponent,
+    },
+    {
+        path: 'edit/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'landing.edit'},
+        loadComponent: async () => (await import('./edit/edit.component')).CourseEditComponent,
     }
 ];

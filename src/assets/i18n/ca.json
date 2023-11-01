@@ -3024,7 +3024,9 @@
         "confirmupdateaccesstext": "Realment vols actualitzar l'accés als tutors d'aquest membre?",
         "confirmupdateaccess": "Confirmeu l'actualització d'accés",
         "changehomevideotitledesc": "Per definir el títol i la descripció d'un membre específic, canvieu el membre al menú desplegable i després introduïu els textos.",
-        "changehomevideodesc": "Per configurar el vídeo per a un membre específic, canvieu el membre al menú desplegable aquí i després introduïu els textos."
+        "changehomevideodesc": "Per configurar el vídeo per a un membre específic, canvieu el membre al menú desplegable aquí i després introduïu els textos.",
+        "confirmresend": "Confirmar el reenviament",
+        "confirmresendemail": "De veritat voleu tornar a enviar el correu electrònic d'accés al curs?"
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",
@@ -3211,7 +3213,8 @@
         "managestudents": "Administrar Alumnes",
         "selectcoursetoassignstudents": "Seleccioneu el curs per assignar els estudiants",
         "errormessage": "Seleccioneu el curs i els usuaris",
-        "unassignstudentstocourses": "Desassignar l'alumne del curs"
+        "unassignstudentstocourses": "Desassignar l'alumne del curs",
+        "unassign": "Desassignar"
     },
     "checkout": {
         "linkgenerated": "L'enllaç s'ha generat i copiat al porta-retalls",
@@ -3297,5 +3300,11 @@
         "uppercase": "Ha de contenir almenys 1 caràcter en majúscula",
         "lowercase": "Ha de contenir almenys 1 caràcter en minúscula",
         "specialcharacter": "Ha de contenir almenys 1 caràcter especial"
+    },
+    "testimonials": {
+        "tags": "Etiquetes",
+        "gallery": "Galeria",
+        "socialmedia": "URL de xarxes socials",
+        "author": "Autor"
     }
 }
