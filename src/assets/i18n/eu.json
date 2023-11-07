@@ -3145,6 +3145,8 @@
         "bookingdate": "Erreserba-data",
         "bookingstarttime": "Erreserbak hasteko ordua",
         "bookingendtime": "Erreserbaren amaiera-ordua",
+        "selecttype": "Hautatu tutoretza mota",
+        "selectday": "Hautatu eguna egutegitik",
         "commissions": "Komisioak",
         "transfercompleted": "Transferentzia amaitu da",
         "pendingtransfer": "Transferentzia zain"

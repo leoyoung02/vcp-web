@@ -151,8 +151,30 @@
             </div>
         </div>
         <div class="bg-white" *ngIf="showCalendarSection">
+            <ng-container *ngIf="userCourses?.length > 1 && workingCourses?.length > 1">
+                <div>
+                    <div class="w-full max-w-full relative" [ngStyle]="{'background-color': buttonColor}">
+                        <div class="text-white uppercase text-center py-2" [ngStyle]="{'background-color': buttonColor}">{{'tutors.selecttype' | translate}}</div>
+                    </div>
+                    <div class="flex pt-[20px] border justify-center" [ngStyle]="{'border-color': buttonColor}">
+                        <div class="flex justify-evenly mb-5" *ngFor="let item of userCourses">
+                            <div 
+                                (click)="selectCourse(item)"
+                                class="w-auto text-base uppercase p-3 px-6 rounded-[15px] hover:cursor-pointer" 
+                                [ngClass]="{'border': selectedWorkingCourse?.id != item?.id}"
+                                [ngStyle]="{'background-color': selectedWorkingCourse?.id == item?.id ? buttonColor : '#fff', 
+                                    'border-color': selectedWorkingCourse?.id == item?.id ? buttonColor : 'transparent',
+                                    'color': selectedWorkingCourse?.id == item?.id ? '#fff' : buttonColor
+                                }"
+                            >
+                                {{getCourseTitle(item)}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
             <app-calendly 
-                *ngIf="canBook()"
+                *ngIf="canBook() && tutorCalendlyUrl"
                 [buttonColor]="buttonColor"
                 [link]="tutorCalendlyUrl"
                 [tutorUserId]="tutor?.user_id"
@@ -170,6 +192,27 @@
                 (closeCalendar)="close()"
             >
             </app-calendly>
+            <ng-container *ngIf="!canBook() || !tutorCalendlyUrl">
+                <div class="h-full max-h-full flex align-center items-center justify-center">
+                    <div class="flex-col">
+                        <div class="text-center flex justify-center mb-4">
+                            <svg class="w-16 h-16 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
+                            </svg>
+                        </div>
+                        <div class="capitalize font-bold px-8 text-center">
+                            {{ !canBook() ? 
+                                ('course-create.insufficientcredits' | translate) : 
+                                (!tutorCalendlyUrl ? 
+                                    (
+                                        ('company-settings.incomplete' | translate) + ' ' + ('landing.calendar' | translate) + ' ' + ('customer.setup' | translate) + '. ' + ('club-details.pleasecontactadministrator' | translate)
+                                    ) : ''
+                                )
+                            }}
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
         </div>
     </div>
 </div>

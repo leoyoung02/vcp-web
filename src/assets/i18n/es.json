@@ -3166,6 +3166,8 @@
         "bookingdate": "Fecha de reserva",
         "bookingstarttime": "Hora de inicio de la reserva",
         "bookingendtime": "Hora de finalización de la reserva",
+        "selecttype": "Seleccione el tipo de tutoría",
+        "selectday": "Seleccionar día del calendario",
         "commissions": "Comisiones",
         "transfercompleted": "Transferencia completada",
         "pendingtransfer": "Transferencia pendiente"

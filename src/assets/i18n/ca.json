@@ -3155,6 +3155,8 @@
         "bookingdate": "Data de reserva",
         "bookingstarttime": "Hora d'inici de la reserva",
         "bookingendtime": "Hora de finalització de la reserva",
+        "selecttype": "Selecciona el tipus de tutoria",
+        "selectday": "Selecciona el dia del calendari",
         "commissions": "Comissions",
         "transfercompleted": "Transferència completada",
         "pendingtransfer": "Pendent de transferència"

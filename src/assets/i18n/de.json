@@ -3144,6 +3144,8 @@
         "bookingdate": "Buchungsdatum",
         "bookingstarttime": "Buchungsstartzeit",
         "bookingendtime": "Endzeit der Buchung",
+        "selecttype": "Nachhilfetyp auswählen",
+        "selectday": "Tag aus Kalender auswählen",
         "commissions": "Provisionen",
         "transfercompleted": "Übertragung abgeschlossen",
         "pendingtransfer": "Übertragung ausstehend"

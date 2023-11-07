@@ -3182,6 +3182,8 @@
         "bookingdate": "Booking date",
         "bookingstarttime": "Booking start time",
         "bookingendtime": "Booking end time",
+        "selecttype": "Select tutoring type",
+        "selectday": "Select day from calendar",
         "commissions": "Commissions",
         "transfercompleted": "Transfer completed",
         "pendingtransfer": "Pending transfer"

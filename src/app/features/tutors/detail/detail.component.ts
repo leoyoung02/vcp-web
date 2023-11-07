@@ -1025,6 +1025,23 @@ export class TutorDetailComponent {
     })
   }
 
+  selectCourse(course) {
+    this.selectedWorkingCourse = course;
+    this._localService.setLocalStorage("selectedWorkingCourse", this.selectedWorkingCourse ? this.selectedWorkingCourse.id : 0);
+    this.getRemainingCourseCredits();
+  }
+
+  getCourseTitle(course) {
+    return course ? this.language == 'en' ? (course.title_en ? (course.title_en || course.title) : course.title) :
+      (this.language == 'fr' ? (course.title_fr ? (course.title_fr || course.title) : course.title) : 
+        (this.language == 'eu' ? (course.title_eu ? (course.title_eu || course.title) : course.title) : 
+          (this.language == 'ca' ? (course.title_ca ? (course.title_ca || course.title) : course.title) : 
+            (this.language == 'de' ? (course.title_de ? (course.title_de || course.title) : course.title) : course.title)
+          )
+        )
+      ) : '';
+  }
+
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();

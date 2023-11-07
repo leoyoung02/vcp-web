@@ -3141,6 +3141,8 @@
         "bookingdate": "Date de réservation",
         "bookingstarttime": "Heure de début de la réservation",
         "bookingendtime": "Heure de fin de réservation",
+        "selecttype": "Sélectionner le type de tutorat",
+        "selectday": "Sélectionner un jour dans le calendrier",
         "commissions": "Commissions",
         "transfercompleted": "Transfert terminé",
         "endingtransfer": "Transfert en attente"
