@@ -179,7 +179,6 @@ export class MasonryComponent {
 
   formatCoursesTestimonialsData() {
     if(this.data) {
-      console.log(this.data)
       let testimonials = this?.data?.testimonials?.length >= 2 ? this?.data?.testimonials?.slice(0, 2) : this?.data?.testimonials;
       let tutors = this?.data?.tutors?.length >= 2 ? this?.data?.tutors?.slice(0, 4) : this?.data?.tutors;
       this.user = this?.data?.user;

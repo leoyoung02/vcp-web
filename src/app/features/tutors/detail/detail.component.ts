@@ -401,6 +401,10 @@ export class TutorDetailComponent {
     if(this.showTutorCategories || this.hideCoursePackage) {
         this.preLoadCalendly();
     }
+
+    setTimeout(() => {
+      this.learnMore();
+    }, 1000)
   }
 
   getUserCourses() {

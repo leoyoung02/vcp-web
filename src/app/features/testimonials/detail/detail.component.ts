@@ -169,6 +169,7 @@ export class TestimonialDetailComponent {
   }
 
   formatTestimonial(testimonial) {
+    let highlight_description = testimonial.description?.replace(testimonial?.short_description?.replace(/<(?:.|\n)*?>/gm, ''), '<div class="font-semibold px-4 py-1 border border-2 border-black border-t-0 border-b-0 border-r-0 italic">' + testimonial?.short_description?.replace(/<(?:.|\n)*?>/gm, '') + '</div>')
     let t = {
       id: testimonial.id,
       company_id: testimonial.company_id,
@@ -176,7 +177,7 @@ export class TestimonialDetailComponent {
       author: testimonial.author,
       social_media_url: testimonial.social_media_url,
       trimmed: testimonial?.short_description?.length > 9 ? `${testimonial?.short_description?.replace(/<(?:.|\n)*?>/gm, '').substring(0, 10)}...` : testimonial?.short_description?.replace(/<(?:.|\n)*?>/gm, ''),
-      description: testimonial.description,
+      description: highlight_description,
       image: testimonial.image,
       testimonial_image: `${environment.api}/get-testimonial-image/${testimonial.image}`,
       created_by: testimonial.created_by,

@@ -63,5 +63,6 @@ export const environment = {
     lstoastdismissed: 'xpD4rFXWXH0CIUd+BttDFA==',
     lstoastopened: 'Tzfo108nKrwFrgTLGyIBoQ==',
     lscurrentUser: '9NyA+8LfvCQYqRNfMvBMCA==',
-    lsreport: 'UjwYsku9FFqhu/hsCtnS4g=='
+    lsreport: 'UjwYsku9FFqhu/hsCtnS4g==',
+    lstutortypes: 'VsPZU9fGTkeAnzcI96Gbug=='
 };

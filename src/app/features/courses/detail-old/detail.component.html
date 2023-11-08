@@ -101,7 +101,7 @@
                         <ng-container *ngIf="expandedModuleId == module.id">
                             <ng-container *ngFor="let unit of module.units; let i = index;">
                                 <div class="module-units" (mouseover)="hovered = i" (mouseout)="hovered = -1" 
-                                    [ngStyle] ="{'background-color' : hovered == i ? hoverColor : 'transparent'}">
+                                    [ngStyle] ="{'background-color' : hovered == i ? (companyId == 52 ? '#fcf352' : hoverColor) : 'transparent'}">
                                     <div *ngIf="getModuleCategoryTitle(module.units, unit, i)" class="module-category">
                                         {{ getModuleCategoryTitle(module.units, unit, i) }}
                                     </div>
@@ -133,8 +133,8 @@
         <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
             <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2" *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title">
                 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between" [ngClass]="{'vidalytics-div1': selectedUnit?.option == 'Vidalytics'}">
-                    <div class="text-4xl font-semibold text-4xl font-semibold mt-8">{{ isModuleLocked ? selectedModuleTitle : getCourseUnitTitle(selectedUnit) }}</div>
-                    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row mt-8">
+                    <div class="text-4xl font-semibold text-4xl font-semibold">{{ isModuleLocked ? selectedModuleTitle : getCourseUnitTitle(selectedUnit) }}</div>
+                    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row">
                         <div class="flex items-center align-center uppercase" *ngIf="selectedUnit?.Company_Course_Unit_Users[0]?.progress == 100">
                             <img class="w-4 h-4 mr-2" src="./assets/images/new-design/icons/Progress-completed.png" />
                             {{ 'courses.completed' | translate }}

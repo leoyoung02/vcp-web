@@ -47,7 +47,7 @@
     </div>
 </div>
 <div>
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 mb-20 rounded-[30px] rounded-tr-[10px]" [ngStyle]="{'background-color': showCalendarSection ? buttonColor : 'transparent'}">
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 mb-20 rounded-[30px] rounded-tr-[10px]" [ngStyle]="{'background-color': showCalendarSection ? '#f6f6f6' : 'transparent'}">
         <div class="rounded-[30px] w-full max-w-full row-span-1 cursor-pointer relative">
             <app-tutor-card
                 [id]="tutor?.id"
@@ -70,8 +70,7 @@
         </div>
         <div 
             class="flex flex-col justify-between pl-[58px]"
-            [ngStyle]="{'background-color': showCalendarSection ? buttonColor : 'transparent',
-            'color': showCalendarSection ? '#fff' : '#1e1e1e'}"
+            [ngStyle]="{'background-color': showCalendarSection ? '#f6f6f6' : 'transparent'}"
         >
             <div class="pt-3 text-3xl font-semibold">{{tutor?.name}}</div>
             <div class="py-3 sm:py-3 md:py-0 lg:py-0">
@@ -129,14 +128,13 @@
             <div class="py-3">
                 <div class="flex flex-wrap">
                     <ng-container *ngFor="let type of types; let i = index;">
-                        <div class="types border rounded-xl px-4 py-[4px] mr-2"
-                         [ngClass]="{'border-black': !showCalendarSection, 'border-white': showCalendarSection}">
+                        <div class="types border border-black rounded-xl px-4 py-[4px] mr-2">
                             <div class="text-xs" title="{{type}}">{{ type }}</div>
                         </div>
                     </ng-container>
                 </div>
             </div>
-            <div class="py-3">
+            <!-- <div class="py-3">
                 <div class="inline-block h-[52px] mb-12 text-base uppercase px-16 pt-[14px] hover:cursor-pointer font-semibold rounded-[15px]"
                     [ngStyle]="{'background-color': showCalendarSection ? '#fff' : buttonColor,
                         'color': showCalendarSection ? '#1e1e1e' : '#fff'}"
@@ -145,7 +143,7 @@
                         {{ 'tutors.learnmore' | translate }}
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="pb-3">
                 <div>{{ 'tutors.tutorsince' | translate }} <span class="font-bold">{{ tutor?.created | date:'d MMM, yyyy' }}</span></div>
             </div>

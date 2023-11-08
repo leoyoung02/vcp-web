@@ -1,5 +1,5 @@
-<div class="md:grid lg:grid md:grid-cols-5 lg:grid-cols-5 gap-4 pt-4 justify-evenly relative"> 
-    <div class="col-span-1 sm:col-span-1 md:col-span-3 lg:col-span-3 row-span-2 cursor-pointer rounded-[10px] h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]" 
+<div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 pt-4 justify-evenly relative"> 
+    <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 row-span-2 cursor-pointer rounded-[10px] h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]" 
         [ngStyle]="{'background-color': '#F5F5F5'}"
         *ngIf="testimonial1Data?.id > 0">
         <app-testimonial-card
@@ -16,7 +16,7 @@
         >
         </app-testimonial-card>
     </div>
-    <div class="rounded-lg row-span-1 cursor-pointer relative mb-8 sm:mb-8 md:mb-0 lg:mb-0" 
+    <div class="rounded-lg col-span-1 row-span-1 cursor-pointer relative mb-8 sm:mb-8 md:mb-0 lg:mb-0 h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]" 
         *ngIf="tutor1Data?.id > 0">
         <app-tutor-card
             [id]="tutor1Data?.id"
@@ -32,7 +32,7 @@
         >
         </app-tutor-card>
     </div>
-    <div class="rounded-lg row-span-1 cursor-pointer relative" 
+    <div class="rounded-lg col-span-1 row-span-1 cursor-pointer relative mb-8 sm:mb-8 md:mb-0 lg:mb-0 h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]" 
         *ngIf="tutor2Data?.id > 0">
         <app-tutor-card
             [id]="tutor2Data?.id"
@@ -48,7 +48,9 @@
         >
         </app-tutor-card>
     </div>
-    <div class="col-span-1 sm:col-span-1 md:col-span-3 lg:col-span-3 row-span-2 cursor-pointer rounded-[10px] h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]" 
+</div>
+<div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-4 pt-4 justify-evenly relative"> 
+    <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 row-span-2 cursor-pointer rounded-[10px] h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]" 
         [ngStyle]="{'background-color': '#F5F5F5'}"
         *ngIf="testimonial2Data?.id > 0">
         <app-testimonial-card
@@ -65,7 +67,7 @@
         >
         </app-testimonial-card>
     </div>
-    <div class="rounded-lg row-span-1 cursor-pointer relative mb-8 sm:mb-8 md:mb-0 lg:mb-0" 
+    <div class="rounded-lg col-span-1 row-span-1 cursor-pointer relative mb-8 sm:mb-8 md:mb-0 lg:mb-0 h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]" 
         *ngIf="tutor3Data?.id > 0">
         <app-tutor-card
             [id]="tutor3Data?.id"
@@ -81,7 +83,7 @@
         >
         </app-tutor-card>
     </div>
-    <div class="rounded-lg row-span-1 cursor-pointer relative" 
+    <div class="rounded-lg col-span-1 row-span-1 cursor-pointer relative h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]" 
         *ngIf="tutor4Data?.id > 0">
         <app-tutor-card
             [id]="tutor4Data?.id"
