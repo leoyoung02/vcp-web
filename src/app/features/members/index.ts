@@ -9,9 +9,9 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./list/list.component')).ListComponent,
     },
     {
-        path: 'detail/:id',
+        path: 'details/:id',
         title: CustomTitleResolver,
         data: { titleKey: 'plan-details.member'},
-        loadComponent: async () => (await import('./detail/detail.component')).DetailComponent,
+        loadComponent: async () => (await import('./detail/detail.component')).MemberDetailComponent,
     }
 ];

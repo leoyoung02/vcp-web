@@ -386,7 +386,7 @@ export class SidebarComponent {
 
     let iconImage = "";
     if (menuItem && menuItem.length > 0) {
-      iconImage = menuItem[0].icon
+      iconImage = this.menuColor == '#000000' && menuItem[0].icondark ? menuItem[0].icondark : menuItem[0].icon
     }
 
     return iconImage;

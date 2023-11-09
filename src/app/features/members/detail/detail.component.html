@@ -1,1 +1,30 @@
-<p>Members - Detail</p>
+<div class="hidden sm:hidden md:block lg:block">
+    <app-breadcrumb 
+        [level1Title]="level1Title"
+        [level2Title]="level2Title"
+        [level3Title]="level3Title"
+        [level4Title]="level4Title"
+        [buttonColor]="buttonColor"
+        (goBack)="handleGoBack()"
+    />
+</div>
+<app-page-title [title]="pageName" [subtitle]="pageDescription"></app-page-title>
+<div class="pt-10 flex flex-col sm:flex-col md:flex-row lg:flex-row pb-20">
+    <div class="w-full max-w-full sm:w-full sm:max-w-full md:min-w-[461px] md:w-[461px] md:max-w-[461px] lg:w-[461px] lg:min-w-[461px] lg:max-w-[461px]">
+        <div class="h-full max-h-full">
+            <img width="347" height="300" *ngIf="member?.image" [ngSrc]="member?.image" alt="" 
+                class="object-top mr-4 object-cover rounded-[30px] w-full max-w-full h-full max-h-full min-h-[559px]">
+        </div>
+    </div>
+    <div class="py-6 h-full max-h-full sm:h-full sm:max-h-full md:h-[591px] md:max-h-[591px] lg:h-[591px] lg:max-h-[591px] w-full max-w-full sm:w-full sm:max-w-full md:w-5/12 md:max-w-5/12 lg:w-5/12 lg:max-w-5/12 flex flex-col px-10">
+        <div class="text-2xl leading-6 pb-2 font-bold">{{member?.display_name}}</div>
+        <div class="py-4">
+            <span>{{member?.city}}</span>
+            <span *ngIf="member?.city && member?.sector" class="px-6">•</span>
+            <span>{{member?.sector}}</span>
+        </div>
+    </div>
+    <div class="text-lg leading-6 pb-2 py-6 flex flex-col bg-[#F8F4F4] px-16 rounded-lg">
+        <div class="text-2xl leading-6 pb-2 font-bold border border-1 pb-4 mb-4 border-[#c7c7c7] border-t-0 border-l-0 border-r-0 pr-8">{{'members.moreinformation' | translate}}</div>
+    </div>
+</div>

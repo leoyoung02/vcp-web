@@ -56,9 +56,12 @@
     <ng-container *ngIf="(loginAsAdmin || !showSSOLogin)">
       <div
         class="flex items-center justify-center pt-7 m-auto left-0 right-0 text-center mt-0 pt-8 mb-8 border border-t-1 border-l-0 border-r-0 border-b-0 border-white w-9/12"
+        [ngClass]="{'border-white': menuColor != '#000000',
+          'border-black': menuColor == '#000000'
+        }"
         [ngStyle]="{
           color:
-            primaryColor == '#ffffff' || primaryColor == '#fff'
+            primaryColor == '#ffffff' || primaryColor == '#fff' || menuColor == '#000000'
               ? '#1e1e1e'
               : '#fff'
         }"
@@ -98,7 +101,7 @@
               type="submit"
               class="inline-block h-[40px] text-sm px-6 py-2 font-semibold bg-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
               [ngStyle]="{
-                color: buttonColor,
+                color: menuColor == '#000000' ? '#1e1e1e' : buttonColor,
                 'border-color':
                   primaryColor == '#ffffff' || primaryColor == '#fff'
                     ? buttonColor
@@ -129,7 +132,7 @@
         (click)="redirecToSignup()"
         [ngStyle]="{
           color:
-            primaryColor == '#ffffff' || primaryColor == '#fff'
+            primaryColor == '#ffffff' || primaryColor == '#fff' || menuColor == '#000000'
               ? '#1e1e1e'
               : '#fff'
         }"
@@ -145,7 +148,7 @@
         [routerLink]="['/auth/forgot-password']"
         [ngStyle]="{
           color:
-            primaryColor == '#ffffff' || primaryColor == '#fff'
+            primaryColor == '#ffffff' || primaryColor == '#fff' || menuColor == '#000000'
               ? '#1e1e1e'
               : '#fff'
         }"
@@ -157,7 +160,7 @@
         *ngIf="showLoginMessage && loginMessage"
         [ngStyle]="{
           color:
-            primaryColor == '#ffffff' || primaryColor == '#fff'
+            primaryColor == '#ffffff' || primaryColor == '#fff' || menuColor == '#000000'
               ? '#1e1e1e'
               : '#fff'
         }"

@@ -100,6 +100,12 @@ export const routes: Routes = [
         canMatch: [authGuard()],
     },
     {
+        path: 'members',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/members')).routes,
+        canMatch: [authGuard()],
+    },
+    {
         path: '**',
         data: { layout: PageLayout.Blank },
         loadComponent: async () => (await import('@pages/screens/not-found/not-found.component')).NotFoundComponent,

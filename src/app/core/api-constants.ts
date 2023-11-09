@@ -427,3 +427,7 @@ export const DELETE_TESTIMONIAL_URL = `${API_BASE}/company/testimonial/delete`;
 
 export const TESTIMONIALS_URL = `${API_BASE}/v2/testimonials`;
 export const TESTIMONIAL_DETAILS_URL = `${API_BASE}/v2/testimonial-details`;
+
+// MEMBERS
+export const MEMBERS_COMBINED_URL = `${API_BASE}/v2/members`;
+export const MEMBER_COMBINED_URL = `${API_BASE}/v2/member-details`;

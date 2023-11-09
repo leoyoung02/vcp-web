@@ -12,10 +12,10 @@ import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/
 import { LocalService, CompanyService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
+import { TestimonialCardComponent } from "@share/components/card/testimonial/testimonial.component";
 import { initFlowbite } from "flowbite";
 import moment from "moment";
 import get from "lodash/get";
-import { TestimonialCardComponent } from "@share/components/card/testimonial/testimonial.component";
 
 @Component({
   selector: 'app-testimonials-detail',

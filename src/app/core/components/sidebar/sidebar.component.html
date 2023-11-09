@@ -15,7 +15,7 @@
       (mouseleave)="toggleSearchHover(false)"
     >
       <img
-        src="./assets/menu-icons/menu-icon-search.png"
+        [src]="menuColor == '#000000' ? './assets/menu-icons/menu-icon-search-dark.png' : './assets/menu-icons/menu-icon-search.png'"
         class="cursor-pointer w-[22px] max-w-[22px] h-[22px] max-h-[22px]"
         alt=""
       />
@@ -24,18 +24,19 @@
           [(ngModel)]="search" 
           [ngModelOptions]="{standalone: true}" 
           id="default-search" 
-          class="block w-10/12 py-2 px-3 pl-5 text-sm text-white border-none placeholder-white focus:border-transparent focus:ring-0" 
-          [ngStyle]="{'background-color': searchHover ? hoverColor : buttonColor}"
+          class="block w-10/12 py-2 px-3 pl-5 text-sm border-none focus:border-transparent focus:ring-0" 
+          [ngStyle]="{'background-color': searchHover ? hoverColor : buttonColor, 'color': menuColor || '#ffffff'}"
+          [ngClass]="{'placeholder-white': menuColor != '#000000'}"
           placeholder="{{ 'landing.search' | translate }}"
           (keyup.enter)="handleKeyPressed()"
       >
     </div>
   </div>
   <div class="my-3 pl-9">
-    <div class="text-white text-sm">{{ menuOpened ? ('landing.menu' | translate) : '&nbsp;' }}</div>
+    <div class="text-sm" [ngStyle]="{'color': menuColor || '#ffffff'}">{{ menuOpened ? ('landing.menu' | translate) : '&nbsp;' }}</div>
   </div>
   <ng-container *ngFor="let menu of menus$ | async" class="py-2 my-2 flex items-center">
-    <ng-container *ngIf="!menu?.course_wall">
+    <ng-container *ngIf="!menu?.course_wall && menu?.path != 'dashboard'">
       <div class="pl-9 py-2 hover:cursor-pointer">
         <div 
           class="p-2 flex items-center hover:rounded-lg mr-3"
@@ -46,11 +47,15 @@
           (mouseleave)="toggleMenuHover(false, menu)"
         >
           <img
-            [src]="menu?.new_button == 1 ? './assets/menu-icons/menu-icon-colleague.png' : getMenuIcon(menu)"
+            [src]="menu?.new_button == 1 ? (menuColor == '#000000' ? './assets/menu-icons/menu-icon-colleague-dark.png' : './assets/menu-icons/menu-icon-colleague.png') : getMenuIcon(menu)"
             class="cursor-pointer w-[22px] max-w-[22px] h-[22px] max-h-[22px]"
             alt=""
           />
-          <span class="text-white ml-5 text-sm">{{ getMenuTitle(menu) }}</span>
+          <span [ngClass]="menu.path == 'members' ? 'ml-[21px]' : 'ml-[20px]'" 
+            class="text-sm" 
+            [ngStyle]="{'color': menuColor || '#ffffff'}">
+            {{ getMenuTitle(menu) }}
+          </span>
         </div>
       </div>
     </ng-container>
@@ -64,11 +69,11 @@
         (mouseleave)="toggleSettingsHover(false)"
       >
         <img
-            src="./assets/menu-icons/menu-icon-settings.png"
+            [src]="menuColor == '#000000' ? './assets/menu-icons/menu-icon-settings-dark.png' : './assets/menu-icons/menu-icon-settings.png'"
             class="cursor-pointer w-[22px] max-w-[22px] h-[22px] max-h-[22px]"
             alt=""
           />
-        <span class="text-white ml-5 text-sm">{{ 'company-settings.settings' | translate }}</span>
+        <span class="ml-5 text-sm" [ngStyle]="{'color': menuColor || '#ffffff'}">{{ 'company-settings.settings' | translate }}</span>
       </div>
     </div>
   </ng-container>

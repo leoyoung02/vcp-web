@@ -77,6 +77,7 @@ export class LoginComponent {
   eyeIcon = faEye;
   eyeSlashIcon = faEyeSlash;
   isLoading: boolean = false;
+  menuColor: any;
 
   constructor(
     private _router: Router,
@@ -113,6 +114,9 @@ export class LoginComponent {
       this.primaryColor = company[0].primary_color
         ? company[0].primary_color
         : company[0].button_color;
+      this.menuColor = company[0].menu_color
+        ? company[0].menu_color
+        : "#ffffff";
       this._localService.setLocalStorage(
         environment.lscompanyId,
         company[0].id

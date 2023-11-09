@@ -1,1 +1,49 @@
-<p>Members - List</p>
+<app-page-title [title]="pageName" [subtitle]="pageDescription"></app-page-title>
+<div class="pt-10">
+    <div class="flex flex-wrap items-center w-full max-w-full">
+        <div class="w-full sm:w-full md:w-1/4 lg:w-1/4">
+            <app-search
+                [searchText]="searchText"
+                [placeholderText]="placeholderText"
+                [buttonColor]="buttonColor"
+                (onEnterPressed)="handleSearchChanged($event)"
+                (doSearch)="handleSearchChanged($event)"
+            >
+            </app-search>
+        </div>
+        <!-- <div class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 mt-4 sm:mt-4 md:mt-0 lg:mt-0">
+            <app-filter
+                [mode]="'testimonials'"
+                [buttonList]="buttonList"
+                [buttonColor]="buttonColor"
+                [list]="list"
+                (filterList)="filteredList($event)"
+                (onButtonClick)="filteredType($event)"
+            ></app-filter>
+        </div> -->
+    </div>
+</div>
+<div class="pt-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-8 py-2 pb-20">
+        <ng-container *ngFor="let member of members | paginate: {itemsPerPage: 8, currentPage: p}">
+            <app-member-card
+                [id]="member?.id"
+                [path]="member?.path"
+                [name]="member?.display_name"
+                [city]="member?.city"
+                [sector]="member?.sector"
+                [linkedin]="member?.linkedin"
+                [email]="member?.email"
+                [phone]="member?.phone"
+                [references]="member?.references"
+                [image]="member?.image"
+                [buttonColor]="buttonColor"
+                [page]="'list'"
+            >
+            </app-member-card>
+        </ng-container>
+    </div>
+    <div *ngIf="members?.length > 0" class="text-center">
+        <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
+    </div>
+</div>
