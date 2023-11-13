@@ -471,7 +471,8 @@ export class SettingComponent {
         textField: this.language == 'en' ? 'name_EN' : 'name_ES',
         limitSelection: 4,
         itemsShowLimit: 4,
-        allowSearchFilter: true
+        allowSearchFilter: true,
+        searchPlaceholderText: this._translateService.instant('guests.search'),
       }
   
       this.userRoles = [

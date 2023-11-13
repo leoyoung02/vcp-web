@@ -201,7 +201,8 @@ export class ProfileComponent {
             selectAllText: this._translateService.instant('dialog.selectall'),
             unSelectAllText: this._translateService.instant('dialog.clearall'),
             itemsShowLimit: 1,
-            allowSearchFilter: true
+            allowSearchFilter: true,
+            searchPlaceholderText: this._translateService.instant('guests.search'),
         }
       
         this.customMemberTypes = get(await this._userService.getCustomMemberTypes(this.companyId).toPromise(), 'member_types')

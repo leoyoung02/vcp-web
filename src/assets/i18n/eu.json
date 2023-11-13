@@ -3298,5 +3298,9 @@
         "gallery": "Galeria",
         "socialmedia": "Sare sozialen URLa",
         "author": "Egilea"
+    },
+    "contract": {
+        "review": "Berrikusi zehaztapenak eta baldintzak",
+        "pleasereview": "Mesedez, berrikusi beheko baldintzak:"
     }
 }

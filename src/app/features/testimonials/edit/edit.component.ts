@@ -272,7 +272,8 @@ export class TestimonialEditComponent {
       selectAllText: this._translateService.instant('dialog.selectall'),
       unSelectAllText: this._translateService.instant('dialog.clearall'),
       itemsShowLimit: 2,
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.fetchTestimonialsData();
   }

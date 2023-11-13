@@ -22,6 +22,12 @@ export const routes: Routes = [
         canMatch: [authGuard({ requiresAuthentication: false })],
     },
     {
+        path: 'general',
+        data: { layout: PageLayout.Blank },
+        loadChildren: async () => (await import('@pages/general')).routes,
+        canMatch: [authGuard({ requiresAuthentication: false })],
+    },
+    {
         path: '',
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@pages/home')).routes,

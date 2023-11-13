@@ -267,7 +267,15 @@ export class ManageCitiesComponent {
         let include = false;
         if (
           m.city &&
-          m.city.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0
+          m.city.toLowerCase()
+          .normalize("NFD")
+          .replace(/\p{Diacritic}/gu, "")
+          .indexOf(
+            this.searchKeyword
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+          ) >= 0
         ) {
           include = true;
         }

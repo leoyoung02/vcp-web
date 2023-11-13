@@ -405,7 +405,7 @@
         </ng-container>
         <div *ngFor="let item of settings" [ngClass]="{'setting-item': item?.title_en != 'CRM'}">
             <ng-container *ngIf="item?.title_en != 'CRM' || (hasActivityFeed && item?.title_en?.indexOf('all menu') >= 0)">
-                <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4">
+                <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4 items-center">
                     <div>
                         <div>{{ getSettingItemTitle(item) }}</div>
                         <div class="opacity-30 text-sm" [innerHtml]="getSettingItemDescription(item)"></div>

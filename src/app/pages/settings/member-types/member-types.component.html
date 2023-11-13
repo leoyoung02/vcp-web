@@ -607,6 +607,66 @@
                                 </table>
                             </div>
                         </mat-tab>
+                        <mat-tab *ngIf="hasContract" label="{{ 'company-settings.contract' | translate }}">
+                            <div class="flex items-center justify-between w-full my-8">
+                                <div class="flex items-center justify-between w-full relative">
+                                    <label
+                                        for="contract"
+                                        class="flex items-center w-full justify-between cursor-pointer"
+                                    >
+                                        <div class="ml-3 text-black text-sm capitalize">
+                                            {{'company-settings.activate' | translate}} {{'company-settings.contract' | translate}}
+                                        </div>
+                                        <div class="relative mr-1">
+                                            <input
+                                                id="contract"
+                                                type="checkbox"
+                                                class="sr-only"
+                                                [(ngModel)]="activeContract"
+                                                [ngModelOptions]="{standalone: true}"
+                                            />
+                                            <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                            <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            <ng-container *ngIf="activeContract">
+                                <div class="flex items-center justify-center mb-4">
+                                    <editor
+                                        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                                        [init]="{
+                                            height: 400,
+                                            menubar: false,
+                                            plugins: [
+                                            'advlist autolink lists link image imagetools charmap print',
+                                            'preview anchor searchreplace visualblocks code',
+                                            'fullscreen insertdatetime media table paste',
+                                            'help wordcount'
+                                            ],
+                                            toolbar:
+                                            'undo redo | formatselect | bold italic | \
+                                            alignleft aligncenter alignright alignjustify | \
+                                            paste pastetext | \
+                                            image imagetools | \
+                                            bullist numlist outdent indent | help',
+                                            valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr'
+                                        }"
+                                        [(ngModel)]="contractDescription"
+                                        [ngModelOptions]="{standalone: true}"
+                                    ></editor>
+                                </div>
+                                <div class="mt-8 mb-4 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                                    <button 
+                                        class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        (click)="saveContract()"
+                                        [ngStyle]="{'background-color': buttonColor}"
+                                    >
+                                        {{ issaving ? ('plan-create.pleasewait' | translate) : ('member-type-registration.save' | translate) }}
+                                    </button>
+                                </div>
+                            </ng-container>
+                        </mat-tab>
                     </mat-tab-group>
                 </ng-container>
                 <ng-container *ngIf="dialogMode == 'preview'">

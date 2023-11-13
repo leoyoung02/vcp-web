@@ -511,12 +511,14 @@ export class PlanEditComponent {
       limitSelection: 3,
       itemsShowLimit: 2,
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.membersSettings = {
       singleSelection: true,
       idField: "id",
       textField: "name",
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.cityDropdownSettings = {
       singleSelection: false,
@@ -526,6 +528,7 @@ export class PlanEditComponent {
       unSelectAllText: this._translateService.instant("dialog.clearall"),
       itemsShowLimit: 2,
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.subcategoryDropdownSettings = {
       singleSelection: false,
@@ -547,6 +550,7 @@ export class PlanEditComponent {
       limitSelection: 3,
       itemsShowLimit: 2,
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.paymentTypes = [
       {

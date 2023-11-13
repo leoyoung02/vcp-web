@@ -3294,5 +3294,9 @@
         "gallery": "Galerie",
         "socialmedia": "URL du réseau social",
         "author": "Auteur"
+    },
+    "contract": {
+        "review": "Vérifier les termes et conditions",
+        "pleasereview": "Veuillez consulter les conditions ci-dessous :"
     }
 }

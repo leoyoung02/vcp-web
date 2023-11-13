@@ -3335,5 +3335,9 @@
         "gallery": "Gallery",
         "socialmedia": "Social Media URL",
         "author": "Author"
+    },
+    "contract": {
+        "review": "Review terms and conditions",
+        "pleasereview": "Please review the conditions below:"
     }
 }

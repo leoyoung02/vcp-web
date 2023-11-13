@@ -24,6 +24,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ToastComponent } from "@share/components";
 import { environment } from "@env/environment";
 import moment from "moment";
+import he from 'he';
 
 @Component({
   selector: "app-testimonials-admin-list",
@@ -216,16 +217,37 @@ export class TestimonialsAdminListComponent {
         return (
           (testimonial.author &&
             testimonial.author
-              .toLowerCase()
-              .indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
           (testimonial.short_description &&
-            testimonial.short_description
+            he.decode(testimonial.short_description)
               .toLowerCase()
-              .indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.searchKeyword
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
           (testimonial.description &&
-            testimonial.description
+            he.decode(testimonial.description)
               .toLowerCase()
-              .indexOf(this.searchKeyword.toLowerCase()) >= 0)
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.searchKeyword
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0)
         );
       });
     }

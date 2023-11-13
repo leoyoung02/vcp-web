@@ -16,6 +16,7 @@ import {
   SEND_EMAIL_CONFIRMATION_URL,
   SELECT_PLAN_EMAIL_URL,
 } from "@lib/api-constants";
+import moment from "moment";
 
 @Injectable({
   providedIn: "root",
@@ -72,45 +73,89 @@ export class AuthService {
             token: result.token,
             refreshToken: result.refreshToken,
             custom_member_type_id: result.custom_member_type_id,
+            accept_conditions: result.accept_conditions == 1 ? true : false,
+            created: result.created,
+            accepted_conditions: result.accepted_conditions == 1 ? true : false,
+            redirect_conditions: false,
           };
+
           this._localService.setLocalStorage(environment.lsuser, result);
           this._localService.setLocalStorage(environment.lsuserId, result.id);
           this._localService.setLocalStorage(environment.lstoken, result.token);
-          storage.setItem("appSession", {
-            user: environment.lsuserId,
-            token: environment.lstoken,
-          });
 
-          this._tokenStorageService.saveToken(result.token);
-          this._tokenStorageService.saveRefreshToken(result.refreshToken);
-          this._tokenStorageService.saveUser(user);
-          this._localService.setLocalStorage(
-            environment.lsrefreshtoken,
-            result.refreshToken
-          );
-          this._localService.setLocalStorage(environment.lsemail, result.email);
-          this._localService.setLocalStorage(
-            environment.lsdomain,
-            result.domain
-          );
-          this._localService.setLocalStorage(
-            environment.lscompanyId,
-            result.fk_company_id
-          );
+          let data = result
 
-          this._localService.setLocalStorage(environment.lsguid, result.guid);
-          this._localService.setLocalStorage(
-            environment.lsuserRole,
-            result.role
-          );
-          if (!this._localService.getLocalStorage(environment.lslang)) {
-            this._localService.setLocalStorage(environment.lslang, "es");
+          let proceed = false
+          if(data?.accept_conditions && !data?.accepted_conditions) {
+            let created = moment(data?.created).format('YYYY-MM-DD')
+            let start_conditions = moment('2023-11-13').format('YYYY-MM-DD')
+            if(moment(created).isSameOrAfter(start_conditions)) {
+              user.redirect_conditions = true;
+              this._localService.setLocalStorage(environment.lsuser, result);
+              this._localService.setLocalStorage(environment.lsuserId, result.id);
+              this._localService.setLocalStorage(environment.lstoken, result.token);
+              this._localService.setLocalStorage(
+                environment.lsrefreshtoken,
+                result.refreshToken
+              );
+              this._localService.setLocalStorage(environment.lsemail, result.email);
+              this._localService.setLocalStorage(
+                environment.lsdomain,
+                result.domain
+              );
+              this._localService.setLocalStorage(
+                environment.lscompanyId,
+                result.fk_company_id
+              );
+              this._localService.setLocalStorage(environment.lsguid, result.guid);
+              this._localService.setLocalStorage(
+                environment.lsuserRole,
+                result.role
+              );
+              if (!this._localService.getLocalStorage(environment.lslang)) {
+                this._localService.setLocalStorage(environment.lslang, "es");
+              }
+
+              return user;
+            } else {
+              proceed = true;
+            }
+          } else {
+            proceed = true;
           }
 
-          this.isAuthenticated$.next(true);
-          return user;
+          if(proceed) {
+            storage.setItem("appSession", {
+              user: environment.lsuserId,
+              token: environment.lstoken,
+            });
+            this._tokenStorageService.saveToken(result.token);
+            this._tokenStorageService.saveRefreshToken(result.refreshToken);
+            this._tokenStorageService.saveUser(user);
+  
+            this.isAuthenticated$.next(true);
+            return user;
+          }
         })
       );
+  }
+
+  redirectToPlatform() {
+    storage.setItem("appSession", {
+      user: environment.lsuserId,
+      token: environment.lstoken,
+    });
+
+    let token = this._localService.getLocalStorage(environment.lstoken);
+    let refreshToken = this._localService.getLocalStorage(environment.lsrefreshtoken);
+    let user = this._localService.getLocalStorage(environment.lsuser);
+
+    this._tokenStorageService.saveToken(token);
+    this._tokenStorageService.saveRefreshToken(refreshToken);
+    this._tokenStorageService.saveUser(user);
+    this.isAuthenticated$.next(true);
+
+    return user;
   }
 
   logout(): void {

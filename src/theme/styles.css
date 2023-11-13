@@ -729,3 +729,9 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
 .course-students .mat-column-email {
     font-size: 13px;
 }
+
+.dropdown-list .filter-textbox input:focus {
+    outline: none;
+    outline-offset: 0px;
+    --tw-ring-color: transparent;
+}

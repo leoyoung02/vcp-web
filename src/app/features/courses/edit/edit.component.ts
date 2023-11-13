@@ -408,6 +408,8 @@ export class CourseEditComponent {
       },
   };
   downloadPondFiles = [];
+  allTutors: any;
+  filteredTutors: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -506,7 +508,8 @@ export class CourseEditComponent {
       unSelectAllText: this._translateService.instant('dialog.clearall'),
       limitSelection: 3,
       itemsShowLimit: 2,
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     }
     this.tutorDropDownSettings = {
       singleSelection: false,
@@ -515,7 +518,9 @@ export class CourseEditComponent {
       selectAllText: this._translateService.instant('dialog.selectall'),
       unSelectAllText: this._translateService.instant('dialog.clearall'),
       itemsShowLimit: 6,
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
+      limitSelection: 300,
     }
     this.studentDropDownSettings = {
       singleSelection: false,
@@ -524,7 +529,8 @@ export class CourseEditComponent {
       selectAllText: this._translateService.instant('dialog.selectall'),
       unSelectAllText: this._translateService.instant('dialog.clearall'),
       itemsShowLimit: 6,
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     }
     this.tutorTypeDropdownSettings = {
       singleSelection: false,
@@ -1082,6 +1088,11 @@ export class CourseEditComponent {
         this.tutors = tutors && tutors.filter(tutor => {
             return tutor.status == 1
         })
+        if(this.tutors?.length > 0) {
+          this.tutors = this.tutors.sort((a, b) => a.name.localeCompare(b.name))
+        }
+        this.allTutors = this.tutors;
+        this.filteredTutors = this.allTutors;
         if(this.tutors?.length > 0) {
           this.getSelectedTutors()
         }
@@ -2779,6 +2790,54 @@ export class CourseEditComponent {
       duration: 3000,
       panelClass: ["info-snackbar"],
     });
+  }
+
+  onFilterTutorChange(search) {
+    if(search) {
+      let filteredTutors = this.allTutors?.filter(m => {
+        return (
+          (m.name &&
+            m.name
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              search
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
+          (m.first_name &&
+            m.first_name
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                search
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
+          (m.last_name &&
+            m.last_name
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                search
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
+          (m.email &&
+            m.email.toLowerCase().indexOf(search.toLowerCase()) >=
+              0)
+        );
+      })
+      this.filteredTutors = filteredTutors;
+    } else {
+      this.filteredTutors = this.allTutors;
+    }
   }
 
   ngOnDestroy() {

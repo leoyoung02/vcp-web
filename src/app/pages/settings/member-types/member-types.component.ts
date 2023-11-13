@@ -32,6 +32,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { initFlowbite } from "flowbite";
+import { EditorModule } from "@tinymce/tinymce-angular";
 import get from "lodash/get";
 
 @Component({
@@ -47,6 +48,7 @@ import get from "lodash/get";
     MatPaginatorModule,
     MatSortModule,
     MatSnackBarModule,
+    EditorModule,
     SearchComponent,
     BreadcrumbComponent,
     ToastComponent,
@@ -255,6 +257,9 @@ export class ManageMemberTypesComponent {
   @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
     | ElementRef
     | undefined;
+  hasContract: boolean = false;
+  activeContract: boolean = false;
+  contractDescription: any;
 
   constructor(
     private _router: Router,
@@ -451,6 +456,7 @@ export class ManageMemberTypesComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data);
           this.mapUserPermissions(data?.user_permissions);
@@ -515,6 +521,9 @@ export class ManageMemberTypesComponent {
       );
       this.hasCustomInvoice = other_settings.some(
         (a) => a.title_en == "Custom invoice" && a.active == 1
+      );
+      this.hasContract = other_settings.some(
+        (a) => a.title_en == "Contract" && a.active == 1
       );
     }
   }
@@ -690,6 +699,8 @@ export class ManageMemberTypesComponent {
     this.manageMembers = item.manage_members ? true : false;
     this.requirePayment = item.require_payment == 1 ? true : false;
     this.activateTrialPeriod = item.trial_period == 1 ? true : false;
+    this.contractDescription = item?.contract ? item?.contract?.contract : '';
+    this.activeContract = item?.accept_conditions == 1 ? true : false;
     if (this.requirePayment) {
       if (this.memberTypeForm.controls["price"]) {
         this.memberTypeForm.controls["price"].setValue(item.price);
@@ -1628,6 +1639,31 @@ export class ManageMemberTypesComponent {
       duration: 3000,
       panelClass: ["info-snackbar"],
     });
+  }
+
+  saveContract() {
+    let params = {
+      company_id: this.companyId,
+      custom_member_type_id: this.selectedId,
+      contract: this.contractDescription,
+      accept_conditions: this.activeContract ? 1 : 0,
+    };
+    this._companyService
+      .updateConditions(params)
+      .subscribe(
+        (response) => {
+          if (response) {
+            this.fetchManageMemberTypesData();
+            this.open(
+              this._translateService.instant("dialog.savedsuccessfully"),
+              ""
+            );
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   ngOnDestroy() {

@@ -263,6 +263,7 @@ export class ClubEditComponent {
       limitSelection: 3,
       itemsShowLimit: 2,
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.subcategoryDropdownSettings = {
       singleSelection: false,
@@ -284,12 +285,14 @@ export class ClubEditComponent {
       limitSelection: 3,
       itemsShowLimit: 2,
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.dropdownSettingsAdmin = {
       singleSelection: this.companyId == 32 ? false : true,
       idField: "id",
       textField: "name",
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.fetchClubsData();
   }

@@ -354,7 +354,11 @@ export class LoginComponent {
       .subscribe(
         (data: any) => {
           if (data) {
-            this._router.navigate([this.returnUrl ?? `/`]);
+            if(data?.redirect_conditions) {
+              this._router.navigate([`/general/contract/${data?.fk_company_id}/${data?.custom_member_type_id}`]);
+            } else {
+              this._router.navigate([this.returnUrl ?? `/`]);
+            }
           }
         },
         (error) => {

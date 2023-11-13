@@ -64,6 +64,7 @@
     "filepond-plugin-image-edit": "^1.6.3",
     "filepond-plugin-image-preview": "^4.6.11",
     "flowbite": "^1.8.1",
+    "he": "^1.2.0",
     "lodash": "^4.17.21",
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",

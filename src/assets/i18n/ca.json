@@ -3308,5 +3308,9 @@
         "gallery": "Galeria",
         "socialmedia": "URL de xarxes socials",
         "author": "Autor"
+    },
+    "contract": {
+        "review": "Revisa els termes i condicions",
+        "pleasereview": "Reviseu les condicions següents:"
     }
 }

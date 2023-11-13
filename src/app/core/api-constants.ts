@@ -63,6 +63,10 @@ export const AREA_GROUPS_URL = `${API_BASE}/company/profile/area-groups`;
 export const AS_SECTORS_URL = `${API_BASE}/guest/as/business-categories`;
 export const EDIT_HOME_VIDEO_SETTINGS_URL = `${API_BASE}/company/home/video/update`;
 export const EDIT_HOME_MODULE_SETTINGS_URL = `${API_BASE}/company/home/module/update`;
+export const CONTRACTS_URL = `${API_BASE}/guest/contracts`;
+export const CONTRACT_URL = `${API_BASE}/guest/contract`;
+export const ACCEPT_CONDITIONS_URL = `${API_BASE}/guest/accept/conditions`;
+export const EDIT_CONDITIONS_URL = `${API_BASE}/guest/conditions/edit`;
 
 export const LISTS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/lists-management-data`;
 export const MANAGE_MEMBER_TYPES_DATA_URL = `${API_BASE}/v2/manage-member-types-data`;

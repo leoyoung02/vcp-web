@@ -357,6 +357,7 @@ export class FeatureComponent {
       limitSelection: 4,
       itemsShowLimit: 4,
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
 
     this.isInitialLoad = false;

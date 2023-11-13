@@ -192,6 +192,7 @@ export class SignupComponent {
       unSelectAllText: this._translateService.instant("dialog.clearall"),
       itemsShowLimit: 1,
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.getSubfeatures();
     this.checkConfirmEmail();

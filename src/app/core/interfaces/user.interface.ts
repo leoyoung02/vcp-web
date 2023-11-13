@@ -10,4 +10,8 @@ export interface User {
     token?: string;
     refreshToken?: string;
     custom_member_type_id?: number;
+    accept_conditions?: boolean;
+    created?: string;
+    accepted_conditions?: boolean;
+    redirect_conditions?: boolean;
 }

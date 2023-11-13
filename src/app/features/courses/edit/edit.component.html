@@ -262,6 +262,7 @@
                                         [data]="tutors"
                                         [(ngModel)]="selectedCourseTutor"
                                         [ngModelOptions]="{standalone: true}"
+                                        (onFilterChange)="onFilterTutorChange($event)"
                                     >
                                     </ng-multiselect-dropdown>
                                 </div>

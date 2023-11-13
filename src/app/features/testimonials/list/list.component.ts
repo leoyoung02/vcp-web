@@ -9,9 +9,10 @@ import { TestimonialsService } from '@features/services';
 import { FilterComponent, PageTitleComponent } from '@share/components';
 import { SearchComponent } from "@share/components/search/search.component";
 import { NgxPaginationModule } from "ngx-pagination";
+import { TestimonialCardComponent } from '@share/components/card/testimonial/testimonial.component';
 import moment from "moment";
 import get from 'lodash/get';
-import { TestimonialCardComponent } from '@share/components/card/testimonial/testimonial.component';
+import he from 'he';
 
 @Component({
   selector: 'app-testimonials-list',
@@ -411,15 +412,48 @@ export class TestimonialsListComponent {
     let testimonials = this.allTestimonials
     if (this.search) {
       testimonials = testimonials.filter(m => {
-        let include = false;
-
-        let match = m?.tags_display?.toLowerCase().indexOf(this.search.toLowerCase()) >= 0
-        if ((m.short_description?.toLowerCase().indexOf(this.search.toLowerCase()) >= 0) || 
-          (m.description?.toLowerCase().indexOf(this.search.toLowerCase()) >= 0) || match) {
-          include = true
-        }
-
-        return include;
+        return (
+          (m.author && m.author
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.search
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
+          (m.tags_display && m.tags_display
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.search
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
+          (m.short_description && he.decode(m.short_description)
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.search
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) || 
+            (m.description && he.decode(m.description)
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.search
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0)
+        )
       })
     }
 

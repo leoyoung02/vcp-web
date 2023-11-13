@@ -3297,5 +3297,9 @@
         "gallery": "Galerie",
         "socialmedia": "Social-Media-URL",
         "author": "Autor"
+    },
+    "contract": {
+        "review": "Bewertungsbedingungen",
+        "pleasereview": "Bitte überprüfen Sie die folgenden Bedingungen:"
     }
 }

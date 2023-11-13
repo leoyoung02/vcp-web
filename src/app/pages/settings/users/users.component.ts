@@ -9,6 +9,7 @@ import {
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
+import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import {
   BreadcrumbComponent,
@@ -53,6 +54,7 @@ import get from "lodash/get";
     MatSortModule,
     FontAwesomeModule,
     MatSnackBarModule,
+    MatTabsModule,
     NgMultiSelectDropDownModule,
     SearchComponent,
     BreadcrumbComponent,
@@ -255,6 +257,7 @@ export class ManageUsersComponent {
   selectedAssignedStudent: any = "";
   studentToAssign: any = [];
   studentToAssign2: any = [];
+  filteredMembers: any = [];
   allMembers: any = [];
   showAssignTutorModal: boolean = false;
   @ViewChild(MatPaginator, { static: false }) paginator:
@@ -309,6 +312,16 @@ export class ManageUsersComponent {
   userCourseCredits: any;
   userTypeName: any;
   coursesFeature: any;
+  roleMemberGroupChanged: boolean = false;
+  newSelectedRole: any;
+  allCourses: any;
+  filteredCourses: any;
+  tabIndex = 0;
+  tabSelected: boolean = false;
+  assignedStudents: any;
+  hasAddedUser: boolean = false;
+  createdUserId: any;
+  currentUser: any;
 
   constructor(
     private _router: Router,
@@ -372,6 +385,7 @@ export class ManageUsersComponent {
       unSelectAllText: this._translateService.instant("dialog.clearall"),
       itemsShowLimit: 3,
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.courseDropDownSettings = {
       singleSelection: false,
@@ -381,6 +395,7 @@ export class ManageUsersComponent {
       unSelectAllText: this._translateService.instant("dialog.clearall"),
       itemsShowLimit: 3,
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search')
     };
     this.studentDropDownSettings = {
       singleSelection: false,
@@ -390,6 +405,8 @@ export class ManageUsersComponent {
       unSelectAllText: this._translateService.instant("dialog.clearall"),
       itemsShowLimit: 3,
       allowSearchFilter: true,
+      limitSelection: 300,
+      searchPlaceholderText: this._translateService.instant('guests.search')
     };
     this.dropdownSettings = {
       singleSelection: false,
@@ -398,6 +415,7 @@ export class ManageUsersComponent {
       limitSelection: 4,
       itemsShowLimit: 4,
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.categoryDropdownSettings = {
       singleSelection: false,
@@ -407,6 +425,7 @@ export class ManageUsersComponent {
       unSelectAllText: this._translateService.instant("dialog.clearall"),
       itemsShowLimit: 1,
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.initializeBreadcrumb();
     this.initializeSearch();
@@ -661,6 +680,16 @@ export class ManageUsersComponent {
       async (response) => {
         this.members = response[0] ? response[0]["all_members"] : [];
 
+        if(this.members?.length > 0 && !this.currentUser && this.userId) {
+          let current_user = this.members?.filter(member => {
+            return member.id == this.userId
+          })
+          let current = current_user?.length > 0 ? current_user[0] : ''
+          if(current && current.custom_member_type_id == 243) {
+            this.currentUser = current
+          }
+        }
+
         let all_members = this.members;
         let members_expired: any[] = [];
         let members_cancelled: any[] = [];
@@ -901,6 +930,7 @@ export class ManageUsersComponent {
           recordStatus: "company-settings.active",
         }));
         this.allMembers = this.members;
+        this.filteredMembers = this.allMembers;
         this.membersForApproval = this.membersForApproval
           ? this.membersForApproval.map((i) => ({
               ...i,
@@ -976,6 +1006,10 @@ export class ManageUsersComponent {
           this.getInvitedByPeople();
         }
 
+        if(this.searchKeyword) {
+          this.members = this.filterSearchKeyword(this.members);
+        }
+
         if (refresh) {
           this.filterMembers();
         } else {
@@ -1009,6 +1043,15 @@ export class ManageUsersComponent {
         }
 
         this.isUsersLoading = false;
+
+        if(this.hasAddedUser && this.userMode == 'add') {
+          let selected_user = this.members?.filter(m => {
+            return m.email == this.createdUserId
+          })
+          if(selected_user?.length > 0) {
+            this.editUser(selected_user[0], 'edit');
+          }
+        }
       },
       (error) => {
         console.log(error);
@@ -1259,8 +1302,16 @@ export class ManageUsersComponent {
         let include = false;
         if (
           (m.name &&
-            m.name.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >=
-              0) ||
+            m.name
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
           (m.first_name &&
             m.first_name
               .toLowerCase()
@@ -2040,8 +2091,12 @@ export class ManageUsersComponent {
         });
         this.loadUserCity();
         setTimeout(() => {
-          this.selectedRole = "";
-          this.selectedRole = this.selectedUser.custom_member_type_id;
+          if(this.roleMemberGroupChanged && this.newSelectedRole) {
+            
+          } else {
+            this.selectedRole = "";
+            this.selectedRole = this.selectedUser.custom_member_type_id;
+          }
         }, 500);
       }
     } else if (this.userMode == "add") {
@@ -2286,6 +2341,13 @@ export class ManageUsersComponent {
     this.errorMessage = "";
     this.selectedAssignedStudent = "";
     this.selectedAssignedTutor = "";
+    this.roleMemberGroupChanged = false;
+    this.newSelectedRole = "";
+    this.tabIndex = 0;
+    this.hasAddedUser = false;
+    this.createdUserId = '';
+    this.tutor = false;
+    this.superTutor = false;
 
     if (this.showDefaultRegistrationFields) {
       this.userForm?.controls["first_name"].setValue("");
@@ -2491,6 +2553,13 @@ export class ManageUsersComponent {
     this.errorMessage = "";
     this.courseCreditsList = [];
     this.selectedCourses = [];
+    this.roleMemberGroupChanged = false;
+    this.newSelectedRole = "";
+    this.superTutor = false;
+    this.isGuardianType = false;
+    this.tabIndex = 0;
+    this.hasAddedUser = false;
+    this.createdUserId = '';
     if (this.hasBuddy && this.mentors && this.mentors.length > 0) {
       this.isMentor = this.mentors.some(
         (a) => a.user_id === this.selectedUser.id
@@ -3531,6 +3600,8 @@ export class ManageUsersComponent {
               } else {
                 this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
                 this.reloadMembersInfo();
+                this.hasAddedUser = true;
+                this.createdUserId = this.userForm?.get("email")?.value;
                 this.closemodalbutton?.nativeElement.click();
               }
             },
@@ -3609,6 +3680,9 @@ export class ManageUsersComponent {
         this.memberStatusFilter = "Active";
       }
       this.getMembers();
+      if(this.hasTutors) {
+        this.getTutors();
+      }
       // this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
     }, 500);
   }
@@ -4111,6 +4185,8 @@ export class ManageUsersComponent {
   }
 
   async changeMemberRoleGroup(event) {
+    this.roleMemberGroupChanged = true;
+    this.newSelectedRole = this.selectedRole
     this.newUserForm = "";
     var existingUserForm;
     if (this.hasCustomMemberTypeSettings) {
@@ -4666,6 +4742,8 @@ export class ManageUsersComponent {
           this.courses = courses?.filter(course => {
             return course.status == 1
           })
+          this.allCourses = this.courses
+          this.filteredCourses = this.allCourses
         },
         error => {
           console.log(error)
@@ -4680,6 +4758,15 @@ export class ManageUsersComponent {
     })
     if(course?.length > 0) {
       credits = course[0].course_credits
+    }
+
+    if(this.userCourseCredits?.length > 0) {
+      let course_credits = this.userCourseCredits?.filter(ucc => {
+        return ucc.course_id == course[0].id 
+      })
+      if(course_credits?.length > 0) {
+        credits = course_credits[0].remaining_credits || course_credits[0].credits
+      }
     }
     
     let match = this.courseCreditsList.some(a => a.id === event.id)
@@ -4729,8 +4816,115 @@ export class ManageUsersComponent {
     }
   }
 
+  onFilterStudentChange(search) {
+    if(search) {
+      let filteredMembers = this.allMembers?.filter(m => {
+        return (
+          (m.name &&
+            m.name
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              search
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
+          (m.first_name &&
+            m.first_name
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                search
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
+          (m.last_name &&
+            m.last_name
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                search
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
+          (m.startup_name &&
+            m.startup_name
+              .toLowerCase()
+              .indexOf(search.toLowerCase()) >= 0) ||
+          (m.founder_name &&
+            m.founder_name
+              .toLowerCase()
+              .indexOf(search.toLowerCase()) >= 0) ||
+          (m.email &&
+            m.email.toLowerCase().indexOf(search.toLowerCase()) >=
+              0)
+        );
+      })
+      this.filteredMembers = filteredMembers;
+    } else {
+      this.filteredMembers = this.allMembers;
+    }
+  }
+
+  onFilterCourseChange(search) {
+    if(search) {
+      let filteredCourses = this.allCourses?.filter(m => {
+        return (
+          (m.title &&
+            m.title
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              search
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0)
+        );
+      })
+      this.filteredCourses = filteredCourses;
+    } else {
+      this.filteredCourses = this.allCourses;
+    }
+  }
+
   handleGoBack() {
     this._location.back();
+  }
+
+  changeTab(event) {
+
+  }
+
+  addStudent() {
+    if(this.assignedStudents?.length > 0) {
+      this.filteredMembers?.forEach(member => {
+        let match = this.assignedStudents.some(a => a.id == member.id);
+        if(match) {
+          let selected_match = this.selectedAssignedStudent.some(a => a.id == member.id);
+          if(!selected_match) {
+            this.selectedAssignedStudent.push(member);
+          }
+        }
+      })
+    }
+
+    this.assignedStudents = [];
+  }
+
+  deleteAssignedStudent(row) {
+    this.selectedAssignedStudent.forEach((g, idx) => {
+      if(g.id == row.id) {
+        this.selectedAssignedStudent.splice(idx, 1)
+      }
+    })
   }
 
   ngOnDestroy() {

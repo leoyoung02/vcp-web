@@ -81,6 +81,7 @@ export class CourseDetailComponent {
   course: any;
   courseUnitTypeSrc: string = environment.api +  '/get-course-unit-type-image/';
   courseUnitSrc: string = environment.api +  '/get-course-unit-file/';
+  downloadCourseUnitSrc: string = environment.api +  '/guest/download-course-unit-file/';
   courseUnitScormSrc: string = environment.api +  '/';
   courseProgress: any;
   coursePoints: any;

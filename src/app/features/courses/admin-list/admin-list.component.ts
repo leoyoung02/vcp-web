@@ -361,8 +361,15 @@ export class CoursesAdminListComponent {
         return (
           (course.title &&
             course.title
-              .toLowerCase()
-              .indexOf(this.searchKeyword.toLowerCase()) >= 0)
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0)
         );
       });
     }

@@ -138,7 +138,8 @@ export class TutorsAdminListComponent {
       selectAllText: this._translateService.instant('dialog.selectall'),
       unSelectAllText: this._translateService.instant('dialog.clearall'),
       itemsShowLimit: 8,
-      allowSearchFilter: true
+      allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     }
     this.fetchTutorsManagementData();
     this.getCourses();
@@ -184,12 +185,26 @@ export class TutorsAdminListComponent {
         return (
           (tutor.first_name &&
             tutor.first_name
-              .toLowerCase()
-              .indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
           (tutor.last_name &&
             tutor.last_name
-              .toLowerCase()
-              .indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
           (tutor.email &&
             tutor.email
               .toLowerCase()

@@ -1555,15 +1555,36 @@ export class MainComponent {
           (item["category_" + lang] &&
             item["category_" + lang]
               .toLowerCase()
-              .indexOf(this.search.toLowerCase()) >= 0) ||
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.search
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
           (item["title_" + lang] &&
             item["title_" + lang]
               .toLowerCase()
-              .indexOf(this.search.toLowerCase()) >= 0) ||
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.search
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
           (item["description_" + lang] &&
             item["description_" + lang]
               .toLowerCase()
-              .indexOf(this.search.toLowerCase()) >= 0)
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.search
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0)
         ) {
           return true;
         }

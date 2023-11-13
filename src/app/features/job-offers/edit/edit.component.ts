@@ -196,6 +196,7 @@ export class JobOfferEditComponent {
       unSelectAllText: this._translateService.instant("dialog.clearall"),
       itemsShowLimit: 2,
       allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.fetchJobOffersData();
     this.pageTitle = this.id > 0 ? this._translateService.instant('job-offers.edityouroffer') : this._translateService.instant('job-offers.createyouroffer');

@@ -132,6 +132,7 @@ export class MemberDetailComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data)
           this.memberData = data;
           this.initializePage();
         },
@@ -172,9 +173,17 @@ export class MemberDetailComponent {
       image: `${environment.api}/${member.image}`,
       display_name: member?.first_name ? `${member?.first_name} ${member?.first_name}` : member?.name,
       email: `mailto:${member?.email}`,
+      email_display: member?.email,
       phone: `tel:${member?.phone}`,
+      phone_display: member?.phone,
       city: member?.city,
-      sector: member?.sector
+      sector: member?.sector,
+      zip_code: member?.zip_code,
+      country: member?.country,
+      company_name: member?.company_name,
+      area_group: member?.area_group,
+      linkedin: member?.linkedin,
+      website: member?.website,
     }
     this.member = t;
   }
