@@ -13,9 +13,9 @@
     [userId]="userId"
     [superAdmin]="superAdmin"
     [company]="company"
-    [section1Mode]="companyId == 32 ? 'plans' : (companyId == 52 ? 'courses' : '')"
+    [section1Mode]="companyId != 52 ? 'plans' : (companyId == 52 ? 'courses' : '')"
     [section2Mode]="companyId == 32 ? 'cityguide-employmentchannel' : (companyId == 52 ? 'testimonials-tutors' : '')"
-    [section3Mode]="companyId == 32 ? 'clubs' : ''"
+    [section3Mode]="companyId != 52 && companyId != 27 ? 'clubs' : ''"
   >
   </app-masonry>
 </div>

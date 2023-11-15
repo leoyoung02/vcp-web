@@ -14,8 +14,10 @@ import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { MembersService } from "@features/services/members/members.service";
 import { initFlowbite } from "flowbite";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from "@angular/forms";
 import moment from "moment";
 import get from "lodash/get";
+
 @Component({
   selector: 'app-members-detail',
   standalone: true,
@@ -23,6 +25,8 @@ import get from "lodash/get";
     CommonModule,
     TranslateModule,
     MatSnackBarModule,
+    FormsModule,
+    ReactiveFormsModule,
     BreadcrumbComponent,
     NgOptimizedImage,
     ToastComponent,
@@ -63,13 +67,29 @@ export class MemberDetailComponent {
   acceptText: string = "";
   cancelText: any = "";
   confirmMode: string = "";
-  @ViewChild("modalbutton", { static: false }) modalbutton:
-    | ElementRef
-    | undefined;
   featureId: any;
   membersFeature: any;
   editHover: boolean = false;
   deleteHover: boolean = false;
+  createQuestionHover: boolean = false;
+  createReferenceHover: boolean = false;
+  questionForm: any;
+  questionFormSubmitted: boolean = false;
+  message: any = '';
+  dialogMode: string = "";
+  dialogTitle: any;
+  errorMessage: string = '';
+  processing: boolean = false;
+  apiPath: string = environment.api + '/';
+  sendReferenceForm: any;
+  sendReferenceFormSubmitted: boolean = false;
+  processingSendReference: boolean = false;
+  @ViewChild("modalbutton", { static: false }) modalbutton:
+    | ElementRef
+    | undefined;
+  @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+    | ElementRef
+    | undefined;
 
   constructor(
     private _router: Router,
@@ -82,7 +102,6 @@ export class MemberDetailComponent {
   ) {}
 
   async ngOnInit() {
-    initFlowbite();
     this.language =
       this._localService.getLocalStorage(environment.lslang) || "es";
     this._translateService.use(this.language || "es");
@@ -124,6 +143,10 @@ export class MemberDetailComponent {
       );
 
     this.getMember();
+
+    setTimeout(() => {
+      initFlowbite();
+    }, 2000);
   }
 
   getMember() {
@@ -143,6 +166,12 @@ export class MemberDetailComponent {
   }
 
   initializePage() {
+    this.sendReferenceForm = new FormGroup({
+      'name': new FormControl('', [Validators.required]),
+      'email': new FormControl('', [Validators.required]),
+      'phone': new FormControl('', [Validators.required]),
+      'description': new FormControl(''),
+    })
     let data = this.memberData;
     this.user = data?.user_permissions?.user;
     this.mapFeatures(data?.features_mapping);
@@ -184,6 +213,8 @@ export class MemberDetailComponent {
       area_group: member?.area_group,
       linkedin: member?.linkedin,
       website: member?.website,
+      references: member?.references,
+      questions: member?.questions,
     }
     this.member = t;
   }
@@ -240,6 +271,98 @@ export class MemberDetailComponent {
         ? feature.description_de || feature.description_es
         : feature.description_es
       : "";
+  }
+
+  handleCreateQuestion() {
+    this.questionFormSubmitted = false;
+    this.dialogMode = "question";
+    this.dialogTitle =  this._translateService.instant('members.askaquestion');
+    this.modalbutton?.nativeElement.click();
+  }
+
+  toggleCreateQuestionHover(event) {
+    this.createQuestionHover = event;
+  }
+
+  handleCreateReference() {
+    this.sendReferenceFormSubmitted = false;
+    this.dialogMode = "reference";
+    this.dialogTitle =  this._translateService.instant('members.sendreference');
+    this.modalbutton?.nativeElement.click();
+  }
+
+  toggleCreateReferenceHover(event) {
+    this.createReferenceHover = event;
+  }
+
+  sendNewQuestion() {
+    this.questionFormSubmitted = true
+
+    if(!this.message) {
+      return false
+    }
+
+    let params = {
+      'company_id': this.companyId,
+      'user_id': this.id,
+      'message': this.message,
+      'question_id': 0,
+      'created_by': this.userId,
+    }
+    this._membersService.askQuestion(params).subscribe(data => {
+      this.open(this._translateService.instant('dialog.sentsuccessfully'), '');
+      this.getMember();
+      this.closemodalbutton?.nativeElement.click();
+    }, err => {
+      console.log('err: ', err);
+    })
+  }
+
+  sendReference() {
+    this.sendReferenceFormSubmitted = true
+
+    if(!this.isValidReferenceForm()) {
+      return false
+    }
+
+    this.processingSendReference = true
+
+    let params = {
+      'company_id': this.companyId,
+      'user_id': this.id,
+      'name': this.sendReferenceForm.get('name').value,
+      'email': this.sendReferenceForm.get('email').value,
+      'phone': this.sendReferenceForm.get('phone').value,
+      'description': this.sendReferenceForm.get('description').value,
+      'created_by': this.userId,
+    }
+    this._membersService.sendReference(params).subscribe(data => {
+      this.open(this._translateService.instant('dialog.sentsuccessfully'), '');
+      this.processingSendReference = false
+      this.closemodalbutton?.nativeElement.click();
+      this.getMember();
+    }, err => {
+      console.log('err: ', err);
+      this.open(this._translateService.instant('dialog.error'), '');
+    })
+  }
+
+  isValidReferenceForm() {
+    let valid = true;
+    Object.keys(this.sendReferenceForm.controls).forEach(key => {
+      const controlErrors: ValidationErrors = this.sendReferenceForm.get(key).errors;
+      if(controlErrors != null) {
+        valid = false;
+      }
+    });
+    return valid;
+  }
+
+  async open(message: string, action: string) {
+    await this._snackBar.open(message, action, {
+      duration: 3000,
+      panelClass: ["info-snackbar"],
+    });
   }
 
   handleGoBack() {

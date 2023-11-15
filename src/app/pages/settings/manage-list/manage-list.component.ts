@@ -19,6 +19,8 @@ import { CommissionsAdminListComponent } from "@features/tutors/commissions-admi
 import { TestimonialsAdminListComponent } from "@features/testimonials/admin-list/admin-list.component";
 import { TutorsAdminListComponent } from "@features/tutors/admin-list/admin-list.component";
 import { CoursesAdminListComponent } from "@features/courses/admin-list/admin-list.component";
+import { DiscountsAdminListComponent } from "@features/offers/admin-list/admin-list.component";
+import { ServicesAdminListComponent } from "@features/servicios/admin-list/admin-list.component";
 import { environment } from "@env/environment";
 import get from "lodash/get";
 
@@ -41,6 +43,8 @@ import get from "lodash/get";
     TestimonialsAdminListComponent,
     TutorsAdminListComponent,
     CoursesAdminListComponent,
+    DiscountsAdminListComponent,
+    ServicesAdminListComponent,
     PageTitleComponent,
   ],
   templateUrl: "./manage-list.component.html",
@@ -82,6 +86,12 @@ export class ManageListComponent {
   coursesFeature: any;
   coursesFeatureId: any;
   coursesTitle: any;
+  discountsFeature: any;
+  discountsFeatureId: any;
+  discountsTitle: any;
+  servicesFeature: any;
+  servicesFeatureId: any;
+  servicesTitle: any;
   superAdmin: boolean = false;
   canCreatePlan: boolean = false;
   canCreateClub: boolean = false;
@@ -89,6 +99,8 @@ export class ManageListComponent {
   canCreateCityGuide: boolean = false;
   canCreateTestimonial: boolean = false;
   canCreateCourse: boolean = false;
+  canCreateDiscount: boolean = false;
+  canCreateService: boolean = false;
   buttonList: any[] = [];
   filter: any;
   company: any;
@@ -160,7 +172,9 @@ export class ManageListComponent {
       this.list == "commissions" ||
       this.list == "testimonials" ||
       this.list == "tutors" ||
-      this.list == "courses"
+      this.list == "courses" ||
+      this.list == "discounts" ||
+      this.list == "services"
     ) {
       if(this.list == 'commissions') {
         this.buttonList = [
@@ -181,7 +195,7 @@ export class ManageListComponent {
             filter: "Completed",
           }
         ];
-      } else if(this.list == 'testimonials' || this.list == 'tutors' || this.list == 'courses') {
+      } else if(this.list == 'testimonials' || this.list == 'tutors' || this.list == 'courses' || this.list == 'discounts' || this.list == 'services') {
         this.buttonList = [];
       }
       let filter = this.buttonList?.find((f) => f.selected);
@@ -217,7 +231,7 @@ export class ManageListComponent {
           this.initializeBreadcrumb();
           this.initializeIconFilterList(this.cities);
 
-          if(this.list != 'commissions' && this.list != 'testimonials' && this.list != 'tutors' && this.list != 'courses') {
+          if(this.list != 'commissions' && this.list != 'testimonials' && this.list != 'tutors' && this.list != 'courses' && this.list != 'discounts' && this.list != 'services') {
             this.initializeButtonGroup();
           }
           this.isLoading = false;
@@ -253,6 +267,12 @@ export class ManageListComponent {
         break;
       case "courses":
         this.listTitle = this.coursesTitle;
+        break;
+      case "discounts":
+        this.listTitle = this.discountsTitle;
+        break;
+      case "services":
+        this.listTitle = this.servicesTitle;
         break;
     }
   }
@@ -324,6 +344,22 @@ export class ManageListComponent {
     this.coursesTitle = this.coursesFeature
       ? this.getFeatureTitle(this.coursesFeature)
       : "";
+
+    this.discountsFeature = features?.find(
+      (f) => f.feature_id == 4 && f.status == 1
+    );
+    this.discountsFeatureId = this.discountsFeature?.feature_id;
+    this.discountsTitle = this.discountsFeature
+      ? this.getFeatureTitle(this.discountsFeature)
+      : "";
+
+    this.servicesFeature = features?.find(
+      (f) => f.feature_id == 14 && f.status == 1
+    );
+    this.servicesFeatureId = this.servicesFeature?.feature_id;
+    this.servicesTitle = this.servicesFeature
+      ? this.getFeatureTitle(this.servicesFeature)
+      : "";
   }
 
   mapUserPermissions(user_permissions) {
@@ -357,6 +393,17 @@ export class ManageListComponent {
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find(
         (f) => f.create == 1 && f.feature_id == 11
+      );
+    this.canCreateDiscount =
+      user_permissions?.create_plan_roles?.length > 0 ||
+      user_permissions?.member_type_permissions?.find(
+        (f) => f.create == 1 && f.feature_id == 4
+      );
+
+    this.canCreateService =
+      user_permissions?.create_plan_roles?.length > 0 ||
+      user_permissions?.member_type_permissions?.find(
+        (f) => f.create == 1 && f.feature_id == 14
       );
   }
 

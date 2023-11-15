@@ -2208,7 +2208,8 @@
         "createyourservice": "Create your service",
         "title": "Title",
         "edit": "Edit",
-        "delete": "Delete"
+        "delete": "Delete",
+        "service": "Service"
     },
     "company-reports": {
         "report": "Report",
@@ -2448,7 +2449,9 @@
         "askanewquestion": "Ask a new question",
         "askmeaquestion": "Ask me a question",
         "askyourquestion": "Ask your question",
-        "personalaccesstoken": "Personal access token"
+        "personalaccesstoken": "Personal access token",
+        "newquestion": "New question",
+        "newreference": "New reference"
     },
     "email": {
         "emails": "Emails",
@@ -3215,7 +3218,8 @@
         "manageoffers": "Manage offers",
         "manageoffersdesc": "View, add, edit and/or delete offers",
         "addoffer": "Add this offer",
-        "nothanks": "No, thanks"
+        "nothanks": "No, thanks",
+        "offer": "Offer/Discount"
     },
     "activity-types": {
         "name_es": "Name (ES)",
@@ -3339,5 +3343,9 @@
     "contract": {
         "review": "Review terms and conditions",
         "pleasereview": "Please review the conditions below:"
+    },
+    "blogs": {
+        "blogs": "Blogs",
+        "blog": "Blog"
     }
 }

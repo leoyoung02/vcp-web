@@ -2,7 +2,9 @@ import { CommonModule, NgOptimizedImage } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
+  EventEmitter,
   Input,
+  Output,
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { Subject } from "rxjs";
@@ -44,6 +46,7 @@ export class MemberCardComponent {
   @Input() image: any;
   @Input() buttonColor: any;
   @Input() page: any;
+  @Output() sendReference = new EventEmitter();
 
   languageChangeSubscription;
   language: any;
@@ -78,6 +81,10 @@ export class MemberCardComponent {
   toggleReadHover(event, id) {
     this.readHover = event;
     this.selectedMemberId = event ? id : ''
+  }
+
+  handleSendReference() {
+    this.sendReference.emit(this.id);
   }
 
   ngOnDestroy() {

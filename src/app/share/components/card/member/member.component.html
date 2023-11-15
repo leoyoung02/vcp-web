@@ -43,7 +43,7 @@
                 </div>
                 <div class="uppercase text-black pt-[10px] px-6 rounded-[10px] h-[52px] cursor-pointer w-auto inline-block text-center text-sm"
                     [ngStyle]="{'background-color': '#F6ECDF'}">
-                    <div class="flex items-center align-center font-semibold text-base pt-1">
+                    <div (click)="handleSendReference()" class="flex items-center align-center font-semibold text-base pt-1">
                         {{'members.reference' | translate}}
                     </div>
                 </div>

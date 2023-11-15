@@ -2202,7 +2202,8 @@
         "createyourservice": "Erstellen Sie Ihren Dienst",
         "title": "Titel",
         "edit": "Bearbeiten",
-        "delete": "löschen"
+        "delete": "löschen",
+        "service": "Service"
     },
     "company-reports": {
         "report": "Bericht",
@@ -2442,7 +2443,9 @@
         "askanewquestion": "Neue Frage stellen",
         "askmeaquestion": "Stell mir eine Frage",
         "askyourquestion": "Stellen Sie Ihre Frage",
-        "personalaccesstoken": "Persönlicher Zugriffstoken"
+        "personalaccesstoken": "Persönlicher Zugriffstoken",
+        "newquestion": "Pregunta nova",
+        "newreference": "Nova referència"
     },
     "email": {
         "emails": "E-Mails",
@@ -3177,7 +3180,8 @@
         "manageoffers": "Angebote verwalten",
         "manageoffersdesc": "Angebote anzeigen, hinzufügen, bearbeiten und/oder löschen",
         "addoffer": "Dieses Angebot hinzufügen",
-        "nothanks": "Nein, danke"
+        "nothanks": "Nein, danke",
+        "offer": "Angebot/Rabatt"
     },
     "activity-types": {
         "name_es": "Name (ES)",
@@ -3301,5 +3305,9 @@
     "contract": {
         "review": "Bewertungsbedingungen",
         "pleasereview": "Bitte überprüfen Sie die folgenden Bedingungen:"
+    },
+    "blogs": {
+        "blogs": "Blogs",
+        "blog": "Blog"
     }
 }

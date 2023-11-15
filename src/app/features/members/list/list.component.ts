@@ -1,7 +1,7 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { PageTitleComponent } from '@share/components';
+import { FilterComponent, PageTitleComponent } from '@share/components';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { SearchComponent } from "@share/components/search/search.component";
@@ -10,7 +10,8 @@ import { CompanyService, LocalService, UserService } from '@share/services';
 import { MembersService } from '@features/services/members/members.service';
 import { environment } from '@env/environment';
 import { MemberCardComponent } from '@share/components/card/member/member.component';
-import moment from "moment";
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import get from 'lodash/get';
 
 @Component({
@@ -20,14 +21,18 @@ import get from 'lodash/get';
     CommonModule,
     TranslateModule,
     NgxPaginationModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatSnackBarModule,
     NgOptimizedImage,
     PageTitleComponent,
     SearchComponent,
     MemberCardComponent,
+    FilterComponent,
   ],
   templateUrl: './list.component.html'
 })
-export class ListComponent {
+export class MembersListComponent {
   private destroy$ = new Subject<void>();
 
   languageChangeSubscription;
@@ -62,6 +67,25 @@ export class ListComponent {
   p: any;
   members: any = [];
   allMembers: any = [];
+  apiPath: string = environment.api + '/';
+  sendReferenceForm: any;
+  sendReferenceFormSubmitted: boolean = false;
+  processingSendReference: boolean = false;
+  member: any;
+  @ViewChild("modalbutton", { static: false }) modalbutton:
+    | ElementRef
+    | undefined;
+  @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+    | ElementRef
+    | undefined;
+  dialogMode: string = "";
+  dialogTitle: any;
+  cities: any;
+  list: any;
+  sectors: any;
+  buttonList: any;
+  selectedCity: any;
+  selectedSector: any;
 
   constructor(
     private _router: Router,
@@ -69,7 +93,8 @@ export class ListComponent {
     private _localService: LocalService,
     private _companyService: CompanyService,
     private _userService: UserService,
-    private _membersService: MembersService
+    private _membersService: MembersService,
+    private _snackBar: MatSnackBar
   ) {}
 
   @HostListener("window:resize", [])
@@ -126,6 +151,12 @@ export class ListComponent {
   }
 
   initializePage() {
+    this.sendReferenceForm = new FormGroup({
+      'name': new FormControl('', [Validators.required]),
+      'email': new FormControl('', [Validators.required]),
+      'phone': new FormControl('', [Validators.required]),
+      'description': new FormControl(''),
+    })
     this.initializeSearch();
     this.fetchMembers();
   }
@@ -147,8 +178,20 @@ export class ListComponent {
           this.mapSubfeatures(data?.settings?.subfeatures );
           this.mapUserPermissions(data?.user_permissions);
           this.members = data?.members;
+          if(this.members?.length > 0) {
+            let current = this.members?.filter(member => {
+              return member.id == this.userId
+            })
+            this.user = current?.length > 0 ? current[0] : {}
+          }
           this.allMembers = data?.members;
           this.formatMembers(data?.members);
+
+          this.cities = data?.cities;
+          this.initializeIconFilterList(this.cities);
+
+          this.sectors = data?.sectors;
+          this.initializeButtonGroup();
         },
         (error) => {
           console.log(error);
@@ -247,6 +290,127 @@ export class ListComponent {
     });
 
     this.members = members;
+
+    let selected = localStorage.getItem('member-filter-city');
+    if(selected && this.list?.length > 0) {
+      this.list.forEach(item => {
+        if(item.city == selected) {
+          item.selected = true;
+          this.selectedCity = selected;
+        } else {
+          item.selected = false;
+        }
+      })
+      this.filterMembers();
+    }
+  }
+
+  initializeIconFilterList(list) {
+    this.list = [
+      {
+        id: "All",
+        value: "",
+        text: this._translateService.instant("plans.all"),
+        selected: true,
+        company_id: this.companyId,
+        city: "",
+        province: "",
+        region: "",
+        country: "",
+        sequence: "",
+        campus: "",
+      },
+    ];
+
+    list?.forEach((item) => {
+      this.list.push({
+        id: item.id,
+        value: item.id,
+        text: item.city,
+        selected: false,
+        company_id: item.company_id,
+        city: item.city,
+        province: item.province,
+        region: item.region,
+        country: item.country,
+        sequence: item.sequence,
+        campus: item.campus,
+      });
+    });
+  }
+
+  initializeButtonGroup() {
+    let categories = this.sectors;
+    this.buttonList = [
+      {
+        id: "All",
+        value: "All",
+        text: this._translateService.instant("plans.all"),
+        selected: true,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: "All",
+        name_CA: "All",
+        name_DE: "All",
+        name_EN: "All",
+        name_ES: "All",
+        name_EU: "All",
+        name_FR: "All",
+        sequence: 1,
+        status: 1,
+      },
+    ];
+
+    if(categories?.length > 0) {
+      categories = categories.sort((a, b) => {
+        return a.name.localeCompare(b.name)
+      })
+    }
+
+    categories?.forEach((category) => {
+      this.buttonList.push({
+        id: category.id,
+        value: category.id,
+        text: category.name,
+        selected: false,
+        fk_company_id: category.company_id,
+        fk_supercategory_id: category.id,
+        name_CA: category.name,
+        name_DE: category.name,
+        name_EN: category.name,
+        name_ES: category.name,
+        name_EU: category.name,
+        name_FR: category.name,
+        sequence: this.buttonList?.length + 2,
+        status: 1,
+      });
+    });
+  }
+
+  filteredList(event) {
+    this.list?.forEach((item) => {
+      if (item.city === event) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+    
+    this.selectedCity = event || "";
+    localStorage.setItem('member-filter-city', this.selectedCity);
+    this.filterMembers();
+  }
+
+  filteredType(category) {
+    this.buttonList?.forEach((item) => {
+      if (item.id === category.id) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    this.selectedSector = category?.text || "";
+    this.filterMembers();
   }
 
   handleSearchChanged(event) {
@@ -272,6 +436,93 @@ export class ListComponent {
       })
     }
 
+    if(this.selectedCity) {
+      members = members?.filter(m => {
+        return m?.city == this.selectedCity
+      })
+    }
+
+    if(this.selectedSector && !(this.selectedSector == 'Todas' || this.selectedSector == 'All')) {
+      members = members?.filter(m => {
+        return m?.sector == this.selectedSector
+      })
+    }
+
     this.formatMembers(members);
+  }
+
+  handleSendReference(event) {
+    if(event && this.members?.length > 0) {
+      let selected = this.members?.filter(member => {
+        return member.id == event
+      })
+      this.member = selected?.length > 0 ? selected[0] : {}
+    } 
+    this.sendReferenceFormSubmitted = false;
+    this.dialogMode = "reference";
+    this.dialogTitle =  this._translateService.instant('members.sendreference');
+    this.modalbutton?.nativeElement.click();
+  }
+
+  sendReference() {
+    this.sendReferenceFormSubmitted = true
+
+    if(!this.isValidReferenceForm()) {
+      return false
+    }
+
+    this.processingSendReference = true
+
+    let params = {
+      'company_id': this.companyId,
+      'user_id': this.member?.id,
+      'name': this.sendReferenceForm.get('name').value,
+      'email': this.sendReferenceForm.get('email').value,
+      'phone': this.sendReferenceForm.get('phone').value,
+      'description': this.sendReferenceForm.get('description').value,
+      'created_by': this.userId,
+    }
+    this._membersService.sendReference(params).subscribe(data => {
+      this.open(this._translateService.instant('dialog.sentsuccessfully'), '');
+      this.processingSendReference = false;
+      if(this.members?.length > 0) {
+        this.members?.forEach(member => {
+          member.references += 1
+        })
+      }
+      if(this.allMembers?.length > 0) {
+        this.allMembers?.forEach(member => {
+          member.references += 1
+        })
+      }
+      this.closemodalbutton?.nativeElement.click();
+    }, err => {
+      console.log('err: ', err);
+      this.open(this._translateService.instant('dialog.error'), '');
+    })
+  }
+
+  async open(message: string, action: string) {
+    await this._snackBar.open(message, action, {
+      duration: 3000,
+      panelClass: ["info-snackbar"],
+    });
+  }
+
+  isValidReferenceForm() {
+    let valid = true;
+    Object.keys(this.sendReferenceForm.controls).forEach(key => {
+      const controlErrors: ValidationErrors = this.sendReferenceForm.get(key).errors;
+      if(controlErrors != null) {
+        valid = false;
+      }
+    });
+    return valid;
+  }
+
+  ngOnDestroy() {
+    this.languageChangeSubscription?.unsubscribe();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

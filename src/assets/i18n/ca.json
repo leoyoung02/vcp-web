@@ -2207,7 +2207,8 @@
         "createyourservice": "Crea el teu servei",
         "title": "Títol",
         "edit": "Editar",
-        "delete": "Eliminar"
+        "delete": "Eliminar",
+        "service": "Servei"
     },
     "company-reports": {
         "report": "Informe",
@@ -2447,7 +2448,9 @@
         "askanewquestion": "Realitzar una nova pregunta",
         "askmeesteion": "Fes-me una pregunta",
         "askyourquestion": "Fes la teva pregunta",
-        "personalaccesstoken": "Token d'accés personal"
+        "personalaccesstoken": "Token d'accés personal",
+        "newquestion": "Pregunta nova",
+        "newreference": "Nova referència"
     },
     "email": {
         "emails": "Correus electrònics",
@@ -3188,7 +3191,8 @@
         "manageoffers": "Gestiona les ofertes",
         "manageoffersdesc": "Veure, afegir, editar i/o suprimir ofertes",
         "addoffer": "Afegeix aquesta oferta",
-        "nothanks": "No, gràcies"
+        "nothanks": "No, gràcies",
+        "offer": "Oferta/descompte"
     },
     "activity-types": {
         "name_es": "Nom (ES)",
@@ -3312,5 +3316,9 @@
     "contract": {
         "review": "Revisa els termes i condicions",
         "pleasereview": "Reviseu les condicions següents:"
+    },
+    "blogs": {
+        "blogs": "Blocs",
+        "blog": "Bloc"
     }
 }

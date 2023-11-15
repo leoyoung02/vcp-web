@@ -120,6 +120,7 @@ export class MainComponent {
   languageChangeSubscription: any;
   testimonialsTitle: any;
   transferCommissionsByBulk: boolean = false;
+  menuColor: any;
 
   constructor(
     private _router: Router,
@@ -156,6 +157,9 @@ export class MainComponent {
         ? company[0].button_color
         : company[0].primary_color),
         (this.termsAndConditions = company[0].terms_and_conditions);
+      this.menuColor = company[0].menu_color
+        ? company[0].menu_color
+        : "#ffffff";
       this.privacyPolicy = company[0].policy;
       this.showLogo = company[0].show_logo_on_member_select;
       this.emailFrom = company[0].email_from;
@@ -606,6 +610,26 @@ export class MainComponent {
                   testimonialFeature[0].feature_name_ES;
           }
 
+          let servicesFeature = companyFeatures?.filter((f) => {
+            return f.feature_name == "Services" && f.status == 1;
+          });
+          if (servicesFeature?.length > 0) {
+            this.isServicesEnabled = true;
+            this.servicesTitle =
+              this.language == "en"
+                ? servicesFeature[0].name_en || servicesFeature[0].feature_name
+                : this.language == "fr"
+                ? servicesFeature[0].name_fr || servicesFeature[0].feature_name_FR
+                : this.language == "eu"
+                ? servicesFeature[0].name_eu || servicesFeature[0].feature_name_EU
+                : this.language == "ca"
+                ? servicesFeature[0].name_ca || servicesFeature[0].feature_name_CA
+                : this.language == "de"
+                ? servicesFeature[0].name_de || servicesFeature[0].feature_name_DE
+                : servicesFeature[0].name_es ||
+                  servicesFeature[0].feature_name_ES;
+          }
+
           this.companyFeatures =
             this.companyFeatures &&
             this.companyFeatures.sort((a, b) => {
@@ -818,23 +842,6 @@ export class MainComponent {
           // },
         ],
       },
-      // {
-      //   icon: "./assets/images/new-design/icons/General.png",
-      //   text: this._translateService.instant("company-settings.affiliation"),
-      //   value: "Affiliations",
-      //   submenus: [
-      //     {
-      //       text: this._translateService.instant("company-settings.affiliates"),
-      //       value: "Affiliates",
-      //     },
-      //     {
-      //       text: this._translateService.instant(
-      //         "company-settings.rrsstemplates"
-      //       ),
-      //       value: "RRSS Templates",
-      //     },
-      //   ],
-      // },
       {
         icon: "./assets/images/new-design/icons/Channels.png",
         text: this._translateService.instant("company-settings.communication"),
@@ -858,39 +865,6 @@ export class MainComponent {
           },
         ],
       },
-      // {
-      //   icon: "./assets/images/new-design/icons/Channels.png",
-      //   text: this._translateService.instant(
-      //     "company-settings.dataadministration"
-      //   ),
-      //   value: "Data Administration",
-      //   submenus: [
-      //     {
-      //       text: this._translateService.instant("company-settings.import"),
-      //       value: "Import",
-      //     },
-      //     {
-      //       text: this._translateService.instant("company-settings.export"),
-      //       value: "Export",
-      //     },
-      //     {
-      //       text: this._translateService.instant("company-settings.databackup"),
-      //       value: "Data Backup",
-      //     },
-      //     {
-      //       text: this._translateService.instant("company-settings.storage"),
-      //       value: "Storage",
-      //     },
-      //     {
-      //       text: this._translateService.instant("company-settings.recyclebin"),
-      //       value: "Recycle Bin",
-      //     },
-      //     {
-      //       text: this._translateService.instant("company-settings.audittrail"),
-      //       value: "AuditTrail",
-      //     },
-      //   ],
-      // },
       {
         icon: "./assets/images/new-design/icons/General.png",
         text: this._translateService.instant(
@@ -1087,6 +1061,17 @@ export class MainComponent {
               mi.submenus.push({
                 text: this.testimonialsTitle,
                 value: "Testimonials",
+              });
+            }
+          }
+
+          if (this.isServicesEnabled) {
+            let match =
+              mi.submenus && mi.submenus.some((a) => a.value === "Services");
+            if (!match) {
+              mi.submenus.push({
+                text: this.servicesTitle,
+                value: "Services",
               });
             }
           }
@@ -1501,6 +1486,10 @@ export class MainComponent {
         this._router.navigate([`/settings/manage-list/tutors`]);
       } else if (content == "Testimonials") {
         this._router.navigate([`/settings/manage-list/testimonials`]);
+      } else if (content == "Discounts") {
+        this._router.navigate([`/settings/manage-list/discounts`]);
+      } else if (content == "Services") {
+        this._router.navigate([`/settings/manage-list/services`]);
       }
     } else if (menu.value == "Users" && content == "Users") {
       this._router.navigate([`/settings/manage-list/users`]);

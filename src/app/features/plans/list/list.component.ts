@@ -14,6 +14,7 @@ import { PlansCalendarComponent } from "../calendar/calendar.component";
 import { SearchComponent } from "@share/components/search/search.component";
 import { FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
 import { NgxPaginationModule } from "ngx-pagination";
+import { PlanCardComponent } from "@share/components/card/plan/plan.component";
 import moment from "moment";
 import get from "lodash/get";
 
@@ -28,6 +29,7 @@ import get from "lodash/get";
     IconFilterComponent,
     FilterComponent,
     PageTitleComponent,
+    PlanCardComponent,
     NgOptimizedImage,
     NgxPaginationModule,
   ],
@@ -2177,6 +2179,26 @@ export class PlansListComponent {
         planTypeId = 4;
       }
       this._router.navigate([`/plans/details/${plan?.id}/${planTypeId}`]);
+    }
+  }
+
+  handleDetailsClickRoute(id) {
+    let plan_row = this.filteredPlan?.filter(plan => {
+      return plan.id == id
+    })
+    let plan
+    if(plan_row?.length > 0) {
+      plan = plan_row[0];
+    }
+    if(plan) {
+      let planTypeId = plan?.plan_type_id;
+      if (plan?.privacy && !plan?.private_type) {
+      } else {
+        if (this.fType == "Internos" || this.fType == "Internal") {
+          planTypeId = 4;
+        }
+        this._router.navigate([`/plans/details/${plan?.id}/${planTypeId}`]);
+      }
     }
   }
 

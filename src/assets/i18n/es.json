@@ -2207,7 +2207,8 @@
         "createyourservice": "Crea tu servicio",
         "title": "Título",
         "edit": "Editar",
-        "delete": "Eliminar"
+        "delete": "Eliminar",
+        "service": "Servicio"
     },
     "company-reports": {
         "report": "Informe",
@@ -2447,7 +2448,9 @@
         "askanewquestion": "Realizar una nueva pregunta",
         "askmeaquestion": "Házme una pregunta",
         "askyourquestion": "Haz tu pregunta",
-        "personalaccesstoken": "Token de acceso personal"
+        "personalaccesstoken": "Token de acceso personal",
+        "newquestion": "Nueva pregunta",
+        "newreference": "Nueva referencia"
     },
     "email": {
         "emails": "Correos electrónicos",
@@ -3199,7 +3202,8 @@
         "manageoffers": "Administrar ofertas",
         "manageoffersdesc": "Ver, agregar, editar y/o eliminar ofertas",
         "addoffer": "Añadir esta oferta",
-        "nothanks": "No, gracias"
+        "nothanks": "No, gracias",
+        "offer": "Oferta/Descuento"
     },
     "activity-types": {
         "name_es": "Nombre (ES)",
@@ -3324,5 +3328,9 @@
     "contract": {
         "review": "Revisar términos y condiciones",
         "pleasereview": "Por favor revise las condiciones a continuación:"
+    },
+    "blogs": {
+        "blogs": "Blogs",
+        "blog": "Blog"
     }
 }

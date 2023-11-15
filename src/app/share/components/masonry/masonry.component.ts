@@ -163,7 +163,7 @@ export class MasonryComponent {
 
   formatData() {
     if(this.data) {
-      this.section1Data = this?.data?.plans?.length >= 6 ? this?.data?.plans?.slice(0, 6) : []
+      this.section1Data = this?.data?.plans?.length >= 6 ? this?.data?.plans?.slice(0, 6) : this?.data?.plans
       
       let cityguides1 = this?.data?.city_guides?.length >= 2 ? this?.data?.city_guides?.slice(0, 2) : []
       let joboffers1 = this?.data?.job_offers?.length >= 2 ? this?.data?.job_offers?.slice(0, 4) : []

@@ -36,8 +36,8 @@
     }, 
     {  
         "path": "services",  
-        "icon": "./assets/images/new-design/icons/menus/CityAgenda.png",
-        "icondark": "",
+        "icon": "./assets/images/new-design/icons/menus/Clubs.png",
+        "icondark": "./assets/menu-icons/menu-icon-offers-dark.png",
         "facode": "fas fa-city",  
         "activeicon": "./assets/images/new-design/icons/menus/CityAgenda-active.png"   
     }, 

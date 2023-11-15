@@ -110,11 +110,11 @@ export class MasonrySection1Component {
   formatData() {
     if(this.section1Data?.length > 0) {
       this.plan1Data = this.section1Data?.length > 0 ? this.formatPlan(this.section1Data[0]) : {}
-      this.plan4Data = this.section1Data?.length >= 1 ? this.formatPlan(this.section1Data[1]) : {}
-      this.plan2Data = this.section1Data?.length >= 2 ? this.formatPlan(this.section1Data[2]) : {}
-      this.plan3Data = this.section1Data?.length >= 3 ? this.formatPlan(this.section1Data[3]) : {}
-      this.plan5Data = this.section1Data?.length >= 4 ? this.formatPlan(this.section1Data[4]) : {}
-      this.plan6Data = this.section1Data?.length >= 5 ? this.formatPlan(this.section1Data[5]) : {}
+      this.plan4Data = this.section1Data?.length > 1 ? this.formatPlan(this.section1Data[1]) : {}
+      this.plan2Data = this.section1Data?.length > 2 ? this.formatPlan(this.section1Data[2]) : {}
+      this.plan3Data = this.section1Data?.length > 3 ? this.formatPlan(this.section1Data[3]) : {}
+      this.plan5Data = this.section1Data?.length > 4 ? this.formatPlan(this.section1Data[4]) : {}
+      this.plan6Data = this.section1Data?.length > 5 ? this.formatPlan(this.section1Data[5]) : {}
     }
   }
 

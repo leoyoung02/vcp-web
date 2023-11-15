@@ -8,7 +8,10 @@
     </svg>
 </button>
 <!-- Dropdown menu -->
-<div id="dropdownNotificationType" class="mt-4 z-20 hidden w-48 max-w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" aria-labelledby="dropdownNotificationButton">
+<div id="dropdownNotificationType" 
+    class="mt-4 z-20 hidden w-48 max-w-48 bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" 
+    [ngClass]="{'w-48 max-w-48': mode != 'members', 'w-72 max-w-72': mode == 'members'}"
+    aria-labelledby="dropdownNotificationButton">
     <div class="divide-y divide-gray-100 dark:divide-gray-700">
         <ng-container *ngFor="let item of list">
             <a href="javascript:;" class="flex px-4 py-3 hover:bg-gray-100 dark:hover:bg-gray-700" (click)="handleFilter(item)">

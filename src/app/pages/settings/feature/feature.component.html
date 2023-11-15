@@ -6,7 +6,7 @@
     [buttonColor]="buttonColor"
     (goBack)="handleGoBack()"
 />
-<div class="py-6">
+<div class="py-16">
     <div class="flex items-center justify-between border border-b-2 border-l-0 border-r-0 border-t-0 pb-3 mb-6">
         <h1 class="text-2xl font-600">{{ this.language == 'en' ? this.featureNameEn : (this.language == 'fr' ? this.featureNameFr : (this.language == 'eu' ? (this.featureNameEu || this.featureNameEs) : (this.language == 'ca' ? (this.featureNameCa || this.featureNameEs) : (this.language == 'de' ? (this.featureNameDe || this.featureNameEs) : this.featureNameEs))))}}</h1>
         <button 

@@ -435,3 +435,28 @@ export const TESTIMONIAL_DETAILS_URL = `${API_BASE}/v2/testimonial-details`;
 // MEMBERS
 export const MEMBERS_COMBINED_URL = `${API_BASE}/v2/members`;
 export const MEMBER_COMBINED_URL = `${API_BASE}/v2/member-details`;
+export const ASK_QUESTION_URL = `${API_BASE}/company/member/question/ask`;
+export const SEND_REFERENCE_URL = `${API_BASE}/company/member/reference/send-test1`;
+
+// OFFERS
+export const OFFERS_COMBINED_URL = `${API_BASE}/v2/offers`;
+export const OFFERS_DATA_URL = `${API_BASE}/v2/offers-data`;
+export const OFFER_COMBINED_URL = `${API_BASE}/v2/offer-details`;
+export const SHARE_DISCOUNT_URL = `${API_BASE}/company/discount/share/link`;
+export const ADD_DISCOUNT_URL = `${API_BASE}/company/discount/create-optimize`;
+export const EDIT_DISCOUNT_URL = `${API_BASE}/company/discount/edit`;
+export const DELETE_DISCOUNT_URL = `${API_BASE}/company/discount/delete`;
+
+// SERVICIOS
+export const SERVICES_COMBINED_URL = `${API_BASE}/v2/services`;
+export const SERVICE_COMBINED_URL = `${API_BASE}/v2/service-details`;
+export const ADD_SERVICE_URL = `${API_BASE}/company/as-service/add`;
+export const EDIT_SERVICE_URL = `${API_BASE}/company/service/edit`;
+export const DELETE_SERVICE_URL = `${API_BASE}/company/service/delete`;
+
+// BLOGS
+export const BLOGS_COMBINED_URL = `${API_BASE}/v2/blogs`;
+export const BLOG_COMBINED_URL = `${API_BASE}/v2/blog-details`;
+export const ADD_BLOG_URL = `${API_BASE}/company/blog-new/add`;
+export const EDIT_BLOG_URL = `${API_BASE}/company/blog-new/edit`;
+export const DELETE_BLOG_URL = `${API_BASE}/company/blog-new/delete`;

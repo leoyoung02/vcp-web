@@ -35,7 +35,10 @@ export class FilterComponent {
           localStorage.getItem('plan-filter-city') : 
             (this.mode == 'tutors' ? 
               localStorage.getItem('tutor-filter-city') : 
-              ''
+              (this.mode == 'members' ? 
+                localStorage.getItem('member-filter-city') : 
+                ''
+              )
             )
         );
       this.isActiveFilter = selected ? true : false;

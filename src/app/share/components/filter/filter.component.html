@@ -15,6 +15,7 @@
         </div>
         <div class="ml-14" *ngIf="buttonList?.length > 0">
             <app-type-filter 
+                [mode]="mode"
                 [list]="buttonList"
                 (filterList)="filteredType($event)"
             >

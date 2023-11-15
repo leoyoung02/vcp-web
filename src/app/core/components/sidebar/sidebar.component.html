@@ -1,5 +1,5 @@
 <aside class="hidden sm:hidden md:block lg:block h-screen sticky top-0 pt-8 main-sidebar w-18 hover:w-64" 
-  [ngStyle]="{'background-color': buttonColor}"
+  [ngStyle]="{'background-color': primaryColor}"
   [ngClass]="{'whitespace-nowrap': !menuOpened,'whitespace-normal': menuOpened}"
   (mouseover)="toggleHover(true)"
   (mouseleave)="toggleHover(false)">
@@ -25,7 +25,7 @@
           [ngModelOptions]="{standalone: true}" 
           id="default-search" 
           class="block w-10/12 py-2 px-3 pl-5 text-sm border-none focus:border-transparent focus:ring-0" 
-          [ngStyle]="{'background-color': searchHover ? hoverColor : buttonColor, 'color': menuColor || '#ffffff'}"
+          [ngStyle]="{'background-color': searchHover ? hoverColor : primaryColor, 'color': menuColor || '#ffffff'}"
           [ngClass]="{'placeholder-white': menuColor != '#000000'}"
           placeholder="{{ 'landing.search' | translate }}"
           (keyup.enter)="handleKeyPressed()"
@@ -51,7 +51,7 @@
             class="cursor-pointer w-[22px] max-w-[22px] h-[22px] max-h-[22px]"
             alt=""
           />
-          <span [ngClass]="menu.path == 'members' ? 'ml-[21px]' : 'ml-[20px]'" 
+          <span [ngClass]="menu.path == 'members' ? 'ml-[21px]' : (menu.path == 'discounts' || menu.path == 'services' ? 'ml-[22px]' : 'ml-[20px]')" 
             class="text-sm" 
             [ngStyle]="{'color': menuColor || '#ffffff'}">
             {{ getMenuTitle(menu) }}
@@ -86,8 +86,9 @@
         alt=""
       />
       <ng-container *ngIf="menuOpened">
-        <button id="countries-button" data-dropdown-toggle="dropdown-countries" class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center text-white" type="button"
-          [ngClass]="{'rounded-lg': menuOpened}"
+        <button id="countries-button" data-dropdown-toggle="dropdown-countries" 
+          class="flex-shrink-0 z-10 inline-flex items-center py-2.5 px-4 text-sm font-medium text-center" type="button"
+          [ngClass]="{'rounded-lg': menuOpened, 'text-white': menuColor != '#000000'}"
           [ngStyle]="{'background-color': menuOpened ? hoverColor : 'transparent'}"
         >
           <img *ngIf="language == 'es'" width="20" height="16" class="mr-3" src="./assets/menu-icons/es.svg">

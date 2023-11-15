@@ -2203,7 +2203,8 @@
         "createyourservice": "Sortu zure zerbitzua",
         "title": "Izenburua",
         "edit": "Editatu",
-        "delete": "Ezabatu"
+        "delete": "Ezabatu",
+        "service": "Zerbitzua"
     },
     "company-reports": {
         "report": "Txostena",
@@ -2443,7 +2444,9 @@
         "askanewquestion": "Egin galdera berri bat",
         "askmeaquestion": "Egin galdera bat",
         "askyourquestion": "Egin zure galdera",
-        "personalaccesstoken": "Sarbide-token pertsonala"
+        "personalaccesstoken": "Sarbide-token pertsonala",
+        "newquestion": "Galdera berria",
+        "newreference": "Erreferentzia berria"
     },
     "email": {
         "emails": "Mezu elektronikoak",
@@ -3178,7 +3181,8 @@
         "manageoffers": "Kudeatu eskaintzak",
         "manageoffersdesc": "Ikusi, gehitu, editatu eta/edo ezabatu eskaintzak",
         "addoffer": "Gehitu eskaintza hau",
-        "nothanks": "Ez, eskerrik asko"
+        "nothanks": "Ez, eskerrik asko",
+        "offer": "Eskaintza/Deskontua"
     },
     "activity-types": {
         "name_es": "Izena (ES)",
@@ -3302,5 +3306,9 @@
     "contract": {
         "review": "Berrikusi zehaztapenak eta baldintzak",
         "pleasereview": "Mesedez, berrikusi beheko baldintzak:"
+    },
+    "blogs": {
+        "blogs": "Blogak",
+        "blog": "Blog"
     }
 }

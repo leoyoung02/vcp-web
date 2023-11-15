@@ -112,6 +112,24 @@ export const routes: Routes = [
         canMatch: [authGuard()],
     },
     {
+        path: 'discounts',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/offers')).routes,
+        canMatch: [authGuard()],
+    },
+    {
+        path: 'services',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/servicios')).routes,
+        canMatch: [authGuard()],
+    },
+    {
+        path: 'blog',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/blogs')).routes,
+        canMatch: [authGuard()],
+    },
+    {
         path: '**',
         data: { layout: PageLayout.Blank },
         loadComponent: async () => (await import('@pages/screens/not-found/not-found.component')).NotFoundComponent,

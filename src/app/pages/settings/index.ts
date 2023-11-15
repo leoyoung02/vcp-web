@@ -21,12 +21,6 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./feature/feature.component')).FeatureComponent,
     },
     {
-        path: 'members',
-        title: CustomTitleResolver,
-        data: { titleKey: 'plan-details.members'},
-        loadComponent: async () => (await import('@features/members/admin/admin.component')).AdminComponent,
-    },
-    {
         path: 'list/:id/:list',
         title: CustomTitleResolver,
         data: { titleKey: 'company-settings.lists'},

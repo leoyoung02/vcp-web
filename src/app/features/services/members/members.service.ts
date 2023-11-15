@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { MEMBERS_COMBINED_URL, MEMBER_COMBINED_URL } from "@lib/api-constants";
+import { ASK_QUESTION_URL, MEMBERS_COMBINED_URL, MEMBER_COMBINED_URL, SEND_REFERENCE_URL } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
 @Injectable({
@@ -26,5 +26,19 @@ export class MembersService {
     return this._http.get(`${MEMBER_COMBINED_URL}/${id}/${companyId}/${userId}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
+  }
+
+  askQuestion(payload): Observable<any> {
+    return this._http.post(ASK_QUESTION_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  sendReference(payload) {
+    return this._http.post(SEND_REFERENCE_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

@@ -20,6 +20,7 @@ import { initFlowbite } from "flowbite";
 export class TypeFilterComponent {
     @Input() list: any;
     @Input() icon: any;
+    @Input() mode: any;
     @Output() filterList = new EventEmitter();
 
     ngOnChanges(changes: SimpleChange) {
