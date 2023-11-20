@@ -1,0 +1,239 @@
+<div class="mx-auto my-auto max-w-full flex justify-center items-center align-center pt-20 pb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-0 sm:gap-8 md:gap-8 lg:gap-8 py-8">
+        <div class="relative mr-0 sm:mr-0 md:mr-8 lg:mr-83">
+            <img 
+                *ngIf="event?.image"
+                class="object-cover rounded-lg w-full max-w-full h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[698px] md:max-h-[698px] lg:h-[698px] lg:max-h-[698px]" 
+                [ngSrc]="eventImage" 
+                [alt]="getEventTitle(event)" 
+                width="520" 
+                height="698"
+            >
+            <div *ngIf="event?.image" class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
+            <div *ngIf="event?.image" class="absolute inset-0 flex items-center justify-center">
+                <div class="absolute inset-0 flex items-center">
+                    <div class="flex flex-col ml-4">
+                        <h2 class="text-white text-lg font-bold">{{ getEventTitle(event) }}</h2>
+                    </div>
+                </div>
+                <div *ngIf="event?.credits == 1" class="absolute inset-0 flex items-start justify-end pt-3 pr-4 text-sm text-white font-semibold">
+                    <div class="flex py-1.5 px-3 items-center rounded-lg" [ngStyle]="{'background-color': buttonColor}">
+                        <span class="text-xs text-white uppercase">{{ featuredTitle }}</span>
+                        <svg class="ml-2 w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1 .586-1.414Z"/>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="w-full">
+            <div class="mt-4 w-full max-w-full">
+                <div class="flex flex-col">
+                    <div [innerHtml]="planTruncatedDescription"></div>
+                    <ng-container *ngIf="planDescription?.length > truncate">
+                        <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
+                        <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="!planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="readMore()">{{ 'club-details.readmore' | translate }}</div>
+                    </ng-container>
+                </div>
+                <div class="flex flex-row justify-between my-12">
+                    <div class="flex">
+                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
+                        </svg>
+                        <div class="capitalize font-semibold">{{ planDay }}</div>
+                    </div>
+                    <div class="flex">
+                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                            <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M10 6v4l3.276 3.276M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                        </svg>
+                        <div class="capitalize font-semibold">{{ planTime }}</div>
+                    </div>
+                    <div class="flex" *ngIf="plan?.meeting_point">
+                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
+                            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                              <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                              <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
+                            </g>
+                        </svg>
+                        <div class="capitalize font-semibold">{{ plan?.meeting_point }}</div>
+                    </div>
+                </div>
+                <div class="flex" *ngIf="getAddress(event)">
+                    <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
+                        <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                          <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                          <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
+                        </g>
+                    </svg>
+                    <div class="capitalize font-semibold">{{ getAddress(event) }}</div>
+                </div>
+                <div class="my-12 flex items-center" *ngIf="((createdBy && createdBy != 'null') || (planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name)))">
+                    <div class="opacity-60 mr-4">{{ 'plan-details.createdby' | translate }}:</div>
+                    <div class="font-semibold">{{ createdBy || planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name) }}</div>
+                </div>
+                <div *ngIf="pastEvent" class="text-red-500">
+                    {{ 'invite.pastevent' | translate }}
+                </div>
+                <div *ngIf="limitReached" class="text-red-500">
+                    {{ limitReachedMessage }}
+                </div>
+                <div *ngIf="registerComplete">
+                    {{ 'invite.registercomplete' | translate }}
+                </div>
+                <div *ngIf="hasRegistrationButtonForm && !hasPaymentButtonForm && !limitReached && !pastEvent"
+                    class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
+                    <div *ngIf="!registerAsGuest" 
+                        class="w-full max-w-full flex justify-between items-center flex-gap-col">
+                        <button
+                            class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold"
+                            [ngStyle]="{
+                                'background-color': buttonColor
+                            }"
+                            (click)="registerGuest()"
+                        >
+                            {{ 'invite.register' | translate }}
+                        </button>
+                    </div>
+                    <form [formGroup]="registerForm" (ngSubmit)="register()" class="w-full max-w-full">
+                        <div class="w-full max-w-full" *ngIf="registerAsGuest">
+                            <div class="w-full max-w-full" *ngIf="!registerComplete">
+                                <ng-container *ngIf="hasGuestRegistration">
+                                    <div class="w-full max-w-full grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
+                                        <ng-container *ngFor="let filter of filteredProfileFields">
+                                            <div class="flex items-center justify-center relative">
+                                                <ng-container *ngIf="filter?.field_type != 'select' && filter?.field != 'sector'">
+                                                    <input 
+                                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': filter.required && registerForm.get(filter.field).errors }"
+                                                        [type]="filter.field_type"
+                                                        class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                        [formControlName]="filter.field" 
+                                                        [placeholder]="(language == 'en' ? filter.field_display_en : filter.field_display_es) + (filter.required ? '*' : '')"
+                                                        [required]="filter?.required == 1 ? true : false">
+                                                </ng-container>
+                                                <ng-container *ngIf="filter?.field_type == 'select'">
+                                                    <select
+                                                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !registerForm.get(filter.field).errors }"
+                                                        [formControlName]="filter.field"
+                                                    >
+                                                        <option value="" selected>{{ (language == 'en' ? filter.field_display_en : filter.field_display_es) + (filter.required ? ' (' + fieldrequired + ')': '') }}</option>
+                                                        <option
+                                                            *ngFor="let opt of selectOptions"
+                                                            [value]="opt.name"
+                                                        >
+                                                            {{ opt.name }}
+                                                        </option>
+                                                    </select>
+                                                </ng-container>
+                                                <ng-container *ngIf="filter?.field == 'sector'">
+                                                    <select
+                                                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': filter?.required == 1 && !selectedSector }"
+                                                        [formControlName]="filter.field"
+                                                    >
+                                                        <option value="" selected>{{  (language == 'en' ? filter.field_display_en : filter.field_display_es) + (filter.required ? '*' : '') }}</option>
+                                                        <option
+                                                            *ngFor="let sector of sectors"
+                                                            [value]="sector.name"
+                                                        >
+                                                            {{ sector.name }}
+                                                        </option>
+                                                    </select>
+                                                </ng-container>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="!hasGuestRegistration">
+                                    <div class="w-full max-w-full grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
+                                        <div class="flex items-center justify-center relative">
+                                            <input 
+                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': registerForm?.get('name')?.errors }"
+                                                type="text"
+                                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                formControlName="name"
+                                                placeholder="{{ 'register.name' | translate }}"
+                                                required>
+                                        </div>
+                                        <div class="flex items-center justify-center relative">
+                                            <input 
+                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': registerForm?.get('email')?.errors }"
+                                                type="text"
+                                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                formControlName="email"
+                                                placeholder="{{ 'register.email' | translate }}"
+                                                required>
+                                        </div>
+                                        <div class="flex items-center justify-center relative">
+                                            <input 
+                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': registerForm?.get('phone')?.errors }"
+                                                type="text"
+                                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                formControlName="phone"
+                                                placeholder="{{ 'register.phone' | translate }}"
+                                                required>
+                                        </div>
+                                        <div class="flex items-center justify-center relative">
+                                            <input 
+                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': registerForm?.get('zip_code')?.errors }"
+                                                type="text"
+                                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                formControlName="zip_code"
+                                                placeholder="{{ 'register.zipcode' | translate }}"
+                                                required>
+                                        </div>
+                                        <div class="flex items-center justify-center relative">
+                                            <select
+                                                class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedSector }"
+                                                [(ngModel)]="selectedSector"
+                                                [ngModelOptions]="{standalone: true}"
+                                            >
+                                                <option value="" selected>{{ 'register.selectsector' | translate }}</option>
+                                                <option
+                                                    *ngFor="let sector of sectors"
+                                                    [value]="sector.name"
+                                                >
+                                                    {{ sector.name }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                        
+                                    </div>
+                                </ng-container>
+                                <div>
+                                    <label class="checkbox-container">
+                                        <div class="flex mb-4 items-center">
+                                            <input 
+                                                id="terms-conditions" 
+                                                type="checkbox"
+                                                [(ngModel)]="agreeTerms" 
+                                                [ngModelOptions]="{standalone: true}"
+                                                [ngStyle]="{'color': agreeTerms ? 'text-blue-500' : 'text-gray-900'}"
+                                                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            >
+                                            <label for="terms-conditions" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                {{ 'footer.iacceptthe' | translate }} {{ 'register.termsandconditions' | translate }}
+                                            </label>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                                    <button
+                                        type="submit"
+                                        class="w-full inline-block h-[52px] text-sm px-6 py-2 mt-6 font-semibold text-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
+                                        [ngStyle]="{'background-color': buttonColor}"
+                                        [ngClass]="{'disabled:opacity-75': !agreeTerms}"
+                                        [disabled]="!agreeTerms"
+                                    >
+                                        {{ 'register.register' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -43,7 +43,7 @@
     }, 
     {  
         "path": "discounts",  
-        "icon": "./assets/images/new-design/icons/menus/Clubs.png",
+        "icon": "./assets/menu-icons/menu-icon-offers.png",
         "icondark": "./assets/menu-icons/menu-icon-offers-dark.png",
         "facode": "fa fa-users",  
         "activeicon": "./assets/images/new-design/icons/menus/Clubs-active.png"   
@@ -85,7 +85,7 @@
     },
     {  
         "path": "blog",  
-        "icon": "./assets/images/new-design/icons/menus/CityAgenda.png",
+        "icon": "./assets/menu-icons/menu-icon-blog.png",
         "icondark": "./assets/menu-icons/menu-icon-blog-dark.png",
         "facode": "fas fa-edit",  
         "activeicon": "./assets/images/new-design/icons/menus/CityAgenda-active.png"   

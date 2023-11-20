@@ -18,7 +18,7 @@ import { BlogsService } from "@features/services";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatTabsModule } from "@angular/material/tabs";
-import { ButtonGroupComponent, NoAccessComponent, PageTitleComponent, ToastComponent } from "@share/components";
+import { ButtonGroupComponent, NoAccessComponent, PageTitleComponent } from "@share/components";
 import {
   FormControl,
   FormGroup,
@@ -26,7 +26,6 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { EditorModule } from "@tinymce/tinymce-angular";
 import {
   ImageCropperModule,
@@ -57,7 +56,6 @@ import get from "lodash/get";
     ButtonGroupComponent,
     NoAccessComponent,
     PageTitleComponent,
-    ToastComponent,
   ],
   templateUrl: "./edit.component.html",
 })
@@ -270,7 +268,7 @@ export class BlogEditComponent {
       this.status = status == 1 ? true : false;
       this.blogTitle = this.getBlogName(this.blog);
       this.blogDescription = this.getBlogDescription(data?.blog);
-      this.selectedCategory = this.blog?.category_id;
+      this.selectedCategory = this.blog?.category_id || '';
     }
   }
 
@@ -704,7 +702,7 @@ export class BlogEditComponent {
 
     formData.append("company_id", this.companyId.toString());
     formData.append("user_id", this.userId.toString());
-    formData.append("category_id", this.selectedCategory);
+    formData.append("category_id", this.selectedCategory || null);
     formData.append(
       "name_ES",
       this.blogForm?.value["name_ES"]
@@ -806,25 +804,25 @@ export class BlogEditComponent {
         }
       );
     } else {
-  //     // Create
-  //     this._blogsService.addCityGuide(formData).subscribe(
-  //       (response) => {
-  //         if (response.id > 0) {
-  //           this.open(
-  //             this._translateService.instant("dialog.savedsuccessfully"),
-  //             ""
-  //           );
-  //           this._router.navigate([`/cityguide/edit/${response.id}`]);
-  //         } else {
-  //           this.issaving = false;
-  //           this.open(this._translateService.instant("dialog.error"), "");
-  //         }
-  //       },
-  //       (error) => {
-  //         this.issaving = false;
-  //         this.open(this._translateService.instant("dialog.error"), "");
-  //       }
-  //     );
+      // Create
+      this._blogsService.addBlog(formData).subscribe(
+        (response) => {
+          if (response?.blog?.id > 0) {
+            this.open(
+              this._translateService.instant("dialog.savedsuccessfully"),
+              ""
+            );
+            this._router.navigate([`/blog/details/${response?.blog?.id}`]);
+          } else {
+            this.issaving = false;
+            this.open(this._translateService.instant("dialog.error"), "");
+          }
+        },
+        (error) => {
+          this.issaving = false;
+          this.open(this._translateService.instant("dialog.error"), "");
+        }
+      );
     }
   }
 

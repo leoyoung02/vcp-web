@@ -123,7 +123,7 @@ export class MasonryComponent {
   }
 
   fetchData() {
-    if(this.section1Mode == 'plans') {
+    if(this.section1Mode == 'plans' && this.section2Mode != 'courses') {
       this._companyService
       .fetchHomeData(this.company?.id)
       .pipe(takeUntil(this.destroy$))
@@ -136,6 +136,22 @@ export class MasonryComponent {
           this.jobAreas = data?.job_areas;
           this.jobOfferAreas = data?.job_offer_areas;
           this.formatData();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else if(this.section1Mode == 'plans' && this.section2Mode == 'courses') {
+      this._companyService
+      .fetchHomePlansCoursesData(this.company?.id, this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          this.data = data;
+          this.clubCategories = data?.club_categories;
+          this.clubCategoryMapping = data?.club_category_mapping;
+          this.coursesProgress = data?.courses_progress;
+          this.formatPlansCoursesData();
         },
         (error) => {
           console.log(error);
@@ -171,7 +187,7 @@ export class MasonryComponent {
         .concat(cityguides1)
         .concat(joboffers1)
 
-      this.section3Data = this?.data?.clubs?.length >= 4 ? this?.data?.clubs?.slice(0, 4) : []
+      this.section3Data = this?.data?.clubs?.length >= 4 ? this?.data?.clubs?.slice(0, 4) : this.data?.clubs
 
       this.cd.detectChanges();
     }
@@ -191,6 +207,22 @@ export class MasonryComponent {
       } else {
         this.setCoursesTutorsData(this.data?.courses);
       }
+    }
+  }
+
+  formatPlansCoursesData() {
+    if(this.data) {
+      this.section1Data = this?.data?.plans?.length >= 6 ? this?.data?.plans?.slice(0, 6) : this?.data?.plans
+      
+      if(this.data?.courses?.length > 0) {
+        this.getCoursesData(this.data?.courses);
+      } else {
+        this.setCoursesTutorsData(this.data?.courses);
+      }
+
+      this.section3Data = this?.data?.clubs?.length >= 4 ? this?.data?.clubs?.slice(0, 4) : this.data?.clubs
+
+      this.cd.detectChanges();
     }
   }
 
@@ -407,7 +439,8 @@ export class MasonryComponent {
           "buy_now_status": course.buy_now_status,
           "exception_access": course.exception_access == 1 ? 1 : 0,
           "unassigned_status": course.unassigned_status == 1 ? 1 : 0,
-          "course_categories": course.course_categories
+          "course_categories": course.course_categories,
+          "buy_now_button_color": course.buy_now_button_color,
         })
       });
     }

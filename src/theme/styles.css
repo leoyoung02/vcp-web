@@ -563,6 +563,21 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
     --tw-bg-opacity: 0.1 !important;
 }
 
+.box-video .video-title {
+    position: absolute;
+    top: 40%;
+    z-index: 5;
+    transition: all .3s ease-out;
+    bottom: 0;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-size: 26px;
+    font-weight: 600;
+}
+
 /* The Play-Button using CSS-Only */
 .box-video .bt-play {
     position: absolute;

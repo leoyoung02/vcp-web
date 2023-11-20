@@ -64,9 +64,9 @@
             <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] lg:max-h-[267px] flex flex-col items-center bg-white rounded-lg shadow md:flex-row"
                 [routerLink]="['/clubs/details/', group?.id]"
             >
-                <img class="border object-cover rounded-t-lg h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] w-full max:w-full md:rounded-none md:rounded-l-lg" 
-                    *ngIf="group?.image" [ngSrc]="apiPath + '/get-image-group/' + group.image" [alt]="group?.title" width="192" height="256"
-                    [ngStyle]="{'border-color': '#F8F4F4'}">
+                <img class="border object-cover rounded-t-lg h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] w-full md:rounded-none md:rounded-l-lg" 
+                    *ngIf="group?.image" [ngSrc]="group?.image?.indexOf('http') >= 0 ? group?.image : (apiPath + '/get-image-group/' + group.image)" [alt]="group?.title" width="192" height="256"
+                    [ngStyle]="{'border-color': '#F8F4F4', 'max-width': '338px'}">
                 <div class="w-full flex flex-col justify-evenly px-8 py-4 leading-normal h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px]"
                     [ngStyle]="{'background-color': '#F8F4F4'}"
                 >
@@ -84,7 +84,7 @@
                         {{ 'club-details.join' | translate }}
                     </div>
                     <div class="flex text-sm">
-                        <span>{{ group?.category }}</span> <span class="px-3">•</span> <span>{{ group?.city }}</span>
+                        <span>{{ group?.category }}</span> <span *ngIf="group?.city" class="px-3">•</span> <span>{{ group?.city }}</span>
                     </div>
                     <div class="flex">
                         <svg class="w-6 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">

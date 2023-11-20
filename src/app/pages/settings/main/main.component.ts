@@ -52,7 +52,7 @@ export class MainComponent {
   isTutorsEnabled: boolean = false;
   hasSubgroups: boolean = false;
   isDiscountEnabled: boolean = false;
-  isBlogEnabled: boolean = false;
+  isCityAgendaEnabled: boolean = false;
   isServiceEnabled: boolean = false;
   isCourseEnabled: boolean = false;
   isBuddyEnabled: boolean = false;
@@ -66,6 +66,7 @@ export class MainComponent {
   countryDropdown: boolean = false;
   hasMemberCommissions: boolean = false;
   isServicesEnabled: boolean = false;
+  isBlogEnabled: boolean = false;
   hasBuddies: boolean = false;
   hasJobOffers: boolean = false;
   hasAffiliates: boolean = false;
@@ -73,13 +74,14 @@ export class MainComponent {
   clubTitle: any;
   subgroupsTitle: any;
   discountTitle: any;
-  blogTitle: any;
+  cityAgendaTitle: any;
   contestTitle: any;
   courseTitle: any;
   servicesTitle: any;
   jobOffersTitle: any;
   buddiesTitle: any;
   tutorsTitle: any;
+  blogTitle: any;
 
   otherSettings: any;
   otherSettingsCategories: any;
@@ -495,7 +497,8 @@ export class MainComponent {
               return f.feature_name == "City Agenda" && (f.status == 1 || this.companyId == 32);
             });
             if (cityAgendaFeature?.length > 0) {
-              this.blogTitle =
+              this.isCityAgendaEnabled = true;
+              this.cityAgendaTitle =
                 this.language == "en"
                   ? cityAgendaFeature[0].name_en ||
                     cityAgendaFeature[0].feature_name
@@ -513,14 +516,6 @@ export class MainComponent {
                     cityAgendaFeature[0].feature_name_DE
                   : cityAgendaFeature[0].name_es ||
                     cityAgendaFeature[0].feature_name_ES;
-              if (
-                this.blogTitle != "Services" &&
-                this.blogTitle != "Servicios" &&
-                this.blogTitle != "Services" &&
-                this.blogTitle != "Áreas"
-              ) {
-                this.isBlogEnabled = true;
-              }
             }
 
             let courseFeature = companyFeatures.filter((f) => {
@@ -630,6 +625,26 @@ export class MainComponent {
                   servicesFeature[0].feature_name_ES;
           }
 
+          let blogFeature = companyFeatures?.filter((f) => {
+            return f.feature_name == "Blog" && f.status == 1;
+          });
+          if (blogFeature?.length > 0) {
+            this.isBlogEnabled = true;
+            this.blogTitle =
+              this.language == "en"
+                ? blogFeature[0].name_en || blogFeature[0].feature_name
+                : this.language == "fr"
+                ? blogFeature[0].name_fr || blogFeature[0].feature_name_FR
+                : this.language == "eu"
+                ? blogFeature[0].name_eu || blogFeature[0].feature_name_EU
+                : this.language == "ca"
+                ? blogFeature[0].name_ca || blogFeature[0].feature_name_CA
+                : this.language == "de"
+                ? blogFeature[0].name_de || blogFeature[0].feature_name_DE
+                : blogFeature[0].name_es ||
+                  blogFeature[0].feature_name_ES;
+          }
+
           this.companyFeatures =
             this.companyFeatures &&
             this.companyFeatures.sort((a, b) => {
@@ -690,6 +705,10 @@ export class MainComponent {
             ),
             value: "Customize design",
           },
+          {
+            text: "Stripe",
+            value: "Stripe",
+          },
         ],
       },
       {
@@ -713,21 +732,21 @@ export class MainComponent {
           // },
         ],
       },
-      // {
-      //   icon: "./assets/images/new-design/icons/General.png",
-      //   text: this._translateService.instant("company-settings.channels"),
-      //   value: "Channels",
-      //   submenus: [
-      //     {
-      //       text: this._translateService.instant("company-settings.email"),
-      //       value: "Notifications",
-      //     },
-      //     {
-      //       text: this._translateService.instant("company-settings.wall"),
-      //       value: "Wall",
-      //     },
-      //   ],
-      // },
+      {
+        icon: "./assets/images/new-design/icons/General.png",
+        text: this._translateService.instant("company-settings.channels"),
+        value: "Channels",
+        submenus: [
+          // {
+          //   text: this._translateService.instant("company-settings.email"),
+          //   value: "Notifications",
+          // },
+          {
+            text: this._translateService.instant("company-settings.wall"),
+            value: "Wall",
+          },
+        ],
+      },
       {
         icon: "./assets/images/new-design/icons/Personalization.png",
         text: this._translateService.instant(
@@ -961,12 +980,12 @@ export class MainComponent {
             }
           }
           // Check if city agenda is activated, otherwise just add here for testing
-          if (this.isBlogEnabled || this.companyId == 32) {
+          if (this.isCityAgendaEnabled || this.companyId == 32) {
             let match =
               mi.submenus && mi.submenus.some((a) => a.value === "Content");
             if (!match) {
               mi.submenus.push({
-                text: this.blogTitle,
+                text: this.cityAgendaTitle,
                 value: "Content",
               });
             }
@@ -1072,6 +1091,17 @@ export class MainComponent {
               mi.submenus.push({
                 text: this.servicesTitle,
                 value: "Services",
+              });
+            }
+          }
+
+          if (this.isBlogEnabled) {
+            let match =
+              mi.submenus && mi.submenus.some((a) => a.value === "Blog");
+            if (!match) {
+              mi.submenus.push({
+                text: this.blogTitle,
+                value: "Blog",
               });
             }
           }
@@ -1422,10 +1452,10 @@ export class MainComponent {
         value: "Gar",
       });
     }
-    if (this.isBlogEnabled) {
+    if (this.isCityAgendaEnabled) {
       this.mainMenuItems.push({
         icon: "./assets/images/new-design/icons/General.png",
-        text: this.blogTitle,
+        text: this.cityAgendaTitle,
         value: "Content",
       });
     }
@@ -1490,6 +1520,8 @@ export class MainComponent {
         this._router.navigate([`/settings/manage-list/discounts`]);
       } else if (content == "Services") {
         this._router.navigate([`/settings/manage-list/services`]);
+      } else if (content == "Blog") {
+        this._router.navigate([`/settings/manage-list/blogs`]);
       }
     } else if (menu.value == "Users" && content == "Users") {
       this._router.navigate([`/settings/manage-list/users`]);

@@ -112,14 +112,14 @@
                         </svg>
                         <div class="capitalize font-semibold">{{ planTime }}</div>
                     </div>
-                    <div class="flex">
-                        <svg *ngIf="plan?.meeting_point" class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
+                    <div class="flex" *ngIf="plan?.meeting_point">
+                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
                             <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                               <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
                               <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
                             </g>
                         </svg>
-                        <div *ngIf="plan?.meeting_point" class="capitalize font-semibold">{{ plan?.meeting_point }}</div>
+                        <div class="capitalize font-semibold">{{ plan?.meeting_point }}</div>
                     </div>
                 </div>
                 <div class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
@@ -263,7 +263,7 @@
                         <div>{{ planParticipantCount }} {{ planParticipantCount > 1 ? ('plan-details.attendees' | translate) : ('plan-details.attendee' | translate) }}</div>
                     </ng-container>
                 </div>
-                <div class="flex">
+                <div class="flex" *ngIf="getAddress(plan)">
                     <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
                         <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                           <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>

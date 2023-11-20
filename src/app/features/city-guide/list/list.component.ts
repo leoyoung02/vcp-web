@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, HostListener, Input } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 import {
   LangChangeEvent,
   TranslateModule,

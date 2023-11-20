@@ -51,7 +51,7 @@
             <img 
                 *ngIf="group?.image"
                 class="object-contain shadow-2xl rounded-lg w-full h-full max-h-full md:min-h-[568px] md:min-h-[568px] lg:min-h-[568px] lg:min-h-[568px]" 
-                [ngSrc]="apiPath + '/get-image-group/' + group?.image" 
+                [ngSrc]="group?.image?.indexOf('http') >= 0 ? group?.image : (apiPath + '/get-image-group/' + group?.image)" 
                 [alt]="groupTitle" 
                 width="520" 
                 height="698"
@@ -59,7 +59,7 @@
         </div>
         <div class="w-full max-w-full col-span-3">
             <div class="mt-4 w-full max-w-full">
-                <div class="flex flex-col">
+                <div class="flex flex-col" *ngIf="groupDescription">
                     <div [innerHtml]="clubTruncatedDescription"></div>
                     <ng-container *ngIf="groupDescription?.length > truncate">
                         <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="clubExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
@@ -67,7 +67,7 @@
                     </ng-container>
                 </div>
                 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between my-12">
-                    <div class="flex mr-8 mb-4 sm:mb-4 md:mb-0 lg:md-0">
+                    <div class="flex mr-8 mb-4 sm:mb-4 md:mb-0 lg:md-0" *ngIf="group?.city">
                         <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
                             <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                               <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
@@ -76,7 +76,7 @@
                         </svg>
                         <div class="capitalize">{{ group?.city }}</div>
                     </div>
-                    <div class="flex mb-4 sm:mb-4 md:mb-0 lg:mb-0">
+                    <div class="flex mb-4 sm:mb-4 md:mb-0 lg:mb-0" *ngIf="categoryLabel">
                         <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 18">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.583 5.445h.01M8.86 16.71l-6.573-6.63a.993.993 0 0 1 0-1.4l7.329-7.394A.98.98 0 0 1 10.31 1l5.734.007A1.968 1.968 0 0 1 18 2.983v5.5a.994.994 0 0 1-.316.727l-7.439 7.5a.975.975 0 0 1-1.385.001Z"/>
                         </svg>

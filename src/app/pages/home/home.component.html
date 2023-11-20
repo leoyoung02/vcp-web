@@ -13,9 +13,9 @@
     [userId]="userId"
     [superAdmin]="superAdmin"
     [company]="company"
-    [section1Mode]="companyId != 52 ? 'plans' : (companyId == 52 ? 'courses' : '')"
-    [section2Mode]="companyId == 32 ? 'cityguide-employmentchannel' : (companyId == 52 ? 'testimonials-tutors' : '')"
-    [section3Mode]="companyId != 52 && companyId != 27 ? 'clubs' : ''"
+    [section1Mode]="(hasPlans || companyId == 32 || companyId == 27 || companyId == 25) ? 'plans' : (!hasPlans && (hasCourses || companyId == 52) ? 'courses' : '')"
+    [section2Mode]="companyId == 32 ? 'cityguide-employmentchannel' : (companyId == 52 ? 'testimonials-tutors' : ((hasPlans && hasCourses) || companyId == 27 ? 'courses' : ''))"
+    [section3Mode]="hasClubs ? 'clubs' : ''"
   >
   </app-masonry>
 </div>

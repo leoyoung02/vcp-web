@@ -5,7 +5,7 @@ import {
   Input,
   SimpleChange,
 } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { Subject } from "rxjs";
 import {
   LangChangeEvent,
@@ -42,6 +42,9 @@ export class CourseCardComponent {
   @Input() page: any;
   @Input() buttonColor: any;
   @Input() mode: any;
+  @Input() showDetails: any;
+  @Input() companyId: any;
+  @Input() courseButtonColor: any;
 
   languageChangeSubscription;
   language: any;
@@ -49,6 +52,7 @@ export class CourseCardComponent {
   constructor(
     private _translateService: TranslateService,
     private _localService: LocalService,
+    private _router: Router,
   ) {}
 
   async ngOnInit() {
@@ -69,6 +73,14 @@ export class CourseCardComponent {
 
   formatData() {
     
+  }
+
+  goToDetails() {
+    console.log(this.buttonText);
+    console.log(this.showDetails);
+    if(this.showDetails) {
+      this._router.navigate([this.path]);
+    }
   }
 
   ngOnDestroy() {

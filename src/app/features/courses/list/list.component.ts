@@ -621,7 +621,8 @@ export class CoursesListComponent {
           "buy_now_status": course.buy_now_status,
           "exception_access": course.exception_access == 1 ? 1 : 0,
           "unassigned_status": course.unassigned_status == 1 ? 1 : 0,
-          "course_categories": course.course_categories
+          "course_categories": course.course_categories,
+          "buy_now_button_color": course.buy_now_button_color,
         })
       });
     }
@@ -724,13 +725,25 @@ export class CoursesListComponent {
     this.courses = courses?.map((course) => {
       let progress = this.getUserProgress(course);
       let category_texts = this.getCategoriesDisplay(course);
-
+      let button_text = this.getButtonText(course, progress);
+      let show_details = true
+      if(button_text == `${this._translateService.instant("courses.begin")} ${this._translateService.instant("invite.here")}` ||
+        button_text == this._translateService.instant("courses.continue")) {
+      } else {
+        show_details = false
+      }
+      let buy_now_shown = false
+      if(button_text == this._translateService.instant("courses.buynow")) {
+        buy_now_shown = true
+      }
       return {
         ...course,
         path: `/courses/details/${course.id}`,
         title_language: this.getCourseTitle(course),
         progress: progress,
-        button_text: this.getButtonText(course, progress),
+        button_text,
+        show_details,
+        assigned_button_color: show_details ? course?.button_color : (buy_now_shown ? course?.buy_now_button_color : ''),
         image: `${COURSE_IMAGE_URL}/${course.image}`,
         category: category_texts?.map((data) => { return data.label }).join(', '),
       };

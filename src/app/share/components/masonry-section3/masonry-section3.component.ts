@@ -110,9 +110,9 @@ export class MasonrySection3Component {
   formatData() {
     if(this.section3Data?.length > 0) {
       this.club1Data = this.section3Data?.length > 0 ? this.formatClub(this.section3Data[0]) : {}
-      this.club2Data = this.section3Data?.length >= 1 ? this.formatClub(this.section3Data[1]) : {}
-      this.club3Data = this.section3Data?.length >= 2 ? this.formatClub(this.section3Data[2]) : {}
-      this.club4Data = this.section3Data?.length >= 3 ? this.formatClub(this.section3Data[3]) : {}
+      this.club2Data = this.section3Data?.length > 1 ? this.formatClub(this.section3Data[1]) : {}
+      this.club3Data = this.section3Data?.length > 2 ? this.formatClub(this.section3Data[2]) : {}
+      this.club4Data = this.section3Data?.length > 3 ? this.formatClub(this.section3Data[3]) : {}
     }
   }
 
@@ -127,7 +127,7 @@ export class MasonrySection3Component {
         path: `/clubs/details/${item.id}`,
         title: this.getClubTitle(item),
         category: this.getCategory(item),
-        image: `${environment.api}/get-image-group/${item.image}`
+        image: item.image?.indexOf('http') >= 0 ? item.image : `${environment.api}/get-image-group/${item.image}`
       }
     })
 

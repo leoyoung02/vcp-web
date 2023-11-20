@@ -12,7 +12,7 @@ import { Router, RouterModule, NavigationEnd } from "@angular/router";
 import { AuthService, MenuService } from "src/app/core/services";
 import { LogoComponent } from "../logo/logo.component";
 import { COMPANY_IMAGE_URL } from "@lib/api-constants";
-import { TranslateModule } from "@ngx-translate/core";
+import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { initFlowbite } from "flowbite";
 import { MenuIcon } from "@lib/interfaces";
@@ -137,8 +137,17 @@ export class SidebarComponent {
   hoveredMenuPath: any;
   searchHover: boolean = false;
   settingsHover: boolean = false;
+  wallMenuOpened: boolean = false;
+  wallMenuHover: boolean = false;
+  languageHover: boolean = false;
+  hoveredCourseWallPath: any;
+  courseWallHover: any;
 
-  constructor(private _router: Router, private _authService: AuthService) {
+  constructor(
+    private _router: Router, 
+    private _authService: AuthService,
+    private _translateService: TranslateService,
+  ) {
     this.navigationSubscription = this._router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
         this.wallSelected = false;
@@ -178,10 +187,19 @@ export class SidebarComponent {
     this.courseWallPrefixTextValueEu = this.company?.course_wall_prefix_text_eu;
     this.courseWallPrefixTextValueCa = this.company?.course_wall_prefix_text_ca;
     this.courseWallPrefixTextValueDe = this.company?.course_wall_prefix_text_de;
+    this.getCourseWallMenuText();
 
     setTimeout(() => {
       initFlowbite();
     }, 1000)
+  }
+
+  getCourseWallMenuText() {
+    return this.courseWallPrefix ? this.language == 'en' ? (this.courseWallPrefixTextValueEn || this.courseWallPrefixTextValue) : (this.language == 'fr' ? (this.courseWallPrefixTextValueFr || this.courseWallPrefixTextValue) : 
+        (this.language == 'eu' ? (this.courseWallPrefixTextValueEu || this.courseWallPrefixTextValue) : (this.language == 'ca' ? (this.courseWallPrefixTextValueCa || this.courseWallPrefixTextValue) : 
+        (this.language == 'de' ? (this.courseWallPrefixTextValueDe || this.courseWallPrefixTextValue) : this.courseWallPrefixTextValue)
+      ))
+    ) : this._translateService.instant('sidebar.activityfeed');
   }
 
   ngOnDestroy() {
@@ -525,5 +543,18 @@ export class SidebarComponent {
 
   toggleSettingsHover(event) {
     this.settingsHover = event;
+  }
+
+  toggleWallMenuHover(event) {
+    this.wallMenuHover = event;
+  }
+
+  toggleLanguageHover(event) {
+    this.languageHover = event;
+  }
+
+  toggleCourseWallHover(event, menu) {
+    this.hoveredCourseWallPath = menu.path;
+    this.courseWallHover = event;
   }
 }

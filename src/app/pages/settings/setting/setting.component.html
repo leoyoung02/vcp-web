@@ -406,7 +406,7 @@
         <div *ngFor="let item of settings" [ngClass]="{'setting-item': item?.title_en != 'CRM'}">
             <ng-container *ngIf="item?.title_en != 'CRM' || (hasActivityFeed && item?.title_en?.indexOf('all menu') >= 0)">
                 <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4 items-center">
-                    <div>
+                    <div class="pr-12">
                         <div>{{ getSettingItemTitle(item) }}</div>
                         <div class="opacity-30 text-sm" [innerHtml]="getSettingItemDescription(item)"></div>
                     </div>
@@ -997,6 +997,17 @@
                                     {{ 'company-settings.edit' | translate }}
                                 </button>
                             </ng-container>
+                            <ng-container *ngIf="item?.title_en == 'Multiple Stripe Accounts' && item?.active == 1">
+                                <button
+                                    class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    (click)="gotoManageStripeAccounts()"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                >
+                                    {{ 'company-settings.manage' | translate }}
+                                </button>
+                            </ng-container>
                             <div class="flex items-center justify-between relative ml-4">
                                 <label
                                     for="setting-status-{{item.id}}"
@@ -1065,7 +1076,7 @@
                 </svg>
                 <span class="sr-only">Close modal</span>
             </button>
-            <div class="px-6 py-6 lg:px-8">
+            <div class="px-6 py-6 pt-4 lg:px-8">
                 <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
                     {{ dialogTitle }}
                 </h3>
@@ -1314,7 +1325,41 @@
                         </div>
                     </form>
                 </ng-container>
-                <ng-container *ngIf="dialogMode == 'policy-url' || dialogMode == 'new-menu'">
+                <ng-container *ngIf="dialogMode == 'update-value'">
+                    <form class="space-y-6">
+                        <div class="flex items-center justify-center mb-4"
+                            [ngClass]="{'flex-col': selectedSettingId != 291 && modalTextNumber > 1 && modalTextValues.length > 1}">
+                            <ng-container *ngIf="fieldType != 'select'">
+                                <ng-container *ngIf="selectedSettingId != 291 && modalTextNumber == 1">
+                                    <input 
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !newValue }"
+                                        type="text" 
+                                        class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                        placeholder="{{ 'company-settings.value' | translate }}*"
+                                        [(ngModel)]="newValue"
+                                        [ngModelOptions]="{standalone: true}">
+                                </ng-container>
+                            </ng-container>
+                            <ng-container *ngIf="selectedSettingId != 291 && modalTextNumber > 1 && modalTextValues.length > 1">
+                                <ng-container *ngFor="let item of modalTextValues; let i = index">
+                                    <div class="w-full max-w-full">
+                                        <label for="author" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            {{i == 0 ? ('company-settings.general' | translate) : (i == 1 ? 'Q & A' : (i == 2 ? ('wall.resources' | translate) : ('company-settings.value' | translate)))}}
+                                        </label>
+                                        <input
+                                            class="mb-4 text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !newValue }"
+                                            placeholder="{{i == 0 ? ('company-settings.general' | translate) : (i == 1 ? 'Q & A' : (i == 2 ? ('wall.resources' | translate) : ('company-settings.value' | translate)))}}*"
+                                            [value]="item"
+                                            (change)="multiInputEvent($event, i)"
+                                        />
+                                    </div>
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                    </form>
+                </ng-container>
+                <ng-container *ngIf="dialogMode == 'policy-url' || dialogMode == 'new-menu' || dialogMode == 'update-value'">
                     <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                         <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             (click)="saveDialog()"

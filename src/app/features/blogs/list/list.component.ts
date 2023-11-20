@@ -349,8 +349,6 @@ export class BlogListComponent {
         return include;
       });
     }
-
-    console.log(this.blogs)
   }
 
   goToDetails(guide) {

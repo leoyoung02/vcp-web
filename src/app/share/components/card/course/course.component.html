@@ -1,5 +1,5 @@
 <div class="p-7 h-full max-h-full w-full max-w-full rounded-[10px] shadow dark:bg-gray-800 dark:border-gray-700" 
-    *ngIf="mode != 'small' && id > 0" [routerLink]="[path]"
+    *ngIf="mode != 'small' && id > 0" (click)="goToDetails()"
     [ngStyle]="{'background-color': page == 'home' ? '#667085' : '#F8F4F4'}"
 >
     <div>
@@ -25,8 +25,9 @@
             <span *ngIf="category" class="px-3">•</span>
             <span>{{ category }}</span>
         </div>
-        <div class="uppercase text-white pt-[10px] px-8 rounded-[10px] h-[40px] cursor-pointer w-auto inline-block text-center text-sm"
-            [ngStyle]="{'background-color': '#F7AF41'}">
+        <div class="uppercase text-white pt-[10px] px-8 rounded-[10px] h-[40px] w-auto inline-block text-center text-sm"
+            [ngStyle]="{'background-color': courseButtonColor || '#F7AF41'}"
+            [ngClass]="{'cursor-pointer': showDetails, 'cursor-not-allowed': !showDetails}">
             <div class="flex items-center align-center">
                 {{ buttonText }}
                 <ng-container *ngIf="buttonText == ('courses.continue' | translate)">
@@ -39,7 +40,7 @@
     </div>
 </div>
 <ng-container *ngIf="mode == 'small'">
-    <div [routerLink]="path">
+    <div (click)="goToDetails()">
         <img width="347" height="300" *ngIf="image" [ngSrc]="image" alt="" 
             class="object-top mr-4 object-cover h-full max-h-full w-full max-w-full rounded-[10px] sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]">
         <div class="absolute inset-0 bg-gray-800 opacity-60 rounded-[10px] w-full max-w-full"></div>
@@ -51,8 +52,9 @@
                     <span *ngIf="category" class="px-3">•</span>
                     <span>{{ category }}</span>
                 </div>
-                <div class="uppercase text-white pt-[10px] px-8 rounded-[10px] h-[40px] cursor-pointer w-auto inline-block text-center text-sm"
-                    [ngStyle]="{'background-color': '#F7AF41'}">
+                <div class="uppercase text-white pt-[10px] px-8 rounded-[10px] h-[40px] w-auto inline-block text-center text-sm"
+                    [ngStyle]="{'background-color': courseButtonColor || '#F7AF41'}"
+                    [ngClass]="{'cursor-pointer': showDetails, 'cursor-not-allowed': !showDetails}">
                     <div class="flex items-center align-center">
                         {{ buttonText }}
                         <ng-container *ngIf="buttonText == ('courses.continue' | translate)">

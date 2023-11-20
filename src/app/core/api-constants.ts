@@ -67,6 +67,13 @@ export const CONTRACTS_URL = `${API_BASE}/guest/contracts`;
 export const CONTRACT_URL = `${API_BASE}/guest/contract`;
 export const ACCEPT_CONDITIONS_URL = `${API_BASE}/guest/accept/conditions`;
 export const EDIT_CONDITIONS_URL = `${API_BASE}/guest/conditions/edit`;
+export const STRIPE_ACCOUNTS_URL = `${API_BASE}/company/other-settings/stripe/accounts`;
+export const UPDATE_STRIPE_ACCOUNT_STATUS_URL = `${API_BASE}/company/other-settings/stripe/account/status`;
+export const DELETE_STRIPE_ACCOUNT_URL = `${API_BASE}/company/other-settings/stripe/account/delete`;
+export const STRIPE_WEBHOOKS_URL = `${API_BASE}/guest/other-stripe/webhooks/list`;
+export const ADD_STRIPE_WEBHOOK_URL = `${API_BASE}/guest/other-stripe/webhook/add`;
+export const ADD_STRIPE_ACCOUNT_URL = `${API_BASE}/company/other-settings/stripe/account/add`;
+export const EDIT_STRIPE_ACCOUNT_URL = `${API_BASE}/company/other-settings/stripe/account/edit`;
 
 export const LISTS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/lists-management-data`;
 export const MANAGE_MEMBER_TYPES_DATA_URL = `${API_BASE}/v2/manage-member-types-data`;
@@ -80,6 +87,7 @@ export const MOBILE_LIMIT_SETTINGS_URL = `${API_BASE}/mobile/settings/limit-all`
 
 export const HOME_DATA_URL = `${API_BASE}/v2/home`;
 export const HOME_COURSES_TUTORS_TESTIMONIALS_DATA_URL = `${API_BASE}/v2/home-courses-tutors-testimonials`;
+export const HOME_PLANS_COURSES_DATA_URL = `${API_BASE}/v2/home-plans-courses`;
 
 // SETTINGS
 export const SETTINGS_CATEGORY_URL = `${API_BASE}/company/settings/category/list/all`;
@@ -262,11 +270,15 @@ export const CREATE_PLAN_FOR_APPROVAL_URL = `${API_BASE}/company/club-activities
 export const ACTIVITY_CITIES_URL = `${API_BASE}/company/activity/cities`;
 export const EDIT_CLUB_PLAN_URL = `${API_BASE}/company/group_plans/edit-new`;
 export const EDIT_PLAN_URL = `${API_BASE}/company/plans/edit-new`;
+export const CHECK_PLAN_REGISTRATION_URL = `${API_BASE}/event/check-registration`;
+export const PLAN_REGISTRATION_URL = `${API_BASE}/company/event/register`;
+export const PLAN_GUEST_REGISTRATION_URL = `${API_BASE}/company/event/invite/register/guest`;
 
 export const PLANS_URL = `${API_BASE}/v2/plans`;
 export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;
 export const PLAN_DETAILS_URL = `${API_BASE}/v2/plan-details`;
 export const PLANS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/plans-management-data`;
+export const PLAN_REGISTRATION_DATA_URL = `${API_BASE}/v2/plan-registration-data`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;
@@ -460,3 +472,24 @@ export const BLOG_COMBINED_URL = `${API_BASE}/v2/blog-details`;
 export const ADD_BLOG_URL = `${API_BASE}/company/blog-new/add`;
 export const EDIT_BLOG_URL = `${API_BASE}/company/blog-new/edit`;
 export const DELETE_BLOG_URL = `${API_BASE}/company/blog-new/delete`;
+
+// WALL
+export const WALL_COMBINED_URL = `${API_BASE}/v2/wall`;
+export const POSTS_URL = `${API_BASE}/company/posts`;
+export const ADD_POST_URL = `${API_BASE}/company/post/create`;
+export const UPDATE_POST_URL = `${API_BASE}/company/post/update`;
+export const HEART_POST_URL = `${API_BASE}/company/post-reaction/create`;
+export const UNHEART_POST_URL = `${API_BASE}/company/post-reaction/remove`;
+export const UPDATE_PIN_STATUS_URL = `${API_BASE}/wall/post/pin`;
+export const DELETE_POST_URL = `${API_BASE}/company/post-delete`;
+export const EDIT_TUTOR_SECTION_VISIBILITY_URL = `${API_BASE}/company/wall/tutor-section/visibility/edit`;
+export const EDIT_TUTOR_VISIBILITY_URL = `${API_BASE}/company/wall/tutor/visibility/edit`;
+export const SEND_MEMBER_EMAIL_URL = `${API_BASE}/company/wall-member/send-email`;
+export const ASK_COURSE_TUTOR_QUESTION_URL = `${API_BASE}/course/tutor/question/ask`;
+export const COURSE_QUESTIONS_URL = `${API_BASE}/course-questions`;
+export const DELETE_TUTOR_QUESTION_URL = `${API_BASE}/question/delete`;
+export const UPDATE_QUESTION_PIN_STATUS_URL = `${API_BASE}/wall/question/pin`;
+export const ANSWER_TUTOR_QUESTION_URL = `${API_BASE}/course/tutor/question/answer`;
+export const COURSE_RESOURCES_URL = `${API_BASE}/course-resources`;
+export const UPLOAD_RESOURCE_AVAILABILITY_URL = `${API_BASE}/guest/admin-course/uploadable`;
+export const ADD_COURSE_RESOURCE_URL = `${API_BASE}/course-resource/add`;

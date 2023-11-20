@@ -5,7 +5,7 @@ import {
   Component,
   Input,
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { NavigationEnd, Router } from "@angular/router";
 import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
@@ -154,6 +154,8 @@ export class LayoutMainComponent {
   separateCourseCredits: boolean = false;
   userCourseCredits: any;
   creditPackages: any;
+  navigationSubscription: any;
+  isWall: boolean = false;
 
   constructor(
     private _router: Router,
@@ -169,6 +171,15 @@ export class LayoutMainComponent {
     this.language = this._localService.getLocalStorage(environment.lslanguage);
     this._translateService.setDefaultLang(this.language || "es");
     this._translateService.use(this.language || "es");
+
+    this.navigationSubscription = this._router.events.subscribe((e: any) => {
+      if (e instanceof NavigationEnd) {
+        this.isWall = false;
+        if(this._router.url?.indexOf("activity-feed/wall") >= 0) {
+          this.isWall = true;
+        }
+      }
+    });
   }
 
   async ngOnInit() {
@@ -2047,6 +2058,7 @@ export class LayoutMainComponent {
   }
 
   ngOnDestroy() {
+    this.navigationSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
   }

@@ -155,7 +155,6 @@ export class MemberDetailComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.memberData = data;
           this.initializePage();
         },

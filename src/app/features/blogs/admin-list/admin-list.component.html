@@ -11,37 +11,30 @@
                 >
                 </app-search>
             </div>
-            <div class="px-5">
-                <app-icon-filter 
-                    [list]="list"
-                    (filterList)="filterCity($event)"
-                >
-                </app-icon-filter>
-            </div>
         </div>
     </div>
     <div class="pt-1.5 mb-6">
         <button 
             class="float-right flex items-center py-1.5 p-2.5 rounded-[10px] justify-evenly hover:bg-black"
-            *ngIf="canCreateCityGuide" 
+            *ngIf="canCreateBlog" 
             [ngStyle]="{'background-color': buttonColor}" 
             (click)="handleCreateRoute()"
         >
             <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
             </svg>
-            <span class="text-white text-sm">{{ cityGuideTitle }}</span>
+            <span class="text-white text-sm">{{ 'dashboard.new' | translate }} {{ blogsTitle }}</span>
         </button>
     </div>
 </div>
 <div class="w-full min-w-full py-8">
     <div class="mat-table-responsive relative">
         <mat-table [dataSource]="dataSource" matSort class="manage-list">
-            <ng-container matColumnDef="title_display">
+            <ng-container matColumnDef="name_display">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'plan-create.title' | translate }} </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="title_display">
+                <mat-cell *matCellDef="let row" data-label="name_display">
                     <a [ngStyle]="{'color': buttonColor}" class="hover:cursor-pointer hover:underline" href="javascript:;" (click)="viewItem(row?.id)">
-                        {{ row?.title_display }}
+                        {{ row?.name_display }}
                     </a>
                 </mat-cell>
             </ng-container>
@@ -49,18 +42,6 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'company-settings.status' | translate }} </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="status_display">
                    {{ row?.status_display }}
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="city_display">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'cities.city' | translate }} </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="city_display">
-                   {{ row?.city_display }}
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="likes">
-                <mat-header-cell *matHeaderCellDef mat-sort-header class="capitalize"> {{ 'wall.likes' | translate }} </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="likes">
-                    {{ row?.likes }}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="action">

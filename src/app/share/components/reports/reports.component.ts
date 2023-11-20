@@ -30,6 +30,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from "@angular/forms";
+import { PageTitleComponent } from "../page-title/page-title.component";
 import { initFlowbite } from "flowbite";
 import moment from "moment";
 
@@ -50,6 +51,7 @@ import moment from "moment";
     MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
+    PageTitleComponent,
   ],
   templateUrl: "./reports.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,

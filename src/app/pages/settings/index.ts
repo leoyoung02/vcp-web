@@ -74,4 +74,10 @@ export const routes: Routes = [
         data: { titleKey: 'company-settings.personalizehometemplate'},
         loadComponent: async () => (await import('./home-template/home-template.component')).HomeTemplateSettingComponent,
     },
+    {
+        path: 'stripe-accounts',
+        title: CustomTitleResolver,
+        data: { titleKey: 'stripe-account.managestripeaccounts'},
+        loadComponent: async () => (await import('./stripe-accounts/stripe-accounts.component')).ManageStripeAccountsComponent,
+    },
 ];

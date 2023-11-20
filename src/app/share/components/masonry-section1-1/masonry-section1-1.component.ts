@@ -158,7 +158,17 @@ export class MasonrySection11Component {
 
     let progress = this.getUserProgress(course);
     let category_texts = this.getCategoriesDisplay(course);
-
+    let button_text = this.getButtonText(course, progress);
+    let show_details = true
+    if(button_text == `${this._translateService.instant("courses.begin")} ${this._translateService.instant("invite.here")}` ||
+      button_text == this._translateService.instant("courses.continue")) {
+    } else {
+      show_details = false
+    }
+    let buy_now_shown = false
+    if(button_text == this._translateService.instant("courses.buynow")) {
+      buy_now_shown = true
+    }
     let dt = courses?.map(item => {
       return {
         ...item,
@@ -168,7 +178,9 @@ export class MasonrySection11Component {
         image: `${COURSE_IMAGE_URL}/${item.image}`,
         category: category_texts?.map((data) => { return data.label }).join(', '),
         progress: progress,
-        button_text: this.getButtonText(course, progress),
+        button_text,
+        show_details,
+        assigned_button_color: show_details ? course?.button_color : (buy_now_shown ? course?.buy_now_button_color : ''),
       }
     })
 

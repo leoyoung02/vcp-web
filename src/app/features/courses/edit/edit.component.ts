@@ -1941,8 +1941,7 @@ export class CourseEditComponent {
   addModule() {
     this.courseModuleFormSubmitted = true
 
-    if(!this.moduleTitle
-      || !this.moduleDescription) {
+    if(!this.moduleTitle) {
         return false
       }
 

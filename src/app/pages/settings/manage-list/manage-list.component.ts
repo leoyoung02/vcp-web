@@ -21,6 +21,7 @@ import { TutorsAdminListComponent } from "@features/tutors/admin-list/admin-list
 import { CoursesAdminListComponent } from "@features/courses/admin-list/admin-list.component";
 import { DiscountsAdminListComponent } from "@features/offers/admin-list/admin-list.component";
 import { ServicesAdminListComponent } from "@features/servicios/admin-list/admin-list.component";
+import { BlogsAdminListComponent } from "@features/blogs/admin-list/admin-list.component";
 import { environment } from "@env/environment";
 import get from "lodash/get";
 
@@ -45,6 +46,7 @@ import get from "lodash/get";
     CoursesAdminListComponent,
     DiscountsAdminListComponent,
     ServicesAdminListComponent,
+    BlogsAdminListComponent,
     PageTitleComponent,
   ],
   templateUrl: "./manage-list.component.html",
@@ -92,6 +94,9 @@ export class ManageListComponent {
   servicesFeature: any;
   servicesFeatureId: any;
   servicesTitle: any;
+  blogsFeature: any;
+  blogsFeatureId: any;
+  blogsTitle: any;
   superAdmin: boolean = false;
   canCreatePlan: boolean = false;
   canCreateClub: boolean = false;
@@ -101,6 +106,7 @@ export class ManageListComponent {
   canCreateCourse: boolean = false;
   canCreateDiscount: boolean = false;
   canCreateService: boolean = false;
+  canCreateBlog: boolean = false;
   buttonList: any[] = [];
   filter: any;
   company: any;
@@ -174,7 +180,8 @@ export class ManageListComponent {
       this.list == "tutors" ||
       this.list == "courses" ||
       this.list == "discounts" ||
-      this.list == "services"
+      this.list == "services" ||
+      this.list == "blogs"
     ) {
       if(this.list == 'commissions') {
         this.buttonList = [
@@ -274,6 +281,9 @@ export class ManageListComponent {
       case "services":
         this.listTitle = this.servicesTitle;
         break;
+      case "blogs":
+        this.listTitle = this.blogsTitle;
+        break;
     }
   }
 
@@ -360,6 +370,14 @@ export class ManageListComponent {
     this.servicesTitle = this.servicesFeature
       ? this.getFeatureTitle(this.servicesFeature)
       : "";
+
+    this.blogsFeature = features?.find(
+      (f) => f.feature_id == 21 && f.status == 1
+    );
+    this.blogsFeatureId = this.blogsFeature?.feature_id;
+    this.blogsTitle = this.blogsFeature
+      ? this.getFeatureTitle(this.blogsFeature)
+      : "";
   }
 
   mapUserPermissions(user_permissions) {
@@ -404,6 +422,12 @@ export class ManageListComponent {
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find(
         (f) => f.create == 1 && f.feature_id == 14
+      );
+
+    this.canCreateBlog =
+      user_permissions?.create_plan_roles?.length > 0 ||
+      user_permissions?.member_type_permissions?.find(
+        (f) => f.create == 1 && f.feature_id == 21
       );
   }
 

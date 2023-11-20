@@ -854,6 +854,17 @@ export class SettingComponent {
     this.newValue = value
     this.fieldType = type
     this.selectedReferralRateType = type == 'select' ? value : ''
+
+    this.dialogMode = "update-value";
+    let setting_row = this.settings?.filter(setting => {
+      return setting.id == this.selectedSettingId
+    })
+    if(setting_row?.length > 0) {
+      this.getSettingTitle(setting_row[0]); 
+    }
+    this.dialogTitle =  this.selectedSettingTitle
+    this.dialogTitle = this.selectedSettingTitle || this._translateService.instant('company-settings.updatevalue');
+    this.modalbutton?.nativeElement.click();
   }
 
   toggleChange(event, item) {
@@ -1000,7 +1011,60 @@ export class SettingComponent {
       this.saveNewMenuButton();
     } else if(this.dialogMode == 'policy-url') {
       this.saveURLValue();
+    } else if(this.dialogMode == 'update-value') {
+      this.saveValue();
     }
+  }
+
+  saveValue() {
+    let updatedStripeKeys = false
+    if(this.selectedSettingValue && this.newValue && this.newValue != this.selectedSettingValue && this.selectedSettingValue.indexOf('sk_') >= 0) {
+      updatedStripeKeys = true
+    }
+
+    let params;
+    if(this.modalTextNumber > 1){
+      params = {
+        value: this.modalTextValues.toString(),
+        company_id: this.companyId,
+        updated_stripe_keys: updatedStripeKeys ? 1 : 0
+      }
+    } else {
+      params = {
+        value: this.newValue,
+        company_id: this.companyId,
+        updated_stripe_keys: updatedStripeKeys ? 1 : 0
+      }
+    }
+    this._companyService.updateOtherSettingValue(this.selectedSettingId, params)
+      .subscribe(
+        response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          const item = this.settings.find((i) => i.id == this.selectedSettingId);
+          
+          if (item){
+            if(this.modalTextNumber > 1){
+              item.value = this.modalTextValues.toString();
+            }else {
+              item.value = this.newValue;
+            }
+          }
+
+          if(updatedStripeKeys) {
+            this._translateService.instant('dialog.stripekeyupdated')
+          }
+
+          this.closemodalbutton?.nativeElement.click();
+          this.dialogMode = '';
+
+          if(this.selectedSettingId == 291) {
+            location.reload()
+          }
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
   goToLanguages() {
@@ -1710,6 +1774,10 @@ export class SettingComponent {
 
   goToHomeSettings() {
     this._router.navigate([`/settings/home-template`])
+  }
+
+  gotoManageStripeAccounts() {
+    this._router.navigate(['/settings/stripe-accounts'])
   }
 
   handleGoBack() {

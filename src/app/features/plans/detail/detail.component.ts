@@ -1165,7 +1165,7 @@ export class PlanDetailComponent {
       ? `${created_by.first_name} ${created_by.last_name}`
       : "";
     this.createdByImage = `${this.apiPath}/${
-      created_by ? created_by.image : "empty_avater.png"
+      created_by ? created_by.image : "empty_avatar.png"
     }`;
   }
 

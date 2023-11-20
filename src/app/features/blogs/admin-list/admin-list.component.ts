@@ -15,7 +15,7 @@ import {
 import { CompanyService, LocalService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { SearchComponent } from "@share/components/search/search.component";
-import { CityGuidesService } from "@features/services";
+import { BlogsService } from "@features/services";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatSort, MatSortModule } from "@angular/material/sort";
@@ -26,7 +26,7 @@ import { environment } from "@env/environment";
 import moment from "moment";
 
 @Component({
-  selector: "app-blog-admin-list",
+  selector: "app-blogs-admin-list",
   standalone: true,
   imports: [
     CommonModule,
@@ -41,15 +41,15 @@ import moment from "moment";
   ],
   templateUrl: "./admin-list.component.html",
 })
-export class BlogAdminListComponent {
+export class BlogsAdminListComponent {
   private destroy$ = new Subject<void>();
 
   @Input() list: any;
   @Input() company: any;
   @Input() buttonColor: any;
   @Input() primaryColor: any;
-  @Input() canCreateCityGuide: any;
-  @Input() cityGuideTitle: any;
+  @Input() canCreateBlog: any;
+  @Input() blogsTitle: any;
   @Input() userId: any;
   @Input() superAdmin: any;
   @Input() status: any;
@@ -59,15 +59,13 @@ export class BlogAdminListComponent {
   isMobile: boolean = false;
   searchText: any;
   placeholderText: any;
-  allCityGuidesData: any = [];
-  cityGuidesData: any = [];
+  allBlogsData: any = [];
+  blogsData: any = [];
   searchKeyword: any;
   dataSource: any;
   displayedColumns = [
-    "title_display",
+    "name_display",
     "status_display",
-    "city_display",
-    "likes",
     "action",
   ];
   pageSize: number = 10;
@@ -82,15 +80,13 @@ export class BlogAdminListComponent {
   confirmDeleteItemDescription: string = "";
   acceptText: string = "";
   cancelText: string = "";
-  cities: any = [];
   apiPath: string = environment.api + "/";
-  selectedCity: any;
 
   constructor(
     private _router: Router,
     private _snackBar: MatSnackBar,
     private _translateService: TranslateService,
-    private _cityGuidesService: CityGuidesService
+    private _blogsService: BlogsService
   ) {}
 
   @HostListener("window:resize", [])
@@ -102,7 +98,7 @@ export class BlogAdminListComponent {
     let statusChange = changes["status"];
     if (statusChange.previousValue != statusChange.currentValue) {
       this.status = statusChange.currentValue;
-      this.loadCityGuides(this.allCityGuidesData);
+      this.loadBlogs(this.allBlogsData);
     }
   }
 
@@ -121,18 +117,17 @@ export class BlogAdminListComponent {
   }
 
   initializePage() {
-    this.fetchCityGuidesManagementData();
+    this.fetchBlogsManagementData();
     this.initializeSearch();
   }
 
-  fetchCityGuidesManagementData() {
-    this._cityGuidesService
-      .fetchCityGuides(this.company?.id, this.userId, "all")
+  fetchBlogsManagementData() {
+    this._blogsService
+      .fetchBlogs(this.company?.id, this.userId, "all")
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          this.cities = data?.cities || [];
-          this.formatCityGuides(data || []);
+          this.formatBlogs(data || []);
         },
         (error) => {
           console.log(error);
@@ -140,32 +135,24 @@ export class BlogAdminListComponent {
       );
   }
 
-  formatCityGuides(result) {
+  formatBlogs(result) {
     let data;
-    let city_guides = result.city_guides;
-    let city_guide_likes = result.city_guide_likes;
+    let blogs = result.blogs;
 
-    if (city_guides?.length > 0) {
-      data = city_guides?.map((city_guide) => {
-
-        let likes = city_guide_likes?.filter((g) => {
-          return g.object_id == city_guide.id;
-        });
-
+    if (blogs?.length > 0) {
+      data = blogs?.map((blog) => {
         return {
-          ...city_guide,
-          title_display: this.getCityGuideName(city_guide),
-          city_display: this.getCity(city_guide),
-          likes: likes?.length || 0,
+          ...blog,
+          name_display: this.getBlogName(blog),
           status_display:
-            city_guide.status == 1
+            blog.status == 1
               ? this._translateService.instant("company-settings.active")
               : this._translateService.instant("company-settings.inactive"),
         };
       });
     }
-    if (this.allCityGuidesData?.length == 0) {
-      this.allCityGuidesData = data;
+    if (this.allBlogsData?.length == 0) {
+      this.allBlogsData = data;
     }
 
     if (data?.length > 0) {
@@ -176,85 +163,105 @@ export class BlogAdminListComponent {
       });
     }
 
-    this.loadCityGuides(data);
+    this.loadBlogs(data);
   }
 
-  getCityGuideName(guide) {
-    return guide
+  getBlogName(blog) {
+    return blog
       ? this.language == "en"
-        ? guide.name_EN || guide.name_ES
+        ? blog.name_EN || blog.name_ES
         : this.language == "fr"
-        ? guide.name_FR || guide.name_ES
+        ? blog.name_FR || blog.name_ES
         : this.language == "eu"
-        ? guide.name_EU || guide.name_ES
+        ? blog.name_EU || blog.name_ES
         : this.language == "ca"
-        ? guide.name_CA || guide.name_ES
+        ? blog.name_CA || blog.name_ES
         : this.language == "de"
-        ? guide.name_DE || guide.name_ES
-        : guide.name_ES
+        ? blog.name_DE || blog.name_ES
+        : blog.name_ES
       : "";
   }
 
-  getCity(guide) {
-    let city = '';
-
-    if(this.cities?.length > 0) {
-      let city_row = this.cities?.find((f) => f.id == guide?.city_id);
-      if(city_row) {
-        city = city_row.city;
-      }
-    }
-
-    return city;
-  }
-
-  loadCityGuides(data) {
-    this.cityGuidesData = data?.filter((city_guide) => {
+  loadBlogs(data) {
+    this.blogsData = data?.filter((blog) => {
       let status = this.status == "active" ? 1 : 0;
-      return status == (city_guide.status || 0);
+      return status == (blog.status || 0);
     });
 
-    if (this.searchKeyword && this.cityGuidesData) {
-      this.cityGuidesData = this.cityGuidesData.filter((city_guide) => {
+    if (this.searchKeyword && this.blogsData) {
+      this.blogsData = this.blogsData.filter((blog) => {
         return (
-          (city_guide.name_ES &&
-            city_guide.name_ES
+          (blog.name_ES &&
+            blog.name_ES
               .toLowerCase()
-              .indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
-          (city_guide.name_EN &&
-            city_guide.name_EN
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.searchKeyword
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
+          (blog.name_EN &&
+            blog.name_EN
               .toLowerCase()
-              .indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
-          (city_guide.name_FR &&
-            city_guide.name_FR
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.searchKeyword
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
+          (blog.name_FR &&
+            blog.name_FR
               .toLowerCase()
-              .indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
-          (city_guide.name_EU &&
-            city_guide.name_EU
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.searchKeyword
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
+          (blog.name_EU &&
+            blog.name_EU
               .toLowerCase()
-              .indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
-          (city_guide.name_CA &&
-            city_guide.name_CA
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.searchKeyword
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
+          (blog.name_CA &&
+            blog.name_CA
               .toLowerCase()
-              .indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
-          (city_guide.name_DE &&
-            city_guide.name_DE
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.searchKeyword
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
+          (blog.name_DE &&
+            blog.name_DE
               .toLowerCase()
-              .indexOf(this.searchKeyword.toLowerCase()) >= 0)
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.searchKeyword
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0)
         );
       });
     }
 
-    if(this.selectedCity) {
-      let city = this.cities?.find((f) => f.city == this.selectedCity);
-      if(city) {
-        this.cityGuidesData = this.cityGuidesData.filter(p => {
-          return p.city_id == city?.id
-        })
-      }
-  }
-
-    this.refreshTable(this.cityGuidesData);
+    this.refreshTable(this.blogsData);
   }
 
   refreshTable(list) {
@@ -295,31 +302,19 @@ export class BlogAdminListComponent {
   }
 
   handleCreateRoute() {
-    this._router.navigate([`/cityguide/create/0`]);
+    this._router.navigate([`/blog/create/0`]);
   }
 
   handleSearch(event) {
     this.searchKeyword = event;
-    this.loadCityGuides(this.allCityGuidesData);
-  }
-
-  filterCity(event) {
-    this.list?.forEach((item) => {
-        if (item.city === event) {
-          item.selected = true;
-        } else {
-          item.selected = false;
-        }
-    });
-    this.selectedCity = event || "";
-    this.loadCityGuides(this.allCityGuidesData);
+    this.loadBlogs(this.allBlogsData);
   }
 
   getPageDetails(event: any) {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.dataSource = new MatTableDataSource(
-      this.cityGuidesData.slice(
+      this.blogsData.slice(
         event.pageIndex * event.pageSize,
         (event.pageIndex + 1) * event.pageSize
       )
@@ -332,11 +327,11 @@ export class BlogAdminListComponent {
   }
 
   viewItem(id) {
-    this._router.navigate([`/cityguide/details/${id}`]);
+    this._router.navigate([`/blog/details/${id}`]);
   }
 
   editItem(id) {
-    this._router.navigate([`/cityguide/edit/${id}`]);
+    this._router.navigate([`/blog/edit/${id}`]);
   }
 
   confirmDeleteItem(id) {
@@ -359,22 +354,22 @@ export class BlogAdminListComponent {
 
   deleteItem(id, confirmed) {
     if (confirmed) {
-      this._cityGuidesService.deleteCityGuide(id, this.userId).subscribe(
+      this._blogsService.deleteBlog(id).subscribe(
         (response) => {
-          let all_city_guides = this.allCityGuidesData;
-          if (all_city_guides?.length > 0) {
-            all_city_guides.forEach((job_offer, index) => {
-              if (job_offer.id == id) {
-                all_city_guides.splice(index, 1);
+          let all_blogs = this.allBlogsData;
+          if (all_blogs?.length > 0) {
+            all_blogs.forEach((blog, index) => {
+              if (blog.id == id) {
+                all_blogs.splice(index, 1);
               }
             });
           }
 
-          let city_guides = this.cityGuidesData;
-          if (city_guides?.length > 0) {
-            city_guides.forEach((city_guide, index) => {
-              if (city_guide.id == id) {
-                city_guides.splice(index, 1);
+          let blogs = this.blogsData;
+          if (blogs?.length > 0) {
+            blogs.forEach((blog, index) => {
+              if (blog.id == id) {
+                blogs.splice(index, 1);
               }
             });
           }
@@ -382,8 +377,8 @@ export class BlogAdminListComponent {
             this._translateService.instant("dialog.deletedsuccessfully"),
             ""
           );
-          this.cityGuidesData = city_guides;
-          this.refreshTable(this.cityGuidesData);
+          this.blogsData = blogs;
+          this.refreshTable(this.blogsData);
         },
         (error) => {
           console.log(error);

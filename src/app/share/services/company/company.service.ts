@@ -96,6 +96,14 @@ import {
   EDIT_HOME_MODULE_SETTINGS_URL,
   CONTRACTS_URL,
   EDIT_CONDITIONS_URL,
+  HOME_PLANS_COURSES_DATA_URL,
+  STRIPE_ACCOUNTS_URL,
+  UPDATE_STRIPE_ACCOUNT_STATUS_URL,
+  DELETE_STRIPE_ACCOUNT_URL,
+  STRIPE_WEBHOOKS_URL,
+  ADD_STRIPE_WEBHOOK_URL,
+  EDIT_STRIPE_ACCOUNT_URL,
+  ADD_STRIPE_ACCOUNT_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -853,6 +861,12 @@ export class CompanyService {
     }).pipe(map(res => res));
   }
 
+  fetchHomePlansCoursesData(id: number = 0, userId: number = 0): Observable<any> {
+    return this._http.get(`${HOME_PLANS_COURSES_DATA_URL}/${id}/${userId}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
   getBusinessCategories(): Observable<any> {
     return this._http.get(AS_SECTORS_URL,
       { headers: this.headers }
@@ -886,6 +900,53 @@ export class CompanyService {
   updateConditions(params): Observable<any> {
     return this._http.post(EDIT_CONDITIONS_URL,
         params,
+    ).pipe(map(res => res));
+  }
+
+  getStripeAccounts(companyId){
+    return this._http.get(`${STRIPE_ACCOUNTS_URL}/${companyId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  toggleStripeAccountStatus(companyId, payload){
+    return this._http.post(`${UPDATE_STRIPE_ACCOUNT_STATUS_URL}/${companyId}`,
+      payload,
+      { headers : this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getOtherStripeWebhooks(id, stripeId): Observable<any> {
+    return this._http.get(`${STRIPE_WEBHOOKS_URL}/${id}/${stripeId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  createOtherStripeWebhook(id, stripeId): Observable<any> {
+    return this._http.get(`${ADD_STRIPE_WEBHOOK_URL}/${id}/${stripeId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addStripeAccount(companyId, payload){
+    return this._http.post(
+      `${ADD_STRIPE_ACCOUNT_URL}/${companyId}`,
+      payload,
+      { headers : this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editStripeAccount(companyId, payload){
+    return this._http.post(`${EDIT_STRIPE_ACCOUNT_URL}/${companyId}`,
+      payload,
+      { headers : this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteStripeAccount(companyId, payload){
+    return this._http.post(`${DELETE_STRIPE_ACCOUNT_URL}/${companyId}`,
+      payload,
+      { headers : this.headers }
     ).pipe(map(res => res));
   }
 }

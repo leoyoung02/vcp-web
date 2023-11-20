@@ -36,7 +36,7 @@
                                 />
                                 <div 
                                     class="grid max-w-xl text-center shadow-2xl bg-neutral-50 rounded-xl place-items-center bg-opacity-5 backdrop-filter backdrop-blur"
-                                    [ngClass]="{'p-6': !imgSrc}"
+                                    [ngClass]="{'p-6 rounded-xl bg-red-50 border border-red-500': !imgSrc}"
                                 >
                                     <div
                                         class="grid mb-8 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300 place-items-center"
@@ -864,6 +864,7 @@
                                 class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 [(ngModel)]="selectedUnitModule"
                                 [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedUnitModule }"
                                 (change)="handleChangeModule($event)"
                             >
                                 <option value="" disabled selected>{{ 'course-create.selectmodule' | translate }}</option>
@@ -882,6 +883,7 @@
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="unitTitle"
                                 [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !unitTitle }"
                                 placeholder="{{ 'club-create.title' | translate }}">
                             <input 
                                 *ngIf="selectedLanguage == 'en'"
@@ -919,12 +921,14 @@
                                 class="text-2xl mr-4 shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="unitDuration"
                                 [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !unitDuration }"
                                 placeholder="{{ 'course-create.duration' | translate }}">
                             <select
                                 id="payment-type"
                                 class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 [(ngModel)]="selectedCourseUnitDurationUnit"
                                 [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedCourseUnitDurationUnit }"
                             >
                                 <option value="" disabled selected>{{ 'course-create.selectcourseduration' | translate }}</option>
                                 <option
@@ -941,6 +945,7 @@
                                 class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 [(ngModel)]="selectedUnitType"
                                 [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedUnitType }"
                             >
                                 <option value="" disabled selected>{{ 'course-create.selectfiletype' | translate }}</option>
                                 <option
@@ -1426,6 +1431,7 @@
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="courseDownloadTitle"
                                 [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !courseDownloadTitle }"
                                 placeholder="{{ 'club-create.title' | translate }}">
                         </div>
                         <div class="flex items-center justify-center my-8 relative">
@@ -1434,6 +1440,7 @@
                                 class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 [(ngModel)]="selectedDownloadUnitId"
                                 [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedDownloadUnitId }"
                                 (change)="handleChangeDownloadUnit($event)"
                             >
                                 <option value="" disabled selected>{{ 'course-create.selectunit' | translate }}</option>

@@ -131,6 +131,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   showEventsCalendar: boolean = false;
   companyName: any;
   company: any;
+  coursesFeature: any;
+  hasClubs: boolean = false;
+  hasCourses: boolean = false;
+  plansFeature: any;
+  hasPlans: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -224,20 +229,40 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.getMobileLimitSettings();
 
     // Get all activated features
-    this.features = this._localService.getLocalStorage(environment.lsfeatures)
-      ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
-      : "";
-    if (!this.features) {
+    // this.features = this._localService.getLocalStorage(environment.lsfeatures)
+    //   ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
+    //   : "";
+    // if (!this.features) {
       this.features = await this._companyService
         .getFeatures(this.domain)
         .toPromise();
+    // }
+    // console.log(this.features)
+
+    let plansFeature = this.features.filter((f) => {
+      return f.feature_name == "Plans";
+    });
+    if (plansFeature?.length > 0) {
+      this.hasPlans = true;
+      this.plansFeature = plansFeature[0];
     }
+
     let clubsFeature = this.features.filter((f) => {
       return f.feature_name == "Clubs";
     });
-    if (clubsFeature && clubsFeature[0]) {
+    if (clubsFeature?.length > 0) {
+      this.hasClubs = true;
       this.clubsFeature = clubsFeature[0];
     }
+
+    let coursesFeature = this.features.filter((f) => {
+      return f.feature_name == "Courses";
+    });
+    if (coursesFeature?.length > 0) {
+      this.hasCourses = true;
+      this.coursesFeature = coursesFeature[0];
+    }
+
     this.getTitles();
 
     this.isloading = false;

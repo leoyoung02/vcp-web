@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { PageLayout } from '@lib/enums/page-layout.enum';
 import { authGuard } from 'src/app/core/guards';
+import { CustomTitleResolver } from '@lib/resolvers';
 
 export const routes: Routes = [
     {
@@ -128,6 +129,20 @@ export const routes: Routes = [
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@features/blogs')).routes,
         canMatch: [authGuard()],
+    },
+    {
+        path: 'event/:slug/:invite_guid',
+        data: { layout: PageLayout.Blank, titleKey: 'Registro' },
+        title: CustomTitleResolver,
+        loadComponent: async () => (await import('@pages/share/event-registration/event-registration.component')).EventRegistrationComponent,
+        canMatch: [authGuard({ requiresAuthentication: false })],
+    },
+    {
+        path: ':slug/:invite_guid',
+        data: { layout: PageLayout.Blank, titleKey: 'Registro' },
+        title: CustomTitleResolver,
+        loadComponent: async () => (await import('@pages/share/event-registration/event-registration.component')).EventRegistrationComponent,
+        canMatch: [authGuard({ requiresAuthentication: false })],
     },
     {
         path: '**',

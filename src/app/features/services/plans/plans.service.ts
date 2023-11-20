@@ -9,6 +9,7 @@ import {
   ADD_PLAN_COMMENT_URL,
   ADD_TO_WAITING_LIST_URL,
   ANSWER_EMAIL_INVITE_QUESTIONS_URL,
+  CHECK_PLAN_REGISTRATION_URL,
   CLEAR_CONFIRMATION_URL,
   CLEAR_PARTICIPANT_ATTENDANCE_URL,
   CLEAR_PLAN_CONFIRMATION_URL,
@@ -50,7 +51,7 @@ import {
   PLANS_MANAGEMENT_DATA_URL,
   PLANS_OTHER_DATA_URL,
   PLANS_URL,
-  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_INVITE_LINK_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
+  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -246,6 +247,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
   fetchPlanDetailsCombined(id: number = 0, planTypeId: number = 0, companyId: number = 0, userId: number = 0): Observable<any> {
     return this._http.get(`${PLAN_DETAILS_URL}/${id}/${planTypeId}/${companyId}/${userId}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  fetchRegistrationData(slug: string = '', inviteGuid: string = ''): Observable<any> {
+    return this._http.get(`${PLAN_REGISTRATION_DATA_URL}/${slug}/${inviteGuid}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }
@@ -831,4 +838,25 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
         formData
     ).pipe(map(res => res));
   }
+
+  checkExistingRegistration(payload): Observable<any> {
+    return this._http.post(CHECK_PLAN_REGISTRATION_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  eventRegister(payload): Observable<any> {
+    return this._http.post(PLAN_REGISTRATION_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  companyRegisterInvite(payload): Observable<any> {
+    return this._http.post(PLAN_GUEST_REGISTRATION_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+}
 }
