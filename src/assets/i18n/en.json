@@ -1454,7 +1454,8 @@
         "show_price":"Show Price",
         "waitinglist": "Waiting list",
         "downloadwaitinglist": "Download waiting list",
-        "renewal": "Renewal date"
+        "renewal": "Renewal date",
+        "activitycode": "Activity code"
     },
     "edit-club": {
         "uploadimage": "Upload image",

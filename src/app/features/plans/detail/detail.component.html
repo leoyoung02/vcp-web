@@ -67,7 +67,10 @@
         <div class="relative mr-0 sm:mr-0 md:mr-8 lg:mr-83">
             <img 
                 *ngIf="plan?.image"
-                class="object-cover rounded-lg w-full max-w-full h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[698px] md:max-h-[698px] lg:h-[698px] lg:max-h-[698px]" 
+                class="object-cover rounded-lg w-full max-w-full" 
+                [ngClass]="{'h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[698px] md:max-h-[698px] lg:h-[698px] lg:max-h-[698px]': !planExpandedDescription,
+                    'h-full max-h-full sm:h-auto sm:max-h-auto md:h-full md:max-h-full lg:h-full lg:max-h-full': planExpandedDescription
+                }"
                 [ngSrc]="apiPath + plan?.path + plan?.image" 
                 [alt]="getEventTitle(plan)" 
                 width="520" 

@@ -1453,7 +1453,8 @@
         "show_price":"Mostrar precio",
         "waitinglist": "Lista de espera",
         "downloadwaitinglist": "Descargar lista de espera",
-        "renewal": "Fecha de renovación"
+        "renewal": "Fecha de renovación",
+        "activitycode": "Código de la actividad"
     },
     "edit-club": {
         "uploadimage": "Cargar imagen",

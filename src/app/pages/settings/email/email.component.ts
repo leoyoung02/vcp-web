@@ -9,7 +9,7 @@ import {
 import { Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import { FormsModule } from "@angular/forms";
-import { BreadcrumbComponent } from "@share/components";
+import { BreadcrumbComponent, PageTitleComponent } from "@share/components";
 import { CompanyService, LocalService } from "@share/services";
 import { EditorModule } from "@tinymce/tinymce-angular";
 import { NgxPaginationModule } from "ngx-pagination";
@@ -27,6 +27,7 @@ import get from "lodash/get";
     EditorModule,
     NgxPaginationModule,
     BreadcrumbComponent,
+    PageTitleComponent,
   ],
   templateUrl: "./email.component.html",
 })
@@ -456,6 +457,10 @@ export class EmailComponent {
       {
         code: "{resource_name}",
         description: this._translateService.instant("email.shresourcename"),
+      },
+      {
+        code: "{activity_code}",
+        description: this._translateService.instant("edit-plan.activitycode"),
       },
     ];
   }

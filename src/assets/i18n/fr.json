@@ -1414,7 +1414,6 @@
         "yearly_on": "Annulé le ",
         "every_weekday_on": "Tous les jours de la semaine (du lundi au vendredi)        ",
         "custom": "Coutume",
-
         "start": "Démarrer",
         "repeatevery": "Répéter chaque",
         "repeat_on":"Répéter activé",
@@ -1449,7 +1448,8 @@
         "show_price":"Afficher le prix",
         "waitinglist": "Liste d'attente",
         "downloadwaitinglist": "Télécharger la liste d'attente",
-        "renewal": "Date de renouvellement"
+        "renewal": "Date de renouvellement",
+        "activitycode": "Code d'activité"
     },
     "edit-club": {
         "uploadimage": "Télécharger une image",
