@@ -160,6 +160,9 @@ export class AuthService {
 
   logout(): void {
     storage.removeItem("appSession");
+    this._localService.removeLocalStorage(environment.lstoken);
+    this._localService.removeLocalStorage(environment.lsrefreshtoken);
+    this._localService.removeLocalStorage(environment.lsuser);
     this.isAuthenticated$.next(false);
   }
 

@@ -713,7 +713,7 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
     margin-top: 25px;
     width: 100%;
     overflow: auto;
-    height: 58vh;
+    /* height: 58vh; */
 }
 
 .course-students .mat-column-name,

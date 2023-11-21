@@ -134,6 +134,10 @@ export class MasonrySection11Component {
         this.course4Data = this.coursesData?.length >= 4 ? this.formatCourse(this.coursesData[3]) : {}
         this.course5Data = this.coursesData?.length >= 5 ? this.formatCourse(this.coursesData[4]) : {}
         this.course6Data = this.coursesData?.length >= 6 ? this.formatCourse(this.coursesData[5]) : {}
+      } else {
+        if(this.coursesData?.length >= 3 && this.tutorsData?.length == 0) {
+          this.course3Data = this.coursesData?.length >= 3 ? this.formatCourse(this.coursesData[2]) : {}
+        }
       }
     }
 

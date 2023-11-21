@@ -14,7 +14,7 @@
     [superAdmin]="superAdmin"
     [company]="company"
     [section1Mode]="(hasPlans || companyId == 32 || companyId == 27 || companyId == 25) ? 'plans' : (!hasPlans && (hasCourses || companyId == 52) ? 'courses' : '')"
-    [section2Mode]="companyId == 32 ? 'cityguide-employmentchannel' : (companyId == 52 ? 'testimonials-tutors' : ((hasPlans && hasCourses) || companyId == 27 ? 'courses' : ''))"
+    [section2Mode]="companyId == 32 ? 'cityguide-employmentchannel' : (companyId == 52 ? 'testimonials-tutors' : ((hasPlans && hasCourses) || companyId == 27 || companyId == 25 ? 'courses' : ''))"
     [section3Mode]="hasClubs ? 'clubs' : ''"
   >
   </app-masonry>

@@ -319,6 +319,14 @@ export class TutorDetailComponent {
 
   formatTutor(data) {
     this.tutor = data?.tutor;
+    if(!data?.tutor?.id) {
+      let tutor_row = data?.tutors?.filter(t => {
+        return t.id == this.id
+      })
+      if(tutor_row?.length > 0) {
+        this.tutor = tutor_row[0];
+      }
+    }
     this.tutorImage = `${environment.api}/${this.tutor?.image}`;
     this.tutorRating = this.getTutorRating(this.tutor);
     this.types = this.getTutorTypes(this.tutor);

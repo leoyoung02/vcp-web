@@ -18,6 +18,27 @@
         >
         </app-course-card>
     </div>
+    <ng-container *ngIf="coursesData?.length < 6 && tutorsData?.length == 0">
+        <div class="h-full max-h-full sm:h-full sm:max-h-full md:h-[620px] md:max-h-[620px] lg:h-[620px] lg:max-h-[620px] col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 row-span-2 rounded-lg relative cursor-pointer"
+        *ngIf="course3Data?.id > 0">
+        <app-course-card
+            [id]="course3Data?.id"
+            [path]="course3Data?.path"
+            [title]="course3Data?.title"
+            [category]="course3Data?.category"
+            [price]="course3Data?.price"
+            [image]="course3Data?.image"
+            [progress]="course3Data?.progress"
+            [buttonText]="course3Data?.button_text"
+            [showDetails]="course3Data?.show_details"
+            [page]="'home'"
+            [buttonColor]="buttonColor"
+            [companyId]="company?.id"
+            [courseButtonColor]="course3Data?.assigned_button_color"
+        >
+        </app-course-card>
+    </div>
+    </ng-container>
     <div class="rounded-lg row-span-1 cursor-pointer relative" 
         *ngIf="tutor1Data?.id > 0">
         <app-tutor-card
@@ -83,7 +104,7 @@
         </app-tutor-card>
     </div>
     <div class="rounded-lg row-span-1 cursor-pointer relative" 
-        *ngIf="course3Data?.id > 0">
+        *ngIf="coursesData?.length >= 6 && course3Data?.id > 0">
         <app-course-card
             [id]="course3Data?.id"
             [path]="course3Data?.path"
@@ -133,7 +154,7 @@
             [image]="course2Data?.image"
             [progress]="course2Data?.progress"
             [buttonText]="course2Data?.button_text"
-            [showDetails]="course1Data?.show_details"
+            [showDetails]="course2Data?.show_details"
             [page]="'home'"
             [buttonColor]="buttonColor"
             [companyId]="company?.id"

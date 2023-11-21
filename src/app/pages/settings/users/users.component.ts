@@ -680,6 +680,21 @@ export class ManageUsersComponent {
       async (response) => {
         this.members = response[0] ? response[0]["all_members"] : [];
 
+        if(this.hasAddedUser && this.userMode == 'add') {
+          let selected_user = this.members?.filter(m => {
+            return m.email == this.createdUserId
+          })
+          if(selected_user?.length > 0) {
+            this.editUser(selected_user[0], 'edit');
+            if(
+              (this.hasCourses && this.hasCategoryAccess) || 
+              ((this.superTutor || this.isGuardianType || this.userTypeName == 'Admin TUTORES'))
+            ) {
+              this.tabIndex = 1;
+            }
+          }
+        }
+
         if(this.members?.length > 0 && !this.currentUser && this.userId) {
           let current_user = this.members?.filter(member => {
             return member.id == this.userId
@@ -1043,15 +1058,6 @@ export class ManageUsersComponent {
         }
 
         this.isUsersLoading = false;
-
-        if(this.hasAddedUser && this.userMode == 'add') {
-          let selected_user = this.members?.filter(m => {
-            return m.email == this.createdUserId
-          })
-          if(selected_user?.length > 0) {
-            this.editUser(selected_user[0], 'edit');
-          }
-        }
       },
       (error) => {
         console.log(error);

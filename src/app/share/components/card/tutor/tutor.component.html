@@ -55,10 +55,11 @@
         </div>
         <div class="absolute bottom-[30px] right-[30px] w-[56px] h-[56px] p-[12px] rounded-[14px]" 
             [ngStyle]="{'background-color': buttonColor}">
-            <img width="32" height="32" 
-            class="w-[32px] h-[32px] object-cover object-cover"
-            [ngSrc]="'./src/assets/icons/send.png'" alt=""
-            (click)="handleQuestionClick()" />
+            <fa-icon 
+                class="text-2xl flex items-center justify-center ng-fa-icon pt-1 text-white" 
+                [icon]="sendIcon"
+                (click)="handleQuestionClick()">
+            </fa-icon>
         </div>
     </ng-container>
 </div>

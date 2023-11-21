@@ -14,10 +14,14 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
+import {
+  faPaperPlane
+} from "@fortawesome/free-solid-svg-icons";
 import { LocalService } from "@share/services";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
 import { StarRatingComponent } from "@lib/components";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 @Component({
   selector: "app-tutor-card",
@@ -26,6 +30,7 @@ import { StarRatingComponent } from "@lib/components";
     CommonModule,
     RouterModule,
     TranslateModule,
+    FontAwesomeModule,
     NgOptimizedImage,
     StarRatingComponent,
   ],
@@ -53,6 +58,8 @@ export class TutorCardComponent {
 
   languageChangeSubscription;
   language: any;
+
+  sendIcon = faPaperPlane;
 
   constructor(
     private _translateService: TranslateService,
