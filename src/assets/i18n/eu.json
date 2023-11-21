@@ -1450,7 +1450,8 @@
         "show_price":"Erakutsi prezioa",
         "waitinglist": "Itxaron zerrenda",
         "downloadwaitinglist": "Deskargatu itxaron zerrenda",
-        "renewal": "Berritze data"
+        "renewal": "Berritze data",
+        "activitycode": "Jarduera kodea"
     },
     "edit-club": {
         "uploadimage": "Igo irudia",

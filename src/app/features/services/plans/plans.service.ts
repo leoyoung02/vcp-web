@@ -455,7 +455,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
-  createPlan( entityId, userId, id, planForm, file, imageFile, zoomApiKey, zoomApiSecret, zoomStartUrl, zoomJoinUrl, zoomMeetingId, zoomPassword, typeOfActivity, prolongedDaysNumber, prolongedActivities,isShowAttendee:any=false,isShowComments:any=false,isShowDescription:any=false,isShowPrice:any=false, draft: any = 0): Observable<any> {
+  createPlan( entityId, userId, id, planForm, file, imageFile, zoomApiKey, zoomApiSecret, zoomStartUrl, zoomJoinUrl, zoomMeetingId, zoomPassword, typeOfActivity, prolongedDaysNumber, prolongedActivities,isShowAttendee:any=false,isShowComments:any=false,isShowDescription:any=false,isShowPrice:any=false, draft: any = 0, activityCodeActive): Observable<any> {
     let formData = new FormData();
     if(planForm.group_id) {
         formData.append( 'group_id', planForm.group_id );
@@ -476,6 +476,10 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_comments', isShowComments );
     formData.append( 'show_description', isShowDescription );
     formData.append( 'show_price', isShowPrice );
+
+    if(activityCodeActive) {
+      formData.append( 'activity_code', planForm.activity_code );
+    }
 
     if(planForm.plan_date) {
         formData.append( 'plan_date', planForm.plan_date );
@@ -674,7 +678,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
-  updatePlan( entityId, userId, id, planTypeId, planForm, file, imageFile, typeOfActivity, prolongedDaysNumber, prolongedActivities, publish: any = 1): Observable<any> {
+  updatePlan( entityId, userId, id, planTypeId, planForm, file, imageFile, typeOfActivity, prolongedDaysNumber, prolongedActivities, publish: any = 1, activityCodeActive): Observable<any> {
     let formData = new FormData();
 
     if(planForm.fk_group_id) {
@@ -696,6 +700,9 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_description', planForm.isShowDescription );
     formData.append( 'show_price', planForm.isShowPrice );
 
+    if(activityCodeActive) {
+      formData.append( 'activity_code', planForm.activity_code );
+    }
 
     if(planForm.plan_date) {
         formData.append( 'plan_date', planForm.plan_date );
@@ -858,5 +865,5 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
         payload,
         { headers: this.headers }
     ).pipe(map(res => res));
-}
+  }
 }

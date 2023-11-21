@@ -1449,7 +1449,8 @@
         "show_price":"Preis anzeigen",
         "waitinglist": "Warteliste",
         "downloadwaitinglist": "Warteliste herunterladen",
-        "renewal": "Verlängerungsdatum"
+        "renewal": "Verlängerungsdatum",
+        "activitycode": "Aktivitätscode"
     },
     "edit-club": {
         "uploadimage": "Bild hochladen",

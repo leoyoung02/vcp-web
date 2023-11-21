@@ -393,6 +393,8 @@ export class PlanEditComponent {
   cancelText: any = "";
   planId: number = 0;
   pageTitle: string = "";
+  hasActivityCodeActivated: boolean = false;
+  activityCode: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -696,6 +698,9 @@ export class PlanEditComponent {
       );
       this.show_comments_field = subfeatures.some(
         (a) => a.name_en == "Comments" && a.active == 1
+      );
+      this.hasActivityCodeActivated = subfeatures.some(
+        (a) => a.name_en == "Activity Code" && a.active == 1
       );
     }
 
@@ -1068,6 +1073,7 @@ export class PlanEditComponent {
       show_attendee,
       show_comments,
       show_description,
+      activity_code,
     } = this.plan;
 
     let categories = this.mapCategories(data?.plan?.categories_mapping);
@@ -1244,6 +1250,9 @@ export class PlanEditComponent {
     this.isShowAttendee = show_attendee == 1 ? true : false;
     this.isShowComments = show_comments == 1 ? true : false;
     this.isShowDescription = show_description == 1 ? true : false;
+    if(this.hasActivityCodeActivated) {
+      this.activityCode = activity_code
+    }
   }
 
   mapCategories(category_mapping) {
@@ -1771,6 +1780,10 @@ export class PlanEditComponent {
     this.plan["external_registration"] = this.isExternalRegistration ? 1 : 0;
     this.plan["request_dni"] = this.requestDNI ? 1 : 0;
 
+    if(this.hasActivityCodeActivated) {
+      this.plan["activity_code"] = this.activityCode || "";
+    }
+
     let publish = 1;
     if (this.id > 0) {
       this.plan["publish"] = publish || 1;
@@ -1904,7 +1917,8 @@ export class PlanEditComponent {
           this.typeOfActivity ? this.typeOfActivity : 0,
           this.prolongedDaysNumber ? this.prolongedDaysNumber : 0,
           activities ? activities : "",
-          publish
+          publish,
+          this.hasActivityCodeActivated,
         )
         .subscribe(
           (response) => {
@@ -1944,7 +1958,9 @@ export class PlanEditComponent {
           this.isShowAttendee ? 1 : 0,
           this.isShowComments ? 1 : 0,
           this.isShowDescription ? 1 : 0,
-          this.isShowPrice ? 1 : 0
+          this.isShowPrice ? 1 : 0,
+          0,
+          this.hasActivityCodeActivated,
         )
         .subscribe(
           (response) => {

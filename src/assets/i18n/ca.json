@@ -1453,7 +1453,8 @@
         "show_price":"Mostra preu",
         "waitinglist": "Llista d'espera",
         "downloadwaitinglist": "Baixa la llista d'espera",
-        "renewal": "Data de renovació"
+        "renewal": "Data de renovació",
+        "activitycode": "Codi d'activitat"
     },
     "edit-club": {
         "uploadimage": "Carregar imatge",

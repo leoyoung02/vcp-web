@@ -491,7 +491,18 @@
                         class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
                         [(ngModel)]="guestSpeaker"
                         [ngModelOptions]="{standalone: true}"
-                        placeholder="{{ 'plan-create.guestspeaker' | translate }}" style="width: 349px;"
+                        placeholder="{{ 'plan-create.guestspeaker' | translate }}"
+                        maxlength="200"
+                    />
+                </div>
+                <div class="flex items-center justify-center relative" *ngIf="hasActivityCodeActivated">
+                    <input
+                        id="activity-code"
+                        type="text"
+                        class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                        [(ngModel)]="activityCode"
+                        [ngModelOptions]="{standalone: true}"
+                        placeholder="{{ 'edit-plan.activitycode' | translate }}"
                         maxlength="200"
                     />
                 </div>
