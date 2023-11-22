@@ -27,8 +27,17 @@
         <script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async="" defer=""></script>
         <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"></script> 
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFNi6gRqKyb9xCFvmPmRO5K1ji1HvOZW4"></script>
+
+        <script>
+            function handleUnsupportedBrowsers() {
+                var appRoot = document.getElementsByTagName('app-root')[0];
+                if (appRoot && appRoot.innerHTML === '') {
+                    appRoot.innerHTML = '<h1>Unsupported Browser (too old)</h1>' + '<p>Please use a modern browser!</p>';
+                }
+            }
+        </script>
     </head>
-    <body class="app">
+    <body class="app" onload="handleUnsupportedBrowsers()">
         <app-root></app-root>
     </body>
 </html>

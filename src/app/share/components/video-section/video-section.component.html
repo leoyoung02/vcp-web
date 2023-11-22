@@ -1,7 +1,9 @@
 <div class="w-full max-w-full">
-    <div class="flex grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12 pb-8">
+    <div *ngIf="data?.video_title && data?.video_description && data?.video_description != ' '" 
+        class="flex grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-12 pb-8">
         <div>
-            <div class="rounded-lg" *ngIf="data?.video_file && data?.video_file?.indexOf('http') < 0 && data?.video_file && data?.video_file?.indexOf('iframe') < 0 && data?.video_file?.indexOf('youtube') < 0 && data?.video_file?.indexOf('vimeo') < 0">
+            <div class="rounded-lg" 
+                *ngIf="data?.video_file && data?.video_file?.indexOf('http') < 0 && data?.video_file && data?.video_file?.indexOf('iframe') < 0 && data?.video_file?.indexOf('youtube') < 0 && data?.video_file?.indexOf('vimeo') < 0">
                 <video controls controlsList="nodownload" width="100%" id="video" class="rounded-lg">
                     <source [src]="getSafeVideoUrl(data?.video_file)" type="video/mp4" />
                 </video>
@@ -28,6 +30,36 @@
         <div class="flex flex-col pt-4 pb-12">
             <div class="text-3xl mb-5 font-semibold" [ngStyle]="{'color': '#E6583D'}">{{data?.video_title}}</div>
             <div class="text-base whitespace-pre-wrap">{{data?.video_description}}</div>
+        </div>
+    </div>
+    <div *ngIf="data?.video_title && (!data?.video_description || data?.video_description == ' ')"
+        class="flex flex-col justify-center">
+        <div class="text-3xl mb-5 font-semibold text-center" [ngStyle]="{'color': '#E6583D'}">{{data?.video_title}}</div>
+        <div>
+            <div class="rounded-lg" 
+                *ngIf="data?.video_file && data?.video_file?.indexOf('http') < 0 && data?.video_file && data?.video_file?.indexOf('iframe') < 0 && data?.video_file?.indexOf('youtube') < 0 && data?.video_file?.indexOf('vimeo') < 0">
+                <video controls controlsList="nodownload" width="100%" id="video" class="rounded-lg">
+                    <source [src]="getSafeVideoUrl(data?.video_file)" type="video/mp4" />
+                </video>
+            </div>
+            <div class="rounded-lg" *ngIf="data?.video_file && data?.video_file?.indexOf('iframe') < 0 && (data?.video_file?.indexOf('youtube') >= 0 || data?.video_file?.indexOf('vimeo') >= 0  || data?.video_file?.indexOf('http') >= 0)">
+                <iframe 
+                    class="iframe-ctrl rounded-lg"
+                    id="iframe"
+                    style="border:none;"
+                    [src]="getSafeVideoUrl(data?.video_file)" 
+                    width="100%" 
+                    height="420px"
+                    allowfullscreen="allowfullscreen" 
+                    mozallowfullscreen="mozallowfullscreen" 
+                    msallowfullscreen="msallowfullscreen" 
+                    oallowfullscreen="oallowfullscreen" 
+                    webkitallowfullscreen="webkitallowfullscreen"
+                    allow=autoplay
+                >
+                </iframe>
+            </div>
+            <div class="iframe-container rouded-lg" *ngIf="data?.video_file && data?.video_file?.indexOf('iframe') >= 0" [innerHtml]="data?.video_file | safeContentHtml: 'html'"></div>
         </div>
     </div>
 </div>

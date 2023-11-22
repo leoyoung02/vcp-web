@@ -62,18 +62,18 @@
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.time' | translate }} </mat-header-cell>
                         <mat-cell *matCellDef="let row" data-label="booking_time"> {{ row.booking_time }} </mat-cell>
                     </ng-container>
-                    <ng-container matColumnDef="created_at_display">
+                    <!-- <ng-container matColumnDef="created_at_display">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'company-settings.date' | translate }} </mat-header-cell>
                         <mat-cell *matCellDef="let row" data-label="created_at_display"> {{ row.created_at_display }} </mat-cell>
-                    </ng-container>
+                    </ng-container> -->
                     <ng-container matColumnDef="course">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'general-details.course' | translate }} </mat-header-cell>
                         <mat-cell *matCellDef="let row" data-label="course"> {{ row.course }} </mat-cell>
                     </ng-container>
-                    <ng-container matColumnDef="package_name">
+                    <!-- <ng-container matColumnDef="package_name">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'course-create.package' | translate }} </mat-header-cell>
                         <mat-cell *matCellDef="let row" data-label="package_name"> {{ row.package_name }} </mat-cell>
-                    </ng-container>
+                    </ng-container> -->
                     <ng-container matColumnDef="tutor_name">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.tutor' | translate }} </mat-header-cell>
                         <mat-cell *matCellDef="let row" data-label="tutor_name"> {{ row.tutor_name }} </mat-cell>
@@ -128,16 +128,16 @@
                                 <ng-container *ngIf="!hasDifferentStripeAccounts">
                                     <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                         <button (click)="confirmMarkComplete(row)" 
-                                            class="btn btn-add my-1 text-white"
+                                            class="btn btn-add my-1 text-white text-sm"
                                             [ngStyle]="{'background-color': buttonColor}"
                                         >
-                                            {{ 'course-details.markascomplete' | translate }}
+                                            {{ 'course-details.completebutton' | translate }}
                                         </button>
                                     </ng-container>
                                 </ng-container>
                                 <ng-container *ngIf="row.show_cancel">
                                     <button (click)="handleCancelBooking(row)" 
-                                        class="btn btn-add cancel bg-white"
+                                        class="btn btn-add cancel bg-white text-sm"
                                         style="border:solid 1px #c24130;color:#c24130;"
                                         >
                                         {{ 'settings.cancel' | translate }}
@@ -147,10 +147,10 @@
                                     <ng-container *ngIf="row?.stripe_connect || !isTutorUser" >
                                         <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                             <button (click)="confirmMarkComplete(row)" 
-                                                class="btn btn-add my-1 text-white"
+                                                class="btn btn-add my-1 text-white text-sm"
                                                 [ngStyle]="{'background-color': buttonColor}"
                                                 >
-                                                {{ 'course-details.markascomplete' | translate }}
+                                                {{ 'course-details.completebutton' | translate }}
                                             </button>
                                         </ng-container>
                                     </ng-container>

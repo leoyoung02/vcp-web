@@ -39,9 +39,13 @@
     </div>
 </div>
 <div class="pt-6">
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 py-2 pb-20">
-        <ng-container *ngFor="let course of courses | paginate: {itemsPerPage: 6, currentPage: p}">
+    <div class="py-2 pb-20"
+        [ngClass]="{'grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8': companyId != 52,
+            'flex flex-wrap': companyId == 52
+        }">
+        <ng-container *ngFor="let course of courses">
             <app-course-card
+                [ngClass]="{'pb-[24px]': companyId == 52}"
                 [id]="course?.id"
                 [path]="course?.path"
                 [title]="course?.title"
@@ -58,8 +62,5 @@
             >
             </app-course-card>
         </ng-container>
-    </div>
-    <div *ngIf="courses?.length > 0" class="text-center">
-        <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>

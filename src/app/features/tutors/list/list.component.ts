@@ -146,7 +146,6 @@ export class TutorsListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
           this.mapUserPermissions(data?.user_permissions);
@@ -385,7 +384,13 @@ export class TutorsListComponent {
 
     if(categories?.length > 0) {
       categories = categories.sort((a, b) => {
-        return b.id - a.id
+        if (a.name_ES < b.name_ES) {
+          return -1;
+        }
+        if (a.name_ES > b.name_ES) {
+          return 1;
+        }
+        return 0;
       })
     }
 
@@ -407,12 +412,6 @@ export class TutorsListComponent {
         status: category.status,
       });
     });
-
-    if(this.buttonList?.length > 0) {
-      this.buttonList.sort((a, b) =>
-        a.text.localeCompare(b.text)
-      )
-    }
   }
 
   getTutorTypeTitle(type) {

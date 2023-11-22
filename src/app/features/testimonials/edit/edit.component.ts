@@ -104,6 +104,7 @@ export class TestimonialEditComponent {
   });
   searchByKeyword: boolean = false;
   hasMembersOnly: boolean = false;
+  superTutor: boolean = false;
   tagsMapping: any;
   tags: any = [];
   imgSrc: any;
@@ -317,7 +318,9 @@ export class TestimonialEditComponent {
 
   mapUserPermissions(user_permissions) {
     this.superAdmin = user_permissions?.super_admin_user ? true : false;
+    this.superTutor = user_permissions?.super_tutor_user ? true : false;
     this.canCreateTestimonial =
+      this.superTutor ||
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find(
         (f) => f.create == 1 && f.feature_id == 23

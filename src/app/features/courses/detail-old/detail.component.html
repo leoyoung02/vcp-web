@@ -8,50 +8,14 @@
         (goBack)="handleGoBack()"
     />
 </div>
-<div class="pt-10">
-    <div class="w-full max-w-full sm:w-full sm:max-w-full md:w-6/12 md:max-w-6/12 lg:w-6/12 lg:max-w-6/12">
-        <div class="text-4xl font-semibold pt-24 sm:pt-24 md:pt-4 lg:pt-4">{{ courseTitle }}</div>
-        <!-- <div *ngIf="superAdmin || canCreate" class="flex mt-3 sm:mt-3 md:mt-0 lg:mt-0">
-            <button 
-                class="h-[52px] flex items-center p-3.5 px-8 sm:px-8 md:px-12 lg:px-12 rounded-[15px] justify-evenly mt-4 mr-4"
-                (click)="handleEditRoute()" 
-                [ngStyle]="{
-                    'background-color': buttonColor,
-                    'opacity': editHover ? 1.5 : 1,
-                    'filter': editHover ? 'brightness(0.8)' : 'brightness(1)'
-                }"
-                (mouseover)="toggleEditHover(true)"
-                (mouseleave)="toggleEditHover(false)"
-            >
-                <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                    <path d="m13.835 7.578-.005.007-7.137 7.137 2.139 2.138 7.143-7.142-2.14-2.14Zm-10.696 3.59 2.139 2.14 7.138-7.137.007-.005-2.141-2.141-7.143 7.143Zm1.433 4.261L2 12.852.051 18.684a1 1 0 0 0 1.265 1.264L7.147 18l-2.575-2.571Zm14.249-14.25a4.03 4.03 0 0 0-5.693 0L11.7 2.611 17.389 8.3l1.432-1.432a4.029 4.029 0 0 0 0-5.689Z"/>
-                </svg>
-                <span class="text-white text-md font-semibold uppercase">{{ 'plan-details.edit' | translate }}</span>
-            </button>
-            <button 
-                class="flex items-center border p-3.5 px-8 sm:px-8 md:px-12 lg:px-12 rounded-[15px] justify-evenly mt-4"
-                (click)="handleDelete()" 
-                [ngStyle]="{
-                    'border-color': deleteHover ? 'transparent' : buttonColor,
-                    'background-color': deleteHover ? buttonColor : '#fff',
-                }"
-                (mouseover)="toggleDeleteHover(true)"
-                (mouseleave)="toggleDeleteHover(false)"
-            >
-                <svg [ngStyle]="{'color': deleteHover ? '#fff' : buttonColor}" class="w-2 h-2 font-semibold dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                    <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
-                </svg>
-                <span [ngStyle]="{'color': deleteHover ? '#fff' : buttonColor}" class="text-md font-semibold uppercase">{{ 'plan-details.delete' | translate }}</span>
-            </button>
-        </div> -->
-    </div>
-</div>
-<div class="course-container">
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3" *ngIf="course">
-        <div class="col-span-1 pr-0 sm:pr-0 md:pr-[58px] lg:pr-[58px]" 
-            [ngClass]="{'h-full sm:h-full md:h-[510px] lg:h-[510px]': canAccessLesson() && course?.course_modules?.length > 0 && !(hasCourseStarted(course) && course?.locked == 1 && !superAdmin) && !(hasCourseStarted(course) && (!course?.locked && showBuyNow) && !superAdmin)}">
+<div class="pt-20 sm:pt-20 md:pt-14 lg:pt-14 pb-8 course-container">
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 relative" *ngIf="course">
+        <div class="col-span-1 h-full overflow-auto md:absolute lg:absolute md:top-0 lg:top-0 w-full max-w-full sm:w-full sm:max-w-full md:w-[350px] md:max-w-[350px] lg:w-[350px] lg:max-w-[350px]" 
+            [ngClass]="{'h-full': canAccessLesson() && course?.course_modules?.length > 0 && !(hasCourseStarted(course) && course?.locked == 1 && !superAdmin) && !(hasCourseStarted(course) && (!course?.locked && showBuyNow) && !superAdmin)}">
+            <div class="text-4xl font-semibold" [ngClass]="{'pb-4': !courseProgress}">{{ courseTitle }}</div>
             <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
-                <div *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title && courseProgress > 0" class="mt-2 mb-4">
+                <div *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title && courseProgress > 0" 
+                    class="mt-2 mb-4 w-full max-w-full sm:w-full sm:max-w-full md:w-[350px] lg:w-[350px]">
                     <div class="w-full bg-gray-200 rounded-[10px] dark:bg-gray-700">
                         <div class="text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" 
                             [ngClass]="{'bg-gray-600': courseProgress <= 0, 'bg-blue-600': courseProgress > 0}"
@@ -60,7 +24,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="max-h-[560px] overflow-y-auto" *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title">
+            </ng-container>
+            <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
+                <div *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title">
                     <ng-container *ngFor="let module of course?.course_modules">
                         <div class="bg-[#F8F4F4] min-h-[32px] rounded-[10px] flex flex-row justify-between py-2 px-3 mb-[7px]">
                             <div class="font-bold">
@@ -132,7 +98,8 @@
             </ng-container>
         </div>
         <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
-            <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2" *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title">
+            <div class="ml-0 sm:ml-0 md:ml-[416px] lg:ml-[416px] col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 w-full max-w-full" 
+                *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title">
                 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between" [ngClass]="{'vidalytics-div1': selectedUnit?.option == 'Vidalytics'}">
                     <div class="text-4xl font-semibold text-4xl font-semibold">{{ isModuleLocked ? selectedModuleTitle : getCourseUnitTitle(selectedUnit) }}</div>
                     <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row items-center">
@@ -385,7 +352,7 @@
                                 <div *ngIf="isLessonLast" class="empty">&nbsp;</div>
                             </div>
                         </div>
-                        <ng-container *ngIf="courseDownloads?.length > 0">
+                        <div class="pb-8 sm:pb-8 md:pb-0 lg:pb-0" *ngIf="courseDownloads?.length > 0">
                             <div class="text-lg font-semibold my-8">{{'course-details.downloads' | translate}}</div>
                             <div *ngFor="let download of courseDownloads" class="flex flex-wrap" (click)="downloadFileResource(download)">
                                 <div class="w-full max-w-full">
@@ -411,24 +378,7 @@
                                     </a>
                                 </div>
                             </div>
-                        </ng-container>
-                        <!-- <ng-container *ngIf="course?.course_faqs && course?.course_faqs?.length > 0">
-                            <div class="downloads-section">
-                                <div>
-                                    <div class="download-title">{{ 'course-create.faq' | translate }}</div>
-                                    <div class="faq-content">
-                                        <mat-expansion-panel *ngFor="let faq of course?.course_faqs">
-                                            <mat-expansion-panel-header>
-                                                <mat-panel-title>
-                                                    {{ faq?.title }}
-                                                </mat-panel-title>
-                                            </mat-expansion-panel-header>
-                                            <p>{{ faq?.description }}</p>
-                                        </mat-expansion-panel>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-container> -->
+                        </div>
                     </ng-container>
                 </div>
             </div>
@@ -444,7 +394,7 @@
     </ng-container>
     <ng-container *ngIf="hasCourseStarted(course) && (!course?.locked && showBuyNow) && !superAdmin">
         <div class="no-access text-center">
-            {{ 'courses.noaccess' | translate }} 123
+            {{ 'courses.noaccess' | translate }}
         </div>
         <app-no-access></app-no-access>
     </ng-container>

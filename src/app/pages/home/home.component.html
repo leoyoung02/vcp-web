@@ -1,7 +1,7 @@
-<div class="pt-24 sm:pt-24 md:pt-4 lg:pt-4">
-  <h1 class="text-4xl font-bold mb-2">{{ 'landing.welcometitle1' | translate }}</h1>
-  <h1 class="text-4xl font-bold mb-2">{{ 'landing.welcometitle2' | translate }} <span [ngStyle]="{'color': buttonColor}">{{ companyName }}</span></h1>
-  <div class="text-sm mt-8">{{ 'landing.welcomedesc' | translate }}</div>
+<div class="pt-24 sm:pt-24 md:pt-4 lg:pt-4" *ngIf="loadedSettings">
+  <h1 class="text-4xl font-bold mb-2">{{ welcomeTitle || ('landing.welcometitle1' | translate) }}</h1>
+  <h1 class="text-4xl font-bold mb-2" *ngIf="!welcomeTitle">{{ 'landing.welcometitle2' | translate }} <span [ngStyle]="{'color': buttonColor}">{{ companyName }}</span></h1>
+  <div class="text-sm mt-8">{{ welcomeTitle ? welcomeSubtitle : ('landing.welcomedesc' | translate) }}</div>
 </div>
 <div class="py-10">
   <app-video-section 
@@ -10,6 +10,7 @@
     *ngIf="predefinedTemplate?.has_video == 1 && predefinedTemplate?.video_file">
   </app-video-section>
   <app-masonry
+    *ngIf="showModuleSections"
     [userId]="userId"
     [superAdmin]="superAdmin"
     [company]="company"

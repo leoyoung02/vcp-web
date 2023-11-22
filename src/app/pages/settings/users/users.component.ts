@@ -663,14 +663,14 @@ export class ManageUsersComponent {
     const columns = this.memberDisplayedColumns;
     const index = columns.indexOf("recordStatus");
     if (index != -1) {
-      if (this.requirePayment) {
-        this.memberDisplayedColumns.splice(index, 0, "created", "reactivate");
-      } else {
+      // if (this.requirePayment) {
+      //   this.memberDisplayedColumns.splice(index, 0, "created", "reactivate");
+      // } else {
         this.memberDisplayedColumns.splice(index, 0, "created");
-      }
-      if (this.requirePayment) {
-        this.memberDisplayedColumns.splice(index + 1, 0, "duration", "finish");
-      }
+      // }
+      // if (this.requirePayment) {
+      //   this.memberDisplayedColumns.splice(index + 1, 0, "duration", "finish");
+      // }
     }
   }
 
@@ -2210,7 +2210,7 @@ export class ManageUsersComponent {
       fk_company_id: this.companyId,
     });
 
-    if (this.hasConfirmEmail || this.membersForConfirm2?.length > 0) {
+    if (this.hasConfirmEmail && this.membersForConfirm2?.length > 0) {
       buttonList.push({
         id: 2,
         value: "Confirm",
@@ -2222,7 +2222,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.requireApproval || this.membersForApproval2?.length > 0) {
+    if (this.requireApproval && this.membersForApproval2?.length > 0) {
       buttonList.push({
         id: 3,
         value: "Approval",
@@ -2232,7 +2232,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.hasExpiration || this.membersNotApproved2?.length > 0) {
+    if (this.hasExpiration && this.membersNotApproved2?.length > 0) {
       buttonList.push({
         id: 4,
         value: "NotApproved",
@@ -2242,7 +2242,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.requireApproval || this.membersIncomplete2?.length > 0) {
+    if (this.requireApproval && this.membersIncomplete2?.length > 0) {
       buttonList.push({
         id: 5,
         value: "Incomplete",
@@ -2262,7 +2262,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.requirePayment || this.membersCancelled2?.length > 0) {
+    if (this.requirePayment && this.membersCancelled2?.length > 0) {
       buttonList.push({
         id: 7,
         value: "Cancelled",
@@ -2272,7 +2272,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.requirePayment || this.membersFailed2?.length > 0) {
+    if (this.requirePayment && this.membersFailed2?.length > 0) {
       buttonList.push({
         id: 8,
         value: "Failed",

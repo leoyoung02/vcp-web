@@ -1332,10 +1332,10 @@
                             <ng-container *ngIf="fieldType != 'select'">
                                 <ng-container *ngIf="selectedSettingId != 291 && modalTextNumber == 1">
                                     <input 
-                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !newValue }"
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedSettingItem?.title_en != 'Welcome subtitle' && !newValue }"
                                         type="text" 
                                         class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                        placeholder="{{ 'company-settings.value' | translate }}*"
+                                        placeholder="{{ 'company-settings.value' | translate }} {{selectedSettingItem?.title_en == 'Welcome subtitle' ? '' : '*'}}"
                                         [(ngModel)]="newValue"
                                         [ngModelOptions]="{standalone: true}">
                                 </ng-container>

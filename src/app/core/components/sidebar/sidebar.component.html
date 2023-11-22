@@ -8,7 +8,7 @@
       [ngClass]="{'object-cover': company?.id == 32, 'object-contain': company?.id != 32}"
       [src]="logoSource" />
   </div>
-  <div class="pl-9 py-2 hover:cursor-pointer">
+  <!-- <div class="pl-9 py-2 hover:cursor-pointer">
     <div class="p-2 flex items-center hover:rounded-lg mr-3"
       [ngStyle]="{'background-color': searchHover ? hoverColor : 'transparent'}"
       (mouseover)="toggleSearchHover(true)"
@@ -31,7 +31,7 @@
           (keyup.enter)="handleKeyPressed()"
       >
     </div>
-  </div>
+  </div> -->
   <div class="my-3 pl-9">
     <div class="text-sm" [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}">{{ menuOpened ? ('landing.menu' | translate) : '&nbsp;' }}</div>
   </div>

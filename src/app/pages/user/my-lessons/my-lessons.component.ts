@@ -79,7 +79,20 @@ export class MyLessonsComponent {
     hasDifferentStripeAccounts: boolean = false
     tutorAccountId: any = []
     dataSource: any
-    displayedColumns = ['booking_date_display', 'booking_time', 'tutor_name', 'student_name', 'created_at_display', 'course', 'package_name', 'status', 'rating', 'feedback', 'notes', 'action']
+    displayedColumns = [
+        'action',
+        'booking_date_display', 
+        'booking_time', 
+        'tutor_name', 
+        'student_name', 
+        // 'created_at_display', 
+        'course', 
+        // 'package_name', 
+        'status', 
+        'rating',
+        'notes',
+        'feedback', 
+    ]
     isMobile: boolean = false
     showGiveFeedbackModal: boolean = false
     selectedBooking: any;

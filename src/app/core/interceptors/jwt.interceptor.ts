@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { environment } from '@env/environment';
 import { AuthService } from 'src/app/core/services';
-import { TokenStorageService } from '@share/services';
+import { LocalService, TokenStorageService } from '@share/services';
 import { storage } from 'src/app/core/utils/storage/storage.utils';
 
 /**
@@ -20,12 +20,24 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
 
     if (isRequestAuthorized) {
         const tokenService = inject(TokenStorageService);
-        let token = tokenService.getToken();
+        const _localService = inject(LocalService);
+        let token = tokenService.getToken() || _localService.getLocalStorage(environment.lstoken);
+
+        if(tokenService.getToken()) {
+            console.log('use token from session storage')
+        } else {
+            if(_localService.getLocalStorage(environment.lstoken)) {
+                console.log('use token from local storage')
+            }
+        }
 
         if (token) {
             const payload = parseJwt(token); // decode JWT payload part.
             if (Date.now() >= payload.exp * 1000) { // Check token exp.
                 storage.removeItem('appSession');
+                _localService.removeLocalStorage(environment.lstoken);
+                _localService.removeLocalStorage(environment.lsrefreshtoken);
+                _localService.removeLocalStorage(environment.lsuser);
                 location.href =  `/`
             }
       
@@ -35,6 +47,9 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
             });
         } else {
             storage.removeItem('appSession');
+            _localService.removeLocalStorage(environment.lstoken);
+            _localService.removeLocalStorage(environment.lsrefreshtoken);
+            _localService.removeLocalStorage(environment.lsuser);
             location.href =  `/`
         } 
 

@@ -25,7 +25,7 @@
 </div>
 <div class="pt-6">
     <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-8 py-2 pb-20">
-        <ng-container *ngFor="let tutor of tutors | paginate: {itemsPerPage: 8, currentPage: p}">
+        <ng-container *ngFor="let tutor of tutors">
             <div class="rounded-[30px] row-span-1 cursor-pointer relative mb-8 sm:mb-8 md:mb-0 lg:mb-0" >
                 <app-tutor-card
                     [id]="tutor?.id"
@@ -43,8 +43,5 @@
                 </app-tutor-card>
             </div>
         </ng-container>
-    </div>
-    <div *ngIf="tutors?.length > 0" class="text-center">
-        <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>

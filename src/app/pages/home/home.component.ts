@@ -136,6 +136,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   hasCourses: boolean = false;
   plansFeature: any;
   hasPlans: boolean = false;
+  showModuleSections: boolean = false;
+  welcomeTitle: any;
+  welcomeSubtitle: any;
+  loadedSettings: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -405,6 +409,28 @@ export class HomeComponent implements OnInit, OnDestroy {
                   this.hasMenuOrdering =
                     menuOrderSettings[0].active == 1 ? true : false;
                 }
+                
+                let showModuleSectionSettings = m.content.filter((c) => {
+                  return c.title_en.indexOf("Show module sections") >= 0;
+                });
+                if (showModuleSectionSettings && showModuleSectionSettings[0]) {
+                  this.showModuleSections =
+                  showModuleSectionSettings[0].active == 1 ? true : false;
+                }
+
+                let welcomeTitleSettings = m.content.filter((c) => {
+                  return c.title_en.indexOf("Welcome title") >= 0;
+                });
+                if (welcomeTitleSettings && welcomeTitleSettings[0]) {
+                  this.welcomeTitle =  welcomeTitleSettings[0].value;
+                }
+
+                let welcomeSubtitleSettings = m.content.filter((c) => {
+                  return c.title_en.indexOf("Welcome subtitle") >= 0;
+                });
+                if (welcomeSubtitleSettings && welcomeSubtitleSettings[0]) {
+                  this.welcomeSubtitle =  welcomeSubtitleSettings[0].value;
+                }
               }
             }
             if (m.title_es == "Registro / Servicios") {
@@ -442,6 +468,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
           });
         }
+        this.loadedSettings = true;
       },
       (error) => {
         console.log(error);

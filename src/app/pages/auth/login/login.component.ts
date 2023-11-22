@@ -1,4 +1,4 @@
-import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { CommonModule } from "@angular/common";
 import { Component, Input } from "@angular/core";
 import {
   FormControl,
@@ -11,14 +11,13 @@ import { Router, RouterModule } from "@angular/router";
 import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { AuthService } from "src/app/core/services";
-import { LocalService, CompanyService, TokenStorageService } from "src/app/share/services";
+import { LocalService, CompanyService } from "src/app/share/services";
 import { CompanyLogoComponent } from "@share/components";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { Subject, takeUntil } from "rxjs";
-import { storage } from "src/app/core/utils/storage/storage.utils";
 import get from "lodash/get";
 
 @Component({
@@ -87,7 +86,6 @@ export class LoginComponent {
     private _translateService: TranslateService,
     private _snackBar: MatSnackBar,
     private _localService: LocalService,
-    private _tokenStorageService: TokenStorageService,
     private _companyService: CompanyService
   ) {
     this.loginForm = new FormGroup({
@@ -137,29 +135,7 @@ export class LoginComponent {
       this.startPage = company[0].start_page;
     }
 
-    this.checkSession();
     this.getOtherSettings();
-  }
-
-  checkSession() {
-    const localToken = this._localService.getLocalStorage(environment.lstoken);
-    const localRefreshToken = this._localService.getLocalStorage(environment.lsrefreshtoken);
-    const localUser = this._localService.getLocalStorage(environment.lsuser);
-
-    if(localToken && localUser) {
-        storage.setItem("appSession", {
-            user: localUser?.id,
-            token: localToken,
-        });
-        this.alreadyLoggedIn = true;
-    }
-
-    if(this.alreadyLoggedIn) {
-      this._tokenStorageService.saveToken(localToken);
-      this._tokenStorageService.saveRefreshToken(localRefreshToken);
-      this._tokenStorageService.saveUser(localUser);
-      location.href = `/`;
-    }
   }
 
   getOtherSettings() {

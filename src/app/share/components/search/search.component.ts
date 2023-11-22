@@ -25,10 +25,15 @@ export class SearchComponent {
     search: any;
 
     handleSearch() {
-        this.doSearch.emit(this.search);
+      this.doSearch.emit(this.search);
     }
 
     handleKeyPressed() {
-        this.onEnterPressed.emit(this.search);
+      this.onEnterPressed.emit(this.search);
+    }
+
+    handleSearchChanged(event) {
+      this.search = event?.target?.value || '';
+      this.doSearch.emit(this.search);
     }
 }

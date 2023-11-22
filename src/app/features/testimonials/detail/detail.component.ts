@@ -72,6 +72,8 @@ export class TestimonialDetailComponent {
   testimonialsFeature: any;
   editHover: boolean = false;
   deleteHover: boolean = false;
+  superTutor: boolean = false;
+  canEdit: boolean = false;
 
   constructor(
     private _router: Router,
@@ -147,7 +149,7 @@ export class TestimonialDetailComponent {
     let data = this.testimonialData;
     this.user = data?.user_permissions?.user;
     this.mapFeatures(data?.features_mapping);
-    this.mapUserPermissions(data?.user_permissions);
+    this.mapUserPermissions(data);
     this.formatTestimonial(data?.testimonial);
     this.initializeBreadcrumb(data);
   }
@@ -159,13 +161,16 @@ export class TestimonialDetailComponent {
     this.pageDescription = this.getFeatureDescription(this.testimonialsFeature);
   }
 
-  mapUserPermissions(user_permissions) {
+  mapUserPermissions(data) {
+    let user_permissions = data?.user_permissions;
     this.superAdmin = user_permissions?.super_admin_user ? true : false;
+    this.superTutor = user_permissions?.super_tutor ? true : false;
     this.canCreate =
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find(
         (f) => f.create == 1 && f.feature_id == 23
       );
+    this.canEdit = this.superAdmin || data?.testimonial?.created_by == this.userId;
   }
 
   formatTestimonial(testimonial) {

@@ -322,14 +322,15 @@ export class SettingComponent {
   contactUsTextCa: any
   contactUsTextDe: any
   contactUsEmailAddress: any
-    plansFeature: any;
-    plansFeatureId: any;
-    clubsFeature: any;
-    clubsFeatureId: any;
-    rotateLeftIcon = faRotateLeft;
+  plansFeature: any;
+  plansFeatureId: any;
+  clubsFeature: any;
+  clubsFeatureId: any;
+  rotateLeftIcon = faRotateLeft;
   rotateRightIcon = faRotateRight;
-    dialogMode: string = "";
+  dialogMode: string = "";
   dialogTitle: any;
+  selectedSettingItem: any;
   @ViewChild("modalbutton", { static: false }) modalbutton:
     | ElementRef
     | undefined;
@@ -859,7 +860,9 @@ export class SettingComponent {
     let setting_row = this.settings?.filter(setting => {
       return setting.id == this.selectedSettingId
     })
+    this.selectedSettingItem = {};
     if(setting_row?.length > 0) {
+      this.selectedSettingItem = setting_row[0];
       this.getSettingTitle(setting_row[0]); 
     }
     this.dialogTitle =  this.selectedSettingTitle

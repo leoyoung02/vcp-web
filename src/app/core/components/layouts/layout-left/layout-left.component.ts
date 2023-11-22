@@ -1,5 +1,9 @@
 import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { 
+  ChangeDetectionStrategy, 
+  Component, 
+  ChangeDetectorRef, 
+} from "@angular/core";
 import { Router } from "@angular/router";
 import { COMPANY_IMAGE_URL } from "@lib/api-constants";
 import { LeftImage } from "@lib/interfaces";
@@ -12,7 +16,11 @@ import get from "lodash/get";
 @Component({
   selector: "app-layout-left-banner",
   standalone: true,
-  imports: [CommonModule, TranslateModule, NgOptimizedImage],
+  imports: [
+    CommonModule, 
+    TranslateModule, 
+    NgOptimizedImage,
+  ],
   templateUrl: "./layout-left.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -42,7 +50,8 @@ export class LayoutLeftComponent {
     private _localService: LocalService,
     private _translateService: TranslateService,
     private _companyService: CompanyService,
-    private router: Router
+    private router: Router,
+    private cd: ChangeDetectorRef
   ) {
     this.language = this._localService.getLocalStorage(environment.lslanguage);
     this._translateService.setDefaultLang(this.language || "es");
@@ -80,6 +89,7 @@ export class LayoutLeftComponent {
       this.customLogin =
         company[0].show_logo_on_member_select == 1 ? true : false;
       this.leftImage = this.getLeftImage(company[0].video);
+      this.cd.detectChanges()
       if (
         this.customLogin &&
         this.router.url &&

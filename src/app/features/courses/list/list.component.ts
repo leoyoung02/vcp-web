@@ -468,6 +468,7 @@ export class CoursesListComponent {
           if(course_subscription && course_subscription[0]) {
             show_buy_now = false
             user_subscribed = true
+            courseIdArray.push(course.id) 
           }
         } else {
           show_buy_now = false

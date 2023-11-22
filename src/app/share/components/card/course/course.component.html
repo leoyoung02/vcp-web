@@ -1,12 +1,20 @@
-<div class="p-7 h-full max-h-full w-full max-w-full rounded-[10px] shadow dark:bg-gray-800 dark:border-gray-700" 
+<div class="relative h-full max-h-full rounded-[10px] shadow dark:bg-gray-800 dark:border-gray-700" 
     *ngIf="mode != 'small' && id > 0" (click)="goToDetails()"
     [ngStyle]="{'background-color': page == 'home' ? '#667085' : '#F8F4F4'}"
+    [ngClass]="{'p-7 pb-20 w-full max-w-full': companyId != 52, 
+        'p-4 pb-10 mb-16 w-full max-w-full': companyId == 52,
+        'p-7': companyId == 52 && page == 'home',
+        'p-4 sm:w-full sm:max:w-full md:w-[382px] md:max-w-[382px] lg:w-[382px] lg:max-w-[382px] mr-[22px]': companyId == 52 && page != 'home'
+    }"
 >
     <div>
-        <img width="460" height="325" 
-            class="rounded-[10px] object-cover w-full max-w-full h-full" 
-            [ngClass]="{'min-h-full max-h-full sm:min-h-full sm:max-h-full md:min-h-[325px] md:max-h-[325px] lg:min-h-[325px] lg:max-h-[325px]': page == 'home', 
-                'min-h-full max-h-full sm:min-h-full sm:max-h-full md:min-h-[258px] md:max-h-[258px] lg:min-h-[258px] lg:max-h-[258px]': page != 'home'}"
+        <img width="460" height="192" 
+            class="rounded-[10px] object-cover h-full" 
+            [ngClass]="{'w-full max-w-full min-h-full max-h-full sm:min-h-full sm:max-h-full md:min-h-[325px] md:max-h-[325px] lg:min-h-[325px] lg:max-h-[325px]': page == 'home', 
+                'min-h-full max-h-full sm:min-h-full sm:max-h-full ': page != 'home',
+                'w-full max-w-full sm:w-full sm:max:w-full md:w-[350px] md:max-w-[350px] lg:w-[350px] lg:max-w-[350px] md:min-h-[192px] md:max-h-[192px] lg:min-h-[192px] lg:max-h-[192px]': page != 'home' && companyId == 52,
+                'w-full max-w-full md:min-h-[258px] md:max-h-[258px] lg:min-h-[258px] lg:max-h-[258px]': page != 'home' && companyId != 52
+            }"
             [ngSrc]="image" alt="" />
     </div>
     <div [ngClass]="{'mt-12': page == 'home', 'mt-6': page != 'home'}">
@@ -21,12 +29,41 @@
             </div>
         </div>
         <div class="text-sm" [ngClass]="{'text-white my-6': page == 'home', 'my-4': page != 'home'}">
-            <span>{{ price ? (price?.replace('.00', '') + ' €') : ('category.free' | translate) }}</span>
-            <span *ngIf="category" class="px-3">•</span>
+            <span *ngIf="companyId != 52">{{ price ? (price?.replace('.00', '') + ' €') : ('category.free' | translate) }}</span>
+            <span *ngIf="category && companyId != 52" class="px-3">•</span>
             <span>{{ category }}</span>
         </div>
-        <div class="uppercase text-white pt-[10px] px-8 rounded-[10px] h-[40px] w-auto inline-block text-center text-sm"
-            [ngStyle]="{'background-color': courseButtonColor || '#F7AF41'}"
+    </div>
+    <div class="absolute bottom-[24px] uppercase text-white pt-[10px] px-8 rounded-[10px] h-[40px] w-auto inline-block text-center text-sm"
+        [ngStyle]="{'background-color': courseButtonColor || '#F7AF41'}"
+        [ngClass]="{'cursor-pointer': showDetails, 'cursor-not-allowed': !showDetails}">
+        <div class="flex items-center align-center">
+            {{ buttonText }}
+            <ng-container *ngIf="buttonText == ('courses.continue' | translate)">
+                <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                </svg>
+            </ng-container>
+        </div>
+    </div>
+</div>
+<ng-container *ngIf="mode == 'small'">
+    <div class="relative pb-24 sm:pb-24 md:pb-0 lg:pb-0" (click)="goToDetails()">
+        <img width="347" height="300" *ngIf="image" [ngSrc]="image" alt="" 
+            class="object-top mr-4 object-cover h-full max-h-full w-full max-w-full rounded-[10px] sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]">
+        <div class="absolute inset-0 bg-gray-800 opacity-60 rounded-[10px] w-full max-w-full"></div>
+        <div class="absolute inset-0 flex items-center justify-center">
+            <div class="flex flex-col w-full w-max-full px-3 items-center">
+                <p class="text-white text-lg leading-6 pb-2 text-center font-bold">{{ title }}</p>
+                <div class="text-sm text-white my-6 text-center">
+                    <span *ngIf="companyId != 52">{{ price ? (price?.replace('.00', '') + ' €') : ('category.free' | translate) }}</span>
+                    <span *ngIf="category && companyId != 52" class="px-3">•</span>
+                    <span>{{ category }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="absolute bottom-[4px] left-2/4 uppercase text-white w-auto whitespace-nowrap pt-[10px] px-8 rounded-[10px] h-[40px] w-auto inline-block text-center text-sm"
+            [ngStyle]="{'background-color': courseButtonColor || '#F7AF41', 'transform': 'translate(-50%, -50%)'}"
             [ngClass]="{'cursor-pointer': showDetails, 'cursor-not-allowed': !showDetails}">
             <div class="flex items-center align-center">
                 {{ buttonText }}
@@ -35,35 +72,6 @@
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
                     </svg>
                 </ng-container>
-            </div>
-        </div>
-    </div>
-</div>
-<ng-container *ngIf="mode == 'small'">
-    <div (click)="goToDetails()">
-        <img width="347" height="300" *ngIf="image" [ngSrc]="image" alt="" 
-            class="object-top mr-4 object-cover h-full max-h-full w-full max-w-full rounded-[10px] sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]">
-        <div class="absolute inset-0 bg-gray-800 opacity-60 rounded-[10px] w-full max-w-full"></div>
-        <div class="absolute inset-0 flex items-center justify-center">
-            <div class="flex flex-col w-full w-max-full px-3 items-center">
-                <p class="text-white text-lg leading-6 pb-2 text-center font-bold">{{ title }}</p>
-                <div class="text-sm text-white my-6 text-center">
-                    <span>{{ price ? (price?.replace('.00', '') + ' €') : ('category.free' | translate) }}</span>
-                    <span *ngIf="category" class="px-3">•</span>
-                    <span>{{ category }}</span>
-                </div>
-                <div class="uppercase text-white pt-[10px] px-8 rounded-[10px] h-[40px] w-auto inline-block text-center text-sm"
-                    [ngStyle]="{'background-color': courseButtonColor || '#F7AF41'}"
-                    [ngClass]="{'cursor-pointer': showDetails, 'cursor-not-allowed': !showDetails}">
-                    <div class="flex items-center align-center">
-                        {{ buttonText }}
-                        <ng-container *ngIf="buttonText == ('courses.continue' | translate)">
-                            <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
-                            </svg>
-                        </ng-container>
-                    </div>
-                </div>
             </div>
         </div>
     </div>

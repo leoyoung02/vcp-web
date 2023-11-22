@@ -1,4 +1,4 @@
-<div class="container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
+<div class="pt-6 container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
     <app-breadcrumb 
         [level1Title]="level1Title"
         [level2Title]="level2Title"
@@ -155,19 +155,19 @@
                         {{ getStartDate(row) | date:'dd/MM/yyyy'  }}
                     </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="reactivate">
+                <!-- <ng-container matColumnDef="reactivate">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ companyId == 15 ? ('customer.renewal' | translate) : ('edit-plan.renewal' | translate) }} </mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="reactivate">
                         {{ getReactivationDate(row) | date:'dd/MM/yyyy'  }}
                     </mat-cell>
-                </ng-container>
+                </ng-container> -->
                 <ng-container matColumnDef="recordStatus">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.status' | translate }} </mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="recordStatus">
                         {{ row?.recordStatus | translate }}
                     </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="duration">
+                <!-- <ng-container matColumnDef="duration">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.duration' | translate }} </mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="duration">
                        {{ row?.duration }}
@@ -178,7 +178,7 @@
                     <mat-cell *matCellDef="let row" data-label="finish">
                         {{ row?.end }}
                     </mat-cell>
-                </ng-container>
+                </ng-container> -->
                 <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'customer.action' | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="action" style="display:flex;">
