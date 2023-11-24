@@ -3,7 +3,8 @@
 <app-manage-membertypes *ngIf="list == 'membertypes'"></app-manage-membertypes>
 <app-manage-cities *ngIf="list == 'cities'"></app-manage-cities>
 <ng-container *ngIf="list == 'plans' || list == 'clubs' || list == 'canalempleo' || list == 'cityguide' || list == 'commissions' || list == 'testimonials' || list == 'tutors' || list == 'courses' || list == 'discounts' || list == 'services' || list == 'blogs'">
-    <div class="mb-8 container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
+    <div class="mb-8 container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0"
+        *ngIf="(list == 'commissions' && superAdmin) || list != 'commissions'">
         <app-breadcrumb 
             [level1Title]="level1Title"
             [level2Title]="level2Title"

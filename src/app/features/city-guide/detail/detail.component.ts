@@ -15,6 +15,8 @@ import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { initFlowbite } from "flowbite";
 import { GoogleMap, GoogleMapsModule, MapInfoWindow, MapMarker } from "@angular/google-maps";
 import get from "lodash/get";
+declare var google: any;
+
 @Component({
   selector: "app-clubs-detail",
   standalone: true,

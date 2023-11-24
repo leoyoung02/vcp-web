@@ -31,6 +31,7 @@ import {
   COURSE_TUTORS_URL,
   COURSE_UNITS_URL,
   COURSE_UNIT_DETAILS_URL,
+  COURSE_WALL_URL,
   DELETE_COURSE_DOWNLOAD_URL,
   DELETE_COURSE_MODULE_URL,
   DELETE_COURSE_UNIT_URL,
@@ -581,5 +582,11 @@ export class CoursesService {
       courseSubscriptions,
       courseTutors,
     ]);
+  }
+
+  getCourseWalls(id): Observable<any> {
+    return this._http.get(`${COURSE_WALL_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

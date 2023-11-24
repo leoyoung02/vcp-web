@@ -315,6 +315,50 @@
                         <div class="flex items-center justify-center relative">
                             <div class="w-full max-w-full">
                                 <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{'company-settings.activatewall' | translate}}
+                                </label>
+                                <div class="flex items-center">
+                                    <div class="flex items-center justify-between relative">
+                                        <label
+                                            for="setting-10"
+                                            class="flex items-center w-full justify-between cursor-pointer"
+                                        >
+                                            <div class="relative mr-1">
+                                                <input
+                                                    id="setting-10"
+                                                    name="setting-10"
+                                                    type="checkbox"
+                                                    class="sr-only"
+                                                    [(ngModel)]="wallStatus" 
+                                                    [ngModelOptions]="{standalone: true}"
+                                                />
+                                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <ng-container *ngIf="wallStatus">
+                                        <select
+                                            id="package-type"
+                                            class="ml-8 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            [(ngModel)]="selectedWall"
+                                            [ngModelOptions]="{standalone: true}"
+                                        >
+                                            <option value="" disabled selected>{{ 'plan-create.select' | translate }} {{ 'company-settings.wall' | translate }}</option>
+                                            <option
+                                                *ngFor="let gwall of groupWalls"
+                                                [value]="gwall.id"
+                                            >
+                                                {{ getWallName(gwall) }}
+                                            </option>
+                                        </select>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center relative">
+                            <div class="w-full max-w-full">
+                                <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     CTA
                                 </label>
                                 <div class="flex items-center">
@@ -376,7 +420,7 @@
                                                 </div>
                                             </label>
                                         </div>
-                                        <ng-container *ngIf="requirePayment">
+                                        <ng-container *ngIf="requirePayment && otherStripeAccounts?.length > 0">
                                             <select
                                                 id="payment"
                                                 class="ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"

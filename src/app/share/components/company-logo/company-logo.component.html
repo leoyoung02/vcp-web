@@ -2,14 +2,14 @@
     <img
       *ngIf="logoSource"
       [ngSrc]="logoSource"
-      width="200"
-      height="200"
+      width="150"
+      height="150"
       class="object-contain mb-[42px]"
       [ngClass]="{
         'w-[100px]': size == 'sm', 
-        'w-[200px]': size != 'sm',
+        'w-[150px]': size != 'sm',
         'max-w-100': size == 'sm',
-        'max-w-200': size != 'sm' 
+        'max-w-[150]': size != 'sm' 
       }"
     />
 </div>

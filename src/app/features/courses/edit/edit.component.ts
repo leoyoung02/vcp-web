@@ -302,6 +302,7 @@ export class CourseEditComponent {
   vimeoToken: any
   vimeoID: any
   videoAvailability: boolean = false
+  groupWalls: any = []
 
   @ViewChild('myPond', {static: false}) myPond: any;
   @ViewChild('downloadPond', {static: false}) downloadPond: any;
@@ -656,6 +657,7 @@ export class CourseEditComponent {
           this.courseDurationUnits = data?.course_duration_units;
           this.otherStripeAccounts = data?.other_stripe_accounts;
           this.getOtherSettings(data?.settings?.other_settings, data?.member_types);
+          this.getCourseWalls();
           if(this.id > 0) {
             this.fetchCourse(data)
           } else {
@@ -1302,7 +1304,7 @@ export class CourseEditComponent {
           name: "image",
           image: base64ToFile(event.base64),
         };
-      } else {
+      } else if(this.uploadImageMode == 'photo') {
         this.imgSrc = this.croppedImage = event.base64;
         this.file = {
           name: "image",
@@ -1664,12 +1666,16 @@ export class CourseEditComponent {
       // Edit
       this._coursesService.editCourse(this.course?.id, params, this.file).subscribe(
         (response) => {
-          this.open(
-            this._translateService.instant("dialog.savedsuccessfully"),
-            ""
-          );
-          this.scrollToTop();
-          this.reset();
+          if(this.videoBackgroundFile) {
+            this.updateVideoBackground(response, this.course?.id)
+          } else {
+            this.open(
+              this._translateService.instant("dialog.savedsuccessfully"),
+              ""
+            );
+            this.scrollToTop();
+            this.reset();
+          }
         },
         (error) => {
           this.issaving = false;
@@ -1703,6 +1709,13 @@ export class CourseEditComponent {
   updateVideoBackground(resp, id) {
     this._coursesService.editVideoBackground(id, this.userId, this.videoBackgroundFile).subscribe(
       response => {
+        if (this.id > 0) {
+          this.open(
+            this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+          this.scrollToTop();
+        }
         this.reset();
       },
       error => {
@@ -2000,8 +2013,7 @@ export class CourseEditComponent {
   updateModule() {
     this.courseModuleFormSubmitted = true
 
-    if(!this.moduleTitle
-      || !this.moduleDescription) {
+    if(!this.moduleTitle) {
         return false
       }
 
@@ -2837,6 +2849,43 @@ export class CourseEditComponent {
     } else {
       this.filteredTutors = this.allTutors;
     }
+  }
+
+  getCourseWalls() {
+    this._coursesService
+    .getCourseWalls(this.companyId)
+    .subscribe( 
+      response => {
+        this.groupWalls = response.course_walls
+        setTimeout(() => {
+          if(this.course?.group_id > 0) {
+            let match = this.groupWalls && this.groupWalls.some(a => a.id === this.course?.group_id)
+            if(match) {
+              this.selectedWall = this.course?.group_id
+            } else {
+              let group_wall = this.groupWalls.filter(gw => {
+                let include = gw.title.toLowerCase() == this.course?.title.toLowerCase()
+                return include
+              })
+              if(group_wall && group_wall.length > 0) {
+                this.selectedWall = group_wall[0].id
+              }
+            }
+          }
+        }, 500)
+      },
+      error => {
+          console.log(error);
+      }
+    );
+  }
+
+  getWallName(wall) {
+    return this.language == 'en' ? (wall.title_en || wall.title) : (this.language == 'fr' ? (wall.title_fr || wall.title) : 
+        (this.language == 'eu' ? (wall.title_eu || wall.title) : (this.language == 'ca' ? (wall.titlee_ca || wall.title) : 
+        (this.language == 'de' ? (wall.title_de || wall.title) : (wall.title))
+      ))
+    )
   }
 
   ngOnDestroy() {

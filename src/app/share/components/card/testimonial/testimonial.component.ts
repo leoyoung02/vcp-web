@@ -42,6 +42,7 @@ export class TestimonialCardComponent {
   @Input() author: any;
   @Input() socialMediaUrl: any;
   @Input() page: any;
+  @Input() companyId: any;
 
   languageChangeSubscription;
   language: any;

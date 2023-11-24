@@ -20,7 +20,7 @@ import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ToastComponent } from "@share/components";
+import { NoAccessComponent, ToastComponent } from "@share/components";
 import { FormsModule } from "@angular/forms";
 import { environment } from "@env/environment";
 import moment from "moment";
@@ -37,6 +37,7 @@ import moment from "moment";
     FormsModule,
     SearchComponent,
     ToastComponent,
+    NoAccessComponent,
   ],
   templateUrl: "./commissions-admin-list.component.html",
 })
@@ -119,8 +120,10 @@ export class CommissionsAdminListComponent {
   }
 
   initializePage() {
-    this.fetchCommissions();
-    this.initializeSearch();
+    if(this.superAdmin) {
+      this.fetchCommissions();
+      this.initializeSearch();
+    }
   }
 
   fetchCommissions(mode: any = '', status: any = '') {
@@ -162,13 +165,21 @@ export class CommissionsAdminListComponent {
   loadCommissions(data) {
     let commissions = data;
 
-    commissions = data?.filter((commission) => {
-      let status = this.status == "Completed" ? 1 : 0;
-      return status == (commission.transfer_id || 0);
+    commissions = commissions?.filter((commission) => {
+      let include = false
+      if(this.status == "Completed" && commission.commission_transfer_id) {
+        include = true
+      }
+
+      if(this.status != "Completed" && !commission?.commission_transfer_id) {
+        include = true
+      }
+
+      return include;
     });
 
-    if (this.searchKeyword && data?.length > 0) {
-      commissions = data?.filter((commission) => {
+    if (this.searchKeyword && commissions?.length > 0) {
+      commissions = commissions?.filter((commission) => {
         let include = false;
        if(
         (commission?.student_first_name && (commission?.student_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) || 
@@ -282,9 +293,10 @@ export class CommissionsAdminListComponent {
       this._tutorsService.bulkTransferCommission(params).subscribe(
         response => {
           this.selected = [];
-          this.status = 'Pending';
-          this.fetchCommissions();
-          this.isProcessing = false;
+          this.open(`${this._translateService.instant('tutors.transfercompleted')}`, '');
+          setTimeout(() => {
+            location.reload();
+          }, 500);
         },
         error => {
             console.log(error);

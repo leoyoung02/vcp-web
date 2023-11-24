@@ -524,8 +524,12 @@ export class FeatureComponent {
     this.placeholderText = this._translateService.instant(
       "news.searchbykeyword"
     );
+    let row_name = row?.name_en;
+    if(row?.name_en == "Category access") {
+      row_name = 'categories';
+    }
     this._router.navigate([
-      `/settings/list/${row.feature_id}/${row?.name_en
+      `/settings/list/${row.feature_id}/${row_name
         ?.toLowerCase()
         .replace(" ", "")}`,
     ]);

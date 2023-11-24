@@ -1,19 +1,15 @@
-<div class="relative h-full max-h-full rounded-[10px] shadow dark:bg-gray-800 dark:border-gray-700" 
+<div class="relative h-full max-h-full rounded-[10px] shadow dark:bg-gray-800 dark:border-gray-700 p-4 pb-10 mb-16 w-full max-w-full" 
     *ngIf="mode != 'small' && id > 0" (click)="goToDetails()"
     [ngStyle]="{'background-color': page == 'home' ? '#667085' : '#F8F4F4'}"
-    [ngClass]="{'p-7 pb-20 w-full max-w-full': companyId != 52, 
-        'p-4 pb-10 mb-16 w-full max-w-full': companyId == 52,
-        'p-7': companyId == 52 && page == 'home',
-        'p-4 sm:w-full sm:max:w-full md:w-[382px] md:max-w-[382px] lg:w-[382px] lg:max-w-[382px] mr-[22px]': companyId == 52 && page != 'home'
+    [ngClass]="{'p-7': page == 'home',
+        'p-4 sm:w-full sm:max:w-full md:w-[382px] md:max-w-[382px] lg:w-[382px] lg:max-w-[382px] mr-[22px]': page != 'home'
     }"
 >
     <div>
         <img width="460" height="192" 
             class="rounded-[10px] object-cover h-full" 
             [ngClass]="{'w-full max-w-full min-h-full max-h-full sm:min-h-full sm:max-h-full md:min-h-[325px] md:max-h-[325px] lg:min-h-[325px] lg:max-h-[325px]': page == 'home', 
-                'min-h-full max-h-full sm:min-h-full sm:max-h-full ': page != 'home',
-                'w-full max-w-full sm:w-full sm:max:w-full md:w-[350px] md:max-w-[350px] lg:w-[350px] lg:max-w-[350px] md:min-h-[192px] md:max-h-[192px] lg:min-h-[192px] lg:max-h-[192px]': page != 'home' && companyId == 52,
-                'w-full max-w-full md:min-h-[258px] md:max-h-[258px] lg:min-h-[258px] lg:max-h-[258px]': page != 'home' && companyId != 52
+                'min-h-full max-h-full sm:min-h-full sm:max-h-full w-full max-w-full sm:w-full sm:max:w-full md:w-[350px] md:max-w-[350px] lg:w-[350px] lg:max-w-[350px] md:min-h-[192px] md:max-h-[192px] lg:min-h-[192px] lg:max-h-[192px]': page != 'home'
             }"
             [ngSrc]="image" alt="" />
     </div>
@@ -29,9 +25,7 @@
             </div>
         </div>
         <div class="text-sm" [ngClass]="{'text-white my-6': page == 'home', 'my-4': page != 'home'}">
-            <span *ngIf="companyId != 52">{{ price ? (price?.replace('.00', '') + ' €') : ('category.free' | translate) }}</span>
-            <span *ngIf="category && companyId != 52" class="px-3">•</span>
-            <span>{{ category }}</span>
+            <span *ngIf="category">{{ category }}</span>
         </div>
     </div>
     <div class="absolute bottom-[24px] uppercase text-white pt-[10px] px-8 rounded-[10px] h-[40px] w-auto inline-block text-center text-sm"

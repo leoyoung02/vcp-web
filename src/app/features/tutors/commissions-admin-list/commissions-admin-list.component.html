@@ -1,129 +1,134 @@
-<div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-    <div class="mb-6">
-        <div class="flex items-center w-full max-w-full">
-            <div class="flex-auto">
-                <app-search
-                    [searchText]="searchText"
-                    [placeholderText]="placeholderText"
-                    [buttonColor]="buttonColor"
-                    (onEnterPressed)="handleSearch($event)"
-                    (doSearch)="handleSearch($event)"
+<ng-container *ngIf="superAdmin">
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+        <div class="mb-6">
+            <div class="flex items-center w-full max-w-full">
+                <div class="flex-auto">
+                    <app-search
+                        [searchText]="searchText"
+                        [placeholderText]="placeholderText"
+                        [buttonColor]="buttonColor"
+                        (onEnterPressed)="handleSearch($event)"
+                        (doSearch)="handleSearch($event)"
+                    >
+                    </app-search>
+                </div>
+            </div>
+        </div>
+        <div class="pt-1.5 mb-6" *ngIf="selected && selected.length > 0 && status == 'Pending'">
+            <div class="flex justify-end">
+                <select 
+                    id="bulk" 
+                    class="w-xs max-w-xs mr-4 bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    [ngStyle]="{'border-color': buttonColor}"
+                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedBulkAction }"
+                    [(ngModel)]="selectedBulkAction"
+                    [ngModelOptions]="{standalone: true}"
                 >
-                </app-search>
+                    <option value="">{{ 'company-settings.bulkaction' | translate }}</option>
+                    <option value="transfer">{{ 'booking-error.transfercommission' | translate }}</option>
+                </select>
+                <button 
+                    class="float-right flex items-center py-1.5 p-2.5 rounded-[10px] justify-evenly hover:bg-black"
+                    [ngStyle]="{'background-color': buttonColor}" 
+                    (click)="bulkApply()"
+                >
+                    <span class="text-white text-sm">{{ 'company-settings.apply' | translate }}</span>
+                </button>
             </div>
         </div>
     </div>
-    <div class="pt-1.5 mb-6" *ngIf="selected && selected.length > 0 && status == 'Pending'">
-        <div class="flex justify-end">
-            <select 
-                id="bulk" 
-                class="w-xs max-w-xs mr-4 bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                [ngStyle]="{'border-color': buttonColor}"
-                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedBulkAction }"
-                [(ngModel)]="selectedBulkAction"
-                [ngModelOptions]="{standalone: true}"
-            >
-                <option value="">{{ 'company-settings.bulkaction' | translate }}</option>
-                <option value="transfer">{{ 'booking-error.transfercommission' | translate }}</option>
-            </select>
-            <button 
-                class="float-right flex items-center py-1.5 p-2.5 rounded-[10px] justify-evenly hover:bg-black"
-                [ngStyle]="{'background-color': buttonColor}" 
-                (click)="bulkApply()"
-            >
-                <span class="text-white text-sm">{{ 'company-settings.apply' | translate }}</span>
-            </button>
+    <div class="w-full min-w-full py-8">
+        <div class="mat-table-responsive">
+            <div *ngIf="isProcessing" role="status" class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
+                <svg aria-hidden="true" class="w-8 h-8 mr-2 mt-5 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
+                <span class="sr-only">{{ 'dialog.processingpayment' | translate }}</span>
+            </div>
+            <mat-table *ngIf="!isProcessing" [dataSource]="dataSource" matSort class="manage-list">
+                <ng-container matColumnDef="checked">
+                    <mat-header-cell *matHeaderCellDef>
+                        <div class="form-check" *ngIf="status == 'Pending'">
+                            <label class="checkbox-container">
+                                <div class="flex mb-4">
+                                    <input 
+                                        id="checkall" 
+                                        type="checkbox"
+                                        class="w-4 h-4 border-gray-300 text-gray-900 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                        (change)="onAllSelected($event)"
+                                    >
+                                </div>
+                            </label>
+                        </div>
+                    </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="checked">
+                        <div class="form-check" *ngIf="status == 'Pending'">
+                            <label class="checkbox-container">
+                                <div class="flex mb-4">
+                                    <input 
+                                        id="check" 
+                                        [(ngModel)]="row.checked" 
+                                        [ngModelOptions]="{standalone: true}"
+                                        [ngStyle]="{'color': row.checked ? 'text-blue-500' : 'text-gray-900'}"
+                                        type="checkbox"
+                                        class="w-4 h-4 border-gray-300 text-gray-900 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                        (change)="onUserSelected($event, row)"
+                                    >
+                                </div>
+                            </label>
+                        </div>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="date">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.bookingdate' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="date">
+                        {{ row?.date }}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="student_name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'plans.student' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="student_name">
+                        {{ row?.student_name }}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="tutor_name">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.tutor' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="tutor_name">
+                        {{ row?.tutor_name }}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="course">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'general-details.course' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="course"> {{ row.course_title }} </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="commission">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutor-stripe.commission' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="commission">
+                        {{ row?.commission_display }}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="commission_transfer_id">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'dialog.transferid' | translate }} ID</mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="commission_transfer_id">
+                        {{ row?.commission_transfer_id }}
+                    </mat-cell>
+                </ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns;">
+                </mat-row>
+            </mat-table>
         </div>
     </div>
+    <app-toast 
+        *ngIf="showConfirmationModal" 
+        [company]="company" 
+        [update]="false" 
+        [confirm]="true"
+        [title]="confirmDeleteItemTitle"
+        [description]="confirmDeleteItemDescription"
+        [acceptText]="acceptText"
+        [cancelText]="cancelText"
+        (onAccept)="confirm()"
+    ></app-toast>
+</ng-container>
+<div *ngIf="!superAdmin" class="center pt-16">
+    <app-no-access></app-no-access>
 </div>
-<div class="w-full min-w-full py-8">
-    <div class="mat-table-responsive">
-        <div *ngIf="isProcessing" role="status" class="absolute -translate-x-1/2 -translate-y-1/2 top-2/4 left-1/2">
-            <svg aria-hidden="true" class="w-8 h-8 mr-2 mt-5 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
-            <span class="sr-only">{{ 'dialog.processingpayment' | translate }}</span>
-        </div>
-        <mat-table *ngIf="!isProcessing" [dataSource]="dataSource" matSort class="manage-list">
-            <ng-container matColumnDef="checked">
-                <mat-header-cell *matHeaderCellDef>
-                    <div class="form-check" *ngIf="status == 'Pending'">
-                        <label class="checkbox-container">
-                            <div class="flex mb-4">
-                                <input 
-                                    id="checkall" 
-                                    type="checkbox"
-                                    class="w-4 h-4 border-gray-300 text-gray-900 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    (change)="onAllSelected($event)"
-                                >
-                            </div>
-                        </label>
-                    </div>
-                </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="checked">
-                    <div class="form-check" *ngIf="status == 'Pending'">
-                        <label class="checkbox-container">
-                            <div class="flex mb-4">
-                                <input 
-                                    id="check" 
-                                    [(ngModel)]="row.checked" 
-                                    [ngModelOptions]="{standalone: true}"
-                                    [ngStyle]="{'color': row.checked ? 'text-blue-500' : 'text-gray-900'}"
-                                    type="checkbox"
-                                    class="w-4 h-4 border-gray-300 text-gray-900 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                    (change)="onUserSelected($event, row)"
-                                >
-                            </div>
-                        </label>
-                    </div>
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="date">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.bookingdate' | translate }} </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="date">
-                    {{ row?.date }}
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="student_name">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'plans.student' | translate }} </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="student_name">
-                    {{ row?.student_name }}
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="tutor_name">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.tutor' | translate }} </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="tutor_name">
-                    {{ row?.tutor_name }}
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="course">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'general-details.course' | translate }} </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="course"> {{ row.course_title }} </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="commission">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutor-stripe.commission' | translate }} </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="commission">
-                    {{ row?.commission_display }}
-                </mat-cell>
-            </ng-container>
-            <ng-container matColumnDef="commission_transfer_id">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'dialog.transferid' | translate }} ID</mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="commission_transfer_id">
-                    {{ row?.commission_transfer_id }}
-                </mat-cell>
-            </ng-container>
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-                <mat-row *matRowDef="let row; columns: displayedColumns;">
-            </mat-row>
-        </mat-table>
-    </div>
-</div>
-<app-toast 
-    *ngIf="showConfirmationModal" 
-    [company]="company" 
-    [update]="false" 
-    [confirm]="true"
-    [title]="confirmDeleteItemTitle"
-    [description]="confirmDeleteItemDescription"
-    [acceptText]="acceptText"
-    [cancelText]="cancelText"
-    (onAccept)="confirm()"
-></app-toast>

@@ -23,10 +23,53 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser-esbuild",
           "options": {
+            "preserveSymlinks": true,
+            "allowedCommonJsDependencies": [
+              "@tweenjs/tween.js",
+              "core-js/modules/es.promise.js",
+              "core-js/modules/es.array.index-of.js",
+              "core-js/modules/es.array.iterator.js",
+              "core-js/modules/es.array.reduce.js",
+              "core-js/modules/es.array.reverse.js",
+              "core-js/modules/es.string.ends-with.js",
+              "core-js/modules/es.string.includes.js",
+              "core-js/modules/es.string.match.js",
+              "core-js/modules/es.string.replace.js",
+              "core-js/modules/es.string.split.js",
+              "core-js/modules/es.string.starts-with.js",
+              "core-js/modules/es.string.trim.js",
+              "core-js/modules/es.regexp.to-string.js",
+              "core-js/modules/web.dom-collections.iterator.js",
+              "crypto-js",
+              "file-saver",
+              "filepond-plugin-file-validate-size",
+              "filepond-plugin-file-validate-type",
+              "filepond-plugin-image-edit",
+              "filepond-plugin-image-preview",
+              "html2canvas",
+              "lodash",
+              "querystring",
+              "url",
+              "raf",
+              "rgbcolor",
+              "survey-angular",
+              "survey-core",
+              "secure-web-storage",
+              "survey-creator-knockout",
+              "surveyjs-widgets",
+              "xlsx",
+              "dayjs",
+              "dayjs/plugin/localeData",
+              "dayjs/plugin/localizedFormat",
+              "dayjs/plugin/objectSupport",
+              "dayjs/plugin/utc",
+              "messageformat",
+              "moment"
+            ],
             "outputPath": "dist/vcp-web",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "polyfills": ["zone.js"],
+            "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
@@ -34,7 +77,12 @@
               "./node_modules/filepond/dist/filepond.min.css",
               "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css"
             ],
-            "scripts": ["node_modules/apexcharts/dist/apexcharts.min.js"]
+            "scripts": ["node_modules/apexcharts/dist/apexcharts.min.js"],
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false
           },
           "configurations": {
             "production": {
@@ -50,7 +98,12 @@
                   "maximumError": "4kb"
                 }
               ],
-              "outputHashing": "all"
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false
             },
             "development": {
               "buildOptimizer": false,
@@ -90,7 +143,7 @@
         "test": {
           "builder": "@angular-devkit/build-angular:karma",
           "options": {
-            "polyfills": ["zone.js", "zone.js/testing"],
+            "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.spec.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": ["src/theme/styles.css"],

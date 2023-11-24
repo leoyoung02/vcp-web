@@ -39,13 +39,10 @@
     </div>
 </div>
 <div class="pt-6">
-    <div class="py-2 pb-20"
-        [ngClass]="{'grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8': companyId != 52,
-            'flex flex-wrap': companyId == 52
-        }">
+    <div class="py-2 pb-20 flex flex-wrap">
         <ng-container *ngFor="let course of courses">
             <app-course-card
-                [ngClass]="{'pb-[24px]': companyId == 52}"
+                class="pb-[24px]"
                 [id]="course?.id"
                 [path]="course?.path"
                 [title]="course?.title"

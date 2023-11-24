@@ -45,7 +45,7 @@
     </div>
 </div>
 <div class="pt-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-8 py-2 pb-20">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 lg:grid-cols-2 justify-evenly py-8">
         <ng-container *ngFor="let testimonial of testimonials">
             <app-testimonial-card
                 [id]="testimonial?.id"
@@ -58,6 +58,7 @@
                 [author]="testimonial?.author"
                 [socialMediaUrl]="testimonial?.social_media_url"
                 [page]="'list'"
+                [companyId]="companyId"
             >
             </app-testimonial-card>
         </ng-container>

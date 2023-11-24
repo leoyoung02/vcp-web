@@ -17,13 +17,20 @@
     "moduleResolution": "node",
     "importHelpers": true,
     "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "typeRoots": [
+      "node_modules/@types"
+    ],
     "allowSyntheticDefaultImports": true,
-    "target": "ES2022",
-    "module": "ES2022",
+    "target": "es2020",
+    "module": "es2020",
     "useDefineForClassFields": false,
     "skipLibCheck": true,
     "noImplicitAny": false,
-    "lib": ["ES2022", "dom"],
+    "lib": [
+      "es2018", 
+      "dom"
+    ],
     "paths": {
       "@lib/*": ["src/app/core/*"],
       "@features/*": ["src/app/features/*"],

@@ -10,7 +10,7 @@
                     <div class="font-bold pb-4">{{ club1Data?.title }}</div>
                     <div class="p-2 border border-white rounded-[10px] cursor-pointer w-32 text-center text-xs font-bold uppercase">{{ 'plan-details.join' | translate }}</div>
                     <div class="flex text-xs text-white py-4">
-                        <span>{{club1Data?.category}}</span> <span class="px-3">•</span> <span>{{club1Data?.city}}</span>
+                        <span>{{club1Data?.category}}</span> <span *ngIf="club1Data?.city" class="px-3">•</span> <span>{{club1Data?.city}}</span>
                     </div>
                     <div class="flex pt-4 sm:pt-4 md:pt-0 lg:pt-0">
                         <svg class="w-6 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -38,7 +38,7 @@
                     <div class="font-bold pb-4">{{ club2Data?.title }}</div>
                     <div class="uppercase p-2 border border-white rounded-[10px] cursor-pointer w-32 text-center text-xs font-bold">{{ 'club-details.join' | translate }}</div>
                     <div class="flex text-xs text-white py-4">
-                        <span>{{club2Data?.category}}</span> <span class="px-3">•</span> <span>{{club2Data?.city}}</span>
+                        <span>{{club2Data?.category}}</span> <span *ngIf="club2Data?.city" class="px-3">•</span> <span>{{club2Data?.city}}</span>
                     </div>
                     <div class="flex pt-4 sm:pt-4 md:pt-0 lg:pt-0">
                         <svg class="w-6 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -64,7 +64,7 @@
                     <div class="font-bold pb-4">{{ club3Data?.title }}</div>
                     <div class="p-2 border border-white rounded-[10px] cursor-pointer w-32 text-center text-xs font-bold uppercase">{{ 'plan-details.join' | translate }}</div>
                     <div class="flex text-xs text-white py-4">
-                        <span>{{club3Data?.category}}</span> <span class="px-3">•</span> <span>{{club3Data?.city}}</span>
+                        <span>{{club3Data?.category}}</span> <span *ngIf="club3Data?.city" class="px-3">•</span> <span>{{club3Data?.city}}</span>
                     </div>
                     <div class="flex pt-4 sm:pt-4 md:pt-0 lg:pt-0">
                         <svg class="w-6 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
@@ -92,7 +92,7 @@
                     <div class="font-bold pb-4">{{ club4Data?.title }}</div>
                     <div class="uppercase p-2 border border-white rounded-[10px] cursor-pointer w-32 text-center text-xs font-bold">{{ 'club-details.join' | translate }}</div>
                     <div class="flex text-xs text-white py-4">
-                        <span>{{club4Data?.category}}</span> <span class="px-3">•</span> <span>{{club4Data?.city}}</span>
+                        <span>{{club4Data?.category}}</span> <span *ngIf="club4Data?.city" class="px-3">•</span> <span>{{club4Data?.city}}</span>
                     </div>
                     <div class="flex pt-4 sm:pt-4 md:pt-0 lg:pt-0">
                         <svg class="w-6 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">

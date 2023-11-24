@@ -680,20 +680,20 @@ export class ManageUsersComponent {
       async (response) => {
         this.members = response[0] ? response[0]["all_members"] : [];
 
-        if(this.hasAddedUser && this.userMode == 'add') {
-          let selected_user = this.members?.filter(m => {
-            return m.email == this.createdUserId
-          })
-          if(selected_user?.length > 0) {
-            this.editUser(selected_user[0], 'edit');
-            if(
-              (this.hasCourses && this.hasCategoryAccess) || 
-              ((this.superTutor || this.isGuardianType || this.userTypeName == 'Admin TUTORES'))
-            ) {
-              this.tabIndex = 1;
-            }
-          }
-        }
+        // if(this.hasAddedUser && this.userMode == 'add') {
+        //   let selected_user = this.members?.filter(m => {
+        //     return m.email == this.createdUserId
+        //   })
+        //   if(selected_user?.length > 0) {
+        //     this.editUser(selected_user[0], 'edit');
+        //     if(
+        //       (this.hasCourses && this.hasCategoryAccess) || 
+        //       ((this.superTutor || this.isGuardianType || this.userTypeName == 'Admin TUTORES'))
+        //     ) {
+        //       this.tabIndex = 1;
+        //     }
+        //   }
+        // }
 
         if(this.members?.length > 0 && !this.currentUser && this.userId) {
           let current_user = this.members?.filter(member => {
@@ -2901,7 +2901,7 @@ export class ManageUsersComponent {
     if(selected_courses?.length > 0) {
       setTimeout(() => {
         this.selectedCourses = selected_courses;
-      }, 500);
+      }, 1000);
     }
   }
 
@@ -4775,8 +4775,16 @@ export class ManageUsersComponent {
       }
     }
     
-    let match = this.courseCreditsList.some(a => a.id === event.id)
+    let match = this.courseCreditsList?.some(a => a.id === event.id)
     if(!match) {
+      this.courseCreditsList.push({
+        id: event.id,
+        title: event.title,
+        credits,
+      })
+    }
+
+    if(this.courseCreditsList?.length == 0 && credits > 0) {
       this.courseCreditsList.push({
         id: event.id,
         title: event.title,

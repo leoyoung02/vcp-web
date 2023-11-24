@@ -196,6 +196,8 @@ export class CourseDetailComponent {
   selectTutorQuestions: any = []
   featureId: any
   onlyAssignedTutorAccess: boolean = false;
+  courseTextSize: any;
+  courseLineHeight: any;
 
   constructor(
     private _router: Router,
@@ -319,6 +321,8 @@ export class CourseDetailComponent {
 
   formatCourse(data) {
     this.course = data;
+    this.courseTextSize = ((this.course?.text_size_unit || 12) + 'px').toString();
+    this.courseLineHeight = (((this.course?.text_size_unit || 12) * (4/3)) + 'px').toString();
     this.courseTitle =this.getCourseTitle(this.course);
     this.courseDescription = this.getCourseDescription(this.course);
     this.courseImage = `${COURSE_IMAGE_URL}/${this.course?.image}`;

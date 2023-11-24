@@ -1,56 +1,83 @@
-<div *ngIf="page == 'home'" [routerLink]="[path]">
-    <div class="hover:cursor-pointer my-8 sm:my-8 md:mb-0 lg:my-0 rounded-lg h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px] grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-evenly"
-        [ngStyle]="{'background-color': '#1C393D'}">
-        <div class="w-full max-w-full h-full max-h-full flex justify-center items-center">
-            <div class="w-full max-w-full flex flex-row items-center justify-center">
-                <div class="px-8 w-8/12 py-12 sm:py-12 md:py-0 lg:py-0">
-                    <img class="object-cover rounded-full" 
-                    width="160" height="160" *ngIf="image" [ngSrc]="image" alt="">
+<!-- <ng-container *ngIf="companyId != 52">
+    <div *ngIf="page == 'home'" [routerLink]="[path]">
+        <div class="hover:cursor-pointer my-8 sm:my-8 md:mb-0 lg:my-0 rounded-lg h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px] grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-evenly"
+            [ngStyle]="{'background-color': '#1C393D'}">
+            <div class="w-full max-w-full h-full max-h-full flex justify-center items-center">
+                <div class="w-full max-w-full flex flex-row items-center justify-center">
+                    <div class="px-8 w-8/12 py-12 sm:py-12 md:py-0 lg:py-0">
+                        <img class="object-cover rounded-full" 
+                        width="160" height="160" *ngIf="image" [ngSrc]="image" alt="">
+                    </div>
+                    <div class="w-4/12">
+                        <div class="text-white text-lg font-semibold">{{author}}</div>
+                        <div class="text-white text-sm capitalize">{{'plans.student' | translate}}</div>
+                    </div>
                 </div>
-                <div class="w-4/12">
-                    <div class="text-white text-lg font-semibold">{{author}}</div>
-                    <div class="text-white text-sm capitalize">{{'plans.student' | translate}}</div>
+            </div>
+            <div class="ml-0 sm:ml-0 md:ml-12 lg:ml-12 relative flex justify-between items-center rounded-l-[0px] sm:rounded-l-[0px] md:rounded-l-[135px] lg:rounded-l-[135px] px-12 h-auto max-h-auto rounded-r-lg"
+                [ngStyle]="{'background-color': '#E6583D'}">
+                <div class="hidden sm:hidden md:block lg:block -mt-[35px] absolute left-0 top-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-8 h-8 bg-[#E6583D]"></div>
+                <div class="flex flex-col justify-between text-white w-full max-w-full">
+                    <div class="py-8 sm:py-8 md:py-0 lg:py-0 leading-5 text-[0.9rem] text-center" [innerHtml]="shortdescription"></div>
                 </div>
             </div>
         </div>
-        <div class="ml-0 sm:ml-0 md:ml-12 lg:ml-12 relative flex justify-between items-center rounded-l-[0px] sm:rounded-l-[0px] md:rounded-l-[135px] lg:rounded-l-[135px] px-12 h-auto max-h-auto rounded-r-lg"
+    </div>
+    <div *ngIf="page == 'list' || page == 'detail'" 
+        [routerLink]="[path]" 
+        [attr.disabled]="page == 'detail' ? true : null"
+        [ngClass]="{'w-full max-w-full': page == 'detail', 
+            'pointer-events-auto hover:cursor-pointer': page != 'detail',
+            'pointer-events-none': page == 'detail'  
+        }"
+    >
+        <div class="my-8 sm:my-8 md:mb-0 lg:my-0 rounded-lg h-full max-h-full sm:h-full sm:max-h-full md:h-[591px] md:max-h-[591px] lg:h-[591px] lg:max-h-[591px] flex flex-col justify-evenly"
+            [ngStyle]="{'background-color': '#1C393D'}">
+            <div class="w-full max-w-full h-full max-h-full sm:h-full sm:max-h-full md:h-[240px] md:max-h-[240px] lg:h-[240px] lg:max-h-[240px] flex justify-center items-center">
+                <div class="w-full max-w-full flex flex-row items-center justify-center">
+                    <div class="px-8 w-6/12 py-12 sm:py-12 md:py-0 lg:py-0">
+                        <img class="object-cover rounded-full" 
+                        width="160" height="160" *ngIf="image" [ngSrc]="image" alt="">
+                    </div>
+                    <div class="w-6/12">
+                        <div class="text-white text-lg font-semibold">{{author}}</div>
+                        <div class="text-white text-sm capitalize">{{'plans.student' | translate}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="relative flex justify-between items-center rounded-t-[0px] sm:rounded-t-[0px] md:rounded-t-[160px] lg:rounded-t-[160px] px-16 h-full max-h-full sm:h-full sm:max-h-full md:h-[351px] md:max-h-[351px] lg:h-[351px] lg:max-h-[351px] rounded-b-lg"
             [ngStyle]="{'background-color': '#E6583D'}">
-            <div class="hidden sm:hidden md:block lg:block -mt-[35px] absolute left-0 top-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-8 h-8 bg-[#E6583D]"></div>
-            <div class="flex flex-col justify-between text-white w-full max-w-full">
-                <div class="py-8 sm:py-8 md:py-0 lg:py-0 leading-5 text-[0.9rem] text-center" [innerHtml]="shortdescription"></div>
-            </div>
-        </div>
-    </div>
-</div>
-<div *ngIf="page == 'list' || page == 'detail'" 
-    [routerLink]="[path]" 
-    [attr.disabled]="page == 'detail' ? true : null"
-    [ngClass]="{'w-full max-w-full': page == 'detail', 
-        'pointer-events-auto hover:cursor-pointer': page != 'detail',
-        'pointer-events-none': page == 'detail'  
-    }"
->
-    <div class="my-8 sm:my-8 md:mb-0 lg:my-0 rounded-lg h-full max-h-full sm:h-full sm:max-h-full md:h-[591px] md:max-h-[591px] lg:h-[591px] lg:max-h-[591px] flex flex-col justify-evenly"
-        [ngStyle]="{'background-color': '#1C393D'}">
-        <div class="w-full max-w-full h-full max-h-full sm:h-full sm:max-h-full md:h-[240px] md:max-h-[240px] lg:h-[240px] lg:max-h-[240px] flex justify-center items-center">
-            <div class="w-full max-w-full flex flex-row items-center justify-center">
-                <div class="px-8 w-6/12 py-12 sm:py-12 md:py-0 lg:py-0">
-                    <img class="object-cover rounded-full" 
-                    width="160" height="160" *ngIf="image" [ngSrc]="image" alt="">
-                </div>
-                <div class="w-6/12">
-                    <div class="text-white text-lg font-semibold">{{author}}</div>
-                    <div class="text-white text-sm capitalize">{{'plans.student' | translate}}</div>
+                <div class="hidden sm:hidden md:block lg:block -mt-[32px] absolute top-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-8 h-8 bg-[#E6583D]"></div>
+                <div class="w-full max-w-full flex flex-col justify-between text-white text-center">
+                    <div class="py-8 sm:py-8 md:py-0 lg:py-0 leading-5 text-[0.9rem]" [innerHtml]="shortdescription"></div>
+                    <div class="py-4 capitalize">{{date}}</div>
                 </div>
             </div>
         </div>
-        <div class="relative flex justify-between items-center rounded-t-[0px] sm:rounded-t-[0px] md:rounded-t-[160px] lg:rounded-t-[160px] px-16 h-full max-h-full sm:h-full sm:max-h-full md:h-[351px] md:max-h-[351px] lg:h-[351px] lg:max-h-[351px] rounded-b-lg"
-        [ngStyle]="{'background-color': '#E6583D'}">
-            <div class="hidden sm:hidden md:block lg:block -mt-[32px] absolute top-0 left-1/2 transform -translate-x-1/2 translate-y-1/2 rotate-45 w-8 h-8 bg-[#E6583D]"></div>
-            <div class="w-full max-w-full flex flex-col justify-between text-white text-center">
-                <div class="py-8 sm:py-8 md:py-0 lg:py-0 leading-5 text-[0.9rem]" [innerHtml]="shortdescription"></div>
-                <div class="py-4 capitalize">{{date}}</div>
+    </div>
+</ng-container>
+<ng-container *ngIf="companyId == 52"> -->
+    <div class="hover:cursor-pointer h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] lg:max-h-[267px] flex flex-col items-center bg-white rounded-lg shadow md:flex-row"
+        [routerLink]="[path]"
+    >
+        <img 
+            *ngIf="image"
+            class="border object-cover rounded-t-lg h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] w-full md:rounded-none md:rounded-l-lg"
+            width="192" height="256"
+            [ngSrc]="image"
+            [ngStyle]="{'border-color': '#F8F4F4', 'max-width': '338px'}"
+        />
+        <div class="w-full flex flex-col px-8 py-4 leading-normal h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px]"
+            [ngStyle]="{'background-color': '#F8F4F4'}"
+        >
+            <div class="flex flex py-1.5 rounded-[10px] mb-4 w-[135px] justify-center bg-[#F7AF41] items-center">
+                <div class="text-xs mr-2 text-white uppercase">{{ date }}</div>
+                <svg class="w-3 h-3 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M10 6v4l3.276 3.276M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                </svg>
             </div>
+            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white mb-4">{{ author || ('plans.student' | translate) }}</h5>
+            <div class="opacity-60 leading-5 text-[0.8rem]" [innerHtml]="shortdescription"></div>
         </div>
     </div>
-</div>
+<!-- </ng-container> -->
