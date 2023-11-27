@@ -3316,5 +3316,15 @@
     "blogs": {
         "blogs": "Blogak",
         "blog": "Blog"
+    },
+    "leads": {
+        "questionnaires": "Galdetegiak",
+        "landingpages": "Hurrengo orrialdeak",
+        "mapanswers": "Maparen erantzunak",
+        "addrule": "Gehitu araua",
+        "whatsappcommunityurl": "WhatsApp Komunitatearen URLa",
+        "contains": "dauka",
+        "equals": "berdin",
+        "notequals": "ez da berdina"
     }
 }

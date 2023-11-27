@@ -500,3 +500,19 @@ export const ACTIVITY_CODE_DATA_URL = `${API_BASE}/v2/activity-code-data`;
 export const CONFIRM_ATTENDANCE_URL = `${API_BASE}/v2/activity-code/validate`;
 export const USER_CREDIT_LOGS_URL = `${API_BASE}/v2/user-credit-logs`;
 export const SUBMIT_ACTIVITY_RATING_URL = `${API_BASE}/v2/activity/rating/submit`;
+
+// LEADS
+export const LEADS_QUESTIONS_URL = `${API_BASE}/v2/questions`;
+export const CREATE_LEADS_QUESTION_URL = `${API_BASE}/v2/question/add`;
+export const EDIT_LEADS_QUESTION_URL = `${API_BASE}/v2/question/edit`;
+export const DELETE_LEADS_QUESTION_URL = `${API_BASE}/v2/question/delete`;
+export const CREATE_LEADS_QUESTION_ITEM_URL = `${API_BASE}/v2/question-item/add`;
+export const EDIT_LEADS_QUESTION_ITEM_URL = `${API_BASE}/v2/question-item/edit`;
+export const DELETE_LEADS_QUESTION_ITEM_URL = `${API_BASE}/v2/question-item/delete`;
+export const CREATE_LEADS_QUESTION_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/question-multiple-choice-option/add`;
+export const EDIT_LEADS_QUESTION_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/question-multiple-choice-option/edit`;
+export const DELETE_LEADS_QUESTION_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/question-multiple-choice-option/delete`;
+export const CREATE_LEADS_QUESTION_RULE_URL = `${API_BASE}/v2/question-rule/add`;
+export const EDIT_LEADS_QUESTION_RULE_URL = `${API_BASE}/v2/question-rule/edit`;
+export const DELETE_LEADS_QUESTION_RULE_URL = `${API_BASE}/v2/question-rule/delete`;
+export const LEADS_LANDING_PAGES_URL = `${API_BASE}/v2/landing-pages`;

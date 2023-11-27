@@ -1030,6 +1030,28 @@
                                     {{ 'company-settings.manage' | translate }}
                                 </button>
                             </ng-container>
+                            <ng-container *ngIf="item?.title_en == 'Questionnaires' && item?.active == 1">
+                                <button
+                                    class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    (click)="goToLeadsSettings(item?.title_en)"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                >
+                                    {{ 'company-settings.manage' | translate }}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngIf="item?.title_en == 'Landing pages' && item?.active == 1">
+                                <button
+                                    class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    (click)="goToLeadsSettings(item?.title_en)"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                >
+                                    {{ 'company-settings.manage' | translate }}
+                                </button>
+                            </ng-container>
                             <div class="flex items-center justify-between relative ml-4">
                                 <label
                                     for="setting-status-{{item.id}}"

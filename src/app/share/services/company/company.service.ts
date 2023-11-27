@@ -104,6 +104,20 @@ import {
   ADD_STRIPE_WEBHOOK_URL,
   EDIT_STRIPE_ACCOUNT_URL,
   ADD_STRIPE_ACCOUNT_URL,
+  LEADS_QUESTIONS_URL,
+  CREATE_LEADS_QUESTION_URL,
+  EDIT_LEADS_QUESTION_URL,
+  DELETE_LEADS_QUESTION_URL,
+  CREATE_LEADS_QUESTION_ITEM_URL,
+  EDIT_LEADS_QUESTION_ITEM_URL,
+  DELETE_LEADS_QUESTION_ITEM_URL,
+  DELETE_LEADS_QUESTION_MULTIPLE_CHOICE_OPTION_URL,
+  EDIT_LEADS_QUESTION_MULTIPLE_CHOICE_OPTION_URL,
+  CREATE_LEADS_QUESTION_MULTIPLE_CHOICE_OPTION_URL,
+  CREATE_LEADS_QUESTION_RULE_URL,
+  EDIT_LEADS_QUESTION_RULE_URL,
+  DELETE_LEADS_QUESTION_RULE_URL,
+  LEADS_LANDING_PAGES_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -947,6 +961,102 @@ export class CompanyService {
     return this._http.post(`${DELETE_STRIPE_ACCOUNT_URL}/${companyId}`,
       payload,
       { headers : this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getLeadsQuestions(companyId, userId): Observable<any> {
+    return this._http.get(`${LEADS_QUESTIONS_URL}/${companyId}/${userId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addLeadsQuestion(payload): Observable<any> {
+    return this._http.post(
+      CREATE_LEADS_QUESTION_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editLeadsQuestion(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_LEADS_QUESTION_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteLeadsQuestion(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_LEADS_QUESTION_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  addLeadsQuestionItem(payload): Observable<any> {
+    return this._http.post(
+      CREATE_LEADS_QUESTION_ITEM_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editLeadsQuestionItem(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_LEADS_QUESTION_ITEM_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteLeadsQuestionItem(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_LEADS_QUESTION_ITEM_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  addLeadsQuestionMultipleChoice(payload): Observable<any> {
+    return this._http.post(
+      CREATE_LEADS_QUESTION_MULTIPLE_CHOICE_OPTION_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editLeadsQuestionMultipleChoice(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_LEADS_QUESTION_MULTIPLE_CHOICE_OPTION_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteLeadsQuestionMultipleChoice(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_LEADS_QUESTION_MULTIPLE_CHOICE_OPTION_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  addLeadsQuestionRule(payload): Observable<any> {
+    return this._http.post(
+      CREATE_LEADS_QUESTION_RULE_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editLeadsQuestionRule(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_LEADS_QUESTION_RULE_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteLeadsQuestionRule(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_LEADS_QUESTION_RULE_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  getLeadsLandingPages(companyId, userId): Observable<any> {
+    return this._http.get(`${LEADS_LANDING_PAGES_URL}/${companyId}/${userId}`,
+      { headers: this.headers }
     ).pipe(map(res => res));
   }
 }

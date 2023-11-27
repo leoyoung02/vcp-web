@@ -3326,5 +3326,15 @@
     "blogs": {
         "blogs": "Blocs",
         "blog": "Bloc"
+    },
+    "leads": {
+        "questionnaires": "Qüestionaris",
+        "landingpages": "Pàgines de destinació",
+        "mapanswers": "Mapa de respostes",
+        "addrule": "Afegeix una regla",
+        "whatsappcommunityurl": "URL de la comunitat de WhatsApp",
+        "contains": "conté",
+        "equals": "igual",
+        "notequals": "no és igual"
     }
 }

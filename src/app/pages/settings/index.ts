@@ -80,4 +80,16 @@ export const routes: Routes = [
         data: { titleKey: 'stripe-account.managestripeaccounts'},
         loadComponent: async () => (await import('./stripe-accounts/stripe-accounts.component')).ManageStripeAccountsComponent,
     },
+    {
+        path: 'leads/questionnaires',
+        title: CustomTitleResolver,
+        data: { titleKey: 'leads.questionnaires'},
+        loadComponent: async () => (await import('./questionnaires/questionnaires.component')).QuestionnairesComponent,
+    },
+    {
+        path: 'leads/landing-pages',
+        title: CustomTitleResolver,
+        data: { titleKey: 'leads.pages'},
+        loadComponent: async () => (await import('./landing-pages/landing-pages.component')).LandingPagesComponent,
+    },
 ];

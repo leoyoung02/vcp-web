@@ -1783,6 +1783,10 @@ export class SettingComponent {
     this._router.navigate(['/settings/stripe-accounts'])
   }
 
+  goToLeadsSettings(item) {
+    this._router.navigate([`/settings/leads/${item?.replace(' ', '-')?.toLowerCase()}`]);
+  }
+
   handleGoBack() {
     this._location.back();
   }

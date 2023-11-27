@@ -3338,5 +3338,15 @@
     "blogs": {
         "blogs": "Blogs",
         "blog": "Blog"
+    },
+    "leads": {
+        "questionnaires": "Cuestionarios",
+        "landingpages": "Páginas de destino",
+        "mapanswers": "Mapa de respuestas",
+        "addrule": "Agregar regla",
+        "whatsappcommunityurl": "URL de la comunidad de WhatsApp",
+        "contains": "contiene",
+        "equals": "igual",
+        "notequals": "no iguales"
     }
 }
