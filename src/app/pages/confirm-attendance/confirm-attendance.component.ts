@@ -11,15 +11,15 @@ import { CompanyService, LocalService, UserService } from "@share/services";
 import { environment } from "@env/environment";
 import { FormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { StarRatingModule } from 'angular-star-rating';
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { PlansService } from "@features/services";
-import { NoAccessComponent } from "@share/components";
 import {
+  StarRatingModule,
   ClickEvent,
   HoverRatingChangeEvent,
   RatingChangeEvent
 } from 'angular-star-rating';
+import { MatSnackBar } from "@angular/material/snack-bar";
+import { PlansService } from "@features/services";
+import { NoAccessComponent } from "@share/components";
 
 @Component({
   standalone: true,
