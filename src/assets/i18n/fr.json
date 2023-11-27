@@ -3306,5 +3306,15 @@
     "blogs": {
         "blogs": "Blogues",
         "blog": "Blog"
+    },
+    "leads": {
+        "questionnaires": "Questionnaires",
+        "landingpages": "Pages de destination",
+        "mapanswers": "Carter les réponses",
+        "addrule": "Ajouter une règle",
+        "whatsappcommunityurl": "URL de la communauté WhatsApp",
+        "contains": "contient",
+        "equals": "égal",
+        "notequals": "pas égal"
     }
 }

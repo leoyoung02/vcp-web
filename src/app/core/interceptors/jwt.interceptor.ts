@@ -24,10 +24,10 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
         let token = tokenService.getToken() || _localService.getLocalStorage(environment.lstoken);
 
         if(tokenService.getToken()) {
-            console.log('use token from session storage')
+            // console.log('use token from session storage')
         } else {
             if(_localService.getLocalStorage(environment.lstoken)) {
-                console.log('use token from local storage')
+                // console.log('use token from local storage')
             }
         }
 

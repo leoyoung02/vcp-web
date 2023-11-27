@@ -3309,5 +3309,15 @@
     "blogs": {
         "blogs": "Blogs",
         "blog": "Blog"
+    },
+    "leads": {
+        "questionnaires": "Fragebögen",
+        "landingpages": "Landingpages",
+        "mapanswers": "Antworten auf der Karte",
+        "addrule": "Regel hinzufügen",
+        "whatsappcommunityurl": "WhatsApp-Community-URL",
+        "enthält": "enthält",
+        "equals": "gleich",
+        "notequals": "nicht gleich"
     }
 }
