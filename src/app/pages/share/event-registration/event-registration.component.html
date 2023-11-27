@@ -1,4 +1,4 @@
-<div class="mx-auto my-auto max-w-full flex justify-center items-center align-center pt-20 pb-8">
+<div *ngIf="!isLoading && event" class="mx-auto my-auto max-w-full flex justify-center items-center align-center pt-20 pb-8">
     <div class="grid grid-cols-1 md:grid-cols-2 gap-0 sm:gap-8 md:gap-8 lg:gap-8 py-8">
         <div class="relative mr-0 sm:mr-0 md:mr-8 lg:mr-83">
             <img 
@@ -236,4 +236,7 @@
             </div>
         </div>
     </div>
+</div>
+<div *ngIf="!isLoading && !event" class="center pt-16">
+    <app-no-access></app-no-access>
 </div>

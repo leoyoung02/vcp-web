@@ -494,3 +494,7 @@ export const ANSWER_TUTOR_QUESTION_URL = `${API_BASE}/course/tutor/question/answ
 export const COURSE_RESOURCES_URL = `${API_BASE}/course-resources`;
 export const UPLOAD_RESOURCE_AVAILABILITY_URL = `${API_BASE}/guest/admin-course/uploadable`;
 export const ADD_COURSE_RESOURCE_URL = `${API_BASE}/course-resource/add`;
+
+// UE IMPROVEMENTS
+export const ACTIVITY_CODE_DATA_URL = `${API_BASE}/v2/activity-code-data`;
+export const CONFIRM_ATTENDANCE_URL = `${API_BASE}/v2/activity-code/validate`;

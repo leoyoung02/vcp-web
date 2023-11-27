@@ -322,7 +322,10 @@
         "duplicate": "Duplicate",
         "emailinvite": "Email invite",
         "exitcalendarmode": "Exit calendar mode",
-        "updatedni": "Update DNI"
+        "updatedni": "Update DNI",
+        "confirmattendance": "Confirm attendance",
+        "confirmedattendance": "You have successfully confirmed your attendance",
+        "invalidcode": "Invalid code"
     },
     "plan-create": {
         "fillup": "Fill out this form to create your plan",

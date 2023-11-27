@@ -322,7 +322,10 @@
         "duplicate": "Duplikat",
         "emailinvite": "E-Mail-Einladung",
         "exitcalendarmode": "Kalendermodus beenden",
-        "updatedni": "DNI aktualisieren"
+        "updatedni": "DNI aktualisieren",
+        "confirmattendance": "Anwesenheit bestätigen",
+        "confirmedattendance": "Sie haben Ihre Teilnahme erfolgreich bestätigt",
+        "invalidcode": "Ungültiger Code"
     },
     "plan-create": {
         "fillup": "Füllen Sie dieses Formular aus, um Ihren Plan zu erstellen",

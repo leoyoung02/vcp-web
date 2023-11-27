@@ -322,7 +322,10 @@
         "duplicate": "Duplicat",
         "emailinvite": "Envia una invitació per email",
         "exitcalendarmode": "Surt del mode de calendari",
-        "updatedni": "Actualitzar el DNI"
+        "updatedni": "Actualitzar el DNI",
+        "confirmattendance": "Confirmar l'assistència",
+        "confirmedattendance": "Has confirmat correctament la teva assistència",
+        "invalidcode": "Codi no vàlid"
     },
     "plan-create": {
         "fillup": "Omple aquest formulari per crear el teu pla",

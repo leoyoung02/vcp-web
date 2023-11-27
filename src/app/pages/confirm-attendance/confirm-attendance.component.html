@@ -1,0 +1,52 @@
+<div *ngIf="!isloading && event && user" class="flex justify-center flex-col m-auto h-screen mx-auto -my-20 max-w-screen-sm flex justify-center items-center align-center">
+    <div class="p-4 bg-[#F8F4F4] w-full max-w-full rounded-lg pb-8">
+        <div class="text-center font-bold text-xl">{{'plan-details.confirmattendance' | translate}}</div>
+        <ng-container *ngIf="!confirmedAttendance">
+            <div class="bg-white mt-3 rounded-lg py-4 px-8">
+                <div class="mb-10 mt-2">
+                    <div class="w-full max-w-full">
+                        <label for="activity-code" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            {{'edit-plan.activitycode' | translate}}*
+                        </label>
+                        <input 
+                            #inputActivityCode
+                            id="activity-code"
+                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': submitted && !activityCode }"
+                            type="text" 
+                            class="text-center text-4xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                            [(ngModel)]="activityCode"
+                            [ngModelOptions]="{standalone: true}"
+                            required>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end">
+                <button 
+                    (click)="confirmAttendance()"
+                    class="mt-6 w-auto text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 cursor-not-allowed"
+                    [disabled]="!activityCode"
+                    [ngClass]="{'cursor-not-allowed': !activityCode}"
+                    [ngStyle]="{
+                        'background-color': activityCode ? buttonColor : '#c7c7c7'
+                    }"
+                >
+                    {{ 'plan-details.confirm' | translate }}
+                </button>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="confirmedAttendance">
+            <div class="mt-10 mb-2 text-center">{{'plan-details.confirmedattendance' | translate}}</div>
+            <div class="mb-8 text-center">
+                <a
+                    href="javascript:;" class="btn bg-sky-950 text-white"
+                    (click)="goHome()"
+                >
+                    {{ 'landing.returntohome' | translate }}
+                </a>
+            </div>
+        </ng-container>
+    </div>
+</div>
+<div *ngIf="!isloading && (!event || !user)" class="center pt-16">
+    <app-no-access></app-no-access>
+</div>

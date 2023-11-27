@@ -322,7 +322,10 @@
         "duplicate": "Dupliquer",
         "emailinvite": "Invitation par e-mail",
         "exitcalendarmode": "Quitter le mode calendrier",
-        "updatedni": "Mettre à jour le DNI"
+        "updatedni": "Mettre à jour le DNI",
+        "confirmattendance": "Confirmer la présence",
+        "confirmedattendance": "Vous avez confirmé votre présence avec succès",
+        "invalidcode": "Code invalide"
     },
     "plan-create": {
         "fillup": "Remplissez ce formulaire pour créer votre plan",
