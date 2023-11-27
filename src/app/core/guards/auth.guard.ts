@@ -44,20 +44,19 @@ const defaultAuthGuardOptions = (): AuthGuardOptions => ({
  */
 export const authGuard = (options: AuthGuardOptions = defaultAuthGuardOptions()): CanMatchFn => {
     return (_: Route, segments: UrlSegment[]) => {
+        const router = inject(Router);
+        const authService = inject(AuthService);
+
         const _localService = inject(LocalService);
         const localToken = _localService.getLocalStorage(environment.lstoken);
         const localUser = _localService.getLocalStorage(environment.lsuser);
         const localAppSession = localStorage.getItem('appSession');
         if(localToken && localUser && !localAppSession) {
-            console.log('set session from local storage')
             localStorage.setItem('appSession', JSON.stringify({
                 user: environment.lsuserId,
                 token: environment.lstoken,
             }))
         }
-
-        const router = inject(Router);
-        const authService = inject(AuthService);
 
         if (options.requiresAuthentication === authService.isAuthenticated) {
             return true;

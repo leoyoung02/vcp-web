@@ -322,7 +322,10 @@
         "duplicate": "Bikoiztu",
         "emailinvite": "E-posta gonbidapena",
         "exitcalendarmode": "Iten egutegi modutik",
-        "updatedni": "Eguneratu DNI"
+        "updatedni": "Eguneratu DNI",
+        "confirmattendance": "Berretsi asistentzia",
+        "confirmedattendance": "Zure asistentzia behar bezala baieztatu duzu",
+        "invalidcode": "Kode baliogabea"
     },
     "plan-create": {
         "fillup": "Bete formulario hau zure plana sortzeko",

@@ -35,6 +35,28 @@ export const routes: Routes = [
         canMatch: [authGuard({ requiresAuthentication: false })],
     },
     {
+        path: 'share/event/:slug/:invite_guid',
+        data: { layout: PageLayout.Blank, titleKey: 'Registro' },
+        title: CustomTitleResolver,
+        loadComponent: async () => (await import('@pages/share/event-registration/event-registration.component')).EventRegistrationComponent,
+        canMatch: [authGuard({ requiresAuthentication: false })],
+    },
+    {
+        path: 'event/:slug/:invite_guid',
+        data: { layout: PageLayout.Blank, titleKey: 'Registro' },
+        title: CustomTitleResolver,
+        loadComponent: async () => (await import('@pages/share/event-registration/event-registration.component')).EventRegistrationComponent,
+        canMatch: [authGuard({ requiresAuthentication: false })],
+    },
+    {
+        path: 'confirm-attendance/:eventId/:eventTypeId/:userGuid',
+        data: { layout: PageLayout.Blank, titleKey: 'Confirmar' },
+        title: CustomTitleResolver,
+        loadComponent: async () => (await import('@pages/confirm-attendance/confirm-attendance.component')).ConfirmAttendanceComponent,
+        canMatch: [authGuard({ requiresAuthentication: false })],
+        pathMatch: 'full',
+    },
+    {
         path: '',
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@pages/home')).routes,
@@ -141,13 +163,6 @@ export const routes: Routes = [
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@features/blogs')).routes,
         canMatch: [authGuard()],
-    },
-    {
-        path: 'event/:slug/:invite_guid',
-        data: { layout: PageLayout.Blank, titleKey: 'Registro' },
-        title: CustomTitleResolver,
-        loadComponent: async () => (await import('@pages/share/event-registration/event-registration.component')).EventRegistrationComponent,
-        canMatch: [authGuard({ requiresAuthentication: false })],
     },
     {
         path: ':slug/:invite_guid',

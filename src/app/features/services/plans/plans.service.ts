@@ -3,6 +3,7 @@ import { Observable, forkJoin, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {
   ACTIVITY_CITIES_URL,
+  ACTIVITY_CODE_DATA_URL,
   ADD_GROUP_PLAN_COMMENT_REACTION_URL,
   ADD_GROUP_PLAN_COMMENT_REPLY_URL,
   ADD_GROUP_PLAN_COMMENT_URL,
@@ -15,6 +16,7 @@ import {
   CLEAR_PLAN_CONFIRMATION_URL,
   CLEAR_PLAN_PARTICIPANT_ATTENDANCE_URL,
   CLUB_PLAN_DELETE_URL,
+  CONFIRM_ATTENDANCE_URL,
   CONFIRM_PARTICIPANT_ATTENDANCE_URL,
   CONFIRM_PARTICIPANT_URL,
   CONFIRM_PLAN_PARTICIPANT_ATTENDANCE_URL,
@@ -862,6 +864,19 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
   companyRegisterInvite(payload): Observable<any> {
     return this._http.post(PLAN_GUEST_REGISTRATION_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getActivityCodeData(eventId, eventTypeId, userGuid): Observable<any> {
+    return this._http.get(`${ACTIVITY_CODE_DATA_URL}/${eventId}/${eventTypeId}/${userGuid}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  confirmAttendance(payload): Observable<any> {
+    return this._http.post(CONFIRM_ATTENDANCE_URL,
         payload,
         { headers: this.headers }
     ).pipe(map(res => res));
