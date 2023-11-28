@@ -1453,7 +1453,8 @@
         "waitinglist": "Warteliste",
         "downloadwaitinglist": "Warteliste herunterladen",
         "renewal": "Verlängerungsdatum",
-        "activitycode": "Aktivitätscode"
+        "activitycode": "Aktivitätscode",
+        "numberofcredits": "Anzahl der Credits"
     },
     "edit-club": {
         "uploadimage": "Bild hochladen",

@@ -155,6 +155,9 @@ export class MenuService {
     let subfeatures = this._http.get(
       `${MEMBERS_ONLY_SETTINGS_URL}/${companyId}`
     );
+    let plan_subfeatures = this._http.get(
+      `${SUBFEATURES_URL}/1/${companyId}`
+    );
     let permissions = this._http.get(
       `${CUSTOM_MEMBER_TYPE_PERMISSIONS_URL}/${memberTypeId}/${companyId}`
     );
@@ -181,6 +184,7 @@ export class MenuService {
       course_tutors,
       company_course_exception_user,
       courses,
+      plan_subfeatures,
     ]);
   }
 

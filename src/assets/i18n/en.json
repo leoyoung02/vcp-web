@@ -1458,7 +1458,8 @@
         "waitinglist": "Waiting list",
         "downloadwaitinglist": "Download waiting list",
         "renewal": "Renewal date",
-        "activitycode": "Activity code"
+        "activitycode": "Activity code",
+        "numberofcredits": "Number of credits"
     },
     "edit-club": {
         "uploadimage": "Upload image",

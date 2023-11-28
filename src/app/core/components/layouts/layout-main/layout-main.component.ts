@@ -156,6 +156,7 @@ export class LayoutMainComponent {
   creditPackages: any;
   navigationSubscription: any;
   isWall: boolean = false;
+  hasCredits: any;
 
   constructor(
     private _router: Router,
@@ -564,6 +565,14 @@ export class LayoutMainComponent {
       if(this.separateCourseCredits && this.userId > 0) {
         this.getUserCourseCredits();
       }
+    }
+  }
+
+  async mapPlanSubfeatures(plan_subfeatures) {
+    if (plan_subfeatures?.length > 0) {
+      this.hasCredits = plan_subfeatures.some(
+        (a) => (a.name_en == "Credits" || a.subfeature_id == 149) && a.active == 1
+      );
     }
   }
 
@@ -1354,11 +1363,16 @@ export class LayoutMainComponent {
               ? data[7]["company_course_exception_user"]
               : [];
             this.courses = data[8] ? data[8]["courses"] : [];
+            let plan_subfeatures = data[9] ? data[9]["subfeatures"] : [];
+            let planFeature = this.features?.find((f) => f.id == 1);
+            if(planFeature?.id > 0) { 
+              this.mapPlanSubfeatures(plan_subfeatures);
+            }
             this.proceedMenuItems(
               company_subfeatures,
               permissions,
               subfeatureMapping,
-              course_subfeatures
+              course_subfeatures,
             );
           });
       } else {
@@ -1430,7 +1444,7 @@ export class LayoutMainComponent {
     company_subfeatures,
     permissions,
     subfeatureMapping,
-    course_subfeatures
+    course_subfeatures,
   ) {
     if (this.features?.length === 0) {
       return;

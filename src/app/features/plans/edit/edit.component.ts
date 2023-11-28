@@ -264,6 +264,7 @@ export class PlanEditComponent {
   waitingListCancelButtonTextEn: any;
   waitingListCancelButtonTextEs: any;
   credits: boolean = false;
+  creditsValue: any = 0;
 
   hasEmailInvite: boolean = false;
   emailInviteQuestions: any;
@@ -1059,6 +1060,7 @@ export class PlanEditComponent {
       youtube_link,
       youtube_link_text,
       credits,
+      credits_value,
       draft,
       repeat_event,
       parent_event_id,
@@ -1214,6 +1216,7 @@ export class PlanEditComponent {
     this.isStripePayment =
       this.activityFeeEnabled && stripe_pay == 1 ? true : false;
     this.credits = credits == 1 ? true : false;
+    this.creditsValue = credits_value;
     this.featured = featured == 1 ? true : false;
     (this.isExternalRegistration = external_registration == 1 ? true : false),
       (this.requestDNI = request_dni == 1 ? true : false);
@@ -1775,6 +1778,7 @@ export class PlanEditComponent {
     this.plan["waiting_list"] =
       this.waitingListActive && this.waitingListEnabled ? 1 : 0;
     this.plan["credits"] = this.credits ? 1 : 0;
+    this.plan["credits_value"] = this.creditsValue || null;
     this.plan["featured"] = this.featured ? 1 : 0;
     this.plan["require_approval"] = require_approval ? 1 : 0;
     this.plan["external_registration"] = this.isExternalRegistration ? 1 : 0;
