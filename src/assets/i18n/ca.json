@@ -3329,6 +3329,13 @@
         "whatsappcommunityurl": "URL de la comunitat de WhatsApp",
         "contains": "conté",
         "equals": "igual",
-        "notequals": "no és igual"
+        "notequals": "no és igual",
+        "locations": "Ubicacions",
+        "themeoptions": "Opcions del tema",
+        "layout": "Disposició",
+        "fullwidth": "Ample total",
+        "boxed": "Encaixat",
+        "backgroundcolor": "Color de fons",
+        "textcolor": "Color del text"
     }
 }

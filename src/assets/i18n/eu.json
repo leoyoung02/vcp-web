@@ -3319,6 +3319,13 @@
         "whatsappcommunityurl": "WhatsApp Komunitatearen URLa",
         "contains": "dauka",
         "equals": "berdin",
-        "notequals": "ez da berdina"
+        "notequals": "ez da berdina",
+        "locations": "Kokapenak",
+        "themeoptions": "Gaiaren aukerak",
+        "layout": "Diseinua",
+        "fullwidth": "Zabalera osoa",
+        "boxed": "Boxed",
+        "backgroundcolor": "Hondoren kolorea",
+        "textcolor": "Testuaren kolorea"
     }
 }

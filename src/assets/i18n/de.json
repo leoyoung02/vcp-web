@@ -3318,6 +3318,13 @@
         "whatsappcommunityurl": "WhatsApp-Community-URL",
         "enthält": "enthält",
         "equals": "gleich",
-        "notequals": "nicht gleich"
+        "notequals": "nicht gleich",
+        "locations": "Standorte",
+        "themeoptions": "Themenoptionen",
+        "layout": "Layout",
+        "fullwidth": "Volle Breite",
+        "boxed": "Boxed",
+        "backgroundcolor": "Hintergrundfarbe",
+        "textcolor": "Couleur du texte"
     }
 }

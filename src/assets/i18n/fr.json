@@ -3315,6 +3315,13 @@
         "whatsappcommunityurl": "URL de la communauté WhatsApp",
         "contains": "contient",
         "equals": "égal",
-        "notequals": "pas égal"
+        "notequals": "pas égal",
+        "locations": "Emplacements",
+        "themeoptions": "Options du thème",
+        "layout": "Mise en page",
+        "fullwidth": "Pleine largeur",
+        "boxed": "En boîte",
+        "backgroundcolor": "Couleur d'arrière-plan",
+        "textcolor": "Couleur du texte"
     }
 }

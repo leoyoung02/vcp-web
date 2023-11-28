@@ -32,7 +32,7 @@ import { initFlowbite } from "flowbite";
 import get from "lodash/get";
 
 @Component({
-  selector: "app-settings-lead-landing-pages",
+  selector: "app-settings-lead-locations",
   standalone: true,
   imports: [
     CommonModule,
@@ -48,9 +48,9 @@ import get from "lodash/get";
     PageTitleComponent,
     ToastComponent,
   ],
-  templateUrl: "./landing-pages.component.html",
+  templateUrl: "./locations.component.html",
 })
-export class LandingPagesComponent {
+export class LocationsComponent {
   private destroy$ = new Subject<void>();
 
   @Input() list: any;
@@ -73,14 +73,13 @@ export class LandingPagesComponent {
   domain: any;
   mode: any;
   formSubmitted: boolean = false;
-  landingPagesForm = new FormGroup({
-    title: new FormControl("", [Validators.required]),
-    description: new FormControl(""),
+  locationForm = new FormGroup({
+    location: new FormControl("", [Validators.required])
   });
   pageSize: number = 10;
   pageIndex: number = 0;
   dataSource: any;
-  displayedColumns = ["title", "location", "action"];
+  displayedColumns = ["location", "action"];
   showConfirmationModal: boolean = false;
   selectedItem: any;
   confirmDeleteItemTitle: any;
@@ -98,14 +97,15 @@ export class LandingPagesComponent {
     | ElementRef
     | undefined;
   searchKeyword: any;
-  landingPages: any = [];
-  allLandingPages: any = [];
+  locations: any = [];
+  allLocations: any = [];
   title: any;
   description: any;
   selectedLocation: any = '';
   questionLocations: any = [];
   selectedId: any;
   selectedItemId: any;
+  location: any;
 
   constructor(
     private _router: Router,
@@ -160,7 +160,7 @@ export class LandingPagesComponent {
     initFlowbite();
     this.initializeBreadcrumb();
     this.initializeSearch();
-    this.getLandingPages();
+    this.getLocations();
   }
 
   initializeBreadcrumb() {
@@ -171,7 +171,7 @@ export class LandingPagesComponent {
       "company-settings.channels"
     );
     this.level3Title = "Leads";
-    this.level4Title = this._translateService.instant("leads.landingpages");
+    this.level4Title = this._translateService.instant("leads.locations");
   }
 
   initializeSearch() {
@@ -181,16 +181,15 @@ export class LandingPagesComponent {
     );
   }
 
-  async getLandingPages() {
+  async getLocations() {
     this._companyService
-      .getLeadsLandingPages(this.companyId, this.userId)
+      .getLeadsLocations(this.companyId, this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (response) => {
-          this.questionLocations = response.question_locations;
-          this.formatLandingPages(response.landing_pages);
-          this.allLandingPages = this.landingPages;
-          this.refreshTable(this.landingPages);
+          this.locations = response.locations;
+          this.allLocations = this.locations;
+          this.refreshTable(this.locations);
           this.isloading = false;
         },
         (error) => {
@@ -199,35 +198,8 @@ export class LandingPagesComponent {
       );
   }
 
-  formatLandingPages(landing_pages) {
-    landing_pages = landing_pages?.map((item) => {
-      return {
-        ...item,
-        id: item?.id,
-        location: this.getLocation(item?.location_id),
-      };
-    });
-
-    this.landingPages = landing_pages;
-  }
-
-  getLocation(id) {
-    let location = ''
-    if(this.questionLocations?.length > 0) {
-      let loc = this.questionLocations?.filter(l => {
-        return l.id == id
-      })
-      if(loc?.length > 0) {
-        location = loc[0].location;
-      }
-    }
-
-    return location
-  }
-
   create() {
-    this.landingPagesForm.controls["title"].setValue("");
-    this.landingPagesForm.controls["description"].setValue("");
+    this.locationForm.controls["location"].setValue("");
 
     this.mode = "add";
     this.formSubmitted = false;
@@ -239,18 +211,18 @@ export class LandingPagesComponent {
     this.pageIndex = 0;
     this.pageSize = 10;
     this.searchKeyword = event;
-    this.landingPages = this.filterLandingPages();
-    this.refreshTable(this.landingPages);
+    this.locations = this.filterLocations();
+    this.refreshTable(this.locations);
   }
 
-  filterLandingPages() {
-    let landingPages = this.allLandingPages;
-    if (landingPages?.length > 0 && this.searchKeyword) {
-      return landingPages.filter((m) => {
+  filterLocations() {
+    let locations = this.allLocations;
+    if (locations?.length > 0 && this.searchKeyword) {
+      return locations.filter((m) => {
         let include = false;
         if (
-          m.title &&
-          m.title.toLowerCase()
+          m.location &&
+          m.location.toLowerCase()
           .normalize("NFD")
           .replace(/\p{Diacritic}/gu, "")
           .indexOf(
@@ -266,7 +238,7 @@ export class LandingPagesComponent {
         return include;
       });
     } else {
-      return landingPages;
+      return locations;
     }
   }
 
@@ -304,7 +276,7 @@ export class LandingPagesComponent {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.dataSource = new MatTableDataSource(
-      this.landingPages.slice(
+      this.locations.slice(
         event.pageIndex * event.pageSize,
         (event.pageIndex + 1) * event.pageSize
       )
@@ -316,7 +288,7 @@ export class LandingPagesComponent {
     }
   }
 
-  deleteLandingPage(item) {
+  deleteLocation(item) {
     this.showConfirmationModal = false;
     this.confirmDeleteItemTitle = this._translateService.instant(
       "dialog.confirmdelete"
@@ -330,19 +302,19 @@ export class LandingPagesComponent {
   }
 
   confirm() {
-    this._companyService.deleteLeadsLandingPage(this.selectedItem).subscribe(
+    this._companyService.deleteLeadsLocation(this.selectedItem).subscribe(
       (response) => {
-        this.landingPages.forEach((cat, index) => {
+        this.locations.forEach((cat, index) => {
           if (cat.id == this.selectedItem) {
-            this.landingPages.splice(index, 1);
+            this.locations.splice(index, 1);
           }
         });
-        this.allLandingPages.forEach((cat, index) => {
+        this.allLocations.forEach((cat, index) => {
           if (cat.id == this.selectedItem) {
-            this.allLandingPages.splice(index, 1);
+            this.allLocations.splice(index, 1);
           }
         });
-        this.refreshTable(this.landingPages);
+        this.refreshTable(this.locations);
         this.open(
           this._translateService.instant("dialog.deletedsuccessfully"),
           ""
@@ -359,22 +331,19 @@ export class LandingPagesComponent {
     this.formSubmitted = true;
 
     if (
-      this.landingPagesForm.get("title")?.errors
+      this.locationForm.get("location")?.errors
     ) {
       return false;
     }
 
     let params = {
-      title: this.landingPagesForm.get("title")?.value,
-      description: this.landingPagesForm.get("description")?.value,
+      location: this.locationForm.get("location")?.value,
       company_id: this.companyId,
-      location_id: this.selectedLocation,
-      category: 'Leads',
       created_by: this.userId,
     };
 
     if (this.mode == "add") {
-      this._companyService.addLeadsLandingPage(params).subscribe(
+      this._companyService.addLeadsLocation(params).subscribe(
         (response) => {
           this.closemodalbutton0?.nativeElement.click();
           this.open(
@@ -382,7 +351,7 @@ export class LandingPagesComponent {
             ""
           );
           setTimeout(() => {
-            this.getLandingPages();
+            this.getLocations();
           }, 500);
         },
         (error) => {
@@ -390,14 +359,14 @@ export class LandingPagesComponent {
         }
       );
     } else if (this.mode == "edit") {
-      this._companyService.editLeadsLandingPage(this.selectedId, params).subscribe(
+      this._companyService.editLeadsLocation(this.selectedId, params).subscribe(
         (response) => {
           this.closemodalbutton0?.nativeElement.click();
           this.open(
             this._translateService.instant("dialog.savedsuccessfully"),
             ""
           );
-          this.getLandingPages();
+          this.getLocations();
         },
         (error) => {
           console.log(error);
@@ -406,21 +375,16 @@ export class LandingPagesComponent {
     }
   }
 
-  editLandingPage(item) {
+  editLocation(item) {
     this.selectedId = item.id;
-    this.title = item.title;
+    this.location = item.location;
     this.description = item.description;
     this.selectedLocation = item.location_id || '';
 
-    this.landingPagesForm.controls["title"].setValue(this.title);
-    this.landingPagesForm.controls["description"].setValue(this.description);
+    this.locationForm.controls["location"].setValue(this.location);
 
     this.mode = "edit";
     this.modalbutton0?.nativeElement.click();
-  }
-
-  editLandingPageTemplate(item) {
-    this._router.navigate([`/settings/leads/landing-page/template/${item?.id}`])
   }
 
   handleGoBack() {
