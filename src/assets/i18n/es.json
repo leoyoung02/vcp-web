@@ -1457,7 +1457,8 @@
         "waitinglist": "Lista de espera",
         "downloadwaitinglist": "Descargar lista de espera",
         "renewal": "Fecha de renovación",
-        "activitycode": "Código de la actividad"
+        "activitycode": "Código de la actividad",
+        "numberofcredits": "Número de créditos"
     },
     "edit-club": {
         "uploadimage": "Cargar imagen",

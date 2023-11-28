@@ -9,6 +9,7 @@ import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "@env/environment";
+import moment from "moment";
 import get from 'lodash/get';
 
 @Component({
@@ -25,6 +26,8 @@ import get from 'lodash/get';
     templateUrl: './my-credits.component.html',
 })
 export class MyCreditsComponent {
+    @Input() mode: any;
+
     userId: any
     companyId: any
     language: any
@@ -52,6 +55,7 @@ export class MyCreditsComponent {
     userCourseCredits: any;
     pageTitle: any;
     isLoading: boolean = false;
+    userTotalCredits: number = 0;
     @ViewChild(MatSort, { static: false }) sort: MatSort | undefined;
 
     constructor(
@@ -88,7 +92,11 @@ export class MyCreditsComponent {
         if(this.companyId == 52) {
             this.userCreditsDisplayedColumns = ['credit_package_name', 'credits', 'course', 'price', 'created_at', 'status']
         } else {
-            this.userCreditsDisplayedColumns = ['credit_package_name', 'credits', 'price', 'created_at', 'status']
+            if(this.mode == 'activities') {
+                this.userCreditsDisplayedColumns = [ 'plan', 'credits', 'created_at', 'status']
+            } else {
+                this.userCreditsDisplayedColumns = ['credit_package_name', 'credits', 'price', 'created_at', 'status']
+            }
         }
           
         this.features = this._localService.getLocalStorage(environment.lsfeatures) ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures)) : ''
@@ -114,28 +122,37 @@ export class MyCreditsComponent {
     }
 
     getSettings() {
-        this._userService.getCombinedCreditsPrefetch(this.companyId, this.featureId, this.courseFeatureId, this.userId).subscribe(data => {
-            let subfeatures = data[0] ? data[0]['subfeatures'] : []
-            let courseSubfeatures = data[1] ? data[1]['subfeatures'] : []
-            this.mapSubfeatures(subfeatures, courseSubfeatures)
-            
-            this.packages = data[2] ? data[2]['credit_packages'] : []
-            this.packages = this.packages?.filter(cp => {
-                return cp.status == 1
+        if(this.mode == 'activities') {
+            this._userService.getUserCreditLogs(this.userId).subscribe(data => {
+                this.formatUserCreditLogs(data?.user_credit_logs);
+                this.populateUserCreditsTable()
+            }, error => {
+                console.log(error)
             })
-        
-            this.courses = data[3] ? data[3]['courses'] : []
-            this.userCredits = data[4] ? data[4]['user_credits'] : []
-            this.user = data[4] ? data[4]['user'] : []
-        
-            this.userCourseCredits = data[5] ? data[5]['user_course_credits'] : []
-            this.populateUserCreditsTable()
-        }, error => {
-            console.log(error)
-        })
+        } else {
+            this._userService.getCombinedCreditsPrefetch(this.companyId, this.featureId, this.courseFeatureId, this.userId).subscribe(data => {
+                let subfeatures = data[0] ? data[0]['subfeatures'] : []
+                let courseSubfeatures = data[1] ? data[1]['subfeatures'] : []
+                this.mapSubfeatures(subfeatures, courseSubfeatures)
+                
+                this.packages = data[2] ? data[2]['credit_packages'] : []
+                this.packages = this.packages?.filter(cp => {
+                    return cp.status == 1
+                })
+            
+                this.courses = data[3] ? data[3]['courses'] : []
+                this.userCredits = data[4] ? data[4]['user_credits'] : []
+                this.user = data[4] ? data[4]['user'] : []
+            
+                this.userCourseCredits = data[5] ? data[5]['user_course_credits'] : []
+                this.populateUserCreditsTable()
+            }, error => {
+                console.log(error)
+            })
+        }
       }
     
-      async mapSubfeatures(subfeatures, courseSubfeatures) {
+    async mapSubfeatures(subfeatures, courseSubfeatures) {
         if(subfeatures?.length > 0) {
             this.separateCourseCredits = subfeatures.some(a => a.name_en == 'Separate credits by course' && a.active == 1)
         }
@@ -143,7 +160,32 @@ export class MyCreditsComponent {
         if(courseSubfeatures?.length > 0) {
             this.hasDifferentStripeAccount = courseSubfeatures.some(a => a.name_en == 'Different Stripe accounts' && a.active == 1)
         }
-      }
+    }
+
+    formatUserCreditLogs(user_credit_logs) {
+        user_credit_logs = user_credit_logs?.map((item) => {
+            return {
+              ...item,
+              id: item?.id,
+              plan: this.getPlanTitle(item),
+            };
+        });
+      
+        if(user_credit_logs?.length > 0) {
+            user_credit_logs?.forEach(log => {
+                this.userTotalCredits += parseInt(log.credits || 0)
+            })
+        }
+        this.userCredits = user_credit_logs;
+    }
+
+    getPlanTitle(row) {
+        return row ? this.language == 'en' ? (row.title_en || row.title) : (this.language == 'fr' ? (row.title_fr || row.title) : 
+          (this.language == 'eu' ? (row.title_eu || row.title) : (this.language == 'ca' ? (row.title_ca || row.title) : 
+          (this.language == 'de' ? (row.title_de || row.title) : row.title)
+          ))
+        ) : ''
+    }
     
     populateUserCreditsTable() {
         this.packagesDataSource = new MatTableDataSource(this.userCredits)
@@ -198,5 +240,5 @@ export class MyCreditsComponent {
         return course ? this.language == 'en' ? (course.title_en ? (course.title_en || course.title) : course.title) :
         (this.language == 'fr' ? (course.title_fr ? (course.title_fr || course.title) : course.title) : 
             course.title) : ''
-      }
+    }
 }

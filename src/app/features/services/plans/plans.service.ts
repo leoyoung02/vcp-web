@@ -631,6 +631,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'waiting_list', planForm.waiting_list );
     formData.append( 'stripe_pay', planForm.stripe_pay ? planForm.stripe_pay : 0 );
     formData.append( 'credits', planForm.credits );
+    formData.append( 'credits_value', planForm.credits_value );
     formData.append( 'featured', planForm.featured );
     formData.append( 'require_approval', planForm.require_approval );
     formData.append( 'external_registration', planForm.external_registration );
@@ -814,6 +815,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'waiting_list', planForm.waiting_list );
     formData.append( 'stripe_pay', planForm.stripe_pay ? planForm.stripe_pay : 0 );
     formData.append( 'credits', planForm.credits );
+    formData.append( 'credits_value', planForm.credits_value );
     formData.append( 'featured', planForm.featured );
     formData.append( 'external_registration', planForm.external_registration );
     formData.append( 'request_dni', planForm.request_dni );

@@ -70,6 +70,7 @@ export class UserMenuComponent {
   @Input() userCourseCredits: any;
   @Input() courses: any;
   @Input() creditPackages: any;
+  @Input() hasCredits: any;
   @Output() changeLanguage = new EventEmitter();
 
   companyName: any;

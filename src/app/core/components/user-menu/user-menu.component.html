@@ -121,7 +121,15 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="hasAccess('tutors') && hasCreditSetting && hasCreditPackageSetting && !(isTutorUser || superTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0)">
-                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/users/my-credits']">
+                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/users/my-credits/tutors']">
+                            <div>
+                                <img src="./assets/images/icons/credits.png" class="w-[28px] pr-2" />
+                            </div>
+                            <div class="pl-[5px]">{{ "credit-package.mycredits" | translate }}</div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="hasAccess('plans') && hasCredits">
+                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/users/my-credits/activities']">
                             <div>
                                 <img src="./assets/images/icons/credits.png" class="w-[28px] pr-2" />
                             </div>

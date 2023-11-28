@@ -1454,7 +1454,8 @@
         "waitinglist": "Itxaron zerrenda",
         "downloadwaitinglist": "Deskargatu itxaron zerrenda",
         "renewal": "Berritze data",
-        "activitycode": "Jarduera kodea"
+        "activitycode": "Jarduera kodea",
+        "numberofcredits": "Kreditu kopurua"
     },
     "edit-club": {
         "uploadimage": "Igo irudia",
