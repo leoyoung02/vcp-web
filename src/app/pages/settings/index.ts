@@ -89,7 +89,19 @@ export const routes: Routes = [
     {
         path: 'leads/landing-pages',
         title: CustomTitleResolver,
-        data: { titleKey: 'leads.pages'},
+        data: { titleKey: 'leads.landingpages'},
         loadComponent: async () => (await import('./landing-pages/landing-pages.component')).LandingPagesComponent,
+    },
+    {
+        path: 'leads/locations',
+        title: CustomTitleResolver,
+        data: { titleKey: 'leads.locations'},
+        loadComponent: async () => (await import('./locations/locations.component')).LocationsComponent,
+    },
+    {
+        path: 'leads/landing-page/template/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'settings.template'},
+        loadComponent: async () => (await import('./landing-page-template/landing-page-template.component')).LandingPageTemplateComponent,
     },
 ];

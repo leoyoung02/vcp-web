@@ -118,6 +118,15 @@ import {
   EDIT_LEADS_QUESTION_RULE_URL,
   DELETE_LEADS_QUESTION_RULE_URL,
   LEADS_LANDING_PAGES_URL,
+  CREATE_LEADS_LANDING_PAGE_URL,
+  EDIT_LEADS_LANDING_PAGE_URL,
+  DELETE_LEADS_LANDING_PAGE_URL,
+  LEADS_LOCATIONS_URL,
+  CREATE_LEADS_LOCATION_URL,
+  EDIT_LEADS_LOCATION_URL,
+  DELETE_LEADS_LOCATION_URL,
+  LEADS_LANDING_PAGE_DETAILS_URL,
+  EDIT_LEADS_LANDING_PAGE_DETAILS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1057,6 +1066,67 @@ export class CompanyService {
   getLeadsLandingPages(companyId, userId): Observable<any> {
     return this._http.get(`${LEADS_LANDING_PAGES_URL}/${companyId}/${userId}`,
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addLeadsLandingPage(payload): Observable<any> {
+    return this._http.post(
+      CREATE_LEADS_LANDING_PAGE_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editLeadsLandingPage(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_LEADS_LANDING_PAGE_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteLeadsLandingPage(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_LEADS_LANDING_PAGE_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  getLeadsLocations(companyId, userId): Observable<any> {
+    return this._http.get(`${LEADS_LOCATIONS_URL}/${companyId}/${userId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addLeadsLocation(payload): Observable<any> {
+    return this._http.post(
+      CREATE_LEADS_LOCATION_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editLeadsLocation(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_LEADS_LOCATION_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteLeadsLocation(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_LEADS_LOCATION_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  getLeadsLandingPageDetails(id, companyId, userId): Observable<any> {
+    return this._http.get(`${LEADS_LANDING_PAGE_DETAILS_URL}/${id}/${userId}/${companyId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editLeadsLandingPageDetails(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_LEADS_LANDING_PAGE_DETAILS_URL}/${id}`,
+      payload,
     ).pipe(map(res => res));
   }
 }
