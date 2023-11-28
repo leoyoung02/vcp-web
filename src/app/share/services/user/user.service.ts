@@ -541,14 +541,14 @@ export class UserService {
     );
   }
 
-  getUserCreditLogs(id): Observable<any> {
-    return this._http.get(`${USER_CREDIT_LOGS_URL}/${id}`, 
+  getUserGeolocation(): Observable<any> {
+    return this._http.get(`${API_GELOCATION_URL}`, 
     { headers: this.headers }
     ).pipe(map(res => res));
   }
-  
-  getUserGeolocation(): Observable<any> {
-    return this._http.get(`${API_GELOCATION_URL}`, 
+
+  getUserCreditLogs(id): Observable<any> {
+    return this._http.get(`${USER_CREDIT_LOGS_URL}/${id}`, 
       { headers: this.headers }
     ).pipe(map(res => res));
   }
