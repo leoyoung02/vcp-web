@@ -48,6 +48,10 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'buddy.location' | translate }} </mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="location"> {{ row.location }}</mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="slug">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Slug </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="slug"> {{ row.slug }}</mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'customer.action' | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="action" class="flex;">
@@ -111,6 +115,17 @@
                                 [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && locationForm.get('location')?.errors }"
                                 placeholder="{{ 'buddy.location' | translate }}*"
                                 formControlName="location"
+                                required
+                            />
+                        </div>
+                        <div class="mt-8 mb-2 relative">
+                            <label for="slug" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Slug</label>
+                            <input
+                                id="slug"
+                                class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && locationForm.get('slug')?.errors }"
+                                placeholder="Slug*"
+                                formControlName="slug"
                                 required
                             />
                         </div>

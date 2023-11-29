@@ -746,8 +746,8 @@ export class MainComponent {
             value: "Wall",
           },
           {
-            text: "Leads",
-            value: "Leads",
+            text: "TikTok",
+            value: "TikTok",
           },
         ],
       },

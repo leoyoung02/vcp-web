@@ -127,6 +127,9 @@ import {
   DELETE_LEADS_LOCATION_URL,
   LEADS_LANDING_PAGE_DETAILS_URL,
   EDIT_LEADS_LANDING_PAGE_DETAILS_URL,
+  LEADS_LANDING_PAGE_BY_SLUG_URL,
+  QUESTIONS_URL,
+  SUBMIT_QUESTION_ANSWERS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1126,6 +1129,25 @@ export class CompanyService {
   editLeadsLandingPageDetails(id, payload): Observable<any> {
     return this._http.put(
       `${EDIT_LEADS_LANDING_PAGE_DETAILS_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  getLandingPageBySlug(slug): Observable<any> {
+    return this._http.get(`${LEADS_LANDING_PAGE_BY_SLUG_URL}/${slug}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getLandingQuestions(country): Observable<any> {
+    return this._http.get(`${QUESTIONS_URL}/${country}`, 
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  submitAnswerToQuestions(payload) {
+    return this._http.post(
+      SUBMIT_QUESTION_ANSWERS_URL,
       payload,
     ).pipe(map(res => res));
   }

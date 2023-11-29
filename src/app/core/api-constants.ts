@@ -1,5 +1,6 @@
 import { environment } from '@env/environment';
 
+export const API_GELOCATION_URL = 'https://ipgeolocation.abstractapi.com/v1/?api_key=13f0e7d101ec49b4ab0b523339f66577';
 export const API_BASE = environment.api;
 
 // PLATFORMS
@@ -519,3 +520,6 @@ export const LEADS_LOCATIONS_URL = `${API_BASE}/v2/locations`;
 export const CREATE_LEADS_LOCATION_URL = `${API_BASE}/v2/location/add`;
 export const EDIT_LEADS_LOCATION_URL = `${API_BASE}/v2/location/edit`;
 export const DELETE_LEADS_LOCATION_URL = `${API_BASE}/v2/location/delete`;
+export const LEADS_LANDING_PAGE_BY_SLUG_URL = `${API_BASE}/v2/landing-page`;
+export const QUESTIONS_URL = `${API_BASE}/v2/landing-questions`;
+export const SUBMIT_QUESTION_ANSWERS_URL = `${API_BASE}/v2/landing-questions/answers/submit`;

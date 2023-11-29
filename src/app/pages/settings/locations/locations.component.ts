@@ -74,12 +74,13 @@ export class LocationsComponent {
   mode: any;
   formSubmitted: boolean = false;
   locationForm = new FormGroup({
-    location: new FormControl("", [Validators.required])
+    location: new FormControl("", [Validators.required]),
+    slug: new FormControl("", [Validators.required])
   });
   pageSize: number = 10;
   pageIndex: number = 0;
   dataSource: any;
-  displayedColumns = ["location", "action"];
+  displayedColumns = ["location", "slug", "action"];
   showConfirmationModal: boolean = false;
   selectedItem: any;
   confirmDeleteItemTitle: any;
@@ -106,6 +107,7 @@ export class LocationsComponent {
   selectedId: any;
   selectedItemId: any;
   location: any;
+  slug: any;
 
   constructor(
     private _router: Router,
@@ -170,7 +172,7 @@ export class LocationsComponent {
     this.level2Title = this._translateService.instant(
       "company-settings.channels"
     );
-    this.level3Title = "Leads";
+    this.level3Title = "TikTok";
     this.level4Title = this._translateService.instant("leads.locations");
   }
 
@@ -200,6 +202,7 @@ export class LocationsComponent {
 
   create() {
     this.locationForm.controls["location"].setValue("");
+    this.locationForm.controls["slug"].setValue("");
 
     this.mode = "add";
     this.formSubmitted = false;
@@ -331,13 +334,15 @@ export class LocationsComponent {
     this.formSubmitted = true;
 
     if (
-      this.locationForm.get("location")?.errors
+      this.locationForm.get("location")?.errors ||
+      this.locationForm.get("slug")?.errors
     ) {
       return false;
     }
 
     let params = {
       location: this.locationForm.get("location")?.value,
+      slug: this.locationForm.get("slug")?.value,
       company_id: this.companyId,
       created_by: this.userId,
     };
@@ -378,10 +383,12 @@ export class LocationsComponent {
   editLocation(item) {
     this.selectedId = item.id;
     this.location = item.location;
+    this.slug = item.slug;
     this.description = item.description;
     this.selectedLocation = item.location_id || '';
 
     this.locationForm.controls["location"].setValue(this.location);
+    this.locationForm.controls["slug"].setValue(this.slug);
 
     this.mode = "edit";
     this.modalbutton0?.nativeElement.click();

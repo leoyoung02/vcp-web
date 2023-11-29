@@ -203,7 +203,7 @@ export class QuestionnairesComponent {
     this.level2Title = this._translateService.instant(
       "company-settings.channels"
     );
-    this.level3Title = "Leads";
+    this.level3Title = "TikTok";
     this.level4Title = this._translateService.instant("leads.questionnaires");
   }
 
@@ -431,7 +431,10 @@ export class QuestionnairesComponent {
     this.description = item.description;
     this.selectedLocation = item.location_id || '';
     this.formatQuestionItems(item.items);
-    this.rules = item.question_rules;
+    
+    this.rules = item?.question_rules?.filter(qr => {
+      return qr.question_id == item.id
+    });
 
     this.questionForm.controls["title"].setValue(this.title);
     this.questionForm.controls["description"].setValue(this.description);
@@ -675,7 +678,7 @@ export class QuestionnairesComponent {
   }
 
   handleDeleteMultipleChoiceOption(option) {
-    this._companyService.deleteLeadsQuestionItem(option.id).subscribe(
+    this._companyService.deleteLeadsQuestionMultipleChoice(option.id).subscribe(
       (response) => {
         this.questionItems.forEach(cat => {
           if(cat?.question_multiple_choice_options) {
@@ -732,6 +735,7 @@ export class QuestionnairesComponent {
           }
           this.selectedQuestionItem = question_item;
           this.multipleChoiceChoice = '';
+          this.multipleChoiceOptionMode = '';
           this.showMultipleChoiceOptionDetails = false;
         },
         (error) => {
@@ -757,6 +761,7 @@ export class QuestionnairesComponent {
           }
           this.selectedQuestionItem = question_item;
           this.multipleChoiceChoice = '';
+          this.multipleChoiceOptionMode = '';
           this.showMultipleChoiceOptionDetails = false;
         },
         (error) => {
