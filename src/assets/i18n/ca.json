@@ -325,7 +325,8 @@
         "updatedni": "Actualitzar el DNI",
         "confirmattendance": "Confirmar l'assistència",
         "confirmedattendance": "Has confirmat correctament la teva assistència",
-        "invalidcode": "Codi no vàlid"
+        "invalidcode": "Codi no vàlid",
+        "youearned": "Enhorabona, t'has guanyat"
     },
     "plan-create": {
         "fillup": "Omple aquest formulari per crear el teu pla",
