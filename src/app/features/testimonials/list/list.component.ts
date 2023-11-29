@@ -160,8 +160,9 @@ export class TestimonialsListComponent {
           this.courses = data?.courses;
           this.tags = data?.tags;
           this.tagMapping = data?.tags_mapping;
-          this.allTestimonials = data?.testimonials;
-          this.formatTestimonials(data?.testimonials);
+          let testimonials = this.shuffleArray(data?.testimonials);
+          this.allTestimonials = testimonials;
+          this.formatTestimonials(testimonials);
           this.initializeButtonGroup();
         },
         (error) => {
@@ -169,6 +170,19 @@ export class TestimonialsListComponent {
         }
       );
   }
+
+  shuffleArray(array) {
+    var m = array.length, t, i;
+ 
+    while (m) {    
+     i = Math.floor(Math.random() * m--);
+     t = array[m];
+     array[m] = array[i];
+     array[i] = t;
+    }
+ 
+   return array;
+ }
 
   mapFeatures(features) {
     this.testimonialsFeature = features?.find((f) => f.feature_id == 23);
