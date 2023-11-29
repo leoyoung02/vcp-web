@@ -771,3 +771,10 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
         height: auto !important;
     }
 }
+
+.rating.color-ok .star-container .star svg,
+.rating.color-negative .star-container .star svg,
+.rating.color-default .star-container .star svg,
+.rating.color-positive .star-container .star svg {
+    fill: #ffc058 !important;
+}
