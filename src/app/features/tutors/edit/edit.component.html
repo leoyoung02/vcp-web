@@ -85,6 +85,20 @@
                 </div>
                 <div class="flex items-center justify-center mb-4 relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
                     <div class="w-full max-w-full">
+                        <label for="pat" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            {{ 'members.personalaccesstoken' | translate }}
+                        </label>
+                        <input 
+                            id="pat"
+                            type="text" 
+                            class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                            [(ngModel)]="tutorPersonalAccessToken"
+                            [ngModelOptions]="{standalone: true}"
+                            placeholder="{{ 'members.personalaccesstoken' | translate }}">
+                    </div>
+                </div>
+                <div class="flex items-center justify-center mb-4 relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                    <div class="-mt-6 w-full max-w-full">
                         <label for="socialmedia" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                             {{'job-offers.language' | translate}}
                         </label>

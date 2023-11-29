@@ -69,7 +69,7 @@
             </app-tutor-card>
         </div>
         <div 
-            class="flex flex-col justify-between pl-[58px]"
+            class="flex flex-col justify-between px-[58px]"
             [ngStyle]="{'background-color': showCalendarSection ? '#f6f6f6' : 'transparent'}"
         >
             <div class="pt-3 text-3xl font-semibold">{{tutor?.name}}</div>
@@ -172,7 +172,7 @@
                 </div>
             </ng-container>
             <app-calendly 
-                *ngIf="canBook() && tutorCalendlyUrl"
+                *ngIf="canBook() && tutorCalendlyUrl && tutorPersonalAccessToken"
                 [buttonColor]="buttonColor"
                 [link]="tutorCalendlyUrl"
                 [tutorUserId]="tutor?.user_id"
@@ -192,7 +192,7 @@
                 [separateRemainingCourseCredits]="separateRemainingCourseCredits"
             >
             </app-calendly>
-            <ng-container *ngIf="!canBook() || !tutorCalendlyUrl">
+            <ng-container *ngIf="!canBook() || !tutorCalendlyUrl || !tutorPersonalAccessToken">
                 <div class="h-full max-h-full flex align-center items-center justify-center">
                     <div class="flex-col">
                         <div class="text-center flex justify-center mb-4">
@@ -203,7 +203,7 @@
                         <div class="capitalize font-bold px-8 text-center">
                             {{ !canBook() ? 
                                 ('course-create.insufficientcredits' | translate) : 
-                                (!tutorCalendlyUrl ? 
+                                (!tutorCalendlyUrl || !tutorPersonalAccessToken ? 
                                     (
                                         ('company-settings.incomplete' | translate) + ' ' + ('landing.calendar' | translate) + ' ' + ('customer.setup' | translate) + '. ' + ('club-details.pleasecontactadministrator' | translate)
                                     ) : ''

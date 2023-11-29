@@ -5,7 +5,7 @@
             'h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]': page != 'list' && page != 'detail',
             'h-full max-h-full sm:h-full sm:max-h-full md:h-[339px] md:max-h-[339px] lg:h-[339px] lg:max-h-[339px]': page == 'list',
             'h-full max-h-full min-h-[559px]': page == 'detail'}">
-    <div class="absolute inset-0 bg-gray-800 opacity-60 rounded-[30px] w-full max-w-full">
+    <div *ngIf="page != 'detail'" class="absolute inset-0 bg-gray-800 opacity-60 rounded-[30px] w-full max-w-full">
     </div>
     <div class="absolute inset-0 flex items-center justify-center" *ngIf="page != 'detail'">
         <div class="absolute inset-0 flex items-end  p-4">

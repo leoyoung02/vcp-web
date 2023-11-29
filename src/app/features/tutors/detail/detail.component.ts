@@ -148,6 +148,7 @@ export class TutorDetailComponent {
   superTutor: boolean = false;
   customMemberTypes: any = [];
   isAdminRole: boolean = false;
+  tutorPersonalAccessToken: any;
 
   constructor(
     private _router: Router,
@@ -338,6 +339,7 @@ export class TutorDetailComponent {
     this.allCoursePackages = data?.company_course_packages;
     this.tutorCalendlyUrl = this.tutor?.calendly_url;
     this.tutorCalendlyUrlFixed = this.tutor?.calendly_url;
+    this.tutorPersonalAccessToken = this.tutor?.personal_access_token;
 
     this.packages = data?.packages;
     let tutorCategory = data?.tutor_types;
@@ -371,9 +373,6 @@ export class TutorDetailComponent {
     }
 
     this.courses = data?.courses;
-
-    console.log('all courses');
-    console.log(this.courses);
 
     this.courseSubscriptions = data?.course_subscriptions;
     this.userCourseCredits = data?.user_course_credits;
@@ -417,9 +416,6 @@ export class TutorDetailComponent {
 
   getUserCourses() {
     let courses = this.courses;
-
-    console.log("user courses");
-    console.log(courses);
 
     let all_courses: any[] = []
     let courseIdArray: any[] = []
@@ -534,8 +530,6 @@ export class TutorDetailComponent {
     this.userCourses = this.userCourses.sort((a, b) => {
       return b.id - a.id
     })
-    console.log("user courses 1")
-    console.log(this.userCourses)
 
     if(this.hasCategoryAccess) {
       this.showCoursesWithAccess()
@@ -667,9 +661,6 @@ export class TutorDetailComponent {
         this.workingCourses.push(this.courses[0])
     }
 
-    console.log("working courses");
-    console.log(this.workingCourses);
-
     let selectedcourse = this.courses[0]
     if(this.workingCourses?.length > 1 && this.userCourses?.length > 0) {
         let course_select = this.courses?.filter(c => {
@@ -710,9 +701,6 @@ export class TutorDetailComponent {
   selectTutorCourse(course) {
     this.selectedWorkingCourse = course || ''
     this._localService.setLocalStorage("selectedWorkingCourse", this.selectedWorkingCourse ? this.selectedWorkingCourse.id : 0);
-
-    console.log("selected working course");
-    console.log(this.selectedWorkingCourse);
 
     this.getRemainingCourseCredits();
 

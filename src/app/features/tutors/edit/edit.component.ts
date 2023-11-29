@@ -91,6 +91,7 @@ export class TutorEditComponent {
   tutorUserLastName: any = ''
   tutorUserCity: any = ''
   tutorUserCalendlyURL: any = ''
+  tutorPersonalAccessToken: any = '';
   tutorUserSinceDate: any = ''
   datePipe = new DatePipe('en-US')
   who_am_i: any
@@ -274,6 +275,7 @@ export class TutorEditComponent {
     this.tutorUserCity = this.tutor.city || '';
     this.who_am_i = this.tutor.description || '';
     this.tutorUserCalendlyURL = this.tutor.calendly_url || '';
+    this.tutorPersonalAccessToken = this.tutor.personal_access_token || '';
     this.tutorlanguages = this.tutor?.languages || '';
     
     this.created = this.tutor.created;
@@ -349,7 +351,6 @@ export class TutorEditComponent {
     if(
       !this.tutorUserId
       || !this.tutorUserCity
-      || !this.who_am_i
     ) {
       this.scrollToTop()
       return false
@@ -376,6 +377,7 @@ export class TutorEditComponent {
       who_am_i_fr: this.who_am_i_fr || this.who_am_i,
       city: this.tutorUserCity,
       calendly_url: this.tutorUserCalendlyURL,
+      calendly_personal_access_token: this.tutorPersonalAccessToken,
       created: created || this.created,
       languages: this.tutorlanguages,
       type_ids : typeIdArray,
