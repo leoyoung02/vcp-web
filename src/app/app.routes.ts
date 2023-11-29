@@ -57,6 +57,12 @@ export const routes: Routes = [
         pathMatch: 'full',
     },
     {
+        path: 'tiktok',
+        data: { layout: PageLayout.Blank },
+        loadChildren: async () => (await import('@pages/tiktok')).routes,
+        canMatch: [authGuard({ requiresAuthentication: false })],
+    },
+    {
         path: '',
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@pages/home')).routes,
