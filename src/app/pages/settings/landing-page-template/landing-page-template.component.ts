@@ -258,7 +258,7 @@ export class LandingPageTemplateComponent {
     this.level2Title = this._translateService.instant(
       "company-settings.channels"
     );
-    this.level3Title = "Leads";
+    this.level3Title = "TikTok";
     this.level4Title = this._translateService.instant("leads.landingpages");
   }
 
