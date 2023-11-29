@@ -325,7 +325,8 @@
         "updatedni": "Actualizar DNI",
         "confirmattendance": "Confirmar asistencia",
         "confirmedattendance": "Has confirmado exitosamente tu asistencia",
-        "invalidcode": "Código no válido"
+        "invalidcode": "Código no válido",
+        "youearned": "Felicitaciones, te lo ganaste"
     },
     "plan-create": {
         "fillup": "Rellena este formulario para crear tu plan",

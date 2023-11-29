@@ -31,6 +31,7 @@ import { provideNgxStripe } from "ngx-stripe";
 import { Meta, Title } from "@angular/platform-browser";
 import { Customer } from "@lib/interfaces";
 import customersData from "src/assets/data/customers.json";
+import { StarRatingModule } from "angular-star-rating";
 
 @Injectable({ providedIn: "root" })
 export class TemplatePageTitleStrategy extends TitleStrategy {
@@ -98,6 +99,9 @@ export const appConfig: ApplicationConfig = {
           deps: [HttpClient],
         },
       })
+    ),
+    importProvidersFrom(
+      StarRatingModule.forRoot()
     ),
     importProvidersFrom(
       HttpCacheInterceptorModule.forRoot({

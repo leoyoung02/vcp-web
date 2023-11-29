@@ -325,7 +325,8 @@
         "updatedni": "Eguneratu DNI",
         "confirmattendance": "Berretsi asistentzia",
         "confirmedattendance": "Zure asistentzia behar bezala baieztatu duzu",
-        "invalidcode": "Kode baliogabea"
+        "invalidcode": "Kode baliogabea",
+        "youearned": "Zorionak, irabazi duzu"
     },
     "plan-create": {
         "fillup": "Bete formulario hau zure plana sortzeko",

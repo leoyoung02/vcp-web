@@ -11,9 +11,15 @@ import { CompanyService, LocalService, UserService } from "@share/services";
 import { environment } from "@env/environment";
 import { FormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { StarRatingModule } from 'angular-star-rating';
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlansService } from "@features/services";
 import { NoAccessComponent } from "@share/components";
+import {
+  ClickEvent,
+  HoverRatingChangeEvent,
+  RatingChangeEvent
+} from 'angular-star-rating';
 
 @Component({
   standalone: true,
@@ -23,6 +29,7 @@ import { NoAccessComponent } from "@share/components";
     TranslateModule, 
     FormsModule, 
     MatSnackBarModule,
+    StarRatingModule,
     NoAccessComponent,
   ],
   templateUrl: "./confirm-attendance.component.html",
@@ -52,6 +59,12 @@ export class ConfirmAttendanceComponent implements OnInit, OnDestroy {
   @ViewChild('inputActivityCode') inputActivityCode: any;
   event: any;
   user: any;
+  rating: any;
+  completedRating: boolean = false;
+
+  onClickResult: ClickEvent | undefined;
+  onHoverRatingChangeResult: HoverRatingChangeEvent | undefined;
+  onRatingChangeResult: RatingChangeEvent | undefined;
 
   constructor(
     private _translateService: TranslateService,
@@ -147,6 +160,49 @@ export class ConfirmAttendanceComponent implements OnInit, OnDestroy {
         (response: any) => {
           if(response) {
             this.confirmedAttendance = true;
+          } else {
+            this.open((this._translateService.instant('dialog.error')), '');
+          }
+        },
+        error => {
+          
+        });
+  }
+
+  onClick = ($event: ClickEvent) => {
+    this.onClickResult = $event;
+  };
+
+  onRatingChange = ($event: RatingChangeEvent) => {
+    this.onRatingChangeResult = $event;
+    this.rating = $event?.rating;
+  };
+
+  onHoverRatingChange = ($event: HoverRatingChangeEvent) => {
+    this.onHoverRatingChangeResult = $event;
+  };
+
+  giveRating() {
+    this.submitted = true;
+
+    if(!this.rating) {
+      return false;
+    }
+
+    let params = {
+      event_id: this.eventId,
+      event_type_id: this.eventTypeId,
+      user_id: this.user?.id,
+      company_id: this.companyId,
+      rating: this.rating,
+    }
+
+    this._plansService.submitActivityRating(params)    
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response: any) => {
+          if(response) {
+            this.completedRating = true;
           } else {
             this.open((this._translateService.instant('dialog.error')), '');
           }

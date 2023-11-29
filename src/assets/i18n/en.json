@@ -325,7 +325,8 @@
         "updatedni": "Update DNI",
         "confirmattendance": "Confirm attendance",
         "confirmedattendance": "You have successfully confirmed your attendance",
-        "invalidcode": "Invalid code"
+        "invalidcode": "Invalid code",
+        "youearned": "Congratulations, you earned"
     },
     "plan-create": {
         "fillup": "Fill out this form to create your plan",
@@ -2724,7 +2725,7 @@
         "paymenttwodayafter": "Payment 2 due after days",
         "videodesc": "Enter video description",
         "coursecredits": "Course Credits",
-        "creditsplaceholder": "Enter the number of crefits for course for booking. (1 credit =  1 booking)",
+        "creditsplaceholder": "Enter the number of credits for course for booking. (1 credit =  1 booking)",
         "remainingcredits": "Remaining Credits",
         "insufficientcredits": "Insufficient Credits",
         "updateCredits": "Do you want to update course credits for the user?",

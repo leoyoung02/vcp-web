@@ -325,7 +325,8 @@
         "updatedni": "DNI aktualisieren",
         "confirmattendance": "Anwesenheit bestätigen",
         "confirmedattendance": "Sie haben Ihre Teilnahme erfolgreich bestätigt",
-        "invalidcode": "Ungültiger Code"
+        "invalidcode": "Ungültiger Code",
+        "youearned": "Herzlichen Glückwunsch, Sie haben es verdient"
     },
     "plan-create": {
         "fillup": "Füllen Sie dieses Formular aus, um Ihren Plan zu erstellen",
