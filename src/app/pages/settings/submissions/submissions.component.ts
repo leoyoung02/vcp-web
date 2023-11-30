@@ -9,15 +9,12 @@ import {
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
-import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import { SearchComponent } from "@share/components/search/search.component";
 import {
   CompanyService,
-  ExcelService,
   LocalService,
-  UserService,
 } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
@@ -29,10 +26,11 @@ import {
   Validators,
 } from "@angular/forms";
 import { initFlowbite } from "flowbite";
+import moment from "moment";
 import get from "lodash/get";
 
 @Component({
-  selector: "app-settings-lead-landing-pages",
+  selector: "app-settings-submissions",
   standalone: true,
   imports: [
     CommonModule,
@@ -48,9 +46,9 @@ import get from "lodash/get";
     PageTitleComponent,
     ToastComponent,
   ],
-  templateUrl: "./landing-pages.component.html",
+  templateUrl: "./submissions.component.html",
 })
-export class LandingPagesComponent {
+export class SubmissionsComponent {
   private destroy$ = new Subject<void>();
 
   @Input() list: any;
@@ -73,20 +71,15 @@ export class LandingPagesComponent {
   domain: any;
   mode: any;
   formSubmitted: boolean = false;
-  landingPagesForm = new FormGroup({
-    title: new FormControl("", [Validators.required]),
-    description: new FormControl(""),
+  locationForm = new FormGroup({
+    location: new FormControl("", [Validators.required]),
+    slug: new FormControl("", [Validators.required])
   });
   pageSize: number = 10;
   pageIndex: number = 0;
   dataSource: any;
-  displayedColumns = ["title", "location", "action"];
-  showConfirmationModal: boolean = false;
+  displayedColumns = ["question_title", "created_at", "country", "whatsapp_community", "action"];
   selectedItem: any;
-  confirmDeleteItemTitle: any;
-  confirmDeleteItemDescription: any;
-  acceptText: string = "";
-  cancelText: any = "";
   @ViewChild(MatPaginator, { static: false }) paginator:
     | MatPaginator
     | undefined;
@@ -98,14 +91,11 @@ export class LandingPagesComponent {
     | ElementRef
     | undefined;
   searchKeyword: any;
-  landingPages: any = [];
-  allLandingPages: any = [];
-  title: any;
-  description: any;
-  selectedLocation: any = '';
-  questionLocations: any = [];
+  submissions: any = [];
+  allSubmissions: any = [];
   selectedId: any;
   selectedItemId: any;
+  questionAnswers: any = [];
 
   constructor(
     private _router: Router,
@@ -160,7 +150,7 @@ export class LandingPagesComponent {
     initFlowbite();
     this.initializeBreadcrumb();
     this.initializeSearch();
-    this.getLandingPages();
+    this.getSubmissions();
   }
 
   initializeBreadcrumb() {
@@ -171,7 +161,7 @@ export class LandingPagesComponent {
       "company-settings.channels"
     );
     this.level3Title = "TikTok";
-    this.level4Title = this._translateService.instant("leads.landingpages");
+    this.level4Title = this._translateService.instant("your-admin-area.submissions");
   }
 
   initializeSearch() {
@@ -181,16 +171,16 @@ export class LandingPagesComponent {
     );
   }
 
-  async getLandingPages() {
+  async getSubmissions() {
     this._companyService
-      .getLeadsLandingPages(this.companyId, this.userId)
+      .getSubmissions(this.companyId, this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (response) => {
-          this.questionLocations = response.question_locations;
-          this.formatLandingPages(response.landing_pages);
-          this.allLandingPages = this.landingPages;
-          this.refreshTable(this.landingPages);
+          console.log(response)
+          this.submissions = response.answers;
+          this.allSubmissions = this.submissions;
+          this.refreshTable(this.submissions);
           this.isloading = false;
         },
         (error) => {
@@ -199,58 +189,22 @@ export class LandingPagesComponent {
       );
   }
 
-  formatLandingPages(landing_pages) {
-    landing_pages = landing_pages?.map((item) => {
-      return {
-        ...item,
-        id: item?.id,
-        location: this.getLocation(item?.location_id),
-      };
-    });
-
-    this.landingPages = landing_pages;
-  }
-
-  getLocation(id) {
-    let location = ''
-    if(this.questionLocations?.length > 0) {
-      let loc = this.questionLocations?.filter(l => {
-        return l.id == id
-      })
-      if(loc?.length > 0) {
-        location = loc[0].location;
-      }
-    }
-
-    return location
-  }
-
-  create() {
-    this.landingPagesForm.controls["title"].setValue("");
-    this.landingPagesForm.controls["description"].setValue("");
-
-    this.mode = "add";
-    this.formSubmitted = false;
-
-    this.modalbutton0?.nativeElement.click();
-  }
-
   handleSearch(event) {
     this.pageIndex = 0;
     this.pageSize = 10;
     this.searchKeyword = event;
-    this.landingPages = this.filterLandingPages();
-    this.refreshTable(this.landingPages);
+    this.submissions = this.filterSubmissions();
+    this.refreshTable(this.submissions);
   }
 
-  filterLandingPages() {
-    let landingPages = this.allLandingPages;
-    if (landingPages?.length > 0 && this.searchKeyword) {
-      return landingPages.filter((m) => {
+  filterSubmissions() {
+    let submissions = this.allSubmissions;
+    if (submissions?.length > 0 && this.searchKeyword) {
+      return submissions.filter((m) => {
         let include = false;
         if (
-          m.title &&
-          m.title.toLowerCase()
+          m.location &&
+          m.location.toLowerCase()
           .normalize("NFD")
           .replace(/\p{Diacritic}/gu, "")
           .indexOf(
@@ -266,7 +220,7 @@ export class LandingPagesComponent {
         return include;
       });
     } else {
-      return landingPages;
+      return submissions;
     }
   }
 
@@ -304,7 +258,7 @@ export class LandingPagesComponent {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.dataSource = new MatTableDataSource(
-      this.landingPages.slice(
+      this.submissions.slice(
         event.pageIndex * event.pageSize,
         (event.pageIndex + 1) * event.pageSize
       )
@@ -316,133 +270,20 @@ export class LandingPagesComponent {
     }
   }
 
-  deleteLandingPage(item) {
-    this.showConfirmationModal = false;
-    this.confirmDeleteItemTitle = this._translateService.instant(
-      "dialog.confirmdelete"
-    );
-    this.confirmDeleteItemDescription = this._translateService.instant(
-      "dialog.confirmdeleteMember"
-    );
-    this.acceptText = "OK";
-    this.selectedItem = item.id;
-    setTimeout(() => (this.showConfirmationModal = true));
-  }
-
-  confirm() {
-    this._companyService.deleteLeadsLandingPage(this.selectedItem).subscribe(
-      (response) => {
-        this.landingPages.forEach((cat, index) => {
-          if (cat.id == this.selectedItem) {
-            this.landingPages.splice(index, 1);
-          }
-        });
-        this.allLandingPages.forEach((cat, index) => {
-          if (cat.id == this.selectedItem) {
-            this.allLandingPages.splice(index, 1);
-          }
-        });
-        this.refreshTable(this.landingPages);
-        this.open(
-          this._translateService.instant("dialog.deletedsuccessfully"),
-          ""
-        );
-        this.showConfirmationModal = false;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
-  }
-
-  save() {
-    this.formSubmitted = true;
-
-    if (
-      this.landingPagesForm.get("title")?.errors
-    ) {
-      return false;
-    }
-
-    let params = {
-      title: this.landingPagesForm.get("title")?.value,
-      description: this.landingPagesForm.get("description")?.value,
-      company_id: this.companyId,
-      location_id: this.selectedLocation,
-      category: 'Leads',
-      created_by: this.userId,
-    };
-
-    if (this.mode == "add") {
-      this._companyService.addLeadsLandingPage(params).subscribe(
-        (response) => {
-          this.closemodalbutton0?.nativeElement.click();
-          this.open(
-            this._translateService.instant("dialog.savedsuccessfully"),
-            ""
-          );
-          setTimeout(() => {
-            this.getLandingPages();
-          }, 500);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    } else if (this.mode == "edit") {
-      this._companyService.editLeadsLandingPage(this.selectedId, params).subscribe(
-        (response) => {
-          this.closemodalbutton0?.nativeElement.click();
-          this.open(
-            this._translateService.instant("dialog.savedsuccessfully"),
-            ""
-          );
-          this.getLandingPages();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }
-  }
-
-  editLandingPage(item) {
-    this.selectedItem = item;
+  viewAnswer(item) {
     this.selectedId = item.id;
-    this.title = item.title;
-    this.description = item.description;
-    this.selectedLocation = item.location_id || '';
-
-    this.landingPagesForm.controls["title"].setValue(this.title);
-    this.landingPagesForm.controls["description"].setValue(this.description);
-
-    this.mode = "edit";
+    this.selectedItem = item;
+    this.questionAnswers = item?.question_items || [];
     this.modalbutton0?.nativeElement.click();
   }
 
-  editLandingPageTemplate(item) {
-    this._router.navigate([`/settings/tiktok/landing-page/template/${item?.id}`])
-  }
+  getSubmissionDate(submission) {
+    let date = moment
+      .utc(submission?.created_at)
+      .locale(this.language)
+      .format("D MMM YYYY H:mm A");
 
-  copyLink(row) {
-    console.log(row);
-    let location_row = this.questionLocations?.filter(ql => {
-      return ql.id == row?.location_id
-    })
-    let slug = location_row?.length > 0 ? location_row[0].slug : '';
-    let selBox = document.createElement("textarea");
-    selBox.style.position = "fixed";
-    selBox.style.left = "0";
-    selBox.style.top = "0";
-    selBox.style.opacity = "0";
-    selBox.value = `https://${this.company?.url}/tiktok/landing/${slug}`;
-    document.body.appendChild(selBox);
-    selBox.focus();
-    selBox.select();
-    document.execCommand("copy");
-    document.body.removeChild(selBox);
-
-    this.open(this._translateService.instant("checkout.linkgenerated"), "");
+    return date;
   }
 
   handleGoBack() {

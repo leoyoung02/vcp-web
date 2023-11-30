@@ -130,6 +130,7 @@ import {
   LEADS_LANDING_PAGE_BY_SLUG_URL,
   QUESTIONS_URL,
   SUBMIT_QUESTION_ANSWERS_URL,
+  SUBMISSIONS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1149,6 +1150,12 @@ export class CompanyService {
     return this._http.post(
       SUBMIT_QUESTION_ANSWERS_URL,
       payload,
+    ).pipe(map(res => res));
+  }
+
+  getSubmissions(id, userId): Observable<any> {
+    return this._http.get(`${SUBMISSIONS_URL}/${id}/${userId}`,
+      { headers: this.headers }
     ).pipe(map(res => res));
   }
 }

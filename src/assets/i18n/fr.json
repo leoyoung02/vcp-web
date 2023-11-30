@@ -3322,6 +3322,7 @@
         "fullwidth": "Pleine largeur",
         "boxed": "En boîte",
         "backgroundcolor": "Couleur d'arrière-plan",
-        "textcolor": "Couleur du texte"
+        "textcolor": "Couleur du texte",
+        "ipaddess": "Adresse IP"
     }
 }

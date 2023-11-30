@@ -3363,6 +3363,7 @@
         "fullwidth": "Full width",
         "boxed": "Boxed",
         "backgroundcolor": "Background color",
-        "textcolor": "Text color"
+        "textcolor": "Text color",
+        "ipaddess": "IP address"
     }
 }
