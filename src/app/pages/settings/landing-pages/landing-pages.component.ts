@@ -461,7 +461,6 @@ export class LandingPagesComponent {
     document.execCommand("copy");
     document.body.removeChild(selBox);
 
-
     this.open(this._translateService.instant("checkout.linkgenerated"), "");
   }
 
