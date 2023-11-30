@@ -3354,6 +3354,7 @@
         "fullwidth": "Ancho completo",
         "boxed": "En caja",
         "backgroundcolor": "Color de fondo",
-        "textcolor": "Color del texto"
+        "textcolor": "Color del texto",
+        "ipaddess": "dirección IP"
     }
 }

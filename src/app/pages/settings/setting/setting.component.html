@@ -1033,7 +1033,7 @@
                             <ng-container *ngIf="item?.title_en == 'Questionnaires' && item?.active == 1">
                                 <button
                                     class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                    (click)="goToLeadsSettings(item?.title_en)"
+                                    (click)="goToTikTokSettings(item?.title_en)"
                                     [ngStyle]="{
                                         'background-color': buttonColor
                                     }"
@@ -1044,7 +1044,7 @@
                             <ng-container *ngIf="item?.title_en == 'Landing pages' && item?.active == 1">
                                 <button
                                     class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                    (click)="goToLeadsSettings(item?.title_en)"
+                                    (click)="goToTikTokSettings(item?.title_en)"
                                     [ngStyle]="{
                                         'background-color': buttonColor
                                     }"
@@ -1055,7 +1055,7 @@
                             <ng-container *ngIf="item?.title_en == 'Locations' && item?.active == 1">
                                 <button
                                     class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                    (click)="goToLeadsSettings(item?.title_en)"
+                                    (click)="goToTikTokSettings(item?.title_en)"
                                     [ngStyle]="{
                                         'background-color': buttonColor
                                     }"
@@ -1113,6 +1113,25 @@
                 </div>
             </ng-container>
         </div>
+        <ng-container *ngIf="setting?.category_en == 'TikTok'">
+            <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4">
+                <div>
+                    <div>{{ 'your-admin-area.submissions' | translate }}</div>
+                    <div class="opacity-30 text-sm">{{ 'quiz-details.answers' | translate }}</div>
+                </div>
+                <div class="flex">
+                    <div class="flex">
+                        <button
+                            class="mr-4 w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            (click)="goToTikTokSettings('submissions')"
+                            [ngStyle]="{'background-color': buttonColor }"
+                        >
+                            {{ 'tutors.gotolist' | translate }}
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
     </div>
 </div>
 <button #modalbutton data-modal-target="item-modal" data-modal-toggle="item-modal" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">

@@ -55,6 +55,14 @@
                 <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'customer.action' | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="action" class="flex;">
+                        <button *ngIf="row?.location_id" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            [ngStyle]="{'background-color': buttonColor}" (click)="copyLink(row)"
+                        >
+                            <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 19">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.013 7.962a3.519 3.519 0 0 0-4.975 0l-3.554 3.554a3.518 3.518 0 0 0 4.975 4.975l.461-.46m-.461-4.515a3.518 3.518 0 0 0 4.975 0l3.553-3.554a3.518 3.518 0 0 0-4.974-4.975L10.3 3.7"/>
+                            </svg>
+                            <span class="sr-only">Icon description</span>
+                        </button>
                         <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             [ngStyle]="{'background-color': buttonColor}" (click)="editLandingPageTemplate(row)"
                         >
@@ -111,6 +119,19 @@
                 <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
                     {{ mode == 'edit' ? ('cities.edit' | translate) : ('cities.createnew' | translate) }}
                 </h3>
+                <ng-container *ngIf="mode == 'edit'">
+                    <div>
+                        <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg flex items-center text-sm p-2.5 px-6 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            [ngStyle]="{'background-color': buttonColor}" (click)="editLandingPageTemplate(selectedItem)"
+                        >
+                            <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                                <path d="M17 0h-5.768a1 1 0 1 0 0 2h3.354L8.4 8.182A1.003 1.003 0 1 0 9.818 9.6L16 3.414v3.354a1 1 0 0 0 2 0V1a1 1 0 0 0-1-1Z"/>
+                                <path d="m14.258 7.985-3.025 3.025A3 3 0 1 1 6.99 6.768l3.026-3.026A3.01 3.01 0 0 1 8.411 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V9.589a3.011 3.011 0 0 1-1.742-1.604Z"/>
+                            </svg>
+                            <span class="ml-2 text-white">{{'company-settings.updatetemplate' | translate}}</span>
+                        </button>
+                    </div>
+                </ng-container>
                 <form 
                     [formGroup]="landingPagesForm"
                     class="my-4 px-1"

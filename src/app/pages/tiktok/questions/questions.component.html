@@ -1,5 +1,5 @@
 <ng-container *ngIf="!isloading && questionnaire?.id > 0">
-    <div>
+    <div class="mt-8">
         <h1 class="text-2xl font-semibold text-center uppercase mb-3">{{ questionnaire?.title }}</h1>
         <h2 class="text-md font-md text-center mb-8 px-6 leading-6 w-full sm:w-full md:w-4/5 lg:w-4/5 mx-auto">{{ questionnaire?.description }}</h2>
     </div>
@@ -39,6 +39,12 @@
                                     class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                 >
                                 </textarea>
+                            </div>
+                            <div *ngIf="item?.question_type_id == 3" class="mb-2">
+                                <input 
+                                    type="text" 
+                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                    [(ngModel)]="item.answer">
                             </div>
                         </div>
                     </div>

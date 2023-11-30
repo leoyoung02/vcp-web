@@ -3332,6 +3332,7 @@
         "fullwidth": "Zabalera osoa",
         "boxed": "Boxed",
         "backgroundcolor": "Hondoren kolorea",
-        "textcolor": "Testuaren kolorea"
+        "textcolor": "Testuaren kolorea",
+        "ipaddess": "IP helbidea"
     }
 }

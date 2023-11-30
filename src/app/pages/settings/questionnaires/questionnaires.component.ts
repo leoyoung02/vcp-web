@@ -231,11 +231,11 @@ export class QuestionnairesComponent {
         value: 'equals',
         text: this._translateService.instant('leads.equals')
       },
-      {
-        id: 4,
-        value: 'notequals',
-        text: this._translateService.instant('leads.notequals')
-      }
+      // {
+      //   id: 4,
+      //   value: 'notequals',
+      //   text: this._translateService.instant('leads.notequals')
+      // }
     ]
     this.ruleOperators = [
       {
@@ -908,6 +908,7 @@ export class QuestionnairesComponent {
           this.selectedRuleId = '';
           this.selectedRule = '';
           this.showRuleDetails = false;
+          this.ruleMode = '';
         },
         (error) => {
           console.log(error);
@@ -926,6 +927,7 @@ export class QuestionnairesComponent {
           this.selectedRuleId = '';
           this.selectedRule = '';
           this.showRuleDetails = false;
+          this.ruleMode = '';
         },
         (error) => {
           console.log(error);

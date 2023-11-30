@@ -1783,8 +1783,8 @@ export class SettingComponent {
     this._router.navigate(['/settings/stripe-accounts'])
   }
 
-  goToLeadsSettings(item) {
-    this._router.navigate([`/settings/leads/${item?.replace(' ', '-')?.toLowerCase()}`]);
+  goToTikTokSettings(item) {
+    this._router.navigate([`/settings/tiktok/${item?.replace(' ', '-')?.toLowerCase()}`]);
   }
 
   handleGoBack() {

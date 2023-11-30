@@ -529,3 +529,4 @@ export const DELETE_LEADS_LOCATION_URL = `${API_BASE}/v2/location/delete`;
 export const LEADS_LANDING_PAGE_BY_SLUG_URL = `${API_BASE}/v2/landing-page`;
 export const QUESTIONS_URL = `${API_BASE}/v2/landing-questions`;
 export const SUBMIT_QUESTION_ANSWERS_URL = `${API_BASE}/v2/landing-questions/answers/submit`;
+export const SUBMISSIONS_URL = `${API_BASE}/v2/answers`;

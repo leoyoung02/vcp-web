@@ -111,20 +111,19 @@ export class TikTokQuestionsComponent {
   }
 
   fetchQuestionsData() {
-    // this._userService.getUserGeolocation()
-    //   .pipe(takeUntil(this.destroy$))
-    //   .subscribe(
-    //     data => {
-    //       this.country = data?.country;
-          // this.city = data?.city;
-          // this.ipAddress = data?.ip_address
+    this._userService.getUserGeolocation()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        data => {
+          this.country = data?.country;
+          this.city = data?.city;
+          this.ipAddress = data?.ip_address
           this.getQuestions();
-      //     console.log(data);
-      //   },
-      //   error => {
-      //     console.log(error)
-      //   }
-      // )
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
   getQuestions() {
@@ -168,6 +167,9 @@ export class TikTokQuestionsComponent {
             ""
           );
           this.formSubmitted = true;
+          setTimeout(() => {
+            window.open(whatsAppCommunityURL, "_blank");
+          }, 1000);
         },
         (error) => {
           console.log(error);
@@ -207,12 +209,12 @@ export class TikTokQuestionsComponent {
                 if(choice?.length > 0) {
                   val = choice[0].choice
                 }
-              } else if(question_item[0].question_type_id == 2) {
+              } else {
                 val = question_item[0].answer
               }
             }
 
-            if(qri.condition && qri.value) {
+            if(qri.condition && qri.value || (!qri.condition && !qri.value)) {
               if(qri.condition == 'equals' && qri.value == val) {
                 rule_item_match = true
               } else if(qri.condition == 'contains' && val?.toLowerCase()?.indexOf(qri.value?.toLowerCase()) >= 0) {
@@ -222,7 +224,7 @@ export class TikTokQuestionsComponent {
               rule_items_match.push({
                 id: qr.id,
                 condition: qri.condition,
-                match: rule_item_match,
+                match: (!qri.condition && !qri.value) ? true : rule_item_match,
                 operator: qri.operator,
                 whatsapp_community: qr.whatsapp_community,
               })
@@ -231,12 +233,12 @@ export class TikTokQuestionsComponent {
         }
         
         if(rule_items_match?.length > 0) {
-          let false_results = rule_items_match?.filter(m => {
-            return !m.match
+          let filtered_rule_items_match = rule_items_match?.filter(m => {
+            return m.match
           })
-          if(false_results?.length > 0) { }
+          if(filtered_rule_items_match?.length == 0) { }
           else {
-            rule_items_match?.forEach((rim, index) => {
+            filtered_rule_items_match?.forEach((rim, index) => {
               if(rim.match == true && index == 0) {
                 rule_match.push({
                   idx: index,
@@ -245,7 +247,7 @@ export class TikTokQuestionsComponent {
                 })
               } else if(index > 0) {
                 if(rim.match == true) {
-                  if(rule_items_match[index-1].operator == 'and') {
+                  if(filtered_rule_items_match[index-1].operator == 'and') {
                     if(rim.match == true) {
                       rule_match.push({
                         idx: index,
@@ -259,7 +261,7 @@ export class TikTokQuestionsComponent {
                         whatsapp_community: rim.whatsapp_community,
                       })
                     }
-                  } else if(rule_items_match[index-1].operator == 'or') {
+                  } else if(filtered_rule_items_match[index-1].operator == 'or') {
                     rule_match.push({
                       idx: index,
                       passed: true,

@@ -3342,6 +3342,7 @@
         "fullwidth": "Ample total",
         "boxed": "Encaixat",
         "backgroundcolor": "Color de fons",
-        "textcolor": "Color del text"
+        "textcolor": "Color del text",
+        "ipaddess": "Adreça IP"
     }
 }
