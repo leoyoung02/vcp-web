@@ -69,6 +69,7 @@ import {
     GUARDIAN_STUDENTS_URL,
     DENY_USER_URL,
     ACCEPT_CONDITIONS_URL,
+    API_GELOCATION_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
@@ -537,5 +538,11 @@ export class UserService {
         return result;
       })
     );
+  }
+
+  getUserGeolocation(): Observable<any> {
+    return this._http.get(`${API_GELOCATION_URL}`, 
+      { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

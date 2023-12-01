@@ -745,6 +745,10 @@ export class MainComponent {
             text: this._translateService.instant("company-settings.wall"),
             value: "Wall",
           },
+          {
+            text: "TikTok",
+            value: "TikTok",
+          },
         ],
       },
       {

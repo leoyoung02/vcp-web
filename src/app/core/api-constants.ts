@@ -1,5 +1,6 @@
 import { environment } from '@env/environment';
 
+export const API_GELOCATION_URL = 'https://ipgeolocation.abstractapi.com/v1/?api_key=13f0e7d101ec49b4ab0b523339f66577';
 export const API_BASE = environment.api;
 
 // PLATFORMS
@@ -494,3 +495,32 @@ export const ANSWER_TUTOR_QUESTION_URL = `${API_BASE}/course/tutor/question/answ
 export const COURSE_RESOURCES_URL = `${API_BASE}/course-resources`;
 export const UPLOAD_RESOURCE_AVAILABILITY_URL = `${API_BASE}/guest/admin-course/uploadable`;
 export const ADD_COURSE_RESOURCE_URL = `${API_BASE}/course-resource/add`;
+
+// LEADS
+export const LEADS_QUESTIONS_URL = `${API_BASE}/v2/questions`;
+export const CREATE_LEADS_QUESTION_URL = `${API_BASE}/v2/question/add`;
+export const EDIT_LEADS_QUESTION_URL = `${API_BASE}/v2/question/edit`;
+export const DELETE_LEADS_QUESTION_URL = `${API_BASE}/v2/question/delete`;
+export const CREATE_LEADS_QUESTION_ITEM_URL = `${API_BASE}/v2/question-item/add`;
+export const EDIT_LEADS_QUESTION_ITEM_URL = `${API_BASE}/v2/question-item/edit`;
+export const DELETE_LEADS_QUESTION_ITEM_URL = `${API_BASE}/v2/question-item/delete`;
+export const CREATE_LEADS_QUESTION_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/question-multiple-choice-option/add`;
+export const EDIT_LEADS_QUESTION_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/question-multiple-choice-option/edit`;
+export const DELETE_LEADS_QUESTION_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/question-multiple-choice-option/delete`;
+export const CREATE_LEADS_QUESTION_RULE_URL = `${API_BASE}/v2/question-rule/add`;
+export const EDIT_LEADS_QUESTION_RULE_URL = `${API_BASE}/v2/question-rule/edit`;
+export const DELETE_LEADS_QUESTION_RULE_URL = `${API_BASE}/v2/question-rule/delete`;
+export const LEADS_LANDING_PAGES_URL = `${API_BASE}/v2/landing-pages`;
+export const LEADS_LANDING_PAGE_DETAILS_URL = `${API_BASE}/v2/landing-page-details`;
+export const CREATE_LEADS_LANDING_PAGE_URL = `${API_BASE}/v2/landing-page/add`;
+export const EDIT_LEADS_LANDING_PAGE_URL = `${API_BASE}/v2/landing-page/edit`;
+export const EDIT_LEADS_LANDING_PAGE_DETAILS_URL = `${API_BASE}/v2/landing-page-details/edit`;
+export const DELETE_LEADS_LANDING_PAGE_URL = `${API_BASE}/v2/landing-page/delete`;
+export const LEADS_LOCATIONS_URL = `${API_BASE}/v2/locations`;
+export const CREATE_LEADS_LOCATION_URL = `${API_BASE}/v2/location/add`;
+export const EDIT_LEADS_LOCATION_URL = `${API_BASE}/v2/location/edit`;
+export const DELETE_LEADS_LOCATION_URL = `${API_BASE}/v2/location/delete`;
+export const LEADS_LANDING_PAGE_BY_SLUG_URL = `${API_BASE}/v2/landing-page`;
+export const QUESTIONS_URL = `${API_BASE}/v2/landing-questions`;
+export const SUBMIT_QUESTION_ANSWERS_URL = `${API_BASE}/v2/landing-questions/answers/submit`;
+export const SUBMISSIONS_URL = `${API_BASE}/v2/answers`;

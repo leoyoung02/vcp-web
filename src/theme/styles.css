@@ -134,6 +134,11 @@ select {
   width: 15% !important;
 }
 
+.mat-column-whatsapp_community {
+    flex: 0 0 40% !important;
+    width: 40% !important;
+}
+
 .manage-list .mat-column-title, .manage-list .mat-column-title_display,
 .manage-list .mat-column-type_display {
     flex: 0 0 18% !important;

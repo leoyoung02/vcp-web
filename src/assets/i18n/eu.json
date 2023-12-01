@@ -3310,5 +3310,23 @@
     "blogs": {
         "blogs": "Blogak",
         "blog": "Blog"
+    },
+    "leads": {
+        "questionnaires": "Galdetegiak",
+        "landingpages": "Hurrengo orrialdeak",
+        "mapanswers": "Maparen erantzunak",
+        "addrule": "Gehitu araua",
+        "whatsappcommunityurl": "WhatsApp Komunitatearen URLa",
+        "contains": "dauka",
+        "equals": "berdin",
+        "notequals": "ez da berdina",
+        "locations": "Kokapenak",
+        "themeoptions": "Gaiaren aukerak",
+        "layout": "Diseinua",
+        "fullwidth": "Zabalera osoa",
+        "boxed": "Boxed",
+        "backgroundcolor": "Hondoren kolorea",
+        "textcolor": "Testuaren kolorea",
+        "ipaddress": "IP helbidea"
     }
 }

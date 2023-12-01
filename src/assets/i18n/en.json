@@ -3347,5 +3347,23 @@
     "blogs": {
         "blogs": "Blogs",
         "blog": "Blog"
+    },
+    "leads": {
+        "questionnaires": "Questionnaires",
+        "landingpages": "Landing pages",
+        "mapanswers": "Map answers",
+        "addrule": "Add rule",
+        "whatsappcommunityurl": "WhatsApp Community URL",
+        "contains": "contains",
+        "equals": "equal",
+        "notequals": "not equal",
+        "locations": "Locations",
+        "themeoptions": "Theme Options",
+        "layout": "Layout",
+        "fullwidth": "Full width",
+        "boxed": "Boxed",
+        "backgroundcolor": "Background color",
+        "textcolor": "Text color",
+        "ipaddress": "IP address"
     }
 }

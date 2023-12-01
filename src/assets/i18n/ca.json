@@ -3320,5 +3320,23 @@
     "blogs": {
         "blogs": "Blocs",
         "blog": "Bloc"
+    },
+    "leads": {
+        "questionnaires": "Qüestionaris",
+        "landingpages": "Pàgines de destinació",
+        "mapanswers": "Mapa de respostes",
+        "addrule": "Afegeix una regla",
+        "whatsappcommunityurl": "URL de la comunitat de WhatsApp",
+        "contains": "conté",
+        "equals": "igual",
+        "notequals": "no és igual",
+        "locations": "Ubicacions",
+        "themeoptions": "Opcions del tema",
+        "layout": "Disposició",
+        "fullwidth": "Ample total",
+        "boxed": "Encaixat",
+        "backgroundcolor": "Color de fons",
+        "textcolor": "Color del text",
+        "ipaddress": "Adreça IP"
     }
 }

@@ -3309,5 +3309,23 @@
     "blogs": {
         "blogs": "Blogs",
         "blog": "Blog"
+    },
+    "leads": {
+        "questionnaires": "Fragebögen",
+        "landingpages": "Landingpages",
+        "mapanswers": "Antworten auf der Karte",
+        "addrule": "Regel hinzufügen",
+        "whatsappcommunityurl": "WhatsApp-Community-URL",
+        "enthält": "enthält",
+        "equals": "gleich",
+        "notequals": "nicht gleich",
+        "locations": "Standorte",
+        "themeoptions": "Themenoptionen",
+        "layout": "Layout",
+        "fullwidth": "Volle Breite",
+        "boxed": "Boxed",
+        "backgroundcolor": "Hintergrundfarbe",
+        "textcolor": "Couleur du texte",
+        "ipaddress": "IP-Adresse"
     }
 }

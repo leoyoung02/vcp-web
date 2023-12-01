@@ -80,4 +80,34 @@ export const routes: Routes = [
         data: { titleKey: 'stripe-account.managestripeaccounts'},
         loadComponent: async () => (await import('./stripe-accounts/stripe-accounts.component')).ManageStripeAccountsComponent,
     },
+    {
+        path: 'tiktok/questionnaires',
+        title: CustomTitleResolver,
+        data: { titleKey: 'leads.questionnaires'},
+        loadComponent: async () => (await import('./questionnaires/questionnaires.component')).QuestionnairesComponent,
+    },
+    {
+        path: 'tiktok/landing-pages',
+        title: CustomTitleResolver,
+        data: { titleKey: 'leads.landingpages'},
+        loadComponent: async () => (await import('./landing-pages/landing-pages.component')).LandingPagesComponent,
+    },
+    {
+        path: 'tiktok/locations',
+        title: CustomTitleResolver,
+        data: { titleKey: 'leads.locations'},
+        loadComponent: async () => (await import('./locations/locations.component')).LocationsComponent,
+    },
+    {
+        path: 'tiktok/landing-page/template/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'settings.template'},
+        loadComponent: async () => (await import('./landing-page-template/landing-page-template.component')).LandingPageTemplateComponent,
+    },
+    {
+        path: 'tiktok/submissions',
+        title: CustomTitleResolver,
+        data: { titleKey: 'your-admin-area.submissions'},
+        loadComponent: async () => (await import('./submissions/submissions.component')).SubmissionsComponent,
+    },
 ];
