@@ -3355,6 +3355,6 @@
         "boxed": "En caja",
         "backgroundcolor": "Color de fondo",
         "textcolor": "Color del texto",
-        "ipaddess": "dirección IP"
+        "ipaddress": "Dirección IP"
     }
 }

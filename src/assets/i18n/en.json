@@ -3370,6 +3370,6 @@
         "boxed": "Boxed",
         "backgroundcolor": "Background color",
         "textcolor": "Text color",
-        "ipaddess": "IP address"
+        "ipaddress": "IP address"
     }
 }

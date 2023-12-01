@@ -3332,6 +3332,6 @@
         "boxed": "Boxed",
         "backgroundcolor": "Hintergrundfarbe",
         "textcolor": "Couleur du texte",
-        "ipaddess": "IP-Adresse"
+        "ipaddress": "IP-Adresse"
     }
 }
