@@ -1,5 +1,5 @@
 <ng-container *ngIf="!isloading && questionnaire?.id > 0">
-    <div class="mt-8">
+    <div class="mt-8 w-full sm:w-full md:w-9/12 lg:w-9/12 mx-auto">
         <h1 class="text-2xl font-semibold text-center uppercase">{{ questionnaire?.title }}</h1>
         <h2 *ngIf="questionnaire?.description" class="text-md font-md text-center mb-8 px-6 leading-6 w-full sm:w-full md:w-4/5 lg:w-4/5 mx-auto">{{ questionnaire?.description }}</h2>
     </div>

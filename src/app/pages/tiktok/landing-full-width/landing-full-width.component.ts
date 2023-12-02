@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, Input, SimpleChange } from "@angular/core";
 import { Router } from "@angular/router";
 import {
   LangChangeEvent,
@@ -87,6 +87,23 @@ export class TikTokLandingFullWidthComponent {
     private _translateService: TranslateService,
     private _localService: LocalService,
   ) {}
+
+  ngOnChanges(changes: SimpleChange) {
+    let countryChange = changes["country"];
+    if (countryChange?.previousValue != countryChange?.currentValue) {
+      this.country = countryChange.currentValue;
+    }
+
+    let cityChange = changes["city"];
+    if (cityChange?.previousValue != cityChange?.currentValue) {
+      this.city = cityChange.currentValue;
+    }
+
+    let ipAddressChange = changes["ipAddress"];
+    if (ipAddressChange?.previousValue != ipAddressChange?.currentValue) {
+      this.ipAddress = ipAddressChange.currentValue;
+    }
+  }
 
   async ngOnInit() {
     this.language =

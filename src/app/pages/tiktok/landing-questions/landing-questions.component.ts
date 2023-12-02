@@ -133,36 +133,36 @@ export class TikTokLandingQuestionsComponent {
   submit() {
     let whatsAppCommunityURL = this.getMappedCommunityFromAnswers();
 
-    // if(whatsAppCommunityURL) {
-    //   let params = {
-    //     location: this.slug,
-    //     city: this.city,
-    //     country: this.country,
-    //     ip_address: this.ipAddress,
-    //     company_id: this.companyId,
-    //     whatsapp_community: whatsAppCommunityURL,
-    //     question_id: this.questionItems?.length > 0 ? this.questionItems[0].question_id : 0, 
-    //     created_by: this.userId || null,
-    //     question_items: this.questionItems,
-    //   };
+    if(whatsAppCommunityURL) {
+      let params = {
+        location: this.questionnaire?.Location_id?.toString(),
+        city: this.city,
+        country: this.country,
+        ip_address: this.ipAddress,
+        company_id: this.companyId,
+        whatsapp_community: whatsAppCommunityURL,
+        question_id: this.questionItems?.length > 0 ? this.questionItems[0].question_id : 0, 
+        created_by: this.userId || null,
+        question_items: this.questionItems,
+      };
 
-    //   this._companyService.submitAnswerToQuestions(params).subscribe(
-    //     (response) => {
-    //       this.open(
-    //         this._translateService.instant("dialog.sentsuccessfully"),
-    //         ""
-    //       );
-    //       this.formSubmitted = true;
-    //       setTimeout(() => {
-    //         // window.open(whatsAppCommunityURL, "_self");
-    //         location.href = whatsAppCommunityURL;
-    //       }, 1000);
-    //     },
-    //     (error) => {
-    //       console.log(error);
-    //     }
-    //   );
-    // }
+      this._companyService.submitAnswerToQuestions(params).subscribe(
+        (response) => {
+          this.open(
+            this._translateService.instant("dialog.sentsuccessfully"),
+            ""
+          );
+          this.formSubmitted = true;
+          setTimeout(() => {
+            // window.open(whatsAppCommunityURL, "_self");
+            location.href = whatsAppCommunityURL;
+          }, 1000);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
   }
 
   isValidForm(question_items) {
@@ -271,6 +271,10 @@ export class TikTokLandingQuestionsComponent {
 
       } else {
         whatsapp_community = rule_match[0].whatsapp_community;
+      }
+    } else {
+      if(this.questionRules?.length == 1) {
+        whatsapp_community = this.questionRules[0].whatsapp_community;
       }
     }
     return whatsapp_community;
