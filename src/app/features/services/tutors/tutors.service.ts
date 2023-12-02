@@ -24,12 +24,14 @@ import {
   COURSE_SUBSCRIPTIONS_URL,
   COURSE_TUTOR_TYPES_URL,
   CREDIT_PACKAGES_URL,
+  DELETE_COMMISSION_URL,
   EDIT_BOOKING_STATUS_URL,
   EDIT_TUTOR_URL,
   FEATURES_MAPPING_URL,
   MEMBER_TYPES_URL,
   OTHER_SETTINGS_URL,
   STRIPE_ACCOUNT_IDS_URL,
+  STRIPE_CONNECT_ACCOUNT_STATUS_URL,
   STRIPE_LOGIN_URL,
   TRANSFER_COMMISSION_URL,
   TUTORS_COMBINED_URL,
@@ -337,6 +339,20 @@ export class TutorsService {
     return this._http.get(
       `${TUTOR_PACKAGES_URL}/${id}`,
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getStripeConnectAccountStatus(payload): Observable<any> {
+    return this._http.post(`${STRIPE_CONNECT_ACCOUNT_STATUS_URL}`,
+      payload,
+      {headers: this.headers}
+    ).pipe(map(res => res))
+  }
+
+  deleteCommission(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_COMMISSION_URL}/${id}`,
+      {},
     ).pipe(map(res => res));
   }
 }

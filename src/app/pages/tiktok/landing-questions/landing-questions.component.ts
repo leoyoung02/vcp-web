@@ -23,7 +23,7 @@ import { NoAccessComponent } from "@share/components";
 import get from "lodash/get";
 
 @Component({
-  selector: "app-questions",
+  selector: "app-landing-questions",
   standalone: true,
   imports: [
     CommonModule,
@@ -34,12 +34,12 @@ import get from "lodash/get";
     NgOptimizedImage,
     NoAccessComponent,
   ],
-  templateUrl: "./questions.component.html"
+  templateUrl: "./landing-questions.component.html"
 })
-export class TikTokQuestionsComponent {
+export class TikTokLandingQuestionsComponent {
   private destroy$ = new Subject<void>();
 
-  @Input() slug: any;
+  @Input() id: any;
 
   languageChangeSubscription;
   userId: any;
@@ -58,6 +58,7 @@ export class TikTokQuestionsComponent {
   questionItems: any;
   questionRules: any;
   formSubmitted: boolean = false;
+  questionImage: any;
 
   constructor(
     private _router: Router,
@@ -111,27 +112,14 @@ export class TikTokQuestionsComponent {
   }
 
   fetchQuestionsData() {
-    this._userService.getUserGeolocation()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        data => {
-          this.country = data?.country;
-          this.city = data?.city;
-          this.ipAddress = data?.ip_address
-          this.getQuestions();
-        },
-        error => {
-          console.log(error)
-        }
-      )
-  }
-
-  getQuestions() {
-    this._companyService.getLandingQuestions(this.country)
+    this._companyService.getLandingQuestionsById(this.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         data => {
           this.questionnaire = data?.question;
+          if(this.questionnaire?.image && this.questionnaire?.image_filename) {
+            this.questionImage = `${environment.api}/get-landing-page-image/${this.questionnaire?.image_filename}`;
+          }
           this.questionItems = data?.question?.items;
           this.questionRules = data?.question?.question_rules;
           this.isloading = false;
@@ -145,36 +133,36 @@ export class TikTokQuestionsComponent {
   submit() {
     let whatsAppCommunityURL = this.getMappedCommunityFromAnswers();
 
-    if(whatsAppCommunityURL) {
-      let params = {
-        location: this.slug,
-        city: this.city,
-        country: this.country,
-        ip_address: this.ipAddress,
-        company_id: this.companyId,
-        whatsapp_community: whatsAppCommunityURL,
-        question_id: this.questionItems?.length > 0 ? this.questionItems[0].question_id : 0, 
-        created_by: this.userId || null,
-        question_items: this.questionItems,
-      };
+    // if(whatsAppCommunityURL) {
+    //   let params = {
+    //     location: this.slug,
+    //     city: this.city,
+    //     country: this.country,
+    //     ip_address: this.ipAddress,
+    //     company_id: this.companyId,
+    //     whatsapp_community: whatsAppCommunityURL,
+    //     question_id: this.questionItems?.length > 0 ? this.questionItems[0].question_id : 0, 
+    //     created_by: this.userId || null,
+    //     question_items: this.questionItems,
+    //   };
 
-      this._companyService.submitAnswerToQuestions(params).subscribe(
-        (response) => {
-          this.open(
-            this._translateService.instant("dialog.sentsuccessfully"),
-            ""
-          );
-          this.formSubmitted = true;
-          setTimeout(() => {
-            // window.open(whatsAppCommunityURL, "_self");
-            location.href = whatsAppCommunityURL;
-          }, 1000);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-    }
+    //   this._companyService.submitAnswerToQuestions(params).subscribe(
+    //     (response) => {
+    //       this.open(
+    //         this._translateService.instant("dialog.sentsuccessfully"),
+    //         ""
+    //       );
+    //       this.formSubmitted = true;
+    //       setTimeout(() => {
+    //         // window.open(whatsAppCommunityURL, "_self");
+    //         location.href = whatsAppCommunityURL;
+    //       }, 1000);
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
+    // }
   }
 
   isValidForm(question_items) {

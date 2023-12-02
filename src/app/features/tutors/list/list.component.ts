@@ -150,7 +150,6 @@ export class TutorsListComponent {
           this.mapSubfeatures(data?.settings?.subfeatures);
           this.mapUserPermissions(data?.user_permissions);
           this.tutorTypes = data?.tutor_types;
-          console.log(this.tutorTypes);
 
           let tutors = data?.tutors?.filter(tutor => {
             return tutor.status == 1

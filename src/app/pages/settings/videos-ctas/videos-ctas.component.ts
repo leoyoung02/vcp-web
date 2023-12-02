@@ -32,7 +32,7 @@ import { initFlowbite } from "flowbite";
 import get from "lodash/get";
 
 @Component({
-  selector: "app-settings-lead-landing-pages",
+  selector: "app-settings-lead-videos-ctas",
   standalone: true,
   imports: [
     CommonModule,
@@ -48,9 +48,9 @@ import get from "lodash/get";
     PageTitleComponent,
     ToastComponent,
   ],
-  templateUrl: "./landing-pages.component.html",
+  templateUrl: "./videos-ctas.component.html",
 })
-export class LandingPagesComponent {
+export class LandingVideosCTAsComponent {
   private destroy$ = new Subject<void>();
 
   @Input() list: any;
@@ -73,14 +73,15 @@ export class LandingPagesComponent {
   domain: any;
   mode: any;
   formSubmitted: boolean = false;
-  landingPagesForm = new FormGroup({
+  videosCTAsForm = new FormGroup({
     title: new FormControl("", [Validators.required]),
     description: new FormControl(""),
+    slug: new FormControl("", [Validators.required]),
   });
   pageSize: number = 10;
   pageIndex: number = 0;
   dataSource: any;
-  displayedColumns = ["title", "location", "action"];
+  displayedColumns = ["title", "slug", "action"];
   showConfirmationModal: boolean = false;
   selectedItem: any;
   confirmDeleteItemTitle: any;
@@ -98,8 +99,8 @@ export class LandingPagesComponent {
     | ElementRef
     | undefined;
   searchKeyword: any;
-  landingPages: any = [];
-  allLandingPages: any = [];
+  videosCTAs: any = [];
+  allVideosCTAs: any = [];
   title: any;
   description: any;
   selectedLocation: any = '';
@@ -111,6 +112,7 @@ export class LandingPagesComponent {
   selectedSpainQuestion: any = '';
   selectedLatamQuestion: any = '';
   selectedOutsideSpainQuestion: any = '';
+  slug: any;
 
   constructor(
     private _router: Router,
@@ -165,7 +167,7 @@ export class LandingPagesComponent {
     initFlowbite();
     this.initializeBreadcrumb();
     this.initializeSearch();
-    this.getLandingPages();
+    this.getVideosCTAs();
   }
 
   initializeBreadcrumb() {
@@ -176,7 +178,7 @@ export class LandingPagesComponent {
       "company-settings.channels"
     );
     this.level3Title = "TikTok";
-    this.level4Title = this._translateService.instant("leads.landingpages");
+    this.level4Title = this._translateService.instant("leads.videosandctas");
   }
 
   initializeSearch() {
@@ -186,17 +188,15 @@ export class LandingPagesComponent {
     );
   }
 
-  async getLandingPages() {
+  async getVideosCTAs() {
     this._companyService
-      .getLeadsLandingPages(this.companyId, this.userId)
+      .getVideosCTAs(this.companyId, this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (response) => {
-          this.questions = response.questions;
-          this.questionLocations = response.question_locations;
-          this.formatLandingPages(response.landing_pages);
-          this.allLandingPages = this.landingPages;
-          this.refreshTable(this.landingPages);
+          this.videosCTAs = response.videos_ctas;
+          this.allVideosCTAs = this.videosCTAs;
+          this.refreshTable(this.videosCTAs);
           this.isloading = false;
         },
         (error) => {
@@ -205,39 +205,9 @@ export class LandingPagesComponent {
       );
   }
 
-  formatLandingPages(landing_pages) {
-    landing_pages = landing_pages?.map((item) => {
-      return {
-        ...item,
-        id: item?.id,
-        location: this.getLocation(item?.location_id),
-      };
-    });
-
-    this.landingPages = landing_pages;
-  }
-
-  getLocation(id) {
-    let location = ''
-    if(this.questionLocations?.length > 0) {
-      let loc = this.questionLocations?.filter(l => {
-        return l.id == id
-      })
-      if(loc?.length > 0) {
-        location = loc[0].location;
-      }
-    }
-
-    return location
-  }
-
   create() {
-    this.landingPagesForm.controls["title"].setValue("");
-    this.landingPagesForm.controls["description"].setValue("");
-    this.selectedDefaultQuestion = '';
-    this.selectedSpainQuestion = '';
-    this.selectedOutsideSpainQuestion = '';
-    this.selectedLatamQuestion = '';
+    this.videosCTAsForm.controls["title"].setValue("");
+    this.videosCTAsForm.controls["description"].setValue("");
 
     this.mode = "add";
     this.formSubmitted = false;
@@ -249,14 +219,14 @@ export class LandingPagesComponent {
     this.pageIndex = 0;
     this.pageSize = 10;
     this.searchKeyword = event;
-    this.landingPages = this.filterLandingPages();
-    this.refreshTable(this.landingPages);
+    this.videosCTAs = this.filterVideosCTAs();
+    this.refreshTable(this.videosCTAs);
   }
 
-  filterLandingPages() {
-    let landingPages = this.allLandingPages;
-    if (landingPages?.length > 0 && this.searchKeyword) {
-      return landingPages.filter((m) => {
+  filterVideosCTAs() {
+    let videosCTAs = this.allVideosCTAs;
+    if (videosCTAs?.length > 0 && this.searchKeyword) {
+      return videosCTAs.filter((m) => {
         let include = false;
         if (
           m.title &&
@@ -276,7 +246,7 @@ export class LandingPagesComponent {
         return include;
       });
     } else {
-      return landingPages;
+      return videosCTAs;
     }
   }
 
@@ -314,7 +284,7 @@ export class LandingPagesComponent {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.dataSource = new MatTableDataSource(
-      this.landingPages.slice(
+      this.videosCTAs.slice(
         event.pageIndex * event.pageSize,
         (event.pageIndex + 1) * event.pageSize
       )
@@ -326,7 +296,7 @@ export class LandingPagesComponent {
     }
   }
 
-  deleteLandingPage(item) {
+  deleteVideosCTAs(item) {
     this.showConfirmationModal = false;
     this.confirmDeleteItemTitle = this._translateService.instant(
       "dialog.confirmdelete"
@@ -340,19 +310,19 @@ export class LandingPagesComponent {
   }
 
   confirm() {
-    this._companyService.deleteLeadsLandingPage(this.selectedItem).subscribe(
+    this._companyService.deleteVideosCTAs(this.selectedItem).subscribe(
       (response) => {
-        this.landingPages.forEach((cat, index) => {
+        this.videosCTAs.forEach((cat, index) => {
           if (cat.id == this.selectedItem) {
-            this.landingPages.splice(index, 1);
+            this.videosCTAs.splice(index, 1);
           }
         });
-        this.allLandingPages.forEach((cat, index) => {
+        this.allVideosCTAs.forEach((cat, index) => {
           if (cat.id == this.selectedItem) {
-            this.allLandingPages.splice(index, 1);
+            this.allVideosCTAs.splice(index, 1);
           }
         });
-        this.refreshTable(this.landingPages);
+        this.refreshTable(this.videosCTAs);
         this.open(
           this._translateService.instant("dialog.deletedsuccessfully"),
           ""
@@ -369,27 +339,22 @@ export class LandingPagesComponent {
     this.formSubmitted = true;
 
     if (
-      this.landingPagesForm.get("title")?.errors ||
-      !this.selectedDefaultQuestion
+      this.videosCTAsForm.get("title")?.errors ||
+      this.videosCTAsForm.get("slug")?.errors
     ) {
       return false;
     }
 
     let params = {
-      title: this.landingPagesForm.get("title")?.value,
-      description: this.landingPagesForm.get("description")?.value,
+      title: this.videosCTAsForm.get("title")?.value,
+      description: this.videosCTAsForm.get("description")?.value,
+      slug: this.videosCTAsForm.get("slug")?.value,
       company_id: this.companyId,
-      location_id: this.selectedLocation,
-      category: 'Leads',
-      default_question_id: this.selectedDefaultQuestion || null,
-      spain_question_id: this.selectedSpainQuestion || null,
-      outside_spain_question_id: this.selectedOutsideSpainQuestion || null,
-      latam_question_id: this.selectedLatamQuestion || null,
       created_by: this.userId,
     };
 
     if (this.mode == "add") {
-      this._companyService.addLeadsLandingPage(params).subscribe(
+      this._companyService.addVideosCTAs(params).subscribe(
         (response) => {
           this.closemodalbutton0?.nativeElement.click();
           this.open(
@@ -397,7 +362,7 @@ export class LandingPagesComponent {
             ""
           );
           setTimeout(() => {
-            this.getLandingPages();
+            this.getVideosCTAs();
           }, 500);
         },
         (error) => {
@@ -405,14 +370,14 @@ export class LandingPagesComponent {
         }
       );
     } else if (this.mode == "edit") {
-      this._companyService.editLeadsLandingPage(this.selectedId, params).subscribe(
+      this._companyService.editVideosCTAs(this.selectedId, params).subscribe(
         (response) => {
           this.closemodalbutton0?.nativeElement.click();
           this.open(
             this._translateService.instant("dialog.savedsuccessfully"),
             ""
           );
-          this.getLandingPages();
+          this.getVideosCTAs();
         },
         (error) => {
           console.log(error);
@@ -421,39 +386,33 @@ export class LandingPagesComponent {
     }
   }
 
-  editLandingPage(item) {
+  editVideosCTAs(item) {
     this.selectedItem = item;
     this.selectedId = item.id;
     this.title = item.title;
     this.description = item.description;
-    this.selectedLocation = item.location_id || '';
-    this.selectedDefaultQuestion = item.default_question_id || '';
-    this.selectedSpainQuestion = item.spain_question_id || '';
-    this.selectedOutsideSpainQuestion = item.outside_spain_question_id || '';
-    this.selectedLatamQuestion = item.latam_question_id || '';
+    this.slug = item.slug;
 
-    this.landingPagesForm.controls["title"].setValue(this.title);
-    this.landingPagesForm.controls["description"].setValue(this.description);
+    this.videosCTAsForm.controls["title"].setValue(this.title);
+    this.videosCTAsForm.controls["description"].setValue(this.description);
+    this.videosCTAsForm.controls["slug"].setValue(this.slug);
 
     this.mode = "edit";
     this.modalbutton0?.nativeElement.click();
   }
 
-  editLandingPageTemplate(item) {
-    this._router.navigate([`/settings/tiktok/landing-page/template/${item?.id}`])
+  editVideosCTAsTemplate(item) {
+    this._router.navigate([`/settings/tiktok/video-cta/template/${item?.id}`])
   }
 
   copyLink(row) {
-    let location_row = this.questionLocations?.filter(ql => {
-      return ql.id == row?.location_id
-    })
-    let slug = location_row?.length > 0 ? location_row[0].slug : '';
+    let slug = row.slug;
     let selBox = document.createElement("textarea");
     selBox.style.position = "fixed";
     selBox.style.left = "0";
     selBox.style.top = "0";
     selBox.style.opacity = "0";
-    selBox.value = `https://${this.company?.url}/tiktok/landing/${slug}`;
+    selBox.value = `https://${this.company?.url}/tiktok/video-cta/${slug}`;
     document.body.appendChild(selBox);
     selBox.focus();
     selBox.select();

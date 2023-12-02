@@ -433,9 +433,11 @@ export const TUTOR_COURSES_URL = `${API_BASE}/company/tutor-courses`;
 export const TUTOR_COURSES_ACCESS_URL = `${API_BASE}/company/tutor/course-access`;
 export const ASSIGN_TUTOR_COURSE_URL = `${API_BASE}/company/tutor/course-assign`;
 export const EDIT_TUTOR_URL = `${API_BASE}/company/tutor/edit`;
+export const DELETE_COMMISSION_URL = `${API_BASE}/v2/commission/delete`;
 
 export const TUTORS_COMBINED_URL = `${API_BASE}/v2/tutors`;
 export const TUTOR_DETAILS_URL = `${API_BASE}/v2/tutor-details`;
+export const STRIPE_CONNECT_ACCOUNT_STATUS_URL = `${API_BASE}/v2/stripe-connect-account-status`;
 
 // TESTIMONIALS
 export const TESTIMONIALS_DATA_URL = `${API_BASE}/guest/testimonials-data`;
@@ -530,3 +532,14 @@ export const LEADS_LANDING_PAGE_BY_SLUG_URL = `${API_BASE}/v2/landing-page`;
 export const QUESTIONS_URL = `${API_BASE}/v2/landing-questions`;
 export const SUBMIT_QUESTION_ANSWERS_URL = `${API_BASE}/v2/landing-questions/answers/submit`;
 export const SUBMISSIONS_URL = `${API_BASE}/v2/answers`;
+export const EDIT_QUESTION_STYLES_URL = `${API_BASE}/v2/question-styles/edit`;
+export const QUESTIONS_BY_ID_URL = `${API_BASE}/v2/landing-questions-by-id`;
+
+// VIDEOS && CTAs
+export const VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas`;
+export const VIDEOS_CTAS_DETAILS_URL = `${API_BASE}/v2/videos-ctas-details`;
+export const VIDEO_CTA_BY_SLUG_URL = `${API_BASE}/v2/video-cta`;
+export const ADD_VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas/add`;
+export const EDIT_VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas/edit`;
+export const EDIT_VIDEOS_CTAS_DETAILS_URL = `${API_BASE}/v2/videos-ctas-details/edit`;
+export const DELETE_VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas/delete`;

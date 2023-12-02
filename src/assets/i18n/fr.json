@@ -3232,7 +3232,8 @@
         "accountid": "identifiant de compte",
         "notconfigured": "Pas configuré",
         "configurenote": "Configurez l'identifiant de compte Stripe Connect dans votre profil",
-        "commission": "Commission"
+        "commission": "Commission",
+        "notconnected": "Vous n'êtes affecté en tant que tuteur à aucun cours."
     },
     "timeunits": {
         "minutes": "minutes",
@@ -3328,6 +3329,12 @@
         "boxed": "En boîte",
         "backgroundcolor": "Couleur d'arrière-plan",
         "textcolor": "Couleur du texte",
-        "ipaddress": "Adresse IP"
+        "ipaddress": "Adresse IP",
+        "selectquestionbasedonlocation": "Seleccione el cuestionario según la ubicación",
+        "selectquestionbasedonlocationdesc": "Si celles-ci sont définies, la question par défaut attribuée ci-dessus sera remplacée par ces questionnaires sélectionnés. Si elle est laissée vide, la page de destination sera redirigée vers le questionnaire par défaut sélectionné ci-dessus, quel que soit l'endroit où ils se trouvent.",
+        "espagne": "Espagne",
+        "spain": "Hors d'Espagne",
+        "latam": "latam",
+        "videosandctas": "Vidéos et CTA"
     }
 }

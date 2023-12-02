@@ -136,7 +136,13 @@
                             <div class="pl-[5px]">{{ "credit-package.mycredits" | translate }}</div>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="hasAccess('tutors') && isTutorUser && !(userTypeName?.indexOf('Admin Sede') >= 0) && !superTutor">
+                    <ng-container 
+                        *ngIf="hasAccess('tutors') && 
+                            (
+                                (isTutorUser && !(userTypeName?.toLowerCase()?.indexOf('admin sede') >= 0) && !superTutor) ||
+                                (userTypeName?.toLowerCase()?.indexOf('admin sede') >= 0)
+                            )
+                        ">
                         <div class="hover:cursor-pointer flex capitalize pb-4 items-center" routerLink="/tutors/stripe-connect">
                             <div>
                                 <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">

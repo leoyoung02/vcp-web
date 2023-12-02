@@ -120,7 +120,6 @@ export class CalendlyComponent {
 
     if(evt.data.event && evt.data.event.indexOf('calendly.date_and_time_selected') === 0) {
       this.courseId = this._localService.getLocalStorage("selectedWorkingCourse") ? this._localService.getLocalStorage("selectedWorkingCourse") : 0
-      console.log(this.courseId)
       console.log('calendly.date_and_time_selected: ' + this.courseId)
     }
   }
@@ -142,7 +141,6 @@ export class CalendlyComponent {
 
   bookLesson(event_guid, invitee_guid) {
     this.packageId = this._localService.getLocalStorage("selectedWorkingPackage") ? this._localService.getLocalStorage("selectedWorkingPackage") : 0;
-    console.log('package id: ' + this.packageId)
 
     let params = {
       company_id: this.companyId,

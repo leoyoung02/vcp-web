@@ -3247,7 +3247,8 @@
         "accountid": "ID del compte",
         "notconfigured": "No configurat",
         "configurenote": "Configura l'identificador del compte de Stripe Connect al teu perfil",
-        "commission": "Comissions"
+        "commission": "Comissions",
+        "notconnected": "No es pot assignar a tutor per any course."
     },
     "timeunits": {
         "minutes": "minuts",
@@ -3343,6 +3344,12 @@
         "boxed": "Encaixat",
         "backgroundcolor": "Color de fons",
         "textcolor": "Color del text",
-        "ipaddress": "Adreça IP"
+        "ipaddress": "Adreça IP",
+        "selectquestionbasedonlocation": "Seleccioneu el qüestionari segons la ubicació",
+        "selectquestionbasedonlocationdesc": "Si s'estableixen, la pregunta predeterminada assignada anteriorment se substituirà per aquests qüestionaris seleccionats. Si es deixa en blanc, la pàgina de destinació es tornarà al qüestionari predeterminat seleccionat anteriorment, independentment d'on es trobin.",
+        "spain": "Espanya",
+        "outsidespain": "Fora d'Espanya",
+        "latam": "Latam",
+        "videosandctas": "Vídeos i CTA"
     }
 }

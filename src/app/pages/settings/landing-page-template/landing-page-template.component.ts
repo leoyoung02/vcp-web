@@ -337,7 +337,7 @@ export class LandingPageTemplateComponent {
     this.selectedLayout = this.landingPage?.details?.layout || 'boxed';
     this.selectedBackgroundColor = this.landingPage?.details?.background_color || '#ffffff';
     this.selectedTextColor = this.landingPage?.details?.text_color || '#000000';
-    this.activateBanner = this.landingPage?.details?.banner == 1 || true;
+    this.activateBanner = this.landingPage?.details?.banner;
     this.activateSection1 = this.landingPage?.details?.section1 == 1 || (this.landingPage?.details?.id > 0 ? this.landingPage?.details?.section1 : true);
     this.activateSection2 = this.landingPage?.details?.section2 == 1 || (this.landingPage?.details?.id > 0 ? this.landingPage?.details?.section2 : true);
     this.activateSection3 = this.landingPage?.details?.section3 == 1 || (this.landingPage?.details?.id > 0 ? this.landingPage?.details?.section3 : true);
@@ -388,7 +388,7 @@ export class LandingPageTemplateComponent {
       section1: this.activateSection1 ? 1 : 0,
       section2: this.activateSection2 ? 1 : 0,
       section3: this.activateSection3 ? 1 : 0,
-      banner_image: (this.bannerImageName || this.landingPageTemplateFileName) || '',
+      banner_image: (this.landingPageTemplateFileName || this.bannerImageName) || '',
       section1_text: this.section1Text,
       section2_text: this.section2Text,
       section3_text: this.section3Text,
@@ -434,7 +434,6 @@ export class LandingPageTemplateComponent {
     console.log('A file was added', event);
     if(localStorage.getItem('landing_page_template_file') == 'complete' && this.landingPageTemplateFileName) {
       this.bannerImage = `${environment.api}/get-landing-page-image/${this.landingPageTemplateFileName}`;
-
     }
   }
 

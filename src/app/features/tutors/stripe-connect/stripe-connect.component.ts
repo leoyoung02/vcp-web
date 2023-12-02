@@ -56,6 +56,7 @@ export class StripeConnectComponent {
   otherStripeAccounts: any;
   stripeAccounts: any;
   hasDifferentStripeAccounts: boolean = false;
+  isLoading: boolean = true;
 
   constructor(
     private _route: ActivatedRoute,
@@ -240,6 +241,10 @@ export class StripeConnectComponent {
         
         if(course?.course_tutors?.length > 0) {
           course_tutor_match = course?.course_tutors?.some(a => a.tutor_id == this.tutor?.id)
+        } else {
+          if(course?.tutor_ids?.length > 0) {
+            course_tutor_match = course?.tutor_ids?.some(a => a == this.tutor?.id)
+          }
         }
 
         let account_match = this.accountIds?.find((f) => f.stripe_id == stripe.id)
@@ -250,12 +255,57 @@ export class StripeConnectComponent {
             id: stripe.id,
             name: stripe.name,
             account_id: account?.account_id || '',
-            course_id: course?.id
+            course_id: course?.id,
+            status: '',
+            secret_key: stripe?.secret_key,
+            publishable_key: stripe?.publishable_key,
           })
+        }
+
+        if(this.accountIds?.length == 0 && course_stripe_match && course_tutor_match) {
+          let match =  stripeAccounts.some(a => a.id === stripe.id)
+          if(!match) {
+            stripeAccounts.push({
+              id: stripe.id,
+              name: stripe.name,
+              account_id: '',
+              course_id: course?.id,
+              status: '',
+              secret_key: stripe.secret_key,
+              publishable_key: stripe?.publishable_key,
+            })
+          }
         }
       })
     }
     this.stripeAccounts = stripeAccounts
+    if(this.stripeAccounts?.length > 0) {
+      this.getStripeAccountStatus();
+    }
+    this.isLoading = false;
+  }
+
+  getStripeAccountStatus() {
+    let params = {
+      company_id: this.companyId,
+      stripe_accounts: this.stripeAccounts
+    }
+    this._tutorsService.getStripeConnectAccountStatus(params).subscribe(
+      async response => {
+        console.log(response);
+        let stripe_accounts = response?.stripe_accounts;
+        if(stripe_accounts?.length > 0 && this.stripeAccounts?.length > 0) {
+          this.stripeAccounts?.forEach(account => {
+            let account_row = stripe_accounts?.filter(acc => {
+              return acc.id == account.id
+            })
+            if(account_row?.length > 0) {
+              account.status = account_row[0].status
+            }
+          })
+        }
+      }
+    )
   }
 
   configureStripeConnect(item){
