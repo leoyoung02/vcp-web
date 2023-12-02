@@ -64,5 +64,8 @@ export const environment = {
     lstoastopened: 'Tzfo108nKrwFrgTLGyIBoQ==',
     lscurrentUser: '9NyA+8LfvCQYqRNfMvBMCA==',
     lsreport: 'UjwYsku9FFqhu/hsCtnS4g==',
-    lstutortypes: 'VsPZU9fGTkeAnzcI96Gbug=='
+    lstutortypes: 'VsPZU9fGTkeAnzcI96Gbug==',
+    lsusergeocountry: "9tUVhOGJtEa0brNJCgI7tA==",
+    lsusergeocity: "dYvVSQsQU0yuMBCmjuE3Xg==",
+    lsusergeoipaddress: "y8Y+yUkz7E6QhkVODnJYWw=="
 };
