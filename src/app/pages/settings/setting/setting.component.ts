@@ -1784,7 +1784,7 @@ export class SettingComponent {
   }
 
   goToTikTokSettings(item) {
-    this._router.navigate([`/settings/tiktok/${item?.replace(' ', '-')?.toLowerCase()}`]);
+    this._router.navigate([`/settings/tiktok/${item?.replace(' & ', '-')?.replace(' ', '-')?.toLowerCase()}`]);
   }
 
   handleGoBack() {

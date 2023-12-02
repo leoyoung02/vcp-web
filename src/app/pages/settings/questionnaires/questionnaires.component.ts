@@ -11,6 +11,7 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { ColorPickerModule } from 'ngx-color-picker';
 import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import { SearchComponent } from "@share/components/search/search.component";
 import {
@@ -30,6 +31,13 @@ import { CoursesService } from "@features/services";
 import { initFlowbite } from "flowbite";
 import get from "lodash/get";
 
+import { FilePondModule, registerPlugin } from 'ngx-filepond';
+import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
+
 @Component({
   selector: "app-settings-lead-questionnaires",
   standalone: true,
@@ -43,6 +51,8 @@ import get from "lodash/get";
     MatSortModule,
     MatSnackBarModule,
     MatTabsModule,
+    ColorPickerModule,
+    FilePondModule,
     SearchComponent,
     BreadcrumbComponent,
     ToastComponent,
@@ -138,6 +148,63 @@ export class QuestionnairesComponent {
   conditionValue: any;
   selectedRule: any;
   selectedRuleId: any;
+  submitButtonColor: any;
+  submitButtonTextColor: any;
+  submitButtonText: any;
+
+  activateImage: boolean = false;
+  questionImage: any;
+  questionFileName: any;
+  questionImageName: any;
+  pondFiles = [];
+  @ViewChild('myPond', {static: false}) myPond: any;
+  pondOptions = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    acceptedFileTypes: 'image/jpg, image/jpeg, image/png',
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.questionFileName = 'lp_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('image', file, this.questionFileName);
+        localStorage.setItem('landing_page_template_file', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/v2/landing-page/temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('landing_page_template_file', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+              request.abort();
+              abort();
+          },
+        };
+      },
+    },
+  };
 
   constructor(
     private _companyService: CompanyService,
@@ -429,6 +496,14 @@ export class QuestionnairesComponent {
     this.selectedId = item.id;
     this.title = item.title;
     this.description = item.description;
+    this.submitButtonColor = item?.button_color;
+    this.submitButtonText = item?.button_text;
+    this.submitButtonTextColor = item?.button_text_color;
+    if(item?.image && item?.image_filename) {
+      this.activateImage = true;
+      this.questionImageName = item?.image_filename;
+      this.questionImage = `${environment.api}/get-landing-page-image/${item?.image_filename}`;
+    }
     this.selectedLocation = item.location_id || '';
     this.formatQuestionItems(item.items);
     
@@ -922,7 +997,6 @@ export class QuestionnairesComponent {
             ""
           );
           this.rules = response.question_rules;
-          console.log(this.rules)
           this.whatsAppCommunityUrl = '';
           this.selectedRuleId = '';
           this.selectedRule = '';
@@ -958,6 +1032,71 @@ export class QuestionnairesComponent {
         console.log(error);
       }
     );
+  }
+
+  public onSubmitButtonEventLog(event: string, data: any): void {
+    if(data && event == 'colorPickerClose') {
+      this.submitButtonColor = data
+    }
+  }
+
+  public onSubmitButtonTextEventLog(event: string, data: any): void {
+    if(data && event == 'colorPickerClose') {
+      this.submitButtonTextColor = data
+    }
+  }
+
+  saveQuestionnaireStyles() {
+    let params = {
+      image: this.activateImage ? 1 : 0,
+      image_filename: (this.questionFileName || this.questionImageName) || '',
+      button_text: this.submitButtonText,
+      button_color: this.submitButtonColor,
+      button_text_color: this.submitButtonTextColor,
+    };
+
+    this._companyService.editQuestionStyles(this.selectedId, params).subscribe(
+      (response) => {
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  public getTimestamp() {
+    const date = new Date()
+    const timestamp = date.getTime()
+    return timestamp
+  }
+
+  pondHandleInit() {
+    console.log('FilePond has initialised', this.myPond);
+  }
+
+  pondHandleAddFile(event: any) {
+    console.log('A file was added', event);
+    if(localStorage.getItem('landing_page_template_file') == 'complete' && this.questionFileName) {
+      this.questionImage = `${environment.api}/get-landing-page-image/${this.questionFileName}`;
+    }
+  }
+
+  podHandleUpdateFiles(event: any) {
+    console.log('A file was updated', event);
+    if(localStorage.getItem('landing_page_template_file') == 'complete' && this.questionFileName) {
+      this.questionImage = `${environment.api}/get-landing-page-image/${this.questionFileName}`;
+    }
+  }
+
+  podHandleProcessFile(event: any) {
+    console.log('A file was updated', event);
+    if(localStorage.getItem('landing_page_template_file') == 'complete' && this.questionFileName) {
+      this.questionImage = `${environment.api}/get-landing-page-image/${this.questionFileName}`;
+    }
   }
 
   handleGoBack() {

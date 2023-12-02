@@ -100,7 +100,7 @@
         "instruction_1" : "1. La imagen solo debe tener un tamaño de 500 kb.",
         "instruction_2": "2. La imagen debe estar en formato (.jpg o .png).",
         "instruction_3": "Seleccionar imagen de su computadora",
-        "image_banner": "imagen de bandera",
+        "image_banner": "Imagen de bandera",
         "upload":"Subir",
         "remove":"Eliminar",
         "save_logo":"Guardar logo",
@@ -3252,7 +3252,8 @@
         "accountid": "ID de la cuenta",
         "notconfigured": "No configurada",
         "configurenote": "Configure el ID de cuenta de Stripe Connect en su perfil",
-        "commission": "Comisiones"
+        "commission": "Comisiones",
+         "notconnected": "No estás asignado como tutor a ningún curso."
     },
     "timeunits": {
         "minutes": "minutos",
@@ -3349,6 +3350,12 @@
         "boxed": "En caja",
         "backgroundcolor": "Color de fondo",
         "textcolor": "Color del texto",
-        "ipaddress": "Dirección IP"
+        "ipaddress": "Dirección IP",
+        "selectquestionbasedonlocation": "Seleccione el cuestionario según la ubicación",
+        "selectquestionbasedonlocationdesc": "Si se configuran, la pregunta predeterminada asignada anteriormente será reemplazada por estos cuestionarios seleccionados. Si se deja en blanco, la página de inicio se redireccionará al cuestionario predeterminado seleccionado anteriormente, independientemente de dónde se encuentren.",
+        "spain": "España",
+        "outsidespain": "Fuera de España",
+        "latam": "Latam",
+        "videosandctas": "Vídeos y CTA"
     }
 }

@@ -1,0 +1,58 @@
+<ng-container *ngIf="!isLoading && videoCTA?.id > 0">
+    <div class="max-w-screen-xl py-8 mx-auto">
+        <div *ngIf="activateVideo">
+            <ng-container *ngIf="videoEmbed && updatedCode">
+                <div class="w-full max-w-full flex justify-center">
+                    <iframe 
+                        class="iframe-ctrl"
+                        id="{{ 'iframe-1' }}"
+                        [src]="updatedVideo" 
+                        width="100%" 
+                        height="50vh"
+                        *ngIf="videoEmbed?.indexOf('iframe') < 0"
+                        allowfullscreen="allowfullscreen" 
+                        mozallowfullscreen="mozallowfullscreen" 
+                        msallowfullscreen="msallowfullscreen" 
+                        oallowfullscreen="oallowfullscreen" 
+                        webkitallowfullscreen="webkitallowfullscreen"
+                        allow=autoplay
+                        [ngStyle]="{
+                            'height': '560px'
+                        }"
+                    >
+                    </iframe>
+                </div>
+                <div 
+                    class="w-full max-w-full flex justify-center" 
+                   [innerHtml]="updatedCode | safeContentHtml: 'html'" 
+                    *ngIf="videoEmbed?.indexOf('iframe') >= 0">
+                </div>
+            </ng-container>
+        </div>
+        <div class="my-8" *ngIf="activateDescription" [ngStyle]="{'color': descriptionTextColor}">
+            <div class="relative h-full max-h-full"
+                [ngClass]="{'flex flex-col': !descriptionText}">
+                <div [ngClass]="{'flex justify-center items-center': !descriptionText, 'flex-col': CTAText}">
+                    <ng-container *ngIf="descriptionText">
+                        <span [innerHtml]="descriptionText | safeContentHtml: 'html'"></span>
+                    </ng-container>
+                    <ng-container *ngIf="!descriptionText">
+                        <span class="font-semibold text-lg">{{ 'company-settings.description' | translate }}</span>
+                    </ng-container>
+                    <div *ngIf="activateCTA && CTAText" class="pt-8">
+                        <div class="text-center mt-2">
+                            <button type="button" class="rounded-lg h-[40px] px-16 font-semibold"
+                                [ngStyle]="{'background-color': CTAButtonColor, 'color': CTATextColor}"
+                                (click)="redirectToCTALink()">
+                                {{CTAText}}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<div *ngIf="!isLoading && !(videoCTA?.id > 0)" class="center pt-16">
+    <app-no-access></app-no-access>
+</div>

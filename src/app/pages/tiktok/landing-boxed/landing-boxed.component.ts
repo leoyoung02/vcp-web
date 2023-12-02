@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { Component, Input, SimpleChange } from "@angular/core";
 import { Router } from "@angular/router";
 import {
   LangChangeEvent,
@@ -69,6 +69,13 @@ export class TikTokLandingBoxedComponent {
   @Input() section3QuestionCTAColor: any;
   @Input() section3QuestionCTATextColor: any;
   @Input() slug: any;
+  @Input() defaultQuestionId: any;
+  @Input() spainQuestionId: any;
+  @Input() outsideSpainQuestionId: any;
+  @Input() latamQuestionId: any;
+  @Input() country: any;
+  @Input() city: any;
+  @Input() ipAddress: any;
 
   constructor(
     private _router: Router,
@@ -77,13 +84,27 @@ export class TikTokLandingBoxedComponent {
     private _localService: LocalService,
   ) {}
 
+  ngOnChanges(changes: SimpleChange) {
+    let countryChange = changes["country"];
+    if (countryChange?.previousValue != countryChange?.currentValue) {
+      this.country = countryChange.currentValue;
+    }
+
+    let cityChange = changes["city"];
+    if (cityChange?.previousValue != cityChange?.currentValue) {
+      this.city = cityChange.currentValue;
+    }
+
+    let ipAddressChange = changes["ipAddress"];
+    if (ipAddressChange?.previousValue != ipAddressChange?.currentValue) {
+      this.ipAddress = ipAddressChange.currentValue;
+    }
+  }
+
   async ngOnInit() {
-    this.language =
-      this._localService.getLocalStorage(environment.lslanguage) || "es";
+    this.language = this._localService.getLocalStorage(environment.lslanguage) || "es";
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
-    this.companyId = this._localService.getLocalStorage(
-      environment.lscompanyId
-    );
+    this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     this._translateService.use(this.language || "es");
 
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
@@ -120,7 +141,60 @@ export class TikTokLandingBoxedComponent {
   }
 
   redirectToCTALink(mode) {
-    this._router.navigate([`/tiktok/questions/${this.slug}`]);
+    // this._router.navigate([`/tiktok/questions/${this.slug}`]);
+    let question_id = this.defaultQuestionId;
+    if(this.country) {
+      if(this.spainQuestionId > 0 && this.country == 'Spain') {
+        question_id = this.spainQuestionId;
+      } else if(this.latamQuestionId > 0 && this.isLatamCountry()) {
+        question_id = this.spainQuestionId;
+      } else {
+        if(this.outsideSpainQuestionId > 0) {
+          question_id = this.outsideSpainQuestionId;
+        }
+      }
+    }
+
+    this._router.navigate([`/tiktok/landing-questions/${question_id}`]);
+  }
+
+  isLatamCountry() {
+    let is_latam = false;
+    
+    if(this.country == 'Brazil' ||
+      this.country == 'Argentina' ||
+      this.country == 'Chile' ||
+      this.country == 'Venezuela' ||
+      this.country == 'Panama' ||
+      this.country == 'Guatemala' ||
+      this.country == 'Cuba' ||
+      this.country == 'French Guiana' ||
+      this.country == 'Saint Lucia' ||
+      this.country == 'Saint Martin' ||
+      this.country == 'Colombia' ||
+      this.country == 'Uruguay' ||
+      this.country == 'Peru' ||
+      this.country == 'Paraguay' ||
+      this.country == 'Honduras' ||
+      this.country == 'Nicaragua' ||
+      this.country == 'Haiti' ||
+      this.country == 'Martinique' ||
+      this.country == 'Antigua and Barbuda' ||
+      this.country == 'Saint Barthelemy' ||
+      this.country == 'Mexico' ||
+      this.country == 'Bolivia' ||
+      this.country == 'Ecuador' ||
+      this.country == 'Costa Rica' ||
+      this.country == 'El Salvador' ||
+      this.country == 'Dominican Republic' ||
+      this.country == 'Puerto Rico' ||
+      this.country == 'Guadeloupe' ||
+      this.country == 'Belize'
+    ) {
+      is_latam = true;
+    }
+
+    return is_latam;
   }
 
   ngOnDestroy() {

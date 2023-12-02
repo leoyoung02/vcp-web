@@ -110,4 +110,16 @@ export const routes: Routes = [
         data: { titleKey: 'your-admin-area.submissions'},
         loadComponent: async () => (await import('./submissions/submissions.component')).SubmissionsComponent,
     },
+    {
+        path: 'tiktok/videos-ctas',
+        title: CustomTitleResolver,
+        data: { titleKey: 'leads.videosandctas'},
+        loadComponent: async () => (await import('./videos-ctas/videos-ctas.component')).LandingVideosCTAsComponent,
+    },
+    {
+        path: 'tiktok/video-cta/template/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'settings.template'},
+        loadComponent: async () => (await import('./videos-ctas-template/videos-ctas-template.component')).VideosCTAsTemplateComponent,
+    },
 ];

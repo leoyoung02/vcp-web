@@ -9,6 +9,7 @@ import {
 import {
   CompanyService,
   LocalService,
+  UserService,
 } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
@@ -81,22 +82,31 @@ export class TikTokLandingComponent {
   section3QuestionCTATextColor: any;
   bannerImageName: any;
   isLoading: boolean = true;
+  defaultQuestionId: any;
+  spainQuestionId: any;
+  outsideSpainQuestionId: any;
+  latamQuestionId: any;
+  country: any;
+  city: any;
+  ipAddress: any;
 
   constructor(
     private _router: Router,
     private _companyService: CompanyService,
+    private _userService: UserService,
     private _translateService: TranslateService,
     private _localService: LocalService,
   ) {}
 
   async ngOnInit() {
-    this.language =
-      this._localService.getLocalStorage(environment.lslanguage) || "es";
+    this.language = this._localService.getLocalStorage(environment.lslanguage) || "es";
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
-    this.companyId = this._localService.getLocalStorage(
-      environment.lscompanyId
-    );
+    this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     this._translateService.use(this.language || "es");
+
+    this.country = this._localService.getLocalStorage(environment.lsusergeocountry);
+    this.city = this._localService.getLocalStorage(environment.lsusergeocity);
+    this.ipAddress = this._localService.getLocalStorage(environment.lsusergeoipaddress);
 
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
@@ -129,6 +139,27 @@ export class TikTokLandingComponent {
 
   initializePage() {
     this.fetchLandingData();
+    if(!this.country || !this.city || !this.ipAddress) {
+      this.fetchGeoLocation();
+    }
+  }
+
+  fetchGeoLocation() {
+    this._userService.getUserGeolocation()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        data => {
+          this.country = data?.country;
+          this.city = data?.city;
+          this.ipAddress = data?.ip_address;
+          this._localService.setLocalStorage(environment.lsusergeocountry, this.country);
+          this._localService.setLocalStorage(environment.lsusergeocity, this.city);
+          this._localService.setLocalStorage(environment.lsusergeoipaddress, this.ipAddress);
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
   fetchLandingData() {
@@ -136,8 +167,8 @@ export class TikTokLandingComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         data => {
-            this.landingPage = data?.landing_page?.length > 0 ? data?.landing_page[0] : '';
-            this.formatDetails();
+          this.landingPage = data?.landing_page?.length > 0 ? data?.landing_page[0] : '';
+          this.formatDetails();
         },
         error => {
           console.log(error)
@@ -149,7 +180,7 @@ export class TikTokLandingComponent {
     this.selectedLayout = this.landingPage?.layout || 'boxed';
     this.selectedBackgroundColor = this.landingPage?.background_color || '#ffffff';
     this.selectedTextColor = this.landingPage?.text_color || '#000000';
-    this.activateBanner = this.landingPage?.banner == 1 || true;
+    this.activateBanner = this.landingPage?.banner;
     this.activateSection1 = this.landingPage?.section1 == 1 || (this.landingPage?.id > 0 ? this.landingPage?.section1 : true);
     this.activateSection2 = this.landingPage?.section2 == 1 || (this.landingPage?.id > 0 ? this.landingPage?.section2 : true);
     this.activateSection3 = this.landingPage?.section3 == 1 || (this.landingPage?.id > 0 ? this.landingPage?.section3 : true);
@@ -172,6 +203,10 @@ export class TikTokLandingComponent {
     this.section3QuestionCTAText = this.landingPage?.section3_cta_text || '';
     this.section3QuestionCTAColor = this.landingPage?.section3_cta_color || '';
     this.section3QuestionCTATextColor = this.landingPage?.section3_cta_text_color || '';
+    this.defaultQuestionId = this.landingPage?.default_question_id;
+    this.spainQuestionId = this.landingPage?.spain_question_id;
+    this.outsideSpainQuestionId = this.landingPage?.outside_spain_question_id;
+    this.latamQuestionId = this.landingPage?.latam_question_id;
     this.isLoading = false;
   }
 

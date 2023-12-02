@@ -3231,7 +3231,8 @@
         "accountid": "Kontuaren IDa",
         "notconfigured": "Konfiguratu gabe",
         "configurenote": "Konfiguratu Stripe Connect kontuaren IDa zure profilean",
-        "commission": "Batzordea"
+        "commission": "Batzordea",
+        "notconnected": "Ez zaude inongo ikastarotan tutore gisa esleituta."
     },
     "timeunits": {
         "minutes": "minutu",
@@ -3327,6 +3328,12 @@
         "boxed": "Boxed",
         "backgroundcolor": "Hondoren kolorea",
         "textcolor": "Testuaren kolorea",
-        "ipaddress": "IP helbidea"
+        "ipaddress": "IP helbidea",
+        "selectquestionbasedonlocation": "Hautatu galdetegia kokapenaren arabera",
+        "selectquestionbasedonlocationdesc": "Hauek ezartzen badira, goian esleitutako galdera lehenetsia hautatutako galdetegi hauekin ordezkatuko da. Hutsik geratzen bada, helmuga orria goian hautatutako lehenetsitako galdetegira itzuliko da, non dauden edozein dela ere.",
+        "spain": "Espainia",
+        "outsidespain": "Espainiatik kanpo",
+        "latam": "Latam",
+        "videosandctas": "Bideoak eta CTA-ak"
     }
 }

@@ -76,8 +76,6 @@ export class CourseCardComponent {
   }
 
   goToDetails() {
-    console.log(this.buttonText);
-    console.log(this.showDetails);
     if(this.showDetails) {
       this._router.navigate([this.path]);
     }

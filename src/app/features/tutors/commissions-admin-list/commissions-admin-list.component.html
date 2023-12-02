@@ -12,6 +12,36 @@
                     >
                     </app-search>
                 </div>
+                <div>
+                    <select
+                        id="courses"
+                        class="ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedCourse"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeCourseFilter($event)"
+                    >
+                        <option value="">{{ 'keap.selectcourse' | translate }}</option>
+                        <option
+                            *ngFor="let course of courses"                                
+                            [value]="course.value"
+                        >
+                            {{ course?.course_title }}
+                        </option>
+                    </select>
+                </div>
+                <div class="ml-6">
+                    <div class="flex-auto -mb-5">
+                        <mat-form-field class="datetime-picker-field">
+                            <mat-label>{{ 'plan-details.selectdate' | translate }}</mat-label>
+                            <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                              <input (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
+                              <input (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="pt-1.5 mb-6" *ngIf="selected && selected.length > 0 && status == 'Pending'">
@@ -92,12 +122,12 @@
                 <ng-container matColumnDef="tutor_name">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.tutor' | translate }} </mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="tutor_name">
-                        {{ row?.tutor_name }}
+                        {{ row?.tutor_name }} ({{row?.type}})
                     </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="course">
+                <ng-container matColumnDef="course_title">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'general-details.course' | translate }} </mat-header-cell>
-                    <mat-cell *matCellDef="let row" data-label="course"> {{ row.course_title }} </mat-cell>
+                    <mat-cell *matCellDef="let row" data-label="course_title"> {{ row.course_title }} </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="commission">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutor-stripe.commission' | translate }} </mat-header-cell>
@@ -109,6 +139,19 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'dialog.transferid' | translate }} ID</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="commission_transfer_id">
                         {{ row?.commission_transfer_id }}
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="action">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'customer.action' | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="action" style="display:flex;">
+                        <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            [ngStyle]="{'background-color': buttonColor}" (click)="deleteCommission(row)"
+                        >
+                            <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
+                            </svg>
+                            <span class="sr-only">Icon description</span>
+                        </button>
                     </mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
