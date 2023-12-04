@@ -227,7 +227,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div *ngIf="!showMultipleChoiceOptionDetails && selectedQuestionItemType == 1" class="my-8">
+                                    <div *ngIf="!showMultipleChoiceOptionDetails && selectedQuestionItemType == 1 && questionItemMode != 'add'" class="my-8">
                                         <div class="flex mb-8 items-center align-center">
                                             <button 
                                                 class="h-[40px] flex items-center p-3.5 px-8 rounded-[15px] justify-evenly mt-4 transition duration-700 ease-in-out mr-8"
@@ -278,7 +278,7 @@
                                             </button>
                                         </div>
                                     </ng-container>
-                                    <table *ngIf="!showMultipleChoiceOptionDetails && selectedQuestionItemType == 1" class="my-8 w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <table *ngIf="!showMultipleChoiceOptionDetails && selectedQuestionItemType == 1 && questionItemMode != 'add'" class="my-8 w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
                                                 <th></th>
@@ -505,7 +505,7 @@
                                 <div class="my-8">
                                     <div class="flex items-center justify-between relative pt-4">
                                         <div class="text-left block mb-4 text-sm font-medium text-gray-900 dark:text-white">
-                                            {{'guest-landing.activate' | translate}} {{'plan-details.image' | translate}}
+                                            {{'leads.activateheaderimage' | translate}}
                                         </div>
                                         <label
                                             for="setting-2"
@@ -613,6 +613,73 @@
                                             class="w-full inline-block h-[40px] text-sm px-6 py-2 mt-6 font-semibold text-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
                                             [ngStyle]="{'background-color': buttonColor}"
                                             (click)="saveQuestionnaireStyles()"
+                                        >
+                                            {{ 'plan-create.savechanges' | translate }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab *ngIf="mode == 'edit'" class="uppercase" label="{{ 'leads.otherimages' | translate }}">
+                                <div class="my-8">
+                                    <div class="flex items-center justify-between relative pt-4">
+                                        <div class="text-left block mb-4 text-sm font-medium text-gray-900 dark:text-white">
+                                            {{'leads.activateimagesbefosubmitbutton' | translate}}
+                                        </div>
+                                        <label
+                                            for="setting-6"
+                                            class="flex items-center justify-between cursor-pointer"
+                                        >
+                                            <div class="relative mr-1">
+                                                <input
+                                                    id="setting-6"
+                                                    name="setting-6"
+                                                    type="checkbox"
+                                                    class="sr-only"
+                                                    [(ngModel)]="activateOtherImages" 
+                                                    [ngModelOptions]="{standalone: true}"
+                                                />
+                                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                    <ng-container *ngIf="activateOtherImages">
+                                        <ng-container *ngIf="questionImages?.length > 0 && !imageFileName">
+                                            <div *ngIf="questionImages?.length == 1">
+                                                <img class="object-contain h-[256px] w-full max-w-full object-cover" src="{{ imageSrc + questionImages[0]?.image }}" />
+                                            </div>
+                                            <div *ngIf="questionImagesObject?.length > 1">
+                                                <ng-image-slider 
+                                                    [images]="questionImagesObject" 
+                                                    #nav
+                                                    [infinite]="false"
+                                                    [lazyLoading]="true"
+                                                    [autoSlide]="1"
+                                                    [imageSize]="{width: '280px',height: '200px'}"
+                                                    [manageImageRatio]="true"
+                                                    slideImage="1"
+                                                ></ng-image-slider>
+                                            </div>
+                                        </ng-container>
+                                        <div class="text-left block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            {{'leads.uploadimages' | translate}}
+                                        </div>
+                                        <div>
+                                            <file-pond
+                                                #myPond1
+                                                [options]="pondOptions1"
+                                                [files]="pondFiles1"
+                                                (oninit)="pond1HandleInit()"
+                                                (onaddfile)="pond1HandleAddFile($event)"
+                                            >
+                                            </file-pond>
+                                        </div>
+                                    </ng-container>
+                                    <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                                        <button
+                                            class="w-full inline-block h-[40px] text-sm px-6 py-2 mt-6 font-semibold text-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
+                                            [ngStyle]="{'background-color': buttonColor}"
+                                            (click)="saveQuestionnaireOtherImages()"
                                         >
                                             {{ 'plan-create.savechanges' | translate }}
                                         </button>

@@ -3334,6 +3334,10 @@
         "spain": "Espainia",
         "outsidespain": "Espainiatik kanpo",
         "latam": "Latam",
-        "videosandctas": "Bideoak eta CTA-ak"
+        "videosandctas": "Bideoak eta CTA-ak",
+        "activateheaderimage": "Aktibatu goiburuko irudia (tituluaren azpian)",
+        "otherimages": "Beste irudi batzuk",
+        "activateimagesbefosubmitbutton": "Aktibatu irudiak bidali botoia baino lehen",
+        "uploadimages": "Kargatu irudi bat edo gehiago"
     }
 }
