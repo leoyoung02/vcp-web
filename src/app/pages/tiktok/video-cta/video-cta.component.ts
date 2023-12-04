@@ -135,7 +135,7 @@ export class TikTokVideoCTAComponent {
     this.descriptionTextColor = this.videoCTA?.description_text_color || '#000000';
     this.descriptionText = this.videoCTA?.description_text;
     this.activateVideo = this.videoCTA?.video == 1 ? true : false;
-    this.videoEmbed = this.videoCTA?.video_embed;
+    this.videoEmbed = this.videoCTA?.video_embed?.replace('width="640"', 'width="100%"')?.replace('<iframe', '<iframe class="video-cta-iframe" '); 
     if(this.activateVideo && this.videoEmbed) {
       this.getSafeLessonURL();
     }

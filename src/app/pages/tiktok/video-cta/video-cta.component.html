@@ -1,5 +1,5 @@
 <ng-container *ngIf="!isLoading && videoCTA?.id > 0">
-    <div class="max-w-screen-xl py-8 mx-auto">
+    <div class="max-w-full sm:max-w-full md:max-w-screen-xl lg:max-w-screen-xl py-8 mx-auto">
         <div *ngIf="activateVideo">
             <ng-container *ngIf="videoEmbed && updatedCode">
                 <div class="w-full max-w-full flex justify-center">
@@ -29,7 +29,7 @@
                 </div>
             </ng-container>
         </div>
-        <div class="my-8" *ngIf="activateDescription" [ngStyle]="{'color': descriptionTextColor}">
+        <div class="w-9/12 mx-auto my-8" *ngIf="activateDescription" [ngStyle]="{'color': descriptionTextColor}">
             <div class="relative h-full max-h-full"
                 [ngClass]="{'flex flex-col': !descriptionText}">
                 <div [ngClass]="{'flex justify-center items-center': !descriptionText, 'flex-col': CTAText}">
@@ -41,7 +41,7 @@
                     </ng-container>
                     <div *ngIf="activateCTA && CTAText" class="pt-8">
                         <div class="text-center mt-2">
-                            <button type="button" class="rounded-lg h-[40px] px-16 font-semibold"
+                            <button type="button" class="rounded-lg h-auto min-h-[40px] px-16 font-semibold"
                                 [ngStyle]="{'background-color': CTAButtonColor, 'color': CTATextColor}"
                                 (click)="redirectToCTALink()">
                                 {{CTAText}}

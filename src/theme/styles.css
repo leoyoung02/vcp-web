@@ -764,3 +764,10 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
 .rating.color-positive .star-container .star svg {
     fill: #ffc058 !important;
 }
+
+@media (max-width: 767px) { 
+    iframe.video-cta-iframe {
+        margin-top: 80px;
+        height: auto !important;
+    }
+}

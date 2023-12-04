@@ -419,6 +419,13 @@ export class QuestionnairesComponent {
         location: this.getLocation(item?.location_id),
       };
     });
+    if(this.questionItemMode == 'edit') {
+      let selected_question_type = localStorage.getItem('selected_question_type');
+      this.selectedQuestionItemType = '';
+      setTimeout(() => {
+        this.selectedQuestionItemType = selected_question_type;
+      }, 500);
+    }
 
     this.questions = questions;
     if(this.createdQuestionId) {
@@ -773,6 +780,7 @@ export class QuestionnairesComponent {
     this.questionItemTitle = '';
     this.questionItemFormSubmitted = false;
     this.showQuestionItemDetails = false;
+    localStorage.removeItem('selected_question_type');
   }
 
   saveQuestionItem() {
@@ -827,7 +835,7 @@ export class QuestionnairesComponent {
   }
 
   cancelQuestionItem() {
-    this.resetQuestionItemFields()
+    this.resetQuestionItemFields();
     this.questionItemMode = '';
     this.showQuestionItemDetails = false;
   }
@@ -913,6 +921,7 @@ export class QuestionnairesComponent {
               question_item = question_item_row[0];
             }
           }
+          localStorage.setItem('selected_question_type', this.selectedQuestionItemType);
           this.getQuestions();
           this.selectedQuestionItem = question_item;
           this.multipleChoiceChoice = '';
@@ -940,6 +949,7 @@ export class QuestionnairesComponent {
               question_item = question_item_row[0];
             }
           }
+          localStorage.setItem('selected_question_type', this.selectedQuestionItemType);
           this.getQuestions();
           this.selectedQuestionItem = question_item;
           this.multipleChoiceChoice = '';
