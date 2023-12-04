@@ -9,15 +9,12 @@ import {
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
-import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import { SearchComponent } from "@share/components/search/search.component";
 import {
   CompanyService,
-  ExcelService,
   LocalService,
-  UserService,
 } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
@@ -251,33 +248,34 @@ export class LandingVideosCTAsComponent {
   }
 
   refreshTable(array) {
-    this.dataSource = new MatTableDataSource(
-      array.slice(
-        this.pageIndex * this.pageSize,
-        (this.pageIndex + 1) * this.pageSize
-      )
-    );
+    // this.dataSource = new MatTableDataSource(
+    //   array.slice(
+    //     this.pageIndex * this.pageSize,
+    //     (this.pageIndex + 1) * this.pageSize
+    //   )
+    // );
+    this.dataSource = new MatTableDataSource(array);
     if (this.sort) {
       this.dataSource.sort = this.sort;
     } else {
       setTimeout(() => (this.dataSource.sort = this.sort));
     }
-    if (this.paginator) {
-      new MatTableDataSource(array).paginator = this.paginator;
-      if (this.pageIndex > 0) {
-      } else {
-        this.paginator.firstPage();
-      }
-    } else {
-      setTimeout(() => {
-        if (this.paginator) {
-          new MatTableDataSource(array).paginator = this.paginator;
-          if (this.pageIndex > 0) {
-            this.paginator.firstPage();
-          }
-        }
-      });
-    }
+    // if (this.paginator) {
+    //   new MatTableDataSource(array).paginator = this.paginator;
+    //   if (this.pageIndex > 0) {
+    //   } else {
+    //     this.paginator.firstPage();
+    //   }
+    // } else {
+    //   setTimeout(() => {
+    //     if (this.paginator) {
+    //       new MatTableDataSource(array).paginator = this.paginator;
+    //       if (this.pageIndex > 0) {
+    //         this.paginator.firstPage();
+    //       }
+    //     }
+    //   });
+    // }
   }
 
   getPageDetails(event: any) {
@@ -402,7 +400,8 @@ export class LandingVideosCTAsComponent {
   }
 
   editVideosCTAsTemplate(item) {
-    this._router.navigate([`/settings/tiktok/video-cta/template/${item?.id}`])
+    // this._router.navigate([`/settings/tiktok/video-cta/template/${item?.id}`])
+    location.href = `/settings/tiktok/video-cta/template/${item?.id}`;
   }
 
   copyLink(row) {

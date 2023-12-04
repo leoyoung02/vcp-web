@@ -440,7 +440,8 @@ export class LandingPagesComponent {
   }
 
   editLandingPageTemplate(item) {
-    this._router.navigate([`/settings/tiktok/landing-page/template/${item?.id}`])
+    // this._router.navigate([`/settings/tiktok/landing-page/template/${item?.id}`])
+    location.href = `/settings/tiktok/landing-page/template/${item?.id}`;
   }
 
   copyLink(row) {

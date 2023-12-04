@@ -31,7 +31,7 @@
                     <span class="font-semibold text-lg">{{ 'course-lesson.section' | translate }} 1</span>
                 </ng-container>
                 <div *ngIf="activateSection1QuestionCTA && section1QuestionCTAText" class="text-center mt-2">
-                    <button type="button" class="rounded-lg h-[40px] px-16 font-semibold"
+                    <button type="button" class="rounded-lg h-auto min-h-[40px] px-16 font-semibold"
                         [ngStyle]="{'background-color': section1QuestionCTAColor, 'color': section1QuestionCTATextColor}"
                         (click)="redirectToCTALink('section1')">
                         {{section1QuestionCTAText}}
@@ -55,7 +55,7 @@
                     <span class="font-semibold text-lg">{{ 'course-lesson.section' | translate }} 2</span>
                 </ng-container>
                 <div *ngIf="activateSection2QuestionCTA && section2QuestionCTAText" class="text-center mt-2">
-                    <button type="button" class="rounded-lg h-[40px] px-16 font-semibold"
+                    <button type="button" class="rounded-lg h-auto min-h-[40px] px-16 font-semibold"
                         [ngStyle]="{'background-color': section2QuestionCTAColor, 'color': section2QuestionCTATextColor}"
                         (click)="redirectToCTALink('section2')">
                         {{section2QuestionCTAText}}
@@ -79,7 +79,7 @@
                     <span class="font-semibold text-lg">{{ 'course-lesson.section' | translate }} 3</span>
                 </ng-container>
                 <div *ngIf="activateSection3QuestionCTA && section3QuestionCTAText" class="text-center mt-2">
-                    <button type="button" class="rounded-lg h-[40px] px-16 font-semibold"
+                    <button type="button" class="rounded-lg h-auto min-h-[40px] px-16 font-semibold"
                         [ngStyle]="{'background-color': section3QuestionCTAColor, 'color': section3QuestionCTATextColor}"
                         (click)="redirectToCTALink('section3')">
                         {{section3QuestionCTAText}}

@@ -756,3 +756,10 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
     outline-offset: 0px;
     --tw-ring-color: transparent;
 }
+
+@media (max-width: 767px) { 
+    iframe.video-cta-iframe {
+        margin-top: 80px;
+        height: auto !important;
+    }
+}
