@@ -118,7 +118,8 @@ select {
 
 .mat-column-image,
 .mat-column-ID,
-.mat-column-move { 
+.mat-column-move,
+.mat-column-checked { 
   flex: 0 0 5% !important;
   width: 5% !important;
 }
@@ -754,4 +755,11 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
     outline: none;
     outline-offset: 0px;
     --tw-ring-color: transparent;
+}
+
+@media (max-width: 767px) { 
+    iframe.video-cta-iframe {
+        margin-top: 80px;
+        height: auto !important;
+    }
 }

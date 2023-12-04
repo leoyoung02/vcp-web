@@ -1,4 +1,4 @@
-<app-page-title title="{{ 'company-settings.landingpages' | translate }}"></app-page-title>
+<app-page-title title="{{ 'leads.videosandctas' | translate }}"></app-page-title>
 <div class="container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3">
     <app-breadcrumb 
         [level1Title]="level1Title"
@@ -48,14 +48,14 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'plan-create.title' | translate }} </mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="title"> {{ row.title }}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="location">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'buddy.location' | translate }} </mat-header-cell>
-                    <mat-cell *matCellDef="let row" data-label="location"> {{ row.location }}</mat-cell>
+                <ng-container matColumnDef="slug">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> Slug </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="slug"> {{ row.slug }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'customer.action' | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="action" class="flex;">
-                        <button *ngIf="row?.location_id" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        <button *ngIf="row?.slug" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             [ngStyle]="{'background-color': buttonColor}" (click)="copyLink(row)"
                         >
                             <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 19">
@@ -64,7 +64,7 @@
                             <span class="sr-only">Icon description</span>
                         </button>
                         <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            [ngStyle]="{'background-color': buttonColor}" (click)="editLandingPageTemplate(row)"
+                            [ngStyle]="{'background-color': buttonColor}" (click)="editVideosCTAsTemplate(row)"
                         >
                             <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                 <path d="M17 0h-5.768a1 1 0 1 0 0 2h3.354L8.4 8.182A1.003 1.003 0 1 0 9.818 9.6L16 3.414v3.354a1 1 0 0 0 2 0V1a1 1 0 0 0-1-1Z"/>
@@ -73,7 +73,7 @@
                             <span class="sr-only">Icon description</span>
                         </button>
                         <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            [ngStyle]="{'background-color': buttonColor}" (click)="editLandingPage(row)"
+                            [ngStyle]="{'background-color': buttonColor}" (click)="editVideosCTAs(row)"
                         >
                             <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                 <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
@@ -82,7 +82,7 @@
                             <span class="sr-only">Icon description</span>
                         </button>
                         <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            [ngStyle]="{'background-color': buttonColor}" (click)="deleteLandingPage(row)"
+                            [ngStyle]="{'background-color': buttonColor}" (click)="deleteVideosCTAs(row)"
                         >
                             <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                 <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
@@ -96,16 +96,16 @@
                 </mat-row>
             </mat-table>
         </div>
-        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"
+        <!-- <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"
             (page)="getPageDetails($event)"
             [showFirstLastButtons]="true">
-        </mat-paginator>
+        </mat-paginator> -->
     </div>
 </div>
 <button #modalbutton0 data-modal-target="item-modal0" data-modal-toggle="item-modal0" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
     &nbsp;
 </button>
-<div id="item-modal0" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+<div id="item-modal0" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-h-full max-w-4xl"
     >
         <div class="relative bg-white rounded-lg shadow">
@@ -122,7 +122,7 @@
                 <ng-container *ngIf="mode == 'edit'">
                     <div>
                         <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg flex items-center text-sm p-2.5 px-6 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            [ngStyle]="{'background-color': buttonColor}" (click)="editLandingPageTemplate(selectedItem)"
+                            [ngStyle]="{'background-color': buttonColor}" (click)="editVideosCTAsTemplate(selectedItem)"
                         >
                             <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
                                 <path d="M17 0h-5.768a1 1 0 1 0 0 2h3.354L8.4 8.182A1.003 1.003 0 1 0 9.818 9.6L16 3.414v3.354a1 1 0 0 0 2 0V1a1 1 0 0 0-1-1Z"/>
@@ -133,7 +133,7 @@
                     </div>
                 </ng-container>
                 <form 
-                    [formGroup]="landingPagesForm"
+                    [formGroup]="videosCTAsForm"
                     class="my-4 px-1"
                 >
                     <div>
@@ -142,7 +142,7 @@
                             <input
                                 id="title"
                                 class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && landingPagesForm.get('title')?.errors }"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && videosCTAsForm.get('title')?.errors }"
                                 placeholder="{{ 'plan-create.title' | translate }}*"
                                 formControlName="title"
                                 required
@@ -159,101 +159,16 @@
                             >
                             </textarea>
                         </div>
-                        <div>
-                            <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'create-content.location' | translate }}</label>
-                            <select 
-                                id="location" 
-                                [(ngModel)]="selectedLocation"
-                                [ngModelOptions]="{standalone: true}"
-                                class="rounded-lg bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                [ngStyle]="{'border-color': buttonColor}"
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && !selectedLocation }"
-                            >
-                                <option value="" disabled selected>{{ 'buddy.selectlocation' | translate }}*</option>
-                                <option
-                                    *ngFor="let location of questionLocations"
-                                    [value]="location.id"
-                                >
-                                    {{ location.location }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="mt-2">
-                            <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'survey-create.question' | translate }}</label>
-                            <select 
-                                id="default" 
-                                [(ngModel)]="selectedDefaultQuestion"
-                                [ngModelOptions]="{standalone: true}"
-                                class="rounded-lg bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                [ngStyle]="{'border-color': buttonColor}"
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && !selectedDefaultQuestion }"
-                            >
-                                <option value="" disabled selected>{{ 'plan-create.select' | translate }} {{'survey-create.question' | translate}}</option>
-                                <option
-                                    *ngFor="let question of questions"
-                                    [value]="question.id"
-                                >
-                                    {{ question.title }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="mt-6 mb-2 border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 mb-4">
-                            {{'leads.selectquestionbasedonlocation' | translate}}
-                            <div class="text-xs opacity-60">{{'leads.selectquestionbasedonlocationdesc' | translate}}</div>
-                        </div>
-                        <div>
-                            <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'leads.spain' | translate }}</label>
-                            <select 
-                                id="spain" 
-                                [(ngModel)]="selectedSpainQuestion"
-                                [ngModelOptions]="{standalone: true}"
-                                class="rounded-lg bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                [ngStyle]="{'border-color': buttonColor}"
-                            >
-                                <option value="" disabled selected>{{ 'plan-create.select' | translate }} {{'survey-create.question' | translate}}</option>
-                                <option
-                                    *ngFor="let question of questions"
-                                    [value]="question.id"
-                                >
-                                    {{ question.title }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="mt-2">
-                            <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'leads.outsidespain' | translate }}</label>
-                            <select 
-                                id="outside-spain" 
-                                [(ngModel)]="selectedOutsideSpainQuestion"
-                                [ngModelOptions]="{standalone: true}"
-                                class="rounded-lg bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                [ngStyle]="{'border-color': buttonColor}"
-                            >
-                                <option value="" disabled selected>{{ 'plan-create.select' | translate }} {{'survey-create.question' | translate}}</option>
-                                <option
-                                    *ngFor="let question of questions"
-                                    [value]="question.id"
-                                >
-                                    {{ question.title }}
-                                </option>
-                            </select>
-                        </div>
-                        <div class="mt-2">
-                            <label for="location" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'leads.latam' | translate }}</label>
-                            <select 
-                                id="latam" 
-                                [(ngModel)]="selectedLatamQuestion"
-                                [ngModelOptions]="{standalone: true}"
-                                class="rounded-lg bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                [ngStyle]="{'border-color': buttonColor}"
-                            >
-                                <option value="" disabled selected>{{ 'plan-create.select' | translate }} {{'survey-create.question' | translate}}</option>
-                                <option
-                                    *ngFor="let question of questions"
-                                    [value]="question.id"
-                                >
-                                    {{ question.title }}
-                                </option>
-                            </select>
+                        <div class="mb-2 relative">
+                            <label for="slug" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Slug</label>
+                            <input
+                                id="slug"
+                                class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && videosCTAsForm.get('slug')?.errors }"
+                                placeholder="{{ 'plan-create.title' | translate }}*"
+                                formControlName="slug"
+                                required
+                            />
                         </div>
                         <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                             <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

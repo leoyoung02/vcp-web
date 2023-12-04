@@ -3230,7 +3230,8 @@
         "accountid": "Konto-ID",
         "notconfigured": "Nicht konfiguriert",
         "configurenote": "Konfigurieren Sie die Stripe Connect-Konto-ID in Ihrem Profil",
-        "commission": "Kommission"
+        "commission": "Kommission",
+        "notconnected": "Sie sind keinem Kurs als Tutor zugeordnet."
     },
     "timeunits": {
         "minutes": "Protokoll",
@@ -3326,6 +3327,16 @@
         "boxed": "Boxed",
         "backgroundcolor": "Hintergrundfarbe",
         "textcolor": "Couleur du texte",
-        "ipaddress": "IP-Adresse"
+        "ipaddress": "IP-Adresse",
+        "selectquestionbasedonlocation": "Fragebogen nach Standort auswählen",
+        "selectquestionbasedonlocationdesc": "Wenn diese festgelegt sind, wird die oben zugewiesene Standardfrage durch diese ausgewählten Fragebögen ersetzt. Wenn Sie das Feld leer lassen, wird die Zielseite auf den oben ausgewählten Standardfragebogen umgestellt, unabhängig davon, wo sie sich befinden.",
+        "spain": "Spanien",
+        "outsidespain": "Außerhalb Spaniens",
+        "latam": "Latam",
+        "videosandctas": "Videos & CTAs",
+        "activateheaderimage": "Header-Bild aktivieren (unter dem Titel)",
+        "otherimages": "Andere Bilder",
+        "activateimagesbefosubmitbutton": "Bilder vor dem Senden-Button aktivieren",
+        "uploadimages": "Ein oder mehrere Bilder hochladen"
     }
 }

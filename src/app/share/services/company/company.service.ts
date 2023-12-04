@@ -131,6 +131,16 @@ import {
   QUESTIONS_URL,
   SUBMIT_QUESTION_ANSWERS_URL,
   SUBMISSIONS_URL,
+  EDIT_QUESTION_STYLES_URL,
+  QUESTIONS_BY_ID_URL,
+  DELETE_VIDEOS_CTAS_URL,
+  EDIT_VIDEOS_CTAS_DETAILS_URL,
+  EDIT_VIDEOS_CTAS_URL,
+  ADD_VIDEOS_CTAS_URL,
+  VIDEOS_CTAS_URL,
+  VIDEOS_CTAS_DETAILS_URL,
+  VIDEO_CTA_BY_SLUG_URL,
+  EDIT_QUESTION_OTHER_IMAGES_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1146,6 +1156,12 @@ export class CompanyService {
     ).pipe(map(res => res));
   }
 
+  getLandingQuestionsById(id): Observable<any> {
+    return this._http.get(`${QUESTIONS_BY_ID_URL}/${id}`, 
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
   submitAnswerToQuestions(payload) {
     return this._http.post(
       SUBMIT_QUESTION_ANSWERS_URL,
@@ -1156,6 +1172,66 @@ export class CompanyService {
   getSubmissions(id, userId): Observable<any> {
     return this._http.get(`${SUBMISSIONS_URL}/${id}/${userId}`,
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editQuestionStyles(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_QUESTION_STYLES_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  getVideosCTAs(companyId, userId): Observable<any> {
+    return this._http.get(`${VIDEOS_CTAS_URL}/${companyId}/${userId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getVideosCTAsDetails(id, companyId, userId): Observable<any> {
+    return this._http.get(`${VIDEOS_CTAS_DETAILS_URL}/${id}/${companyId}/${userId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addVideosCTAs(payload): Observable<any> {
+    return this._http.post(
+      ADD_VIDEOS_CTAS_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editVideosCTAs(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_VIDEOS_CTAS_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editVideosCTAsDetails(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_VIDEOS_CTAS_DETAILS_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteVideosCTAs(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_VIDEOS_CTAS_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  getVideoCTABySlug(slug): Observable<any> {
+    return this._http.get(`${VIDEO_CTA_BY_SLUG_URL}/${slug}`, 
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editQuestionOtherImages(id, payload): Observable<any> {
+    return this._http.post(
+      `${EDIT_QUESTION_OTHER_IMAGES_URL}/${id}`,
+      payload,
     ).pipe(map(res => res));
   }
 }

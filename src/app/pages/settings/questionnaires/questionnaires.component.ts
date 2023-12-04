@@ -11,6 +11,8 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { NgImageSliderModule } from 'ng-image-slider';
+import { ColorPickerModule } from 'ngx-color-picker';
 import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import { SearchComponent } from "@share/components/search/search.component";
 import {
@@ -30,6 +32,13 @@ import { CoursesService } from "@features/services";
 import { initFlowbite } from "flowbite";
 import get from "lodash/get";
 
+import { FilePondModule, registerPlugin } from 'ngx-filepond';
+import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
+
 @Component({
   selector: "app-settings-lead-questionnaires",
   standalone: true,
@@ -43,6 +52,9 @@ import get from "lodash/get";
     MatSortModule,
     MatSnackBarModule,
     MatTabsModule,
+    ColorPickerModule,
+    FilePondModule,
+    NgImageSliderModule,
     SearchComponent,
     BreadcrumbComponent,
     ToastComponent,
@@ -138,6 +150,134 @@ export class QuestionnairesComponent {
   conditionValue: any;
   selectedRule: any;
   selectedRuleId: any;
+  submitButtonColor: any;
+  submitButtonTextColor: any;
+  submitButtonText: any;
+
+  activateImage: boolean = false;
+  questionImage: any;
+  questionFileName: any;
+  questionImageName: any;
+  pondFiles = [];
+  @ViewChild('myPond', {static: false}) myPond: any;
+  pondOptions = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    acceptedFileTypes: 'image/jpg, image/jpeg, image/png',
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.questionFileName = 'lp_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('image', file, this.questionFileName);
+        localStorage.setItem('landing_page_template_file', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/v2/landing-page/temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('landing_page_template_file', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+              request.abort();
+              abort();
+          },
+        };
+      },
+    },
+  };
+
+  @ViewChild('myPond1', {static: false}) myPond1: any;
+  pondFiles1 = [];
+  imageFileName: any = '';
+  uploadedImages: any = [];
+  pondOptions1 = {
+    class: 'my-filepond1',
+    multiple: true,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    acceptedFileTypes: 'image/jpeg, image/png, image/jpg',
+    server: {
+    process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+
+        let timestamp = this.getTimestamp()
+        let id = this.uploadedImages?.length || 1
+        this.imageFileName = 'questionnaire_' + this.userId + '_' + timestamp + '.' + fileExtension;
+        formData.append('file', file, this.imageFileName);
+        localStorage.setItem('gallery_id', id);
+        localStorage.setItem('gallery_filename', this.imageFileName);
+        localStorage.setItem('gallery_file', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/company/testimonial/image/temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+            if (request.status >= 200 && request.status < 300) {
+              load(request.responseText);
+              localStorage.setItem('gallery_file', 'complete');
+              let filename = localStorage.getItem('gallery_filename');
+              let filenames = localStorage.getItem('gallery_filenames');
+              if(filenames) {
+                localStorage.setItem('gallery_filenames', filenames + ',' + filename);
+              } else {
+                if(filename) {
+                  localStorage.setItem('gallery_filenames', filename);
+                }
+              }
+            } else {
+            error('oh no');
+            }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+            request.abort();
+            abort();
+          },
+        };
+    },
+    },
+  };
+  activateOtherImages: boolean = false;
+  questionImages: any;
+  allQuestionImages: any;
+  imageSrc: string = `${environment.api}/get-testimonial-image/`;
+  questionImagesObject: any = [];
 
   constructor(
     private _companyService: CompanyService,
@@ -231,11 +371,6 @@ export class QuestionnairesComponent {
         value: 'equals',
         text: this._translateService.instant('leads.equals')
       },
-      // {
-      //   id: 4,
-      //   value: 'notequals',
-      //   text: this._translateService.instant('leads.notequals')
-      // }
     ]
     this.ruleOperators = [
       {
@@ -264,6 +399,7 @@ export class QuestionnairesComponent {
         (response) => {
           this.questionLocations = response.question_locations;
           this.questionTypes = response.question_types;
+          this.allQuestionImages = response.question_images;
           this.formatQuestions(response.questions);
           this.allQuestions = this.questions;
           this.refreshTable(this.questions);
@@ -283,6 +419,13 @@ export class QuestionnairesComponent {
         location: this.getLocation(item?.location_id),
       };
     });
+    if(this.questionItemMode == 'edit') {
+      let selected_question_type = localStorage.getItem('selected_question_type');
+      this.selectedQuestionItemType = '';
+      setTimeout(() => {
+        this.selectedQuestionItemType = selected_question_type;
+      }, 500);
+    }
 
     this.questions = questions;
     if(this.createdQuestionId) {
@@ -426,9 +569,35 @@ export class QuestionnairesComponent {
   }
 
   editQuestion(item) {
+    this.resetModes();
     this.selectedId = item.id;
     this.title = item.title;
     this.description = item.description;
+    this.submitButtonColor = item?.button_color;
+    this.submitButtonText = item?.button_text;
+    this.submitButtonTextColor = item?.button_text_color;
+    if(item?.image && item?.image_filename) {
+      this.activateImage = true;
+      this.questionImageName = item?.image_filename;
+      this.questionImage = `${environment.api}/get-landing-page-image/${item?.image_filename}`;
+    }
+    this.activateOtherImages = item?.images_beforebutton == 1 ? true : false;
+    if(this.activateOtherImages && this.allQuestionImages?.length > 0) {
+      this.questionImages = this.allQuestionImages?.filter(img => {
+        return img.question_id == item.id;
+      })
+      if(this.questionImages?.length > 0) {
+        this.questionImagesObject = [];
+        this.questionImages?.forEach(image => {
+          this.questionImagesObject.push({
+            image: `${this.imageSrc}${image?.image}`,
+            thumbImage: `${this.imageSrc}${image?.image}`,
+          })
+        });
+      }
+    } else {
+      this.questionImagesObject = [];
+    }
     this.selectedLocation = item.location_id || '';
     this.formatQuestionItems(item.items);
     
@@ -446,6 +615,21 @@ export class QuestionnairesComponent {
 
     this.mode = "edit";
     this.modalbutton0?.nativeElement.click();
+  }
+
+  resetModes() {
+    this.createdQuestionId = '';
+    this.questionItemMode = '';
+    this.showQuestionItemDetails = false;
+    this.selectedQuestionItem = '';
+    this.selectedQuestionItemType = '';
+    this.selectedQuestionItem = '';
+    this.selectedMultipleChoiceOption = '';
+    this.selectedMultipleChoiceOptionId = '';
+    this.showMultipleChoiceOptionDetails = false;
+    this.multipleChoiceOptionMode = '';
+    this.ruleMode = '';
+    this.showRuleDetails = false;
   }
 
   formatQuestionItems(items) {
@@ -596,6 +780,7 @@ export class QuestionnairesComponent {
     this.questionItemTitle = '';
     this.questionItemFormSubmitted = false;
     this.showQuestionItemDetails = false;
+    localStorage.removeItem('selected_question_type');
   }
 
   saveQuestionItem() {
@@ -624,6 +809,7 @@ export class QuestionnairesComponent {
             ""
           );
           this.questionItems = response.question_items;
+          this.getQuestions();
           this.resetQuestionItemFields();
         },
         (error) => {
@@ -638,6 +824,7 @@ export class QuestionnairesComponent {
             ""
           );
           this.questionItems = response.question_items;
+          this.getQuestions();
           this.resetQuestionItemFields();
         },
         (error) => {
@@ -648,7 +835,7 @@ export class QuestionnairesComponent {
   }
 
   cancelQuestionItem() {
-    this.resetQuestionItemFields()
+    this.resetQuestionItemFields();
     this.questionItemMode = '';
     this.showQuestionItemDetails = false;
   }
@@ -689,6 +876,7 @@ export class QuestionnairesComponent {
             })
           }
         });
+        this.getQuestions();
         this.open(
           this._translateService.instant("dialog.deletedsuccessfully"),
           ""
@@ -733,6 +921,8 @@ export class QuestionnairesComponent {
               question_item = question_item_row[0];
             }
           }
+          localStorage.setItem('selected_question_type', this.selectedQuestionItemType);
+          this.getQuestions();
           this.selectedQuestionItem = question_item;
           this.multipleChoiceChoice = '';
           this.multipleChoiceOptionMode = '';
@@ -759,6 +949,8 @@ export class QuestionnairesComponent {
               question_item = question_item_row[0];
             }
           }
+          localStorage.setItem('selected_question_type', this.selectedQuestionItemType);
+          this.getQuestions();
           this.selectedQuestionItem = question_item;
           this.multipleChoiceChoice = '';
           this.multipleChoiceOptionMode = '';
@@ -904,6 +1096,7 @@ export class QuestionnairesComponent {
             ""
           );
           this.rules = response.question_rules;
+          this.getQuestions();
           this.whatsAppCommunityUrl = '';
           this.selectedRuleId = '';
           this.selectedRule = '';
@@ -922,7 +1115,7 @@ export class QuestionnairesComponent {
             ""
           );
           this.rules = response.question_rules;
-          console.log(this.rules)
+          this.getQuestions();
           this.whatsAppCommunityUrl = '';
           this.selectedRuleId = '';
           this.selectedRule = '';
@@ -960,6 +1153,102 @@ export class QuestionnairesComponent {
     );
   }
 
+  public onSubmitButtonEventLog(event: string, data: any): void {
+    if(data && event == 'colorPickerClose') {
+      this.submitButtonColor = data
+    }
+  }
+
+  public onSubmitButtonTextEventLog(event: string, data: any): void {
+    if(data && event == 'colorPickerClose') {
+      this.submitButtonTextColor = data
+    }
+  }
+
+  saveQuestionnaireStyles() {
+    let params = {
+      image: this.activateImage ? 1 : 0,
+      image_filename: (this.questionFileName || this.questionImageName) || '',
+      button_text: this.submitButtonText,
+      button_color: this.submitButtonColor,
+      button_text_color: this.submitButtonTextColor,
+    };
+
+    this._companyService.editQuestionStyles(this.selectedId, params).subscribe(
+      (response) => {
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  saveQuestionnaireOtherImages() {
+    let gallery_items = localStorage.getItem('gallery_filenames')
+    let params = {
+      image_files: gallery_items || null,
+      company_id: this.companyId,
+      status: this.activateOtherImages ? 1 : 0,
+      created_by: this.userId,
+    };
+
+    this._companyService.editQuestionOtherImages(this.selectedId, params).subscribe(
+      (response) => {
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+        this.clearFileLocal();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  public getTimestamp() {
+    const date = new Date()
+    const timestamp = date.getTime()
+    return timestamp
+  }
+
+  pondHandleInit() {
+    console.log('FilePond has initialised', this.myPond);
+  }
+
+  pondHandleAddFile(event: any) {
+    console.log('A file was added', event);
+    if(localStorage.getItem('landing_page_template_file') == 'complete' && this.questionFileName) {
+      this.questionImage = `${environment.api}/get-landing-page-image/${this.questionFileName}`;
+    }
+  }
+
+  podHandleUpdateFiles(event: any) {
+    console.log('A file was updated', event);
+    if(localStorage.getItem('landing_page_template_file') == 'complete' && this.questionFileName) {
+      this.questionImage = `${environment.api}/get-landing-page-image/${this.questionFileName}`;
+    }
+  }
+
+  podHandleProcessFile(event: any) {
+    console.log('A file was updated', event);
+    if(localStorage.getItem('landing_page_template_file') == 'complete' && this.questionFileName) {
+      this.questionImage = `${environment.api}/get-landing-page-image/${this.questionFileName}`;
+    }
+  }
+
+  pond1HandleInit() {
+    console.log('FilePond has initialised', this.myPond);
+  }
+
+  pond1HandleAddFile(event: any) {
+    console.log('A file was added', event);
+  }
+
   handleGoBack() {
     this._location.back();
   }
@@ -971,7 +1260,15 @@ export class QuestionnairesComponent {
     });
   }
 
+  clearFileLocal() {
+    localStorage.removeItem('gallery_id');
+    localStorage.removeItem('gallery_filename');
+    localStorage.removeItem('gallery_file');
+    localStorage.removeItem('gallery_filenames');
+  }
+
   ngOnDestroy() {
+    this.clearFileLocal();
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();

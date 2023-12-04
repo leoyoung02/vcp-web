@@ -3268,7 +3268,8 @@
         "accountid": "Account ID",
         "notconfigured": "Not Configured",
         "configurenote": "Configure Stripe Connect account Id in your profile",
-        "commission": "Commission"
+        "commission": "Commission",
+        "notconnected": "You are not assigned as a tutor to any course."
     },
     "timeunits": {
         "minutes": "minutes",
@@ -3364,6 +3365,16 @@
         "boxed": "Boxed",
         "backgroundcolor": "Background color",
         "textcolor": "Text color",
-        "ipaddress": "IP address"
+        "ipaddress": "IP address",
+        "selectquestionbasedonlocation": "Select questionnaire based on location",
+        "selectquestionbasedonlocationdesc": "If these are set, the default question assigned above will be replaced by these selected questionnaires. If left blank, then the landing page will be redorected to the default questionnaire selected above, regardless of where they are at.",
+        "spain": "Spain",
+        "outsidespain": "Outside Spain",
+        "latam": "Latam",
+        "videosandctas": "Videos & CTAs",
+        "activateheaderimage": "Activate header image (below title)",
+        "otherimages": "Other images",
+        "activateimagesbefosubmitbutton": "Activate images before submit button",
+        "uploadimages": "Upload 1 or more images"
     }
 }

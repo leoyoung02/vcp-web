@@ -1,7 +1,16 @@
 <ng-container *ngIf="!isloading && questionnaire?.id > 0">
-    <div class="mt-8">
-        <h1 class="text-2xl font-semibold text-center uppercase mb-3">{{ questionnaire?.title }}</h1>
-        <h2 class="text-md font-md text-center mb-8 px-6 leading-6 w-full sm:w-full md:w-4/5 lg:w-4/5 mx-auto">{{ questionnaire?.description }}</h2>
+    <div class="mt-8 w-full sm:w-full md:w-9/12 lg:w-9/12 mx-auto">
+        <h1 class="text-2xl font-semibold text-center uppercase">{{ questionnaire?.title }}</h1>
+        <h2 *ngIf="questionnaire?.description" class="text-md font-md text-center mb-8 px-6 leading-6 w-full sm:w-full md:w-4/5 lg:w-4/5 mx-auto">{{ questionnaire?.description }}</h2>
+    </div>
+    <div *ngIf="questionImage" class="w-full sm:w-full md:w-9/12 lg:w-9/12 mx-auto mb-6">
+        <div class="relative flex flex-col">
+            <div class="h-auto sm:h-auto flex justify-center items-center font-semibold text-lg md:h-64 lg:h-64">
+                <ng-container *ngIf="questionImage">
+                    <img class="object-contain h-full w-full max-w-full object-cover" src="{{ questionImage }}" />
+                </ng-container>
+            </div>
+        </div>
     </div>
     <div 
         class="border border-t-4 border-l-0 border-r-0 border-b-0 w-full sm:w-full md:w-9/12 lg:w-9/12 mx-auto" 
@@ -49,10 +58,31 @@
                         </div>
                     </div>
                 </div>
+                <ng-container *ngIf="showOtherImages && questionImages?.length > 0">
+                    <div *ngIf="questionImages?.length == 1" class="w-full max-w-full">
+                        <div class="relative flex flex-col">
+                            <div class="h-auto sm:h-auto flex justify-center items-center font-semibold text-lg md:h-64 lg:h-64">
+                                <img class="object-contain h-full w-full max-w-full object-cover" src="{{ imageSrc + questionImages[0]?.image }}" />
+                            </div>
+                        </div>
+                    </div>
+                    <div *ngIf="questionImages?.length > 1">
+                        <ng-image-slider 
+                            [images]="questionImagesObject" 
+                            #nav
+                            [infinite]="false"
+                            [lazyLoading]="true"
+                            [autoSlide]="1"
+                            [imageSize]="{width: '280px',height: '200px'}"
+                            [manageImageRatio]="true"
+                            slideImage="1"
+                        ></ng-image-slider>
+                    </div>
+                </ng-container>
                 <div class="flex items-center justify-center mb-6">
                     <button
                         type="button"
-                        class="inline-block h-[40px] text-sm px-6 py-2 mt-6 font-semibold rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
+                        class="inline-block h-auto min-h-[40px] text-sm px-6 py-2 mt-6 font-semibold rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
                         [ngStyle]="{
                             'background-color': questionnaire?.button_color || buttonColor,
                             'color': questionnaire?.button_text_color || '#ffffff'

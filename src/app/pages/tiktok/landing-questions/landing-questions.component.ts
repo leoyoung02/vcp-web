@@ -17,13 +17,13 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from "@angular/forms";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgImageSliderModule } from 'ng-image-slider';
 import { NoAccessComponent } from "@share/components";
 import get from "lodash/get";
 
 @Component({
-  selector: "app-questions",
+  selector: "app-landing-questions",
   standalone: true,
   imports: [
     CommonModule,
@@ -31,15 +31,16 @@ import get from "lodash/get";
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    NgImageSliderModule,
     NgOptimizedImage,
     NoAccessComponent,
   ],
-  templateUrl: "./questions.component.html"
+  templateUrl: "./landing-questions.component.html"
 })
-export class TikTokQuestionsComponent {
+export class TikTokLandingQuestionsComponent {
   private destroy$ = new Subject<void>();
 
-  @Input() slug: any;
+  @Input() id: any;
 
   languageChangeSubscription;
   userId: any;
@@ -58,6 +59,11 @@ export class TikTokQuestionsComponent {
   questionItems: any;
   questionRules: any;
   formSubmitted: boolean = false;
+  questionImage: any;
+  questionImages: any;
+  questionImagesObject: any = [];
+  imageSrc: string = `${environment.api}/get-testimonial-image/`
+  showOtherImages: boolean = false;
 
   constructor(
     private _router: Router,
@@ -111,29 +117,27 @@ export class TikTokQuestionsComponent {
   }
 
   fetchQuestionsData() {
-    this._userService.getUserGeolocation()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        data => {
-          this.country = data?.country;
-          this.city = data?.city;
-          this.ipAddress = data?.ip_address
-          this.getQuestions();
-        },
-        error => {
-          console.log(error)
-        }
-      )
-  }
-
-  getQuestions() {
-    this._companyService.getLandingQuestions(this.country)
+    this._companyService.getLandingQuestionsById(this.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         data => {
           this.questionnaire = data?.question;
+          if(this.questionnaire?.image && this.questionnaire?.image_filename) {
+            this.questionImage = `${environment.api}/get-landing-page-image/${this.questionnaire?.image_filename}`;
+          }
           this.questionItems = data?.question?.items;
           this.questionRules = data?.question?.question_rules;
+          this.questionImages = data?.question?.question_images;
+          if(this.questionImages?.length > 0) {
+            this.questionImagesObject = [];
+            this.questionImages?.forEach(image => {
+              this.questionImagesObject.push({
+                image: `${this.imageSrc}${image?.image}`,
+                thumbImage: `${this.imageSrc}${image?.image}`,
+              })
+            });
+          }
+          this.showOtherImages = this.questionnaire?.images_beforebutton == 1 ? true : false;
           this.isloading = false;
         },
         error => {
@@ -147,7 +151,7 @@ export class TikTokQuestionsComponent {
 
     if(whatsAppCommunityURL) {
       let params = {
-        location: this.slug,
+        location: this.questionnaire?.Location_id?.toString(),
         city: this.city,
         country: this.country,
         ip_address: this.ipAddress,
@@ -283,6 +287,10 @@ export class TikTokQuestionsComponent {
 
       } else {
         whatsapp_community = rule_match[0].whatsapp_community;
+      }
+    } else {
+      if(this.questionRules?.length == 1) {
+        whatsapp_community = this.questionRules[0].whatsapp_community;
       }
     }
     return whatsapp_community;
