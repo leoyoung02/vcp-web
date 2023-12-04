@@ -17,8 +17,8 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from "@angular/forms";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
+import { NgImageSliderModule } from 'ng-image-slider';
 import { NoAccessComponent } from "@share/components";
 import get from "lodash/get";
 
@@ -31,6 +31,7 @@ import get from "lodash/get";
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
+    NgImageSliderModule,
     NgOptimizedImage,
     NoAccessComponent,
   ],
@@ -59,6 +60,10 @@ export class TikTokLandingQuestionsComponent {
   questionRules: any;
   formSubmitted: boolean = false;
   questionImage: any;
+  questionImages: any;
+  questionImagesObject: any = [];
+  imageSrc: string = `${environment.api}/get-testimonial-image/`
+  showOtherImages: boolean = false;
 
   constructor(
     private _router: Router,
@@ -122,6 +127,17 @@ export class TikTokLandingQuestionsComponent {
           }
           this.questionItems = data?.question?.items;
           this.questionRules = data?.question?.question_rules;
+          this.questionImages = data?.question?.question_images;
+          if(this.questionImages?.length > 0) {
+            this.questionImagesObject = [];
+            this.questionImages?.forEach(image => {
+              this.questionImagesObject.push({
+                image: `${this.imageSrc}${image?.image}`,
+                thumbImage: `${this.imageSrc}${image?.image}`,
+              })
+            });
+          }
+          this.showOtherImages = this.questionnaire?.images_beforebutton == 1 ? true : false;
           this.isloading = false;
         },
         error => {

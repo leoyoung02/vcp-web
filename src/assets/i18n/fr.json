@@ -3335,6 +3335,10 @@
         "espagne": "Espagne",
         "spain": "Hors d'Espagne",
         "latam": "latam",
-        "videosandctas": "Vidéos et CTA"
+        "videosandctas": "Vidéos et CTA",
+        "activateheaderimage": "Activer l'image d'en-tête (sous le titre)",
+        "otherimages": "Autres images",
+        "activateimagesbefosubmitbutton": "Activer les images avant de soumettre le bouton",
+        "uploadimages": "Télécharger 1 ou plusieurs images"
     }
 }

@@ -534,6 +534,7 @@ export const SUBMIT_QUESTION_ANSWERS_URL = `${API_BASE}/v2/landing-questions/ans
 export const SUBMISSIONS_URL = `${API_BASE}/v2/answers`;
 export const EDIT_QUESTION_STYLES_URL = `${API_BASE}/v2/question-styles/edit`;
 export const QUESTIONS_BY_ID_URL = `${API_BASE}/v2/landing-questions-by-id`;
+export const EDIT_QUESTION_OTHER_IMAGES_URL = `${API_BASE}/v2/question-other-images/edit`;
 
 // VIDEOS && CTAs
 export const VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas`;

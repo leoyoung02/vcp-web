@@ -3339,6 +3339,10 @@
         "spain": "Spanien",
         "outsidespain": "Außerhalb Spaniens",
         "latam": "Latam",
-        "videosandctas": "Videos & CTAs"
+        "videosandctas": "Videos & CTAs",
+        "activateheaderimage": "Header-Bild aktivieren (unter dem Titel)",
+        "otherimages": "Andere Bilder",
+        "activateimagesbefosubmitbutton": "Bilder vor dem Senden-Button aktivieren",
+        "uploadimages": "Ein oder mehrere Bilder hochladen"
     }
 }

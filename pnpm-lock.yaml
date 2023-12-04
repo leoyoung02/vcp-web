@@ -137,6 +137,9 @@ dependencies:
   ng-gallery:
     specifier: ^11.0.0
     version: 11.0.0(@angular/cdk@16.2.0)(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.0)
+  ng-image-slider:
+    specifier: ^7.0.1
+    version: 7.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)
   ng-multiselect-dropdown:
     specifier: ^1.0.0
     version: 1.0.0
@@ -8024,6 +8027,17 @@ packages:
       '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
       '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
       rxjs: 7.8.0
+      tslib: 2.5.0
+    dev: false
+
+  /ng-image-slider@7.0.1(@angular/common@16.0.0)(@angular/core@16.0.0):
+    resolution: {integrity: sha512-5ZbznTfbkwNTS3a1pFYa4suAxKtB8ddsS9G+wC+eso74GvZm7vLnhxHLYQUvu/ciRRVxvRWFKBLXO2OuyfXIPg==}
+    peerDependencies:
+      '@angular/common': ^15.0.4
+      '@angular/core': ^15.0.4
+    dependencies:
+      '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
       tslib: 2.5.0
     dev: false
 

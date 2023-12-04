@@ -3377,6 +3377,10 @@
         "spain": "Spain",
         "outsidespain": "Outside Spain",
         "latam": "Latam",
-        "videosandctas": "Videos & CTAs"
+        "videosandctas": "Videos & CTAs",
+        "activateheaderimage": "Activate header image (below title)",
+        "otherimages": "Other images",
+        "activateimagesbefosubmitbutton": "Activate images before submit button",
+        "uploadimages": "Upload 1 or more images"
     }
 }

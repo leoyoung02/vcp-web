@@ -11,6 +11,7 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { NgImageSliderModule } from 'ng-image-slider';
 import { ColorPickerModule } from 'ngx-color-picker';
 import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import { SearchComponent } from "@share/components/search/search.component";
@@ -53,6 +54,7 @@ registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPlug
     MatTabsModule,
     ColorPickerModule,
     FilePondModule,
+    NgImageSliderModule,
     SearchComponent,
     BreadcrumbComponent,
     ToastComponent,
@@ -206,6 +208,77 @@ export class QuestionnairesComponent {
     },
   };
 
+  @ViewChild('myPond1', {static: false}) myPond1: any;
+  pondFiles1 = [];
+  imageFileName: any = '';
+  uploadedImages: any = [];
+  pondOptions1 = {
+    class: 'my-filepond1',
+    multiple: true,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    acceptedFileTypes: 'image/jpeg, image/png, image/jpg',
+    server: {
+    process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+
+        let timestamp = this.getTimestamp()
+        let id = this.uploadedImages?.length || 1
+        this.imageFileName = 'questionnaire_' + this.userId + '_' + timestamp + '.' + fileExtension;
+        formData.append('file', file, this.imageFileName);
+        localStorage.setItem('gallery_id', id);
+        localStorage.setItem('gallery_filename', this.imageFileName);
+        localStorage.setItem('gallery_file', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/company/testimonial/image/temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+            if (request.status >= 200 && request.status < 300) {
+              load(request.responseText);
+              localStorage.setItem('gallery_file', 'complete');
+              let filename = localStorage.getItem('gallery_filename');
+              let filenames = localStorage.getItem('gallery_filenames');
+              if(filenames) {
+                localStorage.setItem('gallery_filenames', filenames + ',' + filename);
+              } else {
+                if(filename) {
+                  localStorage.setItem('gallery_filenames', filename);
+                }
+              }
+            } else {
+            error('oh no');
+            }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+            request.abort();
+            abort();
+          },
+        };
+    },
+    },
+  };
+  activateOtherImages: boolean = false;
+  questionImages: any;
+  allQuestionImages: any;
+  imageSrc: string = `${environment.api}/get-testimonial-image/`;
+  questionImagesObject: any = [];
+
   constructor(
     private _companyService: CompanyService,
     private _coursesService: CoursesService,
@@ -298,11 +371,6 @@ export class QuestionnairesComponent {
         value: 'equals',
         text: this._translateService.instant('leads.equals')
       },
-      // {
-      //   id: 4,
-      //   value: 'notequals',
-      //   text: this._translateService.instant('leads.notequals')
-      // }
     ]
     this.ruleOperators = [
       {
@@ -331,6 +399,7 @@ export class QuestionnairesComponent {
         (response) => {
           this.questionLocations = response.question_locations;
           this.questionTypes = response.question_types;
+          this.allQuestionImages = response.question_images;
           this.formatQuestions(response.questions);
           this.allQuestions = this.questions;
           this.refreshTable(this.questions);
@@ -493,6 +562,7 @@ export class QuestionnairesComponent {
   }
 
   editQuestion(item) {
+    this.resetModes();
     this.selectedId = item.id;
     this.title = item.title;
     this.description = item.description;
@@ -503,6 +573,23 @@ export class QuestionnairesComponent {
       this.activateImage = true;
       this.questionImageName = item?.image_filename;
       this.questionImage = `${environment.api}/get-landing-page-image/${item?.image_filename}`;
+    }
+    this.activateOtherImages = item?.images_beforebutton == 1 ? true : false;
+    if(this.activateOtherImages && this.allQuestionImages?.length > 0) {
+      this.questionImages = this.allQuestionImages?.filter(img => {
+        return img.question_id == item.id;
+      })
+      if(this.questionImages?.length > 0) {
+        this.questionImagesObject = [];
+        this.questionImages?.forEach(image => {
+          this.questionImagesObject.push({
+            image: `${this.imageSrc}${image?.image}`,
+            thumbImage: `${this.imageSrc}${image?.image}`,
+          })
+        });
+      }
+    } else {
+      this.questionImagesObject = [];
     }
     this.selectedLocation = item.location_id || '';
     this.formatQuestionItems(item.items);
@@ -521,6 +608,21 @@ export class QuestionnairesComponent {
 
     this.mode = "edit";
     this.modalbutton0?.nativeElement.click();
+  }
+
+  resetModes() {
+    this.createdQuestionId = '';
+    this.questionItemMode = '';
+    this.showQuestionItemDetails = false;
+    this.selectedQuestionItem = '';
+    this.selectedQuestionItemType = '';
+    this.selectedQuestionItem = '';
+    this.selectedMultipleChoiceOption = '';
+    this.selectedMultipleChoiceOptionId = '';
+    this.showMultipleChoiceOptionDetails = false;
+    this.multipleChoiceOptionMode = '';
+    this.ruleMode = '';
+    this.showRuleDetails = false;
   }
 
   formatQuestionItems(items) {
@@ -699,6 +801,7 @@ export class QuestionnairesComponent {
             ""
           );
           this.questionItems = response.question_items;
+          this.getQuestions();
           this.resetQuestionItemFields();
         },
         (error) => {
@@ -713,6 +816,7 @@ export class QuestionnairesComponent {
             ""
           );
           this.questionItems = response.question_items;
+          this.getQuestions();
           this.resetQuestionItemFields();
         },
         (error) => {
@@ -764,6 +868,7 @@ export class QuestionnairesComponent {
             })
           }
         });
+        this.getQuestions();
         this.open(
           this._translateService.instant("dialog.deletedsuccessfully"),
           ""
@@ -808,6 +913,7 @@ export class QuestionnairesComponent {
               question_item = question_item_row[0];
             }
           }
+          this.getQuestions();
           this.selectedQuestionItem = question_item;
           this.multipleChoiceChoice = '';
           this.multipleChoiceOptionMode = '';
@@ -834,6 +940,7 @@ export class QuestionnairesComponent {
               question_item = question_item_row[0];
             }
           }
+          this.getQuestions();
           this.selectedQuestionItem = question_item;
           this.multipleChoiceChoice = '';
           this.multipleChoiceOptionMode = '';
@@ -979,6 +1086,7 @@ export class QuestionnairesComponent {
             ""
           );
           this.rules = response.question_rules;
+          this.getQuestions();
           this.whatsAppCommunityUrl = '';
           this.selectedRuleId = '';
           this.selectedRule = '';
@@ -997,6 +1105,7 @@ export class QuestionnairesComponent {
             ""
           );
           this.rules = response.question_rules;
+          this.getQuestions();
           this.whatsAppCommunityUrl = '';
           this.selectedRuleId = '';
           this.selectedRule = '';
@@ -1068,6 +1177,29 @@ export class QuestionnairesComponent {
     );
   }
 
+  saveQuestionnaireOtherImages() {
+    let gallery_items = localStorage.getItem('gallery_filenames')
+    let params = {
+      image_files: gallery_items || null,
+      company_id: this.companyId,
+      status: this.activateOtherImages ? 1 : 0,
+      created_by: this.userId,
+    };
+
+    this._companyService.editQuestionOtherImages(this.selectedId, params).subscribe(
+      (response) => {
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+        this.clearFileLocal();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
   public getTimestamp() {
     const date = new Date()
     const timestamp = date.getTime()
@@ -1099,6 +1231,14 @@ export class QuestionnairesComponent {
     }
   }
 
+  pond1HandleInit() {
+    console.log('FilePond has initialised', this.myPond);
+  }
+
+  pond1HandleAddFile(event: any) {
+    console.log('A file was added', event);
+  }
+
   handleGoBack() {
     this._location.back();
   }
@@ -1110,7 +1250,15 @@ export class QuestionnairesComponent {
     });
   }
 
+  clearFileLocal() {
+    localStorage.removeItem('gallery_id');
+    localStorage.removeItem('gallery_filename');
+    localStorage.removeItem('gallery_file');
+    localStorage.removeItem('gallery_filenames');
+  }
+
   ngOnDestroy() {
+    this.clearFileLocal();
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();

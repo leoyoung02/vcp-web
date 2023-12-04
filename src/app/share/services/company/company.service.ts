@@ -140,6 +140,7 @@ import {
   VIDEOS_CTAS_URL,
   VIDEOS_CTAS_DETAILS_URL,
   VIDEO_CTA_BY_SLUG_URL,
+  EDIT_QUESTION_OTHER_IMAGES_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1224,6 +1225,13 @@ export class CompanyService {
   getVideoCTABySlug(slug): Observable<any> {
     return this._http.get(`${VIDEO_CTA_BY_SLUG_URL}/${slug}`, 
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editQuestionOtherImages(id, payload): Observable<any> {
+    return this._http.post(
+      `${EDIT_QUESTION_OTHER_IMAGES_URL}/${id}`,
+      payload,
     ).pipe(map(res => res));
   }
 }

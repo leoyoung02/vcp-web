@@ -77,6 +77,7 @@
     "moment-timezone": "^0.5.43",
     "ng-apexcharts": "^1.8.0",
     "ng-gallery": "^11.0.0",
+    "ng-image-slider": "^7.0.1",
     "ng-multiselect-dropdown": "^1.0.0",
     "ngx-color-picker": "^14.0.0",
     "ngx-doc-viewer": "^15.0.1",
