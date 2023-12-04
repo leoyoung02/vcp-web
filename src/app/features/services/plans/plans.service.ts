@@ -4,6 +4,7 @@ import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {
   ACTIVITY_CITIES_URL,
   ACTIVITY_CODE_DATA_URL,
+  ACTIVITY_CREDITS_URL,
   ADD_GROUP_PLAN_COMMENT_REACTION_URL,
   ADD_GROUP_PLAN_COMMENT_REPLY_URL,
   ADD_GROUP_PLAN_COMMENT_URL,
@@ -888,6 +889,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     return this._http.post(SUBMIT_ACTIVITY_RATING_URL,
         payload,
         { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  fetchCreditsData(id): Observable<any> {
+    return this._http.get(`${ACTIVITY_CREDITS_URL}/${id}`,
+      { headers: this.headers }
     ).pipe(map(res => res));
   }
 }

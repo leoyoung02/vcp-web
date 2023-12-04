@@ -22,6 +22,7 @@ import { CoursesAdminListComponent } from "@features/courses/admin-list/admin-li
 import { DiscountsAdminListComponent } from "@features/offers/admin-list/admin-list.component";
 import { ServicesAdminListComponent } from "@features/servicios/admin-list/admin-list.component";
 import { BlogsAdminListComponent } from "@features/blogs/admin-list/admin-list.component";
+import { CreditsAdminListComponent } from "@features/plans/credits-admin-list/credits-admin-list.component";
 import { environment } from "@env/environment";
 import get from "lodash/get";
 
@@ -47,6 +48,7 @@ import get from "lodash/get";
     DiscountsAdminListComponent,
     ServicesAdminListComponent,
     BlogsAdminListComponent,
+    CreditsAdminListComponent,
     PageTitleComponent,
   ],
   templateUrl: "./manage-list.component.html",
@@ -181,7 +183,8 @@ export class ManageListComponent {
       this.list == "courses" ||
       this.list == "discounts" ||
       this.list == "services" ||
-      this.list == "blogs"
+      this.list == "blogs" ||
+      this.list == "credits"
     ) {
       if(this.list == 'commissions') {
         this.buttonList = [
@@ -202,7 +205,7 @@ export class ManageListComponent {
             filter: "Completed",
           }
         ];
-      } else if(this.list == 'testimonials' || this.list == 'tutors' || this.list == 'courses' || this.list == 'discounts' || this.list == 'services') {
+      } else if(this.list == 'testimonials' || this.list == 'tutors' || this.list == 'courses' || this.list == 'discounts' || this.list == 'services' || this.list == 'credits') {
         this.buttonList = [];
       }
       let filter = this.buttonList?.find((f) => f.selected);
@@ -283,6 +286,9 @@ export class ManageListComponent {
         break;
       case "blogs":
         this.listTitle = this.blogsTitle;
+        break;
+      case "credits":
+        this.listTitle = this._translateService.instant('course-create.credits');
         break;
     }
   }
@@ -558,7 +564,7 @@ export class ManageListComponent {
       this.filter = filter.filter;
     }
 
-    if(this.list != 'commissions') {
+    if(this.list != 'commissions' && this.list != 'credits') {
       this.initializeSubButtonGroup();
     }
   }

@@ -123,6 +123,7 @@ export class MainComponent {
   testimonialsTitle: any;
   transferCommissionsByBulk: boolean = false;
   menuColor: any;
+  hasActivityCredits: boolean = false;
 
   constructor(
     private _router: Router,
@@ -446,6 +447,7 @@ export class MainComponent {
                   : this.language == "de"
                   ? planFeature[0].name_de || planFeature[0].feature_name_DE
                   : planFeature[0].name_es || planFeature[0].feature_name_ES;
+              this.getPlanSubfeatures(planFeature[0].id);
             }
 
             let clubFeature = companyFeatures.filter((f) => {
@@ -657,6 +659,27 @@ export class MainComponent {
           console.log(error);
         }
       );
+  }
+
+  async getPlanSubfeatures(plansFeatureId) {
+    let plan_subfeatures = get(await this._companyService.getSubFeatures(plansFeatureId).toPromise(), 'subfeatures');
+    if(plan_subfeatures?.length > 0) {
+      let subfeature_name = 'Credits'
+      let sub = plan_subfeatures.filter(sf => {
+          return sf.name_en == subfeature_name
+      })
+      let subfeature = sub?.length > 0 ? sub[0] : ''
+      if(subfeature) {
+        let subfeatures = get(await this._companyService.getCompanySubFeatures(subfeature?.feature_id, this.companyId).toPromise(), 'subfeatures')
+        if(subfeatures?.length > 0) {
+          let feat = subfeatures.find((f) => f.feature_id == subfeature?.feature_id && f.subfeature_id == subfeature?.id && f.company_id == parseInt(this.companyId))
+          if(feat?.active == 1) {
+            this.hasActivityCredits = true;
+            this.includeFeaturesSubmenuItems();
+          }
+        }
+      }
+    }
   }
 
   async getTutorSubfeatures(tutorsFeatureId) {
@@ -925,33 +948,6 @@ export class MainComponent {
   includeFeaturesSubmenuItems() {
     if (this.mainMenuItems) {
       this.mainMenuItems.forEach((mi) => {
-        // if (mi.value == "Personalization") {
-        //   if (this.isPlanEnabled) {
-        //     let match =
-        //       mi.submenus && mi.submenus.some((a) => a.value === "Events");
-        //     if (!match) {
-        //       mi.submenus.push({
-        //         text: `${this._translateService.instant(
-        //           "company-settings.parameterize"
-        //         )} ${this.planTitle}`,
-        //         value: "Events",
-        //       });
-        //     }
-        //   }
-        //   if (this.isClubEnabled) {
-        //     let match =
-        //       mi.submenus && mi.submenus.some((a) => a.value === "Groups");
-        //     if (!match) {
-        //       mi.submenus.push({
-        //         text: `${this._translateService.instant(
-        //           "company-settings.parameterize"
-        //         )} ${this.clubTitle}`,
-        //         value: "Groups",
-        //       });
-        //     }
-        //   }
-        // }
-
         if (mi.value == "ManagementSection") {
           if (this.isPlanEnabled) {
             let match =
@@ -962,7 +958,18 @@ export class MainComponent {
                 value: "Events",
               });
             }
+
+            if(this.hasActivityCredits) {
+              let match =  mi.submenus && mi.submenus.some(a => a.value === 'Credits')
+              if(!match) {
+                mi.submenus.push({
+                  text: this._translateService.instant('course-create.credits'),
+                  value: 'Credits'
+                })
+              }
+            }
           }
+
           if (this.isClubEnabled) {
             let match =
               mi.submenus && mi.submenus.some((a) => a.value === "Groups");
@@ -1044,19 +1051,6 @@ export class MainComponent {
               value: "Cities",
             });
           }
-
-          // if (this.hasCustomInvoice) {
-          //   let match =
-          //     mi.submenus && mi.submenus.some((a) => a.value === "Invoices");
-          //   if (!match) {
-          //     mi.submenus.push({
-          //       text: this._translateService.instant(
-          //         "company-settings.invoices"
-          //       ),
-          //       value: "Invoices",
-          //     });
-          //   }
-          // }
 
           if (this.isTutorsEnabled) {
             let match = mi.submenus && mi.submenus.some((a) => a.value === "Tutors");
@@ -1526,6 +1520,8 @@ export class MainComponent {
         this._router.navigate([`/settings/manage-list/services`]);
       } else if (content == "Blog") {
         this._router.navigate([`/settings/manage-list/blogs`]);
+      } else if (content == "Credits") {
+        this._router.navigate([`/settings/manage-list/credits`]);
       }
     } else if (menu.value == "Users" && content == "Users") {
       this._router.navigate([`/settings/manage-list/users`]);

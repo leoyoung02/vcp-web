@@ -503,6 +503,7 @@ export const ACTIVITY_CODE_DATA_URL = `${API_BASE}/v2/activity-code-data`;
 export const CONFIRM_ATTENDANCE_URL = `${API_BASE}/v2/activity-code/validate`;
 export const USER_CREDIT_LOGS_URL = `${API_BASE}/v2/user-credit-logs`;
 export const SUBMIT_ACTIVITY_RATING_URL = `${API_BASE}/v2/activity/rating/submit`;
+export const ACTIVITY_CREDITS_URL = `${API_BASE}/v2/activity/credits`;
 
 // LEADS
 export const LEADS_QUESTIONS_URL = `${API_BASE}/v2/questions`;
