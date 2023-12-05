@@ -59,6 +59,9 @@
                     </div>
                 </div>
                 <ng-container *ngIf="showOtherImages && questionImages?.length > 0">
+                    <ng-container *ngIf="questionnaire?.images_description">
+                        <div [innerHtml]="questionnaire?.images_description | safeContentHtml: 'html'"></div>
+                    </ng-container>
                     <div *ngIf="questionImages?.length == 1" class="w-full max-w-full">
                         <div class="relative flex flex-col">
                             <div class="h-auto sm:h-auto flex justify-center items-center font-semibold text-lg md:h-64 lg:h-64">
@@ -66,8 +69,8 @@
                             </div>
                         </div>
                     </div>
-                    <div *ngIf="questionImages?.length > 1">
-                        <ng-image-slider 
+                    <ng-container *ngIf="questionImages?.length > 1">
+                        <!-- <ng-image-slider 
                             [images]="questionImagesObject" 
                             #nav
                             [infinite]="false"
@@ -76,8 +79,16 @@
                             [imageSize]="{width: '280px',height: '200px'}"
                             [manageImageRatio]="true"
                             slideImage="1"
-                        ></ng-image-slider>
-                    </div>
+                        ></ng-image-slider> -->
+                        <div class="relative flex flex-wrap justify-center">
+                            <ng-container *ngFor="let image of questionImagesObject; let i = index;">
+                                <img class="object-contain w-full sm:w-full md:w-[350px] lg:w-[350px] h-auto sm:h-auto md:h-[300px] lg:h-[300px] mb-2" 
+                                    src="{{ image?.image }}" 
+                                    [ngClass]="{'md:mr-[30px] lg:mr-[30px]': i != questionImages?.length - 1}"
+                                />
+                            </ng-container>
+                        </div>
+                    </ng-container>
                 </ng-container>
                 <div class="flex items-center justify-center mb-6">
                     <button
