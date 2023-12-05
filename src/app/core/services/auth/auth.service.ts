@@ -15,6 +15,7 @@ import {
   SIGNUP_FREE_URL,
   SEND_EMAIL_CONFIRMATION_URL,
   SELECT_PLAN_EMAIL_URL,
+  EMAIL_VERIFICATION_URL,
 } from "@lib/api-constants";
 import moment from "moment";
 
@@ -197,7 +198,7 @@ export class AuthService {
       .post(`${SEND_EMAIL_CONFIRMATION_URL}`, payload, {
         headers: this.headers,
       })
-      .pipe(map((res) => res));
+      .pipe(map((res) => res))
   }
 
   selectPlanEmail(id, companyId): Observable<any> {
@@ -208,5 +209,11 @@ export class AuthService {
         { headers: this.headers }
       )
       .pipe(map((res) => res));
+  }
+
+  emailVerification(guid): Observable<any> {
+    return this._http.get(`${EMAIL_VERIFICATION_URL}/${guid}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
   }
 }
