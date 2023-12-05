@@ -3340,5 +3340,22 @@
         "otherimages": "Autres images",
         "activateimagesbefosubmitbutton": "Activer les images avant de soumettre le bouton",
         "uploadimages": "Télécharger 1 ou plusieurs images"
+    },
+    "credits": {
+        "automatedemail": "Activer l'email automatisé de l'historique des crédits",
+        "sendevery": "Envoyer chaque",
+        "schedule": "Calendrier",
+        "day": "jour",
+        "week": "semaine",
+        "month": "mois",
+        "year": "année",
+        "days": "jours",
+        "weeks": "semaines",
+        "months": "mois",
+        "years": "ans",
+        "onthisday": "Ce jour-là",
+        "onthedays": "Ces jours-là",
+        "emailschedulesummary": " L'e-mail sera envoyé tous les",
+        "includeattachment": "Inclure la pièce jointe"
     }
 }

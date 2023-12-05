@@ -281,6 +281,7 @@ export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;
 export const PLAN_DETAILS_URL = `${API_BASE}/v2/plan-details`;
 export const PLANS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/plans-management-data`;
 export const PLAN_REGISTRATION_DATA_URL = `${API_BASE}/v2/plan-registration-data`;
+export const ACTIVITY_CREDITS_URL = `${API_BASE}/v2/activity/credits`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;
@@ -545,3 +546,4 @@ export const ACTIVITY_CODE_DATA_URL = `${API_BASE}/v2/activity-code-data`;
 export const CONFIRM_ATTENDANCE_URL = `${API_BASE}/v2/activity-code/validate`;
 export const USER_CREDIT_LOGS_URL = `${API_BASE}/v2/user-credit-logs`;
 export const SUBMIT_ACTIVITY_RATING_URL = `${API_BASE}/v2/activity/rating/submit`;
+export const EDIT_CREDITS_SETTINGS_URL = `${API_BASE}/v2/credits/settings`;

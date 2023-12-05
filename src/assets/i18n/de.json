@@ -3344,5 +3344,22 @@
         "otherimages": "Andere Bilder",
         "activateimagesbefosubmitbutton": "Bilder vor dem Senden-Button aktivieren",
         "uploadimages": "Ein oder mehrere Bilder hochladen"
+    },
+    "credits": {
+        "automatedemail": "Automatische E-Mail des Rechnungsverlaufs aktivieren",
+        "endevery": "Alle senden",
+        "schedule": "Zeitplan",
+        "day": "tag",
+        "week": "week",
+        "Monat": "Monat",
+        "Jahr": "Jahr",
+        "Tage": "Tage",
+        "weeks": "weeks",
+        "Monate": "Monate",
+        "Jahre": "Jahre",
+        "onthisday": "An diesem Tag",
+        "onthesedays": "An diesen Tagen",
+        "emailschedulesummary": "Die E-Mail wird alle gesendet.",
+        "includeattachment": "Anhang einschließen"
     }
 }

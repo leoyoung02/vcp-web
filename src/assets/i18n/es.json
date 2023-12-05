@@ -3367,5 +3367,22 @@
         "otherimages": "Otras imágenes",
         "activateimagesbefosubmitbutton": "Activar imágenes antes del botón enviar",
         "uploadimages": "Subir 1 o más imágenes"
+    },
+    "credits": {
+        "automatedemail": "Activar correo electrónico automatizado del historial de créditos",
+        "sendevery": "Enviar cada",
+        "schedule": "Cronograma",
+        "day": "día",
+        "week": "semana",
+        "month": "mes",
+        "year": "año",
+        "days": "días",
+        "weeks": "semanas",
+        "months": "meses",
+        "years": "años",
+        "onthisday": "En este día",
+        "onthesedays": "En estos días",
+        "emailschedulesummary": " El correo electrónico se enviará cada",
+        "includeattachment": "Incluir archivo adjunto"
     }
 }

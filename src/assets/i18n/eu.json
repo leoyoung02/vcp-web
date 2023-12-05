@@ -3345,5 +3345,22 @@
         "otherimages": "Beste irudi batzuk",
         "activateimagesbefosubmitbutton": "Aktibatu irudiak bidali botoia baino lehen",
         "uploadimages": "Kargatu irudi bat edo gehiago"
+    },
+    "credits": {
+        "automatedemail": "Aktibatu cedits historiaren posta elektroniko automatizatua",
+        "sendevery": "Bidali bakoitza",
+        "schedule": "Egitaraua",
+        "day": "eguna",
+        "week": "aste",
+        "month": "hilabete",
+        "year": "urtea",
+        "days": "egunak",
+        "weeks": "asteak",
+        "months": "hilabeteak",
+        "years": "urteak",
+        "onthisday": "Egun honetan",
+        "onthesedays": "Egun hauetan",
+        "emailschedulesummary": "Mezu elektronikoa behin bidaliko da",
+        "includeattachment": "Sartu eranskina"
     }
 }

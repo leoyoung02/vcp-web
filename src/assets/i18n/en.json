@@ -3382,5 +3382,22 @@
         "otherimages": "Other images",
         "activateimagesbefosubmitbutton": "Activate images before submit button",
         "uploadimages": "Upload 1 or more images"
+    },
+    "credits": {
+        "automatedemail": "Activate automated email of cedits history",
+        "sendevery": "Send every",
+        "schedule": "Schedule",
+        "day": "day",
+        "week": "week",
+        "month": "month",
+        "year": "year",
+        "days": "days",
+        "weeks": "weeks",
+        "months": "months",
+        "years": "years",
+        "onthisday": "On this day",
+        "onthesedays": "On these days",
+        "emailschedulesummary": " The email will be sent every",
+        "includeattachment": "Include attachment"
     }
 }

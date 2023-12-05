@@ -3355,5 +3355,22 @@
         "otherimages": "Altres imatges",
         "activateimagesbefosubmitbutton": "Activa les imatges abans del botó d'enviar",
         "uploadimages": "Penja 1 o més imatges"
+    },
+    "credits": {
+        "automatedemail": "Activa el correu electrònic automatitzat de l'historial de cedits",
+        "sendevery": "Envia tots",
+        "schedule": "Programació",
+        "day": "dia",
+        "week": "setmana",
+        "month": "mes",
+        "year": "any",
+        "days": "dies",
+        "weeks": "setmanes",
+        "months": "mesos",
+        "years": "anys",
+        "onthisday": "Aquest dia",
+        "onthesedays": "En aquests dies",
+        "emailschedulesummary": "El correu electrònic s'enviarà cada",
+        "includeattachment": "Inclou el fitxer adjunt"
     }
 }

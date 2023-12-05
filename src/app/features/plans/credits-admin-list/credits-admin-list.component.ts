@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, HostListener, Input, SimpleChange, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, SimpleChange, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CompanyService, ExcelService, LocalService } from '@share/services';
@@ -12,7 +12,9 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlansService } from '@features/services';
+import { FormsModule } from '@angular/forms';
 import moment from "moment";
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-credits-admin-list',
@@ -20,6 +22,7 @@ import moment from "moment";
     imports: [
         CommonModule, 
         TranslateModule,
+        FormsModule,
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
@@ -58,6 +61,22 @@ export class CreditsAdminListComponent {
     allCreditsData: any[] = [];
     selectedCity: any;
     allPlanDrafts: any = [];
+    @ViewChild("modalbutton", { static: false }) modalbutton:
+    | ElementRef
+    | undefined;
+    @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+    | ElementRef
+    | undefined;
+
+    activateAutomatedEmail: boolean = false;
+    sendEveryNumber: number = 1;
+    sendEverySchedule: string = '';
+    schedules: any = [];
+    days: any = false;
+    activateIncludeAttachment: boolean = false;
+    selectedDay: any;
+    selectedDays: any = [];
+    companyId: any;
 
     constructor(
         private _route: ActivatedRoute,
@@ -76,22 +95,90 @@ export class CreditsAdminListComponent {
     }
 
     async ngOnInit() {
-        this.onResize();
+      this.onResize();
+      this.language = this._localService.getLocalStorage(environment.lslanguage) || "es";
+      this.userId = this._localService.getLocalStorage(environment.lsuserId);
+      this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
+      this._translateService.use(this.language || "es");
 
-        this.languageChangeSubscription =
-        this._translateService.onLangChange.subscribe(
-          (event: LangChangeEvent) => {
-            this.language = event.lang;
-            this.initializePage();
-          }
-        );
-    
-        this.initializePage();
+      this.languageChangeSubscription =
+      this._translateService.onLangChange.subscribe(
+        (event: LangChangeEvent) => {
+          this.language = event.lang;
+          this.initializePage();
+        }
+      );
+  
+      this.initializePage();
     }
 
     initializePage() {
-        this.fetchCreditsData();
-        this.initializeSearch();
+      this.schedules = [
+        {
+          value: 'days',
+          text: this.sendEveryNumber <= 1 ? this._translateService.instant('credits.day') : this._translateService.instant('credits.days')
+        },
+        {
+          value: 'weeks',
+          text: this.sendEveryNumber <= 1 ? this._translateService.instant('credits.week') : this._translateService.instant('credits.weeks')
+        },
+        {
+          value: 'months',
+          text: this.sendEveryNumber <= 1 ? this._translateService.instant('credits.month') : this._translateService.instant('credits.months')
+        },
+        {
+          value: 'years',
+          text: this.sendEveryNumber <= 1 ? this._translateService.instant('credits.year') : this._translateService.instant('credits.years')
+        }
+      ]
+      this.days = [
+        {
+          value: 'monday',
+          text: moment().locale(this.language).startOf('isoWeek').day(1).format('dddd').substring(0,1).toUpperCase()
+        },
+        {
+          value: 'tuesday',
+          text: moment().locale(this.language).startOf('isoWeek').day(2).format('dddd').substring(0,1).toUpperCase()
+        },
+        {
+          value: 'wednesday',
+          text: moment().locale(this.language).startOf('isoWeek').day(3).format('dddd').substring(0,1).toUpperCase()
+        },
+        {
+          value: 'thursday',
+          text: moment().locale(this.language).startOf('isoWeek').day(4).format('dddd').substring(0,1).toUpperCase()
+        },
+        {
+          value: 'friday',
+          text: moment().locale(this.language).startOf('isoWeek').day(5).format('dddd').substring(0,1).toUpperCase()
+        },
+        {
+          value: 'saturday',
+          text: moment().locale(this.language).startOf('isoWeek').day(6).format('dddd').substring(0,1).toUpperCase()
+        },
+        {
+          value: 'sunday',
+          text: moment().locale(this.language).startOf('isoWeek').day(0).format('dddd').substring(0,1).toUpperCase()
+        },
+      ]
+      this.fetchCreditsSettings();
+      this.fetchCreditsData();
+      this.initializeSearch();
+    }
+
+    fetchCreditsSettings() {
+      this._companyService
+        .getCreditsSettings(this.company?.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (data) => {
+            console.log(data)
+            this.formatCreditsSettings(data?.credits_settings);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
     }
 
     fetchCreditsData() {
@@ -117,6 +204,23 @@ export class CreditsAdminListComponent {
     handleSearch(event) {
       this.searchKeyword = event;
       this.loadCredits(this.allCreditsData);
+    }
+
+    formatCreditsSettings(settings) {
+      if(settings) {
+        this.activateAutomatedEmail = settings?.automated_email_sending == 1 ? true : false;
+        this.sendEveryNumber = settings?.frequency;
+        this.sendEverySchedule = settings?.schedule;
+        this.activateIncludeAttachment = settings?.attachment == 1 ? true : false;
+        if(this.days?.length > 0) {
+          let row = this.days?.filter(dy => {
+            return dy.value == settings?.schedule_day
+          })
+          if(row?.length > 0) {
+            this.selectedDay =  row[0];
+          }
+        }
+      }
     }
 
     formatCredits(credits) {
@@ -262,6 +366,62 @@ export class CreditsAdminListComponent {
     
       this._excelService.exportAsExcelFile(credits_data, 'creditos-' +  moment().format('YYYYMMDDHHmmss'));
       this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+    }
+
+    openSettings() {
+      this.modalbutton?.nativeElement.click();
+    }
+
+    getSelectedSchedule() {
+      let text = '';
+      if(this.sendEverySchedule) {
+        let sched = this.schedules?.filter(sc => {
+          return sc.value == this.sendEverySchedule
+        })
+        if(sched?.length > 0) {
+          text = sched[0].text;
+        }
+      }
+
+      return text;
+    }
+
+    selectDay(day) {
+      if(this.sendEveryNumber == 1) {
+        this.selectedDay = day;
+      } else if(this.sendEveryNumber > 1) {
+        let match = this.selectedDays?.some(
+          (a) => a.value == day?.value
+        );
+        if(!match) {
+          this.selectedDays?.push(day);
+        }
+      }
+    }
+
+    saveCreditsSettings() {
+      let params = {
+        company_id: this.companyId,
+        automated_email_sending: this.activateAutomatedEmail,
+        frequency: this.sendEveryNumber || null,
+        schedule: this.sendEverySchedule || '',
+        schedule_day: this.selectedDay?.value || '',
+        attachment: this.activateIncludeAttachment,
+        recipients: '',
+      };
+
+      this._companyService.editCreditsSettings(params).subscribe(
+        (response) => {
+          this.open(
+            this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+          this.closemodalbutton?.nativeElement.click();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
 
     ngOnDestroy() {
