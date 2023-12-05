@@ -621,6 +621,40 @@
                             </mat-tab>
                             <mat-tab *ngIf="mode == 'edit'" class="uppercase" label="{{ 'leads.otherimages' | translate }}">
                                 <div class="my-8">
+                                    <div class="flex items-center justify-center mb-4 relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                                        <div class="w-full max-w-full">
+                                            <label for="images-description" class="text-left block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                {{'landing.description' | translate}}
+                                            </label>
+                                            <editor
+                                                class="w-full"
+                                                apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                                                [init]="{
+                                                    height: 180,
+                                                    menubar: false,
+                                                    plugins: [
+                                                    'advlist autolink lists link image imagetools charmap print',
+                                                    'textcolor preview anchor searchreplace visualblocks code',
+                                                    'fullscreen insertdatetime media table paste',
+                                                    'help wordcount',
+                                                    'code media'
+                                                    ],
+                                                    toolbar:
+                                                    'undo redo | formatselect | bold italic | \
+                                                    forecolor | backcolor | \
+                                                    sizeselect | bold italic | fontselect | fontsize | \
+                                                    alignleft aligncenter alignright alignjustify | \
+                                                    media | \
+                                                    paste pastetext | \
+                                                    image imagetools | \
+                                                    bullist numlist outdent indent | help'
+                                                }"
+                                                id="images-description"
+                                                [(ngModel)]="imagesDescription"
+                                                [ngModelOptions]="{standalone: true}"
+                                            ></editor>
+                                        </div>
+                                    </div>
                                     <div class="flex items-center justify-between relative pt-4">
                                         <div class="text-left block mb-4 text-sm font-medium text-gray-900 dark:text-white">
                                             {{'leads.activateimagesbefosubmitbutton' | translate}}
@@ -648,8 +682,8 @@
                                             <div *ngIf="questionImages?.length == 1">
                                                 <img class="object-contain h-[256px] w-full max-w-full object-cover" src="{{ imageSrc + questionImages[0]?.image }}" />
                                             </div>
-                                            <div *ngIf="questionImagesObject?.length > 1">
-                                                <ng-image-slider 
+                                            <ng-container *ngIf="questionImagesObject?.length > 1">
+                                                <!-- <ng-image-slider 
                                                     [images]="questionImagesObject" 
                                                     #nav
                                                     [infinite]="false"
@@ -658,8 +692,15 @@
                                                     [imageSize]="{width: '280px',height: '200px'}"
                                                     [manageImageRatio]="true"
                                                     slideImage="1"
-                                                ></ng-image-slider>
-                                            </div>
+                                                ></ng-image-slider> -->
+                                                <div class="relative flex flex-wrap justify-center my-4">
+                                                    <ng-container *ngFor="let image of questionImagesObject; let i = index;">
+                                                        <img class="object-contain w-full sm:w-full md:w-[350px] lg:w-[350px] h-auto sm:h-auto md:h-[300px] lg:h-[300px]" src="{{ image?.image }}" 
+                                                            [ngClass]="{'mr-[30px]': i != questionImages?.length - 1}"
+                                                        />
+                                                    </ng-container>
+                                                </div>
+                                            </ng-container>
                                         </ng-container>
                                         <div class="text-left block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                             {{'leads.uploadimages' | translate}}

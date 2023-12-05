@@ -19,6 +19,7 @@ import {
 } from "@angular/forms";
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { NgImageSliderModule } from 'ng-image-slider';
+import { SafeContentHtmlPipe } from "@lib/pipes";
 import { NoAccessComponent } from "@share/components";
 import get from "lodash/get";
 
@@ -32,6 +33,7 @@ import get from "lodash/get";
     ReactiveFormsModule,
     MatSnackBarModule,
     NgImageSliderModule,
+    SafeContentHtmlPipe,
     NgOptimizedImage,
     NoAccessComponent,
   ],
@@ -122,6 +124,7 @@ export class TikTokLandingQuestionsComponent {
       .subscribe(
         data => {
           this.questionnaire = data?.question;
+          console.log(data)
           if(this.questionnaire?.image && this.questionnaire?.image_filename) {
             this.questionImage = `${environment.api}/get-landing-page-image/${this.questionnaire?.image_filename}`;
           }

@@ -757,9 +757,15 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
     --tw-ring-color: transparent;
 }
 
+.ng-image-slider .ng-image-slider-container .main {
+    display: flex;
+    justify-content: center;
+}
+
 @media (max-width: 767px) { 
     iframe.video-cta-iframe {
         margin-top: 80px;
         height: auto !important;
+        aspect-ratio: 16/9;
     }
 }

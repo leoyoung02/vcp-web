@@ -28,6 +28,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
+import { EditorModule } from "@tinymce/tinymce-angular";
 import { CoursesService } from "@features/services";
 import { initFlowbite } from "flowbite";
 import get from "lodash/get";
@@ -55,6 +56,7 @@ registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPlug
     ColorPickerModule,
     FilePondModule,
     NgImageSliderModule,
+    EditorModule,
     SearchComponent,
     BreadcrumbComponent,
     ToastComponent,
@@ -278,6 +280,7 @@ export class QuestionnairesComponent {
   allQuestionImages: any;
   imageSrc: string = `${environment.api}/get-testimonial-image/`;
   questionImagesObject: any = [];
+  imagesDescription: any;
 
   constructor(
     private _companyService: CompanyService,
@@ -576,6 +579,7 @@ export class QuestionnairesComponent {
     this.submitButtonColor = item?.button_color;
     this.submitButtonText = item?.button_text;
     this.submitButtonTextColor = item?.button_text_color;
+    this.imagesDescription = item?.images_description;
     if(item?.image && item?.image_filename) {
       this.activateImage = true;
       this.questionImageName = item?.image_filename;
@@ -1193,6 +1197,7 @@ export class QuestionnairesComponent {
       image_files: gallery_items || null,
       company_id: this.companyId,
       status: this.activateOtherImages ? 1 : 0,
+      images_description: this.imagesDescription || '',
       created_by: this.userId,
     };
 
@@ -1202,6 +1207,7 @@ export class QuestionnairesComponent {
           this._translateService.instant("dialog.savedsuccessfully"),
           ""
         );
+        this.getQuestions();
         this.clearFileLocal();
       },
       (error) => {
