@@ -126,6 +126,7 @@ export const CHANGE_PASSWORD_URL = `${API_BASE}/central/change-password/vistingo
 export const SIGNUP_FREE_URL = `${API_BASE}/company/user/signup-no-payment/dynamic`;
 export const SEND_EMAIL_CONFIRMATION_URL = `${API_BASE}/company/send/confirmation-email`;
 export const SELECT_PLAN_EMAIL_URL = `${API_BASE}/company/email/select-plan`;
+export const EMAIL_VERIFICATION_URL = `${API_BASE}/email-verification`;
 
 // PAYMENT
 export const VALIDATE_COUPON_URL = `${API_BASE}/company/member-plan/validate-coupon`;

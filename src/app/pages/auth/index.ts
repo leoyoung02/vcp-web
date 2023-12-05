@@ -26,4 +26,10 @@ export const routes: Routes = [
         data: { titleKey: 'login.changepasswordtitle'},
         loadComponent: async () => (await import('./change-password/change-password.component')).ChangePasswordComponent,
     },
+    {
+        path: 'email-verification/:guid',
+        title: CustomTitleResolver,
+        data: { titleKey: 'email.-verification.emailverification'},
+        loadComponent: async () => (await import('./email-verification/email-verification.component')).EmailVerificationComponent,
+    },
 ];
