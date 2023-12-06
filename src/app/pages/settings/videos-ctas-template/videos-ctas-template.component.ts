@@ -108,6 +108,7 @@ export class VideosCTAsTemplateComponent {
   activateDescription: boolean = true;
   videoEmbed: any;
   videoEmbedFileName: any;
+  vimeoID: any;
   CTATextColor: any;
   CTAButtonColor: any;
   videosCTAs: any;
@@ -248,6 +249,7 @@ export class VideosCTAsTemplateComponent {
     this.CTAButtonColor = this.videosCTAs?.details?.cta_button_color || '';
     this.CTATextColor = this.videosCTAs?.details?.cta_button_text_color || '';
     this.CTALink = this.videosCTAs?.details?.cta_link || '';
+    this.vimeoID = this.videosCTAs?.details?.vimeo_id || '';
   }
 
   getSafeLessonUrl() {
@@ -288,6 +290,7 @@ export class VideosCTAsTemplateComponent {
       video_cta_id: this.id,
       video: this.activateVideo ? 1 : 0,
       video_embed: this.videoEmbed || '',
+      vimeo_id: this.vimeoID || '',
       description: this.activateDescription ? 1 : 0,
       description_text_color: this.descriptionTextColor,
       description_text: this.descriptionText,

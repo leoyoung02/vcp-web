@@ -85,6 +85,13 @@ export const routes: Routes = [
         pathMatch: 'full',
     },
     {
+        path: 'calendly',
+        data: { layout: PageLayout.Blank, titleKey: 'Registro' },
+        title: CustomTitleResolver,
+        loadComponent: async () => (await import('@pages/external-calendly/external-calendly.component')).ExternalCalendlyComponent,
+        canMatch: [authGuard({ requiresAuthentication: false })],
+    },
+    {
         path: '',
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@pages/home')).routes,

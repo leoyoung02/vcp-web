@@ -3372,5 +3372,15 @@
         "onthesedays": "En aquests dies",
         "emailschedulesummary": "El correu electrònic s'enviarà cada",
         "includeattachment": "Inclou el fitxer adjunt"
+    },
+    "videos-ctas": {
+        "activatetimer": "Activa el temporitzador",
+        "timerdesc": "Això mostrarà la CTA després del temps especificat",
+        "timeroption": "Opció del temporitzador",
+        "selectoption": "Selecciona l'opció",
+        "videotime": "Quant de temps que s'ha reproduït el vídeo",
+        "time": "Temps transcorregut",
+        "seconds": "segons",
+        "provideid": "Si voleu mostrar condicionalment el CTA, cal que hi hagi un valor aquí."
     }
 }

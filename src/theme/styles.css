@@ -767,21 +767,13 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
     iframe.video-cta-iframe {
         margin-top: 80px;
         height: auto !important;
-        aspect-ratio: 16/9;
     }
-}
 
-.rating.color-ok .star-container .star svg,
-.rating.color-negative .star-container .star svg,
-.rating.color-default .star-container .star svg,
-.rating.color-positive .star-container .star svg {
-    fill: #ffc058 !important;
-}
-
-@media (max-width: 767px) { 
-    iframe.video-cta-iframe {
+    #vimeo-player iframe { 
+        width: 100% !important;
         margin-top: 80px;
         height: auto !important;
+        aspect-ratio: 16/9;
     }
 }
 

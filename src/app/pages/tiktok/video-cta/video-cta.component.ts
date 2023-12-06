@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, Input } from "@angular/core";
+import { ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import {
   LangChangeEvent,
@@ -21,6 +21,7 @@ import { TikTokLandingBoxedComponent } from "../landing-boxed/landing-boxed.comp
 import { TikTokLandingFullWidthComponent } from "../landing-full-width/landing-full-width.component";
 import { NoAccessComponent } from "@share/components";
 import { DomSanitizer } from '@angular/platform-browser';
+import Player from '@vimeo/player';
 import get from "lodash/get";
 
 @Component({
@@ -69,12 +70,22 @@ export class TikTokVideoCTAComponent {
   isLoading: boolean = true;
   CTALink: any;
 
+  @ViewChild('playerContainer') playerContainer?: ElementRef | undefined;
+  @ViewChild('cta') cta?: ElementRef | undefined;
+  activateTimedButton: boolean = false;
+  activatedVideoTime: boolean = false;
+  activatedTime: boolean = false;
+  showCTA: boolean = false;
+  url: string = '';
+  timedDuration: any;
+
   constructor(
     private _router: Router,
     private _companyService: CompanyService,
     private _translateService: TranslateService,
     private _localService: LocalService,
     private sanitizer: DomSanitizer,
+    private cd: ChangeDetectorRef,
   ) {}
 
   async ngOnInit() {
@@ -112,6 +123,34 @@ export class TikTokVideoCTAComponent {
     this.initializePage();
   }
 
+  ngAfterViewInit(): void {
+    if(this.playerContainer) {
+      this.playerListener();
+    }
+  }
+
+  playerListener() {
+    const player = new Player(this.playerContainer?.nativeElement, {
+      url: this.url,
+    });
+    
+    player.on('timeupdate', function (data) {
+      console.log(data);
+      if(data) {
+        localStorage.setItem('player', JSON.stringify(data));
+        let duration = localStorage.getItem('duration');
+        if(duration && parseInt(duration) > 0) {
+          if(data.seconds && data.seconds > parseInt(duration)) {
+            let btn = document.getElementById("cta");
+            if(btn) {
+              btn.style.display = 'initial';
+            }
+          }
+        }
+      }
+    });
+  }
+
   initializePage() {
     this.fetchLandingData();
   }
@@ -135,6 +174,26 @@ export class TikTokVideoCTAComponent {
     this.descriptionTextColor = this.videoCTA?.description_text_color || '#000000';
     this.descriptionText = this.videoCTA?.description_text;
     this.activateVideo = this.videoCTA?.video == 1 ? true : false;
+    this.activateTimedButton = this.videoCTA?.timed_cta == 1 ? true : false;
+    if(!this.activateTimedButton) {
+      this.showCTA = true;
+    } else {
+      this.activatedVideoTime = this.videoCTA?.cta_video_time == 1 ? true : false;
+      this.activatedTime = this.videoCTA?.cta_time == 1 ? true : false;
+      if(this.activatedVideoTime) {
+        if(this.videoCTA?.vimeo_id) {
+          this.url = `https://player.vimeo.com/video/${this.videoCTA?.vimeo_id}`;
+          localStorage.setItem('duration', this.videoCTA?.duration);
+        } else {
+          this.showCTA = true;
+        }
+      } else if(this.activatedTime) {
+        this.timedDuration = this.videoCTA?.duration;
+        setTimeout(() => {
+          this.showCTA = true;
+        }, (this.timedDuration * 1000));
+      }
+    }
     this.videoEmbed = this.videoCTA?.video_embed?.replace('width="640"', 'width="100%"')?.replace('<iframe', '<iframe class="video-cta-iframe" '); 
     if(this.activateVideo && this.videoEmbed) {
       this.getSafeLessonURL();
@@ -145,6 +204,10 @@ export class TikTokVideoCTAComponent {
     this.CTATextColor = this.videoCTA?.cta_button_text_color || '';
     this.CTALink = this.videoCTA?.cta_link || '';
     this.isLoading = false;
+    this.cd.detectChanges();
+    if(this.playerContainer) {
+      this.playerListener();
+    }
   }
 
   getSafeLessonURL() {

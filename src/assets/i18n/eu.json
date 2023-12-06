@@ -3362,5 +3362,15 @@
         "onthesedays": "Egun hauetan",
         "emailschedulesummary": "Mezu elektronikoa behin bidaliko da",
         "includeattachment": "Sartu eranskina"
+    },
+    "videos-ctas": {
+        "activatetimer": "Aktibatu tenporizadorea",
+        "timerdesc": "Honek zehaztutako denboraren ondoren CTA erakutsiko du",
+        "timeroption": "Tenporizadorearen aukera",
+        "selectoption": "Hautatu aukera",
+        "videotime": "Bideoa erreproduzitu den denbora kopurua",
+        "time": "Igarotako denbora",
+        "seconds": "segundoak",
+        "provideid": "CTA baldintzapean erakutsi nahi baduzu, balio bat egon behar da hemen."
     }
 }

@@ -82,6 +82,23 @@
                             </div>
                         </div>
                     </div>
+                    <div *ngIf="activateVideo" class="flex items-center justify-center mb-4 relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                        <div class="w-full max-w-full">
+                            <label for="vimeo-id" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                Vimeo ID
+                                <div class="text-xs opacity-75">{{'videos-ctas.provideid' | translate}}</div>
+                            </label>
+                            <div class="flex">
+                                <input 
+                                    id="vimeo-id"
+                                    type="text" 
+                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                    [(ngModel)]="vimeoID" 
+                                    [ngModelOptions]="{standalone: true}"
+                                    placeholder="Vimeo ID">
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             <div (click)="expandOption('description')" 

@@ -9,6 +9,7 @@ import {
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
+import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import { SearchComponent } from "@share/components/search/search.component";
@@ -40,6 +41,7 @@ import get from "lodash/get";
     MatPaginatorModule,
     MatSortModule,
     MatSnackBarModule,
+    MatTabsModule,
     SearchComponent,
     BreadcrumbComponent,
     PageTitleComponent,
@@ -110,6 +112,13 @@ export class LandingVideosCTAsComponent {
   selectedLatamQuestion: any = '';
   selectedOutsideSpainQuestion: any = '';
   slug: any;
+  tabIndex = 0;
+  tabSelected: boolean = false;
+
+  activateTimedButton: boolean = false;
+  selectedTimerOption: any = '';
+  timerOptions: any = [];
+  timedDuration: any;
 
   constructor(
     private _router: Router,
@@ -161,6 +170,16 @@ export class LandingVideosCTAsComponent {
   }
 
   initializePage() {
+    this.timerOptions = [
+      {
+        value: 'video',
+        text: this._translateService.instant('videos-ctas.videotime')
+      },
+      {
+        value: 'time',
+        text: this._translateService.instant('videos-ctas.time')
+      }
+    ]
     initFlowbite();
     this.initializeBreadcrumb();
     this.initializeSearch();
@@ -248,34 +267,12 @@ export class LandingVideosCTAsComponent {
   }
 
   refreshTable(array) {
-    // this.dataSource = new MatTableDataSource(
-    //   array.slice(
-    //     this.pageIndex * this.pageSize,
-    //     (this.pageIndex + 1) * this.pageSize
-    //   )
-    // );
     this.dataSource = new MatTableDataSource(array);
     if (this.sort) {
       this.dataSource.sort = this.sort;
     } else {
       setTimeout(() => (this.dataSource.sort = this.sort));
     }
-    // if (this.paginator) {
-    //   new MatTableDataSource(array).paginator = this.paginator;
-    //   if (this.pageIndex > 0) {
-    //   } else {
-    //     this.paginator.firstPage();
-    //   }
-    // } else {
-    //   setTimeout(() => {
-    //     if (this.paginator) {
-    //       new MatTableDataSource(array).paginator = this.paginator;
-    //       if (this.pageIndex > 0) {
-    //         this.paginator.firstPage();
-    //       }
-    //     }
-    //   });
-    // }
   }
 
   getPageDetails(event: any) {
@@ -395,6 +392,10 @@ export class LandingVideosCTAsComponent {
     this.videosCTAsForm.controls["description"].setValue(this.description);
     this.videosCTAsForm.controls["slug"].setValue(this.slug);
 
+    this.activateTimedButton = item?.timed_cta == 1 ? true : false;
+    this.selectedTimerOption = item?.cta_time == 1 ? 'time' : (item?.cta_video_time == 1 ? 'video' : '')
+    this.timedDuration = item?.duration || 0
+
     this.mode = "edit";
     this.modalbutton0?.nativeElement.click();
   }
@@ -419,6 +420,32 @@ export class LandingVideosCTAsComponent {
     document.body.removeChild(selBox);
 
     this.open(this._translateService.instant("checkout.linkgenerated"), "");
+  }
+
+  changeTab(event) {
+
+  }
+
+  saveCTASettings() {
+    let params = {
+      timed_cta: this.activateTimedButton ? 1 : 0,
+      cta_time: this.selectedTimerOption == 'time' ? 1 : 0,
+      cta_video_time: this.selectedTimerOption == 'video' ? 1 : 0,
+      duration: this.timedDuration || null,
+    }
+    this._companyService.editVideosCTAsCTASettings(this.selectedId, params).subscribe(
+      (response) => {
+        this.closemodalbutton0?.nativeElement.click();
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+        this.getVideosCTAs();
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   handleGoBack() {

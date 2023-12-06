@@ -203,16 +203,46 @@ export class SubmissionsComponent {
       return submissions.filter((m) => {
         let include = false;
         if (
-          m.location &&
-          m.location.toLowerCase()
-          .normalize("NFD")
-          .replace(/\p{Diacritic}/gu, "")
-          .indexOf(
-            this.searchKeyword
-              .toLowerCase()
+          (m.location &&
+            m.location.toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
+          (m.question_title &&
+            m.question_title.toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
+            (m.country &&
+              m.country.toLowerCase()
               .normalize("NFD")
               .replace(/\p{Diacritic}/gu, "")
-          ) >= 0
+              .indexOf(
+                this.searchKeyword
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
+            (m.whatsapp_community &&
+              m.whatsapp_community.toLowerCase()
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.searchKeyword
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
+              ) >= 0)
         ) {
           include = true;
         }

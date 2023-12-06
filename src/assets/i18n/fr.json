@@ -3357,5 +3357,15 @@
         "onthedays": "Ces jours-là",
         "emailschedulesummary": " L'e-mail sera envoyé tous les",
         "includeattachment": "Inclure la pièce jointe"
+    },
+    "videos-ctas": {
+        "activatetimer": "Activer le minuteur",
+        "timerdesc": "Cela affichera le CTA après l'heure spécifiée",
+        "timeroption": "Option minuterie",
+        "selectoption": "Sélectionner une option",
+        "videotime": "Durée de lecture de la vidéo",
+        "time": "Temps écoulé",
+        "seconds": "secondes",
+        "provideid": "CTA baldintzapean erakutsi nahi baduzu, balio bat egon behar da hemen."
     }
 }

@@ -547,3 +547,4 @@ export const CONFIRM_ATTENDANCE_URL = `${API_BASE}/v2/activity-code/validate`;
 export const USER_CREDIT_LOGS_URL = `${API_BASE}/v2/user-credit-logs`;
 export const SUBMIT_ACTIVITY_RATING_URL = `${API_BASE}/v2/activity/rating/submit`;
 export const EDIT_CREDITS_SETTINGS_URL = `${API_BASE}/v2/credits/settings`;
+export const EDIT_VIDEOS_CTAS_CTA_SETTINGS_URL = `${API_BASE}/v2/videos-ctas/cta-settings/edit`;
