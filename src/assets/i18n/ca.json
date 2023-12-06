@@ -3371,7 +3371,8 @@
         "onthisday": "Aquest dia",
         "onthesedays": "En aquests dies",
         "emailschedulesummary": "El correu electrònic s'enviarà cada",
-        "includeattachment": "Inclou el fitxer adjunt"
+        "includeattachment": "Inclou el fitxer adjunt",
+        "emailrecipients": "Destinataris de correu electrònic (separats per comes)"
     },
     "videos-ctas": {
         "activatetimer": "Activa el temporitzador",

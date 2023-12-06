@@ -13,8 +13,8 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlansService } from '@features/services';
 import { FormsModule } from '@angular/forms';
-import moment from "moment";
 import { environment } from '@env/environment';
+import moment from "moment";
 
 @Component({
     selector: 'app-credits-admin-list',
@@ -77,6 +77,7 @@ export class CreditsAdminListComponent {
     selectedDay: any;
     selectedDays: any = [];
     companyId: any;
+    emailRecipients: any = '';
 
     constructor(
         private _route: ActivatedRoute,
@@ -187,7 +188,6 @@ export class CreditsAdminListComponent {
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           (data) => {
-            console.log(data)
             this.formatCredits(data?.credits);
           },
           (error) => {
@@ -407,7 +407,7 @@ export class CreditsAdminListComponent {
         schedule: this.sendEverySchedule || '',
         schedule_day: this.selectedDay?.value || '',
         attachment: this.activateIncludeAttachment,
-        recipients: '',
+        recipients: this.emailRecipients || '',
       };
 
       this._companyService.editCreditsSettings(params).subscribe(

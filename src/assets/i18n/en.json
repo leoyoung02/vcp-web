@@ -3398,7 +3398,8 @@
         "onthisday": "On this day",
         "onthesedays": "On these days",
         "emailschedulesummary": " The email will be sent every",
-        "includeattachment": "Include attachment"
+        "includeattachment": "Include attachment",
+        "emailrecipients": "Email recipients (separated by comma)"
     },
     "videos-ctas": {
         "activatetimer": "Activate timer",

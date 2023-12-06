@@ -783,3 +783,15 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
 .rating.color-positive .star-container .star svg {
     fill: #ffc058 !important;
 }
+
+input#email-recipients:focus {
+	outline: none; /* To make sure you see the border-color change as you type */
+}
+
+input#email-recipients:invalid {
+	border-color: red !important;
+}
+
+input#email-recipients:valid {
+	border-color: green !important;
+}

@@ -3360,7 +3360,8 @@
         "onthisday": "An diesem Tag",
         "onthesedays": "An diesen Tagen",
         "emailschedulesummary": "Die E-Mail wird alle gesendet.",
-        "includeattachment": "Anhang einschließen"
+        "includeattachment": "Anhang einschließen",
+        "emailrecipients": "E-Mail-Empfänger (durch Komma getrennt)"
     },
     "videos-ctas": {
         "activatetimer": "Timer aktivieren",

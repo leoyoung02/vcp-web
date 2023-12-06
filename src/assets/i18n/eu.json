@@ -3361,7 +3361,8 @@
         "onthisday": "Egun honetan",
         "onthesedays": "Egun hauetan",
         "emailschedulesummary": "Mezu elektronikoa behin bidaliko da",
-        "includeattachment": "Sartu eranskina"
+        "includeattachment": "Sartu eranskina",
+        "emailrecipients": "Mezu hartzaileak (komaz bereizita)"
     },
     "videos-ctas": {
         "activatetimer": "Aktibatu tenporizadorea",

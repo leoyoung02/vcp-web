@@ -184,6 +184,18 @@
                                 {{ 'credits.emailschedulesummary' | translate }} {{sendEveryNumber}} {{getSelectedSchedule()}}
                             </label>
                         </div>
+                        <div class="mt-4 mb-2 relative">
+                            <label for="email-recipients" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{ 'credits.emailrecipients' | translate }}
+                            </label>
+                            <input 
+                                id="email-recipients"
+                                type="email" inputmode="text" multiple
+                                class="text-base shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                [(ngModel)]="emailRecipients"
+                                [ngModelOptions]="{standalone: true}"
+                                placeholder="{{ 'credits.emailrecipients' | translate }}">
+                        </div>
                         <div class="my-4">
                             <div class="flex align-items items-center justify-between relative pt-4">
                                 <div class="text-left block mb-4 text-sm font-medium text-gray-900 dark:text-white">
