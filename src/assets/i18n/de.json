@@ -3338,5 +3338,15 @@
         "otherimages": "Andere Bilder",
         "activateimagesbefosubmitbutton": "Bilder vor dem Senden-Button aktivieren",
         "uploadimages": "Ein oder mehrere Bilder hochladen"
+    },
+    "videos-ctas": {
+        "activatetimer": "Timer aktivieren",
+        "timerdesc": "Dies zeigt CTA nach der angegebenen Zeit an",
+        "timeroption": "Timer-Option",
+        "selectoption": "Option auswählen",
+        "videotime": "Wie lange das Video abgespielt wurde",
+        "time": "Verstrichene Zeit",
+        "Sekunden": "Sekunden",
+        "provideid": "Wenn Sie den CTA bedingt anzeigen möchten, muss hier ein Wert angegeben werden."
     }
 }

@@ -120,7 +120,7 @@
                     {{ mode == 'edit' ? ('cities.edit' | translate) : ('cities.createnew' | translate) }}
                 </h3>
                 <ng-container *ngIf="mode == 'edit'">
-                    <div>
+                    <div class="my-4">
                         <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg flex items-center text-sm p-2.5 px-6 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             [ngStyle]="{'background-color': buttonColor}" (click)="editVideosCTAsTemplate(selectedItem)"
                         >
@@ -132,47 +132,130 @@
                         </button>
                     </div>
                 </ng-container>
-                <form 
-                    [formGroup]="videosCTAsForm"
-                    class="my-4 px-1"
-                >
-                    <div>
-                        <div class="mt-8 mb-2 relative">
-                            <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'plan-create.title' | translate }}</label>
-                            <input
-                                id="title"
-                                class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && videosCTAsForm.get('title')?.errors }"
-                                placeholder="{{ 'plan-create.title' | translate }}*"
-                                formControlName="title"
-                                required
-                            />
-                        </div>
-                        <div class="mb-2 relative">
-                            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'plan-create.description' | translate }}</label>
-                            <textarea
-                                id="description"
-                                rows="4" 
-                                class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
-                                placeholder="{{ 'plan-create.description' | translate }}"
-                                formControlName="description"
+                <mat-tab-group #mtTab (selectedTabChange)="changeTab($event)" [(selectedIndex)]="tabIndex">
+                    <mat-tab class="uppercase" label="{{ 'plan-details.details' | translate }}">
+                        <div class="mt-4 mb-8">
+                            <form 
+                                [formGroup]="videosCTAsForm"
+                                class="my-4 px-1"
                             >
-                            </textarea>
+                                <div>
+                                    <div class="mt-8 mb-2 relative">
+                                        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'plan-create.title' | translate }}</label>
+                                        <input
+                                            id="title"
+                                            class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && videosCTAsForm.get('title')?.errors }"
+                                            placeholder="{{ 'plan-create.title' | translate }}*"
+                                            formControlName="title"
+                                            required
+                                        />
+                                    </div>
+                                    <div class="mb-2 relative">
+                                        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'plan-create.description' | translate }}</label>
+                                        <textarea
+                                            id="description"
+                                            rows="4" 
+                                            class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                            placeholder="{{ 'plan-create.description' | translate }}"
+                                            formControlName="description"
+                                        >
+                                        </textarea>
+                                    </div>
+                                    <div class="mb-2 relative">
+                                        <label for="slug" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Slug</label>
+                                        <input
+                                            id="slug"
+                                            class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && videosCTAsForm.get('slug')?.errors }"
+                                            placeholder="{{ 'plan-create.title' | translate }}*"
+                                            formControlName="slug"
+                                            required
+                                        />
+                                    </div>
+                                    <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                                        <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                            (click)="save()"
+                                            [ngStyle]="{
+                                                'background-color': buttonColor
+                                            }"
+                                        >
+                                            {{ 'company-settings.save' | translate }}
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
                         </div>
-                        <div class="mb-2 relative">
-                            <label for="slug" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Slug</label>
-                            <input
-                                id="slug"
-                                class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && videosCTAsForm.get('slug')?.errors }"
-                                placeholder="{{ 'plan-create.title' | translate }}*"
-                                formControlName="slug"
-                                required
-                            />
+                    </mat-tab>
+                    <mat-tab *ngIf="mode == 'edit'" class="uppercase" label="CTA {{ 'registration-fields.settings' | translate }}">
+                        <div class="my-8">
+                            <div class="flex items-center justify-between relative py-4">
+                                <div class="text-left block text-sm font-medium text-gray-900 dark:text-white">
+                                    {{'videos-ctas.activatetimer' | translate}} 
+                                    <div class="text-xs opacity-75">{{'videos-ctas.timerdesc' | translate}}</div>
+                                </div>
+                                <label
+                                    for="setting-1"
+                                    class="flex items-center justify-between cursor-pointer"
+                                >
+                                    <div class="relative mr-1">
+                                        <input
+                                            id="setting-1"
+                                            name="setting-1"
+                                            type="checkbox"
+                                            class="sr-only"
+                                            [(ngModel)]="activateTimedButton" 
+                                            [ngModelOptions]="{standalone: true}"
+                                        />
+                                        <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                    </div>
+                                </label>
+                            </div>
+                            <ng-container *ngIf="activateTimedButton">
+                                <div>
+                                    <label for="timer-option" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'videos-ctas.timeroption' | translate }}</label>
+                                    <select 
+                                        id="timer-option" 
+                                        [(ngModel)]="selectedTimerOption"
+                                        [ngModelOptions]="{standalone: true}"
+                                        class="rounded-lg bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        [ngStyle]="{'border-color': buttonColor}"
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && !selectedLocation }"
+                                    >
+                                        <option value="" disabled selected>{{ 'videos-ctas.selectoption' | translate }}*</option>
+                                        <option
+                                            *ngFor="let option of timerOptions"
+                                            [value]="option.value"
+                                        >
+                                            {{ option?.text }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <ng-container *ngIf="selectedTimerOption">
+                                    <div class="mt-4 mb-2 relative">
+                                        <label for="time" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'company-settings.duration' | translate }}</label>
+                                        <div class="flex items-center">
+                                            <div class="w-3/12 max-w-3/12">
+                                                <input
+                                                    id="time"
+                                                    class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedTimerOption && !timedDuration }"
+                                                    [(ngModel)]="timedDuration"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    type="number"
+                                                    required
+                                                />
+                                            </div>
+                                            <span class="ml-4 text-sm">{{'videos-ctas.seconds' | translate}}</span>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </ng-container>
                         </div>
                         <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                             <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                                (click)="save()"
+                                (click)="saveCTASettings()"
                                 [ngStyle]="{
                                     'background-color': buttonColor
                                 }"
@@ -180,8 +263,8 @@
                                 {{ 'company-settings.save' | translate }}
                             </button>
                         </div>
-                    </div>
-                </form>
+                    </mat-tab>
+                </mat-tab-group>
             </div>
         </div>
     </div>

@@ -3376,5 +3376,15 @@
         "otherimages": "Other images",
         "activateimagesbefosubmitbutton": "Activate images before submit button",
         "uploadimages": "Upload 1 or more images"
+    },
+    "videos-ctas": {
+        "activatetimer": "Activate timer",
+        "timerdesc": "This will show CTA after the specified time",
+        "timeroption": "Timer option",
+        "selectoption": "Select option",
+        "videotime": "Amount of time video has played",
+        "time": "Time elapsed",
+        "seconds": "seconds",
+        "provideid": "If you want to conditionally show the CTA, there needs to be a value here."
     }
 }
