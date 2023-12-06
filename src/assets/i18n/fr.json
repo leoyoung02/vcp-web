@@ -3335,5 +3335,15 @@
         "otherimages": "Autres images",
         "activateimagesbefosubmitbutton": "Activer les images avant de soumettre le bouton",
         "uploadimages": "Télécharger 1 ou plusieurs images"
+    },
+    "vidéos-ctas": {
+        "activatetimer": "Activer le minuteur",
+        "timerdesc": "Cela affichera le CTA après l'heure spécifiée",
+        "timeroption": "Option minuterie",
+        "selectoption": "Sélectionner une option",
+        "videotime": "Durée de lecture de la vidéo",
+        "time": "Temps écoulé",
+        "seconds": "secondes",
+        "provideid": "CTA baldintzapean erakutsi nahi baduzu, balio bat egon behar da hemen."
     }
 }

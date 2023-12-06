@@ -762,8 +762,21 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
     justify-content: center;
 }
 
+#vimeo-player iframe {
+    margin-top: 80px;
+    width: 800px;
+    height: 460px !important;
+}
+
 @media (max-width: 767px) { 
     iframe.video-cta-iframe {
+        margin-top: 80px;
+        height: auto !important;
+        aspect-ratio: 16/9;
+    }
+
+    #vimeo-player iframe { 
+        width: 100% !important;
         margin-top: 80px;
         height: auto !important;
         aspect-ratio: 16/9;

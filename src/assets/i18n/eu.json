@@ -3339,5 +3339,15 @@
         "otherimages": "Beste irudi batzuk",
         "activateimagesbefosubmitbutton": "Aktibatu irudiak bidali botoia baino lehen",
         "uploadimages": "Kargatu irudi bat edo gehiago"
+    },
+    "videos-ctas": {
+        "activatetimer": "Aktibatu tenporizadorea",
+        "timerdesc": "Honek zehaztutako denboraren ondoren CTA erakutsiko du",
+        "timeroption": "Tenporizadorearen aukera",
+        "selectoption": "Hautatu aukera",
+        "videotime": "Bideoa erreproduzitu den denbora kopurua",
+        "time": "Igarotako denbora",
+        "seconds": "segundoak",
+        "provideid": "CTA baldintzapean erakutsi nahi baduzu, balio bat egon behar da hemen."
     }
 }

@@ -539,3 +539,4 @@ export const ADD_VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas/add`;
 export const EDIT_VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas/edit`;
 export const EDIT_VIDEOS_CTAS_DETAILS_URL = `${API_BASE}/v2/videos-ctas-details/edit`;
 export const DELETE_VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas/delete`;
+export const EDIT_VIDEOS_CTAS_CTA_SETTINGS_URL = `${API_BASE}/v2/videos-ctas/cta-settings/edit`;

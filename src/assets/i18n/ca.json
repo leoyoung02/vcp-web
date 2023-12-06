@@ -3349,5 +3349,15 @@
         "otherimages": "Altres imatges",
         "activateimagesbefosubmitbutton": "Activa les imatges abans del botó d'enviar",
         "uploadimages": "Penja 1 o més imatges"
+    },
+    "videos-ctas": {
+        "activatetimer": "Activa el temporitzador",
+        "timerdesc": "Això mostrarà la CTA després del temps especificat",
+        "timeroption": "Opció del temporitzador",
+        "selectoption": "Selecciona l'opció",
+        "videotime": "Quant de temps que s'ha reproduït el vídeo",
+        "time": "Temps transcorregut",
+        "seconds": "segons",
+        "provideid": "Si voleu mostrar condicionalment el CTA, cal que hi hagi un valor aquí."
     }
 }
