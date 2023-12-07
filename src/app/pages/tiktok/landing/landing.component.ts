@@ -139,9 +139,9 @@ export class TikTokLandingComponent {
 
   initializePage() {
     this.fetchLandingData();
-    if(!this.country || !this.city || !this.ipAddress) {
+    // if(!this.country || !this.city || !this.ipAddress) {
       this.fetchGeoLocation();
-    }
+    // }
   }
 
   fetchGeoLocation() {

@@ -785,10 +785,6 @@ export class MainComponent {
             text: this._translateService.instant("company-settings.modules"),
             value: "Features",
           },
-          // {
-          //   text: this._translateService.instant("company-settings.agenda"),
-          //   value: "Dashboard",
-          // },
         ],
       },
       {
@@ -802,12 +798,12 @@ export class MainComponent {
             ),
             value: "Customize home screen",
           },
-          // {
-          //   text: this._translateService.instant(
-          //     "company-settings.registration"
-          //   ),
-          //   value: "Registration",
-          // },
+          {
+            text: this._translateService.instant(
+              "company-settings.registration"
+            ),
+            value: "Registration",
+          },
           {
             text: this._translateService.instant(
               "company-settings.membertypes"
@@ -816,70 +812,15 @@ export class MainComponent {
           },
         ],
       },
-      // {
-      //   icon: "./assets/images/new-design/icons/General.png",
-      //   text: this._translateService.instant("company-settings.invoice"),
-      //   value: "AdminAccess",
-      //   submenus: [
-      //     {
-      //       text: this._translateService.instant("company-settings.invoices"),
-      //       value: "Invoices",
-      //     },
-      //     {
-      //       text: this._translateService.instant(
-      //         "company-settings.membercommissions"
-      //       ),
-      //       value: "Member Commissions",
-      //     },
-      //     {
-      //       text: this._translateService.instant(
-      //         "company-settings.affiliationcommissions"
-      //       ),
-      //       value: "Affiliate Commissions",
-      //     },
-      //     {
-      //       text: "MLM",
-      //       value: "MLM",
-      //     },
-      //     {
-      //       text: "Stripe",
-      //       value: "Stripe",
-      //     },
-      //     {
-      //       text: this._translateService.instant("members.offers"),
-      //       value: "Offers",
-      //     },
-      //   ],
-      // },
       {
         icon: "./assets/images/new-design/icons/Channels.png",
         text: this._translateService.instant("company-settings.tools"),
         value: "Tools",
         submenus: [
-          // {
-          //   text: this._translateService.instant("company-settings.inquiries"),
-          //   value: "Surveys Home",
-          // },
-          // {
-          //   text: this._translateService.instant("company-settings.surveys"),
-          //   value: "Surveys",
-          // },
           {
             text: this._translateService.instant("company-settings.reports"),
             value: "Reports",
           },
-          // {
-          //   text: this._translateService.instant(
-          //     "company-settings.landingscaptacion"
-          //   ),
-          //   value: "Landings",
-          // },
-          // {
-          //   text: this._translateService.instant(
-          //     "company-settings.gamification"
-          //   ),
-          //   value: "Gamification",
-          // },
           // {
           //   text: this._translateService.instant(
           //     "company-settings.supporttickets"
@@ -919,29 +860,6 @@ export class MainComponent {
         value: "ManagementSection",
         submenus: [],
       },
-      // {
-      //   icon: "./assets/images/new-design/icons/Channels.png",
-      //   text: this._translateService.instant("company-settings.others"),
-      //   value: "Others All",
-      //   submenus: [
-      //     {
-      //       text: this._translateService.instant("company-settings.gatracking"),
-      //       value: "Google Analytics Tracking ID",
-      //     },
-      //     {
-      //       text: "Facebook Pixel",
-      //       value: "Facebook Pixel",
-      //     },
-      //     {
-      //       text: "Smartlook",
-      //       value: "Smartlook",
-      //     },
-      //     {
-      //       text: "Meta data",
-      //       value: "Meta data",
-      //     },
-      //   ],
-      // },
     ];
   }
 

@@ -802,7 +802,11 @@ export class SettingComponent {
   }
 
   goToEmailTemplate(type) {
-    this._router.navigate([`/settings/email/${this.id}/${type}`])
+    let id = this.id
+    if(type == 'register' || type == 'confirm_email') {
+      id = 9;
+    }
+    this._router.navigate([`/settings/email/${id}/${type}`])
   }
 
   manageLinkAccessSettings() {
