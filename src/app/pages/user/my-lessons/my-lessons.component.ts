@@ -506,7 +506,7 @@ export class MyLessonsComponent {
     }
 
     showCancelButton(booking) {
-        return (this.superAdmin || booking?.tutor_user_id == this.userId) 
+        return (this.superAdmin || booking?.tutor_user_id == this.userId || booking?.user_id == this.userId) 
             && booking?.cancelled != 1 && booking?.completed != 1 && booking?.tutor_complete != 1 && booking?.student_complete != 1 
             && !booking?.tutor_rating && this.statusFilter != 'Completed' 
             && moment(moment(booking.booking_date + ' ' + booking.booking_end_time).format('YYYY-MM-DD HH:mm:ss')).isSameOrAfter(moment().format('YYYY-MM-DD HH:mm:ss'))

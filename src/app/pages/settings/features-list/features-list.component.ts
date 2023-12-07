@@ -7,7 +7,7 @@ import {
 } from "@ngx-translate/core";
 import { Router } from "@angular/router";
 import { LocalService, CompanyService } from "src/app/share/services";
-import { BreadcrumbComponent, ButtonGroupComponent } from "@share/components";
+import { BreadcrumbComponent, ButtonGroupComponent, PageTitleComponent } from "@share/components";
 import { SearchComponent } from "@share/components/search/search.component";
 import { HorizontalCardComponent } from "@share/components/horizontal-card/horizontal-card.component";
 import { COMPANY_IMAGE_URL } from "@lib/api-constants";
@@ -25,6 +25,7 @@ import get from "lodash/get";
     SearchComponent,
     ButtonGroupComponent,
     HorizontalCardComponent,
+    PageTitleComponent,
   ],
   templateUrl: "./features-list.component.html",
 })

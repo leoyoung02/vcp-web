@@ -306,6 +306,7 @@ export class SidebarComponent {
   useLanguage(lang) {
     this.language = lang;
     this.changeLanguage.emit(lang);
+    this.languageHover = false;
   }
 
   hasAccess(path) {

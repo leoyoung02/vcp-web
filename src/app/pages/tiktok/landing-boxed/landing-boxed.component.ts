@@ -147,7 +147,7 @@ export class TikTokLandingBoxedComponent {
       if(this.spainQuestionId > 0 && this.country == 'Spain') {
         question_id = this.spainQuestionId;
       } else if(this.latamQuestionId > 0 && this.isLatamCountry()) {
-        question_id = this.spainQuestionId;
+        question_id = this.latamQuestionId;
       } else {
         if(this.outsideSpainQuestionId > 0) {
           question_id = this.outsideSpainQuestionId;
