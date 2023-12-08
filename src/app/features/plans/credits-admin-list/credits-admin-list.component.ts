@@ -212,6 +212,7 @@ export class CreditsAdminListComponent {
         this.sendEveryNumber = settings?.frequency;
         this.sendEverySchedule = settings?.schedule;
         this.activateIncludeAttachment = settings?.attachment == 1 ? true : false;
+        this.emailRecipients = settings?.recipients
         if(this.days?.length > 0) {
           let row = this.days?.filter(dy => {
             return dy.value == settings?.schedule_day

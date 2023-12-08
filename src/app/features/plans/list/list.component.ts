@@ -175,6 +175,17 @@ export class PlansListComponent {
   createHover: boolean = false;
   myActivitiesHover: boolean = false;
 
+  newURLButton: any;
+  newURLButtonTextValue: any;
+  newURLButtonTextValueEn: any;
+  newURLButtonTextValueFr: any;
+  newURLButtonTextValueEu: any;
+  newURLButtonTextValueCa: any;
+  newURLButtonTextValueDe: any;
+  newURLButtonUrl: any;
+  isUESchoolOfLife: boolean = false;
+  schoolOfLifeTitle: any;
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -229,6 +240,7 @@ export class PlansListComponent {
     }
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.userEmailDomain = company[0].domain;
       this.companyId = company[0].id;
       this.primaryColor = company[0].primary_color;
@@ -257,6 +269,18 @@ export class PlansListComponent {
         company[0].featured_text_de ||
         this._translateService.instant("courses.featured");
       this.showSectionTitleDivider = company[0].show_section_title_divider;
+
+      this.newURLButton = company[0].new_url_button;
+      if (this.newURLButton == 1) {
+        this.newURLButtonTextValue = company[0].new_url_button_text;
+        this.newURLButtonTextValueEn = company[0].new_url_button_text_en;
+        this.newURLButtonTextValueFr = company[0].new_url_button_text_fr;
+        this.newURLButtonTextValueEu = company[0].new_url_button_text_eu;
+        this.newURLButtonTextValueCa = company[0].new_url_button_text_ca;
+        this.newURLButtonTextValueDe = company[0].new_url_button_text_de;
+        this.newURLButtonUrl = company[0].new_url_button_url;
+        this.getSchoolOfLifeTitle();
+      }
     }
 
     this.languageChangeSubscription =
@@ -268,6 +292,25 @@ export class PlansListComponent {
       );
 
     this.initializePage();
+  }
+
+  getSchoolOfLifeTitle() {
+    this.schoolOfLifeTitle = this.language == "en"
+    ? this.newURLButtonTextValueEn ||
+      this.newURLButtonTextValue
+    : this.language == "fr"
+    ? this.newURLButtonTextValueFr ||
+      this.newURLButtonTextValue
+    : this.language == "eu"
+    ? this.newURLButtonTextValueEu ||
+      this.newURLButtonTextValue
+    : this.language == "ca"
+    ? this.newURLButtonTextValueCa ||
+      this.newURLButtonTextValue
+    : this.language == "de"
+    ? this.newURLButtonTextValueDe ||
+      this.newURLButtonTextValue
+    : this.newURLButtonTextValue;
   }
 
   initializePage() {
@@ -489,6 +532,9 @@ export class PlansListComponent {
   }
 
   mapPageTitle() {
+    if(this.isUESchoolOfLife && this.companyId == 32) {
+      this.pageName = this.pageName?.replace('de Vida Universitaria', 'de School of Life')
+    }
     this.title = this.view == 'joined' ? this.getMyActivitiesTitle() : this.pageName;
     this.subtitle = this.pageDescription;
   }
@@ -630,7 +676,7 @@ export class PlansListComponent {
 
   fetchPlans() {
     this._plansService
-      .fetchPlansCombined(this.companyId, "active")
+      .fetchPlansCombined(this.companyId, "active", this.isUESchoolOfLife)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {

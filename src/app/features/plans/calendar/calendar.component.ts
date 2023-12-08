@@ -32,6 +32,7 @@ export class PlansCalendarComponent {
     @Input() superAdmin: any
     @Input() canCreatePlan: any
     @Input() calendarFilterMode: any
+    @Input() isUESchoolOfLife: any;
     @Input() notifier: Subject<boolean> | undefined
     @Output() handleCalendarDateChange = new EventEmitter()
     @Output() handleJoinChange = new EventEmitter()
@@ -237,7 +238,7 @@ export class PlansCalendarComponent {
               this.user = response['CompanyUser']
               this.emailDomain = this.user.Company_Entity.domain
               let filter = this.showPastEvents || localStorage.getItem('show_past_events') == '1' ? '' : 'active'
-              this._plansService.getCalendarPlans(this.user.fk_company_id, 0, 1, 20, filter).subscribe(
+              this._plansService.getCalendarPlans(this.user.fk_company_id, 0, 1, 20, filter, this.isUESchoolOfLife).subscribe(
                 async response => {
                   this.allPlans = response['Plans'];
                   // let course_restrictions_event = get(await this._companyService.getCompanySubfeatureMapping({companyId: this.companyId, featureId: 1, subfeatureId: 125}).toPromise(), 'active')

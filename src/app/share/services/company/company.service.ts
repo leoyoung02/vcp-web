@@ -143,6 +143,7 @@ import {
   EDIT_QUESTION_OTHER_IMAGES_URL,
   EDIT_CREDITS_SETTINGS_URL,
   EDIT_VIDEOS_CTAS_CTA_SETTINGS_URL,
+  SAVE_URL_BUTTON_MENU_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -187,7 +188,7 @@ export class CompanyService {
       company =
         companies &&
         companies.filter((c) => {
-          return c.url == customer?.url || c.alternative_url == customer?.url;
+          return c.url == customer?.url || c.alternative_url == customer?.url || c.school_of_life_url == customer?.url;
         });
       if (company && company.length > 0) {
         this._localService.setLocalStorage(
@@ -198,6 +199,16 @@ export class CompanyService {
     }
 
     return company;
+  }
+
+  isUESchoolOfLife(customer): boolean {
+    let result = false;
+
+    if(customer.id == 32 && (customer.school_of_life_url == window.location.host || customer.school_of_life_url == environment.company)) {
+      result = true;
+    }
+
+    return result;
   }
 
   getFeatures(domain) {
@@ -741,6 +752,13 @@ export class CompanyService {
     ).pipe(map(res => res));
   }
 
+  saveNewURLButton(payload): Observable<any> {
+    return this._http.post(SAVE_URL_BUTTON_MENU_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
   updateMenuOrder(payload): Observable<any> {
     return this._http.post(EDIT_MENU_ORDER_URL,
         payload,
@@ -888,20 +906,28 @@ export class CompanyService {
     ).pipe(map(res => res))
   }
 
-  fetchHomeData(id: number = 0): Observable<any> {
-    return this._http.get(`${HOME_DATA_URL}/${id}`, { 
+  fetchHomeData(id: number = 0, isUESchoolOfLife: boolean = false): Observable<any> {
+    let url = `${HOME_DATA_URL}/${id}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1`
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }
 
   fetchHomeCoursesTutorsTestimonialsData(id: number = 0, userId: number = 0): Observable<any> {
     return this._http.get(`${HOME_COURSES_TUTORS_TESTIMONIALS_DATA_URL}/${id}/${userId}`, { 
-      headers: this.headers 
+      headers: this.headers
     }).pipe(map(res => res));
   }
 
-  fetchHomePlansCoursesData(id: number = 0, userId: number = 0): Observable<any> {
-    return this._http.get(`${HOME_PLANS_COURSES_DATA_URL}/${id}/${userId}`, { 
+  fetchHomePlansCoursesData(id: number = 0, userId: number = 0, isUESchoolOfLife: boolean = false): Observable<any> {
+    let url = `${HOME_PLANS_COURSES_DATA_URL}/${id}/${userId}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1`
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }

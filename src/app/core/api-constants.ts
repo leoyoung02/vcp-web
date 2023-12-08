@@ -103,6 +103,7 @@ export const SETTINGS_OPTIONS_URL = `${API_BASE}/company/other-settings-options-
 export const ACTIVATE_OTHER_SETTING_URL = `${API_BASE}/company/other-settings/activate`;
 export const DEACTIVATE_OTHER_SETTING_URL = `${API_BASE}/company/other-settings/deactivate`;
 export const SAVE_NEW_BUTTON_MENU_URL = `${API_BASE}/company/menu/new/button/edit`;
+export const SAVE_URL_BUTTON_MENU_URL = `${API_BASE}/v2/url/new/button/edit`;
 export const EDIT_MENU_ORDER_URL = `${API_BASE}/company/menu-order/update`;
 export const EDIT_PRIVACY_POLICY_URL = `${API_BASE}/company/privacy-policy/edit-url`;
 export const EDIT_COOKIE_POLICY_URL = `${API_BASE}/company/cookie-policy/edit-url`;

@@ -141,6 +141,17 @@ export class HomeComponent implements OnInit, OnDestroy {
   welcomeSubtitle: any;
   loadedSettings: boolean = false;
 
+  newURLButton: any;
+  newURLButtonTextValue: any;
+  newURLButtonTextValueEn: any;
+  newURLButtonTextValueFr: any;
+  newURLButtonTextValueEu: any;
+  newURLButtonTextValueCa: any;
+  newURLButtonTextValueDe: any;
+  newURLButtonUrl: any;
+  isUESchoolOfLife: boolean = false;
+  schoolOfLifeTitle: any;
+
   constructor(
     private _translateService: TranslateService,
     private _localService: LocalService,
@@ -169,6 +180,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.companyId = company[0].id;
       this.companyName = company[0].entity_name;
       this.domain = company[0].domain;
@@ -197,6 +209,17 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.newMenuButtonTextValueCa = company[0].new_menu_button_text_ca;
         this.newMenuButtonTextValueDe = company[0].new_menu_button_text_de;
         this.newMenuButtonUrl = company[0].new_menu_button_url;
+      }
+      this.newURLButton = company[0].new_url_button;
+      if (this.newURLButton == 1) {
+        this.newURLButtonTextValue = company[0].new_url_button_text;
+        this.newURLButtonTextValueEn = company[0].new_url_button_text_en;
+        this.newURLButtonTextValueFr = company[0].new_url_button_text_fr;
+        this.newURLButtonTextValueEu = company[0].new_url_button_text_eu;
+        this.newURLButtonTextValueCa = company[0].new_url_button_text_ca;
+        this.newURLButtonTextValueDe = company[0].new_url_button_text_de;
+        this.newURLButtonUrl = company[0].new_url_button_url;
+        this.getSchoolOfLifeTitle();
       }
 
       if (company[0].landing_template == 1) {
@@ -341,6 +364,25 @@ export class HomeComponent implements OnInit, OnDestroy {
         console.log(error);
       }
     );
+  }
+
+  getSchoolOfLifeTitle() {
+    this.schoolOfLifeTitle = this.language == "en"
+    ? this.newURLButtonTextValueEn ||
+      this.newURLButtonTextValue
+    : this.language == "fr"
+    ? this.newURLButtonTextValueFr ||
+      this.newURLButtonTextValue
+    : this.language == "eu"
+    ? this.newURLButtonTextValueEu ||
+      this.newURLButtonTextValue
+    : this.language == "ca"
+    ? this.newURLButtonTextValueCa ||
+      this.newURLButtonTextValue
+    : this.language == "de"
+    ? this.newURLButtonTextValueDe ||
+      this.newURLButtonTextValue
+    : this.newURLButtonTextValue;
   }
 
   getTitles() {

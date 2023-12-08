@@ -223,8 +223,11 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ])
   }
 
-  getCalendarPlans(id: number, plan_type_id: number, page=1, limit=20, status = 'all'): Observable<any> {
-    const params = `plan_type_id=${plan_type_id}&page=${page}&limit=${limit}&status=${status}`;
+  getCalendarPlans(id: number, plan_type_id: number, page=1, limit=20, status = 'all', isUESchoolOfLife: boolean = false): Observable<any> {
+    let params = `plan_type_id=${plan_type_id}&page=${page}&limit=${limit}&status=${status}`;
+    if(isUESchoolOfLife) {
+      params += `&schooloflife=1`
+    }
     return this._http.get(`${PLANS_CALENDAR_URL}/${id}?${params}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
@@ -242,8 +245,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     }).pipe(map(res => res));
   }
 
-  fetchPlansCombined(id: number = 0, mode: string = 'active'): Observable<any> {
-    return this._http.get(`${PLANS_URL}/${id}/${mode}`, { 
+  fetchPlansCombined(id: number = 0, mode: string = 'active', isUESchoolOfLife: boolean = false): Observable<any> {
+    let url = `${PLANS_URL}/${id}/${mode}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1`
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }
