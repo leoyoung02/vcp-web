@@ -4,7 +4,7 @@
         aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 1h14M1 6h14M1 11h7"/>
     </svg>
-    <ng-container *ngIf="isActiveFilter">
+    <ng-container *ngIf="isActiveFilter || defaultActiveFilter">
         <div class="ml-14" *ngIf="list?.length > 0">
             <app-icon-filter 
                 [mode]="mode"
