@@ -67,6 +67,7 @@ export class TutorsListComponent {
   allTutorTypes: any = [];
   selectedCity: any = '';
   selectedType: any = '';
+  defaultActiveFilter: boolean = true;
 
   constructor(
     private _translateService: TranslateService,
@@ -222,6 +223,8 @@ export class TutorsListComponent {
     this.tutors = tutors;
     this.allTutors = tutors;
 
+    console.log(this.tutors)
+
     let selected = localStorage.getItem('tutor-filter-city');
     if(selected && this.list?.length > 0) {
       this.list.forEach(item => {
@@ -254,7 +257,7 @@ export class TutorsListComponent {
   }
 
   getTutorTypes(item) {
-    let types:any = []
+    let types: any = []
     if(this.tutorTypes?.length > 0){
         types = []
         this.tutorTypes.forEach(tt => {
@@ -264,16 +267,25 @@ export class TutorsListComponent {
             }
         })
     }
-
-    if(this.tutorTypes?.length > 0){
-        this.tutorTypes.forEach(tt => {
-            let typeTutor = tt.name_ES
-            item?.tutor_type_tags?.forEach(ttt => {
-                if(ttt.type_id == tt.id && !(types)?.includes(typeTutor)){
-                    (types)?.push(typeTutor)
-                }
-            })
+    
+    if(item?.tutor_type_tags?.length > 0) {
+      item?.tutor_type_tags?.forEach(ttt => {
+        let typeTutor = ''
+        let tt = this.allTutorTypes?.filter(t => {
+          return t.id == ttt.type_id
         })
+        if(tt?.length > 0) {
+          typeTutor = tt[0].name_ES
+        }
+        if(typeTutor) {
+          let match = types?.some(
+            (a) => a == typeTutor
+          );
+          if(!match) {
+            (types)?.push(typeTutor)
+          }
+        }
+      })
     }
 
     return types
@@ -461,6 +473,7 @@ export class TutorsListComponent {
     let tutors = this.allTutors
     if (this.search) {
         this.search = this.search.toLowerCase()
+        console.log(tutors)
         tutors = tutors.filter(m => {
             let include = false
             let tutor_type_match = m?.types.some(a => ((a.toString().toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)

@@ -540,8 +540,9 @@ export class UserService {
     );
   }
 
-  getUserGeolocation(): Observable<any> {
-    return this._http.get(`${API_GELOCATION_URL}`, 
+  getUserGeolocation(key): Observable<any> {
+
+    return this._http.get(`${API_GELOCATION_URL}/?api_key=${key}`, 
       { headers: this.headers }
     ).pipe(map(res => res));
   }

@@ -111,7 +111,7 @@ export class TikTokQuestionsComponent {
   }
 
   fetchQuestionsData() {
-    this._userService.getUserGeolocation()
+    this._userService.getUserGeolocation('')
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         data => {

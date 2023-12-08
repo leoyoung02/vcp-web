@@ -149,6 +149,7 @@ export class TutorDetailComponent {
   customMemberTypes: any = [];
   isAdminRole: boolean = false;
   tutorPersonalAccessToken: any;
+  allTutorTypes: any = [];
 
   constructor(
     private _router: Router,
@@ -330,6 +331,7 @@ export class TutorDetailComponent {
     }
     this.tutorImage = `${environment.api}/${this.tutor?.image}`;
     this.tutorRating = this.getTutorRating(this.tutor);
+    this.allTutorTypes = data?.all_tutor_types;
     this.types = this.getTutorTypes(this.tutor);
     this.accountIds = data?.tutor_account_ids;
     this.me = data?.user;
@@ -357,8 +359,8 @@ export class TutorDetailComponent {
     if(this.tutorTypeTags?.length > 0 && this.showTutorCategories){
       this.tutorTypes?.forEach(tt => {
           this.tutorTypeTags?.forEach(ttt => {
-          if(ttt.type_id == tt.id){
-                  this.selectedTutorCategory.push(tt)
+            if(ttt.type_id == tt.id){
+                this.selectedTutorCategory.push(tt)
               }
           })
       })
@@ -855,6 +857,26 @@ export class TutorDetailComponent {
           if(tt.tutor_id == item.id && !(types).includes(typeTutor)){
               (types)?.push(typeTutor)
           }
+      })
+    }
+
+    if(item?.tutor_type_tags?.length > 0) {
+      item?.tutor_type_tags?.forEach(ttt => {
+        let typeTutor = ''
+        let tt = this.allTutorTypes?.filter(t => {
+          return t.id == ttt.type_id
+        })
+        if(tt?.length > 0) {
+          typeTutor = tt[0].name_ES
+        }
+        if(typeTutor) {
+          let match = types?.some(
+            (a) => a == typeTutor
+          );
+          if(!match) {
+            (types)?.push(typeTutor)
+          }
+        }
       })
     }
 
