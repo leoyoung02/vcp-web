@@ -1,6 +1,6 @@
 import { environment } from '@env/environment';
 
-export const API_GELOCATION_URL = 'https://ipgeolocation.abstractapi.com/v1/?api_key=dbce162daab24bc69b216b60ae4717d6';
+export const API_GELOCATION_URL = 'https://ipgeolocation.abstractapi.com/v1';
 export const API_BASE = environment.api;
 
 // PLATFORMS

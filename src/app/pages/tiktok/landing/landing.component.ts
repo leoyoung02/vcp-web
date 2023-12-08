@@ -139,13 +139,10 @@ export class TikTokLandingComponent {
 
   initializePage() {
     this.fetchLandingData();
-    // if(!this.country || !this.city || !this.ipAddress) {
-      this.fetchGeoLocation();
-    // }
   }
 
-  fetchGeoLocation() {
-    this._userService.getUserGeolocation()
+  fetchGeoLocation(geolocation_key) {
+    this._userService.getUserGeolocation(geolocation_key)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         data => {
@@ -167,6 +164,9 @@ export class TikTokLandingComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         data => {
+          if(!this.country || !this.city || !this.ipAddress) {
+            this.fetchGeoLocation(data?.geolocation_key);
+          }
           this.landingPage = data?.landing_page?.length > 0 ? data?.landing_page[0] : '';
           this.formatDetails();
         },

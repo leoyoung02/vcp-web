@@ -23,6 +23,7 @@ export class FilterComponent {
     @Input() list: any;
     @Input() icon: any;
     @Input() buttonList: any;
+    @Input() defaultActiveFilter: any;
     @Output() filterList = new EventEmitter();
     @Output() onButtonClick = new EventEmitter();
 
@@ -58,6 +59,7 @@ export class FilterComponent {
 
     showFilter() {
       this.isActiveFilter = !this.isActiveFilter;
+      this.defaultActiveFilter = !this.isActiveFilter;
     }
 
     filteredCity(event) {
