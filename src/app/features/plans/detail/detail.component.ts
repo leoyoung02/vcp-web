@@ -394,7 +394,6 @@ export class PlanDetailComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.plansData = data;
           this.initializePage();
         },

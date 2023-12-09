@@ -43,6 +43,7 @@ export class PlansAdminListComponent {
     @Input() superAdmin: any;
     @Input() status: any;
     @Input() language: any;
+    @Input() isUESchoolOfLife: any;
 
     languageChangeSubscription;
     isMobile: boolean = false;
@@ -107,7 +108,7 @@ export class PlansAdminListComponent {
 
     fetchPlansManagementData() {
         this._plansService
-          .fetchPlansManagementData(this.company?.id, this.userId, (this.superAdmin ? 'superadmin' : 'user'))
+          .fetchPlansManagementData(this.company?.id, this.userId, (this.superAdmin ? 'superadmin' : 'user'), this.isUESchoolOfLife)
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {

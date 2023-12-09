@@ -403,8 +403,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     }).pipe(map(res => res));
   }
 
-  fetchPlansManagementData(id: number = 0, userId: number = 0, role: string = ''): Observable<any> {
-    return this._http.get(`${PLANS_MANAGEMENT_DATA_URL}/${id}/${userId}/${role}`, { 
+  fetchPlansManagementData(id: number = 0, userId: number = 0, role: string = '', isUESchoolOfLife: boolean = false): Observable<any> {
+    let url = `${PLANS_MANAGEMENT_DATA_URL}/${id}/${userId}/${role}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1`
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }
@@ -486,6 +490,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_comments', isShowComments );
     formData.append( 'show_description', isShowDescription );
     formData.append( 'show_price', isShowPrice );
+    formData.append( 'school_of_life', planForm.school_of_life );
 
     if(activityCodeActive) {
       formData.append( 'activity_code', planForm.activity_code );
@@ -710,6 +715,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_comments', planForm.isShowComments );
     formData.append( 'show_description', planForm.isShowDescription );
     formData.append( 'show_price', planForm.isShowPrice );
+    formData.append( 'school_of_life', planForm.school_of_life );
 
     if(activityCodeActive) {
       formData.append( 'activity_code', planForm.activity_code );

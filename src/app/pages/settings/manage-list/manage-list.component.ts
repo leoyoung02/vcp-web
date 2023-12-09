@@ -121,6 +121,7 @@ export class ManageListComponent {
   level3Title: string = "";
   level4Title: string = "";
   listTitle: string = "";
+  isUESchoolOfLife: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -152,6 +153,7 @@ export class ManageListComponent {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.domain = company[0].domain;
       this.companyId = company[0].id;
       this.primaryColor = company[0].primary_color;

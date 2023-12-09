@@ -396,6 +396,7 @@ export class PlanEditComponent {
   pageTitle: string = "";
   hasActivityCodeActivated: boolean = false;
   activityCode: any;
+  isUESchoolOfLife: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -452,6 +453,7 @@ export class PlanEditComponent {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.emailDomain = company[0].domain;
       this.userEmailDomain = this.emailDomain;
       this.companyId = company[0].id;
@@ -1778,11 +1780,12 @@ export class PlanEditComponent {
     this.plan["waiting_list"] =
       this.waitingListActive && this.waitingListEnabled ? 1 : 0;
     this.plan["credits"] = this.credits ? 1 : 0;
-    this.plan["credits_value"] = this.creditsValue || null;
+    this.plan["credits_value"] = this.creditsValue || 0;
     this.plan["featured"] = this.featured ? 1 : 0;
     this.plan["require_approval"] = require_approval ? 1 : 0;
     this.plan["external_registration"] = this.isExternalRegistration ? 1 : 0;
     this.plan["request_dni"] = this.requestDNI ? 1 : 0;
+    this.plan["school_of_life"] = this.isUESchoolOfLife ? 1 : 0;
 
     if(this.hasActivityCodeActivated) {
       this.plan["activity_code"] = this.activityCode || "";

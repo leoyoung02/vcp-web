@@ -124,6 +124,7 @@ export class MainComponent {
   transferCommissionsByBulk: boolean = false;
   menuColor: any;
   hasActivityCredits: boolean = false;
+  isUESchoolOfLife: boolean = false;
 
   constructor(
     private _router: Router,
@@ -153,6 +154,7 @@ export class MainComponent {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.companyId = company[0].id;
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.companyDomain = company[0].domain;
       this.companyImage = company[0].image;
       this.primaryColor = company[0].primary_color;
@@ -888,137 +890,141 @@ export class MainComponent {
             }
           }
 
-          if (this.isClubEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Groups");
-            if (!match) {
-              mi.submenus.push({
-                text: this.clubTitle,
-                value: "Groups",
-              });
+          if(!this.isUESchoolOfLife) {
+            if (this.isClubEnabled) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Groups");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.clubTitle,
+                  value: "Groups",
+                });
+              }
             }
-          }
-          if (this.hasActivityFeed) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Posts");
-            if (!match) {
-              mi.submenus.push({
-                text: this._translateService.instant("company-settings.posts"),
-                value: "Posts",
-              });
+            if (this.hasActivityFeed) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Posts");
+              if (!match) {
+                mi.submenus.push({
+                  text: this._translateService.instant("company-settings.posts"),
+                  value: "Posts",
+                });
+              }
             }
-          }
-          // Check if city agenda is activated, otherwise just add here for testing
-          if (this.isCityAgendaEnabled || this.companyId == 32) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Content");
-            if (!match) {
-              mi.submenus.push({
-                text: this.cityAgendaTitle,
-                value: "Content",
-              });
+            // Check if city agenda is activated, otherwise just add here for testing
+            if (this.isCityAgendaEnabled || this.companyId == 32) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Content");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.cityAgendaTitle,
+                  value: "Content",
+                });
+              }
             }
-          }
-          if (this.isCourseEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Courses");
-            if (!match) {
-              mi.submenus.push({
-                text: this.courseTitle,
-                value: "Courses",
-              });
+            if (this.isCourseEnabled) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Courses");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.courseTitle,
+                  value: "Courses",
+                });
+              }
             }
-          }
-          if (this.hasJobOffers) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "JobOffers");
-            if (!match) {
-              mi.submenus.push({
-                text: this.jobOffersTitle,
-                value: "JobOffers",
-              });
+            if (this.hasJobOffers) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "JobOffers");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.jobOffersTitle,
+                  value: "JobOffers",
+                });
+              }
+            }
+
+            if (this.hasActivityFeed) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Posts");
+              if (!match) {
+                mi.submenus.push({
+                  text: this._translateService.instant("company-settings.posts"),
+                  value: "Posts",
+                });
+              }
+            }
+            if (this.isDiscountEnabled) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Discounts");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.discountTitle,
+                  value: "Discounts",
+                });
+              }
             }
           }
 
-          if (this.hasActivityFeed) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Posts");
-            if (!match) {
+            let cities_match =
+              mi.submenus && mi.submenus.some((a) => a.value === "Cities");
+            if (!cities_match) {
               mi.submenus.push({
-                text: this._translateService.instant("company-settings.posts"),
-                value: "Posts",
-              });
-            }
-          }
-          if (this.isDiscountEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Discounts");
-            if (!match) {
-              mi.submenus.push({
-                text: this.discountTitle,
-                value: "Discounts",
-              });
-            }
-          }
-
-          let cities_match =
-            mi.submenus && mi.submenus.some((a) => a.value === "Cities");
-          if (!cities_match) {
-            mi.submenus.push({
-              text: this._translateService.instant("company-settings.cities"),
-              value: "Cities",
-            });
-          }
-
-          if (this.isTutorsEnabled) {
-            let match = mi.submenus && mi.submenus.some((a) => a.value === "Tutors");
-            if (!match) {
-              mi.submenus.push({
-                text: this.tutorsTitle,
-                value: "Tutors",
+                text: this._translateService.instant("company-settings.cities"),
+                value: "Cities",
               });
             }
 
-            if(this.transferCommissionsByBulk) {
-                let match =  mi.submenus && mi.submenus.some(a => a.value === 'TutorCommissions')
-                if(!match) {
-                  mi.submenus.push({
-                      text: this._translateService.instant('tutors.commissions'),
-                      value: 'TutorCommissions'
-                  })
-                }
-            }
-          }
+          if(!this.isUESchoolOfLife) {
+            if (this.isTutorsEnabled) {
+              let match = mi.submenus && mi.submenus.some((a) => a.value === "Tutors");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.tutorsTitle,
+                  value: "Tutors",
+                });
+              }
 
-          if (this.isTestimonialsEnabled) {
-            let match = mi.submenus && mi.submenus.some((a) => a.value === "Testimonials");
-            if (!match) {
-              mi.submenus.push({
-                text: this.testimonialsTitle,
-                value: "Testimonials",
-              });
+              if(this.transferCommissionsByBulk) {
+                  let match =  mi.submenus && mi.submenus.some(a => a.value === 'TutorCommissions')
+                  if(!match) {
+                    mi.submenus.push({
+                        text: this._translateService.instant('tutors.commissions'),
+                        value: 'TutorCommissions'
+                    })
+                  }
+              }
             }
-          }
 
-          if (this.isServicesEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Services");
-            if (!match) {
-              mi.submenus.push({
-                text: this.servicesTitle,
-                value: "Services",
-              });
+            if (this.isTestimonialsEnabled) {
+              let match = mi.submenus && mi.submenus.some((a) => a.value === "Testimonials");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.testimonialsTitle,
+                  value: "Testimonials",
+                });
+              }
             }
-          }
 
-          if (this.isBlogEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Blog");
-            if (!match) {
-              mi.submenus.push({
-                text: this.blogTitle,
-                value: "Blog",
-              });
+            if (this.isServicesEnabled) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Services");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.servicesTitle,
+                  value: "Services",
+                });
+              }
+            }
+
+            if (this.isBlogEnabled) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Blog");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.blogTitle,
+                  value: "Blog",
+                });
+              }
             }
           }
         }
