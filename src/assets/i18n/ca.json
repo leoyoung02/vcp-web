@@ -3309,6 +3309,7 @@
         "specialcharacter": "Ha de contenir almenys 1 caràcter especial"
     },
     "testimonials": {
+        "testimonials": "Testigantza",
         "tags": "Etiquetes",
         "gallery": "Galeria",
         "socialmedia": "URL de xarxes socials",

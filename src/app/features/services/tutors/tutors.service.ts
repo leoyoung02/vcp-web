@@ -2,11 +2,14 @@ import { Injectable } from "@angular/core";
 import { Observable, forkJoin, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {
+  ADD_CREDIT_PACKAGE_URL,
   ADD_FEEDBACK_URL,
   ADD_NOTES_URL,
   ADD_STRIPE_CONNECT_URL,
   ADD_TUTOR_BOOKING_URL,
+  ADD_TUTOR_PACKAGE_URL,
   ADD_TUTOR_RATING_URL,
+  ADD_TUTOR_TYPE_URL,
   ASK_TUTOR_QUESTION_URL,
   ASSIGN_TUTOR_COURSES_URL,
   ASSIGN_TUTOR_COURSE_URL,
@@ -17,6 +20,9 @@ import {
   BULK_TRANSFER_COMMISSION_URL,
   CALENDLY_EVENT_URL,
   CANCEL_BOOKING_URL,
+  COMMISSION_PERCENTAGE_URL,
+  COMMISSION_PER_HOUR_URL,
+  COURSES_URL,
   COURSE_CATEGORIES_URL,
   COURSE_CATEGORY_ACCESS_URL,
   COURSE_CATEGORY_MAPPING_URL,
@@ -25,11 +31,22 @@ import {
   COURSE_TUTOR_TYPES_URL,
   CREDIT_PACKAGES_URL,
   DELETE_COMMISSION_URL,
+  DELETE_CREDIT_PACKAGE_URL,
+  DELETE_TUTOR_PACKAGE_URL,
+  DELETE_TUTOR_TYPE_URL,
+  DURATION_UNITS_URL,
   EDIT_BOOKING_STATUS_URL,
+  EDIT_CREDIT_PACKAGE_STATUS_URL,
+  EDIT_CREDIT_PACKAGE_URL,
+  EDIT_TUTOR_PACKAGE_STATUS_URL,
+  EDIT_TUTOR_PACKAGE_URL,
+  EDIT_TUTOR_TYPE_URL,
   EDIT_TUTOR_URL,
   FEATURES_MAPPING_URL,
   MEMBER_TYPES_URL,
   OTHER_SETTINGS_URL,
+  SAVE_COMMISSION_PERCENTAGE_URL,
+  SAVE_COMMISSION_PER_HOUR_URL,
   STRIPE_ACCOUNT_IDS_URL,
   STRIPE_CONNECT_ACCOUNT_STATUS_URL,
   STRIPE_LOGIN_URL,
@@ -353,6 +370,130 @@ export class TutorsService {
     return this._http.delete(
       `${DELETE_COMMISSION_URL}/${id}`,
       {},
+    ).pipe(map(res => res));
+  }
+
+  getTutorTypes(id): Observable<any> {
+    return this._http.get(`${TUTOR_TYPES_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addTutorType(payload): Observable<any> {
+    return this._http.post(ADD_TUTOR_TYPE_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editTutorType(id, payload): Observable<any> {
+    return this._http.put(
+        `${EDIT_TUTOR_TYPE_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteTutorType(id, companyId): Observable<any> {
+    return this._http.delete(
+      `${DELETE_TUTOR_TYPE_URL}/${id}/${companyId}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  getTutorBookingCommissionPerHour(companyId): Observable<any> {
+    return this._http.get(`${COMMISSION_PER_HOUR_URL}/${companyId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  getTutorBookingCommissionPercentage(companyId): Observable<any> {
+    return this._http.get(`${COMMISSION_PERCENTAGE_URL}/${companyId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  saveTutorBookingCommissionPerHour(payload): Observable<any> {
+    return this._http.post(SAVE_COMMISSION_PER_HOUR_URL,
+      payload
+    ).pipe(map(res => res))
+  }
+
+  saveTutorBookingCommissionPercentage(payload): Observable<any> {
+    return this._http.post(SAVE_COMMISSION_PERCENTAGE_URL,
+      payload
+    ).pipe(map(res => res))
+  }
+
+  addTutorPackage(payload): Observable<any> {
+    return this._http.post(ADD_TUTOR_PACKAGE_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editTutorPackage(id, payload): Observable<any> {
+    return this._http.put(`${EDIT_TUTOR_PACKAGE_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteTutorPackage(id, companyId): Observable<any> {
+    return this._http.delete(`${DELETE_TUTOR_PACKAGE_URL}/${id}/${companyId}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  getDurationUnits(): Observable<any> {
+    return this._http.get(DURATION_UNITS_URL,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editTutorPackageStatus(params): Observable<any> {
+    return this._http.put(EDIT_TUTOR_PACKAGE_STATUS_URL,
+        params
+    ).pipe(map(res => res));
+  }
+
+  getCombinedCreditPackagesPrefetch(companyId, featureId, courseFeatureId) {
+    let subfeatures = this._http.get(`${FEATURES_MAPPING_URL}/${companyId}/${featureId}`);
+    let courseSubfeatures = this._http.get(`${FEATURES_MAPPING_URL}/${companyId}/${courseFeatureId}`);
+    let creditPackages = this._http.get(`${CREDIT_PACKAGES_URL}/${companyId}`);
+    let courses = this._http.get(`${COURSES_URL}/${companyId}`);
+    
+    return forkJoin([
+      subfeatures,
+      courseSubfeatures,
+      creditPackages,
+      courses,
+    ])
+  }
+
+  addCreditPackage(payload): Observable<any> {
+    return this._http.post(ADD_CREDIT_PACKAGE_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editCreditPackage(id, payload): Observable<any> {
+    return this._http.put(`${EDIT_CREDIT_PACKAGE_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editCreditPackageStatus(params): Observable<any> {
+    return this._http.put(EDIT_CREDIT_PACKAGE_STATUS_URL,
+        params
+    ).pipe(map(res => res));
+  }
+
+  deleteCreditPackage(id, companyId): Observable<any> {
+    return this._http.delete(`${DELETE_CREDIT_PACKAGE_URL}/${id}/${companyId}`,
+        {},
     ).pipe(map(res => res));
   }
 }
