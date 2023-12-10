@@ -3295,6 +3295,7 @@
         "specialcharacter": "Doit contenir au moins 1 caractère spécial"
     },
     "testimonials": {
+        "testimonials": "Témoignages",
         "tags": "Balises",
         "gallery": "Galerie",
         "socialmedia": "URL du réseau social",

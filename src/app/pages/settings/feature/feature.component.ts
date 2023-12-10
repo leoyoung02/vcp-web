@@ -20,6 +20,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { initFlowbite } from "flowbite";
 import { Subject, takeUntil } from "rxjs";
+import { TutorsService } from "@features/services";
 import get from "lodash/get";
 @Component({
   standalone: true,
@@ -106,10 +107,18 @@ export class FeatureComponent {
   @ViewChild("settingmodalbutton", { static: false }) settingmodalbutton:
     | ElementRef
     | undefined;
+  @ViewChild("closesettingmodalbutton", { static: false }) closesettingmodalbutton:
+    | ElementRef
+    | undefined;
   popupTitle: any;
   selectedFeatureId: any;
   selectedSetting: any;
   selectedSettingTitle: any;
+
+  bookingcommissionperhour: any;
+  showTutorBookingsCommissionPerHourModal: boolean = false;
+  bookingcommissionpercentage: any;
+  showTutorBookingsCommissionModal: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -117,6 +126,7 @@ export class FeatureComponent {
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _companyService: CompanyService,
+    private _tutorsService: TutorsService,
     private _userService: UserService,
     private _menuService: MenuService,
     private _location: Location,
@@ -309,6 +319,7 @@ export class FeatureComponent {
       { id: 28, name_en: "Blog layout" },
       { id: 29, name_en: "Vimeo" },
       { id: 30, name_en: "Candidates display" },
+      { id: 31, name_en: "Tags" },
     ];
   }
 
@@ -439,6 +450,9 @@ export class FeatureComponent {
       case "Credit Packages":
         this.openCreditPackages(row);
         break;
+      case "Tags":
+        this.goToTestimonialTags(row);
+        break;
     }
   }
 
@@ -496,10 +510,14 @@ export class FeatureComponent {
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Tutor percentage for bookings":
+        this.resetModals();
+        this.getSettingTitle(row);
         this.getTutorBookingCommissionPercentage();
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Per hour commission":
+        this.resetModals();
+        this.getSettingTitle(row);
         this.getTutorBookingCommissionPerHour();
         this.settingmodalbutton?.nativeElement.click();
         break;
@@ -517,6 +535,11 @@ export class FeatureComponent {
         this.settingmodalbutton?.nativeElement.click();
         break;
     }
+  }
+
+  resetModals() {
+    this.showTutorBookingsCommissionModal = false;
+    this.showTutorBookingsCommissionPerHourModal = false;
   }
 
   goToAdminList(row) {
@@ -765,6 +788,11 @@ export class FeatureComponent {
         async (response) => {
           let subfeatures: any = [];
           subfeatures = response;
+          if(this.companyId != 27) {
+            subfeatures = subfeatures?.filter(subfeature => {
+              return subfeature?.name_en != "Tutor profile"
+            })
+          }
           subfeatures?.map((data) => {
             data.name = this.getSubfeatureName(data);
             data.description = this.getSubfeatureDescription(data);
@@ -772,7 +800,11 @@ export class FeatureComponent {
             let action_button = this.actionButtons.find(
               (c) => data.name_en == c.name_en && data.active == 1
             );
-            data.show_action_button = action_button?.id > 0 ? true : false;
+            let show_button = action_button?.id > 0 ? true : false
+            if(this.companyId != 27 && action_button?.id == 18) {
+              show_button = false;
+            }
+            data.show_action_button = show_button;
           });
           this.companySubfeatures = subfeatures;
           this.allCompanySubfeatures = subfeatures;
@@ -945,16 +977,16 @@ export class FeatureComponent {
   }
 
   goBackToFeatures() {
-    this._router.navigate([`/new-settings`]);
+    this._router.navigate([`/settings`]);
   }
 
   goToSubfeature(id) {
-    this._router.navigate([`/new-settings/subfeature/${this.id}/${id}`]);
+    this._router.navigate([`/settings/subfeature/${this.id}/${id}`]);
   }
 
   managePlanRegistrationLanding() {
     this._router.navigate([
-      `/new-settings/company/edit-event-registration-landing`,
+      `/settings/company/edit-event-registration-landing`,
     ]);
   }
 
@@ -1562,28 +1594,34 @@ export class FeatureComponent {
   getSettingTitle(setting) {
     this.selectedSetting = setting;
     if (this.selectedSetting) {
-      this.selectedSettingTitle =
-        this.language == "en"
-          ? this.selectedSetting.name_en
-            ? this.selectedSetting.name_en || this.selectedSetting.name_es
-            : this.selectedSetting.name_es
-          : this.language == "fr"
-          ? this.selectedSetting.name_fr
-            ? this.selectedSetting.name_fr || this.selectedSetting.name_es
-            : this.selectedSetting.name_es
-          : this.language == "eu"
-          ? this.selectedSetting.name_eu
-            ? this.selectedSetting.name_eu || this.selectedSetting.name_es
-            : this.selectedSetting.name_es
-          : this.language == "ca"
-          ? this.selectedSetting.name_ca
-            ? this.selectedSetting.name_ca || this.selectedSetting.name_es
-            : this.selectedSetting.name_es
-          : this.language == "de"
-          ? this.selectedSetting.name_de
-            ? this.selectedSetting.name_de || this.selectedSetting.name_es
-            : this.selectedSetting.name_es
-          : this.selectedSetting.name_es;
+      if(this.showTutorBookingsCommissionPerHourModal == true) {
+        this.selectedSettingTitle = this._translateService.instant('company-settings.bookingcommissionperhour');
+      } else if(this.showTutorBookingsCommissionModal == true) {
+        this.selectedSettingTitle = this._translateService.instant('company-settings.bookingcommissionpercentage');
+      } else {
+        this.selectedSettingTitle =
+          this.language == "en"
+            ? this.selectedSetting.name_en
+              ? this.selectedSetting.name_en || this.selectedSetting.name_es
+              : this.selectedSetting.name_es
+            : this.language == "fr"
+            ? this.selectedSetting.name_fr
+              ? this.selectedSetting.name_fr || this.selectedSetting.name_es
+              : this.selectedSetting.name_es
+            : this.language == "eu"
+            ? this.selectedSetting.name_eu
+              ? this.selectedSetting.name_eu || this.selectedSetting.name_es
+              : this.selectedSetting.name_es
+            : this.language == "ca"
+            ? this.selectedSetting.name_ca
+              ? this.selectedSetting.name_ca || this.selectedSetting.name_es
+              : this.selectedSetting.name_es
+            : this.language == "de"
+            ? this.selectedSetting.name_de
+              ? this.selectedSetting.name_de || this.selectedSetting.name_es
+              : this.selectedSetting.name_es
+            : this.selectedSetting.name_es;
+      }
     }
   }
 
@@ -2080,15 +2118,19 @@ export class FeatureComponent {
   }
 
   goToTutorTypes(row) {
-    this._router.navigate(["/new-settings/tutor-types"]);
+    this._router.navigate(["/settings/tutor-types"]);
   }
 
   async openStudentHours(row) {
-    this._router.navigate(["/new-settings/tutor-packages"]);
+    this._router.navigate(["/settings/tutor-packages"]);
   }
 
   openCreditPackages(row) {
-    // this._router.navigate(['/new-settings/credit-packages'])
+    this._router.navigate(['/settings/credit-packages'])
+  }
+
+  goToTestimonialTags(row) {
+    this._router.navigate(["/settings/testimonial-tags"]);
   }
 
   getDurationUnitTitle(duration) {
@@ -2212,62 +2254,70 @@ export class FeatureComponent {
 
   goToTutorCommissionPercentage(row) {
     this.getTutorBookingCommissionPercentage();
-    // this.showTutorBookingsCommissionModal = true
+    this.showTutorBookingsCommissionModal = true
   }
 
   goToTutorCommissionPerHour(row) {
     this.getTutorBookingCommissionPerHour();
-    // this.showTutorBookingsCommissionPerHourModal = true
+    this.showTutorBookingsCommissionPerHourModal = true;
   }
 
   closeTutorBookingCommisionModal() {
-    // this.showTutorBookingsCommissionModal = false
+    this.showTutorBookingsCommissionModal = false;
+    this.closesettingmodalbutton?.nativeElement.click();
   }
 
   closeTutorBookingCommisionPerHourModal() {
-    // this.showTutorBookingsCommissionPerHourModal = false
+    this.showTutorBookingsCommissionPerHourModal = false
+    this.closesettingmodalbutton?.nativeElement.click();
   }
 
   saveTutorBookingCommissionPercentage() {
-    // let params = {
-    //   company_id : this.companyId,
-    //   commission_percentage : this.bookingcommissionpercentage
-    // }
-    // this.mainService.saveTutorBookingCommissionPercentage(params)
-    // .subscribe(
-    //   response => {
-    //     this.showTutorBookingsCommissionModal = false
-    //   },
-    //   error => {
-    //     console.log(error)
-    //   }
-    // )
+    let params = {
+      company_id : this.companyId,
+      commission_percentage : this.bookingcommissionpercentage
+    }
+    this._tutorsService.saveTutorBookingCommissionPercentage(params)
+    .subscribe(
+      response => {
+        this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+        this.showTutorBookingsCommissionModal = false;
+        this.closesettingmodalbutton?.nativeElement.click();
+      },
+      error => {
+        console.log(error)
+      }
+    )
   }
 
   async getTutorBookingCommissionPercentage() {
-    // let commissionPercentage = get(await this.mainService.getTutorBookingCommissionPercentage(this.companyId).toPromise(), 'commission_percentage')
-    // this.bookingcommissionpercentage = commissionPercentage?.commission_percentage ? parseFloat(commissionPercentage.commission_percentage) : ''
+    let commissionPercentage = get(await this._tutorsService.getTutorBookingCommissionPercentage(this.companyId).toPromise(), 'commission_percentage');
+    this.bookingcommissionpercentage = commissionPercentage?.commission_percentage ? parseFloat(commissionPercentage.commission_percentage) : '';
+    this.showTutorBookingsCommissionModal = true;
   }
 
   saveTutorBookingCommissionPerHour() {
-    // let params = {
-    //   company_id : this.companyId,
-    //   commission_per_hour : this.bookingcommissionperhour
-    // }
-    // this.mainService.saveTutorBookingCommissionPerHour(params)
-    // .subscribe(
-    //   response => {
-    //     this.showTutorBookingsCommissionPerHourModal = false
-    //   },
-    //   error => {
-    //     console.log(error)
-    //   }
-    // )
+    let params = {
+      company_id : this.companyId,
+      commission_per_hour : this.bookingcommissionperhour
+    }
+    this._tutorsService.saveTutorBookingCommissionPerHour(params)
+    .subscribe(
+      response => {
+        this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+        this.showTutorBookingsCommissionPerHourModal = false;
+        this.closesettingmodalbutton?.nativeElement.click();
+      },
+      error => {
+        console.log(error)
+      }
+    )
   }
 
   async getTutorBookingCommissionPerHour() {
-    // let commissionPerHour = get(await this.mainService.getTutorBookingCommissionPerHour(this.companyId).toPromise(), 'commission_per_hour')
-    // this.bookingcommissionperhour = commissionPerHour?.commission_per_hour ? parseFloat(commissionPerHour.commission_per_hour) : ''
+    let commissionPerHour = get(await this._tutorsService.getTutorBookingCommissionPerHour(this.companyId).toPromise(), 'commission_per_hour');
+    this.bookingcommissionperhour = commissionPerHour?.commission_per_hour ? parseFloat(commissionPerHour.commission_per_hour) : '';
+    this.showTutorBookingsCommissionPerHourModal = true;
   }
 
   getVimeoSettings() {
