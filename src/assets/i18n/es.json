@@ -3327,6 +3327,7 @@
         "specialcharacter": "Debe contener al menos 1 carácter especial"
     },
     "testimonials": {
+        "testimonials": "Testimonios",
         "tags": "Etiquetas",
         "gallery": "Galería",
         "socialmedia": "URL de redes sociales",

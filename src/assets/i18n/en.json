@@ -3342,6 +3342,7 @@
         "specialcharacter": "Must contain at least 1 special character"
     },
     "testimonials": {
+        "testimonials": "Testimonials",
         "tags": "Tags",
         "gallery": "Gallery",
         "socialmedia": "Social Media URL",

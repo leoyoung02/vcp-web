@@ -2,11 +2,14 @@ import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {
+  ADD_TESTIMONIAL_TAG_URL,
   ADD_TESTIMONIAL_URL,
+  DELETE_TESTIMONIAL_TAG_URL,
   DELETE_TESTIMONIAL_URL,
+  EDIT_TESTIMONIAL_TAG_URL,
   EDIT_TESTIMONIAL_URL,
   TESTIMONIALS_DATA_URL,
-  TESTIMONIALS_URL, TESTIMONIAL_DETAILS_URL,
+  TESTIMONIALS_URL, TESTIMONIAL_DETAILS_URL, TESTIMONIAL_TAGS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
@@ -58,6 +61,32 @@ export class TestimonialsService {
     return this._http.post(`${DELETE_TESTIMONIAL_URL}/${id}`,
       {},
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getTestimonialTags(id): Observable<any> {
+    return this._http.get(`${TESTIMONIAL_TAGS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addTestimonialTag(payload): Observable<any> {
+    return this._http.post(ADD_TESTIMONIAL_TAG_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editTestimonialTag(id, payload): Observable<any> {
+    return this._http.put(`${EDIT_TESTIMONIAL_TAG_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteTestimonialTag(id, companyId): Observable<any> {
+    return this._http.delete(`${DELETE_TESTIMONIAL_TAG_URL}/${id}/${companyId}`,
+      {},
     ).pipe(map(res => res));
   }
 }

@@ -51,6 +51,30 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./setting/setting.component')).SettingComponent,
     },
     {
+        path: 'tutor-types',
+        title: CustomTitleResolver,
+        data: { titleKey: 'tutors.tutortypes'},
+        loadComponent: async () => (await import('./tutor-types/tutor-types.component')).ManageTutorTypesComponent,
+    },
+    {
+        path: 'tutor-packages',
+        title: CustomTitleResolver,
+        data: { titleKey: 'tutors.hourpackages'},
+        loadComponent: async () => (await import('./tutor-packages/tutor-packages.component')).ManageTutorPackagesComponent,
+    },
+    {
+        path: 'credit-packages',
+        title: CustomTitleResolver,
+        data: { titleKey: 'credit-package.credits'},
+        loadComponent: async () => (await import('./credit-packages/credit-packages.component')).ManageCreditPackagesComponent,
+    },
+    {
+        path: 'testimonial-tags',
+        title: CustomTitleResolver,
+        data: { titleKey: 'testimonials.tags'},
+        loadComponent: async () => (await import('./testimonial-tags/testimonial-tags.component')).ManageTestimonialTagsComponent,
+    },
+    {
         path: 'email/:id/:type',
         title: CustomTitleResolver,
         data: { titleKey: 'plan-details.email'},
