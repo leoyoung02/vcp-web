@@ -275,6 +275,12 @@ export const EDIT_PLAN_URL = `${API_BASE}/company/plans/edit-new`;
 export const CHECK_PLAN_REGISTRATION_URL = `${API_BASE}/event/check-registration`;
 export const PLAN_REGISTRATION_URL = `${API_BASE}/company/event/register`;
 export const PLAN_GUEST_REGISTRATION_URL = `${API_BASE}/company/event/invite/register/guest`;
+export const EDIT_FEATURED_TEXT_URL = `${API_BASE}/company/featured/text/edit`;
+export const GUEST_REGISTRATION_FIELDS_URL = `${API_BASE}/company/guest-registration/fields`;
+export const ALL_GUEST_REGISTRATION_FIELDS_URL = `${API_BASE}/company/guest-registration/all-fields`;
+export const ADD_GUEST_REGISTRATION_FIELDS_URL = `${API_BASE}/company/guest-registration/fields/add`;
+export const EDIT_GUEST_REGISTRATION_FIELDS_URL = `${API_BASE}/company/guest-registration/fields/edit`;
+export const DELETE_GUEST_REGISTRATION_FIELDS_URL = `${API_BASE}/company/guest-registration/fields/delete`;
 
 export const PLANS_URL = `${API_BASE}/v2/plans`;
 export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;
@@ -311,6 +317,8 @@ export const EDIT_CLUB_URL = `${API_BASE}/company/groups/edit-admin`;
 export const CLUB_MEMBERS_URL = `${API_BASE}/company/club/all-members`;
 export const ALL_CLUBS_URL = `${API_BASE}/company/groups`;
 export const CLUB_PRESIDENTS_URL = `${API_BASE}/company/club/presidents/mapping`;
+export const EDIT_APPROVE_CLUB_ACTIVITIES_URL = `${API_BASE}/company/club-activities-approve/update`;
+export const CLUB_ACTIVITY_APPROVE_ROLES_URL = `${API_BASE}/company/club-activity-approve-roles`;
 
 export const CLUBS_URL = `${API_BASE}/v2/clubs`;
 export const CLUBS_DATA_URL = `${API_BASE}/v2/clubs-other-data`;

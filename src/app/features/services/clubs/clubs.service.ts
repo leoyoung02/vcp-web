@@ -7,8 +7,10 @@ import {
   ADD_COMMENT_REACTION_URL,
   ADD_COMMENT_REPLY_URL,
   ALL_CLUBS_URL,
+  APPROVE_CLUB_ACTIVITY_URL,
   CLUBS_DATA_URL,
   CLUBS_URL,
+  CLUB_ACTIVITY_APPROVE_ROLES_URL,
   CLUB_COMMENTS_URL,
   CLUB_MEMBERS_URL,
   CLUB_PLANS_URL,
@@ -19,6 +21,7 @@ import {
   CONTACT_FIELDS_URL,
   DELETE_CLUB_COMMENT_URL,
   DELETE_CLUB_URL,
+  EDIT_APPROVE_CLUB_ACTIVITIES_URL,
   EDIT_CLUB_URL,
   GROUP_CATEGORIES_URL,
   GROUP_CATEGORY_ADD_URL,
@@ -233,5 +236,25 @@ export class ClubsService {
     return this._http.get(`${CLUB_PRESIDENTS_URL}/${id}`,
       { headers: this.headers }
     ).pipe(map(res => res))
+  }
+
+  updateClubActivitiesApproveUserRoles(payload): Observable<any> {
+    return this._http.post(EDIT_APPROVE_CLUB_ACTIVITIES_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getClubActivityApproveRoles(id): Observable<any> {
+    return this._http.get(`${CLUB_ACTIVITY_APPROVE_ROLES_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  approveClubActivityNotification(id, payload): Observable<any> {
+    return this._http.post(`${APPROVE_CLUB_ACTIVITY_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

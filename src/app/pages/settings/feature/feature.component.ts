@@ -11,16 +11,19 @@ import { BreadcrumbComponent } from "@share/components";
 import { CompanyService, LocalService, UserService } from "@share/services";
 import { MenuService } from "@lib/services";
 import { SearchComponent } from "@share/components/search/search.component";
-import { FormsModule } from "@angular/forms";
-import { MatFormFieldModule } from "@angular/material/form-field";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatOptionModule } from "@angular/material/core";
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { initFlowbite } from "flowbite";
 import { Subject, takeUntil } from "rxjs";
-import { TutorsService } from "@features/services";
+import { ClubsService, PlansService, TutorsService } from "@features/services";
 import get from "lodash/get";
 @Component({
   standalone: true,
@@ -33,7 +36,11 @@ import get from "lodash/get";
     MatSortModule,
     MatSnackBarModule,
     MatFormFieldModule,
+    MatOptionModule,
+    MatInputModule,
+    MatSelectModule,
     FormsModule,
+    ReactiveFormsModule,
     SearchComponent,
   ],
   templateUrl: "./feature.component.html",
@@ -119,6 +126,21 @@ export class FeatureComponent {
   showTutorBookingsCommissionPerHourModal: boolean = false;
   bookingcommissionpercentage: any;
   showTutorBookingsCommissionModal: boolean = false;
+  showFeaturedTextModal: boolean = false;
+  showGuestRegistrationFieldsModal: boolean = false;
+  allRegistrationFields: any;
+  filteredProfileFields: any;
+  fieldMode: any;
+  fieldFormSubmitted: boolean = false;
+  showFieldDetails: boolean = false;
+  selectedField: any = '';
+  fieldDesc: any;
+  requiredField: any;
+  selectedFieldId: any;
+  userRoles: any;
+  memberTypes: any;
+  showApproveClubActivitiesModal: boolean = false;
+  selectedUserRoles: any = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -127,6 +149,8 @@ export class FeatureComponent {
     private _localService: LocalService,
     private _companyService: CompanyService,
     private _tutorsService: TutorsService,
+    private _plansService: PlansService,
+    private _clubsService: ClubsService,
     private _userService: UserService,
     private _menuService: MenuService,
     private _location: Location,
@@ -470,20 +494,15 @@ export class FeatureComponent {
         this.getOfferHideDays();
         this.settingmodalbutton?.nativeElement.click();
         break;
-      case "View more":
-        this.getMobileLimitSettings();
-        this.settingmodalbutton?.nativeElement.click();
-        break;
-      case "Subgroups":
-        this.getSubgroupTitles();
-        this.settingmodalbutton?.nativeElement.click();
-        break;
       case "Created activities authorization":
+        this.resetModals();
         this.manageApproveClubActivities();
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Featured":
+        this.resetModals();
         this.getSettingTitle(row);
+        this.openFeaturedTextModal(row);
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Hotmart integration":
@@ -496,15 +515,8 @@ export class FeatureComponent {
         this.manageApproveClubActivities("course");
         this.settingmodalbutton?.nativeElement.click();
         break;
-      case "Recurring":
-        this.getEventSettings("recurring");
-        this.settingmodalbutton?.nativeElement.click();
-        break;
-      case "Order":
-        this.getEventSettings("order");
-        this.settingmodalbutton?.nativeElement.click();
-        break;
       case "Guest registration fields":
+        this.resetModals();
         this.getGuestRegistrationFields();
         this.getAllRegistrationFields();
         this.settingmodalbutton?.nativeElement.click();
@@ -540,6 +552,9 @@ export class FeatureComponent {
   resetModals() {
     this.showTutorBookingsCommissionModal = false;
     this.showTutorBookingsCommissionPerHourModal = false;
+    this.showFeaturedTextModal = false;
+    this.showGuestRegistrationFieldsModal = false;
+    this.showApproveClubActivitiesModal = false;
   }
 
   goToAdminList(row) {
@@ -780,6 +795,36 @@ export class FeatureComponent {
     ];
   }
 
+  excludeOtherSubfeatures(subfeatures) {
+    if(this.companyId != 27) {
+      subfeatures = subfeatures?.filter(subfeature => {
+        return subfeature?.name_en != "Tutor profile"
+      })
+    }
+
+    subfeatures = subfeatures?.filter(subfeature => {
+      let include = false
+
+      if(
+        (this.companyId != 27 && subfeature?.name_en == 'Tutor profile') ||
+        (subfeature?.name_en == "Custom landing page for event registration") ||
+        (subfeature?.name_en == "Email invite") ||
+        (subfeature?.name_en == "Recurring") ||
+        (subfeature?.name_en == "Order") ||
+        (subfeature?.name_en == "Subgroups") ||
+        (subfeature?.name_en == "View more") ||
+        (subfeature?.feature_id == 3 && subfeature?.name_en == 'Categories')
+      ) {
+      } else {
+        include = true
+      }
+
+      return include
+    })
+
+    return subfeatures
+  }
+
   getSubfeatures() {
     this._companyService
       .getSubFeaturesCombined(this.id, this.companyId)
@@ -788,11 +833,7 @@ export class FeatureComponent {
         async (response) => {
           let subfeatures: any = [];
           subfeatures = response;
-          if(this.companyId != 27) {
-            subfeatures = subfeatures?.filter(subfeature => {
-              return subfeature?.name_en != "Tutor profile"
-            })
-          }
+          subfeatures = this.excludeOtherSubfeatures(subfeatures);
           subfeatures?.map((data) => {
             data.name = this.getSubfeatureName(data);
             data.description = this.getSubfeatureDescription(data);
@@ -1074,290 +1115,6 @@ export class FeatureComponent {
     // }
   }
 
-  manageQuestions() {
-    this.getQuestions();
-  }
-
-  getQuestions() {
-    // this.mainService.getReferenceQuestions(this.companyId)
-    //   .subscribe(
-    //       async (response) => {
-    //         this.questions = response.questions
-    //         this.showQuestionsModal = true
-    //       },
-    //       error => {
-    //           console.log(error)
-    //       }
-    //   )
-  }
-
-  closeQuestionsModal() {
-    // this.showQuestionsModal = false;
-  }
-
-  addQuestion() {
-    // this.questionMode = 'add'
-    // this.questionForm.controls['question'].setValue('')
-    // this.selectedType = ''
-    // this.showQuestionsModal = true
-  }
-
-  editQuestion(question) {
-    // this.questionMode = 'edit'
-    // this.selectedQuestionId = question.id
-    // this.questionForm.controls['question'].setValue(question.question)
-    // this.selectedType = question.question_type
-    // this.showQuestionsModal = true
-  }
-
-  deleteQuestion(question) {
-    // this.selectedQuestionId = question.id
-    // this.mainService.deleteReferenceQuestion(this.selectedQuestionId)
-    //   .subscribe(
-    //     response => {
-    //       this.getQuestions()
-    //       this.cancelQuestionMode()
-    //     },
-    //     error => {
-    //         console.log(error)
-    //     }
-    //   )
-  }
-
-  saveQuestion() {
-    // this.questionFormSubmitted = true
-    // if(!this.isValidForm()
-    //   || !this.selectedType
-    // ) {
-    //   return false
-    // }
-    // if(this.questionMode == 'add') {
-    //   let params = {
-    //     company_id: this.companyId,
-    //     question: this.questionForm.get('question').value,
-    //     question_type: this.selectedType,
-    //   }
-    //   this.mainService.addReferenceQuestion(params)
-    //   .subscribe(
-    //     response => {
-    //       this.getQuestions()
-    //       this.cancelQuestionMode()
-    //     },
-    //     error => {
-    //         console.log(error)
-    //     }
-    //   )
-    // } else if(this.questionMode == 'edit') {
-    //   let params = {
-    //     company_id: this.companyId,
-    //     question: this.questionForm.get('question').value,
-    //     question_type: this.selectedType,
-    //   }
-    //   this.mainService.editReferenceQuestion(this.selectedQuestionId, params)
-    //   .subscribe(
-    //     response => {
-    //       this.getQuestions()
-    //       this.cancelQuestionMode()
-    //     },
-    //     error => {
-    //         console.log(error)
-    //     }
-    //   )
-    // }
-  }
-
-  changeType(event) {
-    // this.selectedType = event.target.value
-  }
-
-  isValidForm() {
-    let valid = true;
-    // Object.keys(this.questionForm.controls).forEach(key => {
-    //   const controlErrors: ValidationErrors = this.questionForm.get(key).errors;
-    //   if(controlErrors != null) {
-    //     valid = false;
-    //   }
-    // });
-    return valid;
-  }
-
-  cancelQuestionMode() {
-    // this.questionForm.reset()
-    // this.selectedType = ''
-    // this.questionMode = ''
-  }
-
-  manageOfferLimit() {
-    this.getOfferLimitSettings();
-  }
-
-  manageMenteeLimit() {
-    this.getMenteeLimitSettings();
-  }
-
-  getMenteeLimitSettings() {
-    // this.mainService.getMenteeLimitSettings(this.companyId)
-    //   .subscribe(
-    //       async (response) => {
-    //         this.menteeLimitSettings = response.buddy_limit_settings
-    //         if(this.menteeLimitSettings && this.menteeLimitSettings.id) {
-    //           this.createMenteeLimit = this.menteeLimitSettings.limit ? this.menteeLimitSettings.limit : ''
-    //           this.limitMessage = this.menteeLimitSettings.limit_message || ''
-    //         }
-    //         this.showMenteeLimitModal = true
-    //       },
-    //       error => {
-    //           console.log(error)
-    //       }
-    //   )
-  }
-
-  closeMenteeLimitModal() {
-    // this.showMenteeLimitModal = false
-  }
-
-  saveMenteeLimitSettings() {
-    // if(this.createMenteeLimit) {
-    //   let params = {
-    //     company_id: this.companyId,
-    //     limit: this.createMenteeLimit,
-    //     limit_message: this.limitMessage
-    //   }
-    //   this.mainService.updateMenteeLimitSettings(params)
-    //   .subscribe(
-    //     response => {
-    //       this.showMenteeLimitModal = false
-    //     },
-    //     error => {
-    //       console.log(error)
-    //     }
-    //   )
-    // }
-  }
-
-  closeOfferLimitModal() {
-    // this.showOfferLimitModal = false
-  }
-
-  getOfferLimitSettings() {
-    // this.mainService.getOfferLimitSettings(this.companyId)
-    //   .subscribe(
-    //       async (response) => {
-    //         this.offerLimitSettings = response.offer_limit_settings
-    //         if(this.offerLimitSettings && this.offerLimitSettings.id) {
-    //           this.createOfferLimit = this.offerLimitSettings.limit ? this.offerLimitSettings.limit : ''
-    //         }
-    //         this.showOfferLimitModal = true
-    //       },
-    //       error => {
-    //           console.log(error)
-    //       }
-    //   )
-  }
-
-  saveOfferLimitSettings() {
-    // if(this.createOfferLimit) {
-    //   let params = {
-    //     company_id: this.companyId,
-    //     limit: this.createOfferLimit
-    //   }
-    //   this.mainService.updateOfferLimitSettings(params)
-    //   .subscribe(
-    //     response => {
-    //       this.showOfferLimitModal = false
-    //     },
-    //     error => {
-    //       console.log(error)
-    //     }
-    //   )
-    // }
-  }
-
-  manageRestrictions() {
-    this.getRestrictions();
-  }
-
-  async getRestrictions() {
-    // this.buddyRestrictionMajorSettings = get(await this.mainService.getBuddyRestrictionMajorSettings(this.companyId).toPromise(), 'buddy_restriction_major_settings')
-    // this.restrictionMajor =  this.buddyRestrictionMajorSettings && this.buddyRestrictionMajorSettings.length > 0 ? this.buddyRestrictionMajorSettings.map( (data) => { return data.major }).join(',') : ''
-    // this.buddyRestrictionYearSettings = get(await this.mainService.getBuddyRestrictionYearSettings(this.companyId).toPromise(), 'buddy_restriction_year_settings')
-    // this.restrictionYear =  this.buddyRestrictionYearSettings && this.buddyRestrictionYearSettings.length > 0 ? this.buddyRestrictionYearSettings.map( (data) => { return data.year }).join(',') : ''
-    // this.showBuddyRestrictionModal = true
-  }
-
-  saveBuddyRestrictionSettings() {
-    // if(this.restrictionYear) {
-    //   let params = {
-    //     company_id: this.companyId,
-    //     year: this.restrictionYear
-    //   }
-    //   this.mainService.updateBuddyRestrictionYearSettings(params)
-    //   .subscribe(
-    //     response => {
-    //       let params2 = {
-    //         company_id: this.companyId,
-    //         major: this.restrictionMajor
-    //       }
-    //       this.mainService.updateBuddyRestrictionMajorSettings(params2)
-    //       .subscribe(
-    //         response2 => {
-    //           this.showBuddyRestrictionModal = false
-    //         },
-    //         error => {
-    //           console.log(error)
-    //         }
-    //       )
-    //     },
-    //     error => {
-    //       console.log(error)
-    //     }
-    //   )
-    // }
-  }
-
-  closeBuddyRestrictionModal() {
-    // this.showBuddyRestrictionModal = false
-  }
-
-  editSubGroupTitle() {
-    this.getSubgroupTitles();
-  }
-
-  async getSubgroupTitles() {
-    // let subgroup_titles = get(await this.mainService.getSubgroupTitles(this.companyId).toPromise(), 'subgroup_titles')
-    // if(subgroup_titles) {
-    //   this.subgroupTitleEs = subgroup_titles.title_es
-    //   this.subgroupTitleEn = subgroup_titles.title_en
-    //   this.subgroupTitleFr = subgroup_titles.title_fr
-    // }
-    // this.showSubgroupsTextModal = true
-  }
-
-  saveSubgrouspTitle() {
-    // if(!this.subgroupTitleEs || !this.subgroupTitleEn || !this.subgroupTitleFr) {
-    //   return false
-    // }
-    // let params = {
-    //   company_id: this.companyId,
-    //   title_es: this.subgroupTitleEs,
-    //   title_en: this.subgroupTitleEn,
-    //   title_fr: this.subgroupTitleFr,
-    // }
-    // this.mainService.updateSubgroupTitles(params)
-    // .subscribe(
-    //   response => {
-    //     this.showSubgroupsTextModal = false
-    //   },
-    //   error => {
-    //     console.log(error)
-    //   }
-    // )
-  }
-
-  closeSubgroupsTextModal() {
-    // this.showSubgroupsTextModal = false
-  }
-
   goBack() {
     this._location.back();
   }
@@ -1406,189 +1163,134 @@ export class FeatureComponent {
     // }
   }
 
-  openViewMoreModal(row) {
-    // this.popupTitle = this.language == 'en' ? row.description_en : (this.language == 'fr' ? row.description_fr : row.description_es)
-    // this.selectedFeatureId = row.feature_id
-    this.getMobileLimitSettings();
-  }
-
-  closeMobileLimitModal() {
-    // this.showMobileLimitModal = false
-  }
-
-  getMobileLimitSettings() {
-    // this.mainService.getMobileLimitSettings(this.companyId, this.selectedFeatureId)
-    //   .subscribe(
-    //       response => {
-    //         this.mobileLimitSettings = response.mobile_limit_settings
-    //         if(this.mobileLimitSettings && this.mobileLimitSettings.id) {
-    //           this.mobileLimit = this.mobileLimitSettings.limit ? this.mobileLimitSettings.limit : ''
-    //           this.desktopLimit = this.mobileLimitSettings.desktop_limit ? this.mobileLimitSettings.desktop_limit : ''
-    //           this.mobileLimitHome = this.mobileLimitSettings.home_limit ? this.mobileLimitSettings.home_limit : ''
-    //         }
-    //         this.showMobileLimitModal = true
-    //       },
-    //       error => {
-    //           console.log(error)
-    //       }
-    //   )
-  }
-
-  saveMobileLimit() {
-    // if(this.mobileLimit && this.mobileLimitHome) {
-    //   let params = {
-    //     company_id: this.companyId,
-    //     feature_id: this.selectedFeatureId,
-    //     limit: this.mobileLimit,
-    //     desktop_limit: this.desktopLimit,
-    //     home_limit: this.mobileLimitHome
-    //   }
-    //   this.mainService.updateMobileLimitSettings(params)
-    //   .subscribe(
-    //     response => {
-    //       this.open(this._translateService.instant('dialog.savedsuccessfully'), null)
-    //       location.reload()
-    //     },
-    //     error => {
-    //       console.log(error)
-    //     }
-    //   )
-    // }
-  }
-
   async manageApproveClubActivities(type: any = "club") {
-    // this.userRoles = [
-    //   {
-    //     id: 1,
-    //     name_EN: 'Member',
-    //     name_ES: 'Miembro',
-    //     name_FR: 'Membre',
-    //     name_EU: 'Kide',
-    //     name_CA: 'Membre',
-    //     name_DE: 'Mitglied',
-    //   },
-    //   {
-    //     id: 2,
-    //     name_EN: 'Admin 1',
-    //     name_ES: 'Admin 1',
-    //     name_FR: 'Admin 1',
-    //     name_EU: 'Admin 1',
-    //     name_CA: 'Admin 1',
-    //     name_DE: 'Admin 1',
-    //   },
-    //   {
-    //     id: 3,
-    //     name_EN: 'Admin 2',
-    //     name_ES: 'Admin 2',
-    //     name_FR: 'Admin 2',
-    //     name_EU: 'Admin 2',
-    //     name_CA: 'Admin 2',
-    //     name_DE: 'Admin 2',
-    //   },
-    //   {
-    //     id: 4,
-    //     name_EN: 'Super Admin',
-    //     name_ES: 'Super Admin',
-    //     name_FR: 'Super Admin',
-    //     name_EU: 'Super Admin',
-    //     name_CA: 'Super Admin',
-    //     name_DE: 'Super Admin',
-    //   }
-    // ]
+    this.userRoles = [
+      {
+        id: 1,
+        name_EN: 'Member',
+        name_ES: 'Miembro',
+        name_FR: 'Membre',
+        name_EU: 'Kide',
+        name_CA: 'Membre',
+        name_DE: 'Mitglied',
+      },
+      {
+        id: 2,
+        name_EN: 'Admin 1',
+        name_ES: 'Admin 1',
+        name_FR: 'Admin 1',
+        name_EU: 'Admin 1',
+        name_CA: 'Admin 1',
+        name_DE: 'Admin 1',
+      },
+      {
+        id: 3,
+        name_EN: 'Admin 2',
+        name_ES: 'Admin 2',
+        name_FR: 'Admin 2',
+        name_EU: 'Admin 2',
+        name_CA: 'Admin 2',
+        name_DE: 'Admin 2',
+      },
+      {
+        id: 4,
+        name_EN: 'Super Admin',
+        name_ES: 'Super Admin',
+        name_FR: 'Super Admin',
+        name_EU: 'Super Admin',
+        name_CA: 'Super Admin',
+        name_DE: 'Super Admin',
+      }
+    ]
     this.getCustomMemberTypes(type);
   }
 
   getCustomMemberTypes(type: any = "club") {
-    // this.mainService.getCustomMemberTypes(this.companyId)
-    //   .subscribe(
-    //     response => {
-    //       this.memberTypes = response.member_types
-    //       if(this.memberTypes && this.memberTypes.length > 0) {
-    //         this.memberTypes.forEach(mt => {
-    //           this.userRoles.push({
-    //             id: mt.id,
-    //             name_EN: mt.type_en,
-    //             name_ES: mt.type_es,
-    //             name_FR: mt.type_fr || mt.type_es,
-    //             name_EU: mt.type_eu || mt.type_es,
-    //             name_CA: mt.type_ca || mt.type_es,
-    //             name_DE: mt.type_de || mt.type_es,
-    //           })
-    //         })
-    //         this.userRoles = this.userRoles && this.userRoles.filter(ur => {
-    //           return ur.name_EN != 'Member' && ur.name_EN != 'Admin 1' && ur.name_EN != 'Admin 2'
-    //         })
-    //       }
-    //       if(type == 'course' || type == 'tutor') {
-    //         this.getCourseWallTutorRoles()
-    //         this.getCourseWallSettings()
-    //         this.showCourseWallSettingsModal = true
-    //         if(type == 'tutor') {
-    //           this.tutorProfileMode = true
-    //         }
-    //       } else {
-    //         this.getClubActivityApproveRoles()
-    //         this.showApproveClubActivitiesModal = true
-    //       }
-    //     },
-    //     error => {
-    //       let errorMessage = <any>error
-    //       if (errorMessage != null) {
-    //           let body = JSON.parse(error._body);
-    //       }
-    //     }
-    //   )
+    this._userService.getCustomMemberTypes(this.companyId)
+      .subscribe(
+        response => {
+          this.memberTypes = response.member_types
+          if(this.memberTypes && this.memberTypes.length > 0) {
+            this.memberTypes.forEach(mt => {
+              this.userRoles.push({
+                id: mt.id,
+                name_EN: mt.type_en,
+                name_ES: mt.type_es,
+                name_FR: mt.type_fr || mt.type_es,
+                name_EU: mt.type_eu || mt.type_es,
+                name_CA: mt.type_ca || mt.type_es,
+                name_DE: mt.type_de || mt.type_es,
+              })
+            })
+            this.userRoles = this.userRoles && this.userRoles.filter(ur => {
+              return ur.name_EN != 'Member' && ur.name_EN != 'Admin 1' && ur.name_EN != 'Admin 2'
+            })
+          }
+          if(type == 'course' || type == 'tutor') {
+          //   this.getCourseWallTutorRoles()
+          //   this.getCourseWallSettings()
+          //   this.showCourseWallSettingsModal = true
+          //   if(type == 'tutor') {
+          //     this.tutorProfileMode = true
+          //   }
+          } else {
+            this.getClubActivityApproveRoles();
+            this.showApproveClubActivitiesModal = true;
+          }
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
   closeUserRolesModal() {
-    // this.showApproveClubActivitiesModal = false
+    this.showApproveClubActivitiesModal = false;
+    this.closesettingmodalbutton?.nativeElement.click();
   }
 
   saveUserRoles() {
-    // let params = {
-    //   company_id: this.companyId,
-    //   user_role_id: this.selectedUserRoles ? this.selectedUserRoles.map( (data) => { return data.id }).join() : ''
-    // }
-    // this.mainService.updateClubActivitiesApproveUserRoles(params)
-    //   .subscribe(
-    //       response => {
-    //         this.mainService.removeFeaturesCache()
-    //         this.mainService.removeFeatureCache()
-    //         this.mainService.removeFeatureMappingCache()
-    //         this.mainService.removeSubfeatureCache()
-    //         this.mainService.removeSubfeaturesCache()
-    //         this.mainService.removeCompanyFeatureCache()
-    //         this.mainService.removeCompanySubfeatureCache()
-    //         this.showApproveClubActivitiesModal = false
-    //       },
-    //       error => {
-    //           console.log(error)
-    //       }
-    //   )
+    let params = {
+      company_id: this.companyId,
+      user_role_id: this.selectedUserRoles ? this.selectedUserRoles.map( (data) => { return data.id }).join() : ''
+    }
+    this._clubsService.updateClubActivitiesApproveUserRoles(params)
+      .subscribe(
+        response => {
+          this.showApproveClubActivitiesModal = false;
+          this.closesettingmodalbutton?.nativeElement.click();
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
   getClubActivityApproveRoles() {
-    // this.mainService.getClubActivityApproveRoles(this.companyId)
-    //     .subscribe(
-    //         async (response) => {
-    //             let user_roles = response.create_plan_roles;
-    //             let selected_user_roles = []
-    //             if(user_roles) {
-    //               user_roles.forEach(r => {
-    //                 let userRole = this.userRoles && this.userRoles.filter(ur => {
-    //                   return ur.id == r.role_id
-    //                 })
-    //                 if(userRole && userRole[0]) {
-    //                   selected_user_roles.push(userRole[0])
-    //                 }
-    //               });
-    //             }
-    //             this.selectedUserRoles = selected_user_roles
-    //         },
-    //         error => {
-    //             console.log(error)
-    //         }
-    //     )
+    this._clubsService.getClubActivityApproveRoles(this.companyId)
+        .subscribe(
+            async (response) => {
+                let user_roles = response.create_plan_roles;
+                let selected_user_roles: any[] = [];
+                if(user_roles) {
+                  user_roles.forEach(r => {
+                    let userRole = this.userRoles && this.userRoles.filter(ur => {
+                      return ur.id == r.role_id
+                    })
+                    if(userRole && userRole[0]) {
+                      selected_user_roles.push(userRole[0])
+                    }
+                  });
+                }
+
+                setTimeout(() => {
+                  this.selectedUserRoles = selected_user_roles;
+                }, 1000);
+            },
+            error => {
+                console.log(error)
+            }
+        )
   }
 
   getSettingTitle(setting) {
@@ -1626,45 +1328,47 @@ export class FeatureComponent {
   }
 
   openFeaturedTextModal(row) {
-    this.getSettingTitle(row);
-    // this.showFeaturedTextModal = true
+    this.showFeaturedTextModal = true;
   }
 
   closeFeaturedTextModal() {
-    // this.showFeaturedTextModal = false
+    this.showFeaturedTextModal = false;
+    this.closesettingmodalbutton?.nativeElement.click();
   }
 
   saveFeaturedTextValue() {
-    // if(!this.featuredTextValue) {
-    //   return false
-    // }
-    // let params = {
-    //   company_id: this.companyId,
-    //   featured_text: this.featuredTextValue,
-    //   featured_text_en: this.featuredTextValueEn || this.featuredTextValue,
-    //   featured_text_fr: this.featuredTextValueFr || this.featuredTextValue,
-    //   featured_text_eu: this.featuredTextValueEu || this.featuredTextValue,
-    //   featured_text_ca: this.featuredTextValueCa || this.featuredTextValue,
-    //   featured_text_de: this.featuredTextValueDe || this.featuredTextValue,
-    // }
-    // this.mainService.saveFeaturedText(params)
-    //   .subscribe(
-    //     async (response) => {
-    //       this.open(this._translateService.instant('dialog.savedsuccessfully'), null)
-    //       this.showFeaturedTextModal = false
-    //       this.refreshCompanies()
-    //     },
-    //     error => {
-    //       console.log(error)
-    //     }
-    //   )
+    if(!this.featuredTextValue) {
+      return false
+    }
+    let params = {
+      company_id: this.companyId,
+      featured_text: this.featuredTextValue,
+      featured_text_en: this.featuredTextValueEn || this.featuredTextValue,
+      featured_text_fr: this.featuredTextValueFr || this.featuredTextValue,
+      featured_text_eu: this.featuredTextValueEu || this.featuredTextValue,
+      featured_text_ca: this.featuredTextValueCa || this.featuredTextValue,
+      featured_text_de: this.featuredTextValueDe || this.featuredTextValue,
+    }
+    this._plansService.saveFeaturedText(params)
+      .subscribe(
+        async (response) => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          this.showFeaturedTextModal = false;
+          this.closesettingmodalbutton?.nativeElement.click();
+          this.refreshCompanies();
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
   async refreshCompanies() {
-    // this.mainService.removeCompaniesCache()
-    // this.removeLocalStorage(environment.lscompanies)
-    // this.companies = get(await this.mainService.getCompanies().toPromise(), 'companies')
-    // this.mainService.getCompany(this.companies)
+    this.companies = get(
+      await this._companyService.getCompanies().toPromise(),
+      "companies"
+    );
+    this._companyService.getCompany(this.companies);
   }
 
   openHotmartSettingsModal(row) {
@@ -1817,129 +1521,39 @@ export class FeatureComponent {
     return timestamp;
   }
 
-  openRecurringEventsModal(row) {
-    // this.popupTitle = this.language == 'en' ? row.description_en : (this.language == 'fr' ? row.description_fr : row.description_es)
-    this.getEventSettings("recurring");
-  }
-
-  closeRecurringEventsModal() {
-    // this.showRecurringEventsModal = false
-  }
-
-  getEventSettings(mode: string = "") {
-    // this.mainService.getEventSettings(this.companyId)
-    //   .subscribe(
-    //       response => {
-    //         let setting = response.setting
-    //         if(setting && setting.id) {
-    //           this.recurringDisplayDays = setting.display_days || ''
-    //           if(this.recurringDisplayDays) {
-    //             localStorage.setItem('display_days', this.recurringDisplayDays)
-    //           }
-    //           this.orderSetting = setting.order_setting || 'chronological'
-    //           if(this.orderSetting) {
-    //             localStorage.setItem('order_setting', this.orderSetting)
-    //           }
-    //         }
-    //         if(mode == 'recurring') { this.showRecurringEventsModal = true }
-    //         if(mode == 'order') { this.showOrderSettingsModal = true }
-    //       },
-    //       error => {
-    //           console.log(error)
-    //       }
-    //   )
-  }
-
-  saveRecurringDisplaySettings() {
-    // let params = {
-    //     company_id: this.companyId,
-    //     display_days: this.recurringDisplayDays || null
-    //   }
-    //   this.mainService.updateRecurringDisplayDaysSettings(params)
-    //   .subscribe(
-    //     response => {
-    //       if(this.recurringDisplayDays) {
-    //         localStorage.setItem('display_days', this.recurringDisplayDays)
-    //       } else {
-    //         localStorage.removeItem('display_days')
-    //       }
-    //       this.open(this._translateService.instant('dialog.savedsuccessfully'), null)
-    //       this.showRecurringEventsModal = false
-    //       location.reload()
-    //     },
-    //     error => {
-    //       console.log(error)
-    //     }
-    //   )
-  }
-
-  openOrderSettingsModal(row) {
-    // this.popupTitle = this.language == 'en' ? row.description_en : (this.language == 'fr' ? row.description_fr : row.description_es)
-    this.getEventSettings("order");
-  }
-
-  closeOrderSettingsModal() {
-    // this.showOrderSettingsModal = false
-  }
-
-  handleChangeOrder(event) {
-    // this.orderSetting = event.target.value
-  }
-
-  saveOrderSettings() {
-    // if(this.orderSetting) {
-    //   let params = {
-    //     company_id: this.companyId,
-    //     order_setting: this.orderSetting
-    //   }
-    //   this.mainService.updateOrderSettings(params)
-    //   .subscribe(
-    //     response => {
-    //       this.open(this._translateService.instant('dialog.savedsuccessfully'), null)
-    //       localStorage.setItem('order_setting', this.orderSetting)
-    //       this.showOrderSettingsModal = false
-    //       location.reload()
-    //     },
-    //     error => {
-    //       console.log(error)
-    //     }
-    //   )
-    // }
-  }
-
   openGuestRegistrationFieldsModal(row) {
-    // this.popupTitle = this.language == 'en' ? row.name_en : (this.language == 'fr' ? row.name_fr : row.name_es)
     this.getGuestRegistrationFields();
     this.getAllRegistrationFields();
   }
 
   getAllRegistrationFields() {
-    // this.mainService.getAllRegistrationFields(this.companyId)
-    //   .subscribe(
-    //       response => {
-    //         this.allRegistrationFields = response.registration_fields
-    //       },
-    //       error => {
-    //           console.log(error)
-    //       }
-    //   )
+    this._plansService.getAllRegistrationFields(this.companyId)
+      .subscribe(
+          response => {
+            this.allRegistrationFields = response.registration_fields
+          },
+          error => {
+              console.log(error)
+          }
+      )
   }
 
   getGuestRegistrationFields() {
-    // this.mainService.getGuestRegistrationFields(this.companyId)
-    //   .subscribe(
-    //       response => {
-    //         this.filteredProfileFields = response.registration_fields
-    //         this.showGuestRegistrationFieldsModal = true
-    //       },
-    //       error => {
-    //           console.log(error)
-    //       }
-    //   )
+    this._plansService.getGuestRegistrationFields(this.companyId)
+      .subscribe(
+          response => {
+            this.filteredProfileFields = response.registration_fields
+            this.showGuestRegistrationFieldsModal = true
+          },
+          error => {
+              console.log(error)
+          }
+      )
   }
 
   closeGuestRegistrationFieldsModal() {
-    // this.showGuestRegistrationFieldsModal = false
+    this.showGuestRegistrationFieldsModal = false;
+    this.closesettingmodalbutton?.nativeElement.click();
   }
 
   moveUp(type, array, index, item) {
@@ -1963,158 +1577,166 @@ export class FeatureComponent {
   }
 
   updateRegistrationFieldsSequence(type, array, item) {
-    // let params = {
-    //   id: item.id,
-    //   list_type: type,
-    //   list: array
-    // }
-    // this.mainService.editProfileFieldSequence(params).subscribe(
-    //   response => {
-    //     this.getGuestRegistrationFields()
-    //   },
-    //   error => {
-    //     console.log(error);
-    //   }
-    // )
+    let params = {
+      id: item.id,
+      list_type: type,
+      list: array
+    }
+    this._companyService.editProfileFieldSequence(params).subscribe(
+      response => {
+        this.getGuestRegistrationFields()
+      },
+      error => {
+        console.log(error);
+      }
+    )
   }
 
   addExistingField() {
-    // this.fieldMode = 'add'
-    // this.fieldFormSubmitted = false
-    // this.showFieldDetails = true
+    this.fieldMode = 'add';
+    this.fieldFormSubmitted = false;
+    this.showFieldDetails = true;
+  }
+
+  saveField() {
+    if(this.fieldMode == 'add') {
+      this.addField();
+    } else if(this.fieldMode == 'edit') {
+      this.updateField();
+    }
   }
 
   addField() {
-    // this.fieldFormSubmitted = true
-    // if(!this.selectedField
-    //   || !this.fieldDesc) {
-    //     return false
-    //   }
-    // let registration_field_id
-    // if(this.selectedField) {
-    //   if(this.allRegistrationFields) {
-    //     let registration_field = this.allRegistrationFields.filter(p => {
-    //       return p.id == this.selectedField
-    //     })
-    //     if(registration_field && registration_field[0]) {
-    //       registration_field_id = registration_field[0].id
-    //     }
-    //   }
-    // }
-    // let params = {
-    //   company_id: this.companyId,
-    //   field_id: registration_field_id,
-    //   display_text_es: this.fieldDesc,
-    //   display_text_en: this.fieldDesc,
-    //   required: this.requiredField ? 1 : 0
-    // }
-    // this.mainService.addGuestRegistrationField(params)
-    //   .subscribe(
-    //       response => {
-    //         if (response) {
-    //           this.getGuestRegistrationFields()
-    //           this.selectedFieldId = ''
-    //           this.selectedField = ''
-    //           this.fieldDesc = ''
-    //           this.requiredField = false
-    //           this.fieldMode = ''
-    //           this.showFieldDetails = false
-    //           this.fieldFormSubmitted = false
-    //         }
-    //       },
-    //       error => {
-    //           console.log(error)
-    //       }
-    //   )
+    this.fieldFormSubmitted = true
+    if(!this.selectedField
+      || !this.fieldDesc) {
+        return false
+      }
+    let registration_field_id
+    if(this.selectedField) {
+      if(this.allRegistrationFields) {
+        let registration_field = this.allRegistrationFields.filter(p => {
+          return p.id == this.selectedField
+        })
+        if(registration_field && registration_field[0]) {
+          registration_field_id = registration_field[0].id
+        }
+      }
+    }
+    let params = {
+      company_id: this.companyId,
+      field_id: registration_field_id,
+      display_text_es: this.fieldDesc,
+      display_text_en: this.fieldDesc,
+      required: this.requiredField ? 1 : 0
+    }
+    this._plansService.addGuestRegistrationField(params)
+      .subscribe(
+          response => {
+            if (response) {
+              this.getGuestRegistrationFields()
+              this.selectedFieldId = ''
+              this.selectedField = ''
+              this.fieldDesc = ''
+              this.requiredField = false
+              this.fieldMode = ''
+              this.showFieldDetails = false
+              this.fieldFormSubmitted = false
+            }
+          },
+          error => {
+              console.log(error)
+          }
+      )
   }
 
   editField(item) {
-    // this.fieldMode = 'edit'
-    // this.selectedFieldId = item.id
-    // this.selectedField = item.field_id
-    // this.fieldDesc = this.language == 'en' ? item.field_display_en : item.field_display_es
-    // this.requiredField = item.required
-    // this.showFieldDetails = true
-    // this.fieldFormSubmitted = false
+    this.fieldMode = 'edit';
+    this.selectedFieldId = item.id;
+    this.selectedField = item.field_id;
+    this.fieldDesc = this.language == 'en' ? item.field_display_en : item.field_display_es;
+    this.requiredField = item.required;
+    this.showFieldDetails = true;
+    this.fieldFormSubmitted = false;
   }
 
   updateField() {
-    // this.fieldFormSubmitted = true
-    // if(!this.selectedField
-    //   || !this.fieldDesc) {
-    //     return false
-    //   }
-    // let registration_field_id
-    // if(this.selectedField) {
-    //   if(this.allRegistrationFields) {
-    //     let registration_field = this.allRegistrationFields.filter(p => {
-    //       return p.id == this.selectedField
-    //     })
-    //     if(registration_field && registration_field[0]) {
-    //       registration_field_id = registration_field[0].id
-    //     }
-    //   }
-    // }
-    // let params = {
-    //   id: this.selectedFieldId,
-    //   field_id: registration_field_id,
-    //   field_display_es: this.fieldDesc,
-    //   field_display_en: this.fieldDesc,
-    //   required: this.requiredField ? 1 : 0
-    // }
-    // this.mainService.editGuestRegistrationField(params)
-    //   .subscribe(
-    //       response => {
-    //         if (response) {
-    //           this.getGuestRegistrationFields()
-    //           this.selectedFieldId = ''
-    //           this.selectedField = ''
-    //           this.fieldDesc = ''
-    //           this.requiredField = false
-    //           this.fieldMode = ''
-    //           this.showFieldDetails = false
-    //           this.fieldFormSubmitted = false
-    //         }
-    //       },
-    //       error => {
-    //           console.log(error)
-    //       }
-    //   )
+    this.fieldFormSubmitted = true;
+    if(!this.selectedField
+      || !this.fieldDesc) {
+        return false
+      }
+    let registration_field_id
+    if(this.selectedField) {
+      if(this.allRegistrationFields) {
+        let registration_field = this.allRegistrationFields.filter(p => {
+          return p.id == this.selectedField
+        })
+        if(registration_field && registration_field[0]) {
+          registration_field_id = registration_field[0].id
+        }
+      }
+    }
+    let params = {
+      id: this.selectedFieldId,
+      field_id: registration_field_id,
+      field_display_es: this.fieldDesc,
+      field_display_en: this.fieldDesc,
+      required: this.requiredField ? 1 : 0
+    }
+    this._plansService.editGuestRegistrationField(params)
+      .subscribe(
+          response => {
+            if (response) {
+              this.getGuestRegistrationFields();
+              this.selectedFieldId = '';
+              this.selectedField = '';
+              this.fieldDesc = '';
+              this.requiredField = false;
+              this.fieldMode = '';
+              this.showFieldDetails = false;
+              this.fieldFormSubmitted = false;
+            }
+          },
+          error => {
+              console.log(error)
+          }
+      )
   }
 
   deleteField(item) {
-    // if(item.id) {
-    //   this.mainService.deleteGuestRegistrationField(item.id)
-    //     .subscribe(
-    //         response => {
-    //           if (response) {
-    //             this.getGuestRegistrationFields()
-    //           }
-    //         },
-    //         error => {
-    //             console.log(error)
-    //         }
-    //     )
-    // }
+    if(item.id) {
+      this._plansService.deleteGuestRegistrationField(item.id)
+        .subscribe(
+            response => {
+              if (response) {
+                this.getGuestRegistrationFields();
+              }
+            },
+            error => {
+                console.log(error)
+            }
+        )
+    }
   }
 
   handleFieldChange(event) {
-    // if(event.target.value) {
-    //   if(this.allRegistrationFields) {
-    //     let registration_field = this.allRegistrationFields.filter(p => {
-    //       return p.id == event.target.value
-    //     })
-    //     if(registration_field && registration_field[0]) {
-    //       this.fieldDesc = this.language == 'en' ? registration_field[0].field_display_en : registration_field[0].field_display_es
-    //     }
-    //   }
-    // }
+    if(event.target.value) {
+      if(this.allRegistrationFields) {
+        let registration_field = this.allRegistrationFields.filter(p => {
+          return p.id == event.target.value
+        })
+        if(registration_field && registration_field[0]) {
+          this.fieldDesc = this.language == 'en' ? registration_field[0].field_display_en : registration_field[0].field_display_es
+        }
+      }
+    }
   }
 
   cancelShowField() {
-    // this.fieldMode = ''
-    // this.fieldFormSubmitted = false
-    // this.showFieldDetails = false
+    this.fieldMode = '';
+    this.fieldFormSubmitted = false;
+    this.showFieldDetails = false;
   }
 
   goToTutorTypes(row) {

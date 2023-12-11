@@ -1,11 +1,14 @@
-<app-breadcrumb 
-    [level1Title]="level1Title"
-    [level2Title]="level2Title"
-    [level3Title]="level3Title"
-    [level4Title]="level4Title"
-    [buttonColor]="buttonColor"
-    (goBack)="handleGoBack()"
-/>
+<app-page-title title="{{ getPage() }}"></app-page-title>
+<div class="container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3">
+    <app-breadcrumb 
+        [level1Title]="level1Title"
+        [level2Title]="level2Title"
+        [level3Title]="level3Title"
+        [level4Title]="level4Title"
+        [buttonColor]="buttonColor"
+        (goBack)="handleGoBack()"
+    />
+</div>
 <div class="py-6">
     <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid:cols-3">
         <div class="relative mb-6 col-span-2">
