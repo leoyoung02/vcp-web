@@ -8,8 +8,10 @@ import {
   ADD_GROUP_PLAN_COMMENT_REACTION_URL,
   ADD_GROUP_PLAN_COMMENT_REPLY_URL,
   ADD_GROUP_PLAN_COMMENT_URL,
+  ADD_GUEST_REGISTRATION_FIELDS_URL,
   ADD_PLAN_COMMENT_URL,
   ADD_TO_WAITING_LIST_URL,
+  ALL_GUEST_REGISTRATION_FIELDS_URL,
   ANSWER_EMAIL_INVITE_QUESTIONS_URL,
   CHECK_PLAN_REGISTRATION_URL,
   CLEAR_CONFIRMATION_URL,
@@ -32,8 +34,11 @@ import {
   DASHBOARD_DETAILS_URL,
   DELETE_COMMENT_URL,
   DELETE_GROUP_PLAN_COMMENT_REACTION_URL,
+  DELETE_GUEST_REGISTRATION_FIELDS_URL,
   DELETE_RECURRING_SERIES_URL,
   EDIT_CLUB_PLAN_URL,
+  EDIT_FEATURED_TEXT_URL,
+  EDIT_GUEST_REGISTRATION_FIELDS_URL,
   EDIT_PLAN_URL,
   EVENT_CATEGORIES_URL,
   EVENT_CUSTOM_SUBCATEGORIES_URL,
@@ -42,6 +47,7 @@ import {
   EVENT_TYPES_URL,
   FEATURES_MAPPING_URL,
   GROUP_PLAN_COMMENTS_URL,
+  GUEST_REGISTRATION_FIELDS_URL,
   JOIN_GROUP_PLAN_URL,
   JOIN_PLAN_URL,
   JOIN_REQUEST_URL,
@@ -893,6 +899,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
   confirmAttendance(payload): Observable<any> {
     return this._http.post(CONFIRM_ATTENDANCE_URL,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+  
+  saveFeaturedText(payload): Observable<any> {
+    return this._http.post(EDIT_FEATURED_TEXT_URL,
         payload,
         { headers: this.headers }
     ).pipe(map(res => res));
@@ -900,6 +912,24 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
   submitActivityRating(payload): Observable<any> {
     return this._http.post(SUBMIT_ACTIVITY_RATING_URL,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+  
+  getAllRegistrationFields(id): Observable<any> {
+    return this._http.get(`${ALL_GUEST_REGISTRATION_FIELDS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  getGuestRegistrationFields(id): Observable<any> {
+    return this._http.get(`${GUEST_REGISTRATION_FIELDS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  addGuestRegistrationField(payload): Observable<any> {
+    return this._http.post(ADD_GUEST_REGISTRATION_FIELDS_URL,
         payload,
         { headers: this.headers }
     ).pipe(map(res => res));
@@ -908,6 +938,20 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
   fetchCreditsData(id): Observable<any> {
     return this._http.get(`${ACTIVITY_CREDITS_URL}/${id}`,
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editGuestRegistrationField(payload): Observable<any> {
+    return this._http.put(EDIT_GUEST_REGISTRATION_FIELDS_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteGuestRegistrationField(id): Observable<any> {
+    return this._http.delete(
+        `${DELETE_GUEST_REGISTRATION_FIELDS_URL}/${id}`,
+        {},
     ).pipe(map(res => res));
   }
 }

@@ -9,6 +9,7 @@ import {
 import {
   BreadcrumbComponent,
   ButtonGroupComponent,
+  PageTitleComponent,
   ToastComponent,
 } from "@share/components";
 import { CompanyService, LocalService, UserService } from "@share/services";
@@ -52,6 +53,7 @@ import get from "lodash/get";
     SearchComponent,
     ButtonGroupComponent,
     ToastComponent,
+    PageTitleComponent,
   ],
   templateUrl: "./admin-list.component.html",
 })
@@ -312,6 +314,9 @@ export class AdminListComponent {
       if (this.id == 11) {
         this.getCourseCategories();
       }
+      if (this.id == 3) {
+        this.getCityGuideCategories();
+      }
     } else if (this.list == "contactdetails") {
       this.getContactDetailsFields();
     }
@@ -422,6 +427,25 @@ export class AdminListComponent {
           console.log(error);
         }
       );
+  }
+
+  getCityGuideCategories() {
+    // this._coursesService
+    //   .getCourseCategories(this.companyId)
+    //   .pipe(takeUntil(this.destroy$))
+    //   .subscribe(
+    //     (response) => {
+    //       let categories = response.CompanySupercategory;
+    //       this.completeCategories = categories;
+    //       categories = this.formatCategories(categories);
+    //       this.categories = this.sortBySequence(categories);
+    //       this.allCategories = this.categories;
+    //       this.initializeData(this.categories);
+    //     },
+    //     (error) => {
+    //       console.log(error);
+    //     }
+    //   );
   }
 
   getCustomMemberTypes() {
