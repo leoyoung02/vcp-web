@@ -75,6 +75,12 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./testimonial-tags/testimonial-tags.component')).ManageTestimonialTagsComponent,
     },
     {
+        path: 'statistics',
+        title: CustomTitleResolver,
+        data: { titleKey: 'company-settings.statistics'},
+        loadComponent: async () => (await import('./statistics/statistics.component')).StatisticsComponent,
+    },
+    {
         path: 'email/:id/:type',
         title: CustomTitleResolver,
         data: { titleKey: 'plan-details.email'},

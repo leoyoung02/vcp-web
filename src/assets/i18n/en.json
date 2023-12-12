@@ -2019,7 +2019,8 @@
         "givefeedback": "Give feedback",
         "feedback": "Feedback",
         "bookingscity": "Manage student bookings by city",
-        "settype": "Set member type"
+        "settype": "Set member type",
+        "statistics": "Statistics"
     },
     "guest-landing": {
         "templates": "Templates",
@@ -2729,7 +2730,8 @@
         "remainingcredits": "Remaining Credits",
         "insufficientcredits": "Insufficient Credits",
         "updateCredits": "Do you want to update course credits for the user?",
-        "credits": "Credits"
+        "credits": "Credits",
+        "creditsearned": "Credits earned"
     },
     "contact-landing": {
         "settings": "Settings",

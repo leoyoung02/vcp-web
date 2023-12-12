@@ -823,6 +823,10 @@ export class MainComponent {
             text: this._translateService.instant("company-settings.reports"),
             value: "Reports",
           },
+          {
+            text: this._translateService.instant("company-settings.statistics"),
+            value: "Statistics",
+          },
           // {
           //   text: this._translateService.instant(
           //     "company-settings.supporttickets"
@@ -1449,8 +1453,12 @@ export class MainComponent {
       }
     } else if (menu.value == "Users" && content == "Users") {
       this._router.navigate([`/settings/manage-list/users`]);
-    } else if (menu.value == "Tools" && content == "Reports") {
-      this._router.navigate([`/settings/reports`]);
+    } else if (menu.value == "Tools") {
+      if(content == "Reports") {
+        this._router.navigate([`/settings/reports`]);
+      } else if (content == "Statistics") {
+        this._router.navigate([`/settings/statistics`]);
+      }
     }
     else if (content == "Features") {
       this._router.navigate([`/settings/features`]);

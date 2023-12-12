@@ -1654,7 +1654,7 @@
     "event-survey": {
         "eventsurvey": "Enquesta de satisfacció",
         "subtitle": "Gràcies per prendre's el temps per millorar els nostres esdeveniments.",
-        "rating": "Com qualificaria la seva experiència amb l'esdeveniment",
+        "rating": "Com qualificaria la seva experiència amb",
         "veryunsatisfied": "Molt insatisfet",
         "verysatisfied": "Molt satisfet",
         "contact": "Quants contactes de qualitat creus que has fet a l'esdeveniment de Speed ​​Networking?",
@@ -2018,7 +2018,8 @@
         "givefeedback": "Envia comentaris",
         "feedback": "Feedback",
         "bookingscity": "Gestioneu les reserves d'estudiants per ciutat",
-        "settype": "Estableix el tipus de membre"
+        "settype": "Estableix el tipus de membre",
+        "statistics": "Estatistikak"
     },
     "guest-landing": {
         "templates": "Plantilles",
@@ -2724,7 +2725,8 @@
         "remainingcredits": "Crèdits restants",
         "insufficientcredits": "Crèdits insuficients",
         "updateCredits": "Vols actualitzar els crèdits del curs per a l'usuari?",
-        "credits": "Crèdits"
+        "credits": "Crèdits",
+        "creditsearned": "Crèdits obtinguts"
     },
     "contact-landing": {
         "settings": "Configuracions",

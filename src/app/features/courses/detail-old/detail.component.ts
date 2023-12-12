@@ -20,6 +20,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
 import { SafeContentHtmlPipe } from "@lib/pipes";
+import {
+  StarRatingModule,
+  ClickEvent,
+  HoverRatingChangeEvent,
+  RatingChangeEvent
+} from 'angular-star-rating';
 import moment from 'moment';
 import get from "lodash/get";
 
@@ -38,6 +44,7 @@ import get from "lodash/get";
     NgxPaginationModule,
     MatExpansionModule,
     NgxDocViewerModule,
+    StarRatingModule,
     SafeContentHtmlPipe
   ],
   templateUrl: './detail.component.html'
@@ -198,6 +205,17 @@ export class CourseDetailComponent {
   onlyAssignedTutorAccess: boolean = false;
   courseTextSize: any;
   courseLineHeight: any;
+  hasCourseCreditSetting: boolean = false;
+  rating: any;
+  onClickResult: ClickEvent | undefined;
+  onHoverRatingChangeResult: HoverRatingChangeEvent | undefined;
+  onRatingChangeResult: RatingChangeEvent | undefined;
+  @ViewChild("completemodalbutton", { static: false }) completemodalbutton:
+    | ElementRef
+    | undefined;
+  @ViewChild("closecompletemodalbutton", { static: false }) closecompletemodalbutton:
+    | ElementRef
+    | undefined;
 
   constructor(
     private _router: Router,
@@ -261,6 +279,7 @@ export class CourseDetailComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data)
           let course_data =  data[0] ? data[0] : []
           this.courseSubscriptions = data[1] ? data[1]['course_subscriptions'] : []
           this.courseTutors = data[2] ? data[2]['course_tutors'] : []
@@ -307,6 +326,7 @@ export class CourseDetailComponent {
       this.hasMarkAsComplete = subfeatures.some(a => a.name_en == 'Mark as complete' && a.active == 1);
       this.showTitle = subfeatures.some(a => a.name_en == 'Cover Title' && a.active == 1);
       this.onlyAssignedTutorAccess = subfeatures.some(a => a.name_en == 'Tutors assigned to courses' && a.active == 1);
+      this.hasCourseCreditSetting = subfeatures.some(a => a.name_en == 'Credits' && a.active == 1 && a.feature_id == 11);
     }
   }
 
@@ -1254,10 +1274,45 @@ export class CourseDetailComponent {
             this.selectedModulePackageText = this.selectedModule[0].package_text;
           }
 
-          this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+          if(response['total_progress'] == 100 && this.hasCourseCreditSetting) {
+            this.completemodalbutton?.nativeElement.click();
+          } else {
+            this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          }
       },
       error => {
           console.log(error);
+      }
+    );
+  }
+
+  onClick = ($event: ClickEvent) => {
+    this.onClickResult = $event;
+  };
+
+  onRatingChange = ($event: RatingChangeEvent) => {
+    this.onRatingChangeResult = $event;
+    this.rating = $event?.rating;
+  };
+
+  onHoverRatingChange = ($event: HoverRatingChangeEvent) => {
+    this.onHoverRatingChangeResult = $event;
+  };
+
+  submitEvaluation() {
+    const payload = {
+      course_id: this.course?.id,
+      user_id: this.userId,
+      company_id: this.companyId,
+      rating: this.rating,
+    }
+    this._coursesService.courseCompleteEvaluate(payload).subscribe(
+      response => {
+        this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+        this.closecompletemodalbutton?.nativeElement.click();
+      },
+      error => {
+        console.log(error);
       }
     );
   }

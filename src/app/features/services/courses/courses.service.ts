@@ -11,6 +11,7 @@ import {
   ASSIGN_USER_COURSES_URL,
   COURSES_ADMIN_LIST_URL,
   COURSES_COMBINED_URL,
+  COURSES_MANAGEMENT_DATA_URL,
   COURSES_URL,
   COURSE_CATEGORIES_URL,
   COURSE_CATEGORY_ACCESS_EDIT_URL,
@@ -20,6 +21,7 @@ import {
   COURSE_CATEGORY_DELETE_URL,
   COURSE_CATEGORY_EDIT_URL,
   COURSE_CATEGORY_MAPPING_URL,
+  COURSE_COMPLETE_EVALUATE_URL,
   COURSE_CTA_URL,
   COURSE_DETAILS_ADMIN_URL,
   COURSE_DETAILS_URL,
@@ -588,5 +590,17 @@ export class CoursesService {
     return this._http.get(`${COURSE_WALL_URL}/${id}`,
       { headers: this.headers }
     ).pipe(map(res => res));
+  }
+
+  courseCompleteEvaluate(params): Observable<any> {
+    return this._http.post(COURSE_COMPLETE_EVALUATE_URL,
+        params,
+    ).pipe(map(res => res));
+  }
+
+  fetchCoursesManagementData(id: number = 0): Observable<any> {
+    return this._http.get(`${COURSES_MANAGEMENT_DATA_URL}/${id}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
   }
 }

@@ -1651,7 +1651,7 @@
     "event-survey": {
         "eventsurvey": "Asebetetze inkesta",
         "subtitle": "Eskerrik asko gure ekitaldiak hobetzeko denbora emateagatik.",
-        "rating": "Nola baloratuko zenuke ekitaldiarekin izandako esperientzia",
+        "rating": "Nola baloratuko zenuke izandako esperientzia",
         "veryunsatisfied": "Oso pozik",
         "verysatisfied": "Oso pozik",
         "contact": "Zenbat kalitatezko kontaktu egin dituzula uste duzu Speed ​​​​Networking ekitaldian?",
@@ -2014,7 +2014,8 @@
         "givefeedback": "Eman iritzia",
         "feedback": "Iritzia",
         "bookingscity": "Kudeatu ikasleen erreserbak hiriaren arabera",
-        "settype": "Ezarri kide mota"
+        "settype": "Ezarri kide mota",
+        "statistics": "Estatistikak"
     },
     "guest-landing": {
         "templates": "Txantiloiak",
@@ -2715,7 +2716,8 @@
         "remainingcredits": "Gainerako kredituak",
         "insufficientcredits": "Kreditu nahikorik ez",
         "updateCredits": "Erabiltzaileentzako ikastaro-kredituak eguneratu nahi dituzu?",
-        "credits": "Kreditu"
+        "credits": "Kreditu",
+        "creditsearned": "Irabazitako kredituak"
     },
     "contact-landing": {
         "settings": "Ezarpenak",

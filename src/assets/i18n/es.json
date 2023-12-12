@@ -1654,7 +1654,7 @@
     "event-survey": {
         "eventsurvey": "Encuesta de satisfacción",
         "subtitle": "Gracias por tomarse el tiempo para mejorar nuestros eventos.",
-        "rating": "¿Cómo calificaría su experiencia con el evento",
+        "rating": "¿Cómo calificaría su experiencia con el",
         "veryunsatisfied": "Muy insatisfecho",
         "verysatisfied": "Muy satisfecho",
         "contact": "¿Cuántos contactos de calidad crees que has hecho en el evento de Speed Networking?",
@@ -2018,7 +2018,8 @@
         "givefeedback": "Dar comentarios",
         "feedback": "Comentario",
         "bookingscity": "Gestionar reservas de estudiantes por ciudad",
-        "settype": "Establecer tipo de miembro"
+        "settype": "Establecer tipo de miembro",
+        "statistics": "Estadísticas"
     },
     "guest-landing": {
         "templates": "Plantillas",
@@ -2727,7 +2728,8 @@
         "remainingcredits": "Créditos restantes",
         "insufficientcredits": "Créditos insuficientes",
         "updateCredits": "¿Desea actualizar los créditos del curso para el usuario?",
-        "credits": "Créditos"
+        "credits": "Créditos",
+        "creditsearned": "Créditos obtenidos"
     },
     "contact-landing": {
         "settings": "Configuraciones",

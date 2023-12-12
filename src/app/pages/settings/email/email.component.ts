@@ -252,6 +252,16 @@ export class EmailComponent {
         type: "attendance_confirmed",
         title_en: "Confirmed attendance email",
       },
+      {
+        id: 150,
+        type: "student_credits_data_email",
+        title_en: "Student credits data email",
+      },
+      {
+        id: 152,
+        type: "course_completed",
+        title_en: "Course completed email",
+      },
     ];
     this.shortcodes = [
       {

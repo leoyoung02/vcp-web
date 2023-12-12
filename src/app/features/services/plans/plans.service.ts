@@ -899,6 +899,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
   confirmAttendance(payload): Observable<any> {
     return this._http.post(CONFIRM_ATTENDANCE_URL,
+      payload,
       { headers: this.headers }
     ).pipe(map(res => res));
   }
@@ -912,6 +913,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
   submitActivityRating(payload): Observable<any> {
     return this._http.post(SUBMIT_ACTIVITY_RATING_URL,
+      payload,
       { headers: this.headers }
     ).pipe(map(res => res));
   }
