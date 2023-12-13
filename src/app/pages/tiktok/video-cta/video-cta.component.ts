@@ -230,7 +230,19 @@ export class TikTokVideoCTAComponent {
 
   redirectToCTALink() {
     if(this.CTALink) {
-      location.href = this.CTALink;
+      let params = {
+        video_cta_id: this.videoCTA?.id?.toString(),
+        company_id: this.companyId,
+      };
+  
+      this._companyService.logVideoCTAClick(params).subscribe(
+        (response) => {
+          location.href = this.CTALink;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
   }
 

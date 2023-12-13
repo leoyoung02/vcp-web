@@ -1788,7 +1788,11 @@ export class SettingComponent {
   }
 
   goToTikTokSettings(item) {
-    this._router.navigate([`/settings/tiktok/${item?.replace(' & ', '-')?.replace(' ', '-')?.toLowerCase()}`]);
+    if(item == 'statistics') {
+      this._router.navigate([`/tiktok/${item}`]);
+    } else {
+      this._router.navigate([`/settings/tiktok/${item?.replace(' & ', '-')?.replace(' ', '-')?.toLowerCase()}`]);
+    }
   }
 
   handleGoBack() {
