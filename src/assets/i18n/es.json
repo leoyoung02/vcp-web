@@ -2019,7 +2019,8 @@
         "feedback": "Comentario",
         "bookingscity": "Gestionar reservas de estudiantes por ciudad",
         "settype": "Establecer tipo de miembro",
-        "statistics": "Estadísticas"
+        "statistics": "Estadísticas",
+        "tiktokstatistics": "Análisis de datos en páginas de destino, cuestionarios, etc."
     },
     "guest-landing": {
         "templates": "Plantillas",
@@ -3397,6 +3398,8 @@
         "videotime": "Cantidad de tiempo que se ha reproducido el video",
         "time": "Tiempo transcurrido",
         "seconds": "segundos",
-        "provideid": "Si desea mostrar la CTA de forma condicional, debe haber un valor aquí"
+        "provideid": "Si desea mostrar la CTA de forma condicional, debe haber un valor aquí",
+        "views": "Nº de vistas",
+        "clicks": "Nº de clics"
     }
 }

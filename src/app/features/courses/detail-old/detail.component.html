@@ -156,7 +156,7 @@
                                             <div class="video-wrap relative" *ngIf="course?.video_cover || selectedUnit?.video_cover">
                                                 <div class="box-video relative rounded-[10px]" [ngClass]="{'open': playCurrentVideo}">
                                                     <ng-container *ngIf="!selectedUnit?.video_cover && !playCurrentVideo">
-                                                        <div class="absolute top-0 left-0 w-full h-[560px] rounded-[10px]" style="background-image: url('{{ courseSrc + course?.video_cover }}');background-size:100% 100%;background-repeat:no-repeat;">
+                                                        <div class="absolute top-0 left-0 w-full h-[560px] rounded-[10px]" style="background-image: url('{{ courseSrc + course?.video_cover }}');background-size:contain;background-repeat:no-repeat;background-color:#000;background-position:center;">
                                                             <div class="video-title" *ngIf="showTitle">
                                                                 <p class="text-white">{{ language == 'eu' ? selectedUnit?.title_eu : (language == 'en' ? selectedUnit?.title_en : ( language == 'ca' ? selectedUnit?.title_ca : (language == 'de' ? selectedUnit?.title_de : (language == 'fr' ? selectedUnit?.title_fr : selectedUnit?.title)) ) ) }}</p>
                                                             </div>
@@ -164,7 +164,7 @@
                                                         </div>
                                                     </ng-container>
                                                     <ng-container *ngIf="selectedUnit?.video_cover && !playCurrentVideo">
-                                                        <div class="absolute top-0 left-0 w-full h-[560px]" style="background-image: url('{{ courseSrc + selectedUnit?.video_cover }}');background-size:100% 100%;background-repeat:no-repeat;">
+                                                        <div class="absolute top-0 left-0 w-full h-[560px]" style="background-image: url('{{ courseSrc + selectedUnit?.video_cover }}');background-size:contain;background-repeat:no-repeat;background-color:#000;background-position:center;">
                                                             <div class="video-title" *ngIf="showTitle">
                                                                 <p class="text-white">{{ language == 'eu' ? selectedUnit?.title_eu : (language == 'en' ? selectedUnit?.title_en : ( language == 'ca' ? selectedUnit?.title_ca : (language == 'de' ? selectedUnit?.title_de : (language == 'fr' ? selectedUnit?.title_fr : selectedUnit?.title)) ) ) }}</p>
                                                             </div>
@@ -190,14 +190,14 @@
                                                 <div class="video-wrap relative">
                                                     <div class="box-video relative rounded-[10px]" [ngClass]="{'open': playCurrentVideo}">
                                                         <div *ngIf="!selectedUnit?.video_cover && !playCurrentVideo"  
-                                                            class="absolute top-0 left-0 w-full h-[560px] rounded-[10px]" style="background-image: url('{{ courseSrc + course?.video_cover }}');background-size:100% 100%;background-repeat:no-repeat;">
+                                                            class="absolute top-0 left-0 w-full h-[560px] rounded-[10px]" style="background-image: url('{{ courseSrc + course?.video_cover }}');background-size:contain;background-repeat:no-repeat;background-color:#000;background-position:center;">
                                                             <div class="video-title" *ngIf="showTitle">
                                                                 <p class="text-white">{{ language == 'eu' ? selectedUnit?.title_eu : (language == 'en' ? selectedUnit?.title_en : ( language == 'ca' ? selectedUnit?.title_ca : (language == 'de' ? selectedUnit?.title_de : (language == 'fr' ? selectedUnit?.title_fr : selectedUnit?.title)) ) ) }}</p>
                                                             </div>
                                                             <div class="bt-play" (click)="playVideo()" [ngStyle]="{'background-color': buttonColor, top: showTitle ? '60%' : '50%'}"></div>
                                                         </div>
                                                         <div *ngIf="selectedUnit?.video_cover && !playCurrentVideo" 
-                                                            class="absolute top-0 left-0 w-full h-[560px]" style="background-image: url('{{ courseSrc + selectedUnit?.video_cover }}');background-size:100% 100%;background-repeat:no-repeat;">
+                                                            class="absolute top-0 left-0 w-full h-[560px]" style="background-image: url('{{ courseSrc + selectedUnit?.video_cover }}');background-size:contain;background-repeat:no-repeat;background-color:#000;background-position:center;">
                                                             <div class="video-title" *ngIf="showTitle">
                                                                 <p class="text-white">{{ language == 'eu' ? selectedUnit?.title_eu : (language == 'en' ? selectedUnit?.title_en : ( language == 'ca' ? selectedUnit?.title_ca : (language == 'de' ? selectedUnit?.title_de : (language == 'fr' ? selectedUnit?.title_fr : selectedUnit?.title)) ) ) }}</p>
                                                             </div>

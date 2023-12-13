@@ -2014,7 +2014,8 @@
         "feedback": "Rückmeldung",
         "bookingscity": "Verwalten Sie Studentenbuchungen nach Stadt",
         "settype": "Mitgliedstyp festlegen",
-        "statistics": "Statistik"
+        "statistics": "Statistik",
+        "tiktokstatistics": "Datenanalyse auf Landingpages, Fragebögen usw."
     },
     "guest-landing": {
         "templates": "Vorlagen",
@@ -3374,6 +3375,8 @@
         "videotime": "Wie lange das Video abgespielt wurde",
         "time": "Verstrichene Zeit",
         "Sekunden": "Sekunden",
-        "provideid": "Wenn Sie den CTA bedingt anzeigen möchten, muss hier ein Wert angegeben werden."
+        "provideid": "Wenn Sie den CTA bedingt anzeigen möchten, muss hier ein Wert angegeben werden.",
+        "views": "Anzahl der Aufrufe",
+        "clicks": "Anzahl der Klicks"
     }
 }

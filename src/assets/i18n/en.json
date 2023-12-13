@@ -2020,7 +2020,8 @@
         "feedback": "Feedback",
         "bookingscity": "Manage student bookings by city",
         "settype": "Set member type",
-        "statistics": "Statistics"
+        "statistics": "Statistics",
+        "tiktokstatistics": "Data analytics on landing pages, questionnaires, etc."
     },
     "guest-landing": {
         "templates": "Templates",
@@ -3412,6 +3413,8 @@
         "videotime": "Amount of time video has played",
         "time": "Time elapsed",
         "seconds": "seconds",
-        "provideid": "If you want to conditionally show the CTA, there needs to be a value here."
+        "provideid": "If you want to conditionally show the CTA, there needs to be a value here.",
+        "views": "No. of views",
+        "clicks": "No. of clicks"
     }
 }

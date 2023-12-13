@@ -562,6 +562,9 @@ export const SUBMISSIONS_URL = `${API_BASE}/v2/answers`;
 export const EDIT_QUESTION_STYLES_URL = `${API_BASE}/v2/question-styles/edit`;
 export const QUESTIONS_BY_ID_URL = `${API_BASE}/v2/landing-questions-by-id`;
 export const EDIT_QUESTION_OTHER_IMAGES_URL = `${API_BASE}/v2/question-other-images/edit`;
+export const TIKTOK_DATA_URL = `${API_BASE}/v2/tiktok-data`;
+export const TIKTOK_QUESTIONS_DATA_URL = `${API_BASE}/v2/tiktok-questions-data`;
+export const TIKTOK_LANDING_PAGES_DATA_URL = `${API_BASE}/v2/tiktok-landing-pages-data`;
 
 // VIDEOS && CTAs
 export const VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas`;
@@ -579,3 +582,5 @@ export const USER_CREDIT_LOGS_URL = `${API_BASE}/v2/user-credit-logs`;
 export const SUBMIT_ACTIVITY_RATING_URL = `${API_BASE}/v2/activity/rating/submit`;
 export const EDIT_CREDITS_SETTINGS_URL = `${API_BASE}/v2/credits/settings`;
 export const EDIT_VIDEOS_CTAS_CTA_SETTINGS_URL = `${API_BASE}/v2/videos-ctas/cta-settings/edit`;
+export const LOG_VIDEO_CTA_CLICK_URL = `${API_BASE}/v2/video-cta/click/log`;
+export const TIKTOK_VIDEOS_CTAS_DATA_URL = `${API_BASE}/v2/tiktok-videos-ctas-data`;
