@@ -2012,7 +2012,9 @@
         "givefeedback": "Envia comentaris",
         "feedback": "Feedback",
         "bookingscity": "Gestioneu les reserves d'estudiants per ciutat",
-        "settype": "Estableix el tipus de membre"
+        "settype": "Estableix el tipus de membre",
+        "statistics": "Estatistikak",
+        "tiktokstatistics": "Analítica de dades a pàgines de destinació, qüestionaris, etc."
     },
     "guest-landing": {
         "templates": "Plantilles",
@@ -3359,6 +3361,8 @@
         "videotime": "Quant de temps que s'ha reproduït el vídeo",
         "time": "Temps transcorregut",
         "seconds": "segons",
-        "provideid": "Si voleu mostrar condicionalment el CTA, cal que hi hagi un valor aquí."
+        "provideid": "Si voleu mostrar condicionalment el CTA, cal que hi hagi un valor aquí.",
+        "views": "Nombre de visualitzacions",
+        "clicks": "Nombre de clics"
     }
 }

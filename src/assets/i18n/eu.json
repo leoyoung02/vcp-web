@@ -2008,7 +2008,9 @@
         "givefeedback": "Eman iritzia",
         "feedback": "Iritzia",
         "bookingscity": "Kudeatu ikasleen erreserbak hiriaren arabera",
-        "settype": "Ezarri kide mota"
+        "settype": "Ezarri kide mota",
+        "statistics": "Estatistikak",
+        "tiktokstatistics": "Hurrengo orrietan, galdetegietan eta abarretan datuen analisia."
     },
     "guest-landing": {
         "templates": "Txantiloiak",
@@ -3349,6 +3351,8 @@
         "videotime": "Bideoa erreproduzitu den denbora kopurua",
         "time": "Igarotako denbora",
         "seconds": "segundoak",
-        "provideid": "CTA baldintzapean erakutsi nahi baduzu, balio bat egon behar da hemen."
+        "provideid": "CTA baldintzapean erakutsi nahi baduzu, balio bat egon behar da hemen.",
+        "views": "Ikuspen kopurua",
+        "clicks": "Klik kopurua"
     }
 }

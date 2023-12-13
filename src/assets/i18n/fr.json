@@ -2006,7 +2006,9 @@
         "givefeedback": "Dar comentarios",
         "feedback": "Retour",
         "bookingscity": "Gérer les réservations des étudiants par ville",
-        "settype": "Définir le type de membre"
+        "settype": "Définir le type de membre",
+        "statistics": "Statistiques",
+        "tiktokstatistics": "Analyse des données sur les pages de destination, les questionnaires, etc."
     },
     "guest-landing": {
         "templates": "Modèles",
@@ -3345,6 +3347,8 @@
         "videotime": "Durée de lecture de la vidéo",
         "time": "Temps écoulé",
         "seconds": "secondes",
-        "provideid": "CTA baldintzapean erakutsi nahi baduzu, balio bat egon behar da hemen."
+        "provideid": "CTA baldintzapean erakutsi nahi baduzu, balio bat egon behar da hemen.",
+        "views": "Nombre de vues",
+        "clicks": "Nombre de clics"
     }
 }

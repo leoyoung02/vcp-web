@@ -26,4 +26,10 @@ export const routes: Routes = [
         data: { titleKey: 'create-content.video'},
         loadComponent: async () => (await import('./video-cta/video-cta.component')).TikTokVideoCTAComponent,
     },
+    {
+        path: 'statistics',
+        title: CustomTitleResolver,
+        data: { titleKey: 'company-settings.statistics'},
+        loadComponent: async () => (await import('./statistics/statistics.component')).TiktokStatisticsComponent,
+    },
 ];
