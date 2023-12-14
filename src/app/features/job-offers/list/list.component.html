@@ -30,6 +30,16 @@
             >
             </app-search>
         </div>
+        <div class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 mt-4 sm:mt-4 md:mt-0 lg:mt-0">
+            <app-filter
+                [mode]="'job-offers'"
+                [buttonList]="buttonList"
+                [buttonColor]="buttonColor"
+                [list]="list"
+                (filterList)="filteredLocation($event)"
+                (onButtonClick)="filteredArea($event)"
+            ></app-filter>
+        </div>
     </div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 py-8">
@@ -47,7 +57,7 @@
                     'color': hover && selectedOfferId == offer.id ? '#fff' : '#1e1e1e'
                 }"
             >
-                <div class="font-semibold text-medium pt-3">{{ offer?.title_display }}</div>
+                <div class="font-semibold text-medium  pr-3">{{ offer?.title_display }}</div>
                 <div class="text-sm py-3">
                     <span>{{ offer?.type_display }}</span><span class="px-3">•</span><span>{{ offer?.area_display }}</span>
                 </div>

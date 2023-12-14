@@ -151,6 +151,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   newURLButtonUrl: any;
   isUESchoolOfLife: boolean = false;
   schoolOfLifeTitle: any;
+  user: any;
+  campus: any = '';
 
   constructor(
     private _translateService: TranslateService,
@@ -169,10 +171,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   async initializePage() {
-    this.language =
-      this._localService.getLocalStorage(environment.lslang) || "es";
+    this.language = this._localService.getLocalStorage(environment.lslang) || "es";
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this._translateService.use(this.language || "es");
+    this.user = this._localService.getLocalStorage(environment.lsuser);
+    this.campus = this.user?.campus || '';
 
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))

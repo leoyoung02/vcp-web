@@ -229,10 +229,14 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ])
   }
 
-  getCalendarPlans(id: number, plan_type_id: number, page=1, limit=20, status = 'all', isUESchoolOfLife: boolean = false): Observable<any> {
+  getCalendarPlans(id: number, plan_type_id: number, page=1, limit=20, status = 'all', isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
     let params = `plan_type_id=${plan_type_id}&page=${page}&limit=${limit}&status=${status}`;
     if(isUESchoolOfLife) {
-      params += `&schooloflife=1`
+      params += `&schooloflife=1&campus=${campus}`
+    } else {
+      if(campus) {
+        params += `&campus=${campus}`
+      }
     }
     return this._http.get(`${PLANS_CALENDAR_URL}/${id}?${params}`, { 
       headers: this.headers 
@@ -251,10 +255,14 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     }).pipe(map(res => res));
   }
 
-  fetchPlansCombined(id: number = 0, mode: string = 'active', isUESchoolOfLife: boolean = false): Observable<any> {
+  fetchPlansCombined(id: number = 0, mode: string = 'active', isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
     let url = `${PLANS_URL}/${id}/${mode}`
     if(isUESchoolOfLife) {
-      url += `?schooloflife=1`
+      url += `?schooloflife=1&campus=${campus}`
+    } else {
+      if(campus) {
+        url += `?campus=${campus}`
+      }
     }
     return this._http.get(url, { 
       headers: this.headers 

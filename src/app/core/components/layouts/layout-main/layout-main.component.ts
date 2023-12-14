@@ -166,6 +166,8 @@ export class LayoutMainComponent {
   newURLButtonTextValueDe: any;
   newURLButtonUrl: any;
   isUESchoolOfLife: boolean = false;
+  user: any;
+  campus: any = '';
 
   constructor(
     private _router: Router,
@@ -195,14 +197,11 @@ export class LayoutMainComponent {
   async ngOnInit() {
     this.pageInit = true;
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
-    this.companyId = this._localService.getLocalStorage(
-      environment.lscompanyId
-    );
-    if (!this._localService.getLocalStorage(environment.lslang)) {
-      this._localService.setLocalStorage(environment.lslang, "es");
-    }
-    this.language =
-      this._localService.getLocalStorage(environment.lslang) || "es";
+    this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
+    if (!this._localService.getLocalStorage(environment.lslang)) { this._localService.setLocalStorage(environment.lslang, "es"); }
+    this.language = this._localService.getLocalStorage(environment.lslang) || "es";
+    this.user = this._localService.getLocalStorage(environment.lsuser);
+    this.campus = this.user?.campus || '';
 
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))

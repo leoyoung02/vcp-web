@@ -93,6 +93,8 @@ export class ClubsListComponent {
   myClubsHover: boolean = false;
   hover: boolean = false;
   selectedClubId: any;
+  userInfo: any;
+  campus: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -113,10 +115,13 @@ export class ClubsListComponent {
 
     this.email = this._localService.getLocalStorage(environment.lsemail);
     this.language = this._localService.getLocalStorage(environment.lslang);
+    this.userInfo = this._localService.getLocalStorage(environment.lsuser);
+    this.campus = this.userInfo?.campus || '';
+    if(this.campus) {
+      localStorage.setItem('club-filter-city', this.campus);
+    }
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
-    this.companyId = this._localService.getLocalStorage(
-      environment.lscompanyId
-    );
+    this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     this.domain = this._localService.getLocalStorage(environment.lsdomain);
     this._translateService.use(this.language || "es");
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
@@ -167,7 +172,7 @@ export class ClubsListComponent {
 
   fetchClubs() {
     this._clubsService
-      .fetchClubs(this.companyId, this.userId, 'active')
+      .fetchClubs(this.companyId, this.userId, 'active', this.campus)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {

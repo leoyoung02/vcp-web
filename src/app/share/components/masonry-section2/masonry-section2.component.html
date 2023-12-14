@@ -15,9 +15,9 @@
                             <path d="M7.958 19.393a7.7 7.7 0 0 1-6.715-3.439c-2.868-4.832 0-9.376.944-10.654l.091-.122a3.286 3.286 0 0 0 .765-3.288A1 1 0 0 1 4.6.8c.133.1.313.212.525.347A10.451 10.451 0 0 1 10.6 9.3c.5-1.06.772-2.213.8-3.385a1 1 0 0 1 1.592-.758c1.636 1.205 4.638 6.081 2.019 10.441a8.177 8.177 0 0 1-7.053 3.795Z"/>
                         </svg>
                     </div>
-                    <div class="mb-2 text-[1.25rem] sm:text-[1.25rem] md:text-[1.7rem] lg:text-[1.7rem] font-medium">{{ cityGuide1Data?.title }}</div>
+                    <div class="mb-2 text-[1.25rem] sm:text-[1.25rem] md:text-[1.7rem] lg:text-[1.7rem] font-medium" [ngStyle]="{'line-height': '26px'}">{{ cityGuide1Data?.title }}</div>
                     <div class="leading-5 text-[0.9rem]">{{ cityGuide1Data?.excerpt }}</div>
-                    <div class="w-full border border-b-1 border-l-0 border-r-0 border-t-0 mb-8">&nbsp;</div>
+                    <div class="w-full border border-b-1 border-l-0 border-r-0 border-t-0 mb-4">&nbsp;</div>
                     <div class="w-full h-16 flex justify-between items-center">
                         <div class="flex items-center">
                             <div class="flex" *ngFor="let like of cityGuide1Data?.likes; let i = index;">
@@ -111,9 +111,9 @@
                             <path d="M7.958 19.393a7.7 7.7 0 0 1-6.715-3.439c-2.868-4.832 0-9.376.944-10.654l.091-.122a3.286 3.286 0 0 0 .765-3.288A1 1 0 0 1 4.6.8c.133.1.313.212.525.347A10.451 10.451 0 0 1 10.6 9.3c.5-1.06.772-2.213.8-3.385a1 1 0 0 1 1.592-.758c1.636 1.205 4.638 6.081 2.019 10.441a8.177 8.177 0 0 1-7.053 3.795Z"/>
                         </svg>
                     </div>
-                    <div class="mb-2 text-[1.25rem] sm:text-[1.25rem] md:text-[1.7rem] lg:text-[1.7rem] font-medium">{{ cityGuide2Data?.title }}</div>
+                    <div class="mb-2 text-[1.25rem] sm:text-[1.25rem] md:text-[1.7rem] lg:text-[1.7rem] font-medium" [ngStyle]="{'line-height': '26px'}">{{ cityGuide2Data?.title }}</div>
                     <div class="leading-5 text-[0.9rem]">{{ cityGuide2Data?.excerpt }}</div>
-                    <div class="w-full border border-b-1 border-l-0 border-r-0 border-t-0 mb-8">&nbsp;</div>
+                    <div class="w-full border border-b-1 border-l-0 border-r-0 border-t-0 mb-4">&nbsp;</div>
                     <div class="w-full flex justify-between items-center flex-wrap h-full max-h-full">
                         <div class="flex items-center">
                             <div class="flex" *ngFor="let like of cityGuide2Data?.likes; let i = index;">

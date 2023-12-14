@@ -67,6 +67,8 @@ export class CityGuideListComponent {
   createHover: boolean = false;
   readHover: boolean = false;
   selectedGuideId: any;
+  user: any;
+  campus: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -87,12 +89,16 @@ export class CityGuideListComponent {
 
     this.email = this._localService.getLocalStorage(environment.lsemail);
     this.language = this._localService.getLocalStorage(environment.lslang);
-    this.userId = this._localService.getLocalStorage(environment.lsuserId);
-    this.companyId = this._localService.getLocalStorage(
-      environment.lscompanyId
-    );
-    this.domain = this._localService.getLocalStorage(environment.lsdomain);
     this._translateService.use(this.language || "es");
+    this.user = this._localService.getLocalStorage(environment.lsuser);
+    this.campus = this.user?.campus || '';
+    if(this.campus) {
+      localStorage.setItem('city-guide-filter-city', this.campus);
+    }
+
+    this.userId = this._localService.getLocalStorage(environment.lsuserId);
+    this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
+    this.domain = this._localService.getLocalStorage(environment.lsdomain);
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
       : "";
@@ -140,7 +146,7 @@ export class CityGuideListComponent {
 
   fetchCityGuides() {
     this._cityGuidesService
-      .fetchCityGuides(this.companyId, this.userId, "active")
+      .fetchCityGuides(this.companyId, this.userId, "active", this.campus)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {

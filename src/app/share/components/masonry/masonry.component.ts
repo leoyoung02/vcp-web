@@ -49,6 +49,7 @@ export class MasonryComponent {
   @Input() section2Mode: any;
   @Input() section3Mode: any;
   @Input() isUESchoolOfLife: any;
+  @Input() campus: any;
 
   languageChangeSubscription;
   language: any;
@@ -126,7 +127,7 @@ export class MasonryComponent {
   fetchData() {
     if(this.section1Mode == 'plans' && this.section2Mode != 'courses') {
       this._companyService
-      .fetchHomeData(this.company?.id, this.isUESchoolOfLife)
+      .fetchHomeData(this.company?.id, this.isUESchoolOfLife, this.campus)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {

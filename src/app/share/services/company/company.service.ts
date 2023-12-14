@@ -911,11 +911,16 @@ export class CompanyService {
     ).pipe(map(res => res))
   }
 
-  fetchHomeData(id: number = 0, isUESchoolOfLife: boolean = false): Observable<any> {
+  fetchHomeData(id: number = 0, isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
     let url = `${HOME_DATA_URL}/${id}`
     if(isUESchoolOfLife) {
-      url += `?schooloflife=1`
+      url += `?schooloflife=1&campus=${campus}`
+    } else {
+      if(campus) {
+        url += `?campus=${campus}`
+      }
     }
+    
     return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));

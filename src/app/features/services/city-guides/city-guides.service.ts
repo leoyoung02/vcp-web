@@ -16,8 +16,13 @@ export class CityGuidesService {
     });
   }
 
-  fetchCityGuides(id: number = 0, userId: number = 0, mode: string = 'active'): Observable<any> {
-    return this._http.get(`${CITY_GUIDES_URL}/${id}/${userId}/${mode}`, { 
+  fetchCityGuides(id: number = 0, userId: number = 0, mode: string = 'active', campus: string = ''): Observable<any> {
+    let url = `${CITY_GUIDES_URL}/${id}/${userId}/${mode}`
+    if(campus) {
+      url += `?campus=${campus}`
+    }
+    
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }

@@ -185,6 +185,8 @@ export class PlansListComponent {
   newURLButtonUrl: any;
   isUESchoolOfLife: boolean = false;
   schoolOfLifeTitle: any;
+  userInfo: any;
+  campus: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -207,6 +209,11 @@ export class PlansListComponent {
     this.onResize();
     this.language = this._localService.getLocalStorage(environment.lslang);
     this._translateService.use(this.language || "es");
+    this.userInfo = this._localService.getLocalStorage(environment.lsuser);
+    this.campus = this.userInfo?.campus || '';
+    if(this.campus) {
+      localStorage.setItem('plan-filter-city', this.campus);
+    }
 
     moment.locale(this.language);
     this.locale = {
@@ -222,12 +229,8 @@ export class PlansListComponent {
 
     this.email = this._localService.getLocalStorage(environment.lsemail);
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
-    this.companyId = this._localService.getLocalStorage(
-      environment.lscompanyId
-    );
-    this.userEmailDomain = this._localService.getLocalStorage(
-      environment.lsdomain
-    );
+    this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
+    this.userEmailDomain = this._localService.getLocalStorage(environment.lsdomain);
     this.userRole = this._localService.getLocalStorage(environment.lsuserRole);
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
@@ -676,7 +679,7 @@ export class PlansListComponent {
 
   fetchPlans() {
     this._plansService
-      .fetchPlansCombined(this.companyId, "active", this.isUESchoolOfLife)
+      .fetchPlansCombined(this.companyId, "active", this.isUESchoolOfLife, this.campus)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
