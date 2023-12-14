@@ -72,6 +72,7 @@ export class TikTokVideoCTAComponent {
 
   @ViewChild('playerContainer') playerContainer?: ElementRef | undefined;
   @ViewChild('cta') cta?: ElementRef | undefined;
+  @ViewChild('desc') desc?: ElementRef | undefined;
   activateTimedButton: boolean = false;
   activatedVideoTime: boolean = false;
   activatedTime: boolean = false;
@@ -135,7 +136,6 @@ export class TikTokVideoCTAComponent {
     });
     
     player.on('timeupdate', function (data) {
-      console.log(data);
       if(data) {
         localStorage.setItem('player', JSON.stringify(data));
         let duration = localStorage.getItem('duration');
@@ -144,6 +144,10 @@ export class TikTokVideoCTAComponent {
             let btn = document.getElementById("cta");
             if(btn) {
               btn.style.display = 'initial';
+            }
+            let btn1 = document.getElementById("desc");
+            if(btn1) {
+              btn1.style.display = 'initial';
             }
           }
         }
