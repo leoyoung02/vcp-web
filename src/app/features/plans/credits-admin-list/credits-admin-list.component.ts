@@ -50,7 +50,7 @@ export class CreditsAdminListComponent {
     placeholderText: any;
     creditsData: any = [];
     dataSource: any;
-    displayedColumns = ["name", "city", "event", "date_display", "credits"];
+    displayedColumns = ["name", "city", "event", "type", "date_display", "credits"];
     pageSize: number = 10;
     pageIndex: number = 0;
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator | undefined;
@@ -173,7 +173,6 @@ export class CreditsAdminListComponent {
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           (data) => {
-            console.log(data)
             this.formatCreditsSettings(data?.credits_settings);
           },
           (error) => {
@@ -234,6 +233,7 @@ export class CreditsAdminListComponent {
             ...item,
             name,
             event: this.getEventTitle(item),
+            type: item?.course_id > 0 ? this._translateService.instant('course-create.course') : this._translateService.instant('plans.activity'),
             date_display: moment.utc(item.created_at).locale(this.language).format('D MMMM YYYY')
           };
         });

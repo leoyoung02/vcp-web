@@ -80,6 +80,7 @@ export class CoursesStatisticsListComponent {
         start: new FormControl(),
         end: new FormControl(),
     });
+    courseRatings: any;
 
     constructor(
         private _route: ActivatedRoute,
@@ -125,9 +126,9 @@ export class CoursesStatisticsListComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {
-                console.log(data)
                 this.courseStudents = data?.course_students || [];
                 this.userCreditLogs = data?.user_credit_logs || [];
+                this.courseRatings = data?.course_ratings || [];
                 this.formatCourses(data?.courses || []);
 
                 this.cities = data?.cities;
@@ -176,7 +177,6 @@ export class CoursesStatisticsListComponent {
                 campus: item.campus,
             });
         });
-        console.log(this.list)
     }
 
     formatCourses(courses) {
@@ -194,6 +194,7 @@ export class CoursesStatisticsListComponent {
                     return {
                       ...student,
                       credits: this.getUserCourseCredits(student),
+                      ratings: this.getUserCourseRatings(course, student)
                     };
                 });
 
@@ -207,8 +208,6 @@ export class CoursesStatisticsListComponent {
         if(this.allCoursesData?.length == 0) {
             this.allCoursesData = data
         }
-
-        console.log(data)
         
         this.loadCourses(data);
     }
@@ -226,6 +225,21 @@ export class CoursesStatisticsListComponent {
         }
 
         return credits;
+    }
+
+    getUserCourseRatings(course, student) {
+        let ratings = '';
+
+        if(this.courseRatings?.length > 0) {
+            let user_rating = this.courseRatings?.filter(p => {
+                return p.course_id == course.id && student.user_id == p.created_by
+            })
+            if(user_rating?.length > 0) {
+                ratings = user_rating[0].rating;
+            }
+        }
+
+        return ratings;
     }
 
     handleSearch(event) {
@@ -362,6 +376,7 @@ export class CoursesStatisticsListComponent {
                             'Correo electrónico': p.email,
                             'Progreso': p.progress,
                             'Créditos': p.credits,
+                            'Clasificación': p.ratings,
                         })
                     }
                 })

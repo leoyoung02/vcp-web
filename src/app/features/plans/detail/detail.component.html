@@ -277,7 +277,9 @@
                 </div>
                 <div class="my-12 flex items-center">
                     <div class="opacity-60 mr-4">{{ 'plan-details.createdby' | translate }}:</div>
-                    <div class="font-semibold">{{ createdBy || planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name) }}</div>
+                    <div class="font-semibold">
+                        {{ createdBy || planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name) }}
+                    </div>
                 </div>
                 <div class="flex items-center" *ngIf="userId && invitationLinkActive && (superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant))">
                     <div (click)="goToLink(emailTo)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">

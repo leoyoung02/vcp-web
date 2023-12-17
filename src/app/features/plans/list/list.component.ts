@@ -710,15 +710,10 @@ export class PlansListComponent {
     }
 
     let today = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-    this.plans =
-    this.plans?.length > this.limit && this.parentComponent
-        ? this.plans?.slice(0, this.limit)
-        : this.plans;
-
     this.filteredPlan = this.plans.filter((plan) => {
-      let endDateReached = true;
-      if (plan.limit_date > plan.plan_date && plan?.limit_date >= today) {
-        endDateReached = false;
+      let endDateReached = false;
+      if (plan?.limit_date && plan?.limit_date < today) {
+        endDateReached = true;
       }
 
       let include = false;

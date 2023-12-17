@@ -82,6 +82,7 @@ export class PlansStatisticsListComponent {
         start: new FormControl(),
         end: new FormControl(),
     });
+    planRatings: any = [];
 
     constructor(
         private _route: ActivatedRoute,
@@ -141,6 +142,7 @@ export class PlansStatisticsListComponent {
             (data) => {
                 this.planParticipants = data?.plan_participants || [];
                 this.userCreditLogs = data?.user_credit_logs || [];
+                this.planRatings = data?.plan_ratings || [];
                 this.allPlanDrafts = data?.plan_drafts || [];
                 this.formatPlans(data?.plans || []);
 
@@ -207,6 +209,7 @@ export class PlansStatisticsListComponent {
                     return {
                       ...participant,
                       credits: this.getUserActivityCredits(participant),
+                      ratings: this.getUserActivityRatings(plan, participant)
                     };
                 });
 
@@ -237,6 +240,21 @@ export class PlansStatisticsListComponent {
         }
 
         return credits;
+    }
+
+    getUserActivityRatings(plan, participant) {
+        let ratings = '';
+
+        if(this.planRatings?.length > 0) {
+            let user_rating = this.planRatings?.filter(p => {
+                return p.plan_id == plan.id && participant.fk_user_id == p.created_by
+            })
+            if(user_rating?.length > 0) {
+                ratings = user_rating[0].rating;
+            }
+        }
+
+        return ratings;
     }
 
     handleSearch(event) {
@@ -448,6 +466,7 @@ export class PlansStatisticsListComponent {
                             'Asistió': status,
                             'Registrado': p.participant_created ? moment(p.participant_created).format('DD-MM-YYYY HH:mm') : '',
                             'Créditos': p.credits,
+                            'Clasificación': p.ratings,
                         })
                     }
                 })

@@ -39,9 +39,13 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'plan-details.name' | translate }} </mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="credit_package_name"> {{ row.credit_package_name }} </mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="plan" *ngIf="mode == 'activities'">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header><span class="capitalize">{{ 'plans.activity' | translate }}</span></mat-header-cell>
-                    <mat-cell *matCellDef="let row" data-label="plan"> <span>{{ row?.plan }}</span> </mat-cell>
+                <ng-container matColumnDef="title" *ngIf="mode == 'activities'">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header><span class="capitalize">{{ 'plan-create.title' | translate }}</span></mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="title"> <span>{{ row?.title }}</span> </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="type" *ngIf="mode == 'activities'">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header><span class="capitalize">{{ 'company-settings.type' | translate }}</span></mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="type"> <span class="capitalize">{{ row?.type }}</span> </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="credits">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'credit-package.credits' | translate }} </mat-header-cell>

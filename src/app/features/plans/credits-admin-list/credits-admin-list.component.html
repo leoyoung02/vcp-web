@@ -64,9 +64,15 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="event">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> <span class="capitalize">{{ 'plans.activity' | translate }}</span> </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> <span class="capitalize">{{ 'plan-create.title' | translate }}</span> </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="event">
                     {{ row?.event }}
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="type">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> <span class="capitalize">{{ 'company-settings.type' | translate }}</span> </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="type">
+                    <span class="capitalize">{{ row?.type }}</span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="date_display">

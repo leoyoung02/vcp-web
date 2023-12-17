@@ -102,9 +102,14 @@
                                             <th scope="col" class="px-2 py-1">
                                                 {{ 'tutors.completed' | translate }}
                                             </th>
-                                            <th scope="col" class="px-2 py-1">
-                                                {{ 'course-create.credits' | translate }}
-                                            </th>
+                                            <ng-container *ngIf="company?.id == 32">
+                                                <th scope="col" class="px-2 py-1">
+                                                    {{ 'course-create.credits' | translate }}
+                                                </th>
+                                                <th scope="col" class="px-2 py-1">
+                                                    {{ 'wall.rating' | translate }}
+                                                </th>
+                                            </ng-container>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -133,9 +138,14 @@
                                                     </svg>
                                                 </ng-container>
                                             </td>
-                                            <td class="text-xs px-2 py-1 max-w-[80px]">
-                                                {{ student?.credits }}
-                                            </td>
+                                            <ng-container *ngIf="company?.id == 32">
+                                                <td class="text-xs px-2 py-1 max-w-[80px]">
+                                                    {{ student?.credits }}
+                                                </td>
+                                                <td class="text-xs px-2 py-1 max-w-[80px]">
+                                                    {{ student?.ratings }}
+                                                </td>
+                                            </ng-container>
                                         </tr>
                                     </tbody>
                                 </table>

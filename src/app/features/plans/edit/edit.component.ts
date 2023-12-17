@@ -397,6 +397,7 @@ export class PlanEditComponent {
   hasActivityCodeActivated: boolean = false;
   activityCode: any;
   isUESchoolOfLife: boolean = false;
+  hasCredits: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -704,6 +705,9 @@ export class PlanEditComponent {
       );
       this.hasActivityCodeActivated = subfeatures.some(
         (a) => a.name_en == "Activity Code" && a.active == 1
+      );
+      this.hasCredits = subfeatures.some(
+        (a) => a.name_en == "Credits" && a.active == 1
       );
     }
 

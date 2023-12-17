@@ -517,7 +517,7 @@
                         maxlength="200"
                     />
                 </div>
-                <div class="flex items-center mt-4 w-full mx-auto" *ngIf="companyId == 32">
+                <div class="flex items-center mt-4 w-full mx-auto" *ngIf="companyId == 32 || hasCredits">
                     <label class="checkbox-container">
                         <div class="flex mb-4">
                             <input 
@@ -531,7 +531,7 @@
                             >
                             <label for="credits" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
-                                    {{ 'edit-plan.credits' | translate }}
+                                    {{ companyId == 32 ? ('edit-plan.credits' | translate) : ('course-create.credits' | translate) }}
                                 </span>
                             </label>
                         </div>
@@ -774,6 +774,7 @@
                 <editor
                     *ngIf="selectedLanguage == 'es'"
                     class="w-full"
+                    [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': planForm.get('descriptionEs')?.errors }"
                     apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
                     [init]="{
                         height: 183,

@@ -131,6 +131,9 @@
                                             <th scope="col" class="px-2 py-1">
                                                 {{ 'course-create.credits' | translate }}
                                             </th>
+                                            <th scope="col" class="px-2 py-1">
+                                                {{ 'wall.rating' | translate }}
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -174,6 +177,9 @@
                                             </td>
                                             <td class="text-xs px-2 py-1 max-w-[80px]">
                                                 {{ participant?.credits }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 max-w-[80px]">
+                                                {{ participant?.ratings }}
                                             </td>
                                         </tr>
                                     </tbody>

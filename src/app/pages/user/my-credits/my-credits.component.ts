@@ -93,7 +93,7 @@ export class MyCreditsComponent {
             this.userCreditsDisplayedColumns = ['credit_package_name', 'credits', 'course', 'price', 'created_at', 'status']
         } else {
             if(this.mode == 'activities') {
-                this.userCreditsDisplayedColumns = [ 'plan', 'credits', 'created_at', 'status']
+                this.userCreditsDisplayedColumns = [ 'title', 'type', 'credits', 'created_at', 'status']
             } else {
                 this.userCreditsDisplayedColumns = ['credit_package_name', 'credits', 'price', 'created_at', 'status']
             }
@@ -167,7 +167,8 @@ export class MyCreditsComponent {
             return {
               ...item,
               id: item?.id,
-              plan: this.getPlanTitle(item),
+              title: this.getPlanTitle(item),
+              type: item?.course_id > 0 ? this._translateService.instant('course-create.course') : this._translateService.instant('plans.activity')
             };
         });
       
