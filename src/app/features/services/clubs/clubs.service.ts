@@ -123,8 +123,12 @@ export class ClubsService {
     }).pipe(map(res => res));
   }
 
-  fetchClubs(id: number = 0, userId: number = 0, mode: string = 'active'): Observable<any> {
-    return this._http.get(`${CLUBS_URL}/${id}/${userId}/${mode}`, { 
+  fetchClubs(id: number = 0, userId: number = 0, mode: string = 'active', campus: string = ''): Observable<any> {
+    let url = `${CLUBS_URL}/${id}/${userId}/${mode}`
+    if(campus) {
+      url += `?campus=${campus}`
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }

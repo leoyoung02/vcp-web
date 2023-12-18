@@ -322,7 +322,11 @@
         "duplicate": "Duplicado",
         "emailinvite": "Invitación por email",
         "exitcalendarmode": "Salir del modo calendario",
-        "updatedni": "Actualizar DNI"
+        "updatedni": "Actualizar DNI",
+        "confirmattendance": "Confirmar asistencia",
+        "confirmedattendance": "Has confirmado exitosamente tu asistencia",
+        "invalidcode": "Código no válido",
+        "youearned": "Felicitaciones, te lo ganaste"
     },
     "plan-create": {
         "fillup": "Rellena este formulario para crear tu plan",
@@ -1453,7 +1457,9 @@
         "show_price":"Mostrar precio",
         "waitinglist": "Lista de espera",
         "downloadwaitinglist": "Descargar lista de espera",
-        "renewal": "Fecha de renovación"
+        "renewal": "Fecha de renovación",
+        "activitycode": "Código de la actividad",
+        "numberofcredits": "Número de créditos"
     },
     "edit-club": {
         "uploadimage": "Cargar imagen",
@@ -1648,7 +1654,7 @@
     "event-survey": {
         "eventsurvey": "Encuesta de satisfacción",
         "subtitle": "Gracias por tomarse el tiempo para mejorar nuestros eventos.",
-        "rating": "¿Cómo calificaría su experiencia con el evento",
+        "rating": "¿Cómo calificaría su experiencia con el",
         "veryunsatisfied": "Muy insatisfecho",
         "verysatisfied": "Muy satisfecho",
         "contact": "¿Cuántos contactos de calidad crees que has hecho en el evento de Speed Networking?",
@@ -2723,7 +2729,8 @@
         "remainingcredits": "Créditos restantes",
         "insufficientcredits": "Créditos insuficientes",
         "updateCredits": "¿Desea actualizar los créditos del curso para el usuario?",
-        "credits": "Créditos"
+        "credits": "Créditos",
+        "creditsearned": "Créditos obtenidos"
     },
     "contact-landing": {
         "settings": "Configuraciones",
@@ -3364,6 +3371,24 @@
         "otherimages": "Otras imágenes",
         "activateimagesbefosubmitbutton": "Activar imágenes antes del botón enviar",
         "uploadimages": "Subir 1 o más imágenes"
+    },
+    "credits": {
+        "automatedemail": "Activar correo electrónico automatizado del historial de créditos",
+        "sendevery": "Enviar cada",
+        "schedule": "Cronograma",
+        "day": "día",
+        "week": "semana",
+        "month": "mes",
+        "year": "año",
+        "days": "días",
+        "weeks": "semanas",
+        "months": "meses",
+        "years": "años",
+        "onthisday": "En este día",
+        "onthesedays": "En estos días",
+        "emailschedulesummary": " El correo electrónico se enviará cada",
+        "includeattachment": "Incluir archivo adjunto",
+        "emailrecipients": "Destinatarios de correo electrónico (separados por coma)"
     },
     "videos-ctas": {
         "activatetimer": "Activar temporizador",

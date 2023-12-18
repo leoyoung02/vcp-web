@@ -322,7 +322,11 @@
         "duplicate": "Dupliquer",
         "emailinvite": "Invitation par e-mail",
         "exitcalendarmode": "Quitter le mode calendrier",
-        "updatedni": "Mettre à jour le DNI"
+        "updatedni": "Mettre à jour le DNI",
+        "confirmattendance": "Confirmer la présence",
+        "confirmedattendance": "Vous avez confirmé votre présence avec succès",
+        "invalidcode": "Code invalide",
+        "youearned": "Félicitations, vous avez gagné"
     },
     "plan-create": {
         "fillup": "Remplissez ce formulaire pour créer votre plan",
@@ -1414,7 +1418,6 @@
         "yearly_on": "Annulé le ",
         "every_weekday_on": "Tous les jours de la semaine (du lundi au vendredi)        ",
         "custom": "Coutume",
-
         "start": "Démarrer",
         "repeatevery": "Répéter chaque",
         "repeat_on":"Répéter activé",
@@ -1449,7 +1452,9 @@
         "show_price":"Afficher le prix",
         "waitinglist": "Liste d'attente",
         "downloadwaitinglist": "Télécharger la liste d'attente",
-        "renewal": "Date de renouvellement"
+        "renewal": "Date de renouvellement",
+        "activitycode": "Code d'activité",
+        "numberofcredits": "Nombre de crédits"
     },
     "edit-club": {
         "uploadimage": "Télécharger une image",
@@ -1644,7 +1649,7 @@
     "event-survey": {
         "eventsurvey": "Enquête de satisfaction",
         "subtitle": "Merci d'avoir pris le temps d'améliorer nos événements.",
-        "rating": "Comment évaluez-vous votre expérience avec l'événement",
+        "rating": "Comment évaluez-vous votre expérience avec",
         "veryunsatisfied": "Très insatisfait",
         "verysatisfied": "Très satisfait",
         "contact": "Combien de contacts de qualité pensez-vous avoir fait lors de l'événement Speed ​​Networking ?",
@@ -2706,7 +2711,8 @@
         "remainingcredits": "Crédits restants",
         "insufficientcredits": "Crédits insuffisants",
         "updateCredits": "Voulez-vous mettre à jour les crédits de cours pour l'utilisateur ?",
-        "credits": "Crédits"
+        "credits": "Crédits",
+        "creditsearned": "Crédits gagnés"
     },
     "contact-landing": {
         "settings": "Paramètres",
@@ -3339,7 +3345,25 @@
         "activateimagesbefosubmitbutton": "Activer les images avant de soumettre le bouton",
         "uploadimages": "Télécharger 1 ou plusieurs images"
     },
-    "vidéos-ctas": {
+    "credits": {
+        "automatedemail": "Activer l'email automatisé de l'historique des crédits",
+        "sendevery": "Envoyer chaque",
+        "schedule": "Calendrier",
+        "day": "jour",
+        "week": "semaine",
+        "month": "mois",
+        "year": "année",
+        "days": "jours",
+        "weeks": "semaines",
+        "months": "mois",
+        "years": "ans",
+        "onthisday": "Ce jour-là",
+        "onthedays": "Ces jours-là",
+        "emailschedulesummary": " L'e-mail sera envoyé tous les",
+        "includeattachment": "Inclure la pièce jointe",
+        "emailrecipients": "Destinataires de l'e-mail (séparés par une virgule)"
+    },
+    "videos-ctas": {
         "activatetimer": "Activer le minuteur",
         "timerdesc": "Cela affichera le CTA après l'heure spécifiée",
         "timeroption": "Option minuterie",

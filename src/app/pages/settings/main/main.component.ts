@@ -123,6 +123,8 @@ export class MainComponent {
   testimonialsTitle: any;
   transferCommissionsByBulk: boolean = false;
   menuColor: any;
+  hasActivityCredits: boolean = false;
+  isUESchoolOfLife: boolean = false;
 
   constructor(
     private _router: Router,
@@ -152,6 +154,7 @@ export class MainComponent {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.companyId = company[0].id;
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.companyDomain = company[0].domain;
       this.companyImage = company[0].image;
       this.primaryColor = company[0].primary_color;
@@ -446,6 +449,7 @@ export class MainComponent {
                   : this.language == "de"
                   ? planFeature[0].name_de || planFeature[0].feature_name_DE
                   : planFeature[0].name_es || planFeature[0].feature_name_ES;
+              this.getPlanSubfeatures(planFeature[0].id);
             }
 
             let clubFeature = companyFeatures.filter((f) => {
@@ -659,6 +663,27 @@ export class MainComponent {
       );
   }
 
+  async getPlanSubfeatures(plansFeatureId) {
+    let plan_subfeatures = get(await this._companyService.getSubFeatures(plansFeatureId).toPromise(), 'subfeatures');
+    if(plan_subfeatures?.length > 0) {
+      let subfeature_name = 'Credits'
+      let sub = plan_subfeatures.filter(sf => {
+          return sf.name_en == subfeature_name
+      })
+      let subfeature = sub?.length > 0 ? sub[0] : ''
+      if(subfeature) {
+        let subfeatures = get(await this._companyService.getCompanySubFeatures(subfeature?.feature_id, this.companyId).toPromise(), 'subfeatures')
+        if(subfeatures?.length > 0) {
+          let feat = subfeatures.find((f) => f.feature_id == subfeature?.feature_id && f.subfeature_id == subfeature?.id && f.company_id == parseInt(this.companyId))
+          if(feat?.active == 1) {
+            this.hasActivityCredits = true;
+            this.includeFeaturesSubmenuItems();
+          }
+        }
+      }
+    }
+  }
+
   async getTutorSubfeatures(tutorsFeatureId) {
     let tutor_subfeatures = get(await this._companyService.getSubFeatures(tutorsFeatureId).toPromise(), 'subfeatures');
     if(tutor_subfeatures?.length > 0) {
@@ -798,6 +823,10 @@ export class MainComponent {
             text: this._translateService.instant("company-settings.reports"),
             value: "Reports",
           },
+          {
+            text: this._translateService.instant("company-settings.statistics"),
+            value: "Statistics",
+          },
           // {
           //   text: this._translateService.instant(
           //     "company-settings.supporttickets"
@@ -853,138 +882,153 @@ export class MainComponent {
                 value: "Events",
               });
             }
-          }
-          if (this.isClubEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Groups");
-            if (!match) {
-              mi.submenus.push({
-                text: this.clubTitle,
-                value: "Groups",
-              });
-            }
-          }
-          if (this.hasActivityFeed) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Posts");
-            if (!match) {
-              mi.submenus.push({
-                text: this._translateService.instant("company-settings.posts"),
-                value: "Posts",
-              });
-            }
-          }
-          // Check if city agenda is activated, otherwise just add here for testing
-          if (this.isCityAgendaEnabled || this.companyId == 32) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Content");
-            if (!match) {
-              mi.submenus.push({
-                text: this.cityAgendaTitle,
-                value: "Content",
-              });
-            }
-          }
-          if (this.isCourseEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Courses");
-            if (!match) {
-              mi.submenus.push({
-                text: this.courseTitle,
-                value: "Courses",
-              });
-            }
-          }
-          if (this.hasJobOffers) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "JobOffers");
-            if (!match) {
-              mi.submenus.push({
-                text: this.jobOffersTitle,
-                value: "JobOffers",
-              });
+
+            if(this.hasActivityCredits) {
+              let match =  mi.submenus && mi.submenus.some(a => a.value === 'Credits')
+              if(!match) {
+                mi.submenus.push({
+                  text: this._translateService.instant('course-create.credits'),
+                  value: 'Credits'
+                })
+              }
             }
           }
 
-          if (this.hasActivityFeed) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Posts");
-            if (!match) {
-              mi.submenus.push({
-                text: this._translateService.instant("company-settings.posts"),
-                value: "Posts",
-              });
+          if(!this.isUESchoolOfLife) {
+            if (this.isClubEnabled) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Groups");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.clubTitle,
+                  value: "Groups",
+                });
+              }
             }
-          }
-          if (this.isDiscountEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Discounts");
-            if (!match) {
-              mi.submenus.push({
-                text: this.discountTitle,
-                value: "Discounts",
-              });
+            if (this.hasActivityFeed) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Posts");
+              if (!match) {
+                mi.submenus.push({
+                  text: this._translateService.instant("company-settings.posts"),
+                  value: "Posts",
+                });
+              }
+            }
+            // Check if city agenda is activated, otherwise just add here for testing
+            if (this.isCityAgendaEnabled || this.companyId == 32) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Content");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.cityAgendaTitle,
+                  value: "Content",
+                });
+              }
+            }
+            if (this.isCourseEnabled) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Courses");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.courseTitle,
+                  value: "Courses",
+                });
+              }
+            }
+            if (this.hasJobOffers) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "JobOffers");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.jobOffersTitle,
+                  value: "JobOffers",
+                });
+              }
+            }
+
+            if (this.hasActivityFeed) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Posts");
+              if (!match) {
+                mi.submenus.push({
+                  text: this._translateService.instant("company-settings.posts"),
+                  value: "Posts",
+                });
+              }
+            }
+            if (this.isDiscountEnabled) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Discounts");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.discountTitle,
+                  value: "Discounts",
+                });
+              }
             }
           }
 
-          let cities_match =
-            mi.submenus && mi.submenus.some((a) => a.value === "Cities");
-          if (!cities_match) {
-            mi.submenus.push({
-              text: this._translateService.instant("company-settings.cities"),
-              value: "Cities",
-            });
-          }
-
-          if (this.isTutorsEnabled) {
-            let match = mi.submenus && mi.submenus.some((a) => a.value === "Tutors");
-            if (!match) {
+            let cities_match =
+              mi.submenus && mi.submenus.some((a) => a.value === "Cities");
+            if (!cities_match) {
               mi.submenus.push({
-                text: this.tutorsTitle,
-                value: "Tutors",
+                text: this._translateService.instant("company-settings.cities"),
+                value: "Cities",
               });
             }
 
-            if(this.transferCommissionsByBulk) {
-                let match =  mi.submenus && mi.submenus.some(a => a.value === 'TutorCommissions')
-                if(!match) {
-                  mi.submenus.push({
-                      text: this._translateService.instant('tutors.commissions'),
-                      value: 'TutorCommissions'
-                  })
-                }
-            }
-          }
+          if(!this.isUESchoolOfLife) {
+            if (this.isTutorsEnabled) {
+              let match = mi.submenus && mi.submenus.some((a) => a.value === "Tutors");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.tutorsTitle,
+                  value: "Tutors",
+                });
+              }
 
-          if (this.isTestimonialsEnabled) {
-            let match = mi.submenus && mi.submenus.some((a) => a.value === "Testimonials");
-            if (!match) {
-              mi.submenus.push({
-                text: this.testimonialsTitle,
-                value: "Testimonials",
-              });
+              if(this.transferCommissionsByBulk) {
+                  let match =  mi.submenus && mi.submenus.some(a => a.value === 'TutorCommissions')
+                  if(!match) {
+                    mi.submenus.push({
+                        text: this._translateService.instant('tutors.commissions'),
+                        value: 'TutorCommissions'
+                    })
+                  }
+              }
             }
-          }
 
-          if (this.isServicesEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Services");
-            if (!match) {
-              mi.submenus.push({
-                text: this.servicesTitle,
-                value: "Services",
-              });
+            if (this.isTestimonialsEnabled) {
+              let match = mi.submenus && mi.submenus.some((a) => a.value === "Testimonials");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.testimonialsTitle,
+                  value: "Testimonials",
+                });
+              }
             }
-          }
 
-          if (this.isBlogEnabled) {
-            let match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Blog");
-            if (!match) {
-              mi.submenus.push({
-                text: this.blogTitle,
-                value: "Blog",
-              });
+            if (this.isServicesEnabled) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Services");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.servicesTitle,
+                  value: "Services",
+                });
+              }
+            }
+
+            if (this.isBlogEnabled) {
+              let match =
+                mi.submenus && mi.submenus.some((a) => a.value === "Blog");
+              if (!match) {
+                mi.submenus.push({
+                  text: this.blogTitle,
+                  value: "Blog",
+                });
+              }
             }
           }
         }
@@ -1404,11 +1448,17 @@ export class MainComponent {
         this._router.navigate([`/settings/manage-list/services`]);
       } else if (content == "Blog") {
         this._router.navigate([`/settings/manage-list/blogs`]);
+      } else if (content == "Credits") {
+        this._router.navigate([`/settings/manage-list/credits`]);
       }
     } else if (menu.value == "Users" && content == "Users") {
       this._router.navigate([`/settings/manage-list/users`]);
-    } else if (menu.value == "Tools" && content == "Reports") {
-      this._router.navigate([`/settings/reports`]);
+    } else if (menu.value == "Tools") {
+      if(content == "Reports") {
+        this._router.navigate([`/settings/reports`]);
+      } else if (content == "Statistics") {
+        this._router.navigate([`/settings/statistics`]);
+      }
     }
     else if (content == "Features") {
       this._router.navigate([`/settings/features`]);

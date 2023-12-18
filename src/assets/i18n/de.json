@@ -322,7 +322,11 @@
         "duplicate": "Duplikat",
         "emailinvite": "E-Mail-Einladung",
         "exitcalendarmode": "Kalendermodus beenden",
-        "updatedni": "DNI aktualisieren"
+        "updatedni": "DNI aktualisieren",
+        "confirmattendance": "Anwesenheit bestätigen",
+        "confirmedattendance": "Sie haben Ihre Teilnahme erfolgreich bestätigt",
+        "invalidcode": "Ungültiger Code",
+        "youearned": "Herzlichen Glückwunsch, Sie haben es verdient"
     },
     "plan-create": {
         "fillup": "Füllen Sie dieses Formular aus, um Ihren Plan zu erstellen",
@@ -1449,7 +1453,9 @@
         "show_price":"Preis anzeigen",
         "waitinglist": "Warteliste",
         "downloadwaitinglist": "Warteliste herunterladen",
-        "renewal": "Verlängerungsdatum"
+        "renewal": "Verlängerungsdatum",
+        "activitycode": "Aktivitätscode",
+        "numberofcredits": "Anzahl der Credits"
     },
     "edit-club": {
         "uploadimage": "Bild hochladen",
@@ -1644,7 +1650,7 @@
     "event-survey": {
         "eventsurvey": "Zufriedenheitsumfrage",
         "subtitle": "Danke, dass Sie sich die Zeit genommen haben, unsere Veranstaltungen zu verbessern.",
-        "rating": "Wie würden Sie Ihre Erfahrung mit der Veranstaltung bewerten",
+        "rating": "Wie würden Sie Ihre Erfahrung mit der",
         "veryunsatisfied": "sehr unzufrieden",
         "verysatisfied": "sehr zufrieden",
         "contact": "Was denken Sie, wie viele hochwertige Kontakte Sie beim Speed ​​Networking-Event geknüpft haben?",
@@ -2711,7 +2717,8 @@
         "remainingcredits": "Verbleibendes Restguthaben",
         "insufficientcredits": "Unzureichende Credits",
         "updateCredits": "Möchten Sie die Kursguthaben für den Benutzer aktualisieren?",
-        "credits": "Credits"
+        "credits": "Credits",
+        "creditsearned": "Credits verdient"
     },
     "contact-landing": {
         "settings": "Einstellungen",
@@ -3341,6 +3348,24 @@
         "otherimages": "Andere Bilder",
         "activateimagesbefosubmitbutton": "Bilder vor dem Senden-Button aktivieren",
         "uploadimages": "Ein oder mehrere Bilder hochladen"
+    },
+    "credits": {
+        "automatedemail": "Automatische E-Mail des Rechnungsverlaufs aktivieren",
+        "endevery": "Alle senden",
+        "schedule": "Zeitplan",
+        "day": "tag",
+        "week": "week",
+        "Monat": "Monat",
+        "Jahr": "Jahr",
+        "Tage": "Tage",
+        "weeks": "weeks",
+        "Monate": "Monate",
+        "Jahre": "Jahre",
+        "onthisday": "An diesem Tag",
+        "onthesedays": "An diesen Tagen",
+        "emailschedulesummary": "Die E-Mail wird alle gesendet.",
+        "includeattachment": "Anhang einschließen",
+        "emailrecipients": "E-Mail-Empfänger (durch Komma getrennt)"
     },
     "videos-ctas": {
         "activatetimer": "Timer aktivieren",

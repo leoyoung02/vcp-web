@@ -851,6 +851,13 @@ export class PlanDetailComponent {
         .locale(this.language)
         .format("D MMMM");
 
+      if(this.plan?.limit_date) {
+        this.planDay += ' - ' + moment
+        .utc(this.plan.limit_date)
+        .locale(this.language)
+        .format("D MMMM");
+      }
+
       this.planTime = moment
         .utc(this.plan.plan_date)
         .locale(this.language)
@@ -1505,7 +1512,7 @@ export class PlanDetailComponent {
 
       let payload = {
         group_plan_id,
-        fk_company_id,
+        fk_company_id: this.companyId,
         user_id,
         invited_by: 0,
       };
@@ -1558,10 +1565,10 @@ export class PlanDetailComponent {
   }
 
   handleLeave() {
-    if (this.isCompanyPlanType) {
-      this.leavePlan();
-    } else {
+    if (this.planTypeId == 4) {
       this.leaveGroupPlan();
+    } else {
+      this.leavePlan();
     }
   }
 

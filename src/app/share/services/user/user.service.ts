@@ -70,6 +70,7 @@ import {
     DENY_USER_URL,
     ACCEPT_CONDITIONS_URL,
     API_GELOCATION_URL,
+    USER_CREDIT_LOGS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
@@ -541,8 +542,13 @@ export class UserService {
   }
 
   getUserGeolocation(key): Observable<any> {
+    return this._http.get(`${API_GELOCATION_URL}/?api_key=${key}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
 
-    return this._http.get(`${API_GELOCATION_URL}/?api_key=${key}`, 
+  getUserCreditLogs(id): Observable<any> {
+    return this._http.get(`${USER_CREDIT_LOGS_URL}/${id}`, 
       { headers: this.headers }
     ).pipe(map(res => res));
   }

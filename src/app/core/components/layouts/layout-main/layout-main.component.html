@@ -31,6 +31,7 @@
         [buttonColor]="buttonColor"
         [hoverColor]="hoverColor"
         [logoSource]="logoSource"
+        [isUESchoolOfLife]="isUESchoolOfLife"
         (changeLanguage)="changedLanguage($event)" 
     >
     </app-sidebar>
@@ -104,6 +105,8 @@
                 [userCourseCredits]="userCourseCredits"
                 [courses]="courses"
                 [creditPackages]="creditPackages"
+                [hasCredits]="hasCredits"
+                [campus]="campus"
                 (changeLanguage)="changedLanguage($event)" 
             >
             </app-user-menu>

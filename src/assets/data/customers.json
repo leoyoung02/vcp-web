@@ -120,6 +120,18 @@
         "domain": "universidadeuropea.com"
     },
     {  
+        "id": 32,  
+        "name": "Universidad Europea",
+        "url": "schooloflife.vistingo.com",
+        "domain": "universidadeuropea.com"
+    },
+    {  
+        "id": 32,  
+        "name": "Universidad Europea",
+        "url": "schooloflife.universidadeuropea.com",
+        "domain": "universidadeuropea.com"
+    },
+    {  
         "id": 33,  
         "name": "Club Woman New Life",
         "url": "clubwomannewlife.vistingo.com",

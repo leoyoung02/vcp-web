@@ -264,6 +264,7 @@ export class PlanEditComponent {
   waitingListCancelButtonTextEn: any;
   waitingListCancelButtonTextEs: any;
   credits: boolean = false;
+  creditsValue: any = 0;
 
   hasEmailInvite: boolean = false;
   emailInviteQuestions: any;
@@ -393,6 +394,10 @@ export class PlanEditComponent {
   cancelText: any = "";
   planId: number = 0;
   pageTitle: string = "";
+  hasActivityCodeActivated: boolean = false;
+  activityCode: any;
+  isUESchoolOfLife: boolean = false;
+  hasCredits: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -449,6 +454,7 @@ export class PlanEditComponent {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.emailDomain = company[0].domain;
       this.userEmailDomain = this.emailDomain;
       this.companyId = company[0].id;
@@ -696,6 +702,12 @@ export class PlanEditComponent {
       );
       this.show_comments_field = subfeatures.some(
         (a) => a.name_en == "Comments" && a.active == 1
+      );
+      this.hasActivityCodeActivated = subfeatures.some(
+        (a) => a.name_en == "Activity Code" && a.active == 1
+      );
+      this.hasCredits = subfeatures.some(
+        (a) => a.name_en == "Credits" && a.active == 1
       );
     }
 
@@ -1054,6 +1066,7 @@ export class PlanEditComponent {
       youtube_link,
       youtube_link_text,
       credits,
+      credits_value,
       draft,
       repeat_event,
       parent_event_id,
@@ -1068,6 +1081,7 @@ export class PlanEditComponent {
       show_attendee,
       show_comments,
       show_description,
+      activity_code,
     } = this.plan;
 
     let categories = this.mapCategories(data?.plan?.categories_mapping);
@@ -1208,6 +1222,7 @@ export class PlanEditComponent {
     this.isStripePayment =
       this.activityFeeEnabled && stripe_pay == 1 ? true : false;
     this.credits = credits == 1 ? true : false;
+    this.creditsValue = credits_value;
     this.featured = featured == 1 ? true : false;
     (this.isExternalRegistration = external_registration == 1 ? true : false),
       (this.requestDNI = request_dni == 1 ? true : false);
@@ -1244,6 +1259,9 @@ export class PlanEditComponent {
     this.isShowAttendee = show_attendee == 1 ? true : false;
     this.isShowComments = show_comments == 1 ? true : false;
     this.isShowDescription = show_description == 1 ? true : false;
+    if(this.hasActivityCodeActivated) {
+      this.activityCode = activity_code
+    }
   }
 
   mapCategories(category_mapping) {
@@ -1766,10 +1784,16 @@ export class PlanEditComponent {
     this.plan["waiting_list"] =
       this.waitingListActive && this.waitingListEnabled ? 1 : 0;
     this.plan["credits"] = this.credits ? 1 : 0;
+    this.plan["credits_value"] = this.creditsValue || 0;
     this.plan["featured"] = this.featured ? 1 : 0;
     this.plan["require_approval"] = require_approval ? 1 : 0;
     this.plan["external_registration"] = this.isExternalRegistration ? 1 : 0;
     this.plan["request_dni"] = this.requestDNI ? 1 : 0;
+    this.plan["school_of_life"] = this.isUESchoolOfLife ? 1 : 0;
+
+    if(this.hasActivityCodeActivated) {
+      this.plan["activity_code"] = this.activityCode || "";
+    }
 
     let publish = 1;
     if (this.id > 0) {
@@ -1904,7 +1928,8 @@ export class PlanEditComponent {
           this.typeOfActivity ? this.typeOfActivity : 0,
           this.prolongedDaysNumber ? this.prolongedDaysNumber : 0,
           activities ? activities : "",
-          publish
+          publish,
+          this.hasActivityCodeActivated,
         )
         .subscribe(
           (response) => {
@@ -1944,7 +1969,9 @@ export class PlanEditComponent {
           this.isShowAttendee ? 1 : 0,
           this.isShowComments ? 1 : 0,
           this.isShowDescription ? 1 : 0,
-          this.isShowPrice ? 1 : 0
+          this.isShowPrice ? 1 : 0,
+          0,
+          this.hasActivityCodeActivated,
         )
         .subscribe(
           (response) => {

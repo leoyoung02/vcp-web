@@ -16,8 +16,12 @@ export class JobOffersService {
     });
   }
 
-  fetchJobOffers(id: number = 0, userId: number = 0, mode: string = 'active'): Observable<any> {
-    return this._http.get(`${JOB_OFFERS_URL}/${id}/${userId}/${mode}`, { 
+  fetchJobOffers(id: number = 0, userId: number = 0, mode: string = 'active', campus: string = ''): Observable<any> {
+    let url = `${JOB_OFFERS_URL}/${id}/${userId}/${mode}`
+    if(campus) {
+      url += `?campus=${campus}`
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }

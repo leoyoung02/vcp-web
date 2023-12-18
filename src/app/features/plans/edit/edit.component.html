@@ -491,11 +491,33 @@
                         class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
                         [(ngModel)]="guestSpeaker"
                         [ngModelOptions]="{standalone: true}"
-                        placeholder="{{ 'plan-create.guestspeaker' | translate }}" style="width: 349px;"
+                        placeholder="{{ 'plan-create.guestspeaker' | translate }}"
                         maxlength="200"
                     />
                 </div>
-                <div class="flex items-center mt-4 w-full mx-auto" *ngIf="companyId == 32">
+                <div class="flex items-center justify-center relative" *ngIf="hasActivityCodeActivated">
+                    <input
+                        id="activity-code"
+                        type="text"
+                        class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                        [(ngModel)]="activityCode"
+                        [ngModelOptions]="{standalone: true}"
+                        placeholder="{{ 'edit-plan.activitycode' | translate }}"
+                        maxlength="200"
+                    />
+                </div>
+                <div class="flex items-center justify-center relative" *ngIf="credits">
+                    <input
+                        id="credits"
+                        type="number"
+                        class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                        [(ngModel)]="creditsValue"
+                        [ngModelOptions]="{standalone: true}"
+                        placeholder="{{ 'edit-plan.numberofcredits' | translate }}"
+                        maxlength="200"
+                    />
+                </div>
+                <div class="flex items-center mt-4 w-full mx-auto" *ngIf="companyId == 32 || hasCredits">
                     <label class="checkbox-container">
                         <div class="flex mb-4">
                             <input 
@@ -507,9 +529,9 @@
                                 [ngStyle]="{'color': credits ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="credits" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="credits" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
-                                    {{ 'edit-plan.credits' | translate }}
+                                    {{ companyId == 32 ? ('edit-plan.credits' | translate) : ('course-create.credits' | translate) }}
                                 </span>
                             </label>
                         </div>
@@ -526,7 +548,7 @@
                                 [ngStyle]="{'color': featured ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="featured" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="featured" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ getFeaturedTitle() }}
                                 </span>
@@ -545,7 +567,7 @@
                                 [ngStyle]="{'color': isExternalRegistration ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="external-registration" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="external-registration" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.externalregistration' | translate }}
                                 </span>
@@ -564,7 +586,7 @@
                                 [ngStyle]="{'color': requestDNI ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="request-dni" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="request-dni" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.requestdni' | translate }}
                                 </span>
@@ -583,7 +605,7 @@
                                 [ngStyle]="{'color': showGuestMemberSeat ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="guest-member-seats" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="guest-member-seats" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.showguestmemberseats' | translate }}
                                 </span>
@@ -602,7 +624,7 @@
                                 [ngStyle]="{'color': showInvitationLink ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="invitation-link" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="invitation-link" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.showinvitationlink' | translate }}
                                 </span>
@@ -621,7 +643,7 @@
                                 [ngStyle]="{'color': waitingListEnabled ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="waiting-list" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="waiting-list" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.activatewaitinglist' | translate }}
                                 </span>
@@ -640,7 +662,7 @@
                                 [ngStyle]="{'color': displayCanaryTime ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="canary" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="canary" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.activatewaitinglist' | translate }}
                                 </span>
@@ -659,7 +681,7 @@
                                 [ngStyle]="{'color': netcultura ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="netcultura" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="netcultura" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.activatewaitinglist' | translate }}
                                 </span>
@@ -678,7 +700,7 @@
                                 [ngStyle]="{'color': isShowPrice ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="showprice" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="showprice" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.activatewaitinglist' | translate }}
                                 </span>
@@ -697,7 +719,7 @@
                                 [ngStyle]="{'color': isShowAttendee ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="showattendee" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="showattendee" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.show_attendee' | translate }}
                                 </span>
@@ -716,7 +738,7 @@
                                 [ngStyle]="{'color': isShowComments ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="showcomments" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="showcomments" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.show_comments' | translate }}
                                 </span>
@@ -735,7 +757,7 @@
                                 [ngStyle]="{'color': isShowDescription ? 'text-blue-500' : 'text-gray-900'}"
                                 class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                             >
-                            <label for="showdescription" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                            <label for="showdescription" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.show_description' | translate }}
                                 </span>
@@ -752,6 +774,7 @@
                 <editor
                     *ngIf="selectedLanguage == 'es'"
                     class="w-full"
+                    [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': planForm.get('descriptionEs')?.errors }"
                     apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
                     [init]="{
                         height: 183,

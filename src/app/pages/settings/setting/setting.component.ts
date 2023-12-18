@@ -338,6 +338,14 @@ export class SettingComponent {
     | ElementRef
     | undefined;
 
+  newURLButtonTextValue: any
+  newURLButtonTextValueEn: any
+  newURLButtonTextValueFr: any
+  newURLButtonTextValueEu: any
+  newURLButtonTextValueCa: any
+  newURLButtonTextValueDe: any
+  newURLButtonUrl: any
+
   constructor(
     private _router: Router,
     private _companyService: CompanyService,
@@ -431,6 +439,13 @@ export class SettingComponent {
         this.footerLogoWidth = company[0].footer_logo_width
         this.footerLogoHeight = company[0].footer_logo_height
         this.homeActive = company[0].show_home_menu == 1 ? true : false
+        this.newURLButtonUrl= company[0].new_url_button_url
+        this.newURLButtonTextValue = company[0].new_url_button_text
+        this.newURLButtonTextValueEn = company[0].new_url_button_text_en
+        this.newURLButtonTextValueFr = company[0].new_url_button_text_fr
+        this.newURLButtonTextValueEu = company[0].new_url_button_text_eu
+        this.newURLButtonTextValueCa = company[0].new_url_button_text_ca
+        this.newURLButtonTextValueDe = company[0].new_url_button_text_de
   
         if(company[0].landing_template == 1) {
           this.hasLandingTemplate = true
@@ -889,6 +904,8 @@ export class SettingComponent {
             this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
             if(item.title_en == 'New menu button') {
               this.reloadMenu('add-new-menu')
+            } else if(item.title_en == 'New URL button') {
+              this.reloadMenu('add-new-url')
             }
           },
           error => {
@@ -930,6 +947,42 @@ export class SettingComponent {
     this.modalbutton?.nativeElement.click();
   }
 
+  openEditNewURLButtonModal(setting) {
+    this.dialogMode = "new-url";
+    this.getSettingTitle(setting);
+    this.dialogTitle =  this.selectedSettingTitle
+    this.modalbutton?.nativeElement.click();
+  }
+
+  saveNewURLButton() {
+    if(!this.newURLButtonTextValue) {
+      return false
+    }
+
+    let params = {
+      company_id: this.companyId,
+      new_url_button_text: this.newURLButtonTextValue,
+      new_url_button_text_en: this.newURLButtonTextValueEn || this.newURLButtonTextValue,
+      new_url_button_text_fr: this.newURLButtonTextValueFr || this.newURLButtonTextValue,
+      new_url_button_text_eu: this.newURLButtonTextValueEu || this.newURLButtonTextValue,
+      new_url_button_text_ca: this.newURLButtonTextValueCa || this.newURLButtonTextValue,
+      new_url_button_text_de: this.newURLButtonTextValueDe || this.newURLButtonTextValue,
+      new_url_button_url: this.newURLButtonUrl,
+    }
+    this._companyService.saveNewURLButton(params)
+      .subscribe(
+        async (response) => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+          this.dialogMode = '';
+          this.closemodalbutton?.nativeElement.click();
+          this.reloadMenu();
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
   saveNewMenuButton() {
     if(!this.newMenuButtonTextValue) {
       return false
@@ -950,6 +1003,7 @@ export class SettingComponent {
         async (response) => {
           this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
           this.dialogMode = '';
+          this.closemodalbutton?.nativeElement.click();
           this.reloadMenu();
         },
         error => {
@@ -992,6 +1046,20 @@ export class SettingComponent {
           show: true,
           sequence: menus?.length + 1,
         });
+      } else if(mode == 'add-new-url') {
+          menus.push({
+            id: menus?.length + 100,
+            path: this.newURLButtonUrl,
+            new_button: 1,
+            name: this.newURLButtonTextValueEn || this.newURLButtonTextValue,
+            name_ES: this.newURLButtonTextValue,
+            name_FR: this.newURLButtonTextValueFr || this.newURLButtonTextValue,
+            name_EU: this.newURLButtonTextValueEu || this.newURLButtonTextValue,
+            name_CA: this.newURLButtonTextValueCa || this.newURLButtonTextValue,
+            name_DE: this.newURLButtonTextValueDe || this.newURLButtonTextValue,
+            show: true,
+            sequence: menus?.length + 1,
+          });
       } else {
         menus.forEach((menu, index) => {
           if (
@@ -1020,7 +1088,9 @@ export class SettingComponent {
       this.saveURLValue();
     } else if(this.dialogMode == 'update-value') {
       this.saveValue();
-    }
+    } if(this.dialogMode == 'new-url') {
+      this.saveNewURLButton();
+    } 
   }
 
   saveValue() {

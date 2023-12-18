@@ -75,6 +75,12 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./testimonial-tags/testimonial-tags.component')).ManageTestimonialTagsComponent,
     },
     {
+        path: 'statistics',
+        title: CustomTitleResolver,
+        data: { titleKey: 'company-settings.statistics'},
+        loadComponent: async () => (await import('./statistics/statistics.component')).StatisticsComponent,
+    },
+    {
         path: 'email/:id/:type',
         title: CustomTitleResolver,
         data: { titleKey: 'plan-details.email'},
@@ -145,5 +151,5 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'settings.template'},
         loadComponent: async () => (await import('./videos-ctas-template/videos-ctas-template.component')).VideosCTAsTemplateComponent,
-    },
+    }
 ];

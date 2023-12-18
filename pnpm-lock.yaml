@@ -83,12 +83,18 @@ dependencies:
   '@vimeo/player':
     specifier: ^2.20.1
     version: 2.20.1
+  angular-star-rating:
+    specifier: ^7.0.0
+    version: 7.0.0(@angular/core@16.0.0)(@angular/forms@16.0.0)(css-star-rating@1.3.1)(rxjs@7.8.0)
   apexcharts:
     specifier: ^3.42.0
     version: 3.42.0
   crypto-js:
     specifier: ^4.1.1
     version: 4.1.1
+  css-star-rating:
+    specifier: ^1.3.1
+    version: 1.3.1
   docviewhelper:
     specifier: ^0.0.2
     version: 0.0.2
@@ -4300,6 +4306,21 @@ packages:
       uri-js: 4.4.1
     dev: true
 
+  /angular-star-rating@7.0.0(@angular/core@16.0.0)(@angular/forms@16.0.0)(css-star-rating@1.3.1)(rxjs@7.8.0):
+    resolution: {integrity: sha512-GO4BxTeo8IIhzb/Ynd+8TPIeGKL1vjB/E18UBzo3EPcWOHmpWG8HDf2ZCQ3G08yKAx/OwqnDnR2WHECh4Ca/MA==}
+    peerDependencies:
+      '@angular/core': '>=10.0.0'
+      '@angular/forms': '>=10.0.0'
+      css-star-rating: '>=1.3.1'
+      rxjs: '>=6.5.5'
+    dependencies:
+      '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
+      '@angular/forms': 16.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)(rxjs@7.8.0)
+      css-star-rating: 1.3.1
+      rxjs: 7.8.0
+      tslib: 2.5.0
+    dev: false
+
   /ansi-colors@4.1.3:
     resolution: {integrity: sha512-/6w/C21Pm1A7aZitlI5Ni/2J6FFQN8i1Cvz3kHABAAbw93v/NlvKdVOqz7CCWz/3iv/JplRSEEZ83XION15ovw==}
     engines: {node: '>=6'}
@@ -5203,6 +5224,10 @@ packages:
       domutils: 2.8.0
       nth-check: 2.1.1
     dev: true
+
+  /css-star-rating@1.3.1:
+    resolution: {integrity: sha512-AVBuyoqdahg0+1tY5zAqD8eMLjHlKu7VEIn+76YoJL/UhOiNFllnLg8nI5rWC2OA7EyyaPj36D/rxW2N+ec6PA==}
+    dev: false
 
   /css-tree@2.3.1:
     resolution: {integrity: sha512-6Fv1DV/TYw//QF5IzQdqsNDjx/wc8TrMBZsqjL9eW01tWb7R7k/mq+/VXfJCl7SoD5emsJop9cOByJZfs8hYIw==}

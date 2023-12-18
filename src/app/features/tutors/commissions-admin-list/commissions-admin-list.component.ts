@@ -30,7 +30,6 @@ import {
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatNativeDateModule } from "@angular/material/core";
-import { environment } from "@env/environment";
 import moment from "moment";
 
 @Component({

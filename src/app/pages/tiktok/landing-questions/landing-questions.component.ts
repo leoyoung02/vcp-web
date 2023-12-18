@@ -124,7 +124,6 @@ export class TikTokLandingQuestionsComponent {
       .subscribe(
         data => {
           this.questionnaire = data?.question;
-          console.log(data)
           if(this.questionnaire?.image && this.questionnaire?.image_filename) {
             this.questionImage = `${environment.api}/get-landing-page-image/${this.questionnaire?.image_filename}`;
           }

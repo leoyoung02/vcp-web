@@ -322,7 +322,11 @@
         "duplicate": "Duplicate",
         "emailinvite": "Email invite",
         "exitcalendarmode": "Exit calendar mode",
-        "updatedni": "Update DNI"
+        "updatedni": "Update DNI",
+        "confirmattendance": "Confirm attendance",
+        "confirmedattendance": "You have successfully confirmed your attendance",
+        "invalidcode": "Invalid code",
+        "youearned": "Congratulations, you earned"
     },
     "plan-create": {
         "fillup": "Fill out this form to create your plan",
@@ -1454,7 +1458,9 @@
         "show_price":"Show Price",
         "waitinglist": "Waiting list",
         "downloadwaitinglist": "Download waiting list",
-        "renewal": "Renewal date"
+        "renewal": "Renewal date",
+        "activitycode": "Activity code",
+        "numberofcredits": "Number of credits"
     },
     "edit-club": {
         "uploadimage": "Upload image",
@@ -2721,11 +2727,12 @@
         "paymenttwodayafter": "Payment 2 due after days",
         "videodesc": "Enter video description",
         "coursecredits": "Course Credits",
-        "creditsplaceholder": "Enter the number of crefits for course for booking. (1 credit =  1 booking)",
+        "creditsplaceholder": "Enter the number of credits for course for booking. (1 credit =  1 booking)",
         "remainingcredits": "Remaining Credits",
         "insufficientcredits": "Insufficient Credits",
         "updateCredits": "Do you want to update course credits for the user?",
-        "credits": "Credits"
+        "credits": "Credits",
+        "creditsearned": "Credits earned"
     },
     "contact-landing": {
         "settings": "Settings",
@@ -3379,6 +3386,24 @@
         "otherimages": "Other images",
         "activateimagesbefosubmitbutton": "Activate images before submit button",
         "uploadimages": "Upload 1 or more images"
+    },
+    "credits": {
+        "automatedemail": "Activate automated email of cedits history",
+        "sendevery": "Send every",
+        "schedule": "Schedule",
+        "day": "day",
+        "week": "week",
+        "month": "month",
+        "year": "year",
+        "days": "days",
+        "weeks": "weeks",
+        "months": "months",
+        "years": "years",
+        "onthisday": "On this day",
+        "onthesedays": "On these days",
+        "emailschedulesummary": " The email will be sent every",
+        "includeattachment": "Include attachment",
+        "emailrecipients": "Email recipients (separated by comma)"
     },
     "videos-ctas": {
         "activatetimer": "Activate timer",

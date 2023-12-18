@@ -1,7 +1,7 @@
 <div class="pt-24 sm:pt-24 md:pt-4 lg:pt-4" *ngIf="loadedSettings">
-  <h1 class="text-4xl font-bold mb-2">{{ welcomeTitle || ('landing.welcometitle1' | translate) }}</h1>
-  <h1 class="text-4xl font-bold mb-2" *ngIf="!welcomeTitle">{{ 'landing.welcometitle2' | translate }} <span [ngStyle]="{'color': buttonColor}">{{ companyName }}</span></h1>
-  <div class="text-sm mt-8">{{ welcomeTitle ? welcomeSubtitle : ('landing.welcomedesc' | translate) }}</div>
+  <h1 class="text-4xl font-bold mb-2">{{ isUESchoolOfLife ? schoolOfLifeTitle : (welcomeTitle || ('landing.welcometitle1' | translate)) }}</h1>
+  <h1 class="text-4xl font-bold mb-2" *ngIf="!welcomeTitle && !isUESchoolOfLife">{{ 'landing.welcometitle2' | translate }} <span [ngStyle]="{'color': buttonColor}">{{ companyName }}</span></h1>
+  <div class="text-sm mt-8" *ngIf="!isUESchoolOfLife">{{ welcomeTitle ? welcomeSubtitle : ('landing.welcomedesc' | translate) }}</div>
 </div>
 <div class="py-10">
   <app-video-section 
@@ -17,6 +17,8 @@
     [section1Mode]="(hasPlans || companyId == 32 || companyId == 27 || companyId == 25) ? 'plans' : (!hasPlans && (hasCourses || companyId == 52) ? 'courses' : '')"
     [section2Mode]="companyId == 32 ? 'cityguide-employmentchannel' : (companyId == 52 ? 'testimonials-tutors' : ((hasPlans && hasCourses) || companyId == 27 || companyId == 25 ? 'courses' : ''))"
     [section3Mode]="hasClubs ? 'clubs' : ''"
+    [isUESchoolOfLife]="isUESchoolOfLife"
+    [campus]="campus"
   >
   </app-masonry>
 </div>

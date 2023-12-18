@@ -4,6 +4,7 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap");
+@import 'css-star-rating/scss/star-rating.scss';
 
 /* base */
 @import "./tailwindcss/base.css";
@@ -762,17 +763,10 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
     justify-content: center;
 }
 
-#vimeo-player iframe {
-    margin-top: 80px;
-    width: 800px;
-    height: 460px !important;
-}
-
 @media (max-width: 767px) { 
     iframe.video-cta-iframe {
         margin-top: 80px;
         height: auto !important;
-        aspect-ratio: 16/9;
     }
 
     #vimeo-player iframe { 
@@ -781,4 +775,23 @@ ng-multiselect-dropdown .multiselect-dropdown .dropdown-list {
         height: auto !important;
         aspect-ratio: 16/9;
     }
+}
+
+.rating.color-ok .star-container .star svg,
+.rating.color-negative .star-container .star svg,
+.rating.color-default .star-container .star svg,
+.rating.color-positive .star-container .star svg {
+    fill: #ffc058 !important;
+}
+
+input#email-recipients:focus {
+	outline: none; /* To make sure you see the border-color change as you type */
+}
+
+input#email-recipients:invalid {
+	border-color: red !important;
+}
+
+input#email-recipients:valid {
+	border-color: green !important;
 }

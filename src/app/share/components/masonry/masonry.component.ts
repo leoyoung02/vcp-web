@@ -48,6 +48,8 @@ export class MasonryComponent {
   @Input() section1Mode: any;
   @Input() section2Mode: any;
   @Input() section3Mode: any;
+  @Input() isUESchoolOfLife: any;
+  @Input() campus: any;
 
   languageChangeSubscription;
   language: any;
@@ -125,7 +127,7 @@ export class MasonryComponent {
   fetchData() {
     if(this.section1Mode == 'plans' && this.section2Mode != 'courses') {
       this._companyService
-      .fetchHomeData(this.company?.id)
+      .fetchHomeData(this.company?.id, this.isUESchoolOfLife, this.campus)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
@@ -143,7 +145,7 @@ export class MasonryComponent {
       );
     } else if(this.section1Mode == 'plans' && this.section2Mode == 'courses') {
       this._companyService
-      .fetchHomePlansCoursesData(this.company?.id, this.userId)
+      .fetchHomePlansCoursesData(this.company?.id, this.userId, this.isUESchoolOfLife)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
@@ -181,13 +183,16 @@ export class MasonryComponent {
     if(this.data) {
       this.section1Data = this?.data?.plans?.length >= 6 ? this?.data?.plans?.slice(0, 6) : this?.data?.plans
       
-      let cityguides1 = this?.data?.city_guides?.length >= 2 ? this?.data?.city_guides?.slice(0, 2) : []
-      let joboffers1 = this?.data?.job_offers?.length >= 2 ? this?.data?.job_offers?.slice(0, 4) : []
-      this.section2Data = []
-        .concat(cityguides1)
-        .concat(joboffers1)
+      if(this.company?.id == 32 && !this.isUESchoolOfLife) {
+        let cityguides1 = this?.data?.city_guides?.length >= 2 ? this?.data?.city_guides?.slice(0, 2) : []
+        let joboffers1 = this?.data?.job_offers?.length >= 2 ? this?.data?.job_offers?.slice(0, 4) : []
+        
+        this.section2Data = []
+          .concat(cityguides1)
+          .concat(joboffers1)
 
-      this.section3Data = this?.data?.clubs?.length >= 4 ? this?.data?.clubs?.slice(0, 4) : this.data?.clubs
+        this.section3Data = this?.data?.clubs?.length >= 4 ? this?.data?.clubs?.slice(0, 4) : this.data?.clubs
+      }
 
       this.cd.detectChanges();
     }

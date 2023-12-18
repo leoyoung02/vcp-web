@@ -21,6 +21,21 @@
     </div>
 </div>
 <div class="pt-6">
+    <div class="flex items-center justify-center mb-4 relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+        <div class="w-full max-w-full">
+            <label for="author" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                {{'landing.subject' | translate}}
+            </label>
+            <input 
+                id="author"
+                type="text" 
+                class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                [(ngModel)]="subject" 
+                [ngModelOptions]="{standalone: true}" 
+                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !subject }"
+                placeholder="{{ 'landing.subject' | translate }}">
+        </div>
+    </div>
     <div class="text-xs mb-4">***{{ 'email.datadesc' | translate }}</div>
     <table *ngIf="shortcodes?.length > 0" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

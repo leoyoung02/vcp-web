@@ -22,7 +22,7 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./admin-lists/admin-lists.component')).AdminListsComponent,
     },
     {
-        path: 'my-credits',
+        path: 'my-credits/:mode',
         title: CustomTitleResolver,
         data: { layout: PageLayout.Main , titleKey: 'credit-package.mycredits' },
         loadComponent: async () => (await import('./my-credits/my-credits.component')).MyCreditsComponent,

@@ -156,6 +156,18 @@ export class LayoutMainComponent {
   creditPackages: any;
   navigationSubscription: any;
   isWall: boolean = false;
+  hasCredits: any;
+  newURLButton: any;
+  newURLButtonTextValue: any;
+  newURLButtonTextValueEn: any;
+  newURLButtonTextValueFr: any;
+  newURLButtonTextValueEu: any;
+  newURLButtonTextValueCa: any;
+  newURLButtonTextValueDe: any;
+  newURLButtonUrl: any;
+  isUESchoolOfLife: boolean = false;
+  user: any;
+  campus: any = '';
 
   constructor(
     private _router: Router,
@@ -185,14 +197,11 @@ export class LayoutMainComponent {
   async ngOnInit() {
     this.pageInit = true;
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
-    this.companyId = this._localService.getLocalStorage(
-      environment.lscompanyId
-    );
-    if (!this._localService.getLocalStorage(environment.lslang)) {
-      this._localService.setLocalStorage(environment.lslang, "es");
-    }
-    this.language =
-      this._localService.getLocalStorage(environment.lslang) || "es";
+    this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
+    if (!this._localService.getLocalStorage(environment.lslang)) { this._localService.setLocalStorage(environment.lslang, "es"); }
+    this.language = this._localService.getLocalStorage(environment.lslang) || "es";
+    this.user = this._localService.getLocalStorage(environment.lsuser);
+    this.campus = this.user?.campus || '';
 
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
@@ -206,6 +215,7 @@ export class LayoutMainComponent {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.companyId = company[0].id;
       this.domain = company[0].domain;
       this.logoSource = environment.api +  "/get-image-company/" +  (company[0].photo || company[0].image);
@@ -225,6 +235,14 @@ export class LayoutMainComponent {
       this.newMenuButtonTextValueCa = company[0].new_menu_button_text_ca;
       this.newMenuButtonTextValueDe = company[0].new_menu_button_text_de;
       this.newMenuButtonUrl = company[0].new_menu_button_url;
+      this.newURLButton = company[0].new_url_button;
+      this.newURLButtonTextValue = company[0].new_url_button_text;
+      this.newURLButtonTextValueEn = company[0].new_url_button_text_en;
+      this.newURLButtonTextValueFr = company[0].new_url_button_text_fr;
+      this.newURLButtonTextValueEu = company[0].new_url_button_text_eu;
+      this.newURLButtonTextValueCa = company[0].new_url_button_text_ca;
+      this.newURLButtonTextValueDe = company[0].new_url_button_text_de;
+      this.newURLButtonUrl = company[0].new_url_button_url;
       this.homeActive = company[0].show_home_menu == 1 ? true : false;
       this.courseWallPrefix = company[0].course_wall_prefix;
       this.courseWallPrefixTextValue = company[0].course_wall_prefix_text;
@@ -564,6 +582,14 @@ export class LayoutMainComponent {
       if(this.separateCourseCredits && this.userId > 0) {
         this.getUserCourseCredits();
       }
+    }
+  }
+
+  async mapPlanSubfeatures(plan_subfeatures) {
+    if (plan_subfeatures?.length > 0) {
+      this.hasCredits = plan_subfeatures.some(
+        (a) => (a.name_en == "Credits" || a.subfeature_id == 149) && a.active == 1
+      );
     }
   }
 
@@ -1354,11 +1380,16 @@ export class LayoutMainComponent {
               ? data[7]["company_course_exception_user"]
               : [];
             this.courses = data[8] ? data[8]["courses"] : [];
+            let plan_subfeatures = data[9] ? data[9]["subfeatures"] : [];
+            let planFeature = this.features?.find((f) => f.id == 1);
+            if(planFeature?.id > 0) { 
+              this.mapPlanSubfeatures(plan_subfeatures);
+            }
             this.proceedMenuItems(
               company_subfeatures,
               permissions,
               subfeatureMapping,
-              course_subfeatures
+              course_subfeatures,
             );
           });
       } else {
@@ -1430,7 +1461,7 @@ export class LayoutMainComponent {
     company_subfeatures,
     permissions,
     subfeatureMapping,
-    course_subfeatures
+    course_subfeatures,
   ) {
     if (this.features?.length === 0) {
       return;
@@ -1500,7 +1531,13 @@ export class LayoutMainComponent {
 
       mmatch = this.menus.some((a) => a.name === tempData.name);
       if (!mmatch) {
-        this.menus.push(tempData);
+        if(this.isUESchoolOfLife && this.companyId == 32) {
+          if(tempData?.id == 1) {
+            this.menus.push(tempData);
+          }
+        } else {
+          this.menus.push(tempData);
+        }
       }
     }
 
@@ -1732,6 +1769,16 @@ export class LayoutMainComponent {
         this.newMenuButtonTextValueDe = company[0].new_menu_button_text_de;
         this.newMenuButtonUrl = company[0].new_menu_button_url;
       }
+      this.newURLButton = company[0].new_url_button;
+      if (this.newURLButton == 1) {
+        this.newURLButtonTextValue = company[0].new_url_button_text;
+        this.newURLButtonTextValueEn = company[0].new_url_button_text_en;
+        this.newURLButtonTextValueFr = company[0].new_url_button_text_fr;
+        this.newURLButtonTextValueEu = company[0].new_url_button_text_eu;
+        this.newURLButtonTextValueCa = company[0].new_url_button_text_ca;
+        this.newURLButtonTextValueDe = company[0].new_url_button_text_de;
+        this.newURLButtonUrl = company[0].new_url_button_url;
+      }
       this.courseWallPrefix = company[0].course_wall_prefix;
       if (this.courseWallPrefix == 1) {
         this.courseWallPrefixTextValue = company[0].course_wall_prefix_text;
@@ -1855,6 +1902,29 @@ export class LayoutMainComponent {
           name_EU: this.newMenuButtonTextValueEu || this.newMenuButtonTextValue,
           name_CA: this.newMenuButtonTextValueCa || this.newMenuButtonTextValue,
           name_DE: this.newMenuButtonTextValueDe || this.newMenuButtonTextValue,
+          show: true,
+          sequence: this.menus.length + 1,
+        });
+      }
+    }
+
+    if (this.newURLButton == 1) {
+      mmatch = this.menus.some(
+        (a) =>
+          a.name ===
+          (this.newURLButtonTextValueEn || this.newURLButtonTextValue)
+      );
+      if (!mmatch) {
+        this.menus.push({
+          id: this.menus.length + 100,
+          path: this.newURLButtonUrl,
+          new_url: 1,
+          name: this.newURLButtonTextValueEn || this.newURLButtonTextValue,
+          name_ES: this.newURLButtonTextValue,
+          name_FR: this.newURLButtonTextValueFr || this.newURLButtonTextValue,
+          name_EU: this.newURLButtonTextValueEu || this.newURLButtonTextValue,
+          name_CA: this.newURLButtonTextValueCa || this.newURLButtonTextValue,
+          name_DE: this.newURLButtonTextValueDe || this.newURLButtonTextValue,
           show: true,
           sequence: this.menus.length + 1,
         });

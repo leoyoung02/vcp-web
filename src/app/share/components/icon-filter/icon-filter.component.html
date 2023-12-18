@@ -17,8 +17,8 @@
     </svg>
 </button>
 <!-- Dropdown menu -->
-<div id="dropdownNotification" class="mt-4 z-20 hidden bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" 
-    [ngClass]="{'w-48 max-w-48': mode != 'tutors', 'w-72 max-w-72': mode == 'tutors'}"
+<div id="dropdownNotification" class="max-h-96 overflow-y-auto mt-4 z-20 hidden bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800 dark:divide-gray-700" 
+    [ngClass]="{'w-48 max-w-48': mode != 'tutors' && mode != 'job-offers', 'w-72 max-w-72': mode == 'tutors' || mode == 'job-offers'}"
     aria-labelledby="dropdownNotificationButton">
     <div class="divide-y divide-gray-100 dark:divide-gray-700">
         <ng-container *ngFor="let item of list">

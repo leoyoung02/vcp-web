@@ -3,6 +3,8 @@ import { Observable, forkJoin, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {
   ACTIVITY_CITIES_URL,
+  ACTIVITY_CODE_DATA_URL,
+  ACTIVITY_CREDITS_URL,
   ADD_GROUP_PLAN_COMMENT_REACTION_URL,
   ADD_GROUP_PLAN_COMMENT_REPLY_URL,
   ADD_GROUP_PLAN_COMMENT_URL,
@@ -17,6 +19,7 @@ import {
   CLEAR_PLAN_CONFIRMATION_URL,
   CLEAR_PLAN_PARTICIPANT_ATTENDANCE_URL,
   CLUB_PLAN_DELETE_URL,
+  CONFIRM_ATTENDANCE_URL,
   CONFIRM_PARTICIPANT_ATTENDANCE_URL,
   CONFIRM_PARTICIPANT_URL,
   CONFIRM_PLAN_PARTICIPANT_ATTENDANCE_URL,
@@ -57,7 +60,7 @@ import {
   PLANS_MANAGEMENT_DATA_URL,
   PLANS_OTHER_DATA_URL,
   PLANS_URL,
-  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
+  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, SUBMIT_ACTIVITY_RATING_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -226,8 +229,15 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ])
   }
 
-  getCalendarPlans(id: number, plan_type_id: number, page=1, limit=20, status = 'all'): Observable<any> {
-    const params = `plan_type_id=${plan_type_id}&page=${page}&limit=${limit}&status=${status}`;
+  getCalendarPlans(id: number, plan_type_id: number, page=1, limit=20, status = 'all', isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
+    let params = `plan_type_id=${plan_type_id}&page=${page}&limit=${limit}&status=${status}`;
+    if(isUESchoolOfLife) {
+      params += `&schooloflife=1&campus=${campus}`
+    } else {
+      if(campus) {
+        params += `&campus=${campus}`
+      }
+    }
     return this._http.get(`${PLANS_CALENDAR_URL}/${id}?${params}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
@@ -245,8 +255,16 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     }).pipe(map(res => res));
   }
 
-  fetchPlansCombined(id: number = 0, mode: string = 'active'): Observable<any> {
-    return this._http.get(`${PLANS_URL}/${id}/${mode}`, { 
+  fetchPlansCombined(id: number = 0, mode: string = 'active', isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
+    let url = `${PLANS_URL}/${id}/${mode}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1&campus=${campus}`
+    } else {
+      if(campus) {
+        url += `?campus=${campus}`
+      }
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }
@@ -399,8 +417,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     }).pipe(map(res => res));
   }
 
-  fetchPlansManagementData(id: number = 0, userId: number = 0, role: string = ''): Observable<any> {
-    return this._http.get(`${PLANS_MANAGEMENT_DATA_URL}/${id}/${userId}/${role}`, { 
+  fetchPlansManagementData(id: number = 0, userId: number = 0, role: string = '', isUESchoolOfLife: boolean = false): Observable<any> {
+    let url = `${PLANS_MANAGEMENT_DATA_URL}/${id}/${userId}/${role}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1`
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }
@@ -461,7 +483,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
-  createPlan( entityId, userId, id, planForm, file, imageFile, zoomApiKey, zoomApiSecret, zoomStartUrl, zoomJoinUrl, zoomMeetingId, zoomPassword, typeOfActivity, prolongedDaysNumber, prolongedActivities,isShowAttendee:any=false,isShowComments:any=false,isShowDescription:any=false,isShowPrice:any=false, draft: any = 0): Observable<any> {
+  createPlan( entityId, userId, id, planForm, file, imageFile, zoomApiKey, zoomApiSecret, zoomStartUrl, zoomJoinUrl, zoomMeetingId, zoomPassword, typeOfActivity, prolongedDaysNumber, prolongedActivities,isShowAttendee:any=false,isShowComments:any=false,isShowDescription:any=false,isShowPrice:any=false, draft: any = 0, activityCodeActive): Observable<any> {
     let formData = new FormData();
     if(planForm.group_id) {
         formData.append( 'group_id', planForm.group_id );
@@ -482,6 +504,11 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_comments', isShowComments );
     formData.append( 'show_description', isShowDescription );
     formData.append( 'show_price', isShowPrice );
+    formData.append( 'school_of_life', planForm.school_of_life );
+
+    if(activityCodeActive) {
+      formData.append( 'activity_code', planForm.activity_code );
+    }
 
     if(planForm.plan_date) {
         formData.append( 'plan_date', planForm.plan_date );
@@ -631,6 +658,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'waiting_list', planForm.waiting_list );
     formData.append( 'stripe_pay', planForm.stripe_pay ? planForm.stripe_pay : 0 );
     formData.append( 'credits', planForm.credits );
+    formData.append( 'credits_value', planForm.credits_value );
     formData.append( 'featured', planForm.featured );
     formData.append( 'require_approval', planForm.require_approval );
     formData.append( 'external_registration', planForm.external_registration );
@@ -680,7 +708,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
-  updatePlan( entityId, userId, id, planTypeId, planForm, file, imageFile, typeOfActivity, prolongedDaysNumber, prolongedActivities, publish: any = 1): Observable<any> {
+  updatePlan( entityId, userId, id, planTypeId, planForm, file, imageFile, typeOfActivity, prolongedDaysNumber, prolongedActivities, publish: any = 1, activityCodeActive): Observable<any> {
     let formData = new FormData();
 
     if(planForm.fk_group_id) {
@@ -701,7 +729,11 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_comments', planForm.isShowComments );
     formData.append( 'show_description', planForm.isShowDescription );
     formData.append( 'show_price', planForm.isShowPrice );
+    formData.append( 'school_of_life', planForm.school_of_life );
 
+    if(activityCodeActive) {
+      formData.append( 'activity_code', planForm.activity_code );
+    }
 
     if(planForm.plan_date) {
         formData.append( 'plan_date', planForm.plan_date );
@@ -811,6 +843,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'waiting_list', planForm.waiting_list );
     formData.append( 'stripe_pay', planForm.stripe_pay ? planForm.stripe_pay : 0 );
     formData.append( 'credits', planForm.credits );
+    formData.append( 'credits_value', planForm.credits_value );
     formData.append( 'featured', planForm.featured );
     formData.append( 'external_registration', planForm.external_registration );
     formData.append( 'request_dni', planForm.request_dni );
@@ -866,6 +899,19 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
+  getActivityCodeData(eventId, eventTypeId, userGuid): Observable<any> {
+    return this._http.get(`${ACTIVITY_CODE_DATA_URL}/${eventId}/${eventTypeId}/${userGuid}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  confirmAttendance(payload): Observable<any> {
+    return this._http.post(CONFIRM_ATTENDANCE_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+  
   saveFeaturedText(payload): Observable<any> {
     return this._http.post(EDIT_FEATURED_TEXT_URL,
         payload,
@@ -873,6 +919,13 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
+  submitActivityRating(payload): Observable<any> {
+    return this._http.post(SUBMIT_ACTIVITY_RATING_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+  
   getAllRegistrationFields(id): Observable<any> {
     return this._http.get(`${ALL_GUEST_REGISTRATION_FIELDS_URL}/${id}`,
       { headers: this.headers }
@@ -889,6 +942,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     return this._http.post(ADD_GUEST_REGISTRATION_FIELDS_URL,
         payload,
         { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  fetchCreditsData(id): Observable<any> {
+    return this._http.get(`${ACTIVITY_CREDITS_URL}/${id}`,
+      { headers: this.headers }
     ).pipe(map(res => res));
   }
 

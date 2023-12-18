@@ -103,6 +103,7 @@ export const SETTINGS_OPTIONS_URL = `${API_BASE}/company/other-settings-options-
 export const ACTIVATE_OTHER_SETTING_URL = `${API_BASE}/company/other-settings/activate`;
 export const DEACTIVATE_OTHER_SETTING_URL = `${API_BASE}/company/other-settings/deactivate`;
 export const SAVE_NEW_BUTTON_MENU_URL = `${API_BASE}/company/menu/new/button/edit`;
+export const SAVE_URL_BUTTON_MENU_URL = `${API_BASE}/v2/url/new/button/edit`;
 export const EDIT_MENU_ORDER_URL = `${API_BASE}/company/menu-order/update`;
 export const EDIT_PRIVACY_POLICY_URL = `${API_BASE}/company/privacy-policy/edit-url`;
 export const EDIT_COOKIE_POLICY_URL = `${API_BASE}/company/cookie-policy/edit-url`;
@@ -287,6 +288,7 @@ export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;
 export const PLAN_DETAILS_URL = `${API_BASE}/v2/plan-details`;
 export const PLANS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/plans-management-data`;
 export const PLAN_REGISTRATION_DATA_URL = `${API_BASE}/v2/plan-registration-data`;
+export const ACTIVITY_CREDITS_URL = `${API_BASE}/v2/activity/credits`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;
@@ -404,6 +406,8 @@ export const COURSE_DETAILS_URL = `${API_BASE}/v2/course-details`;
 export const COURSE_DETAILS_ADMIN_URL = `${API_BASE}/v2/course-details-admin`;
 export const COURSE_UNIT_DETAILS_URL = `${API_BASE}/v2/course-unit-details`;
 export const COURSES_ADMIN_LIST_URL = `${API_BASE}/v2/courses-list`;
+export const COURSE_COMPLETE_EVALUATE_URL = `${API_BASE}/v2/course/completed/evaluate`;
+export const COURSES_MANAGEMENT_DATA_URL = `${API_BASE}/v2/courses-management-data`;
 
 // TUTORS
 export const TUTORS_URL = `${API_BASE}/company/tutors`;
@@ -570,6 +574,13 @@ export const ADD_VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas/add`;
 export const EDIT_VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas/edit`;
 export const EDIT_VIDEOS_CTAS_DETAILS_URL = `${API_BASE}/v2/videos-ctas-details/edit`;
 export const DELETE_VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas/delete`;
+
+// UE IMPROVEMENTS
+export const ACTIVITY_CODE_DATA_URL = `${API_BASE}/v2/activity-code-data`;
+export const CONFIRM_ATTENDANCE_URL = `${API_BASE}/v2/activity-code/validate`;
+export const USER_CREDIT_LOGS_URL = `${API_BASE}/v2/user-credit-logs`;
+export const SUBMIT_ACTIVITY_RATING_URL = `${API_BASE}/v2/activity/rating/submit`;
+export const EDIT_CREDITS_SETTINGS_URL = `${API_BASE}/v2/credits/settings`;
 export const EDIT_VIDEOS_CTAS_CTA_SETTINGS_URL = `${API_BASE}/v2/videos-ctas/cta-settings/edit`;
 export const LOG_VIDEO_CTA_CLICK_URL = `${API_BASE}/v2/video-cta/click/log`;
 export const TIKTOK_VIDEOS_CTAS_DATA_URL = `${API_BASE}/v2/tiktok-videos-ctas-data`;

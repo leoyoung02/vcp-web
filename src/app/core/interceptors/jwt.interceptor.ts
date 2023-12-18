@@ -33,7 +33,7 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
 
         if (token) {
             const payload = parseJwt(token); // decode JWT payload part.
-            if (Date.now() >= payload.exp * 1000) { // Check token exp.
+            if (payload && Date.now() >= payload.exp * 1000) { // Check token exp.
                 storage.removeItem('appSession');
                 _localService.removeLocalStorage(environment.lstoken);
                 _localService.removeLocalStorage(environment.lsrefreshtoken);
@@ -68,10 +68,15 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
 
 export function parseJwt(token): any {
     const base64Url = token.split('.')[1];
-    const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(window.atob(base64).split('').map((c) => {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+    const base64 = base64Url?.replace(/-/g, '+')?.replace(/_/g, '/');
+
+    let jsonPayload
+    if(base64) {
+       jsonPayload = decodeURIComponent(window.atob(base64).split('').map((c) => {
+            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+          }).join(''));
+    }
+    
   
-    return JSON.parse(jsonPayload);
+    return jsonPayload ? JSON.parse(jsonPayload) : null;
 }

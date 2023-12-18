@@ -27,7 +27,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlansService } from "@features/services";
 import { DomSanitizer } from '@angular/platform-browser';
-import get from "lodash/get";
+import { NoAccessComponent } from "@share/components";
 import momenttz from "moment-timezone";
 import moment from "moment";
 import "moment/locale/es";
@@ -46,6 +46,7 @@ import "moment/locale/de";
     ReactiveFormsModule,
     MatSnackBarModule,
     NgOptimizedImage,
+    NoAccessComponent,
   ],
   templateUrl: "./event-registration.component.html",
 })
@@ -134,6 +135,7 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
   planCreator: any;
   user: any;
     newAlias: any;
+  isLoading: boolean = true;
 
   constructor(
     private _router: Router,
@@ -314,6 +316,7 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
   formatEventRegistrationData(data) {
     this.template = data?.template;
     this.event = data.event;
+    this.isLoading = false;
     this.plan = this.event;
     this.activityCities = data?.activity_cities;
     this.sectors = data?.sectors;

@@ -242,6 +242,26 @@ export class EmailComponent {
         type: "wall_upload",
         title_en: "Resources uploaded in communities email",
       },
+      {
+        id: 146,
+        type: "confirm_attendance",
+        title_en: "Confirm attendance email",
+      },
+      {
+        id: 148,
+        type: "attendance_confirmed",
+        title_en: "Confirmed attendance email",
+      },
+      {
+        id: 150,
+        type: "student_credits_data_email",
+        title_en: "Student credits data email",
+      },
+      {
+        id: 152,
+        type: "course_completed",
+        title_en: "Course completed email",
+      },
     ];
     this.shortcodes = [
       {
@@ -457,6 +477,18 @@ export class EmailComponent {
       {
         code: "{resource_name}",
         description: this._translateService.instant("email.shresourcename"),
+      },
+      {
+        code: "{activity_code}",
+        description: this._translateService.instant("edit-plan.activitycode"),
+      },
+      {
+        code: "{credits}",
+        description: this._translateService.instant("course-create.credits"),
+      },
+      {
+        code: "{rating}",
+        description: this._translateService.instant("wall.rating"),
       },
     ];
   }

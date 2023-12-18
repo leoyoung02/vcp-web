@@ -83,6 +83,7 @@ export class SidebarComponent {
   @Input() buttonColor: any;
   @Input() hoverColor: any;
   @Input() logoSource: any;
+  @Input() isUESchoolOfLife: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;
@@ -473,17 +474,22 @@ export class SidebarComponent {
   }
 
   getMenuTitle(menu) {
-    let text = this.language == "en"
-      ? menu.name
-      : this.language == "fr"
-      ? menu.name_FR || menu.name_ES
-      : this.language == "eu"
-      ? menu.name_EU || menu.name_ES
-      : this.language == "ca"
-      ? menu.name_CA || menu.name_ES
-      : this.language == "de"
-      ? menu.name_DE || menu.name_ES
-      : menu.name_ES;
+    let text = menu?.new_url == 1 && this.isUESchoolOfLife ? 'Vida Universitaria' :
+      (this.language == "en"
+        ? menu.name
+        : this.language == "fr"
+        ? menu.name_FR || menu.name_ES
+        : this.language == "eu"
+        ? menu.name_EU || menu.name_ES
+        : this.language == "ca"
+        ? menu.name_CA || menu.name_ES
+        : this.language == "de"
+        ? menu.name_DE || menu.name_ES
+        : menu.name_ES);
+
+    if(this.isUESchoolOfLife && text?.indexOf('de Vida Universitaria') >= 0) {
+      text = text?.replace('de Vida Universitaria', 'de School of Life')
+    }
 
     return text;
   }
@@ -518,8 +524,8 @@ export class SidebarComponent {
   }
 
   navigateToPage(menu) {
-    if(menu?.new_button == 1) {
-      this.openUrl(menu?.path);
+    if(menu?.new_button == 1 || menu?.new_url == 1) {
+      this.openUrl(menu?.new_url == 1 && this.isUESchoolOfLife ? `https://${this.company?.url}` : menu?.path);
     } else {
       let link = menu?.path == 'home' ? '/' : menu?.path
       this._router.navigate([link])

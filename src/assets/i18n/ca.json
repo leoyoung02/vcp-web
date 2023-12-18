@@ -322,7 +322,11 @@
         "duplicate": "Duplicat",
         "emailinvite": "Envia una invitació per email",
         "exitcalendarmode": "Surt del mode de calendari",
-        "updatedni": "Actualitzar el DNI"
+        "updatedni": "Actualitzar el DNI",
+        "confirmattendance": "Confirmar l'assistència",
+        "confirmedattendance": "Has confirmat correctament la teva assistència",
+        "invalidcode": "Codi no vàlid",
+        "youearned": "Enhorabona, t'has guanyat"
     },
     "plan-create": {
         "fillup": "Omple aquest formulari per crear el teu pla",
@@ -1453,7 +1457,9 @@
         "show_price":"Mostra preu",
         "waitinglist": "Llista d'espera",
         "downloadwaitinglist": "Baixa la llista d'espera",
-        "renewal": "Data de renovació"
+        "renewal": "Data de renovació",
+        "activitycode": "Codi d'activitat",
+        "numberofcredits": "Nombre de crèdits"
     },
     "edit-club": {
         "uploadimage": "Carregar imatge",
@@ -1648,7 +1654,7 @@
     "event-survey": {
         "eventsurvey": "Enquesta de satisfacció",
         "subtitle": "Gràcies per prendre's el temps per millorar els nostres esdeveniments.",
-        "rating": "Com qualificaria la seva experiència amb l'esdeveniment",
+        "rating": "Com qualificaria la seva experiència amb",
         "veryunsatisfied": "Molt insatisfet",
         "verysatisfied": "Molt satisfet",
         "contact": "Quants contactes de qualitat creus que has fet a l'esdeveniment de Speed ​​Networking?",
@@ -2720,7 +2726,8 @@
         "remainingcredits": "Crèdits restants",
         "insufficientcredits": "Crèdits insuficients",
         "updateCredits": "Vols actualitzar els crèdits del curs per a l'usuari?",
-        "credits": "Crèdits"
+        "credits": "Crèdits",
+        "creditsearned": "Crèdits obtinguts"
     },
     "contact-landing": {
         "settings": "Configuracions",
@@ -3352,6 +3359,24 @@
         "otherimages": "Altres imatges",
         "activateimagesbefosubmitbutton": "Activa les imatges abans del botó d'enviar",
         "uploadimages": "Penja 1 o més imatges"
+    },
+    "credits": {
+        "automatedemail": "Activa el correu electrònic automatitzat de l'historial de cedits",
+        "sendevery": "Envia tots",
+        "schedule": "Programació",
+        "day": "dia",
+        "week": "setmana",
+        "month": "mes",
+        "year": "any",
+        "days": "dies",
+        "weeks": "setmanes",
+        "months": "mesos",
+        "years": "anys",
+        "onthisday": "Aquest dia",
+        "onthesedays": "En aquests dies",
+        "emailschedulesummary": "El correu electrònic s'enviarà cada",
+        "includeattachment": "Inclou el fitxer adjunt",
+        "emailrecipients": "Destinataris de correu electrònic (separats per comes)"
     },
     "videos-ctas": {
         "activatetimer": "Activa el temporitzador",

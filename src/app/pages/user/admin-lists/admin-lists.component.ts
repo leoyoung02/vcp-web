@@ -81,6 +81,7 @@ export class AdminListsComponent {
   isSalesPerson: boolean = false;
   filter: string = "";
   status: any = "";
+  isUESchoolOfLife: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -121,6 +122,7 @@ export class AdminListsComponent {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.domain = company[0].domain;
       this.companyId = company[0].id;
       this.primaryColor = company[0].primary_color;
@@ -178,6 +180,9 @@ export class AdminListsComponent {
     this.plansTitle = this.plansFeature
       ? this.getFeatureTitle(this.plansFeature)
       : "";
+    if(this.isUESchoolOfLife) {
+      this.plansTitle = this.plansTitle?.replace('de Vida Universitaria', 'de School of Life');
+    }
 
     this.clubsFeature = features?.find(
       (f) => f.feature_id == 5 && f.status == 1
@@ -321,7 +326,7 @@ export class AdminListsComponent {
       });
     }
 
-    if (this.clubsFeatureId > 0) {
+    if (this.clubsFeatureId > 0 && !this.isUESchoolOfLife) {
       list.push({
         id: this.clubsFeatureId,
         value: this.clubsFeatureId,
@@ -332,7 +337,7 @@ export class AdminListsComponent {
       });
     }
 
-    if (this.jobOffersFeatureId > 0) {
+    if (this.jobOffersFeatureId > 0 && !this.isUESchoolOfLife) {
       list.push({
         id: this.jobOffersFeatureId,
         value: this.jobOffersFeatureId,

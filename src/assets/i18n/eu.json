@@ -322,7 +322,11 @@
         "duplicate": "Bikoiztu",
         "emailinvite": "E-posta gonbidapena",
         "exitcalendarmode": "Iten egutegi modutik",
-        "updatedni": "Eguneratu DNI"
+        "updatedni": "Eguneratu DNI",
+        "confirmattendance": "Berretsi asistentzia",
+        "confirmedattendance": "Zure asistentzia behar bezala baieztatu duzu",
+        "invalidcode": "Kode baliogabea",
+        "youearned": "Zorionak, irabazi duzu"
     },
     "plan-create": {
         "fillup": "Bete formulario hau zure plana sortzeko",
@@ -1450,7 +1454,9 @@
         "show_price":"Erakutsi prezioa",
         "waitinglist": "Itxaron zerrenda",
         "downloadwaitinglist": "Deskargatu itxaron zerrenda",
-        "renewal": "Berritze data"
+        "renewal": "Berritze data",
+        "activitycode": "Jarduera kodea",
+        "numberofcredits": "Kreditu kopurua"
     },
     "edit-club": {
         "uploadimage": "Igo irudia",
@@ -1645,7 +1651,7 @@
     "event-survey": {
         "eventsurvey": "Asebetetze inkesta",
         "subtitle": "Eskerrik asko gure ekitaldiak hobetzeko denbora emateagatik.",
-        "rating": "Nola baloratuko zenuke ekitaldiarekin izandako esperientzia",
+        "rating": "Nola baloratuko zenuke izandako esperientzia",
         "veryunsatisfied": "Oso pozik",
         "verysatisfied": "Oso pozik",
         "contact": "Zenbat kalitatezko kontaktu egin dituzula uste duzu Speed ​​​​Networking ekitaldian?",
@@ -2711,7 +2717,8 @@
         "remainingcredits": "Gainerako kredituak",
         "insufficientcredits": "Kreditu nahikorik ez",
         "updateCredits": "Erabiltzaileentzako ikastaro-kredituak eguneratu nahi dituzu?",
-        "credits": "Kreditu"
+        "credits": "Kreditu",
+        "creditsearned": "Irabazitako kredituak"
     },
     "contact-landing": {
         "settings": "Ezarpenak",
@@ -3342,6 +3349,24 @@
         "otherimages": "Beste irudi batzuk",
         "activateimagesbefosubmitbutton": "Aktibatu irudiak bidali botoia baino lehen",
         "uploadimages": "Kargatu irudi bat edo gehiago"
+    },
+    "credits": {
+        "automatedemail": "Aktibatu cedits historiaren posta elektroniko automatizatua",
+        "sendevery": "Bidali bakoitza",
+        "schedule": "Egitaraua",
+        "day": "eguna",
+        "week": "aste",
+        "month": "hilabete",
+        "year": "urtea",
+        "days": "egunak",
+        "weeks": "asteak",
+        "months": "hilabeteak",
+        "years": "urteak",
+        "onthisday": "Egun honetan",
+        "onthesedays": "Egun hauetan",
+        "emailschedulesummary": "Mezu elektronikoa behin bidaliko da",
+        "includeattachment": "Sartu eranskina",
+        "emailrecipients": "Mezu hartzaileak (komaz bereizita)"
     },
     "videos-ctas": {
         "activatetimer": "Aktibatu tenporizadorea",

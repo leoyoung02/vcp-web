@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { JobOffersService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
 import { DateAgoPipe } from "@lib/pipes";
-import { IconFilterComponent, PageTitleComponent } from "@share/components";
+import { FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
 import get from "lodash/get";
 import { NgxPaginationModule } from "ngx-pagination";
 
@@ -24,6 +24,7 @@ import { NgxPaginationModule } from "ngx-pagination";
     TranslateModule,
     SearchComponent,
     IconFilterComponent,
+    FilterComponent,
     PageTitleComponent,
     DateAgoPipe,
     NgxPaginationModule,
@@ -111,6 +112,11 @@ export class JobOffersListComponent {
   createHover: boolean = false;
   hover: boolean = false;
   selectedOfferId: any;
+  locations: any = [];
+  buttonList: any = [];
+  selectedLocation: any = '';
+  user: any;
+  campus: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -129,24 +135,30 @@ export class JobOffersListComponent {
   async ngOnInit() {
     this.onResize();
 
-    this.language = this._localService.getLocalStorage(environment.lslang)
-    this._translateService.use(this.language || 'es')
-    this.email = this._localService.getLocalStorage(environment.lsemail)
-    this.userId = this._localService.getLocalStorage(environment.lsuserId)
-    this.companyId = this._localService.getLocalStorage(environment.lscompanyId)
-    this.userEmailDomain = this._localService.getLocalStorage(environment.lsdomain)
-    this.userRole = this._localService.getLocalStorage(environment.lsuserRole)
-    this.companies = this._localService.getLocalStorage(environment.lscompanies) ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies)) : ''
+    this.language = this._localService.getLocalStorage(environment.lslang);
+    this._translateService.use(this.language || 'es');
+    this.user = this._localService.getLocalStorage(environment.lsuser);
+    this.campus = this.user?.campus || '';
+    if(this.campus) {
+      localStorage.setItem('job-offers-filter-city', this.campus);
+    }
+
+    this.email = this._localService.getLocalStorage(environment.lsemail);
+    this.userId = this._localService.getLocalStorage(environment.lsuserId);
+    this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
+    this.userEmailDomain = this._localService.getLocalStorage(environment.lsdomain);
+    this.userRole = this._localService.getLocalStorage(environment.lsuserRole);
+    this.companies = this._localService.getLocalStorage(environment.lscompanies) ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies)) : '';
     if (!this.companies) { this.companies = get(await this._companyService.getCompanies().toPromise(), 'companies') }
-    let company = this._companyService.getCompany(this.companies)
+    let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
-      this.userEmailDomain = company[0].domain
-      this.companyId = company[0].id
+      this.userEmailDomain = company[0].domain;
+      this.companyId = company[0].id;
       this.companyName = company[0].entity_name;
-      this.primaryColor = company[0].primary_color
-      this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color
-      this.termsAndConditions = company[0].job_terms_and_conditions
-      this.showSectionTitleDivider = company[0].show_section_title_divider
+      this.primaryColor = company[0].primary_color;
+      this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color;
+      this.termsAndConditions = company[0].job_terms_and_conditions;
+      this.showSectionTitleDivider = company[0].show_section_title_divider;
     }
 
     this.languageChangeSubscription =
@@ -174,21 +186,26 @@ export class JobOffersListComponent {
 
   fetchJobOffers() {
     this._jobOffersService
-      .fetchJobOffers(this.companyId, this.userId, 'active')
+      .fetchJobOffers(this.companyId, this.userId, 'active', this.campus)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 
           this.mapUserPermissions(data?.user_permissions);
 
+          this.locations = data?.job_locations;
+          this.initializeIconFilterList(this.locations);
+
           this.categories = data?.job_areas;
+          this.initializeButtonGroup();
+
           this.areas = data?.job_areas;
           this.types = data?.job_types;
           this.candidatesDisplay = data?.settings?.offer_candidates_display_settings?.candidates_display || '';
           this.hideDays = data?.settings?.offer_hide_days_setting?.hide_dayss || '';
-          this.initializeIconFilterList(this.categories);
 
           this.jobOfferAreasMapping = data?.job_offer_areas;
           this.jobOfferApplicationsMapping = data?.job_offer_applications;
@@ -295,13 +312,49 @@ export class JobOffersListComponent {
       },
     ];
 
-    list?.forEach((item) => {
+    list?.forEach((item, index) => {
       this.list.push({
-        id: item.id,
-        value: item.id,
-        text: item.title,
+        id: index + 1,
+        value: item.location,
+        text: item.location,
         selected: false,
-        company_id: item.company_id,
+        company_id: this.companyId,
+      });
+    });
+  }
+
+  initializeButtonGroup() {
+    let categories = this.categories;
+
+    this.buttonList = [
+      {
+        id: "All",
+        value: "All",
+        text: this._translateService.instant("plans.all"),
+        selected: true,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: "All",
+        name_CA: "All",
+        name_DE: "All",
+        name_EN: "All",
+        name_ES: "All",
+        name_EU: "All",
+        name_FR: "All",
+        sequence: 1,
+        status: 1,
+      },
+    ];
+
+    categories?.forEach((category, index) => {
+      this.buttonList.push({
+        id: index + 1,
+        value: category.id,
+        text: category.title,
+        selected: false,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: category.id,
+        sequence: index + 1,
+        status: 1,
       });
     });
   }
@@ -321,9 +374,21 @@ export class JobOffersListComponent {
         area_display: this.getAreaDisplay(offer)
       }
     })
-   
-    this.jobOffers = jobOffers
-    this.allJobOffers = jobOffers
+
+    this.allJobOffers = jobOffers;
+
+    let selected = localStorage.getItem('job-offers-filter-city');
+    if(selected && this.list?.length > 0) {
+      this.list.forEach(item => {
+        if(item.value == selected) {
+          item.selected = true;
+          this.selectedLocation = selected;
+        } else {
+          item.selected = false;
+        }
+      })
+      this.filterJobOffers();
+    }
   }
 
   sortOffers(offers) {
@@ -375,6 +440,19 @@ export class JobOffersListComponent {
   }
 
   filteredArea(event) {
+    this.buttonList?.forEach((item) => {
+      if (item.id === event.id) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    this.selectedArea = event.id || ''
+    this.filterJobOffers()
+  }
+
+  filteredLocation(event) {
     this.list?.forEach((item) => {
       if (item.value === event) {
         item.selected = true;
@@ -383,8 +461,9 @@ export class JobOffersListComponent {
       }
     });
 
-    this.selectedArea = event || ''
-    this.filterJobOffers()
+    this.selectedLocation = event || '';
+    localStorage.setItem('job-offers-filter-city', this.selectedLocation);
+    this.filterJobOffers();
   }
 
   filterJobOffers() {
@@ -417,7 +496,7 @@ export class JobOffersListComponent {
     }
 
     let type_checked = this.types.find(ty => ty.checked == true)
-    if (type_checked) {
+    if(type_checked) {
       jobOffers = jobOffers.filter(offer => {
         let include = false
 
@@ -429,7 +508,7 @@ export class JobOffersListComponent {
         return include
       })
     }
-    if (this.selectedArea) {
+    if(this.selectedArea) {
       jobOffers = jobOffers.filter(jo => {
         let include = false
 
@@ -441,10 +520,16 @@ export class JobOffersListComponent {
       })
     }
 
+    if(this.selectedLocation) {
+      jobOffers = jobOffers.filter(jo => {
+        return jo.location == this.selectedLocation
+      })
+    }
+
     if(this.search || this.selectedArea) {
-      this.jobOffers = jobOffers
+      this.jobOffers = jobOffers;
     } else {
-      this.jobOffers = this.sortOffers(this.allJobOffers)
+      this.jobOffers = this.sortOffers(jobOffers);
     }
   }
 

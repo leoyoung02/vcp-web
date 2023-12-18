@@ -423,6 +423,17 @@
                                     {{ 'company-settings.edit' | translate }}
                                 </button>
                             </ng-container>
+                            <ng-container *ngIf="item?.title_en == 'New URL button' && item?.active == 1">
+                                <button
+                                    class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    (click)="openEditNewURLButtonModal(item)"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                >
+                                    {{ 'company-settings.edit' | translate }}
+                                </button>
+                            </ng-container>
                             <ng-container *ngIf="item?.title_en == 'Home text' && item?.active == 1">
                                 <button
                                     class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -986,6 +997,50 @@
                                     {{ 'company-settings.edit' | translate }}
                                 </button>
                             </ng-container>
+                            <ng-container *ngIf="item?.title_en == 'Confirm attendance email' && item?.active == 1">
+                                <button
+                                    class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    (click)="goToEmailTemplate('confirm_attendance')"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                >
+                                    {{ 'company-settings.edit' | translate }}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngIf="item?.title_en == 'Confirmed attendance email' && item?.active == 1">
+                                <button
+                                    class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    (click)="goToEmailTemplate('attendance_confirmed')"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                >
+                                    {{ 'company-settings.edit' | translate }}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngIf="item?.title_en == 'Student credits data email' && item?.active == 1">
+                                <button
+                                    class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    (click)="goToEmailTemplate('student_credits_data_email')"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                >
+                                    {{ 'company-settings.edit' | translate }}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngIf="item?.title_en == 'Course completed email' && item?.active == 1">
+                                <button
+                                    class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    (click)="goToEmailTemplate('course_completed')"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                >
+                                    {{ 'company-settings.edit' | translate }}
+                                </button>
+                            </ng-container>
                             <ng-container *ngIf="item?.title_en == 'Allow different content based on profile' && item?.active == 1">
                                 <button
                                     class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -1405,6 +1460,73 @@
                         </div>
                     </form>
                 </ng-container>
+                <ng-container *ngIf="dialogMode == 'new-url'">
+                    <form class="space-y-6">
+                        <div class="flex items-center justify-center mb-4">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !newURLButtonTextValue }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="{{ 'company-settings.value' | translate }} (ES)*"
+                                [(ngModel)]="newURLButtonTextValue"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div *ngIf="isEnglishEnabled" class="flex items-center justify-center mb-4">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !newURLButtonTextValueEn }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="{{ 'company-settings.value' | translate }} (EN)*"
+                                [(ngModel)]="newURLButtonTextValueEn"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div *ngIf="isFrenchEnabled" class="flex items-center justify-center mb-4">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !newURLButtonTextValueFr }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="{{ 'company-settings.value' | translate }} (FR)*"
+                                [(ngModel)]="newURLButtonTextValueFr"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div *ngIf="isBasqueEnabled" class="flex items-center justify-center mb-4">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !newURLButtonTextValueEu }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="{{ 'company-settings.value' | translate }} (EU)*"
+                                [(ngModel)]="newURLButtonTextValueEu"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div *ngIf="isCatalanEnabled" class="flex items-center justify-center mb-4">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !newURLButtonTextValueCa }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="{{ 'company-settings.value' | translate }} (CA)*"
+                                [(ngModel)]="newURLButtonTextValueCa"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div *ngIf="isGermanEnabled" class="flex items-center justify-center mb-4">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !newURLButtonTextValueDe }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="{{ 'company-settings.value' | translate }} (DE)*"
+                                [(ngModel)]="newURLButtonTextValueDe"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="flex items-center justify-center mb-4">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !newURLButtonUrl }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="URL*"
+                                [(ngModel)]="newURLButtonUrl"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </form>
+                </ng-container>
                 <ng-container *ngIf="dialogMode == 'update-value'">
                     <form class="space-y-6">
                         <div class="flex items-center justify-center mb-4"
@@ -1439,7 +1561,7 @@
                         </div>
                     </form>
                 </ng-container>
-                <ng-container *ngIf="dialogMode == 'policy-url' || dialogMode == 'new-menu' || dialogMode == 'update-value'">
+                <ng-container *ngIf="dialogMode == 'policy-url' || dialogMode == 'new-menu' || dialogMode == 'new-url' || dialogMode == 'update-value'">
                     <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                         <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             (click)="saveDialog()"
