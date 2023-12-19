@@ -817,10 +817,14 @@ export class PlanDetailComponent {
       this.userAliases = user?.user_alias;
     }
     this.imageSrc = `${this.apiPath}${this.plan.path}${this.plan.image}`;
-    this.eventDescription = this.sanitizer.sanitize(
-      SecurityContext.HTML,
-      this.sanitizer.bypassSecurityTrustHtml(this.plan.description)
-    );
+    if(this.planDescription && this.planDescription.indexOf('</script>') >= 0) {
+      this.eventDescription = this.sanitizer.sanitize(
+        SecurityContext.SCRIPT, this.sanitizer.bypassSecurityTrustScript(this.planDescription));
+    } else {
+      this.eventDescription = this.sanitizer.sanitize(
+        SecurityContext.HTML, this.sanitizer.bypassSecurityTrustHtml(this.plan.description)
+      );
+    }
     this.group_id = this.plan.fk_group_id || null;
     this.seats = parseInt(this.plan.seats) || 0;
     this.showSeats = this.plan.show_seats == 1 ? true : false;

@@ -322,6 +322,7 @@ export class ManageUsersComponent {
   hasAddedUser: boolean = false;
   createdUserId: any;
   currentUser: any;
+  selectedOperation: any;
 
   constructor(
     private _router: Router,
@@ -2210,7 +2211,7 @@ export class ManageUsersComponent {
       fk_company_id: this.companyId,
     });
 
-    if (this.hasConfirmEmail && this.membersForConfirm2?.length > 0) {
+    if (this.hasConfirmEmail && (this.companyId == 42 || this.membersForConfirm2?.length > 0)) {
       buttonList.push({
         id: 2,
         value: "Confirm",
@@ -2262,7 +2263,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.requirePayment && this.membersCancelled2?.length > 0) {
+    if (this.requirePayment && (this.companyId == 42 || this.membersCancelled2?.length > 0)) {
       buttonList.push({
         id: 7,
         value: "Cancelled",
@@ -2397,15 +2398,17 @@ export class ManageUsersComponent {
   }
 
   editUserConfirmStatus(row) {
+    this.showConfirmationModal = false;
+    this.confirmDeleteItemTitle = this._translateService.instant(
+      "dialog.confirmapprove"
+    );
+    this.confirmDeleteItemDescription = this._translateService.instant(
+      "dialog.confirmapproveitem"
+    );
+    this.selectedOperation = 'confirm';
     this.selectedUser = row;
-    // this.confirmationDialogService.confirm(
-    //   this._translateService.instant('dialog.confirmapprove'),
-    //   this._translateService.instant('dialog.confirmapproveitem')
-    // ).then((confirmed) =>
-    //   this.updateUserConfirmStatus(this.selectedUser.id, confirmed)
-    // ).catch(() =>
-    //   console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)')
-    // )
+    this.acceptText = "OK";
+    setTimeout(() => (this.showConfirmationModal = true));
   }
 
   updateUserConfirmStatus(id, confirmed) {
@@ -3968,6 +3971,11 @@ export class ManageUsersComponent {
           this.showConfirmationModal = false;
         }
       }
+    }
+
+    if(this.selectedOperation == 'confirm' && this.selectedUser) {
+      this.updateUserConfirmStatus(this.selectedUser.id, true);
+      this.showConfirmationModal = false;
     }
   }
 

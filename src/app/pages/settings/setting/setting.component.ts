@@ -357,8 +357,7 @@ export class SettingComponent {
   ) {}
 
   async ngOnInit() {
-    this.language =
-      this._localService.getLocalStorage(environment.lslanguage) || "es";
+    this.language = this._localService.getLocalStorage(environment.lslang) || "es";
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(
       environment.lscompanyId
@@ -1863,6 +1862,63 @@ export class SettingComponent {
     } else {
       this._router.navigate([`/settings/tiktok/${item?.replace(' & ', '-')?.replace(' ', '-')?.toLowerCase()}`]);
     }
+  }
+
+  toggleLandingTemplateChange(event) {
+    if(event?.target?.checked) {
+      this._companyService.enableLandingTemplate(this.companyId, {})
+        .subscribe(
+          async response => {
+            this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+            if(!event) {
+              this.landingTemplateEnabled = false
+            }
+            await this.setCompanyInit();
+            location.reload()
+          },
+          error => {
+            console.log(error)
+          }
+        )
+    }
+  }
+
+  updateHomeTemplate() {
+    this._router.navigate([`/settings/template-editor`])
+  }
+
+  togglePredefinedTemplateChange(event) {
+    if(event?.target?.checked) {
+      this._companyService.enablePredefinedHomeTemplate(this.companyId, {})
+      .subscribe(
+        async response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+          this.predefinedTemplateEnabled = true
+          await this.setCompanyInit();
+          location.reload()
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    } else {
+      this._companyService.disableLandingTemplate(this.companyId, {})
+      .subscribe(
+        async response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+          this.predefinedTemplateEnabled = false
+          await this.setCompanyInit();
+          location.reload()
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    }
+  }
+
+  updatePredefinedHomeTemplate() {
+    this._router.navigate([`/settings/templates`])
   }
 
   handleGoBack() {

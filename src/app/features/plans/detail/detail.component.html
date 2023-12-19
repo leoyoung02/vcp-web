@@ -96,7 +96,7 @@
         <div class="w-full">
             <div class="mt-4 w-full max-w-full">
                 <div class="flex flex-col">
-                    <div [innerHtml]="planTruncatedDescription"></div>
+                    <div [innerHtml]="planTruncatedDescription | safeContentHtml: 'html'"></div>
                     <ng-container *ngIf="planDescription?.length > truncate">
                         <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
                         <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="!planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="readMore()">{{ 'club-details.readmore' | translate }}</div>

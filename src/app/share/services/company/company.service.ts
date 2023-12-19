@@ -149,6 +149,13 @@ import {
   TIKTOK_QUESTIONS_DATA_URL,
   TIKTOK_LANDING_PAGES_DATA_URL,
   TIKTOK_VIDEOS_CTAS_DATA_URL,
+  ENABLE_LANDING_TEMPLATE_URL,
+  ENABLE_PREDEFINED_TEMPLATE_URL,
+  DISABLE_PREDEFINED_TEMPLATE_URL,
+  DISABLE_LANDING_TEMPLATE_URL,
+  COMPANY_LANDING_TEMPLATE_URL,
+  COMPANY_LANDING_TEMPLATE_DETAILS_URL,
+  EDIT_COMPANY_TEMPLATE_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1320,5 +1327,55 @@ export class CompanyService {
     return this._http.get(`${TIKTOK_VIDEOS_CTAS_DATA_URL}/${id}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
+  }
+
+  enableLandingTemplate(id, payload): Observable<any> {
+    return this._http.post(`${ENABLE_LANDING_TEMPLATE_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  disableLandingTemplate(id, payload): Observable<any> {
+    return this._http.post(`${DISABLE_LANDING_TEMPLATE_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  enablePredefinedHomeTemplate(id, payload): Observable<any> {
+    return this._http.post(`${ENABLE_PREDEFINED_TEMPLATE_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  disablePredefinedHomeTemplate(id, payload): Observable<any> {
+    return this._http.post(`${DISABLE_PREDEFINED_TEMPLATE_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getLandingTemplates(id): Observable<any> {
+    return this._http.get(`${COMPANY_LANDING_TEMPLATE_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getLandingTemplate(id, companyId): Observable<any> {
+    return this._http.get(`${COMPANY_LANDING_TEMPLATE_DETAILS_URL}/${id}/${companyId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editCompanyTemplate(templateId, companyId, payload): Observable<any> {
+    let url = `${EDIT_COMPANY_TEMPLATE_URL}/${companyId}/${templateId}`
+
+    return this._http.post(
+        url,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }
