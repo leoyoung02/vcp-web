@@ -143,6 +143,8 @@ export class SidebarComponent {
   languageHover: boolean = false;
   hoveredCourseWallPath: any;
   courseWallHover: any;
+  hasGenericWallDropdown: boolean = false;
+  genericWallDropdownMenu: any;
 
   constructor(
     private _router: Router, 
@@ -215,6 +217,7 @@ export class SidebarComponent {
         return cw.course_wall != 11;
       });
       this.navMenus = navmenus;
+      console.log(navmenus)
       this.checkCourseWalls(menuChange.currentValue);
     }
 
@@ -278,6 +281,17 @@ export class SidebarComponent {
       if (course_wall_dropdown_row?.length > 0) {
         this.hasCourseWallDropdown = true;
         this.courseWallDropdownMenu = course_wall_dropdown_row[0];
+        setTimeout(() => {
+          initFlowbite();
+        }, 100);
+      }
+
+      let generic_wall_dropdown_row = menus?.filter((cw) => {
+        return cw.path == '/activity-feed-0';
+      });
+      if(generic_wall_dropdown_row?.length > 0) {
+        this.hasGenericWallDropdown = true;
+        this.genericWallDropdownMenu = generic_wall_dropdown_row[0];
         setTimeout(() => {
           initFlowbite();
         }, 100);

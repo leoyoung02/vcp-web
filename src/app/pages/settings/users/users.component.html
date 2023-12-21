@@ -127,7 +127,12 @@
                     <ng-container matColumnDef="first_name" *ngIf="companyId != 15">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.firstname' | translate }} </mat-header-cell>
                         <mat-cell *matCellDef="let row" data-label="first_name">
-                            {{ row?.first_name }}
+                            <div class="flex items-center">
+                                {{ row?.first_name }}
+                                <ng-container *ngIf="row?.subscription_id && !row.cancelled">
+                                    <img src="./assets/images/stripe.jpg" class="w-[60px] h-[30px] object-contain"/>
+                                </ng-container>
+                            </div>
                         </mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="last_name" *ngIf="companyId != 15">
@@ -585,6 +590,28 @@
                                                 </div>
                                             </ng-container>
                                         </ng-container>
+                                    </div>
+                                    <div class="flex items-center justify-center relative">
+                                        <div class="w-full max-w-full">
+                                            <label for="start-date" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                                {{'company-reports.startdate' | translate}}
+                                            </label>
+                                            <div class="flex items-center justify-center relative">
+                                                <div class="w-full max-w-full">
+                                                    <mat-form-field class="w-full datetime-picker-field">
+                                                        <input 
+                                                            id="start-date"
+                                                            matInput 
+                                                            [ngxMatDatetimePicker]="picker0" 
+                                                            placeholder="{{'company-reports.startdate' | translate}}" 
+                                                            [(ngModel)]="startDate"
+                                                            [ngModelOptions]="{standalone: true}">
+                                                        <ngx-mat-datepicker-toggle matSuffix [for]="picker0"></ngx-mat-datepicker-toggle>
+                                                        <ngx-mat-datetime-picker [hideTime]="false" [showSeconds]="false" #picker0></ngx-mat-datetime-picker>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </mat-tab>
                                 <mat-tab *ngIf="userMode == 'edit' && (superTutor || isGuardianType || userTypeName == 'Admin TUTORES')" 

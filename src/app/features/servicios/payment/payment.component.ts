@@ -265,7 +265,6 @@ export class ServicePaymentComponent {
     );
     this._serviciosService.getASService(this.id).subscribe(
       async response => {
-        console.log(response);
         this.event = response.service;
         this.event = this.event[0];
         this.pageTitle = this.event?.name;

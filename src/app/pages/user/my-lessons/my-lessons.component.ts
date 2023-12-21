@@ -5,6 +5,7 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { PageTitleComponent, ToastComponent } from '@share/components';
 import { CompanyService, LocalService, UserService } from '@share/services';
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -14,6 +15,7 @@ import { StarRatingComponent } from '@lib/components';
 import { FormsModule } from '@angular/forms';
 import { initFlowbite } from 'flowbite';
 import { HistoryListComponent } from '@features/tutors/history-list/history-list.component';
+import { SearchComponent } from '@share/components/search/search.component';
 import moment from 'moment';
 import get from 'lodash/get';
 
@@ -26,11 +28,13 @@ import get from 'lodash/get';
         MatTableModule,
         MatSortModule,
         MatSnackBarModule,
+        MatPaginatorModule,
         FormsModule,
         PageTitleComponent,
         StarRatingComponent,
         ToastComponent,
-        HistoryListComponent
+        HistoryListComponent,
+        SearchComponent,
     ],
     templateUrl: './my-lessons.component.html',
     styleUrls: ["./my-lessons.component.scss"],
@@ -78,6 +82,8 @@ export class MyLessonsComponent {
     perHourCommission: boolean = false
     hasDifferentStripeAccounts: boolean = false
     tutorAccountId: any = []
+    pageSize: number = 10
+    pageIndex: number = 0
     dataSource: any
     displayedColumns = [
         'action',
@@ -111,6 +117,9 @@ export class MyLessonsComponent {
     transferCommissionsByBulk: any;
     pageTitle: any;
     @ViewChild(MatSort, { static: false }) sort: MatSort | undefined;
+    @ViewChild(MatPaginator, { static: false }) paginator:
+    | MatPaginator
+    | undefined;
     courseFeatureId: any;
     company: any;
     showConfirmationModal: boolean = false;
@@ -132,6 +141,9 @@ export class MyLessonsComponent {
     historyListTitle: any;
     historyListBookingId: any;
     historyListUserId: any;
+    searchText: any;
+    placeholderText: any;
+    searchKeyword: any;
 
     constructor(
         private _route: ActivatedRoute,
@@ -167,7 +179,15 @@ export class MyLessonsComponent {
             this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color
         }
 
+        this.initializeSearch();
         this.initializePage();
+    }
+
+    initializeSearch() {
+        this.searchText = this._translateService.instant("guests.search");
+        this.placeholderText = this._translateService.instant(
+          "news.searchbykeyword"
+        );
     }
 
     initializePage() {
@@ -403,12 +423,33 @@ export class MyLessonsComponent {
         setTimeout(() => {
             initFlowbite();
           }, 100);
-        this.dataSource = new MatTableDataSource(this.bookings)
+        this.dataSource = new MatTableDataSource(
+            this.bookings.slice(
+                this.pageIndex * this.pageSize,
+                (this.pageIndex + 1) * this.pageSize
+            )
+        )
         if (this.sort) {
             this.dataSource.sort = this.sort;
         } else {
             setTimeout(() => this.dataSource.sort = this.sort);
         }
+        if (this.paginator) {
+            new MatTableDataSource(this.bookings).paginator = this.paginator;
+            if (this.pageIndex > 0) {
+            } else {
+              this.paginator.firstPage();
+            }
+          } else {
+            setTimeout(() => {
+              if (this.paginator) {
+                new MatTableDataSource(this.bookings).paginator = this.paginator;
+                if (this.pageIndex > 0) {
+                  this.paginator.firstPage();
+                }
+              }
+            });
+          }
     }
 
     getDurationText(item) {
@@ -440,6 +481,13 @@ export class MyLessonsComponent {
         return item
     }
 
+    handleSearch(event) {
+        this.pageIndex = 0;
+        this.pageSize = 10;
+        this.searchKeyword = event;
+        this.filterBookings();
+    }
+
     filterLessonStatus(status) {
         this.statusFilter = status
         this.filterBookings()
@@ -447,6 +495,51 @@ export class MyLessonsComponent {
 
     filterBookings() {
         let bookings = this.allBookings
+
+        if (bookings?.length > 0 && this.searchKeyword) {
+            bookings = bookings?.filter((m) => {
+              let include = false;
+              if (
+                (m.tutor_name &&
+                  m.tutor_name
+                    .toLowerCase()
+                    .normalize("NFD")
+                    .replace(/\p{Diacritic}/gu, "")
+                    .indexOf(
+                      this.searchKeyword
+                        .toLowerCase()
+                        .normalize("NFD")
+                        .replace(/\p{Diacritic}/gu, "")
+                    ) >= 0) ||
+                (m.student_name &&
+                    m.student_name
+                        .toLowerCase()
+                        .normalize("NFD")
+                        .replace(/\p{Diacritic}/gu, "")
+                        .indexOf(
+                        this.searchKeyword
+                            .toLowerCase()
+                            .normalize("NFD")
+                            .replace(/\p{Diacritic}/gu, "")
+                        ) >= 0) ||
+                (m.course &&
+                    m.course
+                        .toLowerCase()
+                        .normalize("NFD")
+                        .replace(/\p{Diacritic}/gu, "")
+                        .indexOf(
+                        this.searchKeyword
+                            .toLowerCase()
+                            .normalize("NFD")
+                            .replace(/\p{Diacritic}/gu, "")
+                        ) >= 0)
+              ) {
+                include = true;
+              }
+      
+              return include;
+            });
+        }
 
         if(this.statusFilter == 'Upcoming') {
             bookings = bookings && bookings.filter(booking => {
@@ -852,5 +945,21 @@ export class MyLessonsComponent {
                     this.closemodalbutton1?.nativeElement.click();
                 }
         });
+    }
+
+    getPageDetails(event: any) {
+        this.pageSize = event.pageSize;
+        this.pageIndex = event.pageIndex;
+        this.dataSource = new MatTableDataSource(
+          this.bookings.slice(
+            event.pageIndex * event.pageSize,
+            (event.pageIndex + 1) * event.pageSize
+          )
+        );
+        if (this.sort) {
+          this.dataSource.sort = this.sort;
+        } else {
+          setTimeout(() => (this.dataSource.sort = this.sort));
+        }
     }
 }

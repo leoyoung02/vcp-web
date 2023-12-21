@@ -212,6 +212,7 @@ export class CheckoutComponent {
   eyeSlashIcon = faEyeSlash;
   checkCircleIcon = faCheckCircle;
   timesCircleIcon = faTimesCircle;
+  samePrice: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -404,7 +405,7 @@ export class CheckoutComponent {
               if (!this.user.company_name && this.user.country == "Spain") {
                 this.invoiceSpain = true;
               }
-              if (!this.user.company_name || !this.user.company_country) {
+              if (!this.user.country && !this.user.company_country) {
                 this.invoiceSpain = true;
               }
               if (this.id == 0) {
@@ -525,6 +526,7 @@ export class CheckoutComponent {
               this.requireApproval = member_type[0].require_approval;
               this.trialPeriod = member_type[0].trial_period;
               this.trialDays = member_type[0].trial_days;
+              this.samePrice = member_type[0].same_price == 1 ? true : false;
               this.setNextPaymentDate();
               if (this.stripeForm.controls["amount"]) {
                 this.stripeForm.controls["amount"].setValue(this.membershipFee);
@@ -689,8 +691,7 @@ export class CheckoutComponent {
         let price = this.memberType.price;
         if (this.customInvoice) {
           if (this.invoiceSpain) {
-            price =
-              this.planMode == "trial" && display != "next"
+            price = this.planMode == "trial" && display != "next"
                 ? display == "cart"
                   ? this.memberType.trial_base_price
                   : this.memberType.trial_price
@@ -698,10 +699,11 @@ export class CheckoutComponent {
                 ? this.memberType.base_price
                 : this.memberType.price;
           } else {
-            price =
-              this.planMode == "trial" && display != "next"
+            if(!this.samePrice) {
+              price = this.planMode == "trial" && display != "next"
                 ? this.memberType.trial_base_price
                 : this.memberType.base_price;
+            }
           }
         } else {
           price =
@@ -1115,6 +1117,8 @@ export class CheckoutComponent {
             if (this.subscription?.id > 0) {
               this.stripeData["subscription_id"] = this.subscription?.id || 0;
             }
+            this.stripeData['invoice_to_company'] = this.useCompanyInvoice == true ? 1 : 0,
+            this.stripeData["same_price"] = this.samePrice == true ? 1 : 0;
 
             if (this.id == 0) {
               this.signupUser(content);

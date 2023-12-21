@@ -190,7 +190,6 @@ export class JobOffersListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 

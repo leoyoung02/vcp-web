@@ -411,6 +411,8 @@ export class CourseEditComponent {
   downloadPondFiles = [];
   allTutors: any;
   filteredTutors: any;
+  unitAvailability: boolean = false;
+  unitAvailabilityDate: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -2358,6 +2360,8 @@ export class CourseEditComponent {
     this.externalLink = ''
     this.courseUnitFormSubmitted = false
     this.textSizeUnit = ''
+    this.unitAvailability = false
+    this.unitAvailabilityDate = ''
   }
 
   addUnit() {
@@ -2439,6 +2443,8 @@ export class CourseEditComponent {
       text_fr: this.textFR,
       vimeo_id: this.vimeoID || null,
       video_always_available: this.videoAvailability || 0,
+      unit_availability: this.unitAvailability || 0,
+      unit_availability_date: this.unitAvailabilityDate || null,
     }
 
     this._coursesService.addCourseUnitNew(
@@ -2535,6 +2541,8 @@ export class CourseEditComponent {
       text_fr: this.textFR,
       vimeo_id: this.vimeoID || null,
       video_always_available: this.videoAvailability || 0,
+      unit_availability: this.unitAvailability || 0,
+      unit_availability_date: this.unitAvailabilityDate || null,
     }
 
     this._coursesService.editCourseUnitNew(
@@ -2625,9 +2633,11 @@ export class CourseEditComponent {
     this.textDE = item.text_de || ''
     this.textEU = item.text_eu || ''
     this.textFR = item.text_fr || ''
-    this.vimeoID = item.vimeo_id,
-    this.videoBackgroundImgSrcUnit = item.video_cover ? (environment.api + '/get-course-image/' + item.video_cover) : '',
+    this.vimeoID = item.vimeo_id
+    this.videoBackgroundImgSrcUnit = item.video_cover ? (environment.api + '/get-course-image/' + item.video_cover) : ''
     this.videoAvailability = item.video_always_available
+    this.unitAvailability = item.unit_availability == 1 ? true : false
+    this.unitAvailabilityDate = item.unit_availability_date
 
     if(this.cta) {
       this.getCTAs()

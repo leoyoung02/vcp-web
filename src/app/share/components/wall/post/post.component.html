@@ -3,7 +3,7 @@
         'border border-t-3 border-b-0 border-r-0 border-l-0 pt-6': post?.parent_id > 0
     }">
     <div>
-        <div class="whitespace-pre-wrap text-sm sm:mr-0 md:mr-32 lg:mr-32" [innerHTML]="truncatedContent"></div>
+        <div class="whitespace-pre-wrap text-sm sm:mr-0 md:mr-32 lg:mr-32" [innerHTML]="truncatedContent | safeContentHtml: 'html'"></div>
         <ng-container *ngIf="content?.length > truncate">
             <div class="mt-2 text-sm cursor-pointer font-semibold" *ngIf="expandedContent" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
             <div class="mt-2 text-sm cursor-pointer font-semibold" *ngIf="!expandedContent" [ngStyle]="{'color': buttonColor}" (click)="readMore()">{{ 'club-details.readmore' | translate }}</div>

@@ -145,7 +145,6 @@ export class ServiceDetailComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.serviceData = data;
           this.initializePage();
         },

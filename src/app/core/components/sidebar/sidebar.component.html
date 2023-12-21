@@ -146,4 +146,47 @@
       </div>
     </ng-container>
   </ng-container>
+  <ng-container *ngIf="hasGenericWallDropdown && !menuOpened">
+    <div class="px-4 py-2 hover:cursor-pointer">
+      <div class="p-2 flex items-center hover:rounded-lg"
+        [ngStyle]="{'background-color': wallMenuHover ? hoverColor : 'transparent'}"
+        [ngClass]="{'justify-center': !menuOpened}"
+        (mouseover)="toggleWallMenuHover(true)"
+        (mouseleave)="toggleWallMenuHover(false)"
+      >
+        <fa-icon *ngIf="!wallMenuOpened" 
+          class="fa flex items-center text-xl" 
+          [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff' }"
+          [icon]="graduationCapIcon">
+        </fa-icon>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="hasGenericWallDropdown && menuOpened">
+    <div class="my-3 px-4">
+      <div class="text-sm" [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}">{{ getCourseWallMenuText() }}</div>
+    </div>
+    <div *ngIf="genericWallDropdownMenu?.id > 0" class="py-2 my-2 flex items-center">
+      <div class="px-4 py-2 hover:cursor-pointer">
+        <div 
+          class="p-2 flex items-center hover:rounded-lg"
+          [ngClass]="{'rounded-lg min-w-[220px]': hoveredCourseWallPath == genericWallDropdownMenu?.path}"
+          [ngStyle]="{'background-color': (courseWallHover && hoveredCourseWallPath == genericWallDropdownMenu?.path) || hoveredCourseWallPath == genericWallDropdownMenu?.path ? hoverColor : 'transparent'}"
+          (click)="goToCourseWall(genericWallDropdownMenu)"
+          (mouseover)="toggleCourseWallHover(true, genericWallDropdownMenu)"
+          (mouseleave)="toggleCourseWallHover(false, genericWallDropdownMenu)"
+        >
+          <fa-icon 
+            class="fa flex items-center text-xl cursor-pointer" 
+            [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff' }"
+            [icon]="graduationCapIcon">
+          </fa-icon>
+          <span class="text-sm ml-[34px]" 
+            [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}">
+            {{ getCourseWallName(genericWallDropdownMenu) }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </ng-container>
 </aside>

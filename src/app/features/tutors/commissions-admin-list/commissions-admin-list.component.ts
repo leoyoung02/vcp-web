@@ -266,7 +266,6 @@ export class CommissionsAdminListComponent {
   }
 
   changeCourseFilter(event) {
-    console.log(event);
     this.loadCommissions(this.allCommissionsData);
   }
 

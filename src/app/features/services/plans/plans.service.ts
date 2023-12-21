@@ -565,7 +565,9 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'medical', planForm.medical );
     formData.append( 'company_id', planForm.company_id);
     formData.append( 'image_file', imageFile);
-    formData.append( 'category_id', planForm.category_id.map( (data) => { return data.fk_supercategory_id }).join());
+    if(planForm?.category_id) {
+      formData.append( 'category_id', planForm.category_id.map( (data) => { return data.fk_supercategory_id }).join());
+    }
 
     formData.append( 'multiple_cities', planForm.multiple_cities );
     if(planForm.multiple_cities == 1 && planForm.city_id) {

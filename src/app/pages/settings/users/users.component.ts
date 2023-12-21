@@ -12,6 +12,13 @@ import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from "@angular-material-components/datetime-picker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import {
   BreadcrumbComponent,
   ButtonGroupComponent,
   IconFilterComponent,
@@ -55,6 +62,11 @@ import get from "lodash/get";
     FontAwesomeModule,
     MatSnackBarModule,
     MatTabsModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
     NgMultiSelectDropDownModule,
     SearchComponent,
     BreadcrumbComponent,
@@ -680,22 +692,6 @@ export class ManageUsersComponent {
     this._userService.getCombinedMiembrosListPrefetch(this.companyId).subscribe(
       async (response) => {
         this.members = response[0] ? response[0]["all_members"] : [];
-
-        // if(this.hasAddedUser && this.userMode == 'add') {
-        //   let selected_user = this.members?.filter(m => {
-        //     return m.email == this.createdUserId
-        //   })
-        //   if(selected_user?.length > 0) {
-        //     this.editUser(selected_user[0], 'edit');
-        //     if(
-        //       (this.hasCourses && this.hasCategoryAccess) || 
-        //       ((this.superTutor || this.isGuardianType || this.userTypeName == 'Admin TUTORES'))
-        //     ) {
-        //       this.tabIndex = 1;
-        //     }
-        //   }
-        // }
-
         if(this.members?.length > 0 && !this.currentUser && this.userId) {
           let current_user = this.members?.filter(member => {
             return member.id == this.userId
@@ -2211,7 +2207,7 @@ export class ManageUsersComponent {
       fk_company_id: this.companyId,
     });
 
-    if (this.hasConfirmEmail && (this.companyId == 42 || this.membersForConfirm2?.length > 0)) {
+    if (this.hasConfirmEmail && (this.companyId == 41 || this.companyId == 42 || this.membersForConfirm2?.length > 0)) {
       buttonList.push({
         id: 2,
         value: "Confirm",
@@ -2263,7 +2259,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.requirePayment && (this.companyId == 42 || this.membersCancelled2?.length > 0)) {
+    if (this.requirePayment && (this.companyId == 41 || this.companyId == 42 || this.membersCancelled2?.length > 0)) {
       buttonList.push({
         id: 7,
         value: "Cancelled",
@@ -2343,7 +2339,6 @@ export class ManageUsersComponent {
 
   addUser() {
     this.selectedUser = {};
-    this.startDate = "";
     this.userMode = "add";
     this.errorMessage = "";
     this.selectedAssignedStudent = "";
@@ -2355,6 +2350,7 @@ export class ManageUsersComponent {
     this.createdUserId = '';
     this.tutor = false;
     this.superTutor = false;
+    this.startDate = new Date() // moment().format('YYYY-MM-DD HH:mm:ss');
 
     if (this.showDefaultRegistrationFields) {
       this.userForm?.controls["first_name"].setValue("");
@@ -2801,10 +2797,7 @@ export class ManageUsersComponent {
     }
 
     if (user.created) {
-      //   let year = parseInt(this.datePipe.transform(user.created, 'yyyy').toString())
-      //   let month = parseInt(this.datePipe.transform(user.created, 'MM').toString())
-      //   let day = parseInt(this.datePipe.transform(user.created, 'dd').toString())
-      //   this.startDate = new NgbDate(year,month,day)
+      this.startDate = user.created;
     }
 
     if (this.superAdmins) {
@@ -3535,17 +3528,7 @@ export class ManageUsersComponent {
       }
 
       if (this.startDate) {
-        let start_date =
-          this.startDate && this.startDate
-            ? this.startDate.year +
-              "-" +
-              (this.startDate.month >= 10 ? "" : "0") +
-              this.startDate.month +
-              "-" +
-              (this.startDate.day >= 10 ? "" : "0") +
-              this.startDate.day
-            : moment().format("YYYY-MM-DD");
-        formData["created_at"] = start_date + " " + moment().format("HH:mm:ss");
+        formData["created_at"] = moment(this.startDate).format('YYYY-MM-DD HH:mm:ss')
       }
 
       if (this.selectedBusinessCategories) {

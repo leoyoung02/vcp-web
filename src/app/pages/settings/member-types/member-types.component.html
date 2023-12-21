@@ -306,7 +306,34 @@
                                         </div>
                                     </div>
                                     <ng-container *ngIf="requirePayment">
-                                        <div class="flex items-center justify-center">
+                                        <div class="flex items-center justify-between w-full">
+                                            <div class="flex items-center justify-between w-full relative">
+                                                <label
+                                                    for="same-price"
+                                                    class="flex items-center w-full justify-between cursor-pointer"
+                                                >
+                                                    <div class="ml-3 text-black text-sm">
+                                                        {{ "member-type-registration.sameprice" | translate }}
+                                                    </div>
+                                                    <div class="relative mr-1">
+                                                        <input
+                                                            id="same-price"
+                                                            type="checkbox"
+                                                            class="sr-only"
+                                                            [(ngModel)]="samePrice"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                        />
+                                                        <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between w-full">
+                                            <div class="flex items-center justify-between w-full relative">
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-center" *ngIf="!samePrice">
                                             <input
                                                 class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                                 [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && memberTypeForm.get('base_price')?.errors }"
@@ -364,7 +391,7 @@
                                         <div class="flex items-center justify-center">
                                             <input
                                                 class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                                placeholder="{{ 'member-type-registration.acknowledgementpageurl' | translate }}* {{ 'member-type-registration.outsidespain' | translate }}"
+                                                placeholder="{{ 'member-type-registration.acknowledgementpageurl' | translate }}*"
                                                 [(ngModel)]="acknowledgementPageURL" 
                                                 [ngModelOptions]="{standalone: true}"
                                             />

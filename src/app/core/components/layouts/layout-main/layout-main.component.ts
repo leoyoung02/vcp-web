@@ -1552,7 +1552,10 @@ export class LayoutMainComponent {
       JSON.stringify(this.menus)
     );
     this._menuService.updateMenu(this.menus);
-    this.cd.detectChanges();
+
+    setTimeout(() => {
+      this.cd.detectChanges();
+    }, 500)
   }
 
   showMore = (arr, num) => {

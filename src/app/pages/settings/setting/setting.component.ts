@@ -1921,6 +1921,10 @@ export class SettingComponent {
     this._router.navigate([`/settings/templates`])
   }
 
+  goToCoupons() {
+    this._router.navigate([`/settings/coupons`])
+  }
+
   handleGoBack() {
     this._location.back();
   }

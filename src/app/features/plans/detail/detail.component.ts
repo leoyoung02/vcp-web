@@ -292,6 +292,7 @@ export class PlanDetailComponent {
   leaveHover: boolean = false;
   addCommentHover: boolean = false;
   addCalendarHover: boolean = false;
+  isUESchoolOfLife: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -341,6 +342,7 @@ export class PlanDetailComponent {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.emailDomain = company[0].domain;
       this.companyId = company[0].id;
       this.companyName = company[0].entity_name;
@@ -856,10 +858,13 @@ export class PlanDetailComponent {
         .format("D MMMM");
 
       if(this.plan?.limit_date) {
-        this.planDay += ' - ' + moment
+        let end = moment
         .utc(this.plan.limit_date)
         .locale(this.language)
-        .format("D MMMM");
+        .format("D MMMM")
+        if(this.planDay != end) {
+          this.planDay += ' - ' + end;
+        }    
       }
 
       this.planTime = moment
@@ -2380,7 +2385,84 @@ export class PlanDetailComponent {
     }
   }
 
-  duplicate() {}
+  async duplicate() {
+    this.plan.category_id = this.plan.event_category_id || this.plan.Company_Supercategories
+    this.plan.subcategory_id = this.plan.event_subcategory_id || null
+    this.plan.company_id = this.companyId
+    this.plan.medical = 0
+    this.plan.title = `${this.plan.title} ${this._translateService.instant('plan-details.duplicate')} (1)`
+    this.plan.link = this.plan.link || ''
+    this.plan.time_slot = null
+    this.plan.privacy = this.plan.private
+    this.plan.require_approval = 0
+    if(this.canAssignMultipleCities) {
+        let activity_cities = get(await this._plansService.getActivityCities(this.id, this.planTypeId).toPromise(), 'activity_cities')
+        if(activity_cities && activity_cities.length > 0) {
+            let cities: any[] = []
+            activity_cities.forEach(ct => {
+                cities.push({
+                    id: ct.city_id
+                })
+            })
+            this.plan['city_id'] = cities
+        }
+        this.plan['multiple_cities'] = this.canAssignMultipleCities && activity_cities.length > 1 ? 1 : 0
+    }
+
+    if(this.plan.plan_date) { 
+      this.plan.plan_datetime = this.plan.plan_date;
+      this.plan.plan_date = moment(this.plan.plan_date).format('YYYY-MM-DD HH:mm');
+    } 
+    if(this.plan.end_date) { 
+      this.plan.end_datetime = this.plan.end_date;
+      this.plan.end_date = moment(this.plan.end_date).format('YYYY-MM-DD HH:mm'); 
+    } 
+    this.plan.slug = `${this.plan.slug}-${this.getTimestamp()}`;
+    this.plan.school_of_life = this.isUESchoolOfLife || 0;
+    
+    this._plansService.createPlan(
+        this.companyId,
+        this.userId,
+        this.planTypeId,
+        this.plan,
+        null,
+        this.plan.image,
+        '',
+        '',
+        '',
+        '',
+        '',
+        '',
+        0,
+        0,
+        0,
+        this.plan.show_attendee,
+        this.plan.show_comments,
+        this.plan.show_description,
+        this.plan.show_price,
+        0,
+        ''
+    ).subscribe(
+        response => {
+            if(response) {
+                this._router.navigate([`/plans/edit/${response.id}/${this.planTypeId}`])
+            } else {
+                this.showError = true
+                this.issaving = false
+            }
+        },
+        error => {
+            console.log(error)
+        }
+    )
+  }
+
+  public getTimestamp() {
+    const date = new Date();
+    const timestamp = date.getTime();
+
+    return timestamp;
+  }
 
   handleEditRoute() {
     this._router.navigate([`/plans/edit/${this.id}/${this.planTypeId}`]);

@@ -150,7 +150,6 @@ export class TiktokStatisticsComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-            console.log(data)
             this.mapModules(data?.tiktok_modules);
             this.mapUserPermissions(data?.user_permissions);
 

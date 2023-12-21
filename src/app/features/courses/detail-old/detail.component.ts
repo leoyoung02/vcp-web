@@ -279,7 +279,6 @@ export class CourseDetailComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           let course_data =  data[0] ? data[0] : []
           this.courseSubscriptions = data[1] ? data[1]['course_subscriptions'] : []
           this.courseTutors = data[2] ? data[2]['course_tutors'] : []
@@ -523,6 +522,44 @@ export class CourseDetailComponent {
   }
 
   formatCourseModules(modules) {
+    let units_available_on: any[] = [];
+    let user_joined = this.user?.created ? moment(this.user?.created).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD')
+    if(modules?.length > 0 && !this.superAdmin) {
+      let mods = modules?.filter(mod => {
+        let include = false;
+        if(mod?.units?.length > 0) {
+          let unit_availability = mod?.units?.filter(mu => {
+            return mu.unit_availability == 1
+          })
+          if(unit_availability?.length > 0) {
+            unit_availability?.forEach(ua => {
+              let available_on_date = moment(ua.unit_availability_date).format('YYYY-MM-DD');
+              if(!moment(available_on_date).isAfter(moment(user_joined))) {
+                units_available_on.push(ua)
+              }
+            });
+            include = true
+          }
+        }
+        return include
+      })
+      if(mods?.length > 0 && units_available_on?.length > 0) {
+        let new_modules = modules?.map(mod => {
+          let filtered_units = mod?.units?.filter(unit => {
+            let match = units_available_on.some((a) => a.module_id == mod.id && a.id == unit.id);
+            return !match
+          })
+          return {
+            filtered_units,
+            ...mod
+          }
+        })
+        new_modules = new_modules?.filter(mod => {
+          return mod?.filtered_units?.length > 0
+        })
+        modules = new_modules
+      }
+    }
     return modules.map((module, index) => {
       let title_desc = `${this._translateService.instant('course-details.module')} ${module.number}`
 

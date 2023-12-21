@@ -2604,7 +2604,8 @@
         "levelthreeacces": "Kann alle Tutoren sehen, unabhängig vom Mitgliedstyp",
         "selecttutoraccess": "Wählen Sie den Mitgliederzugang zu Tutoren aus",
         "access": "Zugang",
-        "info": "Info"
+        "info": "Info",
+        "sameprice": "Gleichen Preis auf alle anwenden"
     },
     "member-type": {
         "welcometo": "Willkommen bei",

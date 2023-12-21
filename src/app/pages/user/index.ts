@@ -33,4 +33,10 @@ export const routes: Routes = [
         data: { layout: PageLayout.Main , titleKey: 'tutors.mylessons' },
         loadComponent: async () => (await import('./my-lessons/my-lessons.component')).MyLessonsComponent,
     },
+    {
+        path: 'invoices-list',
+        title: CustomTitleResolver,
+        data: { titleKey: 'company-settings.invoices'},
+        loadComponent: async () => (await import('./invoices-list/invoices-list.component')).InvoicesListComponent,
+    }
 ];

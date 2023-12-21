@@ -439,15 +439,25 @@ export class FeedComponent {
       company_id: this.companyId, 
       user_id: this.userId 
     }).toPromise(), 'results')
-    if(results && this.groupId > 0) {
+    if(results) {
       let posts = results.posts
-      let group_posts = []
-      if(posts) {
-        group_posts = posts.filter(post => {
-          return post.group_id == this.groupId
-        })
+      if(this.groupId > 0) {
+        let group_posts = []
+        if(posts) {
+          group_posts = posts.filter(post => {
+            return post.group_id == this.groupId
+          })
+        }
+        results.posts = group_posts
+      } else {
+        let generic_posts = []
+        if(posts) {
+          generic_posts = posts.filter(post => {
+            return !(post.group_id > 0)
+          })
+        }
+        results.posts = generic_posts
       }
-      results.posts = group_posts
     }
 
     this.motherComponent.postsResults = results

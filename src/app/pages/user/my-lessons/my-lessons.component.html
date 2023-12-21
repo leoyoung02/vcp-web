@@ -1,46 +1,62 @@
 <app-page-title [title]="pageTitle"></app-page-title>
 <div class="pt-10">
-    <div class="flex justify-center sm:justify-center md:justify-end lg:justify-end">
-       <div class="flex flex-wrap">
-            <div 
-                class="rounded-[10px] mr-1 text-sm px-4 py-1 hover:cursor-pointer"
-                [ngStyle]="{'background-color': statusFilter == 'All' ? buttonColor : 'transparent',
-                    'color': statusFilter == 'All' ? '#fff' : buttonColor}"
-                (click)="filterLessonStatus('All')"
-            >
-                {{ 'tutors.all' | translate }}
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
+        <div class="mb-6">
+            <div class="flex items-center w-full max-w-full">
+                <div class="flex-auto">
+                    <app-search
+                        [searchText]="searchText"
+                        [placeholderText]="placeholderText"
+                        [buttonColor]="buttonColor"
+                        (onEnterPressed)="handleSearch($event)"
+                        (doSearch)="handleSearch($event)"
+                    >
+                    </app-search>
+                </div>
             </div>
-            <div 
-                class="rounded-[10px] mr-1 text-sm px-4 py-1 hover:cursor-pointer"
-                [ngStyle]="{'background-color': statusFilter == 'Upcoming' ? buttonColor : 'transparent',
-                    'color': statusFilter == 'Upcoming' ? '#fff' : buttonColor}"
-                (click)="filterLessonStatus('Upcoming')"
-            >
-                {{ 'tutors.upcoming' | translate }}
-            </div>
-            <div 
-                class="rounded-[10px] mr-1 text-sm px-4 py-1 hover:cursor-pointer"
-                [ngStyle]="{'background-color': statusFilter == 'Action required' ? buttonColor : 'transparent',
-                    'color': statusFilter == 'Action required' ? '#fff' : buttonColor}"
-                (click)="filterLessonStatus('Action required')"
-            >
-                {{ 'tutors.actionrequired' | translate }}
-            </div>
-            <div 
-                class="rounded-[10px] mr-1 text-sm px-4 py-1 hover:cursor-pointer"
-                [ngStyle]="{'background-color': statusFilter == 'Cancelled' ? buttonColor : 'transparent',
-                    'color': statusFilter == 'Cancelled' ? '#fff' : buttonColor}"
-                (click)="filterLessonStatus('Cancelled')"
-            >
-                {{ 'company-settings.cancelled' | translate }}
-            </div>
-            <div 
-                class="rounded-[10px] mr-1 text-sm px-4 py-1 hover:cursor-pointer"
-                [ngStyle]="{'background-color': statusFilter == 'Completed' ? buttonColor : 'transparent',
-                    'color': statusFilter == 'Completed' ? '#fff' : buttonColor}"
-                (click)="filterLessonStatus('Completed')"
-            >
-                {{ 'tutors.completed' | translate }}
+        </div>
+        <div class="pt-1.5 mb-6 flex justify-end">
+            <div class="flex flex-wrap">
+                <div 
+                    class="rounded-[10px] mr-1 text-sm px-4 py-2 hover:cursor-pointer"
+                    [ngStyle]="{'background-color': statusFilter == 'All' ? buttonColor : 'transparent',
+                        'color': statusFilter == 'All' ? '#fff' : buttonColor}"
+                    (click)="filterLessonStatus('All')"
+                >
+                    {{ 'tutors.all' | translate }}
+                </div>
+                <div 
+                    class="rounded-[10px] mr-1 text-sm px-4 py-2 hover:cursor-pointer"
+                    [ngStyle]="{'background-color': statusFilter == 'Upcoming' ? buttonColor : 'transparent',
+                        'color': statusFilter == 'Upcoming' ? '#fff' : buttonColor}"
+                    (click)="filterLessonStatus('Upcoming')"
+                >
+                    {{ 'tutors.upcoming' | translate }}
+                </div>
+                <div 
+                    class="rounded-[10px] mr-1 text-sm px-4 py-2 hover:cursor-pointer"
+                    [ngStyle]="{'background-color': statusFilter == 'Action required' ? buttonColor : 'transparent',
+                        'color': statusFilter == 'Action required' ? '#fff' : buttonColor}"
+                    (click)="filterLessonStatus('Action required')"
+                >
+                    {{ 'tutors.actionrequired' | translate }}
+                </div>
+                <div 
+                    class="rounded-[10px] mr-1 text-sm px-4 py-2 hover:cursor-pointer"
+                    [ngStyle]="{'background-color': statusFilter == 'Cancelled' ? buttonColor : 'transparent',
+                        'color': statusFilter == 'Cancelled' ? '#fff' : buttonColor}"
+                    (click)="filterLessonStatus('Cancelled')"
+                >
+                    {{ 'company-settings.cancelled' | translate }}
+                </div>
+                <div 
+                    class="rounded-[10px] mr-1 text-sm px-4 py-2 hover:cursor-pointer"
+                    [ngStyle]="{'background-color': statusFilter == 'Completed' ? buttonColor : 'transparent',
+                        'color': statusFilter == 'Completed' ? '#fff' : buttonColor}"
+                    (click)="filterLessonStatus('Completed')"
+                >
+                    {{ 'tutors.completed' | translate }}
+                </div>
             </div>
         </div>
     </div>
@@ -53,7 +69,7 @@
                     <svg aria-hidden="true" class="w-8 h-8 mr-2 mt-5 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600" viewBox="0 0 100 101" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z" fill="currentColor"/><path d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z" fill="currentFill"/></svg>
                     <span class="sr-only">Loading...</span>
                 </div>
-                <mat-table *ngIf="!isLoading" [dataSource]="dataSource" matSort class="full-width">
+                <mat-table *ngIf="!isLoading" [dataSource]="dataSource" matSort class="full-width my-lessons-tbl">
                     <ng-container matColumnDef="booking_date_display">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.scheduleddate' | translate }} </mat-header-cell>
                         <mat-cell *matCellDef="let row" data-label="booking_date_display">{{ row.booking_date_display }}</mat-cell>
@@ -107,13 +123,13 @@
                         <mat-cell *matCellDef="let row" data-label="notes"> 
                             <ng-container *ngIf="isGuardianType || superAdmin || superTutor || (row?.tutor_user_id == userId) || cityAdmin">
                                 <button (click)="addNotes(row)" 
-                                    class="btn btn-add my-1 mr-2 text-white"
+                                    class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white"
                                     [ngStyle]="{'background-color': buttonColor}"
                                 >
                                     {{ 'company-settings.add' | translate }}
                                 </button>
                                 <button (click)="viewNotes(row)" 
-                                    class="btn btn-add my-1 text-white"
+                                    class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white"
                                     [ngStyle]="{'background-color': buttonColor}"
                                 >
                                     {{ 'notification-popup.view' | translate }}
@@ -128,7 +144,7 @@
                                 <ng-container *ngIf="!hasDifferentStripeAccounts">
                                     <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                         <button (click)="confirmMarkComplete(row)" 
-                                            class="btn btn-add my-1 text-white text-sm"
+                                            class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white text-sm"
                                             [ngStyle]="{'background-color': buttonColor}"
                                         >
                                             {{ 'course-details.completebutton' | translate }}
@@ -137,7 +153,7 @@
                                 </ng-container>
                                 <ng-container *ngIf="row.show_cancel">
                                     <button (click)="handleCancelBooking(row)" 
-                                        class="btn btn-add cancel bg-white text-sm"
+                                        class="px-4 py-2 text-xs rounded-lg my-1 mr-2 bg-white"
                                         style="border:solid 1px #c24130;color:#c24130;"
                                         >
                                         {{ 'settings.cancel' | translate }}
@@ -147,7 +163,7 @@
                                     <ng-container *ngIf="row?.stripe_connect || !isTutorUser" >
                                         <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                             <button (click)="confirmMarkComplete(row)" 
-                                                class="btn btn-add my-1 text-white text-sm"
+                                                class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white text-sm"
                                                 [ngStyle]="{'background-color': buttonColor}"
                                                 >
                                                 {{ 'course-details.completebutton' | translate }}
@@ -171,7 +187,7 @@
                                 <ng-container *ngIf="(statusFilter == 'Completed' && !row.tutor_rating)">
                                     <div *ngIf="!row.tutor_rating && !(isTutorUser && !superAdmin)">
                                          <button (click)="provideRating(row)" 
-                                            class="btn btn-add my-1 text-white"
+                                            class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white"
                                             [ngStyle]="{'background-color': buttonColor}"
                                             >
                                             {{ 'event-survey.rate' | translate }}
@@ -197,6 +213,10 @@
                     {{ 'categories.noresultsfound' | translate }}
                 </div>
             </div>
+            <mat-paginator *ngIf="!isLoading" #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"
+                (page)="getPageDetails($event)"
+                [showFirstLastButtons]="true">
+            </mat-paginator>
         </div>
     </div>
 </div>

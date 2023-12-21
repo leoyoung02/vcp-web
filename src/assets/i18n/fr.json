@@ -2600,7 +2600,8 @@
         "levelthreeacces": "Peut voir tous les tuteurs quel que soit le type de membre",
         "selecttutoraccess": "Sélectionnez l'accès des membres aux tuteurs",
         "access": "Accès",
-        "info": "Info"
+        "info": "Info",
+        "sameprice": "Appliquer le même prix à tous"
     },
     "member-type": {
         "welcometo": "Bienvenue dans", 
