@@ -13,7 +13,6 @@ import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { initFlowbite } from "flowbite";
 import { ServiciosService } from "@features/services";
-import moment from "moment";
 import get from "lodash/get";
 
 @Component({
@@ -79,6 +78,8 @@ export class ServiceDetailComponent {
   invitationLinkActive: boolean = false;
   invitationLink: any;
   emailTo: any;
+  stripeSubscriptionActive: boolean = false;
+  payHover: any;
 
   constructor(
     private _router: Router,
@@ -172,7 +173,9 @@ export class ServiceDetailComponent {
 
   mapSubfeatures(subfeatures) {
     if (subfeatures?.length > 0) {
-      
+      this.stripeSubscriptionActive = subfeatures.some(
+        (a) => a.name_en == "Service subscription via Stripe" && a.active == 1
+      );
     }
   }
 
@@ -209,6 +212,15 @@ export class ServiceDetailComponent {
     }
     
     this.service = service;
+    this.service.service_member = false;
+    let service_users = this.service.service_users;
+    if(service_users?.length > 0) {
+      service_users.forEach(service => {
+        if(service.user_id == this.userId) {
+          this.service.service_member = true;
+        }
+      });
+    }
     if(this.service?.display_description && this.service?.display_description?.length > this.truncate) {
       this.serviceTruncatedDescription = this.getExcerpt(this.service?.display_description);
     } else {
@@ -371,6 +383,29 @@ export class ServiceDetailComponent {
             console.log(error)
           }
         )
+    }
+  }
+
+  togglePayHover(event) {
+    this.payHover = event;
+  }
+
+  subscribeToService() {
+    if(this.service.subscription_fee && parseInt(this.service.subscription_fee) > 0) {
+      this._router.navigate([`/services/payment/${this.service.id}/${this.userId}`]);
+    } else {
+      this._serviciosService.subscribeToASService(this.service.id, this.user.id, {})
+      .subscribe(
+        (res) => {
+          if(res['message']) {
+            location.reload();
+          } else {
+            this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          }
+        },
+        error => {
+          this.open(this._translateService.instant('dialog.error'), '');
+        });
     }
   }
 

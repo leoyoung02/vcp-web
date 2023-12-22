@@ -292,7 +292,6 @@ export class StripeConnectComponent {
     }
     this._tutorsService.getStripeConnectAccountStatus(params).subscribe(
       async response => {
-        console.log(response);
         let stripe_accounts = response?.stripe_accounts;
         if(stripe_accounts?.length > 0 && this.stripeAccounts?.length > 0) {
           this.stripeAccounts?.forEach(account => {

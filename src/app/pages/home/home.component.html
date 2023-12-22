@@ -1,9 +1,12 @@
-<div class="pt-24 sm:pt-24 md:pt-4 lg:pt-4" *ngIf="loadedSettings">
+<div class="pt-24 sm:pt-24 md:pt-4 lg:pt-4" *ngIf="loadedSettings && !(hasLandingTemplate && !hasPredefinedTemplate)">
   <h1 class="text-4xl font-bold mb-2">{{ isUESchoolOfLife ? schoolOfLifeTitle : (welcomeTitle || ('landing.welcometitle1' | translate)) }}</h1>
   <h1 class="text-4xl font-bold mb-2" *ngIf="!welcomeTitle && !isUESchoolOfLife">{{ 'landing.welcometitle2' | translate }} <span [ngStyle]="{'color': buttonColor}">{{ companyName }}</span></h1>
   <div class="text-sm mt-8" *ngIf="!isUESchoolOfLife">{{ welcomeTitle ? welcomeSubtitle : ('landing.welcomedesc' | translate) }}</div>
 </div>
 <div class="py-10">
+  <ng-container *ngIf="hasLandingTemplate && !hasPredefinedTemplate">
+    <div class="pt-12" [innerHtml]="html"></div>
+  </ng-container>
   <app-video-section 
     [templateData]="predefinedTemplate" 
     [company]="company"

@@ -2610,8 +2610,8 @@
         "levelthreeacces": "Can see all tutors irrespective of member type",
         "selecttutoraccess": "Select memeber access to tutors",
         "access": "Access",
-        "info": "Info"
-
+        "info": "Info",
+        "sameprice": "Apply same price to all"
     },
     "member-type": {
         "welcometo": "Welcome to",

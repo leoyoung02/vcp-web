@@ -120,7 +120,6 @@ export class ConfirmAttendanceComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.event = data.event;
           this.user = data.user;
           this.initializePage();

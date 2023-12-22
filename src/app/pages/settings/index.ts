@@ -151,5 +151,17 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'settings.template'},
         loadComponent: async () => (await import('./videos-ctas-template/videos-ctas-template.component')).VideosCTAsTemplateComponent,
+    },
+    {
+        path: 'template-editor',
+        title: CustomTitleResolver,
+        data: { titleKey: 'settings.template'},
+        loadComponent: async () => (await import('./template-editor/template-editor.component')).TemplateEditorComponent,
+    },
+    {
+        path: 'coupons',
+        title: CustomTitleResolver,
+        data: { titleKey: 'company-settings.coupons'},
+        loadComponent: async () => (await import('./coupons/coupons.component')).CouponsComponent,
     }
 ];

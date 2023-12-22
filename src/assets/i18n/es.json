@@ -2609,7 +2609,8 @@
         "levelthreeacces": "Puede ver todos los tutores independientemente del tipo de miembro",
         "selecttutoraccess": "Seleccionar miembro acceso a tutores",
         "access": "Acceso",
-        "info": "Información"
+        "info": "Información",
+        "sameprice": "Aplicar el mismo precio a todos"
     },
     "member-type": {
         "welcometo": "Bienvenido a",

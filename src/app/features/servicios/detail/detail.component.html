@@ -88,6 +88,21 @@
                     <div class="font-semibold mr-2">{{ service?.phone_number }}</div>
                 </div>
             </div>
+            <div *ngIf="userId && !service?.service_member && stripeSubscriptionActive && service?.subscription_fee > 0" 
+                class="flex justify-between flex-col sm:flex-col md:flex-row lg:flex-row">
+                <button
+                    class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold" 
+                    [ngStyle]="{
+                        'background-color': buttonColor,
+                        'opacity': payHover ? 1.5 : 1,
+                        'filter': payHover ? 'brightness(0.8)' : 'brightness(1)'
+                    }"
+                    (mouseover)="togglePayHover(true)"
+                    (mouseleave)="togglePayHover(false)"
+                    (click)="subscribeToService()">
+                    {{ service?.service_type == 1 ? ('service.pay' | translate) : ('service.subscribe' | translate) }}
+                </button>
+            </div>
             <div class="my-12 flex items-center" *ngIf="service?.creator">
                 <img 
                     *ngIf="service?.creator?.image" 

@@ -104,10 +104,10 @@
                                         </div>
                                         <ng-container *ngIf="field?.field == 'password'">
                                             <div *ngIf="formSubmitted && f['password'].errors">
-                                                <p *ngIf="f['password'].errors['required']" class="mt-4 mb-4 text-sm text-white dark:text-white">
+                                                <p *ngIf="f['password'].errors['required']" class="mt-4 mb-4 text-sm" [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#1e1e1e' : '#fff'}">
                                                     <span class="font-medium">{{'password.oops' | translate}}</span> {{'password.passwordrequired' | translate}}
                                                 </p>
-                                                <div *ngIf="f['password'].errors['minlength']" class="mt-4 mb-4 text-sm text-white dark:text-white">
+                                                <div *ngIf="f['password'].errors['minlength']" class="mt-4 mb-4 text-sm" [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#1e1e1e' : '#fff'}">
                                                   {{'password.atleast' | translate}}
                                                 </div>
                                                 <div *ngIf="f['password'].errors['maxlength']" class="mt-4 mb-4 text-sm text-white dark:text-white">
@@ -115,7 +115,7 @@
                                                 </div>
                                             </div>
                                             <div class="mt-3 mb-4" *ngIf="requiredValid">
-                                                <div class="mb-1 text-xs text-white dark:text-white relative flex space-between">
+                                                <div class="mb-1 text-xs relative flex space-between" [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#1e1e1e' : '#fff'}">
                                                     <fa-icon
                                                     class="fa absolute inset-y-0 right-0 flex items-center"
                                                     [ngClass]="{'text-green-300': minLengthValid, 'text-red-300': !minLengthValid}"
@@ -124,7 +124,7 @@
                                                     {{'password.atleast' | translate}}
                                                 </div>
                                           
-                                                <div class="mb-1 text-xs text-white dark:text-white relative flex space-between">
+                                                <div class="mb-1 text-xs relative flex space-between" [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#1e1e1e' : '#fff'}">
                                                   <fa-icon
                                                     class="fa absolute inset-y-0 right-0 flex items-center"
                                                     [ngClass]="{'text-green-300': requiresDigitValid, 'text-red-300': !requiresDigitValid}"
@@ -133,7 +133,7 @@
                                                     {{'password.digit' | translate}}
                                                 </div>
                                           
-                                                <div class="mb-1 text-xs text-white dark:text-white relative flex space-between">
+                                                <div class="mb-1 text-xs relative flex space-between" [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#1e1e1e' : '#fff'}">
                                                   <fa-icon
                                                     class="fa absolute inset-y-0 right-0 flex items-center"
                                                     [ngClass]="{'text-green-300': requiresUppercaseValid, 'text-red-300': !requiresUppercaseValid}"
@@ -142,7 +142,7 @@
                                                     {{'password.uppercase' | translate}}
                                                 </div>
                                           
-                                                <div class="mb-1 text-xs text-white dark:text-white relative flex space-between">
+                                                <div class="mb-1 text-xs relative flex space-between" [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#1e1e1e' : '#fff'}">
                                                   <fa-icon
                                                     class="fa absolute inset-y-0 right-0 flex items-center"
                                                     [ngClass]="{'text-green-300': requiresLowercaseValid, 'text-red-300': !requiresLowercaseValid}"
@@ -151,7 +151,7 @@
                                                     {{'password.lowercase' | translate}}
                                                 </div>
                                           
-                                                <div class="mb-1 text-xs text-white dark:text-white relative flex space-between">
+                                                <div class="mb-1 text-xs relative flex space-between" [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#1e1e1e' : '#fff'}">
                                                   <fa-icon
                                                     class="fa absolute inset-y-0 right-0 flex items-center"
                                                     [ngClass]="{'text-green-300': requiresSpecialCharsValid, 'text-red-300': !requiresSpecialCharsValid}"
@@ -188,7 +188,13 @@
                         [ngStyle]="{'color': agreeTerms ? buttonColor : 'text-blue-500'}"
                         class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                     >
-                    <label for="link-checkbox" class="ml-2 text-sm font-medium dark:text-gray-300 text-white">{{'signup.ihavereadandaccepted' | translate}} <a href="javascript:;" (click)="openPrivacyPolicy()" class="text-blue-600 dark:text-blue-500 hover:underline">{{ 'register.privacypolicy' | translate }}</a>.</label>
+                    <label for="link-checkbox" class="ml-2 text-sm font-medium dark:text-gray-300" 
+                        [ngStyle]="{
+                            color:
+                            primaryColor == '#ffffff' || primaryColor == '#fff'
+                                ? '#1e1e1e'
+                                : '#fff'
+                        }">{{'signup.ihavereadandaccepted' | translate}} <a href="javascript:;" (click)="openPrivacyPolicy()" class="text-blue-600 dark:text-blue-500 hover:underline">{{ 'register.privacypolicy' | translate }}</a>.</label>
                 </div>
                 <div class="flex items-center justify-center mb-6">
                     <button

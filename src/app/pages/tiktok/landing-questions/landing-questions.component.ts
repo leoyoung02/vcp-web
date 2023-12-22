@@ -151,6 +151,16 @@ export class TikTokLandingQuestionsComponent {
   submit() {
     let whatsAppCommunityURL = this.getMappedCommunityFromAnswers();
 
+    let email = '';
+    if(this.questionItems?.length > 0) {
+      let email_row = this.questionItems?.filter(qi => {
+        return qi.title == 'Correo electrónico' || qi.title == 'Email' || qi.title == 'Email address'
+      })
+      if(email_row?.length > 0) {
+        email = email_row[0].answer;
+      }
+    }
+
     if(whatsAppCommunityURL) {
       let params = {
         location: this.questionnaire?.Location_id?.toString(),
@@ -162,6 +172,7 @@ export class TikTokLandingQuestionsComponent {
         question_id: this.questionItems?.length > 0 ? this.questionItems[0].question_id : 0, 
         created_by: this.userId || null,
         question_items: this.questionItems,
+        email_recipient: email,
       };
 
       this._companyService.submitAnswerToQuestions(params).subscribe(

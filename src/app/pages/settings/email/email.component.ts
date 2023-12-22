@@ -262,6 +262,11 @@ export class EmailComponent {
         type: "course_completed",
         title_en: "Course completed email",
       },
+      {
+        id: 152,
+        type: "questionnaire_completed",
+        title_en: "Submitted questions email",
+      },
     ];
     this.shortcodes = [
       {
@@ -489,6 +494,10 @@ export class EmailComponent {
       {
         code: "{rating}",
         description: this._translateService.instant("wall.rating"),
+      },
+      {
+        code: "{community_link}",
+        description: `${this._translateService.instant("plan-create")} URL`,
       },
     ];
   }

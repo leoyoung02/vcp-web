@@ -64,7 +64,7 @@
             ></app-wall-feed>
         </div>
         <div>
-            <div>
+            <div *ngIf="courseTutors?.length > 0">
                 <app-wall-tutors
                     [superAdmin]="superAdmin"
                     [tutorSectionVisible]="tutorSectionVisible"

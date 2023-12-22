@@ -177,7 +177,6 @@ export class SubmissionsComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (response) => {
-          console.log(response)
           this.submissions = response.answers;
           this.allSubmissions = this.submissions;
           this.refreshTable(this.submissions);

@@ -260,6 +260,7 @@ export class ManageMemberTypesComponent {
   hasContract: boolean = false;
   activeContract: boolean = false;
   contractDescription: any;
+  samePrice: boolean = false;
 
   constructor(
     private _router: Router,
@@ -686,6 +687,7 @@ export class ManageMemberTypesComponent {
 
   async editMemberType(item) {
     this.mode = "edit";
+    this.samePrice = false;
     this.permissionsData = [];
     this.issaving = false;
 
@@ -810,6 +812,7 @@ export class ManageMemberTypesComponent {
     }
 
     this.acknowledgementPageURL = item.acknowledgement_page_url || "";
+    this.samePrice = item?.same_price == 1 ? true : false;
 
     this.dialogMode = "edit";
     this.dialogTitle = this.getDialogTitle();
@@ -959,6 +962,7 @@ export class ManageMemberTypesComponent {
     this.includeCommissionFee = false;
     this.showRegister = true;
     this.acknowledgementPageURL = "";
+    this.samePrice = false;
 
     this.dialogMode = "add";
     this.dialogTitle = this.getDialogTitle();
@@ -976,6 +980,7 @@ export class ManageMemberTypesComponent {
     this.acknowledgementPageURL = "";
     this.selectedPaymentType = "";
     this.selectedId = "";
+    this.samePrice = false;
   }
 
   handleSearch(event) {
@@ -1273,6 +1278,7 @@ export class ManageMemberTypesComponent {
           : 0,
         trial_start_date: this.activateTrialPeriod ? trial_start_date : null,
         acknowledgement_page_url: this.acknowledgementPageURL || "",
+        same_price: this.samePrice || 0,
       };
       this._companyService.addCustomMemberType(params).subscribe(
         (data) => {
@@ -1329,6 +1335,7 @@ export class ManageMemberTypesComponent {
           ? this.memberTypeForm.get("trial_reminder_days")?.value
           : null,
         acknowledgement_page_url: this.acknowledgementPageURL || "",
+        same_price: this.samePrice || 0,
       };
       this._companyService
         .editCustomMemberType(this.selectedId, params)

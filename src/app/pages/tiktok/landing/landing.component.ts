@@ -164,9 +164,9 @@ export class TikTokLandingComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         data => {
-          if(!this.country || !this.city || !this.ipAddress) {
+          // if(!this.country || !this.city || !this.ipAddress) {
             this.fetchGeoLocation(data?.geolocation_key);
-          }
+          // }
           this.landingPage = data?.landing_page?.length > 0 ? data?.landing_page[0] : '';
           this.formatDetails();
         },

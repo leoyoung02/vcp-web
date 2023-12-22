@@ -10,6 +10,7 @@ import {
 } from "@angular/core";
 import { Router, RouterModule, NavigationEnd } from "@angular/router";
 import { AuthService, MenuService } from "src/app/core/services";
+import { LocalService } from "@share/services";
 import { LogoComponent } from "../logo/logo.component";
 import { COMPANY_IMAGE_URL } from "@lib/api-constants";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
@@ -33,6 +34,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FormsModule } from "@angular/forms";
 import menuIconsData from "src/assets/data/menu-icons.json";
+import { environment } from "@env/environment";
 
 @Component({
   selector: "app-sidebar",
@@ -84,6 +86,7 @@ export class SidebarComponent {
   @Input() hoverColor: any;
   @Input() logoSource: any;
   @Input() isUESchoolOfLife: any;
+  @Input() refreshedMenu: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;
@@ -143,11 +146,14 @@ export class SidebarComponent {
   languageHover: boolean = false;
   hoveredCourseWallPath: any;
   courseWallHover: any;
+  hasGenericWallDropdown: boolean = false;
+  genericWallDropdownMenu: any;
 
   constructor(
     private _router: Router, 
     private _authService: AuthService,
     private _translateService: TranslateService,
+    private _localService: LocalService,
   ) {
     this.navigationSubscription = this._router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
@@ -215,12 +221,36 @@ export class SidebarComponent {
         return cw.course_wall != 11;
       });
       this.navMenus = navmenus;
+      console.log(navmenus)
       this.checkCourseWalls(menuChange.currentValue);
     }
 
     let otherSettingsChange = changes["otherSettings"];
     if (otherSettingsChange?.currentValue?.length > 0) {
       this.getSettings();
+    }
+
+    let refreshedMenuChange = changes["refreshedMenu"];
+    if (refreshedMenuChange && 
+      (refreshedMenuChange?.previousValue != refreshedMenuChange?.currentValue ||
+      refreshedMenuChange?.currentValue == true)
+    ) {
+      let menus = this.menus;
+      if(menus?.length == 0) {
+        this.refreshWallMenus(menus);
+      } else {
+        this.refreshWallMenus(menus);
+      }
+    }
+  }
+
+  refreshWallMenus(menus) {
+    let local_menus = this._localService.getLocalStorage(environment.lsmenus);
+    if(local_menus) {
+      menus = JSON.parse(local_menus);
+    }
+    if(menus?.length > 0) {
+      this.checkCourseWalls(menus);
     }
   }
 
@@ -272,16 +302,25 @@ export class SidebarComponent {
 
   checkCourseWalls(menus) {
     if (menus?.length > 0) {
+      let generic_wall_dropdown_row = menus?.filter((cw) => {
+        return cw.path == '/activity-feed-0';
+      });
+      if(generic_wall_dropdown_row?.length > 0) {
+        this.hasGenericWallDropdown = true;
+        this.genericWallDropdownMenu = generic_wall_dropdown_row[0];
+      }
+
       let course_wall_dropdown_row = menus?.filter((cw) => {
         return cw.course_wall == 11;
       });
       if (course_wall_dropdown_row?.length > 0) {
         this.hasCourseWallDropdown = true;
         this.courseWallDropdownMenu = course_wall_dropdown_row[0];
-        setTimeout(() => {
-          initFlowbite();
-        }, 100);
       }
+
+      setTimeout(() => {
+        initFlowbite();
+      }, 500);
     }
   }
 

@@ -403,6 +403,82 @@
                 </div>
             </div>
         </ng-container>
+        <ng-container *ngIf="setting?.category_en == 'Customize home screen'">
+            <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4">
+                <div>
+                    <div>{{ 'company-settings.hometemplate' | translate }}</div>
+                    <div class="opacity-30 text-sm">{{ 'company-settings.hometemplatedesc' | translate }}</div>
+                </div>
+                <div class="flex">
+                    <div class="flex">
+                        <button
+                            *ngIf="landingTemplateEnabled"
+                            class="mr-4 w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            (click)="updateHomeTemplate()"
+                            [ngStyle]="{'background-color': buttonColor }"
+                        >
+                            {{ 'company-settings.updatetemplate' | translate }}
+                        </button>
+                    </div>
+                    <div class="flex items-center justify-between relative ml-4">
+                        <label
+                            for="home-template"
+                            class="flex items-center w-full justify-between cursor-pointer"
+                        >
+                            <div class="relative mr-1">
+                                <input
+                                    id="home-template"
+                                    type="checkbox"
+                                    class="sr-only"
+                                    [(ngModel)]="landingTemplateEnabled"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (change)="toggleLandingTemplateChange($event)"
+                                />
+                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4">
+                <div>
+                    <div>{{ 'company-settings.predefinedhometemplate' | translate }}</div>
+                    <div class="opacity-30 text-sm">{{ 'company-settings.predefinedhometemplatedesc' | translate }}</div>
+                </div>
+                <div class="flex">
+                    <!-- <div class="flex">
+                        <button
+                            *ngIf="predefinedTemplateEnabled"
+                            class="mr-4 w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            (click)="updatePredefinedHomeTemplate()"
+                            [ngStyle]="{'background-color': buttonColor }"
+                        >
+                            {{ 'company-settings.updatetemplate' | translate }}
+                        </button>
+                    </div> -->
+                    <div class="flex items-center justify-between relative ml-4">
+                        <label
+                            for="predefined-template"
+                            class="flex items-center w-full justify-between cursor-pointer"
+                        >
+                            <div class="relative mr-1">
+                                <input
+                                    id="predefined-template"
+                                    type="checkbox"
+                                    class="sr-only"
+                                    [(ngModel)]="predefinedTemplateEnabled"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (change)="togglePredefinedTemplateChange($event)"
+                                />
+                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
         <div *ngFor="let item of settings" [ngClass]="{'setting-item': item?.title_en != 'CRM'}">
             <ng-container *ngIf="item?.title_en != 'CRM' || (hasActivityFeed && item?.title_en?.indexOf('all menu') >= 0)">
                 <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4 items-center">
@@ -1096,6 +1172,17 @@
                                     {{ 'company-settings.manage' | translate }}
                                 </button>
                             </ng-container>
+                            <ng-container *ngIf="item?.title_en == 'Coupons' && item?.active == 1">
+                                <button
+                                    class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    (click)="goToCoupons()"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                >
+                                    {{ 'company-settings.manage' | translate }}
+                                </button>
+                            </ng-container>
                             <ng-container *ngIf="item?.title_en == 'Videos & CTAs' && item?.active == 1">
                                 <button
                                     class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
@@ -1105,6 +1192,17 @@
                                     }"
                                 >
                                     {{ 'company-settings.manage' | translate }}
+                                </button>
+                            </ng-container>
+                            <ng-container *ngIf="item?.title_en == 'Submitted questions email' && item?.active == 1">
+                                <button
+                                    class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    (click)="goToEmailTemplate('questionnaire_completed')"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                >
+                                    {{ 'company-settings.edit' | translate }}
                                 </button>
                             </ng-container>
                             <div class="flex items-center justify-between relative ml-4">

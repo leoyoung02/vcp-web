@@ -101,6 +101,7 @@ export class WallComponent {
     acceptText: string = "";
     cancelText: any = "";
     confirmMode: string = "";
+    onlineMembers: any;
 
     constructor(
         private _route: ActivatedRoute,
@@ -169,20 +170,25 @@ export class WallComponent {
 
     fetchWall() {
         this._wallService
-          .fetchWall(this.id, this.companyId, this.userId)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(
-            (data) => {
-              this.mapFeatures(data?.features_mapping);
-              this.mapSubfeatures(data?.settings?.subfeatures);
-              this.mapUserPermissions(data?.user_permissions);
-              this.initData(data);
-              if(this.id > 0) { this.getGroup(data); }
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
+            .fetchWall(this.id, this.companyId, this.userId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(
+                (data) => {
+                    this.mapFeatures(data?.features_mapping);
+                    this.mapSubfeatures(data?.settings?.subfeatures);
+                    this.mapUserPermissions(data?.user_permissions);
+                    this.initData(data);
+                    if(this.id > 0) { 
+                        this.getGroup(data); 
+                    } else {
+                        this.pageName = this._translateService.instant('sidebar.activityfeed');
+                        this.getMembers();
+                    }
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
     }
 
     mapFeatures(features) {
@@ -233,6 +239,7 @@ export class WallComponent {
 
     initData(data) {
         this.user = data?.user;
+        this.onlineMembers = data?.online_members;
         if(this.tutorsFeature) {
             let new_course_tutors: any[] = [];
             let course_tutors = data?.course_tutors;
@@ -326,6 +333,28 @@ export class WallComponent {
 
         this.questionText = data?.question_text?.value;
         this.tabTitleText = data?.tab_title?.value?.split(',');
+    }
+
+    getMembers() {
+        this._wallService.getMembers(this.companyId).subscribe(
+          (response) => {
+            this.members = response.all_members
+            if(this.members && this.members.length > 0) {
+                this.getOnlineMembers()
+            }
+          }
+        )
+    }
+
+    getOnlineMembers() {
+        if(this.onlineMembers?.length > 0) {
+            this.onlineMembers?.forEach((i) => {
+                const current = new Date()
+                const recordeddate = new Date(current.getTime() - i.totalseconds)
+                this.pusherData[i.id] = recordeddate
+            })
+            this.applyOnlineMembers()
+        }
     }
 
     getGroup(data) {

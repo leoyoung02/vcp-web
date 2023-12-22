@@ -795,3 +795,8 @@ input#email-recipients:invalid {
 input#email-recipients:valid {
 	border-color: green !important;
 }
+
+.my-lessons-tbl .mat-mdc-cell {
+    padding-top: 1px !important;
+    padding-bottom: 1px !important;
+}

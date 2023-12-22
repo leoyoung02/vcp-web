@@ -2605,7 +2605,8 @@
         "levelthreeacces": "Tutore guztiak ikus ditzake kide mota edozein dela ere",
         "selecttutoraccess": "Hautatu kideen sarbidea tutoreetarako",
         "access": "Sarbidea",
-        "info": "Info"
+        "info": "Info",
+        "sameprice": "Aplikatu prezio bera guztiei"
     },
     "member-type": {
         "welcome": "Ongi etorri",

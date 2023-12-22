@@ -6,15 +6,16 @@ import {
   EventEmitter,
   Input,
   Output,
+  SecurityContext,
 } from "@angular/core";
 import { WallService } from "@features/services";
 import { TranslateModule, TranslateService } from '@ngx-translate/core'
 import { DomSanitizer } from '@angular/platform-browser';
-import { CompanyService, LocalService } from "@share/services";
 import { MatSnackBar, MatSnackBarModule  } from '@angular/material/snack-bar';
 import { Subject } from "rxjs";
 import { environment } from "@env/environment";
 import { FormsModule } from "@angular/forms";
+import { SafeContentHtmlPipe } from "@lib/pipes";
 
 @Component({
   selector: "app-wall-post",
@@ -23,6 +24,7 @@ import { FormsModule } from "@angular/forms";
     CommonModule,
     TranslateModule,
     MatSnackBarModule,
+    SafeContentHtmlPipe,
     FormsModule,
     NgOptimizedImage,
   ],
@@ -110,7 +112,8 @@ export class PostComponent {
   }
 
   sanitize(content) {
-    return this.sanitizer.bypassSecurityTrustHtml(content)
+    return this.sanitizer.sanitize(
+      SecurityContext.HTML, this.sanitizer.bypassSecurityTrustHtml(content));
   }
 
   readMore() {

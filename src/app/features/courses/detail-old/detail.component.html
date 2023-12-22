@@ -68,7 +68,7 @@
                             <ng-container *ngFor="let unit of module.units; let i = index;">
                                 <div class="module-units" (mouseover)="hovered = i" (mouseout)="hovered = -1" 
                                     [ngStyle] ="{'background-color' : hovered == i ? (companyId == 52 ? '#fcf352' : hoverColor) : 'transparent'}">
-                                    <div *ngIf="getModuleCategoryTitle(module.units, unit, i)" class="module-category">
+                                    <div *ngIf="getModuleCategoryTitle(module.units, unit, i)" class="px-[12px]">
                                         {{ getModuleCategoryTitle(module.units, unit, i) }}
                                     </div>
                                     <div class="flex items-center py-[10px] px-[12px] justify-between hover:cursor-pointer" (click)="selectUnit(unit)">

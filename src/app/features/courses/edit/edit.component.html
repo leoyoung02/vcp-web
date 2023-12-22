@@ -984,6 +984,46 @@
                             </select>
                         </div>
                         <div class="flex items-center justify-center my-8 relative">
+                            <div class="w-full max-w-full">
+                                <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{'course-details.availableon' | translate}}
+                                </label>
+                                <label
+                                    for="setting-191"
+                                    class="flex items-center w-full justify-between cursor-pointer"
+                                >
+                                    <div class="relative mr-1">
+                                        <input
+                                            id="setting-191"
+                                            name="setting-191"
+                                            type="checkbox"
+                                            class="sr-only"
+                                            [(ngModel)]="unitAvailability" 
+                                            [ngModelOptions]="{standalone: true}"
+                                        />
+                                        <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                    </div>
+                                </label>
+                            </div>
+                            <div class="w-full max-w-full" *ngIf="unitAvailability">
+                                <div class="flex items-center justify-center relative">
+                                    <div class="w-full max-w-full">
+                                        <mat-form-field class="w-full datetime-picker-field">
+                                            <input 
+                                                matInput 
+                                                [ngxMatDatetimePicker]="picker1" 
+                                                placeholder="{{'course-details.availableon' | translate}} {{'company-settings.date' | translate}}" 
+                                                [(ngModel)]="unitAvailabilityDate" 
+                                                [ngModelOptions]="{standalone: true}">
+                                            <ngx-mat-datepicker-toggle matSuffix [for]="picker1"></ngx-mat-datepicker-toggle>
+                                            <ngx-mat-datetime-picker [hideTime]="false" [showSeconds]="false" #picker1></ngx-mat-datetime-picker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center my-8 relative">
                             <select
                                 id="unit-types"
                                 class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"

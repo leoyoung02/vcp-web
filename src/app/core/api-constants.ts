@@ -75,6 +75,17 @@ export const STRIPE_WEBHOOKS_URL = `${API_BASE}/guest/other-stripe/webhooks/list
 export const ADD_STRIPE_WEBHOOK_URL = `${API_BASE}/guest/other-stripe/webhook/add`;
 export const ADD_STRIPE_ACCOUNT_URL = `${API_BASE}/company/other-settings/stripe/account/add`;
 export const EDIT_STRIPE_ACCOUNT_URL = `${API_BASE}/company/other-settings/stripe/account/edit`;
+export const ENABLE_LANDING_TEMPLATE_URL = `${API_BASE}/company/landing/template/enable`;
+export const DISABLE_LANDING_TEMPLATE_URL = `${API_BASE}/company/landing/template/disable`;
+export const ENABLE_PREDEFINED_TEMPLATE_URL = `${API_BASE}/company/home/predefined/template/enable`;
+export const DISABLE_PREDEFINED_TEMPLATE_URL = `${API_BASE}/company/home/predefined/template/disable`;
+export const COMPANY_LANDING_TEMPLATE_URL = `${API_BASE}/company/landing/templates`;
+export const COMPANY_LANDING_TEMPLATE_DETAILS_URL = `${API_BASE}/company/landing/template-details`;
+export const EDIT_COMPANY_TEMPLATE_URL = `${API_BASE}/company/landing/template/update`;
+export const COUPONS_URL = `${API_BASE}/guest/coupons`;
+export const ADD_COUPON_URL = `${API_BASE}/guest/coupon/add`;
+export const EDIT_COUPON_URL = `${API_BASE}/guest/coupon/edit`;
+export const DELETE_COUPON_URL = `${API_BASE}/guest/coupon/delete`;
 
 export const LISTS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/lists-management-data`;
 export const MANAGE_MEMBER_TYPES_DATA_URL = `${API_BASE}/v2/manage-member-types-data`;
@@ -189,9 +200,11 @@ export const EDIT_USER_AS_LOGO_URL = `${API_BASE}/company/user/signup/as/logo`;
 export const EDIT_USER_PROFILE_FIELDS_SETTINGS_URL = `${API_BASE}/company/profile/settings/manage`;
 export const GUARDIAN_STUDENTS_URL = `${API_BASE}/company/guardian/students`;
 export const DENY_USER_URL = `${API_BASE}/company/member/deny`;
-
+export const INVOICE_URL = `${API_BASE}/member-invoice/view`;
+export const RESEND_INVOICE_URL = `${API_BASE}/member-invoice/resend`;
 
 export const MANAGE_USERS_DATA_URL = `${API_BASE}/v2/manage-users-data`;
+export const INVOICES_DATA_URL = `${API_BASE}/v2/invoices-data`;
 
 // NOTIFICATIONS
 export const ACCEPT_CLUB_NOTIFICATION_URL = `${API_BASE}/company-approve-join-group`;
@@ -486,6 +499,7 @@ export const MEMBERS_COMBINED_URL = `${API_BASE}/v2/members`;
 export const MEMBER_COMBINED_URL = `${API_BASE}/v2/member-details`;
 export const ASK_QUESTION_URL = `${API_BASE}/company/member/question/ask`;
 export const SEND_REFERENCE_URL = `${API_BASE}/company/member/reference/send-test1`;
+export const MEMBERS_RESTRICTED_LIST_URL = `${API_BASE}/company/members/restricted-list`;
 
 // OFFERS
 export const OFFERS_COMBINED_URL = `${API_BASE}/v2/offers`;
@@ -502,6 +516,9 @@ export const SERVICE_COMBINED_URL = `${API_BASE}/v2/service-details`;
 export const ADD_SERVICE_URL = `${API_BASE}/company/as-service/add`;
 export const EDIT_SERVICE_URL = `${API_BASE}/company/service/edit`;
 export const DELETE_SERVICE_URL = `${API_BASE}/company/service/delete`;
+export const SUBSCRIBE_SERVICE_URL = `${API_BASE}/company/as-service/subscribe`;
+export const SERVICE_DETAILS_URL = `${API_BASE}/guest/as-service`;
+export const PAID_SUBSCRIBE_SERVICE_URL = `${API_BASE}/company/service/subscribe/stripe`;
 
 // BLOGS
 export const BLOGS_COMBINED_URL = `${API_BASE}/v2/blogs`;

@@ -730,10 +730,6 @@ export class MainComponent {
             ),
             value: "Customize design",
           },
-          {
-            text: "Stripe",
-            value: "Stripe",
-          },
         ],
       },
       {
@@ -865,6 +861,17 @@ export class MainComponent {
         ),
         value: "ManagementSection",
         submenus: [],
+      },
+      {
+        icon: "./assets/images/new-design/icons/Channels.png",
+        text: this._translateService.instant("company-settings.invoice"),
+        value: "Invoices",
+        submenus: [
+          {
+            text: "Stripe",
+            value: "Stripe",
+          },
+        ],
       },
     ];
   }
@@ -1032,8 +1039,27 @@ export class MainComponent {
             }
           }
         }
+        if(mi.value == 'Invoices') {
+          if(this.companyId != 52 && this.companyId != 32) {
+            let invoices_match = mi.submenus && mi.submenus.some((a) => a.value === "Invoices");
+            if (!invoices_match) {
+              mi.submenus.push({
+                text: `${this._translateService.instant('company-settings.customize')} ${this._translateService.instant('company-settings.invoices')}`,
+                value: "Invoices",
+              });
+            }
+            let invoices_list_match = mi.submenus && mi.submenus.some((a) => a.value === "InvoicesList");
+            if (!invoices_list_match) {
+              mi.submenus.push({
+                text: this._translateService.instant("company-settings.invoices"),
+                value: "InvoicesList",
+              });
+            }
+          }
+        }
       });
     }
+
 
     this.allMainMenuItems = this.mainMenuItems;
   }
@@ -1459,8 +1485,9 @@ export class MainComponent {
       } else if (content == "Statistics") {
         this._router.navigate([`/settings/statistics`]);
       }
-    }
-    else if (content == "Features") {
+    } else if(menu.value == "Invoices" && content == "InvoicesList") {
+      this._router.navigate([`/users/invoices-list`]);
+    } else if (content == "Features") {
       this._router.navigate([`/settings/features`]);
     } else {
       let otherSettingsCategory;

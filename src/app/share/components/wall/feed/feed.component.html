@@ -57,7 +57,7 @@
 <ng-container *ngIf="activeMenu == 'General'">
     <div class="my-6" *ngFor="let post of posts; let i = index;">
         <app-wall-post 
-            *ngIf="hasCheckedCourseWallSettings" 
+            *ngIf="hasCheckedCourseWallSettings || !groupId" 
             [buttonColor]="buttonColor" 
             [language]="language" 
             [post]="post" 

@@ -168,6 +168,7 @@ export class LayoutMainComponent {
   isUESchoolOfLife: boolean = false;
   user: any;
   campus: any = '';
+  refreshedMenu: boolean = false;
 
   constructor(
     private _router: Router,
@@ -1467,6 +1468,7 @@ export class LayoutMainComponent {
       return;
     }
 
+    this.refreshedMenu = false;
     let has_course_wall_subfeature;
     has_course_wall_subfeature = this.updateCoursesData(
       has_course_wall_subfeature,
@@ -1545,13 +1547,15 @@ export class LayoutMainComponent {
     mmatch = this.renderNewMenu(mmatch);
     this.renderCourseWallMenu(has_course_wall_subfeature);
     this.renderTutorsMenu(subfeatureMapping);
-    this.renderGenericWallMenu();
 
     this._localService.setLocalStorage(
       environment.lsmenus,
       JSON.stringify(this.menus)
     );
+
     this._menuService.updateMenu(this.menus);
+
+    this.refreshedMenu = true;
     this.cd.detectChanges();
   }
 
@@ -1939,6 +1943,7 @@ export class LayoutMainComponent {
       this.renderCourseWallsMenu();
       this.renderCourseWallDropdownMenu(has_course_wall_subfeature);
     }
+    this.renderGenericWallMenu();
   }
 
   renderCourseWallsMenu() {
