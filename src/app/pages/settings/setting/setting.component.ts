@@ -1880,6 +1880,19 @@ export class SettingComponent {
             console.log(error)
           }
         )
+    } else {
+      this._companyService.disableLandingTemplate(this.companyId, {})
+      .subscribe(
+        async response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+          this.landingTemplateEnabled = false
+          await this.setCompanyInit();
+          location.reload()
+        },
+        error => {
+          console.log(error)
+        }
+      )
     }
   }
 

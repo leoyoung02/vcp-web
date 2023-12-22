@@ -871,10 +871,6 @@ export class MainComponent {
             text: "Stripe",
             value: "Stripe",
           },
-          {
-            text: `${this._translateService.instant('company-settings.customize')} ${this._translateService.instant('company-settings.invoices')}`,
-            value: 'Invoices'
-          },
         ],
       },
     ];
@@ -1044,12 +1040,21 @@ export class MainComponent {
           }
         }
         if(mi.value == 'Invoices') {
-          let invoices_match = mi.submenus && mi.submenus.some((a) => a.value === "InvoicesList");
-          if (!invoices_match) {
-            mi.submenus.push({
-              text: this._translateService.instant("company-settings.invoices"),
-              value: "InvoicesList",
-            });
+          if(this.companyId != 52 && this.companyId != 32) {
+            let invoices_match = mi.submenus && mi.submenus.some((a) => a.value === "Invoices");
+            if (!invoices_match) {
+              mi.submenus.push({
+                text: `${this._translateService.instant('company-settings.customize')} ${this._translateService.instant('company-settings.invoices')}`,
+                value: "Invoices",
+              });
+            }
+            let invoices_list_match = mi.submenus && mi.submenus.some((a) => a.value === "InvoicesList");
+            if (!invoices_list_match) {
+              mi.submenus.push({
+                text: this._translateService.instant("company-settings.invoices"),
+                value: "InvoicesList",
+              });
+            }
           }
         }
       });
