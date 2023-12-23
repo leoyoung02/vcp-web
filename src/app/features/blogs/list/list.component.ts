@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, HostListener, Input } from "@angular/core";
+import { Component, HostListener } from "@angular/core";
 import {
   LangChangeEvent,
   TranslateModule,
@@ -254,6 +254,7 @@ export class BlogListComponent {
         name: this.getBlogName(blog),
         description,
         image: `${environment.api}/get-blog-image/${blog.image}`,
+        author_image: `${environment.api}/${blog.created_by_image}`,
         truncated_description: this.getExcerpt(description),
       };
     });

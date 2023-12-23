@@ -12,7 +12,9 @@ import { BreadcrumbComponent, ToastComponent } from "@share/components";
 import { LocalService, CompanyService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
+import { DomSanitizer } from '@angular/platform-browser';
 import { initFlowbite } from "flowbite";
+import { EditorModule } from "@tinymce/tinymce-angular";
 import get from "lodash/get";
 
 @Component({
@@ -22,6 +24,7 @@ import get from "lodash/get";
     CommonModule,
     TranslateModule,
     MatSnackBarModule,
+    EditorModule,
     BreadcrumbComponent,
     NgOptimizedImage,
     ToastComponent,
@@ -71,6 +74,11 @@ export class BlogDetailComponent {
   blogDescription: any;
   editHover: boolean = false;
   deleteHover: boolean = false;
+  showBlogDescription: boolean = false;
+  blogDesc: any = '';
+  @ViewChild('iframeBlogDescription', { static: false }) iframeBlogDescription: ElementRef | undefined;
+  @ViewChild('editor', { static: false }) editor: ElementRef | undefined;
+  blogAuthor: any;
 
   constructor(
     private _router: Router,
@@ -79,7 +87,8 @@ export class BlogDetailComponent {
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _location: Location,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private _sanitizer: DomSanitizer,
   ) {}
 
   async ngOnInit() {
@@ -216,7 +225,10 @@ export class BlogDetailComponent {
     this.blog = data?.blog;
     this.blogImage = `${environment.api}/get-blog-image/${this.blog?.image}`;
     this.blogOwner = this.userId == this.blog.created_by ? true : false;
+    this.blogAuthor = this.blog?.creator?.name || `${this.blog?.creator?.first_name} ${this.blog?.creator?.last_name}`;
     this.blogDescription = this.getBlogDescription(this.blog);
+    this.blogDesc = this._sanitizer.bypassSecurityTrustHtml(this.blogDescription);
+    this.showBlogDescription = true;
     this.blogTitle = this.getBlogName(data?.blog);
   }
 
@@ -260,6 +272,27 @@ export class BlogDetailComponent {
         ? blog.description_DE || blog.description_ES
         : blog.description_ES
       : "";
+  }
+
+  handleEditorInit(e) {
+    setTimeout(() => {
+        if (this.editor && this.iframeBlogDescription && this.blogDesc && this.blogDesc.changingThisBreaksApplicationSecurity) {
+            this.editor.nativeElement.style.display = 'block'
+
+            e.editor.setContent(this.blogDesc.changingThisBreaksApplicationSecurity)
+            this.iframeBlogDescription.nativeElement.style.height = `${e.editor.container.clientHeight + 200}px`
+
+            this.editor.nativeElement.style.display = 'none'
+
+            this.iframeBlogDescription.nativeElement.src =
+                'data:text/html;charset=utf-8,' +
+                '<html>' +
+                '<head>' + e.editor.getDoc().head.innerHTML + '<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins" /><style>* {font-family: "Poppins", sans-serif;}</style></head>' +
+                '<body>' + e.editor.getDoc().body.innerHTML + '</body>' +
+                '</html>';
+            this.iframeBlogDescription.nativeElement.style.display = 'block'
+        }
+    }, 500)
   }
 
   handleDelete() {

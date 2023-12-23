@@ -39,6 +39,7 @@ export class ServiceCardComponent {
   @Input() name: any;
   @Input() image: any;
   @Input() buttonColor: any;
+  @Input() primaryColor: any;
   @Input() page: any;
 
   languageChangeSubscription;

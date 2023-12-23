@@ -39,7 +39,7 @@
     </div>
 </div>
 <div class="pt-6">
-    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 pb-20">
+    <!-- <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 pb-20">
         <ng-container *ngFor="let blog of blogs | paginate: {itemsPerPage: 6, currentPage: p}"> 
             <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8">
                 <div class="col-span-2 w-full h-full max-h-full sm:h-full sm:max-h-full md:h-[339px] md:max-h-[339px] lg:h-[339px] lg:max-h-[339px]">
@@ -80,5 +80,27 @@
     </div>
     <div *ngIf="blogs?.length > 0" class="text-center">
         <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
+    </div>-->
+    <div class="columns-1 md:columns-3 lg:columns-4">
+        <div (click)="goToDetails(blog)" *ngFor="let blog of blogs" 
+            class="hover:cursor-pointer relative mb-5 before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
+            [ngStyle]="{'box-shadow': '0px 40px 54px -45px #00000099'}">
+          <img class="w-full rounded-md" [src]="blog.image">
+          <div class="test__body absolute inset-0 p-8 text-white flex flex-col">
+            <div class="relative">
+              <a class="absolute inset-0" href="javascript:;"></a>
+              <h1 class="text-2xl font-bold mb-3 leading-[25px]">{{blog?.name}}</h1>
+              <p class="font-sm font-light">{{blog?.created_at | date:'dd MMM yyyy HH:mm a'}}</p>
+            </div>
+            <div class="mt-auto">
+                <div class="flex">
+                    <div class="bg-white bg-opacity-60 py-1 px-4 rounded-md text-black flex">
+                        <img class="w-6 h-6 rounded-full object-cover object-top mr-4" [src]="blog.author_image">
+                        <div class="text-sm">{{blog?.created_by_name}}</div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
     </div>
 </div>

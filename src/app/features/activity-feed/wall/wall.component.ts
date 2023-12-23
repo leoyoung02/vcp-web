@@ -181,6 +181,8 @@ export class WallComponent {
                     if(this.id > 0) { 
                         this.getGroup(data); 
                     } else {
+                        this.hasAccess = true;
+                        this.isAccessChecked = true;
                         this.pageName = this._translateService.instant('sidebar.activityfeed');
                         this.getMembers();
                     }
