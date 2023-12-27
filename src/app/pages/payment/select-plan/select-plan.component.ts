@@ -279,6 +279,13 @@ export class SelectPlanComponent {
                   userId: this.id,
                 })
                 .toPromise();
+            } else {
+              await this._authService
+                .sendWelcomeEmail({
+                  companyId: this.companyId,
+                  userId: this.id,
+                })
+                .toPromise();
             }
             this.redirectToLogin(type);
           }

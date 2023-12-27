@@ -686,7 +686,6 @@ export class CourseEditComponent {
 
   mapSubfeatures(data) {
     let subfeatures = data?.settings?.subfeatures;
-    console.log(subfeatures)
     if (subfeatures?.length > 0) {
       this.canLinkQuizToCourse = subfeatures.some(
         (a) => a.name_en == "Link quiz to courses" && a.active == 1

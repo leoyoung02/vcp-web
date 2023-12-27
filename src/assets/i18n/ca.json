@@ -3390,5 +3390,8 @@
         "provideid": "Si voleu mostrar condicionalment el CTA, cal que hi hagi un valor aquí.",
         "views": "Nombre de visualitzacions",
         "clicks": "Nombre de clics"
+    },
+    "community": {
+        "communitychannels": "Canals de la comunitat"
     }
 }

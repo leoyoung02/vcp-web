@@ -3416,5 +3416,8 @@
         "provideid": "If you want to conditionally show the CTA, there needs to be a value here.",
         "views": "No. of views",
         "clicks": "No. of clicks"
+    },
+    "community": {
+        "communitychannels": "Community channels"
     }
 }

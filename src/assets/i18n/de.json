@@ -3379,5 +3379,8 @@
         "provideid": "Wenn Sie den CTA bedingt anzeigen möchten, muss hier ein Wert angegeben werden.",
         "views": "Anzahl der Aufrufe",
         "clicks": "Anzahl der Klicks"
+    },
+    "community": {
+        "communitychannels": "Community-Kanäle"
     }
 }

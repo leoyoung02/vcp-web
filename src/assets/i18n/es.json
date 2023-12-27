@@ -3310,7 +3310,7 @@
         "purchasehistory": "Historial de compras",
         "failed":"fallido",
         "selectcredits": "Seleccionar créditos para comprar", 
-        "paymentconfirmado": "Gracias por su compra. Esto confirma que su pago se ha completado."
+        "paymentconfirmed": "Gracias por su compra. Esto confirma que su pago se ha completado."
     },
     "password": {
         "better": "Es mejor tener:",
@@ -3402,5 +3402,8 @@
         "provideid": "Si desea mostrar la CTA de forma condicional, debe haber un valor aquí",
         "views": "Nº de vistas",
         "clicks": "Nº de clics"
+    },
+    "community": {
+        "communitychannels": "Canales comunitarios"
     }
 }

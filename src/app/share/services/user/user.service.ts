@@ -71,6 +71,9 @@ import {
     ACCEPT_CONDITIONS_URL,
     API_GELOCATION_URL,
     USER_CREDIT_LOGS_URL,
+    CUSTOMER_PORTAL_URL,
+    AS_CUSTOMER_PORTAL_URL,
+    CANCEL_MEMBERSHIP_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
@@ -551,5 +554,35 @@ export class UserService {
     return this._http.get(`${USER_CREDIT_LOGS_URL}/${id}`, 
       { headers: this.headers }
     ).pipe(map(res => res));
+  }
+
+  createCustomerPortal(userId, serviceId, payload): Observable<any> {
+    return this._http.post(
+      `${AS_CUSTOMER_PORTAL_URL}/${userId}/${serviceId}`,
+      payload
+    ).pipe(
+      map(res => {
+        const result = res
+        return result;
+      })
+    );
+  }
+
+  createOtherCustomerPortal(userId, companyId, objectId, object, type, payload): Observable<any> {
+    return this._http.post(
+      `${CUSTOMER_PORTAL_URL}/${userId}/${companyId}/${objectId}/${object}/${type}`,
+      payload
+    ).pipe(
+      map(res => {
+        const result = res
+        return result;
+      })
+    );
+  }
+
+  cancelMembership(payload): Observable<any> {
+    return this._http.post(CANCEL_MEMBERSHIP_URL, 
+        payload
+    ).pipe(map(res => res))
   }
 }

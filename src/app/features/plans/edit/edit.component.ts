@@ -1206,6 +1206,9 @@ export class PlanEditComponent {
     } else {
       this.price = "";
     }
+    if(this.planForm.controls["price"] && this.withFee) {
+      this.planForm.controls["price"].setValue(this.price);
+    }
     if (this.planForm.controls["zoom_link"]) {
       this.planForm.controls["zoom_link"].setValue(zoom_link);
     }

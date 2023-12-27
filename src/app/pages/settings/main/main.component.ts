@@ -770,6 +770,10 @@ export class MainComponent {
             text: "TikTok",
             value: "TikTok",
           },
+          {
+            text: this._translateService.instant("community.communitychannels"),
+            value: "Channels",
+          },
         ],
       },
       {
@@ -1449,6 +1453,8 @@ export class MainComponent {
   }
 
   showContent(content, menu) {
+    console.log('menu.value: ' + menu.value)
+    console.log('content: ' + content)
     if (menu.value == "ManagementSection") {
       if (content == "Events") {
         this._router.navigate([`/settings/manage-list/plans`]);
@@ -1489,6 +1495,8 @@ export class MainComponent {
       this._router.navigate([`/users/invoices-list`]);
     } else if (content == "Features") {
       this._router.navigate([`/settings/features`]);
+    } else if (menu.value == "Channels" && content == "Channels") {
+      this._router.navigate([`/settings/community-channels`]);
     } else {
       let otherSettingsCategory;
       if (this.otherSettingsCategories) {

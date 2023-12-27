@@ -783,7 +783,12 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
             
         });
     }
-    
+  }
+
+  pay() {
+    let plan_type_id = this.event.plan_type_id > 0 ? this.event.plan_type_id : 4;
+    let user_id = this.userId || 0;
+    this._router.navigate([`/plan-registration/payment/${this.event.id}/${plan_type_id}/${user_id}`]);
   }
 
   async open(message: string, action: string) {

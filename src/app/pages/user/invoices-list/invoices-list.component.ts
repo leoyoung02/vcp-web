@@ -210,7 +210,14 @@ export class InvoicesListComponent {
   }
 
   formatInvoices(invoices) {
-    this.invoices = invoices?.map((item) => {
+    this.invoices = invoices;
+    if(!this.superAdmin) {
+      this.invoices = invoices?.filter(invoice => {
+        return invoice?.user?.id == this.userId
+      })
+    }
+    console.log(this.invoices)
+    this.invoices = this.invoices?.map((item) => {
       return {
         base: item?.amount > 0 ? item?.base : '0.00',
         iva: item?.amount > 0 ? (item?.iva ? ('€' + item?.iva) : '€ 0.00') : '€ 0.00',

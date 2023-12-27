@@ -1935,7 +1935,7 @@ export class SettingComponent {
   }
 
   goToCoupons() {
-    this._router.navigate([`/settings/coupons`])
+    location.href = `/settings/coupons`
   }
 
   handleGoBack() {

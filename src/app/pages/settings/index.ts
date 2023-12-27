@@ -163,5 +163,11 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'company-settings.coupons'},
         loadComponent: async () => (await import('./coupons/coupons.component')).CouponsComponent,
+    },
+    {
+        path: 'community-channels',
+        title: CustomTitleResolver,
+        data: { titleKey: 'community.communitychannels'},
+        loadComponent: async () => (await import('./community-channels/community-channels.component')).CommunityChannelsComponent,
     }
 ];

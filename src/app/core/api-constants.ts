@@ -137,6 +137,7 @@ export const FORGOT_PASSWORD_URL = `${API_BASE}/central/reset-password`;
 export const CHANGE_PASSWORD_URL = `${API_BASE}/central/change-password/vistingo`;
 export const SIGNUP_FREE_URL = `${API_BASE}/company/user/signup-no-payment/dynamic`;
 export const SEND_EMAIL_CONFIRMATION_URL = `${API_BASE}/company/send/confirmation-email`;
+export const SEND_EMAIL_WELCOME_URL = `${API_BASE}/company/send/welcome-email`;
 export const SELECT_PLAN_EMAIL_URL = `${API_BASE}/company/email/select-plan`;
 export const EMAIL_VERIFICATION_URL = `${API_BASE}/email-verification`;
 
@@ -202,6 +203,9 @@ export const GUARDIAN_STUDENTS_URL = `${API_BASE}/company/guardian/students`;
 export const DENY_USER_URL = `${API_BASE}/company/member/deny`;
 export const INVOICE_URL = `${API_BASE}/member-invoice/view`;
 export const RESEND_INVOICE_URL = `${API_BASE}/member-invoice/resend`;
+export const AS_CUSTOMER_PORTAL_URL = `${API_BASE}/company/as-service/customer/portal/create`;
+export const CUSTOMER_PORTAL_URL = `${API_BASE}/company/customer/portal/create`;
+export const CANCEL_MEMBERSHIP_URL = `${API_BASE}/user/member-type/cancel`;
 
 export const MANAGE_USERS_DATA_URL = `${API_BASE}/v2/manage-users-data`;
 export const INVOICES_DATA_URL = `${API_BASE}/v2/invoices-data`;
@@ -295,6 +299,8 @@ export const ALL_GUEST_REGISTRATION_FIELDS_URL = `${API_BASE}/company/guest-regi
 export const ADD_GUEST_REGISTRATION_FIELDS_URL = `${API_BASE}/company/guest-registration/fields/add`;
 export const EDIT_GUEST_REGISTRATION_FIELDS_URL = `${API_BASE}/company/guest-registration/fields/edit`;
 export const DELETE_GUEST_REGISTRATION_FIELDS_URL = `${API_BASE}/company/guest-registration/fields/delete`;
+export const CHECKOUT_PLAN_DETAILS_URL = `${API_BASE}/guest/plans`;
+export const PLAN_PAYMENT_URL = `${API_BASE}/company/activity/subscribe/stripe`;
 
 export const PLANS_URL = `${API_BASE}/v2/plans`;
 export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;
@@ -601,3 +607,9 @@ export const EDIT_CREDITS_SETTINGS_URL = `${API_BASE}/v2/credits/settings`;
 export const EDIT_VIDEOS_CTAS_CTA_SETTINGS_URL = `${API_BASE}/v2/videos-ctas/cta-settings/edit`;
 export const LOG_VIDEO_CTA_CLICK_URL = `${API_BASE}/v2/video-cta/click/log`;
 export const TIKTOK_VIDEOS_CTAS_DATA_URL = `${API_BASE}/v2/tiktok-videos-ctas-data`;
+
+// COMMUNITY
+export const COMMUNITY_CHANNELS_URL = `${API_BASE}/v2/channels`;
+export const ADD_COMMUNITY_CHANNEL_URL = `${API_BASE}/v2/channel/add`;
+export const EDIT_COMMUNITY_CHANNEL_URL = `${API_BASE}/v2/channel/edit`;
+export const DELETE_COMMUNITY_CHANNEL_URL = `${API_BASE}/v2/channel/delete`;
