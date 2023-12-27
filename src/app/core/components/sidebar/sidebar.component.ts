@@ -221,7 +221,6 @@ export class SidebarComponent {
         return cw.course_wall != 11;
       });
       this.navMenus = navmenus;
-      console.log(navmenus)
       this.checkCourseWalls(menuChange.currentValue);
     }
 
@@ -311,11 +310,18 @@ export class SidebarComponent {
       }
 
       let course_wall_dropdown_row = menus?.filter((cw) => {
-        return cw.course_wall == 11;
+        return cw.course_wall == 11 || cw.course_wall == 1;
       });
-      if (course_wall_dropdown_row?.length > 0) {
+      if (course_wall_dropdown_row?.length > 0 && !this.hasGenericWallDropdown) {
         this.hasCourseWallDropdown = true;
         this.courseWallDropdownMenu = course_wall_dropdown_row[0];
+        if(this.courseWallDropdownMenu?.subs?.length > 0) {
+        } else {
+          let menu_items = [
+            this.courseWallDropdownMenu
+          ];
+          this.courseWallDropdownMenu['subs'] = menu_items;
+        }
       }
 
       setTimeout(() => {

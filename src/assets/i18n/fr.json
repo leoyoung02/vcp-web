@@ -3375,5 +3375,8 @@
         "provideid": "CTA baldintzapean erakutsi nahi baduzu, balio bat egon behar da hemen.",
         "views": "Nombre de vues",
         "clicks": "Nombre de clics"
+    },
+    "community": {
+        "communitychannels": "Chaînes communautaires"
     }
 }

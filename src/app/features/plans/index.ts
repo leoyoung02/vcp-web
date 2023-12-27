@@ -25,5 +25,11 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'landing.edit'},
         loadComponent: async () => (await import('./edit/edit.component')).PlanEditComponent,
+    },
+    {
+        path: 'payment/:id/:typeId/:userId',
+        title: CustomTitleResolver,
+        data: { titleKey: 'signup.checkout'},
+        loadComponent: async () => (await import('./payment/payment.component')).PlanPaymentComponent,
     }
 ];

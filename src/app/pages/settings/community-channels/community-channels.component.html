@@ -1,4 +1,4 @@
-<app-page-title title="{{ 'company-settings.coupons' | translate }}"></app-page-title>
+<app-page-title title="{{ 'community.communitychannels' | translate }}"></app-page-title>
 <div class="container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
     <app-breadcrumb 
         [level1Title]="level1Title"
@@ -44,33 +44,21 @@
                 <span class="sr-only">Loading...</span>
             </div>
             <mat-table [dataSource]="dataSource" matSort>
-                <!-- <ng-container matColumnDef="id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> ID </mat-header-cell>
-                    <mat-cell *matCellDef="let row" data-label="id"> {{ row.id }}</mat-cell>
-                </ng-container> -->
                 <ng-container matColumnDef="name">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'signup.coupon' | translate }} </mat-header-cell>
-                    <mat-cell *matCellDef="let row" data-label="name">
-                        {{ row?.name }}
-                    </mat-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{'plan-details.name' | translate}} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="name"> {{ row?.name }}</mat-cell>
                 </ng-container>
-                <ng-container matColumnDef="amount_off">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'create-discount.price' | translate }} </mat-header-cell>
-                    <mat-cell *matCellDef="let row" data-label="amount_off">
-                        {{ row?.amount_off > 0 ? (row?.amount_off / 100) : 0 }}€
-                    </mat-cell>
-                </ng-container>
-                <ng-container matColumnDef="percent_off">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'create-discount.percent' | translate }} </mat-header-cell>
-                    <mat-cell *matCellDef="let row" data-label="percent_off">
-                        {{ row?.percent_off > 0 ? row?.percent_off : 0 }}%
+                <ng-container matColumnDef="type">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'company-settings.type' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="type">
+                        <span class="capitalize">{{ row?.type }}</span>
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'customer.action' | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="action" class="flex;">
                         <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            [ngStyle]="{'background-color': buttonColor}" (click)="editCoupon(row)"
+                            [ngStyle]="{'background-color': buttonColor}" (click)="editChannel(row)"
                         >
                             <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                 <path d="M12.687 14.408a3.01 3.01 0 0 1-1.533.821l-3.566.713a3 3 0 0 1-3.53-3.53l.713-3.566a3.01 3.01 0 0 1 .821-1.533L10.905 2H2.167A2.169 2.169 0 0 0 0 4.167v11.666A2.169 2.169 0 0 0 2.167 18h11.666A2.169 2.169 0 0 0 16 15.833V11.1l-3.313 3.308Zm5.53-9.065.546-.546a2.518 2.518 0 0 0 0-3.56 2.576 2.576 0 0 0-3.559 0l-.547.547 3.56 3.56Z"/>
@@ -79,7 +67,7 @@
                             <span class="sr-only">Icon description</span>
                         </button>
                         <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            [ngStyle]="{'background-color': buttonColor}" (click)="deleteCoupon(row)"
+                            [ngStyle]="{'background-color': buttonColor}" (click)="deleteChannel(row)"
                         >
                             <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                 <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
@@ -117,54 +105,61 @@
                     {{ mode == 'edit' ? ('cities.edit' | translate) : ('cities.createnew' | translate) }}
                 </h3>
                 <form 
-                    [formGroup]="couponForm"
+                    [formGroup]="channelForm"
                     class="my-4 px-1"
                 >
                     <div class="mb-2 relative">
-                        <label for="coupon" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'signup.coupon' | translate }}</label>
-                        <input
-                            id="coupon"
-                            class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && couponForm.get('coupon')?.errors }"
-                            placeholder="{{ 'signup.coupon' | translate }}*"
-                            formControlName="coupon"
-                            required
-                        />
-                    </div>
-                    <!-- <div class="mb-2 relative">
-                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'signup.name' | translate }}</label>
+                        <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'plan-details.name' | translate }}</label>
                         <input
                             id="name"
                             class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && couponForm.get('name')?.errors }"
-                            placeholder="{{ 'signup.name' | translate }}*"
+                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && channelForm.get('name')?.errors }"
+                            placeholder="{{ 'plan-details.name' | translate }}*"
                             formControlName="name"
                             required
                         />
-                    </div> -->
-                    <div class="mb-2 relative">
-                        <label for="amount_off" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'create-discount.price' | translate }}</label>
-                        <input
-                            id="amount_off"
-                            class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && couponForm.get('amount_off')?.errors }"
-                            placeholder="{{ 'create-discount.price' | translate }}*"
-                            formControlName="amount_off"
-                            required
-                            type="number"
-                        />
                     </div>
                     <div class="mb-2 relative">
-                        <label for="percent_off" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'create-discount.percent' | translate }}</label>
-                        <input
-                            id="percent_off"
-                            class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && couponForm.get('percent_off')?.errors }"
-                            placeholder="{{ 'create-discount.percent' | translate }}*"
-                            formControlName="percent_off"
-                            required
-                            type="number"
-                        />
+                        <label for="plans" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'course-create.type' | translate }}</label>
+                        <select 
+                            id="bulk" 
+                            class="w-full max-w-full mr-4 bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            [ngStyle]="{'border-color': buttonColor}"
+                            [(ngModel)]="selectedType"
+                            [ngModelOptions]="{standalone: true}"
+                        >
+                            <option value="">{{ 'your-admin-area.selecttype' | translate }}</option>
+                            <option value="plan">{{ 'plans.activity' | translate }}</option>
+                        </select>
+                    </div>
+                    <div class="mb-2 relative" *ngIf="selectedType == 'plan'">
+                        <label for="plans" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"><span class="capitalize">{{ 'plans.activity' | translate }}</span></label>
+                        <select 
+                            id="bulk" 
+                            class="w-full max-w-full mr-4 pr-8 bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            [ngStyle]="{'border-color': buttonColor}"
+                            [(ngModel)]="selectedPlan"
+                            [ngModelOptions]="{standalone: true}"
+                        >
+                            <option value="">{{ 'member-type.select' | translate }}</option>
+                            <option
+                                *ngFor="let plan of plans"                                
+                                [value]="plan?.id"
+                            >
+                                {{
+                                    language == 'en' ? plan?.title_en 
+                                    :
+                                    language == 'ca' ? plan?.title_ca
+                                    :
+                                    language == 'de' ? plan?.title_de
+                                    :
+                                    language == 'eu' ? plan?.title_eu
+                                    :
+                                    language == 'fe' ? plan?.title_fr
+                                    : plan?.title
+                                }}
+                            </option>
+                        </select>
                     </div>
                     <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                         <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

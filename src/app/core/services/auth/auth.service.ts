@@ -16,6 +16,7 @@ import {
   SEND_EMAIL_CONFIRMATION_URL,
   SELECT_PLAN_EMAIL_URL,
   EMAIL_VERIFICATION_URL,
+  SEND_EMAIL_WELCOME_URL,
 } from "@lib/api-constants";
 import moment from "moment";
 
@@ -196,6 +197,14 @@ export class AuthService {
   sendConfirmationEmail(payload): Observable<any> {
     return this._http
       .post(`${SEND_EMAIL_CONFIRMATION_URL}`, payload, {
+        headers: this.headers,
+      })
+      .pipe(map((res) => res))
+  }
+
+  sendWelcomeEmail(payload): Observable<any> {
+    return this._http
+      .post(`${SEND_EMAIL_WELCOME_URL}`, payload, {
         headers: this.headers,
       })
       .pipe(map((res) => res))

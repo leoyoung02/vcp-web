@@ -163,6 +163,10 @@ import {
   ADD_COUPON_URL,
   EDIT_COUPON_URL,
   DELETE_COUPON_URL,
+  COMMUNITY_CHANNELS_URL,
+  ADD_COMMUNITY_CHANNEL_URL,
+  EDIT_COMMUNITY_CHANNEL_URL,
+  DELETE_COMMUNITY_CHANNEL_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1430,6 +1434,34 @@ export class CompanyService {
         `${DELETE_COUPON_URL}/${code}/${id}`,
         {},
         { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getChannels(id, userId): Observable<any> {
+    return this._http.get(`${COMMUNITY_CHANNELS_URL}/${id}/${userId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addChannel(payload): Observable<any> {
+    return this._http.post(ADD_COMMUNITY_CHANNEL_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editChannel(id, payload): Observable<any> {
+    return this._http.put(
+        `${EDIT_COMMUNITY_CHANNEL_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteChannel(id): Observable<any> {
+    return this._http.delete(
+        `${DELETE_COMMUNITY_CHANNEL_URL}/${id}`,
+        {}
     ).pipe(map(res => res));
   }
 }

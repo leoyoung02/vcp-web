@@ -18,6 +18,7 @@ import {
   LocalService,
   UserService,
 } from "@share/services";
+import { PlansService } from "@features/services";
 import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
 import {
@@ -31,7 +32,7 @@ import { initFlowbite } from "flowbite";
 import get from "lodash/get";
 
 @Component({
-  selector: "app-manage-coupons",
+  selector: "app-manage-community-channels",
   standalone: true,
   imports: [
     CommonModule,
@@ -47,9 +48,9 @@ import get from "lodash/get";
     ToastComponent,
     PageTitleComponent,
   ],
-  templateUrl: "./coupons.component.html",
+  templateUrl: "./community-channels.component.html",
 })
-export class CouponsComponent {
+export class CommunityChannelsComponent {
   private destroy$ = new Subject<void>();
 
   @Input() list: any;
@@ -70,22 +71,19 @@ export class CouponsComponent {
   buttonColor: any;
   company: any;
   domain: any;
-  coupons: any = [];
-  allCoupons: any = [];
+  channels: any = [];
+  allChannels: any = [];
   selectedId: any;
   coupon: any;
   mode: any;
   formSubmitted: boolean = false;
-  couponForm = new FormGroup({
-    coupon: new FormControl("", [Validators.required]),
+  channelForm = new FormGroup({
     name: new FormControl("", [Validators.required]),
-    amount_off: new FormControl(""),
-    percent_off: new FormControl(""),
   });
   pageSize: number = 10;
   pageIndex: number = 0;
   dataSource: any;
-  displayedColumns = ["name", "amount_off", "percent_off", "action"];
+  displayedColumns = ["name", "type", "action"];
   showConfirmationModal: boolean = false;
   selectedItem: any;
   confirmDeleteItemTitle: any;
@@ -103,10 +101,15 @@ export class CouponsComponent {
   name: any;
   amountOff: any;
   percentOff: any;
+  selectedPlan: any = '';
+  selectedType: any = '';
+  plans: any = [];
+  isUESchoolOfLife: boolean = false;
 
   constructor(
     private _router: Router,
     private _companyService: CompanyService,
+    private _plansService: PlansService,
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _snackBar: MatSnackBar,
@@ -134,6 +137,7 @@ export class CouponsComponent {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.companyId = company[0].id;
       this.domain = company[0].domain;
       this.primaryColor = company[0].primary_color;
@@ -157,7 +161,8 @@ export class CouponsComponent {
     initFlowbite();
     this.initializeBreadcrumb();
     this.initializeSearch();
-    this.getCoupons();
+    this.getPlans();
+    this.getChannels();
   }
 
   initializeBreadcrumb() {
@@ -167,8 +172,10 @@ export class CouponsComponent {
     this.level2Title = this._translateService.instant(
       "company-settings.invoices"
     );
-    this.level3Title = "Stripe";
-    this.level4Title = this._translateService.instant("company-settings.coupons");
+    this.level3Title = this._translateService.instant(
+      "company-settings.channels"
+    );
+    this.level4Title = this._translateService.instant("community.communitychannels");
   }
 
   initializeSearch() {
@@ -178,21 +185,51 @@ export class CouponsComponent {
     );
   }
 
-  getCoupons() {
+  getPlans() {
+    this._plansService
+    .fetchPlansCombined(this.companyId, "active", false, '')
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(
+      (data) => {
+        this.plans = data?.plans || [];
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  getChannels() {
     this._companyService
-      .getCoupons(this.companyId)
+      .getChannels(this.companyId, this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (response) => {
-          this.coupons = response.coupons;
-          this.allCoupons = this.coupons;
-          this.refreshTable(this.coupons);
+          this.formatChannels(response.channels);
+          this.refreshTable(this.channels);
           this.isloading = false;
         },
         (error) => {
           console.log(error)
         }
       );
+  }
+
+  formatChannels(channels) {
+    channels = channels?.filter(channel => {
+      return !channel?.course_id
+    })
+    channels = channels?.map((item) => {
+      return {
+        ...item,
+        id: item?.channel_id,
+        name: item?.channel_name,
+        type: item?.plan_id > 0 ? this._translateService.instant('plans.activity') : '',
+      };
+    });
+
+    this.channels = channels;
+    this.allChannels = channels;
   }
 
   refreshTable(array) {
@@ -229,7 +266,7 @@ export class CouponsComponent {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.dataSource = new MatTableDataSource(
-      this.coupons.slice(
+      this.channels.slice(
         event.pageIndex * event.pageSize,
         (event.pageIndex + 1) * event.pageSize
       )
@@ -245,18 +282,18 @@ export class CouponsComponent {
     this.pageIndex = 0;
     this.pageSize = 10;
     this.searchKeyword = event;
-    this.coupons = this.filterCoupons();
-    this.refreshTable(this.coupons);
+    this.channels = this.filterCoupons();
+    this.refreshTable(this.channels);
   }
 
   filterCoupons() {
-    let coupons = this.allCoupons;
-    if (coupons?.length > 0 && this.searchKeyword) {
-      return coupons.filter((m) => {
+    let channels = this.allChannels;
+    if (channels?.length > 0 && this.searchKeyword) {
+      return channels.filter((m) => {
         let include = false;
         if (
-          (m.coupon &&
-          m.coupon.toLowerCase()
+          m.name &&
+          m.name.toLowerCase()
           .normalize("NFD")
           .replace(/\p{Diacritic}/gu, "")
           .indexOf(
@@ -264,17 +301,7 @@ export class CouponsComponent {
               .toLowerCase()
               .normalize("NFD")
               .replace(/\p{Diacritic}/gu, "")
-          ) >= 0) ||
-          (m.name &&
-            m.name.toLowerCase()
-            .normalize("NFD")
-            .replace(/\p{Diacritic}/gu, "")
-            .indexOf(
-              this.searchKeyword
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/\p{Diacritic}/gu, "")
-            ) >= 0)
+          ) >= 0
         ) {
           include = true;
         }
@@ -282,15 +309,12 @@ export class CouponsComponent {
         return include;
       });
     } else {
-      return coupons;
+      return channels;
     }
   }
 
   create() {
-    this.couponForm.controls["coupon"].setValue("");
-    this.couponForm.controls["name"].setValue("");
-    this.couponForm.controls["amount_off"].setValue("");
-    this.couponForm.controls["percent_off"].setValue("");
+    this.channelForm.controls["name"].setValue("");
 
     this.mode = "add";
     this.formSubmitted = false;
@@ -298,17 +322,13 @@ export class CouponsComponent {
     this.modalbutton?.nativeElement.click();
   }
 
-  editCoupon(item) {
+  editChannel(item) {
     this.selectedId = item.id;
-    this.coupon = item.name || item.coupon;
-    this.name = item.name;
-    this.amountOff = item.amount_off || '';
-    this.percentOff = item.percent_off || '';
+    this.name = item?.channel_name || item?.name;
+    this.selectedType = item?.plan_id > 0 ? 'plan' : '';
+    this.selectedPlan = item?.plan_id > 0 ? item?.plan_id : '';
 
-    this.couponForm.controls["coupon"].setValue(this.coupon);
-    this.couponForm.controls["name"].setValue(this.coupon);
-    this.couponForm.controls["amount_off"].setValue(this.amountOff);
-    this.couponForm.controls["percent_off"].setValue(this.percentOff);
+    this.channelForm.controls["name"].setValue(this.name);
 
     this.mode = "edit";
     this.modalbutton?.nativeElement.click();
@@ -318,41 +338,45 @@ export class CouponsComponent {
     this.formSubmitted = true;
 
     if (
-      this.couponForm.get("coupon")?.errors // ||
-      // this.couponForm.get("name")?.errors
+      this.channelForm.get("name")?.errors
     ) {
       return false;
     }
 
+    let selected_plan_row = this.plans?.filter(plan => {
+      return plan?.id == this.selectedPlan
+    })
+    let selected_plan = selected_plan_row?.length > 0 ? selected_plan_row[0]: '';
     let params = {
-      coupon: this.couponForm.get("coupon")?.value,
-      name: this.couponForm.get("coupon")?.value,
-      amount_off: this.couponForm.get('amount_off')?.value,
-      percent_off: this.couponForm.get('percent_off')?.value,
+      name: this.channelForm.get("name")?.value,
+      plan_id: selected_plan?.id || 0,
+      plan_type_id: selected_plan?.plan_type_id || 0,
+      group_id: 0,
+      status: 1,
       company_id: this.companyId,
     };
 
     if (this.mode == "add") {
-      this._companyService.addCoupon(params).subscribe(
+      this._companyService.addChannel(params).subscribe(
         (response) => {
           this.open(
             this._translateService.instant("dialog.savedsuccessfully"),
             ""
           );
-          this.getCoupons();
+          this.getChannels();
         },
         (error) => {
           console.log(error);
         }
       );
     } else if (this.mode == "edit") {
-      this._companyService.editCoupon(this.selectedId, params).subscribe(
+      this._companyService.editChannel(this.selectedId, params).subscribe(
         (response) => {
           this.open(
             this._translateService.instant("dialog.savedsuccessfully"),
             ""
           );
-          this.getCoupons();
+          this.getChannels();
         },
         (error) => {
           console.log(error);
@@ -361,7 +385,7 @@ export class CouponsComponent {
     }
   }
 
-  deleteCoupon(item) {
+  deleteChannel(item) {
     this.showConfirmationModal = false;
     this.confirmDeleteItemTitle = this._translateService.instant(
       "dialog.confirmdelete"
@@ -375,19 +399,19 @@ export class CouponsComponent {
   }
 
   confirm() {
-    this._companyService.deleteCoupon(this.selectedItem, this.companyId).subscribe(
+    this._companyService.deleteChannel(this.selectedItem).subscribe(
       (response) => {
-        this.coupons.forEach((cat, index) => {
+        this.channels.forEach((cat, index) => {
           if (cat.id == this.selectedItem) {
-            this.coupons.splice(index, 1);
+            this.channels.splice(index, 1);
           }
         });
-        this.allCoupons.forEach((cat, index) => {
+        this.allChannels.forEach((cat, index) => {
           if (cat.id == this.selectedItem) {
-            this.allCoupons.splice(index, 1);
+            this.allChannels.splice(index, 1);
           }
         });
-        this.refreshTable(this.coupons);
+        this.refreshTable(this.channels);
         this.open(
           this._translateService.instant("dialog.deletedsuccessfully"),
           ""

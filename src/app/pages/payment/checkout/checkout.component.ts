@@ -1006,7 +1006,8 @@ export class CheckoutComponent {
             coupon,
             this.companyId,
             this.membershipPlanId,
-            null
+            null,
+            false,
           );
         } else {
           this.continuePaymentProcess(null);
@@ -1020,7 +1021,7 @@ export class CheckoutComponent {
     }
   }
 
-  validateProductCoupon(coupon, companyId, membershipPlanId, content) {
+  validateProductCoupon(coupon, companyId, membershipPlanId, content, manual_apply: boolean = false) {
     this._paymentService
       .validateProductCoupon(coupon, companyId, membershipPlanId)
       .pipe(takeUntil(this.destroy$))
@@ -1041,7 +1042,10 @@ export class CheckoutComponent {
             this.validCouponCode = coupon_info.name;
             this.refreshAmount = true;
           }
-          this.continuePaymentProcess(content);
+          if(manual_apply) {
+          } else {
+            this.continuePaymentProcess(content);
+          }
         },
         (error) => {
           console.log(error);
@@ -1508,7 +1512,8 @@ export class CheckoutComponent {
         coupon,
         this.companyId,
         this.membershipPlanId,
-        null
+        null,
+        true,
       );
     }
   }

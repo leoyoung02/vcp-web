@@ -1482,7 +1482,7 @@ export class PlanDetailComponent {
     ) {
       let userId = this.userId || 0;
       this._router.navigate([
-        `/payment/activity/${this.id}/${this.planTypeId}/${userId}/activity`,
+        `/plans/payment/${this.id}/${this.planTypeId}/${userId}`,
       ]);
     } else {
       this.onSubmit = true;
@@ -1512,7 +1512,7 @@ export class PlanDetailComponent {
     ) {
       let userId = this.userId || 0;
       this._router.navigate([
-        `/payment/activity/${this.id}/${this.planTypeId}/${userId}/activity`,
+        `/plans/payment/${this.id}/${this.planTypeId}/${userId}`,
       ]);
     } else {
       const { id: user_id } = this.user;

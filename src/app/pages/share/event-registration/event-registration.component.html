@@ -80,6 +80,20 @@
                 <div *ngIf="registerComplete">
                     {{ 'invite.registercomplete' | translate }}
                 </div>
+                <div *ngIf="hasPaymentButtonForm && !hasRegistrationButtonForm && !limitReached && !pastEvent"
+                    class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
+                    <div class="w-full max-w-full flex justify-between items-center flex-gap-col">
+                        <button
+                            class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold"
+                            [ngStyle]="{
+                                'background-color': buttonColor
+                            }"
+                            (click)="pay()"
+                        >
+                            {{ 'signup.pay' | translate }}
+                        </button>
+                    </div>
+                </div>
                 <div *ngIf="hasRegistrationButtonForm && !hasPaymentButtonForm && !limitReached && !pastEvent"
                     class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
                     <div *ngIf="!registerAsGuest" 

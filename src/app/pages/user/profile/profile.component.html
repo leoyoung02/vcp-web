@@ -8,59 +8,140 @@
                     <div class="title">{{ language == 'en' ? section?.field_group_en : (language == 'fr' ? (section?.field_group_fr || section?.field_group_es) : section?.field_group_es) }}</div>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 pt-12 pb-4">
-                    <div class="text-center" *ngFor="let field of section?.fields; let i = index;" 
-                        [ngClass]="{'col-span-2': !hasCompanyLogo() && field.field == 'image'}">
-                        <div *ngIf="field.field_type == 'image' && field.field == 'image'">
-                            <div class="container upload-btn-wrapper profile-image">
-                                <div>
-                                    <div class="font-semibold mb-2">{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} </div>
-                                    <div class="flex items-center justify-center mb-8 relative">
-                                        <input 
-                                            #file
-                                            id="image"
-                                            name="image" 
-                                            type="file"
-                                            style="display:none;"
-                                            (change)="uploadPhoto($event)"
-                                        />
-                                        <div 
-                                            class="grid max-w-xl text-center shadow-2xl bg-neutral-50 rounded-xl place-items-center bg-opacity-5 backdrop-filter backdrop-blur"
-                                            [ngClass]="{'p-6': !hasImage}"
-                                        >
-                                            <div
-                                                class="grid mb-8 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300 place-items-center"
-                                                [ngClass]="{'w-28 h-28': !hasImage, 'w-40 h-40': hasImage}"
+                    <ng-container *ngFor="let field of section?.fields; let i = index;">
+                        <div class="text-center" 
+                            [ngClass]="{'col-span-2': !hasCompanyLogo() && field.field == 'image'}"
+                            *ngIf="field.field != 'password'">
+                            <div *ngIf="field.field_type == 'image' && field.field == 'image'">
+                                <div class="container upload-btn-wrapper profile-image">
+                                    <div>
+                                        <div class="font-semibold mb-2">{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} </div>
+                                        <div class="flex items-center justify-center mb-8 relative">
+                                            <input 
+                                                #file
+                                                id="image"
+                                                name="image" 
+                                                type="file"
+                                                style="display:none;"
+                                                (change)="uploadPhoto($event)"
+                                            />
+                                            <div 
+                                                class="grid max-w-xl text-center shadow-2xl bg-neutral-50 rounded-xl place-items-center bg-opacity-5 backdrop-filter backdrop-blur"
+                                                [ngClass]="{'p-6': !hasImage}"
                                             >
-                                                <img *ngIf="!hasImage" width="40" height="40" src="./assets/images/new-design/camera.png" />
-                                                <img *ngIf="hasImage" class="rounded-xl object-contain" src="{{ myImage }}" />
+                                                <div
+                                                    class="grid mb-8 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300 place-items-center"
+                                                    [ngClass]="{'w-28 h-28': !hasImage, 'w-40 h-40': hasImage}"
+                                                >
+                                                    <img *ngIf="!hasImage" width="40" height="40" src="./assets/images/new-design/camera.png" />
+                                                    <img *ngIf="hasImage" class="rounded-xl object-contain" src="{{ myImage }}" />
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div class="text-center absolute bottom-2 left-0 right-0 m-auto">
-                                            <label
-                                                for="image"
-                                                [ngStyle]="{'background-color': buttonColor}"
-                                                class="btn text-white"
-                                            >
-                                                {{ 'club-create.uploadimage' | translate }}
-                                            </label>
+                                            <div class="text-center absolute bottom-2 left-0 right-0 m-auto">
+                                                <label
+                                                    for="image"
+                                                    [ngStyle]="{'background-color': buttonColor}"
+                                                    class="btn text-white"
+                                                >
+                                                    {{ 'club-create.uploadimage' | translate }}
+                                                </label>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div *ngIf="field.field_type == 'text' || field.field_type == 'number' || (field?.field == 'country' && countryDropdown)">
+                                <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                </label>
+                                <ng-container *ngIf="field?.field != 'country' || (field?.field == 'country' && field.field_type == 'text' && !countryDropdown)">
+                                    <input 
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get(field?.field)?.errors }"
+                                        type="{{field?.field_type}}" 
+                                        class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                        formControlName="{{field?.field}}" 
+                                        placeholder="{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}"
+                                        [required]="field?.required ? true : false">
+                                </ng-container>
+                                <ng-container *ngIf="field?.field == 'country' && countryDropdown">
+                                    <select
+                                        id="country"
+                                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        formControlName="{{field?.field}}"
+                                    >
+                                        <option value="" selected>{{ 'profile-settings.country' | translate }}</option>
+                                        <option
+                                            *ngFor="let country of countries"
+                                            [value]="country.country_name"
+                                        >
+                                        {{ country.country_name }}
+                                        </option>
+                                    </select>
+                                </ng-container>
+                            </div>
+                            <div *ngIf="field.field_type == 'select'">
+                                <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                </label>
+                                <ng-container *ngIf="field.field != 'business_category'">
+                                    <select
+                                        id="sector"
+                                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        formControlName="{{field?.field}}"
+                                    >
+                                        <option value="">{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} </option>
+                                        <ng-container *ngIf="field.field == 'sector'">
+                                            <option
+                                                *ngFor="let sector of sectors"                                
+                                                [value] ="sector.name"
+                                            >{{sector.name}}</option>
+                                        </ng-container>
+                                        <ng-container *ngIf="field.field == 'area_group'">
+                                            <option
+                                                *ngFor="let group of areaGroups"                                
+                                                [value] ="group.title"
+                                            >{{group.title}}</option>
+                                        </ng-container>
+                                        <ng-container *ngIf="field.field == 'civil_status'">
+                                            <option
+                                                *ngFor="let item of civilStatus"                                
+                                                [value] ="item.status_es"
+                                            >{{ language == 'en' ? item.status : item.status_es }}</option>
+                                        </ng-container>
+                                        <ng-container *ngIf="field.field == 'wellbeing_activity'">
+                                            <option
+                                                *ngFor="let item of wellbeingActivities"                                
+                                                [value] ="item.activity_es"
+                                            >{{ language == 'en' ? item.activity : item.activity_es }}</option>
+                                        </ng-container>
+                                    </select>
+                                </ng-container>
+                                <ng-container *ngIf="field?.field == 'business_category' && companyId != 15">
+                                    <select
+                                        id="sector"
+                                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        formControlName="{{field?.field}}"
+                                    >
+                                        <option value="">{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} </option>
+                                        <option
+                                            *ngFor="let businessCategory of businessCategories"                                
+                                            [value]="businessCategory.name"
+                                        >{{businessCategory.name}}</option>
+                                    </select>
+                                </ng-container>
+                            </div>
+                            <div *ngIf="field.field_type == 'textarea'">
+                                <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                </label>
+                                <textarea name="" id="" cols="30" rows="3"
+                                    class="w-full rounded-lg p-4 border border-gray-300"
+                                    placeholder="{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}{{field?.required ? '*' : ''}}"
+                                    formControlName="{{ field?.field }}">
+                                </textarea>
+                            </div>
                         </div>
-                        <div *ngIf="field.field_type == 'text' || field.field_type == 'number'">
-                            <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
-                            </label>
-                            <input 
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get(field?.field)?.errors }"
-                                type="{{field?.field_type}}" 
-                                class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                formControlName="{{field?.field}}" 
-                                placeholder="{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}"
-                                [required]="field?.required ? true : false">
-                        </div>
-                    </div>
+                    </ng-container>
                 </div>
             </div>
         </ng-container>
@@ -106,6 +187,61 @@
         </div>
     </form>
 </ng-container>
+<div *ngIf="userMemberTypes?.length > 0">
+    <div class="font-bold mb-4">{{ 'profile-settings.memberships' | translate }}</div>
+    <div class="w-full max-w-full">
+        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                    <th scope="col" class="px-2 py-1">
+                        {{ 'member-type-registration.type' | translate }}
+                    </th>
+                    <th scope="col" class="px-2 py-1">
+                        {{ 'create-content.date' | translate }}
+                    </th>
+                    <th scope="col" class="px-2 py-1">
+                        {{ 'member-type-registration.action' | translate }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of userMemberTypes; let i = index;" 
+                    class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                    <th scope="row" class="text-xs px-2 py-1 max-w-[80px] font-medium text-gray-900 dark:text-white">
+                        {{getMemberTypeTitle(item)}}
+                    </th>
+                    <td class="text-xs px-2 py-1 max-w-[80px]">
+                        {{item?.created_at | date: 'dd MMM yyyy'}}
+                    </td>
+                    <td>
+                        <div class="flex my-2 align-center items-center">
+                            <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                [ngStyle]="{'background-color': buttonColor}" (click)="manageBilling()"
+                            >
+                                <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                                    <path d="M7 11H5v1h2v-1Zm4 3H9v1h2v-1Zm-4 0H5v1h2v-1ZM5 5V.13a2.98 2.98 0 0 0-1.293.749L.88 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>
+                                    <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM13 16a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-6a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v6Zm-1-8H9a1 1 0 0 1 0-2h3a1 1 0 1 1 0 2Zm0-3H9a1 1 0 0 1 0-2h3a1 1 0 1 1 0 2Z"/>
+                                    <path d="M11 11H9v1h2v-1Z"/>
+                                </svg>
+                                <span class="sr-only">Icon description</span>
+                            </button>
+                            <button *ngIf="item?.cancelled != 1 && showCancelSubscription(item)" 
+                                type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                [ngStyle]="{'background-color': '#c24130'}" (click)="confirmCancelMembership(item)"
+                            >
+                                <svg class="w-4 h-4 text-whitedark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                </svg>
+                                <span class="sr-only">Icon description</span>
+                            </button>
+                            <div [ngStyle]="{'color': '#c24130'}" class="uppercase color-[#24130]">{{ item?.cancelled == 1 ? ('company-settings.cancelled' | translate) : ('company-settings.active' | translate) }}</div>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
 <button #modalbutton data-modal-target="item-modal" data-modal-toggle="item-modal" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
     &nbsp;
 </button>
@@ -154,3 +290,14 @@
         </div>
     </div>
 </div>
+<app-toast 
+    *ngIf="showConfirmationModal" 
+    [company]="company" 
+    [update]="false" 
+    [confirm]="true"
+    [title]="confirmDeleteItemTitle"
+    [description]="confirmDeleteItemDescription"
+    [acceptText]="acceptText"
+    [cancelText]="cancelText"
+    (onAccept)="confirm()"
+></app-toast>

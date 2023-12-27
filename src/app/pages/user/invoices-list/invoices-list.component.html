@@ -13,7 +13,7 @@
                     >
                     </app-search>
                 </div>
-                <div>
+                <div *ngIf="superAdmin">
                     <select
                         id="membertype"
                         class="ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -57,9 +57,9 @@
             </div>
             <mat-table *ngIf="!isloading" [dataSource]="dataSource" matSort class="manage-list">
                 <ng-container matColumnDef="recipient_name">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.bookingdate' | translate }} </mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'general-details.name' | translate }} </mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="recipient_name">
-                        {{ row?.recipient_name }}
+                        {{ row?.recipient_name || row?.recipient_email }}
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="created_at">

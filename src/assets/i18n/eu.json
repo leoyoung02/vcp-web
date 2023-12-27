@@ -3380,5 +3380,8 @@
         "provideid": "CTA baldintzapean erakutsi nahi baduzu, balio bat egon behar da hemen.",
         "views": "Ikuspen kopurua",
         "clicks": "Klik kopurua"
+    },
+    "community": {
+        "communitychannels": "Komunitate kanalak"
     }
 }
