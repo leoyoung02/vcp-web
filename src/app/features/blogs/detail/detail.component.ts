@@ -172,6 +172,9 @@ export class BlogDetailComponent {
     this.blogsFeature = features?.find((f) => f.feature_id == 21);
     this.featureId = this.blogsFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.blogsFeature);
+    if(this.companyId == 20 && !this.pageName) {
+      this.pageName = 'Blog';
+    }
   }
 
   mapUserPermissions(user_permissions) {

@@ -36,6 +36,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
+import { EditorModule } from "@tinymce/tinymce-angular";
 import get from "lodash/get";
 import each from "lodash/each";
 import keys from "lodash/keys";
@@ -53,6 +54,7 @@ import moment from "moment";
     ImageCropperModule,
     FontAwesomeModule,
     MatSnackBarModule,
+    EditorModule,
     PageTitleComponent,
     ToastComponent,
   ],
@@ -1027,28 +1029,28 @@ export class ProfileComponent {
                     val = "";
                   }
                 }
-                if (key == "birthday") {
-                  let timezoneOffset = new Date().getTimezoneOffset();
-                  let pd = (
-                    moment(val)
-                      .utc()
-                      .utcOffset(timezoneOffset)
-                      .format("YYYY-MM-DD HH:mm")
-                      .toString() + ":00Z"
-                  ).replace(" ", "T");
-                  if (pd) {
-                    let year = parseInt(
-                      this.datePipe?.transform(pd, "yyyy")?.toString()
-                    );
-                    let month = parseInt(
-                      this.datePipe.transform(pd, "MM").toString()
-                    );
-                    let day = parseInt(
-                      this.datePipe.transform(pd, "dd").toString()
-                    );
-                    // val = new NgbDate(year,month,day);
-                  }
-                }
+                // if (key == "birthday") {
+                //   let timezoneOffset = new Date().getTimezoneOffset();
+                //   let pd = (
+                //     moment(val)
+                //       .utc()
+                //       .utcOffset(timezoneOffset)
+                //       .format("YYYY-MM-DD HH:mm")
+                //       .toString() + ":00Z"
+                //   ).replace(" ", "T");
+                //   if (pd) {
+                //     let year = parseInt(
+                //       this.datePipe?.transform(pd, "yyyy")?.toString()
+                //     );
+                //     let month = parseInt(
+                //       this.datePipe.transform(pd, "MM").toString()
+                //     );
+                //     let day = parseInt(
+                //       this.datePipe.transform(pd, "dd").toString()
+                //     );
+                //     // val = new NgbDate(year,month,day);
+                //   }
+                // }
                 this.profileForm.get(key).setValue(val ? val : "");
               }
             }
@@ -1589,6 +1591,28 @@ export class ProfileComponent {
     }
 
     return show
+  }
+
+  updateFieldShow(event, field) {
+    if(this.selectedFields) {
+      this.selectedFields.forEach((f, index) => {
+        if(f.field == field.field) {
+          this.selectedFields[index].show = event.target.checked
+        }
+      })
+    }
+
+    if(this.sectionFields) {
+      this.sectionFields.forEach(s => {
+        if(s.fields) {
+          s.fields.forEach((f, index) => {
+            if(f.field == field.field) {
+              s.fields[index].show = event.target.checked
+            }
+          });
+        }
+      });
+    }
   }
 
   ngOnDestroy() {

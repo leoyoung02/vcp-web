@@ -283,7 +283,7 @@ export class MembersListComponent {
         id: item?.id,
         path: `/members/details/${item.id}`,
         image: `${environment.api}/${item.image}`,
-        display_name: item?.first_name ? `${item?.first_name} ${item?.first_name}` : item?.name,
+        display_name: item?.first_name ? `${item?.first_name} ${item?.last_name}` : item?.name,
         email: `mailto:${item?.email}`,
         phone: `tel:${item?.phone}`
       };
@@ -487,12 +487,16 @@ export class MembersListComponent {
       this.processingSendReference = false;
       if(this.members?.length > 0) {
         this.members?.forEach(member => {
-          member.references += 1
+          if(member.id == this.userId) {
+            member.references += 1
+          }
         })
       }
       if(this.allMembers?.length > 0) {
         this.allMembers?.forEach(member => {
-          member.references += 1
+          if(member.id == this.userId) {
+            member.references += 1
+          }
         })
       }
       this.closemodalbutton?.nativeElement.click();

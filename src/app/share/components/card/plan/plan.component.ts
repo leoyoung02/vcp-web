@@ -46,6 +46,7 @@ export class PlanCardComponent {
   @Input() address: any;
   @Input() credits: any;
   @Input() buttonColor: any;
+  @Input() price: any;
   @Output() handleDetailsClick = new EventEmitter()
 
   languageChangeSubscription;

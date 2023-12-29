@@ -683,6 +683,7 @@ export class PlansListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data)
           this.plans = data?.plans || [];
           this.planCategoriesMapping =
             data?.category_mappings?.plan_categories_mapping || [];
@@ -705,6 +706,7 @@ export class PlansListComponent {
     })
 
     this.plans = plans;
+    console.log('view: ' + this.view)
     if(this.view == 'joined') {
       this.plans = this.filterCreatedJoined(this.plans, plan_participants);
     }

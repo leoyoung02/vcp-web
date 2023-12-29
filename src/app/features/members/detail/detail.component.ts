@@ -9,7 +9,7 @@ import {
   TranslateService,
 } from "@ngx-translate/core";
 import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
-import { LocalService, CompanyService } from "@share/services";
+import { LocalService, CompanyService, UserService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { MembersService } from "@features/services/members/members.service";
@@ -84,15 +84,39 @@ export class MemberDetailComponent {
   sendReferenceForm: any;
   sendReferenceFormSubmitted: boolean = false;
   processingSendReference: boolean = false;
+  showDescription: boolean = true;
+  showEmail: boolean = true;
+  showPhone: boolean = true;
+  showCompanyName: boolean = true;
+  showSector: boolean = true;
+  showWebsite: boolean = true;
   @ViewChild("modalbutton", { static: false }) modalbutton:
     | ElementRef
     | undefined;
   @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
     | ElementRef
     | undefined;
+  otherSettings: any;
+  hasRegistrationFields: boolean = false;
+  hasCustomMemberTypeSettings: boolean = false;
+  hasProfileFields: boolean = false;
+  hasActivityFeed: boolean = false;
+  showDefaultRegistrationFields: boolean = false;
+  memberTypes: any;
+  memberTypeId: any;
+  allProfileFields: any;
+  allProfileFieldMapping: any;
+  profileFields: any;
+  selectedFields: any = [];
+  showProfileFieldsInMembers: boolean = false;
+  moreFieldValues: any = [];
+  allRegistrationFields: any;
+  allRegistrationFieldMapping: any;
+  registrationFields: any = [];
 
   constructor(
     private _router: Router,
+    private _userService: UserService,
     private _membersService: MembersService,
     private _companyService: CompanyService,
     private _translateService: TranslateService,
@@ -174,8 +198,10 @@ export class MemberDetailComponent {
     let data = this.memberData;
     this.user = data?.user_permissions?.user;
     this.mapFeatures(data?.features_mapping);
+    this.mapSubfeatures(data?.settings?.subfeatures);
     this.mapUserPermissions(data?.user_permissions);
     this.formatMember(data?.member);
+    this.mapSettings(data);
     this.initializeBreadcrumb(data);
   }
 
@@ -184,6 +210,14 @@ export class MemberDetailComponent {
     this.featureId = this.membersFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.membersFeature);
     this.pageDescription = this.getFeatureDescription(this.membersFeature);
+  }
+
+  mapSubfeatures(subfeatures) {
+    if (subfeatures?.length > 0) {
+      this.showProfileFieldsInMembers = subfeatures.some(
+        (a) => a.name_en == "Show/hide fields in Member details" && a.active == 1
+      );
+    }
   }
 
   mapUserPermissions(user_permissions) {
@@ -195,27 +229,566 @@ export class MemberDetailComponent {
       );
   }
 
-  formatMember(member) {
-    let t = {
-      id: member.id,
-      image: `${environment.api}/${member.image}`,
-      display_name: member?.first_name ? `${member?.first_name} ${member?.first_name}` : member?.name,
-      email: `mailto:${member?.email}`,
-      email_display: member?.email,
-      phone: `tel:${member?.phone}`,
-      phone_display: member?.phone,
-      city: member?.city,
-      sector: member?.sector,
-      zip_code: member?.zip_code,
-      country: member?.country,
-      company_name: member?.company_name,
-      area_group: member?.area_group,
-      linkedin: member?.linkedin,
-      website: member?.website,
-      references: member?.references,
-      questions: member?.questions,
+  mapSettings(data) {
+    let other_settings = data?.settings?.other_settings;
+    if(other_settings?.length > 0) {
+      this.hasRegistrationFields = other_settings.some(
+        (a) => a.title_en == "Registration fields" && a.active == 1
+      );
+      this.hasCustomMemberTypeSettings = other_settings.some(
+        (a) => a.title_en == "Require Stripe payment on specific member types" && a.active == 1
+      );
+      this.hasRegistrationFields = other_settings.some(
+        (a) => a.title_en == "Registration fields" && a.active == 1
+      );
+      this.hasProfileFields = other_settings.some(
+        (a) => a.title_en == "Profile fields" && a.active == 1
+      );
+      if(!this.hasProfileFields) {
+        this.showDefaultRegistrationFields = true;
+      }
     }
-    this.member = t;
+
+    if(this.hasCustomMemberTypeSettings) {
+      this.getCustomMemberTypes()
+    } else {
+      if(this.hasProfileFields && this.hasRegistrationFields && this.companyId != 12 && this.companyId != 15) {
+        this.getCombinedFieldMappingPrefetch()
+      } else {
+        if(this.hasRegistrationFields) {
+          this.getRegistrationFields()
+        } else {
+          if(this.hasProfileFields) {
+            this.getProfileFields()
+          } else {
+            this.showDefaultRegistrationFields = true
+          }
+        }
+      }
+    }
+  }
+
+  getCombinedFieldMappingPrefetch() {
+    this._userService.getCombinedFieldMappingPrefetch(this.companyId).subscribe(data => {
+      let registration_fields = data[0] ? data[0]['registration_field_mapping'] : []
+      let profile_fields = data[1] ? data[1]['profile_field_mapping'] : []
+      
+      if(registration_fields.length > profile_fields.length) {
+        if(this.hasRegistrationFields) {
+          this.getRegistrationFields()
+        } else {
+          if(this.hasProfileFields) {
+            this.getProfileFields()
+          } else {
+            this.showDefaultRegistrationFields = true
+          }
+        }
+      } else {
+        if(this.hasProfileFields) {
+          this.getProfileFields()
+        } else {
+          this.showDefaultRegistrationFields = true
+        }
+      }
+    })    
+  }
+
+  getRegistrationFields() {
+    this._userService.getRegistrationFields()
+      .subscribe(
+          async (response) => {
+              this.allRegistrationFields = response.registration_fields
+              this.getRegistrationFieldMapping()
+          },
+          error => {
+              console.log(error)
+          }
+      )
+  }
+
+  getRegistrationFieldMapping() {
+    this._userService.getRegistrationFieldMapping(this.companyId)
+      .subscribe(
+          async (response) => {
+              this.allRegistrationFieldMapping = response.registration_field_mapping
+
+              let registration_fields: any[] = []
+              let selected_fields: any[] = []
+              if(this.allRegistrationFields) {
+                this.allRegistrationFields.forEach(field => {
+                  let match = this.allRegistrationFieldMapping.some(a => a.field_id === field.id)
+                  if(!match) {
+                    registration_fields.push(field)
+                  }
+                });
+              }
+
+              if(this.allRegistrationFieldMapping) {
+                this.allRegistrationFieldMapping.forEach(field => {
+                  let reg_field = this.allRegistrationFields.filter(f => {
+                    return f.id == field.field_id
+                  })
+
+                  let fld = {}
+                  if(reg_field && reg_field[0]) {
+                    let field_display_en = reg_field[0].field_display_en
+                    if(field.field_display_en && field.field_display_en != null) {
+                      field_display_en = field.field_display_en
+                    }
+                    let field_display_es = reg_field[0].field_display_es
+                    if(field.field_display_es && field.field_display_es != null) {
+                      field_display_es = field.field_display_es
+                    }
+                    let field_desc_en = reg_field[0].field_desc_en
+                    if(field.field_desc_en && field.field_desc_en != null) {
+                      field_desc_en = field.field_desc_en
+                    }
+                    let field_desc_es = reg_field[0].field_desc_es
+                    if(field.field_desc_es && field.field_desc_es != null) {
+                      field_desc_es = field.field_desc_es
+                    }
+
+                    fld = {
+                      "id": reg_field[0].id,
+                      "field": reg_field[0].field,
+                      "field_type": reg_field[0].field_type,
+                      "field_display_en": field_display_en,
+                      "field_display_es": field_display_es,
+                      "field_group_en": reg_field[0].field_group_en,
+                      "field_group_es": reg_field[0].field_group_es,
+                      "field_desc_en": field_desc_en,
+                      "field_desc_es": field_desc_es,
+                      "active": reg_field[0].active,
+                      "required": reg_field[0].required,
+                      "created_at": reg_field[0].created_at,
+                      "show": true
+                    }
+
+                    selected_fields.push(fld)
+                  }
+                })
+              }
+
+              this.registrationFields = registration_fields
+              this.selectedFields = selected_fields
+
+              if(this.showProfileFieldsInMembers) {
+                this.getShowRegistrationFieldMapping()
+              } else {
+                if(this.selectedFields && this.selectedFields.length > 0) {
+                  this.initializeMoreFields()
+                } else {
+                  this.showDefaultRegistrationFields = true
+                }
+              }
+          },
+          error => {
+              console.log(error)
+          }
+      )
+  }
+
+  getShowRegistrationFieldMapping() {
+    this._userService.memberProfileFieldSettings(this.userId)
+      .subscribe(
+        async (response) => {
+          let allRegistrationFieldMapping = response.profile_fields
+          let registrationFields = this.registrationFields
+          let selectedFields = this.selectedFields
+          
+          if(allRegistrationFieldMapping && allRegistrationFieldMapping.length > 0) {
+            allRegistrationFieldMapping.forEach(field => {
+              if(selectedFields) {
+                selectedFields.forEach(sf => {
+                  if(sf.field == field.field) {
+                    sf.show = field.show == 1 ? true : false
+                  }
+                })
+              }
+
+              if(registrationFields) {
+                registrationFields.forEach(pf => {
+                  if(pf.field == field.field) {
+                    pf.show = field.show == 1 ? true : false
+                  }
+                })
+              }
+            })
+          }
+
+          this.registrationFields = registrationFields
+          this.selectedFields = selectedFields
+
+          if(this.selectedFields && this.selectedFields.length > 0) {
+            this.initializeMoreFields()
+          } else {
+            this.showDefaultRegistrationFields = true
+          }
+        },
+        error => {
+            console.log(error)
+        }
+      )
+  }
+
+  getProfileFields() {
+    this._userService.getProfileFields()
+      .subscribe(
+          async (response) => {
+              this.allProfileFields = response.profile_fields
+              this.getProfileFieldMapping()
+          },
+          error => {
+              console.log(error)
+          }
+      )
+  }
+
+  getProfileFieldMapping() {
+    this._userService.getProfileFieldMapping(this.companyId)
+      .subscribe(
+          async (response) => {
+              this.allProfileFieldMapping = []
+              let profile_fields: any[] = []
+              let selected_fields: any[] = []
+
+              if(this.allProfileFieldMapping && this.allProfileFieldMapping.length > 0) {
+                this.allProfileFieldMapping.forEach(field => {
+                  let reg_field = this.allProfileFields.filter(f => {
+                    return f.id == field.field_id
+                  })
+
+                  let fld = {}
+                  if(reg_field && reg_field[0]) {
+                    let field_display_en = reg_field[0].field_display_en
+                    if(field.field_display_en && field.field_display_en != null) {
+                      field_display_en = field.field_display_en
+                    }
+                    let field_display_es = reg_field[0].field_display_es
+                    if(field.field_display_es && field.field_display_es != null) {
+                      field_display_es = field.field_display_es
+                    }
+                    let field_desc_en = reg_field[0].field_desc_en
+                    if(field.field_desc_en && field.field_desc_en != null) {
+                      field_desc_en = field.field_desc_en
+                    }
+                    let field_desc_es = reg_field[0].field_desc_es
+                    if(field.field_desc_es && field.field_desc_es != null) {
+                      field_desc_es = field.field_desc_es
+                    }
+
+                    fld = {
+                      "id": reg_field[0].id,
+                      "field": reg_field[0].field,
+                      "field_type": reg_field[0].field_type,
+                      "field_display_en": field_display_en,
+                      "field_display_es": field_display_es,
+                      "field_group_en": reg_field[0].field_group_en,
+                      "field_group_es": reg_field[0].field_group_es,
+                      "field_desc_en": field_desc_en,
+                      "field_desc_es": field_desc_es,
+                      "active": reg_field[0].active,
+                      "required": reg_field[0].required,
+                      "show": field.show == 1 ? true : false,
+                      "created_at": reg_field[0].created_at
+                    }
+                    selected_fields.push(fld)
+                  }
+                })
+              } else {
+                this.allProfileFields.forEach(f => {
+                  selected_fields.push({
+                    "id": f.id,
+                    "field": f.field,
+                    "field_type": f.field_type,
+                    "field_display_en": f.field_display_en,
+                    "field_display_es": f.field_display_es,
+                    "field_group_en": f.field_group_en,
+                    "field_group_es": f.field_group_es,
+                    "field_desc_en": f.field_desc_en,
+                    "field_desc_es": f.field_desc_es,
+                    "active": f.active,
+                    "required": f.required,
+                    "show": true,
+                    "created_at": f.created_at
+                  })
+                });
+              }
+
+              this.profileFields = profile_fields
+              this.selectedFields = selected_fields
+
+              if(this.showProfileFieldsInMembers) {
+                this.getShowProfileFieldMapping()
+              } else {
+                if(this.selectedFields && this.selectedFields.length > 0) {
+                  this.initializeMoreFields()
+                } else {
+                  this.showDefaultRegistrationFields = true
+                }
+              }
+          },
+          error => {
+              console.log(error)
+          }
+      )
+  }
+
+  getShowProfileFieldMapping() {
+    this._userService.memberProfileFieldSettings(this.userId)
+      .subscribe(
+        async (response) => {
+          let allProfileFieldMapping = response.profile_fields
+          let profileFields = this.profileFields
+          let selectedFields = this.selectedFields
+          
+          if(allProfileFieldMapping && allProfileFieldMapping.length > 0) {
+            allProfileFieldMapping.forEach(field => {
+              if(selectedFields) {
+                selectedFields.forEach(sf => {
+                  if(sf.field == field.field) {
+                    sf.show = field.show == 1 ? true : false
+                  }
+                })
+              }
+
+              if(profileFields) {
+                profileFields.forEach(pf => {
+                  if(pf.field == field.field) {
+                    pf.show = field.show == 1 ? true : false
+                  }
+                })
+              }
+            })
+          }
+
+          this.profileFields = profileFields
+          this.selectedFields = selectedFields
+
+          if(this.selectedFields && this.selectedFields.length > 0) {
+            this.initializeMoreFields()
+          } else {
+            this.showDefaultRegistrationFields = true
+          }
+        },
+        error => {
+            console.log(error)
+        }
+      )
+  }
+
+  getCustomMemberTypes() {
+    this._userService.getCustomMemberTypes(this.companyId).subscribe(
+      response => {
+        this.memberTypes = response.member_types
+        this.getCustomProfileFields()
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  async getCustomProfileFields() {
+    this.memberTypeId = this.user.custom_member_type_id
+    let member_type_id = this.hasCustomMemberTypeSettings ? this.member.custom_member_type_id : this.user.custom_member_type_id
+    this._userService.getMemberTypeCustomProfileFields(this.companyId, member_type_id).subscribe(
+      (response: any) => {
+        this.allProfileFields = response.profile_fields
+        this.getCustomProfileFieldMapping()
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  async getCustomProfileFieldMapping() {
+    this._userService.memberProfileFieldSettings(this.hasCustomMemberTypeSettings ? this.member.id : this.userId)
+      .subscribe(
+        async (response) => {
+          this.allProfileFieldMapping = response.profile_fields
+
+          let profile_fields = this.allProfileFields
+          let selected_fields: any[] = []
+          
+          if(this.allProfileFieldMapping && this.allProfileFieldMapping.length > 0) {
+            this.allProfileFieldMapping.forEach(field => {
+              let reg_field = this.allProfileFields.filter(f => {
+                return f.profile_field_id == field.profile_field_id
+              })
+
+              let fld = {}
+              if(reg_field && reg_field[0]) {
+                fld = {
+                  "id": reg_field[0].profile_field_id,
+                  "user_id": this.userId,
+                  "company_id": this.companyId,
+                  "field": reg_field[0].field,
+                  "field_type": reg_field[0].field_type,
+                  "field_display_en": reg_field[0].field_display_en,
+                  "field_display_es": reg_field[0].field_display_es,
+                  "field_group_en": reg_field[0].field_group_en,
+                  "field_group_es": reg_field[0].field_group_es,
+                  "field_desc_en": reg_field[0].field_desc_en,
+                  "field_desc_es": reg_field[0].field_desc_es,
+                  "show": field.show == 1 ? true : false,
+                  "required": reg_field[0].required,
+                  "created_at": reg_field[0].created_at
+                }
+
+                if(field.field == 'email' && field.show != 1) {
+                  this.showEmail = false
+                }
+                if(field.field == 'company_description' && field.show != 1) {
+                  this.showDescription = false
+                }
+                if(field.field == 'phone' && field.show != 1) {
+                  this.showPhone = false
+                }
+                if(field.field == 'company_name' && field.show != 1) {
+                  this.showCompanyName = false
+                }
+                if(field.field == 'sector' && field.show != 1) {
+                  this.showSector = false
+                }
+                if(field.field == 'website' && field.show != 1) {
+                  this.showWebsite = false
+                }
+
+                selected_fields.push(fld)
+              }
+            })
+          } else {
+            this.allProfileFields.forEach(f => {
+              selected_fields.push({
+                "id": f.profile_field_id,
+                "user_id": this.userId,
+                "company_id": this.companyId,
+                "field": f.field,
+                "field_type": f.field_type,
+                "field_display_en": f.field_display_en,
+                "field_display_es": f.field_display_es,
+                "field_group_en": f.field_group_en,
+                "field_group_es": f.field_group_es,
+                "field_desc_en": f.field_desc_en,
+                "field_desc_es": f.field_desc_es,
+                "show": true,
+                "required": f.required,
+                "created_at": f.created_at
+              })
+            });
+          }
+
+          this.profileFields = profile_fields
+          this.selectedFields = selected_fields
+
+          if(this.selectedFields && this.selectedFields.length > 0) {
+            this.initializeMoreFields()
+          } else {
+            this.showDefaultRegistrationFields = true
+          }
+        },
+        error => {
+            console.log(error)
+        }
+    )
+  }
+
+  async initializeMoreFields() {
+    if(this.selectedFields && this.selectedFields.length > 0) {
+      if(this.showProfileFieldsInMembers) {
+        this.selectedFields.forEach(f => {
+          if(f.field == 'email'
+            // || f.field == 'company_description'
+            || f.field == 'phone'
+            // || f.field == 'company_name'
+            || f.field == 'sector'
+            || f.field == 'website'
+            || f.field == 'webpage') {
+              if(f.field == 'email' && !f.show) {
+                this.showEmail = false
+              }
+              // if(f.field == 'company_description' && !f.show) {
+              //   this.showDescription = false
+              // }
+              if(f.field == 'phone' && !f.show) {
+                this.showPhone = false
+              }
+              // if(f.field == 'company_name' && !f.show) {
+              //   this.showCompanyName = false
+              // }
+              if(f.field == 'sector' && !f.show) {
+                this.showSector = false
+              }
+              if((f.field == 'website' || f.field == 'webpage') && !f.show) {
+                this.showWebsite = false
+              }
+          }
+        })
+      }
+
+      this.selectedFields.forEach(f => {
+        if(f.field != 'image'
+          && f.field != 'company_logo'
+          && f.field != 'first_name'
+          && f.field != 'founder_name'
+          && f.field != 'last_name'
+          && f.field != 'phone'
+          && f.field != 'email'
+          && f.field != 'website'
+          && f.field != 'webpage'
+          && f.field != 'sector'
+          && f.field != 'password'
+          && f.field_type != 'file'
+          && f.field_type != 'image'
+        ) {
+          let value
+          if(this.member[f.field] && this.member[f.field] != 'null') {
+            if(f.field != 'birthday') {
+              value = this.member[f.field]
+            }
+          }
+          if(this.hasCustomMemberTypeSettings || this.showProfileFieldsInMembers) {
+            if(value && f.show == true) {
+              this.moreFieldValues.push({
+                'field': f.field,
+                'label': this.language == 'en' ? f.field_display_en : f.field_display_es,
+                'value': value
+              })
+            }
+          } else {
+            if(value) {
+              this.moreFieldValues.push({
+                'label': this.language == 'en' ? f.field_display_en : f.field_display_es,
+                'value': value
+              })
+            }
+          }
+        }
+      })
+
+      console.log(this.moreFieldValues)
+    }
+  }
+
+  formatMember(member) {
+    let members: any = [];
+    members?.push(member);
+
+    members = members?.map((member) => {
+      return {
+        ...member,
+        image: `${environment.api}/${member.image}`,
+        display_name: member?.first_name ? `${member?.first_name} ${member?.last_name}` : member?.name,
+        email: `mailto:${member?.email}`,
+        email_display: member?.email,
+        phone: `tel:${member?.phone}`,
+        phone_display: member?.phone,
+      }
+    })
+
+    this.member = members?.length > 0 ? members[0] : {};
   }
 
   initializeBreadcrumb(data) {
@@ -355,6 +928,19 @@ export class MemberDetailComponent {
       }
     });
     return valid;
+  }
+
+  hasBasicInfo() {
+    if(
+      (this.member?.email_display && this.showEmail) ||
+      (this.member?.phone_display && this.showPhone) ||
+      (this.member?.website && this.showWebsite) ||
+      (this.member?.sector && this.showSector)
+    ) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   async open(message: string, action: string) {

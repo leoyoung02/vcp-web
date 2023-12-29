@@ -43,7 +43,9 @@ export class CourseCardComponent {
   @Input() buttonColor: any;
   @Input() mode: any;
   @Input() showDetails: any;
+  @Input() buyNow: any;
   @Input() companyId: any;
+  @Input() userId: any;
   @Input() courseButtonColor: any;
 
   languageChangeSubscription;
@@ -78,6 +80,8 @@ export class CourseCardComponent {
   goToDetails() {
     if(this.showDetails) {
       this._router.navigate([this.path]);
+    } else if (this.buyNow) {
+      this._router.navigate([`/course-subscription/payment/${this.id}/${this.userId}`]);
     }
   }
 

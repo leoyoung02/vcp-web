@@ -10,8 +10,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 pt-12 pb-4">
                     <ng-container *ngFor="let field of section?.fields; let i = index;">
                         <div class="text-center" 
-                            [ngClass]="{'col-span-2': !hasCompanyLogo() && field.field == 'image'}"
-                            *ngIf="field.field != 'password'">
+                            [ngClass]="{'col-span-2': field.field == 'image'}"
+                            *ngIf="field.field != 'password' && field.field != 'birthday' && field.field != 'company_logo'">
                             <div *ngIf="field.field_type == 'image' && field.field == 'image'">
                                 <div class="container upload-btn-wrapper profile-image">
                                     <div>
@@ -52,7 +52,32 @@
                             </div>
                             <div *ngIf="field.field_type == 'text' || field.field_type == 'number' || (field?.field == 'country' && countryDropdown)">
                                 <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                        </div>
+                                        <ng-container *ngIf="showProfileFieldsInMembers && field?.field != 'first_name' && field?.field != 'last_name'">
+                                            <div class="flex items-center justify-between relative ml-4">
+                                                <label
+                                                    for="setting-status-{{i + 1}}"
+                                                    class="flex items-center w-full justify-between cursor-pointer"
+                                                >
+                                                    <div class="relative mr-1">
+                                                        <input
+                                                            id="setting-status-{{i + 1}}"
+                                                            name="setting-status"
+                                                            type="checkbox"
+                                                            class="sr-only"
+                                                            [checked]="field?.show"
+                                                            (change)="updateFieldShow($event, field)"
+                                                        />
+                                                        <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </ng-container>
+                                    </div>
                                 </label>
                                 <ng-container *ngIf="field?.field != 'country' || (field?.field == 'country' && field.field_type == 'text' && !countryDropdown)">
                                     <input 
@@ -81,7 +106,32 @@
                             </div>
                             <div *ngIf="field.field_type == 'select'">
                                 <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                        </div>
+                                        <ng-container *ngIf="showProfileFieldsInMembers && field?.field != 'first_name' && field?.field != 'last_name'">
+                                            <div class="flex items-center justify-between relative ml-4">
+                                                <label
+                                                    for="setting-status-{{i + 1}}"
+                                                    class="flex items-center w-full justify-between cursor-pointer"
+                                                >
+                                                    <div class="relative mr-1">
+                                                        <input
+                                                            id="setting-status-{{i + 1}}"
+                                                            name="setting-status"
+                                                            type="checkbox"
+                                                            class="sr-only"
+                                                            [checked]="field?.show"
+                                                            (change)="updateFieldShow($event, field)"
+                                                        />
+                                                        <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </ng-container>
+                                    </div>
                                 </label>
                                 <ng-container *ngIf="field.field != 'business_category'">
                                     <select
@@ -132,13 +182,57 @@
                             </div>
                             <div *ngIf="field.field_type == 'textarea'">
                                 <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                        </div>
+                                        <ng-container *ngIf="showProfileFieldsInMembers && field?.field != 'first_name' && field?.field != 'last_name'">
+                                            <div class="flex items-center justify-between relative ml-4">
+                                                <label
+                                                    for="setting-status-{{i + 1}}"
+                                                    class="flex items-center w-full justify-between cursor-pointer"
+                                                >
+                                                    <div class="relative mr-1">
+                                                        <input
+                                                            id="setting-status-{{i + 1}}"
+                                                            name="setting-status"
+                                                            type="checkbox"
+                                                            class="sr-only"
+                                                            [checked]="field?.show"
+                                                            (change)="updateFieldShow($event, field)"
+                                                        />
+                                                        <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </ng-container>
+                                    </div>
                                 </label>
-                                <textarea name="" id="" cols="30" rows="3"
-                                    class="w-full rounded-lg p-4 border border-gray-300"
-                                    placeholder="{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}{{field?.required ? '*' : ''}}"
-                                    formControlName="{{ field?.field }}">
-                                </textarea>
+                                <editor
+                                    class="w-full"
+                                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                                    [init]="{
+                                        height: 183,
+                                        menubar: false,
+                                        plugins: [
+                                        'advlist autolink lists link image imagetools charmap print',
+                                        'preview anchor searchreplace visualblocks code',
+                                        'fullscreen insertdatetime media table paste',
+                                        'help wordcount',
+                                        'code media'
+                                        ],
+                                        toolbar:
+                                        'undo redo | formatselect | bold italic | \
+                                        alignleft aligncenter alignright alignjustify | \
+                                        media | \
+                                        paste pastetext | \
+                                        image imagetools | \
+                                        bullist numlist outdent indent | help',
+                                        valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                                    }"
+                                    formControlName="{{field?.field}}"
+                                ></editor>
                             </div>
                         </div>
                     </ng-container>
@@ -215,7 +309,7 @@
                     </td>
                     <td>
                         <div class="flex my-2 align-center items-center">
-                            <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            <button *ngIf="hasCustomInvoice && me.subscription_id" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 [ngStyle]="{'background-color': buttonColor}" (click)="manageBilling()"
                             >
                                 <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
@@ -225,7 +319,7 @@
                                 </svg>
                                 <span class="sr-only">Icon description</span>
                             </button>
-                            <button *ngIf="item?.cancelled != 1 && showCancelSubscription(item)" 
+                            <button *ngIf="item?.cancelled != 1 && showCancelSubscription(item) && item?.plan_id && me.subscription_id" 
                                 type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 [ngStyle]="{'background-color': '#c24130'}" (click)="confirmCancelMembership(item)"
                             >
@@ -234,7 +328,9 @@
                                 </svg>
                                 <span class="sr-only">Icon description</span>
                             </button>
-                            <div [ngStyle]="{'color': '#c24130'}" class="uppercase color-[#24130]">{{ item?.cancelled == 1 ? ('company-settings.cancelled' | translate) : ('company-settings.active' | translate) }}</div>
+                            <div [ngStyle]="{'color': item?.cancelled == 1 ? '#c24130' : '#1e1e1e'}" class="uppercase">
+                                {{ item?.cancelled == 1 ? ('company-settings.cancelled' | translate) : '' }}
+                            </div>
                         </div>
                     </td>
                 </tr>

@@ -93,6 +93,14 @@ export const routes: Routes = [
         pathMatch: 'full',
     },
     {
+        path: 'course-subscription/payment/:id/:userId',
+        data: { layout: PageLayout.Blank, titleKey: 'signup.checkout' },
+        title: CustomTitleResolver,
+        loadComponent: async () => (await import('@features/courses/payment/payment.component')).CoursePaymentComponent,
+        canMatch: [authGuard({ requiresAuthentication: false })],
+        pathMatch: 'full',
+    },
+    {
         path: 'calendly',
         data: { layout: PageLayout.Blank, titleKey: 'Registro' },
         title: CustomTitleResolver,

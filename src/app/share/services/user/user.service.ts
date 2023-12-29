@@ -585,4 +585,14 @@ export class UserService {
         payload
     ).pipe(map(res => res))
   }
+
+  getCombinedFieldMappingPrefetch(companyId): Observable<any[]> {
+    let registration_field_mapping = this._http.get(`${REGISTRATION_FIELDS_MAPPING_URL}/${companyId}`);
+    let profile_field_mapping = this._http.get(`${PROFILE_FIELDS_MAPPING_URL}/${companyId}`);
+
+    return forkJoin([
+      registration_field_mapping,
+      profile_field_mapping
+    ]);
+  }
 }

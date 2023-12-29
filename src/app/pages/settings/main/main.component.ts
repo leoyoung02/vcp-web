@@ -1465,7 +1465,11 @@ export class MainComponent {
       } else if (content == "Cities") {
         this._router.navigate([`/settings/manage-list/cities`]);
       } else if (content == "Content") {
-        this._router.navigate([`/settings/manage-list/cityguide`]);
+        if(this.companyId == 20) {
+          this._router.navigate([`/settings/manage-list/blogs`]);
+        } else {
+          this._router.navigate([`/settings/manage-list/cityguide`]);
+        }
       }  else if (content == "TutorCommissions") {
         this._router.navigate([`/settings/manage-list/commissions`]);
       } else if (content == "Courses") {

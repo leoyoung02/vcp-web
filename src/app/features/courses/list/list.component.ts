@@ -442,9 +442,7 @@ export class CoursesListComponent {
   }
 
   async mapTutorSubfeatures(subfeatures) {
-    if(subfeatures?.length > 0) {
-      this.showMemberCoursesOnly = this.companyId == 52 || 27 ? true : false;
-    }
+    this.showMemberCoursesOnly = this.companyId == 52 || this.companyId == 27 ? true : false;
   }
 
   filterCourses(courses_list) {
@@ -644,7 +642,7 @@ export class CoursesListComponent {
       })
     }
 
-    this.courses = all_courses 
+    this.courses = all_courses
     this.filteredcourses = this.courses
     this.filteredcourses = this.filteredcourses.sort((a, b) => {
       return b.id - a.id
@@ -744,6 +742,7 @@ export class CoursesListComponent {
         progress: progress,
         button_text,
         show_details,
+        buy_now_shown,
         assigned_button_color: show_details ? course?.button_color : (buy_now_shown ? course?.buy_now_button_color : ''),
         image: `${COURSE_IMAGE_URL}/${course.image}`,
         category: category_texts?.map((data) => { return data.label }).join(', '),

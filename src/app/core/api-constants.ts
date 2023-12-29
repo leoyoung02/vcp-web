@@ -419,6 +419,8 @@ export const ADD_CTA_URL = `${API_BASE}/course-cta/add`;
 export const EDIT_CTA_URL = `${API_BASE}/course-cta/edit`;
 export const DELETE_CTA_URL = `${API_BASE}/course-cta/delete`;
 export const COURSE_WALL_URL = `${API_BASE}/company/course/walls`;
+export const PAYMENT_COURSE_DETAILS_URL = `${API_BASE}/guest/course`;
+export const PAYMENT_COURSE_URL = `${API_BASE}/company/course/subscribe/stripe`;
 
 export const COURSES_COMBINED_URL = `${API_BASE}/v2/courses`;
 export const COURSE_DETAILS_URL = `${API_BASE}/v2/course-details`;
