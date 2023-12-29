@@ -266,7 +266,7 @@ export class ManageListComponent {
         this.listTitle = this.jobOffersTitle;
         break;
       case "cityguide":
-        this.listTitle = this.cityGuideTitle;
+        this.listTitle = this.companyId == 20 ? 'Blog' : this.cityGuideTitle;
         break;
       case "commissions":
         this.listTitle = this._translateService.instant('tutors.commissions');
@@ -287,7 +287,7 @@ export class ManageListComponent {
         this.listTitle = this.servicesTitle;
         break;
       case "blogs":
-        this.listTitle = this.blogsTitle;
+        this.listTitle = this.companyId == 20 ? 'Blog' : this.blogsTitle;
         break;
       case "credits":
         this.listTitle = this._translateService.instant('course-create.credits');

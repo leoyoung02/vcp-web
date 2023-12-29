@@ -386,8 +386,8 @@ export class JobOffersListComponent {
           item.selected = false;
         }
       })
-      this.filterJobOffers();
     }
+    this.filterJobOffers();
   }
 
   sortOffers(offers) {

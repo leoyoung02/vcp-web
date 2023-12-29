@@ -7,7 +7,7 @@
 >
     <div>
         <img width="460" height="192" 
-            class="rounded-[10px] object-cover h-full" 
+            class="rounded-[10px] object-cover h-full"
             [ngClass]="{'w-full max-w-full min-h-full max-h-full sm:min-h-full sm:max-h-full md:min-h-[325px] md:max-h-[325px] lg:min-h-[325px] lg:max-h-[325px]': page == 'home', 
                 'min-h-full max-h-full sm:min-h-full sm:max-h-full w-full max-w-full sm:w-full sm:max:w-full md:w-[350px] md:max-w-[350px] lg:w-[350px] lg:max-w-[350px] md:min-h-[192px] md:max-h-[192px] lg:min-h-[192px] lg:max-h-[192px]': page != 'home'
             }"
@@ -28,9 +28,8 @@
             <span *ngIf="category">{{ category }}</span>
         </div>
     </div>
-    <div class="absolute bottom-[24px] uppercase text-white pt-[10px] px-8 rounded-[10px] h-[40px] w-auto inline-block text-center text-sm"
-        [ngStyle]="{'background-color': courseButtonColor || '#F7AF41'}"
-        [ngClass]="{'cursor-pointer': showDetails, 'cursor-not-allowed': !showDetails}">
+    <div class="hover:cursor-pointer absolute bottom-[24px] uppercase text-white pt-[10px] px-8 rounded-[10px] h-[40px] w-auto inline-block text-center text-sm"
+        [ngStyle]="{'background-color': courseButtonColor || '#F7AF41'}">
         <div class="flex items-center align-center">
             {{ buttonText }}
             <ng-container *ngIf="buttonText == ('courses.continue' | translate)">
@@ -56,9 +55,8 @@
                 </div>
             </div>
         </div>
-        <div class="absolute bottom-[4px] left-2/4 uppercase text-white w-auto whitespace-nowrap pt-[10px] px-8 rounded-[10px] h-[40px] w-auto inline-block text-center text-sm"
-            [ngStyle]="{'background-color': courseButtonColor || '#F7AF41', 'transform': 'translate(-50%, -50%)'}"
-            [ngClass]="{'cursor-pointer': showDetails, 'cursor-not-allowed': !showDetails}">
+        <div class="hover:cursor-pointer absolute bottom-[4px] left-2/4 uppercase text-white w-auto whitespace-nowrap pt-[10px] px-8 rounded-[10px] h-[40px] w-auto inline-block text-center text-sm"
+            [ngStyle]="{'background-color': courseButtonColor || '#F7AF41', 'transform': 'translate(-50%, -50%)'}">
             <div class="flex items-center align-center">
                 {{ buttonText }}
                 <ng-container *ngIf="buttonText == ('courses.continue' | translate)">

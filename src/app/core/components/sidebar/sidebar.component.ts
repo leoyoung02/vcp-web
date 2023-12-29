@@ -573,7 +573,12 @@ export class SidebarComponent {
       this.openUrl(menu?.new_url == 1 && this.isUESchoolOfLife ? `https://${this.company?.url}` : menu?.path);
     } else {
       let link = menu?.path == 'home' ? '/' : menu?.path
-      this._router.navigate([link])
+
+      if(this.company?.id == 20 && menu?.path == 'cityguide') {
+        this._router.navigate(['blog'])
+      } else {
+        this._router.navigate([link]);
+      }
     }
   }
 

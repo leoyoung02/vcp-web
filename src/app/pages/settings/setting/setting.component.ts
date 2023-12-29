@@ -606,9 +606,9 @@ export class SettingComponent {
     
       if(this.canShowLinkAccess) {
         this.subfooter = data?.subfooter
-        this.linkAccessText = this.subfooter.subfooter_text ? this.subfooter.subfooter_text : ''
-        this.guestHome = this.subfooter.guest_home ? this.subfooter.guest_home : 0
-        this.signupMemberSelection = this.subfooter.signup_member_selection ? this.subfooter.signup_member_selection : 0
+        this.linkAccessText = this.subfooter?.subfooter_text ? this.subfooter?.subfooter_text : ''
+        this.guestHome = this.subfooter?.guest_home ? this.subfooter?.guest_home : 0
+        this.signupMemberSelection = this.subfooter?.signup_member_selection ? this.subfooter?.signup_member_selection : 0
       }
     }
   }

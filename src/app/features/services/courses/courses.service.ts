@@ -54,6 +54,8 @@ import {
   FEATURES_MAPPING_URL,
   MARK_COMPLETE_URL,
   NO_COURSE_STUDENTS_URL,
+  PAYMENT_COURSE_DETAILS_URL,
+  PAYMENT_COURSE_URL,
   RESEND_ACCESS_URL,
   RESET_STATUS_URL,
   SAVE_COURSE_SESSION_URL,
@@ -602,5 +604,25 @@ export class CoursesService {
     return this._http.get(`${COURSES_MANAGEMENT_DATA_URL}/${id}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
+  }
+
+  getUserCourse(courseId, userId, companyId): Observable<any> {
+    return this._http.get(
+      `${PAYMENT_COURSE_DETAILS_URL}/${courseId}/${userId}/${companyId}`,
+      { headers: this.headers }
+    )
+    .pipe(map(res => res));
+  }
+
+  subscribeCourse(courseId, userId, companyId, payload): Observable<any> {
+    return this._http.post(
+      `${PAYMENT_COURSE_URL}/${courseId}/${userId}/${companyId}`,
+      payload
+    ).pipe(
+      map(res => {
+        const result = res
+        return result;
+      })
+    );
   }
 }

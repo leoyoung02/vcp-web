@@ -38,7 +38,7 @@ import {
   faCheckCircle,
   faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
-import { PlansService } from "@features/services";
+import { CoursesService } from "@features/services";
 import get from "lodash/get";
 
 @Component({
@@ -58,11 +58,10 @@ import get from "lodash/get";
   ],
   templateUrl: "./payment.component.html",
 })
-export class PlanPaymentComponent {
+export class CoursePaymentComponent {
   private destroy$ = new Subject<void>();
 
   @Input() id!: number;
-  @Input() typeId!: number;
   @Input() userId!: number;
 
   type: any;
@@ -212,6 +211,8 @@ export class PlanPaymentComponent {
   showConfirmed: boolean = false;
 
   event: any;
+  course: any;
+  courseId: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -222,13 +223,12 @@ export class PlanPaymentComponent {
     private _companyService: CompanyService,
     private _paymentService: PaymentService,
     private _stripeService: StripeService,
-    private _plansService: PlansService,
+    private _coursesService: CoursesService,
     private _snackBar: MatSnackBar,
     private fb: FormBuilder
   ) {}
 
   async ngOnInit() {
-    this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     this.language = this._localService.getLocalStorage(environment.lslang);
     this._translateService.use(this.language || 'es');
@@ -247,6 +247,18 @@ export class PlanPaymentComponent {
         cif: [''],
         direccion: [''],
         province: ['', [Validators.required]],
+        payment_type: ['1', [Validators.required]],
+        reservation_price_one: [''],
+        reservation_price_two: [''],
+        instalment_price_one_3: [''],
+        instalment_price_one: [''],
+        instalment_price_two: [''],
+        specific_date_1_3: [''],
+        specific_date_1: [''],
+        specific_date_2: [''],
+        day_after_reservation_1_3: [''],
+        day_after_reservation_1: [''],
+        day_after_reservation_2: [''],
       })
     } else {
       this.stripeForm = this.fb.group({
@@ -262,6 +274,18 @@ export class PlanPaymentComponent {
         cif: [''],
         direccion: [''],
         province: ['', [Validators.required]],
+        payment_type: ['1', [Validators.required]],
+        reservation_price_one: [''],
+        reservation_price_two: [''],
+        instalment_price_one_3: [''],
+        instalment_price_one: [''],
+        instalment_price_two: [''],
+        specific_date_1_3: [''],
+        specific_date_1: [''],
+        specific_date_2: [''],
+        day_after_reservation_1_3: [''],
+        day_after_reservation_1: [''],
+        day_after_reservation_2: [''],
         password: ["", [Validators.required]],
         confirm_password: ["", [Validators.required]],
       })
@@ -295,10 +319,11 @@ export class PlanPaymentComponent {
     this.popupTitle = this._translateService.instant(
       "create-content.confirmation"
     );
-    this._plansService.getPlan(this.id, this.typeId).subscribe(
+    this._coursesService.getUserCourse(this.id, this.userId, this.companyId).subscribe(
       async response => {
-        this.event = response.CompanyPlan || response.CompanyGroupPlan;
-        this.pageTitle = this.event?.title;
+        this.course = response.course;
+        this.courseId = this.course.id;
+        this.pageTitle = this.course?.title;
       }
     )
   }
@@ -414,23 +439,23 @@ export class PlanPaymentComponent {
       );
   }
 
-  getEventTitle(event) {
-    if(event) {
-      return this.language == 'en' ? (event.title_en ? (event.title_en || event.title) : event.title) :
-        (this.language == 'fr' ? (event.title_fr ? (event.title_fr || event.title) : event.title) : 
-            (this.language == 'eu' ? (event.title_eu ? (event.title_eu || event.title) : event.title) : 
-                (this.language == 'ca' ? (event.title_ca ? (event.title_ca || event.title) : event.title) : 
-                    (this.language == 'de' ? (event.title_de ? (event.title_de || event.title) : event.title) : event.title)
-                )
-            )
-        )
+  getCourseTitle(course) {
+    if(course) {
+      return this.language == 'en' ? (course.title_en ? (course.title_en || course.title) : course.title) :
+      (this.language == 'fr' ? (course.title_fr ? (course.title_fr || course.title) : course.title) : 
+          (this.language == 'eu' ? (course.title_eu ? (course.title_eu || course.title) : course.title) : 
+              (this.language == 'ca' ? (course.title_ca ? (course.title_ca || course.title) : course.title) : 
+                  (this.language == 'de' ? (course.title_de ? (course.title_de || course.title) : course.title) : course.title)
+              )
+          )
+      )
     } else {
       return ''
     }
   }
 
   getPrice(type, display) {
-    let price = this.event?.price
+    let price = this.course?.price
     return price && price > 0 ? (price.toString().replace(".", ",") + ' €') : ''
   }
 
@@ -572,7 +597,7 @@ export class PlanPaymentComponent {
   }
 
   proceedPay() {
-    this._plansService.subscribeEventStripe(this.id, this.typeId, this.userId, this.companyId, this.stripeData)
+    this._coursesService.subscribeCourse(this.id, this.userId, this.companyId, this.stripeData)
       .subscribe(
         (res) => {
           this.showModal();
@@ -655,7 +680,7 @@ export class PlanPaymentComponent {
 
   redirect() {
     setTimeout(() => {
-      this._router.navigate([`/plans/details/${this.id}/${this.typeId}`])
+      this._router.navigate([`/courses/details/${this.id}`])
     }, 1000)
   }
 

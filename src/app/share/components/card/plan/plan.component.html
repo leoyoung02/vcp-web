@@ -32,7 +32,7 @@
     </div>
     <div>
         <div class="text-sm font-semibold">
-            <span>{{ 'category.free' | translate }}</span><span>{{ address ? (' • ' + address) : '' }}</span>
+            <span>{{ price > 0 ? (price?.replace('.00', '') + '€') : ('category.free' | translate) }}</span><span>{{ address ? (' • ' + address) : '' }}</span>
         </div>
     </div>
 </div>

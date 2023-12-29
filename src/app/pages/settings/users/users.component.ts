@@ -2207,7 +2207,7 @@ export class ManageUsersComponent {
       fk_company_id: this.companyId,
     });
 
-    if (this.hasConfirmEmail && (this.companyId == 41 || this.companyId == 42 || this.membersForConfirm2?.length > 0)) {
+    if (this.hasConfirmEmail && (this.companyId == 35 || this.companyId == 41 || this.companyId == 42 || this.companyId == 20 || this.membersForConfirm2?.length > 0)) {
       buttonList.push({
         id: 2,
         value: "Confirm",
@@ -2259,7 +2259,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.requirePayment && (this.companyId == 41 || this.companyId == 42 || this.membersCancelled2?.length > 0)) {
+    if (this.requirePayment && (this.companyId == 35 || this.companyId == 41 || this.companyId == 42 || this.companyId == 20 || this.membersCancelled2?.length > 0)) {
       buttonList.push({
         id: 7,
         value: "Cancelled",
