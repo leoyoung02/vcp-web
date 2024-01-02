@@ -574,11 +574,7 @@ export class SidebarComponent {
     } else {
       let link = menu?.path == 'home' ? '/' : menu?.path
 
-      if(this.company?.id == 20 && menu?.path == 'cityguide') {
-        this._router.navigate(['blog'])
-      } else {
-        this._router.navigate([link]);
-      }
+      this._router.navigate([link]);
     }
   }
 
