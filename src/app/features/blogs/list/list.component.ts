@@ -161,10 +161,6 @@ export class BlogListComponent {
     this.featureId = this.blogsFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.blogsFeature);
     this.pageDescription = this.getFeatureDescription(this.blogsFeature);
-    if(this.companyId == 20 && !this.pageName && !this.pageDescription) {
-      this.pageName = 'Blog';
-      this.pageDescription = '¡Lee estas recomendaciones y siéntete como en casa!';
-    }
   }
 
   mapSubfeatures(subfeatures) {
