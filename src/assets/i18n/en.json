@@ -3385,7 +3385,10 @@
         "activateheaderimage": "Activate header image (below title)",
         "otherimages": "Other images",
         "activateimagesbefosubmitbutton": "Activate images before submit button",
-        "uploadimages": "Upload 1 or more images"
+        "uploadimages": "Upload 1 or more images",
+        "redirectcustomlink": "Redirect to CTA Link",
+        "ctaLinkLabel": "CTA Link",
+        "ctaLinkPlaceholder": "Enter CTA Link"
     },
     "credits": {
         "automatedemail": "Activate automated email of cedits history",

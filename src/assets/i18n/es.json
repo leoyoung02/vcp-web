@@ -3371,7 +3371,10 @@
         "activateheaderimage": "Activar imagen de encabezado (debajo del título)",
         "otherimages": "Otras imágenes",
         "activateimagesbefosubmitbutton": "Activar imágenes antes del botón enviar",
-        "uploadimages": "Subir 1 o más imágenes"
+        "uploadimages": "Subir 1 o más imágenes",
+        "redirectcustomlink": "Redirigir al enlace CTA",
+        "ctaLinkLabel": "Enlace de llamada a la acción",
+        "ctaLinkPlaceholder": "Ingrese el enlace CTA"
     },
     "credits": {
         "automatedemail": "Activar correo electrónico automatizado del historial de créditos",

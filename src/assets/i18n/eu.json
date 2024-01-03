@@ -3349,7 +3349,10 @@
         "activateheaderimage": "Aktibatu goiburuko irudia (tituluaren azpian)",
         "otherimages": "Beste irudi batzuk",
         "activateimagesbefosubmitbutton": "Aktibatu irudiak bidali botoia baino lehen",
-        "uploadimages": "Kargatu irudi bat edo gehiago"
+        "uploadimages": "Kargatu irudi bat edo gehiago",
+        "redirectcustomlink": "Birbideratu CTA estekara",
+        "ctaLinkLabel": "CTA esteka",
+        "ctaLinkPlaceholder": "Sartu CTA esteka"
     },
     "credits": {
         "automatedemail": "Aktibatu cedits historiaren posta elektroniko automatizatua",
