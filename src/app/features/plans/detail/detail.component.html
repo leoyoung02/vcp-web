@@ -126,7 +126,7 @@
                     </div>
                 </div>
                 <div class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
-                    <div *ngIf="joinStatusChecked && !isExternalRegistration &&
+                    <div *ngIf="showJoinButton && joinStatusChecked && !isExternalRegistration &&
                         (
                             (!joinedParticipant
                             && plan?.private
@@ -159,7 +159,7 @@
                                 {{ 'plan-details.pending' | translate }}
                             </button>
                             <button
-                                *ngIf="userId && ((!joinedParticipant
+                                *ngIf="showJoinButton && userId && ((!joinedParticipant
                                     && !plan?.private
                                     && (plan?.plan_date >= today || !isPastEvent)
                                     && !activateWaitingList) || (plan?.private && !joinedParticipant && speedMember)
@@ -253,12 +253,11 @@
                             <div class="flex flex-wrap">
                                 <ng-container *ngFor="let member of limitPlanParticipants; let i = index">
                                     <img
-                                        *ngIf="member?.image"
                                         class="rounded-full" 
                                         [ngClass]="{'-ml-6': i > 0}"
                                         width="55"
                                         height="55"
-                                        [ngSrc]="apiPath + '/' + member.image"
+                                        [ngSrc]="apiPath + '/' + (member.image || 'empty_avatar.png')"
                                     />
                                 </ng-container>
                             </div>

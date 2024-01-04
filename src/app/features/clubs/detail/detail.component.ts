@@ -326,7 +326,7 @@ export class ClubDetailComponent {
       data?.club_presidents_mapping
     );
     this.categories = data?.club_categories;
-    this.subcategories = data?.club_subcategories;
+    this.subcategories = this.companyId == 12 ? data?.kcn_club_subcategories : data?.club_subcategories;
     this.clubCategoryMapping =  this.mapCategories(data?.club_category_mapping);
     this.formatClub(
       data?.club,
@@ -742,9 +742,7 @@ export class ClubDetailComponent {
 
     if (
       this.companyId == 12 ||
-      this.companyId == 14 ||
-      this.companyId == 15 ||
-      this.companyId == 16
+      this.companyId == 15
     ) {
       if (this.subcategories) {
         let match = this.subcategories.some(

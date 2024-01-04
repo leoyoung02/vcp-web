@@ -800,3 +800,107 @@ input#email-recipients:valid {
     padding-top: 1px !important;
     padding-bottom: 1px !important;
 }
+
+.mat-column-guest_email {
+    display: table-cell;
+}
+
+.status-btn-wrapper {
+    margin-right: 15px;
+  
+    .status-btn.info {
+        border-radius: 50% !important;
+        width: 30px !important;
+        height: 30px !important;
+        margin: 0 auto !important;
+  
+        &:hover {
+            cursor: pointer;
+        }
+  
+        &.contacted {
+            background-color: #0f0 !important;
+        }
+  
+        &.contact {
+            background-color:#ffa500 !important;
+        }
+  
+        &.nottocontact {
+            background-color: #f00 !important;
+        }
+  
+        &.converted {
+            background-color: #007199 !important;
+        }
+
+        &.sales-funnel {
+            background-color: #800080 !important;
+        }
+  
+        &.nostatus {
+            background-color: #fff !important;
+            box-shadow: 1px 2px 10px 1px #ccc;
+        }
+    }
+  
+    .status-btn.info.tab {
+        border-radius: 50% !important;
+        width: 30px !important;
+        height: 30px !important;
+        margin: 0 auto !important;
+  
+        &:hover {
+            cursor: pointer;
+        }
+  
+        &.contacted {
+            background-color: #0f0 !important;
+            opacity: 0.25;
+  
+            &.activated {
+                background-color: #0f0 !important;
+                opacity: 1;
+            }
+        }
+  
+        &.contact {
+            background-color:#ffa500 !important;
+            opacity: 0.25;
+  
+            &.activated {
+                background-color: #ffa500 !important;
+                opacity: 1;
+            }
+        }
+  
+        &.nottocontact {
+            background-color: #f00 !important;
+            opacity: 0.25;
+  
+            &.activated {
+                background-color: #f00 !important;
+                opacity: 1;
+            }
+        }
+  
+        &.converted {
+            background-color: #007199 !important;
+            opacity: 0.25;
+  
+            &.activated {
+                background-color: #007199 !important;
+                opacity: 1;
+            }
+        }
+    }
+  
+    .status-subtitle {
+        font-size: 8px;
+  
+        &.active {
+            font-weight: bold;
+            color: #007199;
+        }
+    }
+}

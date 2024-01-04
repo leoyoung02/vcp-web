@@ -349,6 +349,7 @@ export class OfferEditComponent {
     this.offerForm.controls["percent"].setValue(this.offer?.percent);
     this.offerForm.controls["website"].setValue(this.offer?.website);
     this.offerForm.controls["email"].setValue(this.offer?.email);
+    this.discountType = this.offer?.discount_type_id;
 
     let timezoneOffset = new Date().getTimezoneOffset();
     if(this.offer.validSince) {

@@ -187,6 +187,7 @@ export class PlansListComponent {
   schoolOfLifeTitle: any;
   userInfo: any;
   campus: any = '';
+  kcnPlanCategoryMapping: any = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -354,18 +355,18 @@ export class PlansListComponent {
 
     categories?.forEach((category) => {
       this.buttonList.push({
-        id: category.fk_supercategory_id,
-        value: category.fk_supercategory_id,
+        id: category?.fk_supercategory_id || category?.id,
+        value: category.fk_supercategory_id || category?.id,
         text: this.getCategoryTitle(category),
         selected: false,
         fk_company_id: category.fk_company_id,
-        fk_supercategory_id: category.fk_supercategory_id,
-        name_CA: category.name_EN,
-        name_DE: category.name_DE,
-        name_EN: category.name_EN,
-        name_ES: category.name_ES,
-        name_EU: category.name_EU,
-        name_FR: category.name_FR,
+        fk_supercategory_id: category?.fk_supercategory_id || category?.id,
+        name_CA: category.name_CA || category?.name_ca,
+        name_DE: category.name_DE || category?.name_de,
+        name_EN: category.name_EN || category.name_en,
+        name_ES: category.name_ES || category.name_es,
+        name_EU: category.name_EU || category.name_eu,
+        name_FR: category.name_FR || category.name_fr,
         sequence: category.sequence,
         status: category.status,
       });
@@ -413,37 +414,40 @@ export class PlansListComponent {
   }
 
   initializeIconFilterList(list) {
-    this.list = [
-      {
-        id: "All",
-        value: "",
-        text: this._translateService.instant("plans.all"),
-        selected: true,
-        company_id: this.companyId,
-        city: "",
-        province: "",
-        region: "",
-        country: "",
-        sequence: "",
-        campus: "",
-      },
-    ];
+    if(list?.length > 0) {
+      this.list = [
+        {
+          id: "All",
+          value: "",
+          text: this._translateService.instant("plans.all"),
+          selected: true,
+          company_id: this.companyId,
+          city: "",
+          province: "",
+          region: "",
+          country: "",
+          sequence: "",
+          campus: "",
+        },
+      ];
 
-    list?.forEach((item) => {
-      this.list.push({
-        id: item.id,
-        value: item.id,
-        text: item.city,
-        selected: false,
-        company_id: item.company_id,
-        city: item.city,
-        province: item.province,
-        region: item.region,
-        country: item.country,
-        sequence: item.sequence,
-        campus: item.campus,
+      list?.forEach((item) => {
+        this.list.push({
+          id: item.id,
+          value: item.id,
+          text: item.city,
+          selected: false,
+          company_id: item.company_id,
+          city: item.city,
+          province: item.province,
+          region: item.region,
+          country: item.country,
+          sequence: item.sequence,
+          campus: item.campus,
+        });
       });
-    });
+    }
+    
   }
 
   getCategoryTitle(category) {
@@ -506,6 +510,10 @@ export class PlansListComponent {
           this.cities = data?.cities;
           this.mapDashboard(data?.settings?.dashboard);
           this.initializeIconFilterList(this.cities);
+
+          if(this.companyId == 12) {
+            this.kcnPlanCategoryMapping = data?.kcn_plan_category_mapping;
+          }
 
           this.mapPageTitle();
           this.types = data?.types;
@@ -683,7 +691,6 @@ export class PlansListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.plans = data?.plans || [];
           this.planCategoriesMapping =
             data?.category_mappings?.plan_categories_mapping || [];
@@ -706,7 +713,6 @@ export class PlansListComponent {
     })
 
     this.plans = plans;
-    console.log('view: ' + this.view)
     if(this.view == 'joined') {
       this.plans = this.filterCreatedJoined(this.plans, plan_participants);
     }
@@ -1590,8 +1596,8 @@ export class PlansListComponent {
       this.selectedFilterCategory = category;
       this.filterPlans(
         category.fk_supercategory_id,
-        category.name_EN || category.name_en,
-        category.name_ES || category.name_es
+        category.name_EN,
+        category.name_ES
       );
     }
   }
@@ -1655,7 +1661,38 @@ export class PlansListComponent {
           include = true;
         }
 
-        return plan.event_category_id == category.id && include;
+        let include_category
+        if(plan.event_category_id == category.id) {
+          include_category = true
+        }
+
+        if(this.companyId == 12) {
+          if(this.planCategoriesMapping?.length > 0) {
+            let match = this.planCategoriesMapping.some(a => a.group_plan_id == plan.id && a.plan_category_id == category.id)
+            if(match) {
+              include_category = true
+            }
+          }
+
+          if(!include_category && this.companyId == 12 && this.kcnPlanCategoryMapping?.length > 0) {
+            let match = this.kcnPlanCategoryMapping.some(a => a.group_plan_id == plan.id && a.plan_category_id == category.id)
+            if(match) {
+              include_category = true
+            }
+          }
+
+          if(!include_category && this.companyId == 12 && category?.name_es == 'Networking + Eat and Meet') {
+            let kcnCategories = this.kcnPlanCategoryMapping?.filter(cm => {
+              return cm.group_plan_id == plan.id && (cm.name_es == 'Eat and Meet' || cm.name_es == 'Networking')
+            })
+
+            if(kcnCategories?.length > 0 || plan.event_category_id == 1 || plan.event_category_id == 2) {
+              include_category = true
+            }
+          }
+        }
+
+        return include_category && include;
       });
     }
 

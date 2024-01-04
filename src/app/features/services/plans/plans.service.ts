@@ -13,6 +13,8 @@ import {
   ADD_TO_WAITING_LIST_URL,
   ALL_GUEST_REGISTRATION_FIELDS_URL,
   ANSWER_EMAIL_INVITE_QUESTIONS_URL,
+  ASSIGN_SALES_PERSON_URL,
+  CATEGORY_EVENTS_URL,
   CHECKOUT_PLAN_DETAILS_URL,
   CHECK_PLAN_REGISTRATION_URL,
   CLEAR_CONFIRMATION_URL,
@@ -61,7 +63,7 @@ import {
   PLANS_MANAGEMENT_DATA_URL,
   PLANS_OTHER_DATA_URL,
   PLANS_URL,
-  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_PAYMENT_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, SUBMIT_ACTIVITY_RATING_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
+  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_PAYMENT_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, SALES_PEOPLE_URL, SUBMIT_ACTIVITY_RATING_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -794,7 +796,16 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     
     formData.append( 'company_id', planForm.company_id);
     formData.append( 'image_file', imageFile);
-    formData.append( 'category_id', planForm.category_id.map( (data) => { return data.fk_supercategory_id }).join());
+
+    if(entityId == 12) {
+      if(planForm?.kcn_event_category_id) {
+          formData.append( 'category_id', planForm?.kcn_event_category_id?.map( (data) => { return data.id }).join());
+      }
+  } else {
+      if(planForm?.category_id) {
+          formData.append( 'category_id', planForm?.category_id?.map( (data) => { return data.fk_supercategory_id }).join());
+      }
+  }
 
     formData.append( 'multiple_cities', planForm.multiple_cities );
     if(planForm.multiple_cities == 1 && planForm.city_id) {
@@ -984,5 +995,23 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
         return result;
       })
     );
+  }
+
+  salesPeople(id): Observable<any> {
+    return this._http.get(`${SALES_PEOPLE_URL}/${id}`,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  assignGuestToSalesPerson(payload): Observable<any> {
+    return this._http.post(ASSIGN_SALES_PERSON_URL, 
+      payload
+    ).pipe(map(res => res));
+  }
+
+  getCategoryEvents(categoryId): Observable<any> {
+    return this._http.get(`${CATEGORY_EVENTS_URL}/${categoryId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

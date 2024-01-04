@@ -183,14 +183,18 @@ export class MasonryComponent {
     if(this.data) {
       this.section1Data = this?.data?.plans?.length >= 6 ? this?.data?.plans?.slice(0, 6) : this?.data?.plans
       
-      if(this.company?.id == 32 && !this.isUESchoolOfLife) {
-        let cityguides1 = this?.data?.city_guides?.length >= 2 ? this?.data?.city_guides?.slice(0, 2) : []
-        let joboffers1 = this?.data?.job_offers?.length >= 2 ? this?.data?.job_offers?.slice(0, 4) : []
-        
-        this.section2Data = []
-          .concat(cityguides1)
-          .concat(joboffers1)
+      if(this.company?.id == 32) {
+        if(!this.isUESchoolOfLife) {
+          let cityguides1 = this?.data?.city_guides?.length >= 2 ? this?.data?.city_guides?.slice(0, 2) : []
+          let joboffers1 = this?.data?.job_offers?.length >= 2 ? this?.data?.job_offers?.slice(0, 4) : []
+          
+          this.section2Data = []
+            .concat(cityguides1)
+            .concat(joboffers1)
 
+          this.section3Data = this?.data?.clubs?.length >= 4 ? this?.data?.clubs?.slice(0, 4) : this.data?.clubs
+        }
+      } else {
         this.section3Data = this?.data?.clubs?.length >= 4 ? this?.data?.clubs?.slice(0, 4) : this.data?.clubs
       }
 

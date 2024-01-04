@@ -383,37 +383,39 @@ export class ClubsListComponent {
   }
 
   initializeIconFilterList(list) {
-    this.list = [
-      {
-        id: "All",
-        value: "",
-        text: this._translateService.instant("plans.all"),
-        selected: true,
-        company_id: this.companyId,
-        city: "",
-        province: "",
-        region: "",
-        country: "",
-        sequence: "",
-        campus: "",
-      },
-    ];
+    if(list?.length > 0) {
+      this.list = [
+        {
+          id: "All",
+          value: "",
+          text: this._translateService.instant("plans.all"),
+          selected: true,
+          company_id: this.companyId,
+          city: "",
+          province: "",
+          region: "",
+          country: "",
+          sequence: "",
+          campus: "",
+        },
+      ];
 
-    list?.forEach((item) => {
-      this.list.push({
-        id: item.id,
-        value: item.id,
-        text: item.city,
-        selected: false,
-        company_id: item.company_id,
-        city: item.city,
-        province: item.province,
-        region: item.region,
-        country: item.country,
-        sequence: item.sequence,
-        campus: item.campus,
+      list?.forEach((item) => {
+        this.list.push({
+          id: item.id,
+          value: item.id,
+          text: item.city,
+          selected: false,
+          company_id: item.company_id,
+          city: item.city,
+          province: item.province,
+          region: item.region,
+          country: item.country,
+          sequence: item.sequence,
+          campus: item.campus,
+        });
       });
-    });
+    }
   }
 
   mapSubcategories(club_subcategories) {

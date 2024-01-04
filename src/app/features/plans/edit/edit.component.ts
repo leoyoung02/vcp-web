@@ -399,6 +399,10 @@ export class PlanEditComponent {
   isUESchoolOfLife: boolean = false;
   hasCredits: boolean = false;
 
+  eventCategoryDropdownSettings: any;
+  eventSubcategoryDropdownSettings: any;
+  planCategoryMapping: any = [];
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -519,6 +523,40 @@ export class PlanEditComponent {
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search'),
     };
+    this.eventCategoryDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: this.language == 'en' ? 'name_en' :
+      (this.language == 'fr' ? 'name_fr' : 
+        (this.language == 'eu' ? 'name_eu' : 
+          (this.language == 'ca' ? 'name_ca' : 
+            (this.language == 'de' ? 'name_de' : 'name_es')
+          )
+        )
+      ),
+      selectAllText: this._translateService.instant('dialog.selectall'),
+      unSelectAllText: this._translateService.instant('dialog.clearall'),
+      limitSelection: 3,
+      itemsShowLimit: 2,
+      allowSearchFilter: true
+    }
+    this.eventSubcategoryDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: this.language == 'en' ? 'name_en' :
+      (this.language == 'fr' ? 'name_fr' : 
+        (this.language == 'eu' ? 'name_eu' : 
+          (this.language == 'ca' ? 'name_ca' : 
+            (this.language == 'de' ? 'name_de' : 'name_es')
+          )
+        )
+      ),
+      selectAllText: this._translateService.instant('dialog.selectall'),
+      unSelectAllText: this._translateService.instant('dialog.clearall'),
+      limitSelection: 3,
+      itemsShowLimit: 2,
+      allowSearchFilter: true
+    }
     this.membersSettings = {
       singleSelection: true,
       idField: "id",
@@ -592,6 +630,10 @@ export class PlanEditComponent {
           this.mapUserPermissions(data?.user_permissions);
 
           this.CompanySupercategories = data?.plan_categories;
+          if(data?.types?.length > 0) {
+            this.types = data?.types;
+            this.categories = data?.plan_categories;
+          }
           this.subcategories = data?.plan_subcategories;
           this.allSubcategories = data?.plan_subcategories;
           this.cities = data?.cities;
@@ -1008,6 +1050,9 @@ export class PlanEditComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          if(this.types?.length > 0) {
+            this.planCategoryMapping = data?.plan_category_mapping;
+          }
           this.formatPlan(data);
         },
         (error) => {
@@ -1084,63 +1129,100 @@ export class PlanEditComponent {
       activity_code,
     } = this.plan;
 
-    let categories = this.mapCategories(data?.plan?.categories_mapping);
-    this.category_id = categories.map((category) => {
-      const { id, name_EN, name_ES, name_FR, name_EU, name_CA, name_DE } =
-        category;
-
-      if (this.language == "en") {
-        return {
-          id,
-          name_EN,
-        };
-      } else if (this.language == "fr") {
-        return {
-          id,
-          name_FR,
-        };
-      } else if (this.language == "eu") {
-        return {
-          id,
-          name_EU,
-        };
-      } else if (this.language == "ca") {
-        return {
-          id,
-          name_CA,
-        };
-      } else if (this.language == "de") {
-        return {
-          id,
-          name_DE,
-        };
-      } else {
-        return {
-          id,
-          name_ES,
-        };
-      }
-    });
-    if (this.category_id && this.allSubcategories) {
-      this.subcategories = this.allSubcategories.filter((sc) => {
-        let include = false;
-
-        if (this.category_id) {
-          this.category_id.forEach((cat: any) => {
-            if (cat.id == sc.category_id) {
-              include = true;
+    if(this.types && this.types.length > 0 && this.planCategoryMapping?.length > 0) {
+      this.eventCategory = this.planCategoryMapping
+        .map(category => {
+          if(this.language == 'en') {
+            return {
+              id: category.plan_category_id,
+              name_en: category.name_en,
             }
-          });
-        }
+          } else if(this.language == 'fr') {
+            return {
+              id: category.plan_category_id,
+              name_fr: category.name_fr,
+            }
+          } else if(this.language == 'eu') {
+            return {
+              id: category.plan_category_id,
+              name_eu: category.name_eu,
+            }
+          } else if(this.language == 'ca') {
+            return {
+              id: category.plan_category_id,
+              name_ca: category.name_ca,
+            }
+          } else if(this.language == 'de') {
+              return {
+                id: category.plan_category_id,
+                name_de: category.name_de,
+              }
+          } else {
+            return {
+              id: category.plan_category_id,
+              name_es: category.name_es,
+            }
+          }
+        })
+    } else {
+      let categories = this.mapCategories(data?.plan?.categories_mapping);
+      this.category_id = categories.map((category) => {
+        const { id, name_EN, name_ES, name_FR, name_EU, name_CA, name_DE } =
+          category;
 
-        return include;
+        if (this.language == "en") {
+          return {
+            fk_supercategory_id: id,
+            name_EN,
+          };
+        } else if (this.language == "fr") {
+          return {
+            fk_supercategory_id: id,
+            name_FR,
+          };
+        } else if (this.language == "eu") {
+          return {
+            fk_supercategory_id: id,
+            name_EU,
+          };
+        } else if (this.language == "ca") {
+          return {
+            fk_supercategory_id: id,
+            name_CA,
+          };
+        } else if (this.language == "de") {
+          return {
+            fk_supercategory_id: id,
+            name_DE,
+          };
+        } else {
+          return {
+            fk_supercategory_id: id,
+            name_ES,
+          };
+        }
       });
+      if (this.category_id && this.allSubcategories) {
+        this.subcategories = this.allSubcategories.filter((sc) => {
+          let include = false;
+
+          if (this.category_id) {
+            this.category_id.forEach((cat: any) => {
+              if (cat?.id == sc.category_id || cat?.fk_supercategory_id == sc.category_id) {
+                include = true;
+              }
+            });
+          }
+
+          return include;
+        });
+      }
+      this.getSubcategoryMapping(
+        this.id,
+        this.planTypeId,
+        data?.plan?.subcategories_mapping
+      );
     }
-    this.getSubcategoryMapping(
-      this.id,
-      this.planTypeId,
-      data?.plan?.subcategories_mapping
-    );
     if (plan_date) {
       let timezoneOffset = new Date().getTimezoneOffset();
       let pd = (
@@ -1176,6 +1258,9 @@ export class PlanEditComponent {
       meeting_point && meeting_point != "null" ? meeting_point : ""
     );
     this.planAddress = address;
+    if(this.types?.length > 0) {
+      this.eventType = event_type_id;
+    }
     this.getSelectedCity(address);
 
     if (this.planForm.controls["zoom_link"] && zoom_link) {
@@ -1825,15 +1910,27 @@ export class PlanEditComponent {
     }
     if (this.eventType) {
       this.plan.event_type_id = this.eventType;
-      this.plan.event_category_id = this.eventCategory;
-      if (this.eventSubcategory) {
-        this.plan.event_subcategory_id = this.eventSubcategory;
-        if (this.subcategories) {
-          this.subcategories.forEach((sc) => {
-            if (sc.id == this.eventSubcategory) {
-              this.plan.privacy = sc.private == 1 ? 1 : 0;
+      this.plan.event_category_id = this.eventCategory?.length > 0 ? this.eventCategory[0].id : 0;
+      this.plan.event_subcategory_id = this.eventSubcategory?.length > 0 ? this.eventSubcategory[0].id : 0;
+      this.plan.netcultura = this.netcultura ? 1 : 0;
+      if(this.subcategories?.length > 0 && this.eventSubcategory?.length > 0) {
+        this.subcategories.forEach((sc) => {
+          if (sc.id == this.eventSubcategory[0].id) {
+            this.plan.privacy = sc.private == 1 ? 1 : 0;
+          }
+        });
+      }
+
+      this.plan.kcn_event_category_id = this.eventCategory
+      if(this.eventSubcategory?.length > 0) {
+        this.plan.kcn_event_subcategory_id = this.eventSubcategory || ''
+        if(this.subcategories) {
+          this.subcategories.forEach(sc => {
+            let match = this.eventSubcategory.some(a => a.id === sc.id)
+            if(match) {
+              this.plan.privacy = sc.private == 1 ? 1 : 0
             }
-          });
+          })
         }
       }
 

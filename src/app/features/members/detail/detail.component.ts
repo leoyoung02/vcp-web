@@ -767,8 +767,6 @@ export class MemberDetailComponent {
           }
         }
       })
-
-      console.log(this.moreFieldValues)
     }
   }
 

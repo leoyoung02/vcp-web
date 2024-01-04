@@ -72,6 +72,7 @@ export class UserMenuComponent {
   @Input() creditPackages: any;
   @Input() hasCredits: any;
   @Input() campus: any;
+  @Input() isNetculturaUser: any;
   @Output() changeLanguage = new EventEmitter();
 
   companyName: any;
