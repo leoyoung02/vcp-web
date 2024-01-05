@@ -133,6 +133,12 @@ export class LandingPageTemplateComponent {
   section3QuestionCTATextColor: any;
   landingPage: any;
   bannerImageName: any;
+  activateSection1RedirectionLink: boolean = false;
+  section1CTALink:any;
+  activateSection2RedirectionLink: boolean = false;
+  section2CTALink:any;
+  activateSection3RedirectionLink: boolean = false;
+  section3CTALink:any;
 
   pondFiles = [];
   @ViewChild('myPond', {static: false}) myPond: any;
@@ -360,6 +366,12 @@ export class LandingPageTemplateComponent {
     this.section3QuestionCTAText = this.landingPage?.details?.section3_cta_text || '';
     this.section3QuestionCTAColor = this.landingPage?.details?.section3_cta_color || '';
     this.section3QuestionCTATextColor = this.landingPage?.details?.section3_cta_text_color || '';
+    this.activateSection1RedirectionLink = this.landingPage?.details?.section1_cta_redirect == 1 ? true: false;
+    this.section1CTALink = this.landingPage?.details?.section1_cta_redirect_value || ''
+    this.activateSection2RedirectionLink = this.landingPage?.details?.section2_cta_redirect == 1 ? true: false;
+    this.section2CTALink = this.landingPage?.details?.section2_cta_redirect_value || ''
+    this.activateSection3RedirectionLink = this.landingPage?.details?.section3_cta_redirect == 1 ? true: false;
+    this.section3CTALink = this.landingPage?.details?.section3_cta_redirect_value || ''
   }
 
   redirectToCTALink(mode) {
@@ -378,6 +390,13 @@ export class LandingPageTemplateComponent {
   }
 
   save() {
+
+    if((this.activateSection1RedirectionLink && !this.section1CTALink)
+    || (this.activateSection2RedirectionLink && !this.section2CTALink) 
+    || (this.activateSection3RedirectionLink && !this.section3CTALink)){
+      return false;
+    }
+
     let params = {
       company_id: this.companyId,
       landing_page_template_id: this.id,
@@ -405,6 +424,12 @@ export class LandingPageTemplateComponent {
       section3_cta_color: this.section3QuestionCTAColor,
       section3_cta_text_color: this.section3QuestionCTATextColor,
       created_by: this.userId,
+      section1_cta_redirect: this.activateSection1RedirectionLink ? 1 : 0,
+      section1_cta_redirect_value: this.section1CTALink,
+      section2_cta_redirect: this.activateSection2RedirectionLink ? 1 : 0,
+      section2_cta_redirect_value: this.section2CTALink,
+      section3_cta_redirect: this.activateSection3RedirectionLink ? 1 : 0,
+      section3_cta_redirect_value: this.section3CTALink 
     };
 
     this._companyService.editLeadsLandingPageDetails(this.id, params).subscribe(

@@ -76,6 +76,12 @@ export class TikTokLandingBoxedComponent {
   @Input() country: any;
   @Input() city: any;
   @Input() ipAddress: any;
+  @Input() section1_cta_redirect: any;
+  @Input() section1_cta_redirect_value: any;
+  @Input() section2_cta_redirect: any;
+  @Input() section2_cta_redirect_value:any;
+  @Input() section3_cta_redirect: any;
+  @Input() section3_cta_redirect_value:any; 
 
   constructor(
     private _router: Router,
@@ -141,6 +147,35 @@ export class TikTokLandingBoxedComponent {
   }
 
   redirectToCTALink(mode) {
+    switch(mode) {
+      case 'section1':
+        if(this.section1_cta_redirect){
+          window.location.href = this.section1_cta_redirect_value;
+        }else{
+          this.redirectToDefaultCTALink();
+        }
+        break
+      case 'section2':
+        if(this.section2_cta_redirect){
+          window.location.href = this.section2_cta_redirect_value;
+        }else{
+          this.redirectToDefaultCTALink();
+        }
+        break;
+      case 'section3':
+        if(this.section3_cta_redirect){
+          window.location.href = this.section3_cta_redirect_value;
+        }else{
+          this.redirectToDefaultCTALink();
+        }
+        break;
+      default:
+        this.redirectToDefaultCTALink();
+        break;
+    }
+  }
+
+  redirectToDefaultCTALink(){
     // this._router.navigate([`/tiktok/questions/${this.slug}`]);
     let question_id = this.defaultQuestionId;
     if(this.country) {
