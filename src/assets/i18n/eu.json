@@ -62,7 +62,9 @@
         "welcometitle2": "zaitugu",
         "welcomedesc": "Aukera akademikoen mundu bat zure zain dago.",
         "learnmore": "Gehiago ikasi",
-        "visitinstagram": "Bisitatu gure instagram"
+        "visitinstagram": "Bisitatu gure instagram", 
+        "privacysettings": "Pribatutasun ezarpenak",
+        "menusettings": "Menuen ezarpenak"
     },
     "user-popup": {
         "myplans": "Nire planak",

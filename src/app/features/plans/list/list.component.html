@@ -109,3 +109,6 @@
 <div *ngIf="filteredPlan?.length > 0" class="text-center">
     <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
 </div>
+<div *ngIf="!isloading && filteredPlan?.length == 0" class="text-center">
+    {{'club-details.noevents' | translate}}
+</div>

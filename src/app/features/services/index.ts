@@ -9,3 +9,4 @@ export * from './offers/offers.service';
 export * from './servicios/servicios.service';
 export * from './blogs/blogs.service';
 export * from './wall/wall.service';
+export * from './startups/startups.service';

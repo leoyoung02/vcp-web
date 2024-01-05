@@ -62,7 +62,9 @@
         "welcometitle2": "al",
         "welcomedesc": "Un mundo de oportunidades académicas te espera.",
         "learnmore": "Conoce más",
-        "visitinstagram": "Visita nuestro instagram"
+        "visitinstagram": "Visita nuestro instagram", 
+        "privacysettings": "Configuración de privacidad",
+        "menusettings": "Configuración del menú"
     },
     "user-popup": {
         "myplans": "Mis planes",

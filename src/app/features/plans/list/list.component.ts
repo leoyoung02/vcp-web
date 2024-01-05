@@ -697,6 +697,7 @@ export class PlansListComponent {
           this.planSubcategoriesMapping =
             data?.category_mappings?.plan_subcategories_mapping || [];
           this.formatPlans(data?.plan_participants);
+          this.isloading = false;
         },
         (error) => {
           console.log(error);

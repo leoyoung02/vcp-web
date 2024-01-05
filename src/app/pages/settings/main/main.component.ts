@@ -709,26 +709,38 @@ export class MainComponent {
     this.mainMenuItems = [
       {
         icon: "./assets/images/new-design/icons/General.png",
-        text: this._translateService.instant("company-settings.general"),
+        text: this._translateService.instant("customer.setup"),
         value: "Others",
         submenus: [
-          {
-            text: this._translateService.instant(
-              "company-settings.personalsettings"
-            ),
-            value: "Personal settings",
-          },
-          {
-            text: this._translateService.instant(
-              "company-settings.companydetails"
-            ),
-            value: "Company details",
-          },
           {
             text: this._translateService.instant(
               "company-settings.customizedesign"
             ),
             value: "Customize design",
+          },
+          {
+            text: this._translateService.instant("company-settings.modules"),
+            value: "Features",
+          },
+          {
+            text: this._translateService.instant("landing.privacysettings"),
+            value: "Personal settings",
+          },
+          {
+            text: this._translateService.instant(
+              "landing.menusettings"
+            ),
+            value: "Company details",
+          },
+          {
+            text: this._translateService.instant(
+              "company-settings.personalizehometemplate"
+            ),
+            value: "Customize home screen",
+          },
+          {
+            text: "Stripe",
+            value: "Stripe",
           },
         ],
       },
@@ -740,6 +752,18 @@ export class MainComponent {
           {
             text: this._translateService.instant("company-settings.members"),
             value: "Users",
+          },
+          {
+            text: this._translateService.instant(
+              "company-settings.registration"
+            ),
+            value: "Registration",
+          },
+          {
+            text: this._translateService.instant(
+              "company-settings.membertypes"
+            ),
+            value: "MemberTypes",
           },
           // {
           //   text: this._translateService.instant("guests.guests"),
@@ -776,44 +800,38 @@ export class MainComponent {
           },
         ],
       },
-      {
-        icon: "./assets/images/new-design/icons/Personalization.png",
-        text: this._translateService.instant(
-          "company-settings.personalization"
-        ),
-        value: "Personalization",
-        submenus: [
-          {
-            text: this._translateService.instant("company-settings.modules"),
-            value: "Features",
-          },
-        ],
-      },
-      {
-        icon: "./assets/images/new-design/icons/Channels.png",
-        text: this._translateService.instant("company-settings.adminaccess"),
-        value: "AdminAccess",
-        submenus: [
-          {
-            text: this._translateService.instant(
-              "company-settings.personalizehometemplate"
-            ),
-            value: "Customize home screen",
-          },
-          {
-            text: this._translateService.instant(
-              "company-settings.registration"
-            ),
-            value: "Registration",
-          },
-          {
-            text: this._translateService.instant(
-              "company-settings.membertypes"
-            ),
-            value: "MemberTypes",
-          },
-        ],
-      },
+      // {
+      //   icon: "./assets/images/new-design/icons/Personalization.png",
+      //   text: this._translateService.instant(
+      //     "company-settings.personalization"
+      //   ),
+      //   value: "Personalization",
+      //   submenus: [
+      //     {
+      //       text: this._translateService.instant("company-settings.modules"),
+      //       value: "Features",
+      //     },
+      //   ],
+      // },
+      // {
+      //   icon: "./assets/images/new-design/icons/Channels.png",
+      //   text: this._translateService.instant("company-settings.adminaccess"),
+      //   value: "AdminAccess",
+      //   submenus: [
+      //     {
+      //       text: this._translateService.instant(
+      //         "company-settings.registration"
+      //       ),
+      //       value: "Registration",
+      //     },
+      //     {
+      //       text: this._translateService.instant(
+      //         "company-settings.membertypes"
+      //       ),
+      //       value: "MemberTypes",
+      //     },
+      //   ],
+      // },
       {
         icon: "./assets/images/new-design/icons/Channels.png",
         text: this._translateService.instant("company-settings.tools"),
@@ -866,17 +884,17 @@ export class MainComponent {
         value: "ManagementSection",
         submenus: [],
       },
-      {
-        icon: "./assets/images/new-design/icons/Channels.png",
-        text: this._translateService.instant("company-settings.invoice"),
-        value: "Invoices",
-        submenus: [
-          {
-            text: "Stripe",
-            value: "Stripe",
-          },
-        ],
-      },
+      // {
+      //   icon: "./assets/images/new-design/icons/Channels.png",
+      //   text: this._translateService.instant("company-settings.invoice"),
+      //   value: "Invoices",
+      //   submenus: [
+      //     {
+      //       text: "Stripe",
+      //       value: "Stripe",
+      //     },
+      //   ],
+      // },
     ];
   }
 
@@ -1044,7 +1062,7 @@ export class MainComponent {
           }
         }
         if(mi.value == 'Invoices') {
-          if(this.companyId != 52 && this.companyId != 32) {
+          if(this.companyId != 52 && this.companyId != 32 && this.companyId != 12) {
             let invoices_match = mi.submenus && mi.submenus.some((a) => a.value === "Invoices");
             if (!invoices_match) {
               mi.submenus.push({

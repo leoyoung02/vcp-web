@@ -622,3 +622,6 @@ export const COMMUNITY_CHANNELS_URL = `${API_BASE}/v2/channels`;
 export const ADD_COMMUNITY_CHANNEL_URL = `${API_BASE}/v2/channel/add`;
 export const EDIT_COMMUNITY_CHANNEL_URL = `${API_BASE}/v2/channel/edit`;
 export const DELETE_COMMUNITY_CHANNEL_URL = `${API_BASE}/v2/channel/delete`;
+
+// STARTUPS
+export const STARTUPS_URL = `${API_BASE}/v2/startups`;
