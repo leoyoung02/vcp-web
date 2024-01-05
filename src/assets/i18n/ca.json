@@ -3361,7 +3361,10 @@
         "activateheaderimage": "Activa la imatge de la capçalera (a sota del títol)",
         "otherimages": "Altres imatges",
         "activateimagesbefosubmitbutton": "Activa les imatges abans del botó d'enviar",
-        "uploadimages": "Penja 1 o més imatges"
+        "uploadimages": "Penja 1 o més imatges",
+        "redirectcustomlink": "Redirigeix a l'enllaç CTA",
+        "ctaLinkLabel": "Enllaç CTA",
+        "ctaLinkPlaceholder": "Introduïu l'enllaç CTA"
     },
     "credits": {
         "automatedemail": "Activa el correu electrònic automatitzat de l'historial de cedits",

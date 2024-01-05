@@ -378,6 +378,42 @@
                             </div>
                         </div>
                     </div>
+                    <div class="border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 mb-4">
+                        <div class="flex items-center justify-between relative pt-4">
+                            <div class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{'leads.redirectcustomlink' | translate}}
+                            </div>
+                            <label for="setting-1-2" class="flex items-center justify-between cursor-pointer">
+                                <div class="relative mr-1">
+                                    <input id="setting-1-2" name="setting-1-2" type="checkbox" class="sr-only"
+                                        [(ngModel)]="activateSection1RedirectionLink" [ngModelOptions]="{standalone: true}" />
+                                    <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                    <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="activateSection1RedirectionLink">
+                    <div class="border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 mb-4">
+                        <div class="flex items-center justify-center relative">
+                            <div class="w-full max-w-full">
+                                <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{'leads.ctaLinkLabel' | translate}}
+                                </label>
+                                <div class="flex">
+                                    <input 
+                                        type="text" 
+                                        class="mr-8 text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                        [(ngModel)]="section1CTALink"
+                                        [ngClass]="section1CTALink ? 'border-gray-200' : 'border-red-600'"
+                                        [ngModelOptions]="{standalone: true}"
+                                        placeholder="{{ 'leads.ctaLinkPlaceholder' | translate }}*" 
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </ng-container>
             </div>
             <div (click)="expandOption('section2')" 
@@ -564,6 +600,42 @@
                             </div>
                         </div>
                     </div>
+                    <div class="border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 mb-4">
+                        <div class="flex items-center justify-between relative pt-4">
+                            <div class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{'leads.redirectcustomlink' | translate}}
+                            </div>
+                            <label for="setting-2-2" class="flex items-center justify-between cursor-pointer">
+                                <div class="relative mr-1">
+                                    <input id="setting-2-2" name="setting-2-2" type="checkbox" class="sr-only"
+                                        [(ngModel)]="activateSection2RedirectionLink" [ngModelOptions]="{standalone: true}" />
+                                    <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                    <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="activateSection2RedirectionLink">
+                    <div class="border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 mb-4">
+                        <div class="flex items-center justify-center relative">
+                            <div class="w-full max-w-full">
+                                <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{'leads.ctaLinkLabel' | translate}}
+                                </label>
+                                <div class="flex">
+                                    <input 
+                                        type="text" 
+                                        class="mr-8 text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                        [(ngModel)]="section2CTALink"
+                                        [ngClass]="section2CTALink ? 'border-gray-200' : 'border-red-600'"
+                                        [ngModelOptions]="{standalone: true}"
+                                        placeholder="{{ 'leads.ctaLinkPlaceholder' | translate }}*" 
+                                        required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </ng-container>
             </div>
             <div (click)="expandOption('section3')" 
@@ -746,6 +818,42 @@
                                         (cpSliderDragEnd)="onSection3CTATextEventLog('cpSliderDragEnd', $event)" 
                                         style="box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.15);width:40px;height:40px;margin-top:3px;border-radius:20px !important;"
                                     />        
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 mb-4">
+                        <div class="flex items-center justify-between relative pt-4">
+                            <div class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{'leads.redirectcustomlink' | translate}}
+                            </div>
+                            <label for="setting-3-2" class="flex items-center justify-between cursor-pointer">
+                                <div class="relative mr-1">
+                                    <input id="setting-3-2" name="setting-3-2" type="checkbox" class="sr-only"
+                                        [(ngModel)]="activateSection3RedirectionLink" [ngModelOptions]="{standalone: true}" />
+                                    <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                    <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="activateSection3RedirectionLink">
+                    <div class="border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 mb-4">
+                        <div class="flex items-center justify-center relative">
+                            <div class="w-full max-w-full">
+                                <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{'leads.ctaLinkLabel' | translate}}
+                                </label>
+                                <div class="flex">
+                                    <input 
+                                        type="text" 
+                                        class="mr-8 text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                        [(ngModel)]="section3CTALink"
+                                        [ngClass]="section3CTALink ? 'border-gray-200' : 'border-red-600'"
+                                        [ngModelOptions]="{standalone: true}"
+                                        placeholder="{{ 'leads.ctaLinkPlaceholder' | translate }}*" 
+                                        required>
                                 </div>
                             </div>
                         </div>

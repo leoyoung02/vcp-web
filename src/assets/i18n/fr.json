@@ -3346,7 +3346,11 @@
         "activateheaderimage": "Activer l'image d'en-tête (sous le titre)",
         "otherimages": "Autres images",
         "activateimagesbefosubmitbutton": "Activer les images avant de soumettre le bouton",
-        "uploadimages": "Télécharger 1 ou plusieurs images"
+        "uploadimages": "Télécharger 1 ou plusieurs images",
+        "redirectcustomlink": "Redirection vers le lien CTA",
+        "ctaLinkLabel": "Lien CTA",
+        "ctaLinkPlaceholder": "Entrez le lien CTA"
+        
     },
     "credits": {
         "automatedemail": "Activer l'email automatisé de l'historique des crédits",

@@ -89,6 +89,12 @@ export class TikTokLandingComponent {
   country: any;
   city: any;
   ipAddress: any;
+  section1_cta_redirect: boolean = false;
+  section1_cta_redirect_value: any;
+  section2_cta_redirect: boolean = false;
+  section2_cta_redirect_value:any;
+  section3_cta_redirect: boolean = false;
+  section3_cta_redirect_value:any  
 
   constructor(
     private _router: Router,
@@ -208,6 +214,12 @@ export class TikTokLandingComponent {
     this.outsideSpainQuestionId = this.landingPage?.outside_spain_question_id;
     this.latamQuestionId = this.landingPage?.latam_question_id;
     this.isLoading = false;
+    this.section1_cta_redirect = this.landingPage?.section1_cta_redirect;
+    this.section1_cta_redirect_value = this.landingPage?.section1_cta_redirect_value;
+    this.section2_cta_redirect = this.landingPage?.section2_cta_redirect;
+    this.section2_cta_redirect_value = this.landingPage?.section2_cta_redirect_value
+    this.section3_cta_redirect = this.landingPage?.section3_cta_redirect;
+    this.section3_cta_redirect_value = this.landingPage?.section3_cta_redirect_value  
   }
 
   redirectToCTALink(mode) {
