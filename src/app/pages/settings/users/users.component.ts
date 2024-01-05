@@ -335,6 +335,8 @@ export class ManageUsersComponent {
   createdUserId: any;
   currentUser: any;
   selectedOperation: any;
+  netculturaUsersList: any = [];
+  netculturaPeople: any = [];
 
   constructor(
     private _router: Router,
@@ -593,37 +595,39 @@ export class ManageUsersComponent {
   }
 
   initializeIconFilterList(list) {
-    this.citiesList = [
-      {
-        id: "All",
-        value: "",
-        text: this._translateService.instant("plans.all"),
-        selected: true,
-        company_id: this.companyId,
-        city: "",
-        province: "",
-        region: "",
-        country: "",
-        sequence: "",
-        campus: "",
-      },
-    ];
+    if(list?.length > 0) {
+      this.citiesList = [
+        {
+          id: "All",
+          value: "",
+          text: this._translateService.instant("plans.all"),
+          selected: true,
+          company_id: this.companyId,
+          city: "",
+          province: "",
+          region: "",
+          country: "",
+          sequence: "",
+          campus: "",
+        },
+      ];
 
-    list?.forEach((item) => {
-      this.citiesList.push({
-        id: item.id,
-        value: item.id,
-        text: item.city,
-        selected: false,
-        company_id: item.company_id,
-        city: item.city,
-        province: item.province,
-        region: item.region,
-        country: item.country,
-        sequence: item.sequence,
-        campus: item.campus,
+      list?.forEach((item) => {
+        this.citiesList.push({
+          id: item.id,
+          value: item.id,
+          text: item.city,
+          selected: false,
+          company_id: item.company_id,
+          city: item.city,
+          province: item.province,
+          region: item.region,
+          country: item.country,
+          sequence: item.sequence,
+          campus: item.campus,
+        });
       });
-    });
+    }
   }
 
   async getCustomMemberTypes(member_types) {
@@ -1016,6 +1020,7 @@ export class ManageUsersComponent {
 
         if (this.companyId == 12) {
           this.getInvitedByPeople();
+          this.getNetculturaUsers();
         }
 
         if(this.searchKeyword) {
@@ -1061,6 +1066,43 @@ export class ManageUsersComponent {
         this.isloading = false;
       }
     );
+  }
+
+  getNetculturaUsers() {
+    this._userService.netculturaUsersList()
+      .subscribe(
+        response => {
+          this.netculturaUsersList = response.people
+          if(this.members) {
+            this.members.forEach(m => {
+              let match = this.netculturaPeople.some(a => a.name === m.name);
+              if(!match) {
+                let spmatch = this.netculturaUsersList && this.netculturaUsersList.some(a => a.id === m.id)
+                if(spmatch) {
+                  if(m.user_role == 'Member') {
+                    m.user_role = 'Netcultura'
+                  }
+                }
+                this.netculturaPeople.push(m)
+              }
+            });
+          }
+          this.netculturaPeople = this.netculturaPeople.sort((a, b) => {
+            if (a.name < b.name) {
+                return -1
+            }
+      
+            if (a.name > b.name) {
+                return 1
+            }
+      
+            return 0
+          })
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
   changeCustomMemberTypeRoleFilter(event) {
@@ -2171,6 +2213,16 @@ export class ManageUsersComponent {
   }
 
   initializeMemberRoles() {
+    if(this.companyId == 12) {
+      this.memberRoles.push({
+        id: 1,
+        role: "Miembro",
+      });
+      this.memberRoles.push({
+        id: 2,
+        role: "Admin 1",
+      });
+    }
     if (this.hasCRM) {
       this.memberRoles.push({
         id: 5,
@@ -2194,6 +2246,10 @@ export class ManageUsersComponent {
         id: 99,
         role: "Admin Grupos temáticos",
       });
+      this.memberRoles.push({
+        id: 102,
+        role: 'Netcultura'
+      })
     }
   }
 

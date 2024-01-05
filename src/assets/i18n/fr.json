@@ -62,7 +62,9 @@
         "welcometitle2": "la bienvenue",
         "welcomedesc": "Un monde d'opportunités académiques vous attend.",
         "learnmore": "En savoir plus",
-        "visitinstagram": "Visitez notre Instagram"
+        "visitinstagram": "Visitez notre Instagram", 
+        "privacysettings": "Paramètres de confidentialité",
+        "menusettings": "Paramètres du menu"
     },
     "user-popup": {
         "myplans": "Mes projets",

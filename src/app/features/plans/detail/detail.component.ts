@@ -172,7 +172,7 @@ export class PlanDetailComponent {
   garThematicMember: any;
   garMember: boolean = false;
   thematicMember: boolean = false;
-  showJoinButton: boolean = true;
+  showJoinButton: boolean = false;
   eventDescription: any = "";
 
   hasTypeOfActivity: boolean = false;
@@ -293,6 +293,7 @@ export class PlanDetailComponent {
   addCommentHover: boolean = false;
   addCalendarHover: boolean = false;
   isUESchoolOfLife: boolean = false;
+  planCategoryMapping: any = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -329,6 +330,7 @@ export class PlanDetailComponent {
     this.companyId = this._localService.getLocalStorage(
       environment.lscompanyId
     );
+    if(this.companyId != 12) { this.showJoinButton = true; }
     this.today = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
@@ -396,7 +398,6 @@ export class PlanDetailComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.plansData = data;
           this.initializePage();
         },
@@ -415,6 +416,7 @@ export class PlanDetailComponent {
     this.types = data?.types;
     this.categories = data?.plan_categories;
     this.subcategories = data?.plan_subcategories;
+    this.planCategoryMapping = data?.plan_category_mapping;
     this.formatPlan(
       data?.plan,
       data?.user_permissions?.user,
@@ -422,6 +424,43 @@ export class PlanDetailComponent {
     );
     this.getTitles();
     this.initializeBreadcrumb();
+    if(this.companyId == 12) {
+      this.getNetculturaUsers();
+    }
+  }
+
+  getNetculturaUsers() {
+    this._userService.netculturaUsersList()
+      .subscribe(
+        response => {
+          this.showJoinButton = true;
+          let netculturaUsers = response['people']
+          let match = netculturaUsers?.some(a => a.id == this.userId)
+          if(match && this.plan?.event_category_id != 4) {
+              if(this.planCategoryMapping?.length > 0) {
+                  let plan_category_mapping = this.planCategoryMapping.filter(plan => {
+                      return plan.group_plan_id == this.id
+                  })
+                  if(plan_category_mapping?.length > 0) {
+                      let categories = this.categories?.filter(category => {
+                          return plan_category_mapping?.some(a => a.plan_category_id === category.id && a.plan_category_id == 4)
+                      })
+                      if(categories?.length > 0) {
+                      } else {
+                          this.showJoinButton = false
+                      }
+                  } else {
+                      this.showJoinButton = false
+                  }
+              } else {
+                  this.showJoinButton = false
+              }
+          }
+        },
+        error => {
+            console.log(error)
+        }
+      )
   }
 
   mapFeatures(features) {
@@ -1778,7 +1817,7 @@ export class PlanDetailComponent {
                 this.invitationLink =
                   "https://" +
                   window.location.host +
-                  "/" +
+                  "/event/" +
                   this.plan.slug +
                   "/" +
                   alias;

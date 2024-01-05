@@ -169,6 +169,7 @@ export class LayoutMainComponent {
   user: any;
   campus: any = '';
   refreshedMenu: boolean = false;
+  isNetculturaUser: boolean = false;
 
   constructor(
     private _router: Router,
@@ -308,6 +309,23 @@ export class LayoutMainComponent {
     if (this.userId) {
       this.checkAdmin();
     }
+
+    if(this.companyId == 12) {
+      this.getNetculturaUsers();
+    }
+  }
+
+  getNetculturaUsers() {
+    this._userService.netculturaUsersList()
+      .subscribe(
+        response => {
+          let netculturaUsers = response['people']
+          this.isNetculturaUser = netculturaUsers?.some(a => a.id == this.userId)
+        },
+        error => {
+            console.log(error)
+        }
+      )
   }
 
   getSettings() {

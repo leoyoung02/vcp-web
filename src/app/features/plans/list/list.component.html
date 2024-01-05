@@ -86,7 +86,7 @@
         >
         </app-plans-calendar>
     </div>
-    <ng-container *ngFor="let plan of filteredPlan | paginate: {itemsPerPage: 8, currentPage: p}">
+    <ng-container *ngFor="let plan of filteredPlan | paginate: {itemsPerPage: 9, currentPage: p}">
         <app-plan-card
             [image]="apiPath + plan.path + plan.image"
             [title]="getEventTitle(plan)"
@@ -108,4 +108,7 @@
 </div>
 <div *ngIf="filteredPlan?.length > 0" class="text-center">
     <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
+</div>
+<div *ngIf="!isloading && filteredPlan?.length == 0" class="text-center">
+    {{'club-details.noevents' | translate}}
 </div>

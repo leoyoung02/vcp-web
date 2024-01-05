@@ -62,7 +62,9 @@
         "welcometitle2": "a la",
         "welcomedesc": "Un món d'oportunitats acadèmiques us espera.",
         "learnmore": "Coneix més",
-        "visitinstagram": "Visita el nostre instagram"
+        "visitinstagram": "Visita el nostre instagram", 
+        "privacysettings": "Configuració de privadesa",
+        "menusettings": "Configuració del menú"
     },
     "user-popup": {
         "myplans": "Els meus plans",

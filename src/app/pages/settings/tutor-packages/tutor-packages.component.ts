@@ -222,7 +222,6 @@ export class ManageTutorPackagesComponent {
       .subscribe(
         data => {
           this.packages = data?.packages;
-          console.log(this.packages)
           this.allPackages = this.packages;
           this.refreshTable(this.packages);
           this.isloading = false

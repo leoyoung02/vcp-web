@@ -206,9 +206,13 @@ export const RESEND_INVOICE_URL = `${API_BASE}/member-invoice/resend`;
 export const AS_CUSTOMER_PORTAL_URL = `${API_BASE}/company/as-service/customer/portal/create`;
 export const CUSTOMER_PORTAL_URL = `${API_BASE}/company/customer/portal/create`;
 export const CANCEL_MEMBERSHIP_URL = `${API_BASE}/user/member-type/cancel`;
+export const NETCULTURA_USERS_URL = `${API_BASE}/company/netcultura/users/list`;
 
 export const MANAGE_USERS_DATA_URL = `${API_BASE}/v2/manage-users-data`;
 export const INVOICES_DATA_URL = `${API_BASE}/v2/invoices-data`;
+export const INVITATIONS_DATA_URL = `${API_BASE}/v2/invitations-data`;
+export const CRM_DATA_URL = `${API_BASE}/v2/crm-data`;
+export const CRM_ASSIGNED_GUESTS_DATA_URL = `${API_BASE}/v2/crm-assigned-guests-data`;
 
 // NOTIFICATIONS
 export const ACCEPT_CLUB_NOTIFICATION_URL = `${API_BASE}/company-approve-join-group`;
@@ -301,6 +305,9 @@ export const EDIT_GUEST_REGISTRATION_FIELDS_URL = `${API_BASE}/company/guest-reg
 export const DELETE_GUEST_REGISTRATION_FIELDS_URL = `${API_BASE}/company/guest-registration/fields/delete`;
 export const CHECKOUT_PLAN_DETAILS_URL = `${API_BASE}/guest/plans`;
 export const PLAN_PAYMENT_URL = `${API_BASE}/company/activity/subscribe/stripe`;
+export const SALES_PEOPLE_URL = `${API_BASE}/company/group-management/sales-people`;
+export const ASSIGN_SALES_PERSON_URL = `${API_BASE}/company/guest/sales-person/assign`;
+export const CATEGORY_EVENTS_URL = `${API_BASE}/guest/category/list`;
 
 export const PLANS_URL = `${API_BASE}/v2/plans`;
 export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;
@@ -615,3 +622,6 @@ export const COMMUNITY_CHANNELS_URL = `${API_BASE}/v2/channels`;
 export const ADD_COMMUNITY_CHANNEL_URL = `${API_BASE}/v2/channel/add`;
 export const EDIT_COMMUNITY_CHANNEL_URL = `${API_BASE}/v2/channel/edit`;
 export const DELETE_COMMUNITY_CHANNEL_URL = `${API_BASE}/v2/channel/delete`;
+
+// STARTUPS
+export const STARTUPS_URL = `${API_BASE}/v2/startups`;

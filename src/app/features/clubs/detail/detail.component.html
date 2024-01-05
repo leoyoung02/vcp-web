@@ -115,8 +115,10 @@
                         {{ 'club-details.asktojoin' | translate }}
                     </button>
                     <button
-                        *ngIf="user && !pendingRejected && (((companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16) && !groupOwner && !joinedMember && !group.private) || 
-                            ((companyId == 12 || companyId == 14) && isNotGroupArea && !groupOwner && !joinedMember && !group.private))"
+                        *ngIf="user && !pendingRejected && (
+                            ((companyId != 12 && companyId != 15) && !groupOwner && !joinedMember && !group.private) || 
+                            (companyId == 12 && isNotGroupArea && !groupOwner && !joinedMember && !group.private)
+                        )"
                         class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold" 
                         [ngStyle]="{
                             'background-color': buttonColor,
@@ -173,7 +175,7 @@
                             <ng-container *ngFor="let member of limitMembers; let i = index">
                                 <img
                                     *ngIf="member?.image"
-                                    class="rounded-full" 
+                                    class="rounded-full max-w-[55px] max-h-[55px] object-cover object-top" 
                                     [ngClass]="{'-ml-6': i > 0}"
                                     width="55"
                                     height="55"

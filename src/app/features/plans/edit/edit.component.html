@@ -126,7 +126,7 @@
                         <ngx-mat-datetime-picker #picker1></ngx-mat-datetime-picker>
                     </mat-form-field>
                 </div>
-                <ng-container *ngIf="types && types?.length > 0">
+                <ng-container *ngIf="types?.length > 0">
                     <div class="flex items-center justify-center relative">
                         <select
                             id="event-type"
@@ -136,7 +136,7 @@
                             [ngModelOptions]="{standalone: true}"
                             (change)="changeEventType($event)"
                         >
-                            <option value="" disabled selected>{{ 'club-create.selectcity' | translate }}</option>
+                            <option value="" disabled selected>{{ 'plan-create.selecteventtype' | translate }}</option>
                             <option
                                 *ngFor="let type of types"
                                 [value]="type.id"
@@ -146,39 +146,26 @@
                         </select>
                     </div>
                     <div class="flex items-center justify-center relative">
-                        <select
-                            id="event-category"
-                            class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && !eventCategory }"
+                        <ng-multiselect-dropdown
+                            placeholder="{{ 'plan-create.selecteventcategory' | translate }}"
+                            [settings]="eventCategoryDropdownSettings"
+                            [data]="categories"
                             [(ngModel)]="eventCategory"
                             [ngModelOptions]="{standalone: true}"
-                            (change)="changeEventCategory($event)"
+                            (onSelect)="changeEventCategory($event)"
                         >
-                            <option value="" disabled selected>{{ 'plan-create.selecteventcategory' | translate }}*</option>
-                            <option
-                                *ngFor="let category of categories"
-                                [value]="category.id"
-                            >
-                                {{ language == 'en' ? (companyId == 17 && category.name_en == 'Coworking' ? 'Ponencias' : category.name_en) : (companyId == 17 && category.name_en == 'Coworking' ? 'Ponencias' : category.name_es) }}
-                            </option>
-                        </select>
+                        </ng-multiselect-dropdown>
                     </div>
                     <div class="flex items-center justify-center relative">
-                        <select
-                            id="event-subcategory"
-                            class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        <ng-multiselect-dropdown
+                            placeholder="{{ 'plan-create.selecteventsubcategory' | translate }}"
+                            [settings]="eventSubcategoryDropdownSettings"
+                            [data]="subcats"
                             [(ngModel)]="eventSubcategory"
                             [ngModelOptions]="{standalone: true}"
-                            (change)="changeEventSubcategory($event)"
+                            (onSelect)="changeEventSubcategory($event)"
                         >
-                            <option value="" disabled selected>{{ 'plan-create.selecteventsubcategory' | translate }}</option>
-                            <option
-                                *ngFor="let category of subcats"
-                                [value]="category.id" 
-                            >
-                                {{ language == 'en' ? category.name_en : category.name_es }}
-                            </option>
-                        </select>
+                        </ng-multiselect-dropdown>
                     </div>
                 </ng-container>   
                 <div class="flex items-center justify-center relative" *ngIf="hasTypeOfActivity">

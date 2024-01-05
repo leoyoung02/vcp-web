@@ -38,5 +38,17 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'company-settings.invoices'},
         loadComponent: async () => (await import('./invoices-list/invoices-list.component')).InvoicesListComponent,
+    },
+    {
+        path: 'invites',
+        title: CustomTitleResolver,
+        data: { titleKey: 'your-events.invites'},
+        loadComponent: async () => (await import('./invites/invites.component')).InvitesComponent,
+    },
+    {
+        path: 'crm',
+        title: CustomTitleResolver,
+        data: { titleKey: 'CRM'},
+        loadComponent: async () => (await import('./crm/crm.component')).CRMComponent,
     }
 ];

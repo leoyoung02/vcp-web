@@ -164,7 +164,6 @@ export class InvoicesListComponent {
     this._companyService.fetchInvoicesData(this.companyId, this.userId)
       .subscribe(
         data => {
-          console.log(data)
           this.user = data?.user;
           this.mapUserPermissions(data?.user_permissions);
           this.initData(data);
@@ -216,7 +215,6 @@ export class InvoicesListComponent {
         return invoice?.user?.id == this.userId
       })
     }
-    console.log(this.invoices)
     this.invoices = this.invoices?.map((item) => {
       return {
         base: item?.amount > 0 ? item?.base : '0.00',

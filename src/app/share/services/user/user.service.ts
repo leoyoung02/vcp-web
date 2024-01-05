@@ -74,6 +74,10 @@ import {
     CUSTOMER_PORTAL_URL,
     AS_CUSTOMER_PORTAL_URL,
     CANCEL_MEMBERSHIP_URL,
+    NETCULTURA_USERS_URL,
+    INVITATIONS_DATA_URL,
+    CRM_DATA_URL,
+    CRM_ASSIGNED_GUESTS_DATA_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
@@ -594,5 +598,29 @@ export class UserService {
       registration_field_mapping,
       profile_field_mapping
     ]);
+  }
+
+  netculturaUsersList(): Observable<any> {
+    return this._http.get(NETCULTURA_USERS_URL,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  fetchInvitationsData(id, userId): Observable<any> {
+    return this._http.get(`${INVITATIONS_DATA_URL}/${id}/${userId}`,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  fetchCRMData(id, userId): Observable<any> {
+    return this._http.get(`${CRM_DATA_URL}/${id}/${userId}`,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  fetchCRMAssignedGuestsData(id, userId): Observable<any> {
+    return this._http.get(`${CRM_ASSIGNED_GUESTS_DATA_URL}/${id}/${userId}`,
+        { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

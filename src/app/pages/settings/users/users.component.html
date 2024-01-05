@@ -50,6 +50,7 @@
                 </div>
                 <div class="px-5 ml-2">
                     <app-icon-filter 
+                        *ngIf="citiesList?.length > 0"
                         [mode]="'tutors'"
                         [list]="citiesList"
                         (filterList)="filterCity($event)"

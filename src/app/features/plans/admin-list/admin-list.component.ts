@@ -1,10 +1,10 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, HostListener, Input, SimpleChange, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, SimpleChange, ViewChild } from '@angular/core';
 import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CompanyService, ExcelService, LocalService } from '@share/services';
 import { Subject, takeUntil } from 'rxjs';
-import { IconFilterComponent } from '@share/components';
+import { FilterComponent, IconFilterComponent } from '@share/components';
 import { SearchComponent } from '@share/components/search/search.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -13,6 +13,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlansService } from '@features/services';
 import moment from "moment";
+import { FormsModule } from '@angular/forms';
 
 @Component({
     selector: 'app-plans-admin-list',
@@ -24,8 +25,10 @@ import moment from "moment";
         MatPaginatorModule,
         MatSortModule,
         MatSnackBarModule,
+        FormsModule,
         SearchComponent,
         IconFilterComponent,
+        FilterComponent,
         NgOptimizedImage
     ],
     templateUrl: './admin-list.component.html',
@@ -62,6 +65,22 @@ export class PlansAdminListComponent {
     allPlansData: any[] = [];
     selectedCity: any;
     allPlanDrafts: any = [];
+    buttonList: any = [];
+    categories: any = [];
+    isLoading: boolean = false;
+    selectedFilterCategory: any = '';
+    assignEventId: any;
+    assignParticipantId: any;
+    assignParticipantName: any;
+    selectedSalesPerson: any = '';
+    kcnSalesperson: any = [];
+    @ViewChild("modalbutton", { static: false }) modalbutton: ElementRef<HTMLInputElement> = {} as ElementRef;
+    @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+      | ElementRef
+      | undefined;
+    dialogMode: string = '';
+    salesPeople: any = [];
+    isSalesPerson: boolean = false;
 
     constructor(
         private _route: ActivatedRoute,
@@ -98,12 +117,33 @@ export class PlansAdminListComponent {
           }
         );
     
+        this.isLoading = true;
         this.initializePage();
     }
 
     initializePage() {
-        this.fetchPlansManagementData();
-        this.initializeSearch();
+      this.fetchPlansManagementData();
+      this.initializeSearch();
+      if(this.company?.id == 12) {
+        this.guestSalesPersonList();
+      }
+    }
+
+    guestSalesPersonList() {
+      this._plansService.salesPeople(this.company?.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(data => {
+        this.salesPeople = data.people;
+        if(this.salesPeople) {
+          this.salesPeople.forEach(sp => {
+            if(sp.id == this.userId) {
+              this.isSalesPerson = true
+            }
+          });
+        }
+      }, err => {
+        console.log(err);
+      });
     }
 
     fetchPlansManagementData() {
@@ -112,9 +152,13 @@ export class PlansAdminListComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {
-                this.planParticipants = data?.plan_participants || [];
-                this.allPlanDrafts = data?.plan_drafts || [];
-                this.formatPlans(data?.plans || []);
+              this.planParticipants = data?.plan_participants || [];
+              this.allPlanDrafts = data?.plan_drafts || [];
+              this.categories = data?.plan_categories;
+              this.formatPlans(data?.plans || []);
+              if(this.company?.id == 12) {
+                this.initializeButtonGroup();
+              }
             },
             (error) => {
               console.log(error);
@@ -127,13 +171,86 @@ export class PlansAdminListComponent {
         this.placeholderText = this._translateService.instant("news.searchbykeyword");
     }
 
+    initializeButtonGroup() {
+     if(this.categories?.length > 0) {
+      this.buttonList = [
+        {
+          id: "All",
+          value: "All",
+          text: this._translateService.instant("plans.all"),
+          selected: true,
+          fk_company_id: this.company?.id,
+          fk_supercategory_id: "All",
+          name_CA: "All",
+          name_DE: "All",
+          name_EN: "All",
+          name_ES: "All",
+          name_EU: "All",
+          name_FR: "All",
+          sequence: 1,
+          status: 1,
+        },
+      ];
+  
+      this.categories?.forEach((category) => {
+        this.buttonList.push({
+          id: category?.fk_supercategory_id || category?.id,
+          value: category.fk_supercategory_id || category?.id,
+          text: this.getCategoryTitle(category),
+          selected: false,
+          fk_company_id: category.fk_company_id,
+          fk_supercategory_id: category?.fk_supercategory_id || category?.id,
+          name_CA: category.name_CA || category?.name_ca,
+          name_DE: category.name_DE || category?.name_de,
+          name_EN: category.name_EN || category.name_en,
+          name_ES: category.name_ES || category.name_es,
+          name_EU: category.name_EU || category.name_eu,
+          name_FR: category.name_FR || category.name_fr,
+          sequence: category.sequence,
+          status: category.status,
+        });
+      });
+     }
+    }
+
+    getCategoryTitle(category) {
+      return this.language == "en"
+        ? category.name_EN || category.name_en
+        : this.language == "fr"
+        ? category.name_FR || category.name_fr
+        : this.language == "eu"
+        ? category.name_EU ||
+          category.name_eu ||
+          category.name_ES ||
+          category.name_es
+        : this.language == "ca"
+        ? category.name_CA ||
+          category.name_ca ||
+          category.name_ES ||
+          category.name_es
+        : this.language == "de"
+        ? category.name_DE ||
+          category.name_de ||
+          category.name_ES ||
+          category.name_es
+        : category.name_ES || category.name_es;
+    }
+
     formatPlans(plans) {
         let data 
         if(plans?.length > 0) {
             data = plans?.map(plan => {
-                let participants = this.planParticipants?.filter(pp => {
+                let filtered_participants = this.planParticipants?.filter(pp => {
                     return pp.id == plan.id
                 })
+
+                let participants = filtered_participants?.map(participant => {
+                  return {
+                    ...participant,
+                    role: this.getParticipantRole(participant)
+                  }
+                })
+
                 return {
                     ...plan,
                     participants,
@@ -147,92 +264,137 @@ export class PlansAdminListComponent {
         this.loadPlans(data);
     }
 
+    getParticipantRole(participant) {
+      let memberType = participant.role
+  
+      if(this.company?.id == 12) {
+        if(participant.role == 'Member') {
+          memberType = this._translateService.instant('plan-details.member');
+        } else if(participant.role == 'Guest') {
+          memberType = this._translateService.instant('plan-details.guest');
+        }
+      }
+      
+      return memberType
+    }
+
     handleSearch(event) {
         this.searchKeyword = event;
         this.loadPlans(this.allPlansData);
     }
 
     loadPlans(data) {
-        if(this.status == 'draft') {
-            this.plansData = this.allPlanDrafts
-        } else {
-            this.plansData = data?.filter(activity => {
-                let plan_date = moment(activity.plan_date).format("YYYY-MM-DD");
-                var day = this.date.getDate();
-                var day_number = (day < 10 ? '0' : '') + day;
-                var month_number = ((this.date.getMonth() + 1) < 10 ? '0' : '') + (this.date.getMonth() + 1);
-                let date = this.date.getFullYear() + "-" + month_number + "-" + day_number;
-          
-                let active;
-                if(activity.type == 2) {
-                  let today = moment(new Date()).utcOffset('+0100').format('YYYY-MM-DD HH:mm:ss');
-                  let endDateReached = true;
-                  if(activity.end_date) {
-                      if(activity.end_date > activity.plan_date) {
-                          if(activity.end_date >= today.replace(" ", "T") + '.000Z') {
-                              endDateReached = false;
-                          }
+      if(this.status == 'draft') {
+          this.plansData = this.allPlanDrafts
+      } else {
+          this.plansData = data?.filter(activity => {
+            let plan_date = moment(activity.plan_date).format("YYYY-MM-DD");
+            var day = this.date.getDate();
+            var day_number = (day < 10 ? '0' : '') + day;
+            var month_number = ((this.date.getMonth() + 1) < 10 ? '0' : '') + (this.date.getMonth() + 1);
+            let date = this.date.getFullYear() + "-" + month_number + "-" + day_number;
+      
+            let active;
+            if(activity.type == 2) {
+              let today = moment(new Date()).utcOffset('+0100').format('YYYY-MM-DD HH:mm:ss');
+              let endDateReached = true;
+              if(activity.end_date) {
+                  if(activity.end_date > activity.plan_date) {
+                      if(activity.end_date >= today.replace(" ", "T") + '.000Z') {
+                          endDateReached = false;
                       }
                   }
-          
-                  let include = false;
-                  if(activity.id == 0) {
-                      include = true;
-                  } else if(!endDateReached) {
-                      include = true;
-                  } else if(!activity.end_date && activity.plan_date >= today.replace(" ", "T") + '.000Z' ) {
-                      include = true;
-                  }
-          
-                  if(!activity.plan_date) {
-                    include = true;
-                  } 
-                  
-                  if(this.status == 'active') {
-                    active = include;
-                  } else {
-                    active = !include;
-                  }
+              }
+      
+              let include = false;
+              if(activity.id == 0) {
+                  include = true;
+              } else if(!endDateReached) {
+                  include = true;
+              } else if(!activity.end_date && activity.plan_date >= today.replace(" ", "T") + '.000Z' ) {
+                  include = true;
+              }
+      
+              if(!activity.plan_date) {
+                include = true;
+              } 
+              
+              if(this.status == 'active') {
+                active = include;
+              } else {
+                active = !include;
+              }
+            } else {
+              let include = false;
+              if(!activity.plan_date) {
+                include = true;
+              }
+      
+              if(this.status == 'active') {
+                if(plan_date != 'Invalid date') {
+                  active = plan_date >= date;
                 } else {
-                  let include = false;
-                  if(!activity.plan_date) {
-                    include = true;
-                  }
-          
-                  if(this.status == 'active') {
-                    if(plan_date != 'Invalid date') {
-                      active = plan_date >= date;
-                    } else {
-                      active = include;
-                    }
-                  } else {
-                    if(plan_date != 'Invalid date') {
-                      active = plan_date < date;
-                    } else {
-                      active = !include;
-                    }
-                  }
+                  active = include;
                 }
-                
-                
-                return active
-            })
-        }
-        
+              } else {
+                if(plan_date != 'Invalid date') {
+                  active = plan_date < date;
+                } else {
+                  active = !include;
+                }
+              }
+            }
+            
+            
+            return active
+          })
+      }
+      
+      if(this.status == 'salesprocess') {
+        this.plansData = this.plansData?.map(plan => {
+          let filtered_participants = this.planParticipants?.filter(pp => {
+            return pp.id == plan.id && pp.attended == 1 && pp.clear_attended != 1 && pp.role == 'Guest'
+          })
 
-        if(this.searchKeyword && this.plansData) {
-            this.plansData = this.plansData.filter(p => {
-              return p.title && p.title.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0 
-            })
-        }
+          let participants = filtered_participants?.map(participant => {
+            return {
+              ...participant,
+              role: this.getParticipantRole(participant)
+            }
+          })
 
-        if(this.selectedCity) {
-            this.plansData = this.plansData.filter(p => {
-                return p.address && p.address.toLowerCase().indexOf(this.selectedCity.toLowerCase()) >= 0 
-            })
-        }
+          return {
+            ...plan,
+            participants
+          }
+        })
 
-        this.refreshTable(this.plansData);
+        if(this.plansData?.length > 0) {
+          this.plansData = this.plansData?.filter(plan => {
+            return plan?.participants?.length > 0
+          })
+        }
+      }
+
+      if(this.searchKeyword && this.plansData) {
+          this.plansData = this.plansData.filter(p => {
+            return p.title && p.title.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0 
+          })
+      }
+
+      if(this.selectedCity) {
+          this.plansData = this.plansData.filter(p => {
+              return p.address && p.address.toLowerCase().indexOf(this.selectedCity.toLowerCase()) >= 0 
+          })
+      }
+
+      if(this.selectedFilterCategory?.id > 0) {
+        this.plansData = this.plansData?.filter(p => {
+          return p?.event_category_id == this.selectedFilterCategory?.id
+        })
+      }
+
+      this.refreshTable(this.plansData);
     }
 
     refreshTable(list) {
@@ -252,6 +414,8 @@ export class PlansAdminListComponent {
                 this.paginator?.firstPage()
             });
         }
+
+        this.isLoading = false;
     }
 
     getPageDetails(event: any) {
@@ -334,6 +498,7 @@ export class PlansAdminListComponent {
                 this.planParticipants[index].clear_attended = 0;
               }
             })
+            this.formatPlans(this.allPlansData);
             this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
@@ -348,6 +513,7 @@ export class PlansAdminListComponent {
                 this.planParticipants[index].clear_attended = 0;
               }
             })
+            this.formatPlans(this.allPlansData);
             this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
@@ -372,6 +538,7 @@ export class PlansAdminListComponent {
                   this.planParticipants[index].clear_attended = 1;
               }
             })
+            this.formatPlans(this.allPlansData);
             this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
@@ -386,6 +553,7 @@ export class PlansAdminListComponent {
                   this.planParticipants[index].clear_attended = 1;
               }
             })
+            this.formatPlans(this.allPlansData);
             this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
@@ -409,6 +577,7 @@ export class PlansAdminListComponent {
                   this.planParticipants[index].clear_confirmed = 0;
               }
             })
+            this.formatPlans(this.allPlansData);
             this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
@@ -423,6 +592,7 @@ export class PlansAdminListComponent {
                   this.planParticipants[index].clear_confirmed = 0;
               }
             })
+            this.formatPlans(this.allPlansData);
             this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
@@ -446,6 +616,7 @@ export class PlansAdminListComponent {
                   this.planParticipants[index].clear_confirmed = 1;
               }
             })
+            this.formatPlans(this.allPlansData);
             this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
@@ -460,6 +631,7 @@ export class PlansAdminListComponent {
                   this.planParticipants[index].clear_confirmed = 1;
               }
             })
+            this.formatPlans(this.allPlansData);
             this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           }, err => {
             console.log('err: ', err);
@@ -553,6 +725,97 @@ export class PlansAdminListComponent {
     
         this._excelService.exportAsExcelFile(event_data, 'event-' + event.id);
         this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+    }
+
+    filteredCity(event) { 
+    }
+
+    filteredCategory(category) {
+      this.buttonList?.forEach((item) => {
+        if (item.id === category.id) {
+          item.selected = true;
+        } else {
+          item.selected = false;
+        }
+      });
+  
+      if (category) {
+        this.selectedFilterCategory = category;
+        this.loadPlans(this.allPlansData);
+      }
+    }
+
+    assignSalesPerson(participant) {
+      if(this.kcnSalesperson) {
+        let sales_person = this.kcnSalesperson.filter(sp => {
+          return sp.name
+        })
+        if(sales_person) {
+          let spn: any[] = [];
+          sales_person.forEach(sp => {
+            let match = spn.some((a: any) => a.name === sp.name); 
+            if(!match) {
+              spn.push(sp);
+            }
+          });
+          this.kcnSalesperson = spn;
+        }
+      }
+      this.assignEventId = participant.id;
+      this.assignParticipantId = participant.fk_user_id;
+      this.assignParticipantName = (participant.first_name ? participant.first_name : '') + ' ' + (participant.last_name ? participant.last_name : '');
+      if(participant.assigned_sales_person_id > 0) {
+        this.selectedSalesPerson = participant.assigned_sales_person_id;
+      } else {
+        this.selectedSalesPerson = '';
+      }
+
+      this.dialogMode = 'assign-sales-person';
+      this.modalbutton?.nativeElement.click();
+    }
+
+    assignSales() {
+      let params = {
+        'plan_id': this.assignEventId,
+        'user_id': this.assignParticipantId,
+        'assigned_sales_person_id': this.selectedSalesPerson,
+        'action_user_id': this.userId,
+        'action_id': 5, // Assign Sales Person 
+      }
+  
+      this._plansService.assignGuestToSalesPerson(
+        params
+      )
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        response => {
+          // update local array
+          if(this.planParticipants) {
+            this.planParticipants.forEach((p, index) => {
+              if(p.fk_user_id == this.assignParticipantId && p.id == this.assignEventId) {
+                if(this.salesPeople) {
+                  this.salesPeople.forEach(sp => {
+                    if(sp.id == this.selectedSalesPerson) {
+                      this.planParticipants[index].assigned_sales_person = sp.name;
+                    }
+                  });
+                }
+              }
+            });
+          }
+          setTimeout(() => {
+            this.formatPlans(this.allPlansData);
+            this.closemodalbutton?.nativeElement.click();
+          }, 500)
+        },
+        error => {
+            console.log(error);
+        }
+      );
+    }
+
+    changeSalesPerson(event) {
+
     }
 
     ngOnDestroy() {
