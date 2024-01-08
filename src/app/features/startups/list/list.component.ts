@@ -155,7 +155,6 @@ export class StartupsListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures );
           this.mapUserPermissions(data?.user_permissions);
@@ -254,40 +253,26 @@ export class StartupsListComponent {
     return startups;
   }
 
-  getOfferTitle(offer) {
-    return offer ? (this.language == 'en' ? (offer.title_en || offer.title) : (this.language == 'fr' ? (offer.title_fr || offer.title) : 
-        (this.language == 'eu' ? (offer.title_eu || offer.title) : (this.language == 'ca' ? (offer.title_ca || offer.title) : 
-        (this.language == 'de' ? (offer.title_de || offer.title) : offer.title)
-      ))
-    )) : ''
-  }
-
   handleSearchChanged(event) {
     this.search = event || "";
-    this.filterOffers();
+    this.filterStartups();
   }
 
-  filterOffers() {
+  filterStartups() {
     let startups = this.allStartups
     if (this.search) {
-      startups = startups.filter(offer => {
+      startups = startups.filter(startup => {
         let include = false;
 
         if (
-          (offer?.title && ((offer?.title).normalize("NFD").replace(/\p{Diacritic}/gu, "")).toLowerCase().indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-          || (offer?.title_EN && ((offer?.title_EN.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-          || (offer?.title_FR && ((offer?.title_FR.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-          || (offer?.title_EU && ((offer?.title_EU.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-          || (offer?.title_CA && ((offer?.title_CA.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-          || (offer?.title_DE && ((offer?.title_DE.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-          || (offer?.description && ((offer?.description.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-          || (offer?.description_EN && ((offer?.description_EN.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-          || (offer?.description_FR && ((offer?.description_FR.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-          || (offer?.description_EU && ((offer?.description_EU.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-          || (offer?.description_CA && ((offer?.description_CA.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-          || (offer?.description_DE && ((offer?.description_DE.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-          || (offer?.discountCode && ((offer?.discountCode.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+          (startup?.startup_name && ((startup?.startup_name).normalize("NFD").replace(/\p{Diacritic}/gu, "")).toLowerCase().indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+          || (startup?.city && ((startup?.city.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
           ) {
+          include = true
+        }
+
+        let match = startup?.sectors?.some((a) => a?.category?.normalize("NFD").replace(/\p{Diacritic}/gu, "").toLowerCase().indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0);
+        if(match) {
           include = true
         }
 
@@ -295,15 +280,7 @@ export class StartupsListComponent {
       })
     }
 
-    this.formatStartups(startups);
-  }
-
-  handleCreateRoute() {
-    this._router.navigate([`/discounts/create/0`]);
-  }
-
-  toggleCreateHover(event) {
-    this.createHover = event;
+    this.startups = this.formatStartups(startups);
   }
 
   async open(message: string, action: string) {

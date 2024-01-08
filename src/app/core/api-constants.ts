@@ -625,3 +625,4 @@ export const DELETE_COMMUNITY_CHANNEL_URL = `${API_BASE}/v2/channel/delete`;
 
 // STARTUPS
 export const STARTUPS_URL = `${API_BASE}/v2/startups`;
+export const STARTUP_DETAILS_URL = `${API_BASE}/v2/startup-details`;

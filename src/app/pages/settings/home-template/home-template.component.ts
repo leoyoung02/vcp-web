@@ -550,7 +550,7 @@ export class HomeTemplateSettingComponent {
     params = {
         id: 2,
         company_id: this.companyId,
-        status: event ? 1 : 0,
+        status: event?.target?.checked ? 1 : 0,
         module: module,
         profile_content: this.hasProfileHomeContent ? this.profileHomeContent : '',
         custom_member_type_id: custom_member_type_id,

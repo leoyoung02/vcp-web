@@ -924,7 +924,7 @@ export class PlanDetailComponent {
       }
     }
 
-    if (this.plan.end_date) {
+    if (this.plan?.end_date) {
       this.endDate = moment
         .utc(this.plan.end_date)
         .locale(this.language)
@@ -941,6 +941,13 @@ export class PlanDetailComponent {
     this.planParticipants = plan?.plan_participants;
     this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
     if (this.plan?.event_category_id > 0) {
+      if(this.categories?.length > 0) {
+        this.categories.forEach(category => {
+          if(category.id == this.plan.event_category_id) {
+            this.eventCategory = this.language == 'en' ? category.name_en : (this.language == 'fr' ? category.name_fr : category.name_es);
+          }
+        })
+      }
       this.getCategoryLabel()
     } else {
       let categories1 = plan?.categories_mapping;

@@ -13,6 +13,7 @@ import {
   TranslateService,
 } from "@ngx-translate/core";
 import { LocalService } from "@share/services";
+import { PlanCardComponent } from "../card/plan/plan.component";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
 import moment from "moment";
@@ -29,7 +30,8 @@ import "moment/locale/de";
     CommonModule,
     RouterModule,
     TranslateModule,
-    NgOptimizedImage
+    NgOptimizedImage,
+    PlanCardComponent,
   ],
   templateUrl: "./masonry-section1.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -240,6 +242,10 @@ export class MasonrySection1Component {
         ? this.featuredTextValueDe || this.featuredTextValue
         : this.featuredTextValue
       : this.featuredTextValue;
+  }
+
+  handleDetailsClickRoute(event) {
+    console.log(event)
   }
 
   ngOnDestroy() {

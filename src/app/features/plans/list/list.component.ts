@@ -188,6 +188,7 @@ export class PlansListComponent {
   userInfo: any;
   campus: any = '';
   kcnPlanCategoryMapping: any = [];
+  selectedType: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -284,6 +285,13 @@ export class PlansListComponent {
         this.newURLButtonTextValueDe = company[0].new_url_button_text_de;
         this.newURLButtonUrl = company[0].new_url_button_url;
         this.getSchoolOfLifeTitle();
+      }
+    }
+
+    if(this.companyId == 12) {
+      let selected_type = localStorage.getItem('plan-filter-type');
+      if(!selected_type) {
+        localStorage.setItem('plan-filter-type', '1');
       }
     }
 
@@ -719,7 +727,7 @@ export class PlansListComponent {
     }
 
     let today = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
-    this.filteredPlan = this.plans.filter((plan) => {
+    let filteredPlan = this.plans.filter((plan) => {
       let endDateReached = false;
       if (plan?.limit_date && plan?.limit_date < today) {
         endDateReached = true;
@@ -741,17 +749,84 @@ export class PlansListComponent {
       return include;
     });
 
-    let selected = localStorage.getItem('plan-filter-city');
-    if(selected && this.list?.length > 0) {
-      this.list.forEach(item => {
-        if(item.city == selected) {
-          item.selected = true;
-          this.selectedCity = selected;
-        } else {
-          item.selected = false;
-        }
-      })
-      this.searchPlans("new");
+    if(this.companyId == 12) {
+      let selected = localStorage.getItem('plan-filter-city');
+      let selected_type = localStorage.getItem('plan-filter-type');
+  
+      if(!selected && !selected_type) {
+        this.filteredPlan = filteredPlan;
+      } else {
+        setTimeout(() => {      
+          if(selected && this.list?.length > 0) {
+            this.list.forEach(item => {
+              if(item.city == selected) {
+                item.selected = true;
+                this.selectedCity = selected;
+              } else {
+                item.selected = false;
+              }
+            })
+          }
+    
+          if(selected_type) {
+            if(this.buttonList?.length > 0) {
+              this.buttonList.forEach(item => {
+                if(item.id == selected_type) {
+                  item.selected = true;
+                  this.fType = item.name_ES;
+                  this.selectedType = item.name_ES;
+                  this.selectedFilterCategory = item;
+                } else {
+                  item.selected = false;
+                }
+              })
+            } else {
+              let categories = this.types?.length > 0 ? this.categories : this.categoryList;
+              if(categories?.length > 0) {
+                let item = categories?.filter(row => {
+                  return row.id == selected_type
+                })
+                console.log('item')
+                console.log(item)
+                if(item?.length > 0) {
+                  this.fType = item[0].name_ES || item[0].name_es;
+                  this.selectedType = item[0].name_ES || item[0].name_es;
+                  this.selectedFilterCategory = item;
+                }
+              }
+            }
+          }
+    
+          if(!this.selectedCity && !this.selectedFilterCategory) {
+          } else {
+            if(this.selectedCity && !this.selectedFilterCategory) {
+              this.searchPlans("new");
+            } else {
+              if(this.selectedFilterCategory) {
+                this.filterPlans(
+                  this.selectedFilterCategory?.fk_supercategory_id,
+                  this.selectedFilterCategory?.name_EN,
+                  this.selectedFilterCategory?.name_ES
+                );
+              }
+            }
+          }
+        }, 200)
+      }
+    } else {
+      this.filteredPlan = filteredPlan;
+      let selected = localStorage.getItem('plan-filter-city');
+      if(selected && this.list?.length > 0) {
+        this.list.forEach(item => {
+          if(item.city == selected) {
+            item.selected = true;
+            this.selectedCity = selected;
+          } else {
+            item.selected = false;
+          }
+        })
+        this.searchPlans('new');
+      }
     }
   }
 
@@ -1595,6 +1670,7 @@ export class PlansListComponent {
 
     if (category) {
       this.selectedFilterCategory = category;
+      if(this.companyId == 12) { localStorage.setItem('plan-filter-type', category?.id); }
       this.filterPlans(
         category.fk_supercategory_id,
         category.name_EN,

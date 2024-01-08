@@ -1849,7 +1849,8 @@ export class SettingComponent {
   }
 
   goToHomeSettings() {
-    this._router.navigate([`/settings/home-template`])
+    // this._router.navigate([`/settings/home-template`])
+    location.href = `/settings/home-template`
   }
 
   gotoManageStripeAccounts() {

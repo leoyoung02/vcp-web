@@ -58,6 +58,20 @@ export class FilterComponent {
           })
         }
       }
+
+      let selected_type = this.mode == 'plans' ? localStorage.getItem('plan-filter-type') : '';
+      this.isActiveFilter = selected_type ? true : false;
+      if(selected_type && this.mode == 'plans') {
+        if(this.buttonList?.length > 0) {
+          this.buttonList.forEach(item => {
+            if(item.id == selected_type) {
+              item.selected = true;
+            } else {
+              item.selected = false;
+            }
+          })
+        }
+      }
     }
 
     showFilter() {
