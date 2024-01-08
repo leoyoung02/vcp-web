@@ -413,6 +413,16 @@ export class CourseEditComponent {
   filteredTutors: any;
   unitAvailability: boolean = false;
   unitAvailabilityDate: any;
+  allowCourseAccess: boolean = false;
+  campusList=[]
+  selectedCampus:any;
+  facultyList=[]  
+  selectedFaculty:any;
+  businessUnitList= [];  
+  selectedBusinessUnit:any;  
+  dropdownList: any;
+  selectedItems :any;
+  additionalPropertiesDropdownSettings = {};
 
   constructor(
     private _route: ActivatedRoute,
@@ -471,10 +481,21 @@ export class CourseEditComponent {
           this.initializePage();
         }
       );
-
+      
+    this.additionalPropertiesDropdownSettings = {
+        singleSelection: false,
+        idField: 'id',
+        textField: 'value',
+        selectAllText: 'Select All',
+        unSelectAllText: 'UnSelect All',
+        itemsShowLimit: 3,
+        allowSearchFilter: true,
+      };
     this.initializePage();
-  }
+    this.fetchAddtionalProperties()
 
+  }
+ 
   initializePage() {
     this.courseForm = new FormGroup({
       'title': new FormControl('', [Validators.required]),
@@ -641,7 +662,9 @@ export class CourseEditComponent {
     ]
     this.startButtonColor = this.buttonColor
     this.buyNowButtonColor = this.buttonColor
+
     this.fetchCourseData();
+   
   }
 
   fetchCourseData() {
@@ -660,6 +683,37 @@ export class CourseEditComponent {
           this.otherStripeAccounts = data?.other_stripe_accounts;
           this.getOtherSettings(data?.settings?.other_settings, data?.member_types);
           this.getCourseWalls();
+          if(data?.course_additonal_properties_access){
+            this.allowCourseAccess = data?.course_additonal_properties_access
+            this.selectedCampus = data?.course_addtional_properties.map(category=>{
+              if(category.type === "campus"){
+                return {
+                  id:category.id,
+                  value:category.value
+                }
+              }
+            }).filter(category=>category !== undefined)
+
+            this.selectedFaculty = data?.course_addtional_properties.map(category=>{
+              if(category.type === "faculty"){
+                return {
+                  id:category.id,
+                  value:category.value
+                }
+              }
+            }).filter(category=>category !== undefined)
+
+
+            this.selectedBusinessUnit = data?.course_addtional_properties.map(category=>{
+              if(category.type === "bussines_unit"){
+                return {
+                  id:category.id,
+                  value:category.value
+                }
+              }
+            }).filter(category=>category !== undefined)
+          }
+         
           if(this.id > 0) {
             this.fetchCourse(data)
           } else {
@@ -670,6 +724,64 @@ export class CourseEditComponent {
           console.log(error);
         }
       );
+  }
+
+  fetchAddtionalProperties() {
+    this._coursesService
+      .fetchAddtionalPropertiesAdmin(this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          const {campus,faculty,bussines_unit} = data.data
+          this.campusList = campus
+          this.facultyList = faculty
+          this.businessUnitList = bussines_unit
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  onItemSelect(item: any,key:string) {
+    switch (key) {
+      case 'campus':
+        const temp1:any = []
+        temp1.push(item)
+        this.selectedCampus = temp1
+        break;
+      case 'faculty':
+          const temp2:any = []
+          temp2.push(item)
+          this.selectedFaculty = temp2
+          break;
+      case 'bussines_unit':
+            const temp3:any = []
+            temp3.push(item)
+            this.selectedBusinessUnit = temp3
+            break;
+    
+      default:
+        break;
+    }
+  }
+  onSelectAll(items: any,key:string) {
+    switch (key) {
+      case 'campus':
+        this.selectedCampus = []
+        this.selectedCampus = items
+        break;
+      case 'faculty':
+          this.selectedFaculty = []
+          this.selectedFaculty = items
+          break;
+      case 'bussines_unit':
+            this.selectedBusinessUnit = []
+            this.selectedBusinessUnit = items
+            break;
+      default:
+        break;
+    }
   }
 
   mapFeatures(features) {
@@ -1375,6 +1487,14 @@ export class CourseEditComponent {
   }
 
   saveCourse() {
+    let addtionalPropertiesIds;
+
+    if(this.allowCourseAccess){
+      const temp1 = this.selectedCampus?.map(category=>category.id) || []
+      const temp2 = this.selectedBusinessUnit?.map(category=>category.id) || []
+      const temp3 = this.selectedFaculty?.map(category=>category.id) || []
+      addtionalPropertiesIds = [...temp1,...temp2,...temp3]
+    }
     this.courseFormSubmitted = true
 
     let code = this.defaultLanguage[0].code == 'es' ? '' : ('_' + this.defaultLanguage[0].code);
@@ -1663,6 +1783,8 @@ export class CourseEditComponent {
       }
       params['course_credits'] = this.courseCredits || 0
     }
+    params['additonal_properties_course_access']= this.allowCourseAccess ? 1 : 0,
+    params['additional_properties_ids']= addtionalPropertiesIds.toString() || ""
 
     if (this.id > 0) {
       // Edit

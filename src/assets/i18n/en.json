@@ -970,7 +970,9 @@
         "embedorurl": "Embed or link",
         "showhotmartcourses": "Show Hotmart courses?",
         "hotmartcourse": "Hotmart course",
-        "assigntutorstocourses": "Course access"
+        "assigntutorstocourses": "Course access",
+        "allowAddtionalPropertiesAccess":"Course Access For Additional Properties"
+        
     },
     "course-details": {
         "goback": "Go back",
@@ -2734,7 +2736,10 @@
         "insufficientcredits": "Insufficient Credits",
         "updateCredits": "Do you want to update course credits for the user?",
         "credits": "Credits",
-        "creditsearned": "Credits earned"
+        "creditsearned": "Credits earned",
+        "selectCampus":"Select Campus",
+        "selectfaculty":"Select Faculty",
+        "selectBusinessUnit":"Select Business Unit"
     },
     "contact-landing": {
         "settings": "Settings",

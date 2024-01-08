@@ -966,7 +966,8 @@
         "blocked": "Bloqué",
         "startson": "Commence le",
         "embedorurl": "Intégrer ou lier",
-        "showhotmartcourses": "Afficher les cours Hotmart?"
+        "showhotmartcourses": "Afficher les cours Hotmart?",
+        "allowAddtionalPropertiesAccess":"Accès au cours pour des propriétés supplémentaires"
     }, 
     "course-details": {
         "goback": "Revenir en arrière",
@@ -2715,7 +2716,10 @@
         "insufficientcredits": "Crédits insuffisants",
         "updateCredits": "Voulez-vous mettre à jour les crédits de cours pour l'utilisateur ?",
         "credits": "Crédits",
-        "creditsearned": "Crédits gagnés"
+        "creditsearned": "Crédits gagnés",
+        "selectCampus":"Sélectionnez un campus",
+        "selectfaculty":"Sélectionnez la faculté",
+        "selectBusinessUnit":"Sélectionnez l'unité commerciale"
     },
     "contact-landing": {
         "settings": "Paramètres",

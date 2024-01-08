@@ -967,7 +967,8 @@
         "startson": "Hasten da",
         "embedorurl": "Txertatu edo estekatu",
         "showhotmartcourses": "Hotmart-eko ikastaroak erakutsi?",
-        "assigntutorstocourses": "Ikastarorako sarbidea"
+        "assigntutorstocourses": "Ikastarorako sarbidea",
+        "allowAddtionalPropertiesAccess":"Ikastarorako sarbidea propietate gehigarrietarako"
     }, 
     "course-details": {
         "goback": "Itzuli",
@@ -2721,7 +2722,10 @@
         "insufficientcredits": "Kreditu nahikorik ez",
         "updateCredits": "Erabiltzaileentzako ikastaro-kredituak eguneratu nahi dituzu?",
         "credits": "Kreditu",
-        "creditsearned": "Irabazitako kredituak"
+        "creditsearned": "Irabazitako kredituak",
+        "selectCampus":"Hautatu Campusa",
+        "selectfaculty":"Aukeratu Fakultatea",
+        "selectBusinessUnit":"Hautatu Negozio Unitatea"
     },
     "contact-landing": {
         "settings": "Ezarpenak",

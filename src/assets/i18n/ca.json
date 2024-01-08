@@ -968,7 +968,8 @@
         "startson": "Comença a",
         "embedorurl": "Embeure o enllaçar",
         "showhotmartcourses": "Mostrar els cursos de Hotmart?",
-        "assigntutorstocourses": "Accés al curs"
+        "assigntutorstocourses": "Accés al curs",
+        "allowAddtionalPropertiesAccess":"Accés al curs per a propietats addicionals"
     }, 
     "course-details": {
         "goback": "Torna",
@@ -2730,7 +2731,10 @@
         "insufficientcredits": "Crèdits insuficients",
         "updateCredits": "Vols actualitzar els crèdits del curs per a l'usuari?",
         "credits": "Crèdits",
-        "creditsearned": "Crèdits obtinguts"
+        "creditsearned": "Crèdits obtinguts",
+        "selectCampus":"Seleccioneu Campus",
+        "selectfaculty":"Seleccioneu Facultat",
+        "selectBusinessUnit":"Seleccioneu Unitat de negoci"
     },
     "contact-landing": {
         "settings": "Configuracions",
