@@ -8,4 +8,10 @@ export const routes: Routes = [
         data: { titleKey: 'startups.startups'},
         loadComponent: async () => (await import('./list/list.component')).StartupsListComponent,
     },
+    {
+        path: 'details/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'startups.startup'},
+        loadComponent: async () => (await import('./detail/detail.component')).StartupDetailComponent,
+    },
 ];

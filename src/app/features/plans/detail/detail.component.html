@@ -62,52 +62,42 @@
         </span>
     </button>
 </div>
-<div class="py-12">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-0 sm:gap-8 md:gap-8 lg:gap-8 py-8">
-        <div class="relative mr-0 sm:mr-0 md:mr-8 lg:mr-83">
-            <img 
-                *ngIf="plan?.image"
-                class="object-cover rounded-lg w-full max-w-full" 
-                [ngClass]="{'h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[698px] md:max-h-[698px] lg:h-[698px] lg:max-h-[698px]': !planExpandedDescription,
-                    'h-full max-h-full sm:h-auto sm:max-h-auto md:h-full md:max-h-full lg:h-full lg:max-h-full': planExpandedDescription
-                }"
-                [ngSrc]="apiPath + plan?.path + plan?.image" 
-                [alt]="getEventTitle(plan)" 
-                width="520" 
-                height="698"
-            >
-            <div class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
-            <div class="absolute inset-0 flex items-center justify-center">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="flex flex-col ml-4">
-                        <h2 class="text-white text-lg font-bold">{{ planTitle }}</h2>
-                    </div>
-                </div>
-                <div *ngIf="plan?.credits == 1" class="absolute inset-0 flex items-start justify-end pt-3 pr-4 text-sm text-white font-semibold">
-                    <div class="flex py-1.5 px-3 items-center rounded-lg" [ngStyle]="{'background-color': buttonColor}">
-                        <span class="text-xs text-white uppercase">{{ featuredTitle }}</span>
-                        <svg class="ml-2 w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1 .586-1.414Z"/>
-                        </svg>
-                    </div>
+<div class="my-10">
+    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row mb-24">
+        <div class="relative mr-0 sm:mr-0 md:mr-[58px] lg:mr-[58px]">
+            <div *ngIf="plan?.credits == 1" class="absolute top-2 right-2  flex items-start justify-end pt-3 pr-4 text-sm text-white font-semibold">
+                <div class="flex py-1.5 px-3 items-center rounded-lg" [ngStyle]="{'background-color': buttonColor}">
+                    <span class="text-xs text-white uppercase">{{ featuredTitle }}</span>
+                    <svg class="ml-2 w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1 .586-1.414Z"/>
+                    </svg>
                 </div>
             </div>
+            <img 
+                *ngIf="plan?.image"
+                class="rounded-[30px] object-cover object-top w-full max-w-full sm:w-full sm:max-w-full md:w-[540px] md:max-w-[540px] lg:w-[540px] lg:max-w-[540px] sm:h-auto md:h-[510px] lg:h-[510px] max-h-auto md:max-h-[510px] lg:max-h-[510px]"
+                [ngSrc]="apiPath + plan?.path + plan?.image" 
+                [alt]="getEventTitle(plan)" 
+                width="540" 
+                height="510"
+            >
+            <div *ngIf="plan.show_description" class="mt-8 flex flex-col w-full max-w-full sm:w-full sm:max-w-full md:w-[540px] md:max-w-[540px] lg:w-[540px] lg:max-w-[540px]">
+                <div [innerHtml]="planTruncatedDescription | safeContentHtml: 'html'"></div>
+                <ng-container *ngIf="planDescription?.length > truncate">
+                    <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
+                    <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="!planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="readMore()">{{ 'club-details.readmore' | translate }}</div>
+                </ng-container>
+            </div>
         </div>
-        <div class="w-full">
-            <div class="mt-4 w-full max-w-full">
-                <div class="flex flex-col">
-                    <div [innerHtml]="planTruncatedDescription | safeContentHtml: 'html'"></div>
-                    <ng-container *ngIf="planDescription?.length > truncate">
-                        <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
-                        <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="!planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="readMore()">{{ 'club-details.readmore' | translate }}</div>
-                    </ng-container>
-                </div>
-                <div class="flex flex-row justify-between my-12">
+        <div class="w-full mr-0 sm:mr-0 md:mr-[80px] lg:mr-[80px]">
+            <div class="w-full max-w-full">
+                <div class="text-3xl font-semibold">{{ planTitle }}</div>
+                <div class="flex flex-row flex-wrap items-center mt-2 mb-8">
                     <div class="flex">
                         <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
                         </svg>
-                        <div class="capitalize font-semibold">{{ planDay }}</div>
+                        <div class="capitalize font-semibold mr-8">{{ planDay }}</div>
                     </div>
                     <div class="flex">
                         <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -115,17 +105,15 @@
                         </svg>
                         <div class="capitalize font-semibold">{{ planTime }}</div>
                     </div>
-                    <div class="flex" *ngIf="plan?.meeting_point">
-                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
-                            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                              <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-                              <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
-                            </g>
-                        </svg>
-                        <div class="capitalize font-semibold">{{ plan?.meeting_point }}</div>
-                    </div>
+                    <ng-container *ngIf="showCanaryTime && plan?.hour_canary == 1">
+                        <img class="ml-8" width="40" height="40" src="./assets/icons/canary.png" />
+                        <span class="ml-2">
+                            <span class="capitalize font-semibold">{{ 'plan-details.canarytime' | translate }}:</span> 
+                            <span class="capitalize font-semibold ml-3">{{ planDateCanary }}</span>
+                        </span>
+                    </ng-container>
                 </div>
-                <div class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
+                <div *ngIf="planTitle" class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
                     <div *ngIf="showJoinButton && joinStatusChecked && !isExternalRegistration &&
                         (
                             (!joinedParticipant
@@ -247,8 +235,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row my-12 items-center">
-                    <ng-container  *ngIf="plan?.show_attendee && limitPlanParticipants?.length > 0">
+                <ng-container *ngIf="plan?.show_attendee && limitPlanParticipants?.length > 0">
+                    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row my-12 items-center">
                         <div class="mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0">
                             <div class="flex flex-wrap">
                                 <ng-container *ngFor="let member of limitPlanParticipants; let i = index">
@@ -262,10 +250,17 @@
                                 </ng-container>
                             </div>
                         </div>
-                        <div>{{ planParticipantCount }} {{ planParticipantCount > 1 ? ('plan-details.attendees' | translate) : ('plan-details.attendee' | translate) }}</div>
-                    </ng-container>
+                        <!-- <div>{{ planParticipantCount }} {{ planParticipantCount > 1 ? ('plan-details.attendees' | translate) : ('plan-details.attendee' | translate) }}</div> -->
+                        <div>{{ getSeatsLabel() }}</div>
+                    </div>
+                </ng-container>
+                <div class="flex my-4" [ngClass]="{'my-8': !(plan?.show_attendee && limitPlanParticipants?.length > 0)}" *ngIf="getCategoryLabel()">
+                    <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                        <path d="M15.045.007 9.31 0a1.965 1.965 0 0 0-1.4.585L.58 7.979a2 2 0 0 0 0 2.805l6.573 6.631a1.956 1.956 0 0 0 1.4.585 1.965 1.965 0 0 0 1.4-.585l7.409-7.477A2 2 0 0 0 18 8.479v-5.5A2.972 2.972 0 0 0 15.045.007Zm-2.452 6.438a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/>
+                    </svg>
+                    <div class="capitalize font-semibold">{{ getCategoryLabel() }}</div>
                 </div>
-                <div class="flex" *ngIf="getAddress(plan)">
+                <div class="flex my-4" *ngIf="getAddress(plan)">
                     <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
                         <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                           <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
@@ -297,12 +292,15 @@
             </div>
         </div>
     </div>
-    <div class="py-4" *ngIf="((userId && !showPastEvents) || (userId && showPastEvents && !isPastEvent)) && plan?.show_comments">
+    <div class="py-4" 
+        *ngIf="((userId && !showPastEvents) || (userId && showPastEvents && !isPastEvent)) && plan?.show_comments">
         <div class="container mb-4 flex items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3">
             <h1 class="text-lg font-semibold">{{ 'plan-details.comments' | translate }}</h1>
         </div>
-        <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row py-4">
-            <div class="mr-0 sm:mr-0 md:mr-8 lg:mr-8">
+        <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row py-4"
+            [ngClass]="{'w-full max-w-full md:w-6/12 lg:w-6/12': planComments?.length == 0}">
+            <div class="mr-0 sm:mr-0 md:mr-8 lg:mr-8" 
+                *ngIf="planComments?.length > 0">
                 <div class="w-full sm:w-full md:w-[540px] lg:w-[540px] max-w-full md:max-w-full lg:max-w-[540px]">
                     <div *ngFor="let comment of planComments" [ngClass]="{'ml-4 sm:ml-4 md:ml-20 lg:ml-20': comment?.parent_group_plan_comment_id > 0 || comment?.parent_plan_comment_id > 0}">
                         <div class="border border-gray-300 border-b-1 border-t-0 border-l-0 border-r-0 mb-8">
@@ -396,7 +394,9 @@
                     </div>
                 </div>
             </div>
-            <div class="w-full pl-0 sm:pl-0 md:pl-24 lg:pl-24" *ngIf="userId">
+            <div class="w-full" 
+                [ngClass]="{'pl-0 sm:pl-0 md:pl-24 lg:pl-24': planComments?.length > 0}" 
+                *ngIf="userId">
                 <textarea 
                     name="comment" 
                     id="comment" 

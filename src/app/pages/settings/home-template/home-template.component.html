@@ -107,12 +107,12 @@
                 </div>
                 <div class="flex items-center justify-between relative ml-4">
                     <label
-                        for="show-title"
+                        for="show-video"
                         class="flex items-center w-full justify-between cursor-pointer"
                     >
                         <div class="relative mr-1">
                             <input
-                                id="show-title"
+                                id="show-video"
                                 type="checkbox"
                                 class="sr-only"
                                 [(ngModel)]="showVideo"
@@ -126,42 +126,6 @@
                 </div>
             </div>
         </div>
-        <!-- <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4">
-            <div>
-                <div>{{ 'plans.show' | translate }} {{ courseTitle }}</div>
-            </div>
-            <div class="flex">
-                <div class="flex">
-                    <button
-                        *ngIf="hasProfileHomeContent"
-                        class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        (click)="updateCourseSettings('course')"
-                        [ngStyle]="{'background-color': buttonColor }"
-                    >
-                        {{ 'guest-landing.update' | translate }}
-                    </button>
-                </div>
-                <div class="flex items-center justify-between relative ml-4" *ngIf="!hasProfileHomeContent">
-                    <label
-                        for="show-title"
-                        class="flex items-center w-full justify-between cursor-pointer"
-                    >
-                        <div class="relative mr-1">
-                            <input
-                                id="show-title"
-                                type="checkbox"
-                                class="sr-only"
-                                [(ngModel)]="showVideo"
-                                [ngModelOptions]="{standalone: true}"
-                                (change)="toggleModuleStatus($event, 'video')"
-                            />
-                            <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-                            <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
-                        </div>
-                    </label>
-                </div>
-            </div>
-        </div> -->
     </div>
 </div>
 <button #modalbutton data-modal-target="item-modal" data-modal-toggle="item-modal" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">

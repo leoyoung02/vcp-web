@@ -1,162 +1,128 @@
 <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-6 lg:grid-cols-6 gap-4 justify-evenly relative"> 
-    <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 row-span-2 rounded-lg relative cursor-pointer" 
-        [routerLink]="[plan1Data?.path]" *ngIf="plan1Data?.id > 0">
-        <img class="object-cover w-full max-w-full h-full max-h-full rounded-lg" 
-            width="347" height="620" *ngIf="plan1Data?.image" [ngSrc]="plan1Data?.image" alt="">
-        <div class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
-        <div class="absolute inset-0 flex items-center justify-center">
-            <div class="absolute inset-0 flex items-center">
-                <div class="flex flex-col ml-4">
-                    <p class="text-white text-lg font-bold leading-6 pb-2">{{ plan1Data?.title }}</p>
-                    <div class="text-white text-sm flex align-center items-center capitalize">
-                        <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                        </svg>
-                        {{ plan1Data?.plan_date }}
-                    </div>
-                </div>
-            </div>
-            <div class="absolute inset-0 flex items-end justify-start pb-3 px-4 text-sm text-white font-semibold">
-                <span>{{ plan1Data?.address }}</span><span *ngIf="plan1Data?.address" class="px-3">•</span><span>{{ 'category.free' | translate }}</span>
-            </div>
-            <div *ngIf="plan1Data?.credits == 1" class="absolute inset-0 flex items-start justify-end pt-3 pr-4 text-sm text-white font-semibold">
-                <div class="flex py-1.5 px-3 items-center rounded-lg" [ngStyle]="{'background-color': buttonColor}">
-                    <span class="text-xs text-white uppercase">{{ plan1Data?.featured_title }}</span>
-                    <svg class="ml-2 w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1 .586-1.414Z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
+    <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 row-span-2 rounded-lg relative cursor-pointer" [routerLink]="[plan1Data?.path]" *ngIf="plan1Data?.id > 0">
+        <app-plan-card
+            [image]="plan1Data?.image"
+            [title]="plan1Data?.title"
+            [date]="plan1Data?.plan_date"
+            [id]="plan1Data?.id"
+            [planTypeId]="plan1Data?.plan_type_id"
+            [privacy]="plan1Data?.privacy"
+            [privateType]="plan1Data?.private_type"
+            [featuredTitle]="plan1Data?.featured_title"
+            [excerpt]="plan1Data?.excerpt"
+            [address]="plan1Data?.address"
+            [credits]="plan1Data?.credits"
+            [price]="plan1Data?.price"
+            [buttonColor]="buttonColor"
+            [page]="'home'"
+            (handleDetailsClick)="handleDetailsClickRoute($event)"
+        >
+        </app-plan-card>
     </div> 
-    <div class="rounded-lg row-span-1 cursor-pointer relative" 
-        [routerLink]="[plan2Data?.path]" *ngIf="plan2Data?.id > 0">
-        <img width="347" height="300" *ngIf="plan2Data?.image" [ngSrc]="plan2Data?.image" alt="" 
-            class="mr-4 object-cover h-full max-h-full w-full max-w-full rounded-lg">
-        <div class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
-        <div class="absolute inset-0 flex items-center justify-center">
-            <div class="absolute inset-0 flex items-center">
-                <div class="flex flex-col mx-4">
-                    <p class="text-white text-lg font-bold leading-[20px] pb-2">{{ plan2Data?.title }}</p>
-                    <div class="text-white text-sm flex align-center items-center capitalize">
-                        <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                        </svg>
-                        {{ plan2Data?.plan_date }}
-                    </div>
-                </div>
-            </div>
-            <div class="absolute inset-0 flex items-end justify-start pb-3 px-4 text-sm text-white font-semibold">
-                <span class="leading-[16px]" style="overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;">
-                    {{ plan2Data?.address }}
-                </span>
-                <span *ngIf="plan2Data?.address" class="px-3">•</span><span>{{ 'category.free' | translate }}</span>
-            </div>
-        </div>
+    <div class="rounded-lg row-span-1 cursor-pointer relative" [routerLink]="[plan2Data?.path]" *ngIf="plan2Data?.id > 0">
+        <app-plan-card
+            [image]="plan2Data?.image"
+            [title]="plan2Data?.title"
+            [date]="plan2Data?.plan_date"
+            [id]="plan2Data?.id"
+            [planTypeId]="plan2Data?.plan_type_id"
+            [privacy]="plan2Data?.privacy"
+            [privateType]="plan2Data?.private_type"
+            [featuredTitle]="plan2Data?.featured_title"
+            [excerpt]="plan2Data?.excerpt"
+            [address]="plan2Data?.address"
+            [credits]="plan2Data?.credits"
+            [price]="plan2Data?.price"
+            [buttonColor]="buttonColor"
+            [page]="'home'"
+            [size]="'small'"
+            (handleDetailsClick)="handleDetailsClickRoute($event)"
+        >
+        </app-plan-card>
     </div> 
-    <div class="rounded-lg row-span-1 cursor-pointer relative" 
-        [routerLink]="[plan3Data?.path]" *ngIf="plan3Data?.id > 0">
-        <img class="object-cover h-full max-h-full w-full max-w-full rounded-lg" 
-            width="347" height="300" *ngIf="plan3Data?.image" [ngSrc]="plan3Data?.image" alt="">
-        <div class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
-        <div class="absolute inset-0 flex items-center justify-center">
-            <div class="absolute inset-0 flex items-center">
-                <div class="flex flex-col mx-4">
-                    <p class="text-white text-lg font-bold leading-[20px] pb-2">{{ plan3Data?.title }}</p>
-                    <div class="text-white text-sm flex align-center items-center capitalize">
-                        <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                        </svg>
-                        {{ plan3Data?.plan_date }}
-                    </div>
-                </div>
-            </div>
-            <div class="absolute inset-0 flex items-end justify-start pb-3 px-4 text-sm text-white font-semibold">
-                <span class="leading-[16px]" style="overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;">
-                    {{ plan3Data?.address }}
-                </span>
-                <span *ngIf="plan3Data?.address" class="px-3">•</span><span>{{ 'category.free' | translate }}</span>
-            </div>
-        </div>
+    <div class="rounded-lg row-span-1 cursor-pointer relative" [routerLink]="[plan3Data?.path]" *ngIf="plan3Data?.id > 0">
+        <app-plan-card
+            [image]="plan3Data?.image"
+            [title]="plan3Data?.title"
+            [date]="plan3Data?.plan_date"
+            [id]="plan3Data?.id"
+            [planTypeId]="plan3Data?.plan_type_id"
+            [privacy]="plan3Data?.privacy"
+            [privateType]="plan3Data?.private_type"
+            [featuredTitle]="plan3Data?.featured_title"
+            [excerpt]="plan3Data?.excerpt"
+            [address]="plan3Data?.address"
+            [credits]="plan3Data?.credits"
+            [price]="plan3Data?.price"
+            [buttonColor]="buttonColor"
+            [page]="'home'"
+            [size]="'small'"
+            [position]="'row-2'"
+            (handleDetailsClick)="handleDetailsClickRoute($event)"
+        >
+        </app-plan-card>
     </div> 
-    <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 row-span-2 rounded-lg relative cursor-pointer" 
-    [routerLink]="[plan4Data?.path]" *ngIf="plan4Data?.id > 0">
-        <img class="object-cover w-full max-w-full h-full max-h-full rounded-lg" 
-            width="347" height="620" *ngIf="plan4Data?.image" [ngSrc]="plan4Data?.image" alt="">
-        <div class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
-        <div class="absolute inset-0 flex items-center justify-center">
-            <div class="absolute inset-0 flex items-center">
-                <div class="flex flex-col ml-4">
-                    <p class="text-white text-lg font-bold leading-6 pb-2">{{ plan4Data?.title }}</p>
-                    <div class="text-white text-sm flex align-center items-center capitalize">
-                        <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                        </svg>
-                        {{ plan4Data?.plan_date }}
-                    </div>
-                </div>
-            </div>
-            <div class="absolute inset-0 flex items-end justify-start pb-3 px-4 text-sm text-white font-semibold">
-                <span>{{ plan4Data?.address }}</span><span *ngIf="plan4Data?.address" class="px-3">•</span><span>{{ 'category.free' | translate }}</span>
-            </div>
-            <div *ngIf="plan4Data?.credits == 1" class="absolute inset-0 flex items-start justify-end pt-3 pr-4 text-sm text-white font-semibold">
-                <div class="flex py-1.5 px-3 items-center rounded-lg" [ngStyle]="{'background-color': buttonColor}">
-                    <span class="text-xs text-white uppercase">{{ plan4Data?.featured_title }}</span>
-                    <svg class="ml-2 w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1 .586-1.414Z"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
+    <div class="col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 row-span-2 rounded-lg relative cursor-pointer" [routerLink]="[plan4Data?.path]" *ngIf="plan4Data?.id > 0">
+        <app-plan-card
+            [image]="plan4Data?.image"
+            [title]="plan4Data?.title"
+            [date]="plan4Data?.plan_date"
+            [id]="plan4Data?.id"
+            [planTypeId]="plan4Data?.plan_type_id"
+            [privacy]="plan4Data?.privacy"
+            [privateType]="plan4Data?.private_type"
+            [featuredTitle]="plan4Data?.featured_title"
+            [excerpt]="plan4Data?.excerpt"
+            [address]="plan4Data?.address"
+            [credits]="plan4Data?.credits"
+            [price]="plan4Data?.price"
+            [buttonColor]="buttonColor"
+            [page]="'home'"
+            (handleDetailsClick)="handleDetailsClickRoute($event)"
+        >
+        </app-plan-card>
     </div>
-    <div class="rounded-lg row-span-1 cursor-pointer relative" 
-        [routerLink]="[plan5Data?.path]" *ngIf="plan5Data?.id > 0">
-        <img width="347" height="300" *ngIf="plan5Data?.image" [ngSrc]="plan5Data?.image" alt="" 
-            class="mr-4 object-cover h-full max-h-full w-full max-w-full rounded-lg">
-        <div class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
-        <div class="absolute inset-0 flex items-center justify-center">
-            <div class="absolute inset-0 flex items-center">
-                <div class="flex flex-col mx-4">
-                    <p class="text-white text-lg font-bold leading-[20px] pb-2">{{ plan5Data?.title }}</p>
-                    <div class="text-white text-sm flex align-center items-center capitalize">
-                        <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                        </svg>
-                        {{ plan5Data?.plan_date }}
-                    </div>
-                </div>
-            </div>
-            <div class="absolute inset-0 flex items-end justify-start pb-3 px-4 text-sm text-white font-semibold">
-                <span class="leading-[16px]" style="overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;">
-                    {{ plan5Data?.address }}
-                </span>
-                <span *ngIf="plan5Data?.address" class="px-3">•</span><span>{{ 'category.free' | translate }}</span>
-            </div>
-        </div>
+    <div class="rounded-lg row-span-1 cursor-pointer relative" [routerLink]="[plan5Data?.path]" *ngIf="plan5Data?.id > 0">
+        <app-plan-card
+            [image]="plan5Data?.image"
+            [title]="plan5Data?.title"
+            [date]="plan5Data?.plan_date"
+            [id]="plan5Data?.id"
+            [planTypeId]="plan5Data?.plan_type_id"
+            [privacy]="plan5Data?.privacy"
+            [privateType]="plan5Data?.private_type"
+            [featuredTitle]="plan5Data?.featured_title"
+            [excerpt]="plan5Data?.excerpt"
+            [address]="plan5Data?.address"
+            [credits]="plan5Data?.credits"
+            [price]="plan5Data?.price"
+            [buttonColor]="buttonColor"
+            [page]="'home'"
+            [size]="'small'"
+            (handleDetailsClick)="handleDetailsClickRoute($event)"
+        >
+        </app-plan-card>
     </div> 
-    <div class="rounded-lg row-span-1 cursor-pointer relative" 
-        [routerLink]="[plan6Data?.path]" *ngIf="plan6Data?.id > 0">
-        <img class="object-cover h-full max-h-full w-full max-w-full rounded-lg" 
-            width="347" height="300" *ngIf="plan6Data?.image" [ngSrc]="plan6Data?.image" alt="">
-        <div class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
-        <div class="absolute inset-0 flex items-center justify-center">
-            <div class="absolute inset-0 flex items-center">
-                <div class="flex flex-col mx-4">
-                    <p class="text-white text-lg font-bold leading-[20px] pb-2">{{ plan6Data?.title }}</p>
-                    <div class="text-white text-sm flex align-center items-center capitalize">
-                        <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-                        </svg>
-                        {{ plan6Data?.plan_date }}
-                    </div>
-                </div>
-            </div>
-            <div class="absolute inset-0 flex items-end justify-start pb-3 px-4 text-sm text-white font-semibold">
-                <span class="leading-[16px]" style="overflow:hidden;text-overflow:ellipsis;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;">
-                    {{ plan6Data?.address }}
-                </span>
-                <span *ngIf="plan6Data?.address" class="px-3">•</span><span>{{ 'category.free' | translate }}</span>
-            </div>
-        </div>
+    <div class="rounded-lg row-span-1 cursor-pointer relative" [routerLink]="[plan6Data?.path]" *ngIf="plan6Data?.id > 0">
+        <app-plan-card
+            [image]="plan6Data?.image"
+            [title]="plan6Data?.title"
+            [date]="plan6Data?.plan_date"
+            [id]="plan6Data?.id"
+            [planTypeId]="plan6Data?.plan_type_id"
+            [privacy]="plan6Data?.privacy"
+            [privateType]="plan6Data?.private_type"
+            [featuredTitle]="plan6Data?.featured_title"
+            [excerpt]="plan6Data?.excerpt"
+            [address]="plan6Data?.address"
+            [credits]="plan6Data?.credits"
+            [price]="plan6Data?.price"
+            [buttonColor]="buttonColor"
+            [page]="'home'"
+            [size]="'small'"
+            [position]="'row-2'"
+            (handleDetailsClick)="handleDetailsClickRoute($event)"
+        >
+        </app-plan-card>
     </div> 
 </div>

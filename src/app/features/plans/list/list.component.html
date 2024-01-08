@@ -58,7 +58,7 @@
         </div>
     </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 py-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 py-8">
     <div *ngIf="userId && showEventsCalendar && !parentComponent" 
         class="w-full max-w-full rounded-lg py-4 shadow"
         [ngStyle]="{'background-color': '#f8f4f4'}"
@@ -86,7 +86,7 @@
         >
         </app-plans-calendar>
     </div>
-    <ng-container *ngFor="let plan of filteredPlan | paginate: {itemsPerPage: 9, currentPage: p}">
+    <ng-container *ngFor="let plan of filteredPlan | paginate: {itemsPerPage: 12, currentPage: p}">
         <app-plan-card
             [image]="apiPath + plan.path + plan.image"
             [title]="getEventTitle(plan)"
@@ -101,6 +101,7 @@
             [credits]="plan?.credits"
             [price]="plan?.price"
             [buttonColor]="buttonColor"
+            [page]="'list'"
             (handleDetailsClick)="handleDetailsClickRoute($event)"
         >
         </app-plan-card>
@@ -109,6 +110,6 @@
 <div *ngIf="filteredPlan?.length > 0" class="text-center">
     <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
 </div>
-<div *ngIf="!isloading && filteredPlan?.length == 0" class="text-center">
+<div *ngIf="!isloading && filteredPlan?.length == 0 && !showEventsCalendar" class="text-center">
     {{'club-details.noevents' | translate}}
 </div>
