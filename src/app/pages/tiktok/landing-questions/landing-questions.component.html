@@ -58,6 +58,32 @@
                         </div>
                     </div>
                 </div>
+            
+                <div class="w-full max-w-full">
+                    <label  class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        {{'Selecciona tu ubicación'}}
+                    </label>
+                    <div  class="mb-1">
+                        <fieldset>
+                            <div *ngFor="let choice of defaultQuestionAnswers; let n = index;">
+                                <div class="flex items-center mb-4 text-sm">
+                                    <input 
+                                        id="choice" 
+                                        type="radio" 
+                                        name="choice" 
+                                        [value]="choice" 
+                                        [(ngModel)]="selectedAnswerForLocation"
+                                        (input)="setSelectAnswerForLocation(choice)"
+                                        class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600">
+                                    <label class="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                        {{ choice }}
+                                    </label>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                
                 <ng-container *ngIf="showOtherImages && questionImages?.length > 0">
                     <ng-container *ngIf="questionnaire?.images_description">
                         <div [innerHtml]="questionnaire?.images_description | safeContentHtml: 'html'"></div>
@@ -102,7 +128,7 @@
                         [ngClass]="{'disabled:opacity-75': !isValidForm(questionItems)}"
                         [disabled]="!isValidForm(questionItems)"
                     >
-                        {{ questionnaire?.button_text || ("inquiry.submit" | translate) }}
+                    {{ questionnaire?.button_text || ("inquiry.submit" | translate) }}
                     </button>
                 </div>
             </ng-container>
