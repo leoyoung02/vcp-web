@@ -966,7 +966,8 @@
         "blocked": "Bloqué",
         "startson": "Commence le",
         "embedorurl": "Intégrer ou lier",
-        "showhotmartcourses": "Afficher les cours Hotmart?"
+        "showhotmartcourses": "Afficher les cours Hotmart?",
+        "embed": "Upotuskoodi (iframe tai skripti)"
     }, 
     "course-details": {
         "goback": "Revenir en arrière",

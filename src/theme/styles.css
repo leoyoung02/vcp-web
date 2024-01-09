@@ -904,3 +904,7 @@ input#email-recipients:valid {
         }
     }
 }
+
+.script-container iframe {
+    width: 100%;
+}

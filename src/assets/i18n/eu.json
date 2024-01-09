@@ -967,7 +967,8 @@
         "startson": "Hasten da",
         "embedorurl": "Txertatu edo estekatu",
         "showhotmartcourses": "Hotmart-eko ikastaroak erakutsi?",
-        "assigntutorstocourses": "Ikastarorako sarbidea"
+        "assigntutorstocourses": "Ikastarorako sarbidea",
+        "embed": "Kodea txertatu (iframe edo script)"
     }, 
     "course-details": {
         "goback": "Itzuli",

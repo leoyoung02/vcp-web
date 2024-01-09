@@ -1133,7 +1133,7 @@
                             </div>
                         </ng-container>
                         <ng-container *ngIf="selectedUnitType && (
-                            (selectedUnitType != 1 && selectedUnitType != 3) || 
+                            (selectedUnitType != 1 && selectedUnitType != 3 && selectedUnitType != 7) || 
                             ((selectedUnitType == 1 || selectedUnitType == 3) && selectedUnitOption == 'Self-hosted')
                         ) && selectedUnitType != 6">
                             <div class="flex items-center justify-center my-8 relative">
@@ -1159,27 +1159,35 @@
                                     class="w-full"
                                     apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
                                     [init]="{
-                                        height: 183,
+                                        height: 283,
                                         menubar: false,
                                         plugins: [
-                                        'advlist autolink lists link image imagetools charmap print',
-                                        'preview anchor searchreplace visualblocks code',
-                                        'fullscreen insertdatetime media table paste',
-                                        'help wordcount',
-                                        'code media'
+                                        'link'
                                         ],
                                         toolbar:
                                         'undo redo | formatselect | bold italic | \
                                         alignleft aligncenter alignright alignjustify | \
-                                        media | \
+                                        link | \
+                                        forecolor backcolor \ \
                                         paste pastetext | \
-                                        image imagetools | \
-                                        bullist numlist outdent indent | help',
-                                        valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                                        bullist numlist outdent indent | help'
                                     }"
                                     [(ngModel)]="text"
                                     [ngModelOptions]="{standalone: true}"
                                 ></editor>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="selectedUnitType == 7">
+                            <div class="flex items-center justify-center my-8 relative">
+                                <div class="w-full max-w-full">
+                                    <textarea name="" id="embed-script" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScript"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                </div>
                             </div>
                         </ng-container>
                         <ng-container *ngIf="selectedUnitType && selectedUnitType == 1" >

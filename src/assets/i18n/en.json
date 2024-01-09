@@ -970,7 +970,8 @@
         "embedorurl": "Embed or link",
         "showhotmartcourses": "Show Hotmart courses?",
         "hotmartcourse": "Hotmart course",
-        "assigntutorstocourses": "Course access"
+        "assigntutorstocourses": "Course access",
+        "embed": "Embed code (iframe or script)"
     },
     "course-details": {
         "goback": "Go back",

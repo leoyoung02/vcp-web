@@ -413,6 +413,7 @@ export class CourseEditComponent {
   filteredTutors: any;
   unitAvailability: boolean = false;
   unitAvailabilityDate: any;
+  embedScript: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -2378,15 +2379,20 @@ export class CourseEditComponent {
     }
 
     if(this.selectedUnitType != 1) {
-      proceed = true
+      if(this.selectedUnitType == 7 && !this.embedScript) {
+        proceed = false
+      } else {
+        proceed = true
+      }
     }
 
     if(this.isAdvancedCourse) {
       if(!this.unitTitle
         || !this.selectedUnitType
-        || (this.selectedUnitType != 1 && this.selectedUnitType != 3 && this.selectedUnitType != 6 && !this.courseUnitFileName)
+        || (this.selectedUnitType != 1 && this.selectedUnitType != 3 && this.selectedUnitType != 6 && this.selectedUnitType != 7 && !this.courseUnitFileName)
         || ((this.selectedUnitType == 1 || this.selectedUnitType == 3) && this.selectedUnitOption == 'Self-hosted' && !this.courseUnitFileName)
         || ((this.selectedUnitType == 1 || this.selectedUnitType == 3) && this.selectedUnitOption != 'Self-hosted' && !proceed)
+        || (this.selectedUnitType == 7 && !proceed)
         || !this.selectedUnitModule
         || !this.unitDuration
         || !this.selectedCourseUnitDurationUnit
@@ -2444,6 +2450,7 @@ export class CourseEditComponent {
       video_always_available: this.videoAvailability || 0,
       unit_availability: this.unitAvailability || 0,
       unit_availability_date: this.unitAvailabilityDate || null,
+      script: this.embedScript || '',
     }
 
     this._coursesService.addCourseUnitNew(
@@ -2542,6 +2549,7 @@ export class CourseEditComponent {
       video_always_available: this.videoAvailability || 0,
       unit_availability: this.unitAvailability || 0,
       unit_availability_date: this.unitAvailabilityDate || null,
+      script: this.embedScript || '',
     }
 
     this._coursesService.editCourseUnitNew(
@@ -2637,6 +2645,7 @@ export class CourseEditComponent {
     this.videoAvailability = item.video_always_available
     this.unitAvailability = item.unit_availability == 1 ? true : false
     this.unitAvailabilityDate = item.unit_availability_date
+    this.embedScript = item.script
 
     if(this.cta) {
       this.getCTAs()

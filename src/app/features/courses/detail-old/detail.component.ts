@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage, Location } from "@angular/common";
-import { Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, ViewChild, Renderer2 } from "@angular/core";
 import { Router } from "@angular/router";
 import { environment } from "@env/environment";
 import { CoursesService } from "@features/services";
@@ -19,6 +19,7 @@ import { COURSE_IMAGE_URL } from "@lib/api-constants";
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import { EditorModule } from "@tinymce/tinymce-angular";
 import { SafeContentHtmlPipe } from "@lib/pipes";
 import {
   StarRatingModule,
@@ -44,6 +45,7 @@ import get from "lodash/get";
     NgxPaginationModule,
     MatExpansionModule,
     NgxDocViewerModule,
+    EditorModule,
     StarRatingModule,
     SafeContentHtmlPipe
   ],
@@ -216,6 +218,8 @@ export class CourseDetailComponent {
   @ViewChild("closecompletemodalbutton", { static: false }) closecompletemodalbutton:
     | ElementRef
     | undefined;
+  @ViewChild('iframeText', { static: false }) iframeText: ElementRef | undefined;
+  @ViewChild('editor', { static: false }) editor: ElementRef | undefined;
 
   constructor(
     private _router: Router,
@@ -226,6 +230,7 @@ export class CourseDetailComponent {
     private _location: Location,
     private _snackBar: MatSnackBar,
     private sanitizer: DomSanitizer,
+    private renderer2: Renderer2,
   ) {}
 
   async ngOnInit() {
@@ -1282,6 +1287,36 @@ export class CourseDetailComponent {
       )) : ''
   }
 
+  handleEditorInit(e) {
+    let unit = this.selectedUnit;
+    let text = unit ? (this.language == 'en' ? (unit.text_en ? (unit.text_en || unit.text) : unit.text) :
+    (this.language == 'fr' ? (unit.text_fr ? (unit.text_fr || unit.text) : unit.text) : 
+        (this.language == 'eu' ? (unit.text_eu ? (unit.text_eu || unit.text) : unit.text) : 
+            (this.language == 'ca' ? (unit.text_ca ? (unit.text_ca || unit.text) : unit.text) : 
+                (this.language == 'de' ? (unit.text_de ? (unit.text_de || unit.text) : unit.text) : unit.text)
+            )
+        )
+    )) : ''
+    setTimeout(() => {
+        if (this.editor && this.iframeText && text && text) {
+            this.editor.nativeElement.style.display = 'block'
+
+            e.editor.setContent(text)
+            this.iframeText.nativeElement.style.height = `${e.editor.container.clientHeight + 200}px`
+
+            this.editor.nativeElement.style.display = 'none'
+
+            this.iframeText.nativeElement.src =
+                'data:text/html;charset=utf-8,' +
+                '<html>' +
+                '<head>' + e.editor.getDoc().head.innerHTML + '<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins" /><style>* {font-family: "Poppins", sans-serif;}</style></head>' +
+                '<body>' + e.editor.getDoc().body.innerHTML + '</body>' +
+                '</html>';
+            this.iframeText.nativeElement.style.display = 'block'
+        }
+    }, 500)
+  }
+
   markComplete(id, refresh = false) {
     const payload = {
       user_id: this.user.id
@@ -1523,6 +1558,40 @@ export class CourseDetailComponent {
 
   toggleDeleteHover(event) {
     this.deleteHover = event;
+  }
+
+  getScript() {
+    let html = '';
+    if(this.selectedUnit?.script) {
+      let script_index = this.selectedUnit?.script?.indexOf('<script>');
+      html = this.selectedUnit?.script?.substring(0, script_index);
+      const re = /<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/g;
+      const results = this.selectedUnit?.script?.match(re);
+      if(results?.length > 0) {
+        if(results[0]?.indexOf('<script>') >= 0 && results[0]?.indexOf('</script>') >= 0) {
+          let myScript = this.renderer2.createElement('script');
+          myScript.type = `text/javascript`;
+          myScript.text = results[0].replace('<script>', '').replace('</script>', '')
+          this.renderer2.appendChild(document.body, myScript);
+        } else {
+          if(results[0]?.indexOf('</script>') >= 0) {
+            var regex = /<script.*?src="(.*?)"/gmi;
+            var url = regex.exec(results[0]);
+            if(url) {
+              if(url[1]) {
+                let myScript = this.renderer2.createElement('script');
+                myScript.type = `text/javascript`;
+                myScript.src = url[1];
+                this.renderer2.appendChild(document.body, myScript);
+                html = this.selectedUnit?.script?.replace('<script src="' + url[1] + '"></script>', ''); 
+              }
+            }
+          }
+        }
+      }
+    }
+
+    return html;
   }
 
   handleGoBack() {

@@ -967,7 +967,8 @@
         "startson": "Beginnt am",
         "embedorurl": "Einbetten oder verlinken",
         "showhotmartcourses": "Hotmart-Kurse anzeigen?",
-        "assigntutorstocourses": "Kurszugang"
+        "assigntutorstocourses": "Kurszugang",
+        "embed": "Code einbetten (Iframe oder Skript)"
     }, 
     "course-details": {
         "goback": "Zurück",

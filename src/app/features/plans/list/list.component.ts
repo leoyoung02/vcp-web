@@ -786,8 +786,6 @@ export class PlansListComponent {
                 let item = categories?.filter(row => {
                   return row.id == selected_type
                 })
-                console.log('item')
-                console.log(item)
                 if(item?.length > 0) {
                   this.fType = item[0].name_ES || item[0].name_es;
                   this.selectedType = item[0].name_ES || item[0].name_es;
