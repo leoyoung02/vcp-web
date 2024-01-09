@@ -969,7 +969,10 @@
         "showhotmartcourses": "Hotmart-Kurse anzeigen?",
         "assigntutorstocourses": "Kurszugang",
         "embed": "Code einbetten (Iframe oder Skript)",
-        "allowAddtionalPropertiesAccess": "Kurszugang für zusätzliche Eigenschaften"
+        "allowadditionalpropertiesaccess": "Kurszugang für zusätzliche Eigenschaften",
+        "selectcampus": "Campus auswählen",
+        "selectfaculty": "Fakultät auswählen",
+        "selectbusinessunit": "Geschäftsbereich auswählen"
     }, 
     "course-details": {
         "goback": "Zurück",

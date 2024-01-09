@@ -970,7 +970,10 @@
         "showhotmartcourses": "Mostrar els cursos de Hotmart?",
         "assigntutorstocourses": "Accés al curs",
         "embed": "Kodea txertatu (iframe edo script)",
-        "allowAddtionalPropertiesAccess": "Accés al curs per a propietats addicionals"
+        "allowadditionalpropertiesaccess": "Accés al curs per a propietats addicionals",
+        "selectcampus": "Selecciona el campus",
+        "selectfaculty": "Selecciona el professorat",
+        "selectbusinessunit": "Selecciona la unitat de negoci"
     }, 
     "course-details": {
         "goback": "Torna",

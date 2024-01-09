@@ -972,8 +972,10 @@
         "hotmartcourse": "Hotmart course",
         "assigntutorstocourses": "Course access",
         "embed": "Embed code (iframe or script)",
-        "allowAddtionalPropertiesAccess": "Course Access For Additional Properties"
-        
+        "allowadditionalpropertiesaccess": "Course Access For Additional Properties",
+        "selectcampus": "Select campus",
+        "selectfaculty": "Select faculty",
+        "selectbusinessunit": "Select business unit"
     },
     "course-details": {
         "goback": "Go back",

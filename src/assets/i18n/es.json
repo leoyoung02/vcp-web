@@ -972,7 +972,10 @@
         "hotmartcourse": "Curso hotmart",
         "assigntutorstocourses": "Acceso al curso",
         "embed": "Código para insertar (iframe o script)",
-        "allowAddtionalPropertiesAccess": "Acceso al curso para propiedades adicionales"
+        "allowadditionalpropertiesaccess": "Acceso al curso para propiedades adicionales",
+        "selectcampus": "Seleccionar campus",
+        "selectfaculty": "Seleccionar facultad",
+        "selectbusinessunit": "Seleccionar unidad de negocio"
     }, 
     "course-details": {
         "goback": "Regresa",

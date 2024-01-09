@@ -968,7 +968,10 @@
         "embedorurl": "Intégrer ou lier",
         "showhotmartcourses": "Afficher les cours Hotmart?",
         "embed": "Upotuskoodi (iframe tai skripti)",
-        "allowAddtionalPropertiesAccess": "Accès au cours pour des propriétés supplémentaires"
+        "allowadditionalpropertiesaccess": "Accès au cours pour des propriétés supplémentaires",
+        "selectcampus": "Sélectionner le campus",
+        "selectfaculty": "Sélectionner la faculté",
+        "selectbusinessunit": "Sélectionner l'unité commerciale"
     }, 
     "course-details": {
         "goback": "Revenir en arrière",

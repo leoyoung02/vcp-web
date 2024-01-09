@@ -487,14 +487,14 @@ export class CourseEditComponent {
         singleSelection: false,
         idField: 'id',
         textField: 'value',
-        selectAllText: 'Select All',
-        unSelectAllText: 'UnSelect All',
+        selectAllText: this._translateService.instant('dialog.selectall'),
+        unSelectAllText: this._translateService.instant('dialog.clearall'),
         itemsShowLimit: 3,
         allowSearchFilter: true,
       };
     this.initializePage();
-    this.fetchAddtionalProperties()
 
+    if(this.companyId == 32) { this.fetchAdditionalProperties(); }
   }
  
   initializePage() {
@@ -684,42 +684,8 @@ export class CourseEditComponent {
           this.otherStripeAccounts = data?.other_stripe_accounts;
           this.getOtherSettings(data?.settings?.other_settings, data?.member_types);
           this.getCourseWalls();
-          if(data?.course_additonal_properties_access){
-            this.allowCourseAccess = data?.course_additonal_properties_access
-            this.selectedCampus = data?.course_addtional_properties.map(category=>{
-              if(category.type === "campus"){
-                return {
-                  id:category.id,
-                  value:category.value
-                }
-              }
-            }).filter(category=>category !== undefined)
-
-            this.selectedFaculty = data?.course_addtional_properties.map(category=>{
-              if(category.type === "faculty"){
-                return {
-                  id:category.id,
-                  value:category.value
-                }
-              }
-            }).filter(category=>category !== undefined)
-
-
-            this.selectedBusinessUnit = data?.course_addtional_properties.map(category=>{
-              if(category.type === "bussines_unit"){
-                return {
-                  id:category.id,
-                  value:category.value
-                }
-              }
-            }).filter(category=>category !== undefined)
-          }
-         
-          if(this.id > 0) {
-            this.fetchCourse(data)
-          } else {
-            this.isLoading = false;
-          }
+          if(this.companyId == 32) { this.formatAdditionalProperties(data); }
+          if(this.id > 0) { this.fetchCourse(data) } else { this.isLoading = false; }
         },
         (error) => {
           console.log(error);
@@ -727,9 +693,43 @@ export class CourseEditComponent {
       );
   }
 
-  fetchAddtionalProperties() {
+  formatAdditionalProperties(data) {
+    if(data?.course_additional_properties_access){
+      this.allowCourseAccess = data?.course_additional_properties_access
+
+      this.selectedCampus = data?.course_additional_properties?.map(category => {
+        if(category.type === "campus") {
+          return {
+            id: category.id,
+            value: category.value
+          }
+        }
+      }).filter(category => category !== undefined)
+
+      this.selectedFaculty = data?.course_additional_properties?.map(category => {
+        if(category.type === "faculty") {
+          return {
+            id: category.id,
+            value: category.value
+          }
+        }
+      }).filter(category => category !== undefined)
+
+
+      this.selectedBusinessUnit = data?.course_additional_properties?.map(category => {
+        if(category.type === "bussines_unit") {
+          return {
+            id: category.id,
+            value: category.value
+          }
+        }
+      }).filter(category => category !== undefined)
+    }
+  }
+
+  fetchAdditionalProperties() {
     this._coursesService
-      .fetchAddtionalPropertiesAdmin(this.companyId)
+      .fetchAdditionalPropertiesAdmin(this.companyId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
@@ -742,47 +742,6 @@ export class CourseEditComponent {
           console.log(error);
         }
       );
-  }
-
-  onItemSelect(item: any,key:string) {
-    switch (key) {
-      case 'campus':
-        const temp1:any = []
-        temp1.push(item)
-        this.selectedCampus = temp1
-        break;
-      case 'faculty':
-          const temp2:any = []
-          temp2.push(item)
-          this.selectedFaculty = temp2
-          break;
-      case 'bussines_unit':
-            const temp3:any = []
-            temp3.push(item)
-            this.selectedBusinessUnit = temp3
-            break;
-    
-      default:
-        break;
-    }
-  }
-  onSelectAll(items: any,key:string) {
-    switch (key) {
-      case 'campus':
-        this.selectedCampus = []
-        this.selectedCampus = items
-        break;
-      case 'faculty':
-          this.selectedFaculty = []
-          this.selectedFaculty = items
-          break;
-      case 'bussines_unit':
-            this.selectedBusinessUnit = []
-            this.selectedBusinessUnit = items
-            break;
-      default:
-        break;
-    }
   }
 
   mapFeatures(features) {
@@ -1488,14 +1447,6 @@ export class CourseEditComponent {
   }
 
   saveCourse() {
-    let addtionalPropertiesIds;
-
-    if(this.allowCourseAccess){
-      const temp1 = this.selectedCampus?.map(category=>category.id) || []
-      const temp2 = this.selectedBusinessUnit?.map(category=>category.id) || []
-      const temp3 = this.selectedFaculty?.map(category=>category.id) || []
-      addtionalPropertiesIds = [...temp1,...temp2,...temp3]
-    }
     this.courseFormSubmitted = true
 
     let code = this.defaultLanguage[0].code == 'es' ? '' : ('_' + this.defaultLanguage[0].code);
@@ -1784,8 +1735,13 @@ export class CourseEditComponent {
       }
       params['course_credits'] = this.courseCredits || 0
     }
-    params['additonal_properties_course_access']= this.allowCourseAccess ? 1 : 0,
-    params['additional_properties_ids']= addtionalPropertiesIds.toString() || ""
+
+    if(this.companyId == 32) {
+      params['additional_properties_course_access'] = this.allowCourseAccess ? 1 : 0,
+      params['additional_properties_campus_ids'] = this.selectedCampus?.length > 0 ? this.selectedCampus?.map( (data) => { return data.id }).join() : ''
+      params['additional_properties_faculty_ids'] = this.selectedFaculty?.length > 0 ? this.selectedFaculty?.map( (data) => { return data.id }).join() : ''
+      params['additional_properties_business_unit_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedBusinessUnit?.map( (data) => { return data.id }).join() : ''
+    }
 
     if (this.id > 0) {
       // Edit

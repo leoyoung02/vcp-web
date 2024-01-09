@@ -969,7 +969,10 @@
         "showhotmartcourses": "Hotmart-eko ikastaroak erakutsi?",
         "assigntutorstocourses": "Ikastarorako sarbidea",
         "embed": "Kodea txertatu (iframe edo script)",
-        "allowAddtionalPropertiesAccess": "Ikastarorako sarbidea propietate gehigarrietarako"
+        "allowadditionalpropertiesaccess": "Ikastarorako sarbidea propietate gehigarrietarako",
+        "selectcampus": "Hautatu campusa",
+        "selectfaculty": "Hautatu irakaslea",
+        "selectbusinessunit": "Hautatu negozio-unitatea"
     }, 
     "course-details": {
         "goback": "Itzuli",
