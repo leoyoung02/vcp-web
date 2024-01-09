@@ -968,7 +968,8 @@
         "embedorurl": "Einbetten oder verlinken",
         "showhotmartcourses": "Hotmart-Kurse anzeigen?",
         "assigntutorstocourses": "Kurszugang",
-        "embed": "Code einbetten (Iframe oder Skript)"
+        "embed": "Code einbetten (Iframe oder Skript)",
+        "allowAddtionalPropertiesAccess": "Kurszugang für zusätzliche Eigenschaften"
     }, 
     "course-details": {
         "goback": "Zurück",
@@ -2722,7 +2723,10 @@
         "insufficientcredits": "Unzureichende Credits",
         "updateCredits": "Möchten Sie die Kursguthaben für den Benutzer aktualisieren?",
         "credits": "Credits",
-        "creditsearned": "Credits verdient"
+        "creditsearned": "Credits verdient",
+        "selectCampus":"Wählen Sie Campus",
+        "selectfaculty":"Wählen Sie Fakultät",
+        "selectBusinessUnit":"Wählen Sie den Geschäftsbereich aus"
     },
     "contact-landing": {
         "settings": "Einstellungen",

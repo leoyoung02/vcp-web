@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, forkJoin, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {
+  ADDITIONAL_PROPERTIES_DATA,
   ADD_COURSE_DOWNLOAD_URL,
   ADD_COURSE_MODULE__URL,
   ADD_COURSE_UNIT_URL,
@@ -300,7 +301,6 @@ export class CoursesService {
 
   addCourse(params, file): Observable<any> {
     const url = ADD_COURSE_URL;
-    
     let formData = new FormData();
 
     formData.append( 'title', params.title );
@@ -324,7 +324,8 @@ export class CoursesService {
     formData.append( 'duration', params.duration ? params.duration : 0 );
     formData.append( 'duration_unit', params.duration_unit ? params.duration_unit : 0 );
     formData.append( 'instructor', params.instructor ? params.instructor : 0 );
-
+    formData.append( 'additonal_properties_course_access', params.additonal_properties_course_access );
+    formData.append( 'additional_properties_ids', params.additional_properties_ids  );
     if(params.price) {
       formData.append( 'price', params.price );
     }
@@ -421,6 +422,8 @@ export class CoursesService {
       formData.append('course_credits', params.course_credits)
     }
     formData.append( 'require_payment', params.require_payment ? params.require_payment : 0 );
+    formData.append( 'additonal_properties_course_access', params.additonal_properties_course_access );
+    formData.append( 'additional_properties_ids', params.additional_properties_ids  );
 
     if (file) {
       const filename = 'courseImage_' + params.created_by + '_' + this.getTimestamp();
@@ -624,5 +627,12 @@ export class CoursesService {
         return result;
       })
     );
+  }
+
+
+  fetchAddtionalPropertiesAdmin(companyId): Observable<any> {
+    return this._http.get(`${ADDITIONAL_PROPERTIES_DATA}/${companyId}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
   }
 }
