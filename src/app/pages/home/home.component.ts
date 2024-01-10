@@ -175,7 +175,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this._translateService.use(this.language || "es");
     this.user = this._localService.getLocalStorage(environment.lsuser);
-    this.campus = this.user?.campus || '';
+    // this.campus = this.user?.campus || '';
 
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))

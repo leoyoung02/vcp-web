@@ -504,37 +504,39 @@
                                 </div>
                             </div>
                         </div>
-                        <ng-container *ngIf="companyId === 32">
-                            <div class="flex items-center justify-center relative">
-                                <div class="w-full max-w-full">
-                                    <label for="setting-3" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                        {{ 'courses.allowadditionalpropertiesaccess' | translate }}
-                                    </label>
-                                    <div class="flex items-center w-full max-w-full">
-                                        <div class="flex items-center justify-between relative mr-4">
-                                            <label
-                                                for="setting-8"
-                                                class="flex items-center w-full justify-between cursor-pointer"
-                                            >
-                                                <div class="relative mr-1">
-                                                    <input
-                                                        id="setting-8"
-                                                        name="setting-8"
-                                                        type="checkbox"
-                                                        class="sr-only"
-                                                        [(ngModel)]="allowCourseAccess" 
-                                                        [ngModelOptions]="{standalone: true}"
-                                                    />
-                                                    <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
-                                                    <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
-                                                </div>
-                                            </label>
-                                        </div>
+                    </div>
+                    <ng-container *ngIf="companyId === 32">
+                        <div class="flex items-center justify-center relative">
+                            <div class="w-full max-w-full">
+                                <label for="setting-3" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ 'courses.allowadditionalpropertiesaccess' | translate }}
+                                </label>
+                                <div class="flex items-center w-full max-w-full">
+                                    <div class="flex items-center justify-between relative mr-4">
+                                        <label
+                                            for="setting-8"
+                                            class="flex items-center w-full justify-between cursor-pointer"
+                                        >
+                                            <div class="relative mr-1">
+                                                <input
+                                                    id="setting-8"
+                                                    name="setting-8"
+                                                    type="checkbox"
+                                                    class="sr-only"
+                                                    [(ngModel)]="allowCourseAccess" 
+                                                    [ngModelOptions]="{standalone: true}"
+                                                />
+                                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                            </div>
+                                        </label>
                                     </div>
                                 </div>
                             </div>
-                        </ng-container>
-                        <ng-container *ngIf="allowCourseAccess">
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="allowCourseAccess">
+                        <div class="mt-8 grid gap-0 sm:gap-0 md:gap-6 lg:gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
                             <div class="flex items-center justify-center relative">
                                 <div class="w-full max-w-full">
                                     <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -583,8 +585,56 @@
                                     </ng-multiselect-dropdown>
                                 </div>
                             </div>
-                        </ng-container>
-                    </div>
+                            <div class="flex items-center justify-center relative">
+                                <div class="w-full max-w-full">
+                                    <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        {{ 'courses.selecttype' | translate }}
+                                    </label>
+                                    <ng-multiselect-dropdown
+                                        placeholder="{{ 'courses.selecttype' | translate }}"
+                                        [settings]="additionalPropertiesDropdownSettings"
+                                        [data]="typeList"
+                                        [(ngModel)]="selectedType"
+                                        class="mb-6"
+                                        [ngModelOptions]="{standalone: true}"
+                                        >
+                                    </ng-multiselect-dropdown>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center relative">
+                                <div class="w-full max-w-full">
+                                    <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        {{ 'courses.selectsegment' | translate }}
+                                    </label>
+                                    <ng-multiselect-dropdown
+                                        placeholder="{{ 'courses.selectsegment' | translate }}"
+                                        [settings]="additionalPropertiesDropdownSettings"
+                                        [data]="segmentList"
+                                        [(ngModel)]="selectedSegment"
+                                        class="mb-6"
+                                        [ngModelOptions]="{standalone: true}"
+                                        >
+                                    </ng-multiselect-dropdown>
+                                </div>
+                            </div>
+                            <div class="flex items-center justify-center relative">
+                                <div class="w-full max-w-full">
+                                    <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        {{ 'courses.selectbranding' | translate }}
+                                    </label>
+                                    <ng-multiselect-dropdown
+                                        placeholder="{{ 'courses.selectbranding' | translate }}"
+                                        [settings]="additionalPropertiesDropdownSettings"
+                                        [data]="brandingList"
+                                        [(ngModel)]="selectedBranding"
+                                        class="mb-6"
+                                        [ngModelOptions]="{standalone: true}"
+                                        >
+                                    </ng-multiselect-dropdown>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
                     <div class="flex items-center border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 my-8">
                         <img class="w-6 object-contain mr-4" src="./assets/images/new-design/icons/Write.png" />
                         <div class="font-light text-xl">{{ 'course-create.description' | translate }}</div>

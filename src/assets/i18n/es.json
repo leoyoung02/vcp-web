@@ -975,7 +975,10 @@
         "allowadditionalpropertiesaccess": "Acceso al curso para propiedades adicionales",
         "selectcampus": "Seleccionar campus",
         "selectfaculty": "Seleccionar facultad",
-        "selectbusinessunit": "Seleccionar unidad de negocio"
+        "selectbusinessunit": "Seleccionar unidad de negocio",
+        "selecttype": "Seleccionar tipo",
+        "selectsegment": "Seleccionar segmento",
+        "selectbranding": "Seleccionar marca"
     }, 
     "course-details": {
         "goback": "Regresa",

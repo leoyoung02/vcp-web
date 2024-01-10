@@ -973,7 +973,10 @@
         "allowadditionalpropertiesaccess": "Accés al curs per a propietats addicionals",
         "selectcampus": "Selecciona el campus",
         "selectfaculty": "Selecciona el professorat",
-        "selectbusinessunit": "Selecciona la unitat de negoci"
+        "selectbusinessunit": "Selecciona la unitat de negoci",
+        "selecttype": "Selecciona el tipus",
+        "selectsegment": "Selecciona un segment",
+        "selectbranding": "Selecciona la marca"
     }, 
     "course-details": {
         "goback": "Torna",

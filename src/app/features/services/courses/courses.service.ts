@@ -324,8 +324,17 @@ export class CoursesService {
     formData.append( 'duration', params.duration ? params.duration : 0 );
     formData.append( 'duration_unit', params.duration_unit ? params.duration_unit : 0 );
     formData.append( 'instructor', params.instructor ? params.instructor : 0 );
-    formData.append( 'additional_properties_course_access', params.additional_properties_course_access );
-    formData.append( 'additional_properties_ids', params.additional_properties_ids  );
+
+    if(params.company_id == 32) {
+      formData.append( 'additional_properties_course_access', params.additional_properties_course_access );
+      formData.append( 'additional_properties_campus_ids', params.additional_properties_campus_ids );
+      formData.append( 'additional_properties_business_unit_ids', params.additional_properties_business_unit_ids );
+      formData.append( 'additional_properties_faculty_ids', params.additional_properties_faculty_ids );
+      formData.append( 'additional_properties_type_ids', params.additional_properties_type_ids );
+      formData.append( 'additional_properties_segment_ids', params.additional_properties_segment_ids );
+      formData.append( 'additional_properties_branding_ids', params.additional_properties_branding_ids );
+    }
+
     if(params.price) {
       formData.append( 'price', params.price );
     }
@@ -428,6 +437,9 @@ export class CoursesService {
       formData.append( 'additional_properties_campus_ids', params.additional_properties_campus_ids );
       formData.append( 'additional_properties_business_unit_ids', params.additional_properties_business_unit_ids );
       formData.append( 'additional_properties_faculty_ids', params.additional_properties_faculty_ids );
+      formData.append( 'additional_properties_type_ids', params.additional_properties_type_ids );
+      formData.append( 'additional_properties_segment_ids', params.additional_properties_segment_ids );
+      formData.append( 'additional_properties_branding_ids', params.additional_properties_branding_ids );
     }
 
     if (file) {

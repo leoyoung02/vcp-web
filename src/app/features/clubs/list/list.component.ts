@@ -116,10 +116,10 @@ export class ClubsListComponent {
     this.email = this._localService.getLocalStorage(environment.lsemail);
     this.language = this._localService.getLocalStorage(environment.lslang);
     this.userInfo = this._localService.getLocalStorage(environment.lsuser);
-    this.campus = this.userInfo?.campus || '';
-    if(this.campus) {
-      localStorage.setItem('club-filter-city', this.campus);
-    }
+    // this.campus = this.userInfo?.campus || '';
+    // if(this.campus) {
+    //   localStorage.setItem('club-filter-city', this.campus);
+    // }
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     this.domain = this._localService.getLocalStorage(environment.lsdomain);

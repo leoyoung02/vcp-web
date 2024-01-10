@@ -972,7 +972,10 @@
         "allowadditionalpropertiesaccess": "Kurszugang für zusätzliche Eigenschaften",
         "selectcampus": "Campus auswählen",
         "selectfaculty": "Fakultät auswählen",
-        "selectbusinessunit": "Geschäftsbereich auswählen"
+        "selectbusinessunit": "Geschäftsbereich auswählen",
+        "selecttype": "Typ auswählen",
+        "selectsegment": "Segment auswählen",
+        "selectbranding": "Branding auswählen"
     }, 
     "course-details": {
         "goback": "Zurück",

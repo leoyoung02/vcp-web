@@ -971,7 +971,10 @@
         "allowadditionalpropertiesaccess": "Accès au cours pour des propriétés supplémentaires",
         "selectcampus": "Sélectionner le campus",
         "selectfaculty": "Sélectionner la faculté",
-        "selectbusinessunit": "Sélectionner l'unité commerciale"
+        "selectbusinessunit": "Sélectionner l'unité commerciale",
+        "selecttype": "Sélectionner le type",
+        "selectsegment": "Sélectionner un segment",
+        "selectbranding": "Sélectionner la marque"
     }, 
     "course-details": {
         "goback": "Revenir en arrière",

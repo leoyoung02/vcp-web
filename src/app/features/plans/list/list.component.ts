@@ -212,10 +212,10 @@ export class PlansListComponent {
     this.language = this._localService.getLocalStorage(environment.lslang);
     this._translateService.use(this.language || "es");
     this.userInfo = this._localService.getLocalStorage(environment.lsuser);
-    this.campus = this.userInfo?.campus || '';
-    if(this.campus) {
-      localStorage.setItem('plan-filter-city', this.campus);
-    }
+    // this.campus = this.userInfo?.campus || '';
+    // if(this.campus) {
+    //   localStorage.setItem('plan-filter-city', this.campus);
+    // }
 
     moment.locale(this.language);
     this.locale = {

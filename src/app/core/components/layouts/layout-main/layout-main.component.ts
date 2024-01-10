@@ -203,7 +203,7 @@ export class LayoutMainComponent {
     if (!this._localService.getLocalStorage(environment.lslang)) { this._localService.setLocalStorage(environment.lslang, "es"); }
     this.language = this._localService.getLocalStorage(environment.lslang) || "es";
     this.user = this._localService.getLocalStorage(environment.lsuser);
-    this.campus = this.user?.campus || '';
+    // this.campus = this.user?.campus || '';
 
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))

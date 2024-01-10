@@ -138,10 +138,10 @@ export class JobOffersListComponent {
     this.language = this._localService.getLocalStorage(environment.lslang);
     this._translateService.use(this.language || 'es');
     this.user = this._localService.getLocalStorage(environment.lsuser);
-    this.campus = this.user?.campus || '';
-    if(this.campus) {
-      localStorage.setItem('job-offers-filter-city', this.campus);
-    }
+    // this.campus = this.user?.campus || '';
+    // if(this.campus) {
+    //   localStorage.setItem('job-offers-filter-city', this.campus);
+    // }
 
     this.email = this._localService.getLocalStorage(environment.lsemail);
     this.userId = this._localService.getLocalStorage(environment.lsuserId);

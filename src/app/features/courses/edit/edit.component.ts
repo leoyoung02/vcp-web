@@ -415,12 +415,18 @@ export class CourseEditComponent {
   unitAvailabilityDate: any;
   embedScript: any = '';
   allowCourseAccess: boolean = false;
-  campusList=[]
-  selectedCampus:any;
-  facultyList=[]  
-  selectedFaculty:any;
-  businessUnitList= [];  
-  selectedBusinessUnit:any;  
+  campusList: any = [];
+  selectedCampus: any = '';
+  facultyList: any = [];  
+  selectedFaculty: any = '';
+  businessUnitList: any = [];  
+  selectedBusinessUnit: any = '';
+  typeList: any = [];  
+  selectedType: any = '';
+  segmentList: any = [];  
+  selectedSegment: any = '';
+  brandingList: any = [];  
+  selectedBranding: any = '';
   dropdownList: any;
   selectedItems :any;
   additionalPropertiesDropdownSettings = {};
@@ -694,6 +700,7 @@ export class CourseEditComponent {
   }
 
   formatAdditionalProperties(data) {
+    console.log(data)
     if(data?.course_additional_properties_access){
       this.allowCourseAccess = data?.course_additional_properties_access
 
@@ -715,9 +722,35 @@ export class CourseEditComponent {
         }
       }).filter(category => category !== undefined)
 
-
       this.selectedBusinessUnit = data?.course_additional_properties?.map(category => {
         if(category.type === "bussines_unit") {
+          return {
+            id: category.id,
+            value: category.value
+          }
+        }
+      }).filter(category => category !== undefined)
+
+      this.selectedType = data?.course_additional_properties?.map(category => {
+        if(category.type === "type") {
+          return {
+            id: category.id,
+            value: category.value
+          }
+        }
+      }).filter(category => category !== undefined)
+
+      this.selectedSegment = data?.course_additional_properties?.map(category => {
+        if(category.type === "segment") {
+          return {
+            id: category.id,
+            value: category.value
+          }
+        }
+      }).filter(category => category !== undefined)
+
+      this.selectedBranding = data?.course_additional_properties?.map(category => {
+        if(category.type === "branding") {
           return {
             id: category.id,
             value: category.value
@@ -733,10 +766,13 @@ export class CourseEditComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          const {campus,faculty,bussines_unit} = data.data
-          this.campusList = campus
-          this.facultyList = faculty
-          this.businessUnitList = bussines_unit
+          const {campus,faculty,bussines_unit,type,segment,branding} = data.data;
+          this.campusList = campus;
+          this.facultyList = faculty;
+          this.businessUnitList = bussines_unit;
+          this.typeList = type;
+          this.segmentList = segment;
+          this.brandingList = branding;
         },
         (error) => {
           console.log(error);
@@ -1738,9 +1774,12 @@ export class CourseEditComponent {
 
     if(this.companyId == 32) {
       params['additional_properties_course_access'] = this.allowCourseAccess ? 1 : 0,
-      params['additional_properties_campus_ids'] = this.selectedCampus?.length > 0 ? this.selectedCampus?.map( (data) => { return data.id }).join() : ''
-      params['additional_properties_faculty_ids'] = this.selectedFaculty?.length > 0 ? this.selectedFaculty?.map( (data) => { return data.id }).join() : ''
-      params['additional_properties_business_unit_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedBusinessUnit?.map( (data) => { return data.id }).join() : ''
+      params['additional_properties_campus_ids'] = this.selectedCampus?.length > 0 ? this.selectedCampus?.map( (data) => { return data.id }).join() : '';
+      params['additional_properties_faculty_ids'] = this.selectedFaculty?.length > 0 ? this.selectedFaculty?.map( (data) => { return data.id }).join() : '';
+      params['additional_properties_business_unit_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedBusinessUnit?.map( (data) => { return data.id }).join() : '';
+      params['additional_properties_type_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedType?.map( (data) => { return data.id }).join() : '';
+      params['additional_properties_segment_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedSegment?.map( (data) => { return data.id }).join() : '';
+      params['additional_properties_branding_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedBranding?.map( (data) => { return data.id }).join() : '';
     }
 
     if (this.id > 0) {
