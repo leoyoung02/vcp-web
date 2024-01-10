@@ -351,16 +351,11 @@ export class MyLessonsComponent {
                         if(this.tutorAccountId?.length == 0){
                             ub.stripe_connect = false
                         }
-                        this.tutorAccountId.forEach(ta => {
-                            if(ub.stripe_id == ta.stripe_id){
-                                ub.stripe_connect = true
-                            }else{
-                                ub.stripe_connect = false
-                            }
-                        })
+                        ub.stripe_connect = this.tutorAccountId.find((ta) => (ub.stripe_id == ta.stripe_id)) ? true : false;
+                    
                     })
                 }
-
+                
                 user_bookings = user_bookings.map((booking) => {
                     return {
                         booking_date_display: moment(booking?.booking_date).format('DD/MM/YYYY'),
