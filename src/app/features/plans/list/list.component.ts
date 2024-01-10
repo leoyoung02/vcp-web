@@ -189,6 +189,7 @@ export class PlansListComponent {
   campus: any = '';
   kcnPlanCategoryMapping: any = [];
   selectedType: any = '';
+  userAdditionalProperties: any = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -328,7 +329,6 @@ export class PlansListComponent {
   initializePage() {
     this.initializeSearch();
     this.fetchPlansOtherData();
-    this.fetchPlans();
   }
 
   initializeSearch() {
@@ -513,6 +513,7 @@ export class PlansListComponent {
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 
+          this.user = data?.user;
           this.mapUserPermissions(data?.user_permissions);
 
           this.cities = data?.cities;
@@ -528,6 +529,8 @@ export class PlansListComponent {
           this.mapCategories(data?.plan_categories);
           this.subcategories = data?.plan_subcategories;
           this.initializeButtonGroup();
+
+          this.fetchPlans();
         },
         (error) => {
           console.log(error);
@@ -699,11 +702,10 @@ export class PlansListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          this.plans = data?.plans || [];
-          this.planCategoriesMapping =
-            data?.category_mappings?.plan_categories_mapping || [];
-          this.planSubcategoriesMapping =
-            data?.category_mappings?.plan_subcategories_mapping || [];
+          this.userAdditionalProperties = data?.users_additional_properties;
+          this.plans = this.initialFilter(data);
+          this.planCategoriesMapping = data?.category_mappings?.plan_categories_mapping || [];
+          this.planSubcategoriesMapping = data?.category_mappings?.plan_subcategories_mapping || [];
           this.formatPlans(data?.plan_participants);
           this.isloading = false;
         },
@@ -711,6 +713,98 @@ export class PlansListComponent {
           console.log(error);
         }
       );
+  }
+
+  initialFilter(data) {
+    let plans = data?.plans;
+
+    if(this.companyId == 32 && !this.superAdmin) {
+      plans = plans?.filter(plan => {
+        let include = false
+
+        if(plan?.additional_properties_course_access == 1) {
+          let match_campus = false
+          if(plan?.additional_properties_campus_ids) {
+            let plan_campus = plan?.additional_properties_campus_ids?.split(',');
+            let user_campus_row = this.userAdditionalProperties?.filter(c => {
+              return c.type == 'campus' && c.value == this.user?.campus
+            })
+            let user_campus = user_campus_row?.length > 0 ? user_campus_row[0].id : 0
+            match_campus = plan_campus?.some((a) => a == user_campus);
+          } else {
+            match_campus = true;
+          }
+
+          let match_faculty = false;
+          if(plan?.additional_properties_faculty_ids) {
+            let plan_faculty = plan?.additional_properties_faculty_ids?.split(',');
+            let user_faculty_row = this.userAdditionalProperties?.filter(c => {
+              return c.type == 'faculty' && c.value == this.user?.faculty
+            })
+            let user_faculty = user_faculty_row?.length > 0 ? user_faculty_row[0].id : 0
+            match_faculty = plan_faculty?.some((a) => a == user_faculty);
+          } else {
+            match_faculty = true;
+          }
+
+          let match_business_unit = false;
+          if(plan?.additional_properties_business_unit_ids) {
+            let plan_business_unit = plan?.additional_properties_business_unit_ids?.split(',');
+            let user_business_unit_row = this.userAdditionalProperties?.filter(c => {
+              return c.type == 'bussines_unit' && c.value == this.user?.bussines_unit
+            })
+            let user_business_unit = user_business_unit_row?.length > 0 ? user_business_unit_row[0].id : 0
+            match_business_unit = plan_business_unit?.some((a) => a == user_business_unit);
+          } else {
+            match_business_unit = true;
+          }
+
+          let match_type = false;
+          if(plan?.additional_properties_type_ids) {
+            let plan_type = plan?.additional_properties_type_ids?.split(',');
+            let user_type_row = this.userAdditionalProperties?.filter(c => {
+              return c.type == 'type' && c.value == this.user?.type
+            })
+            let user_type = user_type_row?.length > 0 ? user_type_row[0].id : 0
+            match_type = plan_type?.some((a) => a == user_type);
+          } else {
+            match_type = true;
+          }
+
+          let match_segment = false;
+          if(plan?.additional_properties_segment_ids) {
+            let plan_segment = plan?.additional_properties_segment_ids?.split(',');
+            let user_segment_row = this.userAdditionalProperties?.filter(c => {
+              return c.type == 'segment' && c.value == this.user?.segment
+            })
+            let user_segment = user_segment_row?.length > 0 ? user_segment_row[0].id : 0
+            match_segment = plan_segment?.some((a) => a == user_segment);
+          } else {
+            match_segment = true;
+          }
+
+          let match_branding = false;
+          if(plan?.additional_properties_branding_ids) {
+            let plan_branding = plan?.additional_properties_branding_ids?.split(',');
+            let user_branding_row = this.userAdditionalProperties?.filter(c => {
+              return c.type == 'branding' && c.value == this.user?.branding
+            })
+            let user_branding = user_branding_row?.length > 0 ? user_branding_row[0].id : 0
+            match_branding = plan_branding?.some((a) => a == user_branding);
+          } else {
+            match_branding = true;
+          }
+
+          include = (match_campus && match_faculty && match_business_unit && match_type && match_segment && match_branding) ? true : false;
+        } else {
+          include = true;
+        }
+
+        return include;
+      })
+    }
+
+    return plans;
   }
 
   formatPlans(plan_participants) {

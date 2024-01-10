@@ -662,16 +662,16 @@ export class CoursesListComponent {
   }
 
   initialFilter(courses_list) {
-    let courses = courses_list && courses_list.filter(c => {
+    let courses = courses_list && courses_list.filter(course => {
       let include = false
 
-      let active = c.status == 1 ? true : false
+      let active = course?.status == 1 ? true : false
 
-      if(this.companyId == 32) {
-        if(c.additional_properties_course_access == 1) {
+      if(this.companyId == 32 && !this.superAdmin) {
+        if(course?.additional_properties_course_access == 1) {
           let match_campus = false
-          if(c.additional_properties_campus_ids) {
-            let course_campus = c.additional_properties_campus_ids?.split(',');
+          if(course?.additional_properties_campus_ids) {
+            let course_campus = course?.additional_properties_campus_ids?.split(',');
             let user_campus_row = this.userAdditionalProperties?.filter(c => {
               return c.type == 'campus' && c.value == this.user?.campus
             })
@@ -682,8 +682,8 @@ export class CoursesListComponent {
           }
 
           let match_faculty = false;
-          if(c.additional_properties_faculty_ids) {
-            let course_faculty = c.additional_properties_faculty_ids?.split(',');
+          if(course?.additional_properties_faculty_ids) {
+            let course_faculty = course?.additional_properties_faculty_ids?.split(',');
             let user_faculty_row = this.userAdditionalProperties?.filter(c => {
               return c.type == 'faculty' && c.value == this.user?.faculty
             })
@@ -694,8 +694,8 @@ export class CoursesListComponent {
           }
 
           let match_business_unit = false;
-          if(c.additional_properties_business_unit_ids) {
-            let course_business_unit = c.additional_properties_business_unit_ids?.split(',');
+          if(course?.additional_properties_business_unit_ids) {
+            let course_business_unit = course?.additional_properties_business_unit_ids?.split(',');
             let user_business_unit_row = this.userAdditionalProperties?.filter(c => {
               return c.type == 'bussines_unit' && c.value == this.user?.bussines_unit
             })
@@ -706,8 +706,8 @@ export class CoursesListComponent {
           }
 
           let match_type = false;
-          if(c.additional_properties_type_ids) {
-            let course_type = c.additional_properties_type_ids?.split(',');
+          if(course?.additional_properties_type_ids) {
+            let course_type = course?.additional_properties_type_ids?.split(',');
             let user_type_row = this.userAdditionalProperties?.filter(c => {
               return c.type == 'type' && c.value == this.user?.type
             })
@@ -718,8 +718,8 @@ export class CoursesListComponent {
           }
 
           let match_segment = false;
-          if(c.additional_properties_segment_ids) {
-            let course_segment = c.additional_properties_segment_ids?.split(',');
+          if(course?.additional_properties_segment_ids) {
+            let course_segment = course?.additional_properties_segment_ids?.split(',');
             let user_segment_row = this.userAdditionalProperties?.filter(c => {
               return c.type == 'segment' && c.value == this.user?.segment
             })
@@ -730,8 +730,8 @@ export class CoursesListComponent {
           }
 
           let match_branding = false;
-          if(c.additional_properties_branding_ids) {
-            let course_branding = c.additional_properties_branding_ids?.split(',');
+          if(course?.additional_properties_branding_ids) {
+            let course_branding = course?.additional_properties_branding_ids?.split(',');
             let user_branding_row = this.userAdditionalProperties?.filter(c => {
               return c.type == 'branding' && c.value == this.user?.branding
             })

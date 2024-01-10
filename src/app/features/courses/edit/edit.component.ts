@@ -488,19 +488,8 @@ export class CourseEditComponent {
           this.initializePage();
         }
       );
-      
-    this.additionalPropertiesDropdownSettings = {
-        singleSelection: false,
-        idField: 'id',
-        textField: 'value',
-        selectAllText: this._translateService.instant('dialog.selectall'),
-        unSelectAllText: this._translateService.instant('dialog.clearall'),
-        itemsShowLimit: 3,
-        allowSearchFilter: true,
-      };
-    this.initializePage();
 
-    if(this.companyId == 32) { this.fetchAdditionalProperties(); }
+    this.initializePage();
   }
  
   initializePage() {
@@ -579,6 +568,15 @@ export class CourseEditComponent {
       itemsShowLimit: 8,
       allowSearchFilter: true
     }
+    this.additionalPropertiesDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'value',
+      selectAllText: this._translateService.instant('dialog.selectall'),
+      unSelectAllText: this._translateService.instant('dialog.clearall'),
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+    };
     this.unlockModuleQuestions = [
       {
         id: 1,
@@ -669,9 +667,8 @@ export class CourseEditComponent {
     ]
     this.startButtonColor = this.buttonColor
     this.buyNowButtonColor = this.buttonColor
-
+    if(this.companyId == 32) { this.fetchAdditionalProperties(); }
     this.fetchCourseData();
-   
   }
 
   fetchCourseData() {
@@ -761,7 +758,7 @@ export class CourseEditComponent {
   }
 
   fetchAdditionalProperties() {
-    this._coursesService
+    this._companyService
       .fetchAdditionalPropertiesAdmin(this.companyId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(

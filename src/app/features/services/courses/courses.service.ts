@@ -2,7 +2,6 @@ import { Injectable } from "@angular/core";
 import { Observable, forkJoin, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {
-  ADDITIONAL_PROPERTIES_DATA,
   ADD_COURSE_DOWNLOAD_URL,
   ADD_COURSE_MODULE__URL,
   ADD_COURSE_UNIT_URL,
@@ -644,11 +643,5 @@ export class CoursesService {
         return result;
       })
     );
-  }
-
-  fetchAdditionalPropertiesAdmin(companyId): Observable<any> {
-    return this._http.get(`${ADDITIONAL_PROPERTIES_DATA}/${companyId}`, { 
-      headers: this.headers 
-    }).pipe(map(res => res));
   }
 }

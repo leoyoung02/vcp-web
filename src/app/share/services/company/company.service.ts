@@ -167,6 +167,7 @@ import {
   ADD_COMMUNITY_CHANNEL_URL,
   EDIT_COMMUNITY_CHANNEL_URL,
   DELETE_COMMUNITY_CHANNEL_URL,
+  ADDITIONAL_PROPERTIES_DATA,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -929,7 +930,7 @@ export class CompanyService {
     ).pipe(map(res => res))
   }
 
-  fetchHomeData(id: number = 0, isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
+  fetchHomeData(id: number = 0, isUESchoolOfLife: boolean = false, campus: string = '', userId: number = 0): Observable<any> {
     let url = `${HOME_DATA_URL}/${id}`
     if(isUESchoolOfLife) {
       url += `?schooloflife=1&campus=${campus}`
@@ -937,6 +938,9 @@ export class CompanyService {
       if(campus) {
         url += `?campus=${campus}`
       }
+    }
+    if(userId > 0) {
+      url += url?.indexOf('?') >= 0 ? `&userid=${userId}` : `?userid=${userId}`;
     }
     
     return this._http.get(url, { 
@@ -1463,5 +1467,11 @@ export class CompanyService {
         `${DELETE_COMMUNITY_CHANNEL_URL}/${id}`,
         {}
     ).pipe(map(res => res));
+  }
+
+  fetchAdditionalPropertiesAdmin(companyId): Observable<any> {
+    return this._http.get(`${ADDITIONAL_PROPERTIES_DATA}/${companyId}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
   }
 }
