@@ -66,13 +66,7 @@ export class TikTokLandingQuestionsComponent {
   questionImagesObject: any = [];
   imageSrc: string = `${environment.api}/get-testimonial-image/`
   showOtherImages: boolean = false;
-  defaultQuestionAnswers :string[] = [
-  "España",
-  "América Latina",
-  "Otros"
-  ];
   latinWhatsappUrl : string = '';
-  selectedAnswerForLocation : string = ""
 
   constructor(
     private _router: Router,
@@ -175,8 +169,17 @@ export class TikTokLandingQuestionsComponent {
   }
 
   submit() {
-    let whatsAppCommunityURL:string = ""
-    if(this.selectedAnswerForLocation == "América Latina"){
+    let whatsAppCommunityURL:string = "";
+    let locAnsObj = this.questionItems?.find(qi => {
+      return qi.title == 'Selecciona tu ubicación'
+    });
+    let locAns = {
+      choice : ''
+    };
+    if(locAnsObj){
+      locAns.choice = locAnsObj?.question_multiple_choice_options.find((ans) => locAnsObj?.answer == ans.id)?.choice || '';
+    }
+    if(locAns && locAns?.choice == 'América Latina'){
       whatsAppCommunityURL = this.latinWhatsappUrl;
     }else{
       whatsAppCommunityURL = this.getMappedCommunityFromAnswers();
@@ -350,10 +353,5 @@ export class TikTokLandingQuestionsComponent {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
-  }
-
-
-  setSelectAnswerForLocation(choice:any){
-    this.selectedAnswerForLocation = choice
   }
 }
