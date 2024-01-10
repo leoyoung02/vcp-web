@@ -400,7 +400,7 @@ export class QuestionnairesComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (response) => {
-          this.questionLocations = response.question_locations;
+          this.questionLocations = response.question_locations; 
           this.questionTypes = response.question_types;
           this.allQuestionImages = response.question_images;
           this.formatQuestions(response.questions);

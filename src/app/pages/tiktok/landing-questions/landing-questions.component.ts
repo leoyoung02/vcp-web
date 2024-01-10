@@ -66,6 +66,7 @@ export class TikTokLandingQuestionsComponent {
   questionImagesObject: any = [];
   imageSrc: string = `${environment.api}/get-testimonial-image/`
   showOtherImages: boolean = false;
+  latinWhatsappUrl : string = '';
 
   constructor(
     private _router: Router,
@@ -111,6 +112,25 @@ export class TikTokLandingQuestionsComponent {
         }
       );
 
+      this._companyService
+      .getLeadsQuestions(this.companyId, this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response) => {
+          const latinQuestion = response?.questions?.find((question:any)=>{
+            if(question.location_id == 2){
+              return question
+            }
+          }) || {}
+          if(latinQuestion){
+            const questionObj = latinQuestion?.question_rules?.find((item:any) => item.question_id == 25)
+            this.latinWhatsappUrl = questionObj.whatsapp_community
+          }
+        },
+        (error) => {
+          
+        }
+      );
     this.initializePage();
   }
 
@@ -149,8 +169,21 @@ export class TikTokLandingQuestionsComponent {
   }
 
   submit() {
-    let whatsAppCommunityURL = this.getMappedCommunityFromAnswers();
-
+    let whatsAppCommunityURL:string = "";
+    let locAnsObj = this.questionItems?.find(qi => {
+      return qi.title == 'Selecciona tu ubicación'
+    });
+    let locAns = {
+      choice : ''
+    };
+    if(locAnsObj){
+      locAns.choice = locAnsObj?.question_multiple_choice_options.find((ans) => locAnsObj?.answer == ans.id)?.choice || '';
+    }
+    if(locAns && locAns?.choice == 'América Latina'){
+      whatsAppCommunityURL = this.latinWhatsappUrl;
+    }else{
+      whatsAppCommunityURL = this.getMappedCommunityFromAnswers();
+    }
     let email = '';
     if(this.questionItems?.length > 0) {
       let email_row = this.questionItems?.filter(qi => {

@@ -58,6 +58,7 @@
                         </div>
                     </div>
                 </div>
+                
                 <ng-container *ngIf="showOtherImages && questionImages?.length > 0">
                     <ng-container *ngIf="questionnaire?.images_description">
                         <div [innerHtml]="questionnaire?.images_description | safeContentHtml: 'html'"></div>
@@ -102,7 +103,7 @@
                         [ngClass]="{'disabled:opacity-75': !isValidForm(questionItems)}"
                         [disabled]="!isValidForm(questionItems)"
                     >
-                        {{ questionnaire?.button_text || ("inquiry.submit" | translate) }}
+                    {{ questionnaire?.button_text || ("inquiry.submit" | translate) }}
                     </button>
                 </div>
             </ng-container>
