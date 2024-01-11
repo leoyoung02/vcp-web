@@ -3421,5 +3421,21 @@
     },
     "community": {
         "communitychannels": "Canales comunitarios"
+    },
+    "course-assessment": {
+        "courseassessment": "Evaluación del curso",
+        "beginning": "Principio",
+        "before": "Antes",
+        "after": "Después",
+        "course": "Curso",
+        "module": "Módulo",
+        "passingrate": "Porcentaje de aprobación (%)",
+        "requiredtopass": "¿Alcanzar el índice de aprobación para continuar?",
+        "manageassessments": "Gestionar evaluaciones",
+        "addcourseassessment": "Agregar evaluación del curso",
+        "showcourseassessment": "Mostrar evaluación del curso en",
+        "end": "Fin",
+        "of": "de",
+        "assessment": "Evaluación"
     }
 }

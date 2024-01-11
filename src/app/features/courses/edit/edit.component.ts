@@ -431,6 +431,21 @@ export class CourseEditComponent {
   selectedItems :any;
   additionalPropertiesDropdownSettings = {};
 
+  showAssessmentDetails: boolean = false;
+  courseAssessmentMode: any;
+  courseAssessmentFormSubmitted: boolean = false;
+  assessmentTimings: any = [];
+  selectedAssessmentTiming: any = '';
+  assessmentTimingsTypes: any = [];
+  selectedAssessmentTimingType: any = '';
+  passingRate: any = '';
+  requirePass: boolean = false;
+  courseAssessments: any = [];
+  selectedAssessmentId: any = '';
+  selectedAssessmentModule: any = '';
+  assessments: any = [];
+  selectedAssessment: any = '';
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -665,6 +680,48 @@ export class CourseEditComponent {
         }
       }
     ]
+    this.assessmentTimings = [
+      {
+        value: 'beginning',
+        text: this._translateService.instant('course-assessment.beginning'),
+        subtypes: [
+          {
+            value: "course",
+            text: this._translateService.instant('course-assessment.course'),
+          }
+        ]
+      },
+      {
+        value: 'end',
+        text: this._translateService.instant('course-assessment.end'),
+        subtypes: [
+          {
+            value: "course",
+            text: this._translateService.instant('course-assessment.course'),
+          }
+        ]
+      },
+      {
+        value: 'before',
+        text: this._translateService.instant('course-assessment.before'),
+        subtypes: [
+          {
+            value: "module",
+            text: this._translateService.instant('course-assessment.module'),
+          }
+        ]
+      },
+      {
+        value: 'after',
+        text: this._translateService.instant('course-assessment.after'),
+        subtypes: [
+          {
+            value: "module",
+            text: this._translateService.instant('course-assessment.module'),
+          }
+        ]
+      }
+    ]
     this.startButtonColor = this.buttonColor
     this.buyNowButtonColor = this.buttonColor
     if(this.companyId == 32) { this.fetchAdditionalProperties(); }
@@ -685,6 +742,8 @@ export class CourseEditComponent {
           this.courseDifficultyLevels = data?.course_difficulty_levels;
           this.courseDurationUnits = data?.course_duration_units;
           this.otherStripeAccounts = data?.other_stripe_accounts;
+          this.assessments = data?.assessments;
+          this.formatCourseAssessments(data?.course_assessments);
           this.getOtherSettings(data?.settings?.other_settings, data?.member_types);
           this.getCourseWalls();
           if(this.companyId == 32) { this.formatAdditionalProperties(data); }
@@ -697,7 +756,6 @@ export class CourseEditComponent {
   }
 
   formatAdditionalProperties(data) {
-    console.log(data)
     if(data?.course_additional_properties_access){
       this.allowCourseAccess = data?.course_additional_properties_access
 
@@ -3019,6 +3077,183 @@ export class CourseEditComponent {
         (this.language == 'de' ? (wall.title_de || wall.title) : (wall.title))
       ))
     )
+  }
+
+  getModuleText(module) {
+    return this.language == 'en' ? module.module_title_en : (this.language == 'fr' ? (module.title_fr || module.module_title) : 
+      (this.language == 'eu' ? (module.module_title_eu || module.module_title) : (this.language == 'ca' ? (module.module_title_ca || module.module_title) : 
+      (this.language == 'de' ? (module.module_title_de || module.module_title) : module.module_title)
+      ))
+    )
+  }
+
+  getCourseAssessments() {
+    this._coursesService
+    .getCourseAssessmentItems(this.id)
+    .subscribe( 
+      response => {
+        this.formatCourseAssessments(response.course_assessments);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  formatCourseAssessments(course_assessments) {
+    let courseAssessments = course_assessments?.map(item => {
+      let timing = this.assessmentTimings?.find((f) => f.value == item?.timing);
+      let type = item?.type == 'module' ? this.getModuleText(item) : this._translateService.instant('course-assessment.course')
+
+      return {
+        ...item,
+        course_assessment_timing: `${timing?.text} ${this._translateService.instant('course-assessment.of')} ${type}`,
+        passing_rate: `${item.passing_rate?.replace('.00', '')}%`
+      }
+    })
+
+    this.courseAssessments = courseAssessments;
+  }
+
+  goToAssessments() {
+    this._router.navigate([`/courses/assessments`]);
+  }
+
+  addCourseAssessment() {
+    this.resetCourseAssessmentFields()
+    this.courseAssessmentMode = 'add'
+    this.showAssessmentDetails = true
+  }
+
+  resetCourseAssessmentFields() {
+    this.selectedAssessment = '';
+    this.selectedAssessmentTiming = '';
+    this.selectedAssessmentTimingType = '';
+    this.selectedAssessmentModule = '';
+    this.passingRate = '';
+    this.requirePass = false;
+    this.courseAssessmentMode = '';
+    this.showAssessmentDetails = false;
+    this.courseAssessmentFormSubmitted = false;
+  }
+
+  cancelShowAssessment() {
+    this.resetCourseAssessmentFields()
+    this.courseAssessmentMode = '';
+    this.showAssessmentDetails = false;
+  }
+
+  handleChangeAssessmentTiming(event) {
+    this.initializeTimingTypes(event?.target?.value);
+  }
+
+  initializeTimingTypes(value) {
+    let assessment_timing = this.assessmentTimings.find(at => at.value == value);
+    this.assessmentTimingsTypes = assessment_timing?.subtypes || [];
+    this.selectedAssessmentTimingType = this.assessmentTimingsTypes?.length > 0 ? this.assessmentTimingsTypes[0].value : '';
+  }
+
+  saveAssessment() {
+    if(this.courseAssessmentMode == 'add') {
+      this.addAssessment();
+    } else if(this.courseAssessmentMode == 'edit') {
+      this.updateAssessment();
+    }
+  }
+
+  addAssessment() {
+    this.courseAssessmentFormSubmitted = true;
+
+    if(!this.selectedAssessment || !this.selectedAssessmentTiming || !this.selectedAssessmentTimingType) {
+      return false
+    }
+
+    let params = {
+      company_id: this.companyId,
+      course_id: this.id,
+      assessment_id: this.selectedAssessment || null,
+      timing: this.selectedAssessmentTiming,
+      type: this.selectedAssessmentTimingType,
+      module_id: this.selectedAssessmentModule || null,
+      passing_rate: this.passingRate || null,
+      required_to_pass: this.requirePass || false,
+    }
+
+    this._coursesService.addCourseAssessmentItem(
+      params,
+    ).subscribe(
+      response => {
+        this.getCourseAssessments();
+        this.resetCourseAssessmentFields();
+        this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+      },
+      error => {
+        this.open(this._translateService.instant("dialog.error"), "");
+      }
+    )
+  }
+
+  updateAssessment() {
+    this.courseAssessmentFormSubmitted = true;
+
+    if(!this.selectedAssessment || !this.selectedAssessmentTiming || !this.selectedAssessmentTimingType) {
+      return false
+    }
+
+    let params = {
+      company_id: this.companyId,
+      course_id: this.id,
+      assessment_id: this.selectedAssessment || null,
+      timing: this.selectedAssessmentTiming,
+      type: this.selectedAssessmentTimingType,
+      module_id: this.selectedAssessmentModule || null,
+      passing_rate: this.passingRate || null,
+      required_to_pass: this.requirePass || false,
+    }
+
+    this._coursesService.editCourseAssessmentItem(
+      this.selectedAssessmentId,
+      params,
+    ).subscribe(
+      response => {
+        this.getCourseAssessments();
+        this.resetCourseAssessmentFields();
+        this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+      },
+      error => {
+        this.open(this._translateService.instant("dialog.error"), "");
+      }
+    )
+  }
+
+  editCourseAssessment(item) {
+    this.courseAssessmentMode = 'edit';
+    this.selectedAssessmentId = item.id;
+    this.selectedAssessment = item.assessment_id;
+    this.selectedAssessmentTiming = item.timing || '';
+    this.initializeTimingTypes(this.selectedAssessmentTiming);
+    this.selectedAssessmentTimingType = item.type || '';
+    this.selectedAssessmentModule = item.module_id || '';
+    this.passingRate = item?.passing_rate?.replace('.00', '')?.replace('%', '');
+    this.requirePass = item?.required_to_pass == 1 ? true : false;
+    this.showAssessmentDetails = true;
+    this.courseAssessmentFormSubmitted = false;
+  }
+
+  deleteCourseAssessment(item) {
+    this._coursesService.deleteCourseAssessmentItem(item.id)
+      .subscribe(
+        response => {
+          if (response) {
+            this.getCourseAssessments()
+            this.open(this._translateService.instant("dialog.deletedsuccessfully"), "");
+          }
+        },
+        error => {
+          console.log(error)
+          this.open(this._translateService.instant("dialog.error"), "");
+        }
+      )
   }
 
   ngOnDestroy() {

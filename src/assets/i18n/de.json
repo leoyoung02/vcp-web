@@ -3399,5 +3399,21 @@
     },
     "community": {
         "communitychannels": "Community-Kanäle"
+    },
+    "course-assessment": {
+        "courseassessment": "Kursbewertung",
+        "beginning": "Anfang",
+        "before": "Vorher",
+        "after": "Nachher",
+        "course": "Kurs",
+        "module": "Modul",
+        "passingrate": "Bestehensquote (%)",
+        "requiredtopass": "Score erreicht Erfolgsquote, um fortzufahren?",
+        "manageassessments": "Bewertungen verwalten",
+        "addcourseassessment": "Kursbewertung hinzufügen",
+        "showcourseassessment": "Kursbewertung anzeigen bei",
+        "end": "Ende",
+        "of": "von",
+        "assessment": "Bewertung"
     }
 }

@@ -3395,5 +3395,21 @@
     },
     "community": {
         "communitychannels": "Chaînes communautaires"
+    },
+    "course-assessment": {
+        "courseassessment": "Évaluation du cours",
+        "beginning": "Début",
+        "before": "Avant",
+        "after": "Après",
+        "course": "Cours",
+        "module": "Module",
+        "passingrate": "Taux de réussite (%)",
+        "requiredtopass": "Score atteindre le taux de réussite pour continuer ?",
+        "manageassessments": "Gérer les évaluations",
+        "addcourseassessment": "Ajouter une évaluation de cours",
+        "showcourseassessment": "Afficher l'évaluation du cours à",
+        "end": "Fin",
+        "of": "de",
+        "assessment": "Évaluation"
     }
 }

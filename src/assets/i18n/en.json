@@ -3435,5 +3435,21 @@
     },
     "community": {
         "communitychannels": "Community channels"
+    },
+    "course-assessment": {
+        "courseassessment": "Course assessment",
+        "beginning": "Beginning",
+        "before": "Before",
+        "after": "After",
+        "course": "Course",
+        "module": "Module",
+        "passingrate": "Passing Rate (%)",
+        "requiredtopass": "Score reach passing rate to continue?",
+        "manageassessments": "Manage assessments",
+        "addcourseassessment": "Add course assessment",
+        "showcourseassessment": "Show course assessment at",
+        "end": "End",
+        "of": "of",
+        "assessment": "Assessment"
     }
 }

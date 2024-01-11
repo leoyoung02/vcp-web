@@ -13,6 +13,7 @@ import {
   COURSES_COMBINED_URL,
   COURSES_MANAGEMENT_DATA_URL,
   COURSES_URL,
+  COURSE_ASSESSMENT_ITEMS_URL,
   COURSE_CATEGORIES_URL,
   COURSE_CATEGORY_ACCESS_EDIT_URL,
   COURSE_CATEGORY_ACCESS_ROLES_URL,
@@ -34,12 +35,15 @@ import {
   COURSE_UNITS_URL,
   COURSE_UNIT_DETAILS_URL,
   COURSE_WALL_URL,
+  CREATE_COURSE_ASSESSMENT_ITEM_URL,
+  DELETE_COURSE_ASSESSMENT_ITEM_URL,
   DELETE_COURSE_DOWNLOAD_URL,
   DELETE_COURSE_MODULE_URL,
   DELETE_COURSE_UNIT_URL,
   DELETE_COURSE_URL,
   DELETE_CTA_URL,
   DUPLICATE_COURSE_URL,
+  EDIT_COURSE_ASSESSMENT_ITEM_URL,
   EDIT_COURSE_DOWNLOAD_URL,
   EDIT_COURSE_LOCK_URL,
   EDIT_COURSE_MODULE_URL,
@@ -643,5 +647,34 @@ export class CoursesService {
         return result;
       })
     );
+  }
+
+  getCourseAssessmentItems(courseId): Observable<any> {
+    return this._http.get(
+      `${COURSE_ASSESSMENT_ITEMS_URL}/${courseId}`,
+      { headers: this.headers }
+    )
+    .pipe(map(res => res));
+  }
+
+  addCourseAssessmentItem(payload): Observable<any> {
+    return this._http.post(
+      CREATE_COURSE_ASSESSMENT_ITEM_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editCourseAssessmentItem(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_COURSE_ASSESSMENT_ITEM_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteCourseAssessmentItem(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_COURSE_ASSESSMENT_ITEM_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
   }
 }

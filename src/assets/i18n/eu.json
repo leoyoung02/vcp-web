@@ -3399,5 +3399,21 @@
     },
     "community": {
         "communitychannels": "Komunitate kanalak"
+    },
+    "course-assessment": {
+        "courseassessment": "Ikastaroaren ebaluazioa",
+        "beginning": "Hasiera",
+        "before": "Lehenago",
+        "after": "Ondoren",
+        "course": "Ikastaroa",
+        "module": "Modulua",
+        "passingrate": "Gaialdi-tasa (%)",
+        "requiredtopass": "Jarraitzeko puntuazioa lortzeko gainditze-tasa?",
+        "manageassessments": "Kudeatu ebaluazioak",
+        "addcourseassessment": "Gehitu ikastaroaren ebaluazioa",
+        "showcourseassessment": "Erakutsi ikastaroaren ebaluazioa hemen",
+        "end": "Amaitu",
+        "of": "de",
+        "assessment": "Ebaluazioa"
     }
 }

@@ -3409,5 +3409,21 @@
     },
     "community": {
         "communitychannels": "Canals de la comunitat"
+    },
+    "course-assessment": {
+        "courseassessment": "Avaluació del curs",
+        "beginning": "Inici",
+        "before": "Abans",
+        "after": "Després",
+        "course": "Curs",
+        "module": "Mòdul",
+        "passingrate": "Percentatge de superació (%)",
+        "requiredtopass": "El percentatge d'aprovació de la puntuació per continuar?",
+        "manageassessments": "Gestiona les avaluacions",
+        "addcourseassessment": "Afegeix l'avaluació del curs",
+        "showcourseassessment": "Mostra l'avaluació del curs a",
+        "end": "Fi",
+        "of": "de",
+        "assessment": "Avaluació"
     }
 }
