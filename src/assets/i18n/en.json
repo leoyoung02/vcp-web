@@ -3070,7 +3070,8 @@
         "changehomevideotitledesc": "To set Title and Desciption for specific member, change the member in dropdown then enter the texts.",
         "changehomevideodesc": "To set video for specific member, change the member in dropdown here then enter the texts.",
         "confirmresend": "Confirm resend",
-        "confirmresendemail": "Do you really want to resend the course access email?"
+        "confirmresendemail": "Do you really want to resend the course access email?",
+        "userexists":"This user already exists."
     },
     "buddy": {
         "mentorprofile": "Mentor profile",

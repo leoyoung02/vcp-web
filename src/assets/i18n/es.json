@@ -3055,7 +3055,8 @@
         "changehomevideotitledesc": "Para establecer el título y la descripción de un miembro específico, cambie el miembro en el menú desplegable y luego ingrese los textos.",
         "changehomevideodesc": "Para configurar el video para un miembro específico, cambie el miembro en el menú desplegable aquí y luego ingrese los textos.",
         "confirmresend": "Confirmar reenvío",
-        "confirmresendemail": "¿Realmente deseas reenviar el correo electrónico de acceso al curso?"
+        "confirmresendemail": "¿Realmente deseas reenviar el correo electrónico de acceso al curso?",
+        "userexists":"Este usuario ya existe"
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",

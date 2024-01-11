@@ -912,3 +912,7 @@ input#email-recipients:valid {
 .script-container iframe {
     width: 100%;
 }
+
+div.event-description a {
+    word-wrap: break-word;
+}

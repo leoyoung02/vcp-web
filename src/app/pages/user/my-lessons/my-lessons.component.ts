@@ -238,8 +238,7 @@ export class MyLessonsComponent {
                 if(this.superTutor) {
                     this.superTutorStudents = super_tutor[0].super_tutor_students
                 }
-
-                this.tutorAccountId =  data[6] ? data[6]['account_ids'] : []
+                this.tutorAccountId =  data[6] ? data[6]['account_ids'] : []              
             }
 
             let cityAdmins = data[5] ? data[5]['city_admins'] : []
@@ -348,19 +347,10 @@ export class MyLessonsComponent {
                 let user_bookings = response['bookings']
                 if(role == 'tutor' || role == 'super_tutor' || role == 'admin'){
                     user_bookings.forEach(ub => {
-                        if(this.tutorAccountId?.length == 0){
-                            ub.stripe_connect = false
-                        }
-                        this.tutorAccountId.forEach(ta => {
-                            if(ub.stripe_id == ta.stripe_id){
-                                ub.stripe_connect = true
-                            }else{
-                                ub.stripe_connect = false
-                            }
-                        })
+                        ub.stripe_connect = this.tutorAccountId?.find((ta) => ((ub.stripe_id == ta.stripe_id) && ta.stripe_connect)) ? true : false;
                     })
                 }
-
+                
                 user_bookings = user_bookings.map((booking) => {
                     return {
                         booking_date_display: moment(booking?.booking_date).format('DD/MM/YYYY'),

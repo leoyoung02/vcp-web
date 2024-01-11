@@ -3042,7 +3042,8 @@
         "changehomevideotitledesc": "Kide zehatz baten izenburua eta deskribapena ezartzeko, aldatu kidea goitibeherako menuan eta idatzi testuak.",
         "changehomevideodesc": "Kide zehatz baten bideoa ezartzeko, aldatu hemen goitibeherako kidea eta idatzi testuak.",
         "confirmresend": "Berretsi berriro bidali",
-        "confirmresendemail": "Benetan nahi al duzu ikastaroaren sarbide-mezua berriro bidali?"
+        "confirmresendemail": "Benetan nahi al duzu ikastaroaren sarbide-mezua berriro bidali?",
+        "userexists":"Erabiltzaile hau jada existitzen da"
     },
     "buddy": {
         "mentorprofile": "Tutorearen profila",
