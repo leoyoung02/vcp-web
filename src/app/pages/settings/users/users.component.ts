@@ -3641,7 +3641,6 @@ export class ManageUsersComponent {
               if (response.code == "user_exists") {
                 this.open(this._translateService.instant("dialog.userexists"), "");
               } else {
-                console.log("this case")
                 this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
                 this.reloadMembersInfo();
                 this.hasAddedUser = true;
