@@ -1,31 +1,35 @@
-import { CommonModule } from "@angular/common";
-import {
-  Component,
-  HostListener,
-  Input,
-  SimpleChange,
-  ViewChild,
-} from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { CommonModule, Location } from "@angular/common";
+import { Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { Router } from "@angular/router";
 import {
   LangChangeEvent,
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import { CompanyService, LocalService } from "@share/services";
-import { Subject, takeUntil } from "rxjs";
-import { SearchComponent } from "@share/components/search/search.component";
-import { CoursesService } from "@features/services";
+import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
-import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatSort, MatSortModule } from "@angular/material/sort";
-import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatSnackBar } from "@angular/material/snack-bar";
-import { ToastComponent } from "@share/components";
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { COURSE_IMAGE_URL } from "@lib/api-constants";
+import { MatTabsModule } from "@angular/material/tabs";
+import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
+import { SearchComponent } from "@share/components/search/search.component";
+import {
+  CompanyService,
+  LocalService,
+} from "@share/services";
+import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
-import moment from "moment";
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from "@angular/forms";
+import { EditorModule } from "@tinymce/tinymce-angular";
+import { CoursesService } from "@features/services";
+import { initFlowbite } from "flowbite";
+import get from "lodash/get";
 
 @Component({
   selector: "app-course-assessments-list",
@@ -33,12 +37,18 @@ import moment from "moment";
   imports: [
     CommonModule,
     TranslateModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatTableModule,
     MatPaginatorModule,
     MatSortModule,
     MatSnackBarModule,
+    MatTabsModule,
+    EditorModule,
     SearchComponent,
+    BreadcrumbComponent,
     ToastComponent,
+    PageTitleComponent,
   ],
   templateUrl: "./assessments-list.component.html",
 })
@@ -46,88 +56,115 @@ export class CourseAssessmentsListComponent {
   private destroy$ = new Subject<void>();
 
   @Input() list: any;
-  @Input() company: any;
-  @Input() buttonColor: any;
-  @Input() primaryColor: any;
-  @Input() canCreateCourse: any;
-  @Input() coursesTitle: any;
-  @Input() userId: any;
-  @Input() superAdmin: any;
-  @Input() status: any;
-  @Input() language: any;
 
   languageChangeSubscription;
-  isMobile: boolean = false;
+  level1Title: string = "";
+  level2Title: string = "";
+  level3Title: string = "";
+  level4Title: string = "";
   searchText: any;
   placeholderText: any;
-  allCoursesData: any = [];
-  coursesData: any = [];
-  searchKeyword: any;
-  dataSource: any;
-  displayedColumns = [
-    "course_title",
-    "category",
-    "payment",
-    "courseaction",
-  ];
+  userId: any;
+  companyId: any;
+  language: any;
+  isloading: boolean = true;
+  companies: any;
+  primaryColor: any;
+  buttonColor: any;
+  company: any;
+  domain: any;
+  assessments: any = [];
+  allAssessments: any = [];
+  selectedId: any;
+  question: any;
+  sequence: any;
+  mode: any;
+  formSubmitted: boolean = false;
+  assessmentForm = new FormGroup({
+    title: new FormControl("", [Validators.required]),
+    description: new FormControl(""),
+  });
   pageSize: number = 10;
   pageIndex: number = 0;
+  dataSource: any;
+  displayedColumns = ["title", "action"];
+  showConfirmationModal: boolean = false;
+  selectedItem: any;
+  confirmDeleteItemTitle: any;
+  confirmDeleteItemDescription: any;
+  acceptText: string = "";
+  cancelText: any = "";
   @ViewChild(MatPaginator, { static: false }) paginator:
     | MatPaginator
     | undefined;
   @ViewChild(MatSort, { static: false }) sort: MatSort | undefined;
-  showConfirmationModal: boolean = false;
-  selectedItem: any;
-  confirmDeleteItemTitle: string = "";
-  confirmDeleteItemDescription: string = "";
-  acceptText: string = "";
-  cancelText: string = "";
-  courses: any;
-  user: any;
-  coursesFeature: any;
-  featureId: any;
-  pageName: any;
-  canLinkQuizToCourse: boolean = false;
-  hasCoursePayment: boolean = false;
-  hasCourseCategories: boolean = false;
-  isAdvancedCourse: boolean = false;
-  hasCourseCustomSections: boolean = false;
-  canLockUnlockModules: boolean = false;
-  hasHotmartIntegration: boolean = false;
-  hasCourseWallAccess: boolean = false;
-  hasStripeInstalment: boolean = false;
-  hasDifferentStripeAccount: boolean = false;
-  canCreate: any;
-  memberTypes: any;
-  memberRoles: any;
-  requireApproval: boolean = false;
-  unitTypes: any;
-  courseCategories: any;
-  paymentTypes: any;
-  data: any;
-  courseForm: any;
-  hotmartSettings: any;
-  courseDifficultyLevels: any;
-  courseDurationUnits: any;
-  otherStripeAccounts: any;
+  @ViewChild("modalbutton0", { static: false }) modalbutton0:
+    | ElementRef
+    | undefined;
+  @ViewChild("closemodalbutton0", { static: false }) closemodalbutton0:
+    | ElementRef
+    | undefined;
+  searchKeyword: any;
+  title: any;
+  description: any;
+  tabIndex = 0;
+  tabSelected: boolean = false;
+  createdAssessmentId: any;
+  assessmentItems: any = [];
+  assessmentTypes: any;
+  assessmentItemMode: any;
+  showAssessmentItemDetails: boolean = false;
+  selectedAssessmentItemId: any;
+  selectedAssessmentItemType: any = '';
+  assessmentItemTitle: any;
+  assessmentItemFormSubmitted: boolean = false;
+  selectedAssessmentItem: any;
+  selectedMultipleChoiceOption: any;
+  selectedMultipleChoiceOptionId: any;
+  showMultipleChoiceOptionDetails: boolean = false;
+  multipleChoiceOptionFormSubmitted: boolean = false;
+  multipleChoiceChoice: any;
+  multipleChoiceCorrect: boolean = false;
+  confirmMode: any;
+  multipleChoiceOptionMode: any;
 
   constructor(
-    private _route: ActivatedRoute,
-    private _router: Router,
-    private _snackBar: MatSnackBar,
+    private _companyService: CompanyService,
+    private _coursesService: CoursesService,
     private _translateService: TranslateService,
     private _localService: LocalService,
-    private _companyService: CompanyService,
-    private _coursesService: CoursesService
+    private _snackBar: MatSnackBar,
+    private _location: Location
   ) {}
 
-  @HostListener("window:resize", [])
-  private onResize() {
-    this.isMobile = window.innerWidth < 768;
-  }
-
   async ngOnInit() {
-    this.onResize();
+    this.language =
+      this._localService.getLocalStorage(environment.lslanguage) || "es";
+    this.userId = this._localService.getLocalStorage(environment.lsuserId);
+    this.companyId = this._localService.getLocalStorage(
+      environment.lscompanyId
+    );
+    this._translateService.use(this.language || "es");
+
+    this.companies = this._localService.getLocalStorage(environment.lscompanies)
+      ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
+      : "";
+    if (!this.companies) {
+      this.companies = get(
+        await this._companyService.getCompanies().toPromise(),
+        "companies"
+      );
+    }
+    let company = this._companyService.getCompany(this.companies);
+    if (company && company[0]) {
+      this.company = company[0];
+      this.companyId = company[0].id;
+      this.domain = company[0].domain;
+      this.primaryColor = company[0].primary_color;
+      this.buttonColor = company[0].button_color
+        ? company[0].button_color
+        : company[0].primary_color;
+    }
 
     this.languageChangeSubscription =
       this._translateService.onLangChange.subscribe(
@@ -141,245 +178,103 @@ export class CourseAssessmentsListComponent {
   }
 
   initializePage() {
-    this.fetchCoursesManagementData();
+    initFlowbite();
+    this.initializeBreadcrumb();
     this.initializeSearch();
+    this.getAssessments();
   }
 
-  fetchCoursesManagementData() {
-    this._coursesService
-      .fetchAdminCourses(this.company?.id, this.userId)
+  initializeBreadcrumb() {
+    this.level1Title = this._translateService.instant(
+      "company-settings.settings"
+    );
+    this.level2Title = this._translateService.instant(
+      "search.courses"
+    );
+    this.level3Title = this._translateService.instant(
+      "course-assessment.manageassessments"
+    );
+    this.level4Title = "";
+  }
+
+  initializeSearch() {
+    this.searchText = this._translateService.instant("guests.search");
+    this.placeholderText = this._translateService.instant(
+      "news.searchbykeyword"
+    );
+  }
+
+  getAssessments() {
+    this._companyService
+      .getAssessments(this.companyId, this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (data) => {
-          this.data = data;
-          this.user = data?.user_permissions?.user;
-          this.mapFeatures(data?.features_mapping);
-          this.mapSubfeatures(data);
-          this.mapUserPermissions(data?.user_permissions);
-          this.mapCustomMemberTypes(data?.member_types);
-          this.courseDifficultyLevels = data?.difficulty_levels;
-          this.courseDurationUnits = data?.duration_units;
-          this.unitTypes = data.unit_types;
-          this.courseCategories = data.course_categories;
-          this.otherStripeAccounts = data?.other_stripe_accounts;
-          this.paymentTypes = data?.payment_types;
-          this.hotmartSettings = data?.hotmart_settings;
-          this.formatCourses(data?.courses);
+        (response) => {
+          this.assessmentTypes = response.assessment_types;
+          this.formatAssessments(response.assessments);
+          this.allAssessments = this.assessments;
+          this.refreshTable(this.assessments);
+          this.isloading = false;
         },
         (error) => {
-          console.log(error);
-        }
-      );
-  }
-
-  mapFeatures(features) {
-    this.coursesFeature = features?.find((f) => f.feature_id == 11);
-    this.featureId = this.coursesFeature?.feature_id;
-    this.pageName = this.getFeatureTitle(this.coursesFeature);
-  }
-
-  getFeatureTitle(feature) {
-    return feature
-      ? this.language == "en"
-        ? feature.name_en ||
-          feature.feature_name ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : this.language == "fr"
-        ? feature.name_fr ||
-          feature.feature_name_FR ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : this.language == "eu"
-        ? feature.name_eu ||
-          feature.feature_name_EU ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : this.language == "ca"
-        ? feature.name_ca ||
-          feature.feature_name_CA ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : this.language == "de"
-        ? feature.name_de ||
-          feature.feature_name_DE ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : feature.name_es || feature.feature_name_ES
-      : "";
-  }
-
-  mapSubfeatures(data) {
-    let subfeatures = data?.settings?.subfeatures;
-    if (subfeatures?.length > 0) {
-      this.canLinkQuizToCourse = subfeatures.some(
-        (a) => a.name_en == "Link quiz to courses" && a.active == 1
-      );
-      this.hasCoursePayment = subfeatures.some(
-        (a) => a.name_en == "Course fee" && a.active == 1
-      );
-      this.hasCourseCategories = subfeatures.some(
-        (a) => a.name_en == "Categories" && a.active == 1
-      );
-      this.isAdvancedCourse = subfeatures.some(
-        (a) => a.name_en == "Advanced course" && a.active == 1
-      );
-      this.hasCourseCustomSections = subfeatures.some(
-        (a) => a.name_en == "Custom sections for course details" && a.active == 1
-      );
-      this.canLockUnlockModules = subfeatures.some(
-        (a) => a.name_en == "Lock/unlock upon completion" && a.active == 1
-      );
-      this.hasHotmartIntegration = subfeatures.some(
-        (a) => a.name_en == "Hotmart integration" && a.active == 1
-      );
-      this.hasCourseWallAccess = subfeatures.some(
-        (a) => a.name_en == "Course-specific wall access" && a.active == 1
-      );
-      this.hasStripeInstalment = subfeatures.some(
-        (a) => a.name_en == "Stripe Instalments" && a.active == 1
-      );
-      this.hasDifferentStripeAccount = subfeatures.some(
-        (a) => a.name_en == "Different Stripe accounts" && a.active == 1
-      );
-    }
-
-    if(this.isAdvancedCourse) {
-      this.courseForm = new FormGroup({
-        'title_es': new FormControl('', [Validators.required]),
-        'title_en': new FormControl(''),
-        'title_fr': new FormControl(''),
-        'title_eu': new FormControl(''),
-        'title_ca': new FormControl(''),
-        'title_de': new FormControl(''),
-        'description_es': new FormControl('', [Validators.required]),
-        'description_en': new FormControl(''),
-        'description_fr': new FormControl(''),
-        'description_eu': new FormControl(''),
-        'description_ca': new FormControl(''),
-        'description_de': new FormControl(''),
-        'course_date': new FormControl(''),
-        'duration': new FormControl(''),
-        'points': new FormControl(''),
-        'price': new FormControl(''),
-      })
-    }
-  }
-
-  mapUserPermissions(user_permissions) {
-    this.superAdmin = user_permissions?.super_admin_user ? true : false;
-    this.canCreate =
-      user_permissions?.create_plan_roles?.length > 0 ||
-      user_permissions?.member_type_permissions?.find(
-        (f) => f.create == 1 && f.feature_id == 11
-      );
-  }
-
-  mapCustomMemberTypes(member_types) {
-    this.memberTypes = member_types;
-    this.memberRoles = [];
-    if(this.memberTypes) {
-      this.memberTypes.forEach(mt => {
-        this.memberRoles.push({
-          id: mt.id,
-          role: mt.type_es
-        })
-        if(mt.require_approval == 1 || this.company?.id != 15) {
-          this.requireApproval = true
-        }
-      })
-
-      this.memberRoles.push({
-        id: 4,
-        role: 'Super Admin'
-      })
-    }
-  }
-
-  formatCourses(all_courses) {
-    let courses;
-    if (all_courses?.length > 0) {
-      courses = all_courses?.map((item) => {
-        return {
-          ...item,
-          checked: 0,
-          path: `/courses/details/${item.id}`,
-          course_title: this.getCourseTitle(item),
-          category: this.getCategoryTitle(item),
-          payment: item?.payment_type && (!this.hasHotmartIntegration || !item?.hotmart_product_id),
-          image: `${COURSE_IMAGE_URL}/${item.image}`,
-        };
-      });
-    }
-
-    if(courses?.length > 0) {
-      if(this.hasHotmartIntegration) {
-        courses = courses && courses.filter(c => {
-          let include = false
-
-          if(!c.hotmart_product_id || (c.hotmart_product_id && c.hotmart_show == 1 && this.hotmartSettings?.show == 1)) {
-            include =  true
-          }
           
-          return include
+        }
+      );
+  }
+
+  formatAssessments(assessments) {
+    assessments = assessments?.map((item) => {
+      return {
+        ...item,
+        id: item?.id,
+      };
+    });
+    if(this.assessmentItemMode == 'edit') {
+      let selected_assessment_type = localStorage.getItem('selected_assessment_type');
+      this.selectedAssessmentItemType = '';
+      setTimeout(() => {
+        this.selectedAssessmentItemType = selected_assessment_type;
+      }, 500);
+    }
+
+    this.assessments = assessments;
+    if(this.createdAssessmentId) {
+      if(this.assessments?.length > 0) {
+        let assessment_row = this.assessments?.filter(q => {
+          return q.id == this.createdAssessmentId
         })
-      } else {
-        courses = courses && courses.filter(c => {
-          return !c.hotmart_product_id
-        })
+        if(assessment_row?.length > 0) {
+          this.editAssessment(assessment_row[0]);
+        }
       }
-      courses = courses.map((course, index) => {
-        let category_display = ''
-        if(course.categories) {
-          course.categories.forEach(c => {
-            if(!category_display) {
-              category_display = this.language == 'en' ? c.name_EN : c.name_ES
-            } else {
-              category_display += ', ' + this.language == 'en' ? c.name_EN : c.name_ES
-            }
-          });
-        }
+    }
+  }
 
-        return {
-            category_display,
-            ...course
-        }
+  getAssessmentType(id) {
+    let type = ''
+    if(this.assessmentTypes?.length > 0) {
+      let typ = this.assessmentTypes?.filter(l => {
+        return l.id == id
       })
+      if(typ?.length > 0) {
+        type = this.getTypeTitle(typ[0]);
+      }
     }
 
-    if(this.allCoursesData?.length == 0) {
-      this.allCoursesData = courses;
-    }
-    this.loadCourses(courses);
+    return type
   }
 
-  loadCourses(data) {
-    this.coursesData = data;
-
-    if (this.searchKeyword && this.coursesData) {
-      this.coursesData = this.coursesData.filter((course) => {
-        return (
-          (course.title &&
-            course.title
-            .toLowerCase()
-            .normalize("NFD")
-            .replace(/\p{Diacritic}/gu, "")
-            .indexOf(
-              this.searchKeyword
-                .toLowerCase()
-                .normalize("NFD")
-                .replace(/\p{Diacritic}/gu, "")
-            ) >= 0)
-        );
-      });
-    }
-
-    this.refreshTable(this.coursesData);
+  getTypeTitle(type) {
+    return type ? this.language == 'en' ? (type.type_en || type.type_es) : (this.language == 'fr' ? (type.type_fr || type.type_es) : 
+      (this.language == 'eu' ? (type.type_eu || type.type_es) : (this.language == 'ca' ? (type.type_ca || type.type_es) : 
+      (this.language == 'de' ? (type.type_de || type.type_es) : type.type_es)
+      ))
+    ) : ''
   }
 
-  refreshTable(list) {
+  refreshTable(array) {
     this.dataSource = new MatTableDataSource(
-      list.slice(
+      array.slice(
         this.pageIndex * this.pageSize,
         (this.pageIndex + 1) * this.pageSize
       )
@@ -390,7 +285,7 @@ export class CourseAssessmentsListComponent {
       setTimeout(() => (this.dataSource.sort = this.sort));
     }
     if (this.paginator) {
-      new MatTableDataSource(list).paginator = this.paginator;
+      new MatTableDataSource(array).paginator = this.paginator;
       if (this.pageIndex > 0) {
       } else {
         this.paginator.firstPage();
@@ -398,7 +293,7 @@ export class CourseAssessmentsListComponent {
     } else {
       setTimeout(() => {
         if (this.paginator) {
-          new MatTableDataSource(list).paginator = this.paginator;
+          new MatTableDataSource(array).paginator = this.paginator;
           if (this.pageIndex > 0) {
             this.paginator.firstPage();
           }
@@ -407,54 +302,11 @@ export class CourseAssessmentsListComponent {
     }
   }
 
-  initializeSearch() {
-    this.searchText = this._translateService.instant("guests.search");
-    this.placeholderText = this._translateService.instant(
-      "news.searchbykeyword"
-    );
-  }
-
-  handleCreateRoute() {
-    this._router.navigate([`/courses/create/0`]);
-  }
-
-  handleSearch(event) {
-    this.searchKeyword = event;
-    this.loadCourses(this.allCoursesData);
-  }
-
-  getCourseTitle(course) {
-    return course ? this.language == 'en' ? (course.title_en || course.title) : (this.language == 'fr' ? (course.title_fr || course.title) : 
-        (this.language == 'eu' ? (course.title_eu || course.title) : (this.language == 'ca' ? (course.title_ca || course.title) : 
-        (this.language == 'de' ? (course.title_de || course.title) : course.title)
-      ))
-    ) : '';
-  }
-
-  getCategoryTitle(course) {
-    let category_ES = course?.categories?.map((data) => { return data.name_ES }).join(', ');
-    let category_EN = course?.categories?.map((data) => { return data.name_EN }).join(', ');
-    let category_FR = course?.categories?.map((data) => { return data.name_FR }).join(', ');
-    let category_EU = course?.categories?.map((data) => { return data.name_EU }).join(', ');
-    let category_CA = course?.categories?.map((data) => { return data.name_CA }).join(', ');
-    let category_DE = course?.categories?.map((data) => { return data.name_DE }).join(', ');
-
-    return this.language == 'en' ? (category_EN || category_ES) : (this.language == 'fr' ? (category_FR || category_ES) : 
-        (this.language == 'eu' ? (category_EU || category_ES) : (this.language == 'ca' ? (category_CA || category_ES) : 
-        (this.language == 'de' ? (category_DE || category_ES) : category_ES)
-      ))
-    );
-  }
-
-  viewCategory() {
-    this._router.navigate([`/settings/list/${this.featureId}/categories`]);
-  }
-
   getPageDetails(event: any) {
     this.pageSize = event.pageSize;
     this.pageIndex = event.pageIndex;
     this.dataSource = new MatTableDataSource(
-      this.coursesData.slice(
+      this.assessments.slice(
         event.pageIndex * event.pageSize,
         (event.pageIndex + 1) * event.pageSize
       )
@@ -466,59 +318,138 @@ export class CourseAssessmentsListComponent {
     }
   }
 
-  viewItem(id) {
-    this._router.navigate([`/courses/details/${id}`]);
+  handleSearch(event) {
+    this.pageIndex = 0;
+    this.pageSize = 10;
+    this.searchKeyword = event;
+    this.assessments = this.filterAssessments();
+    this.refreshTable(this.assessments);
   }
 
-  editItem(id) {
-    this._router.navigate([`/courses/edit/${id}`]);
+  filterAssessments() {
+    let assessments = this.allAssessments;
+    if (assessments?.length > 0 && this.searchKeyword) {
+      return assessments.filter((m) => {
+        let include = false;
+        if (
+          m.title &&
+          m.title.toLowerCase()
+          .normalize("NFD")
+          .replace(/\p{Diacritic}/gu, "")
+          .indexOf(
+            this.searchKeyword
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+          ) >= 0
+        ) {
+          include = true;
+        }
+
+        return include;
+      });
+    } else {
+      return assessments;
+    }
   }
 
-  confirmDeleteItem(id) {
-    this.showConfirmationModal = false;
-    this.selectedItem = id;
-    this.confirmDeleteItemTitle = this._translateService.instant(
-      "dialog.confirmdelete"
-    );
-    this.confirmDeleteItemDescription = this._translateService.instant(
-      "dialog.confirmdeleteitem"
-    );
-    this.acceptText = "OK";
-    setTimeout(() => (this.showConfirmationModal = true));
+  create() {
+    this.createdAssessmentId = '';
+    this.assessmentForm.controls["title"].setValue("");
+    this.assessmentForm.controls["description"].setValue("");
+
+    this.mode = "add";
+    this.formSubmitted = false;
+
+    this.modalbutton0?.nativeElement.click();
   }
 
-  confirm() {
-    this.deleteItem(this.selectedItem, true);
-    this.showConfirmationModal = false;
+  editAssessment(item) {
+    this.resetModes();
+    this.selectedId = item.id;
+    this.title = item.title;
+    this.description = item.description;
+    this.formatAssessmentItems(item.details);
+    
+    this.assessmentForm.controls["title"].setValue(this.title);
+    this.assessmentForm.controls["description"].setValue(this.description);
+
+    if(this.createdAssessmentId) {
+      this.createdAssessmentId = '';
+      this.tabIndex = 1;
+    }
+
+    this.mode = "edit";
+    this.modalbutton0?.nativeElement.click();
   }
 
-  deleteItem(id, confirmed) {
-    if (confirmed) {
-      this._coursesService.deleteCourse(id).subscribe(
+  resetModes() {
+    this.createdAssessmentId = '';
+    this.assessmentItemMode = '';
+    this.showAssessmentItemDetails = false;
+    this.selectedAssessmentItem = '';
+    this.selectedAssessmentItemType = '';
+    this.selectedAssessmentItem = '';
+    this.selectedMultipleChoiceOption = '';
+    this.selectedMultipleChoiceOptionId = '';
+    this.showMultipleChoiceOptionDetails = false;
+    this.multipleChoiceOptionMode = '';
+  }
+
+  formatAssessmentItems(items) {
+    items = items?.map((item) => {
+      return {
+        ...item,
+        id: item?.id,
+        type: this.getAssessmentType(item?.assessment_type_id),
+      };
+    });
+
+    this.assessmentItems = items;
+  }
+
+  save() {
+    this.formSubmitted = true;
+
+    if (
+      this.assessmentForm.get("title")?.errors
+    ) {
+      return false;
+    }
+
+    let params = {
+      title: this.assessmentForm.get("title")?.value,
+      description: this.assessmentForm.get("description")?.value,
+      company_id: this.companyId,
+      created_by: this.userId,
+    };
+
+    if (this.mode == "add") {
+      this._companyService.addAssessment(params).subscribe(
         (response) => {
-          let all_courses = this.allCoursesData;
-          if (all_courses?.length > 0) {
-            all_courses.forEach((course, index) => {
-              if (course.id == id) {
-                all_courses.splice(index, 1);
-              }
-            });
-          }
-
-          let courses = this.coursesData;
-          if (courses?.length > 0) {
-            courses.forEach((course, index) => {
-              if (course.id == id) {
-                courses.splice(index, 1);
-              }
-            });
-          }
+          this.closemodalbutton0?.nativeElement.click();
+          this.createdAssessmentId = response?.id;
           this.open(
-            this._translateService.instant("dialog.deletedsuccessfully"),
+            this._translateService.instant("dialog.savedsuccessfully"),
             ""
           );
-          this.coursesData = courses;
-          this.refreshTable(this.coursesData);
+          setTimeout(() => {
+            this.getAssessments();
+          }, 500);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else if (this.mode == "edit") {
+      this._companyService.editAssessment(this.selectedId, params).subscribe(
+        (response) => {
+          this.closemodalbutton0?.nativeElement.click();
+          this.open(
+            this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+          this.getAssessments();
         },
         (error) => {
           console.log(error);
@@ -527,19 +458,312 @@ export class CourseAssessmentsListComponent {
     }
   }
 
-  editCourseStatus(event, course) {
-    let new_status = event?.target?.checked
-    course.status = new_status ? 1 : 0
-    let params = {
-      id: course.id,
-      status: new_status ? 1 : 0
-    }
-    this._coursesService.editCourseStatus(params).subscribe(
-      response => {
+  deleteAssessment(item) {
+    this.showConfirmationModal = false;
+    this.confirmDeleteItemTitle = this._translateService.instant(
+      "dialog.confirmdelete"
+    );
+    this.confirmDeleteItemDescription = this._translateService.instant(
+      "dialog.confirmdeleteMember"
+    );
+    this.acceptText = "OK";
+    this.selectedItem = item.id;
+    setTimeout(() => (this.showConfirmationModal = true));
+  }
+
+  confirm() {
+    this._companyService.deleteAssessment(this.selectedItem).subscribe(
+      (response) => {
+        this.assessments.forEach((cat, index) => {
+          if (cat.id == this.selectedItem) {
+            this.assessments.splice(index, 1);
+          }
+        });
+        this.allAssessments.forEach((cat, index) => {
+          if (cat.id == this.selectedItem) {
+            this.allAssessments.splice(index, 1);
+          }
+        });
+        this.refreshTable(this.assessments);
         this.open(
-          this._translateService.instant("dialog.savedsuccessfully"),
+          this._translateService.instant("dialog.deletedsuccessfully"),
           ""
         );
+        this.showConfirmationModal = false;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  changeTab(event) {
+
+  }
+
+  handleEditAssessmentItem(item) {
+    this.assessmentItemMode = 'edit';
+    this.selectedAssessmentItem = item;
+    this.selectedAssessmentItemId = item.id;
+    this.selectedAssessmentItemType = item.assessment_type_id;
+    this.assessmentItemTitle = item.title;
+    this.showAssessmentItemDetails = true;
+  }
+
+  handleDeleteAssessmentItem(item) {
+    this._companyService.deleteAssessmentItem(item.id).subscribe(
+      (response) => {
+        this.assessmentItems.forEach((cat, index) => {
+          if (cat.id == item.id) {
+            this.assessmentItems.splice(index, 1);
+          }
+        });
+        this.open(
+          this._translateService.instant("dialog.deletedsuccessfully"),
+          ""
+        );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  addAssessmentItem() {
+    this.resetAssessmentItemFields()
+    this.assessmentItemMode = 'add';
+    this.showAssessmentItemDetails = true;
+  }
+
+  resetAssessmentItemFields() {
+    this.assessmentItemMode = '';
+    this.selectedAssessmentItemId = '';
+    this.selectedAssessmentItemType = '';
+    this.assessmentItemTitle = '';
+    this.assessmentItemFormSubmitted = false;
+    this.showAssessmentItemDetails = false;
+    localStorage.removeItem('selected_assessment_type');
+  }
+
+  saveAssessmentItem() {
+    this.assessmentItemFormSubmitted = true;
+
+    if (
+      !this.assessmentItemTitle ||
+      !this.selectedAssessmentItemType
+    ) {
+      return false;
+    }
+
+    let params = {
+      company_id: this.companyId,
+      assessment_id: this.selectedId,
+      assessment_type_id: this.selectedAssessmentItemType,
+      title: this.assessmentItemTitle,
+      created_by: this.userId,
+    };
+
+    if (this.assessmentItemMode == "add") {
+      this._companyService.addAssessmentItem(params).subscribe(
+        (response) => {
+          this.open(
+            this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+          this.assessmentItems = response.assessment_items;
+          this.getAssessments();
+          this.resetAssessmentItemFields();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else if (this.assessmentItemMode == "edit") {
+      this._companyService.editAssessmentItem(this.selectedAssessmentItemId, params).subscribe(
+        (response) => {
+          this.open(
+            this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+          this.assessmentItems = response.assessment_items;
+          this.getAssessments();
+          this.resetAssessmentItemFields();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  cancelAssessmentItem() {
+    this.resetAssessmentItemFields();
+    this.assessmentItemMode = '';
+    this.showAssessmentItemDetails = false;
+  }
+
+  handleEditMultipleChoiceOption(option) {
+    this.multipleChoiceOptionMode = 'edit';
+    this.selectedMultipleChoiceOption = option;
+    this.selectedMultipleChoiceOptionId = option.id;
+    this.multipleChoiceChoice = option.choice;
+    this.multipleChoiceCorrect = option.correct == 1 ? true : false;
+    this.showMultipleChoiceOptionDetails = true;
+  }
+
+  addMultipleChoiceOption() {
+    this.multipleChoiceOptionMode = 'add';
+    this.selectedMultipleChoiceOption = '';
+    this.selectedMultipleChoiceOptionId = '';
+    this.multipleChoiceChoice = '';
+    this.multipleChoiceCorrect = false;
+    this.showMultipleChoiceOptionDetails = true;
+  }
+
+  cancelMultipleChoiceOption() {
+    this.multipleChoiceOptionMode = '';
+    this.selectedMultipleChoiceOption = '';
+    this.selectedMultipleChoiceOptionId = '';
+    this.multipleChoiceChoice = '';
+    this.multipleChoiceCorrect = false;
+    this.showMultipleChoiceOptionDetails = false;
+  }
+
+  handleDeleteMultipleChoiceOption(option) {
+    this._companyService.deleteAssessmentMultipleChoice(option.id).subscribe(
+      (response) => {
+        this.assessmentItems.forEach(cat => {
+          if(cat?.assessment_multiple_choice_options) {
+            cat?.assessment_multiple_choice_options?.forEach((co, index) => {
+              if (co.id == option.id) {
+                cat?.assessment_multiple_choice_options?.splice(index, 1);
+              }
+            })
+          }
+        });
+        this.getAssessments();
+        this.open(
+          this._translateService.instant("dialog.deletedsuccessfully"),
+          ""
+        );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  saveMultipleChoice() {
+    if (
+      !this.multipleChoiceChoice
+    ) {
+      return false;
+    }
+
+    let params = {
+      company_id: this.companyId,
+      assessment_id: this.selectedId,
+      assessment_type_id: this.selectedAssessmentItemType,
+      assessment_detail_id: this.selectedAssessmentItemId,
+      choice: this.multipleChoiceChoice,
+      correct: this.multipleChoiceCorrect ? 1 : 0,
+      created_by: this.userId,
+    };
+
+    if (this.multipleChoiceOptionMode == "add") {
+      this._companyService.addAssessmentMultipleChoice(params).subscribe(
+        (response) => {
+          this.open(
+            this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+          this.assessmentItems = response.assessment_items;
+          let assessment_item
+          if(this.assessmentItems?.length > 0) {
+            let assessment_item_row = this.assessmentItems?.filter(qi => {
+              return qi.id == this.selectedAssessmentItemId
+            })
+            if(assessment_item_row?.length > 0) {
+              assessment_item = assessment_item_row[0];
+            }
+          }
+          localStorage.setItem('selected_assessment_type', this.selectedAssessmentItemType);
+          this.getAssessments();
+          this.selectedAssessmentItem = assessment_item;
+          this.multipleChoiceChoice = '';
+          this.multipleChoiceCorrect = false;
+          this.multipleChoiceOptionMode = '';
+          this.showMultipleChoiceOptionDetails = false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else if (this.multipleChoiceOptionMode == "edit") {
+      this._companyService.editAssessmentMultipleChoice(this.selectedMultipleChoiceOptionId, params).subscribe(
+        (response) => {
+          this.open(
+            this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+          this.assessmentItems = response.assessment_items;
+          let assessment_item
+          if(this.assessmentItems?.length > 0) {
+            let assessment_item_row = this.assessmentItems?.filter(qi => {
+              return qi.id == this.selectedAssessmentItemId
+            })
+            if(assessment_item_row?.length > 0) {
+              assessment_item = assessment_item_row[0];
+            }
+          }
+          localStorage.setItem('selected_assessment_type', this.selectedAssessmentItemType);
+          this.getAssessments();
+          this.selectedAssessmentItem = assessment_item;
+          this.multipleChoiceChoice = '';
+          this.multipleChoiceCorrect = false;
+          this.multipleChoiceOptionMode = '';
+          this.showMultipleChoiceOptionDetails = false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  cancelMultipleChoice() {
+    this.showMultipleChoiceOptionDetails = false;
+  }
+
+  moveUp(type, array, index) {
+    if (index >= 1) {
+      this.swap(array, index, index - 1);
+      this.updateAssessmentListSequence(type, array);
+    }
+  }
+
+  moveDown(type, array, index) {
+    if (index < array.length - 1) {
+      this.swap(array, index, index + 1);
+      this.updateAssessmentListSequence(type, array);
+    }
+  }
+
+  swap(array: any[], x: any, y: any) {
+    var b = array[x];
+    array[x] = array[y];
+    array[y] = b;
+  }
+
+  updateAssessmentListSequence(type, array) {
+    let params = {
+      id: this.selectedAssessmentItemId,
+      list_type: type,
+      list: array
+    }
+    this._coursesService.editCourseListSequence(params).subscribe(
+      response => {
+        this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
       },
       error => {
         console.log(error);
@@ -547,42 +771,8 @@ export class CourseAssessmentsListComponent {
     )
   }
 
-  editCourseLocked(event, course) {
-    course.locked = event ? 1 : 0
-    let params = {
-      id: course.id,
-      locked: event ? 1 : 0
-    }
-    this._coursesService.editCourseLocked(params).subscribe(
-      response => {
-        this.allCoursesData?.forEach(cpurse => {
-          course.locked = event ? 1 : 0
-        })
-        this.coursesData?.forEach(cpurse => {
-          course.locked = event ? 1 : 0
-        })
-        this.refreshTable(this.coursesData);
-        this.open(
-          this._translateService.instant("dialog.savedsuccessfully"),
-          ""
-        );
-      },
-      error => {
-        console.log(error);
-      }
-    )
-  }
-
-  duplicateCourse(course) {
-    this._coursesService.duplicateCourse(course.id).subscribe(
-      response => {
-        this.open(this._translateService.instant('dialog.copiedcourse'), '')
-        this.fetchCoursesManagementData()
-      },
-      error => {
-        console.log(error);
-      }
-    )
+  handleGoBack() {
+    this._location.back();
   }
 
   async open(message: string, action: string) {

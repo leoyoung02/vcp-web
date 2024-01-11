@@ -621,6 +621,16 @@ export const COURSE_ASSESSMENT_ITEMS_URL = `${API_BASE}/v2/course-assessment-ite
 export const CREATE_COURSE_ASSESSMENT_ITEM_URL = `${API_BASE}/v2/course-assessment-item/add`;
 export const EDIT_COURSE_ASSESSMENT_ITEM_URL = `${API_BASE}/v2/course-assessment-item/edit`;
 export const DELETE_COURSE_ASSESSMENT_ITEM_URL = `${API_BASE}/v2/course-assessment-item/delete`;
+export const ASSESSMENTS_URL = `${API_BASE}/v2/assessments`;
+export const CREATE_ASSESSMENT_URL = `${API_BASE}/v2/assessment/add`;
+export const EDIT_ASSESSMENT_URL = `${API_BASE}/v2/assessment/edit`;
+export const DELETE_ASSESSMENT_URL = `${API_BASE}/v2/assessment/delete`;
+export const CREATE_ASSESSMENT_DETAIL_URL = `${API_BASE}/v2/assessment-detail/add`;
+export const EDIT_ASSESSMENT_DETAIL_URL = `${API_BASE}/v2/assessment-detail/edit`;
+export const DELETE_ASSESSMENT_DETAIL_URL = `${API_BASE}/v2/assessment-detail/delete`;
+export const CREATE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/add`;
+export const EDIT_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/edit`;
+export const DELETE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/delete`;
 
 // COMMUNITY
 export const COMMUNITY_CHANNELS_URL = `${API_BASE}/v2/channels`;

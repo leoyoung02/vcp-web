@@ -168,6 +168,16 @@ import {
   EDIT_COMMUNITY_CHANNEL_URL,
   DELETE_COMMUNITY_CHANNEL_URL,
   ADDITIONAL_PROPERTIES_DATA,
+  ASSESSMENTS_URL,
+  CREATE_ASSESSMENT_URL,
+  EDIT_ASSESSMENT_URL,
+  DELETE_ASSESSMENT_URL,
+  CREATE_ASSESSMENT_DETAIL_URL,
+  EDIT_ASSESSMENT_DETAIL_URL,
+  DELETE_ASSESSMENT_DETAIL_URL,
+  CREATE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL,
+  EDIT_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL,
+  DELETE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1473,5 +1483,74 @@ export class CompanyService {
     return this._http.get(`${ADDITIONAL_PROPERTIES_DATA}/${companyId}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
+  }
+
+  getAssessments(companyId, userId): Observable<any> {
+    return this._http.get(`${ASSESSMENTS_URL}/${companyId}/${userId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addAssessment(payload): Observable<any> {
+    return this._http.post(
+      CREATE_ASSESSMENT_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editAssessment(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_ASSESSMENT_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteAssessment(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_ASSESSMENT_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  addAssessmentItem(payload): Observable<any> {
+    return this._http.post(
+      CREATE_ASSESSMENT_DETAIL_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editAssessmentItem(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_ASSESSMENT_DETAIL_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteAssessmentItem(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_ASSESSMENT_DETAIL_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  addAssessmentMultipleChoice(payload): Observable<any> {
+    return this._http.post(
+      CREATE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editAssessmentMultipleChoice(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteAssessmentMultipleChoice(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
   }
 }
