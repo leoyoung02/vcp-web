@@ -63,7 +63,7 @@
     </button>
 </div>
 <div class="my-10">
-    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row mb-24">
+    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row mb-8">
         <div class="relative mr-0 sm:mr-0 md:mr-[58px] lg:mr-[58px]">
             <div *ngIf="plan?.credits == 1" class="absolute top-2 right-2  flex items-start justify-end pt-3 pr-4 text-sm text-white font-semibold">
                 <div class="flex py-1.5 px-3 items-center rounded-lg" [ngStyle]="{'background-color': buttonColor}">
@@ -81,26 +81,26 @@
                 width="540" 
                 height="510"
             >
-            <div *ngIf="plan.show_description" class="mt-8 flex flex-col w-full max-w-full sm:w-full sm:max-w-full md:w-[540px] md:max-w-[540px] lg:w-[540px] lg:max-w-[540px]">
+            <!-- <div *ngIf="plan.show_description" class="mt-8 flex flex-col w-full max-w-full sm:w-full sm:max-w-full md:w-[540px] md:max-w-[540px] lg:w-[540px] lg:max-w-[540px]">
                 <div [innerHtml]="planTruncatedDescription | safeContentHtml: 'html'"></div>
                 <ng-container *ngIf="planDescription?.length > truncate">
                     <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
                     <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="!planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="readMore()">{{ 'club-details.readmore' | translate }}</div>
                 </ng-container>
-            </div>
+            </div> -->
         </div>
         <div class="w-full mr-0 sm:mr-0 md:mr-[80px] lg:mr-[80px]">
             <div class="w-full max-w-full">
                 <div class="text-3xl font-semibold">{{ planTitle }}</div>
                 <div class="flex flex-row flex-wrap items-center mt-2 mb-8">
                     <div class="flex">
-                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <svg *ngIf="planDay" class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
                         </svg>
                         <div class="capitalize font-semibold mr-8">{{ planDay }}</div>
                     </div>
                     <div class="flex">
-                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                        <svg *ngIf="planTime" class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
                             <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M10 6v4l3.276 3.276M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                         </svg>
                         <div class="capitalize font-semibold">{{ planTime }}</div>
@@ -250,7 +250,6 @@
                                 </ng-container>
                             </div>
                         </div>
-                        <!-- <div>{{ planParticipantCount }} {{ planParticipantCount > 1 ? ('plan-details.attendees' | translate) : ('plan-details.attendee' | translate) }}</div> -->
                         <div>{{ getSeatsLabel() }}</div>
                     </div>
                 </ng-container>
@@ -269,7 +268,7 @@
                     </svg>
                     <div class="capitalize font-semibold">{{ getAddress(plan) }}</div>
                 </div>
-                <div class="my-12 flex items-center">
+                <div class="my-12 flex items-center" *ngIf="title">
                     <div class="opacity-60 mr-4">{{ 'plan-details.createdby' | translate }}:</div>
                     <div class="font-semibold">
                         {{ createdBy || planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name) }}
@@ -291,6 +290,12 @@
                 </div>
             </div>
         </div>
+    </div>
+    <div class="py-4" *ngIf="plan.show_description">
+        <div class="container mb-4 flex items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3">
+            <h1 class="text-lg font-semibold">{{ 'plan-details.details' | translate }}</h1>
+        </div>
+        <div class="w-full max-w-full event-description" [innerHtml]="planDescription | safeContentHtml: 'html'"></div>
     </div>
     <div class="py-4" 
         *ngIf="((userId && !showPastEvents) || (userId && showPastEvents && !isPastEvent)) && plan?.show_comments">
