@@ -179,9 +179,6 @@ export class MyLessonsComponent {
             this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color
         }
 
-        if(this.userId){
-            this.getTutorAccountIds(this.userId);
-        }
         this.initializeSearch();
         this.initializePage();
     }
@@ -218,18 +215,6 @@ export class MyLessonsComponent {
         this.getCombinedBookingsPrefetch();
     }
 
-    getTutorAccountIds(userId) {
-        this._tutorsService.getTutorAccountIds(userId, this.companyId)
-        .subscribe(
-          response => {
-            this.tutorAccountId = response.account_ids
-          },
-          error => {
-            console.log(error)
-          }
-        )
-    }
-
     async getCombinedBookingsPrefetch() {
         this._userService.getCombinedBookingsPrefetch(this.companyId, this.tutorsFeatureId, this.coursesFeatureId, this.userId).subscribe(data => {
             let subfeatures = data[0] ? data[0]['subfeatures'] : []
@@ -253,8 +238,7 @@ export class MyLessonsComponent {
                 if(this.superTutor) {
                     this.superTutorStudents = super_tutor[0].super_tutor_students
                 }
-
-              
+                this.tutorAccountId =  data[6] ? data[6]['account_ids'] : []              
             }
 
             let cityAdmins = data[5] ? data[5]['city_admins'] : []
