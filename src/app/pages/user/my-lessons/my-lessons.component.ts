@@ -179,6 +179,9 @@ export class MyLessonsComponent {
             this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color
         }
 
+        if(this.userId){
+            this.getTutorAccountIds(this.userId);
+        }
         this.initializeSearch();
         this.initializePage();
     }
@@ -215,6 +218,18 @@ export class MyLessonsComponent {
         this.getCombinedBookingsPrefetch();
     }
 
+    getTutorAccountIds(userId) {
+        this._tutorsService.getTutorAccountIds(userId, this.companyId)
+        .subscribe(
+          response => {
+            this.tutorAccountId = response.account_ids
+          },
+          error => {
+            console.log(error)
+          }
+        )
+    }
+
     async getCombinedBookingsPrefetch() {
         this._userService.getCombinedBookingsPrefetch(this.companyId, this.tutorsFeatureId, this.coursesFeatureId, this.userId).subscribe(data => {
             let subfeatures = data[0] ? data[0]['subfeatures'] : []
@@ -239,7 +254,7 @@ export class MyLessonsComponent {
                     this.superTutorStudents = super_tutor[0].super_tutor_students
                 }
 
-                this.tutorAccountId =  data[6] ? data[6]['account_ids'] : []
+              
             }
 
             let cityAdmins = data[5] ? data[5]['city_admins'] : []
@@ -348,11 +363,7 @@ export class MyLessonsComponent {
                 let user_bookings = response['bookings']
                 if(role == 'tutor' || role == 'super_tutor' || role == 'admin'){
                     user_bookings.forEach(ub => {
-                        if(this.tutorAccountId?.length == 0){
-                            ub.stripe_connect = false
-                        }
-                        ub.stripe_connect = this.tutorAccountId.find((ta) => (ub.stripe_id == ta.stripe_id)) ? true : false;
-                    
+                        ub.stripe_connect = this.tutorAccountId?.find((ta) => ((ub.stripe_id == ta.stripe_id) && ta.stripe_connect)) ? true : false;
                     })
                 }
                 
