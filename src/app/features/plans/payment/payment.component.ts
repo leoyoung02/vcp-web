@@ -284,6 +284,7 @@ export class PlanPaymentComponent {
           : company[0].primary_color;
         this.termsAndConditions = company[0].terms_and_conditions;
         this.privacyPolicy = company[0].policy;
+        this.showCoupon = company[0].show_coupon == 1 ? true : false;
       }
     }
 
@@ -430,8 +431,104 @@ export class PlanPaymentComponent {
   }
 
   getPrice(type, display) {
-    let price = this.event?.price
-    return price && price > 0 ? (price.toString().replace(".", ",") + ' €') : ''
+    let price = this.event?.price;
+    return price && price > 0 ? (price.toString().replace(".", ",") + ' €') : '';
+  }
+
+  getDiscountAmount(display, mode = "") {
+    let discount = "";
+    if (this.validCouponInfo) {
+      if (this.validCouponInfo.amount_off) {
+        discount = parseFloat((this.validCouponInfo.amount_off / 100).toString()).toFixed(2);
+      } else if (this.validCouponInfo.percent_off) {
+        let price = this.event?.price;
+        if (price > 0) {
+          let price_discount = parseFloat(price) * (this.validCouponInfo.percent_off / 100);
+          discount = parseFloat(price_discount.toString()).toFixed(2);
+        }
+      }
+    }
+
+    return discount;
+  }
+
+  getDiscountedPrice(display, mode = '') {
+    let price = this.event.price;
+
+    if(this.validCouponInfo) {
+      let discount
+      if(this.validCouponCode) {
+        if(this.validCouponInfo.amount_off) {
+          discount = parseFloat((this.validCouponInfo.amount_off / 100).toString()).toFixed(2)
+        } else if (this.validCouponInfo.percent_off) {
+          
+          if(price > 0) {
+            let price_discount = parseFloat(price) * (this.validCouponInfo.percent_off / 100)
+            discount = parseFloat(price_discount.toString()).toFixed(2)
+          }
+        }
+        if(discount > 0) {
+          price = parseFloat(price) - parseFloat(discount)
+          price = parseFloat(price).toFixed(2)
+        }
+      }
+    }
+
+    return price && price > 0 ? (price?.replace(".", ",") + ' €') : this._translateService.instant('category.free');
+  }
+
+  async applyCoupon() {
+    this.refreshAmount = false;
+    this.validCouponCode = "";
+
+    // Check if coupon has value and is valid
+    let coupon = "";
+    if (this.stripeForm.controls["coupon"]) {
+      coupon = this.stripeForm.get("coupon")?.value;
+    }
+
+    if (coupon) {
+      this.validateProductCoupon(
+        coupon,
+        this.companyId,
+        this.event?.plan_id,
+        null,
+        true,
+      );
+    }
+  }
+
+  validateProductCoupon(coupon, companyId, planId, content, manual_apply: boolean = false) {
+    this._paymentService
+      .validateProductCoupon(coupon, companyId, planId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response) => {
+          let coupon_info = response.coupon_info;
+          if (!coupon_info || (coupon_info && !coupon_info.valid)) {
+            this.invalidCouponMessage = this._translateService.instant(
+              "dialog.invalidcoupon"
+            );
+            this.submitted = false;
+            this.hasError = true;
+            this.open(this.invalidCouponMessage, "");
+            return false;
+          } else if (coupon_info && coupon_info.valid) {
+            this.validCouponInfo = coupon_info;
+            this.validCoupon = true;
+            this.validCouponCode = coupon_info.name;
+            this.refreshAmount = true;
+            this.getPrice('', '');
+          }
+          if(manual_apply) {
+          } else {
+            this.continuePaymentProcess(null);
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   cardUpdated(result) {

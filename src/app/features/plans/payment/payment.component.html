@@ -163,6 +163,30 @@
                             [elementsOptions]="elementsOptions"
                         ></ngx-stripe-card>
                     </div>
+                    <ng-container *ngIf="showCoupon">
+                        <div class="flex items-center justify-center my-2 relative">
+                            <input 
+                                type="text" 
+                                class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                formControlName="coupon" 
+                                placeholder="{{ 'signup.coupon' | translate }}">
+                        </div>
+                        <div>
+                            <button 
+                                class="hover:cursor-pointer w-full inline-block h-[40px] bg-slate-300 text-sm px-6 py-2 mt-6 font-semibold rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
+                                [ngClass]="{'disabled:opacity-75': stripeForm.controls['coupon'] && !stripeForm.get('coupon')?.value}" 
+                                type="button"
+                                [disabled]="stripeForm.controls['coupon'] && !stripeForm.get('coupon')?.value"
+                                [ngStyle]="{
+                                    'color': buttonColor,
+                                    'border-color': buttonColor
+                                }"
+                                (click)="applyCoupon()"
+                            >
+                                {{ 'signup.applycoupon' | translate }}
+                            </button>
+                        </div>
+                    </ng-container>
                     <div class="flex items-center justify-center mb-6">
                         <button
                             type="submit"
@@ -190,6 +214,10 @@
                         <div>{{ getEventTitle(event) }}</div>
                         <div class="font-bold">{{ getPrice('', '') }}</div>
                     </div>
+                    <div class="flex justify-between items-center pb-6" *ngIf="refreshAmount">
+                        <div class="text-sm text-rose-600">{{'signup.coupon' | translate}} <b>{{validCouponCode}}</b></div>
+                        <div class="text-sm font-bold text-rose-600"><b>-{{ getDiscountAmount('', 'total')}} €</b></div>
+                    </div>
                     <div class="w-full rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
                         <div 
                             class="rounded-t-lg p-2 px-4 text-white text-sm font-bold" 
@@ -199,7 +227,7 @@
                         <div class="p-2 px-4">
                             <div class="flex justify-between items-center py-2">
                                 <div class="text-base font-bold" [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ?  buttonColor : primaryColor}">{{ 'signup.total' | translate }}</div>
-                                <div class="text-base font-bold" [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ?  buttonColor : primaryColor}"><b>{{ getPrice('', '') }}</b></div>
+                                <div class="text-base font-bold" [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ?  buttonColor : primaryColor}"><b>{{ validCouponCode && refreshAmount ? getDiscountedPrice('', 'total') : getPrice('', '') }}</b></div>
                             </div>
                         </div>
                     </div>

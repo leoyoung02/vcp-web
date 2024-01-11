@@ -3639,12 +3639,7 @@ export class ManageUsersComponent {
           .subscribe(
             (response) => {
               if (response.code == "user_exists") {
-                this.errorMessage =
-                  this._translateService.instant("dialog.emailexists") +
-                  " " +
-                  this._translateService.instant(
-                    "dialog." + this.getErrorMsg(response.existing_vcp_user.id)
-                  );
+                this.open(this._translateService.instant("dialog.userexists"), "");
               } else {
                 this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
                 this.reloadMembersInfo();
