@@ -1534,6 +1534,7 @@
         "answers": "Answers",
         "answer": "Answer",
         "correct": "Correct",
+        "incorrect": "Incorrect",
         "addquestion": "Add",
         "addsuccess": "Successfully added",
         "updatesuccess": "Successfully updated",

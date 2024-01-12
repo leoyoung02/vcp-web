@@ -1533,6 +1533,7 @@
         "answers": "Respuestas",
         "answer": "Respuesta",
         "correct": "Correcto",
+        "incorrect": "Incorrecto",
         "addquestion": "Añadir",
         "addsuccess": "Agregado exitosamente",
         "updatesuccess": "Actualizado exitosamente",

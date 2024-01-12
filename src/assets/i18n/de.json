@@ -1529,6 +1529,7 @@
         "answers": "Antworten",
         "answer": "Antworten",
         "correct": "Richtig",
+        "incorrect": "Falsch",
         "addquestion": "Hinzufügen",
         "addsuccess": "Erfolgreich hinzugefügt",
         "updatesuccess": "Erfolgreich aktualisiert",

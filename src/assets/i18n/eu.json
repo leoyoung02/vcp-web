@@ -1530,6 +1530,7 @@
         "answers": "Erantzunak",
         "answer": "Erantzun",
         "correct": "Zuzen",
+        "incorrect": "Okerra",
         "addquestion": "Gehitu",
         "addsuccess": "Ondo gehitu da",
         "updatesuccess": "Ondo eguneratu da",
