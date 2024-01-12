@@ -701,16 +701,16 @@ export class CourseEditComponent {
           }
         ]
       },
-      {
-        value: 'before',
-        text: this._translateService.instant('course-assessment.before'),
-        subtypes: [
-          {
-            value: "module",
-            text: this._translateService.instant('course-assessment.module'),
-          }
-        ]
-      },
+      // {
+      //   value: 'before',
+      //   text: this._translateService.instant('course-assessment.before'),
+      //   subtypes: [
+      //     {
+      //       value: "module",
+      //       text: this._translateService.instant('course-assessment.module'),
+      //     }
+      //   ]
+      // },
       {
         value: 'after',
         text: this._translateService.instant('course-assessment.after'),

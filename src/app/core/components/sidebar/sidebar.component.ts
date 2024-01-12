@@ -570,7 +570,11 @@ export class SidebarComponent {
 
   navigateToPage(menu) {
     if(menu?.new_button == 1 || menu?.new_url == 1) {
-      this.openUrl(menu?.new_url == 1 && this.isUESchoolOfLife ? `https://${this.company?.url}` : menu?.path);
+      let path = menu.path;
+      if(path?.indexOf('schooloflife') >= 0 && this.currentUser?.guid) {
+        path = `${path}/sso/${this.currentUser?.guid}`;
+      }
+      this.openUrl(menu?.new_url == 1 && this.isUESchoolOfLife ? `https://${this.company?.url}` : path);
     } else {
       let link = menu?.path == 'home' ? '/' : menu?.path
 

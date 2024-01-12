@@ -3425,6 +3425,10 @@
         "showcourseassessment": "Mostra l'avaluació del curs a",
         "end": "Fi",
         "of": "de",
-        "assessment": "Avaluació"
+        "assessment": "Avaluació",
+        "nextquestion": "Següent pregunta",
+        "finish": "Acabar",
+        "youanswered": "Has respost",
+        "correctly": "correctament"
     }
 }

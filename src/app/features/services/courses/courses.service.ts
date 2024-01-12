@@ -63,6 +63,7 @@ import {
   RESEND_ACCESS_URL,
   RESET_STATUS_URL,
   SAVE_COURSE_SESSION_URL,
+  SUBMIT_COURSE_ASSESSMENT_URL,
   UNASSIGN_USER_COURSE_URL,
   UNIT_TYPES_URL,
   USER_ROLE_URL,
@@ -675,6 +676,13 @@ export class CoursesService {
     return this._http.delete(
       `${DELETE_COURSE_ASSESSMENT_ITEM_URL}/${id}`,
       {},
+    ).pipe(map(res => res));
+  }
+
+  submitCourseAssessment(payload): Observable<any> {
+    return this._http.post(
+      SUBMIT_COURSE_ASSESSMENT_URL,
+      payload,
     ).pipe(map(res => res));
   }
 }

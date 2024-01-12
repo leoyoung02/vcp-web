@@ -3415,6 +3415,10 @@
         "showcourseassessment": "Kursbewertung anzeigen bei",
         "end": "Ende",
         "of": "von",
-        "assessment": "Bewertung"
+        "assessment": "Bewertung",
+        "nextquestion": "Nächste Frage",
+        "finish": "Fertig stellen",
+        "youanswered": "Du hast geantwortet",
+        "correctly": "richtig"
     }
 }

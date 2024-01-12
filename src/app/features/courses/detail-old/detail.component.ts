@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage, Location } from "@angular/common";
-import { Component, ElementRef, Input, ViewChild, Renderer2 } from "@angular/core";
+import { Component, ElementRef, Input, ViewChild, Renderer2, ChangeDetectorRef } from "@angular/core";
 import { Router } from "@angular/router";
 import { environment } from "@env/environment";
 import { CoursesService } from "@features/services";
@@ -27,6 +27,7 @@ import {
   HoverRatingChangeEvent,
   RatingChangeEvent
 } from 'angular-star-rating';
+import { AssessmentComponent } from "../assessment/assessment.component";
 import moment from 'moment';
 import get from "lodash/get";
 
@@ -47,7 +48,8 @@ import get from "lodash/get";
     NgxDocViewerModule,
     EditorModule,
     StarRatingModule,
-    SafeContentHtmlPipe
+    SafeContentHtmlPipe,
+    AssessmentComponent,
   ],
   templateUrl: './detail.component.html'
 })
@@ -221,6 +223,15 @@ export class CourseDetailComponent {
   @ViewChild('iframeText', { static: false }) iframeText: ElementRef | undefined;
   @ViewChild('editor', { static: false }) editor: ElementRef | undefined;
 
+  courseAssessments: any = [];
+  assessmentDetails: any = [];
+  beginningCourseAssessment: any;
+  endCourseAssessment: any;
+  endModuleAssessments: any = [];
+  currentAssessment: any;
+  showAssessment: boolean = false;
+  afterModuleAssessments: any = [];
+
   constructor(
     private _router: Router,
     private _coursesService: CoursesService,
@@ -231,6 +242,7 @@ export class CourseDetailComponent {
     private _snackBar: MatSnackBar,
     private sanitizer: DomSanitizer,
     private renderer2: Renderer2,
+    private cd: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
@@ -284,10 +296,11 @@ export class CourseDetailComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          let course_data =  data[0] ? data[0] : []
-          this.courseSubscriptions = data[1] ? data[1]['course_subscriptions'] : []
-          this.courseTutors = data[2] ? data[2]['course_tutors'] : []
+          let course_data =  data[0] ? data[0] : [];
+          this.courseSubscriptions = data[1] ? data[1]['course_subscriptions'] : [];
+          this.courseTutors = data[2] ? data[2]['course_tutors'] : [];
           this.courseData = course_data;
+          this.formatCourseAssessments();
           this.initializePage();
         },
         (error) => {
@@ -312,6 +325,107 @@ export class CourseDetailComponent {
     this.mapUserPermissions(data?.user_permissions);
     this.formatCourse(data?.course);
     this.initializeBreadcrumb(data);
+  }
+
+  formatCourseAssessments() {
+    this.courseAssessments = this.courseData?.course_assessments;
+    let assessments = this.courseData?.assessments;
+    let assessmentMultipleChoiceOptions = this.courseData?.assessment_multiple_choice_options;
+    if(this.courseAssessments?.length > 0) {
+      let beginningCourseAssessment = this.courseAssessments?.find((f) => f.timing == 'beginning' && f.type == 'course');
+      let endCourseAssessment = this.courseAssessments?.find((f) => f.timing == 'end' && f.type == 'course');
+      if(beginningCourseAssessment?.assessment_id > 0) {
+        let assessmentDetails = assessments?.filter(assessment => {
+          return assessment?.assessment_id == beginningCourseAssessment?.assessment_id
+        })
+
+        let assessment_details: any[] = []
+        if(assessmentDetails?.length > 0) {
+          assessmentDetails?.forEach(detail => {
+            let multiple_choice_options = assessmentMultipleChoiceOptions?.filter(mc => {
+              return mc.assessment_id && detail.assessment_id && mc.assessment_detail_id == detail.id 
+            })
+            assessment_details.push({
+              id: detail.id,
+              assessment_id: detail.assessment_id,
+              number: detail.number,
+              title: detail.title,
+              multiple_choice_options,
+            });
+          })
+        }
+
+        beginningCourseAssessment['assessment_details'] = assessment_details;
+      }
+      this.beginningCourseAssessment = beginningCourseAssessment;
+
+      if(endCourseAssessment?.assessment_id > 0) {
+        let assessmentDetails = assessments?.filter(assessment => {
+          return assessment?.assessment_id == endCourseAssessment?.assessment_id
+        })
+
+        let assessment_details: any[] = []
+        if(assessmentDetails?.length > 0) {
+          assessmentDetails = assessmentDetails?.sort((a, b) => {
+            return a.number - b.number;
+          });
+          assessmentDetails?.forEach(detail => {
+            let multiple_choice_options = assessmentMultipleChoiceOptions?.filter(mc => {
+              return mc.assessment_id && detail.assessment_id && mc.assessment_detail_id == detail.id 
+            })
+            if(multiple_choice_options?.length > 0) {
+              multiple_choice_options = multiple_choice_options?.sort((a, b) => {
+                return a.number - b.number;
+              });
+            }
+            assessment_details.push({
+              id: detail.id,
+              assessment_id: detail.assessment_id,
+              number: detail.number,
+              title: detail.title,
+              multiple_choice_options,
+            });
+          })
+        }
+
+        endCourseAssessment['assessment_details'] = assessment_details;
+      }
+      this.endCourseAssessment = endCourseAssessment;
+
+      let afterModuleAssessments = this.courseAssessments?.filter(f => {
+        return f.timing == 'after' && f.type == 'module'
+      })
+      let after_module_assessments: any[] = []
+      if(afterModuleAssessments?.length > 0) {
+        afterModuleAssessments?.forEach(afterModuleAssessment => {
+          if(afterModuleAssessment?.assessment_id > 0) {
+            let assessmentDetails = assessments?.filter(assessment => {
+              return assessment?.assessment_id == afterModuleAssessment?.assessment_id
+            })
+    
+            let assessment_details: any[] = []
+            if(assessmentDetails?.length > 0) {
+              assessmentDetails?.forEach(detail => {
+                let multiple_choice_options = assessmentMultipleChoiceOptions?.filter(mc => {
+                  return mc.assessment_id && detail.assessment_id && mc.assessment_detail_id == detail.id 
+                })
+                assessment_details.push({
+                  id: detail.id,
+                  assessment_id: detail.assessment_id,
+                  number: detail.number,
+                  title: detail.title,
+                  multiple_choice_options,
+                });
+              })
+            }
+    
+            afterModuleAssessment['assessment_details'] = assessment_details;
+            after_module_assessments.push(afterModuleAssessment);
+          }
+        })
+      }
+      this.afterModuleAssessments = after_module_assessments;
+    }
   }
 
   mapFeatures(features) {
@@ -835,6 +949,7 @@ export class CourseDetailComponent {
   }
 
   async selectUnit(unit) {
+    this.showAssessment = false
     this.hasAudio = false
     this.audios = []
     this.playCurrentVideo = false
@@ -1540,20 +1655,6 @@ export class CourseDetailComponent {
   }
 
   deleteCourse(id, confirmed) {
-    if (confirmed) {
-      // this._cityGuidesService.deleteCityGuide(id, this.userId).subscribe(
-      //   (response) => {
-      //     this.open(
-      //       this._translateService.instant("dialog.deletedsuccessfully"),
-      //       ""
-      //     );
-      //     this._location.back();
-      //   },
-      //   (error) => {
-      //     console.log(error);
-      //   }
-      // );
-    }
   }
 
   toggleDeleteHover(event) {
@@ -1592,6 +1693,43 @@ export class CourseDetailComponent {
     }
 
     return html;
+  }
+
+  displayAssessment(assessment) {
+    this.showAssessment = false;
+    this.currentAssessment = assessment;
+    this.showAssessment = true;
+    this.cd.detectChanges();
+  }
+
+  handleFinishAssessment(event) {
+    if(event?.assessment_id > 0) {
+      this.updateAssessment(event);
+    }
+  }
+
+  updateAssessment(assessment) {
+    if(assessment?.type == 'module') {
+      if(this.afterModuleAssessments?.length > 0) {
+        this.afterModuleAssessments?.forEach(ama => {
+          if(ama.assessment_id == assessment.assessment_id) {
+            ama.ratings = assessment?.ratings
+          }
+        })
+      }
+    } else if(assessment?.type == 'course') {
+      if(assessment?.timing == 'beginning') {
+        if(this.beginningCourseAssessment?.assessment_id > 0 && 
+            this.beginningCourseAssessment?.assessment_id == assessment?.assessment_id) {
+          this.beginningCourseAssessment.ratings = assessment?.ratings;
+        }
+      } else if(assessment?.timing == 'end') {
+        if(this.endCourseAssessment?.assessment_id > 0 && 
+            this.endCourseAssessment?.assessment_id == assessment?.assessment_id) {
+          this.endCourseAssessment.ratings = assessment?.ratings;
+        }
+      }
+    }
   }
 
   handleGoBack() {

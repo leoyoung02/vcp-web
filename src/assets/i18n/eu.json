@@ -3415,6 +3415,10 @@
         "showcourseassessment": "Erakutsi ikastaroaren ebaluazioa hemen",
         "end": "Amaitu",
         "of": "de",
-        "assessment": "Ebaluazioa"
+        "assessment": "Ebaluazioa",
+        "nextquestion": "Hurrengo galdera",
+        "finish": "Amaitu",
+        "youanswered": "Erantzun duzu",
+        "correctly": "zuzenki"
     }
 }

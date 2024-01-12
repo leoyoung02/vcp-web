@@ -3451,6 +3451,10 @@
         "showcourseassessment": "Show course assessment at",
         "end": "End",
         "of": "of",
-        "assessment": "Assessment"
+        "assessment": "Assessment",
+        "nextquestion": "Next question",
+        "finish": "Finish",
+        "youanswered": "You answered",
+        "correctly": "correctly"
     }
 }

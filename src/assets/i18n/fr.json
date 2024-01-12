@@ -3411,6 +3411,10 @@
         "showcourseassessment": "Afficher l'évaluation du cours à",
         "end": "Fin",
         "of": "de",
-        "assessment": "Évaluation"
+        "assessment": "Évaluation",
+        "nextquestion": "Question suivante",
+        "finish": "Terminer",
+        "youanswered": "Vous avez répondu",
+        "correctly": "correctement"
     }
 }

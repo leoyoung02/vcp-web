@@ -3437,6 +3437,10 @@
         "showcourseassessment": "Mostrar evaluación del curso en",
         "end": "Fin",
         "of": "de",
-        "assessment": "Evaluación"
+        "assessment": "Evaluación",
+        "nextquestion": "Siguiente pregunta",
+        "finish": "Terminar",
+        "youanswered": "Tú respondiste",
+        "correctly": "correctamente"
     }
 }
