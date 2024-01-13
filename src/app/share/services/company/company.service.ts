@@ -167,6 +167,17 @@ import {
   ADD_COMMUNITY_CHANNEL_URL,
   EDIT_COMMUNITY_CHANNEL_URL,
   DELETE_COMMUNITY_CHANNEL_URL,
+  ADDITIONAL_PROPERTIES_DATA,
+  ASSESSMENTS_URL,
+  CREATE_ASSESSMENT_URL,
+  EDIT_ASSESSMENT_URL,
+  DELETE_ASSESSMENT_URL,
+  CREATE_ASSESSMENT_DETAIL_URL,
+  EDIT_ASSESSMENT_DETAIL_URL,
+  DELETE_ASSESSMENT_DETAIL_URL,
+  CREATE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL,
+  EDIT_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL,
+  DELETE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -929,7 +940,7 @@ export class CompanyService {
     ).pipe(map(res => res))
   }
 
-  fetchHomeData(id: number = 0, isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
+  fetchHomeData(id: number = 0, isUESchoolOfLife: boolean = false, campus: string = '', userId: number = 0): Observable<any> {
     let url = `${HOME_DATA_URL}/${id}`
     if(isUESchoolOfLife) {
       url += `?schooloflife=1&campus=${campus}`
@@ -937,6 +948,9 @@ export class CompanyService {
       if(campus) {
         url += `?campus=${campus}`
       }
+    }
+    if(userId > 0) {
+      url += url?.indexOf('?') >= 0 ? `&userid=${userId}` : `?userid=${userId}`;
     }
     
     return this._http.get(url, { 
@@ -1462,6 +1476,81 @@ export class CompanyService {
     return this._http.delete(
         `${DELETE_COMMUNITY_CHANNEL_URL}/${id}`,
         {}
+    ).pipe(map(res => res));
+  }
+
+  fetchAdditionalPropertiesAdmin(companyId): Observable<any> {
+    return this._http.get(`${ADDITIONAL_PROPERTIES_DATA}/${companyId}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  getAssessments(companyId, userId): Observable<any> {
+    return this._http.get(`${ASSESSMENTS_URL}/${companyId}/${userId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addAssessment(payload): Observable<any> {
+    return this._http.post(
+      CREATE_ASSESSMENT_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editAssessment(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_ASSESSMENT_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteAssessment(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_ASSESSMENT_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  addAssessmentItem(payload): Observable<any> {
+    return this._http.post(
+      CREATE_ASSESSMENT_DETAIL_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editAssessmentItem(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_ASSESSMENT_DETAIL_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteAssessmentItem(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_ASSESSMENT_DETAIL_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  addAssessmentMultipleChoice(payload): Observable<any> {
+    return this._http.post(
+      CREATE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editAssessmentMultipleChoice(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteAssessmentMultipleChoice(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL}/${id}`,
+      {},
     ).pipe(map(res => res));
   }
 }

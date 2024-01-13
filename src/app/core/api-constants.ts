@@ -140,6 +140,7 @@ export const SEND_EMAIL_CONFIRMATION_URL = `${API_BASE}/company/send/confirmatio
 export const SEND_EMAIL_WELCOME_URL = `${API_BASE}/company/send/welcome-email`;
 export const SELECT_PLAN_EMAIL_URL = `${API_BASE}/company/email/select-plan`;
 export const EMAIL_VERIFICATION_URL = `${API_BASE}/email-verification`;
+export const UE_TEST_LOGIN_URL = `${API_BASE}/v2/curl-to-node-request`;
 
 // PAYMENT
 export const VALIDATE_COUPON_URL = `${API_BASE}/company/member-plan/validate-coupon`;
@@ -436,6 +437,7 @@ export const COURSE_UNIT_DETAILS_URL = `${API_BASE}/v2/course-unit-details`;
 export const COURSES_ADMIN_LIST_URL = `${API_BASE}/v2/courses-list`;
 export const COURSE_COMPLETE_EVALUATE_URL = `${API_BASE}/v2/course/completed/evaluate`;
 export const COURSES_MANAGEMENT_DATA_URL = `${API_BASE}/v2/courses-management-data`;
+export const ADDITIONAL_PROPERTIES_DATA = `${API_BASE}/company/user/get-additional-properties`;
 
 // TUTORS
 export const TUTORS_URL = `${API_BASE}/company/tutors`;
@@ -606,6 +608,9 @@ export const ADD_VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas/add`;
 export const EDIT_VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas/edit`;
 export const EDIT_VIDEOS_CTAS_DETAILS_URL = `${API_BASE}/v2/videos-ctas-details/edit`;
 export const DELETE_VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas/delete`;
+export const EDIT_VIDEOS_CTAS_CTA_SETTINGS_URL = `${API_BASE}/v2/videos-ctas/cta-settings/edit`;
+export const LOG_VIDEO_CTA_CLICK_URL = `${API_BASE}/v2/video-cta/click/log`;
+export const TIKTOK_VIDEOS_CTAS_DATA_URL = `${API_BASE}/v2/tiktok-videos-ctas-data`;
 
 // UE IMPROVEMENTS
 export const ACTIVITY_CODE_DATA_URL = `${API_BASE}/v2/activity-code-data`;
@@ -613,9 +618,21 @@ export const CONFIRM_ATTENDANCE_URL = `${API_BASE}/v2/activity-code/validate`;
 export const USER_CREDIT_LOGS_URL = `${API_BASE}/v2/user-credit-logs`;
 export const SUBMIT_ACTIVITY_RATING_URL = `${API_BASE}/v2/activity/rating/submit`;
 export const EDIT_CREDITS_SETTINGS_URL = `${API_BASE}/v2/credits/settings`;
-export const EDIT_VIDEOS_CTAS_CTA_SETTINGS_URL = `${API_BASE}/v2/videos-ctas/cta-settings/edit`;
-export const LOG_VIDEO_CTA_CLICK_URL = `${API_BASE}/v2/video-cta/click/log`;
-export const TIKTOK_VIDEOS_CTAS_DATA_URL = `${API_BASE}/v2/tiktok-videos-ctas-data`;
+export const COURSE_ASSESSMENT_ITEMS_URL = `${API_BASE}/v2/course-assessment-items`;
+export const CREATE_COURSE_ASSESSMENT_ITEM_URL = `${API_BASE}/v2/course-assessment-item/add`;
+export const EDIT_COURSE_ASSESSMENT_ITEM_URL = `${API_BASE}/v2/course-assessment-item/edit`;
+export const DELETE_COURSE_ASSESSMENT_ITEM_URL = `${API_BASE}/v2/course-assessment-item/delete`;
+export const ASSESSMENTS_URL = `${API_BASE}/v2/assessments`;
+export const CREATE_ASSESSMENT_URL = `${API_BASE}/v2/assessment/add`;
+export const EDIT_ASSESSMENT_URL = `${API_BASE}/v2/assessment/edit`;
+export const DELETE_ASSESSMENT_URL = `${API_BASE}/v2/assessment/delete`;
+export const CREATE_ASSESSMENT_DETAIL_URL = `${API_BASE}/v2/assessment-detail/add`;
+export const EDIT_ASSESSMENT_DETAIL_URL = `${API_BASE}/v2/assessment-detail/edit`;
+export const DELETE_ASSESSMENT_DETAIL_URL = `${API_BASE}/v2/assessment-detail/delete`;
+export const CREATE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/add`;
+export const EDIT_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/edit`;
+export const DELETE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/delete`;
+export const SUBMIT_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment/submit`;
 
 // COMMUNITY
 export const COMMUNITY_CHANNELS_URL = `${API_BASE}/v2/channels`;

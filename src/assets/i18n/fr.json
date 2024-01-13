@@ -966,7 +966,15 @@
         "blocked": "Bloqué",
         "startson": "Commence le",
         "embedorurl": "Intégrer ou lier",
-        "showhotmartcourses": "Afficher les cours Hotmart?"
+        "showhotmartcourses": "Afficher les cours Hotmart?",
+        "embed": "Upotuskoodi (iframe tai skripti)",
+        "allowadditionalpropertiesaccess": "Accès au cours pour des propriétés supplémentaires",
+        "selectcampus": "Sélectionner le campus",
+        "selectfaculty": "Sélectionner la faculté",
+        "selectbusinessunit": "Sélectionner l'unité commerciale",
+        "selecttype": "Sélectionner le type",
+        "selectsegment": "Sélectionner un segment",
+        "selectbranding": "Sélectionner la marque"
     }, 
     "course-details": {
         "goback": "Revenir en arrière",
@@ -1058,7 +1066,8 @@
         "pleasecheckyourinbox": "Email envoyé. Veuillez vérifier votre boîte de réception pour le lien de réinitialisation du mot de passe.",
         "changepasswordtitle": "Changer le mot de passe",
         "changepassworddesc": "Entrez et confirmez votre nouveau mot de passe",
-        "adminlogin": "Connexion administrateur"
+        "adminlogin": "Connexion administrateur",
+        "username": "Nom d'utilisateur"
     },
     "signup": {
         "firsttitle": "Inscrivez-vous pour",
@@ -1520,6 +1529,7 @@
         "answers": "Réponses",
         "answer": "Répondre",
         "correct": "correct",
+        "incorrect": "Incorrect",
         "addquestion": "Ajouter",
         "addsuccess": "Ajouté avec succès",
         "updatesuccess": "Mise à jour réussie",
@@ -2715,7 +2725,10 @@
         "insufficientcredits": "Crédits insuffisants",
         "updateCredits": "Voulez-vous mettre à jour les crédits de cours pour l'utilisateur ?",
         "credits": "Crédits",
-        "creditsearned": "Crédits gagnés"
+        "creditsearned": "Crédits gagnés",
+        "selectCampus":"Sélectionnez un campus",
+        "selectfaculty":"Sélectionnez la faculté",
+        "selectBusinessUnit":"Sélectionnez l'unité commerciale"
     },
     "contact-landing": {
         "settings": "Paramètres",
@@ -3385,5 +3398,25 @@
     },
     "community": {
         "communitychannels": "Chaînes communautaires"
+    },
+    "course-assessment": {
+        "courseassessment": "Évaluation du cours",
+        "beginning": "Début",
+        "before": "Avant",
+        "after": "Après",
+        "course": "Cours",
+        "module": "Module",
+        "passingrate": "Taux de réussite (%)",
+        "requiredtopass": "Score atteindre le taux de réussite pour continuer ?",
+        "manageassessments": "Gérer les évaluations",
+        "addcourseassessment": "Ajouter une évaluation de cours",
+        "showcourseassessment": "Afficher l'évaluation du cours à",
+        "end": "Fin",
+        "of": "de",
+        "assessment": "Évaluation",
+        "nextquestion": "Question suivante",
+        "finish": "Terminer",
+        "youanswered": "Vous avez répondu",
+        "correctly": "correctement"
     }
 }

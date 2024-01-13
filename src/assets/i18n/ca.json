@@ -968,7 +968,15 @@
         "startson": "Comença a",
         "embedorurl": "Embeure o enllaçar",
         "showhotmartcourses": "Mostrar els cursos de Hotmart?",
-        "assigntutorstocourses": "Accés al curs"
+        "assigntutorstocourses": "Accés al curs",
+        "embed": "Kodea txertatu (iframe edo script)",
+        "allowadditionalpropertiesaccess": "Accés al curs per a propietats addicionals",
+        "selectcampus": "Selecciona el campus",
+        "selectfaculty": "Selecciona el professorat",
+        "selectbusinessunit": "Selecciona la unitat de negoci",
+        "selecttype": "Selecciona el tipus",
+        "selectsegment": "Selecciona un segment",
+        "selectbranding": "Selecciona la marca"
     }, 
     "course-details": {
         "goback": "Torna",
@@ -1062,7 +1070,8 @@
         "pleasecheckyourinbox": "Email enviat. Verifiqueu la safata d'entrada per veure l'enllaç de restabliment de contrasenya.",
         "changepasswordtitle": "Canvia la contrasenya",
         "changepassworddesc": "Ingressa i confirma la teva nova contrasenya",
-        "adminlogin": "Inici de sessió d'administrador"
+        "adminlogin": "Inici de sessió d'administrador",
+        "username": "Nom d'usuari"
     },
     "signup": {
         "firsttitle": "Inscriure's a",
@@ -1525,6 +1534,7 @@
         "answers": "Respostes",
         "answer": "Resposta",
         "correct": "Correcte",
+        "incorrect": "Incorrecte",
         "addquestion": "Afegir",
         "addsuccess": "Agregat amb èxit",
         "updatesuccess": "Actualitzat amb èxit",
@@ -2730,7 +2740,10 @@
         "insufficientcredits": "Crèdits insuficients",
         "updateCredits": "Vols actualitzar els crèdits del curs per a l'usuari?",
         "credits": "Crèdits",
-        "creditsearned": "Crèdits obtinguts"
+        "creditsearned": "Crèdits obtinguts",
+        "selectCampus":"Seleccioneu Campus",
+        "selectfaculty":"Seleccioneu Facultat",
+        "selectBusinessUnit":"Seleccioneu Unitat de negoci"
     },
     "contact-landing": {
         "settings": "Configuracions",
@@ -3399,5 +3412,25 @@
     },
     "community": {
         "communitychannels": "Canals de la comunitat"
+    },
+    "course-assessment": {
+        "courseassessment": "Avaluació del curs",
+        "beginning": "Inici",
+        "before": "Abans",
+        "after": "Després",
+        "course": "Curs",
+        "module": "Mòdul",
+        "passingrate": "Percentatge de superació (%)",
+        "requiredtopass": "El percentatge d'aprovació de la puntuació per continuar?",
+        "manageassessments": "Gestiona les avaluacions",
+        "addcourseassessment": "Afegeix l'avaluació del curs",
+        "showcourseassessment": "Mostra l'avaluació del curs a",
+        "end": "Fi",
+        "of": "de",
+        "assessment": "Avaluació",
+        "nextquestion": "Següent pregunta",
+        "finish": "Acabar",
+        "youanswered": "Has respost",
+        "correctly": "correctament"
     }
 }

@@ -509,6 +509,16 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_price', isShowPrice );
     formData.append( 'school_of_life', planForm.school_of_life );
 
+    if(entityId == 32) {
+      formData.append( 'additional_properties_course_access', planForm.additional_properties_course_access );
+      formData.append( 'additional_properties_campus_ids', planForm.additional_properties_campus_ids );
+      formData.append( 'additional_properties_business_unit_ids', planForm.additional_properties_business_unit_ids );
+      formData.append( 'additional_properties_faculty_ids', planForm.additional_properties_faculty_ids );
+      formData.append( 'additional_properties_type_ids', planForm.additional_properties_type_ids );
+      formData.append( 'additional_properties_segment_ids', planForm.additional_properties_segment_ids );
+      formData.append( 'additional_properties_branding_ids', planForm.additional_properties_branding_ids );
+    }
+
     if(activityCodeActive) {
       formData.append( 'activity_code', planForm.activity_code );
     }
@@ -735,6 +745,16 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_description', planForm.isShowDescription );
     formData.append( 'show_price', planForm.isShowPrice );
     formData.append( 'school_of_life', planForm.school_of_life );
+
+    if(entityId == 32) {
+      formData.append( 'additional_properties_course_access', planForm.additional_properties_course_access );
+      formData.append( 'additional_properties_campus_ids', planForm.additional_properties_campus_ids );
+      formData.append( 'additional_properties_business_unit_ids', planForm.additional_properties_business_unit_ids );
+      formData.append( 'additional_properties_faculty_ids', planForm.additional_properties_faculty_ids );
+      formData.append( 'additional_properties_type_ids', planForm.additional_properties_type_ids );
+      formData.append( 'additional_properties_segment_ids', planForm.additional_properties_segment_ids );
+      formData.append( 'additional_properties_branding_ids', planForm.additional_properties_branding_ids );
+    }
 
     if(activityCodeActive) {
       formData.append( 'activity_code', planForm.activity_code );

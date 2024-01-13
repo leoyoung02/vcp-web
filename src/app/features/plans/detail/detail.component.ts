@@ -294,6 +294,7 @@ export class PlanDetailComponent {
   addCalendarHover: boolean = false;
   isUESchoolOfLife: boolean = false;
   planCategoryMapping: any = [];
+  allPlanData: any = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -399,6 +400,7 @@ export class PlanDetailComponent {
       .subscribe(
         (data) => {
           this.plansData = data;
+          this.allPlanData = data;
           this.initializePage();
         },
         (error) => {
@@ -793,26 +795,29 @@ export class PlanDetailComponent {
   getCategoryLabel() {
     let category = "";
 
-    if (this.eventCategory) {
+    if(this.eventCategory) {
       category = this.eventCategory;
     } else {
-      if (this.categories?.length > 0) {
-        this.categories.forEach((cat: any) => {
-          let prefix = category ? ", " : "";
-          category += `${prefix}${
-            this.language == "en"
-              ? cat.name_EN || cat.name_ES
-              : this.language == "fr"
-              ? cat.name_FR || cat.name_ES
-              : this.language == "eu"
-              ? cat.name_EU || cat.name_ES
-              : this.language == "ca"
-              ? cat.name_CA || cat.name_ES
-              : this.language == "de"
-              ? cat.name_DE || cat.name_ES
-              : cat.name_ES
-          }`;
-        });
+      if(this.superCategories?.length > 0) {
+        this.superCategories?.forEach((cat: any) => {
+          let prefix = category ? ', ' : ''
+          category += `${prefix}${this.language == 'en' ? (cat.name_EN || cat.name_ES) : (this.language == 'fr' ? (cat.name_FR || cat.name_ES) : (this.language == 'eu' ? (cat.name_EU || cat.name_ES) : (this.language == 'ca' ? (cat.name_CA || cat.name_ES) : (this.language == 'de' ? (cat.name_DE || cat.name_ES) : cat.name_ES))))}`
+        })
+      }
+
+      let categories_mapping = this.allPlanData?.plan?.categories_mapping;
+      if(categories_mapping?.length > 0) {
+        let plan_category_mapping = categories_mapping?.filter(plan => {
+          return plan.fk_group_plan_id == this.id || plan.fk_plan_id == this.id
+        })
+        if(plan_category_mapping?.length > 0) {
+          let categories = this.categories?.filter(category => {
+            return plan_category_mapping?.some(a => a.fk_supercategory_id === category.fk_supercategory_id)
+          })
+          if(categories?.length > 0) {
+            category = categories?.map((data) => { return data?.name_ES || data?.name_es }).join(', ')
+          }
+        }
       }
     }
 

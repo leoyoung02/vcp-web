@@ -967,7 +967,15 @@
         "startson": "Hasten da",
         "embedorurl": "Txertatu edo estekatu",
         "showhotmartcourses": "Hotmart-eko ikastaroak erakutsi?",
-        "assigntutorstocourses": "Ikastarorako sarbidea"
+        "assigntutorstocourses": "Ikastarorako sarbidea",
+        "embed": "Kodea txertatu (iframe edo script)",
+        "allowadditionalpropertiesaccess": "Ikastarorako sarbidea propietate gehigarrietarako",
+        "selectcampus": "Hautatu campusa",
+        "selectfaculty": "Hautatu irakaslea",
+        "selectbusinessunit": "Hautatu negozio-unitatea",
+        "selecttype": "Hautatu mota",
+        "selectsegment": "Hautatu segmentua",
+        "selectbranding": "Hautatu marka"
     }, 
     "course-details": {
         "goback": "Itzuli",
@@ -1059,7 +1067,8 @@
         "pleasecheckyourinbox": "Mezu elektronikoa bidali da. Egiaztatu sarrerako ontzia pasahitza berrezartzeko esteka dagoen.",
         "changepasswordtitle": "Aldatu pasahitza",
         "changepassworddesc": "Sartu eta berretsi pasahitz berria",
-        "adminlogin": "Administratzailearen saioa"
+        "adminlogin": "Administratzailearen saioa",
+        "username": "Erabiltzaile izena"
     },
     "signup": {
         "firsttitle": "Eman izena",
@@ -1522,6 +1531,7 @@
         "answers": "Erantzunak",
         "answer": "Erantzun",
         "correct": "Zuzen",
+        "incorrect": "Okerra",
         "addquestion": "Gehitu",
         "addsuccess": "Ondo gehitu da",
         "updatesuccess": "Ondo eguneratu da",
@@ -2721,7 +2731,10 @@
         "insufficientcredits": "Kreditu nahikorik ez",
         "updateCredits": "Erabiltzaileentzako ikastaro-kredituak eguneratu nahi dituzu?",
         "credits": "Kreditu",
-        "creditsearned": "Irabazitako kredituak"
+        "creditsearned": "Irabazitako kredituak",
+        "selectCampus":"Hautatu Campusa",
+        "selectfaculty":"Aukeratu Fakultatea",
+        "selectBusinessUnit":"Hautatu Negozio Unitatea"
     },
     "contact-landing": {
         "settings": "Ezarpenak",
@@ -3389,5 +3402,25 @@
     },
     "community": {
         "communitychannels": "Komunitate kanalak"
+    },
+    "course-assessment": {
+        "courseassessment": "Ikastaroaren ebaluazioa",
+        "beginning": "Hasiera",
+        "before": "Lehenago",
+        "after": "Ondoren",
+        "course": "Ikastaroa",
+        "module": "Modulua",
+        "passingrate": "Gaialdi-tasa (%)",
+        "requiredtopass": "Jarraitzeko puntuazioa lortzeko gainditze-tasa?",
+        "manageassessments": "Kudeatu ebaluazioak",
+        "addcourseassessment": "Gehitu ikastaroaren ebaluazioa",
+        "showcourseassessment": "Erakutsi ikastaroaren ebaluazioa hemen",
+        "end": "Amaitu",
+        "of": "de",
+        "assessment": "Ebaluazioa",
+        "nextquestion": "Hurrengo galdera",
+        "finish": "Amaitu",
+        "youanswered": "Erantzun duzu",
+        "correctly": "zuzenki"
     }
 }

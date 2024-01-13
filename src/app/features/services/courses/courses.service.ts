@@ -13,6 +13,7 @@ import {
   COURSES_COMBINED_URL,
   COURSES_MANAGEMENT_DATA_URL,
   COURSES_URL,
+  COURSE_ASSESSMENT_ITEMS_URL,
   COURSE_CATEGORIES_URL,
   COURSE_CATEGORY_ACCESS_EDIT_URL,
   COURSE_CATEGORY_ACCESS_ROLES_URL,
@@ -34,12 +35,15 @@ import {
   COURSE_UNITS_URL,
   COURSE_UNIT_DETAILS_URL,
   COURSE_WALL_URL,
+  CREATE_COURSE_ASSESSMENT_ITEM_URL,
+  DELETE_COURSE_ASSESSMENT_ITEM_URL,
   DELETE_COURSE_DOWNLOAD_URL,
   DELETE_COURSE_MODULE_URL,
   DELETE_COURSE_UNIT_URL,
   DELETE_COURSE_URL,
   DELETE_CTA_URL,
   DUPLICATE_COURSE_URL,
+  EDIT_COURSE_ASSESSMENT_ITEM_URL,
   EDIT_COURSE_DOWNLOAD_URL,
   EDIT_COURSE_LOCK_URL,
   EDIT_COURSE_MODULE_URL,
@@ -59,6 +63,7 @@ import {
   RESEND_ACCESS_URL,
   RESET_STATUS_URL,
   SAVE_COURSE_SESSION_URL,
+  SUBMIT_COURSE_ASSESSMENT_URL,
   UNASSIGN_USER_COURSE_URL,
   UNIT_TYPES_URL,
   USER_ROLE_URL,
@@ -300,7 +305,6 @@ export class CoursesService {
 
   addCourse(params, file): Observable<any> {
     const url = ADD_COURSE_URL;
-    
     let formData = new FormData();
 
     formData.append( 'title', params.title );
@@ -324,6 +328,16 @@ export class CoursesService {
     formData.append( 'duration', params.duration ? params.duration : 0 );
     formData.append( 'duration_unit', params.duration_unit ? params.duration_unit : 0 );
     formData.append( 'instructor', params.instructor ? params.instructor : 0 );
+
+    if(params.company_id == 32) {
+      formData.append( 'additional_properties_course_access', params.additional_properties_course_access );
+      formData.append( 'additional_properties_campus_ids', params.additional_properties_campus_ids );
+      formData.append( 'additional_properties_business_unit_ids', params.additional_properties_business_unit_ids );
+      formData.append( 'additional_properties_faculty_ids', params.additional_properties_faculty_ids );
+      formData.append( 'additional_properties_type_ids', params.additional_properties_type_ids );
+      formData.append( 'additional_properties_segment_ids', params.additional_properties_segment_ids );
+      formData.append( 'additional_properties_branding_ids', params.additional_properties_branding_ids );
+    }
 
     if(params.price) {
       formData.append( 'price', params.price );
@@ -421,6 +435,16 @@ export class CoursesService {
       formData.append('course_credits', params.course_credits)
     }
     formData.append( 'require_payment', params.require_payment ? params.require_payment : 0 );
+    
+    if(params.company_id == 32) {
+      formData.append( 'additional_properties_course_access', params.additional_properties_course_access );
+      formData.append( 'additional_properties_campus_ids', params.additional_properties_campus_ids );
+      formData.append( 'additional_properties_business_unit_ids', params.additional_properties_business_unit_ids );
+      formData.append( 'additional_properties_faculty_ids', params.additional_properties_faculty_ids );
+      formData.append( 'additional_properties_type_ids', params.additional_properties_type_ids );
+      formData.append( 'additional_properties_segment_ids', params.additional_properties_segment_ids );
+      formData.append( 'additional_properties_branding_ids', params.additional_properties_branding_ids );
+    }
 
     if (file) {
       const filename = 'courseImage_' + params.created_by + '_' + this.getTimestamp();
@@ -624,5 +648,41 @@ export class CoursesService {
         return result;
       })
     );
+  }
+
+  getCourseAssessmentItems(courseId): Observable<any> {
+    return this._http.get(
+      `${COURSE_ASSESSMENT_ITEMS_URL}/${courseId}`,
+      { headers: this.headers }
+    )
+    .pipe(map(res => res));
+  }
+
+  addCourseAssessmentItem(payload): Observable<any> {
+    return this._http.post(
+      CREATE_COURSE_ASSESSMENT_ITEM_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  editCourseAssessmentItem(id, payload): Observable<any> {
+    return this._http.put(
+      `${EDIT_COURSE_ASSESSMENT_ITEM_URL}/${id}`,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  deleteCourseAssessmentItem(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_COURSE_ASSESSMENT_ITEM_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  submitCourseAssessment(payload): Observable<any> {
+    return this._http.post(
+      SUBMIT_COURSE_ASSESSMENT_URL,
+      payload,
+    ).pipe(map(res => res));
   }
 }

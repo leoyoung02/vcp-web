@@ -79,6 +79,7 @@ export class LoginComponent {
   isLoading: boolean = false;
   menuColor: any;
   alreadyLoggedIn: boolean = false;
+  ueLoginMode: string = '';
 
   constructor(
     private _router: Router,
@@ -296,24 +297,37 @@ export class LoginComponent {
     const email = this.loginForm?.controls["email"].value;
     const password = this.loginForm?.controls["password"].value;
 
-    if (email && password) {
-      // Check if custom member type has expiration
-      if (
-        this.hasCustomMemberTypeSettings &&
-        this.hasCustomMemberTypeExpiration
-      ) {
-        this._authService
-          .checkLoginMember(this.companyId, email)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(async (data: any) => {
-            let expired_member = data[0] ? data[0]["expired_member"] : [];
-            let user_member_types = data[1] ? data[1]["user_member_types"] : [];
-            let expired_others = data[2] ? data[2]["expired"] : [];
+    if(this.companyId == 32 && this.ueLoginMode == 'Estudiante' || this.ueLoginMode == 'Empleado') {
+      this.testLoginUEStudentEmployee(email, password);
+    } else {
+      if (email && password) {
+        // Check if custom member type has expiration
+        if (
+          this.hasCustomMemberTypeSettings &&
+          this.hasCustomMemberTypeExpiration
+        ) {
+          this._authService
+            .checkLoginMember(this.companyId, email)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(async (data: any) => {
+              let expired_member = data[0] ? data[0]["expired_member"] : [];
+              let user_member_types = data[1] ? data[1]["user_member_types"] : [];
+              let expired_others = data[2] ? data[2]["expired"] : [];
 
-            if (expired_member && expired_member.id) {
-              // Check if there are other user memberships
-              if (user_member_types && user_member_types.length > 0) {
-                if (expired_others) {
+              if (expired_member && expired_member.id) {
+                // Check if there are other user memberships
+                if (user_member_types && user_member_types.length > 0) {
+                  if (expired_others) {
+                    this.open(
+                      this._translateService.instant("dialog.unabletorenew"),
+                      ""
+                    );
+                    setTimeout(() => {
+                      location.href = `/signup/member-type-payment/${expired_member.id}/${expired_member.type_id}`;
+                    }, 2000);
+                    return false;
+                  }
+                } else {
                   this.open(
                     this._translateService.instant("dialog.unabletorenew"),
                     ""
@@ -323,28 +337,19 @@ export class LoginComponent {
                   }, 2000);
                   return false;
                 }
-              } else {
-                this.open(
-                  this._translateService.instant("dialog.unabletorenew"),
-                  ""
-                );
-                setTimeout(() => {
-                  location.href = `/signup/member-type-payment/${expired_member.id}/${expired_member.type_id}`;
-                }, 2000);
-                return false;
               }
-            }
 
-            this.validateLogin(email, password);
-          });
+              this.validateLogin(email, password);
+            });
+        } else {
+          this.validateLogin(email, password);
+        }
       } else {
-        this.validateLogin(email, password);
+        this.open(
+          this._translateService.instant("dialog.invalidcredentials"),
+          ""
+        );
       }
-    } else {
-      this.open(
-        this._translateService.instant("dialog.invalidcredentials"),
-        ""
-      );
     }
   }
 
@@ -400,6 +405,24 @@ export class LoginComponent {
       );
   }
 
+  async testLoginUEStudentEmployee(email, password) {
+    await this._authService
+      .ueTestLogin(email, password, this.ueLoginMode)
+      .subscribe(
+        (data: any) => {
+          if (data?.guid) {
+            this._router.navigate([`/sso/${data?.guid}`]);
+          }
+        },
+        (error) => {
+          this.open(
+            this._translateService.instant("dialog.invalidcredentials"),
+            ""
+          );
+        }
+      );
+  }
+
   redirectToLandingPage() {
     const input = this.loginForm?.value.email;
     this._router.navigate(["/auth/login", input]);
@@ -417,11 +440,15 @@ export class LoginComponent {
   }
 
   loginUEStudent() {
-    location.href = `https://sso.vistingo.com/api/login/student`;
+    this.ueLoginMode == '';
+    this.ueLoginMode = 'Estudiante';
+    // location.href = `https://sso.vistingo.com/api/login/student`;
   }
 
   loginUEEmployee() {
-    location.href = `https://sso.vistingo.com/api/login/employee`;
+    this.ueLoginMode == '';
+    this.ueLoginMode = 'Empleado';
+    // location.href = `https://sso.vistingo.com/api/login/employee`;
   }
 
   toggleAdminLogin(event): void {

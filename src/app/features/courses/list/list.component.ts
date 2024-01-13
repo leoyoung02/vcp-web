@@ -124,6 +124,7 @@ export class CoursesListComponent {
   placeholderText: any;
   search: any;
   allCoursesList: any = [];
+  userAdditionalProperties: any = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -214,8 +215,9 @@ export class CoursesListComponent {
             data?.hotmart_settings
           );
           this.mapUserPermissions(data?.user_permissions);
+          this.userAdditionalProperties = data?.users_additional_properties;
           this.coursesProgress = data?.courses_progress || [];
-          this.allCoursesList = data?.courses
+          this.allCoursesList = data?.courses;
           
           if(data?.courses?.length > 0) {
             this.getCoursesData(data?.courses);
@@ -446,9 +448,7 @@ export class CoursesListComponent {
   }
 
   filterCourses(courses_list) {
-    let courses = courses_list && courses_list.filter(c => {
-      return c. status == 1
-    })
+    let courses = this.initialFilter(courses_list);
 
     let all_courses: any[] = []
     let courseIdArray: any[] = []
@@ -659,6 +659,100 @@ export class CoursesListComponent {
 
       this.formatCourses(this.filteredcourses);
     }
+  }
+
+  initialFilter(courses_list) {
+    let courses = courses_list && courses_list.filter(course => {
+      let include = false
+
+      let active = course?.status == 1 ? true : false
+
+      if(this.companyId == 32 && !this.superAdmin) {
+        if(course?.additional_properties_course_access == 1) {
+          let match_campus = false
+          if(course?.additional_properties_campus_ids) {
+            let course_campus = course?.additional_properties_campus_ids?.split(',');
+            let user_campus_row = this.userAdditionalProperties?.filter(c => {
+              return c.type == 'campus' && c.value == this.user?.campus
+            })
+            let user_campus = user_campus_row?.length > 0 ? user_campus_row[0].id : 0
+            match_campus = course_campus?.some((a) => a == user_campus);
+          } else {
+            match_campus = true;
+          }
+
+          let match_faculty = false;
+          if(course?.additional_properties_faculty_ids) {
+            let course_faculty = course?.additional_properties_faculty_ids?.split(',');
+            let user_faculty_row = this.userAdditionalProperties?.filter(c => {
+              return c.type == 'faculty' && c.value == this.user?.faculty
+            })
+            let user_faculty = user_faculty_row?.length > 0 ? user_faculty_row[0].id : 0
+            match_faculty = course_faculty?.some((a) => a == user_faculty);
+          } else {
+            match_faculty = true;
+          }
+
+          let match_business_unit = false;
+          if(course?.additional_properties_business_unit_ids) {
+            let course_business_unit = course?.additional_properties_business_unit_ids?.split(',');
+            let user_business_unit_row = this.userAdditionalProperties?.filter(c => {
+              return c.type == 'bussines_unit' && c.value == this.user?.bussines_unit
+            })
+            let user_business_unit = user_business_unit_row?.length > 0 ? user_business_unit_row[0].id : 0
+            match_business_unit = course_business_unit?.some((a) => a == user_business_unit);
+          } else {
+            match_business_unit = true;
+          }
+
+          let match_type = false;
+          if(course?.additional_properties_type_ids) {
+            let course_type = course?.additional_properties_type_ids?.split(',');
+            let user_type_row = this.userAdditionalProperties?.filter(c => {
+              return c.type == 'type' && c.value == this.user?.type
+            })
+            let user_type = user_type_row?.length > 0 ? user_type_row[0].id : 0
+            match_type= course_type?.some((a) => a == user_type);
+          } else {
+            match_type = true;
+          }
+
+          let match_segment = false;
+          if(course?.additional_properties_segment_ids) {
+            let course_segment = course?.additional_properties_segment_ids?.split(',');
+            let user_segment_row = this.userAdditionalProperties?.filter(c => {
+              return c.type == 'segment' && c.value == this.user?.segment
+            })
+            let user_segment = user_segment_row?.length > 0 ? user_segment_row[0].id : 0
+            match_segment = course_segment?.some((a) => a == user_segment);
+          } else {
+            match_segment = true;
+          }
+
+          let match_branding = false;
+          if(course?.additional_properties_branding_ids) {
+            let course_branding = course?.additional_properties_branding_ids?.split(',');
+            let user_branding_row = this.userAdditionalProperties?.filter(c => {
+              return c.type == 'branding' && c.value == this.user?.branding
+            })
+            let user_branding = user_branding_row?.length > 0 ? user_branding_row[0].id : 0
+            match_branding = course_branding?.some((a) => a == user_branding);
+          } else {
+            match_branding = true;
+          }
+
+          include = (match_campus && match_faculty && match_business_unit && match_type && match_segment && match_branding) ? true : false;
+        } else {
+          include = true;
+        }
+      } else {
+        include = true;
+      }
+      
+      return active && include
+    })
+
+    return courses;
   }
 
   async showCoursesWithAccess() {

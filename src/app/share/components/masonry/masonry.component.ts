@@ -127,7 +127,7 @@ export class MasonryComponent {
   fetchData() {
     if(this.section1Mode == 'plans' && this.section2Mode != 'courses') {
       this._companyService
-      .fetchHomeData(this.company?.id, this.isUESchoolOfLife, this.campus)
+      .fetchHomeData(this.company?.id, this.isUESchoolOfLife, this.campus, this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {

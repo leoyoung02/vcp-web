@@ -91,10 +91,10 @@ export class CityGuideListComponent {
     this.language = this._localService.getLocalStorage(environment.lslang);
     this._translateService.use(this.language || "es");
     this.user = this._localService.getLocalStorage(environment.lsuser);
-    this.campus = this.user?.campus || '';
-    if(this.campus) {
-      localStorage.setItem('city-guide-filter-city', this.campus);
-    }
+    // this.campus = this.user?.campus || '';
+    // if(this.campus) {
+    //   localStorage.setItem('city-guide-filter-city', this.campus);
+    // }
 
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);

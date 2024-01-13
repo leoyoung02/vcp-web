@@ -967,7 +967,15 @@
         "startson": "Beginnt am",
         "embedorurl": "Einbetten oder verlinken",
         "showhotmartcourses": "Hotmart-Kurse anzeigen?",
-        "assigntutorstocourses": "Kurszugang"
+        "assigntutorstocourses": "Kurszugang",
+        "embed": "Code einbetten (Iframe oder Skript)",
+        "allowadditionalpropertiesaccess": "Kurszugang für zusätzliche Eigenschaften",
+        "selectcampus": "Campus auswählen",
+        "selectfaculty": "Fakultät auswählen",
+        "selectbusinessunit": "Geschäftsbereich auswählen",
+        "selecttype": "Typ auswählen",
+        "selectsegment": "Segment auswählen",
+        "selectbranding": "Branding auswählen"
     }, 
     "course-details": {
         "goback": "Zurück",
@@ -1059,7 +1067,8 @@
         "pleasecheckyourinbox": "E-Mail gesendet. Bitte überprüfen Sie Ihren Posteingang auf den Link zum Zurücksetzen des Passworts.",
         "changepasswordtitle": "Passwort ändern",
         "changepassworddesc": "Geben Sie Ihr neues Passwort ein und bestätigen Sie es",
-        "adminlogin": "Admin-Login"
+        "adminlogin": "Admin-Login",
+        "username": "Benutzername"
     },
     "signup": {
         "firsttitle": "Anmelden für",
@@ -1521,6 +1530,7 @@
         "answers": "Antworten",
         "answer": "Antworten",
         "correct": "Richtig",
+        "incorrect": "Falsch",
         "addquestion": "Hinzufügen",
         "addsuccess": "Erfolgreich hinzugefügt",
         "updatesuccess": "Erfolgreich aktualisiert",
@@ -2721,7 +2731,10 @@
         "insufficientcredits": "Unzureichende Credits",
         "updateCredits": "Möchten Sie die Kursguthaben für den Benutzer aktualisieren?",
         "credits": "Credits",
-        "creditsearned": "Credits verdient"
+        "creditsearned": "Credits verdient",
+        "selectCampus":"Wählen Sie Campus",
+        "selectfaculty":"Wählen Sie Fakultät",
+        "selectBusinessUnit":"Wählen Sie den Geschäftsbereich aus"
     },
     "contact-landing": {
         "settings": "Einstellungen",
@@ -3389,5 +3402,25 @@
     },
     "community": {
         "communitychannels": "Community-Kanäle"
+    },
+    "course-assessment": {
+        "courseassessment": "Kursbewertung",
+        "beginning": "Anfang",
+        "before": "Vorher",
+        "after": "Nachher",
+        "course": "Kurs",
+        "module": "Modul",
+        "passingrate": "Bestehensquote (%)",
+        "requiredtopass": "Score erreicht Erfolgsquote, um fortzufahren?",
+        "manageassessments": "Bewertungen verwalten",
+        "addcourseassessment": "Kursbewertung hinzufügen",
+        "showcourseassessment": "Kursbewertung anzeigen bei",
+        "end": "Ende",
+        "of": "von",
+        "assessment": "Bewertung",
+        "nextquestion": "Nächste Frage",
+        "finish": "Fertig stellen",
+        "youanswered": "Du hast geantwortet",
+        "correctly": "richtig"
     }
 }

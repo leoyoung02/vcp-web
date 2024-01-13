@@ -403,6 +403,23 @@ export class PlanEditComponent {
   eventSubcategoryDropdownSettings: any;
   planCategoryMapping: any = [];
 
+  allowCourseAccess: boolean = false;
+  campusList: any = [];
+  selectedCampus: any = '';
+  facultyList: any = [];  
+  selectedFaculty: any = '';
+  businessUnitList: any = [];  
+  selectedBusinessUnit: any = '';
+  typeList: any = [];  
+  selectedType: any = '';
+  segmentList: any = [];  
+  selectedSegment: any = '';
+  brandingList: any = [];  
+  selectedBranding: any = '';
+  dropdownList: any;
+  selectedItems :any;
+  additionalPropertiesDropdownSettings = {};
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -596,6 +613,15 @@ export class PlanEditComponent {
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search'),
     };
+    this.additionalPropertiesDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'value',
+      selectAllText: this._translateService.instant('dialog.selectall'),
+      unSelectAllText: this._translateService.instant('dialog.clearall'),
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+    };
     this.paymentTypes = [
       {
         id: 1,
@@ -616,6 +642,7 @@ export class PlanEditComponent {
         type_de: "Monatlich wiederkehrend",
       },
     ];
+    if(this.companyId == 32) { this.fetchAdditionalProperties(); }
     this.fetchPlansData();
   }
 
@@ -645,6 +672,26 @@ export class PlanEditComponent {
           if (this.id > 0) {
             this.fetchPlan();
           }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  fetchAdditionalProperties() {
+    this._companyService
+      .fetchAdditionalPropertiesAdmin(this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          const {campus,faculty,bussines_unit,type,segment,branding} = data.data;
+          this.campusList = campus;
+          this.facultyList = faculty;
+          this.businessUnitList = bussines_unit;
+          this.typeList = type;
+          this.segmentList = segment;
+          this.brandingList = branding;
         },
         (error) => {
           console.log(error);
@@ -1053,12 +1100,75 @@ export class PlanEditComponent {
           if(this.types?.length > 0) {
             this.planCategoryMapping = data?.plan_category_mapping;
           }
+          if(this.companyId == 32) { this.formatAdditionalProperties(data); }
           this.formatPlan(data);
         },
         (error) => {
           console.log(error);
         }
       );
+  }
+
+  formatAdditionalProperties(data) {
+    if(data?.plan_additional_properties_access){
+      this.allowCourseAccess = data?.plan_additional_properties_access
+
+      if(data?.plan_additional_properties?.length > 0) {
+        this.selectedCampus = data?.plan_additional_properties?.map(category => {
+          if(category.type === "campus") {
+            return {
+              id: category.id,
+              value: category.value
+            }
+          }
+        }).filter(category => category !== undefined)
+
+        this.selectedFaculty = data?.plan_additional_properties?.map(category => {
+          if(category.type === "faculty") {
+            return {
+              id: category.id,
+              value: category.value
+            }
+          }
+        }).filter(category => category !== undefined)
+
+        this.selectedBusinessUnit = data?.plan_additional_properties?.map(category => {
+          if(category.type === "bussines_unit") {
+            return {
+              id: category.id,
+              value: category.value
+            }
+          }
+        }).filter(category => category !== undefined)
+
+        this.selectedType = data?.plan_additional_properties?.map(category => {
+          if(category.type === "type") {
+            return {
+              id: category.id,
+              value: category.value
+            }
+          }
+        }).filter(category => category !== undefined)
+
+        this.selectedSegment = data?.plan_additional_properties?.map(category => {
+          if(category.type === "segment") {
+            return {
+              id: category.id,
+              value: category.value
+            }
+          }
+        }).filter(category => category !== undefined)
+
+        this.selectedBranding = data?.plan_additional_properties?.map(category => {
+          if(category.type === "branding") {
+            return {
+              id: category.id,
+              value: category.value
+            }
+          }
+        }).filter(category => category !== undefined)
+      }
+    }
   }
 
   formatPlan(data) {
@@ -1878,6 +1988,16 @@ export class PlanEditComponent {
     this.plan["external_registration"] = this.isExternalRegistration ? 1 : 0;
     this.plan["request_dni"] = this.requestDNI ? 1 : 0;
     this.plan["school_of_life"] = this.isUESchoolOfLife ? 1 : 0;
+
+    if(this.companyId == 32) {
+      this.plan['additional_properties_course_access'] = this.allowCourseAccess ? 1 : 0,
+      this.plan['additional_properties_campus_ids'] = this.selectedCampus?.length > 0 ? this.selectedCampus?.map( (data) => { return data.id }).join() : '';
+      this.plan['additional_properties_faculty_ids'] = this.selectedFaculty?.length > 0 ? this.selectedFaculty?.map( (data) => { return data.id }).join() : '';
+      this.plan['additional_properties_business_unit_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedBusinessUnit?.map( (data) => { return data.id }).join() : '';
+      this.plan['additional_properties_type_ids'] = this.selectedType?.length > 0 ? this.selectedType?.map( (data) => { return data.id }).join() : '';
+      this.plan['additional_properties_segment_ids'] = this.selectedSegment?.length > 0 ? this.selectedSegment?.map( (data) => { return data.id }).join() : '';
+      this.plan['additional_properties_branding_ids'] = this.selectedBranding?.length > 0 ? this.selectedBranding?.map( (data) => { return data.id }).join() : '';
+    }
 
     if(this.hasActivityCodeActivated) {
       this.plan["activity_code"] = this.activityCode || "";

@@ -27,6 +27,23 @@
             </ng-container>
             <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
                 <div *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title">
+                    <ng-container *ngIf="beginningCourseAssessment?.assessment_id > 0">
+                        <div class="hover:cursor-pointer bg-[#F8F4F4] min-h-[32px] rounded-[10px] flex flex-row justify-between py-2 px-3 mb-[7px]"
+                            (click)="displayAssessment(beginningCourseAssessment)">
+                            <div class="font-bold">
+                                {{ 'course-assessment.courseassessment' | translate }}
+                                <div class="font-normal">{{ beginningCourseAssessment?.assessment_title }} - {{beginningCourseAssessment?.assessment_details?.length}} {{'quizzes-popup.questions' | translate}}</div>
+                            </div>
+                            <div>
+                                <svg *ngIf="!beginningCourseAssessment?.ratings" [ngStyle]="{'color': buttonColor}" class="mt-1 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m13 19-6-5-6 5V2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17Z"/>
+                                </svg>
+                                <svg *ngIf="beginningCourseAssessment?.ratings" [ngStyle]="{'color': '#5cb85c'}" class="mt-1 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                  </svg>
+                            </div>
+                        </div>
+                    </ng-container>
                     <ng-container *ngFor="let module of course?.course_modules">
                         <div class="bg-[#F8F4F4] min-h-[32px] rounded-[10px] flex flex-row justify-between py-2 px-3 mb-[7px]">
                             <div class="font-bold">
@@ -72,7 +89,8 @@
                                         {{ getModuleCategoryTitle(module.units, unit, i) }}
                                     </div>
                                     <div class="flex items-center py-[10px] px-[12px] justify-between hover:cursor-pointer" (click)="selectUnit(unit)">
-                                        <div [style.font-size]="course.text_size_unit+'px'" 
+                                        <div style="max-width:80%;" 
+                                            [style.font-size]="course.text_size_unit+'px'" 
                                             [style.line-height]="course.text_size_unit*4/3+'px'" 
                                             [ngStyle]="{'font-size': courseTextSize,
                                                 'line-height': courseLineHeight,
@@ -84,7 +102,7 @@
                                                 <img class="w-[16px] h-[16px] complete" src="./assets/images/new-design/icons/Progress-completed.png" />
                                             </ng-container>
                                             <ng-container *ngIf="unit?.Company_Course_Unit_Users[0]?.progress != 100 && unit?.Company_Course_Unit_Users[0]?.visited == 0">
-                                                <img class="w-[16px] h-[16px] complete" src="./assets/images/new-design/icons/Progress-incomplete.png" />
+                                                <img class="min-w-[16px] min-h-[16px] w-[16px] h-[16px] complete" src="./assets/images/new-design/icons/Progress-incomplete.png" />
                                             </ng-container>
                                             <ng-container *ngIf="unit?.Company_Course_Unit_Users[0]?.progress != 100 && unit?.Company_Course_Unit_Users[0]?.visited == 1">
                                                 <svg style="opacity:0.3" [ngStyle]="{'color': 'green'}" class="w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
@@ -95,14 +113,56 @@
                                     </div>
                                 </div>
                             </ng-container>
+                            <ng-container *ngIf="afterModuleAssessments?.length > 0">
+                                <ng-container *ngFor="let assessment of afterModuleAssessments; let a = index;">
+                                    <ng-container *ngIf="assessment?.module_id == module.id">
+                                        <div class="flex items-center py-[10px] px-[12px] justify-between hover:cursor-pointer" (click)="displayAssessment(assessment)">
+                                            <div style="max-width:80%;" 
+                                                [style.font-size]="course.text_size_unit+'px'" 
+                                                [style.line-height]="course.text_size_unit*4/3+'px'" 
+                                                [ngStyle]="{'font-size': courseTextSize,
+                                                    'line-height': courseLineHeight,
+                                                    'font-weight': currentAssessment?.assessment_id == assessment?.assessment_id ? 'bold' : 'normal'}">
+                                                    {{ 'course-assessment.courseassessment' | translate }}
+                                                    <div>{{ assessment?.assessment_title }} - {{assessment?.assessment_details?.length}} {{'quizzes-popup.questions' | translate}}</div>
+                                            </div>
+                                            <div class="unit-progress">
+                                                <ng-container *ngIf="assessment?.ratings">
+                                                    <img class="w-[16px] h-[16px] complete" src="./assets/images/new-design/icons/Progress-completed.png" />
+                                                </ng-container>
+                                                <ng-container *ngIf="!assessment?.ratings">
+                                                    <img class="w-[16px] h-[16px] min-w-[16px] min-h-[16px] complete" src="./assets/images/new-design/icons/Progress-incomplete.png" />
+                                                </ng-container>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
                         </ng-container>
+                    </ng-container>
+                    <ng-container *ngIf="endCourseAssessment?.assessment_id > 0">
+                        <div class="hover:cursor-pointer bg-[#F8F4F4] min-h-[32px] rounded-[10px] flex flex-row justify-between py-2 px-3 mb-[7px]"
+                            (click)="displayAssessment(endCourseAssessment)">
+                            <div class="font-bold">
+                                {{ 'course-assessment.courseassessment' | translate }}
+                                <div class="font-normal">{{ endCourseAssessment?.assessment_title }} - {{endCourseAssessment?.assessment_details?.length}} {{'quizzes-popup.questions' | translate}}</div>
+                            </div>
+                            <div>
+                                <svg *ngIf="!endCourseAssessment?.ratings" [ngStyle]="{'color': buttonColor}" class="mt-1 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 20">
+                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m13 19-6-5-6 5V2a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v17Z"/>
+                                </svg>
+                                <svg *ngIf="endCourseAssessment?.ratings" [ngStyle]="{'color': '#5cb85c'}" class="mt-1 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                  </svg>
+                            </div>
+                        </div>
                     </ng-container>
                 </div>
             </ng-container>
         </div>
         <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
             <div class="ml-0 sm:ml-0 md:ml-[416px] lg:ml-[416px] col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 w-full max-w-full" 
-                *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title">
+                *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title && !showAssessment">
                 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between" [ngClass]="{'vidalytics-div1': selectedUnit?.option == 'Vidalytics'}">
                     <div class="text-4xl font-semibold text-4xl font-semibold">{{ isModuleLocked ? selectedModuleTitle : getCourseUnitTitle(selectedUnit) }}</div>
                     <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row items-center">
@@ -308,7 +368,24 @@
                                     </iframe>
                                 </ng-container>
                                 <ng-container *ngIf="selectedUnit?.Company_Course_Unit_Type?.type == 'text'">
-                                    <div [innerHtml]="getTextContent(selectedUnit)"></div>
+                                    <div class="min-h-[300px]">
+                                        <iframe scrolling="no" style="display:none;width:100%;border:none;height:100%;" #iframeText></iframe>
+                                        <div style="display:none;" #editor>
+                                            <editor
+                                                apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                                                [init]="{ plugins: ['autoresize'] }"
+                                                (onInit)="handleEditorInit($event)"
+                                            ></editor>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="selectedUnit?.Company_Course_Unit_Type?.type == 'script' && selectedUnit?.script">
+                                    <ng-container *ngIf="selectedUnit?.script?.indexOf('</iframe>') >= 0">
+                                        <div class="min-h-[300px] script-container" [innerHtml]="selectedUnit?.script | safeContentHtml: 'html'"></div>
+                                    </ng-container>
+                                    <ng-container *ngIf="selectedUnit?.script?.indexOf('</script>') >= 0">
+                                        <div class="min-h-[300px] script-container" [innerHtml]="getScript() | safeContentHtml: 'html'"></div>
+                                    </ng-container>
                                 </ng-container>
                             </ng-container>
                         </ng-container>
@@ -386,6 +463,31 @@
                             </div>
                         </div>
                     </ng-container>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="showAssessment">
+            <div class="ml-0 sm:ml-0 md:ml-[416px] lg:ml-[416px] col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 w-full max-w-full">
+                <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between">
+                    <div class="text-4xl font-semibold text-4xl font-semibold">{{ currentAssessment?.assessment_title }}</div>
+                </div>
+                <div class="mt-8">
+                    <div class="content-container">
+                        <div class="min-h-[500px]">
+                            <app-course-assessment
+                                [company]="company"
+                                [buttonColor]="buttonColor"
+                                [primaryColor]="primaryColor"
+                                [userId]="userId"
+                                [superAdmin]="superAdmin"
+                                [language]="language"
+                                [courseId]="id"
+                                [assessment]="currentAssessment"
+                                (onFinishAssessment)="handleFinishAssessment($event)"
+                            >
+                            </app-course-assessment>
+                        </div>
+                    </div>
                 </div>
             </div>
         </ng-container>

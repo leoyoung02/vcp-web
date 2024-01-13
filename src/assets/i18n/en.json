@@ -970,7 +970,15 @@
         "embedorurl": "Embed or link",
         "showhotmartcourses": "Show Hotmart courses?",
         "hotmartcourse": "Hotmart course",
-        "assigntutorstocourses": "Course access"
+        "assigntutorstocourses": "Course access",
+        "embed": "Embed code (iframe or script)",
+        "allowadditionalpropertiesaccess": "Course Access For Additional Properties",
+        "selectcampus": "Select campus",
+        "selectfaculty": "Select faculty",
+        "selectbusinessunit": "Select business unit",
+        "selecttype": "Select type",
+        "selectsegment": "Select segment",
+        "selectbranding": "Select branding"
     },
     "course-details": {
         "goback": "Go back",
@@ -1064,7 +1072,8 @@
         "pleasecheckyourinbox": "E-mail sent. Please check your inbox for the password reset link.",
         "changepasswordtitle": "Change password",
         "changepassworddesc": "Enter and confirm your new password",
-        "adminlogin": "Admin login"
+        "adminlogin": "Admin login",
+        "username": "Username"
     },
     "signup": {
         "firsttitle": "Inscribirse a",
@@ -1526,6 +1535,7 @@
         "answers": "Answers",
         "answer": "Answer",
         "correct": "Correct",
+        "incorrect": "Incorrect",
         "addquestion": "Add",
         "addsuccess": "Successfully added",
         "updatesuccess": "Successfully updated",
@@ -2734,7 +2744,10 @@
         "insufficientcredits": "Insufficient Credits",
         "updateCredits": "Do you want to update course credits for the user?",
         "credits": "Credits",
-        "creditsearned": "Credits earned"
+        "creditsearned": "Credits earned",
+        "selectCampus":"Select Campus",
+        "selectfaculty":"Select Faculty",
+        "selectBusinessUnit":"Select Business Unit"
     },
     "contact-landing": {
         "settings": "Settings",
@@ -3425,5 +3438,25 @@
     },
     "community": {
         "communitychannels": "Community channels"
+    },
+    "course-assessment": {
+        "courseassessment": "Course assessment",
+        "beginning": "Beginning",
+        "before": "Before",
+        "after": "After",
+        "course": "Course",
+        "module": "Module",
+        "passingrate": "Passing Rate (%)",
+        "requiredtopass": "Score reach passing rate to continue?",
+        "manageassessments": "Manage assessments",
+        "addcourseassessment": "Add course assessment",
+        "showcourseassessment": "Show course assessment at",
+        "end": "End",
+        "of": "of",
+        "assessment": "Assessment",
+        "nextquestion": "Next question",
+        "finish": "Finish",
+        "youanswered": "You answered",
+        "correctly": "correctly"
     }
 }

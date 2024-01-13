@@ -413,6 +413,38 @@ export class CourseEditComponent {
   filteredTutors: any;
   unitAvailability: boolean = false;
   unitAvailabilityDate: any;
+  embedScript: any = '';
+  allowCourseAccess: boolean = false;
+  campusList: any = [];
+  selectedCampus: any = '';
+  facultyList: any = [];  
+  selectedFaculty: any = '';
+  businessUnitList: any = [];  
+  selectedBusinessUnit: any = '';
+  typeList: any = [];  
+  selectedType: any = '';
+  segmentList: any = [];  
+  selectedSegment: any = '';
+  brandingList: any = [];  
+  selectedBranding: any = '';
+  dropdownList: any;
+  selectedItems :any;
+  additionalPropertiesDropdownSettings = {};
+
+  showAssessmentDetails: boolean = false;
+  courseAssessmentMode: any;
+  courseAssessmentFormSubmitted: boolean = false;
+  assessmentTimings: any = [];
+  selectedAssessmentTiming: any = '';
+  assessmentTimingsTypes: any = [];
+  selectedAssessmentTimingType: any = '';
+  passingRate: any = '';
+  requirePass: boolean = false;
+  courseAssessments: any = [];
+  selectedAssessmentId: any = '';
+  selectedAssessmentModule: any = '';
+  assessments: any = [];
+  selectedAssessment: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -474,7 +506,7 @@ export class CourseEditComponent {
 
     this.initializePage();
   }
-
+ 
   initializePage() {
     this.courseForm = new FormGroup({
       'title': new FormControl('', [Validators.required]),
@@ -551,6 +583,15 @@ export class CourseEditComponent {
       itemsShowLimit: 8,
       allowSearchFilter: true
     }
+    this.additionalPropertiesDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: 'value',
+      selectAllText: this._translateService.instant('dialog.selectall'),
+      unSelectAllText: this._translateService.instant('dialog.clearall'),
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+    };
     this.unlockModuleQuestions = [
       {
         id: 1,
@@ -639,8 +680,51 @@ export class CourseEditComponent {
         }
       }
     ]
+    this.assessmentTimings = [
+      {
+        value: 'beginning',
+        text: this._translateService.instant('course-assessment.beginning'),
+        subtypes: [
+          {
+            value: "course",
+            text: this._translateService.instant('course-assessment.course'),
+          }
+        ]
+      },
+      {
+        value: 'end',
+        text: this._translateService.instant('course-assessment.end'),
+        subtypes: [
+          {
+            value: "course",
+            text: this._translateService.instant('course-assessment.course'),
+          }
+        ]
+      },
+      // {
+      //   value: 'before',
+      //   text: this._translateService.instant('course-assessment.before'),
+      //   subtypes: [
+      //     {
+      //       value: "module",
+      //       text: this._translateService.instant('course-assessment.module'),
+      //     }
+      //   ]
+      // },
+      {
+        value: 'after',
+        text: this._translateService.instant('course-assessment.after'),
+        subtypes: [
+          {
+            value: "module",
+            text: this._translateService.instant('course-assessment.module'),
+          }
+        ]
+      }
+    ]
     this.startButtonColor = this.buttonColor
     this.buyNowButtonColor = this.buttonColor
+    if(this.companyId == 32) { this.fetchAdditionalProperties(); }
     this.fetchCourseData();
   }
 
@@ -658,13 +742,94 @@ export class CourseEditComponent {
           this.courseDifficultyLevels = data?.course_difficulty_levels;
           this.courseDurationUnits = data?.course_duration_units;
           this.otherStripeAccounts = data?.other_stripe_accounts;
+          this.assessments = data?.assessments;
+          this.formatCourseAssessments(data?.course_assessments);
           this.getOtherSettings(data?.settings?.other_settings, data?.member_types);
           this.getCourseWalls();
-          if(this.id > 0) {
-            this.fetchCourse(data)
-          } else {
-            this.isLoading = false;
+          if(this.companyId == 32) { this.formatAdditionalProperties(data); }
+          if(this.id > 0) { this.fetchCourse(data) } else { this.isLoading = false; }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  formatAdditionalProperties(data) {
+    if(data?.course_additional_properties_access) {
+      this.allowCourseAccess = data?.course_additional_properties_access
+
+      if(data?.course_additional_properties?.length > 0) {
+        this.selectedCampus = data?.course_additional_properties?.map(category => {
+          if(category.type === "campus") {
+            return {
+              id: category.id,
+              value: category.value
+            }
           }
+        }).filter(category => category !== undefined)
+
+        this.selectedFaculty = data?.course_additional_properties?.map(category => {
+          if(category.type === "faculty") {
+            return {
+              id: category.id,
+              value: category.value
+            }
+          }
+        }).filter(category => category !== undefined)
+
+        this.selectedBusinessUnit = data?.course_additional_properties?.map(category => {
+          if(category.type === "bussines_unit") {
+            return {
+              id: category.id,
+              value: category.value
+            }
+          }
+        }).filter(category => category !== undefined)
+
+        this.selectedType = data?.course_additional_properties?.map(category => {
+          if(category.type === "type") {
+            return {
+              id: category.id,
+              value: category.value
+            }
+          }
+        }).filter(category => category !== undefined)
+
+        this.selectedSegment = data?.course_additional_properties?.map(category => {
+          if(category.type === "segment") {
+            return {
+              id: category.id,
+              value: category.value
+            }
+          }
+        }).filter(category => category !== undefined)
+
+        this.selectedBranding = data?.course_additional_properties?.map(category => {
+          if(category.type === "branding") {
+            return {
+              id: category.id,
+              value: category.value
+            }
+          }
+        }).filter(category => category !== undefined)
+      }
+    }
+  }
+
+  fetchAdditionalProperties() {
+    this._companyService
+      .fetchAdditionalPropertiesAdmin(this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          const {campus,faculty,bussines_unit,type,segment,branding} = data.data;
+          this.campusList = campus;
+          this.facultyList = faculty;
+          this.businessUnitList = bussines_unit;
+          this.typeList = type;
+          this.segmentList = segment;
+          this.brandingList = branding;
         },
         (error) => {
           console.log(error);
@@ -1664,6 +1829,16 @@ export class CourseEditComponent {
       params['course_credits'] = this.courseCredits || 0
     }
 
+    if(this.companyId == 32) {
+      params['additional_properties_course_access'] = this.allowCourseAccess ? 1 : 0,
+      params['additional_properties_campus_ids'] = this.selectedCampus?.length > 0 ? this.selectedCampus?.map( (data) => { return data.id }).join() : '';
+      params['additional_properties_faculty_ids'] = this.selectedFaculty?.length > 0 ? this.selectedFaculty?.map( (data) => { return data.id }).join() : '';
+      params['additional_properties_business_unit_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedBusinessUnit?.map( (data) => { return data.id }).join() : '';
+      params['additional_properties_type_ids'] = this.selectedType?.length > 0 ? this.selectedType?.map( (data) => { return data.id }).join() : '';
+      params['additional_properties_segment_ids'] = this.selectedSegment?.length > 0 ? this.selectedSegment?.map( (data) => { return data.id }).join() : '';
+      params['additional_properties_branding_ids'] = this.selectedBranding?.length > 0 ? this.selectedBranding?.map( (data) => { return data.id }).join() : '';
+    }
+
     if (this.id > 0) {
       // Edit
       this._coursesService.editCourse(this.course?.id, params, this.file).subscribe(
@@ -2378,15 +2553,20 @@ export class CourseEditComponent {
     }
 
     if(this.selectedUnitType != 1) {
-      proceed = true
+      if(this.selectedUnitType == 7 && !this.embedScript) {
+        proceed = false
+      } else {
+        proceed = true
+      }
     }
 
     if(this.isAdvancedCourse) {
       if(!this.unitTitle
         || !this.selectedUnitType
-        || (this.selectedUnitType != 1 && this.selectedUnitType != 3 && this.selectedUnitType != 6 && !this.courseUnitFileName)
+        || (this.selectedUnitType != 1 && this.selectedUnitType != 3 && this.selectedUnitType != 6 && this.selectedUnitType != 7 && !this.courseUnitFileName)
         || ((this.selectedUnitType == 1 || this.selectedUnitType == 3) && this.selectedUnitOption == 'Self-hosted' && !this.courseUnitFileName)
         || ((this.selectedUnitType == 1 || this.selectedUnitType == 3) && this.selectedUnitOption != 'Self-hosted' && !proceed)
+        || (this.selectedUnitType == 7 && !proceed)
         || !this.selectedUnitModule
         || !this.unitDuration
         || !this.selectedCourseUnitDurationUnit
@@ -2444,6 +2624,7 @@ export class CourseEditComponent {
       video_always_available: this.videoAvailability || 0,
       unit_availability: this.unitAvailability || 0,
       unit_availability_date: this.unitAvailabilityDate || null,
+      script: this.embedScript || '',
     }
 
     this._coursesService.addCourseUnitNew(
@@ -2542,6 +2723,7 @@ export class CourseEditComponent {
       video_always_available: this.videoAvailability || 0,
       unit_availability: this.unitAvailability || 0,
       unit_availability_date: this.unitAvailabilityDate || null,
+      script: this.embedScript || '',
     }
 
     this._coursesService.editCourseUnitNew(
@@ -2637,6 +2819,7 @@ export class CourseEditComponent {
     this.videoAvailability = item.video_always_available
     this.unitAvailability = item.unit_availability == 1 ? true : false
     this.unitAvailabilityDate = item.unit_availability_date
+    this.embedScript = item.script
 
     if(this.cta) {
       this.getCTAs()
@@ -2896,6 +3079,183 @@ export class CourseEditComponent {
         (this.language == 'de' ? (wall.title_de || wall.title) : (wall.title))
       ))
     )
+  }
+
+  getModuleText(module) {
+    return this.language == 'en' ? module.module_title_en : (this.language == 'fr' ? (module.title_fr || module.module_title) : 
+      (this.language == 'eu' ? (module.module_title_eu || module.module_title) : (this.language == 'ca' ? (module.module_title_ca || module.module_title) : 
+      (this.language == 'de' ? (module.module_title_de || module.module_title) : module.module_title)
+      ))
+    )
+  }
+
+  getCourseAssessments() {
+    this._coursesService
+    .getCourseAssessmentItems(this.id)
+    .subscribe( 
+      response => {
+        this.formatCourseAssessments(response.course_assessments);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+  }
+
+  formatCourseAssessments(course_assessments) {
+    let courseAssessments = course_assessments?.map(item => {
+      let timing = this.assessmentTimings?.find((f) => f.value == item?.timing);
+      let type = item?.type == 'module' ? this.getModuleText(item) : this._translateService.instant('course-assessment.course')
+
+      return {
+        ...item,
+        course_assessment_timing: `${timing?.text} ${this._translateService.instant('course-assessment.of')} ${type}`,
+        passing_rate: `${item.passing_rate?.replace('.00', '')}%`
+      }
+    })
+
+    this.courseAssessments = courseAssessments;
+  }
+
+  goToAssessments() {
+    this._router.navigate([`/courses/assessments`]);
+  }
+
+  addCourseAssessment() {
+    this.resetCourseAssessmentFields()
+    this.courseAssessmentMode = 'add'
+    this.showAssessmentDetails = true
+  }
+
+  resetCourseAssessmentFields() {
+    this.selectedAssessment = '';
+    this.selectedAssessmentTiming = '';
+    this.selectedAssessmentTimingType = '';
+    this.selectedAssessmentModule = '';
+    this.passingRate = '';
+    this.requirePass = false;
+    this.courseAssessmentMode = '';
+    this.showAssessmentDetails = false;
+    this.courseAssessmentFormSubmitted = false;
+  }
+
+  cancelShowAssessment() {
+    this.resetCourseAssessmentFields()
+    this.courseAssessmentMode = '';
+    this.showAssessmentDetails = false;
+  }
+
+  handleChangeAssessmentTiming(event) {
+    this.initializeTimingTypes(event?.target?.value);
+  }
+
+  initializeTimingTypes(value) {
+    let assessment_timing = this.assessmentTimings.find(at => at.value == value);
+    this.assessmentTimingsTypes = assessment_timing?.subtypes || [];
+    this.selectedAssessmentTimingType = this.assessmentTimingsTypes?.length > 0 ? this.assessmentTimingsTypes[0].value : '';
+  }
+
+  saveAssessment() {
+    if(this.courseAssessmentMode == 'add') {
+      this.addAssessment();
+    } else if(this.courseAssessmentMode == 'edit') {
+      this.updateAssessment();
+    }
+  }
+
+  addAssessment() {
+    this.courseAssessmentFormSubmitted = true;
+
+    if(!this.selectedAssessment || !this.selectedAssessmentTiming || !this.selectedAssessmentTimingType) {
+      return false
+    }
+
+    let params = {
+      company_id: this.companyId,
+      course_id: this.id,
+      assessment_id: this.selectedAssessment || null,
+      timing: this.selectedAssessmentTiming,
+      type: this.selectedAssessmentTimingType,
+      module_id: this.selectedAssessmentModule || null,
+      passing_rate: this.passingRate || null,
+      required_to_pass: this.requirePass || false,
+    }
+
+    this._coursesService.addCourseAssessmentItem(
+      params,
+    ).subscribe(
+      response => {
+        this.getCourseAssessments();
+        this.resetCourseAssessmentFields();
+        this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+      },
+      error => {
+        this.open(this._translateService.instant("dialog.error"), "");
+      }
+    )
+  }
+
+  updateAssessment() {
+    this.courseAssessmentFormSubmitted = true;
+
+    if(!this.selectedAssessment || !this.selectedAssessmentTiming || !this.selectedAssessmentTimingType) {
+      return false
+    }
+
+    let params = {
+      company_id: this.companyId,
+      course_id: this.id,
+      assessment_id: this.selectedAssessment || null,
+      timing: this.selectedAssessmentTiming,
+      type: this.selectedAssessmentTimingType,
+      module_id: this.selectedAssessmentModule || null,
+      passing_rate: this.passingRate || null,
+      required_to_pass: this.requirePass || false,
+    }
+
+    this._coursesService.editCourseAssessmentItem(
+      this.selectedAssessmentId,
+      params,
+    ).subscribe(
+      response => {
+        this.getCourseAssessments();
+        this.resetCourseAssessmentFields();
+        this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+      },
+      error => {
+        this.open(this._translateService.instant("dialog.error"), "");
+      }
+    )
+  }
+
+  editCourseAssessment(item) {
+    this.courseAssessmentMode = 'edit';
+    this.selectedAssessmentId = item.id;
+    this.selectedAssessment = item.assessment_id;
+    this.selectedAssessmentTiming = item.timing || '';
+    this.initializeTimingTypes(this.selectedAssessmentTiming);
+    this.selectedAssessmentTimingType = item.type || '';
+    this.selectedAssessmentModule = item.module_id || '';
+    this.passingRate = item?.passing_rate?.replace('.00', '')?.replace('%', '');
+    this.requirePass = item?.required_to_pass == 1 ? true : false;
+    this.showAssessmentDetails = true;
+    this.courseAssessmentFormSubmitted = false;
+  }
+
+  deleteCourseAssessment(item) {
+    this._coursesService.deleteCourseAssessmentItem(item.id)
+      .subscribe(
+        response => {
+          if (response) {
+            this.getCourseAssessments()
+            this.open(this._translateService.instant("dialog.deletedsuccessfully"), "");
+          }
+        },
+        error => {
+          console.log(error)
+          this.open(this._translateService.instant("dialog.error"), "");
+        }
+      )
   }
 
   ngOnDestroy() {

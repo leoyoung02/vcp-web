@@ -17,6 +17,7 @@ import {
   SELECT_PLAN_EMAIL_URL,
   EMAIL_VERIFICATION_URL,
   SEND_EMAIL_WELCOME_URL,
+  UE_TEST_LOGIN_URL,
 } from "@lib/api-constants";
 import moment from "moment";
 
@@ -138,6 +139,20 @@ export class AuthService {
             this.isAuthenticated$.next(true);
             return user;
           }
+        })
+      );
+  }
+
+  ueTestLogin(email, password, mode) {
+    return this._http
+      .post<any>(`${UE_TEST_LOGIN_URL}`, { 
+        username: email, 
+        password, 
+        mode, 
+      })
+      .pipe(
+        map((result) => {
+          return result
         })
       );
   }
