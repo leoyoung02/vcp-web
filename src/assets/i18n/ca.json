@@ -1070,7 +1070,8 @@
         "pleasecheckyourinbox": "Email enviat. Verifiqueu la safata d'entrada per veure l'enllaç de restabliment de contrasenya.",
         "changepasswordtitle": "Canvia la contrasenya",
         "changepassworddesc": "Ingressa i confirma la teva nova contrasenya",
-        "adminlogin": "Inici de sessió d'administrador"
+        "adminlogin": "Inici de sessió d'administrador",
+        "username": "Nom d'usuari"
     },
     "signup": {
         "firsttitle": "Inscriure's a",

@@ -1072,7 +1072,8 @@
         "pleasecheckyourinbox": "E-mail sent. Please check your inbox for the password reset link.",
         "changepasswordtitle": "Change password",
         "changepassworddesc": "Enter and confirm your new password",
-        "adminlogin": "Admin login"
+        "adminlogin": "Admin login",
+        "username": "Username"
     },
     "signup": {
         "firsttitle": "Inscribirse a",

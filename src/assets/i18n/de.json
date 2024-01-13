@@ -1067,7 +1067,8 @@
         "pleasecheckyourinbox": "E-Mail gesendet. Bitte überprüfen Sie Ihren Posteingang auf den Link zum Zurücksetzen des Passworts.",
         "changepasswordtitle": "Passwort ändern",
         "changepassworddesc": "Geben Sie Ihr neues Passwort ein und bestätigen Sie es",
-        "adminlogin": "Admin-Login"
+        "adminlogin": "Admin-Login",
+        "username": "Benutzername"
     },
     "signup": {
         "firsttitle": "Anmelden für",

@@ -1072,7 +1072,8 @@
         "pleasecheckyourinbox": "Email enviado. Verifique su bandeja de entrada para ver el enlace de restablecimiento de contraseña.",
         "changepasswordtitle": "Cambia la contraseña",
         "changepassworddesc": "Ingresa y confirma tu nueva contraseña",
-        "adminlogin": "Inicio de sesión de administrador"
+        "adminlogin": "Inicio de sesión de administrador",
+        "username": "Nombre de usuario"
     },
     "signup": {
         "firsttitle": "Inscribirse a",

@@ -1067,7 +1067,8 @@
         "pleasecheckyourinbox": "Mezu elektronikoa bidali da. Egiaztatu sarrerako ontzia pasahitza berrezartzeko esteka dagoen.",
         "changepasswordtitle": "Aldatu pasahitza",
         "changepassworddesc": "Sartu eta berretsi pasahitz berria",
-        "adminlogin": "Administratzailearen saioa"
+        "adminlogin": "Administratzailearen saioa",
+        "username": "Erabiltzaile izena"
     },
     "signup": {
         "firsttitle": "Eman izena",

@@ -1066,7 +1066,8 @@
         "pleasecheckyourinbox": "Email envoyé. Veuillez vérifier votre boîte de réception pour le lien de réinitialisation du mot de passe.",
         "changepasswordtitle": "Changer le mot de passe",
         "changepassworddesc": "Entrez et confirmez votre nouveau mot de passe",
-        "adminlogin": "Connexion administrateur"
+        "adminlogin": "Connexion administrateur",
+        "username": "Nom d'utilisateur"
     },
     "signup": {
         "firsttitle": "Inscrivez-vous pour",
