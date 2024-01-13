@@ -1113,59 +1113,61 @@ export class PlanEditComponent {
     if(data?.plan_additional_properties_access){
       this.allowCourseAccess = data?.plan_additional_properties_access
 
-      this.selectedCampus = data?.plan_additional_properties?.map(category => {
-        if(category.type === "campus") {
-          return {
-            id: category.id,
-            value: category.value
+      if(data?.plan_additional_properties?.length > 0) {
+        this.selectedCampus = data?.plan_additional_properties?.map(category => {
+          if(category.type === "campus") {
+            return {
+              id: category.id,
+              value: category.value
+            }
           }
-        }
-      }).filter(category => category !== undefined)
+        }).filter(category => category !== undefined)
 
-      this.selectedFaculty = data?.plan_additional_properties?.map(category => {
-        if(category.type === "faculty") {
-          return {
-            id: category.id,
-            value: category.value
+        this.selectedFaculty = data?.plan_additional_properties?.map(category => {
+          if(category.type === "faculty") {
+            return {
+              id: category.id,
+              value: category.value
+            }
           }
-        }
-      }).filter(category => category !== undefined)
+        }).filter(category => category !== undefined)
 
-      this.selectedBusinessUnit = data?.plan_additional_properties?.map(category => {
-        if(category.type === "bussines_unit") {
-          return {
-            id: category.id,
-            value: category.value
+        this.selectedBusinessUnit = data?.plan_additional_properties?.map(category => {
+          if(category.type === "bussines_unit") {
+            return {
+              id: category.id,
+              value: category.value
+            }
           }
-        }
-      }).filter(category => category !== undefined)
+        }).filter(category => category !== undefined)
 
-      this.selectedType = data?.plan_additional_properties?.map(category => {
-        if(category.type === "type") {
-          return {
-            id: category.id,
-            value: category.value
+        this.selectedType = data?.plan_additional_properties?.map(category => {
+          if(category.type === "type") {
+            return {
+              id: category.id,
+              value: category.value
+            }
           }
-        }
-      }).filter(category => category !== undefined)
+        }).filter(category => category !== undefined)
 
-      this.selectedSegment = data?.plan_additional_properties?.map(category => {
-        if(category.type === "segment") {
-          return {
-            id: category.id,
-            value: category.value
+        this.selectedSegment = data?.plan_additional_properties?.map(category => {
+          if(category.type === "segment") {
+            return {
+              id: category.id,
+              value: category.value
+            }
           }
-        }
-      }).filter(category => category !== undefined)
+        }).filter(category => category !== undefined)
 
-      this.selectedBranding = data?.plan_additional_properties?.map(category => {
-        if(category.type === "branding") {
-          return {
-            id: category.id,
-            value: category.value
+        this.selectedBranding = data?.plan_additional_properties?.map(category => {
+          if(category.type === "branding") {
+            return {
+              id: category.id,
+              value: category.value
+            }
           }
-        }
-      }).filter(category => category !== undefined)
+        }).filter(category => category !== undefined)
+      }
     }
   }
 
@@ -1992,9 +1994,9 @@ export class PlanEditComponent {
       this.plan['additional_properties_campus_ids'] = this.selectedCampus?.length > 0 ? this.selectedCampus?.map( (data) => { return data.id }).join() : '';
       this.plan['additional_properties_faculty_ids'] = this.selectedFaculty?.length > 0 ? this.selectedFaculty?.map( (data) => { return data.id }).join() : '';
       this.plan['additional_properties_business_unit_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedBusinessUnit?.map( (data) => { return data.id }).join() : '';
-      this.plan['additional_properties_type_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedType?.map( (data) => { return data.id }).join() : '';
-      this.plan['additional_properties_segment_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedSegment?.map( (data) => { return data.id }).join() : '';
-      this.plan['additional_properties_branding_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedBranding?.map( (data) => { return data.id }).join() : '';
+      this.plan['additional_properties_type_ids'] = this.selectedType?.length > 0 ? this.selectedType?.map( (data) => { return data.id }).join() : '';
+      this.plan['additional_properties_segment_ids'] = this.selectedSegment?.length > 0 ? this.selectedSegment?.map( (data) => { return data.id }).join() : '';
+      this.plan['additional_properties_branding_ids'] = this.selectedBranding?.length > 0 ? this.selectedBranding?.map( (data) => { return data.id }).join() : '';
     }
 
     if(this.hasActivityCodeActivated) {
