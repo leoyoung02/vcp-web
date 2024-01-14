@@ -323,7 +323,7 @@ export class LoginComponent {
                       ""
                     );
                     setTimeout(() => {
-                      location.href = `/signup/member-type-payment/${expired_member.id}/${expired_member.type_id}`;
+                      location.href = `/payment/checkout/${expired_member.id}/${expired_member.type_id}`;
                     }, 2000);
                     return false;
                   }
@@ -333,7 +333,7 @@ export class LoginComponent {
                     ""
                   );
                   setTimeout(() => {
-                    location.href = `/signup/member-type-payment/${expired_member.id}/${expired_member.type_id}`;
+                    location.href = `/payment/checkout/${expired_member.id}/${expired_member.type_id}`;
                   }, 2000);
                   return false;
                 }
@@ -388,13 +388,16 @@ export class LoginComponent {
               ""
             );
             setTimeout(() => {
-              location.href = `/signup/member-type-payment/${error.error.id}/${error.error.type_id}`;
+              location.href = `/payment/checkout/${error.error.id}/${error.error.type_id}`;
             }, 2000);
           } else if (error.error && error.error.code == "failed_payment") {
             this.open(
               this._translateService.instant("dialog.unabletorenew"),
               ""
             );
+            setTimeout(() => {
+              location.href = `/payment/checkout/${error.error.id}/${error.error.type_id}`;
+            }, 2000);
           } else {
             this.open(
               this._translateService.instant("dialog.invalidcredentials"),

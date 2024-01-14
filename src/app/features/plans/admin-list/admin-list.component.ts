@@ -81,6 +81,8 @@ export class PlansAdminListComponent {
     dialogMode: string = '';
     salesPeople: any = [];
     isSalesPerson: boolean = false;
+    paidPlanSubscriptions: any = [];
+    invoiceDetails: any;
 
     constructor(
         private _route: ActivatedRoute,
@@ -147,23 +149,24 @@ export class PlansAdminListComponent {
     }
 
     fetchPlansManagementData() {
-        this._plansService
-          .fetchPlansManagementData(this.company?.id, this.userId, (this.superAdmin ? 'superadmin' : 'user'), this.isUESchoolOfLife)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(
-            (data) => {
-              this.planParticipants = data?.plan_participants || [];
-              this.allPlanDrafts = data?.plan_drafts || [];
-              this.categories = data?.plan_categories;
-              this.formatPlans(data?.plans || []);
-              if(this.company?.id == 12) {
-                this.initializeButtonGroup();
-              }
-            },
-            (error) => {
-              console.log(error);
+      this._plansService
+        .fetchPlansManagementData(this.company?.id, this.userId, (this.superAdmin ? 'superadmin' : 'user'), this.isUESchoolOfLife)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (data) => {
+            this.planParticipants = data?.plan_participants || [];
+            this.allPlanDrafts = data?.plan_drafts || [];
+            this.paidPlanSubscriptions = data?.paid_plan_subscriptions || [];
+            this.categories = data?.plan_categories;
+            this.formatPlans(data?.plans || []);
+            if(this.company?.id == 12) {
+              this.initializeButtonGroup();
             }
-          );
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
     }
 
     initializeSearch() {
@@ -239,26 +242,39 @@ export class PlansAdminListComponent {
     formatPlans(plans) {
         let data 
         if(plans?.length > 0) {
-            data = plans?.map(plan => {
-                let filtered_participants = this.planParticipants?.filter(pp => {
-                    return pp.id == plan.id
-                })
-
-                let participants = filtered_participants?.map(participant => {
-                  return {
-                    ...participant,
-                    role: this.getParticipantRole(participant)
-                  }
-                })
-
-                return {
-                    ...plan,
-                    participants,
-                }
+          data = plans?.map(plan => {
+            let filtered_participants = this.planParticipants?.filter(pp => {
+              return pp.id == plan.id
             })
+
+            let paid_activity = plan?.price > 0 && plan?.plan_id ? true : false;
+
+            let participants = filtered_participants?.map(participant => {
+              let invoice = '';
+              if(paid_activity) {
+                let paid_activity_subscription = this.paidPlanSubscriptions?.find((f) => f.activity_id == plan.id && f.user_id == participant?.fk_user_id);
+                if(paid_activity_subscription) {
+                  invoice = paid_activity_subscription.subscription_id;
+                }
+              }
+
+              return {
+                ...participant,
+                role: this.getParticipantRole(participant),
+                paid_activity,
+                invoice,
+              }
+            })
+
+            return {
+              ...plan,
+              paid_activity,
+              participants,
+            }
+          })
         }
         if(this.allPlansData?.length == 0) {
-            this.allPlansData = data
+          this.allPlansData = data
         }
         
         this.loadPlans(data);
@@ -663,68 +679,93 @@ export class PlansAdminListComponent {
     }
 
     downloadEventExcel(event) {
-        let plan_data = this.plansData.filter(evt => {
-          return event.id == evt.id
+      let plan_data = this.plansData.filter(evt => {
+        return event.id == evt.id
+      })
+      let participants = this.planParticipants.filter(p => {
+        return p.id == event.id
+      })
+      if(participants && participants.length > 0) {
+        participants = participants.sort((a, b) => {
+          return b.participant_order - a.participant_order
         })
-        let participants = this.planParticipants.filter(p => {
-          return p.id == event.id
+      }
+  
+      if(this.status == 'past') {
+        participants = participants.filter(cp => {
+          return cp.confirmed == 1 && cp.clear_confirmed != 1
         })
-        if(participants && participants.length > 0) {
-          participants = participants.sort((a, b) => {
-            return b.participant_order - a.participant_order
-          })
-        }
-    
-        if(this.status == 'past') {
-          participants = participants.filter(cp => {
-            return cp.confirmed == 1 && cp.clear_confirmed != 1
-          })
-        } else if(this.status == 'salesprocess') {
-          participants = participants.filter(cp => {
-            return cp.attended == 1 && cp.clear_attended != 1 && cp.role == 'Guest'
-          })
-        }
-    
-        let event_data: any[] = [];
-        if(participants) {
-          participants.forEach(p => {
-            let match = event_data.some(a => a.participant_id === p.participant_id);
-            if(!match) {
-              let status = this._translateService.instant('guests.notconfirmed');
-              if(this.status == 'past') {
-                if(p.attended == 1) {
-                  status = this._translateService.instant('guests.attended');
-                } else {
-                  status = this._translateService.instant('guests.notattended');
-                }
+      } else if(this.status == 'salesprocess') {
+        participants = participants.filter(cp => {
+          return cp.attended == 1 && cp.clear_attended != 1 && cp.role == 'Guest'
+        })
+      }
+  
+      let event_data: any[] = [];
+      if(participants) {
+        participants.forEach(p => {
+          let match = event_data.some(a => a.participant_id === p.participant_id);
+          if(!match) {
+            let status = this._translateService.instant('guests.notconfirmed');
+            if(this.status == 'past') {
+              if(p.attended == 1) {
+                status = this._translateService.instant('guests.attended');
               } else {
-                if(p.confirmed == 1) {
-                  status = this._translateService.instant('guests.confirmed');
-                }
+                status = this._translateService.instant('guests.notattended');
               }
-    
-                let plan_date_display = moment.utc(plan_data[0].plan_date).locale(this.language).format('DD-MM-YYYY HH:mm')
-                let date_display = moment.utc(plan_data[0].plan_date).locale(this.language).format('M/D/YYYY')
-                let time_display = moment.utc(plan_data[0].plan_date).locale(this.language).format('HH') + 'h'
-                let user_name = (p.first_name ? (p.first_name + ' ') : '') + (p.last_name ? (p.last_name + ' ') : '')
-                event_data.push({
-                    title: plan_data[0].title,
-                    date: plan_date_display,
-                    participant_name: user_name,
-                    participant_role: p.role,
-                    participant_phone: p.phone,
-                    participant_email: p.email,
-                    participant_zip_code: p.zip_code,
-                    participant_invited_by: p.invited_by,
-                    attendance: status,
-                    registered: p.participant_created ? moment(p.participant_created).format('DD-MM-YYYY HH:mm') : ''
-                })
+            } else {
+              if(p.confirmed == 1) {
+                status = this._translateService.instant('guests.confirmed');
+              }
             }
-          });
-        }
-    
-        this._excelService.exportAsExcelFile(event_data, 'event-' + event.id);
-        this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+  
+            let plan_date_display = moment.utc(plan_data[0].plan_date).locale(this.language).format('DD-MM-YYYY HH:mm')
+            let date_display = moment.utc(plan_data[0].plan_date).locale(this.language).format('M/D/YYYY')
+            let time_display = moment.utc(plan_data[0].plan_date).locale(this.language).format('HH') + 'h'
+            let user_name = (p.first_name ? (p.first_name + ' ') : '') + (p.last_name ? (p.last_name + ' ') : '')
+            
+            let dt = {}
+            if(event?.paid_activity) {
+              let invoice = '';
+              let paid_activity_subscription = this.paidPlanSubscriptions?.find((f) => f.activity_id == event.id && f.user_id == p?.fk_user_id);
+              if(paid_activity_subscription) {
+                invoice = paid_activity_subscription.subscription_id;
+              }
+
+              dt = {
+                'Evento': plan_data[0].title,
+                'Fecha': plan_date_display,
+                'Nombre': user_name,
+                'Papel': p.role,
+                'Teléfono': p.phone,
+                'Email': p.email,
+                'Código postal': p.zip_code,
+                'Invitado por': p.invited_by,
+                'Asistio': status,
+                'Registrado': p.participant_created ? moment(p.participant_created).format('DD-MM-YYYY HH:mm') : '',
+                'Pagado': invoice,
+              }
+            } else {
+              dt = {
+                'Evento': plan_data[0].title,
+                'Fecha': plan_date_display,
+                'Nombre': user_name,
+                'Papel': p.role,
+                'Teléfono': p.phone,
+                'Email': p.email,
+                'Código postal': p.zip_code,
+                'Invitado por': p.invited_by,
+                'Asistio': status,
+                'Registrado': p.participant_created ? moment(p.participant_created).format('DD-MM-YYYY HH:mm') : ''
+              }
+            }
+            event_data.push(dt)
+          }
+        });
+      }
+  
+      this._excelService.exportAsExcelFile(event_data, 'event-' + event.id);
+      this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
     }
 
     filteredCity(event) { 
@@ -816,6 +857,23 @@ export class PlansAdminListComponent {
 
     changeSalesPerson(event) {
 
+    }
+
+    goToInvoice(invoice) {
+      this._plansService
+      .getInvoiceDetails(invoice, this.company?.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          this.invoiceDetails = data.invoice;
+          if(this.invoiceDetails?.hosted_invoice_url) {
+            window.open(this.invoiceDetails?.hosted_invoice_url, "_blank");
+          }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
     }
 
     ngOnDestroy() {

@@ -14,6 +14,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { COMPANY_IMAGE_URL } from "@lib/api-constants";
 import { Subject, takeUntil } from "rxjs";
+import { SafeContentHtmlPipe } from "@lib/pipes";
 import get from "lodash/get";
 
 @Component({
@@ -25,6 +26,7 @@ import get from "lodash/get";
     MatSnackBarModule,
     RouterModule,
     CompanyLogoComponent,
+    SafeContentHtmlPipe,
   ],
   templateUrl: "./select-plan.component.html",
 })
@@ -225,6 +227,7 @@ export class SelectPlanComponent {
                 ...type,
               };
             });
+            console.log(this.memberTypes)
           }
           this.isLoading = false;
         },

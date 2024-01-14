@@ -178,6 +178,9 @@ import {
   CREATE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL,
   EDIT_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL,
   DELETE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL,
+  SIGNUP_DATA_URL,
+  ADD_STARTUP_URL,
+  GET_STARTUPS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1551,6 +1554,25 @@ export class CompanyService {
     return this._http.delete(
       `${DELETE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL}/${id}`,
       {},
+    ).pipe(map(res => res));
+  }
+
+  fetchSignupData(id): Observable<any> {
+    return this._http.get(`${SIGNUP_DATA_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addStartup(formData): Observable<any> {
+    return this._http.post(ADD_STARTUP_URL,
+      formData
+    ).pipe(map(res => res))
+  }
+
+  getStartups(id): Observable<any> {
+    return this._http.get(
+      `${GET_STARTUPS_URL}/${id}`,
+      { headers: this.headers }
     ).pipe(map(res => res));
   }
 }

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 import {
   AbstractControl,
   FormControl,
@@ -32,8 +32,15 @@ import { initFlowbite } from "flowbite";
 import { COMPANY_IMAGE_URL } from "@lib/api-constants";
 import { Subject, takeUntil } from "rxjs";
 import { param } from "@lib/utils/param/param.utils";
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import Validation from "@lib/utils/validation/validation.utils";
 import get from "lodash/get";
+import { FilePondModule, registerPlugin } from 'ngx-filepond';
+import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
 
 @Component({
   standalone: true,
@@ -45,6 +52,8 @@ import get from "lodash/get";
     MatSnackBarModule,
     FontAwesomeModule,
     RouterModule,
+    NgMultiSelectDropDownModule,
+    FilePondModule,
     CompanyLogoComponent,
   ],
   templateUrl: "./signup.component.html",
@@ -129,6 +138,96 @@ export class SignupComponent {
   eyeSlashIcon = faEyeSlash;
   checkCircleIcon = faCheckCircle;
   timesCircleIcon = faTimesCircle;
+  
+  startupDropdownSettings = {};
+  hasSelectExistingOrCreateNewStartup: boolean = false;
+  signupData: any;
+  currentStep: number = 1;
+  startups: any = []
+  selectedStartup: any;
+  showCreateNewStartupModal: boolean = false;
+  hasSaveStartupError: boolean = false;
+  startupDataSubmitted: boolean = false;
+  startupDataForm: FormGroup = new FormGroup({
+    startup_name: new FormControl(""),
+    city: new FormControl(""),
+    business_category: new FormControl(""),
+    project_start_year: new FormControl(""),
+    team_members: new FormControl(""),
+    estimated_annual_turnover: new FormControl(""),
+    estimated_startup_value: new FormControl(""),
+    financing: new FormControl(""),
+    logo: new FormControl(""),
+    startup_description: new FormControl(""),
+  });
+  startupDataFields: any = [];
+  selectedLogoFilename: any = '';
+  startupSectionFields: any = [];
+  startupSelectedFields: any = [];
+  startupFormTemplate: any;
+  startupError: any = '';
+  missingStartup: boolean = false;
+  missingStartupSector: boolean = false;
+  @ViewChild("modalbutton", { static: false }) modalbutton:
+    | ElementRef
+    | undefined;
+  @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+    | ElementRef
+    | undefined;
+
+  @ViewChild('myPond', {static: false}) myPond: any;
+  logoUploadComplete: boolean = false
+  logoFileName: any
+  pondOptions = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivos de no más de 2 MB</small></div>',
+    acceptedFileTypes: 'image/jpeg, image/png',
+    maxFileSize: 2000000,
+    labelMaxFileSizeExceeded: "El archivo es demasiado grande",
+    labelMaxFileSize: "El tamaño máximo de archivo es {filesize}",
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.logoFileName = 'startupLogo_' + this.companyId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('file', file, this.logoFileName);
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/company/startup/temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+            if (request.status >= 200 && request.status < 300) {
+              load(request.responseText);
+            } else {
+              error('oh no');
+            }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+            request.abort();
+            abort();
+          },
+        };
+      },
+    },
+  };
+
+  pondFiles = [];
 
   constructor(
     private _router: Router,
@@ -194,23 +293,31 @@ export class SignupComponent {
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search'),
     };
-    this.getSubfeatures();
-    this.checkConfirmEmail();
-    this.getOtherSettings();
+    this.startupDropdownSettings = {
+      singleSelection: true,
+      idField: 'id',
+      textField: 'startup_name',
+      allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
+    }
+    
+    this.fetchSignupData();
   }
 
-  getSubfeatures() {
+  fetchSignupData() {
     this._companyService
-      .getSubfeaturesCombined(this.companyId, 15)
+      .fetchSignupData(this.companyId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        async (response) => {
-          let subfeatures = response["subfeatures"];
-          this.countryDropdown = subfeatures.some(
-            (a) => a.name_en == "Country" && a.active == 1
-          );
-          if (this.countryDropdown) {
-            this.getCountries();
+        async (data) => {
+          console.log(data);
+          this.signupData = data;
+          this.confirm_email = data?.confirm_email;
+          this.mapSubfeatures(data);
+          this.getOtherSettings();
+          this.businessCategories = data?.business_categories;
+          if(this.companyId == 15) {
+            this.formatStartups(data?.startups);
           }
         },
         (error) => {
@@ -219,228 +326,538 @@ export class SignupComponent {
       );
   }
 
-  checkConfirmEmail() {
-    this._companyService
-      .checkConfirmEmail({ companyId: this.companyId })
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (response) => {
-          this.confirm_email = response.active;
-        },
-        (error) => {
-          console.log(error);
-        }
+  mapSubfeatures(data) {
+    let subfeatures = data?.subfeatures;
+    if (subfeatures?.length > 0) {
+      this.countryDropdown = subfeatures.some(
+          (a) => a.name_en == "Country" && a.active == 1 && a.feature_id == 15
       );
+      this.hasSelectExistingOrCreateNewStartup = subfeatures.some(
+          (a) => a.name_en == "Select existing startup or create new upon registration" && a.active == 1 && a.feature_id == 17
+      );
+    }
+
+    if(this.countryDropdown) { 
+      this.countries = data?.countries;
+    }
   }
 
-  getCountries() {
-    this._companyService
-      .getCountries()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        async (response) => {
-          this.countries = response.countries;
-        },
-        (error) => {
-          console.log(error);
-        }
+  getOtherSettings() {
+    let other_settings = this.signupData?.other_settings;
+    if (other_settings?.length > 0) {
+      this.hasRegistrationFields = other_settings?.some(
+        (a) => a.title_en == "Registration fields" && a.active == 1
       );
+      this.hasCompanyInvoiceSettings = other_settings?.some(
+        (a) => a.title_en == "Company details for invoicing" && a.active == 1
+      );
+      this.hasCustomMemberTypeSettings = other_settings?.some(
+        (a) => a.title_en == "Require Stripe payment on specific member types" && a.active == 1
+      );
+      this.hasCustomMemberTypeExpiration = other_settings?.some(
+        (a) => a.title_en == "Custom member type expiration" && a.active == 1
+      );
+      let hasPaidRegistration = other_settings?.some(
+        (a) => a.title_en == "Stripe payment" && a.active == 1
+      );
+
+      let membershipFeeSettings = other_settings?.find(
+        (a) => a.title_en == "Monthly Subscription Fee"
+      );
+      if(membershipFeeSettings) {
+        this.membershipFee = membershipFeeSettings?.value;
+      }
+
+      if (this.hasRegistrationFields) {
+        this.getRegistrationFields();
+      } else {
+        this.showDefaultRegistrationFields = true;
+        this.initializeDefaultForm();
+      }
+  
+      this.getCustomMemberTypes();
+      if(!this.hasCustomMemberTypeSettings) {
+        this.hasPaidRegistration = hasPaidRegistration ? true : false;
+      }
+    }
+  }
+
+  formatStartups(startups) {
+    this.startups = startups;
+    let selected_startup_id = this._localService.getLocalStorage(environment.lsselectedStartupId)
+    let selected_startup_name = this._localService.getLocalStorage(environment.lsselectedStartupName)
+    let selected_startup = this._localService.getLocalStorage(environment.lsselectedStartup) ? JSON.parse(this._localService.getLocalStorage(environment.lsselectedStartup)) : ''
+    if(selected_startup && selected_startup_id && selected_startup_name) {
+      this.selectedStartup = [{
+        id: selected_startup_id,
+        startup_name: selected_startup_name,
+        company_id: this.companyId,
+        city: selected_startup.city,
+        project_start_year: selected_startup.project_start_year,
+        team_members: selected_startup.team_members,
+        estimated_annual_turnover: selected_startup.estimated_annual_turnover,
+        estimated_startup_value: selected_startup.estimated_startup_value,
+        financing: selected_startup.financing,
+        logo: selected_startup.logo,
+        startup_description: selected_startup.startup_description,
+      }]
+      this._localService.removeLocalStorage(environment.lsselectedStartupId)
+      this._localService.removeLocalStorage(environment.lsselectedStartupName)
+    }
   }
 
   getRegistrationFields() {
-    this._userService
-      .getRegistrationFields()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        async (response) => {
-          this.allRegistrationFields = response.registration_fields;
-          this.getRegistrationFieldMapping();
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    this.allRegistrationFields = this.signupData?.registration_fields;
+    this.getRegistrationFieldMapping();
   }
 
   getRegistrationFieldMapping() {
-    this._userService
-      .getRegistrationFieldMapping(this.companyId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        async (response) => {
-          this.allRegistrationFieldMapping =
-            response.registration_field_mapping;
+    this.allRegistrationFieldMapping = this.signupData?.registration_field_mapping;
 
-          let registration_fields: any[] = [];
-          let selected_fields: any[] = [];
-          if (this.allRegistrationFields) {
-            this.allRegistrationFields.forEach((field) => {
-              let match = this.allRegistrationFieldMapping.some(
-                (a) => a.field_id === field.id
-              );
-              if (!match) {
-                registration_fields.push(field);
+    let registration_fields: any[] = [];
+    let selected_fields: any[] = [];
+    let current_step_fields: any[] = [];
+    if (this.allRegistrationFields) {
+      this.allRegistrationFields.forEach((field) => {
+        let match = this.allRegistrationFieldMapping.some(
+          (a) => a.field_id === field.id
+        );
+        if (!match) {
+          registration_fields.push(field);
 
-                if (field.field == "password") {
-                  // Push another confirm_password field
-                  let confirm_password_field = {
-                    active: 1,
-                    created_at: "",
-                    field: "confirm_password",
-                    field_desc_en: null,
-                    field_desc_es: null,
-                    field_display_en: "Confirm password",
-                    field_display_es: "Confirmar contraseña",
-                    field_group_en: null,
-                    field_group_es: null,
-                    field_type: "password",
-                    id: 5,
-                    max_length: 30,
-                    min_length: 8,
-                    required: 1,
-                  };
-                  registration_fields.push(confirm_password_field);
-                }
-              }
-            });
+          if (field.field == "password") {
+            // Push another confirm_password field
+            let confirm_password_field = {
+              active: 1,
+              created_at: "",
+              field: "confirm_password",
+              field_desc_en: null,
+              field_desc_es: null,
+              field_display_en: "Confirm password",
+              field_display_es: "Confirmar contraseña",
+              field_group_en: null,
+              field_group_es: null,
+              field_type: "password",
+              id: 5,
+              max_length: 30,
+              min_length: 8,
+              required: 1,
+            };
+            registration_fields.push(confirm_password_field);
           }
-
-          if (this.allRegistrationFieldMapping) {
-            this.allRegistrationFieldMapping.forEach((field) => {
-              let reg_field = this.allRegistrationFields.filter((f) => {
-                return f.id == field.field_id;
-              });
-
-              let fld = {};
-              if (reg_field && reg_field[0]) {
-                let field_display_en = reg_field[0].field_display_en;
-                if (field.field_display_en && field.field_display_en != null) {
-                  field_display_en = field.field_display_en;
-                }
-                let field_display_es = reg_field[0].field_display_es;
-                if (field.field_display_es && field.field_display_es != null) {
-                  field_display_es = field.field_display_es;
-                }
-                let field_desc_en = reg_field[0].field_desc_en;
-                if (field.field_desc_en && field.field_desc_en != null) {
-                  field_desc_en = field.field_desc_en;
-                }
-                let field_desc_es = reg_field[0].field_desc_es;
-                if (field.field_desc_es && field.field_desc_es != null) {
-                  field_desc_es = field.field_desc_es;
-                }
-                let field_group_en = reg_field[0].field_group_en;
-                if (field.field_group_en && field.field_group_en != null) {
-                  field_group_en = field.field_group_en;
-                }
-                let field_group_es = reg_field[0].field_group_es;
-                if (field.field_group_es && field.field_group_es != null) {
-                  field_group_es = field.field_group_es;
-                }
-
-                fld = {
-                  id: reg_field[0].id,
-                  field: reg_field[0].field,
-                  field_type: reg_field[0].field_type,
-                  field_display_en: field_display_en,
-                  field_display_es: field_display_es,
-                  field_group_en: field_group_en,
-                  field_group_es: field_group_es,
-                  field_desc_en: field_desc_en,
-                  field_desc_es: field_desc_es,
-                  min_length: reg_field[0].min_length,
-                  max_length: reg_field[0].max_length,
-                  active: reg_field[0].active,
-                  required:
-                    field.required != null
-                      ? field.required
-                      : reg_field[0].required,
-                  created_at: reg_field[0].created_at,
-                  step_1: field.step_1,
-                  step_3: field.step_3,
-                  step_4: field.step_4,
-                };
-
-                selected_fields.push(fld);
-
-                if (reg_field[0].field == "password") {
-                  let confirm_password_field = {
-                    id: 5,
-                    field: "confirm_password",
-                    field_type: "password",
-                    field_display_en: "Confirm password",
-                    field_display_es: "Confirmar contraseña",
-                    field_group_en: null,
-                    field_group_es: null,
-                    field_desc_en: "",
-                    field_desc_es: "",
-                    min_length: 8,
-                    max_length: 30,
-                    active: 1,
-                    required: 1,
-                    created_at: "",
-                    step_1: this.companyId == 15 ? 1 : 0,
-                    step_3: 0,
-                    step_4: 0,
-                  };
-                  selected_fields.push(confirm_password_field);
-                  this.hasConfirmPassword = true;
-                }
-              }
-            });
-          }
-
-          let sections: any[] = [];
-          let section_fields: any[] = [];
-          let selected_startup_fields: any[] = [];
-          let startup_sections: any[] = [];
-          let startup_section_fields: any[] = [];
-          if (selected_fields && !this.showLogo) {
-            selected_fields.forEach((f) => {
-              let match = sections.some(
-                (a) => a.field_group_es === f.field_group_es
-              );
-              if (!match) {
-                sections.push({
-                  field_group_en: f.field_group_en,
-                  field_group_es: f.field_group_es,
-                });
-              }
-            });
-
-            if (sections) {
-              sections.forEach((s) => {
-                let fields: any[] = [];
-                if (selected_fields) {
-                  fields = selected_fields.filter((sf) => {
-                    return sf.field_group_es == s.field_group_es;
-                  });
-                }
-
-                section_fields.push({
-                  field_group_en: s.field_group_en,
-                  field_group_es: s.field_group_es,
-                  fields: fields,
-                });
-              });
-            }
-          }
-
-          this.registrationFields = registration_fields;
-          this.sectionFields = section_fields;
-          this.selectedFields = selected_fields;
-
-          if (this.selectedFields && this.selectedFields.length > 0) {
-            this.initializeFormGroup();
-          } else {
-            this.showDefaultRegistrationFields = true;
-            this.initializeDefaultForm();
-          }
-        },
-        (error) => {
-          console.log(error);
         }
-      );
+      });
+    }
+
+    if (this.allRegistrationFieldMapping) {
+      this.allRegistrationFieldMapping.forEach((field) => {
+        let reg_field = this.allRegistrationFields.filter((f) => {
+          return f.id == field.field_id;
+        });
+
+        let fld = {};
+        if (reg_field && reg_field[0]) {
+          let field_display_en = reg_field[0].field_display_en;
+          if (field.field_display_en && field.field_display_en != null) {
+            field_display_en = field.field_display_en;
+          }
+          let field_display_es = reg_field[0].field_display_es;
+          if (field.field_display_es && field.field_display_es != null) {
+            field_display_es = field.field_display_es;
+          }
+          let field_desc_en = reg_field[0].field_desc_en;
+          if (field.field_desc_en && field.field_desc_en != null) {
+            field_desc_en = field.field_desc_en;
+          }
+          let field_desc_es = reg_field[0].field_desc_es;
+          if (field.field_desc_es && field.field_desc_es != null) {
+            field_desc_es = field.field_desc_es;
+          }
+          let field_group_en = reg_field[0].field_group_en;
+          if (field.field_group_en && field.field_group_en != null) {
+            field_group_en = field.field_group_en;
+          }
+          let field_group_es = reg_field[0].field_group_es;
+          if (field.field_group_es && field.field_group_es != null) {
+            field_group_es = field.field_group_es;
+          }
+
+          fld = {
+            id: reg_field[0].id,
+            field: reg_field[0].field,
+            field_type: reg_field[0].field_type,
+            field_display_en: field_display_en,
+            field_display_es: field_display_es,
+            field_group_en: field_group_en,
+            field_group_es: field_group_es,
+            field_desc_en: field_desc_en,
+            field_desc_es: field_desc_es,
+            min_length: reg_field[0].min_length,
+            max_length: reg_field[0].max_length,
+            active: reg_field[0].active,
+            required:
+              field.required != null
+                ? field.required
+                : reg_field[0].required,
+            created_at: reg_field[0].created_at,
+            step_1: field.step_1,
+            step_3: field.step_3,
+            step_4: field.step_4,
+          };
+
+          selected_fields.push(fld);
+
+          if (reg_field[0].field == "password") {
+            let confirm_password_field = {
+              id: 5,
+              field: "confirm_password",
+              field_type: "password",
+              field_display_en: "Confirm password",
+              field_display_es: "Confirmar contraseña",
+              field_group_en: null,
+              field_group_es: null,
+              field_desc_en: "",
+              field_desc_es: "",
+              min_length: 8,
+              max_length: 30,
+              active: 1,
+              required: 1,
+              created_at: "",
+              step_1: this.companyId == 15 ? 1 : 0,
+              step_3: 0,
+              step_4: 0,
+            };
+            selected_fields.push(confirm_password_field);
+            this.hasConfirmPassword = true;
+          }
+        }
+      });
+    }
+
+    let sections: any[] = [];
+    let section_fields: any[] = [];
+    let selected_startup_fields: any[] = [];
+    let startup_sections: any[] = [];
+    let startup_section_fields: any[] = [];
+    if (selected_fields && !this.showLogo) {
+      selected_fields.forEach((f) => {
+        let match = sections.some(
+          (a) => a.field_group_es === f.field_group_es
+        );
+        if (!match) {
+          sections.push({
+            field_group_en: f.field_group_en,
+            field_group_es: f.field_group_es,
+          });
+        }
+      });
+
+      if (sections) {
+        sections.forEach((s) => {
+          let fields: any[] = [];
+          if (selected_fields) {
+            fields = selected_fields.filter((sf) => {
+              return sf.field_group_es == s.field_group_es;
+            });
+          }
+
+          section_fields.push({
+            field_group_en: s.field_group_en,
+            field_group_es: s.field_group_es,
+            fields: fields,
+          });
+        });
+      }
+    } else if(selected_fields && this.showLogo) {
+      if(this.hasSelectExistingOrCreateNewStartup) {
+        // get startup name field
+        let startup_name_field = selected_fields.filter(sff => {
+          return sff.field == 'startup_name'
+        })
+
+        let step_4_fields = selected_fields.filter(sff => {
+          return sff.step_4 == 1
+        })
+
+        if(startup_name_field) {
+          startup_name_field.forEach(sn => {
+            selected_startup_fields.push(sn)
+          })
+        }
+
+        if(step_4_fields) {
+          step_4_fields.forEach(sf => {
+            selected_startup_fields.push(sf)
+          })
+        }
+
+        startup_sections.push({
+          "field_group_en": "",
+          "field_group_es": ""
+        })
+      }
+
+
+      selected_fields = selected_fields.filter(sff => {
+        return sff.step_1 == this.currentStep
+      })
+      
+      sections.push({
+        "field_group_en": "",
+        "field_group_es": ""
+      })
+      if(sections) {
+        sections.forEach(s => {
+          let fields: any[] = []
+          let startup_fields: any[] = []
+
+          if(selected_fields) {
+            fields = selected_fields.filter(sf => {
+              return "" == s.field_group_es
+            })
+          }
+
+          section_fields.push({
+            "field_group_en": s.field_group_en,
+            "field_group_es": s.field_group_es,
+            "fields": fields
+          })
+
+          if(this.hasSelectExistingOrCreateNewStartup) {
+            if(selected_startup_fields) {
+              startup_fields = selected_startup_fields.filter(sf => {
+                return "" == s.field_group_es
+              })
+            }
+
+            startup_section_fields.push({
+              "field_group_en": s.field_group_en,
+              "field_group_es": s.field_group_es,
+              "fields": startup_fields
+            })
+          }
+        })
+      }
+    }
+
+    this.registrationFields = registration_fields;
+    this.sectionFields = section_fields;
+    this.selectedFields = selected_fields;
+
+    if(this.hasSelectExistingOrCreateNewStartup) {
+      this.startupSectionFields = startup_section_fields
+      this.startupSelectedFields = selected_startup_fields
+      this.startupDataFields = this.startupSelectedFields
+
+      // Get fields from AS
+      if(!this.startupDataFields || (this.startupDataFields && this.startupDataFields.length == 0)) {
+        this.getStartupDataFields()
+      }
+    }
+
+    if (this.selectedFields && this.selectedFields.length > 0) {
+      this.initializeFormGroup();
+    } else {
+      this.showDefaultRegistrationFields = true;
+      this.initializeDefaultForm();
+    }
+  }
+
+  getStartupDataFields() {
+    let allRegistrationFieldMapping = this.signupData?.registration_field_mapping
+
+    let registration_fields: any[] = []
+    let selected_fields: any[] = []
+    if(this.allRegistrationFields) {
+      this.allRegistrationFields.forEach(field => {
+        let match = allRegistrationFieldMapping.some(a => a.field_id === field.id)
+        if(!match) {
+          registration_fields.push(field)
+
+          if(field.field == 'password') {
+            // Push another confirm_password field
+            let confirm_password_field = {
+              active: 1,
+              created_at: "",
+              field: "confirm_password",
+              field_desc_en: null,
+              field_desc_es: null,
+              field_display_en: "Confirm password",
+              field_display_es: "Confirmar contraseña",
+              field_group_en: this.hasCompanyInvoiceSettings ? 'Personal' : null,
+              field_group_es: this.hasCompanyInvoiceSettings ? 'Datos personales' : null,
+              field_type: "password",
+              id: 5,
+              max_length: 30,
+              min_length: 8,
+              required: 1,
+            }
+            registration_fields.push(confirm_password_field)
+          }
+        }
+      });
+    }
+
+    if(allRegistrationFieldMapping) {
+      allRegistrationFieldMapping.forEach(field => {
+        let reg_field = this.allRegistrationFields.filter(f => {
+          return f.id == field.field_id
+        })
+
+        let fld = {}
+        if(reg_field && reg_field[0]) {
+          let field_display_en = reg_field[0].field_display_en
+          if(field.field_display_en && field.field_display_en != null) {
+            field_display_en = field.field_display_en
+          }
+          let field_display_es = reg_field[0].field_display_es
+          if(field.field_display_es && field.field_display_es != null) {
+            field_display_es = field.field_display_es
+          }
+          let field_desc_en = reg_field[0].field_desc_en
+          if(field.field_desc_en && field.field_desc_en != null) {
+            field_desc_en = field.field_desc_en
+          }
+          let field_desc_es = reg_field[0].field_desc_es
+          if(field.field_desc_es && field.field_desc_es != null) {
+            field_desc_es = field.field_desc_es
+          }
+          let field_group_en = reg_field[0].field_group_en
+          if(field.field_group_en && field.field_group_en != null) {
+            field_group_en = field.field_group_en
+          }
+          let field_group_es = reg_field[0].field_group_es
+          if(field.field_group_es && field.field_group_es != null) {
+            field_group_es = field.field_group_es
+          }
+
+          fld = {
+            "id": reg_field[0].id,
+            "field": reg_field[0].field,
+            "field_type": reg_field[0].field_type,
+            "field_display_en": field_display_en,
+            "field_display_es": field_display_es,
+            "field_group_en": field_group_en,
+            "field_group_es": field_group_es,
+            "field_desc_en": field_desc_en,
+            "field_desc_es": field_desc_es,
+            "min_length": reg_field[0].min_length,
+            "max_length": reg_field[0].max_length,
+            "active": reg_field[0].active,
+            "required": field.required != null ? field.required : reg_field[0].required,
+            "created_at": reg_field[0].created_at,
+            "step_1": field.step_1,
+            "step_3": field.step_3,
+            "step_4": field.step_4,
+          }
+
+          selected_fields.push(fld)
+
+          if(reg_field[0].field == 'password') {
+            let confirm_password_field = {
+              "id": 5,
+              "field": 'confirm_password',
+              "field_type": 'password',
+              "field_display_en": 'Confirm password',
+              "field_display_es": 'Confirmar contraseña',
+              "field_group_en": null,
+              "field_group_es": null,
+              "field_desc_en": '',
+              "field_desc_es": '',
+              "min_length": 8,
+              "max_length": 30,
+              "active": 1,
+              "required": 1,
+              "created_at": '',
+              "step_1": this.companyId == 15 ? 1 : 0,
+              "step_3": 0,
+              "step_4": 0,
+            }
+            selected_fields.push(confirm_password_field)
+          }
+        }
+      })
+    }
+
+    let sections: any[] = []
+    let section_fields: any[] = []
+    let selected_startup_fields: any[] = []
+    let startup_sections: any[] = []
+    let startup_section_fields: any[] = []
+    if(selected_fields && this.hasSelectExistingOrCreateNewStartup) {
+      // get startup name field
+      let startup_name_field = selected_fields.filter(sff => {
+        return sff.field == 'startup_name'
+      })
+
+      let step_4_fields = selected_fields.filter(sff => {
+        return sff.step_4 == 1
+      })
+
+      if(startup_name_field) {
+        startup_name_field.forEach(sn => {
+          selected_startup_fields.push(sn)
+        })
+      }
+
+      if(step_4_fields) {
+        step_4_fields.forEach(sf => {
+          selected_startup_fields.push(sf)
+        })
+      }
+
+      startup_sections.push({
+        "field_group_en": "",
+        "field_group_es": ""
+      })
+
+      selected_fields = selected_fields.filter(sff => {
+        return sff.step_1 == 4
+      })
+      
+      sections.push({
+        "field_group_en": "",
+        "field_group_es": ""
+      })
+      if(sections) {
+        sections.forEach(s => {
+          let fields: any[] = []
+          let startup_fields: any[] = []
+
+          if(selected_fields) {
+            fields = selected_fields.filter(sf => {
+              return "" == s.field_group_es
+            })
+          }
+
+          section_fields.push({
+            "field_group_en": s.field_group_en,
+            "field_group_es": s.field_group_es,
+            "fields": fields
+          })
+
+          if(this.hasSelectExistingOrCreateNewStartup) {
+            if(selected_startup_fields) {
+              startup_fields = selected_startup_fields.filter(sf => {
+                return "" == s.field_group_es
+              })
+            }
+
+            startup_section_fields.push({
+              "field_group_en": s.field_group_en,
+              "field_group_es": s.field_group_es,
+              "fields": startup_fields
+            })
+          }
+        })
+      }
+    }
+
+    if(this.hasSelectExistingOrCreateNewStartup) {
+      this.startupSectionFields = startup_section_fields
+      this.startupSelectedFields = selected_startup_fields
+      this.startupDataFields = this.startupSelectedFields
+    }
   }
 
   initializeFormGroup() {
@@ -517,120 +934,8 @@ export class SignupComponent {
     this.isloading = false;
   }
 
-  getOtherSettings() {
-    this._companyService
-      .getOtherSettings(this.companyId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        async (response) => {
-          this.otherSettings = response["other_settings"];
-          if (this.otherSettings) {
-            this.otherSettings.forEach((m) => {
-              if (m.title_es == "Registro / Servicios") {
-                if (m.content) {
-                  let registrationFieldsSettings = m.content.filter((c) => {
-                    return c.title_en.indexOf("Registration fields") >= 0;
-                  });
-                  if (
-                    registrationFieldsSettings &&
-                    registrationFieldsSettings[0]
-                  ) {
-                    this.hasRegistrationFields =
-                      registrationFieldsSettings[0].active == 1 ? true : false;
-                    if (this.hasRegistrationFields) {
-                      this.getRegistrationFields();
-                    } else {
-                      this.showDefaultRegistrationFields = true;
-                      this.initializeDefaultForm();
-                    }
-                  }
-
-                  let companyInvoiceSettings = m.content.filter((c) => {
-                    return (
-                      c.title_en.indexOf("Company details for invoicing") >= 0
-                    );
-                  });
-                  if (companyInvoiceSettings && companyInvoiceSettings[0]) {
-                    this.hasCompanyInvoiceSettings =
-                      companyInvoiceSettings[0].active == 1 ? true : false;
-                  }
-                }
-              }
-
-              if (m.title_es == "Stripe") {
-                if (m.content) {
-                  let membershipFeeSettings = m.content.filter((x) => {
-                    return x.title_en == "Monthly Subscription Fee";
-                  });
-                  if (membershipFeeSettings && membershipFeeSettings[0]) {
-                    this.membershipFee = membershipFeeSettings[0].value;
-                  }
-
-                  let customMemberTypeSettings = m.content.filter((c) => {
-                    return (
-                      c.title_en.indexOf(
-                        "Require Stripe payment on specific member types"
-                      ) >= 0
-                    );
-                  });
-                  if (customMemberTypeSettings && customMemberTypeSettings[0]) {
-                    this.hasCustomMemberTypeSettings =
-                      customMemberTypeSettings[0].active == 1 ? true : false;
-                    this.getCustomMemberTypes();
-                  }
-
-                  if (!this.hasCustomMemberTypeSettings) {
-                    let paidRegistrationSettings = m.content.filter((c) => {
-                      return c.title_en.indexOf("Stripe payment") >= 0;
-                    });
-                    if (
-                      paidRegistrationSettings &&
-                      paidRegistrationSettings[0]
-                    ) {
-                      this.hasPaidRegistration =
-                        paidRegistrationSettings[0].active == 1 ? true : false;
-                    }
-                  }
-
-                  let customMemberTypeExpirationSettings = m.content.filter(
-                    (c) => {
-                      return (
-                        c.title_en.indexOf("Custom member type expiration") >= 0
-                      );
-                    }
-                  );
-                  if (
-                    customMemberTypeExpirationSettings &&
-                    customMemberTypeExpirationSettings[0]
-                  ) {
-                    this.hasCustomMemberTypeExpiration =
-                      customMemberTypeExpirationSettings[0].active == 1
-                        ? true
-                        : false;
-                  }
-                }
-              }
-            });
-          }
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }
-
   getCustomMemberTypes() {
-    this._userService
-      .getCustomMemberTypes(this.companyId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (response: any) => {
-          this.memberTypes = response.member_types;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    this.memberTypes = this.signupData?.member_types;
   }
 
   trimWhitespace() {
@@ -668,6 +973,18 @@ export class SignupComponent {
       this.hasError = true;
       this.formSubmitted = false;
       return false;
+    }
+
+    // Set startup values
+    if(this.hasSelectExistingOrCreateNewStartup && this.getStartedForm.controls['startup_name']) {
+      this.getStartedForm.controls['startup_name'].setValue('')
+      if(this.selectedStartup && this.selectedStartup[0]) {
+        this.getStartedForm.controls['startup_name'].setValue(this.selectedStartup[0].startup_name)
+        this.missingStartup = false
+      } else {
+        this.missingStartup = true
+        this.hasError = true
+      }
     }
 
     if (this.isValidForm()) {
@@ -1031,6 +1348,165 @@ export class SignupComponent {
     return !this.getStartedForm.controls["password"].hasError(
       "requiresSpecialChars"
     );
+  }
+
+  openCreateNewStartup() {
+    this.startupDataSubmitted = false
+    this.startupError = ''
+    if(this.startupSelectedFields) {
+      this.initializeStartupDataForm()
+    }
+    this.modalbutton?.nativeElement.click();
+  }
+
+  initializeStartupDataForm() {
+    this.startupFormTemplate = []
+    this.startupSelectedFields.forEach(field => {
+      if(field.field_type) {
+        this.startupFormTemplate.push({
+          'label': field.field,
+          'required': field.required
+        })
+      }
+    })
+
+    let group = {};    
+    this.startupFormTemplate.forEach(input_template => {
+      if(input_template.label == 'email') { 
+        group[input_template.label] = new FormControl('', [Validators.required]);  
+      } else {
+        if(input_template.required || input_template.required == 1) {
+          group[input_template.label] = new FormControl('', [Validators.required]);  
+        } else {
+          group[input_template.label] = new FormControl('');  
+        }
+      }
+    })
+    console.log(group)
+    this.startupDataForm = new FormGroup(group)
+  }
+
+  saveStartupData() {
+    this.startupError = ''
+    this.startupDataSubmitted = true
+
+    let formData = []
+    formData = this.startupDataForm.value
+    formData['company_id'] = this.companyId
+    formData['logo'] = this.logoFileName ? this.logoFileName : ''
+
+    if(this.selectedBusinessCategories) {
+      formData['business_category_id'] = this.selectedBusinessCategories.map( (data) => { return data.id }).join()
+    }
+
+    // Set startup values
+    if(this.hasSelectExistingOrCreateNewStartup && this.startupDataForm.controls['business_category']) {
+      if(this.selectedBusinessCategories) {
+        this.missingStartupSector = false
+      } else {
+        this.missingStartupSector = true
+      }
+    }
+
+    if(!this.isValidStartupForm()) {
+      return false;
+    }
+
+    if(this.isValidStartupForm()) {
+      this._companyService.addStartup(
+        formData
+      ).subscribe(
+        response => {
+          if(response['startup']) {
+            this._localService.setLocalStorage(environment.lsselectedStartupId, response['startup']['id'])
+            this._localService.setLocalStorage(environment.lsselectedStartupName, response['startup']['startup_name'])
+            this._localService.setLocalStorage(environment.lsselectedStartup, JSON.stringify(response['startup']))
+            this.getStartups();
+            this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+            this.closemodalbutton?.nativeElement.click();
+          } else if(response['code'] == 'existing_startup') {
+            this.hasSaveStartupError = true
+            this.startupDataSubmitted = false
+            this.startupError = 'El startup ya existe'
+            this.open(this.startupError, '');
+          }
+        },
+        error => {
+          this.hasSaveStartupError = true
+          this.startupDataSubmitted = false
+          this.startupError = 'Algo salió mal';
+          if(error && error.error) {
+            this.open(error.error.message, '');
+          } else {
+            this.open(this.startupError, '');
+          }
+        }) 
+    }
+  }
+
+  isValidStartupForm() {
+    let valid = true
+    this.errors = {}
+
+    Object.keys(this.startupDataForm.controls).forEach(key => {
+      const controlErrors: ValidationErrors = 
+        this.startupDataForm.controls[key].errors! || null;
+      if (controlErrors != null) {
+        if(key == 'business_category') {
+          if(this.selectedBusinessCategories) {
+
+          } else {
+            valid = false
+          }
+        } else {
+          valid = false
+        }
+
+        if (controlErrors['email']) {
+          this.errors[key] = this._translateService.instant('company-settings.invalidemailaddress')
+        } else if (controlErrors['alphabet']) {
+          this.errors[key] = this._translateService.instant('company-settings.lettersonly')
+        } else if (controlErrors['number']) {
+          this.errors[key] = this._translateService.instant('company-settings.numbersonly')
+        } else if (controlErrors['minlength']) {
+          this.errors[key] = `${this._translateService.instant('dialog.atleast')} ${controlErrors['minlength'].requiredLength} ${this._translateService.instant('dialog.characters')}`
+        } else if (controlErrors['maxlength']) {
+          this.errors[key] = `${this._translateService.instant('dialog.maximumof')} ${controlErrors['maxlength'].requiredLength} ${this._translateService.instant('dialog.characters')}`
+        }
+      }
+    })
+
+    return valid
+  }
+
+  pondHandleInit() {
+    console.log('FilePond has initialised', this.myPond);
+  }
+
+  pondHandleAddFile(event: any) {
+    console.log('A file was added', event);
+    if(!event.error) {
+
+    }
+  }
+
+  getStartups() {
+    this._companyService.getStartups(this.companyId)
+      .subscribe(
+        async (response) => {
+          this.formatStartups(response?.startups);
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  public getTimestamp() {
+    const date = new Date();
+    const timestamp = date.getTime();
+
+    return timestamp;
   }
 
   ngOnDestroy() {

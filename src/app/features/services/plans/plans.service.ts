@@ -51,6 +51,7 @@ import {
   FEATURES_MAPPING_URL,
   GROUP_PLAN_COMMENTS_URL,
   GUEST_REGISTRATION_FIELDS_URL,
+  INVOICE_DETAILS_URL,
   JOIN_GROUP_PLAN_URL,
   JOIN_PLAN_URL,
   JOIN_REQUEST_URL,
@@ -1031,6 +1032,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
   getCategoryEvents(categoryId): Observable<any> {
     return this._http.get(`${CATEGORY_EVENTS_URL}/${categoryId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getInvoiceDetails(invoiceId, companyId): Observable<any> {
+    return this._http.get(`${INVOICE_DETAILS_URL}/${invoiceId}/${companyId}`,
       { headers: this.headers }
     ).pipe(map(res => res));
   }
