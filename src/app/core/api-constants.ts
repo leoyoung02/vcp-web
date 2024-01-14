@@ -91,6 +91,7 @@ export const LISTS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/lists-management-data`;
 export const MANAGE_MEMBER_TYPES_DATA_URL = `${API_BASE}/v2/manage-member-types-data`;
 export const MANAGE_SETTINGS_DATA_URL = `${API_BASE}/v2/settings-data`;
 export const MANAGE_SETTINGS_EMAIL_DATA_URL = `${API_BASE}/v2/settings-email-data`;
+export const SIGNUP_DATA_URL = `${API_BASE}/v2/signup-data`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;
@@ -644,3 +645,5 @@ export const DELETE_COMMUNITY_CHANNEL_URL = `${API_BASE}/v2/channel/delete`;
 // STARTUPS
 export const STARTUPS_URL = `${API_BASE}/v2/startups`;
 export const STARTUP_DETAILS_URL = `${API_BASE}/v2/startup-details`;
+export const ADD_STARTUP_URL = `${API_BASE}/company/startup/add`;
+export const GET_STARTUPS_URL = `${API_BASE}/company/startups`;
