@@ -2263,7 +2263,7 @@ export class ManageUsersComponent {
       fk_company_id: this.companyId,
     });
 
-    if (this.hasConfirmEmail && (this.companyId == 35 || this.companyId == 41 || this.companyId == 42 || this.companyId == 20 || this.membersForConfirm2?.length > 0)) {
+    if (this.hasConfirmEmail || this.membersForConfirm2?.length > 0) {
       buttonList.push({
         id: 2,
         value: "Confirm",
@@ -2275,7 +2275,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.requireApproval && this.membersForApproval2?.length > 0) {
+    if (this.requireApproval || this.membersForApproval2?.length > 0) {
       buttonList.push({
         id: 3,
         value: "Approval",
@@ -2285,7 +2285,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.hasExpiration && this.membersNotApproved2?.length > 0) {
+    if (this.hasExpiration || this.membersNotApproved2?.length > 0) {
       buttonList.push({
         id: 4,
         value: "NotApproved",
@@ -2295,7 +2295,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.requireApproval && this.membersIncomplete2?.length > 0) {
+    if (this.requireApproval || this.membersIncomplete2?.length > 0) {
       buttonList.push({
         id: 5,
         value: "Incomplete",
@@ -2305,7 +2305,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.hasExpiration) {
+    if (this.hasExpiration || this.membersExpired2?.length > 0) {
       buttonList.push({
         id: 6,
         value: "Expired",
@@ -2315,7 +2315,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.requirePayment && (this.companyId == 35 || this.companyId == 41 || this.companyId == 42 || this.companyId == 20 || this.membersCancelled2?.length > 0)) {
+    if (this.requirePayment || this.membersCancelled2?.length > 0) {
       buttonList.push({
         id: 7,
         value: "Cancelled",
@@ -2325,7 +2325,7 @@ export class ManageUsersComponent {
       });
     }
 
-    if (this.requirePayment && this.membersFailed2?.length > 0) {
+    if (this.requirePayment || this.membersFailed2?.length > 0) {
       buttonList.push({
         id: 8,
         value: "Failed",

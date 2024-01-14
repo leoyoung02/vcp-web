@@ -316,6 +316,7 @@ export const PLAN_DETAILS_URL = `${API_BASE}/v2/plan-details`;
 export const PLANS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/plans-management-data`;
 export const PLAN_REGISTRATION_DATA_URL = `${API_BASE}/v2/plan-registration-data`;
 export const ACTIVITY_CREDITS_URL = `${API_BASE}/v2/activity/credits`;
+export const INVOICE_DETAILS_URL = `${API_BASE}/v2/invoice-details`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;
