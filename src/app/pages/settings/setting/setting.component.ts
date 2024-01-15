@@ -82,9 +82,9 @@ export class SettingComponent {
   buttonColor: any;
   company: any;
   domain: any;
-    searchKeyword: any;
+  searchKeyword: any;
 
-    leftImages: LeftImage[] = leftImagesData;
+  leftImages: LeftImage[] = leftImagesData;
   setting: any
   settings: any
   settings2: any

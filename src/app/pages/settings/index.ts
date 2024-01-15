@@ -169,5 +169,10 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'community.communitychannels'},
         loadComponent: async () => (await import('./community-channels/community-channels.component')).CommunityChannelsComponent,
+    },
+    {
+        path: 'keap',
+        title: 'Keap',
+        loadComponent: async () => (await import('@features/courses/keap-management/keap-management.component')).KeapManagementComponent,
     }
 ];

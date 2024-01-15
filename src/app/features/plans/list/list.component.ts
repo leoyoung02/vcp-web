@@ -510,6 +510,8 @@ export class PlansListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log('fetchPlansOtherData')
+          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 
@@ -529,6 +531,10 @@ export class PlansListComponent {
           this.mapCategories(data?.plan_categories);
           this.subcategories = data?.plan_subcategories;
           this.initializeButtonGroup();
+
+          if(this.companyId == 27) {
+            this.mapCourseGroups(data);
+          }
 
           this.fetchPlans();
         },
@@ -637,6 +643,31 @@ export class PlansListComponent {
     }
   }
 
+  mapCourseGroups(data) {
+    this.courses = data?.courses;
+    this.courseCategoriesAccessRoles = data?.course_category_access_roles;
+    this.courseCategoryMapping = data?.course_category_mapping;
+
+    if(this.courses?.length > 0) {
+      let user_type_roles = this.courseCategoriesAccessRoles?.filter(r => {
+        return r.role_id == this.user.custom_member_type_id
+      })
+
+      if(user_type_roles?.length > 0) {
+        for(let course of this.courses) {
+          if((course.active_group_id || course.group_id) && this.courseCategoryMapping.some(a => user_type_roles.some(r => r.category_id == a.category_id) && a.course_id == course.id) ){
+            this.groups.push({
+                id: course.active_group_id || course.group_id,
+            })
+          }
+        }
+      }
+    }
+
+    console.log('mapCourseGroups')
+    console.log(this.groups)
+  }  
+
   getFeatureTitle(feature) {
     return feature
       ? this.language == "en"
@@ -702,6 +733,8 @@ export class PlansListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log('fetchPlans')
+          console.log(data)
           this.userAdditionalProperties = data?.users_additional_properties;
           this.plans = this.initialFilter(data);
           this.planCategoriesMapping = data?.category_mappings?.plan_categories_mapping || [];
@@ -801,6 +834,18 @@ export class PlansListComponent {
         }
 
         return include;
+      })
+    }
+
+    if(this.companyId == 27 && !this.superAdmin && !this.canCreatePlan && this.courseCategoryMapping?.length > 0 && (this.hasCourseRestrictions || this.showMemberEventsOnly)) {   
+      plans = plans?.filter((event) => {
+        if(this.groups.length > 0 && this.groups.some((group) => group.id == event?.fk_group_id )) {
+          return true
+        }
+
+        if(!event.private && !event?.fk_group_id) {
+          return true
+        }
       })
     }
 

@@ -9,12 +9,17 @@
         <img width="460" height="192" 
             class="rounded-[10px] object-cover h-full"
             [ngClass]="{'w-full max-w-full min-h-full max-h-full sm:min-h-full sm:max-h-full md:min-h-[325px] md:max-h-[325px] lg:min-h-[325px] lg:max-h-[325px]': page == 'home', 
-                'min-h-full max-h-full sm:min-h-full sm:max-h-full w-full max-w-full sm:w-full sm:max:w-full md:w-[350px] md:max-w-[350px] lg:w-[350px] lg:max-w-[350px] md:min-h-[192px] md:max-h-[192px] lg:min-h-[192px] lg:max-h-[192px]': page != 'home'
+                'min-h-full max-h-full sm:min-h-full sm:max-h-full w-full max-w-full sm:w-full sm:max:w-full md:w-[350px] md:max-w-[350px] lg:w-[350px] lg:max-w-[350px] md:min-h-[192px] md:max-h-[192px] lg:min-h-[192px] lg:max-h-[192px]': page != 'home', 
+                'opacity-25': section == 'more'
             }"
             [ngSrc]="image" alt="" />
     </div>
     <div [ngClass]="{'mt-12': page == 'home', 'mt-6': page != 'home'}">
-        <div [ngClass]="{'text-white': page == 'home'}" class="text-xl font-bold tracking-tight dark:text-white">{{title}}</div>
+        <div 
+            [ngClass]="{'text-white': page == 'home', 'opacity-25': section == 'more'}" 
+            class="text-xl font-bold tracking-tight dark:text-white">
+            {{title}}
+        </div>
         <div *ngIf="page != 'home' && progress > 0" class="mt-2 mb-4">
             <div class="w-full bg-gray-200 rounded-[10px] dark:bg-gray-700">
                 <div class="text-xs font-medium text-blue-100 text-center p-0.5 leading-none rounded-full" 
@@ -24,7 +29,9 @@
                 </div>
             </div>
         </div>
-        <div class="text-sm" [ngClass]="{'text-white my-6': page == 'home', 'my-4': page != 'home'}">
+        <div 
+            class="text-sm" 
+            [ngClass]="{'text-white my-6': page == 'home', 'my-4': page != 'home', 'opacity-25': section == 'more'}">
             <span *ngIf="category">{{ category }}</span>
         </div>
     </div>

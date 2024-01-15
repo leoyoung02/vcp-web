@@ -73,7 +73,7 @@
             </div>
         </div>
         <div class="py-6">
-            <div [innerHtml]="excerpt" class="text-sm" style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"></div>
+            <div *ngIf="excerpt && excerpt != 'undefined'" [innerHtml]="excerpt" class="text-sm" style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;"></div>
         </div>
         <div>
             <div class="text-sm font-semibold" style="overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical;">

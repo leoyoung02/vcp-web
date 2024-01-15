@@ -1,5 +1,5 @@
-<app-page-title [title]="pageName" [subtitle]="pageDescription"></app-page-title>
-<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4">
+<app-page-title *ngIf="!parentComponent" [title]="pageName" [subtitle]="pageDescription"></app-page-title>
+<div *ngIf="!parentComponent" class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4">
     <div>
         <button 
             class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-evenly mt-4 transition duration-700 ease-in-out"
@@ -20,7 +20,7 @@
         </button>
     </div>
 </div>
-<div class="pt-10">
+<div *ngIf="!parentComponent" class="pt-10">
     <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
         <div class="relative mb-6">
             <div class="flex items-center w-full max-w-full">
@@ -38,28 +38,91 @@
         </div>
     </div>
 </div>
-<div class="pt-6">
-    <div class="py-2 pb-20 flex flex-wrap">
-        <ng-container *ngFor="let course of courses">
-            <app-course-card
-                class="pb-[24px]"
-                [id]="course?.id"
-                [path]="course?.path"
-                [title]="course?.title"
-                [category]="course?.category"
-                [price]="course?.price"
-                [image]="course?.image"
-                [progress]="course?.progress"
-                [buttonText]="course?.button_text"
-                [showDetails]="course?.show_details"
-                [buyNow]="course?.buy_now_shown"
-                [page]="'list'"
-                [buttonColor]="buttonColor"
-                [companyId]="companyId"
-                [userId]="userId"
-                [courseButtonColor]="course?.assigned_button_color"
-            >
-            </app-course-card>
-        </ng-container>
+<ng-container *ngIf="!newSection">
+    <div class="pt-6">
+        <div class="py-2 pb-20 flex flex-wrap">
+            <ng-container *ngFor="let course of courses">
+                <app-course-card
+                    class="pb-[24px]"
+                    [id]="course?.id"
+                    [path]="course?.path"
+                    [title]="course?.title"
+                    [category]="course?.category"
+                    [price]="course?.price"
+                    [image]="course?.image"
+                    [progress]="course?.progress"
+                    [buttonText]="course?.button_text"
+                    [showDetails]="course?.show_details"
+                    [buyNow]="course?.buy_now_shown"
+                    [page]="'list'"
+                    [buttonColor]="buttonColor"
+                    [companyId]="companyId"
+                    [userId]="userId"
+                    [courseButtonColor]="course?.assigned_button_color"
+                >
+                </app-course-card>
+            </ng-container>
+        </div>
     </div>
-</div>
+</ng-container>
+<ng-container *ngIf="newSection">
+    <div class="py-6">
+        <div *ngIf="parentComponent == 'home'"
+            class="items-center border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 mb-8">
+            <div class="font-semibold text-xl">{{ pageName }}</div>
+        </div>
+        <div class="py-2 pb-8 flex flex-wrap">
+            <ng-container *ngFor="let course of accessCourses">
+                <app-course-card
+                    class="pb-[24px]"
+                    [id]="course?.id"
+                    [path]="course?.path"
+                    [title]="course?.title"
+                    [category]="course?.category"
+                    [price]="course?.price"
+                    [image]="course?.image"
+                    [progress]="course?.progress"
+                    [buttonText]="course?.button_text"
+                    [showDetails]="course?.show_details"
+                    [buyNow]="course?.buy_now_shown"
+                    [page]="'list'"
+                    [buttonColor]="buttonColor"
+                    [companyId]="companyId"
+                    [userId]="userId"
+                    [courseButtonColor]="course?.assigned_button_color"
+                >
+                </app-course-card>
+            </ng-container>
+        </div>
+    </div>
+    <div class="py-6" *ngIf="nonAccessCourses?.length > 0">
+        <div class="border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 mb-8">
+            <div class="font-semibold text-xl">{{'wall.more' | translate}} {{ pageName }}</div>
+        </div>
+        <div class="py-2 pb-8 flex flex-wrap">
+            <ng-container *ngFor="let course of nonAccessCourses">
+                <app-course-card
+                    class="pb-[24px]"
+                    [id]="course?.id"
+                    [path]="course?.path"
+                    [title]="course?.title"
+                    [category]="course?.category"
+                    [price]="course?.price"
+                    [image]="course?.image"
+                    [progress]="course?.progress"
+                    [buttonText]="course?.button_text"
+                    [showDetails]="course?.show_details"
+                    [buyNow]="course?.buy_now_shown"
+                    [page]="'list'"
+                    [buttonColor]="buttonColor"
+                    [companyId]="companyId"
+                    [userId]="userId"
+                    [courseButtonColor]="course?.assigned_button_color"
+                    [section]="'more'"
+                    [ctaPath]="course?.cta_path"
+                >
+                </app-course-card>
+            </ng-container>
+        </div>
+    </div>
+</ng-container>

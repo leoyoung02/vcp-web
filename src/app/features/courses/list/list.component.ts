@@ -444,7 +444,7 @@ export class CoursesListComponent {
   }
 
   async mapTutorSubfeatures(subfeatures) {
-    this.showMemberCoursesOnly = this.companyId == 52 || this.companyId == 27 ? true : false;
+    this.showMemberCoursesOnly = this.companyId == 52 ? true : false;
   }
 
   filterCourses(courses_list) {
@@ -613,7 +613,7 @@ export class CoursesListComponent {
           "status": course.status,
           "group_id": course.group_id,
           "locked": course.locked,
-          "button_color": course.button_color,
+          "button_color": course.button_color || this.buttonColor,
           "cta_status": course.cta_status,
           "cta_text": course.cta_text,
           "cta_link": course.cta_link,
@@ -647,7 +647,6 @@ export class CoursesListComponent {
     this.filteredcourses = this.filteredcourses.sort((a, b) => {
       return b.id - a.id
     })
-    
     if(this.hasCategoryAccess) {
       this.showCoursesWithAccess();
     } else {
@@ -837,11 +836,62 @@ export class CoursesListComponent {
         button_text,
         show_details,
         buy_now_shown,
-        assigned_button_color: show_details ? course?.button_color : (buy_now_shown ? course?.buy_now_button_color : ''),
+        assigned_button_color: (buy_now_shown ? course?.buy_now_button_color : course?.button_color) || this.buttonColor,
         image: `${COURSE_IMAGE_URL}/${course.image}`,
         category: category_texts?.map((data) => { return data.label }).join(', '),
+        cta_path: course.cta_status == 1 && course.cta_link ? course.cta_link : '',
       };
     });
+
+    if(this.newSection) {
+      this.accessCourses = this.courses?.filter(c => {
+        return (!c?.locked || c?.locked != 1) && this.hasCourseStarted(c) && (!c?.show_buy_now || c.exception_access == 1)
+      })
+  
+      if(this.accessCourses?.length > 0) {
+        this.accessCourses.sort((a, b) => {
+          a = new Date(a.created_at);
+          b = new Date(b.created_at);
+    
+          return a - b;
+        })
+    
+        this.accessCourses.sort((a, b) => {
+          a = new Date(a.date);
+          b = new Date(b.date);
+    
+          return a - b;
+        })
+      }
+      
+      this.nonAccessCourses = this.courses?.filter(c => {
+        return !this.accessCourses.some(a => a.id == c.id)
+      })
+  
+      if(this.nonAccessCourses?.length > 0) {
+        this.nonAccessCourses.sort((a, b) => {
+          a = new Date(a.created_at);
+          b = new Date(b.created_at);
+    
+          return a - b;
+        })
+        this.nonAccessCourses.sort((a, b) => {
+          a = new Date(a.date);
+          b = new Date(b.date);
+    
+          return a - b;
+        })
+      }
+
+      console.log('formatCourses 6.1 accessCourses')
+      console.log(this.accessCourses)
+
+      console.log('formatCourses 6.2 nonAccessCourses')
+      console.log(this.nonAccessCourses)
+    }
+
+    console.log('formatCourses 7. courses')
+    console.log(this.courses)
   }
 
   getCategoriesDisplay(course) {

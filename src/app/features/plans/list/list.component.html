@@ -86,7 +86,7 @@
         >
         </app-plans-calendar>
     </div>
-    <ng-container *ngFor="let plan of filteredPlan | paginate: {itemsPerPage: 12, currentPage: p}">
+    <ng-container *ngFor="let plan of filteredPlan | paginate: {itemsPerPage: (userId && showEventsCalendar && !parentComponent ? 15 : 16), currentPage: p}">
         <app-plan-card
             [image]="apiPath + plan.path + plan.image"
             [title]="getEventTitle(plan)"

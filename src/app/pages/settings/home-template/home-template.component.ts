@@ -500,6 +500,12 @@ export class HomeTemplateSettingComponent {
     this.modalbutton?.nativeElement.click()
   }
 
+  updateEventSettings(mode) {
+    this.settingsMode = mode
+    this.showEventSettingModal = true
+    this.modalbutton?.nativeElement.click()
+  }
+
   saveVideoSettings() {
     this.videoFormSubmitted = true
 

@@ -47,6 +47,8 @@ export class CourseCardComponent {
   @Input() companyId: any;
   @Input() userId: any;
   @Input() courseButtonColor: any;
+  @Input() section: any;
+  @Input() ctaPath: any;
 
   languageChangeSubscription;
   language: any;
@@ -82,6 +84,10 @@ export class CourseCardComponent {
       this._router.navigate([this.path]);
     } else if (this.buyNow) {
       this._router.navigate([`/course-subscription/payment/${this.id}/${this.userId}`]);
+    } else {
+      if(this.ctaPath) {
+        window.open(this.ctaPath, '_blank');
+      } 
     }
   }
 

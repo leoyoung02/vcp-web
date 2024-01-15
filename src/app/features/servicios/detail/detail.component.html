@@ -47,18 +47,16 @@
     </div>
 </div>
 <div class="pt-10 flex flex-col sm:flex-col md:flex-row lg:flex-row pb-20">
-    <div class="w-full max-w-full sm:w-full sm:max-w-full md:min-w-[461px] md:w-[461px] md:max-w-[461px] lg:w-[461px] lg:min-w-[461px] lg:max-w-[461px]">
-        <div class="h-full max-h-full">
-            <img 
-                *ngIf="service?.image" 
-                width="520" 
-                height="698" 
-                [ngSrc]="service?.image" 
-                [alt]="service?.name" 
-                class="object-cover rounded-lg w-full max-w-full h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[698px] md:max-h-[698px] lg:h-[698px] lg:max-h-[698px]">
-        </div>
+    <div class="relative mr-0 sm:mr-0 md:mr-[58px] lg:mr-[58px]">
+        <img 
+            *ngIf="service?.image" 
+            width="540" 
+            height="510" 
+            [ngSrc]="service?.image" 
+            [alt]="service?.name" 
+            class="rounded-[30px] object-cover object-top w-full max-w-full sm:w-full sm:max-w-full md:w-[540px] md:max-w-[540px] lg:w-[540px] lg:max-w-[540px] sm:h-auto md:h-[510px] lg:h-[510px] max-h-auto md:max-h-[510px] lg:max-h-[510px]">
     </div>
-    <div class="w-full ml-0 sm:ml-0 md:ml-[58px] lg:ml-[58px] mr-0 sm:mr-0 md:mr-64 lg:mr-64">
+    <div class="w-full mr-0 sm:mr-0 md:mr-32 lg:mr-32">
         <div class="text-xl font-bold">{{service?.name}}</div>
         <div class="mt-4 w-full max-w-full">
             <div class="flex flex-col">

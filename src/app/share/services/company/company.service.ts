@@ -181,6 +181,22 @@ import {
   SIGNUP_DATA_URL,
   ADD_STARTUP_URL,
   GET_STARTUPS_URL,
+  KEAP_HOOKS_URL,
+  KEAP_TAGS_URL,
+  KEAP_HOOK_EVENT_TYPES_URL,
+  KEAP_SETTINGS_URL,
+  EDIT_KEAP_SETTINGS_URL,
+  HOTMART_SETTINGS_URL,
+  KEAP_HOOK_LOGS_URL,
+  KEAP_INTEGRATIONS_URL,
+  EDIT_INTEGRATION_STATUS_URL,
+  ADD_KEAP_HOOK_URL,
+  EDIT_KEAP_HOOK_URL,
+  DELETE_KEAP_HOOK_URL,
+  EDIT_KEAP_HOOK_STATUS_URL,
+  ADD_KEAP_INTEGRATION_URL,
+  EDIT_KEAP_INTEGRATION_URL,
+  DELETE_KEAP_INTEGRATION_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1573,6 +1589,105 @@ export class CompanyService {
     return this._http.get(
       `${GET_STARTUPS_URL}/${id}`,
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getKeapHooks(id: any): Observable<any> {
+    return this._http.get(`${KEAP_HOOKS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editHookStatus(id: any, params): Observable<any> {
+    return this._http.put(
+        `${EDIT_KEAP_HOOK_STATUS_URL}/${id}`,
+        params
+    ).pipe(map(res => res));
+  }
+
+  addHook(params): Observable<any> {
+    return this._http.post(ADD_KEAP_HOOK_URL,
+        params
+    ).pipe(map(res => res));
+  }
+
+  editHook(params): Observable<any> {
+    return this._http.put(EDIT_KEAP_HOOK_URL,
+        params
+    ).pipe(map(res => res));
+  }
+
+  deleteHook(id: any): Observable<any> {
+    return this._http.delete(`${DELETE_KEAP_HOOK_URL}/${id}`,
+        {}
+    ).pipe(map(res => res));
+  }
+
+  getKeapTags(id): Observable<any> {
+    return this._http.get(`${KEAP_TAGS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getKeapHookEventTypes(): Observable<any> {
+    return this._http.get(KEAP_HOOK_EVENT_TYPES_URL,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getKeapSettings(id: any): Observable<any> {
+    return this._http.get(`${KEAP_SETTINGS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editKeapSettings(payload): Observable<any> {
+    return this._http.post(EDIT_KEAP_SETTINGS_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getHotmartSettings(id): Observable<any> {
+    return this._http.get(`${HOTMART_SETTINGS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getKeapHookLogs(id: any): Observable<any> {
+    return this._http.get(`${KEAP_HOOK_LOGS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getKeapIntegrations(id: any): Observable<any> {
+    return this._http.get(`${KEAP_INTEGRATIONS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addIntegration(params): Observable<any> {
+    return this._http.post(ADD_KEAP_INTEGRATION_URL,
+        params
+    ).pipe(map(res => res));
+  }
+
+  editIntegration(params): Observable<any> {
+    return this._http.put(EDIT_KEAP_INTEGRATION_URL,
+        params
+    ).pipe(map(res => res));
+  }
+
+  deleteIntegration(id: any): Observable<any> {
+    return this._http.delete(
+        `${DELETE_KEAP_INTEGRATION_URL}/${id}`,
+        {}
+    ).pipe(map(res => res));
+  }
+
+  editIntegrationStatus(id: any, params): Observable<any> {
+    return this._http.put(`${EDIT_INTEGRATION_STATUS_URL}/${id}`,
+        params
     ).pipe(map(res => res));
   }
 }
