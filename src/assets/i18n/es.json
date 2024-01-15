@@ -1022,7 +1022,8 @@
         "blockedmoduletext": "Texto del módulo bloqueado",
         "text": "Texto",
         "coursecontent":"Contenido del curso",
-        "viewclass": "Ver clase"
+        "viewclass": "Ver clase",
+        "stripeinactivetransfer":"Capacidades de transferencia inactiva"
     },
     "course-lesson": {
         "section": "Sección"
