@@ -3041,7 +3041,8 @@
         "changehomevideodesc": "Pour définir la vidéo pour un membre spécifique, modifiez le membre dans la liste déroulante ici, puis saisissez les textes.",
         "confirmresend": "Confirmer le renvoi",
         "confirmresendemail": "Voulez-vous vraiment renvoyer l'e-mail d'accès au cours ?",
-        "userexists":"Cet utilisateur existe déjà"
+        "userexists":"Cet utilisateur existe déjà",
+        "questionnairemandatoryfields":"Vous devez remplir l’intégralité du questionnaire pour continuer."
     },
     "buddy": {
         "mentorprofile": "Profil du mentor",

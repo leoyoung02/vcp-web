@@ -3046,7 +3046,8 @@
         "changehomevideodesc": "Kide zehatz baten bideoa ezartzeko, aldatu hemen goitibeherako kidea eta idatzi testuak.",
         "confirmresend": "Berretsi berriro bidali",
         "confirmresendemail": "Benetan nahi al duzu ikastaroaren sarbide-mezua berriro bidali?",
-        "userexists":"Erabiltzaile hau jada existitzen da"
+        "userexists":"Erabiltzaile hau jada existitzen da",
+        "questionnairemandatoryfields":"Jarraitzeko, galdetegi osoa bete behar duzu."
     },
     "buddy": {
         "mentorprofile": "Tutorearen profila",

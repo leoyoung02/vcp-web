@@ -100,8 +100,6 @@
                             'color': questionnaire?.button_text_color || '#ffffff'
                         }"
                         (click)="submit()"
-                        [ngClass]="{'disabled:opacity-75': !isValidForm(questionItems)}"
-                        [disabled]="!isValidForm(questionItems)"
                     >
                     {{ questionnaire?.button_text || ("inquiry.submit" | translate) }}
                     </button>
