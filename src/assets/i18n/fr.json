@@ -1016,7 +1016,8 @@
         "blockedmoduletext": "Texte du module bloqué",
         "text": "Texte",
         "coursecontent": "Contenu du cours",
-        "viewclass": "Afficher la classe"
+        "viewclass": "Afficher la classe",
+        "stripeinactivetransfer":"Capacités de transfert inactives"
     },
     "course-lesson": {
         "section": "Section"

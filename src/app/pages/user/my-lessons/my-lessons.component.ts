@@ -238,7 +238,7 @@ export class MyLessonsComponent {
                 if(this.superTutor) {
                     this.superTutorStudents = super_tutor[0].super_tutor_students
                 }
-                this.tutorAccountId =  data[6] ? data[6]['account_ids'] : []              
+                this.tutorAccountId =  data[6] ? data[6]['account_ids'] : []  
             }
 
             let cityAdmins = data[5] ? data[5]['city_admins'] : []

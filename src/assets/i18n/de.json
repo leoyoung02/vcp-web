@@ -1017,7 +1017,8 @@
         "blockedmoduletext": "Blockierter Modultext",
         "text": "Texto",
         "coursecontent": "Kursinhalt",
-        "viewclass": "Klasse anzeigen"
+        "viewclass": "Klasse anzeigen",
+        "stripeinactivetransfer":"Inaktive Überweisen Fähigkeiten"
     },
     "course-lesson": {
         "section": "Abschnitt"

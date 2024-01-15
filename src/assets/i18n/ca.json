@@ -1020,7 +1020,8 @@
         "blockedmoduletext": "Text del mòdul bloquejat",
         "text": "Text",
         "coursecontent":"Contingut del curs",
-        "viewclass": "Mostra la classe"
+        "viewclass": "Mostra la classe",
+        "stripeinactivetransfer":"Capacitats de transferència inactives"
     },
     "course-lesson": {
         "section": "Secció"
