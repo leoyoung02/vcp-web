@@ -3055,7 +3055,8 @@
         "changehomevideodesc": "Per configurar el vídeo per a un membre específic, canvieu el membre al menú desplegable aquí i després introduïu els textos.",
         "confirmresend": "Confirmar el reenviament",
         "confirmresendemail": "De veritat voleu tornar a enviar el correu electrònic d'accés al curs?",
-        "userexists":"Aquest usuari ja existeix"
+        "userexists":"Aquest usuari ja existeix",
+        "questionnairemandatoryfields":"Cal omplir tot el qüestionari per continuar.."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",
