@@ -144,22 +144,22 @@
                                 <ng-container *ngIf="!hasDifferentStripeAccounts">
                                     <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                         <button (click)="confirmMarkComplete(row)" 
-                                            class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white text-sm"
-                                            [ngStyle]="{'background-color': buttonColor}"
+                                        class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white text-sm"
+                                        [ngStyle]="{'background-color': buttonColor}"
                                         >
-                                            {{ 'course-details.completebutton' | translate }}
-                                        </button>
-                                    </ng-container>
-                                </ng-container>
-                                <ng-container *ngIf="row.show_cancel">
-                                    <button (click)="handleCancelBooking(row)" 
-                                        class="px-4 py-2 text-xs rounded-lg my-1 mr-2 bg-white"
-                                        style="border:solid 1px #c24130;color:#c24130;"
-                                        >
-                                        {{ 'settings.cancel' | translate }}
+                                        {{ 'course-details.completebutton' | translate }}
                                     </button>
                                 </ng-container>
-                                <ng-container *ngIf="hasDifferentStripeAccounts">
+                            </ng-container>
+                            <ng-container *ngIf="row.show_cancel">
+                                <button (click)="handleCancelBooking(row)" 
+                                class="px-4 py-2 text-xs rounded-lg my-1 mr-2 bg-white"
+                                style="border:solid 1px #c24130;color:#c24130;"
+                                >
+                                {{ 'settings.cancel' | translate }}
+                            </button>
+                        </ng-container>
+                        <ng-container *ngIf="hasDifferentStripeAccounts">
                                     <ng-container *ngIf="row?.stripe_connect || !isTutorUser" >
                                         <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                             <button (click)="confirmMarkComplete(row)" 
@@ -169,6 +169,11 @@
                                                 {{ 'course-details.completebutton' | translate }}
                                             </button>
                                         </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="!row?.stripe_connect && isTutorUser && tutorAccountId.length > 0">
+                                        <span class="text-xs text-center font-medium inline-block py-2 px-3 capitalize rounded-full text-red-600 bg-red-200">
+                                            {{ 'course-details.stripeinactivetransfer' | translate}}
+                                          </span>
                                     </ng-container>
                                 </ng-container>
                                 <ng-container *ngIf="!transferCommissionsByBulk">

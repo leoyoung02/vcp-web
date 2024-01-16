@@ -1017,7 +1017,8 @@
         "blockedmoduletext": "Blockierter Modultext",
         "text": "Texto",
         "coursecontent": "Kursinhalt",
-        "viewclass": "Klasse anzeigen"
+        "viewclass": "Klasse anzeigen",
+        "stripeinactivetransfer":"Inaktive Überweisen Fähigkeiten"
     },
     "course-lesson": {
         "section": "Abschnitt"
@@ -3044,7 +3045,8 @@
         "changehomevideodesc": "Um das Video für ein bestimmtes Mitglied festzulegen, ändern Sie hier im Dropdown das Mitglied und geben Sie dann die Texte ein.",
         "confirmresend": "Erneutes Senden bestätigen",
         "confirmresendemail": "Möchten Sie die Kurszugangs-E-Mail wirklich erneut senden?",
-        "userexists":"Dieser Benutzer existiert bereits"
+        "userexists":"Dieser Benutzer existiert bereits",
+        "questionnairemandatoryfields":"Sie müssen den gesamten Fragebogen ausfüllen, um fortzufahren."
     },
     "buddy": {
         "mentorprofile": "Mentorprofil",

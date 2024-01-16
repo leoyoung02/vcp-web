@@ -177,7 +177,7 @@
                             <div>Stripe Connect</div>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="(isTutorUser || superTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0) && tutorManageStudentAccess && !(userTypeName?.indexOf('Admin TUTORES') >= 0)">
+                    <ng-container *ngIf="(isTutorUser || superTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0) && (tutorManageStudentAccess || (company?.id == 27 && isAdmin)) && !(userTypeName?.indexOf('Admin TUTORES') >= 0)">
                         <div class="hover:cursor-pointer flex capitalize pb-4 items-center" routerLink="/settings/students-management">
                             <div>
                                 <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">

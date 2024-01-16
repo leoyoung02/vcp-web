@@ -169,68 +169,77 @@ export class TikTokLandingQuestionsComponent {
   }
 
   submit() {
-    let whatsAppCommunityURL:string = "";
-    let locAnsObj = this.questionItems?.find(qi => {
-      return qi.title == 'Selecciona tu ubicación'
-    });
-    let locAns = {
-      choice : ''
-    };
-    if(locAnsObj){
-      locAns.choice = locAnsObj?.question_multiple_choice_options.find((ans) => locAnsObj?.answer == ans.id)?.choice || '';
-    }
-    if(locAns && locAns?.choice == 'América Latina'){
-      whatsAppCommunityURL = this.latinWhatsappUrl;
-    }else{
-      whatsAppCommunityURL = this.getMappedCommunityFromAnswers();
-    }
-    let email = '';
-    if(this.questionItems?.length > 0) {
-      let email_row = this.questionItems?.filter(qi => {
-        return qi.title == 'Correo electrónico' || qi.title == 'Email' || qi.title == 'Email address'
-      })
-      if(email_row?.length > 0) {
-        email = email_row[0].answer;
-      }
-    }
-
-    if(whatsAppCommunityURL) {
-      let params = {
-        location: this.questionnaire?.Location_id?.toString(),
-        city: this.city,
-        country: this.country,
-        ip_address: this.ipAddress,
-        company_id: this.companyId,
-        whatsapp_community: whatsAppCommunityURL,
-        question_id: this.questionItems?.length > 0 ? this.questionItems[0].question_id : 0, 
-        created_by: this.userId || null,
-        question_items: this.questionItems,
-        email_recipient: email,
+    const isNotEmpty = this.isValidForm()
+    if(isNotEmpty){
+      let whatsAppCommunityURL:string = "";
+      let locAnsObj = this.questionItems?.find(qi => {
+        return qi.title == 'Selecciona tu ubicación'
+      });
+      let locAns = {
+        choice : ''
       };
-
-      this._companyService.submitAnswerToQuestions(params).subscribe(
-        (response) => {
-          this.open(
-            this._translateService.instant("dialog.sentsuccessfully"),
-            ""
-          );
-          this.formSubmitted = true;
-          setTimeout(() => {
-            // window.open(whatsAppCommunityURL, "_self");
-            location.href = whatsAppCommunityURL;
-          }, 1000);
-        },
-        (error) => {
-          console.log(error);
+      if(locAnsObj){
+        locAns.choice = locAnsObj?.question_multiple_choice_options.find((ans) => locAnsObj?.answer == ans.id)?.choice || '';
+      }
+      if(locAns && locAns?.choice == 'América Latina'){
+        whatsAppCommunityURL = this.latinWhatsappUrl;
+      }else{
+        whatsAppCommunityURL = this.getMappedCommunityFromAnswers();
+      }
+      let email = '';
+      if(this.questionItems?.length > 0) {
+        let email_row = this.questionItems?.filter(qi => {
+          return qi.title == 'Correo electrónico' || qi.title == 'Email' || qi.title == 'Email address'
+        })
+        if(email_row?.length > 0) {
+          email = email_row[0].answer;
         }
-      );
+      }
+  
+      if(whatsAppCommunityURL) {
+        let params = {
+          location: this.questionnaire?.Location_id?.toString(),
+          city: this.city,
+          country: this.country,
+          ip_address: this.ipAddress,
+          company_id: this.companyId,
+          whatsapp_community: whatsAppCommunityURL,
+          question_id: this.questionItems?.length > 0 ? this.questionItems[0].question_id : 0, 
+          created_by: this.userId || null,
+          question_items: this.questionItems,
+          email_recipient: email,
+        };
+  
+        this._companyService.submitAnswerToQuestions(params).subscribe(
+          (response) => {
+            this.open(
+              this._translateService.instant("dialog.sentsuccessfully"),
+              ""
+            );
+            this.formSubmitted = true;
+            setTimeout(() => {
+              // window.open(whatsAppCommunityURL, "_self");
+              location.href = whatsAppCommunityURL;
+            }, 1000);
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
     }
   }
 
-  isValidForm(question_items) {
-    let unanswered = question_items?.filter(qi => {
+  isValidForm() {
+    let unanswered = this.questionItems?.filter(qi => {
       return !qi.answer
     })
+    if(unanswered?.length){
+      this.open(
+        this._translateService.instant("dialog.questionnairemandatoryfields"),
+        ""
+      );
+    }
 
     return unanswered?.length == 0 ? true : false
   }
