@@ -710,7 +710,10 @@
         "yournotifications": "Les notificacions",
         "emptynotification": "No tens notificacions",
         "mentorprofile": "Perfil del mentor",
-        "communitysupport": "Comunitat i Suport"
+        "communitysupport": "Comunitat i Suport",
+        "termsandconditions": "Termes i condicions",
+        "privacypolicy": "Política de privadesa",
+        "cookiespolicy":"Política de cookies"
     },
     "public-profile": {
         "publicprofile": "Perfil Públic",

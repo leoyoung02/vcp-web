@@ -148,6 +148,9 @@ export class SidebarComponent {
   courseWallHover: any;
   hasGenericWallDropdown: boolean = false;
   genericWallDropdownMenu: any;
+  termsHover: boolean = false;
+  privacyPolicyHover: boolean = false;
+  cookiePolicyHover: boolean = false;
 
   constructor(
     private _router: Router, 
@@ -613,5 +616,59 @@ export class SidebarComponent {
   toggleCourseWallHover(event, menu) {
     this.hoveredCourseWallPath = menu.path;
     this.courseWallHover = event;
+  }
+
+  goToTerms() {
+    if(this.company?.terms_and_conditions_option == 'url') {
+      let link = this.language == 'en' ? this.company?.terms_and_conditions_url_en : (this.language == 'fr' ? (this.company?.terms_and_conditions_url_fr || this.company?.terms_and_conditions_url) : 
+          (this.language == 'eu' ? (this.company?.terms_and_conditions_url_eu || this.company?.terms_and_conditions_url) : (this.language == 'ca' ? (this.company?.terms_and_conditions_url_ca || this.company?.terms_and_conditions_url) : 
+          (this.language == 'de' ? (this.company?.terms_and_conditions_url_de || this.company?.terms_and_conditions_url) : this.company?.terms_and_conditions_url)
+        ))
+      )
+
+      window.open(link, '_blank');
+    } else {
+      this._router.navigate(['/general/terms-and-conditions']);
+    }
+  }
+
+  toggleTermsHover(event) {
+    this.termsHover = event;
+  }
+
+  goToPrivacyPolicy() {
+    if(this.company?.privacy_policy_option == 'url') {
+      let link = this.language == 'en' ? this.company?.privacy_policy_url_en : (this.language == 'fr' ? (this.company?.privacy_policy_url_fr || this.company?.privacy_policy_url) : 
+          (this.language == 'eu' ? (this.company?.privacy_policy_url_eu || this.company?.privacy_policy_url) : (this.language == 'ca' ? (this.company?.privacy_policy_url_ca || this.company?.privacy_policy_url) : 
+          (this.language == 'de' ? (this.company?.privacy_policy_url_de || this.company?.privacy_policy_url) : this.company?.privacy_policy_url)
+        ))
+      )
+
+      window.open(link, '_blank');
+    } else {
+      this._router.navigate(['/general/privacy-policy']);
+    }
+  }
+
+  togglePrivacyPolicyHover(event) {
+    this.privacyPolicyHover = event;
+  }
+
+  goToCookiePolicy() {
+    if(this.company?.cookie_policy_option == 'url') {
+      let link = this.language == 'en' ? this.company?.cookie_policy_url_en : (this.language == 'fr' ? (this.company?.cookie_policy_url_fr || this.company?.cookie_policy_url) : 
+          (this.language == 'eu' ? (this.company?.cookie_policy_url_eu || this.company?.cookie_policy_url) : (this.language == 'ca' ? (this.company?.cookie_policy_url_ca || this.company?.cookie_policy_url) : 
+          (this.language == 'de' ? (this.company?.cookie_policy_url_de || this.company?.cookie_policy_url) : this.company?.cookie_policy_url)
+        ))
+      )
+
+      window.open(link, '_blank');
+    } else {
+      this._router.navigate(['/general/cookie-policy']);
+    }
+  }
+
+  toggleCookiePolicyHover(event) {
+    this.cookiePolicyHover = event;
   }
 }

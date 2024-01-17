@@ -710,7 +710,10 @@
         "yournotifications": "Zure jakinarazpenak",
         "emptynotification": "Ez duzu jakinarazpenik",
         "mentorprofile": "Tutorearen profila",
-        "communitysupport": "Komunitatea eta laguntza"
+        "communitysupport": "Komunitatea eta laguntza",
+        "termsandconditions": "Baldintzak eta baldintzak",
+        "privacypolicy": "Pribatutasun politika",
+        "cookiespolicy":"Cookie-politika"
     },
     "public-profile": {
         "publicprofile": "Profil publikoa",
