@@ -3060,7 +3060,7 @@
         "confirmresend": "Confirmar reenvío",
         "confirmresendemail": "¿Realmente deseas reenviar el correo electrónico de acceso al curso?",
         "userexists":"Este usuario ya existe",
-        "questionnairemandatoryfields":"You need a su hijo entire questionnaire to proceed."
+        "questionnairemandatoryfields":"Debes completar todo el cuestionario para continuar"
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",
