@@ -338,13 +338,17 @@ export class SettingComponent {
     | ElementRef
     | undefined;
 
-  newURLButtonTextValue: any
-  newURLButtonTextValueEn: any
-  newURLButtonTextValueFr: any
-  newURLButtonTextValueEu: any
-  newURLButtonTextValueCa: any
-  newURLButtonTextValueDe: any
-  newURLButtonUrl: any
+  newURLButtonTextValue: any;
+  newURLButtonTextValueEn: any;
+  newURLButtonTextValueFr: any;
+  newURLButtonTextValueEu: any;
+  newURLButtonTextValueCa: any;
+  newURLButtonTextValueDe: any;
+  newURLButtonUrl: any;
+  selectedPrivacySettingOption: any = '';
+  termsAndConditionsOption: any;
+  cookiePolicyOption: any;
+  privacyPolicyOption: any;
 
   constructor(
     private _router: Router,
@@ -402,18 +406,21 @@ export class SettingComponent {
         this.termsAndConditionsURLEu = company[0].terms_and_conditions_url_eu
         this.termsAndConditionsURLCa = company[0].terms_and_conditions_url_ca
         this.termsAndConditionsURLDe = company[0].terms_and_conditions_url_de
+        this.termsAndConditionsOption = company[0].terms_and_conditions_option
         this.privacyPolicyURL = company[0].privacy_policy_url
         this.privacyPolicyURLEn = company[0].privacy_policy_url_en
         this.privacyPolicyURLFr = company[0].privacy_policy_url_fr
         this.privacyPolicyURLEu = company[0].privacy_policy_url_eu
         this.privacyPolicyURLCa = company[0].privacy_policy_url_ca
         this.privacyPolicyURLDe = company[0].privacy_policy_url_de
+        this.privacyPolicyOption = company[0].privacy_policy_option
         this.cookiePolicyURL = company[0].cookie_policy_url
         this.cookiePolicyURLEn = company[0].cookie_policy_url_en
         this.cookiePolicyURLFr = company[0].cookie_policy_url_fr
         this.cookiePolicyURLEu = company[0].cookie_policy_url_eu
         this.cookiePolicyURLCa = company[0].cookie_policy_url_ca
         this.cookiePolicyURLDe = company[0].cookie_policy_url_de
+        this.cookiePolicyOption = company[0].cookie_policy_option
         this.homeTextValue = company[0].home_text || 'Inicio'
         this.homeTextValueEn = company[0].home_text_en || 'Home'
         this.homeTextValueFr = company[0].home_text_fr || 'Maison'
@@ -1250,6 +1257,7 @@ export class SettingComponent {
 
   saveTermsAndConditions() {
     let params = {
+      terms_and_conditions_option: this.selectedPrivacySettingOption,
       terms_and_conditions: this.termsAndConditions,
       terms_and_conditions_en: this.termsAndConditionsEn || '',
       terms_and_conditions_fr: this.termsAndConditionsFr || '',
@@ -1259,6 +1267,8 @@ export class SettingComponent {
         async response => {
           this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
           await this.setCompanyInit();
+          this.closemodalbutton?.nativeElement.click();
+          location.reload();
         },
         error => {
           console.log(error)
@@ -1268,6 +1278,7 @@ export class SettingComponent {
 
   savePrivacyPolicy() {
     let params = {
+      policy_option: this.selectedPrivacySettingOption,
       policy: this.privacyPolicy,
       policy_en: this.privacyPolicyEn || '',
       policy_fr: this.privacyPolicyFr || '',
@@ -1277,6 +1288,8 @@ export class SettingComponent {
         async response => {
           this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
           await this.setCompanyInit();
+          this.closemodalbutton?.nativeElement.click();
+          location.reload();
         },
         error => {
           console.log(error)
@@ -1286,6 +1299,7 @@ export class SettingComponent {
 
   saveCookiePolicy() {
     let params = {
+      cookie_policy_option: this.selectedPrivacySettingOption,
       cookie_policy: this.cookiePolicy,
       cookie_policy_en: this.cookiePolicyEn || '',
       cookie_policy_fr: this.cookiePolicyFr || '',
@@ -1298,6 +1312,8 @@ export class SettingComponent {
         async response => {
           this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
           await this.setCompanyInit();
+          this.closemodalbutton?.nativeElement.click();
+          location.reload();
         },
         error => {
           console.log(error)
@@ -1312,31 +1328,37 @@ export class SettingComponent {
   }
 
   showURLModal(type) {
-    this.policyURLMode = type
+    this.policyURLMode = type;
+    this.dialogTitle =  this._translateService.instant('company-settings.updatevalue');
     if(this.policyURLMode == 'terms-and-conditions') {
-      this.urlValue = this.termsAndConditionsURL
-      this.urlValueEn = this.termsAndConditionsURLEn || ''
-      this.urlValueFr = this.termsAndConditionsURLFr || ''
-      this.urlValueEu = this.termsAndConditionsURLEu || ''
-      this.urlValueCa = this.termsAndConditionsURLCa || ''
-      this.urlValueDe = this.termsAndConditionsURLDe || ''
+      this.urlValue = this.termsAndConditionsURL;
+      this.urlValueEn = this.termsAndConditionsURLEn || '';
+      this.urlValueFr = this.termsAndConditionsURLFr || '';
+      this.urlValueEu = this.termsAndConditionsURLEu || '';
+      this.urlValueCa = this.termsAndConditionsURLCa || '';
+      this.urlValueDe = this.termsAndConditionsURLDe || '';
+      this.selectedPrivacySettingOption = this.termsAndConditionsOption || (this.termsAndConditionsURL ? 'url' : 'custom');
+      this.dialogTitle = this._translateService.instant('sidebar.termsandconditions');
     } else if(this.policyURLMode == 'privacy-policy') {
-      this.urlValue = this.privacyPolicyURL
-      this.urlValueEn = this.privacyPolicyURLEn || ''
-      this.urlValueFr = this.privacyPolicyURLFr || ''
-      this.urlValueEu = this.privacyPolicyURLEu || ''
-      this.urlValueCa = this.privacyPolicyURLCa || ''
-      this.urlValueDe = this.privacyPolicyURLDe || ''
+      this.urlValue = this.privacyPolicyURL;
+      this.urlValueEn = this.privacyPolicyURLEn || '';
+      this.urlValueFr = this.privacyPolicyURLFr || '';
+      this.urlValueEu = this.privacyPolicyURLEu || '';
+      this.urlValueCa = this.privacyPolicyURLCa || '';
+      this.urlValueDe = this.privacyPolicyURLDe || '';
+      this.selectedPrivacySettingOption = this.privacyPolicyOption || (this.privacyPolicyURL ? 'url' : 'custom');
+      this.dialogTitle = this._translateService.instant('sidebar.privacypolicy');
     } else if(this.policyURLMode == 'cookie-policy') {
-      this.urlValue = this.cookiePolicyURL
-      this.urlValueEn = this.cookiePolicyURLEn || ''
-      this.urlValueFr = this.cookiePolicyURLFr || ''
-      this.urlValueEu = this.cookiePolicyURLEu || ''
-      this.urlValueCa = this.cookiePolicyURLCa || ''
-      this.urlValueDe = this.cookiePolicyURLDe || ''
+      this.urlValue = this.cookiePolicyURL;
+      this.urlValueEn = this.cookiePolicyURLEn || '';
+      this.urlValueFr = this.cookiePolicyURLFr || '';
+      this.urlValueEu = this.cookiePolicyURLEu || '';
+      this.urlValueCa = this.cookiePolicyURLCa || '';
+      this.urlValueDe = this.cookiePolicyURLDe || '';
+      this.selectedPrivacySettingOption = this.cookiePolicyOption || (this.cookiePolicyURL ? 'url' : 'custom');
+      this.dialogTitle = this._translateService.instant('sidebar.cookiespolicy');
     }
     this.dialogMode = 'policy-url';
-    this.dialogTitle =  this._translateService.instant('company-settings.updatevalue');
     this.modalbutton?.nativeElement.click();
   }
 
@@ -1372,6 +1394,7 @@ export class SettingComponent {
 
   editTermsAndConditionsURL() {
     let params = {
+      terms_and_conditions_option: this.selectedPrivacySettingOption,
       terms_and_conditions_url: this.termsAndConditionsURL,
       terms_and_conditions_url_en: this.termsAndConditionsURLEn,
       terms_and_conditions_url_fr: this.termsAndConditionsURLFr,
@@ -1384,8 +1407,8 @@ export class SettingComponent {
         async response => {
           this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
           await this.setCompanyInit();
-          this.showPolicyURLModal = false
-          location.reload()
+          this.closemodalbutton?.nativeElement.click();
+          location.reload();
         },
         error => {
           console.log(error)
@@ -1395,6 +1418,7 @@ export class SettingComponent {
 
   editPrivacyPolicyURL() {
     let params = {
+      privacy_policy_option: this.selectedPrivacySettingOption,
       privacy_policy_url: this.privacyPolicyURL,
       privacy_policy_url_en: this.privacyPolicyURLEn,
       privacy_policy_url_fr: this.privacyPolicyURLFr,
@@ -1407,7 +1431,8 @@ export class SettingComponent {
         async response => {
           this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
           await this.setCompanyInit();
-          location.reload()
+          this.closemodalbutton?.nativeElement.click();
+          location.reload();
         },
         error => {
           console.log(error)
@@ -1417,6 +1442,7 @@ export class SettingComponent {
 
   editCookiePolicyURL() {
     let params = {
+      cookie_policy_option: this.selectedPrivacySettingOption,
       cookie_policy_url: this.cookiePolicyURL,
       cookie_policy_url_en: this.cookiePolicyURLEn,
       cookie_policy_url_fr: this.cookiePolicyURLFr,
@@ -1426,7 +1452,8 @@ export class SettingComponent {
         async response => {
           this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
           await this.setCompanyInit();
-          location.reload()
+          this.closemodalbutton?.nativeElement.click();
+          location.reload();
         },
         error => {
           console.log(error)

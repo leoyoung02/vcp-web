@@ -711,7 +711,10 @@
         "yournotifications": "Tus notificaciones",
         "emptynotification": "No tienes notificaciones",
         "mentorprofile": "Perfil del mentor",
-        "communitysupport": "Comunidad & Soporte"
+        "communitysupport": "Comunidad & Soporte",
+        "termsandconditions": "Términos y condiciones",
+        "privacypolicy": "Política de privacidad",
+        "cookiespolicy":"Política de cookies"
     },
     "public-profile": {
         "publicprofile": "Perfil Público",

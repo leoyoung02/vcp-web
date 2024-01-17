@@ -39,18 +39,10 @@
                         <button
                             *ngIf="canShowTermsAndConditions"
                             class="mr-4 w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            (click)="showTermsAndConditions()"
-                            [ngStyle]="{'background-color': buttonColor }"
-                        >
-                            {{ 'company-settings.edit' | translate }}
-                        </button>
-                        <button
-                            *ngIf="!canShowTermsAndConditions"
-                            class="mr-4 w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             (click)="showURLModal('terms-and-conditions')"
                             [ngStyle]="{'background-color': buttonColor }"
                         >
-                            {{ 'company-settings.set' | translate }} URL
+                            {{ 'company-settings.managelanding' | translate }}
                         </button>
                     </div>
                     <div class="flex items-center justify-between relative ml-4">
@@ -74,54 +66,6 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="isTermsAndConditions && canShowTermsAndConditions">
-                <div>
-                    <editor
-                        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                        [init]="{
-                            height: 400,
-                            menubar: false,
-                            plugins: [
-                            'advlist autolink lists link image imagetools charmap print',
-                            'preview anchor searchreplace visualblocks code',
-                            'fullscreen insertdatetime media table paste',
-                            'help wordcount'
-                            ],
-                            toolbar:
-                            'undo redo | formatselect | bold italic | \
-                            alignleft aligncenter alignright alignjustify | \
-                            paste pastetext | \
-                            image imagetools | \
-                            bullist numlist outdent indent | help',
-                            valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr'
-                        }"
-                        [(ngModel)]="termsAndConditions"
-                        [ngModelOptions]="{standalone: true}"
-                    ></editor>
-                </div>
-                <div class="flex justify-end mb-10">
-                    <button 
-                        class="mr-4 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        (click)="saveTermsAndConditions()"
-                        style="font-size:16px;margin-top:15px;"
-                        [ngStyle]="{
-                            'background-color': buttonColor
-                        }"
-                    > 
-                        {{ 'company-settings.save' | translate }}
-                    </button>
-                    <button
-                        class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        (click)="closeTermsAndConditions()"
-                        style="font-size:16px;margin-top:15px;margin-left:5px;"
-                        [ngStyle]="{
-                            'background-color': buttonColor
-                        }"
-                    >
-                        {{ 'company-settings.close' | translate }}
-                    </button>
-                </div>
-            </div>
             <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4">
                 <div>
                     <div>{{ 'footer.privacy_policy' | translate }}</div>
@@ -132,18 +76,10 @@
                         <button
                             *ngIf="canShowPrivacyPolicy"
                             class="mr-4 w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            (click)="showPrivacyPolicy()"
-                            [ngStyle]="{'background-color': buttonColor }"
-                        >
-                            {{ 'company-settings.edit' | translate }}
-                        </button>
-                        <button
-                            *ngIf="!canShowPrivacyPolicy"
-                            class="mr-4 w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             (click)="showURLModal('privacy-policy')"
                             [ngStyle]="{'background-color': buttonColor }"
                         >
-                            {{ 'company-settings.set' | translate }} URL
+                            {{ 'company-settings.managelanding' | translate }}
                         </button>
                     </div>
                     <div class="flex items-center justify-between relative ml-4">
@@ -167,54 +103,6 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="isPrivacyPolicy">
-                <div>
-                    <editor
-                        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                        [init]="{
-                            height: 400,
-                            menubar: false,
-                            plugins: [
-                            'advlist autolink lists link image imagetools charmap print',
-                            'preview anchor searchreplace visualblocks code',
-                            'fullscreen insertdatetime media table paste',
-                            'help wordcount'
-                            ],
-                            toolbar:
-                            'undo redo | formatselect | bold italic | \
-                            alignleft aligncenter alignright alignjustify | \
-                            paste pastetext | \
-                            image imagetools | \
-                            bullist numlist outdent indent | help',
-                            valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr'
-                        }"
-                        [(ngModel)]="privacyPolicy"
-                        [ngModelOptions]="{standalone: true}"
-                    ></editor>
-                </div>
-                <div class="flex justify-end mb-10">
-                    <button 
-                        class="mr-4 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        (click)="savePrivacyPolicy()"
-                        style="font-size:16px;margin-top:15px;"
-                        [ngStyle]="{
-                            'background-color': buttonColor
-                        }"
-                    > 
-                        {{ 'company-settings.save' | translate }}
-                    </button>
-                    <button
-                        class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        (click)="closePrivacyPolicy()"
-                        style="font-size:16px;margin-top:15px;margin-left:5px;"
-                        [ngStyle]="{
-                            'background-color': buttonColor
-                        }"
-                    >
-                        {{ 'company-settings.close' | translate }}
-                    </button>
-                </div>
-            </div>
             <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4">
                 <div>
                     <div>{{ 'footer.cookies_policy' | translate }}</div>
@@ -225,18 +113,10 @@
                         <button
                             *ngIf="canShowCookiePolicy"
                             class="mr-4 w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                            (click)="showCookiePolicy()"
-                            [ngStyle]="{'background-color': buttonColor }"
-                        >
-                            {{ 'company-settings.edit' | translate }}
-                        </button>
-                        <button
-                            *ngIf="!canShowCookiePolicy"
-                            class="mr-4 w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             (click)="showURLModal('cookie-policy')"
                             [ngStyle]="{'background-color': buttonColor }"
                         >
-                            {{ 'company-settings.set' | translate }} URL
+                            {{ 'company-settings.managelanding' | translate }}
                         </button>
                     </div>
                     <div class="flex items-center justify-between relative ml-4">
@@ -258,54 +138,6 @@
                             </div>
                         </label>
                     </div>
-                </div>
-            </div>
-            <div *ngIf="isCookiePolicy">
-                <div>
-                    <editor
-                        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                        [init]="{
-                            height: 400,
-                            menubar: false,
-                            plugins: [
-                            'advlist autolink lists link image imagetools charmap print',
-                            'preview anchor searchreplace visualblocks code',
-                            'fullscreen insertdatetime media table paste',
-                            'help wordcount'
-                            ],
-                            toolbar:
-                            'undo redo | formatselect | bold italic | \
-                            alignleft aligncenter alignright alignjustify | \
-                            paste pastetext | \
-                            image imagetools | \
-                            bullist numlist outdent indent | help',
-                            valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr'
-                        }"
-                        [(ngModel)]="cookiePolicy"
-                        [ngModelOptions]="{standalone: true}"
-                    ></editor>
-                </div>
-                <div class="flex justify-end mb-10">
-                    <button 
-                        class="mr-4 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        (click)="saveCookiePolicy()"
-                        style="font-size:16px;margin-top:15px;"
-                        [ngStyle]="{
-                            'background-color': buttonColor
-                        }"
-                    > 
-                        {{ 'company-settings.save' | translate }}
-                    </button>
-                    <button
-                        class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                        (click)="closeCookiePolicy()"
-                        style="font-size:16px;margin-top:15px;margin-left:5px;"
-                        [ngStyle]="{
-                            'background-color': buttonColor
-                        }"
-                    >
-                        {{ 'company-settings.close' | translate }}
-                    </button>
                 </div>
             </div>
         </ng-container>
@@ -382,7 +214,7 @@
             <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4">
                 <div>
                     <div>{{ 'settings.company_banner' | translate }}</div>
-                    <div class="opacity-30 text-sm">{{ 'company-settings.recommendedsize' | translate }}: 200 x 60 px</div>
+                    <div class="opacity-30 text-sm">{{ 'company-settings.recommendedsize' | translate }}: 1440 x 960 px</div>
                 </div>
                 <div class="flex items-center">
                     <div class="flex mr-4">
@@ -1307,8 +1139,8 @@
 </button>
 <div id="item-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-h-full"
-        [ngClass]="{'max-w-2xl': dialogMode == 'add' || dialogMode == 'edit',
-            'max-w-md': dialogMode != 'add' && dialogMode != 'edit'
+        [ngClass]="{'max-w-2xl': dialogMode == 'add' || dialogMode == 'edit' || dialogMode == 'policy-url',
+            'max-w-md': dialogMode != 'add' && dialogMode != 'edit' && dialogMode != 'policy-url'
         }"
     >
         <div class="relative bg-white rounded-lg shadow">
@@ -1444,60 +1276,194 @@
                 </ng-container>
                 <ng-container *ngIf="dialogMode == 'policy-url'">
                     <form class="space-y-6">
-                        <div class="flex items-center justify-center mb-4">
-                            <input 
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !urlValue }"
-                                type="text" 
-                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                placeholder="{{ 'company-settings.value' | translate }}*"
-                                [(ngModel)]="urlValue"
-                                [ngModelOptions]="{standalone: true}">
+                        <div class="flex items-center">
+                            <select 
+                                id="privacy-settings-option" 
+                                [(ngModel)]="selectedPrivacySettingOption"
+                                [ngModelOptions]="{standalone: true}"
+                                class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                [ngStyle]="{'border-color': buttonColor}"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedPrivacySettingOption }"
+                            >
+                                <option value="" disabled selected>{{ 'videos-ctas.selectoption' | translate }}*</option>
+                                <option value="url">{{ 'company-settings.url' | translate }}</option>
+                                <option value="custom">{{ 'edit-plan.custom' | translate }}</option>
+                            </select>
                         </div>
-                        <div *ngIf="isEnglishEnabled" class="flex items-center justify-center mb-4">
-                            <input 
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !urlValueEn }"
-                                type="text" 
-                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                placeholder="{{ 'company-settings.value' | translate }} (EN)*"
-                                [(ngModel)]="urlValueEn"
-                                [ngModelOptions]="{standalone: true}">
-                        </div>
-                        <div *ngIf="isFrenchEnabled" class="flex items-center justify-center mb-4">
-                            <input 
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !urlValueFr }"
-                                type="text" 
-                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                placeholder="{{ 'company-settings.value' | translate }} (FR)*"
-                                [(ngModel)]="urlValueFr"
-                                [ngModelOptions]="{standalone: true}">
-                        </div>
-                        <div *ngIf="isBasqueEnabled" class="flex items-center justify-center mb-4">
-                            <input 
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !urlValueEu }"
-                                type="text" 
-                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                placeholder="{{ 'company-settings.value' | translate }} (EU)*"
-                                [(ngModel)]="urlValueEu"
-                                [ngModelOptions]="{standalone: true}">
-                        </div>
-                        <div *ngIf="isCatalanEnabled" class="flex items-center justify-center mb-4">
-                            <input 
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !urlValueCa }"
-                                type="text" 
-                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                placeholder="{{ 'company-settings.value' | translate }} (CA)*"
-                                [(ngModel)]="urlValueCa"
-                                [ngModelOptions]="{standalone: true}">
-                        </div>
-                        <div *ngIf="isGermanEnabled" class="flex items-center justify-center mb-4">
-                            <input 
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !urlValueDe }"
-                                type="text" 
-                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                placeholder="{{ 'company-settings.value' | translate }} (DE)*"
-                                [(ngModel)]="urlValueDe"
-                                [ngModelOptions]="{standalone: true}">
-                        </div>
+                        <ng-container *ngIf="selectedPrivacySettingOption == 'url'">
+                            <div class="flex items-center justify-center mb-4">
+                                <input 
+                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !urlValue }"
+                                    type="text" 
+                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                    placeholder="{{ 'company-settings.value' | translate }}*"
+                                    [(ngModel)]="urlValue"
+                                    [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div *ngIf="isEnglishEnabled" class="flex items-center justify-center mb-4">
+                                <input 
+                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !urlValueEn }"
+                                    type="text" 
+                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                    placeholder="{{ 'company-settings.value' | translate }} (EN)*"
+                                    [(ngModel)]="urlValueEn"
+                                    [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div *ngIf="isFrenchEnabled" class="flex items-center justify-center mb-4">
+                                <input 
+                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !urlValueFr }"
+                                    type="text" 
+                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                    placeholder="{{ 'company-settings.value' | translate }} (FR)*"
+                                    [(ngModel)]="urlValueFr"
+                                    [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div *ngIf="isBasqueEnabled" class="flex items-center justify-center mb-4">
+                                <input 
+                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !urlValueEu }"
+                                    type="text" 
+                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                    placeholder="{{ 'company-settings.value' | translate }} (EU)*"
+                                    [(ngModel)]="urlValueEu"
+                                    [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div *ngIf="isCatalanEnabled" class="flex items-center justify-center mb-4">
+                                <input 
+                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !urlValueCa }"
+                                    type="text" 
+                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                    placeholder="{{ 'company-settings.value' | translate }} (CA)*"
+                                    [(ngModel)]="urlValueCa"
+                                    [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div *ngIf="isGermanEnabled" class="flex items-center justify-center mb-4">
+                                <input 
+                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !urlValueDe }"
+                                    type="text" 
+                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                    placeholder="{{ 'company-settings.value' | translate }} (DE)*"
+                                    [(ngModel)]="urlValueDe"
+                                    [ngModelOptions]="{standalone: true}">
+                            </div>
+                            <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                                <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    (click)="saveDialog()"
+                                    data-modal-hide="item-modal"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                >
+                                    {{ 'company-settings.save' | translate }}
+                                </button>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="selectedPrivacySettingOption == 'custom'">
+                            <div *ngIf="policyURLMode == 'terms-and-conditions'">
+                                <div>
+                                    <editor
+                                        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                                        [init]="{
+                                            height: 400,
+                                            menubar: false,
+                                            plugins: [
+                                            'link'
+                                            ],
+                                            toolbar:
+                                            'undo redo | formatselect | bold italic | \
+                                            alignleft aligncenter alignright alignjustify | \
+                                            link | \
+                                            forecolor backcolor \ \
+                                            paste pastetext | \
+                                            bullist numlist outdent indent | help'
+                                        }"
+                                        [(ngModel)]="termsAndConditions"
+                                        [ngModelOptions]="{standalone: true}"
+                                    ></editor>
+                                </div>
+                                <div class="flex justify-center mb-10">
+                                    <button 
+                                        class="mr-4 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        (click)="saveTermsAndConditions()"
+                                        style="font-size:16px;margin-top:15px;"
+                                        [ngStyle]="{
+                                            'background-color': buttonColor
+                                        }"
+                                    > 
+                                        {{ 'company-settings.save' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="policyURLMode == 'privacy-policy'">
+                                <div>
+                                    <editor
+                                        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                                        [init]="{
+                                            height: 400,
+                                            menubar: false,
+                                            plugins: [
+                                            'link'
+                                            ],
+                                            toolbar:
+                                            'undo redo | formatselect | bold italic | \
+                                            alignleft aligncenter alignright alignjustify | \
+                                            link | \
+                                            forecolor backcolor \ \
+                                            paste pastetext | \
+                                            bullist numlist outdent indent | help'
+                                        }"
+                                        [(ngModel)]="privacyPolicy"
+                                        [ngModelOptions]="{standalone: true}"
+                                    ></editor>
+                                </div>
+                                <div class="flex justify-center mb-10">
+                                    <button 
+                                        class="mr-4 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        (click)="savePrivacyPolicy()"
+                                        style="font-size:16px;margin-top:15px;"
+                                        [ngStyle]="{
+                                            'background-color': buttonColor
+                                        }"
+                                    > 
+                                        {{ 'company-settings.save' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                            <div *ngIf="policyURLMode == 'cookie-policy'">
+                                <div>
+                                    <editor
+                                        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                                        [init]="{
+                                            height: 400,
+                                            menubar: false,
+                                            plugins: [
+                                            'link'
+                                            ],
+                                            toolbar:
+                                            'undo redo | formatselect | bold italic | \
+                                            alignleft aligncenter alignright alignjustify | \
+                                            link | \
+                                            forecolor backcolor \ \
+                                            paste pastetext | \
+                                            bullist numlist outdent indent | help'
+                                        }"
+                                        [(ngModel)]="cookiePolicy"
+                                        [ngModelOptions]="{standalone: true}"
+                                    ></editor>
+                                </div>
+                                <div class="flex justify-center mb-10">
+                                    <button 
+                                        class="mr-4 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        (click)="saveCookiePolicy()"
+                                        style="font-size:16px;margin-top:15px;"
+                                        [ngStyle]="{
+                                            'background-color': buttonColor
+                                        }"
+                                    > 
+                                        {{ 'company-settings.save' | translate }}
+                                    </button>
+                                </div>
+                            </div>
+                        </ng-container>
                     </form>
                 </ng-container>
                 <ng-container *ngIf="dialogMode == 'new-menu'">
@@ -1668,7 +1634,7 @@
                         </div>
                     </form>
                 </ng-container>
-                <ng-container *ngIf="dialogMode == 'policy-url' || dialogMode == 'new-menu' || dialogMode == 'new-url' || dialogMode == 'update-value'">
+                <ng-container *ngIf="dialogMode == 'new-menu' || dialogMode == 'new-url' || dialogMode == 'update-value'">
                     <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                         <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             (click)="saveDialog()"

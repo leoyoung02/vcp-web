@@ -56,6 +56,61 @@
       </div>
     </div>
   </ng-container>
+  <ng-container *ngIf="company?.show_terms == 1">
+    <div class="px-4 py-2 hover:cursor-pointer" (click)="goToTerms()">
+      <div class="p-2 flex items-center hover:rounded-lg"
+        [ngStyle]="{'background-color': termsHover ? hoverColor : 'transparent'}"
+        [ngClass]="{'justify-center': !menuOpened}"
+        (mouseover)="toggleTermsHover(true)"
+        (mouseleave)="toggleTermsHover(false)"
+      >
+        <svg [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#000000' : '#ffffff'}" 
+          class="cursor-pointer w-[22px] max-w-[22px] h-[22px] max-h-[22px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.828 10h6.239m-6.239 4h6.239M6 1v4a1 1 0 0 1-1 1H1m14-4v16a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2Z"/>
+        </svg>
+        <span *ngIf="menuOpened" class="ml-[38px] text-sm" [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}">
+          {{ 'sidebar.termsandconditions' | translate }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="company?.show_privacy_policy == 1">
+    <div class="px-4 py-2 hover:cursor-pointer" (click)="goToPrivacyPolicy()">
+      <div class="p-2 flex items-center hover:rounded-lg"
+        [ngStyle]="{'background-color': privacyPolicyHover ? hoverColor : 'transparent'}"
+        [ngClass]="{'justify-center': !menuOpened}"
+        (mouseover)="togglePrivacyPolicyHover(true)"
+        (mouseleave)="togglePrivacyPolicyHover(false)"
+      >
+        <svg [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#000000' : '#ffffff'}"
+          class="cursor-pointer w-[22px] max-w-[22px] h-[22px] max-h-[22px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 21">
+          <path d="M6.167 9.833a3 3 0 0 1 1.946-2.809L13 5.191a3 3 0 0 1 2.107 0l.893.334V2a1.97 1.97 0 0 0-1.933-2H7v5a2 2 0 0 1-2 2H0v11a1.969 1.969 0 0 0 1.933 2h8.641A14.03 14.03 0 0 1 6.167 9.833Z"/>
+          <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.96 2.96 0 0 0 .13 5H5Zm14.3 3.9-4.893-1.837a1.009 1.009 0 0 0-.7 0L8.815 8.9a1 1 0 0 0-.648.936 12.263 12.263 0 0 0 5.359 10.015 1 1 0 0 0 1.06 0 12.265 12.265 0 0 0 5.358-10.015A1 1 0 0 0 19.3 8.9Zm-5.236 8.866V9.068l3.866 1.45a10.241 10.241 0 0 1-3.871 7.245l.005.003Z"/>
+        </svg>
+        <span *ngIf="menuOpened" class="ml-[38px] text-sm" [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}">
+          {{ 'sidebar.privacypolicy' | translate }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+  <ng-container *ngIf="company?.show_cookie_policy == 1">
+    <div class="px-4 py-2 hover:cursor-pointer" (click)="goToCookiePolicy()">
+      <div class="p-2 flex items-center hover:rounded-lg"
+        [ngStyle]="{'background-color': cookiePolicyHover ? hoverColor : 'transparent'}"
+        [ngClass]="{'justify-center': !menuOpened}"
+        (mouseover)="toggleCookiePolicyHover(true)"
+        (mouseleave)="toggleCookiePolicyHover(false)"
+      >
+        <svg [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#000000' : '#ffffff'}"
+          class="cursor-pointer w-[22px] max-w-[22px] h-[22px] max-h-[22px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
+          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.15 5.6h.01m3.337 1.913h.01m-6.979 0h.01M5.541 11h.01M15 15h2.706a1.957 1.957 0 0 0 1.883-1.325A9 9 0 1 0 2.043 11.89 9.1 9.1 0 0 0 7.2 19.1a8.62 8.62 0 0 0 3.769.9A2.013 2.013 0 0 0 13 18v-.857A2.034 2.034 0 0 1 15 15Z"/>
+        </svg>
+        <span *ngIf="menuOpened" class="ml-[38px] text-sm" [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}">
+          {{ 'sidebar.cookiespolicy' | translate }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
   <div class="px-4 py-2 hover:cursor-pointer">
     <div class="p-2 flex items-center hover:rounded-lg"
       [ngStyle]="{'background-color': languageHover ? hoverColor : 'transparent'}"
@@ -163,9 +218,6 @@
     </div>
   </ng-container>
   <ng-container *ngIf="hasGenericWallDropdown && menuOpened">
-    <!-- <div class="my-3 px-4">
-      <div class="text-sm" [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}">{{ getCourseWallMenuText() }}</div>
-    </div> -->
     <div *ngIf="genericWallDropdownMenu?.id > 0" class="py-2 my-2 flex items-center">
       <div class="px-4 py-2 hover:cursor-pointer">
         <div 
