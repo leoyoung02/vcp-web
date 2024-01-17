@@ -3424,5 +3424,11 @@
         "finish": "Amaitu",
         "youanswered": "Erantzun duzu",
         "correctly": "zuzenki"
+    },
+    "cookie": {
+        "message": "Webgune honek cookieak erabiltzen ditu zure nabigazio-esperientzia hobetzeko, guneko trafikoa aztertzeko eta edukia pertsonalizatzeko. Onartu cookieak sakatuz cookieak erabiltzeko baimena ematen duzu. Zure hobespenak kudea ditzakezu edo informazio gehiago gurean",
+        "allow": "Onartu cookieak",
+        "deny": "Guztiak baztertu",
+        "link": "Cookie politika"
     }
 }

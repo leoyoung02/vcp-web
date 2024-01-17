@@ -3460,5 +3460,12 @@
         "finish": "Finish",
         "youanswered": "You answered",
         "correctly": "correctly"
+    },
+    "cookie": {
+        "header": "Cookies used on the website!",
+        "message": "This website uses cookies to enhance your browsing experience, analyse site traffic, and personalise content. By clicking Allow Cookies you consent to the use of cookies. You can manage your preferences or learn more in our",
+        "allow": "Allow cookies",
+        "deny": "Reject All",
+        "link": "Cookie Policy"
     }
 }

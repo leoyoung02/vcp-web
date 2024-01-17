@@ -20,7 +20,9 @@ export const cookieConfig: NgcCookieConsentConfig = {
     message: 'This website uses cookies to enhance your browsing experience, analyse site traffic, and personalise content. By clicking "Allow Cookies" you consent to the use of cookies. You can manage your preferences or learn more in our',
     dismiss: 'Got it!',
     deny: 'Reject All',
+    allow:'Allow cookies',
     link: 'Cookie Policy',
     href: 'https://www.cursogenius.es/privacy-cookies-policy/',
   },
 };
+

@@ -148,11 +148,27 @@ export class TikTokLandingComponent {
         
     this.fetchSettingsData();
     this.initializePage();
-    
+
+    this._translateService
+        .get(['cookie.message','cookie.allow', 'cookie.deny', 'cookie.link'])
+          .subscribe(data => {
+
+            if(this.ccService.getConfig().content?.message){
+              this.ccService.getConfig().content!.message = data['cookie.message'];
+              this.ccService.getConfig().content!.allow = data['cookie.allow'];
+              this.ccService.getConfig().content!.deny = data['cookie.deny'];
+              this.ccService.getConfig().content!.link = data['cookie.link'];
+            }
+
+            this.ccService.destroy(); 
+            this.ccService.init(this.ccService.getConfig()); 
+    });
+
     this.popupCloseSubscription = this.ccService.popupClose$.subscribe(
       () => {
         this.ccService.destroy()
       });
+
   }
     
     
