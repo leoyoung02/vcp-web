@@ -3434,5 +3434,11 @@
         "finish": "Acabar",
         "youanswered": "Has respost",
         "correctly": "correctament"
+    },
+    "cookie": {
+        "message": "Aquest lloc web utilitza cookies per millorar la vostra experiència de navegació, analitzar el trànsit del lloc i personalitzar el contingut. En fer clic a Permet galetes, accepteu l'ús de galetes. Podeu gestionar les vostres preferències o obtenir més informació al nostre",
+        "allow": "Permet cookies",
+        "deny": "Rebutja-ho tot",
+        "link": "Política de cookies"
     }
 }
