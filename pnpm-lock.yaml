@@ -89,6 +89,9 @@ dependencies:
   apexcharts:
     specifier: ^3.42.0
     version: 3.42.0
+  cookieconsent:
+    specifier: ^3.1.1
+    version: 3.1.1
   crypto-js:
     specifier: ^4.1.1
     version: 4.1.1
@@ -152,6 +155,9 @@ dependencies:
   ngx-color-picker:
     specifier: ^14.0.0
     version: 14.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/forms@16.0.0)
+  ngx-cookieconsent:
+    specifier: ^6.0.0
+    version: 6.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(cookieconsent@3.1.1)(rxjs@7.8.0)
   ngx-doc-viewer:
     specifier: ^15.0.1
     version: 15.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)
@@ -5091,6 +5097,10 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
 
+  /cookieconsent@3.1.1:
+    resolution: {integrity: sha512-v8JWLJcI7Zs9NWrs8hiVldVtm3EBF70TJI231vxn6YToBGj0c9dvdnYwltydkAnrbBMOM/qX1xLFrnTfm5wTag==}
+    dev: false
+
   /copy-anything@2.0.6:
     resolution: {integrity: sha512-1j20GZTsvKNkc4BY3NpMOM8tt///wY3FpIzozTOFO2ffuZcV61nojHXVKIy3WM+7ADCy5FVhdZYHYDdgTU0yJw==}
     dependencies:
@@ -8100,6 +8110,21 @@ packages:
       '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
       '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
       '@angular/forms': 16.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/platform-browser@16.0.0)(rxjs@7.8.0)
+      tslib: 2.5.0
+    dev: false
+
+  /ngx-cookieconsent@6.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(cookieconsent@3.1.1)(rxjs@7.8.0):
+    resolution: {integrity: sha512-HBgRXODXN6Fqo3rKUrmuTlpPHA5Lb14F6hE+2rIw9iZ1yZ7nhYlZ58lb1b/JnozmH7gFxHinxuWz3OCkG+7kUw==}
+    peerDependencies:
+      '@angular/common': '>=16.0.0'
+      '@angular/core': '>=16.0.0'
+      cookieconsent: ^3.1.1
+      rxjs: ^6.5.3 || ^7.4.0
+    dependencies:
+      '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
+      cookieconsent: 3.1.1
+      rxjs: 7.8.0
       tslib: 2.5.0
     dev: false
 

@@ -11,7 +11,7 @@ import {
   LocalService,
   UserService,
 } from "@share/services";
-import { Subject, takeUntil } from "rxjs";
+import { Subject, Subscription, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
 import {
   FormsModule,
@@ -22,6 +22,8 @@ import { TikTokLandingBoxedComponent } from "../landing-boxed/landing-boxed.comp
 import { TikTokLandingFullWidthComponent } from "../landing-full-width/landing-full-width.component";
 import { NoAccessComponent } from "@share/components";
 import get from "lodash/get";
+import {NgcCookieConsentModule, NgcCookieConsentService} from "ngx-cookieconsent";
+
 
 @Component({
   selector: "app-landing",
@@ -36,6 +38,7 @@ import get from "lodash/get";
     TikTokLandingBoxedComponent,
     TikTokLandingFullWidthComponent,
     NoAccessComponent,
+    NgcCookieConsentModule,
   ],
   templateUrl: "./landing.component.html"
 })
@@ -94,7 +97,9 @@ export class TikTokLandingComponent {
   section2_cta_redirect: boolean = false;
   section2_cta_redirect_value:any;
   section3_cta_redirect: boolean = false;
-  section3_cta_redirect_value:any  
+  section3_cta_redirect_value:any 
+
+  private popupCloseSubscription!: Subscription;
 
   constructor(
     private _router: Router,
@@ -102,6 +107,7 @@ export class TikTokLandingComponent {
     private _userService: UserService,
     private _translateService: TranslateService,
     private _localService: LocalService,
+    private ccService: NgcCookieConsentService,
   ) {}
 
   async ngOnInit() {
@@ -138,14 +144,42 @@ export class TikTokLandingComponent {
           this.language = event.lang;
           this.initializePage();
         }
-      );
-
+        );
+        
+    this.fetchSettingsData();
     this.initializePage();
+    
+    this.popupCloseSubscription = this.ccService.popupClose$.subscribe(
+      () => {
+        this.ccService.destroy()
+      });
   }
-
+    
+    
   initializePage() {
     this.fetchLandingData();
   }
+  
+
+  fetchSettingsData() {
+    this._companyService.fetchManageSettingsData(39, this.companyId)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(
+      data => {
+        const ifUserSumbitCookieConsent = this.ccService.hasAnswered()
+        if(data?.cookie_banner_status && !ifUserSumbitCookieConsent ){
+          this.ccService.open()
+        }else{
+            this.ccService.destroy();
+          }
+      
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
 
   fetchGeoLocation(geolocation_key) {
     this._userService.getUserGeolocation(geolocation_key)
@@ -230,5 +264,6 @@ export class TikTokLandingComponent {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
+    this.popupCloseSubscription.unsubscribe()
   }
 }
