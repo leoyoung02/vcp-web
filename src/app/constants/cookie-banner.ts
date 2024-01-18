@@ -3,7 +3,7 @@ import { NgcCookieConsentConfig } from "ngx-cookieconsent";
 export const cookieConfig: NgcCookieConsentConfig = {
   autoOpen:false,
   cookie: {
-    domain: 'localhost'
+    domain: 'https://cursogenius.vistingo.com'
   },
   position: 'bottom-right',
   theme: 'classic',
