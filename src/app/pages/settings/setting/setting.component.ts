@@ -908,10 +908,14 @@ export class SettingComponent {
       .subscribe(
           async response => {
             this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
-            if(item.title_en == 'New menu button') {
-              this.reloadMenu('add-new-menu')
-            } else if(item.title_en == 'New URL button') {
-              this.reloadMenu('add-new-url')
+
+            switch(item.title_en) {
+              case 'New menu button':
+                this.reloadMenu('add-new-menu');
+                break;
+              case 'New URL button':
+                this.reloadMenu('add-new-url');
+                break;
             }
           },
           error => {
@@ -930,8 +934,14 @@ export class SettingComponent {
       .subscribe(
         async response => {
           this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
-          if(item.title_en == 'New menu button') {
-            this.reloadMenu('remove-new-menu')
+
+          switch(item.title_en) {
+            case 'New menu button':
+              this.reloadMenu('remove-new-menu');
+              break;
+            case 'New URL button':
+              this.reloadMenu('remove-new-url');
+              break;
           }
         },
         error => {
@@ -1027,36 +1037,51 @@ export class SettingComponent {
         )
       : [];
     if (menus?.length > 0) {
-      if(mode == 'remove-new-menu') {
-        let new_menus: any[] = [];
-        if (menus?.length > 0) {
-          new_menus = menus;
-          new_menus.forEach((menu, index) => {
-            if (menu.new_button == 1) {
-              new_menus.splice(index, 1);
-            }
+      let new_menus: any[] = [];
+
+      switch(mode) {
+        case 'remove-new-menu':
+          if (menus?.length > 0) {
+            new_menus = menus;
+            new_menus.forEach((menu, index) => {
+              if (menu.new_button == 1) {
+                new_menus.splice(index, 1);
+              }
+            });
+          } 
+          menus = new_menus;
+          break;
+        case 'remove-new-url':
+          if (menus?.length > 0) {
+            new_menus = menus;
+            new_menus.forEach((menu, index) => {
+              if (menu.new_url == 1) {
+                new_menus.splice(index, 1);
+              }
+            });
+          } 
+          menus = new_menus;
+          break;
+        case 'add-new-menu':
+          menus.push({
+            id: menus?.length + 100,
+            path: this.newMenuButtonUrl,
+            new_button: 1,
+            name: this.newMenuButtonTextValueEn || this.newMenuButtonTextValue,
+            name_ES: this.newMenuButtonTextValue,
+            name_FR: this.newMenuButtonTextValueFr || this.newMenuButtonTextValue,
+            name_EU: this.newMenuButtonTextValueEu || this.newMenuButtonTextValue,
+            name_CA: this.newMenuButtonTextValueCa || this.newMenuButtonTextValue,
+            name_DE: this.newMenuButtonTextValueDe || this.newMenuButtonTextValue,
+            show: true,
+            sequence: menus?.length + 1,
           });
-        } 
-        menus = new_menus;
-      } else if(mode == 'add-new-menu') {
-        menus.push({
-          id: menus?.length + 100,
-          path: this.newMenuButtonUrl,
-          new_button: 1,
-          name: this.newMenuButtonTextValueEn || this.newMenuButtonTextValue,
-          name_ES: this.newMenuButtonTextValue,
-          name_FR: this.newMenuButtonTextValueFr || this.newMenuButtonTextValue,
-          name_EU: this.newMenuButtonTextValueEu || this.newMenuButtonTextValue,
-          name_CA: this.newMenuButtonTextValueCa || this.newMenuButtonTextValue,
-          name_DE: this.newMenuButtonTextValueDe || this.newMenuButtonTextValue,
-          show: true,
-          sequence: menus?.length + 1,
-        });
-      } else if(mode == 'add-new-url') {
+          break;
+        case 'add-new-url':
           menus.push({
             id: menus?.length + 100,
             path: this.newURLButtonUrl,
-            new_button: 1,
+            new_url: 1,
             name: this.newURLButtonTextValueEn || this.newURLButtonTextValue,
             name_ES: this.newURLButtonTextValue,
             name_FR: this.newURLButtonTextValueFr || this.newURLButtonTextValue,
@@ -1066,20 +1091,34 @@ export class SettingComponent {
             show: true,
             sequence: menus?.length + 1,
           });
-      } else {
-        menus.forEach((menu, index) => {
-          if (
-            menu.new_button == 1
-          ) {
-            menu.name = this.newMenuButtonTextValueEn || this.newMenuButtonTextValue
-            menu.name_CA = this.newMenuButtonTextValueCa || this.newMenuButtonTextValue
-            menu.name_DE = this.newMenuButtonTextValueDe || this.newMenuButtonTextValue
-            menu.name_ES = this.newMenuButtonTextValue
-            menu.name_EU = this.newMenuButtonTextValueEu || this.newMenuButtonTextValue
-            menu.name_FR = this.newMenuButtonTextValueFr || this.newMenuButtonTextValue
-            menu.path = this.newMenuButtonUrl
-          }
-        });
+          break;
+        default:
+          menus.forEach((menu, index) => {
+            if (
+              menu.new_button == 1
+            ) {
+              menu.name = this.newMenuButtonTextValueEn || this.newMenuButtonTextValue
+              menu.name_CA = this.newMenuButtonTextValueCa || this.newMenuButtonTextValue
+              menu.name_DE = this.newMenuButtonTextValueDe || this.newMenuButtonTextValue
+              menu.name_ES = this.newMenuButtonTextValue
+              menu.name_EU = this.newMenuButtonTextValueEu || this.newMenuButtonTextValue
+              menu.name_FR = this.newMenuButtonTextValueFr || this.newMenuButtonTextValue
+              menu.path = this.newMenuButtonUrl
+            }
+
+            if (
+              menu.new_url == 1
+            ) {
+              menu.name = this.newURLButtonTextValueEn || this.newURLButtonTextValue,
+              menu.name_ES = this.newURLButtonTextValue,
+              menu.name_FR = this.newURLButtonTextValueFr || this.newURLButtonTextValue,
+              menu.name_EU = this.newURLButtonTextValueEu || this.newURLButtonTextValue,
+              menu.name_CA = this.newURLButtonTextValueCa || this.newURLButtonTextValue,
+              menu.name_DE = this.newURLButtonTextValueDe || this.newURLButtonTextValue,
+              menu.path = this.newURLButtonUrl
+            }
+          });
+          break;
       }
     }
 
