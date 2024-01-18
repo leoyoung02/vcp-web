@@ -152,7 +152,7 @@
     </div>
   </ng-container>
   <div *ngIf="menuOpened && showCourseWallOptions" class="ml-4 -mb-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-52 dark:bg-gray-700">
-    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="communities-button"
+    <ul class="max-h-48 overflow-y-auto py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="communities-button"
       (mouseover)="toggleCourseWallItemHover(true)"
       (mouseleave)="toggleCourseWallItemHover(false)">
       <ng-container *ngFor="let item of courseWallDropdownMenu?.subs;let i = index;">
