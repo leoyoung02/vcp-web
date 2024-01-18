@@ -185,6 +185,7 @@ export const EDIT_CUSTOM_MEMBER_TYPE_URL = `${API_BASE}/company/user/custom-memb
 export const PROFILE_FIELDS_URL = `${API_BASE}/company/profile-fields`;
 export const PROFILE_FIELDS_MAPPING_URL = `${API_BASE}/company/profile-fields-mapping`;
 export const USER_GUID_URL = `${API_BASE}/guest/user-guid`;
+export const USER_GUID_INFO_URL = `${API_BASE}/guest/user-guid-info`;
 export const ACTIVE_MEMBERS_URL = `${API_BASE}/company/admin/members`;
 export const FOR_CONFIRMATION_MEMBERS_URL = `${API_BASE}/company/members/for-confirm`;
 export const DELETED_MEMBERS_URL = `${API_BASE}/company/members/deleted`;

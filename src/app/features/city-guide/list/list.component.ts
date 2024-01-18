@@ -11,7 +11,7 @@ import { environment } from "@env/environment";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { CityGuidesService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
-import { IconFilterComponent, PageTitleComponent } from "@share/components";
+import { FilterComponent, PageTitleComponent } from "@share/components";
 import { NgxPaginationModule } from "ngx-pagination";
 import get from "lodash/get";
 
@@ -22,7 +22,7 @@ import get from "lodash/get";
     CommonModule,
     TranslateModule,
     SearchComponent,
-    IconFilterComponent,
+    FilterComponent,
     NgOptimizedImage,
     RouterModule,
     NgxPaginationModule,
@@ -91,11 +91,6 @@ export class CityGuideListComponent {
     this.language = this._localService.getLocalStorage(environment.lslang);
     this._translateService.use(this.language || "es");
     this.user = this._localService.getLocalStorage(environment.lsuser);
-    // this.campus = this.user?.campus || '';
-    // if(this.campus) {
-    //   localStorage.setItem('city-guide-filter-city', this.campus);
-    // }
-
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     this.domain = this._localService.getLocalStorage(environment.lsdomain);
@@ -150,6 +145,7 @@ export class CityGuideListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          this.mapCities(data?.cities);
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 
@@ -164,6 +160,16 @@ export class CityGuideListComponent {
           console.log(error);
         }
       );
+  }
+
+  mapCities(cities) {
+    this.cities = cities;
+    if(this.cities?.length > 0 && this.companyId == 32) {
+      let campus = this.cities?.find((f) => f.campus?.indexOf(this.user?.campus?.replace(/ /g,"_")) >= 0);
+      if(campus?.city) {
+        localStorage.setItem('city-guide-filter-city', campus?.city);
+      }
+    }
   }
 
   mapFeatures(features) {

@@ -78,6 +78,7 @@ import {
     INVITATIONS_DATA_URL,
     CRM_DATA_URL,
     CRM_ASSIGNED_GUESTS_DATA_URL,
+    USER_GUID_INFO_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
@@ -158,7 +159,7 @@ export class UserService {
   }
 
   getUserByGuid(guid) {
-    return this._http.get(`${USER_GUID_URL}/${guid}`, { headers: this.headers });
+    return this._http.get(`${USER_GUID_INFO_URL}/${guid}`, { headers: this.headers });
   }
 
   fetchManageUsersData(id: number = 0, userId: number = 0): Observable<any> {

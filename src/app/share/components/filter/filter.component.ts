@@ -40,7 +40,10 @@ export class FilterComponent {
                 localStorage.getItem('member-filter-city') : 
                 (this.mode == 'job-offers' ? 
                   localStorage.getItem('job-offers-filter-city') : 
-                  ''
+                  (this.mode == 'city-guides' ? 
+                    localStorage.getItem('job-offers-filter-city') : 
+                    ''
+                  )
                 )
               )
             )
