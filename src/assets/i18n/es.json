@@ -3452,8 +3452,8 @@
     },
     "cookie": {
         "message": "Este sitio web utiliza cookies para mejorar su experiencia de navegación, analizar el tráfico del sitio y personalizar el contenido. Al hacer clic en Permitir cookies, usted acepta el uso de cookies. Puedes gestionar tus preferencias u obtener más información en nuestro",
-        "allow": "Permitir cookies",
-        "deny": "Rechazar todo",
+        "allow": "Acepto galletas",
+        "deny": "Rechazar",
         "link": "Política de cookies"
     }
 }

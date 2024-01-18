@@ -3426,8 +3426,8 @@
     },
     "cookie": {
         "message": "Ce site Web utilise des cookies pour améliorer votre expérience de navigation, analyser le trafic du site et personnaliser le contenu. En cliquant sur Autoriser les cookies, vous consentez à l'utilisation de cookies. Vous pouvez gérer vos préférences ou en savoir plus dans notre",
-        "allow": "Autorise les cookies",
-        "deny": "Tout rejeter",
+        "allow": "Accepter les cookies",
+        "deny": "Rejeter",
         "link": "Politique en matière de cookies"
     }
 }
