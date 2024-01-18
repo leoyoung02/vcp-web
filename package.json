@@ -83,6 +83,7 @@
     "ng-image-slider": "^7.0.1",
     "ng-multiselect-dropdown": "^1.0.0",
     "ngx-color-picker": "^14.0.0",
+    "ngx-cookie-service": "^17.0.1",
     "ngx-cookieconsent": "^6.0.0",
     "ngx-doc-viewer": "^15.0.1",
     "ngx-filepond": "^7.0.1",

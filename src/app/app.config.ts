@@ -34,7 +34,7 @@ import customersData from "src/assets/data/customers.json";
 import { StarRatingModule } from "angular-star-rating";
 import { provideNgcCookieConsent} from 'ngx-cookieconsent';
 import { cookieConfig } from "./constants/cookie-banner";
-
+import {CookieService} from 'ngx-cookie-service';
 
 
 @Injectable({ providedIn: "root" })
@@ -114,7 +114,8 @@ export const appConfig: ApplicationConfig = {
       }),
     ),
     makeEnvironmentProviders(useHttpCacheLocalStorage),
-    provideNgcCookieConsent(cookieConfig)
+    provideNgcCookieConsent(cookieConfig),
+    CookieService
   ],
   
 };

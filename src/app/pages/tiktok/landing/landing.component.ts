@@ -22,7 +22,8 @@ import { TikTokLandingBoxedComponent } from "../landing-boxed/landing-boxed.comp
 import { TikTokLandingFullWidthComponent } from "../landing-full-width/landing-full-width.component";
 import { NoAccessComponent } from "@share/components";
 import get from "lodash/get";
-import {NgcCookieConsentModule, NgcCookieConsentService} from "ngx-cookieconsent";
+import {NgcCookieConsentModule, NgcCookieConsentService, NgcStatusChangeEvent} from "ngx-cookieconsent";
+import { CookieService } from "ngx-cookie-service";
 
 
 @Component({
@@ -100,6 +101,7 @@ export class TikTokLandingComponent {
   section3_cta_redirect_value:any 
 
   private popupCloseSubscription!: Subscription;
+  private statusChangeSubscription!: Subscription;
 
   constructor(
     private _router: Router,
@@ -108,6 +110,7 @@ export class TikTokLandingComponent {
     private _translateService: TranslateService,
     private _localService: LocalService,
     private ccService: NgcCookieConsentService,
+    private cookieServie: CookieService,
   ) {}
 
   async ngOnInit() {
@@ -165,6 +168,15 @@ export class TikTokLandingComponent {
             () => {
               this.ccService.destroy()
             });
+
+    this.statusChangeSubscription = this.ccService.statusChange$.subscribe(
+              (event: NgcStatusChangeEvent) => {
+                if(event.status == "allow"){
+                  this.cookieServie.set('cookie_consent_status','allow',365)
+                }else if(event.status == "deny"){
+                  this.cookieServie.set('cookie_consent_status','deny',365)
+                }
+    });
   }
     
     
@@ -178,7 +190,7 @@ export class TikTokLandingComponent {
     .pipe(takeUntil(this.destroy$))
     .subscribe(
       data => {
-        const ifUserSumbitCookieConsent = this.ccService.hasAnswered()
+        const ifUserSumbitCookieConsent = this.cookieServie.check('cookie_consent_status')
         if(data?.cookie_banner_status && !ifUserSumbitCookieConsent && this.companyId == 52){
           this.ccService.open()
         }else{
@@ -276,5 +288,6 @@ export class TikTokLandingComponent {
     this.destroy$.next();
     this.destroy$.complete();
     this.popupCloseSubscription.unsubscribe()
+    this.statusChangeSubscription.unsubscribe()
   }
 }
