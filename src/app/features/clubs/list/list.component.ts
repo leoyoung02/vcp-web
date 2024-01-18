@@ -116,10 +116,6 @@ export class ClubsListComponent {
     this.email = this._localService.getLocalStorage(environment.lsemail);
     this.language = this._localService.getLocalStorage(environment.lslang);
     this.userInfo = this._localService.getLocalStorage(environment.lsuser);
-    // this.campus = this.userInfo?.campus || '';
-    // if(this.campus) {
-    //   localStorage.setItem('club-filter-city', this.campus);
-    // }
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     this.domain = this._localService.getLocalStorage(environment.lsdomain);
@@ -176,12 +172,12 @@ export class ClubsListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          this.mapCities(data?.cities);
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 
           this.mapUserPermissions(data?.user_permissions);
 
-          this.cities = data?.cities;
           this.mapDashboard(data?.settings?.dashboard);
           this.initializeIconFilterList(this.cities);
 
@@ -198,6 +194,16 @@ export class ClubsListComponent {
           console.log(error);
         }
       );
+  }
+
+  mapCities(cities) {
+    this.cities = cities;
+    if(this.cities?.length > 0 && this.companyId == 32) {
+      let campus = this.cities?.find((f) => f.campus?.indexOf(this.userInfo?.campus?.replace(/ /g,"_")) >= 0);
+      if(campus?.city) {
+        localStorage.setItem('club-filter-city', campus?.city);
+      }
+    }
   }
 
   mapPageTitle() {

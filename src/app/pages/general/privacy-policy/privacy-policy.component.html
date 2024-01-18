@@ -1,0 +1,11 @@
+<app-page-title title="{{ 'sidebar.privacypolicy' | translate }}"></app-page-title>
+<div *ngIf="privacyPolicy" class="pt-12 mr-0 sm:mr-0 md:mr-32 lg:mr-32">
+    <iframe scrolling="no" style="display:none;width:100%;border:none;height:100%;" #iframePrivacyPolicy></iframe>
+    <div style="display:none;" #editor>
+        <editor
+            apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+            [init]="{ plugins: ['autoresize'] }"
+            (onInit)="handleEditorInit($event)"
+        ></editor>
+    </div>
+</div>

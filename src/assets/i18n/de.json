@@ -710,7 +710,10 @@
         "yournotifications": "Ihre Benachrichtigungen",
         "emptynotification": "Sie haben keine Benachrichtigungen",
         "mentorprofile": "Mentorprofil",
-        "communitysupport": "Community und Support"
+        "communitysupport": "Community und Support",
+        "termsandconditions": "Termes i condicions",
+        "privacypolicy": "Política de privadesa",
+        "cookiespolicy":"Política de cookies"
     },
     "public-profile": {
         "publicprofile": "Öffentliches Profil",
@@ -3424,5 +3427,11 @@
         "finish": "Fertig stellen",
         "youanswered": "Du hast geantwortet",
         "correctly": "richtig"
+    },
+    "cookie": {
+        "message": "Diese Website verwendet Cookies, um Ihr Surferlebnis zu verbessern, den Website-Verkehr zu analysieren und Inhalte zu personalisieren. Indem Sie auf „Cookies zulassen“ klicken, stimmen Sie der Verwendung von Cookies zu. Sie können Ihre Präferenzen verwalten oder mehr in unserem erfahren",
+        "allow": "Cookies zulassen",
+        "deny": "Alles ablehnen",
+        "link": "Cookie-Richtlinie"
     }
 }

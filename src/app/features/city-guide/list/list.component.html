@@ -35,11 +35,11 @@
                     </app-search>
                 </div>
                 <div class="px-5">
-                    <app-icon-filter 
+                    <app-filter
+                        [mode]="'city-guides'"
                         [list]="list"
                         (filterList)="filteredCity($event)"
-                    >
-                    </app-icon-filter>
+                    ></app-filter>
                 </div>
             </div>
         </div>

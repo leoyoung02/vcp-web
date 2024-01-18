@@ -213,10 +213,6 @@ export class PlansListComponent {
     this.language = this._localService.getLocalStorage(environment.lslang);
     this._translateService.use(this.language || "es");
     this.userInfo = this._localService.getLocalStorage(environment.lsuser);
-    // this.campus = this.userInfo?.campus || '';
-    // if(this.campus) {
-    //   localStorage.setItem('plan-filter-city', this.campus);
-    // }
 
     moment.locale(this.language);
     this.locale = {
@@ -510,21 +506,17 @@ export class PlansListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log('fetchPlansOtherData')
-          console.log(data)
+          this.mapCities(data?.cities);
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 
           this.user = data?.user;
           this.mapUserPermissions(data?.user_permissions);
 
-          this.cities = data?.cities;
           this.mapDashboard(data?.settings?.dashboard);
           this.initializeIconFilterList(this.cities);
 
-          if(this.companyId == 12) {
-            this.kcnPlanCategoryMapping = data?.kcn_plan_category_mapping;
-          }
+          if(this.companyId == 12) { this.kcnPlanCategoryMapping = data?.kcn_plan_category_mapping; }
 
           this.mapPageTitle();
           this.types = data?.types;
@@ -542,6 +534,16 @@ export class PlansListComponent {
           console.log(error);
         }
       );
+  }
+
+  mapCities(cities) {
+    this.cities = cities;
+    if(this.cities?.length > 0 && this.companyId == 32) {
+      let campus = this.cities?.find((f) => f.campus?.indexOf(this.userInfo?.campus?.replace(/ /g,"_")) >= 0);
+      if(campus?.city) {
+        localStorage.setItem('plan-filter-city', campus?.city);
+      }
+    }
   }
 
   mapFeatures(features) {
@@ -663,9 +665,6 @@ export class PlansListComponent {
         }
       }
     }
-
-    console.log('mapCourseGroups')
-    console.log(this.groups)
   }  
 
   getFeatureTitle(feature) {
@@ -733,8 +732,6 @@ export class PlansListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log('fetchPlans')
-          console.log(data)
           this.userAdditionalProperties = data?.users_additional_properties;
           this.plans = this.initialFilter(data);
           this.planCategoriesMapping = data?.category_mappings?.plan_categories_mapping || [];

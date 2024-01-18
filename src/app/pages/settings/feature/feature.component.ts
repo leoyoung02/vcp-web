@@ -964,13 +964,13 @@ export class FeatureComponent {
               this.companySubfeatures.forEach((feat) => {
                 if (feat.id == id) {
                   feat.active = 1;
-                  feat.show_action_button = true;
+                  feat.show_action_button = this.showActionButton(feat);
                 }
               });
               this.allCompanySubfeatures.forEach((feat) => {
                 if (feat.id == id) {
                   feat.active = 1;
-                  feat.show_action_button = true;
+                  feat.show_action_button = this.showActionButton(feat);
                 }
               });
             }
@@ -984,6 +984,15 @@ export class FeatureComponent {
         }
       );
   }
+
+  showActionButton(feat) {
+    let action_button = this.actionButtons.find(
+      (c) => feat.name_en == c.name_en
+    );
+    let show_button = action_button?.id > 0 ? true : false;
+    return show_button;
+
+  } 
 
   deactivate(id) {
     this._companyService

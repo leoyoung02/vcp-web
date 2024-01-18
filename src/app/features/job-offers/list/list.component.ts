@@ -138,11 +138,6 @@ export class JobOffersListComponent {
     this.language = this._localService.getLocalStorage(environment.lslang);
     this._translateService.use(this.language || 'es');
     this.user = this._localService.getLocalStorage(environment.lsuser);
-    // this.campus = this.user?.campus || '';
-    // if(this.campus) {
-    //   localStorage.setItem('job-offers-filter-city', this.campus);
-    // }
-
     this.email = this._localService.getLocalStorage(environment.lsemail);
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
@@ -190,6 +185,7 @@ export class JobOffersListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          this.mapCities(data?.cities);
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 
@@ -214,6 +210,16 @@ export class JobOffersListComponent {
           console.log(error);
         }
       );
+  }
+
+  mapCities(cities) {
+    this.cities = cities;
+    if(this.cities?.length > 0 && this.companyId == 32) {
+      let campus = this.cities?.find((f) => f.campus?.indexOf(this.user?.campus?.replace(/ /g,"_")) >= 0);
+      if(campus?.city) {
+        localStorage.setItem('job-offers-filter-city', campus?.city);
+      }
+    }
   }
 
   mapFeatures(features) {

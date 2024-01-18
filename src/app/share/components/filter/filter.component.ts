@@ -40,14 +40,24 @@ export class FilterComponent {
                 localStorage.getItem('member-filter-city') : 
                 (this.mode == 'job-offers' ? 
                   localStorage.getItem('job-offers-filter-city') : 
-                  ''
+                  (this.mode == 'city-guides' ? 
+                    localStorage.getItem('job-offers-filter-city') : 
+                    ''
+                  )
                 )
               )
             )
         );
       this.isActiveFilter = selected ? true : false;
 
-      if(selected && this.mode == 'plans') {
+      if(selected && 
+        (this.mode == 'plans' || 
+          this.mode == 'clubs' || 
+          this.mode == 'job-offers' ||
+          this.mode == 'tutors' ||
+          this.mode == 'members'
+        )
+      ) {
         if(this.list?.length > 0) {
           this.list.forEach(item => {
             if(item.city == selected) {
@@ -59,17 +69,19 @@ export class FilterComponent {
         }
       }
 
-      let selected_type = this.mode == 'plans' ? localStorage.getItem('plan-filter-type') : '';
-      this.isActiveFilter = selected_type ? true : false;
-      if(selected_type && this.mode == 'plans') {
-        if(this.buttonList?.length > 0) {
-          this.buttonList.forEach(item => {
-            if(item.id == selected_type) {
-              item.selected = true;
-            } else {
-              item.selected = false;
-            }
-          })
+      if(!this.isActiveFilter) {
+        let selected_type = this.mode == 'plans' ? localStorage.getItem('plan-filter-type') : '';
+        this.isActiveFilter = selected_type ? true : false;
+        if(selected_type && this.mode == 'plans') {
+          if(this.buttonList?.length > 0) {
+            this.buttonList.forEach(item => {
+              if(item.id == selected_type) {
+                item.selected = true;
+              } else {
+                item.selected = false;
+              }
+            })
+          }
         }
       }
     }

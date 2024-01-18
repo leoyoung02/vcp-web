@@ -711,7 +711,10 @@
         "yournotifications": "Vos notifications",
         "emptynotification": "Vous n'avez aucune notification",
         "mentorprofile": "Profil du mentor",
-        "communitysupport": "Communauté et support"
+        "communitysupport": "Communauté et support",
+        "termsandconditions": "Termes et conditions",
+        "privacypolicy": "Politique de confidentialité",
+        "cookiespolicy": "Politique en matière de cookies"
     },
     "public-profile": {
         "publicprofile": "Profil public",
@@ -3420,5 +3423,11 @@
         "finish": "Terminer",
         "youanswered": "Vous avez répondu",
         "correctly": "correctement"
+    },
+    "cookie": {
+        "message": "Ce site Web utilise des cookies pour améliorer votre expérience de navigation, analyser le trafic du site et personnaliser le contenu. En cliquant sur Autoriser les cookies, vous consentez à l'utilisation de cookies. Vous pouvez gérer vos préférences ou en savoir plus dans notre",
+        "allow": "Autorise les cookies",
+        "deny": "Tout rejeter",
+        "link": "Politique en matière de cookies"
     }
 }

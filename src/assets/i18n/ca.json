@@ -710,7 +710,10 @@
         "yournotifications": "Les notificacions",
         "emptynotification": "No tens notificacions",
         "mentorprofile": "Perfil del mentor",
-        "communitysupport": "Comunitat i Suport"
+        "communitysupport": "Comunitat i Suport",
+        "termsandconditions": "Termes i condicions",
+        "privacypolicy": "Política de privadesa",
+        "cookiespolicy":"Política de cookies"
     },
     "public-profile": {
         "publicprofile": "Perfil Públic",
@@ -3434,5 +3437,11 @@
         "finish": "Acabar",
         "youanswered": "Has respost",
         "correctly": "correctament"
+    },
+    "cookie": {
+        "message": "Aquest lloc web utilitza cookies per millorar la vostra experiència de navegació, analitzar el trànsit del lloc i personalitzar el contingut. En fer clic a Permet galetes, accepteu l'ús de galetes. Podeu gestionar les vostres preferències o obtenir més informació al nostre",
+        "allow": "Permet cookies",
+        "deny": "Rebutja-ho tot",
+        "link": "Política de cookies"
     }
 }
