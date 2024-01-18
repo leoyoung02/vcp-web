@@ -3178,7 +3178,8 @@
         "selectday": "Sélectionner un jour dans le calendrier",
         "commissions": "Commissions",
         "transfercompleted": "Transfert terminé",
-        "endingtransfer": "Transfert en attente"
+        "endingtransfer": "Transfert en attente",
+        "validtoken":"Veuillez fournir un jeton valide pour continuer"
     },
     "general-details": {
         "name" : "Nom",

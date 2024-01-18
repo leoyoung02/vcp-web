@@ -516,6 +516,9 @@ export const DELETE_CREDIT_PACKAGE_URL = `${API_BASE}/company/credit/package/del
 export const TUTORS_COMBINED_URL = `${API_BASE}/v2/tutors`;
 export const TUTOR_DETAILS_URL = `${API_BASE}/v2/tutor-details`;
 export const STRIPE_CONNECT_ACCOUNT_STATUS_URL = `${API_BASE}/v2/stripe-connect-account-status`;
+export const GET_CALENDLY_ACCOUNT_ORGANIZATION_URI = `https://api.calendly.com/users/me`;
+export const GET_CALENDLY_ACCOUNT_EVENTS_LIST = `https://api.calendly.com/event_types`;
+
 
 // TESTIMONIALS
 export const TESTIMONIALS_DATA_URL = `${API_BASE}/guest/testimonials-data`;

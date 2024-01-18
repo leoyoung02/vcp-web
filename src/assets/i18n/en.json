@@ -3219,7 +3219,8 @@
         "selectday": "Select day from calendar",
         "commissions": "Commissions",
         "transfercompleted": "Transfer completed",
-        "pendingtransfer": "Pending transfer"
+        "pendingtransfer": "Pending transfer",
+        "validtoken":"Please provide a valid token to proceed"
     },
     "general-details": {
         "name" : "Name",

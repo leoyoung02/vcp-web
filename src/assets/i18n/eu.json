@@ -3183,7 +3183,8 @@
         "selectday": "Hautatu eguna egutegitik",
         "commissions": "Komisioak",
         "transfercompleted": "Transferentzia amaitu da",
-        "pendingtransfer": "Transferentzia zain"
+        "pendingtransfer": "Transferentzia zain",
+        "validtoken":"Mesedez, eman baliozko token bat aurrera egiteko"
     },
     "general-details": {
         "name" : "Izena",

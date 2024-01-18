@@ -3204,7 +3204,8 @@
         "selectday": "Seleccionar día del calendario",
         "commissions": "Comisiones",
         "transfercompleted": "Transferencia completada",
-        "pendingtransfer": "Transferencia pendiente"
+        "pendingtransfer": "Transferencia pendiente",
+        "validtoken":"Proporcione un token válido para continuar"
     },
     "general-details": {
         "name" : "Nombre",

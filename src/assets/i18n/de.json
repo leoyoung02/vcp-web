@@ -3182,7 +3182,8 @@
         "selectday": "Tag aus Kalender auswählen",
         "commissions": "Provisionen",
         "transfercompleted": "Übertragung abgeschlossen",
-        "pendingtransfer": "Übertragung ausstehend"
+        "pendingtransfer": "Übertragung ausstehend",
+        "validtoken":"Bitte geben Sie einen gültigen Token an, um fortzufahren"
     },
     "general-details": {
         "name" : "Name",

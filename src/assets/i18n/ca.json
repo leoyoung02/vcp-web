@@ -3193,7 +3193,8 @@
         "selectday": "Selecciona el dia del calendari",
         "commissions": "Comissions",
         "transfercompleted": "Transferència completada",
-        "pendingtransfer": "Pendent de transferència"
+        "pendingtransfer": "Pendent de transferència",
+        "validtoken":"Proporcioneu un testimoni vàlid per continuar"
     },
     "general-details": {
         "name" : "Nom",
