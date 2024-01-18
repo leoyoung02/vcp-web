@@ -148,7 +148,7 @@ export class TikTokLandingComponent {
         
     this.fetchSettingsData();
     this.initializePage();
-    this.ccService.getConfig().cookie!.domain = window.location.origin
+
     this._translateService
         .get(['cookie.message','cookie.allow', 'cookie.deny', 'cookie.link'])
           .subscribe(data => {
@@ -163,9 +163,8 @@ export class TikTokLandingComponent {
           });
     this.popupCloseSubscription = this.ccService.popupClose$.subscribe(
             () => {
-        this.ccService.destroy()
-    });
-
+              this.ccService.destroy()
+            });
   }
     
     
@@ -180,12 +179,11 @@ export class TikTokLandingComponent {
     .subscribe(
       data => {
         const ifUserSumbitCookieConsent = this.ccService.hasAnswered()
-        if(data?.cookie_banner_status && !ifUserSumbitCookieConsent ){
+        if(data?.cookie_banner_status && !ifUserSumbitCookieConsent && this.companyId == 52){
           this.ccService.open()
         }else{
-            this.ccService.destroy();
+          this.ccService.destroy();
           }
-      
         },
         error => {
           console.log(error)
