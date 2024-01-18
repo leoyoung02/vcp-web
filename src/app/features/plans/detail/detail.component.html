@@ -81,13 +81,6 @@
                 width="540" 
                 height="510"
             >
-            <!-- <div *ngIf="plan.show_description" class="mt-8 flex flex-col w-full max-w-full sm:w-full sm:max-w-full md:w-[540px] md:max-w-[540px] lg:w-[540px] lg:max-w-[540px]">
-                <div [innerHtml]="planTruncatedDescription | safeContentHtml: 'html'"></div>
-                <ng-container *ngIf="planDescription?.length > truncate">
-                    <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
-                    <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="!planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="readMore()">{{ 'club-details.readmore' | translate }}</div>
-                </ng-container>
-            </div> -->
         </div>
         <div class="w-full mr-0 sm:mr-0 md:mr-[80px] lg:mr-[80px]">
             <div class="w-full max-w-full">
@@ -268,6 +261,69 @@
                     </svg>
                     <div class="capitalize font-semibold">{{ getAddress(plan) }}</div>
                 </div>
+                <ng-container *ngIf="plan?.zoom_link">
+                    <ng-container *ngIf="(companyId == 12 && (superAdmin || showOption || joinedParticipant)) || (companyId != 12 && (superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant)))">
+                        <div class="flex my-4">
+                            <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 14">
+                                <path d="M11 0H2a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h9a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2Zm8.585 1.189a.994.994 0 0 0-.9-.138l-2.965.983a1 1 0 0 0-.685.949v8a1 1 0 0 0 .675.946l2.965 1.02a1.013 1.013 0 0 0 1.032-.242A1 1 0 0 0 20 12V2a1 1 0 0 0-.415-.811Z"/>
+                            </svg>
+                            <div class="font-semibold">
+                                <a 
+                                    [href]="plan?.zoom_link" 
+                                    [ngStyle]="{'color': buttonColor, 'word-break': 'break-word'}"
+                                    target="_blank">
+                                    {{ plan?.zoom_link_text || plan?.zoom_link }}
+                                </a>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="plan?.teams_link">
+                    <ng-container *ngIf="superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant)">
+                        <div class="flex my-4">
+                            <img class="mr-4 h-[24px]" width="24" height="24" src="./assets/images/teams.png" />
+                            <div class="font-semibold">
+                                <a 
+                                    [href]="plan?.teams_link" 
+                                    [ngStyle]="{'color': buttonColor, 'word-break': 'break-word'}"
+                                    target="_blank">
+                                    {{ plan?.teams_link_text || plan?.teams_link }}
+                                </a>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="plan?.youtube_link">
+                    <ng-container *ngIf="superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant)">
+                        <div class="flex my-4">
+                            <img class="mr-[10px] h-[24px]" width="30" height="24" src="./assets/images/youtube.png" />
+                            <div class="font-semibold">
+                                <a 
+                                    [href]="plan?.youtube_link" 
+                                    [ngStyle]="{'color': buttonColor, 'word-break': 'break-word'}"
+                                    target="_blank">
+                                    {{ plan?.youtube_link_text || plan?.youtube_link }}
+                                </a>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <ng-container *ngIf="hasSpeaker && selectedSpeaker && selectedSpeaker?.length > 0">
+                    <div class="flex my-4 items-center">
+                        <img class="mr-[10px] h-[32px]" width="30" height="24" src="./assets/images/speaker.jpg" />
+                        <div class="font-semibold">
+                            {{ selectedSpeaker?.first_name ? (selectedSpeaker?.first_name + ' ' + selectedSpeaker?.last_name) : selectedSpeaker?.name }}
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="hasGuestSpeaker && guestSpeaker && guestSpeaker != 'null'">
+                    <div class="flex my-4 items-center">
+                        <img class="mr-[10px] h-[32px]" width="30" height="24" src="./assets/images/guest-speaker.png" />
+                        <div class="font-semibold">
+                            {{ guestSpeaker == 'null' ? '' : guestSpeaker }}
+                        </div>
+                    </div>
+                </ng-container>
                 <div class="my-12 flex items-center" *ngIf="title">
                     <div class="opacity-60 mr-4">{{ 'plan-details.createdby' | translate }}:</div>
                     <div class="font-semibold">
