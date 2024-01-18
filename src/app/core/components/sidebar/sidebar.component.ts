@@ -151,6 +151,10 @@ export class SidebarComponent {
   termsHover: boolean = false;
   privacyPolicyHover: boolean = false;
   cookiePolicyHover: boolean = false;
+  languageItemHover: boolean = false;
+  showLanguageOptions: boolean = false;
+  showCourseWallOptions: boolean = false;
+  courseWallItemHover: boolean = false;
 
   constructor(
     private _router: Router, 
@@ -356,6 +360,7 @@ export class SidebarComponent {
     this.language = lang;
     this.changeLanguage.emit(lang);
     this.languageHover = false;
+    this.showLanguageOptions = false;
   }
 
   hasAccess(path) {
@@ -388,6 +393,7 @@ export class SidebarComponent {
   goToCourseWall(menu) {
     let id = menu.path.replace("activity-feed-", "");
     this.selectedTab = id;
+    this.showCourseWallOptions = false;
     this._router
       .navigateByUrl("/", { skipLocationChange: true })
       .then(() => this._router.navigate([`/activity-feed/wall/${id}`]));
@@ -670,5 +676,29 @@ export class SidebarComponent {
 
   toggleCookiePolicyHover(event) {
     this.cookiePolicyHover = event;
+  }
+
+  toggleLanguageItemHover(event) {
+    this.languageHover = false;
+    this.languageItemHover = event;
+    if(!this.languageItemHover) {
+      this.showLanguageOptions = false;
+    }
+  }
+
+  toggleLanguageOptions() {
+    this.showLanguageOptions = !this.showLanguageOptions;
+  }
+
+  toggleCourseWallOptions() {
+    this.showCourseWallOptions = !this.showCourseWallOptions;
+  }
+
+  toggleCourseWallItemHover(event) {
+    this.wallMenuHover = false;
+    this.courseWallItemHover = event;
+    if(!this.courseWallItemHover) {
+      this.showCourseWallOptions = false;
+    }
   }
 }
