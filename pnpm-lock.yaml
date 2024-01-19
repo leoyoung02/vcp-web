@@ -155,6 +155,9 @@ dependencies:
   ngx-color-picker:
     specifier: ^14.0.0
     version: 14.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(@angular/forms@16.0.0)
+  ngx-cookie-service:
+    specifier: ^17.0.1
+    version: 17.0.1(@angular/common@16.0.0)(@angular/core@16.0.0)
   ngx-cookieconsent:
     specifier: ^6.0.0
     version: 6.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(cookieconsent@3.1.1)(rxjs@7.8.0)
@@ -8113,6 +8116,17 @@ packages:
       tslib: 2.5.0
     dev: false
 
+  /ngx-cookie-service@17.0.1(@angular/common@16.0.0)(@angular/core@16.0.0):
+    resolution: {integrity: sha512-3/5GqMz83VH4VJWgxxv/rGjjIZRZqlp7kNrzisgkxccHsgBe3DMOr/zQyeKZPu7vEqwqyR58hKzegPwAm1Pr3Q==}
+    peerDependencies:
+      '@angular/common': ^17.0.0
+      '@angular/core': ^17.0.0
+    dependencies:
+      '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
+      tslib: 2.6.2
+    dev: false
+
   /ngx-cookieconsent@6.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(cookieconsent@3.1.1)(rxjs@7.8.0):
     resolution: {integrity: sha512-HBgRXODXN6Fqo3rKUrmuTlpPHA5Lb14F6hE+2rIw9iZ1yZ7nhYlZ58lb1b/JnozmH7gFxHinxuWz3OCkG+7kUw==}
     peerDependencies:
@@ -10593,6 +10607,10 @@ packages:
 
   /tslib@2.5.0:
     resolution: {integrity: sha512-336iVw3rtn2BUK7ORdIAHTyxHGRIHVReokCR3XjbckJMK7ms8FysBfhLR8IXnAgy7T0PTPNBWKiH514FOW/WSg==}
+
+  /tslib@2.6.2:
+    resolution: {integrity: sha512-AEYxH93jGFPn/a2iVAwW87VuUIkR1FVUKB77NwMF7nBTDkDrrT/Hpt/IrCJ0QXhW27jTBDcf5ZY7w6RiqTMw2Q==}
+    dev: false
 
   /tsutils@3.21.0(typescript@4.9.5):
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}

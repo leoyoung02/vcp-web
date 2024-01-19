@@ -487,7 +487,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
-  createPlan( entityId, userId, id, planForm, file, imageFile, zoomApiKey, zoomApiSecret, zoomStartUrl, zoomJoinUrl, zoomMeetingId, zoomPassword, typeOfActivity, prolongedDaysNumber, prolongedActivities,isShowAttendee:any=false,isShowComments:any=false,isShowDescription:any=false,isShowPrice:any=false, draft: any = 0, activityCodeActive): Observable<any> {
+  createPlan( entityId, userId, id, planForm, file, imageFile, zoomApiKey, zoomApiSecret, zoomStartUrl, zoomJoinUrl, zoomMeetingId, zoomPassword, typeOfActivity, prolongedDaysNumber, prolongedActivities,isShowAttendee:any=false,isShowComments:any=false,isShowDescription:any=false,isShowPrice:any=false, draft: any = 0, activityCodeActive, allowCourseAccess:any=false): Observable<any> {
     let formData = new FormData();
     if(planForm.group_id) {
         formData.append( 'group_id', planForm.group_id );
@@ -511,7 +511,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'school_of_life', planForm.school_of_life );
 
     if(entityId == 32) {
-      formData.append( 'additional_properties_course_access', planForm.additional_properties_course_access );
+      formData.append( 'additional_properties_course_access', allowCourseAccess == true ? '1' : '0' );
       formData.append( 'additional_properties_campus_ids', planForm.additional_properties_campus_ids );
       formData.append( 'additional_properties_business_unit_ids', planForm.additional_properties_business_unit_ids );
       formData.append( 'additional_properties_faculty_ids', planForm.additional_properties_faculty_ids );
