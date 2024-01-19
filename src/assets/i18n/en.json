@@ -3078,7 +3078,8 @@
         "confirmresend": "Confirm resend",
         "confirmresendemail": "Do you really want to resend the course access email?",
         "userexists":"This user already exists.",
-        "questionnairemandatoryfields":"You need to fill out the entire questionnaire to proceed."
+        "questionnairemandatoryfields":"You need to fill out the entire questionnaire to proceed.",
+        "bookingcancel":"Your booking has been succesfully cancelled."
     },
     "buddy": {
         "mentorprofile": "Mentor profile",

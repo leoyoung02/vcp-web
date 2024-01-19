@@ -3063,7 +3063,8 @@
         "confirmresend": "Confirmar reenvío",
         "confirmresendemail": "¿Realmente deseas reenviar el correo electrónico de acceso al curso?",
         "userexists":"Este usuario ya existe",
-        "questionnairemandatoryfields":"Debes completar todo el cuestionario para continuar"
+        "questionnairemandatoryfields":"Debes completar todo el cuestionario para continuar",
+        "bookingcancel":"Su reserva ha sido cancelada con éxito."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",

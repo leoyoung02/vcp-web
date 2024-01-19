@@ -3060,7 +3060,8 @@
         "confirmresend": "Confirmar el reenviament",
         "confirmresendemail": "De veritat voleu tornar a enviar el correu electrònic d'accés al curs?",
         "userexists":"Aquest usuari ja existeix",
-        "questionnairemandatoryfields":"Cal omplir tot el qüestionari per continuar.."
+        "questionnairemandatoryfields":"Cal omplir tot el qüestionari per continuar..",
+        "bookingcancel":"La teva reserva s'ha cancel·lat correctament."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",
