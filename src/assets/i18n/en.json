@@ -3220,7 +3220,8 @@
         "commissions": "Commissions",
         "transfercompleted": "Transfer completed",
         "pendingtransfer": "Pending transfer",
-        "validtoken":"Please provide a valid token to proceed"
+        "validtoken":"Please provide a valid token to proceed",
+        "notsetupaccount":"This tutor profle is not prpoerly setup."
     },
     "general-details": {
         "name" : "Name",

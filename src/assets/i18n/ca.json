@@ -3194,7 +3194,8 @@
         "commissions": "Comissions",
         "transfercompleted": "Transferència completada",
         "pendingtransfer": "Pendent de transferència",
-        "validtoken":"Proporcioneu un testimoni vàlid per continuar"
+        "validtoken":"Proporcioneu un testimoni vàlid per continuar",
+        "notsetupaccount":"Aquest perfil de tutor no està configurat correctament."
     },
     "general-details": {
         "name" : "Nom",

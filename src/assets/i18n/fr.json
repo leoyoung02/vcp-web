@@ -3179,7 +3179,8 @@
         "commissions": "Commissions",
         "transfercompleted": "Transfert terminé",
         "endingtransfer": "Transfert en attente",
-        "validtoken":"Veuillez fournir un jeton valide pour continuer"
+        "validtoken":"Veuillez fournir un jeton valide pour continuer",
+        "notsetupaccount":"Ce profl de tuteur n'est pas correctement configuré."
     },
     "general-details": {
         "name" : "Nom",

@@ -30,6 +30,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import moment from "moment";
 import get from "lodash/get";
+import { checkIfValidCalendlyAccount } from "src/app/utils/calendly/helper";
 
 @Component({
   selector: "app-tutors-edit",
@@ -343,41 +344,8 @@ export class TutorEditComponent {
     });
   }
 
-
-  async fetchOrganizaitonUrl() {
-    try {
-      if (this.tutorPersonalAccessToken && this.tutorUserCalendlyURL) {
-        const data = await this._tutorsService.getOraganzationURI(this.tutorPersonalAccessToken).pipe(takeUntil(this.destroy$)).toPromise();
-        return data.resource.current_organization;
-      }else{
-        return false
-      } 
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  
-  async checkIfTokenFromSameAccount() {
-    try {
-      const organizationURL = await this.fetchOrganizaitonUrl();
-      if (organizationURL) {
-        const data = await this._tutorsService.checkIfCalendlyUrlExsist(this.tutorPersonalAccessToken, organizationURL).pipe(takeUntil(this.destroy$)).toPromise();
-        const eventList = data.collection.map(event => event.scheduling_url);
-        return eventList.includes(this.tutorUserCalendlyURL);
-      }else{
-      return false
-    }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-  
-  
-  
-  
-  // save tutor
   async saveTutor() {
-    const isValidCalendlyAccount = await this.checkIfTokenFromSameAccount()
+    const isValidCalendlyAccount = await checkIfValidCalendlyAccount(this.tutorPersonalAccessToken,this.tutorUserCalendlyURL)
     if(isValidCalendlyAccount){
       this.errorMessage = "";
       this.submitted = true;

@@ -3205,7 +3205,8 @@
         "commissions": "Comisiones",
         "transfercompleted": "Transferencia completada",
         "pendingtransfer": "Transferencia pendiente",
-        "validtoken":"Proporcione un token válido para continuar"
+        "validtoken":"Proporcione un token válido para continuar",
+        "notsetupaccount":"Este tutor profle no está configurado previamente."
     },
     "general-details": {
         "name" : "Nombre",
