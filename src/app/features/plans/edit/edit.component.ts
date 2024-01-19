@@ -1990,7 +1990,7 @@ export class PlanEditComponent {
     this.plan["school_of_life"] = this.isUESchoolOfLife ? 1 : 0;
 
     if(this.companyId == 32) {
-      this.plan['additional_properties_course_access'] = this.allowCourseAccess ? 1 : 0,
+      this.plan['additional_properties_course_access'] = this.allowCourseAccess == true ? '1' : '0',
       this.plan['additional_properties_campus_ids'] = this.selectedCampus?.length > 0 ? this.selectedCampus?.map( (data) => { return data.id }).join() : '';
       this.plan['additional_properties_faculty_ids'] = this.selectedFaculty?.length > 0 ? this.selectedFaculty?.map( (data) => { return data.id }).join() : '';
       this.plan['additional_properties_business_unit_ids'] = this.selectedBusinessUnit?.length > 0 ? this.selectedBusinessUnit?.map( (data) => { return data.id }).join() : '';
@@ -2192,6 +2192,7 @@ export class PlanEditComponent {
           this.isShowPrice ? 1 : 0,
           0,
           this.hasActivityCodeActivated,
+          this.allowCourseAccess,
         )
         .subscribe(
           (response) => {

@@ -883,6 +883,7 @@ export class PlanDetailComponent {
     if (this.speaker) {
       this.selectedSpeaker = plan?.speaker;
     }
+    this.guestSpeaker = this.plan?.guest_speaker || '';
     this.formatComments(plan?.comments);
     this.planReactions = plan?.reactions;
     let today = moment(new Date()).format("YYYY-MM-DD HH:mm:ss");
