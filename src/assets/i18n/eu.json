@@ -3186,7 +3186,9 @@
         "selectday": "Hautatu eguna egutegitik",
         "commissions": "Komisioak",
         "transfercompleted": "Transferentzia amaitu da",
-        "pendingtransfer": "Transferentzia zain"
+        "pendingtransfer": "Transferentzia zain",
+        "validtoken":"Mesedez, eman baliozko token bat aurrera egiteko",
+        "notsetupaccount":"Tutore-profil hau ez dago behar bezala konfiguratuta."
     },
     "general-details": {
         "name" : "Izena",

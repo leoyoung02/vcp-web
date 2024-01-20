@@ -30,6 +30,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import moment from "moment";
 import get from "lodash/get";
+import { checkIfValidCalendlyAccount } from "src/app/utils/calendly/helper";
 
 @Component({
   selector: "app-tutors-edit",
@@ -166,7 +167,6 @@ export class TutorEditComponent {
           this.initializePage();
         }
       );
-
     this.initializePage();
   }
 
@@ -276,7 +276,7 @@ export class TutorEditComponent {
     this.who_am_i = this.tutor.description || '';
     this.tutorUserCalendlyURL = this.tutor.calendly_url || '';
     this.tutorPersonalAccessToken = this.tutor.personal_access_token || '';
-    this.tutorlanguages = this.tutor?.languages || '';
+    this.tutorlanguages = this.tutor?.languages || '';  
     
     this.created = this.tutor.created;
     let timezoneOffset = new Date().getTimezoneOffset();
@@ -344,61 +344,67 @@ export class TutorEditComponent {
     });
   }
 
-  saveTutor() {
-    this.errorMessage = "";
-    this.submitted = true;
+  async saveTutor() {
+    const isValidCalendlyAccount = await checkIfValidCalendlyAccount(this.tutorPersonalAccessToken,this.tutorUserCalendlyURL)
+    if(isValidCalendlyAccount){
+      this.errorMessage = "";
+      this.submitted = true;
+      
+      if(
+        !this.tutorUserId
+        || !this.tutorUserCity
+      ) {
+        this.scrollToTop()
+        return false
+      }
+  
+      this.issaving = true;
+  
+      let created
+      if(this.tutorUserSinceDate) {
+        created = moment(this.tutorUserSinceDate).format('YYYY-MM-DD')
+      }
+  
+      let typeIdArray: any[] = [];
+      this.selectedCourseTutorType?.forEach(sctt => {
+        typeIdArray.push(sctt?.id);
+      })
+      let param = {
+        company_id: this.companyId,
+        user_id: this.tutorUserId,
+        first_name: this.tutorUserFirstName,
+        last_name: this.tutorUserLastName,
+        who_am_i: this.who_am_i,
+        who_am_i_en: this.who_am_i_en || this.who_am_i,
+        who_am_i_fr: this.who_am_i_fr || this.who_am_i,
+        city: this.tutorUserCity,
+        calendly_url: this.tutorUserCalendlyURL,
+        calendly_personal_access_token: this.tutorPersonalAccessToken,
+        created: created || this.created,
+        languages: this.tutorlanguages,
+        type_ids : typeIdArray,
+        tutor_id : this.tutor?.id
+      }
+  
+      if (this.id > 0) {
+        // Edit
+        this._tutorsService.editTutor(param).subscribe(
+          (response) => {
+            this.open(
+              this._translateService.instant("dialog.savedsuccessfully"),
+              ""
+            );
+            this.issaving = false;
+          },
+          (error) => {
+            this.issaving = false;
+            this.open(this._translateService.instant("dialog.error"), "");
+          }
+        );
+      }
 
-    if(
-      !this.tutorUserId
-      || !this.tutorUserCity
-    ) {
-      this.scrollToTop()
-      return false
-    }
-
-    this.issaving = true;
-
-    let created
-    if(this.tutorUserSinceDate) {
-      created = moment(this.tutorUserSinceDate).format('YYYY-MM-DD')
-    }
-
-    let typeIdArray: any[] = [];
-    this.selectedCourseTutorType?.forEach(sctt => {
-      typeIdArray.push(sctt?.id);
-    })
-    let param = {
-      company_id: this.companyId,
-      user_id: this.tutorUserId,
-      first_name: this.tutorUserFirstName,
-      last_name: this.tutorUserLastName,
-      who_am_i: this.who_am_i,
-      who_am_i_en: this.who_am_i_en || this.who_am_i,
-      who_am_i_fr: this.who_am_i_fr || this.who_am_i,
-      city: this.tutorUserCity,
-      calendly_url: this.tutorUserCalendlyURL,
-      calendly_personal_access_token: this.tutorPersonalAccessToken,
-      created: created || this.created,
-      languages: this.tutorlanguages,
-      type_ids : typeIdArray,
-      tutor_id : this.tutor?.id
-    }
-
-    if (this.id > 0) {
-      // Edit
-      this._tutorsService.editTutor(param).subscribe(
-        (response) => {
-          this.open(
-            this._translateService.instant("dialog.savedsuccessfully"),
-            ""
-          );
-          this.issaving = false;
-        },
-        (error) => {
-          this.issaving = false;
-          this.open(this._translateService.instant("dialog.error"), "");
-        }
-      );
+    }else{
+      this.open(this._translateService.instant('tutors.validtoken'), '');
     }
   }
 

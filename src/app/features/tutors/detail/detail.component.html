@@ -171,27 +171,34 @@
                     </div>
                 </div>
             </ng-container>
-            <app-calendly 
-                *ngIf="canBook() && tutorCalendlyUrl && tutorPersonalAccessToken"
-                [buttonColor]="buttonColor"
-                [link]="tutorCalendlyUrl"
-                [tutorUserId]="tutor?.user_id"
-                [companyId]="companyId"
-                [company]="company"
-                [tutorId]="tutor?.id"
-                [hasFreeBooking]="hasFreeBooking"
-                [courseCreditSetting]="courseCreditSetting"
-                [remainingCredits]="remainingCourseCredits"
-                [name]="me?.name"
-                [first_name]="me?.first_name"
-                [last_name]="me?.last_name"
-                [email]="me?.email"
-                [canBook]="canBook()"
-                (closeCalendar)="close()"
-                [separateCourseCredits]="separateCourseCredits"
-                [separateRemainingCourseCredits]="separateRemainingCourseCredits"
-            >
-            </app-calendly>
+            <div *ngIf="isValidCalenldyAccount">
+                <app-calendly 
+                    *ngIf="canBook() && tutorCalendlyUrl && tutorPersonalAccessToken"
+                    [buttonColor]="buttonColor"
+                    [link]="tutorCalendlyUrl"
+                    [tutorUserId]="tutor?.user_id"
+                    [companyId]="companyId"
+                    [company]="company"
+                    [tutorId]="tutor?.id"
+                    [hasFreeBooking]="hasFreeBooking"
+                    [courseCreditSetting]="courseCreditSetting"
+                    [remainingCredits]="remainingCourseCredits"
+                    [name]="me?.name"
+                    [first_name]="me?.first_name"
+                    [last_name]="me?.last_name"
+                    [email]="me?.email"
+                    [canBook]="canBook()"
+                    (closeCalendar)="close()"
+                    [separateCourseCredits]="separateCourseCredits"
+                    [separateRemainingCourseCredits]="separateRemainingCourseCredits"
+                >
+                </app-calendly>
+            </div>
+            <ng-container *ngIf="!isValidCalenldyAccount">
+                <div class="h-full max-h-full flex align-center items-center justify-center">   
+                    <p>{{'tutors.notsetupaccount' | translate}}</p>
+                </div>
+            </ng-container>
             <ng-container *ngIf="!canBook() || !tutorCalendlyUrl || !tutorPersonalAccessToken">
                 <div class="h-full max-h-full flex align-center items-center justify-center">
                     <div class="flex-col">
