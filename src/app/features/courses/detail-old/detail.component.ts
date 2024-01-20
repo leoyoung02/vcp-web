@@ -286,7 +286,6 @@ export class CourseDetailComponent {
           this.initializePage();
         }
       );
-
     this.getCourse();
   }
 
@@ -468,7 +467,6 @@ export class CourseDetailComponent {
     if(this.course) {
       this.coursePoints = this.course.course_users && this.course.course_users[0] ? ((parseInt(this.course.course_users[0].progress) * parseInt(this.course.points)) / 100) : 0;
       this.courseProgress = this.course.course_users && this.course.course_users[0] ? parseInt(this.course.course_users[0].progress) : 0;
-
       if(this.hasCoursePayment && this.course.price > 0) {
         let course_subscription = this.courseSubscriptions && this.courseSubscriptions.filter(c => {
           return c.user_id == this.userId && c.course_id == this.course.id
@@ -1072,7 +1070,6 @@ export class CourseDetailComponent {
       this.selectUnit(previous_unit)
     }
   }
-
   goToNextLesson() {
     let current_unit_index = 0
     if(this.course.course_units) {
@@ -1460,12 +1457,12 @@ export class CourseDetailComponent {
             this.selectedModulePackageId = this.selectedModule[0].package_id;
             this.selectedModulePackageText = this.selectedModule[0].package_text;
           }
-
           if(response['total_progress'] == 100 && this.hasCourseCreditSetting) {
             this.completemodalbutton?.nativeElement.click();
           } else {
             this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
           }
+          this.goToNextLesson()
       },
       error => {
           console.log(error);
