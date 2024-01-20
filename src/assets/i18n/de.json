@@ -1567,7 +1567,10 @@
         "back": "Zurück",
         "attachment": "Anhang",
         "cancel": "stornieren",
-        "backtolist": "Zurück zur Support-Ticketliste"
+        "backtolist": "Zurück zur Support-Ticketliste",
+        "notstarted": "Nicht gestartet",
+        "inprogress": "In Bearbeitung",
+        "closed": "Geschlossen"
     },
     "post-survey": {
         "hello": "Hallo,",
@@ -3049,7 +3052,8 @@
         "confirmresend": "Erneutes Senden bestätigen",
         "confirmresendemail": "Möchten Sie die Kurszugangs-E-Mail wirklich erneut senden?",
         "userexists":"Dieser Benutzer existiert bereits",
-        "questionnairemandatoryfields":"Sie müssen den gesamten Fragebogen ausfüllen, um fortzufahren."
+        "questionnairemandatoryfields":"Sie müssen den gesamten Fragebogen ausfüllen, um fortzufahren.",
+        "bookingcancel":"Ihre Buchung wurde erfolgreich storniert."
     },
     "buddy": {
         "mentorprofile": "Mentorprofil",
@@ -3182,7 +3186,9 @@
         "selectday": "Tag aus Kalender auswählen",
         "commissions": "Provisionen",
         "transfercompleted": "Übertragung abgeschlossen",
-        "pendingtransfer": "Übertragung ausstehend"
+        "pendingtransfer": "Übertragung ausstehend",
+        "validtoken":"Bitte geben Sie einen gültigen Token an, um fortzufahren",
+        "notsetupaccount":"Dieses Tutorprofil ist nicht ordnungsgemäß eingerichtet."
     },
     "general-details": {
         "name" : "Name",

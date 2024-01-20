@@ -155,6 +155,7 @@ export class SidebarComponent {
   showLanguageOptions: boolean = false;
   showCourseWallOptions: boolean = false;
   courseWallItemHover: boolean = false;
+  supportTicketsHover: boolean = false;
 
   constructor(
     private _router: Router, 
@@ -700,5 +701,9 @@ export class SidebarComponent {
     if(!this.courseWallItemHover) {
       this.showCourseWallOptions = false;
     }
+  }
+
+  toggleSupportTicketsHover(event) {
+    this.supportTicketsHover = event;
   }
 }

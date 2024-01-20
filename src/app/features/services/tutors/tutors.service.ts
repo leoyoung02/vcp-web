@@ -43,6 +43,8 @@ import {
   EDIT_TUTOR_TYPE_URL,
   EDIT_TUTOR_URL,
   FEATURES_MAPPING_URL,
+  GET_CALENDLY_ACCOUNT_EVENTS_LIST,
+  GET_CALENDLY_ACCOUNT_ORGANIZATION_URI,
   MEMBER_TYPES_URL,
   OTHER_SETTINGS_URL,
   SAVE_COMMISSION_PERCENTAGE_URL,
@@ -80,6 +82,8 @@ export class TutorsService {
       "Content-Type": "application/json",
     });
   }
+
+
 
   getTutors(id): Observable<any> {
     return this._http.get(`${TUTORS_URL}/${id}`, { headers: this.headers }).pipe(map(res => res))
@@ -496,4 +500,18 @@ export class TutorsService {
         {},
     ).pipe(map(res => res));
   }
+
+  getOraganzationURI(token): Observable<any> {
+    return this._http.get(`${GET_CALENDLY_ACCOUNT_ORGANIZATION_URI}`, { 
+      headers: this.headers.set("Authorization", `Bearer ${token}`)
+    }).pipe(map(res => res));
+  }
+
+
+  checkIfCalendlyUrlExsist(token,organizationUrl): Observable<any> {
+    return this._http.get(`${GET_CALENDLY_ACCOUNT_EVENTS_LIST}?organization=${organizationUrl}`, { 
+      headers: this.headers.set("Authorization", `Bearer ${token}`)
+    }).pipe(map(res => res));
+  }
+
 }

@@ -1572,7 +1572,10 @@
         "back": "Go back",
         "attachment": "Attachment",
         "cancel": "Cancel",
-        "backtolist": "Go back to Support Tickets list"
+        "backtolist": "Go back to Support Tickets list",
+        "notstarted": "Not Started",
+        "inprogress": "In Progress",
+        "closed": "Closed"
     },
     "post-survey": {
         "hello": "Hello,",
@@ -3078,7 +3081,8 @@
         "confirmresend": "Confirm resend",
         "confirmresendemail": "Do you really want to resend the course access email?",
         "userexists":"This user already exists.",
-        "questionnairemandatoryfields":"You need to fill out the entire questionnaire to proceed."
+        "questionnairemandatoryfields":"You need to fill out the entire questionnaire to proceed.",
+        "bookingcancel":"Your booking has been succesfully cancelled."
     },
     "buddy": {
         "mentorprofile": "Mentor profile",
@@ -3219,7 +3223,9 @@
         "selectday": "Select day from calendar",
         "commissions": "Commissions",
         "transfercompleted": "Transfer completed",
-        "pendingtransfer": "Pending transfer"
+        "pendingtransfer": "Pending transfer",
+        "validtoken":"Please provide a valid token to proceed",
+        "notsetupaccount":"This tutor profle is not prpoerly setup."
     },
     "general-details": {
         "name" : "Name",

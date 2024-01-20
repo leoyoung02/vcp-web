@@ -1566,7 +1566,10 @@
         "back": "Retour",
         "attachment": "Pièce jointe",
         "cancel": "Annuler",
-        "backtolist": "Retour à la liste des tickets d'assistance"
+        "backtolist": "Retour à la liste des tickets d'assistance",
+        "notstarted": "Non démarré",
+        "inprogress": "En cours",
+        "closed": "Fermé"
     },
     "post-survey": {
         "hello": "Bonjour,",
@@ -2987,7 +2990,6 @@
         "not_approved":"Le statut de l'utilisateur existant est - Non approuvé.",
         "failed":"Le statut de l'utilisateur existant est - Échec du paiement.",
         "active":"Le statut de l'utilisateur existant est - Actif",
-        "incomplete":"Le statut de l'utilisateur existant est - Incomplet",
         "confirm": "Le statut d'utilisateur existant est - Pour confirmation par e-mail",
         "cancelled": "Le statut d'utilisateur existant est - Annulé",
         "membershipexpired": "Votre abonnement a expiré",
@@ -3045,7 +3047,8 @@
         "confirmresend": "Confirmer le renvoi",
         "confirmresendemail": "Voulez-vous vraiment renvoyer l'e-mail d'accès au cours ?",
         "userexists":"Cet utilisateur existe déjà",
-        "questionnairemandatoryfields":"Vous devez remplir l’intégralité du questionnaire pour continuer."
+        "questionnairemandatoryfields":"Vous devez remplir l’intégralité du questionnaire pour continuer.",
+        "bookingcancel":"Votre réservation a été annulée avec succès."
     },
     "buddy": {
         "mentorprofile": "Profil du mentor",
@@ -3178,7 +3181,9 @@
         "selectday": "Sélectionner un jour dans le calendrier",
         "commissions": "Commissions",
         "transfercompleted": "Transfert terminé",
-        "endingtransfer": "Transfert en attente"
+        "endingtransfer": "Transfert en attente",
+        "validtoken":"Veuillez fournir un jeton valide pour continuer",
+        "notsetupaccount":"Ce profl de tuteur n'est pas correctement configuré."
     },
     "general-details": {
         "name" : "Nom",

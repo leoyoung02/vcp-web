@@ -751,25 +751,32 @@ export class MyLessonsComponent {
             this.showConfirmationModal = false;
         }
       }
-
     cancelBooking(id, user_id, confirmed) {
+        const tutor_id = this.bookings.find(booking=> {
+            if(booking.id == id){
+                return booking
+            }
+        })?.tutor_user_id || ''
         if(confirmed) {
             let params = {
                 id,
                 user_id,
+                tutor_id
             }
             
             this._tutorsService.cancelBooking(params).subscribe(data => {
-                let bookings = this.allBookings
-                bookings?.forEach(b => {
-                    if(b.id == this.selectedItem.id) {
-                        b.cancelled = 1
-                        b.show_cancel = false
-                    }
-                })
-                this.statusFilter = 'Cancelled';
-                this.filterBookings();
-                this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+                if(data?.status == 200 && data?.message == "success"){
+                    let bookings = this.allBookings
+                    bookings?.forEach(b => {
+                        if(b.id == this.selectedItem.id) {
+                            b.cancelled = 1
+                            b.show_cancel = false
+                        }
+                    })
+                    this.statusFilter = 'Cancelled';
+                    this.filterBookings();
+                    this.open(this._translateService.instant('dialog.bookingcancel'), '');
+                }
             }, err => {
                 console.log('err: ', err);
             })

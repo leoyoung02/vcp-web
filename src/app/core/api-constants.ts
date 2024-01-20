@@ -102,12 +102,15 @@ export const DELETE_KEAP_HOOK_URL = `${API_BASE}/keap/hook/delete`;
 export const ADD_KEAP_INTEGRATION_URL = `${API_BASE}/keap/integration/add`;
 export const EDIT_KEAP_INTEGRATION_URL = `${API_BASE}/keap/integration/edit`;
 export const DELETE_KEAP_INTEGRATION_URL = `${API_BASE}/keap/integration/delete`;
+export const SUBMIT_SUPPORT_TICKET_URL = `${API_BASE}/company/ticket/create`;
+export const CREATE_TICKET_REPLY_URL = `${API_BASE}/company/ticket/reply/create`;
 
 export const LISTS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/lists-management-data`;
 export const MANAGE_MEMBER_TYPES_DATA_URL = `${API_BASE}/v2/manage-member-types-data`;
 export const MANAGE_SETTINGS_DATA_URL = `${API_BASE}/v2/settings-data`;
 export const MANAGE_SETTINGS_EMAIL_DATA_URL = `${API_BASE}/v2/settings-email-data`;
 export const SIGNUP_DATA_URL = `${API_BASE}/v2/signup-data`;
+export const SUPPORT_TICKETS_DATA_URL = `${API_BASE}/v2/support-tickets-data`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;
@@ -516,6 +519,9 @@ export const DELETE_CREDIT_PACKAGE_URL = `${API_BASE}/company/credit/package/del
 export const TUTORS_COMBINED_URL = `${API_BASE}/v2/tutors`;
 export const TUTOR_DETAILS_URL = `${API_BASE}/v2/tutor-details`;
 export const STRIPE_CONNECT_ACCOUNT_STATUS_URL = `${API_BASE}/v2/stripe-connect-account-status`;
+export const GET_CALENDLY_ACCOUNT_ORGANIZATION_URI = `https://api.calendly.com/users/me`;
+export const GET_CALENDLY_ACCOUNT_EVENTS_LIST = `https://api.calendly.com/event_types`;
+
 
 // TESTIMONIALS
 export const TESTIMONIALS_DATA_URL = `${API_BASE}/guest/testimonials-data`;

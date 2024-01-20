@@ -17,6 +17,7 @@ import { CalendlyComponent } from "../calendly/calendly.component";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from "@angular/forms";
 import { initFlowbite } from 'flowbite';
 import get from "lodash/get";
+import { checkIfValidCalendlyAccount } from "src/app/utils/calendly/helper";
 
 @Component({
   selector: 'app-tutors-detail',
@@ -150,6 +151,7 @@ export class TutorDetailComponent {
   isAdminRole: boolean = false;
   tutorPersonalAccessToken: any;
   allTutorTypes: any = [];
+  isValidCalenldyAccount : boolean = true
 
   constructor(
     private _router: Router,
@@ -319,7 +321,7 @@ export class TutorDetailComponent {
       : "";
   }
 
-  formatTutor(data) {
+ async formatTutor(data) {
     this.tutor = data?.tutor;
     if(!data?.tutor?.id) {
       let tutor_row = data?.tutors?.filter(t => {
@@ -382,6 +384,9 @@ export class TutorDetailComponent {
     this.allCourseCategories = data?.course_categories;
     this.courseCategoriesAccessRoles = data?.course_category_access_roles;
     this.courseExceptionUser = data?.company_course_exception_user;
+
+    this.isValidCalenldyAccount = await checkIfValidCalendlyAccount(this.tutorPersonalAccessToken,this.tutorCalendlyUrl)
+
     this.getCompanyCourses();
   }
 
@@ -980,31 +985,39 @@ export class TutorDetailComponent {
     }
   }
 
-  saveCalendlySettings() {
-    this.setupCalendlyFormSubmitted = true
+  async saveCalendlySettings() {
+   
+    const personal_access_token = this.setupCalendlyForm.value?.personal_access_token;
+    const link = this.setupCalendlyForm.value?.link;
 
-    if(!this.isValidCalendlyForm()) {
-      return false
+    const isValid = await checkIfValidCalendlyAccount(personal_access_token,link)
+    
+    if(isValid){
+        this.setupCalendlyFormSubmitted = true
+
+        if(!this.isValidCalendlyForm()) {
+          return false
+        }
+
+        let params = {
+          company_id: this.companyId,
+          user_id: this.tutor?.user_id,
+          link,
+          tutor_id: this.tutor?.id,
+          personal_access_token,
+        }
+        this._tutorsService.updateMemberCalendly(params).subscribe(data => {
+          this.tutor.calendly_url = link;
+          this.tutor.personal_access_token = personal_access_token;
+          this.closemodalbutton?.nativeElement.click();
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+        }, err => {
+          console.log('err: ', err);
+        })
+    }else{
+      this.open(this._translateService.instant('tutors.validtoken'), ''); 
     }
-
-    let personal_access_token = this.setupCalendlyForm.value?.personal_access_token;
-    let link = this.setupCalendlyForm.value?.link;
-
-    let params = {
-      company_id: this.companyId,
-      user_id: this.tutor?.user_id,
-      link,
-      tutor_id: this.tutor?.id,
-      personal_access_token,
-    }
-    this._tutorsService.updateMemberCalendly(params).subscribe(data => {
-      this.tutor.calendly_url = link;
-      this.tutor.personal_access_token = personal_access_token;
-      this.closemodalbutton?.nativeElement.click();
-      this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
-    }, err => {
-      console.log('err: ', err);
-    })
+    
   }
 
   async open(message: string, action: string) {

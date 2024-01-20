@@ -1568,7 +1568,10 @@
         "back": "Itzuli",
         "attachment": "Eranskina",
         "cancel": "Utzi",
-        "backtolist": "Itzuli onarpen-zerrendara"
+        "backtolist": "Itzuli onarpen-zerrendara",
+        "notstarted": "Ez da hasi",
+        "inprogress": "Abian",
+        "closed": "Itxita"
     },
     "post-survey": {
         "hello": "Kaixo,",
@@ -3050,7 +3053,8 @@
         "confirmresend": "Berretsi berriro bidali",
         "confirmresendemail": "Benetan nahi al duzu ikastaroaren sarbide-mezua berriro bidali?",
         "userexists":"Erabiltzaile hau jada existitzen da",
-        "questionnairemandatoryfields":"Jarraitzeko, galdetegi osoa bete behar duzu."
+        "questionnairemandatoryfields":"Jarraitzeko, galdetegi osoa bete behar duzu.",
+        "bookingcancel":"Zure erreserba behar bezala bertan behera utzi da."
     },
     "buddy": {
         "mentorprofile": "Tutorearen profila",
@@ -3183,7 +3187,9 @@
         "selectday": "Hautatu eguna egutegitik",
         "commissions": "Komisioak",
         "transfercompleted": "Transferentzia amaitu da",
-        "pendingtransfer": "Transferentzia zain"
+        "pendingtransfer": "Transferentzia zain",
+        "validtoken":"Mesedez, eman baliozko token bat aurrera egiteko",
+        "notsetupaccount":"Tutore-profil hau ez dago behar bezala konfiguratuta."
     },
     "general-details": {
         "name" : "Izena",

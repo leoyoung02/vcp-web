@@ -1571,7 +1571,10 @@
         "back": "Atrás",
         "attachment": "Adjunto",
         "cancel": "Cancelar",
-        "backtolist": "Volver a la lista de tickets de soporte"
+        "backtolist": "Volver a la lista de tickets de soporte",
+        "notstarted": "No iniciado",
+        "inprogress": "En progreso",
+        "closed": "Cerrado"
     },
     "post-survey": {
         "hello": "Hola,",
@@ -3063,7 +3066,8 @@
         "confirmresend": "Confirmar reenvío",
         "confirmresendemail": "¿Realmente deseas reenviar el correo electrónico de acceso al curso?",
         "userexists":"Este usuario ya existe",
-        "questionnairemandatoryfields":"Debes completar todo el cuestionario para continuar"
+        "questionnairemandatoryfields":"Debes completar todo el cuestionario para continuar",
+        "bookingcancel":"Su reserva ha sido cancelada con éxito."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",
@@ -3204,7 +3208,9 @@
         "selectday": "Seleccionar día del calendario",
         "commissions": "Comisiones",
         "transfercompleted": "Transferencia completada",
-        "pendingtransfer": "Transferencia pendiente"
+        "pendingtransfer": "Transferencia pendiente",
+        "validtoken":"Proporcione un token válido para continuar",
+        "notsetupaccount":"Este tutor profle no está configurado previamente."
     },
     "general-details": {
         "name" : "Nombre",

@@ -1571,7 +1571,10 @@
         "back": "Enrere",
         "attachment": "Adjunt",
         "cancel": "Cancel·lar",
-        "backtolist": "Tornar a la llista de tiquets de suport"
+        "backtolist": "Tornar a la llista de tiquets de suport",
+        "notstarted": "No s'ha iniciat",
+        "inprogress": "En curs",
+        "closed": "Tancat"
     },
     "post-survey": {
         "hello": "Hola,",
@@ -3060,7 +3063,8 @@
         "confirmresend": "Confirmar el reenviament",
         "confirmresendemail": "De veritat voleu tornar a enviar el correu electrònic d'accés al curs?",
         "userexists":"Aquest usuari ja existeix",
-        "questionnairemandatoryfields":"Cal omplir tot el qüestionari per continuar.."
+        "questionnairemandatoryfields":"Cal omplir tot el qüestionari per continuar..",
+        "bookingcancel":"La teva reserva s'ha cancel·lat correctament."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",
@@ -3193,7 +3197,9 @@
         "selectday": "Selecciona el dia del calendari",
         "commissions": "Comissions",
         "transfercompleted": "Transferència completada",
-        "pendingtransfer": "Pendent de transferència"
+        "pendingtransfer": "Pendent de transferència",
+        "validtoken":"Proporcioneu un testimoni vàlid per continuar",
+        "notsetupaccount":"Aquest perfil de tutor no està configurat correctament."
     },
     "general-details": {
         "name" : "Nom",
