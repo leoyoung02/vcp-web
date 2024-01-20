@@ -1571,7 +1571,10 @@
         "back": "Atrás",
         "attachment": "Adjunto",
         "cancel": "Cancelar",
-        "backtolist": "Volver a la lista de tickets de soporte"
+        "backtolist": "Volver a la lista de tickets de soporte",
+        "notstarted": "No iniciado",
+        "inprogress": "En progreso",
+        "closed": "Cerrado"
     },
     "post-survey": {
         "hello": "Hola,",

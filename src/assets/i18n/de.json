@@ -1567,7 +1567,10 @@
         "back": "Zurück",
         "attachment": "Anhang",
         "cancel": "stornieren",
-        "backtolist": "Zurück zur Support-Ticketliste"
+        "backtolist": "Zurück zur Support-Ticketliste",
+        "notstarted": "Nicht gestartet",
+        "inprogress": "In Bearbeitung",
+        "closed": "Geschlossen"
     },
     "post-survey": {
         "hello": "Hallo,",

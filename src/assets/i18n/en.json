@@ -1572,7 +1572,10 @@
         "back": "Go back",
         "attachment": "Attachment",
         "cancel": "Cancel",
-        "backtolist": "Go back to Support Tickets list"
+        "backtolist": "Go back to Support Tickets list",
+        "notstarted": "Not Started",
+        "inprogress": "In Progress",
+        "closed": "Closed"
     },
     "post-survey": {
         "hello": "Hello,",

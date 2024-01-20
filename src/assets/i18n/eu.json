@@ -1568,7 +1568,10 @@
         "back": "Itzuli",
         "attachment": "Eranskina",
         "cancel": "Utzi",
-        "backtolist": "Itzuli onarpen-zerrendara"
+        "backtolist": "Itzuli onarpen-zerrendara",
+        "notstarted": "Ez da hasi",
+        "inprogress": "Abian",
+        "closed": "Itxita"
     },
     "post-survey": {
         "hello": "Kaixo,",

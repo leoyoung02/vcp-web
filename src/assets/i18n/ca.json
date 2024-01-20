@@ -1571,7 +1571,10 @@
         "back": "Enrere",
         "attachment": "Adjunt",
         "cancel": "Cancel·lar",
-        "backtolist": "Tornar a la llista de tiquets de suport"
+        "backtolist": "Tornar a la llista de tiquets de suport",
+        "notstarted": "No s'ha iniciat",
+        "inprogress": "En curs",
+        "closed": "Tancat"
     },
     "post-survey": {
         "hello": "Hola,",

@@ -1566,7 +1566,10 @@
         "back": "Retour",
         "attachment": "Pièce jointe",
         "cancel": "Annuler",
-        "backtolist": "Retour à la liste des tickets d'assistance"
+        "backtolist": "Retour à la liste des tickets d'assistance",
+        "notstarted": "Non démarré",
+        "inprogress": "En cours",
+        "closed": "Fermé"
     },
     "post-survey": {
         "hello": "Bonjour,",

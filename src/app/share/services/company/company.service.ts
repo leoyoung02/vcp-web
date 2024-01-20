@@ -197,6 +197,9 @@ import {
   ADD_KEAP_INTEGRATION_URL,
   EDIT_KEAP_INTEGRATION_URL,
   DELETE_KEAP_INTEGRATION_URL,
+  SUPPORT_TICKETS_DATA_URL,
+  SUBMIT_SUPPORT_TICKET_URL,
+  CREATE_TICKET_REPLY_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1688,6 +1691,56 @@ export class CompanyService {
   editIntegrationStatus(id: any, params): Observable<any> {
     return this._http.put(`${EDIT_INTEGRATION_STATUS_URL}/${id}`,
         params
+    ).pipe(map(res => res));
+  }
+
+  fetchSupportTicketsData(id: any, userId: any): Observable<any> {
+    return this._http.get(`${SUPPORT_TICKETS_DATA_URL}/${id}/${userId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  createTicket( subject, description, categoryId, priorityId, companyId, userId, file): Observable<any> {
+    let formData = new FormData();
+
+    formData.append( 'subject', subject );
+    formData.append( 'description', description );
+    formData.append( 'category_id', categoryId );
+    formData.append( 'priority_id', priorityId );
+    formData.append( 'company_id', companyId );
+    formData.append( 'created_by', userId );
+
+    if (file) {
+        const filename = 't_' + userId + '_' + this.getTimestamp();
+        let fileExtension = file.name.split('.').pop();
+        formData.append('file', file, filename + "." + fileExtension);
+        formData.append( 'filename', filename + "." + fileExtension );
+    }
+
+    return this._http.post(SUBMIT_SUPPORT_TICKET_URL,
+        formData
+    ).pipe(map(res => res));
+  }
+
+  createReply( ticketId, status, companyId, userId, message, file): Observable<any> {
+    let formData = new FormData();
+
+    formData.append( 'ticket_id', ticketId );
+    formData.append( 'status', status );
+    formData.append( 'company_id', companyId );
+    formData.append( 'admin', '1' );
+    formData.append( 'created_by', userId );
+    formData.append( 'message', message );
+
+    if (file) {
+        const filename = 't_' + userId + '_' + this.getTimestamp();
+        let fileExtension = file.name.split('.').pop();
+        formData.append('file', file, filename + "." + fileExtension);
+        formData.append( 'filename', filename + "." + fileExtension );
+    }
+
+    return this._http.post(CREATE_TICKET_REPLY_URL,
+        formData
     ).pipe(map(res => res));
   }
 }
