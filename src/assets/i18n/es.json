@@ -564,7 +564,8 @@
         "pleasecontactadministrator": "Por favor, contacto con el administrador",
         "clubactivities": "Actividades del club",
         "downloadmembers": "Descargar miembros (XLSX)",
-        "downloadedsuccessfully": "Descargado exitosamente. Por favor revisa tu carpeta de descargas"
+        "downloadedsuccessfully": "Descargado exitosamente. Por favor revisa tu carpeta de descargas",
+        "manager": "Manager"
     },
     "club-create": {
         "fillup": "Rellene el formulario para crear su propio club",

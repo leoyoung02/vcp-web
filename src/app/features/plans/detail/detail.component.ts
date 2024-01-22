@@ -7,7 +7,7 @@ import {
   SecurityContext,
 } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { environment } from "@env/environment";
 import { PlansService } from "@features/services";
 import {
@@ -47,6 +47,7 @@ declare const addeventatc: any;
     TranslateModule,
     FormsModule,
     MatSnackBarModule,
+    RouterModule,
     BreadcrumbComponent,
     PageTitleComponent,
     NgOptimizedImage,
@@ -295,6 +296,7 @@ export class PlanDetailComponent {
   isUESchoolOfLife: boolean = false;
   planCategoryMapping: any = [];
   allPlanData: any = [];
+  hasMembers: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -380,6 +382,12 @@ export class PlanDetailComponent {
           this.initializePage();
         }
       );
+
+    let features = this._localService.getLocalStorage(environment.lsfeatures)
+    ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
+    : "";
+    let membersFeature = features?.find(f => f.feature_name == "Members")
+    this.hasMembers = membersFeature ? true : false;
 
     setTimeout(() => {
       initFlowbite();
@@ -2581,6 +2589,12 @@ export class PlanDetailComponent {
 
   toggleAddCalendarHover(event) {
     this.addCalendarHover = event;
+  }
+
+  goToMemberProfilePage(member) {
+    if(this.hasMembers && member?.password) {
+      this._router.navigate([`/members/details/${member?.fk_user_id}`])
+    }
   }
 
   ngOnDestroy() {

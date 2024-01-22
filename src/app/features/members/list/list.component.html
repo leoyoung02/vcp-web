@@ -25,7 +25,7 @@
 </div>
 <div class="pt-6">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-8 py-2 pb-20">
-        <ng-container *ngFor="let member of members | paginate: {itemsPerPage: 8, currentPage: p}">
+        <ng-container *ngFor="let member of members | paginate: {itemsPerPage: 56, currentPage: p}">
             <app-member-card
                 [id]="member?.id"
                 [path]="member?.path"

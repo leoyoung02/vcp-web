@@ -563,7 +563,8 @@
         "leaveclub": "Deixa aquest club",
         "pleasecontactadministrator": "Si us plau, contacteu amb l'administrador",
         "downloadmembers": "Baixa els membres (XLSX)",
-        "downloadedsuccessfully": "S'ha baixat correctament. Comproveu la vostra carpeta de baixades"
+        "downloadedsuccessfully": "S'ha baixat correctament. Comproveu la vostra carpeta de baixades",
+        "manager": "Manager"
     },
     "club-create": {
         "fillup": "Ompliu el formulari per crear el vostre propi club",

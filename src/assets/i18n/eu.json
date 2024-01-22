@@ -563,7 +563,8 @@
         "leaveclub": "Utzi klub hau",
         "pleasecontactadministrator": "Mesedez, jarri harremanetan administratzailearekin",
         "downloadmembers": "Deskargatu kideak (XLSX)",
-        "downloadedsuccessfully": "Ondo deskargatu da. Mesedez, egiaztatu zure deskarga karpeta"
+        "downloadedsuccessfully": "Ondo deskargatu da. Mesedez, egiaztatu zure deskarga karpeta",
+        "manager": "Manager"
     },
     "club-create": {
         "fillup": "Bete formularioa zure kluba sortzeko",

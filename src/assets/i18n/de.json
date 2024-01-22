@@ -563,7 +563,8 @@
         "leaveclub": "Diesen Club verlassen",
         "pleasecontactadministrator": "Bitte wenden Sie sich an den Administrator",
         "downloadmembers": "Alle Mitglieder (XLSX)",
-        "downloadedsuccessfully": "S'ha baixat korrektament. Verbessern Sie Ihren Teppichboden."
+        "downloadedsuccessfully": "S'ha baixat korrektament. Verbessern Sie Ihren Teppichboden.",
+        "manager": "Manager"
     },
     "club-create": {
         "fillup": "Füllen Sie das Formular aus, um Ihren eigenen Club zu gründen",
