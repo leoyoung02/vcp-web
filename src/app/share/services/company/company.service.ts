@@ -200,6 +200,8 @@ import {
   SUPPORT_TICKETS_DATA_URL,
   SUBMIT_SUPPORT_TICKET_URL,
   CREATE_TICKET_REPLY_URL,
+  FILTER_SETTINGS_URL,
+  EDIT_FILTER_SETTINGS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1741,6 +1743,18 @@ export class CompanyService {
 
     return this._http.post(CREATE_TICKET_REPLY_URL,
         formData
+    ).pipe(map(res => res));
+  }
+
+  getFilterSettings(id: any): Observable<any> {
+    return this._http.get(`${FILTER_SETTINGS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editFilterSettings(params): Observable<any> {
+    return this._http.post(`${EDIT_FILTER_SETTINGS_URL}`,
+        params
     ).pipe(map(res => res));
   }
 }

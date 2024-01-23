@@ -111,6 +111,8 @@ export const MANAGE_SETTINGS_DATA_URL = `${API_BASE}/v2/settings-data`;
 export const MANAGE_SETTINGS_EMAIL_DATA_URL = `${API_BASE}/v2/settings-email-data`;
 export const SIGNUP_DATA_URL = `${API_BASE}/v2/signup-data`;
 export const SUPPORT_TICKETS_DATA_URL = `${API_BASE}/v2/support-tickets-data`;
+export const FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings`;
+export const EDIT_FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings/edit`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;
