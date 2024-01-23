@@ -1,0 +1,13 @@
+<div class="pointer-events-auto hover:cursor-pointer">
+    <div class="bg-[#F8F4F4] border border-gray-200 shadow dark:bg-gray-800 dark:border-gray-700 relative my-8 sm:my-8 md:mb-0 lg:my-0 rounded-[30px] h-full max-h-full sm:h-full sm:max-h-full md:h-[280px] md:max-h-[260px] lg:h-[260px] lg:max-h-[260px] flex flex-col">
+        <div class="flex justify-center py-4">
+            <img class="px-4 object-contain w-60 object-center" 
+                width="219" height="219" *ngIf="image" [ngSrc]="image" alt=""
+                [ngClass]="{'bg-[#525252] rounded-lg my-4 h-24': id == 20 || id == 32 || id == 52,
+                    'py-6': id == 32,
+                    'py-4':  id == 20 || id == 52,
+                    'h-32':  id != 20 && id != 32 && id != 52}">
+        </div>
+        <div class="text-center text-xl font-semibold px-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0" [routerLink]="[path]">{{name}}</div>
+    </div>
+</div>

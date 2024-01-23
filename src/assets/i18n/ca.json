@@ -713,7 +713,8 @@
         "communitysupport": "Comunitat i Suport",
         "termsandconditions": "Termes i condicions",
         "privacypolicy": "Política de privadesa",
-        "cookiespolicy":"Política de cookies"
+        "cookiespolicy":"Política de cookies", 
+        "customeronboarding": "Incorporació del client"
     },
     "public-profile": {
         "publicprofile": "Perfil Públic",

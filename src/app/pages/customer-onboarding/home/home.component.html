@@ -1,0 +1,53 @@
+<ng-container *ngIf="!isloading && user?.role == 'Admin'">
+    <app-page-title title="{{ 'sidebar.customeronboarding' | translate }}"></app-page-title>
+    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4">
+        <button 
+            class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0 transition duration-700 ease-in-out"
+            [ngStyle]="{
+                'background-color': buttonColor,
+                'opacity': createHover ? 1.5 : 1,
+                'filter': createHover ? 'brightness(0.8)' : 'brightness(1)'
+            }" 
+            (click)="handleCreateRoute()"
+            (mouseover)="toggleCreateHover(true)"
+            (mouseleave)="toggleCreateHover(false)"
+        >
+            <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+            </svg>
+            <span class="text-white text-md font-semibold uppercase">{{ 'create-discount.createnew' | translate }}</span>
+        </button>
+    </div>
+    <div class="pt-6">
+        <div class="flex flex-wrap items-center w-full max-w-full">
+            <div class="w-full sm:w-full md:w-1/4 lg:w-1/4">
+                <app-search
+                    [searchText]="searchText"
+                    [placeholderText]="placeholderText"
+                    [buttonColor]="buttonColor"
+                    (onEnterPressed)="handleSearchChanged($event)"
+                    (doSearch)="handleSearchChanged($event)"
+                >
+                </app-search>
+            </div>
+            <div class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 mt-4 sm:mt-4 md:mt-0 lg:mt-0"></div>
+        </div>
+    </div>
+    <div class="pt-6">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-8 py-2 pb-20">
+            <ng-container *ngFor="let customer of companies | paginate: {itemsPerPage: 24, currentPage: p}">
+                <app-customer-card
+                    [id]="customer?.id"
+                    [path]="customer?.path"
+                    [name]="customer?.entity_name"
+                    [image]="customer?.image"
+                    [buttonColor]="buttonColor"
+                >
+                </app-customer-card>
+            </ng-container>
+        </div>
+    </div>
+</ng-container>
+<ng-container *ngIf="!isloading && user?.role != 'Admin'">
+    <app-no-access></app-no-access>  
+</ng-container>

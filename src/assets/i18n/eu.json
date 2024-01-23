@@ -713,7 +713,8 @@
         "communitysupport": "Komunitatea eta laguntza",
         "termsandconditions": "Baldintzak eta baldintzak",
         "privacypolicy": "Pribatutasun politika",
-        "cookiespolicy":"Cookie-politika"
+        "cookiespolicy":"Cookie-politika", 
+        "customeronboarding": "Bezeroa sartzea"
     },
     "public-profile": {
         "publicprofile": "Profil publikoa",

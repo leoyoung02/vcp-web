@@ -714,7 +714,8 @@
         "communitysupport": "Communauté et support",
         "termsandconditions": "Termes et conditions",
         "privacypolicy": "Politique de confidentialité",
-        "cookiespolicy": "Politique en matière de cookies"
+        "cookiespolicy": "Politique en matière de cookies", 
+        "customeronboarding": "Intégration client"
     },
     "public-profile": {
         "publicprofile": "Profil public",
