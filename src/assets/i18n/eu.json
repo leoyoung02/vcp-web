@@ -3440,5 +3440,19 @@
         "allow": "Onartu cookieak",
         "deny": "Baztertu",
         "link": "Cookie politika"
+    },
+    "customer-onboarding": {
+        "sitedetails": "Gunearen xehetasunak",
+        "accountdetails": "Kontuaren xehetasunak",
+        "designdetails": "Diseinuaren xehetasunak",
+        "featuresactivation": "Ezaugarrien aktibazioa",
+        "settings": "Ezarpenak",
+        "confirmation": "Berrespena",
+        "successfullycreated": "Bezeroa arrakastaz sortua",
+        "nextstep": "Hurrengo urratsa",
+        "primarycolor": "Kolore nagusia",
+        "buttoncolor": "Botoien kolorea",
+        "menutextcolor": "Menuaren testuaren kolorea",
+        "hovercolor": "Kolorea pasatzean"
     }
 }

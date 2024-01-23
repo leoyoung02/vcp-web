@@ -216,7 +216,7 @@
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="company?.id == 25">
+  <ng-container *ngIf="company?.id == 25 && superAdmin">
     <div class="px-4 py-2 hover:cursor-pointer" (click)="goToCustomerOnboarding()">
       <div class="p-2 flex items-center hover:rounded-lg"
         [ngStyle]="{'background-color': customerOnboardingHover ? hoverColor : 'transparent'}"

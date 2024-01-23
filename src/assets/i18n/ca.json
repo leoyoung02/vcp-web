@@ -3450,5 +3450,19 @@
         "allow": "Acceptar cookies",
         "deny": "Rebutjar",
         "link": "Política de cookies"
+    },
+    "customer-onboarding": {
+        "sitedetails": "Detalls del lloc",
+        "accountdetails": "Detalls del compte",
+        "designdetails": "Detalls del disseny",
+        "featuresactivation": "Activació de funcions",
+        "settings": "Configuració",
+        "confirmation": "Confirmació", 
+        "successfullycreated": "Client creat amb èxit",
+        "nextstep": "Següent pas",
+        "primarycolor": "Color primari",
+        "buttoncolor": "Color del botó",
+        "menutextcolor": "Color del text del menú",
+        "hovercolor": "Color del cursor"
     }
 }

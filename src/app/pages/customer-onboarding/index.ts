@@ -8,4 +8,10 @@ export const routes: Routes = [
         data: { titleKey: 'sidebar.customeronboarding'},
         loadComponent: async () => (await import('./home/home.component')).CustomerOnboardingHomeComponent,
     },
+    {
+        path: 'create',
+        title: CustomTitleResolver,
+        data: { titleKey: 'landing.createnewcustomer'},
+        loadComponent: async () => (await import('./create/create.component')).CreateCustomerComponent,
+    },
 ];

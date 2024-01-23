@@ -6,6 +6,7 @@ export const API_BASE = environment.api;
 // PLATFORMS
 export const COMPANIES_URL = `${API_BASE}/guest/companies-new`;
 export const FEATURES_URL = `${API_BASE}/guest/features`;
+export const ALL_FEATURES_URL = `${API_BASE}/company/features`;
 export const CONFIRM_EMAIL_URL = `${API_BASE}/company/check/confirm-email`;
 export const OTHER_SETTINGS_URL = `${API_BASE}/company/other-settings`;
 export const DASHBOARD_DETAILS_URL = `${API_BASE}/guest/dashboard/details`;

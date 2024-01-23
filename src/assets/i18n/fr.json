@@ -3435,5 +3435,19 @@
         "allow": "Accepter les cookies",
         "deny": "Rejeter",
         "link": "Politique en matière de cookies"
+    },
+    "customer-onboarding": {
+        "sitedetails": "Détails du site",
+        "accountdetails": "Détails du compte",
+        "designdetails": "Détails de conception",
+        "featuresactivation": "Activation des fonctionnalités",
+        "settings": "Paramètres",
+        "confirmation": "Confirmation",
+        "successfullycreated": "Client créé avec succès",
+        "nextstep": "Prochaine étape",
+        "primarycolor": "Couleur primaire",
+        "buttoncolor": "Couleur du bouton",
+        "menutextcolor": "Couleur du texte du menu",
+        "hovercolor": "Couleur de survol"
     }
 }

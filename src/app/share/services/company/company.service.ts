@@ -200,6 +200,7 @@ import {
   SUPPORT_TICKETS_DATA_URL,
   SUBMIT_SUPPORT_TICKET_URL,
   CREATE_TICKET_REPLY_URL,
+  ALL_FEATURES_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1742,5 +1743,12 @@ export class CompanyService {
     return this._http.post(CREATE_TICKET_REPLY_URL,
         formData
     ).pipe(map(res => res));
+  }
+
+  allFeaturesList() {
+    return this._http.get(`${ALL_FEATURES_URL}`, {
+      ...withCache(),
+      headers: this.headers,
+    });
   }
 }

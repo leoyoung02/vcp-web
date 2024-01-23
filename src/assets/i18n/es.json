@@ -3462,5 +3462,19 @@
         "allow": "Acepto galletas",
         "deny": "Rechazar",
         "link": "Política de cookies"
+    },
+    "customer-onboarding": {
+        "sitedetails": "Detalles del sitio",
+        "accountdetails": "Detalles de la cuenta",
+        "designdetails": "Detalles del diseño",
+        "featuresactivation": "Activación de funciones",
+        "settings": "Configuración", 
+        "confirmation": "Confirmación",
+        "successfullycreated": "Cliente creado exitosamente",
+        "nextstep": "Siguiente paso",
+        "primarycolor": "Color primario",
+        "buttoncolor": "Color del botón",
+        "menutextcolor": "Color del texto del menú",
+        "hovercolor": "Color al pasar el cursor"
     }
 }

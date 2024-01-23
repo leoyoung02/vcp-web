@@ -3440,5 +3440,19 @@
         "allow": "Cookies akzeptieren",
         "deny": "Ablehnen",
         "link": "Cookie-Richtlinie"
+    },
+    "customer-onboarding": {
+        "sitedetails": "Site-Details",
+        "accountdetails": "Kontodetails",
+        "designdetails": "Designdetails",
+        "featuresactivation": "Funktionsaktivierung",
+        "settings": "Einstellungen",
+        "confirmation": "Bestätigung",
+        "successfullycreated": "Kunde erfolgreich erstellt",
+        "nextstep": "Nächster Schritt",
+        "primarycolor": "Primärfarbe",
+        "buttoncolor": "Tastenfarbe",
+        "menutextcolor": "Menütextfarbe",
+        "hovercolor": "Hover-Farbe"
     }
 }
