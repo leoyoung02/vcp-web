@@ -132,6 +132,12 @@ export class CustomerOnboardingHomeComponent {
           image: `${environment.api}/get-image-company/${item.image}`,
         };
     });
+
+    if(companies?.length > 0) {
+      companies = companies?.sort((a, b) => {
+        return b.id - a.id;
+      });
+    }
   
     return companies;
   }

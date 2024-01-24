@@ -3489,6 +3489,21 @@
         "primarycolor": "Primary color",
         "buttoncolor": "Button color",
         "menutextcolor": "Menu text color",
-        "hovercolor": "Hover color"
+        "hovercolor": "Hover color",
+        "proceed": "Proceed",
+        "confirmproceed": "Confirm & Proceed",
+        "summary": "Summary",
+        "allsetup": "New customer is all setup",
+        "checksummary": "Check the summary below and click the Confirm & Proceed button to proceed with creating the customer.",
+        "siteinfo": "Basic information about site has been completed.",
+        "accountinfo": "Account of the admin user has been entered.",
+        "designinfo": "Branding (logo, banner, basic colors) has been set.",
+        "featuresinfo": "Active features have been defined and default settings will be imported.",
+        "setupcustomerinprogress": "Setting up Customer in progress",
+        "importingnote": "Setting up may take some time. Please do not close your browser or refresh the page until the pricess is complete.",
+        "timelapsed": "Time elapsed",
+        "log": "Log",
+        "customercreated": "New customer has successfully been created.",
+        "pendingstatus": "An email will be sent to admin to make the necessary server changes for the domain." 
     }
 }

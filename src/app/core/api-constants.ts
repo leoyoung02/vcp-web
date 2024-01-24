@@ -112,6 +112,9 @@ export const MANAGE_SETTINGS_DATA_URL = `${API_BASE}/v2/settings-data`;
 export const MANAGE_SETTINGS_EMAIL_DATA_URL = `${API_BASE}/v2/settings-email-data`;
 export const SIGNUP_DATA_URL = `${API_BASE}/v2/signup-data`;
 export const SUPPORT_TICKETS_DATA_URL = `${API_BASE}/v2/support-tickets-data`;
+export const ADD_CUSTOMER_URL = `${API_BASE}/v2/customer/add`;
+export const ADD_CUSTOMER_FEATURE_MAPPING_URL = `${API_BASE}/v2/customer/features-mapping/add`;
+export const ADD_CUSTOMER_SETTINGS_URL = `${API_BASE}/v2/customer/settings/add`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;

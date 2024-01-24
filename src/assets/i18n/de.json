@@ -3453,6 +3453,21 @@
         "primarycolor": "Primärfarbe",
         "buttoncolor": "Tastenfarbe",
         "menutextcolor": "Menütextfarbe",
-        "hovercolor": "Hover-Farbe"
+        "hovercolor": "Hover-Farbe",
+        "proceed": "Weiter",
+        "confirmproceed": "Bestätigen und fortfahren",
+        "summary": "Zusammenfassung",
+        "allsetup": "Neuer Kunde ist vollständig eingerichtet",
+        "checksummary": "Überprüfen Sie die Zusammenfassung unten und klicken Sie auf die Schaltfläche Bestätigen und fortfahren, um mit der Erstellung des Kunden fortzufahren.",
+        "siteinfo": "Grundlegende Informationen zur Website wurden vervollständigt.",
+        "accountinfo": "Konto des Admin-Benutzers wurde eingegeben.",
+        "designinfo": "Branding (Logo, Banner, Grundfarben) wurde festgelegt.",
+        "featuresinfo": "Aktive Funktionen wurden definiert und Standardeinstellungen werden importiert.",
+        "setupcustomerinprogress": "Einrichtung des Kunden läuft",
+        "importingnote": "Das Einrichten kann einige Zeit dauern. Bitte schließen Sie Ihren Browser nicht und aktualisieren Sie die Seite nicht, bis die Preise vollständig sind.",
+        "timelapsed": "Verstrichene Zeit",
+        "log": "Protokoll",
+        "customercreated": "Neuer Kunde wurde erfolgreich erstellt.",
+        "pendingstatus": "Eine E-Mail wird an den Administrator gesendet, um die erforderlichen Serveränderungen für die Domain vorzunehmen."
     }
 }

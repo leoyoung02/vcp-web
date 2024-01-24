@@ -87,7 +87,7 @@
                         {{'customer.email' | translate}}
                     </label>
                     <input 
-                        type="accountemail" 
+                        type="email" 
                         name="accountemail" 
                         id="accountemail" 
                         class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -314,10 +314,10 @@
             </div>
             <div *ngIf="currentStep?.number == 4">
                 <ul class="grid w-full gap-6 md:grid-cols-4">
-                    <ng-container *ngFor="let feature of companyFeatures">
+                    <ng-container *ngFor="let feature of companyFeatures;let i = index">
                         <li class="min-h-[168px]">
-                            <input type="checkbox" id="feature-{{feature?.id}}" value="" class="hidden peer" required="">
-                            <label for="react-option" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
+                            <input type="checkbox" [(ngModel)]="feature.checked" name="feature{{i}}" id="feature-{{feature?.id}}" value="" class="hidden peer" required="">
+                            <label for="feature-{{feature?.id}}" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border-2 border-gray-200 rounded-lg cursor-pointer dark:hover:text-gray-300 dark:border-gray-700 peer-checked:border-blue-600 hover:text-gray-600 dark:peer-checked:text-gray-300 peer-checked:text-gray-600 hover:bg-gray-50 dark:text-gray-400 dark:bg-gray-800 dark:hover:bg-gray-700">                           
                                 <div class="block">
                                     <svg class="mb-2 w-7 h-7 text-sky-500" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
                                         <path fill-rule="evenodd" d="M5 3a2 2 0 0 0-2 2v5h18V5a2 2 0 0 0-2-2H5ZM3 14v-2h18v2a2 2 0 0 1-2 2h-6v3h2a1 1 0 1 1 0 2H9a1 1 0 1 1 0-2h2v-3H5a2 2 0 0 1-2-2Z" clip-rule="evenodd"/>
@@ -330,12 +330,70 @@
                     </ng-container>
                 </ul>
             </div>
+            <div *ngIf="currentStep?.number == 5">
+                <ng-container *ngIf="!creationInProgress">
+                    <div class="text-base">{{'customer-onboarding.allsetup' | translate}}.</div>
+                    <div class="text-base">{{'customer-onboarding.checksummary' | translate}}</div>
+                    <div class="my-4">
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 mr-4" [ngStyle]="{'color': '#5cb85c'}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M2 12a10 10 0 1 1 20 0 10 10 0 0 1-20 0Zm13.7-1.3a1 1 0 0 0-1.4-1.4L11 12.6l-1.8-1.8a1 1 0 0 0-1.4 1.4l2.5 2.5c.4.4 1 .4 1.4 0l4-4Z" clip-rule="evenodd"/>
+                            </svg> 
+                            <div>{{'customer-onboarding.siteinfo' | translate}}</div>                       
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 mr-4" [ngStyle]="{'color': '#5cb85c'}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M2 12a10 10 0 1 1 20 0 10 10 0 0 1-20 0Zm13.7-1.3a1 1 0 0 0-1.4-1.4L11 12.6l-1.8-1.8a1 1 0 0 0-1.4 1.4l2.5 2.5c.4.4 1 .4 1.4 0l4-4Z" clip-rule="evenodd"/>
+                            </svg> 
+                            <div>{{'customer-onboarding.accountinfo' | translate}}</div>                       
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 mr-4" [ngStyle]="{'color': '#5cb85c'}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M2 12a10 10 0 1 1 20 0 10 10 0 0 1-20 0Zm13.7-1.3a1 1 0 0 0-1.4-1.4L11 12.6l-1.8-1.8a1 1 0 0 0-1.4 1.4l2.5 2.5c.4.4 1 .4 1.4 0l4-4Z" clip-rule="evenodd"/>
+                            </svg> 
+                            <div>{{'customer-onboarding.designinfo' | translate}}</div>                       
+                        </div>
+                        <div class="flex items-center">
+                            <svg class="w-6 h-6 mr-4" [ngStyle]="{'color': '#5cb85c'}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M2 12a10 10 0 1 1 20 0 10 10 0 0 1-20 0Zm13.7-1.3a1 1 0 0 0-1.4-1.4L11 12.6l-1.8-1.8a1 1 0 0 0-1.4 1.4l2.5 2.5c.4.4 1 .4 1.4 0l4-4Z" clip-rule="evenodd"/>
+                            </svg> 
+                            <div>{{'customer-onboarding.featuresinfo' | translate}}</div>                       
+                        </div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="creationInProgress">
+                    <ng-container *ngIf="creationProgress != 100">
+                        <div class="mb-1 text-lg font-medium dark:text-white text-center">{{'customer-onboarding.setupcustomerinprogress' | translate}}</div>
+                        <div class="text-sm text-center mb-8">{{'customer-onboarding.importingnote' | translate}}</div>
+                    </ng-container>
+                    <ng-container *ngIf="creationProgress == 100">
+                        <div class="flex flex-col justify-center items-center py-12">
+                            <div>
+                                <img src="./assets/images/complete-assessment.png" class="w-[200px]" />
+                            </div>
+                            <div class="mt-8 text-2xl text-center font-bold">
+                                {{'customer-onboarding.customercreated' | translate}}
+                            </div>
+                            <div class="mt-4 text-base text-center">
+                                {{'customer-onboarding.pendingstatus' | translate}}
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div class="w-full h-6 bg-gray-200 rounded-full dark:bg-gray-700">
+                        <div class="h-6 bg-blue-600 rounded-full dark:bg-blue-500" [style.width.%]="creationProgress"></div>
+                    </div>
+                    <div class="text-base mt-8 mb-2" *ngIf="creationLogs">{{'customer-onboarding.log' | translate}}</div>
+                    <div *ngIf="creationLogs" class="p-2.5 rounded-lg" 
+                        [ngStyle]="{'background-color': '#F8F4F4', 'box-shadow': '0px 40px 54px -45px #00000099'}"
+                        [innerHtml]="creationLogs"></div>
+                </ng-container>
+            </div>
             <button (click)="submit()" type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
                 <ng-container *ngIf="currentStep?.number < steps?.length">
                     {{'signup.next' | translate}}
                 </ng-container>
                 <ng-container *ngIf="currentStep?.number == steps?.length">
-                    {{'tutors.gotolist' | translate}}
+                    {{creationProgress == 100 ? ('tutors.gotolist' | translate) : ('customer-onboarding.confirmproceed' | translate)}}
                 </ng-container>
             </button>
         </form>

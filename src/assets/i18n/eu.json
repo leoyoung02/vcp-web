@@ -3453,6 +3453,21 @@
         "primarycolor": "Kolore nagusia",
         "buttoncolor": "Botoien kolorea",
         "menutextcolor": "Menuaren testuaren kolorea",
-        "hovercolor": "Kolorea pasatzean"
+        "hovercolor": "Kolorea pasatzean",
+        "proceed": "Jarraitu",
+        "confirmproceed": "Berretsi eta jarraitu",
+        "summary": "Laburpena",
+        "allsetup": "Bezero berria konfiguratuta dago",
+        "checksummary": "Begiratu beheko laburpena eta egin klik Berretsi eta Jarraitu botoian bezeroa sortzen jarraitzeko.",
+        "siteinfo": "Guneari buruzko oinarrizko informazioa osatu da.",
+        "accountinfo": "Administratzailearen erabiltzailearen kontua sartu da.",
+        "designinfo": "Marka (logotipoa, pankarta, oinarrizko koloreak) ezarri da.",
+        "featuresinfo": "Eginbide aktiboak definitu dira eta ezarpen lehenetsiak inportatuko dira.",
+        "setupcustomerinprogress": "Bezeroa konfiguratzen ari da",
+        "importingnote": "Konfigurazioak denbora pixka bat behar izan dezake. Mesedez, ez itxi arakatzailea edo orria freskatu prezioak osatu arte.",
+        "timelapsed": "Igarotako denbora",
+        "log": "Erregistroa",
+        "customercreated": "Bezero berria behar bezala sortu da.",
+        "pendingstatus": "Mezu elektroniko bat bidaliko zaio administratzaileari domeinurako beharrezko zerbitzari-aldaketak egiteko."
     }
 }

@@ -3463,6 +3463,21 @@
         "primarycolor": "Color primari",
         "buttoncolor": "Color del botó",
         "menutextcolor": "Color del text del menú",
-        "hovercolor": "Color del cursor"
+        "hovercolor": "Color del cursor",
+        "proceed": "Continuar",
+        "confirmproceed": "Confirmar i continuar",
+        "summary": "Resum",
+        "allsetup": "El client nou està tot configurat",
+        "checksummary": "Comproveu el resum a continuació i feu clic al botó Confirmar i continuar per continuar amb la creació del client.",
+        "siteinfo": "S'ha completat la informació bàsica sobre el lloc.",
+        "accountinfo": "S'ha introduït el compte de l'usuari administrador.",
+        "designinfo": "S'ha establert la marca (logotip, banner, colors bàsics).",
+        "featuresinfo": "S'han definit les funcions actives i s'importarà la configuració predeterminada.",
+        "setupcustomerinprogress": "Configuració del client en curs",
+        "importingnote": "La configuració pot trigar una mica. Si us plau, no tanqueu el navegador ni actualitzeu la pàgina fins que s'hagi completat el preu.",
+        "timelapsed": "Temps transcorregut",
+        "log": "Registre",
+        "customercreated": "S'ha creat un client nou amb èxit.",
+        "pendingstatus": "S'enviarà un correu electrònic a l'administrador per fer els canvis de servidor necessaris per al domini."
     }
 }

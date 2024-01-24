@@ -141,6 +141,12 @@ export class CreateCustomerComponent {
         | undefined;
     companyFeatures: any = [];
     allCompanyFeatures: any = [];
+    creationInProgress: boolean = false;
+    creationProgress: number = 0;
+    creationLogs: any = '';
+    createdCustomer: any;
+    logoFileName: any;
+    bannerFileName: any;
 
     constructor(
         private _router: Router,
@@ -197,36 +203,35 @@ export class CreateCustomerComponent {
                 number: 1,
                 text: this._translateService.instant('customer-onboarding.sitedetails'),
                 completed: false,
+                checked: false,
             },
             {
                 index: 1,
                 number: 2,
                 text: this._translateService.instant('customer-onboarding.accountdetails'),
                 completed: false,
+                checked: false,
             },
             {
                 index: 2,
                 number: 3,
                 text: this._translateService.instant('customer-onboarding.designdetails'),
                 completed: false,
+                checked: false,
             },
             {
                 index: 3,
                 number: 4,
                 text: this._translateService.instant('customer-onboarding.featuresactivation'),
                 completed: false,
+                checked: false,
             },
             {
                 index: 4,
                 number: 5,
-                text: this._translateService.instant('customer-onboarding.settings'),
+                text: this._translateService.instant('customer-onboarding.summary'),
                 completed: false,
-            },
-            {
-                index: 5,
-                number: 6,
-                text: this._translateService.instant('customer-onboarding.confirmation'),
-                completed: false,
+                checked: false,
             }
         ];
         this.currentStep = this.steps[0];
@@ -314,7 +319,7 @@ export class CreateCustomerComponent {
     }
     
     submit() {
-        if(this.currentStep?.number == this.steps?.length) {
+        if(this.creationProgress == 100) {
             this._router.navigate([`/customer-onboarding`])
         } else {
             this.goToNextStep();
@@ -322,13 +327,144 @@ export class CreateCustomerComponent {
     }
 
     goToNextStep() {
-        const proceed = this.validateStep();
+        if(this.currentStep?.number == 5) {
+            this.initiateCustomerCreation();
+        } else {
+            const proceed = this.validateStep();
 
-        if(proceed) {
-            let row = this.steps?.find((f) => f.number == this.currentStep?.number);
-            this.steps[row.index].completed = true;
-            this.currentStep = this.steps[row?.index + 1];
+            if(proceed) {
+                let row = this.steps?.find((f) => f.number == this.currentStep?.number);
+                this.steps[row.index].completed = true;
+                this.currentStep = this.steps[row?.index + 1];
+            }
         }
+    }
+
+    initiateCustomerCreation() {
+        this.creationInProgress = true;
+        this.creationLogs = '';
+
+        this.creationProgress = 5;
+        this.addCustomer(25);
+    }
+
+    addCustomer(progress) {
+        let params = {
+            email: this.customerAccountEmail,
+            password: this.customerAccountPassword,
+            name: this.customerAccountName,
+            company_name: this.customerName,
+            domain: this.customerDomain + '.com',
+            url: `${this.customerDomain}.vistingo.com`,
+            primary_color: this.customerPrimaryColor,
+            button_color: this.customerButtonColor,
+            menu_color: this.customerMenuTextColor,
+            hover_color: this.customerHoverColor,
+        }
+
+        this._companyService.addCustomer(
+            params
+        ).subscribe(
+            response => {
+                this.createdCustomer = response.customer;
+                this.creationProgress = progress;
+                this.creationLogs += `${this._translateService.instant('customer-onboarding.accountdetails')}...<b>${this._translateService.instant('create-content.done')}</b><br>`;
+                this.addCustomerDesign(50);
+            },
+            error => {
+                console.log(error);
+            }
+        )    
+    }
+
+    addCustomerDesign(progress) {
+        this.logoFileName = 'cl_' + this.getTimestamp() + '.jpg';
+
+        this._companyService.addCustomerLogo(
+            this.createdCustomer?.id,
+            this.companyLogoPageFile,
+            this.logoFileName,
+          ).subscribe(
+            resImage => {
+                this._companyService.addCustomerHeaderLogo(
+                    this.createdCustomer?.id, 
+                    this.companyLogoFile,
+                    this.logoFileName,
+                ).subscribe(
+                    resLogo => {
+                        this.bannerFileName = 'cl_' + this.getTimestamp() + '.jpg';
+                        this._companyService.addCustomerBannerImage(
+                            this.createdCustomer?.id,
+                            this.bannerFile,
+                            this.bannerFileName
+                        ).subscribe(
+                            resBanner => {
+                                this.creationProgress = progress;
+                                this.creationLogs += `${this._translateService.instant('customer-onboarding.designdetails')}...<b>${this._translateService.instant('create-content.done')}</b><br>`;
+                                this.addCustomerFeatures(75);
+                            },
+                            error => {
+                                console.log(error);
+                            } 
+                        )
+                    },
+                    error => {
+                        console.log(error);
+                    } 
+                )
+            },
+            error => {
+                console.log(error);
+            } 
+          )
+    }
+
+    getTimestamp() {
+        const date = new Date();
+        const timestamp = date.getTime();
+    
+        return timestamp;
+    }
+
+    addCustomerFeatures(progress) {
+        let params = {
+            company_id: this.createdCustomer?.id,
+            features: this.companyFeatures,
+            domain: this.createdCustomer?.domain,
+            email: this.customerAccountEmail,
+        }
+        this._companyService.addCustomerFeatureMapping(
+            params
+          ).subscribe(
+            resBanner => {
+                this.creationProgress = progress;
+                this.creationLogs += `${this._translateService.instant('customer-onboarding.featuresactivation')}...<b>${this._translateService.instant('create-content.done')}</b><br>`;
+                this.addCustomerSettings(100);
+            },
+            error => {
+                console.log(error);
+            } 
+          )
+    }
+
+    addCustomerSettings(progress) {
+        let params = {
+            company_id: this.createdCustomer?.id,
+            email: this.customerAccountEmail,
+            image: this.logoFileName,
+        }
+        this._companyService.addCustomerSettings(
+            params
+          ).subscribe(
+            resBanner => {
+                this.creationProgress = progress;
+        this.currentStep[4].completed = true;
+        this.creationLogs += `<b>${this._translateService.instant('company-reports.completed')}...</b><br>`;
+            },
+            error => {
+                console.log(error);
+            } 
+          )
     }
 
     showCurrentStep(step) {
@@ -464,7 +600,6 @@ export class CreateCustomerComponent {
     }
     
     logoPageImageCropperModalSave() {
-        this.saveLogoBanner('logo_page')
         this.showLogoImageCropper = false;
         this.closemodalbutton?.nativeElement.click();
     }
@@ -518,7 +653,6 @@ export class CreateCustomerComponent {
               image: base64ToFile(event.base64) //event.file
           };
         }
-        this.saveLogoBanner('left_banner')
     }
     
     bannerImageLoaded() {
