@@ -3225,7 +3225,8 @@
         "transfercompleted": "Transfer completed",
         "pendingtransfer": "Pending transfer",
         "validtoken":"Please provide a valid token to proceed",
-        "notsetupaccount":"This tutor profle is not prpoerly setup."
+        "notsetupaccount":"This tutor profle is not prpoerly setup.",
+        "correctcalendlycredntials":"Please check your calendly credentials to proceed."
     },
     "general-details": {
         "name" : "Name",
