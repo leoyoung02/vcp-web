@@ -3199,7 +3199,8 @@
         "transfercompleted": "Transferència completada",
         "pendingtransfer": "Pendent de transferència",
         "validtoken":"Proporcioneu un testimoni vàlid per continuar",
-        "notsetupaccount":"Aquest perfil de tutor no està configurat correctament."
+        "notsetupaccount":"Aquest perfil de tutor no està configurat correctament.",
+        "correctcalendlycredntials":"Comproveu les vostres credencials de calendari per continuar."
     },
     "general-details": {
         "name" : "Nom",

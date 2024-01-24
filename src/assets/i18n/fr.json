@@ -3183,7 +3183,8 @@
         "transfercompleted": "Transfert terminé",
         "endingtransfer": "Transfert en attente",
         "validtoken":"Veuillez fournir un jeton valide pour continuer",
-        "notsetupaccount":"Ce profl de tuteur n'est pas correctement configuré."
+        "notsetupaccount":"Ce profl de tuteur n'est pas correctement configuré.",
+        "correctcalendlycredntials":"Veuillez vérifier vos informations d'identification Calendly pour continuer."
     },
     "general-details": {
         "name" : "Nom",

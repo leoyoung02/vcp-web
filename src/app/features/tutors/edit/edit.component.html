@@ -42,6 +42,7 @@
                             placeholder
                             [(ngModel)]="tutorUserCity"
                             [ngModelOptions]="{standalone: true}"
+                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': submitted && !tutorUserCity }"
                         >
                             <option value="" disabled selected>{{ 'cities.city' | translate }}</option>
                             <option
@@ -94,7 +95,10 @@
                             class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                             [(ngModel)]="tutorPersonalAccessToken"
                             [ngModelOptions]="{standalone: true}"
-                            placeholder="{{ 'members.personalaccesstoken' | translate }}">
+                            placeholder="{{ 'members.personalaccesstoken' | translate }}"
+                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': submitted &&tutorUserCalendlyURL && !tutorPersonalAccessToken }"
+                            >
+                            
                     </div>
                 </div>
                 <div class="flex items-center justify-center mb-4 relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
@@ -108,7 +112,8 @@
                             class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                             [(ngModel)]="tutorlanguages"
                             [ngModelOptions]="{standalone: true}"
-                            placeholder="{{ 'tutors.tutoringlanguages' | translate }}">
+                            placeholder="{{ 'tutors.tutoringlanguages' | translate }}"
+                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': submitted && !tutorlanguages }">
                     </div>
                 </div>
                 <div class="flex items-center justify-center relative mb-4 col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
@@ -160,6 +165,7 @@
                     id="description"
                     [(ngModel)]="who_am_i"
                     [ngModelOptions]="{standalone: true}"
+                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': submitted && !who_am_i }"
                 ></editor>
             </div>
             <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
