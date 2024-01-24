@@ -3189,7 +3189,8 @@
         "transfercompleted": "Übertragung abgeschlossen",
         "pendingtransfer": "Übertragung ausstehend",
         "validtoken":"Bitte geben Sie einen gültigen Token an, um fortzufahren",
-        "notsetupaccount":"Dieses Tutorprofil ist nicht ordnungsgemäß eingerichtet."
+        "notsetupaccount":"Dieses Tutorprofil ist nicht ordnungsgemäß eingerichtet.",
+        "correctcalendlycredntials":"Bitte überprüfen Sie Ihre Kalenderdaten, um fortzufahren."
     },
     "general-details": {
         "name" : "Name",
