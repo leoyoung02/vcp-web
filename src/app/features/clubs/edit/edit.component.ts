@@ -1082,7 +1082,7 @@ export class ClubEditComponent {
     let private_club = this.clubType == 1 ? "1" : "0";
     formData.append("private_club", private_club);
 
-    let admin = this.selectedAdmin.length > 0 ? this.selectedAdmin[0].id : "";
+    let admin = this.selectedAdmin?.length > 0 ? this.selectedAdmin[0].id : "";
     formData.append("user_admin", admin);
     formData.append(
       "description",

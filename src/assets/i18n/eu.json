@@ -3190,7 +3190,8 @@
         "transfercompleted": "Transferentzia amaitu da",
         "pendingtransfer": "Transferentzia zain",
         "validtoken":"Mesedez, eman baliozko token bat aurrera egiteko",
-        "notsetupaccount":"Tutore-profil hau ez dago behar bezala konfiguratuta."
+        "notsetupaccount":"Tutore-profil hau ez dago behar bezala konfiguratuta.",
+        "correctcalendlycredntials":"Mesedez, egiaztatu zure calendly kredentzialak aurrera egiteko."
     },
     "general-details": {
         "name" : "Izena",

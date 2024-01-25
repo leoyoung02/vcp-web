@@ -344,11 +344,50 @@ export class TutorEditComponent {
     });
   }
 
+
+  isFormValidated(){
+    const tutorFormData = {
+      first_name: this.tutorUserFirstName,
+      last_name: this.tutorUserLastName,
+      who_am_i: this.who_am_i,
+      who_am_i_en: this.who_am_i_en || this.who_am_i,
+      who_am_i_fr: this.who_am_i_fr || this.who_am_i,
+      city: this.tutorUserCity,
+      languages: this.tutorlanguages,
+      }
+    if(this.tutorUserCalendlyURL){
+      tutorFormData['calendly_url'] =  this.tutorUserCalendlyURL
+      tutorFormData['calendly_personal_access_token'] =  this.tutorPersonalAccessToken
+    }
+    console.log('tutorFormData: ', tutorFormData);
+    return Object.keys(tutorFormData).every(key=>tutorFormData[key] !== "")
+  }
+
+
+
   async saveTutor() {
-    const isValidCalendlyAccount = await checkIfValidCalendlyAccount(this.tutorPersonalAccessToken,this.tutorUserCalendlyURL)
-    if(isValidCalendlyAccount){
+
+    this.submitted = true;
+    const isFromValid = this.isFormValidated()
+
+    let isValidCalendlyToken = true
+    let isValidCalendlyUrl = true
+    
+    if(this.tutorUserCalendlyURL){
+      
+      const eventObj = await checkIfValidCalendlyAccount(this.tutorPersonalAccessToken,this.tutorUserCalendlyURL)
+      
+      isValidCalendlyToken = eventObj?.isValidToken
+      isValidCalendlyUrl = eventObj?.isValidURL
+
+    }
+   
+    console.log('isValidCalendlyUrl: ', isValidCalendlyUrl);
+    console.log('isValidCalendlyToken: ', isValidCalendlyToken);
+
+    if(isValidCalendlyToken && isFromValid){
+      console.log("valid token")
       this.errorMessage = "";
-      this.submitted = true;
       
       if(
         !this.tutorUserId
@@ -403,8 +442,8 @@ export class TutorEditComponent {
         );
       }
 
-    }else{
-      this.open(this._translateService.instant('tutors.validtoken'), '');
+    }else if(!isValidCalendlyToken || !isValidCalendlyUrl){
+      this.open(this._translateService.instant('tutors.correctcalendlycredntials'), '');
     }
   }
 

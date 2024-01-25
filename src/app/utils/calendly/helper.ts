@@ -9,7 +9,7 @@ export const fetchOrganizaitonUrl= async (token)=> {
           "Authorization": `Bearer ${token}`
         }
       })).json()
-      return data.resource.current_organization;
+      return data?.resource?.current_organization;
     }else{
       return false
     } 
@@ -29,10 +29,28 @@ export const checkIfValidCalendlyAccount = async (token,calendlyUrl)=>{
         }
       })).json()
 
-      const eventList = data.collection.map(event => event.scheduling_url);
-      return eventList.includes(calendlyUrl);
+      const eventList = data.collection.map(event => {
+        return{
+          // active:false,
+          active:event.active,
+          calendly_url:event.scheduling_url
+        }
+      });
+      
+      const isValidToken = eventList.some(event => event.calendly_url == calendlyUrl) 
+      const isValidURL = eventList.some(event => event.calendly_url == calendlyUrl && event.active == true) 
+      return {
+        eventList,
+        isValidToken,
+        isValidURL
+      }
+   
     }else{
-    return false
+    return {
+      eventList : [],
+      isValidToken : false,
+      isValidURL : false
+    }
   }
   } catch (error) {
     console.log(error);

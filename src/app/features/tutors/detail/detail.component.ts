@@ -385,7 +385,13 @@ export class TutorDetailComponent {
     this.courseCategoriesAccessRoles = data?.course_category_access_roles;
     this.courseExceptionUser = data?.company_course_exception_user;
 
-    this.isValidCalenldyAccount = await checkIfValidCalendlyAccount(this.tutorPersonalAccessToken,this.tutorCalendlyUrl)
+    const  eventObj = await checkIfValidCalendlyAccount(this.tutorPersonalAccessToken,this.tutorCalendlyUrl)
+    
+    if(eventObj?.isValidToken && eventObj?.isValidURL){
+      this.isValidCalenldyAccount = true
+    }else{
+      this.isValidCalenldyAccount = false
+    }
 
     this.getCompanyCourses();
   }
@@ -986,13 +992,19 @@ export class TutorDetailComponent {
   }
 
   async saveCalendlySettings() {
-   
+
     const personal_access_token = this.setupCalendlyForm.value?.personal_access_token;
     const link = this.setupCalendlyForm.value?.link;
 
-    const isValid = await checkIfValidCalendlyAccount(personal_access_token,link)
-    
-    if(isValid){
+    let isValidCalendlyToken = true
+    let isValidCalendlyUrl = true
+    if (link) {
+      const eventObj = await checkIfValidCalendlyAccount(personal_access_token, link);
+      isValidCalendlyToken = eventObj?.isValidToken;
+      isValidCalendlyUrl = eventObj?.isValidURL
+    }
+
+    if(isValidCalendlyToken){
         this.setupCalendlyFormSubmitted = true
 
         if(!this.isValidCalendlyForm()) {
@@ -1014,10 +1026,9 @@ export class TutorDetailComponent {
         }, err => {
           console.log('err: ', err);
         })
-    }else{
-      this.open(this._translateService.instant('tutors.validtoken'), ''); 
+    }else if(!isValidCalendlyUrl || !isValidCalendlyToken){
+      this.open(this._translateService.instant('tutors.correctcalendlycredntials'), '');
     }
-    
   }
 
   async open(message: string, action: string) {
