@@ -115,6 +115,8 @@ export const SUPPORT_TICKETS_DATA_URL = `${API_BASE}/v2/support-tickets-data`;
 export const ADD_CUSTOMER_URL = `${API_BASE}/v2/customer/add`;
 export const ADD_CUSTOMER_FEATURE_MAPPING_URL = `${API_BASE}/v2/customer/features-mapping/add`;
 export const ADD_CUSTOMER_SETTINGS_URL = `${API_BASE}/v2/customer/settings/add`;
+export const DEACTIVATE_CUSTOMER_URL = `${API_BASE}/v2/customer/deactivate`;
+export const EDIT_CUSTOMER_SITE_DETAILS_URL = `${API_BASE}/v2/customer/site-details/edit`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;

@@ -39,11 +39,14 @@ export class CustomerCardComponent {
   @Input() name: any;
   @Input() image: any;
   @Input() buttonColor: any;
+  @Output() onEdit = new EventEmitter();
+  @Output() onDelete = new EventEmitter();
 
   languageChangeSubscription;
   language: any;
   selectedCustomerId: any;
   readHover: boolean = false;
+  showDropdown: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -73,6 +76,16 @@ export class CustomerCardComponent {
   toggleReadHover(event, id) {
     this.readHover = event;
     this.selectedCustomerId = event ? id : ''
+  }
+
+  handleEdit() {
+    this.onEdit.emit(this.id);
+    this.showDropdown = !this.showDropdown;
+  }
+
+  handleDelete() {
+    this.onDelete.emit(this.id);
+    this.showDropdown = !this.showDropdown;
   }
 
   ngOnDestroy() {

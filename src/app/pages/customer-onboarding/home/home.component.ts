@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component } from "@angular/core";
+import { Component, ElementRef, ViewChild } from "@angular/core";
 import {
   LangChangeEvent,
   TranslateModule,
@@ -9,14 +9,16 @@ import { Router } from "@angular/router";
 import {
   LocalService,
   CompanyService,
-  UserService,
 } from "src/app/share/services";
 import { SearchComponent } from "@share/components/search/search.component";
-import { NoAccessComponent, PageTitleComponent } from "@share/components";
+import { NoAccessComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import { NgxPaginationModule } from "ngx-pagination";
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { CustomerCardComponent } from "@share/components/card/customer/customer.component";
 import { environment } from "@env/environment";
 import { Subject, takeUntil } from "rxjs";
+import { FormsModule } from "@angular/forms";
 import get from "lodash/get";
 
 @Component({
@@ -25,10 +27,13 @@ import get from "lodash/get";
         CommonModule, 
         TranslateModule, 
         NgxPaginationModule,
+        MatSnackBarModule,
+        FormsModule,
         SearchComponent, 
         PageTitleComponent,
         NoAccessComponent,
         CustomerCardComponent,
+        ToastComponent,
     ],
     templateUrl: "./home.component.html",
 })
@@ -55,13 +60,28 @@ export class CustomerOnboardingHomeComponent {
   superAdmin: boolean = false;
   p: any = 1;
   allCompanies: any = [];
+  company: any;
+  customerName: any;
+  customerURL: any;
+  showConfirmationModal: boolean = false;
+  selectedItem: any;
+  confirmDeleteItemTitle: any;
+  confirmDeleteItemDescription: any;
+  acceptText: string = "";
+  cancelText: any = "";
+  @ViewChild("modalbutton", { static: false }) modalbutton:
+    | ElementRef
+    | undefined;
+  @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+    | ElementRef
+    | undefined;
 
   constructor(
     private _router: Router,
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _companyService: CompanyService,
-    private _userService: UserService
+    private _snackBar: MatSnackBar,
   ) {}
 
   async ngOnInit() {
@@ -75,6 +95,7 @@ export class CustomerOnboardingHomeComponent {
 
     let company = this._companyService.getCompany(companies);
     if (company && company[0]) {
+      this.company = company[0];
       this.companyId = company[0].id;
       this.companyDomain = company[0].domain;
       this.companyImage = company[0].image;
@@ -175,6 +196,78 @@ export class CustomerOnboardingHomeComponent {
 
   handleCreateRoute() {
     this._router.navigate([`/customer-onboarding/create`])
+  }
+
+  handleEdit(event) {
+    this.selectedItem = this.companies?.find((f) => f.id == event);
+    this.customerName = this.selectedItem?.entity_name;
+    this.customerURL = this.selectedItem?.url;
+    this.modalbutton?.nativeElement.click();
+  }
+
+  handleDelete(event) {
+    this.showConfirmationModal = false;
+    this.selectedItem = this.companies?.find((f) => f.id == event);
+    this.confirmDeleteItemTitle = this._translateService.instant(
+      "dialog.confirmdelete"
+    );
+    this.confirmDeleteItemDescription = this._translateService.instant(
+      "dialog.confirmdeleteitem"
+    );
+    this.acceptText = "OK";
+    setTimeout(() => (this.showConfirmationModal = true));
+  }
+
+  confirm() {
+    this.deactivateCustomer(this.selectedItem.id, true);
+  }
+
+  deactivateCustomer(id, confirmed) {
+    if(confirmed) {
+      this._companyService.deactivateCustomer(id)
+        .subscribe(
+          response => {
+            this.loadCustomers();
+            this.showConfirmationModal = false;
+            this.open(
+              this._translateService.instant("dialog.savedsuccessfully"),
+              ""
+            );
+          },
+          error => {
+            console.log(error)
+          }
+        )
+    }
+  }
+
+  saveSiteDetails() {
+    let params = {
+      company_name: this.customerName,
+      url: this.customerURL,
+    }
+    this._companyService.editCustomerSiteDetails(this.selectedItem?.id, params)
+    .subscribe(
+      response => {
+        this.loadCustomers();
+        this.showConfirmationModal = false;
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+        this.closemodalbutton?.nativeElement.click();
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  async open(message: string, action: string) {
+    await this._snackBar.open(message, action, {
+      duration: 3000,
+      panelClass: ["info-snackbar"],
+    });
   }
 
   ngOnDestroy() {

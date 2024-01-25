@@ -204,6 +204,8 @@ import {
   ADD_CUSTOMER_URL,
   ADD_CUSTOMER_FEATURE_MAPPING_URL,
   ADD_CUSTOMER_SETTINGS_URL,
+  DEACTIVATE_CUSTOMER_URL,
+  EDIT_CUSTOMER_SITE_DETAILS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1824,6 +1826,18 @@ export class CompanyService {
   addCustomerSettings(params): Observable<any> {
     return this._http.post(ADD_CUSTOMER_SETTINGS_URL,
         params
+    ).pipe(map(res => res));
+  }
+
+  deactivateCustomer(id: any): Observable<any> {
+    return this._http.put(`${DEACTIVATE_CUSTOMER_URL}/${id}`,
+      {}
+    ).pipe(map(res => res));
+  }
+
+  editCustomerSiteDetails(id: any, params): Observable<any> {
+    return this._http.put(`${EDIT_CUSTOMER_SITE_DETAILS_URL}/${id}`,
+      params
     ).pipe(map(res => res));
   }
 }
