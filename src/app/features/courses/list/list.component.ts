@@ -469,6 +469,10 @@ export class CoursesListComponent {
             courseIdArray.push(course.id) 
           }
         } else {
+          let course_subscription = this.courseSubscriptions?.find((c) => c.user_id == this.userId && c.course_id == course.id);
+          if(course_subscription) {
+            user_subscribed = true
+          }
           show_buy_now = false
         }
 
@@ -882,16 +886,7 @@ export class CoursesListComponent {
           return a - b;
         })
       }
-
-      console.log('formatCourses 6.1 accessCourses')
-      console.log(this.accessCourses)
-
-      console.log('formatCourses 6.2 nonAccessCourses')
-      console.log(this.nonAccessCourses)
     }
-
-    console.log('formatCourses 7. courses')
-    console.log(this.courses)
   }
 
   getCategoriesDisplay(course) {
