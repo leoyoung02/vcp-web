@@ -1746,8 +1746,8 @@ export class CompanyService {
     ).pipe(map(res => res));
   }
 
-  getFilterSettings(id: any): Observable<any> {
-    return this._http.get(`${FILTER_SETTINGS_URL}/${id}`,
+  getFilterSettings(id: any, featureId: any): Observable<any> {
+    return this._http.get(`${FILTER_SETTINGS_URL}/${id}/${featureId}`,
       { headers: this.headers }
     ).pipe(map(res => res));
   }

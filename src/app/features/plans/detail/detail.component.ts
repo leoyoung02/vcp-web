@@ -297,6 +297,8 @@ export class PlanDetailComponent {
   planCategoryMapping: any = [];
   allPlanData: any = [];
   hasMembers: boolean = false;
+  whatsAppTemplate: string = '';
+  telegramTemplate: string = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -1267,26 +1269,30 @@ export class PlanDetailComponent {
                 ? encodeURIComponent(txt?.textContent)
                 : "";
             this.emailTo = `mailto:?Subject=${template.subject}&ISO-8859-1&Body=${email_body}`;
+            this.whatsAppTemplate = `whatsapp://send?text=${email_body}`;
+            this.telegramTemplate = `https://telegram.me/share/url?url=${window.location.href}&text=${email_body}`;
           } else {
             if (this.planTypeId == 4) {
-              this.emailTo =
-                `mailto:?Subject=Shared Event&Body=` +
-                (!this.invitationLinkActive
-                  ? window.location.href
-                  : this.user.name +
-                    this._translateService.instant(
-                      "dialog.hasinvitedyoutooursession"
-                    ) +
-                    this.plan.title +
-                    "! " +
-                    this._translateService.instant(
-                      "dialog.interestedandwanttocome"
-                    ) +
-                    invlink +
-                    this._translateService.instant("lookingforward"));
+              let body = (!this.invitationLinkActive
+                ? window.location.href
+                : this.user.name +
+                  this._translateService.instant(
+                    "dialog.hasinvitedyoutooursession"
+                  ) +
+                  this.plan.title +
+                  "! " +
+                  this._translateService.instant(
+                    "dialog.interestedandwanttocome"
+                  ) +
+                  invlink +
+                  this._translateService.instant("lookingforward"));
+              this.emailTo = `mailto:?Subject=Shared Event&Body=${body}`
+              this.whatsAppTemplate = `whatsapp://send?text=${body}`
+              this.telegramTemplate = `https://telegram.me/share/url?url=${window.location.href}&text=${body}`
             } else {
-              this.emailTo =
-                `mailto:?Subject=Inquiries&body=` + window.location.href;
+              this.emailTo = `mailto:?Subject=Inquiries&body=` + window.location.href;
+              this.whatsAppTemplate = `whatsapp://send?text=` + window.location.href;
+              this.telegramTemplate = `https://telegram.me/share/url?url=${window.location.href}&text=` + window.location.href;
             }
           }
         },
@@ -1801,6 +1807,14 @@ export class PlanDetailComponent {
   }
 
   goToLink(link) {
+    window.open(link, "_blank");
+  }
+
+  shareByWhatsApp(link) {
+    window.open(link, "_blank");
+  }
+
+  shareByTelegram(link) {
     window.open(link, "_blank");
   }
 

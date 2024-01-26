@@ -347,6 +347,7 @@ export class FeatureComponent {
       { id: 30, name_en: "Candidates display" },
       { id: 31, name_en: "Tags" },
       { id: 32, name_en: "Filter" },
+      { id: 32, name_en: "Categories filter" },
     ];
   }
 
@@ -451,6 +452,7 @@ export class FeatureComponent {
       case "Tutor profile":
       case "Vimeo":
       case "Filter":
+      case "Categories filter":
       case "Candidates display":
         this.openSettingModal(row);
         break;
@@ -551,6 +553,7 @@ export class FeatureComponent {
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Filter":
+      case "Categories filter":
         this.getSettingTitle(row);
         this.updateFilter();
         this.settingmodalbutton?.nativeElement.click();
@@ -2048,10 +2051,10 @@ export class FeatureComponent {
   }
 
   getFilterSettings() {
-    this._companyService.getFilterSettings(this.companyId)
+    this._companyService.getFilterSettings(this.companyId, this.id)
       .subscribe(
         response => {
-          let filter_settings = response.filter_settings
+          let filter_settings = response.filter_settings 
           if(filter_settings?.id) {
             this.selectedFilter = filter_settings?.filter_type;
           }

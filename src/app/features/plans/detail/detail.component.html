@@ -372,6 +372,14 @@
                         <img width="36" height="36" class="object-contain" src="./assets/icons/mail-send.png">
                         <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">{{ 'plan-details.sharebyemail' | translate }}</div>
                     </div>
+                    <div (click)="shareByWhatsApp(whatsAppTemplate)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer -mt-6">
+                        <img width="36" height="36" class="object-contain -mt-1 mb-1" src="./assets/icons/whatsapp.png">
+                        <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">WhatsApp</div>
+                    </div>
+                    <div (click)="shareByTelegram(telegramTemplate)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer -mt-[26px]">
+                        <img width="36" height="36" class="object-contain" src="./assets/icons/telegram.png">
+                        <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">Telegram</div>
+                    </div>
                 </div>
             </div>
         </div>
