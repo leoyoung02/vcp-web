@@ -955,16 +955,18 @@ export class MainComponent {
                 });
               }
             }
-            if (this.isCourseEnabled) {
-              let match =
-                mi.submenus && mi.submenus.some((a) => a.value === "Courses");
-              if (!match) {
-                mi.submenus.push({
-                  text: this.courseTitle,
-                  value: "Courses",
-                });
-              }
+          }
+          if (this.isCourseEnabled) {
+            let match =
+              mi.submenus && mi.submenus.some((a) => a.value === "Courses");
+            if (!match) {
+              mi.submenus.push({
+                text: this.courseTitle,
+                value: "Courses",
+              });
             }
+          }
+          if(!this.isUESchoolOfLife) {
             if (this.hasJobOffers) {
               let match =
                 mi.submenus && mi.submenus.some((a) => a.value === "JobOffers");
@@ -975,7 +977,6 @@ export class MainComponent {
                 });
               }
             }
-
             if (this.hasActivityFeed) {
               let match =
                 mi.submenus && mi.submenus.some((a) => a.value === "Posts");
@@ -998,14 +999,13 @@ export class MainComponent {
             }
           }
 
-            let cities_match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Cities");
-            if (!cities_match) {
-              mi.submenus.push({
-                text: this._translateService.instant("company-settings.cities"),
-                value: "Cities",
-              });
-            }
+          let cities_match = mi.submenus && mi.submenus.some((a) => a.value === "Cities");
+          if (!cities_match) {
+            mi.submenus.push({
+              text: this._translateService.instant("company-settings.cities"),
+              value: "Cities",
+            });
+          }
 
           if(!this.isUESchoolOfLife) {
             if (this.isTutorsEnabled) {

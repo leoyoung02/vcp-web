@@ -916,3 +916,7 @@ input#email-recipients:valid {
 div.event-description a {
     word-wrap: break-word;
 }
+
+.script-full-height iframe {
+    min-height: 456px;
+}

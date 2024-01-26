@@ -50,6 +50,7 @@ export class CoursesStatisticsListComponent {
     @Input() userId: any;
     @Input() superAdmin: any;
     @Input() language: any;
+    @Input() isUESchoolOfLife: any;
 
     languageChangeSubscription;
     isMobile: boolean = false;
@@ -122,7 +123,7 @@ export class CoursesStatisticsListComponent {
 
     fetchCoursesManagementData() {
         this._coursesService
-          .fetchCoursesManagementData(this.company?.id)
+          .fetchCoursesManagementData(this.company?.id, this.isUESchoolOfLife)
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {

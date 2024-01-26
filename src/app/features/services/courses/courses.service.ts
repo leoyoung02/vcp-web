@@ -123,8 +123,12 @@ export class CoursesService {
     return this._http.post(COURSE_CATEGORY_ACCESS_EDIT_URL, payload);
   }
 
-  fetchCoursesCombined(id: number = 0, userId: number = 0): Observable<any> {
-    return this._http.get(`${COURSES_COMBINED_URL}/${id}/${userId}`, { 
+  fetchCoursesCombined(id: number = 0, userId: number = 0, isUESchoolOfLife: boolean = false): Observable<any> {
+    let url = `${COURSES_COMBINED_URL}/${id}/${userId}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1`
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }
@@ -273,8 +277,12 @@ export class CoursesService {
     ).pipe(map(res => res))
   }
 
-  fetchAdminCourses(id, userId): Observable<any> {
-    return this._http.get(`${COURSES_ADMIN_LIST_URL}/${id}/${userId}`, { 
+  fetchAdminCourses(id, userId, isUESchoolOfLife: boolean = false): Observable<any> {
+    let url = `${COURSES_ADMIN_LIST_URL}/${id}/${userId}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1`
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }
@@ -328,6 +336,7 @@ export class CoursesService {
     formData.append( 'duration', params.duration ? params.duration : 0 );
     formData.append( 'duration_unit', params.duration_unit ? params.duration_unit : 0 );
     formData.append( 'instructor', params.instructor ? params.instructor : 0 );
+    formData.append( 'school_of_life', params.school_of_life );
 
     if(params.company_id == 32) {
       formData.append( 'additional_properties_course_access', params.additional_properties_course_access );
@@ -404,6 +413,7 @@ export class CoursesService {
     formData.append( 'tutor_types', params.tutor_types );
     formData.append( 'wall_status', params.wall_status);
     formData.append( 'buy_now_button_color', params.buy_now_button_color || '' );
+    formData.append( 'school_of_life', params.school_of_life );
 
     if(params.group_id > 0) {
       formData.append( 'group_id', params.group_id);
@@ -624,8 +634,12 @@ export class CoursesService {
     ).pipe(map(res => res));
   }
 
-  fetchCoursesManagementData(id: number = 0): Observable<any> {
-    return this._http.get(`${COURSES_MANAGEMENT_DATA_URL}/${id}`, { 
+  fetchCoursesManagementData(id: number = 0, isUESchoolOfLife: boolean = false): Observable<any> {
+    let url = `${COURSES_MANAGEMENT_DATA_URL}/${id}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1`
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }
