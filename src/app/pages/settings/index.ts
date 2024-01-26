@@ -174,5 +174,11 @@ export const routes: Routes = [
         path: 'keap',
         title: 'Keap',
         loadComponent: async () => (await import('@features/courses/keap-management/keap-management.component')).KeapManagementComponent,
+    },
+    {
+        path: 'home',
+        title: CustomTitleResolver,
+        data: { titleKey: 'company-settings.personalizehometemplate'},
+        loadComponent: async () => (await import('./personalize-home/personalize-home.component')).PersonalizeHomeComponent,
     }
 ];
