@@ -482,7 +482,6 @@ export class ManageUsersComponent {
           this.courseCategoryMapping = data?.course_category_mapping;
           this.courseCategoriesAccessRoles = data?.course_category_access_roles;
           this.initializeIconFilterList(this.cities);
-          this.initializeButtonGroup();
         },
         (error) => {
           console.log(error);
@@ -1059,6 +1058,7 @@ export class ManageUsersComponent {
           }
         }
 
+        this.initializeButtonGroup();
         this.isUsersLoading = false;
       },
       (error) => {

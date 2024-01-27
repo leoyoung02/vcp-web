@@ -309,7 +309,7 @@
                     </td>
                     <td>
                         <div class="flex my-2 align-center items-center">
-                            <button *ngIf="hasCustomInvoice && me.subscription_id" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            <button *ngIf="hasCustomInvoice && me.subscription_id || (companyId == 15 && me?.subscription_id)" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 [ngStyle]="{'background-color': buttonColor}" (click)="manageBilling()"
                             >
                                 <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">

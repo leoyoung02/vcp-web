@@ -37,23 +37,25 @@
       </div>
     </ng-container>
   </ng-container>
-  <div class="px-4 py-2 hover:cursor-pointer" [routerLink]="['/settings']">
-    <div class="p-2 flex items-center hover:rounded-lg"
-      [ngStyle]="{'background-color': settingsHover ? hoverColor : 'transparent'}"
-      [ngClass]="{'justify-center': !menuOpened}"
-      (mouseover)="toggleSettingsHover(true)"
-      (mouseleave)="toggleSettingsHover(false)"
-    >
-      <img
-        [src]="menuColor == '#000000' ? './assets/menu-icons/menu-icon-settings-dark.png' : './assets/menu-icons/menu-icon-settings.png'"
-        class="cursor-pointer w-[22px] max-w-[22px] h-[22px] max-h-[22px]"
-        alt=""
-      />
-      <span *ngIf="menuOpened" class="ml-[36px] text-sm" [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}">
-        {{ 'company-settings.settings' | translate }}
-      </span>
+  <ng-container *ngIf="username && isAdmin">
+    <div class="px-4 py-2 hover:cursor-pointer" [routerLink]="['/settings']">
+      <div class="p-2 flex items-center hover:rounded-lg"
+        [ngStyle]="{'background-color': settingsHover ? hoverColor : 'transparent'}"
+        [ngClass]="{'justify-center': !menuOpened}"
+        (mouseover)="toggleSettingsHover(true)"
+        (mouseleave)="toggleSettingsHover(false)"
+      >
+        <img
+          [src]="menuColor == '#000000' ? './assets/menu-icons/menu-icon-settings-dark.png' : './assets/menu-icons/menu-icon-settings.png'"
+          class="cursor-pointer w-[22px] max-w-[22px] h-[22px] max-h-[22px]"
+          alt=""
+        />
+        <span *ngIf="menuOpened" class="ml-[36px] text-sm" [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}">
+          {{ 'company-settings.settings' | translate }}
+        </span>
+      </div>
     </div>
-  </div>
+  </ng-container>
   <ng-container *ngIf="company?.id != 52 && superAdmin">
     <div class="px-4 py-2 hover:cursor-pointer" [routerLink]="['/support-tickets']">
       <div class="p-2 flex items-center hover:rounded-lg"
