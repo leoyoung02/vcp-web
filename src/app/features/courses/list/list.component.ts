@@ -236,7 +236,7 @@ export class CoursesListComponent {
   mapFeatures(features) {
     this.coursesFeature = features?.find((f) => f.feature_id == 11);
     this.featureId = this.coursesFeature?.id;
-    this.pageName = this.getFeatureTitle(this.coursesFeature);
+    this.pageName = this.getFeatureTitle(this.coursesFeature) + (this.isUESchoolOfLife ? ' de School of Life' : '');
     this.pageDescription = this.getFeatureDescription(this.coursesFeature);
 
     let tutorsFeature = features?.find(
