@@ -432,7 +432,10 @@
         "closed": "Tancat",
         "speaker": "Ponent",
         "guestspeaker" : "Ponent Convidat",
-        "occurences": "Ocurrències"
+        "occurences": "Ocurrències",
+        "limitmemberseats": "Límit (Membres)",
+        "limitguestseats": "Límit (Convidats)",
+        "limitgreaterthanseats": "Definiu un límit inferior o igual al nombre de seients"
     },
     "plan-recommendations": {
         "applauses": "Aplaudiment",
@@ -563,7 +566,8 @@
         "leaveclub": "Deixa aquest club",
         "pleasecontactadministrator": "Si us plau, contacteu amb l'administrador",
         "downloadmembers": "Baixa els membres (XLSX)",
-        "downloadedsuccessfully": "S'ha baixat correctament. Comproveu la vostra carpeta de baixades"
+        "downloadedsuccessfully": "S'ha baixat correctament. Comproveu la vostra carpeta de baixades",
+        "manager": "Manager"
     },
     "club-create": {
         "fillup": "Ompliu el formulari per crear el vostre propi club",
@@ -713,7 +717,8 @@
         "communitysupport": "Comunitat i Suport",
         "termsandconditions": "Termes i condicions",
         "privacypolicy": "Política de privadesa",
-        "cookiespolicy":"Política de cookies"
+        "cookiespolicy":"Política de cookies", 
+        "customeronboarding": "Incorporació del client"
     },
     "public-profile": {
         "publicprofile": "Perfil Públic",
@@ -3450,5 +3455,34 @@
         "allow": "Acceptar cookies",
         "deny": "Rebutjar",
         "link": "Política de cookies"
+    },
+    "customer-onboarding": {
+        "sitedetails": "Detalls del lloc",
+        "accountdetails": "Detalls del compte",
+        "designdetails": "Detalls del disseny",
+        "featuresactivation": "Activació de funcions",
+        "settings": "Configuració",
+        "confirmation": "Confirmació", 
+        "successfullycreated": "Client creat amb èxit",
+        "nextstep": "Següent pas",
+        "primarycolor": "Color primari",
+        "buttoncolor": "Color del botó",
+        "menutextcolor": "Color del text del menú",
+        "hovercolor": "Color del cursor",
+        "proceed": "Continuar",
+        "confirmproceed": "Confirmar i continuar",
+        "summary": "Resum",
+        "allsetup": "El client nou està tot configurat",
+        "checksummary": "Comproveu el resum a continuació i feu clic al botó Confirmar i continuar per continuar amb la creació del client.",
+        "siteinfo": "S'ha completat la informació bàsica sobre el lloc.",
+        "accountinfo": "S'ha introduït el compte de l'usuari administrador.",
+        "designinfo": "S'ha establert la marca (logotip, banner, colors bàsics).",
+        "featuresinfo": "S'han definit les funcions actives i s'importarà la configuració predeterminada.",
+        "setupcustomerinprogress": "Configuració del client en curs",
+        "importingnote": "La configuració pot trigar una mica. Si us plau, no tanqueu el navegador ni actualitzeu la pàgina fins que s'hagi completat el preu.",
+        "timelapsed": "Temps transcorregut",
+        "log": "Registre",
+        "customercreated": "S'ha creat un client nou amb èxit.",
+        "pendingstatus": "S'enviarà un correu electrònic a l'administrador per fer els canvis de servidor necessaris per al domini."
     }
 }

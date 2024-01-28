@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { PlansService } from "@features/services";
 import { PlansCalendarComponent } from "../calendar/calendar.component";
 import { SearchComponent } from "@share/components/search/search.component";
-import { FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
+import { ButtonGroupComponent, FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
 import { NgxPaginationModule } from "ngx-pagination";
 import { PlanCardComponent } from "@share/components/card/plan/plan.component";
 import moment from "moment";
@@ -30,6 +30,7 @@ import get from "lodash/get";
     FilterComponent,
     PageTitleComponent,
     PlanCardComponent,
+    ButtonGroupComponent,
     NgOptimizedImage,
     NgxPaginationModule,
   ],
@@ -190,6 +191,7 @@ export class PlansListComponent {
   kcnPlanCategoryMapping: any = [];
   selectedType: any = '';
   userAdditionalProperties: any = [];
+  filterTypeControl: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -338,31 +340,35 @@ export class PlansListComponent {
     let categories =
       this.types?.length > 0 ? this.categories : this.categoryList;
 
-    this.buttonList = [
-      {
-        id: "All",
-        value: "All",
-        text: this._translateService.instant("plans.all"),
-        selected: true,
-        fk_company_id: this.companyId,
-        fk_supercategory_id: "All",
-        name_CA: "All",
-        name_DE: "All",
-        name_EN: "All",
-        name_ES: "All",
-        name_EU: "All",
-        name_FR: "All",
-        sequence: 1,
-        status: 1,
-      },
-    ];
+    if(this.companyId == 12) {
+      this.buttonList = [];
+    } else {
+       this.buttonList = [
+        {
+          id: "All",
+          value: "All",
+          text: this._translateService.instant("plans.all"),
+          selected: true,
+          fk_company_id: this.companyId,
+          fk_supercategory_id: "All",
+          name_CA: "All",
+          name_DE: "All",
+          name_EN: "All",
+          name_ES: "All",
+          name_EU: "All",
+          name_FR: "All",
+          sequence: 1,
+          status: 1,
+        },
+      ];
+    }
 
-    categories?.forEach((category) => {
+    categories?.forEach((category, index) => {
       this.buttonList.push({
         id: category?.fk_supercategory_id || category?.id,
         value: category.fk_supercategory_id || category?.id,
         text: this.getCategoryTitle(category),
-        selected: false,
+        selected: this.companyId == 12 && index == 0 ? true : false,
         fk_company_id: category.fk_company_id,
         fk_supercategory_id: category?.fk_supercategory_id || category?.id,
         name_CA: category.name_CA || category?.name_ca,
@@ -522,6 +528,9 @@ export class PlansListComponent {
           this.types = data?.types;
           this.mapCategories(data?.plan_categories);
           this.subcategories = data?.plan_subcategories;
+
+          this.filterTypeControl = data?.filter_settings?.filter_type || 'dropdown';
+
           this.initializeButtonGroup();
 
           if(this.companyId == 27) {

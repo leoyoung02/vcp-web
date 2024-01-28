@@ -125,6 +125,7 @@ export class CoursesListComponent {
   search: any;
   allCoursesList: any = [];
   userAdditionalProperties: any = [];
+  isUESchoolOfLife: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -163,6 +164,7 @@ export class CoursesListComponent {
     }
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.domain = company[0].domain;
       this.companyId = company[0].id;
       this.primaryColor = company[0].primary_color;
@@ -204,7 +206,7 @@ export class CoursesListComponent {
 
   fetchCourses() {
     this._coursesService
-      .fetchCoursesCombined(this.companyId, this.userId)
+      .fetchCoursesCombined(this.companyId, this.userId, this.isUESchoolOfLife)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
@@ -234,7 +236,7 @@ export class CoursesListComponent {
   mapFeatures(features) {
     this.coursesFeature = features?.find((f) => f.feature_id == 11);
     this.featureId = this.coursesFeature?.id;
-    this.pageName = this.getFeatureTitle(this.coursesFeature);
+    this.pageName = this.getFeatureTitle(this.coursesFeature) + (this.isUESchoolOfLife ? ' de School of Life' : '');
     this.pageDescription = this.getFeatureDescription(this.coursesFeature);
 
     let tutorsFeature = features?.find(

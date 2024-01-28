@@ -180,6 +180,12 @@ export const routes: Routes = [
         canMatch: [authGuard()],
     },
     {
+        path: 'customer-onboarding',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@pages/customer-onboarding')).routes,
+        canMatch: [authGuard()],
+    },
+    {
         path: 'search',
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@pages/search')).routes,

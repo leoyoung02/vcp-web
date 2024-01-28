@@ -141,6 +141,8 @@ export class FeatureComponent {
   memberTypes: any;
   showApproveClubActivitiesModal: boolean = false;
   selectedUserRoles: any = [];
+  showFilterModal: boolean = false;
+  selectedFilter: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -344,6 +346,8 @@ export class FeatureComponent {
       { id: 29, name_en: "Vimeo" },
       { id: 30, name_en: "Candidates display" },
       { id: 31, name_en: "Tags" },
+      { id: 32, name_en: "Filter" },
+      { id: 32, name_en: "Categories filter" },
     ];
   }
 
@@ -447,6 +451,8 @@ export class FeatureComponent {
       case "Per hour commission":
       case "Tutor profile":
       case "Vimeo":
+      case "Filter":
+      case "Categories filter":
       case "Candidates display":
         this.openSettingModal(row);
         break;
@@ -544,6 +550,12 @@ export class FeatureComponent {
         break;
       case "Candidates display":
         this.getCandidatesDisplay();
+        this.settingmodalbutton?.nativeElement.click();
+        break;
+      case "Filter":
+      case "Categories filter":
+        this.getSettingTitle(row);
+        this.updateFilter();
         this.settingmodalbutton?.nativeElement.click();
         break;
     }
@@ -2033,6 +2045,50 @@ export class FeatureComponent {
   }
 
   manageLimitMessage() {}
+
+  updateFilter() {
+    this.getFilterSettings();
+  }
+
+  getFilterSettings() {
+    this._companyService.getFilterSettings(this.companyId, this.id)
+      .subscribe(
+        response => {
+          let filter_settings = response.filter_settings 
+          if(filter_settings?.id) {
+            this.selectedFilter = filter_settings?.filter_type;
+          }
+          this.showFilterModal = true;
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  saveFilter() {
+      let params = {
+        company_id: this.companyId,
+        feature_id: this.id,
+        filter_type: this.selectedFilter
+      }
+      this._companyService.editFilterSettings(params)
+      .subscribe(
+        response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+          this.closesettingmodalbutton?.nativeElement?.click();
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  handleFilterChange(event) {
+    if(event.target.value) {
+      
+    }
+  }
 
   handleGoBack() {
     this._location.back();

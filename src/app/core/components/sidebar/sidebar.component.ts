@@ -157,6 +157,7 @@ export class SidebarComponent {
   showCourseWallOptions: boolean = false;
   courseWallItemHover: boolean = false;
   supportTicketsHover: boolean = false;
+  customerOnboardingHover: boolean = false;
 
   constructor(
     private _router: Router, 
@@ -706,5 +707,13 @@ export class SidebarComponent {
 
   toggleSupportTicketsHover(event) {
     this.supportTicketsHover = event;
+  }
+
+  toggleCustomerOnboardingHover(event) {
+    this.customerOnboardingHover = event;
+  }
+
+  goToCustomerOnboarding() {
+    this._router.navigate([`/customer-onboarding`])
   }
 }

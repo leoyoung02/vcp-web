@@ -1729,6 +1729,16 @@ export class CourseDetailComponent {
     }
   }
 
+  isiFrameHeight100Percent() {
+    let result = false;
+
+    if(this.selectedUnit?.script?.indexOf('height="100%"') >= 0) {
+      result = true;
+    }
+
+    return result;
+  }
+
   handleGoBack() {
     this._location.back();
   }

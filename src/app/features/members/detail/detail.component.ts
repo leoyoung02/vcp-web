@@ -2,7 +2,6 @@ import { CommonModule, NgOptimizedImage, Location } from "@angular/common";
 import { Component, ElementRef, Input, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { environment } from "@env/environment";
-import { TestimonialsService } from "@features/services";
 import {
   LangChangeEvent,
   TranslateModule,
@@ -15,7 +14,6 @@ import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { MembersService } from "@features/services/members/members.service";
 import { initFlowbite } from "flowbite";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from "@angular/forms";
-import moment from "moment";
 import get from "lodash/get";
 
 @Component({

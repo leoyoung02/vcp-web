@@ -432,7 +432,10 @@
         "closed": "Itxita",
         "speaker": "Hizlaria",
         "guestspeaker" : "Hizlari gonbidatua",
-        "occurences": "Gertaerak"
+        "occurences": "Gertaerak",
+        "limitmemberseats": "Mugatu (Bazkideen)",
+        "limitguestseats": "Muga (Gonbidatuen)",
+        "limitgreaterthanseats": "Ezarri eserleku kopurua baino txikiagoa edo berdina den muga"
     },
     "plan-recommendations": {
         "applauses": "Txaloak",
@@ -563,7 +566,8 @@
         "leaveclub": "Utzi klub hau",
         "pleasecontactadministrator": "Mesedez, jarri harremanetan administratzailearekin",
         "downloadmembers": "Deskargatu kideak (XLSX)",
-        "downloadedsuccessfully": "Ondo deskargatu da. Mesedez, egiaztatu zure deskarga karpeta"
+        "downloadedsuccessfully": "Ondo deskargatu da. Mesedez, egiaztatu zure deskarga karpeta",
+        "manager": "Manager"
     },
     "club-create": {
         "fillup": "Bete formularioa zure kluba sortzeko",
@@ -713,7 +717,8 @@
         "communitysupport": "Komunitatea eta laguntza",
         "termsandconditions": "Baldintzak eta baldintzak",
         "privacypolicy": "Pribatutasun politika",
-        "cookiespolicy":"Cookie-politika"
+        "cookiespolicy":"Cookie-politika", 
+        "customeronboarding": "Bezeroa sartzea"
     },
     "public-profile": {
         "publicprofile": "Profil publikoa",
@@ -3440,5 +3445,34 @@
         "allow": "Onartu cookieak",
         "deny": "Baztertu",
         "link": "Cookie politika"
+    },
+    "customer-onboarding": {
+        "sitedetails": "Gunearen xehetasunak",
+        "accountdetails": "Kontuaren xehetasunak",
+        "designdetails": "Diseinuaren xehetasunak",
+        "featuresactivation": "Ezaugarrien aktibazioa",
+        "settings": "Ezarpenak",
+        "confirmation": "Berrespena",
+        "successfullycreated": "Bezeroa arrakastaz sortua",
+        "nextstep": "Hurrengo urratsa",
+        "primarycolor": "Kolore nagusia",
+        "buttoncolor": "Botoien kolorea",
+        "menutextcolor": "Menuaren testuaren kolorea",
+        "hovercolor": "Kolorea pasatzean",
+        "proceed": "Jarraitu",
+        "confirmproceed": "Berretsi eta jarraitu",
+        "summary": "Laburpena",
+        "allsetup": "Bezero berria konfiguratuta dago",
+        "checksummary": "Begiratu beheko laburpena eta egin klik Berretsi eta Jarraitu botoian bezeroa sortzen jarraitzeko.",
+        "siteinfo": "Guneari buruzko oinarrizko informazioa osatu da.",
+        "accountinfo": "Administratzailearen erabiltzailearen kontua sartu da.",
+        "designinfo": "Marka (logotipoa, pankarta, oinarrizko koloreak) ezarri da.",
+        "featuresinfo": "Eginbide aktiboak definitu dira eta ezarpen lehenetsiak inportatuko dira.",
+        "setupcustomerinprogress": "Bezeroa konfiguratzen ari da",
+        "importingnote": "Konfigurazioak denbora pixka bat behar izan dezake. Mesedez, ez itxi arakatzailea edo orria freskatu prezioak osatu arte.",
+        "timelapsed": "Igarotako denbora",
+        "log": "Erregistroa",
+        "customercreated": "Bezero berria behar bezala sortu da.",
+        "pendingstatus": "Mezu elektroniko bat bidaliko zaio administratzaileari domeinurako beharrezko zerbitzari-aldaketak egiteko."
     }
 }

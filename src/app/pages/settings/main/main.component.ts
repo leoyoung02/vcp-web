@@ -125,6 +125,8 @@ export class MainComponent {
   menuColor: any;
   hasActivityCredits: boolean = false;
   isUESchoolOfLife: boolean = false;
+  isMembersEnabled: boolean = false;
+  membersTitle: any;
 
   constructor(
     private _router: Router,
@@ -649,6 +651,25 @@ export class MainComponent {
                   blogFeature[0].feature_name_ES;
           }
 
+          let membersFeature = companyFeatures.filter((f) => {
+            return f.feature_name == "Members" && f.status == 1;
+          });
+          if (membersFeature?.length > 0) {
+            this.isMembersEnabled = true;
+            this.membersTitle =
+              this.language == "en"
+                ? membersFeature[0].name_en || membersFeature[0].feature_name
+                : this.language == "fr"
+                ? membersFeature[0].name_fr || membersFeature[0].feature_name_FR
+                : this.language == "eu"
+                ? membersFeature[0].name_eu || membersFeature[0].feature_name_EU
+                : this.language == "ca"
+                ? membersFeature[0].name_ca || membersFeature[0].feature_name_CA
+                : this.language == "de"
+                ? membersFeature[0].name_de || membersFeature[0].feature_name_DE
+                : membersFeature[0].name_es || membersFeature[0].feature_name_ES;
+          }
+
           this.companyFeatures =
             this.companyFeatures &&
             this.companyFeatures.sort((a, b) => {
@@ -955,16 +976,18 @@ export class MainComponent {
                 });
               }
             }
-            if (this.isCourseEnabled) {
-              let match =
-                mi.submenus && mi.submenus.some((a) => a.value === "Courses");
-              if (!match) {
-                mi.submenus.push({
-                  text: this.courseTitle,
-                  value: "Courses",
-                });
-              }
+          }
+          if (this.isCourseEnabled) {
+            let match =
+              mi.submenus && mi.submenus.some((a) => a.value === "Courses");
+            if (!match) {
+              mi.submenus.push({
+                text: this.courseTitle,
+                value: "Courses",
+              });
             }
+          }
+          if(!this.isUESchoolOfLife) {
             if (this.hasJobOffers) {
               let match =
                 mi.submenus && mi.submenus.some((a) => a.value === "JobOffers");
@@ -975,7 +998,6 @@ export class MainComponent {
                 });
               }
             }
-
             if (this.hasActivityFeed) {
               let match =
                 mi.submenus && mi.submenus.some((a) => a.value === "Posts");
@@ -998,14 +1020,13 @@ export class MainComponent {
             }
           }
 
-            let cities_match =
-              mi.submenus && mi.submenus.some((a) => a.value === "Cities");
-            if (!cities_match) {
-              mi.submenus.push({
-                text: this._translateService.instant("company-settings.cities"),
-                value: "Cities",
-              });
-            }
+          let cities_match = mi.submenus && mi.submenus.some((a) => a.value === "Cities");
+          if (!cities_match) {
+            mi.submenus.push({
+              text: this._translateService.instant("company-settings.cities"),
+              value: "Cities",
+            });
+          }
 
           if(!this.isUESchoolOfLife) {
             if (this.isTutorsEnabled) {
@@ -1060,7 +1081,18 @@ export class MainComponent {
               }
             }
           }
+
+          if(this.isMembersEnabled) {
+            let match =  mi.submenus && mi.submenus.some(a => a.value === 'References')
+            if(!match) {
+              mi.submenus.push({
+                text: `${this.membersTitle} ${this._translateService.instant('members.references')}`,
+                value: 'References'
+              })
+            }
+          }
         }
+
         if(mi.value == 'Invoices') {
           if(this.companyId != 52 && this.companyId != 32 && this.companyId != 12) {
             let invoices_match = mi.submenus && mi.submenus.some((a) => a.value === "Invoices");
@@ -1498,6 +1530,8 @@ export class MainComponent {
         this._router.navigate([`/settings/manage-list/blogs`]);
       } else if (content == "Credits") {
         this._router.navigate([`/settings/manage-list/credits`]);
+      } else if (content == "References") {
+        this._router.navigate([`/settings/manage-list/references`]);
       }
     } else if (menu.value == "Users" && content == "Users") {
       this._router.navigate([`/settings/manage-list/users`]);

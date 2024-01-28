@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { ADD_DISCOUNT_URL, DELETE_DISCOUNT_URL, EDIT_DISCOUNT_URL, OFFERS_COMBINED_URL, OFFERS_DATA_URL, OFFER_COMBINED_URL, SHARE_DISCOUNT_URL } from "@lib/api-constants";
+import { ADD_DISCOUNT_CATEGORY_URL, ADD_DISCOUNT_TYPE_URL, ADD_DISCOUNT_URL, DELETE_DISCOUNT_CATEGORY_URL, DELETE_DISCOUNT_TYPE_URL, DELETE_DISCOUNT_URL, DISCOUNT_CATEGORIES_URL, DISCOUNT_TYPES_URL, EDIT_DISCOUNT_CATEGORY_URL, EDIT_DISCOUNT_TYPE_URL, EDIT_DISCOUNT_URL, OFFERS_COMBINED_URL, OFFERS_DATA_URL, OFFER_COMBINED_URL, SHARE_DISCOUNT_URL } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
 @Injectable({
@@ -55,6 +55,60 @@ export class OffersService {
 
   deleteDiscount(id): Observable<any> {
     return this._http.post(`${DELETE_DISCOUNT_URL}/${id}`,
+        {},
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getDiscountCategories(id): Observable<any> {
+    return this._http.get(`${DISCOUNT_CATEGORIES_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addDiscountCategory(payload): Observable<any> {
+    return this._http.post(ADD_DISCOUNT_CATEGORY_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editDiscountCategory(id, payload): Observable<any> {
+    return this._http.post(`${EDIT_DISCOUNT_CATEGORY_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteDiscountCategory(id, companyId): Observable<any> {
+    return this._http.post(`${DELETE_DISCOUNT_CATEGORY_URL}/${id}/${companyId}`,
+        {},
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getDiscountTypes(id): Observable<any> {
+    return this._http.get(`${DISCOUNT_TYPES_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addDiscountType(payload): Observable<any> {
+    return this._http.post(ADD_DISCOUNT_TYPE_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editDiscountType(id, payload): Observable<any> {
+    return this._http.post(`${EDIT_DISCOUNT_TYPE_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteDiscountType(id, companyId): Observable<any> {
+    return this._http.post(`${DELETE_DISCOUNT_TYPE_URL}/${id}/${companyId}`,
         {},
         { headers: this.headers }
     ).pipe(map(res => res));

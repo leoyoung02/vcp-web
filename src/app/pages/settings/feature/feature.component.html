@@ -533,6 +533,34 @@
                             </button>
                         </div>
                     </ng-container>
+                    <ng-container *ngIf="showFilterModal">
+                        <div class="flex items-center justify-center relative w-full max-w-full">
+                            <div class="mb-2 relative w-full max-w-full">
+                                <label for="filter" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'member-type-registration.selecttype' | translate }}</label>
+                                <select
+                                    id="filter"
+                                    class="rounded-lg bg-white border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    [(ngModel)]="selectedFilter"
+                                    [ngModelOptions]="{standalone: true}"
+                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedFilter }"
+                                    (change)="handleFilterChange($event)"
+                                >
+                                    <option value="" disabled selected>{{ 'member-type-registration.selecttype' | translate }}</option>
+                                    <option value="dropdown">{{ 'member-type-registration.selectfield' | translate }}</option>
+                                    <option value="button">{{ 'services.link' | translate }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                            <button
+                                class="w-full inline-block h-[40px] text-sm px-6 py-2 mt-6 font-semibold text-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
+                                [ngStyle]="{'background-color': buttonColor}"
+                                (click)="saveFilter()"
+                            >
+                                {{ 'members.save' | translate }}
+                            </button>
+                        </div>
+                    </ng-container>
                 </form>
             </div>
         </div>
