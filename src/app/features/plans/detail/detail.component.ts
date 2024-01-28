@@ -438,6 +438,8 @@ export class PlanDetailComponent {
     this.initializeBreadcrumb();
     if(this.companyId == 12) {
       this.getNetculturaUsers();
+    } else {
+      this.checkLimitSeats();
     }
   }
 
@@ -468,11 +470,21 @@ export class PlanDetailComponent {
                   this.showJoinButton = false
               }
           }
+          this.checkLimitSeats();
         },
         error => {
             console.log(error)
         }
       )
+  }
+
+  checkLimitSeats() {
+    console.log(this.plansData?.plan?.details)
+    if(this.plansData?.plan?.details?.member_seats > 0 && this.userId > 0) {
+      if(!(this.memberParticipants?.length < this.plansData?.plan?.details?.member_seats)) {
+        this.showJoinButton = false
+      }
+    }
   }
 
   mapFeatures(features) {

@@ -432,7 +432,10 @@
         "closed": "Tancat",
         "speaker": "Ponent",
         "guestspeaker" : "Ponent Convidat",
-        "occurences": "Ocurrències"
+        "occurences": "Ocurrències",
+        "limitmemberseats": "Límit (Membres)",
+        "limitguestseats": "Límit (Convidats)",
+        "limitgreaterthanseats": "Definiu un límit inferior o igual al nombre de seients"
     },
     "plan-recommendations": {
         "applauses": "Aplaudiment",

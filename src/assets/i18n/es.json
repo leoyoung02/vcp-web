@@ -432,7 +432,10 @@
         "closed": "Cerrado",
         "speaker": "Ponente",
         "guestspeaker" : "Ponente Invitado",
-        "occurences": "Ocurrencias"
+        "occurences": "Ocurrencias",
+        "limitmemberseats": "Límite (Miembros)",
+        "limitguestseats": "Límite (Invitados)",
+        "limitgreaterthanseats": "Establezca un límite menor o igual al número de asientos"
     },
     "plan-recommendations": {
         "applauses": "Aplauso",

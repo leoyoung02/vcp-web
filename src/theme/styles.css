@@ -120,7 +120,8 @@ select {
 .mat-column-image,
 .mat-column-ID,
 .mat-column-move,
-.mat-column-checked { 
+.mat-column-checked,
+.mat-column-reference_action { 
   flex: 0 0 5% !important;
   width: 5% !important;
 }
@@ -136,13 +137,19 @@ select {
   width: 15% !important;
 }
 
+.mat-column-reference_name {
+    flex: 0 0 10% !important;
+    width: 10% !important;
+  }
+
 .mat-column-whatsapp_community {
     flex: 0 0 40% !important;
     width: 40% !important;
 }
 
 .manage-list .mat-column-title, .manage-list .mat-column-title_display,
-.manage-list .mat-column-type_display {
+.manage-list .mat-column-type_display,
+.mat-column-reference_description {
     flex: 0 0 18% !important;
     width: 18% !important;
   }

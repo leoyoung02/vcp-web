@@ -432,7 +432,10 @@
         "closed": "Closed",
         "speaker": "Speaker",
         "guestspeaker" : "Guest Speaker",
-        "occurences": "Occurences"
+        "occurences": "Occurences",
+        "limitmemberseats": "Limit (Members)",
+        "limitguestseats": "Limit (Guests)",
+        "limitgreaterthanseats": "Please set a limit less than or equal the number of seats"
     },
     "plan-recommendations": {
         "applauses": "Applauses",

@@ -432,7 +432,10 @@
         "closed": "Geschlossen",
         "speaker": "Lautsprecher",
         "guestspeaker" : "Gastredner",
-        "occurences": "Vorkommen"
+        "occurences": "Vorkommen",
+        "limitmemberseats": "Limit (Mitgliederplätze)",
+        "limitguestseats": "Limit (Gästeplätze)",
+        "limitgreaterthanseats": "Bitte legen Sie ein Limit fest, das kleiner oder gleich der Anzahl der Sitzplätze ist."
     },
     "plan-recommendations": {
         "applauses": "Applaus",

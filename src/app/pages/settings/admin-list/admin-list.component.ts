@@ -13,7 +13,7 @@ import {
   ToastComponent,
 } from "@share/components";
 import { CompanyService, LocalService, UserService } from "@share/services";
-import { ClubsService, CoursesService, PlansService } from "@features/services";
+import { ClubsService, CoursesService, OffersService, PlansService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
 import {
   FormControl,
@@ -127,6 +127,7 @@ export class AdminListComponent {
     private _plansService: PlansService,
     private _clubsService: ClubsService,
     private _coursesService: CoursesService,
+    private _offersService: OffersService,
     private _userService: UserService,
     private _location: Location,
     private _snackBar: MatSnackBar
@@ -248,7 +249,7 @@ export class AdminListComponent {
   }
 
   initializeButtonGroup() {
-    if (this.id != 11 && this.list == "categories") {
+    if (this.id != 11 && this.id != 4 && this.list == "categories") {
       this.allButtonList = [
         {
           id: 1,
@@ -316,6 +317,9 @@ export class AdminListComponent {
       }
       if (this.id == 3) {
         this.getCityGuideCategories();
+      }
+      if (this.id == 4) {
+        this.getDiscountCategories();
       }
     } else if (this.list == "contactdetails") {
       this.getContactDetailsFields();
@@ -446,6 +450,47 @@ export class AdminListComponent {
     //       console.log(error);
     //     }
     //   );
+  }
+
+  getDiscountCategories() {
+    if(this.companyId == 12) {
+      this._offersService.getDiscountTypes(this.companyId)
+      .subscribe(
+        response => {
+          let categories = response.discount_types;
+          this.completeCategories = categories;
+          categories = this.formatCategories(categories);
+          this.categories = this.sortBySequence(categories);
+          this.allCategories = this.categories;
+          this.initializeData(this.categories);
+        },
+        error => {
+          let errorMessage = <any>error
+          if (errorMessage != null) {
+            let body = JSON.parse(error._body);
+          }
+        }
+      )
+    } else {
+      this._offersService.getDiscountCategories(this.companyId)
+      .subscribe(
+        response => {
+          let categories = response.CompanySupercategory;
+          this.completeCategories = categories;
+          categories = this.formatCategories(categories);
+          this.categories = this.sortBySequence(categories);
+          this.allCategories = this.categories;
+          this.initializeData(this.categories);
+        },
+        error => {
+          let errorMessage = <any>error
+          if (errorMessage != null) {
+            let body = JSON.parse(error._body);
+          }
+        }
+      )
+    }
+    
   }
 
   getCustomMemberTypes() {
@@ -639,6 +684,8 @@ export class AdminListComponent {
             this.getGroupCategories();
           } else if (this.id == 11) {
             this.getCourseCategories();
+          } else if (this.id == 4) {
+            this.getDiscountCategories();
           }
           break;
         case "subcategory":
@@ -858,6 +905,9 @@ export class AdminListComponent {
       }
       if (this.id == 11) {
         this.deleteCourseCategory();
+      } 
+      if (this.id == 4) {
+        this.deleteDiscountCategory();
       }
     }
   }
@@ -932,6 +982,37 @@ export class AdminListComponent {
       );
   }
 
+  deleteDiscountCategory() {
+    if(this.companyId == 12) {
+      this._offersService.deleteDiscountType(
+        this.selectedItem["guests.id"],
+        this.companyId
+      ).subscribe(
+        response => {
+          this.initializeList();
+          this.showConfirmationModal = false;
+        },
+        error => {
+            console.log(error);
+        }
+      )
+    } else {
+      this._offersService.deleteDiscountCategory(
+        this.selectedItem["guests.id"],
+        this.companyId
+      ).subscribe(
+        response => {
+          this.initializeList();
+          this.showConfirmationModal = false;
+        },
+        error => {
+            console.log(error);
+        }
+      )
+    }
+    
+  }
+
   handleGoBack() {
     this._location.back();
   }
@@ -954,6 +1035,9 @@ export class AdminListComponent {
         } else {
           this.saveCourseCategoryForm();
         }
+      }
+      if (this.id == 4) {
+        this.saveDiscountCategoryForm();
       }
     } else if (this.list == "contactdetails") {
       this.saveContactDetailsForm();
@@ -1228,6 +1312,83 @@ export class AdminListComponent {
         this.open(this._translateService.instant("dialog.error"), "");
       }
     );
+  }
+
+  saveDiscountCategoryForm() {
+    if (
+      this.form.get("name_ES")?.errors ||
+      this.form.get("name_FR")?.errors ||
+      this.form.get("name_EN")?.errors ||
+      this.form.get("name_EU")?.errors ||
+      this.form.get("name_CA")?.errors ||
+      this.form.get("name_DE")?.errors
+    ) {
+      return false;
+    }
+
+    let params = {
+      name_ES: this.form.get("name_ES")?.value,
+      name_EN:
+        this.form.get("name_EN")?.value || this.form.get("name_ES")?.value,
+      name_FR:
+        this.form.get("name_FR")?.value || this.form.get("name_ES")?.value,
+      name_EU:
+        this.form.get("name_EU")?.value || this.form.get("name_ES")?.value,
+      name_CA:
+        this.form.get("name_CA")?.value || this.form.get("name_ES")?.value,
+      name_DE:
+        this.form.get("name_DE")?.value || this.form.get("name_ES")?.value,
+      fk_company_id: this.companyId,
+      company_id: this.companyId,
+      sequence: this.form.get("sequence")?.value,
+    };
+
+    if (this.mode == "add") {
+      if(this.companyId == 12) {
+        this._offersService.addDiscountType(params).subscribe(
+          (response) => {
+            this.initializeList();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else {
+        this._offersService.addDiscountCategory(params).subscribe(
+          (response) => {
+            this.initializeList();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    } else if (this.mode == "edit") {
+      if(this.companyId == 12) {
+        this._offersService
+          .editDiscountType(this.selectedItem["guests.id"], params)
+          .subscribe(
+            (response) => {
+              this.initializeList();
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      } else {
+        this._offersService
+          .editDiscountCategory(this.selectedItem["guests.id"], params)
+          .subscribe(
+            (response) => {
+              this.initializeList();
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      }
+      
+    }
   }
 
   saveContactDetailsForm() {

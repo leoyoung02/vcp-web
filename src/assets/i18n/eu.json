@@ -432,7 +432,10 @@
         "closed": "Itxita",
         "speaker": "Hizlaria",
         "guestspeaker" : "Hizlari gonbidatua",
-        "occurences": "Gertaerak"
+        "occurences": "Gertaerak",
+        "limitmemberseats": "Mugatu (Bazkideen)",
+        "limitguestseats": "Muga (Gonbidatuen)",
+        "limitgreaterthanseats": "Ezarri eserleku kopurua baino txikiagoa edo berdina den muga"
     },
     "plan-recommendations": {
         "applauses": "Txaloak",
