@@ -55,6 +55,7 @@ export class CoursesAdminListComponent {
   @Input() superAdmin: any;
   @Input() status: any;
   @Input() language: any;
+  @Input() isUESchoolOfLife: any;
 
   languageChangeSubscription;
   isMobile: boolean = false;
@@ -147,7 +148,7 @@ export class CoursesAdminListComponent {
 
   fetchCoursesManagementData() {
     this._coursesService
-      .fetchAdminCourses(this.company?.id, this.userId)
+      .fetchAdminCourses(this.company?.id, this.userId, this.isUESchoolOfLife)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {

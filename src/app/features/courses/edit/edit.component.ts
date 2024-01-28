@@ -446,6 +446,8 @@ export class CourseEditComponent {
   assessments: any = [];
   selectedAssessment: any = '';
 
+  isUESchoolOfLife: boolean = false;
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -488,6 +490,7 @@ export class CourseEditComponent {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.domain = company[0].domain;
       this.companyId = company[0].id;
       this.primaryColor = company[0].primary_color;
@@ -1828,6 +1831,7 @@ export class CourseEditComponent {
       }
       params['course_credits'] = this.courseCredits || 0
     }
+    params['school_of_life'] = this.isUESchoolOfLife ? 1 : 0;
 
     if(this.companyId == 32) {
       params['additional_properties_course_access'] = this.allowCourseAccess ? 1 : 0,
