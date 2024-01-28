@@ -714,7 +714,8 @@
         "communitysupport": "Communauté et support",
         "termsandconditions": "Termes et conditions",
         "privacypolicy": "Politique de confidentialité",
-        "cookiespolicy": "Politique en matière de cookies"
+        "cookiespolicy": "Politique en matière de cookies", 
+        "customeronboarding": "Intégration client"
     },
     "public-profile": {
         "publicprofile": "Profil public",
@@ -3435,5 +3436,34 @@
         "allow": "Accepter les cookies",
         "deny": "Rejeter",
         "link": "Politique en matière de cookies"
+    },
+    "customer-onboarding": {
+        "sitedetails": "Détails du site",
+        "accountdetails": "Détails du compte",
+        "designdetails": "Détails de conception",
+        "featuresactivation": "Activation des fonctionnalités",
+        "settings": "Paramètres",
+        "confirmation": "Confirmation",
+        "successfullycreated": "Client créé avec succès",
+        "nextstep": "Prochaine étape",
+        "primarycolor": "Couleur primaire",
+        "buttoncolor": "Couleur du bouton",
+        "menutextcolor": "Couleur du texte du menu",
+        "hovercolor": "Couleur de survol",
+        "proceed": "Continuer",
+        "confirmproceed": "Confirmer et continuer",
+        "summary": "Résumé",
+        "allsetup": "Le nouveau client est entièrement configuré",
+        "checksummary": "Vérifiez le résumé ci-dessous et cliquez sur le bouton Confirmer et procéder pour procéder à la création du client.",
+        "siteinfo": "Les informations de base sur le site ont été complétées.",
+        "accountinfo": "Le compte de l'utilisateur administrateur a été saisi.",
+        "designinfo": "Le branding (logo, bannière, couleurs de base) a été défini.",
+        "featuresinfo": "Les fonctionnalités actives ont été définies et les paramètres par défaut seront importés.",
+        "setupcustomerinprogress": "Configuration du client en cours",
+        "importingnote": "La configuration peut prendre un certain temps. Veuillez ne pas fermer votre navigateur ni actualiser la page tant que la tarification n'est pas terminée.",
+        "timelapsed": "Temps écoulé",
+        "log": "Journal",
+        "customercreated": "Un nouveau client a été créé avec succès.",
+        "endingstatus": "Un e-mail sera envoyé à l'administrateur pour apporter les modifications nécessaires au serveur pour le domaine."
     }
 }

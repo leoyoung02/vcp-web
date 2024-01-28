@@ -6,6 +6,7 @@ export const API_BASE = environment.api;
 // PLATFORMS
 export const COMPANIES_URL = `${API_BASE}/guest/companies-new`;
 export const FEATURES_URL = `${API_BASE}/guest/features`;
+export const ALL_FEATURES_URL = `${API_BASE}/company/features`;
 export const CONFIRM_EMAIL_URL = `${API_BASE}/company/check/confirm-email`;
 export const OTHER_SETTINGS_URL = `${API_BASE}/company/other-settings`;
 export const DASHBOARD_DETAILS_URL = `${API_BASE}/guest/dashboard/details`;
@@ -111,6 +112,11 @@ export const MANAGE_SETTINGS_DATA_URL = `${API_BASE}/v2/settings-data`;
 export const MANAGE_SETTINGS_EMAIL_DATA_URL = `${API_BASE}/v2/settings-email-data`;
 export const SIGNUP_DATA_URL = `${API_BASE}/v2/signup-data`;
 export const SUPPORT_TICKETS_DATA_URL = `${API_BASE}/v2/support-tickets-data`;
+export const ADD_CUSTOMER_URL = `${API_BASE}/v2/customer/add`;
+export const ADD_CUSTOMER_FEATURE_MAPPING_URL = `${API_BASE}/v2/customer/features-mapping/add`;
+export const ADD_CUSTOMER_SETTINGS_URL = `${API_BASE}/v2/customer/settings/add`;
+export const DEACTIVATE_CUSTOMER_URL = `${API_BASE}/v2/customer/deactivate`;
+export const EDIT_CUSTOMER_SITE_DETAILS_URL = `${API_BASE}/v2/customer/site-details/edit`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;

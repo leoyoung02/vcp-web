@@ -200,6 +200,12 @@ import {
   SUPPORT_TICKETS_DATA_URL,
   SUBMIT_SUPPORT_TICKET_URL,
   CREATE_TICKET_REPLY_URL,
+  ALL_FEATURES_URL,
+  ADD_CUSTOMER_URL,
+  ADD_CUSTOMER_FEATURE_MAPPING_URL,
+  ADD_CUSTOMER_SETTINGS_URL,
+  DEACTIVATE_CUSTOMER_URL,
+  EDIT_CUSTOMER_SITE_DETAILS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -235,6 +241,11 @@ export class CompanyService {
   getCompany(companies): any {
     let company = [];
     let host = window.location.host;
+    console.log('customers')
+    console.log(this.customers);
+    console.log('companies')
+    console.log(companies);
+
     let customer =
       this.customers &&
       this.customers.find(
@@ -247,6 +258,19 @@ export class CompanyService {
           return c.url == customer?.url || c.alternative_url == customer?.url || c.school_of_life_url == customer?.url;
         });
       if (company && company.length > 0) {
+        this._localService.setLocalStorage(
+          environment.lscompanies,
+          company ? JSON.stringify(company) : ""
+        );
+      }
+    } else {
+      let comp = companies.find(
+        (c) => c.url == host || c.url == environment.company
+      )
+      if(comp) {
+        company = companies && companies.filter((c) => {
+          return c.url == host || c.url == environment.company
+        });
         this._localService.setLocalStorage(
           environment.lscompanies,
           company ? JSON.stringify(company) : ""
@@ -1741,6 +1765,79 @@ export class CompanyService {
 
     return this._http.post(CREATE_TICKET_REPLY_URL,
         formData
+    ).pipe(map(res => res));
+  }
+
+  allFeaturesList() {
+    return this._http.get(`${ALL_FEATURES_URL}`, {
+      ...withCache(),
+      headers: this.headers,
+    });
+  }
+
+  addCustomer(params): Observable<any> {
+    return this._http.post(ADD_CUSTOMER_URL,
+        params
+    ).pipe(map(res => res));
+  }
+
+  addCustomerFeatureMapping(params): Observable<any> {
+    return this._http.post(ADD_CUSTOMER_FEATURE_MAPPING_URL,
+        params
+    ).pipe(map(res => res));
+  }
+
+  addCustomerLogo( id, logo, filename): Observable<any> {
+    let formData = new FormData()
+
+    if (logo) {
+        formData.append('image', logo.image, filename);
+    }
+
+    return this._http.post(`${EDIT_COMPANY_LOGO_URL}/${id}`,
+        formData
+    ).pipe(map(res => res))
+  }
+
+  addCustomerHeaderLogo( id, logo, filename): Observable<any> {
+    let formData = new FormData()
+
+    if (logo) {
+        formData.append('image', logo.image, filename);
+    }
+
+    return this._http.post(`${EDIT_COMPANY_HEADER_IMAGE_URL}/${id}`,
+        formData
+    ).pipe(map(res => res))
+  }
+
+  addCustomerBannerImage( id, logo, filename): Observable<any> {
+    let formData = new FormData()
+
+    if (logo) {
+        formData.append('image', logo.image, filename);
+    }
+
+    return this._http.post(`${EDIT_COMPANY_BANNER_IMAGE_URL}/${id}`,
+        formData
+    ).pipe(map(res => res))
+  }
+
+  addCustomerSettings(params): Observable<any> {
+    return this._http.post(ADD_CUSTOMER_SETTINGS_URL,
+        params
+    ).pipe(map(res => res));
+  }
+
+  deactivateCustomer(id: any): Observable<any> {
+    return this._http.put(`${DEACTIVATE_CUSTOMER_URL}/${id}`,
+      {}
+    ).pipe(map(res => res));
+  }
+
+  editCustomerSiteDetails(id: any, params): Observable<any> {
+    return this._http.put(`${EDIT_CUSTOMER_SITE_DETAILS_URL}/${id}`,
+      params
     ).pipe(map(res => res));
   }
 }
