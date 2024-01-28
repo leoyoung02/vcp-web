@@ -432,7 +432,10 @@
         "closed": "Tancat",
         "speaker": "Ponent",
         "guestspeaker" : "Ponent Convidat",
-        "occurences": "Ocurrències"
+        "occurences": "Ocurrències",
+        "limitmemberseats": "Límit (Membres)",
+        "limitguestseats": "Límit (Convidats)",
+        "limitgreaterthanseats": "Definiu un límit inferior o igual al nombre de seients"
     },
     "plan-recommendations": {
         "applauses": "Aplaudiment",
@@ -563,7 +566,8 @@
         "leaveclub": "Deixa aquest club",
         "pleasecontactadministrator": "Si us plau, contacteu amb l'administrador",
         "downloadmembers": "Baixa els membres (XLSX)",
-        "downloadedsuccessfully": "S'ha baixat correctament. Comproveu la vostra carpeta de baixades"
+        "downloadedsuccessfully": "S'ha baixat correctament. Comproveu la vostra carpeta de baixades",
+        "manager": "Manager"
     },
     "club-create": {
         "fillup": "Ompliu el formulari per crear el vostre propi club",

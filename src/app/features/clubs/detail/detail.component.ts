@@ -218,6 +218,7 @@ export class ClubDetailComponent {
   joinHover: boolean = false;
   leaveHover: boolean = false;
   clubMembers: any[] = [];
+  hasMembers: boolean = false;
 
   constructor(
     private _router: Router,
@@ -297,6 +298,16 @@ export class ClubDetailComponent {
           this.initializePage();
         }
       );
+
+    let features = this._localService.getLocalStorage(environment.lsfeatures)
+    ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
+    : "";
+    let membersFeature = features?.find(f => f.feature_name == "Members")
+    this.hasMembers = membersFeature ? true : false;
+
+    setTimeout(() => {
+      initFlowbite();
+    }, 100);
 
     this.getClub();
   }
@@ -706,7 +717,6 @@ export class ClubDetailComponent {
     user,
     created_by_ue
   ) {
-    // this.getPlans();
     let subcategories = this.subcategories;
     if (subcategories) {
       subcategories.forEach((sc) => {
@@ -1406,6 +1416,12 @@ export class ClubDetailComponent {
 
   toggleLeaveHover(event) {
     this.leaveHover = event;
+  }
+
+  goToMemberProfilePage(member) {
+    if(this.hasMembers) {
+      this._router.navigate([`/members/details/${member?.user_id}`])
+    }
   }
 
   ngOnDestroy() {

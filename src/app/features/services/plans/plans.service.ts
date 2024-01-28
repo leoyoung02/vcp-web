@@ -545,6 +545,9 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     if(planForm.seats) {
         formData.append( 'seats', seats.toString() );
     }
+    formData.append( 'member_seats', planForm.member_seats?.toString() || '');
+    formData.append( 'guest_seats', planForm.guest_seats?.toString() || '');
+
     formData.append( 'link', planForm.link );
 
     let price = 0;
@@ -779,7 +782,10 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
         }
     }
     formData.append( 'seats', seats.toString() );
-    
+
+    formData.append( 'member_seats', planForm.member_seats?.toString() || '');
+    formData.append( 'guest_seats', planForm.guest_seats?.toString() || '');
+  
     formData.append( 'link', planForm.link );
 
     let price = 0;

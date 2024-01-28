@@ -432,7 +432,10 @@
         "closed": "Fermé",
         "speaker": "Conférencier",
         "guestspeaker" : "Conférencier invité",
-        "occurences": "Occurrences"
+        "occurences": "Occurrences",
+        "limitmemberseats": "Limite (Membres)",
+        "limitguestseats": "Limite (Invités)",
+        "limitgreaterthanseats": "Veuillez définir une limite inférieure ou égale au nombre de sièges"
     },
     "plan-recommendations": {
         "applaudissements": "Applaudissements",
@@ -564,7 +567,8 @@
         "pleasecontactadministrator": "Veuillez contacter l'administrateur",
         "clubactivities": "Activités du club",
         "downloadmembers": "Télécharger les membres (XLSX)",
-        "downloadedsuccessfully": "Téléchargé avec succès. Veuillez vérifier votre dossier de téléchargements"
+        "downloadedsuccessfully": "Téléchargé avec succès. Veuillez vérifier votre dossier de téléchargements",
+        "manager": "Manager"
     },
     "club-create": {
         "fillup": "Remplissez le formulaire pour créer votre propre club",

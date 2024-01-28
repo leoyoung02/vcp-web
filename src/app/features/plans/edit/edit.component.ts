@@ -147,6 +147,8 @@ export class PlanEditComponent {
     end_date_mm: new FormControl(""),
     time_slot: new FormControl("00", [Validators.required]),
     seats: new FormControl(null),
+    member_seats: new FormControl(null),
+    guest_seats: new FormControl(null),
     price: new FormControl(null),
     zoom_link: new FormControl(""),
     zoom_link_text: new FormControl(""),
@@ -419,6 +421,8 @@ export class PlanEditComponent {
   dropdownList: any;
   selectedItems :any;
   additionalPropertiesDropdownSettings = {};
+  membersLimitGreaterThanSeats: boolean = false;
+  guestsLimitGreaterThanSeats: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -1237,6 +1241,8 @@ export class PlanEditComponent {
       show_comments,
       show_description,
       activity_code,
+      member_seats,
+      guest_seats,
     } = this.plan;
 
     if(this.types && this.types.length > 0 && this.planCategoryMapping?.length > 0) {
@@ -1392,6 +1398,13 @@ export class PlanEditComponent {
       this.planForm.controls["youtube_link_text"].setValue(youtube_link_text);
     }
     this.seats = seats == 0 ? "" : seats;
+    let memberseats = member_seats == 0 ? "" : member_seats;
+    let guestseats = guest_seats == 0 ? "" : guest_seats;
+    let totalseats = seats == 0 ? "" : seats;
+    this.planForm.controls["seats"].setValue(totalseats);
+    this.planForm.controls["member_seats"].setValue(memberseats);
+    this.planForm.controls["guest_seats"].setValue(guestseats);
+
     if (price && parseInt(price) > 0) {
       this.price = price;
       this.withFee = true;
@@ -1860,6 +1873,7 @@ export class PlanEditComponent {
     if (
       this.planForm.get("title_" + code)?.errors ||
       this.planForm.get("plan_date")?.errors ||
+      (this.guestMemberSeatActive && (this.membersLimitGreaterThanSeats || this.guestsLimitGreaterThanSeats)) ||
       this.checkDescription()
     ) {
       this.issaving = false;
@@ -1988,6 +2002,8 @@ export class PlanEditComponent {
     this.plan["external_registration"] = this.isExternalRegistration ? 1 : 0;
     this.plan["request_dni"] = this.requestDNI ? 1 : 0;
     this.plan["school_of_life"] = this.isUESchoolOfLife ? 1 : 0;
+    this.plan["member_seats"] = this.guestMemberSeatActive && this.planForm.get("member_seats")?.value ? this.planForm.get("member_seats")?.value : null;
+    this.plan["guest_seats"] = this.guestMemberSeatActive && this.planForm.get("guest_seats")?.value ? this.planForm.get("guest_seats")?.value : null;
 
     if(this.companyId == 32) {
       this.plan['additional_properties_course_access'] = this.allowCourseAccess == true ? '1' : '0',
@@ -2678,6 +2694,33 @@ export class PlanEditComponent {
   }
 
   onSpeakerSelect(event) {}
+
+  calculateLimit(mode) {
+    let total_seats = parseInt(this.planForm.controls["seats"]?.value?.toString()) || 0;
+    let member_seats = parseInt(this.planForm.controls["member_seats"]?.value?.toString()) || 0;
+    let guest_seats = parseInt(this.planForm.controls["guest_seats"]?.value?.toString()) || 0;
+    this.membersLimitGreaterThanSeats = false;
+    this.guestsLimitGreaterThanSeats = false;
+
+    switch(mode) {
+      case 'members':
+        if(member_seats > (total_seats - guest_seats)) {
+          this.membersLimitGreaterThanSeats = true;
+          this.open(this._translateService.instant('plan-create.limitgreaterthanseats'), '');
+        }
+        break;
+      case 'guests':
+        if(guest_seats > (total_seats - member_seats)) {
+          this.guestsLimitGreaterThanSeats = true;
+          this.open(this._translateService.instant('plan-create.limitgreaterthanseats'), '');
+        }
+        break;
+      case 'seats': 
+        this.membersLimitGreaterThanSeats = member_seats > (total_seats - guest_seats) ? true : false;
+        this.guestsLimitGreaterThanSeats = guest_seats > (total_seats - member_seats) ? true : false;
+        break;
+    }
+  }
 
   async open(message: string, action: string) {
     await this._snackBar.open(message, action, {

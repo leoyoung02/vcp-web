@@ -1,33 +1,18 @@
 <div *ngIf="!isLoading && event" class="mx-auto my-auto max-w-full flex justify-center items-center align-center pt-20 pb-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-0 sm:gap-8 md:gap-8 lg:gap-8 py-8">
-        <div class="relative mr-0 sm:mr-0 md:mr-8 lg:mr-83">
+    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row mb-8">
+        <div class="relative mr-0 sm:mr-0 md:mr-[58px] lg:mr-[58px]">
             <img 
                 *ngIf="event?.image"
-                class="object-cover rounded-lg w-full max-w-full h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[698px] md:max-h-[698px] lg:h-[698px] lg:max-h-[698px]" 
+                class="rounded-[30px] object-cover object-top w-full max-w-full sm:w-full sm:max-w-full md:w-[540px] md:max-w-[540px] lg:w-[540px] lg:max-w-[540px] sm:h-auto md:h-[510px] lg:h-[510px] max-h-auto md:max-h-[510px] lg:max-h-[510px]"
                 [ngSrc]="eventImage" 
                 [alt]="getEventTitle(event)" 
-                width="520" 
-                height="698"
+                width="540" 
+                height="510"
             >
-            <div *ngIf="event?.image" class="absolute inset-0 bg-gray-900 opacity-60 rounded-md"></div>
-            <div *ngIf="event?.image" class="absolute inset-0 flex items-center justify-center">
-                <div class="absolute inset-0 flex items-center">
-                    <div class="flex flex-col ml-4">
-                        <h2 class="text-white text-lg font-bold">{{ getEventTitle(event) }}</h2>
-                    </div>
-                </div>
-                <div *ngIf="event?.credits == 1" class="absolute inset-0 flex items-start justify-end pt-3 pr-4 text-sm text-white font-semibold">
-                    <div class="flex py-1.5 px-3 items-center rounded-lg" [ngStyle]="{'background-color': buttonColor}">
-                        <span class="text-xs text-white uppercase">{{ featuredTitle }}</span>
-                        <svg class="ml-2 w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 21 21">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m6.072 10.072 2 2 6-4m3.586 4.314.9-.9a2 2 0 0 0 0-2.828l-.9-.9a2 2 0 0 1-.586-1.414V5.072a2 2 0 0 0-2-2H13.8a2 2 0 0 1-1.414-.586l-.9-.9a2 2 0 0 0-2.828 0l-.9.9a2 2 0 0 1-1.414.586H5.072a2 2 0 0 0-2 2v1.272a2 2 0 0 1-.586 1.414l-.9.9a2 2 0 0 0 0 2.828l.9.9a2 2 0 0 1 .586 1.414v1.272a2 2 0 0 0 2 2h1.272a2 2 0 0 1 1.414.586l.9.9a2 2 0 0 0 2.828 0l.9-.9a2 2 0 0 1 1.414-.586h1.272a2 2 0 0 0 2-2V13.8a2 2 0 0 1 .586-1.414Z"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
         </div>
-        <div class="w-full">
-            <div class="mt-4 w-full max-w-full">
+        <div class="w-full mr-0 sm:mr-0 md:mr-[80px] lg:mr-[80px]">
+            <div class="w-full max-w-full">
+                <div class="text-3xl font-semibold">{{ getEventTitle(event) }}</div>
                 <div class="flex flex-col">
                     <div [innerHtml]="planTruncatedDescription"></div>
                     <ng-container *ngIf="planDescription?.length > truncate">
@@ -48,8 +33,8 @@
                         </svg>
                         <div class="capitalize font-semibold">{{ planTime }}</div>
                     </div>
-                    <div class="flex" *ngIf="plan?.meeting_point">
-                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
+                    <div class="flex max-w-full sm:max-w-full md:max-w-[250px] lg:max-w-[250px]" *ngIf="plan?.meeting_point">
+                        <svg class="w-6 h-6 md:max-w-[80px] lg:w-[80px] mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
                             <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
                               <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
                               <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>

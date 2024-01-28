@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { FilterComponent, PageTitleComponent } from '@share/components';
+import { ButtonGroupComponent, FilterComponent, PageTitleComponent } from '@share/components';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { SearchComponent } from "@share/components/search/search.component";
@@ -9,11 +9,11 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { CompanyService, LocalService } from '@share/services';
 import { environment } from '@env/environment';
 import { MemberCardComponent } from '@share/components/card/member/member.component';
-import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { OffersService } from '@features/services/offers/offers.service';
-import get from 'lodash/get';
 import { OfferCardComponent } from '@share/components/card/offer/offer.component';
+import get from 'lodash/get';
 
 @Component({
   selector: 'app-offers-list',
@@ -31,6 +31,7 @@ import { OfferCardComponent } from '@share/components/card/offer/offer.component
     MemberCardComponent,
     FilterComponent,
     OfferCardComponent,
+    ButtonGroupComponent,
   ],
   templateUrl: './list.component.html'
 })
@@ -83,11 +84,16 @@ export class OffersListComponent {
   dialogMode: string = "";
   dialogTitle: any;
   cities: any;
-  list: any;
+  list: any = [];
   sectors: any;
-  buttonList: any;
+  buttonList: any = [];
   selectedCity: any;
   selectedSector: any;
+  categoryFilterActive: boolean = false;
+  filterTypeControl: any = '';
+  discountCategories: any = [];
+  discountTypes: any = [];
+  selectedCategory: any = '';
 
   constructor(
     private _router: Router,
@@ -172,6 +178,10 @@ export class OffersListComponent {
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures );
           this.mapUserPermissions(data?.user_permissions);
+          this.discountCategories = data?.discount_categories;
+          this.discountTypes = data?.discount_types;
+          this.filterTypeControl = data?.filter_settings?.filter_type || 'dropdown';
+          this.initializeButtonGroup();
           this.allOffers = data?.offers;
           this.formatOffers(data?.offers);
         },
@@ -190,7 +200,9 @@ export class OffersListComponent {
 
   mapSubfeatures(subfeatures) {
     if (subfeatures?.length > 0) {
-      
+      this.categoryFilterActive = subfeatures.some(
+        (a) => a.name_en == "Filter" && a.active == 1
+      );
     }
   }
 
@@ -253,6 +265,47 @@ export class OffersListComponent {
       : "";
   }
 
+  initializeButtonGroup() {
+    let categories = this.companyId == 12 ? this.discountTypes : this.discountCategories;
+    this.buttonList = [
+      {
+        id: "All",
+        value: "All",
+        text: this._translateService.instant("plans.all"),
+        selected: true,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: "All",
+        name_CA: "All",
+        name_DE: "All",
+        name_EN: "All",
+        name_ES: "All",
+        name_EU: "All",
+        name_FR: "All",
+        sequence: 1,
+        status: 1,
+      },
+    ];
+
+    categories?.forEach((category) => {
+      this.buttonList.push({
+        id: category.id,
+        value: category.id,
+        text: this.getCategoryTitle(category),
+        selected: false,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: category.id,
+        name_CA: category.name_EN,
+        name_DE: category.name_DE,
+        name_EN: category.name_EN,
+        name_ES: category.name_ES,
+        name_EU: category.name_EU,
+        name_FR: category.name_FR,
+        sequence: category.sequence,
+        status: 1,
+      });
+    });
+  }
+
   formatOffers(offers) {
     offers = offers?.map((item) => {
       return {
@@ -264,8 +317,9 @@ export class OffersListComponent {
       };
     });
 
-    if(offers?.length > 0) {
-      this.offers = offers?.sort((a, b) => {
+    this.offers = offers;
+    if(this.offers?.length > 0) {
+      this.offers = this.offers?.sort((a, b) => {
         const oldDate: any = new Date(a.created);
         const newDate: any = new Date(b.created);
 
@@ -280,6 +334,23 @@ export class OffersListComponent {
         (this.language == 'de' ? (offer.title_de || offer.title) : offer.title)
       ))
     )) : ''
+  }
+
+  getCategoryTitle(category) {
+    return this.language == "en"
+      ? category.name_EN
+      : this.language == "fr"
+      ? category.name_FR
+      : this.language == "eu"
+      ? category.name_EU ||
+        category.name_ES
+      : this.language == "ca"
+      ? category.name_CA ||
+        category.name_ES
+      : this.language == "de"
+      ? category.name_DE ||
+        category.name_ES
+      : category.name_ES;
   }
 
   handleSearchChanged(event) {
@@ -315,6 +386,18 @@ export class OffersListComponent {
       })
     }
 
+    if(this.selectedCategory?.id != 'All') {
+      if(this.companyId == 12) {
+        offers = offers?.filter(off => {
+          return off?.discount_type_id == this.selectedCategory?.id
+        })
+      } else {
+        offers = offers?.filter(off => {
+          return off?.fk_supercategory_id == this.selectedCategory?.id
+        })
+      }
+    }
+
     this.formatOffers(offers);
   }
 
@@ -324,6 +407,20 @@ export class OffersListComponent {
 
   toggleCreateHover(event) {
     this.createHover = event;
+  }
+
+  filteredCategory(category) {
+    this.buttonList?.forEach((item) => {
+      if (item.id === category.id) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    this.selectedCategory = category;
+    this.filterOffers();
+
   }
 
   async open(message: string, action: string) {

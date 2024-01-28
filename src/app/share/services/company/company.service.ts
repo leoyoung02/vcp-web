@@ -206,6 +206,8 @@ import {
   ADD_CUSTOMER_SETTINGS_URL,
   DEACTIVATE_CUSTOMER_URL,
   EDIT_CUSTOMER_SITE_DETAILS_URL,
+  FILTER_SETTINGS_URL,
+  EDIT_FILTER_SETTINGS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1838,6 +1840,18 @@ export class CompanyService {
   editCustomerSiteDetails(id: any, params): Observable<any> {
     return this._http.put(`${EDIT_CUSTOMER_SITE_DETAILS_URL}/${id}`,
       params
+    ).pipe(map(res => res));
+  }
+  
+  getFilterSettings(id: any, featureId: any): Observable<any> {
+    return this._http.get(`${FILTER_SETTINGS_URL}/${id}/${featureId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editFilterSettings(params): Observable<any> {
+    return this._http.post(`${EDIT_FILTER_SETTINGS_URL}`,
+        params
     ).pipe(map(res => res));
   }
 }
