@@ -243,10 +243,6 @@ export class CompanyService {
   getCompany(companies): any {
     let company = [];
     let host = window.location.host;
-    console.log('customers')
-    console.log(this.customers);
-    console.log('companies')
-    console.log(companies);
 
     let customer =
       this.customers &&

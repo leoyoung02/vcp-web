@@ -479,7 +479,6 @@ export class PlanDetailComponent {
   }
 
   checkLimitSeats() {
-    console.log(this.plansData?.plan?.details)
     if(this.plansData?.plan?.details?.member_seats > 0 && this.userId > 0) {
       if(!(this.memberParticipants?.length < this.plansData?.plan?.details?.member_seats)) {
         this.showJoinButton = false
@@ -1052,6 +1051,10 @@ export class PlanDetailComponent {
     this.joinedParticipant = this.isUserJoined(this.planParticipants);
     this.pendingRequest = this.checkPendingJoinRequest(plan?.requests, 0);
     this.joinStatusChecked = true;
+
+    setTimeout(() => {
+      initFlowbite();
+    }, 500);
 
     this.getInviteLink();
 

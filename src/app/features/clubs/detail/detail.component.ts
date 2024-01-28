@@ -774,6 +774,10 @@ export class ClubDetailComponent {
     this.joinedMember = this.isUserJoined(this.members);
     this.emailTo = `mailto:?Subject=Inquiries&body=` + window.location.href;
 
+    setTimeout(() => {
+      initFlowbite();
+    }, 500);
+
     if (this.groups && this.group.parent_group_id > 0) {
       let parent_group_row = this.groups.filter((grp) => {
         return grp.id == this.group.parent_group_id;

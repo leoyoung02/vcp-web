@@ -23,10 +23,10 @@
         <div class="flex justify-center py-4">
             <img class="px-4 object-contain w-48 object-center" 
                 width="219" height="219" *ngIf="image" [ngSrc]="image" alt=""
-                [ngClass]="{'bg-[#525252] rounded-lg my-4 h-20': id == 20 || id == 32 || id == 52,
+                [ngClass]="{'bg-[#525252] rounded-lg my-4 h-20': id == 20 || id == 32 || id == 52 || id == 57 || id == 64,
                     'py-6': id == 32,
-                    'py-4':  id == 20 || id == 52,
-                    'h-24':  id != 20 && id != 32 && id != 52}">
+                    'py-4':  id == 20 || id == 52 || id == 57 || id == 64,
+                    'h-24':  id != 20 && id != 32 && id != 52 && id != 57 && id != 64}">
         </div>
         <div class="text-center text-xl font-semibold px-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0" [routerLink]="[path]">{{name}}</div>
     </div>

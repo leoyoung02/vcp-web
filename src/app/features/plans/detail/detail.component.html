@@ -236,7 +236,7 @@
                                     <div [attr.data-popover-target]="'popover-member-profile-' + member.fk_user_id">
                                         <img
                                             (click)="goToMemberProfilePage(member)"
-                                            class="rounded-full max-w-[55px] max-h-[55px] object-cover object-top" 
+                                            class="rounded-full min-w-[55px] max-w-[55px] min-h-[55px] max-h-[55px] object-cover object-top" 
                                             [ngClass]="{'-ml-6': i > 0, 'hover:cursor-pointer': hasMembers && member?.password}"
                                             width="55"
                                             height="55"
