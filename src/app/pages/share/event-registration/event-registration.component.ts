@@ -28,6 +28,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlansService } from "@features/services";
 import { DomSanitizer } from '@angular/platform-browser';
 import { NoAccessComponent } from "@share/components";
+import { SafeContentHtmlPipe } from "@lib/pipes";
 import momenttz from "moment-timezone";
 import moment from "moment";
 import "moment/locale/es";
@@ -47,6 +48,7 @@ import "moment/locale/de";
     MatSnackBarModule,
     NgOptimizedImage,
     NoAccessComponent,
+    SafeContentHtmlPipe,
   ],
   templateUrl: "./event-registration.component.html",
 })
@@ -191,6 +193,9 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
           this.mapSubfeatures(data);
           this.user = data?.user;
           this.formatEventRegistrationData(data);
+          if(this.companyId == 20) {
+            this.getLandingTemplate();
+          }
         },
         (error) => {
           console.log(error);
@@ -282,6 +287,47 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
         ? feature.description_de || feature.description_es
         : feature.description_es
       : "";
+  }
+
+  async getLandingTemplate() {
+    this._plansService.getEventRegistrationTemplateByGuid(this.slug, this.invite_guid)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(data => {
+        let template = data.template
+        this.template = template
+        if(this.template) {
+          let style = ` <style>
+            img.register-bg{max-width:420px;border-radius:8px;object-fit:contain;margin:20px auto 0px;}
+            h1{text-transform:capitalize;}
+            td.v-container-padding-padding{text-align:center;}
+            @media (max-width: 767px) { 
+              .u-col.u-col-100.u_column{min-width:320px !important;}
+              img.register-bg{max-width:100% !important;}
+              .v-col-padding.v-col-border.v-col-border-radius{padding-right:0px !important;}
+            }
+          </style> `
+          let body = this.template.body
+          body = body.replace('{event_image}', `<img class="register-bg" src="` + this.apiPath + data.imagePath + data.event.image + `" />`)
+          body = body.replace('{event_name}', this.event ? this.event.title : '')
+          body = body.replace('{event_description}', this.event ? this.event.description : '')
+
+          if(body.indexOf('{event_register_button_form}') >= 0) {
+            this.hasPaymentButtonForm = this.isPaidEvent(this.event) ? true : false
+            this.hasRegistrationButtonForm = this.isPaidEvent(this.event) ? false : true
+          }
+              
+          body = body.replace('{event_register_button_form}', '')
+          if(this.event && this.event.plan_date) {
+            let planDate = moment.utc(this.event.plan_date).locale(this.language).format('dddd, D MMM HH:mm')
+            body = body.replace('{event_datetime}', planDate)
+          } else {
+            body = body.replace('{event_datetime}', '-')
+          }
+          body = body.replace('{event_login_link}', '<a href="' + 'https://' + this.company.url + '">aquí</a>')
+          this.html = this.sanitizer.bypassSecurityTrustHtml(style + body)
+          this.css = this.sanitizer.bypassSecurityTrustStyle(this.template.css)
+        }
+      }) 
   }
 
   getGuestRegistrationFields(data) {
