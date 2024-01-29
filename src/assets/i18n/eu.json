@@ -2040,7 +2040,8 @@
         "bookingscity": "Kudeatu ikasleen erreserbak hiriaren arabera",
         "settype": "Ezarri kide mota",
         "statistics": "Estatistikak",
-        "tiktokstatistics": "Hurrengo orrietan, galdetegietan eta abarretan datuen analisia."
+        "tiktokstatistics": "Hurrengo orrietan, galdetegietan eta abarretan datuen analisia.",
+        "potsupertutor": "Pot-Gain-tutorea"
     },
     "guest-landing": {
         "templates": "Txantiloiak",
@@ -3059,7 +3060,8 @@
         "confirmresendemail": "Benetan nahi al duzu ikastaroaren sarbide-mezua berriro bidali?",
         "userexists":"Erabiltzaile hau jada existitzen da",
         "questionnairemandatoryfields":"Jarraitzeko, galdetegi osoa bete behar duzu.",
-        "bookingcancel":"Zure erreserba behar bezala bertan behera utzi da."
+        "bookingcancel":"Zure erreserba behar bezala bertan behera utzi da.",
+        "sameadminsedecity":"Herriak administratzailearen berdina izan behar du jarraitzeko."
     },
     "buddy": {
         "mentorprofile": "Tutorearen profila",

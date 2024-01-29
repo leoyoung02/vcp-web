@@ -255,6 +255,7 @@ export class ManageUsersComponent {
   allUserMemberTypes: any = [];
   tutor: boolean = false;
   superTutor: boolean = false;
+  potSuperTutor: boolean = false;
   tutorDropDownSettings: any;
   selectedAssignedTutor: any = "";
   tutorToAssign: any = [];
@@ -337,6 +338,10 @@ export class ManageUsersComponent {
   selectedOperation: any;
   netculturaUsersList: any = [];
   netculturaPeople: any = [];
+  adminSedeCity: any;
+  customMemberTypes :any;
+  userRoleType:any;
+  customMemberTypeId:any;
 
   constructor(
     private _router: Router,
@@ -464,7 +469,7 @@ export class ManageUsersComponent {
       "news.searchbykeyword"
     );
   }
-
+// fetch
   fetchManageUsersData() {
     this._userService
       .fetchManageUsersData(this.companyId, this.userId)
@@ -475,12 +480,16 @@ export class ManageUsersComponent {
           this.mapSubfeatures(data);
           this.mapUserPermissions(data?.user_permissions);
           this.mapSettings(data);
+          this.adminSedeCity = data?.user?.city ? data.user.city : '' 
           this.cities = data?.cities;
           this.superAdmins = data?.super_admins;
           this.customMemberProfileFields = data?.custom_member_profile_fields;
           this.courseCategories = data?.course_categories;
           this.courseCategoryMapping = data?.course_category_mapping;
           this.courseCategoriesAccessRoles = data?.course_category_access_roles;
+
+          this.customMemberTypes = data?.member_types ? data?.member_types : [];
+          this.customMemberTypeId = data?.user?.custom_member_type_id ? data.user.custom_member_type_id: ''
           this.initializeIconFilterList(this.cities);
         },
         (error) => {
@@ -2406,6 +2415,7 @@ export class ManageUsersComponent {
     this.createdUserId = '';
     this.tutor = false;
     this.superTutor = false;
+    this.potSuperTutor = false;
     this.startDate = new Date() // moment().format('YYYY-MM-DD HH:mm:ss');
 
     if (this.showDefaultRegistrationFields) {
@@ -2617,6 +2627,7 @@ export class ManageUsersComponent {
     this.roleMemberGroupChanged = false;
     this.newSelectedRole = "";
     this.superTutor = false;
+    this.potSuperTutor = false;
     this.isGuardianType = false;
     this.tabIndex = 0;
     this.hasAddedUser = false;
@@ -2727,7 +2738,6 @@ export class ManageUsersComponent {
 
         setTimeout(async () => {
           this.selectedRole = selected_role;
-
           if(this.hasCategoryAccess && this.hasCourses && this.courseCategories?.length > 0 && this.courseCategoryMapping?.length > 0) {
             this.mapUserTypeCourses(this.selectedRole);
           }
@@ -2749,10 +2759,61 @@ export class ManageUsersComponent {
               );
               this.superTutor = super_match ? true : false;
               let super_tutor = this.tutorToAssign2?.filter((tut) => {
-                return tut.user_id == user.id && tut.super_tutor == 1;
+                return tut.user_id == user.id && tut.super_tutor == 1 
               });
-  
+              let potsuper_match = this.tutorToAssign2?.some(
+                (a) => a.user_id == user.id && a.potsuper_tutor == 1
+              );
+              this.potSuperTutor = potsuper_match ? true : false;
+
+              let potsuper_tutor = this.tutorToAssign2?.filter((tut) => {
+                return tut.user_id == user.id && tut.potsuper_tutor == 1 
+              });
+
               if (super_tutor && super_tutor.length > 0) {
+                let assigned_tutor_ids: any[] = [];
+                this.tutorToAssign = this.tutorToAssign2;
+                this.tutorToAssign =
+                this.tutorToAssign?.length > 0
+                ? this.tutorToAssign.filter((tta) => {
+                        return (
+                          (!tta.parent_tutor_id ||
+                            tta.parent_tutor_id == super_tutor[0].id) &&
+                            tta.super_tutor != 1
+                            );
+                          })
+                          : [];
+                          this.tutorToAssign2?.forEach((tuts) => {
+                            if (
+                              tuts.parent_tutor_id &&
+                    tuts.parent_tutor_id == super_tutor[0]?.id
+                  ) {
+                    assigned_tutor_ids.push(tuts.id);
+                  }
+                });
+              
+                this.selectedAssignedTutor =
+                assigned_tutor_ids.length > 0
+                ? this.tutorToAssign.filter((tta) => {
+                  return assigned_tutor_ids.indexOf(tta.id) != -1;
+                })
+                : "";
+  
+                if (super_tutor?.length > 0) {
+                  let assigned_student_ids: any[] = [];
+                  super_tutor[0].super_tutor_students?.forEach((student) => {
+                    let member = this.allMembers.filter((member) => {
+                      return member.id == student.user_id;
+                    });
+                    if (member?.length > 0) {
+                      assigned_student_ids.push(member[0]);
+                    }
+                  });
+                  this.selectedAssignedStudent = assigned_student_ids;
+                }
+              }
+
+              if (potsuper_tutor && potsuper_tutor.length > 0) {
                 let assigned_tutor_ids: any[] = [];
                 this.tutorToAssign = this.tutorToAssign2;
                 this.tutorToAssign =
@@ -2760,30 +2821,30 @@ export class ManageUsersComponent {
                     ? this.tutorToAssign.filter((tta) => {
                         return (
                           (!tta.parent_tutor_id ||
-                            tta.parent_tutor_id == super_tutor[0].id) &&
-                          tta.super_tutor != 1
-                        );
-                      })
-                    : [];
+                            tta.parent_tutor_id == potsuper_tutor[0].id) &&
+                            tta.potsuper_tutor != 1
+                            );
+                          })
+                          : [];
                 this.tutorToAssign2?.forEach((tuts) => {
                   if (
                     tuts.parent_tutor_id &&
-                    tuts.parent_tutor_id == super_tutor[0]?.id
+                    tuts.parent_tutor_id == potsuper_tutor[0]?.id
                   ) {
                     assigned_tutor_ids.push(tuts.id);
                   }
                 });
   
+                    
                 this.selectedAssignedTutor =
                   assigned_tutor_ids.length > 0
                     ? this.tutorToAssign.filter((tta) => {
                         return assigned_tutor_ids.indexOf(tta.id) != -1;
                       })
                     : "";
-  
-                if (super_tutor?.length > 0) {
+                if (potsuper_tutor?.length > 0) {
                   let assigned_student_ids: any[] = [];
-                  super_tutor[0].super_tutor_students?.forEach((student) => {
+                  potsuper_tutor[0].super_tutor_students?.forEach((student) => {
                     let member = this.allMembers.filter((member) => {
                       return member.id == student.user_id;
                     });
@@ -3301,7 +3362,23 @@ export class ManageUsersComponent {
     }
   }
 
+  getUserType() {
+    let member_type = this.customMemberTypes && this.customMemberTypes.filter(mt => {
+      return mt.id == this.customMemberTypeId
+    })
+    
+    if(member_type && member_type.length > 0) {
+      this.userRoleType = this.language == 'en' ? (member_type[0].type) : (this.language == 'fr' ? (member_type[0].type_fr || member_type[0].type_es) : 
+      (this.language == 'eu' ? (member_type[0].type_eu || member_type[0].type_es) : (this.language == 'ca' ? (member_type[0].type_ca || member_type[0].type_es) : 
+      (this.language == 'de' ? (member_type[0].type_de || member_type[0].type_es) : (member_type[0].type_es))
+      ))
+      )
+    }
+  }
+
   saveUser() {
+  
+    this.getUserType()
     this.userFormSubmitted = true;
     this.errorMessage = "";
 
@@ -3352,16 +3429,16 @@ export class ManageUsersComponent {
         case 97:
           user_role = "Miembro Grupos temáticos";
           break;
-        case 98:
+          case 98:
           user_role = "Admin Gar";
           break;
         case 99:
           user_role = "Admin Grupos temáticos";
           break;
-      }
-
-      if (this.userMode == "add") {
-        let params;
+        }
+        
+        if (this.userMode == "add") {
+          let params;
         if (this.hasMemberContract) {
           if (!this.selectedMemberContractDuration) {
             return false;
@@ -3519,7 +3596,6 @@ export class ManageUsersComponent {
           }
         }
       }
-
       let user_role = "";
       switch (parseInt(this.selectedRole)) {
         case 1:
@@ -3553,21 +3629,26 @@ export class ManageUsersComponent {
 
       let formData = [];
       formData = this.userForm?.value;
+      if(this.userRoleType == 'Admin SEDE' && this.adminSedeCity && this.adminSedeCity !== formData['city']){
+        this.open(this._translateService.instant("dialog.sameadminsedecity"), "");
+      }
+      else{
       formData["user_role"] = user_role;
       (formData["gar_thematic_group"] = 0), (formData["user_id"] = this.userId);
       formData["custom_member_type_id"] = this.hasCustomMemberTypeSettings
-        ? this.selectedRole == 4
-          ? 2
-          : this.selectedRole
-        : 0;
+      ? this.selectedRole == 4
+      ? 2
+      : this.selectedRole
+      : 0;
       formData["send_member_email"] = this.sendMemberEmail ? 1 : 0;
       formData["super_admin"] = this.superAdmin ? 1 : 0;
       formData['tutor'] = this.tutor ? 1 : 0;
       formData['super_tutor'] = this.superTutor ? 1 : 0;
-      formData['assigned_tutors'] = this.selectedAssignedTutor;
+      formData['potsuper_tutor'] = this.potSuperTutor ? 1 : 0;
+      formData['potsuper_tutor'] = this.potSuperTutor ? 1 : 0;
+      formData['companion'] = this.userTypeName == 'Acompañante' ? 1 : 0;
       formData['assigned_students'] = this.selectedAssignedStudent;
       formData['guardian'] = this.isGuardianType ? 1 : 0;
-
       if(this.courseCreditsList?.length && this.isSuperAdmin) {
         formData['separate_course_credits'] = this.separateCourseCredits ? 1 : 0
         formData['user_course_credits'] = this.courseCreditsList
@@ -3607,7 +3688,7 @@ export class ManageUsersComponent {
             : null;
         let contract_unit =
           this.selectedMemberContractDuration == "6 month"
-            ? "month"
+          ? "month"
             : this.selectedMemberContractDuration == "1 year"
             ? "year"
             : null;
@@ -3630,9 +3711,8 @@ export class ManageUsersComponent {
 
       if (this.selectedClubPresidentGroup) {
         formData["club_president_group"] =
-          this.selectedClubPresidentGroup || null;
-      }
-
+        this.selectedClubPresidentGroup || null;
+        }
       if (this.userMode == "add") {
         this._userService
           .addVCPUserDynamicCustom(this.companyId, formData)
@@ -3667,6 +3747,12 @@ export class ManageUsersComponent {
               this.remainingCourseCredits || 0;
           }
         }
+        // console.log('formData: ', formData);
+        // if(formData['city'] === "Murcia (Chiara Pedemonte)"){
+        //   alert("same city")
+        //   return false;
+        // }
+        // console.log(formData['city'] === "Murcia (Chiara Pedemonte)")
         this._userService
           .updateUserDynamicCustom(
             this.selectedUser.id,
@@ -3709,6 +3795,7 @@ export class ManageUsersComponent {
             console.log(error)
             this.open(this._translateService.instant('dialog.error'), '')
           });
+      }        
       }
     }
   }
@@ -4543,6 +4630,7 @@ export class ManageUsersComponent {
     this.tutor = event.target.checked
     if(!this.tutor){
       this.superTutor = false;
+      this.potSuperTutor = false;
       this.selectedAssignedTutor = ''
     }
     this.checkClubPresident();
@@ -4552,19 +4640,33 @@ export class ManageUsersComponent {
     }
   }
 
-  async checkSuperTutor(event) {
+  async checkSuperTutor(event,key) {
       this.tutorToAssign = get(await this._tutorsService.getTutors(this.companyId).toPromise(), 'tutors')
-      let super_tutor = this.tutorToAssign2?.filter(tut => {
-        return (tut.user_id == this.selectedUser?.id && tut.super_tutor == 1)
-      })
-      this.tutorToAssign = this.tutorToAssign?.length > 0 ? this.tutorToAssign.filter(tta => {
-        return !tta.parent_tutor_id || tta.super_tutor != 1
-      }) : [  ]
-      this.superTutor = event.target.checked
-      if(!this.superTutor || super_tutor?.length == 0){
-        this.selectedAssignedTutor = ''
+      if(key === 'supertutor'){
+        let super_tutor = this.tutorToAssign2?.filter(tut => {
+          return (tut.user_id == this.selectedUser?.id && tut.super_tutor == 1)
+        })
+        this.tutorToAssign = this.tutorToAssign?.length > 0 ? this.tutorToAssign.filter(tta => {
+          return !tta.parent_tutor_id || tta.super_tutor != 1
+        }) : [  ]
+        this.superTutor = event.target.checked
+        if(!this.superTutor || super_tutor?.length == 0){
+          this.selectedAssignedTutor = ''
+        }
+      }else{
+        let potsuper_tutor = this.tutorToAssign2?.filter(tut => {
+          return (tut.user_id == this.selectedUser?.id && tut.potsuper_tutor == 1)
+        })
+        this.tutorToAssign = this.tutorToAssign?.length > 0 ? this.tutorToAssign.filter(tta => {
+          return !tta.parent_tutor_id || tta.potsuper_tutor != 1
+        }) : [  ]
+        this.potSuperTutor = event.target.checked
+        if(!this.potSuperTutor || potsuper_tutor?.length == 0){
+          this.selectedAssignedTutor = ''
+        }
       }
   }
+
 
   assignTutor(row) {
     this.selectedTutor = row;
@@ -4962,16 +5064,15 @@ export class ManageUsersComponent {
   addStudent() {
     if(this.assignedStudents?.length > 0) {
       this.filteredMembers?.forEach(member => {
-        let match = this.assignedStudents.some(a => a.id == member.id);
+        let match = this.assignedStudents?.some(a => a.id == member.id);
         if(match) {
-          let selected_match = this.selectedAssignedStudent.some(a => a.id == member.id);
+          let selected_match = this.selectedAssignedStudent?.some(a => a.id == member.id);
           if(!selected_match) {
             this.selectedAssignedStudent.push(member);
           }
         }
       })
     }
-
     this.assignedStudents = [];
   }
 

@@ -6,7 +6,7 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import { CompanyService, LocalService } from "@share/services";
+import { CompanyService, LocalService, UserService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { TestimonialsService } from "@features/services";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -105,6 +105,7 @@ export class TestimonialEditComponent {
   searchByKeyword: boolean = false;
   hasMembersOnly: boolean = false;
   superTutor: boolean = false;
+  potSuperTutor : boolean = false;
   tagsMapping: any;
   tags: any = [];
   imgSrc: any;
@@ -130,6 +131,11 @@ export class TestimonialEditComponent {
   uploadedVideos: any = [];
   uploadedImages: any = [];
   pondFiles = [];
+  customMemberTypes :any;
+  userRoleType:any;
+  customMemberTypeId:any;
+
+
   @ViewChild('myPond', {static: false}) myPond: any;
   pondOptions = {
     class: 'my-filepond',
@@ -213,7 +219,8 @@ export class TestimonialEditComponent {
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _companyService: CompanyService,
-    private _testimonialsService: TestimonialsService
+    private _testimonialsService: TestimonialsService,
+    private _userService: UserService,
   ) {}
 
   @HostListener("window:resize", [])
@@ -277,8 +284,8 @@ export class TestimonialEditComponent {
       searchPlaceholderText: this._translateService.instant('guests.search'),
     };
     this.fetchTestimonialsData();
+    this.fetchManageUsersData()
   }
-
   fetchTestimonialsData() {
     this._testimonialsService
       .fetchTestimonialsData(this.companyId, this.userId)
@@ -301,6 +308,21 @@ export class TestimonialEditComponent {
         }
       );
   }
+  fetchManageUsersData() {
+    this._userService
+      .fetchManageUsersData(this.companyId, this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          this.customMemberTypes = data?.member_types ? data?.member_types : [];
+          this.customMemberTypeId = data?.user?.custom_member_type_id ? data.user.custom_member_type_id: ''
+          this.getUserType()
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
 
   mapFeatures(features) {
     this.testimonialsFeature = features?.find((f) => f.feature_id == 23);
@@ -316,10 +338,25 @@ export class TestimonialEditComponent {
     }
   }
 
+  getUserType() {
+    let member_type = this.customMemberTypes && this.customMemberTypes.filter(mt => {
+      return mt.id == this.customMemberTypeId
+    })
+    if(member_type && member_type.length > 0) {
+      this.userRoleType = this.language == 'en' ? (member_type[0].type) : (this.language == 'fr' ? (member_type[0].type_fr || member_type[0].type_es) : 
+      (this.language == 'eu' ? (member_type[0].type_eu || member_type[0].type_es) : (this.language == 'ca' ? (member_type[0].type_ca || member_type[0].type_es) : 
+      (this.language == 'de' ? (member_type[0].type_de || member_type[0].type_es) : (member_type[0].type_es))
+      ))
+      )
+    }
+  }
+  
   mapUserPermissions(user_permissions) {
     this.superAdmin = user_permissions?.super_admin_user ? true : false;
     this.superTutor = user_permissions?.super_tutor_user ? true : false;
+    this.potSuperTutor = user_permissions?.potsuper_tutor_user ? true : false;
     this.canCreateTestimonial =
+    this.potSuperTutor ||
       this.superTutor ||
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find(

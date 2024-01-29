@@ -2039,7 +2039,8 @@
         "bookingscity": "Verwalten Sie Studentenbuchungen nach Stadt",
         "settype": "Mitgliedstyp festlegen",
         "statistics": "Statistik",
-        "tiktokstatistics": "Datenanalyse auf Landingpages, Fragebögen usw."
+        "tiktokstatistics": "Datenanalyse auf Landingpages, Fragebögen usw.",
+        "potsupertutor": "Pot-Supertutor"
     },
     "guest-landing": {
         "templates": "Vorlagen",
@@ -3058,7 +3059,8 @@
         "confirmresendemail": "Möchten Sie die Kurszugangs-E-Mail wirklich erneut senden?",
         "userexists":"Dieser Benutzer existiert bereits",
         "questionnairemandatoryfields":"Sie müssen den gesamten Fragebogen ausfüllen, um fortzufahren.",
-        "bookingcancel":"Ihre Buchung wurde erfolgreich storniert."
+        "bookingcancel":"Ihre Buchung wurde erfolgreich storniert.",
+        "sameadminsedecity":"Um fortzufahren, muss die Stadt mit dem Administrator identisch sein."
     },
     "buddy": {
         "mentorprofile": "Mentorprofil",
