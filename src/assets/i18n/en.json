@@ -2045,7 +2045,8 @@
         "bookingscity": "Manage student bookings by city",
         "settype": "Set member type",
         "statistics": "Statistics",
-        "tiktokstatistics": "Data analytics on landing pages, questionnaires, etc."
+        "tiktokstatistics": "Data analytics on landing pages, questionnaires, etc.",
+        "potsupertutor": "Pot-Supertutor"
     },
     "guest-landing": {
         "templates": "Templates",
@@ -3087,7 +3088,8 @@
         "confirmresendemail": "Do you really want to resend the course access email?",
         "userexists":"This user already exists.",
         "questionnairemandatoryfields":"You need to fill out the entire questionnaire to proceed.",
-        "bookingcancel":"Your booking has been succesfully cancelled."
+        "bookingcancel":"Your booking has been succesfully cancelled.",
+        "sameadminsedecity":"City must be the same as yours in order to continue."
     },
     "buddy": {
         "mentorprofile": "Mentor profile",

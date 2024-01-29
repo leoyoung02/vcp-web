@@ -2044,7 +2044,8 @@
         "bookingscity": "Gestionar reservas de estudiantes por ciudad",
         "settype": "Establecer tipo de miembro",
         "statistics": "Estadísticas",
-        "tiktokstatistics": "Análisis de datos en páginas de destino, cuestionarios, etc."
+        "tiktokstatistics": "Análisis de datos en páginas de destino, cuestionarios, etc.",
+        "potsupertutor": "Supertutor de marihuana"
     },
     "guest-landing": {
         "templates": "Plantillas",
@@ -3072,7 +3073,8 @@
         "confirmresendemail": "¿Realmente deseas reenviar el correo electrónico de acceso al curso?",
         "userexists":"Este usuario ya existe",
         "questionnairemandatoryfields":"Debes completar todo el cuestionario para continuar",
-        "bookingcancel":"Su reserva ha sido cancelada con éxito."
+        "bookingcancel":"Su reserva ha sido cancelada con éxito.",
+        "sameadminsedecity":"La ciudad debe ser la misma que la tuya para poder continuar."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",

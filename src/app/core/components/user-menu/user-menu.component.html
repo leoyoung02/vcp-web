@@ -10,7 +10,7 @@
             data-popover-target="popover-user-profile" 
             data-popover-placement="bottom" 
         />
-        <div *ngIf="hasCreditSetting && userid && !(isTutorUser || superTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0)">
+        <div *ngIf="hasCreditSetting && userid && !(isTutorUser || superTutor || potSuperTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0)">
             <app-credits-display 
                 [currentUser]="currentUser"
                 [primaryColor]="primaryColor"
@@ -135,7 +135,7 @@
                             <div>{{ 'tutors.mylessons' | translate }}</div>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="hasAccess('tutors') && (superTutor || isAdmin)">
+                    <ng-container *ngIf="hasAccess('tutors') && (superTutor || potSuperTutor || isAdmin)">
                         <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/tutors/bookings/history']">
                             <div>
                                 <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
@@ -145,7 +145,7 @@
                             <div>{{ 'tutors.bookings' | translate }} {{ 'ranking.history' | translate }}</div>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="hasAccess('tutors') && hasCreditSetting && hasCreditPackageSetting && !(isTutorUser || superTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0)">
+                    <ng-container *ngIf="hasAccess('tutors') && hasCreditSetting && hasCreditPackageSetting && !(isTutorUser || superTutor || potSuperTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0)">
                         <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/users/my-credits/tutors']">
                             <div>
                                 <img src="./assets/images/icons/credits.png" class="w-[28px] pr-2" />
@@ -161,10 +161,10 @@
                             <div class="pl-[5px]">{{ "credit-package.mycredits" | translate }}</div>
                         </div>
                     </ng-container>
-                    <ng-container 
+                        <ng-container 
                         *ngIf="hasAccess('tutors') && 
                             (
-                                (isTutorUser && !(userTypeName?.toLowerCase()?.indexOf('admin sede') >= 0) && !superTutor) ||
+                                (isTutorUser && !(userTypeName?.toLowerCase()?.indexOf('admin sede') >= 0) && !potSuperTutor) ||
                                 (userTypeName?.toLowerCase()?.indexOf('admin sede') >= 0)
                             )
                         ">
@@ -177,7 +177,7 @@
                             <div>Stripe Connect</div>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="(isTutorUser || superTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0) && (tutorManageStudentAccess || (company?.id == 27 && isAdmin)) && !(userTypeName?.indexOf('Admin TUTORES') >= 0)">
+                    <ng-container *ngIf="(isTutorUser || superTutor || potSuperTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0) && (tutorManageStudentAccess || (company?.id == 27 && isAdmin)) && !(userTypeName?.indexOf('Admin TUTORES') >= 0)">
                         <div class="hover:cursor-pointer flex capitalize pb-4 items-center" routerLink="/settings/students-management">
                             <div>
                                 <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">

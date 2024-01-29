@@ -74,6 +74,7 @@ export class TestimonialsListComponent {
   courses: any = [];
   selectedCourse: any;
   superTutor: boolean = false;
+  potSuperTutor: boolean = false;
 
   constructor(
     private _router: Router,
@@ -200,18 +201,20 @@ export class TestimonialsListComponent {
   mapUserPermissions(user_permissions) {
     this.superAdmin = user_permissions?.super_admin_user ? true : false;
     this.superTutor = user_permissions?.super_tutor ? true : false;
+    this.potSuperTutor = user_permissions?.potsuper_tutor ? true : false;
     this.canViewTestimonial = user_permissions?.member_type_permissions?.find(
       (f) => f.view == 1 && f.feature_id == 23
     )
       ? true
       : false;
     this.canCreateTestimonial =
-      this.superTutor ||
-      user_permissions?.create_plan_roles?.length > 0 ||
-      user_permissions?.member_type_permissions?.find((f) => f.create == 1 && f.feature_id == 23);
+    this.potSuperTutor ||
+    this.superTutor ||
+    user_permissions?.create_plan_roles?.length > 0 ||
+    user_permissions?.member_type_permissions?.find((f) => f.create == 1 && f.feature_id == 23);
     this.canManageTestimonial = user_permissions?.member_type_permissions?.find(
       (f) => f.manage == 1 && f.feature_id == 23
-    )
+      )
       ? true
       : false;
   }
