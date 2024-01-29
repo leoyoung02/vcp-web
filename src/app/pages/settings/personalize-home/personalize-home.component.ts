@@ -16,12 +16,10 @@ import {
 import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
 import {
-  FormControl,
-  FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators,
 } from "@angular/forms";
+import { VideoPlayerComponent } from "@features/training/video-player/video-player.component";
 import { initFlowbite } from "flowbite";
 import get from "lodash/get";
 
@@ -38,6 +36,7 @@ import get from "lodash/get";
     BreadcrumbComponent,
     ToastComponent,
     PageTitleComponent,
+    VideoPlayerComponent,
   ],
   templateUrl: "./personalize-home.component.html",
 })
@@ -60,6 +59,14 @@ export class PersonalizeHomeComponent {
   buttonColor: any;
   company: any;
   domain: any;
+  isVideoTutorialsStep: boolean = true;
+  isVideoTutorialsStepCompleted: boolean = false;
+  isTemplateStep: boolean = false;
+  isTemplateStepCompleted: boolean = false;
+  isContentStep: boolean = false;
+  isContentStepCompleted: boolean = false;
+  isSectionsStep: boolean = false;
+  isSectionsStepCompleted: boolean = false;
 
   constructor(
     private _router: Router,
@@ -122,6 +129,31 @@ export class PersonalizeHomeComponent {
     this.level2Title = this._translateService.instant(
       "company-settings.personalizehometemplate"
     );
+  }
+
+  goToTemplateStep() {
+    this.isVideoTutorialsStep = false;
+    this.isVideoTutorialsStepCompleted = true;
+    this.isTemplateStep = true;
+  }
+
+  goToContentStep() {
+    this.isTemplateStep = false;
+    this.isTemplateStepCompleted = true;
+    this.isContentStep = true;
+  }
+
+  goToSectionsStep() {
+    this.isContentStep = false;
+    this.isContentStepCompleted = true;
+    this.isSectionsStep = true;
+  }
+
+  finish() {
+    this.isSectionsStepCompleted = true;
+    setTimeout(() => {
+      this._location.back();
+    }, 1000)
   }
 
   handleGoBack() {

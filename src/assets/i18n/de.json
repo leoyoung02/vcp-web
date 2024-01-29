@@ -3474,5 +3474,14 @@
         "log": "Protokoll",
         "customercreated": "Neuer Kunde wurde erfolgreich erstellt.",
         "pendingstatus": "Eine E-Mail wird an den Administrator gesendet, um die erforderlichen Serveränderungen für die Domain vorzunehmen."
+    },
+    "personalize-home": {
+        "tutorialvideos": "Tutorial-Videos",
+        "template": "Vorlage",
+        "content": "Inhalt",
+        "sections": "Abschnitte"
+    },
+    "training": {
+        "training": "Training"
     }
 }
