@@ -32,7 +32,7 @@
                 [isUESchoolOfLife]="isUESchoolOfLife"
             ></app-plans-statistics-list>
         </div>
-        <div *ngIf="!isUESchoolOfLife" class="hidden p-4 rounded-lg" id="courses" role="tabpanel" aria-labelledby="courses-tab">
+        <div class="hidden p-4 rounded-lg" id="courses" role="tabpanel" aria-labelledby="courses-tab">
             <app-courses-statistics-list
                 [company]="company"
                 [language]="language"
@@ -40,6 +40,7 @@
                 [primaryColor]="primaryColor"
                 [userId]="userId"
                 [superAdmin]="superAdmin"
+                [isUESchoolOfLife]="isUESchoolOfLife"
             ></app-courses-statistics-list>
         </div>
     </div>

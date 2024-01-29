@@ -173,21 +173,50 @@
                     <div class="mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0">
                         <div class="flex flex-wrap">
                             <ng-container *ngFor="let member of limitMembers; let i = index">
-                                <img
-                                    *ngIf="member?.image"
-                                    class="rounded-full max-w-[55px] max-h-[55px] object-cover object-top" 
-                                    [ngClass]="{'-ml-6': i > 0}"
-                                    width="55"
-                                    height="55"
-                                    [ngSrc]="apiPath + '/' + member.image"
-                                />
+                                <div [attr.data-popover-target]="'popover-member-profile-' + member.user_id">
+                                    <img
+                                        *ngIf="member?.image"
+                                        (click)="goToMemberProfilePage(member)"
+                                        class="rounded-full max-w-[55px] max-h-[55px] object-cover object-top" 
+                                        [ngClass]="{'-ml-6': i > 0, 'hover:cursor-pointer': hasMembers}"
+                                        width="55"
+                                        height="55"
+                                        [ngSrc]="apiPath + '/' + member.image"
+                                    />
+                                </div>
+                                <div data-popover [attr.id]="'popover-member-profile-' + member.user_id" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+                                    <div class="p-3">
+                                        <div class="flex items-center justify-between mb-3">
+                                            <a href="{{ hasMembers ? ('/members/details/' + member.user_id) : 'javascript:;'}}">
+                                                <img 
+                                                    class="max-w-[55px] max-h-[55px] rounded-full" 
+                                                    width="55"
+                                                    height="55"
+                                                    [ngSrc]="apiPath + '/' + (member.image || 'empty_avatar.png')" 
+                                                    alt="{{member?.name || (member?.first_name + ' ' + member?.last_name)}}">
+                                            </a>
+                                            <div>
+                                                <button type="button" class="bg-white text-blue-600 border-2 border-blue-600 font-medium rounded-lg text-xs px-3 py-1.5">
+                                                    {{companyId == 12 ? ('your-admin-area.member' | translate) : member?.type}}
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p class="text-base font-semibold leading-none text-gray-900 dark:text-white">
+                                            <a href="javascript:;">{{member?.name || (member?.first_name + ' ' + member?.last_name)}}</a>
+                                        </p>
+                                        <p class="mb-3 text-xs font-normal">
+                                            <a href="javascript:;" class="hover:underline">{{member?.email}}</a>
+                                        </p>
+                                    </div>
+                                    <div data-popper-arrow></div>
+                                </div>
                             </ng-container>
                         </div>
                     </div>
                     <div>{{ groupMemberCount }} {{ membersTitle || ('club-details.members' | translate) }}</div>
                 </div>
                 <div class="my-12 flex items-center">
-                    <div class="opacity-60 mr-4">{{ 'plan-details.createdby' | translate }}:</div>
+                    <div class="opacity-60 mr-4">{{ companyId == 12 ? ('club-details.manager' | translate) : ('plan-details.createdby' | translate) }}:</div>
                     <div class="font-semibold">{{ createdBy }}</div>
                 </div>
                 <div class="flex items-center" *ngIf="hasContactDetails || (superAdmin || groupOwner || canCreate)">

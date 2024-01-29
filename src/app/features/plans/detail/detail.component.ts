@@ -7,7 +7,7 @@ import {
   SecurityContext,
 } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { environment } from "@env/environment";
 import { PlansService } from "@features/services";
 import {
@@ -47,6 +47,7 @@ declare const addeventatc: any;
     TranslateModule,
     FormsModule,
     MatSnackBarModule,
+    RouterModule,
     BreadcrumbComponent,
     PageTitleComponent,
     NgOptimizedImage,
@@ -295,6 +296,9 @@ export class PlanDetailComponent {
   isUESchoolOfLife: boolean = false;
   planCategoryMapping: any = [];
   allPlanData: any = [];
+  hasMembers: boolean = false;
+  whatsAppTemplate: string = '';
+  telegramTemplate: string = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -381,6 +385,12 @@ export class PlanDetailComponent {
         }
       );
 
+    let features = this._localService.getLocalStorage(environment.lsfeatures)
+    ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
+    : "";
+    let membersFeature = features?.find(f => f.feature_name == "Members")
+    this.hasMembers = membersFeature ? true : false;
+
     setTimeout(() => {
       initFlowbite();
     }, 100);
@@ -428,6 +438,8 @@ export class PlanDetailComponent {
     this.initializeBreadcrumb();
     if(this.companyId == 12) {
       this.getNetculturaUsers();
+    } else {
+      this.checkLimitSeats();
     }
   }
 
@@ -458,11 +470,20 @@ export class PlanDetailComponent {
                   this.showJoinButton = false
               }
           }
+          this.checkLimitSeats();
         },
         error => {
             console.log(error)
         }
       )
+  }
+
+  checkLimitSeats() {
+    if(this.plansData?.plan?.details?.member_seats > 0 && this.userId > 0) {
+      if(!(this.memberParticipants?.length < this.plansData?.plan?.details?.member_seats)) {
+        this.showJoinButton = false
+      }
+    }
   }
 
   mapFeatures(features) {
@@ -1031,6 +1052,10 @@ export class PlanDetailComponent {
     this.pendingRequest = this.checkPendingJoinRequest(plan?.requests, 0);
     this.joinStatusChecked = true;
 
+    setTimeout(() => {
+      initFlowbite();
+    }, 500);
+
     this.getInviteLink();
 
     if (this.companyId == 32 && this.planTypeId != 4) {
@@ -1259,26 +1284,30 @@ export class PlanDetailComponent {
                 ? encodeURIComponent(txt?.textContent)
                 : "";
             this.emailTo = `mailto:?Subject=${template.subject}&ISO-8859-1&Body=${email_body}`;
+            this.whatsAppTemplate = `whatsapp://send?text=${email_body}`;
+            this.telegramTemplate = `https://telegram.me/share/url?url=${window.location.href}&text=${email_body}`;
           } else {
             if (this.planTypeId == 4) {
-              this.emailTo =
-                `mailto:?Subject=Shared Event&Body=` +
-                (!this.invitationLinkActive
-                  ? window.location.href
-                  : this.user.name +
-                    this._translateService.instant(
-                      "dialog.hasinvitedyoutooursession"
-                    ) +
-                    this.plan.title +
-                    "! " +
-                    this._translateService.instant(
-                      "dialog.interestedandwanttocome"
-                    ) +
-                    invlink +
-                    this._translateService.instant("lookingforward"));
+              let body = (!this.invitationLinkActive
+                ? window.location.href
+                : this.user.name +
+                  this._translateService.instant(
+                    "dialog.hasinvitedyoutooursession"
+                  ) +
+                  this.plan.title +
+                  "! " +
+                  this._translateService.instant(
+                    "dialog.interestedandwanttocome"
+                  ) +
+                  invlink +
+                  this._translateService.instant("lookingforward"));
+              this.emailTo = `mailto:?Subject=Shared Event&Body=${body}`
+              this.whatsAppTemplate = `whatsapp://send?text=${body}`
+              this.telegramTemplate = `https://telegram.me/share/url?url=${window.location.href}&text=${body}`
             } else {
-              this.emailTo =
-                `mailto:?Subject=Inquiries&body=` + window.location.href;
+              this.emailTo = `mailto:?Subject=Inquiries&body=` + window.location.href;
+              this.whatsAppTemplate = `whatsapp://send?text=` + window.location.href;
+              this.telegramTemplate = `https://telegram.me/share/url?url=${window.location.href}&text=` + window.location.href;
             }
           }
         },
@@ -1793,6 +1822,14 @@ export class PlanDetailComponent {
   }
 
   goToLink(link) {
+    window.open(link, "_blank");
+  }
+
+  shareByWhatsApp(link) {
+    window.open(link, "_blank");
+  }
+
+  shareByTelegram(link) {
     window.open(link, "_blank");
   }
 
@@ -2581,6 +2618,12 @@ export class PlanDetailComponent {
 
   toggleAddCalendarHover(event) {
     this.addCalendarHover = event;
+  }
+
+  goToMemberProfilePage(member) {
+    if(this.hasMembers && member?.password) {
+      this._router.navigate([`/members/details/${member?.fk_user_id}`])
+    }
   }
 
   ngOnDestroy() {

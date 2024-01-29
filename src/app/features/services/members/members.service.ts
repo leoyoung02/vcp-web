@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { ASK_QUESTION_URL, MEMBERS_COMBINED_URL, MEMBER_COMBINED_URL, SEND_REFERENCE_URL } from "@lib/api-constants";
+import { ASK_QUESTION_URL, DELETE_REFERENCE_URL, MEMBERS_COMBINED_URL, MEMBERS_REFERENCES_URL, MEMBER_COMBINED_URL, SEND_REFERENCE_URL } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
 @Injectable({
@@ -39,6 +39,18 @@ export class MembersService {
     return this._http.post(SEND_REFERENCE_URL,
       payload,
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  fetchReferencesData(id: number = 0): Observable<any> {
+    return this._http.get(`${MEMBERS_REFERENCES_URL}/${id}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  deleteReference(id): Observable<any> {
+    return this._http.delete(`${DELETE_REFERENCE_URL}/${id}`,
+        { headers: this.headers }
     ).pipe(map(res => res));
   }
 }

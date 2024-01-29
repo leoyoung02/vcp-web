@@ -23,6 +23,7 @@ import { DiscountsAdminListComponent } from "@features/offers/admin-list/admin-l
 import { ServicesAdminListComponent } from "@features/servicios/admin-list/admin-list.component";
 import { BlogsAdminListComponent } from "@features/blogs/admin-list/admin-list.component";
 import { CreditsAdminListComponent } from "@features/plans/credits-admin-list/credits-admin-list.component";
+import { ReferencesAdminListComponent } from "@features/members/references-admin-list/references-admin-list.component";
 import { environment } from "@env/environment";
 import get from "lodash/get";
 
@@ -49,6 +50,7 @@ import get from "lodash/get";
     ServicesAdminListComponent,
     BlogsAdminListComponent,
     CreditsAdminListComponent,
+    ReferencesAdminListComponent,
     PageTitleComponent,
   ],
   templateUrl: "./manage-list.component.html",
@@ -186,7 +188,8 @@ export class ManageListComponent {
       this.list == "discounts" ||
       this.list == "services" ||
       this.list == "blogs" ||
-      this.list == "credits"
+      this.list == "credits" ||
+      this.list == "references"
     ) {
       if(this.list == 'commissions') {
         this.buttonList = [
@@ -207,7 +210,7 @@ export class ManageListComponent {
             filter: "Completed",
           }
         ];
-      } else if(this.list == 'testimonials' || this.list == 'tutors' || this.list == 'courses' || this.list == 'discounts' || this.list == 'services' || this.list == 'credits') {
+      } else if(this.list == 'testimonials' || this.list == 'tutors' || this.list == 'courses' || this.list == 'discounts' || this.list == 'services' || this.list == 'credits' || this.list == 'references') {
         this.buttonList = [];
       }
       let filter = this.buttonList?.find((f) => f.selected);
@@ -291,6 +294,9 @@ export class ManageListComponent {
         break;
       case "credits":
         this.listTitle = this._translateService.instant('course-create.credits');
+        break;
+      case "references":
+        this.listTitle = this._translateService.instant('members.references');
         break;
     }
   }
@@ -566,7 +572,7 @@ export class ManageListComponent {
       this.filter = filter.filter;
     }
 
-    if(this.list != 'commissions' && this.list != 'credits') {
+    if(this.list != 'commissions' && this.list != 'credits' && this.list != 'references') {
       this.initializeSubButtonGroup();
     }
   }

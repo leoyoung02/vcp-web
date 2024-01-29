@@ -6,6 +6,7 @@ export const API_BASE = environment.api;
 // PLATFORMS
 export const COMPANIES_URL = `${API_BASE}/guest/companies-new`;
 export const FEATURES_URL = `${API_BASE}/guest/features`;
+export const ALL_FEATURES_URL = `${API_BASE}/company/features`;
 export const CONFIRM_EMAIL_URL = `${API_BASE}/company/check/confirm-email`;
 export const OTHER_SETTINGS_URL = `${API_BASE}/company/other-settings`;
 export const DASHBOARD_DETAILS_URL = `${API_BASE}/guest/dashboard/details`;
@@ -111,6 +112,13 @@ export const MANAGE_SETTINGS_DATA_URL = `${API_BASE}/v2/settings-data`;
 export const MANAGE_SETTINGS_EMAIL_DATA_URL = `${API_BASE}/v2/settings-email-data`;
 export const SIGNUP_DATA_URL = `${API_BASE}/v2/signup-data`;
 export const SUPPORT_TICKETS_DATA_URL = `${API_BASE}/v2/support-tickets-data`;
+export const ADD_CUSTOMER_URL = `${API_BASE}/v2/customer/add`;
+export const ADD_CUSTOMER_FEATURE_MAPPING_URL = `${API_BASE}/v2/customer/features-mapping/add`;
+export const ADD_CUSTOMER_SETTINGS_URL = `${API_BASE}/v2/customer/settings/add`;
+export const DEACTIVATE_CUSTOMER_URL = `${API_BASE}/v2/customer/deactivate`;
+export const EDIT_CUSTOMER_SITE_DETAILS_URL = `${API_BASE}/v2/customer/site-details/edit`;
+export const FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings`;
+export const EDIT_FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings/edit`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;
@@ -542,6 +550,8 @@ export const MEMBER_COMBINED_URL = `${API_BASE}/v2/member-details`;
 export const ASK_QUESTION_URL = `${API_BASE}/company/member/question/ask`;
 export const SEND_REFERENCE_URL = `${API_BASE}/company/member/reference/send-test1`;
 export const MEMBERS_RESTRICTED_LIST_URL = `${API_BASE}/company/members/restricted-list`;
+export const MEMBERS_REFERENCES_URL = `${API_BASE}/v2/members-references`;
+export const DELETE_REFERENCE_URL = `${API_BASE}/v2/member-reference/delete`;
 
 // OFFERS
 export const OFFERS_COMBINED_URL = `${API_BASE}/v2/offers`;
@@ -551,6 +561,14 @@ export const SHARE_DISCOUNT_URL = `${API_BASE}/company/discount/share/link`;
 export const ADD_DISCOUNT_URL = `${API_BASE}/company/discount/create-optimize`;
 export const EDIT_DISCOUNT_URL = `${API_BASE}/company/discount/edit`;
 export const DELETE_DISCOUNT_URL = `${API_BASE}/company/discount/delete`;
+export const DISCOUNT_CATEGORIES_URL = `${API_BASE}/company/discount/categories`;
+export const ADD_DISCOUNT_CATEGORY_URL = `${API_BASE}/company/discount/category/add`;
+export const EDIT_DISCOUNT_CATEGORY_URL = `${API_BASE}/company/discount/category/edit`;
+export const DELETE_DISCOUNT_CATEGORY_URL = `${API_BASE}/company/discount/category/delete`;
+export const DISCOUNT_TYPES_URL = `${API_BASE}/guest/discount/types`;
+export const ADD_DISCOUNT_TYPE_URL = `${API_BASE}/company/discount/type/add`;
+export const EDIT_DISCOUNT_TYPE_URL = `${API_BASE}/company/discount/type/edit`;
+export const DELETE_DISCOUNT_TYPE_URL = `${API_BASE}/company/discount/type/delete`;
 
 // SERVICIOS
 export const SERVICES_COMBINED_URL = `${API_BASE}/v2/services`;

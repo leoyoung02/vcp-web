@@ -233,13 +233,42 @@
                         <div class="mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0">
                             <div class="flex flex-wrap">
                                 <ng-container *ngFor="let member of limitPlanParticipants; let i = index">
-                                    <img
-                                        class="rounded-full max-w-[55px] max-h-[55px] object-cover object-top" 
-                                        [ngClass]="{'-ml-6': i > 0}"
-                                        width="55"
-                                        height="55"
-                                        [ngSrc]="apiPath + '/' + (member.image || 'empty_avatar.png')"
-                                    />
+                                    <div [attr.data-popover-target]="'popover-member-profile-' + member.fk_user_id">
+                                        <img
+                                            (click)="goToMemberProfilePage(member)"
+                                            class="rounded-full min-w-[55px] max-w-[55px] min-h-[55px] max-h-[55px] object-cover object-top" 
+                                            [ngClass]="{'-ml-6': i > 0, 'hover:cursor-pointer': hasMembers && member?.password}"
+                                            width="55"
+                                            height="55"
+                                            [ngSrc]="apiPath + '/' + (member.image || 'empty_avatar.png')"
+                                        />
+                                    </div>
+                                    <div data-popover [attr.id]="'popover-member-profile-' + member.fk_user_id" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+                                        <div class="p-3">
+                                            <div class="flex items-center justify-between mb-3">
+                                                <a href="{{ hasMembers ? ('/members/details/' + member.fk_user_id) : 'javascript:;'}}">
+                                                    <img 
+                                                        class="max-w-[55px] max-h-[55px] rounded-full" 
+                                                        width="55"
+                                                        height="55"
+                                                        [ngSrc]="apiPath + '/' + (member.image || 'empty_avatar.png')" 
+                                                        alt="{{member?.name || (member?.first_name + ' ' + member?.last_name)}}">
+                                                </a>
+                                                <div>
+                                                    <button type="button" class="bg-white text-blue-600 border-2 border-blue-600 font-medium rounded-lg text-xs px-3 py-1.5">
+                                                        {{companyId == 12 ? (member?.password ? ('your-admin-area.member' | translate) : ('crm.guest' | translate)) : member?.type}}
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            <p class="text-base font-semibold leading-none text-gray-900 dark:text-white">
+                                                <a href="javascript:;">{{member?.name || (member?.first_name + ' ' + member?.last_name)}}</a>
+                                            </p>
+                                            <p class="mb-3 text-xs font-normal">
+                                                <a href="javascript:;" class="hover:underline">{{member?.email}}</a>
+                                            </p>
+                                        </div>
+                                        <div data-popper-arrow></div>
+                                    </div>
                                 </ng-container>
                             </div>
                         </div>
@@ -342,6 +371,14 @@
                     <div (click)="sendEmailInvite()" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer" *ngIf="hasEmailInvite && (superAdmin || showOption)">
                         <img width="36" height="36" class="object-contain" src="./assets/icons/mail-send.png">
                         <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">{{ 'plan-details.sharebyemail' | translate }}</div>
+                    </div>
+                    <div (click)="shareByWhatsApp(whatsAppTemplate)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer -mt-6">
+                        <img width="36" height="36" class="object-contain -mt-1 mb-1" src="./assets/icons/whatsapp.png">
+                        <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">WhatsApp</div>
+                    </div>
+                    <div (click)="shareByTelegram(telegramTemplate)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer -mt-[26px]">
+                        <img width="36" height="36" class="object-contain" src="./assets/icons/telegram.png">
+                        <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">Telegram</div>
                     </div>
                 </div>
             </div>

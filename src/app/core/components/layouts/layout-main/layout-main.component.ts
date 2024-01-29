@@ -1552,7 +1552,7 @@ export class LayoutMainComponent {
       mmatch = this.menus.some((a) => a.name === tempData.name);
       if (!mmatch) {
         if(this.isUESchoolOfLife && this.companyId == 32) {
-          if(tempData?.id == 1) {
+          if(tempData?.id == 1 || tempData?.id == 11) {
             this.menus.push(tempData);
           }
         } else {

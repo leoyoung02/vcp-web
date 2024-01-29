@@ -432,7 +432,10 @@
         "closed": "Cerrado",
         "speaker": "Ponente",
         "guestspeaker" : "Ponente Invitado",
-        "occurences": "Ocurrencias"
+        "occurences": "Ocurrencias",
+        "limitmemberseats": "Límite (Miembros)",
+        "limitguestseats": "Límite (Invitados)",
+        "limitgreaterthanseats": "Establezca un límite menor o igual al número de asientos"
     },
     "plan-recommendations": {
         "applauses": "Aplauso",
@@ -564,7 +567,8 @@
         "pleasecontactadministrator": "Por favor, contacto con el administrador",
         "clubactivities": "Actividades del club",
         "downloadmembers": "Descargar miembros (XLSX)",
-        "downloadedsuccessfully": "Descargado exitosamente. Por favor revisa tu carpeta de descargas"
+        "downloadedsuccessfully": "Descargado exitosamente. Por favor revisa tu carpeta de descargas",
+        "manager": "Manager"
     },
     "club-create": {
         "fillup": "Rellene el formulario para crear su propio club",
@@ -714,7 +718,8 @@
         "communitysupport": "Comunidad & Soporte",
         "termsandconditions": "Términos y condiciones",
         "privacypolicy": "Política de privacidad",
-        "cookiespolicy":"Política de cookies"
+        "cookiespolicy":"Política de cookies", 
+        "customeronboarding": "Incorporación de clientes"
     },
     "public-profile": {
         "publicprofile": "Perfil Público",
@@ -3462,5 +3467,34 @@
         "allow": "Acepto galletas",
         "deny": "Rechazar",
         "link": "Política de cookies"
+    },
+    "customer-onboarding": {
+        "sitedetails": "Detalles del sitio",
+        "accountdetails": "Detalles de la cuenta",
+        "designdetails": "Detalles del diseño",
+        "featuresactivation": "Activación de funciones",
+        "settings": "Configuración", 
+        "confirmation": "Confirmación",
+        "successfullycreated": "Cliente creado exitosamente",
+        "nextstep": "Siguiente paso",
+        "primarycolor": "Color primario",
+        "buttoncolor": "Color del botón",
+        "menutextcolor": "Color del texto del menú",
+        "hovercolor": "Color al pasar el cursor",
+        "proceed": "Continuar",
+        "confirmproceed": "Confirmar y continuar",
+        "summary": "Resumen",
+        "allsetup": "El nuevo cliente ya está configurado",
+        "checksummary": "Verifique el resumen a continuación y haga clic en el botón Confirmar y continuar para continuar con la creación del cliente.",
+        "siteinfo": "Se ha completado la información básica sobre el sitio.",
+        "accountinfo": "Se ha ingresado la cuenta del usuario administrador.",
+        "designinfo": "Se ha configurado la marca (logotipo, banner, colores básicos).",
+        "featuresinfo": "Se han definido las funciones activas y se importarán las configuraciones predeterminadas.",
+        "setupcustomerinprogress": "Configurando el Cliente en progreso",
+        "importingnote": "La configuración puede llevar algún tiempo. No cierre su navegador ni actualice la página hasta que los precios estén completos.",
+        "timelapsed": "Tiempo transcurrido",
+        "log": "Registro",
+        "customercreated": "El nuevo cliente ha sido creado exitosamente.",
+        "pendingstatus": "Se enviará un correo electrónico al administrador para realizar los cambios necesarios en el servidor del dominio."
     }
 }

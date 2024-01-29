@@ -11,7 +11,7 @@ import { environment } from "@env/environment";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { ClubsService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
-import { FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
+import { ButtonGroupComponent, FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
 import { NgxPaginationModule } from "ngx-pagination";
 import get from "lodash/get";
 
@@ -25,6 +25,7 @@ import get from "lodash/get";
     IconFilterComponent,
     PageTitleComponent,
     FilterComponent,
+    ButtonGroupComponent,
     NgOptimizedImage,
     RouterModule,
     NgxPaginationModule,
@@ -95,6 +96,7 @@ export class ClubsListComponent {
   selectedClubId: any;
   userInfo: any;
   campus: any = '';
+  filterTypeControl: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -187,6 +189,9 @@ export class ClubsListComponent {
           this.mapSubcategories(data?.club_subcategories);
           this.clubCategoryMapping = data?.club_category_mapping;
           this.clubSubcategoryMapping = data?.club_subcategory_mapping;
+
+          this.filterTypeControl = data?.filter_settings?.filter_type || 'dropdown';
+
           this.initializeButtonGroup();
           this.formatClubs(data?.clubs, data?.club_members);
         },

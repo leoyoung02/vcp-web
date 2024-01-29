@@ -134,8 +134,10 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
   createdByImage: any;
   planCreator: any;
   user: any;
-    newAlias: any;
+  newAlias: any;
   isLoading: boolean = true;
+  memberParticipants: any = [];
+  guestParticipants: any = [];
 
   constructor(
     private _router: Router,
@@ -472,14 +474,44 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
     this.event?.CompanyPlanParticipants ||
     this.event?.Company_Group_Plan_Participants;
     if (planParticipants) {
-        planParticipants.forEach((participant) => {
+      planParticipants.forEach((participant) => {
         let match = this.planParticipants.some(
-            (a) => a.user_id === participant.user_id
+          (a) => a.user_id === participant.user_id
         );
         if (!match) {
-            this.planParticipants.push(participant);
+          this.planParticipants.push(participant);
         }
-        });
+
+        let membermatch = this.memberParticipants.some(
+          (a) => a.user_id === participant.user_id
+        );
+        if(!membermatch) {
+          if (this.companyId == 12) {
+            if (participant?.Company_User?.password) {
+              this.memberParticipants.push(participant);
+            }
+          } else {
+            if(participant?.Company_User?.custom_member_type_id > 0) {
+              this.memberParticipants.push(participant);
+            }
+          }
+        }
+
+        let guestmatch = this.guestParticipants.some(
+          (a) => a.user_id === participant.user_id
+        );
+        if(!guestmatch) {
+          if (this.companyId == 12) {
+            if (!participant?.Company_User?.password) {
+              this.guestParticipants.push(participant);
+            }
+          } else {
+            if(!(participant?.Company_User?.custom_member_type_id > 0)) {
+              this.guestParticipants.push(participant);
+            }
+          }
+        }
+      });
     }
 
     this.seats = parseInt(this.event?.seats) || 0;
@@ -488,6 +520,12 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
     let available_seats = this.seats - this.planParticipantCount;
     if (this.seats > 0 && available_seats <= 0) {
         this.limitReached = true;
+    }
+
+    if(this.event?.guest_seats > 0) {
+      if(!(this.memberParticipants?.length < this.event?.guest_seats)) {
+        this.limitReached = true;
+      }
     }
 
     return this.limitReached;

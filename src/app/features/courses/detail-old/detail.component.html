@@ -380,8 +380,11 @@
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="selectedUnit?.Company_Course_Unit_Type?.type == 'script' && selectedUnit?.script">
-                                    <ng-container *ngIf="selectedUnit?.script?.indexOf('</iframe>') >= 0">
-                                        <div class="min-h-[300px] script-container" [innerHtml]="selectedUnit?.script | safeContentHtml: 'html'"></div>
+                                   <ng-container *ngIf="selectedUnit?.script?.indexOf('</iframe>') >= 0 || (selectedUnit?.script?.indexOf('<iframe') >= 0 && selectedUnit?.script?.indexOf('/>') >= 0)">
+                                        <div class="min-h-[300px] script-container"
+                                            [ngClass]="{'script-full-height': isiFrameHeight100Percent()}"
+                                            [innerHtml]="selectedUnit?.script | safeContentHtml: 'html'">
+                                        </div>
                                     </ng-container>
                                     <ng-container *ngIf="selectedUnit?.script?.indexOf('</script>') >= 0">
                                         <div class="min-h-[300px] script-container" [innerHtml]="getScript() | safeContentHtml: 'html'"></div>
