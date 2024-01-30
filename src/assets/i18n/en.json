@@ -2046,7 +2046,7 @@
         "settype": "Set member type",
         "statistics": "Statistics",
         "tiktokstatistics": "Data analytics on landing pages, questionnaires, etc.",
-        "potsupertutor": "Pot-Supertutor"
+        "potsupertutor": "Potsuper Tutor"
     },
     "guest-landing": {
         "templates": "Templates",
@@ -3088,8 +3088,7 @@
         "confirmresendemail": "Do you really want to resend the course access email?",
         "userexists":"This user already exists.",
         "questionnairemandatoryfields":"You need to fill out the entire questionnaire to proceed.",
-        "bookingcancel":"Your booking has been succesfully cancelled.",
-        "sameadminsedecity":"City must be the same as yours in order to continue."
+        "bookingcancel":"Your booking has been succesfully cancelled."
     },
     "buddy": {
         "mentorprofile": "Mentor profile",
