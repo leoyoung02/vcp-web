@@ -6,7 +6,7 @@
                     <div id="vimeo-player" #playerContainer></div>
                 </div>
             </ng-container>
-            <ng-container *ngIf="!activateTimedButton || (activateTimedButton && activatedTime)">
+            <ng-container *ngIf="!activateTimedButton || (activateTimedButton && activatedTime) || !videoCTA?.vimeo_id">
                 <ng-container *ngIf="videoEmbed && updatedCode">
                     <div class="w-full max-w-full flex justify-center">
                         <iframe 
@@ -59,6 +59,16 @@
                     </ng-container>
                     <ng-container *ngIf="activateTimedButton && activatedVideoTime">
                         <div *ngIf="activateCTA && CTAText" class="pt-8">
+                            <ng-container *ngIf="!videoCTA?.vimeo_id">
+                                <span [innerHtml]="descriptionText | safeContentHtml: 'html'"></span>
+                                <div class="text-center mt-3">
+                                    <button type="button" class="rounded-lg h-auto min-h-[40px] px-16 font-semibold"
+                                        [ngStyle]="{'background-color': CTAButtonColor, 'color': CTATextColor}"
+                                        (click)="redirectToCTALink()">
+                                        {{CTAText}}
+                                    </button>
+                                </div>
+                            </ng-container>
                             <ng-container *ngIf="descriptionText">
                                 <span id="desc" #desc style="display:none" [innerHtml]="descriptionText | safeContentHtml: 'html'"></span>
                             </ng-container>
