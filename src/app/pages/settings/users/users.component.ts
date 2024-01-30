@@ -391,7 +391,6 @@ export class ManageUsersComponent {
           this.initializePage();
         }
       );
-
     this.initializePage();
   }
 
@@ -491,6 +490,7 @@ export class ManageUsersComponent {
           this.customMemberTypes = data?.member_types ? data?.member_types : [];
           this.customMemberTypeId = data?.user?.custom_member_type_id ? data.user.custom_member_type_id: ''
           this.initializeIconFilterList(this.cities);
+          this.getUserType()
         },
         (error) => {
           console.log(error);
@@ -3377,8 +3377,6 @@ export class ManageUsersComponent {
   }
 
   saveUser() {
-  
-    this.getUserType()
     this.userFormSubmitted = true;
     this.errorMessage = "";
 
@@ -3629,10 +3627,6 @@ export class ManageUsersComponent {
 
       let formData = [];
       formData = this.userForm?.value;
-      if(this.userRoleType == 'Admin SEDE' && this.adminSedeCity && this.adminSedeCity !== formData['city']){
-        this.open(this._translateService.instant("dialog.sameadminsedecity"), "");
-      }
-      else{
       formData["user_role"] = user_role;
       (formData["gar_thematic_group"] = 0), (formData["user_id"] = this.userId);
       formData["custom_member_type_id"] = this.hasCustomMemberTypeSettings
@@ -3796,7 +3790,6 @@ export class ManageUsersComponent {
             this.open(this._translateService.instant('dialog.error'), '')
           });
       }        
-      }
     }
   }
 

@@ -2045,7 +2045,7 @@
         "settype": "Estableix el tipus de membre",
         "statistics": "Estatistikak",
         "tiktokstatistics": "Analítica de dades a pàgines de destinació, qüestionaris, etc.",
-        "potsupertutor": "Pot-Supertutor"
+        "potsupertutor": "Potsuper Tutor"
     },
     "guest-landing": {
         "templates": "Plantilles",
@@ -3070,8 +3070,7 @@
         "confirmresendemail": "De veritat voleu tornar a enviar el correu electrònic d'accés al curs?",
         "userexists":"Aquest usuari ja existeix",
         "questionnairemandatoryfields":"Cal omplir tot el qüestionari per continuar..",
-        "bookingcancel":"La teva reserva s'ha cancel·lat correctament.",
-        "sameadminsedecity":"La ciutat ha de ser la mateixa que l'administrador per continuar."
+        "bookingcancel":"La teva reserva s'ha cancel·lat correctament."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",

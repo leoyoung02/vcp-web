@@ -2038,7 +2038,7 @@
         "settype": "Définir le type de membre",
         "statistics": "Statistiques",
         "tiktokstatistics": "Analyse des données sur les pages de destination, les questionnaires, etc.",
-        "potsupertutor": "Pot-Supertuteur"
+        "potsupertutor": "PotSuper Tuteur"
     },
     "guest-landing": {
         "templates": "Modèles",
@@ -3054,8 +3054,7 @@
         "confirmresendemail": "Voulez-vous vraiment renvoyer l'e-mail d'accès au cours ?",
         "userexists":"Cet utilisateur existe déjà",
         "questionnairemandatoryfields":"Vous devez remplir l’intégralité du questionnaire pour continuer.",
-        "bookingcancel":"Votre réservation a été annulée avec succès.",
-        "sameadminsedecity":"La ville doit être la même que l'administrateur pour continuer."
+        "bookingcancel":"Votre réservation a été annulée avec succès."
     },
     "buddy": {
         "mentorprofile": "Profil du mentor",
