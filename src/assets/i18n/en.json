@@ -2045,7 +2045,8 @@
         "bookingscity": "Manage student bookings by city",
         "settype": "Set member type",
         "statistics": "Statistics",
-        "tiktokstatistics": "Data analytics on landing pages, questionnaires, etc."
+        "tiktokstatistics": "Data analytics on landing pages, questionnaires, etc.",
+        "potsupertutor": "Potsuper Tutor"
     },
     "guest-landing": {
         "templates": "Templates",

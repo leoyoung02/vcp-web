@@ -1094,6 +1094,7 @@
                                 type="number" 
                                 class="text-2xl mr-4 shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="unitDuration"
+                                (keypress)="numberOnly($event)"
                                 [ngModelOptions]="{standalone: true}"
                                 [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !unitDuration }"
                                 placeholder="{{ 'course-create.duration' | translate }}">

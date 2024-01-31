@@ -144,6 +144,8 @@ export class MyLessonsComponent {
     searchText: any;
     placeholderText: any;
     searchKeyword: any;
+    isRoleCompanion:any
+    potsuperTutor:any
 
     constructor(
         private _route: ActivatedRoute,
@@ -178,7 +180,6 @@ export class MyLessonsComponent {
             this.primaryColor = company[0].primary_color
             this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color
         }
-
         this.initializeSearch();
         this.initializePage();
     }
@@ -214,7 +215,7 @@ export class MyLessonsComponent {
       
         this.getCombinedBookingsPrefetch();
     }
-
+// combine fetch
     async getCombinedBookingsPrefetch() {
         this._userService.getCombinedBookingsPrefetch(this.companyId, this.tutorsFeatureId, this.coursesFeatureId, this.userId).subscribe(data => {
             let subfeatures = data[0] ? data[0]['subfeatures'] : []
@@ -234,7 +235,11 @@ export class MyLessonsComponent {
                 let super_tutor = this.tutorUsers?.filter(tutor => {
                     return tutor?.user_id == this.userId && tutor?.super_tutor == 1
                 })
+                let potsuper_tutor = this.tutorUsers?.filter(tutor => {
+                    return tutor?.user_id == this.userId && tutor?.potsuper_tutor == 1
+                })
                 this.superTutor = super_tutor?.length > 0 ? true : false
+                this.potsuperTutor = potsuper_tutor?.length > 0 ? true : false
                 if(this.superTutor) {
                     this.superTutorStudents = super_tutor[0].super_tutor_students
                 }
@@ -261,9 +266,16 @@ export class MyLessonsComponent {
             this.memberTypes = data[8] ? data[8]['member_types'] : []
             if(this.memberTypes?.length > 0) {
                 let selected = this.memberTypes?.find((f) => f.id == this.me?.custom_member_type_id)
+        
                 this.isGuardianType = selected?.guardian == 1 ? true : false
+
+                this.isRoleCompanion = selected?.type == 'Acompañante'? true : false
                 if(this.isGuardianType) {
                     this.displayedColumns = ['booking_date_display', 'booking_time', 'tutor_name', 'student_name', 'created_at_display', 'course', 'package_name', 'status', 'rating']
+                    
+                }
+                if(this.isRoleCompanion){
+                    this.displayedColumns = ['booking_date_display', 'booking_time', 'tutor_name', 'student_name',  'course','rating']
                 }
             }
             
@@ -340,7 +352,8 @@ export class MyLessonsComponent {
 
     getBookings(mode: any = '') {
         let role = this.isTutorUser ? 'tutor' : (this.superAdmin ? 'admin' : 'user')
-        role = this.superTutor ? 'super_tutor' : (this.cityAdmin ? 'city_admin' : (this.isGuardianType ? 'guardian' : role))
+        role = this.superTutor ? 'super_tutor' : this.isRoleCompanion ? 'companion': this.potsuperTutor ? 'potsuper_tutor': (this.cityAdmin ? 'city_admin' : (this.isGuardianType ? 'guardian' : role))
+
         this._userService.getUserBookings(this.userId, this.companyId, role)
           .subscribe(
             async (response) => {
@@ -546,7 +559,6 @@ export class MyLessonsComponent {
         } else if(this.statusFilter == 'Action required') {
             bookings = bookings && bookings.filter(booking => {
                 let include = false
-
                 if(booking.completed != 1 && booking?.cancelled != 1) {
                     if(moment(moment(booking.booking_date + ' ' + booking.booking_end_time).format('YYYY-MM-DD HH:mm:ss')).isBefore(moment().format('YYYY-MM-DD HH:mm:ss'))) {
                         include = true
@@ -801,7 +813,7 @@ export class MyLessonsComponent {
 
     markComplete(booking, confirmed) {
         if(confirmed) {
-            let role = this.isTutorUser && !this.superAdmin ? 'tutor' : (this.superAdmin ? 'admin' : 'user')
+            let role = this.superTutor ? 'super_tutor' :  this.isTutorUser && !this.superAdmin ? 'tutor' : (this.superAdmin ? 'admin' : 'user')
             let params = {
                 id: booking.id,
                 role: role,
@@ -830,7 +842,6 @@ export class MyLessonsComponent {
                             tutor_id: completedLesson?.tutor_id,
                             tutor_minutes: booking.tutor_minutes,
                             per_hour_commission: this.perHourCommission
-
                         }
 
                         if(this.hasDifferentStripeAccounts){
@@ -948,11 +959,11 @@ export class MyLessonsComponent {
         this.pageSize = event.pageSize;
         this.pageIndex = event.pageIndex;
         this.dataSource = new MatTableDataSource(
-          this.bookings.slice(
-            event.pageIndex * event.pageSize,
-            (event.pageIndex + 1) * event.pageSize
-          )
-        );
+            this.bookings.slice(
+                event.pageIndex * event.pageSize,
+                (event.pageIndex + 1) * event.pageSize
+                )
+                );
         if (this.sort) {
           this.dataSource.sort = this.sort;
         } else {

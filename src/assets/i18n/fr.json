@@ -2037,7 +2037,8 @@
         "bookingscity": "Gérer les réservations des étudiants par ville",
         "settype": "Définir le type de membre",
         "statistics": "Statistiques",
-        "tiktokstatistics": "Analyse des données sur les pages de destination, les questionnaires, etc."
+        "tiktokstatistics": "Analyse des données sur les pages de destination, les questionnaires, etc.",
+        "potsupertutor": "PotSuper Tuteur"
     },
     "guest-landing": {
         "templates": "Modèles",

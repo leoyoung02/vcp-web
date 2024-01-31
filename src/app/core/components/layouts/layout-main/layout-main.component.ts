@@ -148,6 +148,7 @@ export class LayoutMainComponent {
   userTypeName: any;
   manageMembers: boolean = false;
   superTutor: boolean = false;
+  potSuperTutor: boolean = false;
   cityAdmin:  boolean = false;
   showProfileButton: boolean = false;
   perHourCommission: boolean = false;
@@ -560,9 +561,9 @@ export class LayoutMainComponent {
 
     if(member_type && member_type.length > 0) {
       this.userTypeName = this.language == 'en' ? (member_type[0].type) : (this.language == 'fr' ? (member_type[0].type_fr || member_type[0].type_es) : 
-          (this.language == 'eu' ? (member_type[0].type_eu || member_type[0].type_es) : (this.language == 'ca' ? (member_type[0].type_ca || member_type[0].type_es) : 
-          (this.language == 'de' ? (member_type[0].type_de || member_type[0].type_es) : (member_type[0].type_es))
-        ))
+      (this.language == 'eu' ? (member_type[0].type_eu || member_type[0].type_es) : (this.language == 'ca' ? (member_type[0].type_ca || member_type[0].type_es) : 
+      (this.language == 'de' ? (member_type[0].type_de || member_type[0].type_es) : (member_type[0].type_es))
+      ))
       )
     }
   }
@@ -903,6 +904,11 @@ export class LayoutMainComponent {
               return tutor?.user_id == this.userId && tutor?.super_tutor == 1
             })
             this.superTutor = super_tutor?.length > 0 ? true : false
+            
+            let potsuper_tutor = this.tutorUsers?.filter(tutor => {
+              return tutor?.user_id == this.userId && tutor?.potsuper_tutor == 1
+            })
+            this.potSuperTutor = potsuper_tutor?.length > 0 ? true : false
           }
 
           let cityAdmins = response['city_admins']

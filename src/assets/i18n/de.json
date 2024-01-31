@@ -2039,7 +2039,8 @@
         "bookingscity": "Verwalten Sie Studentenbuchungen nach Stadt",
         "settype": "Mitgliedstyp festlegen",
         "statistics": "Statistik",
-        "tiktokstatistics": "Datenanalyse auf Landingpages, Fragebögen usw."
+        "tiktokstatistics": "Datenanalyse auf Landingpages, Fragebögen usw.",
+        "potsupertutor": "Potsuper-Tutor"
     },
     "guest-landing": {
         "templates": "Vorlagen",
