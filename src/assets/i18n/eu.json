@@ -2040,7 +2040,8 @@
         "bookingscity": "Kudeatu ikasleen erreserbak hiriaren arabera",
         "settype": "Ezarri kide mota",
         "statistics": "Estatistikak",
-        "tiktokstatistics": "Hurrengo orrietan, galdetegietan eta abarretan datuen analisia."
+        "tiktokstatistics": "Hurrengo orrietan, galdetegietan eta abarretan datuen analisia.",
+        "potsupertutor": "Potsuper Tutorea"
     },
     "guest-landing": {
         "templates": "Txantiloiak",

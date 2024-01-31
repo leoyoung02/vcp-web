@@ -338,6 +338,7 @@ export const PLAN_PAYMENT_URL = `${API_BASE}/company/activity/subscribe/stripe`;
 export const SALES_PEOPLE_URL = `${API_BASE}/company/group-management/sales-people`;
 export const ASSIGN_SALES_PERSON_URL = `${API_BASE}/company/guest/sales-person/assign`;
 export const CATEGORY_EVENTS_URL = `${API_BASE}/guest/category/list`;
+export const EVENT_TEMPLATE_URL = `${API_BASE}/guest/event/registration/template-by-guid`;
 
 export const PLANS_URL = `${API_BASE}/v2/plans`;
 export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;

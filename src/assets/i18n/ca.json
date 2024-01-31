@@ -2044,7 +2044,8 @@
         "bookingscity": "Gestioneu les reserves d'estudiants per ciutat",
         "settype": "Estableix el tipus de membre",
         "statistics": "Estatistikak",
-        "tiktokstatistics": "Analítica de dades a pàgines de destinació, qüestionaris, etc."
+        "tiktokstatistics": "Analítica de dades a pàgines de destinació, qüestionaris, etc.",
+        "potsupertutor": "Potsuper Tutor"
     },
     "guest-landing": {
         "templates": "Plantilles",

@@ -47,6 +47,7 @@ import {
   EVENT_CUSTOM_SUBCATEGORIES_URL,
   EVENT_SETTINGS_URL,
   EVENT_SUBCATEGORIES_URL,
+  EVENT_TEMPLATE_URL,
   EVENT_TYPES_URL,
   FEATURES_MAPPING_URL,
   GROUP_PLAN_COMMENTS_URL,
@@ -1044,6 +1045,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
   getInvoiceDetails(invoiceId, companyId): Observable<any> {
     return this._http.get(`${INVOICE_DETAILS_URL}/${invoiceId}/${companyId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getEventRegistrationTemplateByGuid(slug, invite_guid): Observable<any> {
+    return this._http.get(`${EVENT_TEMPLATE_URL}/${slug}/${invite_guid}`,
       { headers: this.headers }
     ).pipe(map(res => res));
   }

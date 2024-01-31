@@ -86,6 +86,7 @@ export class MembersListComponent {
   buttonList: any;
   selectedCity: any;
   selectedSector: any;
+  showMembersCount: boolean = false;
 
   constructor(
     private _router: Router,
@@ -208,7 +209,9 @@ export class MembersListComponent {
 
   mapSubfeatures(subfeatures) {
     if (subfeatures?.length > 0) {
-      
+      this.showMembersCount = subfeatures.some(
+        (a) => a.name_en == "Members count" && a.active == 1 && a.feature_id == 15
+      );
     }
   }
 
@@ -302,6 +305,10 @@ export class MembersListComponent {
         }
       })
       this.filterMembers();
+    }
+
+    if(this.showMembersCount) {
+      this.pageName += this.showMembersCount && this.members?.length > 0 ? ` (+${this.members?.length})` : '';
     }
   }
 

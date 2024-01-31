@@ -1,6 +1,7 @@
-<div *ngIf="!isLoading && event" class="mx-auto my-auto max-w-full flex justify-center items-center align-center pt-20 pb-8">
-    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row mb-8">
-        <div class="relative mr-0 sm:mr-0 md:mr-[58px] lg:mr-[58px]">
+<div *ngIf="!isLoading && event" class="mx-auto my-auto max-w-full flex justify-center items-center align-center pb-8"
+    [ngClass]="{'pt-20': companyId != 20}">
+    <div [ngClass]="{'flex flex-col sm:flex-col md:flex-row lg:flex-row mb-8': companyId != 20}">
+        <div *ngIf="companyId != 20" class="relative mr-0 sm:mr-0 md:mr-[58px] lg:mr-[58px]">
             <img 
                 *ngIf="event?.image"
                 class="rounded-[30px] object-cover object-top w-full max-w-full sm:w-full sm:max-w-full md:w-[540px] md:max-w-[540px] lg:w-[540px] lg:max-w-[540px] sm:h-auto md:h-[510px] lg:h-[510px] max-h-auto md:max-h-[510px] lg:max-h-[510px]"
@@ -10,69 +11,72 @@
                 height="510"
             >
         </div>
-        <div class="w-full mr-0 sm:mr-0 md:mr-[80px] lg:mr-[80px]">
+        <div [ngClass]="{'w-full mr-0 sm:mr-0 md:mr-[80px] lg:mr-[80px]': companyId != 20}">
             <div class="w-full max-w-full">
-                <div class="text-3xl font-semibold">{{ getEventTitle(event) }}</div>
-                <div class="flex flex-col">
-                    <div [innerHtml]="planTruncatedDescription"></div>
-                    <ng-container *ngIf="planDescription?.length > truncate">
-                        <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
-                        <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="!planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="readMore()">{{ 'club-details.readmore' | translate }}</div>
-                    </ng-container>
-                </div>
-                <div class="flex flex-row justify-between my-12">
-                    <div class="flex">
-                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
-                        </svg>
-                        <div class="capitalize font-semibold">{{ planDay }}</div>
+                <div [innerHtml]="html" *ngIf="companyId == 20"></div>
+                <ng-container *ngIf="companyId != 20">
+                    <div class="text-3xl font-semibold">{{ getEventTitle(event) }}</div>
+                    <div class="flex flex-col">
+                        <div [innerHtml]="planTruncatedDescription | safeContentHtml: 'html'"></div>
+                        <ng-container *ngIf="planDescription?.length > truncate">
+                            <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
+                            <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="!planExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="readMore()">{{ 'club-details.readmore' | translate }}</div>
+                        </ng-container>
                     </div>
-                    <div class="flex">
-                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
-                            <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M10 6v4l3.276 3.276M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                        </svg>
-                        <div class="capitalize font-semibold">{{ planTime }}</div>
+                    <div class="flex flex-row justify-between my-12">
+                        <div class="flex">
+                            <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
+                            </svg>
+                            <div class="capitalize font-semibold">{{ planDay }}</div>
+                        </div>
+                        <div class="flex">
+                            <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M10 6v4l3.276 3.276M19 10a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                            </svg>
+                            <div class="capitalize font-semibold">{{ planTime }}</div>
+                        </div>
+                        <div class="flex max-w-full sm:max-w-full md:max-w-[250px] lg:max-w-[250px]" *ngIf="plan?.meeting_point">
+                            <svg class="w-6 h-6 md:max-w-[80px] lg:w-[80px] mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
+                                <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
+                                </g>
+                            </svg>
+                            <div class="capitalize font-semibold">{{ plan?.meeting_point }}</div>
+                        </div>
                     </div>
-                    <div class="flex max-w-full sm:max-w-full md:max-w-[250px] lg:max-w-[250px]" *ngIf="plan?.meeting_point">
-                        <svg class="w-6 h-6 md:max-w-[80px] lg:w-[80px] mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
+                    <div class="flex" *ngIf="getAddress(event)">
+                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
                             <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                              <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-                              <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
+                            <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                            <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
                             </g>
                         </svg>
-                        <div class="capitalize font-semibold">{{ plan?.meeting_point }}</div>
+                        <div class="capitalize font-semibold">{{ getAddress(event) }}</div>
                     </div>
-                </div>
-                <div class="flex" *ngIf="getAddress(event)">
-                    <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
-                        <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                          <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-                          <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
-                        </g>
-                    </svg>
-                    <div class="capitalize font-semibold">{{ getAddress(event) }}</div>
-                </div>
-                <div class="my-12 flex items-center" *ngIf="((createdBy && createdBy != 'null') || (planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name)))">
-                    <div class="opacity-60 mr-4">{{ 'plan-details.createdby' | translate }}:</div>
-                    <div class="font-semibold">{{ createdBy || planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name) }}</div>
-                </div>
-                <div *ngIf="pastEvent" class="text-red-500">
+                    <div class="my-12 flex items-center" *ngIf="((createdBy && createdBy != 'null') || (planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name)))">
+                        <div class="opacity-60 mr-4">{{ 'plan-details.createdby' | translate }}:</div>
+                        <div class="font-semibold">{{ createdBy || planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name) }}</div>
+                    </div>
+                </ng-container>
+                <div *ngIf="pastEvent" class="text-red-500" [ngClass]="{'text-center': companyId == 20}">
                     {{ 'invite.pastevent' | translate }}
                 </div>
-                <div *ngIf="limitReached" class="text-red-500">
+                <div *ngIf="limitReached" class="text-red-500" [ngClass]="{'text-center': companyId == 20}">
                     {{ limitReachedMessage }}
                 </div>
-                <div *ngIf="registerComplete">
+                <div *ngIf="registerComplete" [ngClass]="{'text-center': companyId == 20}">
                     {{ 'invite.registercomplete' | translate }}
                 </div>
                 <div *ngIf="hasPaymentButtonForm && !hasRegistrationButtonForm && !limitReached && !pastEvent"
                     class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
-                    <div class="w-full max-w-full flex justify-between items-center flex-gap-col">
+                    <div class="w-full max-w-full flex items-center flex-gap-col"
+                        [ngClass]="{'justify-between': companyId != 20, 'justify-center': companyId == 20}">
                         <button
-                            class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold"
-                            [ngStyle]="{
-                                'background-color': buttonColor
-                            }"
+                            class="btn h-[52px] text-white text-base uppercase font-semibold"
+                            [ngClass]="{'w-full max-w-full': companyId != 20, 'w-[250px] max-w-[250px]': companyId == 20}"
+                            [ngStyle]="{'background-color': buttonColor}"
                             (click)="pay()"
                         >
                             {{ 'signup.pay' | translate }}
@@ -80,11 +84,13 @@
                     </div>
                 </div>
                 <div *ngIf="hasRegistrationButtonForm && !hasPaymentButtonForm && !limitReached && !pastEvent"
-                    class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
+                    [ngClass]="{'flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row': companyId != 20, 'w-full max-w-full': companyId == 20}">
                     <div *ngIf="!registerAsGuest" 
-                        class="w-full max-w-full flex justify-between items-center flex-gap-col">
+                        class="w-full max-w-full flex items-center flex-gap-col"
+                        [ngClass]="{'justify-between': companyId != 20, 'justify-center': companyId == 20}">
                         <button
-                            class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold"
+                            class="btn h-[52px] text-white text-base uppercase font-semibold"
+                            [ngClass]="{'w-full max-w-full': companyId != 20, 'w-[250px] max-w-[250px]': companyId == 20}"
                             [ngStyle]="{
                                 'background-color': buttonColor
                             }"
@@ -97,7 +103,8 @@
                         <div class="w-full max-w-full" *ngIf="registerAsGuest">
                             <div class="w-full max-w-full" *ngIf="!registerComplete">
                                 <ng-container *ngIf="hasGuestRegistration">
-                                    <div class="w-full max-w-full grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
+                                    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4"
+                                        [ngClass]="{'w-full max-w-full': companyId != 20, 'w-8/12 mx-auto': companyId == 20}">
                                         <ng-container *ngFor="let filter of filteredProfileFields">
                                             <div class="flex items-center justify-center relative">
                                                 <ng-container *ngIf="filter?.field_type != 'select' && filter?.field != 'sector'">
@@ -144,7 +151,8 @@
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="!hasGuestRegistration">
-                                    <div class="w-full max-w-full grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
+                                    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4"
+                                        [ngClass]="{'w-full max-w-full': companyId != 20, 'w-8/12 mx-auto': companyId == 20}">
                                         <div class="flex items-center justify-center relative">
                                             <input 
                                                 [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': registerForm?.get('name')?.errors }"
@@ -200,7 +208,7 @@
                                         
                                     </div>
                                 </ng-container>
-                                <div>
+                                <div [ngClass]="{'w-8/12 mx-auto': companyId == 20}">
                                     <label class="checkbox-container">
                                         <div class="flex mb-4 items-center">
                                             <input 
