@@ -1,16 +1,24 @@
-<ng-container *ngIf="!isLoading && videoCTA?.id > 0">
+<ng-container *ngIf="!isLoading && videoCTA?.id > 0" class="relative">
+    <ng-container *ngIf="bannerImage">
+        <img class="absolute inset-0 w-full h-full object-cover" src="{{ bannerImage }}"  [ngStyle]="{
+            'zIndex': '-1'
+        }" />
+    </ng-container>
     <div class="max-w-full sm:max-w-full md:max-w-screen-xl lg:max-w-screen-xl py-8 mx-auto">
-        <div *ngIf="activateVideo">
+        <ng-container *ngIf="pageTitleText" >
+            <span [innerHtml]="pageTitleText | safeContentHtml: 'html'"></span> 
+        </ng-container>
+        <div *ngIf="activateVideo" class="mt-10">
             <ng-container *ngIf="activateTimedButton && activatedVideoTime">
                 <div class="md:w-full md:max-w-full md:flex md:justify-center lg:w-full lg:max-w-full lg:flex lg:justify-center">
-                    <div id="vimeo-player" #playerContainer></div>
+                    <div id="vimeo-player" #playerContainer class="z-50"></div>
                 </div>
             </ng-container>
             <ng-container *ngIf="!activateTimedButton || (activateTimedButton && activatedTime) || !videoCTA?.vimeo_id">
                 <ng-container *ngIf="videoEmbed && updatedCode">
                     <div class="w-full max-w-full flex justify-center">
                         <iframe 
-                            class="iframe-ctrl"
+                            class="iframe-ctrl z-50"
                             id="{{ 'iframe-1' }}"
                             [src]="updatedVideo" 
                             width="100%" 
@@ -49,7 +57,7 @@
                                 <span class="font-semibold text-lg">{{ 'company-settings.description' | translate }}</span>
                             </ng-container>
                             <div class="text-center mt-2">
-                                <button type="button" class="rounded-lg h-auto min-h-[40px] px-16 font-semibold"
+                                <button type="button" class="rounded-lg h-auto min-h-[40px] px-16 font-semibold uppercase"
                                     [ngStyle]="{'background-color': CTAButtonColor, 'color': CTATextColor}"
                                     (click)="redirectToCTALink()">
                                     {{CTAText}}
@@ -62,7 +70,7 @@
                             <ng-container *ngIf="!videoCTA?.vimeo_id">
                                 <span [innerHtml]="descriptionText | safeContentHtml: 'html'"></span>
                                 <div class="text-center mt-3">
-                                    <button type="button" class="rounded-lg h-auto min-h-[40px] px-16 font-semibold"
+                                    <button type="button" class="rounded-lg h-auto min-h-[40px] px-16 font-semibold uppercase"
                                         [ngStyle]="{'background-color': CTAButtonColor, 'color': CTATextColor}"
                                         (click)="redirectToCTALink()">
                                         {{CTAText}}
@@ -76,7 +84,7 @@
                                 <span id="desc" #desc style="display:none" class="font-semibold text-lg">{{ 'company-settings.description' | translate }}</span>
                             </ng-container>
                             <div class="text-center mt-2">
-                                <button id="cta" #cta style="display:none" type="button" class="rounded-lg h-auto min-h-[40px] px-16 font-semibold"
+                                <button id="cta" #cta style="display:none" type="button" class="rounded-lg h-auto min-h-[40px] px-16 font-semibold uppercase"
                                     [ngStyle]="{'background-color': CTAButtonColor, 'color': CTATextColor}"
                                     (click)="redirectToCTALink()">
                                     {{CTAText}}
@@ -87,6 +95,25 @@
                 </div>
             </div>
         </div>
+        <div *ngIf="quesAnsText" >
+            <div class="relative h-full max-h-full"
+                [ngClass]="{'flex flex-col': !quesAnsText}">
+                <div class="min-h-[130px] p-8"
+                [ngClass]="{'flex justify-center items-center': quesAnsText}">
+                    <ng-container *ngIf="quesAnsText">
+                        <span [innerHtml]="quesAnsText | safeContentHtml: 'html'"></span>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="footerText"  class="absolute w-full left-0 bottom-0">
+            <div class="min-h-[80px] bg-[#000000]"
+            [ngClass]="{'flex justify-center items-center': footerText}">
+                <ng-container *ngIf="footerText">
+                    <p class="text-[#808080]">{{footerText}}</p>
+                </ng-container>
+            </div>
     </div>
 </ng-container>
 <div *ngIf="!isLoading && !(videoCTA?.id > 0)" class="center pt-16">

@@ -2041,7 +2041,11 @@
         "settype": "Ezarri kide mota",
         "statistics": "Estatistikak",
         "tiktokstatistics": "Hurrengo orrietan, galdetegietan eta abarretan datuen analisia.",
-        "potsupertutor": "Potsuper Tutorea"
+        "potsupertutor": "Potsuper Tutorea",
+        "pagetitletext":"Orriaren izenburua",
+        "backgroundimage":"Atzeko planoko irudia",
+        "questionanssection":"Galdera Atala",
+        "footer":"Oina"
     },
     "guest-landing": {
         "templates": "Txantiloiak",
