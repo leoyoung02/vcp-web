@@ -85,7 +85,7 @@
                 <div id="accordion-collapse-body-1" [ngClass]="{'hidden': !isVideoTutorialsStep}" aria-labelledby="accordion-collapse-heading-1">
                     <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
                         <div class="my-8">
-                            <app-video-player></app-video-player>
+                            <app-video-player [playlist]="playlist"></app-video-player>
                         </div>
                         <div class="flex justify-end">
                             <button (click)="goToTemplateStep()" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"

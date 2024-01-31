@@ -21,6 +21,7 @@ import { VgControlsModule } from "@videogular/ngx-videogular/controls";
 import { VgOverlayPlayModule } from "@videogular/ngx-videogular/overlay-play";
 import { VgBufferingModule } from "@videogular/ngx-videogular/buffering";
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { Media } from "@lib/interfaces";
 import { environment } from "@env/environment";
 
 @Component({
@@ -40,6 +41,8 @@ import { environment } from "@env/environment";
 export class VideoPlayerComponent {
   private destroy$ = new Subject<void>();
 
+  @Input() playlist: any;
+
   preload: string = 'auto';
   api: VgApiService = new VgApiService;
 
@@ -48,6 +51,9 @@ export class VideoPlayerComponent {
   isMobile: boolean = false;
   
   source: SafeUrl | undefined;
+
+  currentIndex: any;
+  currentItem: Media | undefined;
 
   constructor(
     private _route: ActivatedRoute,
@@ -78,24 +84,27 @@ export class VideoPlayerComponent {
     this.initializePage();
   }
 
-   //Retrieve the video (Careful of CORS)
-   setVideoSourceToObjectUrl = (url: string) => fetch(url)
-   .then(response => response.blob()) //Encode the response as a blob
-   .then(blob =>  {
-       // Create an object url from the blob;
-       var blobUrl = URL.createObjectURL(blob)
+  //  //Retrieve the video (Careful of CORS)
+  //  setVideoSourceToObjectUrl = (url: string) => fetch(url)
+  //  .then(response => response.blob()) //Encode the response as a blob
+  //  .then(blob =>  {
+  //      // Create an object url from the blob;
+  //      var blobUrl = URL.createObjectURL(blob)
        
-       // Create a safe url and set it to the video source.
-       setTimeout(() => {
-        this.source = this.sanitizer?.bypassSecurityTrustUrl(blobUrl);
-        console.log('source')
-        console.log(this.source)
-      }, 2000)
-   });
+  //      // Create a safe url and set it to the video source.
+  //      setTimeout(() => {
+  //       this.source = this.sanitizer?.bypassSecurityTrustUrl(blobUrl);
+  //       console.log('source')
+  //       console.log(this.source)
+  //     }, 2000)
+  //  });
 
   initializePage() {
-    var url = 'https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6c/Polar_orbit.ogv/Polar_orbit.ogv.360p.vp9.webm';
-    this.setVideoSourceToObjectUrl(url);
+    // var url = 'https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6c/Polar_orbit.ogv/Polar_orbit.ogv.360p.vp9.webm';
+    // this.setVideoSourceToObjectUrl(url);
+
+    this.currentIndex = 0;
+    this.currentItem = this.playlist[ this.currentIndex ];
   }
 
   onPlayerReady(api: VgApiService) {
@@ -104,10 +113,26 @@ export class VideoPlayerComponent {
     this.api
       .getDefaultMedia()
       .subscriptions.loadedMetadata.subscribe(this.playVideo.bind(this));
+    this.api
+      .getDefaultMedia()
+      .subscriptions.ended.subscribe(this.nextVideo.bind(this));
   }
 
   playVideo() {
     this.api.play();
+  }
+
+  nextVideo() {
+    if (this.currentIndex < this.playlist?.length - 1) {
+      this.currentIndex++;
+    }
+
+    this.currentItem = this.playlist[this.currentIndex];
+  }
+
+  onClickPlaylistItem(item: Media, index: number) {
+    this.currentIndex = index;
+    this.currentItem = item;
   }
 
   async open(message: string, action: string) {

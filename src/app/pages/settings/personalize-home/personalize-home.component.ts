@@ -21,7 +21,14 @@ import {
 } from "@angular/forms";
 import { VideoPlayerComponent } from "@features/training/video-player/video-player.component";
 import { initFlowbite } from "flowbite";
+import { Media } from "@lib/interfaces";
 import get from "lodash/get";
+
+export interface IMedia {
+  title: string;
+  src: string;
+  type: string;
+}
 
 @Component({
   selector: "app-personalize-home",
@@ -67,6 +74,33 @@ export class PersonalizeHomeComponent {
   isContentStepCompleted: boolean = false;
   isSectionsStep: boolean = false;
   isSectionsStepCompleted: boolean = false;
+
+  playlist: Array<Media> = [
+    {
+      title: 'Personalizar diseño',
+      src: `${environment.api}/get-course-unit-file/homeVideoFile_10277_1677186128469.mov`,
+      type: 'video/mp4',
+      poster: `${environment.api}/get-image-company/video-tutorials.png`
+    },
+    {
+      title: 'Activar módulos',
+      src: `${environment.api}/get-course-unit-file/homeVideoFile_10277_1677186128469.mov`,
+      type: 'video/mp4',
+      poster: `${environment.api}/get-image-company/video-tutorials.png`
+    },
+    {
+      title: 'Configuración de privacidad',
+      src: `${environment.api}/get-course-unit-file/homeVideoFile_10277_1677186128469.mov`,
+      type: 'video/mp4',
+      poster: `${environment.api}/get-image-company/video-tutorials.png`
+    },
+    {
+      title: 'Configuración del menú',
+      src: `${environment.api}/get-course-unit-file/homeVideoFile_10277_1677186128469.mov`,
+      type: 'video/mp4',
+      poster: `${environment.api}/get-image-company/video-tutorials.png`
+    }
+  ];
 
   constructor(
     private _router: Router,
