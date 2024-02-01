@@ -3058,7 +3058,9 @@
         "confirmresendemail": "Voulez-vous vraiment renvoyer l'e-mail d'accès au cours ?",
         "userexists":"Cet utilisateur existe déjà",
         "questionnairemandatoryfields":"Vous devez remplir l’intégralité du questionnaire pour continuer.",
-        "bookingcancel":"Votre réservation a été annulée avec succès."
+        "bookingcancel":"Votre réservation a été annulée avec succès.",
+        "passwordnotmatch":"Les mots de passe ne correspondent pas",
+        "passwordlength":"Mot de passe doit être d'au moins 8 caractères"
     },
     "buddy": {
         "mentorprofile": "Profil du mentor",

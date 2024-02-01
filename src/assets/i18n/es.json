@@ -3077,7 +3077,9 @@
         "confirmresendemail": "¿Realmente deseas reenviar el correo electrónico de acceso al curso?",
         "userexists":"Este usuario ya existe",
         "questionnairemandatoryfields":"Debes completar todo el cuestionario para continuar",
-        "bookingcancel":"Su reserva ha sido cancelada con éxito."
+        "bookingcancel":"Su reserva ha sido cancelada con éxito.",
+        "passwordnotmatch":"Las contraseñas no coinciden",
+        "passwordlength":"La contraseña debe tener al menos 8 caracteres"
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",
