@@ -2045,7 +2045,11 @@
         "settype": "Estableix el tipus de membre",
         "statistics": "Estatistikak",
         "tiktokstatistics": "Analítica de dades a pàgines de destinació, qüestionaris, etc.",
-        "potsupertutor": "Potsuper Tutor"
+        "potsupertutor": "Potsuper Tutor",
+        "pagetitletext":"Títol de la pàgina",
+        "backgroundimage":"Imatge de fons",
+        "questionanssection":"Secció de preguntes",
+        "footer":"Peu de pàgina"
     },
     "guest-landing": {
         "templates": "Plantilles",
