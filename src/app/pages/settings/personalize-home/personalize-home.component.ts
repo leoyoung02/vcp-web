@@ -20,15 +20,10 @@ import {
   ReactiveFormsModule,
 } from "@angular/forms";
 import { VideoPlayerComponent } from "@features/training/video-player/video-player.component";
+import { HomeTemplateCardComponent } from "@share/components/card/home-template/home-template.component";
 import { initFlowbite } from "flowbite";
 import { Media } from "@lib/interfaces";
 import get from "lodash/get";
-
-export interface IMedia {
-  title: string;
-  src: string;
-  type: string;
-}
 
 @Component({
   selector: "app-personalize-home",
@@ -44,6 +39,7 @@ export interface IMedia {
     ToastComponent,
     PageTitleComponent,
     VideoPlayerComponent,
+    HomeTemplateCardComponent,
   ],
   templateUrl: "./personalize-home.component.html",
 })
@@ -101,6 +97,8 @@ export class PersonalizeHomeComponent {
       poster: `${environment.api}/get-image-company/video-tutorials.png`
     }
   ];
+  homeTemplates: any = [];
+  activeLayoutId: any;
 
   constructor(
     private _router: Router,
@@ -154,6 +152,7 @@ export class PersonalizeHomeComponent {
   initializePage() {
     initFlowbite();
     this.initializeBreadcrumb();
+    this.initializeHomeTemplates();
   }
 
   initializeBreadcrumb() {
@@ -163,6 +162,34 @@ export class PersonalizeHomeComponent {
     this.level2Title = this._translateService.instant(
       "company-settings.personalizehometemplate"
     );
+  }
+
+  initializeHomeTemplates() {
+    this.homeTemplates.push(
+      {
+        id: 1,
+        name: `${this._translateService.instant('leads.layout')} 1`,
+        image: `${environment.api}/get-image-company/home_template_1.png`,
+        active: this.company?.predefined_template_id == 1 ? true : false,
+      },
+      {
+        id: 2,
+        name: `${this._translateService.instant('leads.layout')} 2`,
+        image: `${environment.api}/get-image-company/home_template_2.png`,
+        active: this.company?.predefined_template_id == 2 ? true : false
+      },
+      {
+        id: 3,
+        name: `${this._translateService.instant('leads.layout')} 3`,
+        image: `${environment.api}/get-image-company/home_template_3.png`,
+        active: !this.company?.predefined_template_id && !this.company?.predefined_template ? true : false
+      }
+    );
+    this.activeLayoutId = this.company?.predefined_template_id == 1 ? 1 : (
+      this.company?.predefined_template_id == 2 ? 2 : (
+        (!this.company?.predefined_template_id && !this.company?.predefined_template) ? 3 : 0
+      )
+    )
   }
 
   goToTemplateStep() {

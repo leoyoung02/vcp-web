@@ -147,7 +147,7 @@ dependencies:
     specifier: ^1.8.0
     version: 1.8.0(@angular/common@16.0.0)(@angular/core@16.0.0)(apexcharts@3.42.0)(rxjs@7.8.0)
   ng-gallery:
-    specifier: ^11.0.0
+    specifier: 11.0.0
     version: 11.0.0(@angular/cdk@16.2.0)(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.0)
   ng-image-slider:
     specifier: ^7.0.1
@@ -8117,7 +8117,7 @@ packages:
       '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
       '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
       rxjs: 7.8.0
-      tslib: 2.5.0
+      tslib: 2.6.2
     dev: false
 
   /ng-image-slider@7.0.1(@angular/common@16.0.0)(@angular/core@16.0.0):

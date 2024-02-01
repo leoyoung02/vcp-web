@@ -38,7 +38,7 @@
                 </span>
                 <h3 class="font-medium leading-tight pt-1.5" [ngClass]="{'text-black font-semibold': isTemplateStep}">{{'personalize-home.template' | translate}}</h3>
             </li>
-            <li class="mb-10 ms-6">
+            <li class="mb-10 ms-6" *ngIf="activeLayoutId != 1">
                 <span *ngIf="isContentStepCompleted" class="absolute flex items-center justify-center w-8 h-8 bg-green-200 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-green-900">
                     <svg class="w-3.5 h-3.5 text-green-500 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
@@ -51,7 +51,7 @@
                 </span>
                 <h3 class="font-medium leading-tight pt-1.5" [ngClass]="{'text-black font-semibold': isContentStep}">{{'personalize-home.content' | translate}}</h3>
             </li>
-            <li class="ms-6">
+            <li class="ms-6"  *ngIf="activeLayoutId != 3">
                 <span *ngIf="isSectionsStepCompleted" class="absolute flex items-center justify-center w-8 h-8 bg-green-200 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-green-900">
                     <svg class="w-3.5 h-3.5 text-green-500 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
@@ -112,8 +112,18 @@
                 </h2>
                 <div id="accordion-collapse-body-2" [ngClass]="{'hidden': !isTemplateStep}" aria-labelledby="accordion-collapse-heading-2">
                     <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700">
-                        <p class="mb-2 text-gray-500 dark:text-gray-400">Text</p>
-                        <p class="text-gray-500 dark:text-gray-400">Description</p>
+                        <div class="flex grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-6 w-full py-8">
+                            <ng-container *ngFor="let template of homeTemplates">
+                                <app-home-template-card 
+                                    [id]="template?.id"
+                                    [name]="template?.name"
+                                    [image]="template?.image"
+                                    [active]="template?.active"
+                                    [buttonColor]="buttonColor"
+                                    [primaryColor]="primaryColor">
+                                </app-home-template-card>
+                            </ng-container>
+                        </div>
                         <div class="flex justify-end">
                             <button (click)="goToContentStep()" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 [ngStyle]="{'background-color': buttonColor}">

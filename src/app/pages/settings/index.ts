@@ -180,5 +180,11 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'company-settings.personalizehometemplate'},
         loadComponent: async () => (await import('./personalize-home/personalize-home.component')).PersonalizeHomeComponent,
+    },
+    {
+        path: 'home-gallery/:id/:mode',
+        title: CustomTitleResolver,
+        data: { titleKey: 'testimonials.gallery'},
+        loadComponent: async () => (await import('./home-gallery/home-gallery.component')).HomeGalleryComponent,
     }
 ];
