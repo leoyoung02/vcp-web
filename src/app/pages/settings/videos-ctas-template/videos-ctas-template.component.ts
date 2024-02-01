@@ -26,8 +26,15 @@ import {
 import { DomSanitizer } from '@angular/platform-browser';
 import { EditorModule } from "@tinymce/tinymce-angular";
 import { initFlowbite } from "flowbite";
-import { SafeContentHtmlPipe } from "@lib/pipes";
 import get from "lodash/get";
+
+import { FilePondModule, registerPlugin } from 'ngx-filepond';
+import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+import { SafeContentHtmlPipe } from "@lib/pipes";
+registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
 
 @Component({
   selector: "app-settings-lead-videos-ctas-template",
@@ -45,6 +52,7 @@ import get from "lodash/get";
     BreadcrumbComponent,
     PageTitleComponent,
     ToastComponent,
+    FilePondModule
   ],
   templateUrl: "./videos-ctas-template.component.html",
 })
@@ -117,6 +125,66 @@ export class VideosCTAsTemplateComponent {
   safeLessonURL: any;
   updatedVideo: any;
   updatedCode: any;
+  landingPageTemplateFileName: any;
+  bannerImage: any;
+  activateBanner: boolean = true;
+  activatePageTitle: boolean = true;
+  pageTitleText:string ='';
+  activateQuesAnsSection: boolean = true;
+  quesAnsText:string ='';
+  activateFooter: boolean = true;
+  footerText:string =''
+
+
+  pondFiles = [];
+  @ViewChild('myPond', {static: false}) myPond: any;
+  pondOptions = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    acceptedFileTypes: 'image/jpg, image/jpeg, image/png',
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.landingPageTemplateFileName = 'lp_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('image', file, this.landingPageTemplateFileName);
+        localStorage.setItem('landing_page_template_file', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/v2/landing-page/temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('landing_page_template_file', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+              request.abort();
+              abort();
+          },
+        };
+      },
+    },
+  };
 
   constructor(
     private _router: Router,
@@ -239,6 +307,12 @@ export class VideosCTAsTemplateComponent {
   }
 
   formatDetails() {
+    this.bannerImage = this.videosCTAs?.details?.banner_image 
+    this.pageTitleText = this.videosCTAs?.details?.page_title_text 
+    this.quesAnsText = this.videosCTAs?.details?.ques_ans_text
+    this.footerText = this.videosCTAs?.details?.footer_text
+
+
     this.activateDescription = this.videosCTAs?.details?.id > 0 ? (this.videosCTAs?.details?.description == 1 ? true : false) : true;
     this.descriptionTextColor = this.videosCTAs?.details?.description_text_color || '#000000';
     this.descriptionText = this.videosCTAs?.details?.description_text;
@@ -300,6 +374,10 @@ export class VideosCTAsTemplateComponent {
       cta_button_text_color: this.CTATextColor,
       cta_link: this.CTALink,
       created_by: this.userId,
+      banner_image: this.bannerImage ? this.bannerImage : '',
+      page_title_text: this.pageTitleText ? this.pageTitleText : '',
+      ques_ans_text: this.quesAnsText ? this.quesAnsText : '',
+      footer_text: this.footerText ? this.footerText : '',
     };
 
     this._companyService.editVideosCTAsDetails(this.id, params).subscribe(
@@ -320,6 +398,33 @@ export class VideosCTAsTemplateComponent {
     const timestamp = date.getTime()
     return timestamp
   }
+
+
+  pondHandleInit() {
+    console.log('FilePond has initialised', this.myPond);
+  }
+
+  pondHandleAddFile(event: any) {
+    console.log('A file was added', event);
+    if(localStorage.getItem('landing_page_template_file') == 'complete' && this.landingPageTemplateFileName) {
+      this.bannerImage = `${environment.api}/get-landing-page-image/${this.landingPageTemplateFileName}`;
+    }
+  }
+
+  podHandleUpdateFiles(event: any) {
+    console.log('A file was updated', event);
+    if(localStorage.getItem('landing_page_template_file') == 'complete' && this.landingPageTemplateFileName) {
+      this.bannerImage = `${environment.api}/get-landing-page-image/${this.landingPageTemplateFileName}`;
+    }
+  }
+
+  podHandleProcessFile(event: any) {
+    console.log('A file was updated', event);
+    if(localStorage.getItem('landing_page_template_file') == 'complete' && this.landingPageTemplateFileName) {
+      this.bannerImage = `${environment.api}/get-landing-page-image/${this.landingPageTemplateFileName}`;
+    }
+  }
+
 
   handleGoBack() {
     // this._location.back();

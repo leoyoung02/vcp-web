@@ -69,6 +69,10 @@ export class TikTokVideoCTAComponent {
   updatedCode: any;
   isLoading: boolean = true;
   CTALink: any;
+  bannerImage:string = '';
+  pageTitleText:string = '';
+  quesAnsText:string = '';
+  footerText:string = '';
 
   @ViewChild('playerContainer') playerContainer?: ElementRef | undefined;
   @ViewChild('cta') cta?: ElementRef | undefined;
@@ -133,6 +137,8 @@ export class TikTokVideoCTAComponent {
   playerListener() {
     const player = new Player(this.playerContainer?.nativeElement, {
       url: this.url,
+      width: '1100px', // Add the desired width here
+      height: '619px',
     });
     
     player.on('timeupdate', function (data) {
@@ -174,6 +180,12 @@ export class TikTokVideoCTAComponent {
   }
 
   formatDetails() {
+    this.bannerImage = this.videoCTA?.banner_image ;
+    this.pageTitleText = this.videoCTA?.page_title_text;
+    this.quesAnsText = this.videoCTA?.ques_ans_text;
+    this.footerText = this.videoCTA?.footer_text;
+
+
     this.activateDescription = this.videoCTA?.description == 1 ? true : false;
     this.descriptionTextColor = this.videoCTA?.description_text_color || '#000000';
     this.descriptionText = this.videoCTA?.description_text;

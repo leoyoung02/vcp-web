@@ -2045,7 +2045,11 @@
         "settype": "Establecer tipo de miembro",
         "statistics": "Estadísticas",
         "tiktokstatistics": "Análisis de datos en páginas de destino, cuestionarios, etc.",
-        "potsupertutor": "Potsuper Tutor"
+        "potsupertutor": "Potsuper Tutor",
+        "pagetitletext":"Título de la página",
+        "backgroundimage":"Imagen de fondo",
+        "questionanssection":"Sección de preguntas",
+        "footer":"Pie de página"
     },
     "guest-landing": {
         "templates": "Plantillas",

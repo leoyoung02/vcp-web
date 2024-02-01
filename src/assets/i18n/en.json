@@ -2046,7 +2046,11 @@
         "settype": "Set member type",
         "statistics": "Statistics",
         "tiktokstatistics": "Data analytics on landing pages, questionnaires, etc.",
-        "potsupertutor": "Potsuper Tutor"
+        "potsupertutor": "Potsuper Tutor",
+        "pagetitletext":"Page Title",
+        "backgroundimage":"Background Image",
+        "questionanssection":"Question Section",
+        "footer":"Footer"
     },
     "guest-landing": {
         "templates": "Templates",

@@ -2040,7 +2040,11 @@
         "settype": "Mitgliedstyp festlegen",
         "statistics": "Statistik",
         "tiktokstatistics": "Datenanalyse auf Landingpages, Fragebögen usw.",
-        "potsupertutor": "Potsuper-Tutor"
+        "potsupertutor": "Potsuper-Tutor",
+        "pagetitletext":"Seitentitel",
+        "backgroundimage":"Hintergrundbild",
+        "questionanssection":"Fragenbereich",
+        "footer":"Fusszeile"
     },
     "guest-landing": {
         "templates": "Vorlagen",
