@@ -14,7 +14,7 @@ import { SearchComponent } from "@share/components/search/search.component";
 import { IconFilterComponent, PageTitleComponent } from "@share/components";
 import { NgxPaginationModule } from "ngx-pagination";
 import get from "lodash/get";
-import he from 'he';
+import * as he from 'he';
 
 @Component({
   selector: "app-blogs-list",

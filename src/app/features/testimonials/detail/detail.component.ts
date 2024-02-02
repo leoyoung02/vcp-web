@@ -129,7 +129,6 @@ export class TestimonialDetailComponent {
 
     this.getTestimonial();
   }
-
   getTestimonial() {
     this._testimonialsService
       .fetchTestimonial(this.id, this.companyId, this.userId)
@@ -173,13 +172,19 @@ export class TestimonialDetailComponent {
     this.canEdit = this.superAdmin || data?.testimonial?.created_by == this.userId;
   }
 
+  formatAuthorName(author){
+    const parser = new DOMParser();
+    const parsedHTML = parser.parseFromString(author, 'text/html');
+    return parsedHTML.body.textContent;
+  }
+
   formatTestimonial(testimonial) {
     let highlight_description = testimonial.description?.replace(testimonial?.short_description?.replace(/<(?:.|\n)*?>/gm, ''), '<div class="font-semibold px-4 py-1 border border-2 border-black border-t-0 border-b-0 border-r-0 italic">' + testimonial?.short_description?.replace(/<(?:.|\n)*?>/gm, '') + '</div>')
     let t = {
       id: testimonial.id,
       company_id: testimonial.company_id,
       short_description: testimonial.short_description,
-      author: testimonial.author,
+      author: this.formatAuthorName(testimonial.author),
       social_media_url: testimonial.social_media_url,
       trimmed: testimonial?.short_description?.length > 9 ? `${testimonial?.short_description?.replace(/<(?:.|\n)*?>/gm, '').substring(0, 10)}...` : testimonial?.short_description?.replace(/<(?:.|\n)*?>/gm, ''),
       description: highlight_description,
