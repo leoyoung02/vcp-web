@@ -354,7 +354,7 @@ export class ProfileComponent {
       unSelectAllText: this._translateService.instant('dialog.clearall'),
       itemsShowLimit: 2,
       allowSearchFilter: true,
-      searchPlaceholderText: this._translateService.instant('guests.search'),
+      searchPlaceholderText: this._translateService.instant('guests.search')
     }
   }
 
@@ -969,6 +969,7 @@ export class ProfileComponent {
           this.tutorInfo = response[6] ? response[6]["tutor"]:[];
           this.tutorTypeTags = response[6] ? response[6]["tutor_type_tags"]:[];
           this.tutorTypes = response[6] ? response[6]["all_tutor_types"] : [];
+          this.tutorTypes= this.tutorTypes?.sort((a, b) => a?.name_EN.localeCompare(b.name_EN));
           const temp:any = []
           if(this.tutorTypes?.length > 0) {
             this.tutorTypes?.forEach(tt => {
@@ -1320,7 +1321,7 @@ export class ProfileComponent {
         }
   
         if(this.tutorInfo?.user_id !== null){
-          formData['tutor_id'] = this.tutorInfo.user_id
+          formData['tutor_id'] = this.tutorInfo.id
         }
       }
 
