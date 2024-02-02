@@ -302,8 +302,22 @@ export class SubmissionsComponent {
   viewAnswer(item) {
     this.selectedId = item.id;
     this.selectedItem = item;
-    this.questionAnswers = item?.question_items || [];
-    this.modalbutton0?.nativeElement.click();
+    this.getResponse();
+  }
+
+  getResponse() {
+    this._companyService
+      .getResponse(this.companyId, this.userId, this.selectedItem?.question_id, this.selectedItem?.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response) => {
+          this.questionAnswers = response?.question_items || [];
+          this.modalbutton0?.nativeElement.click();
+        },
+        (error) => {
+          
+        }
+      );
   }
 
   getSubmissionDate(submission) {
