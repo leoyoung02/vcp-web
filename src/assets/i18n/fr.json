@@ -3480,7 +3480,9 @@
         "tutorialvideos": "Vidéos tutorielles",
         "template": "Modèle",
         "content": "Contenu",
-        "sections": "Sections"
+        "sections": "Sections",
+        "latest": "Afficher le dernier en premier",
+        "random": "Afficher au hasard"
     },
     "training": {
         "training": "Formation"

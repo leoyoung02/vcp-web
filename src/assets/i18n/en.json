@@ -3521,7 +3521,9 @@
         "tutorialvideos": "Tutorial videos",
         "template": "Template",
         "content": "Content",
-        "sections": "Sections"
+        "sections": "Sections",
+        "latest": "Show latest first",
+        "random": "Show random"
     },
     "training": {
         "training": "Training"

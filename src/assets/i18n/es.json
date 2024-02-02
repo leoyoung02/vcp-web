@@ -3507,7 +3507,9 @@
         "tutorialvideos": "Vídeos tutoriales",
         "template": "Plantilla",
         "content": "Contenido",
-        "sections": "Secciones"
+        "sections": "Secciones",
+        "latest": "Mostrar lo último primero",
+        "random": "Mostrar aleatorio"
     },
     "training": {
         "training": "Formación"

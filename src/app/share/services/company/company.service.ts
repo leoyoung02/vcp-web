@@ -209,6 +209,7 @@ import {
   FILTER_SETTINGS_URL,
   EDIT_FILTER_SETTINGS_URL,
   RESPONSE_URL,
+  HOME_PERSONALIZE_SETTINGS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1855,6 +1856,12 @@ export class CompanyService {
   editFilterSettings(params): Observable<any> {
     return this._http.post(`${EDIT_FILTER_SETTINGS_URL}`,
         params
+    ).pipe(map(res => res));
+  }
+
+  getHomePersonalizeSettings(id) {
+    return this._http.get(`${HOME_PERSONALIZE_SETTINGS_URL}/${id}`,
+      { headers: this.headers }
     ).pipe(map(res => res));
   }
 }

@@ -3485,7 +3485,9 @@
         "tutorialvideos": "Tutorial bideoak",
         "template": "Txantiloi",
         "content": "Edukia",
-        "sections": "Atalak"
+        "sections": "Atalak",
+        "latest": "Erakutsi lehenik azkena",
+        "random": "Erakutsi ausaz"
     },
     "training": {
         "training": "Prestakuntza"

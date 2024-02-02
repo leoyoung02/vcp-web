@@ -3485,7 +3485,9 @@
         "tutorialvideos": "Tutorial-Videos",
         "template": "Vorlage",
         "content": "Inhalt",
-        "sections": "Abschnitte"
+        "sections": "Abschnitte",
+        "latest": "Neueste zuerst anzeigen",
+        "random": "Zufällig anzeigen"
     },
     "training": {
         "training": "Training"

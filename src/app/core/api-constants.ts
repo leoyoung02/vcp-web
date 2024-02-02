@@ -119,6 +119,7 @@ export const DEACTIVATE_CUSTOMER_URL = `${API_BASE}/v2/customer/deactivate`;
 export const EDIT_CUSTOMER_SITE_DETAILS_URL = `${API_BASE}/v2/customer/site-details/edit`;
 export const FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings`;
 export const EDIT_FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings/edit`;
+export const HOME_PERSONALIZE_SETTINGS_URL = `${API_BASE}/v2/home/personalize/settings`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;
