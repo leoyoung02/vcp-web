@@ -643,6 +643,7 @@ export const EDIT_QUESTION_OTHER_IMAGES_URL = `${API_BASE}/v2/question-other-ima
 export const TIKTOK_DATA_URL = `${API_BASE}/v2/tiktok-data`;
 export const TIKTOK_QUESTIONS_DATA_URL = `${API_BASE}/v2/tiktok-questions-data`;
 export const TIKTOK_LANDING_PAGES_DATA_URL = `${API_BASE}/v2/tiktok-landing-pages-data`;
+export const RESPONSE_URL = `${API_BASE}/v2/answer`;
 
 // VIDEOS && CTAs
 export const VIDEOS_CTAS_URL = `${API_BASE}/v2/videos-ctas`;
