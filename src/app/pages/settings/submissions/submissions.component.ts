@@ -96,6 +96,7 @@ export class SubmissionsComponent {
   selectedId: any;
   selectedItemId: any;
   questionAnswers: any = [];
+  totalSubmissions: any;
 
   constructor(
     private _router: Router,
@@ -179,6 +180,7 @@ export class SubmissionsComponent {
         (response) => {
           this.submissions = response.answers;
           this.allSubmissions = this.submissions;
+          this.totalSubmissions = response.total_question_answers;
           this.refreshTable(this.submissions);
           this.isloading = false;
         },
