@@ -3074,7 +3074,9 @@
         "confirmresendemail": "De veritat voleu tornar a enviar el correu electrònic d'accés al curs?",
         "userexists":"Aquest usuari ja existeix",
         "questionnairemandatoryfields":"Cal omplir tot el qüestionari per continuar..",
-        "bookingcancel":"La teva reserva s'ha cancel·lat correctament."
+        "bookingcancel":"La teva reserva s'ha cancel·lat correctament.",
+        "passwordnotmatch":"Les contrasenyes no coincideixen",
+        "passwordlength":"La contrasenya ha de tenir com a mínim 8 caràcters"
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",

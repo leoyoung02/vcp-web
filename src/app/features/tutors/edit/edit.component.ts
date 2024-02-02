@@ -359,7 +359,6 @@ export class TutorEditComponent {
       tutorFormData['calendly_url'] =  this.tutorUserCalendlyURL
       tutorFormData['calendly_personal_access_token'] =  this.tutorPersonalAccessToken
     }
-    console.log('tutorFormData: ', tutorFormData);
     return Object.keys(tutorFormData).every(key=>tutorFormData[key] !== "")
   }
 
@@ -382,11 +381,8 @@ export class TutorEditComponent {
 
     }
    
-    console.log('isValidCalendlyUrl: ', isValidCalendlyUrl);
-    console.log('isValidCalendlyToken: ', isValidCalendlyToken);
-
+  
     if(isValidCalendlyToken && isFromValid){
-      console.log("valid token")
       this.errorMessage = "";
       
       if(

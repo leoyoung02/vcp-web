@@ -3092,7 +3092,9 @@
         "confirmresendemail": "Do you really want to resend the course access email?",
         "userexists":"This user already exists.",
         "questionnairemandatoryfields":"You need to fill out the entire questionnaire to proceed.",
-        "bookingcancel":"Your booking has been succesfully cancelled."
+        "bookingcancel":"Your booking has been succesfully cancelled.",
+        "passwordnotmatch":"Passwords do not match",
+        "passwordlength":"Password must be at least 8 characters"
     },
     "buddy": {
         "mentorprofile": "Mentor profile",
