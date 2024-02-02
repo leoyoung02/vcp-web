@@ -184,7 +184,7 @@ export class TutorEditComponent {
         ),
       selectAllText: this._translateService.instant('dialog.selectall'),
       unSelectAllText: this._translateService.instant('dialog.clearall'),
-      itemsShowLimit: 2,
+      itemsShowLimit: 6,
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search'),
     }
@@ -231,6 +231,7 @@ export class TutorEditComponent {
           this.mapUserPermissions(data?.user_permissions);
           this.tutorTypeTags = data?.tutor_type_tags;
           this.tutorTypes = data?.all_tutor_types;
+          this.tutorTypes= this.tutorTypes?.sort((a, b) => a?.name_EN.localeCompare(b.name_EN));
           this.formatTutor(data?.tutor);
           this.isLoading = false;
           setTimeout(() => {
