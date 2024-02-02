@@ -96,6 +96,7 @@ export class SubmissionsComponent {
   selectedId: any;
   selectedItemId: any;
   questionAnswers: any = [];
+  totalSubmissions: any;
 
   constructor(
     private _router: Router,
@@ -179,6 +180,7 @@ export class SubmissionsComponent {
         (response) => {
           this.submissions = response.answers;
           this.allSubmissions = this.submissions;
+          this.totalSubmissions = response.total_question_answers;
           this.refreshTable(this.submissions);
           this.isloading = false;
         },
@@ -302,8 +304,22 @@ export class SubmissionsComponent {
   viewAnswer(item) {
     this.selectedId = item.id;
     this.selectedItem = item;
-    this.questionAnswers = item?.question_items || [];
-    this.modalbutton0?.nativeElement.click();
+    this.getResponse();
+  }
+
+  getResponse() {
+    this._companyService
+      .getResponse(this.companyId, this.userId, this.selectedItem?.question_id, this.selectedItem?.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response) => {
+          this.questionAnswers = response?.question_items || [];
+          this.modalbutton0?.nativeElement.click();
+        },
+        (error) => {
+          
+        }
+      );
   }
 
   getSubmissionDate(submission) {

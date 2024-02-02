@@ -208,6 +208,7 @@ import {
   EDIT_CUSTOMER_SITE_DETAILS_URL,
   FILTER_SETTINGS_URL,
   EDIT_FILTER_SETTINGS_URL,
+  RESPONSE_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1285,6 +1286,12 @@ export class CompanyService {
 
   getSubmissions(id, userId): Observable<any> {
     return this._http.get(`${SUBMISSIONS_URL}/${id}/${userId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getResponse(id, userId, questionId, questionAnswerId): Observable<any> {
+    return this._http.get(`${RESPONSE_URL}/${id}/${userId}/${questionId}/${questionAnswerId}`,
       { headers: this.headers }
     ).pipe(map(res => res));
   }
