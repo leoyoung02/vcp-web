@@ -352,7 +352,7 @@ export class ProfileComponent {
         ),
       selectAllText: this._translateService.instant('dialog.selectall'),
       unSelectAllText: this._translateService.instant('dialog.clearall'),
-      itemsShowLimit: 6,
+      itemsShowLimit: 5,
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search')
     }
@@ -1312,9 +1312,7 @@ export class ProfileComponent {
         formData["company_logo"] = "empty_avatar.png";
       }
       if(this.tutorInfo?.user_id == this.userId){
-        if(typeIdArray?.length){
-          formData['type_ids'] = typeIdArray
-        }
+        formData['type_ids'] = typeIdArray
   
         if(this.companyId){
           formData['company_id'] = this.companyId
