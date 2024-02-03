@@ -352,7 +352,7 @@ export class ProfileComponent {
         ),
       selectAllText: this._translateService.instant('dialog.selectall'),
       unSelectAllText: this._translateService.instant('dialog.clearall'),
-      itemsShowLimit: 2,
+      itemsShowLimit: 6,
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search')
     }
