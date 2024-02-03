@@ -3064,7 +3064,9 @@
         "confirmresendemail": "Möchten Sie die Kurszugangs-E-Mail wirklich erneut senden?",
         "userexists":"Dieser Benutzer existiert bereits",
         "questionnairemandatoryfields":"Sie müssen den gesamten Fragebogen ausfüllen, um fortzufahren.",
-        "bookingcancel":"Ihre Buchung wurde erfolgreich storniert."
+        "bookingcancel":"Ihre Buchung wurde erfolgreich storniert.",
+        "passwordnotmatch":"Passwörter stimmen nicht überein",
+        "passwordlength":"Das Passwort muss mindestens 8 Zeichen lang sein"
     },
     "buddy": {
         "mentorprofile": "Mentorprofil",

@@ -134,6 +134,7 @@ export class TestimonialEditComponent {
   customMemberTypes :any;
   userRoleType:any;
   customMemberTypeId:any;
+  isAuthorExsist:boolean = true;
 
 
   @ViewChild('myPond', {static: false}) myPond: any;
@@ -619,10 +620,14 @@ export class TestimonialEditComponent {
   saveTestimonial() {
     this.errorMessage = "";
     this.formSubmitted = true;
-
-    if (
+    
+    let author = this.testimonialForm.get("author")?.value;
+    this.isAuthorExsist = this.testimonialForm.get("author")?.value ? true : false
+    console.log('this.isAuthorExsist: ', this.isAuthorExsist);
+    if ( 
       this.testimonialForm?.get('short_description')?.errors
       || this.testimonialForm?.get('description')?.errors
+      || !this.isAuthorExsist
     ) {
       this.scrollToTop();
       return false;
@@ -633,7 +638,6 @@ export class TestimonialEditComponent {
     let gallery_items = localStorage.getItem('gallery_filenames');
     let short_description = this.testimonialForm.get("short_description")?.value;
     let description = this.testimonialForm.get("description")?.value;
-    let author = this.testimonialForm.get("author")?.value;
     let social_media_url = this.testimonialForm.get("social_media_url")?.value;
 
     let formData = new FormData();

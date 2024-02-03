@@ -223,7 +223,6 @@ export class TutorsListComponent {
     this.tutors = tutors;
     this.allTutors = tutors;
 
-    console.log(this.tutors)
 
     let selected = localStorage.getItem('tutor-filter-city');
     if(selected && this.list?.length > 0) {
@@ -259,7 +258,7 @@ export class TutorsListComponent {
   getTutorTypes(item) {
     let types: any = []
     if(this.tutorTypes?.length > 0){
-        types = []
+      types = []
         this.tutorTypes.forEach(tt => {
             let typeTutor = tt.tutorTypes.name_ES
             if(tt.tutor_id == item.id && !(types).includes(typeTutor)){
@@ -267,7 +266,6 @@ export class TutorsListComponent {
             }
         })
     }
-    
     if(item?.tutor_type_tags?.length > 0) {
       item?.tutor_type_tags?.forEach(ttt => {
         let typeTutor = ''
