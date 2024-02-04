@@ -1409,7 +1409,8 @@
         "reactivate": "Reactivate",
         "sendpaymentlink": "Payment link",
         "send": "Send",
-        "editstatus": "Edit status"
+        "editstatus": "Edit status",
+        "time": "Time"
     },
     "edit-plan": {
         "uploadimage": "Upload image",

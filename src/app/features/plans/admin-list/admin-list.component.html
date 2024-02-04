@@ -50,6 +50,18 @@
             <span class="sr-only">Loading...</span>
         </div>
         <mat-table *ngIf="!isLoading" [dataSource]="dataSource" matSort class="manage-list">
+            <ng-container matColumnDef="plan_image">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'plan-details.image' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="title">
+                    <img 
+                        *ngIf="row?.image"
+                        class="rounded-lg object-cover object-top w-[120px] h-[100px]"
+                        width="120"
+                        height="100"
+                        [ngSrc]="apiPath + (row?.plan_type_id == 4 ? '/get-image-group-plan/' : '/get-ie-image-plan/') + row?.image"
+                    />
+                </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="title">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'your-admin-area.name' | translate }} </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="title">
@@ -59,9 +71,9 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="plan_date_display">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'your-admin-area.date' | translate }} </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ company?.id == 12 ? ('your-admin-area.time' | translate) : ('your-admin-area.date' | translate) }} </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="plan_date_display">
-                   {{ row?.plan_date_display }}
+                   {{ company?.id == 12 ? row?.time_display : row?.plan_date_display }}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="attendees">

@@ -12,8 +12,9 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlansService } from '@features/services';
-import moment from "moment";
 import { FormsModule } from '@angular/forms';
+import { environment } from "@env/environment";
+import moment from "moment";
 
 @Component({
     selector: 'app-plans-admin-list',
@@ -54,7 +55,7 @@ export class PlansAdminListComponent {
     placeholderText: any;
     plansData: any = [];
     dataSource: any;
-    displayedColumns = ["title", "plan_date_display", "attendees", "action"];
+    displayedColumns = ["plan_image", "title", "plan_date_display", "attendees", "action"];
     pageSize: number = 10;
     pageIndex: number = 0;
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator | undefined;
@@ -83,6 +84,8 @@ export class PlansAdminListComponent {
     isSalesPerson: boolean = false;
     paidPlanSubscriptions: any = [];
     invoiceDetails: any;
+    apiPath: string = environment.api;
+    kcnTypes: any = [];
 
     constructor(
         private _route: ActivatedRoute,
@@ -161,6 +164,7 @@ export class PlansAdminListComponent {
             this.formatPlans(data?.plans || []);
             if(this.company?.id == 12) {
               this.initializeButtonGroup();
+              this.getEventTypes()
             }
           },
           (error) => {
@@ -214,6 +218,16 @@ export class PlansAdminListComponent {
         });
       });
      }
+    }
+
+    getEventTypes() {
+      this._plansService.getEventTypes(this.company?.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(data => {
+        this.kcnTypes = data.types;
+      }, err => {
+        console.log(err);
+      });
     }
 
     getCategoryTitle(category) {
@@ -410,6 +424,17 @@ export class PlansAdminListComponent {
         })
       }
 
+
+      let formattedPlans = this.plansData?.map((item) => {
+        let plan_date_display = moment.utc(item.plan_date).locale(this.language).format('DD-MM-YYYY HH:mm')
+        let date_display = moment.utc(item.plan_date).locale(this.language).format('M/D/YYYY')
+        let time_display = moment.utc(item.plan_date).locale(this.language).format('HH:mm A')
+        return {
+          ...item,
+          time_display,
+        };
+      });
+      this.plansData = formattedPlans;
       this.refreshTable(this.plansData);
     }
 
@@ -735,6 +760,7 @@ export class PlansAdminListComponent {
               dt = {
                 'Evento': plan_data[0].title,
                 'Fecha': plan_date_display,
+                'Hora': time_display,
                 'Nombre': user_name,
                 'Papel': p.role,
                 'Teléfono': p.phone,
@@ -746,17 +772,40 @@ export class PlansAdminListComponent {
                 'Pagado': invoice,
               }
             } else {
-              dt = {
-                'Evento': plan_data[0].title,
-                'Fecha': plan_date_display,
-                'Nombre': user_name,
-                'Papel': p.role,
-                'Teléfono': p.phone,
-                'Email': p.email,
-                'Código postal': p.zip_code,
-                'Invitado por': p.invited_by,
-                'Asistio': status,
-                'Registrado': p.participant_created ? moment(p.participant_created).format('DD-MM-YYYY HH:mm') : ''
+              if(this.company?.id == 12) {
+                dt = {
+                  'Tipo de evento': plan_data[0].title,
+                  'Modalidad': this.getEventType(plan_data[0].event_type_id),
+                  'Fecha': plan_date_display,
+                  'Hora': time_display,
+                  'Nombre y apellidos': user_name,
+                  'Role': p.role,
+                  'Teléfono': p.phone,
+                  'Email': p.email,
+                  'Código postal': p.zip_code,
+                  'Pais': p.country,
+                  'zona': '',
+                  'Asistencia': status,
+                  'Invitado por': p.invited_by,
+                  'Comercial': '',
+                  'Delegado': '',
+                  'coordinador': '',
+                  'Observaciones': ''
+                }
+              } else {
+                dt = {
+                  'Evento': plan_data[0].title,
+                  'Fecha': plan_date_display,
+                  'Hora': time_display,
+                  'Nombre': user_name,
+                  'Papel': p.role,
+                  'Teléfono': p.phone,
+                  'Email': p.email,
+                  'Código postal': p.zip_code,
+                  'Invitado por': p.invited_by,
+                  'Asistio': status,
+                  'Registrado': p.participant_created ? moment(p.participant_created).format('DD-MM-YYYY HH:mm') : ''
+                }
               }
             }
             event_data.push(dt)
@@ -766,6 +815,20 @@ export class PlansAdminListComponent {
   
       this._excelService.exportAsExcelFile(event_data, 'event-' + event.id);
       this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+    }
+
+    getEventType(type_id) {
+      let type = ''
+      if(this.kcnTypes?.length > 0) {
+        let type_row = this.kcnTypes?.filter(kt => {
+          return kt.id == type_id
+        })
+        if(type_row?.length > 0) {
+          type = this.language == 'en' ? type_row[0].type_en : type_row[0].type_es
+        }
+      }
+  
+      return type
     }
 
     filteredCity(event) { 

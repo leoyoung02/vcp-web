@@ -1403,7 +1403,8 @@
         "reactivate": "Reaktivieren",
         "sendpaymentlink": "Zahlungslink",
         "senden": "Senden",
-        "editstatus": "Status bearbeiten"
+        "editstatus": "Status bearbeiten",
+        "time": "Zeit"
     },
     "edit-plan": {
         "uploadimage": "Bild hochladen",
