@@ -39,7 +39,7 @@
         </div>
     </div>
 </ng-container>
-<ng-container *ngIf="page == 'list'">
+<ng-container *ngIf="page == 'list' || page == 'category'">
     <div class="bg-white rounded-lg w-full max-w-full hover:cursor-pointer" (click)="handleDetailsRoute(id)">
         <div class="relative" [ngStyle]="{'box-shadow': '0px 40px 54px -45px #00000099'}">
             <div 

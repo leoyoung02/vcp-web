@@ -1407,7 +1407,8 @@
         "reactivate": "Reactivar",
         "sendpaymentlink": "Enllaç de pagament",
         "send": "Enviar",
-        "editstatus": "Edita l'estat"
+        "editstatus": "Edita l'estat",
+        "time": "Temps"
     },
     "edit-plan": {
         "uploadimage": "Carregar imatge",

@@ -10,8 +10,8 @@
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 pt-12 pb-4">
                     <ng-container *ngFor="let field of section?.fields; let i = index;">
                         <div class="text-center" 
-                            [ngClass]="{'col-span-2': field.field == 'image'}"
-                            *ngIf="field.field != 'password' && field.field != 'birthday' && field.field != 'company_logo'">
+                            [ngClass]="{'col-span-2': field.field == 'image' && !hasCompanyImageField}"
+                            *ngIf="field.field != 'password' && field.field != 'birthday'">
                             <div *ngIf="field.field_type == 'image' && field.field == 'image'">
                                 <div class="container upload-btn-wrapper profile-image">
                                     <div>
@@ -40,6 +40,44 @@
                                             <div class="text-center absolute bottom-2 left-0 right-0 m-auto">
                                                 <label
                                                     for="image"
+                                                    [ngStyle]="{'background-color': buttonColor}"
+                                                    class="btn text-white"
+                                                >
+                                                    {{ 'club-create.uploadimage' | translate }}
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div *ngIf="field.field_type == 'image' && field.field == 'company_logo'">
+                                <div class="container upload-btn-wrapper profile-image">
+                                    <div>
+                                        <div class="font-semibold mb-2">{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} </div>
+                                        <div class="flex items-center justify-center mb-8 relative">
+                                            <input 
+                                                #companylogofile
+                                                id="logo"
+                                                name="logo" 
+                                                type="file"
+                                                style="display:none;"
+                                                (change)="uploadCompanyLogo($event)"
+                                            />
+                                            <div 
+                                                class="grid max-w-xl text-center shadow-2xl bg-neutral-50 rounded-xl place-items-center bg-opacity-5 backdrop-filter backdrop-blur"
+                                                [ngClass]="{'p-6': !hasCompanyLogoImage}"
+                                            >
+                                                <div
+                                                    class="grid mb-8 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300 place-items-center"
+                                                    [ngClass]="{'w-28 h-28': !hasCompanyLogoImage, 'w-40 h-40': hasCompanyLogoImage}"
+                                                >
+                                                    <img *ngIf="!hasCompanyLogoImage" width="40" height="40" src="./assets/images/new-design/camera.png" />
+                                                    <img *ngIf="hasCompanyLogoImage" class="rounded-xl object-contain" src="{{ myCompanyLogoImage }}" />
+                                                </div>
+                                            </div>
+                                            <div class="text-center absolute bottom-2 left-0 right-0 m-auto">
+                                                <label
+                                                    for="logo"
                                                     [ngStyle]="{'background-color': buttonColor}"
                                                     class="btn text-white"
                                                 >

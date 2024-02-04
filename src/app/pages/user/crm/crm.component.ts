@@ -124,6 +124,8 @@ export class CRMComponent {
   manageGuestsData: any = [];
   allManagedGuestsData: any = [];
   allCRMData: any;
+  selectedSector: string = '';
+  zipCode: string = '';
 
   constructor(
     private _router: Router,
@@ -751,11 +753,31 @@ export class CRMComponent {
           })
         }
       }
+
+      if(this.selectedSector) {
+        crm = crm?.filter(d => {
+          return d.sector == this.selectedSector
+        })
+      }
+
+      if(this.zipCode) {
+        crm = crm?.filter(d => {
+          return d.zip_code?.indexOf(this.zipCode) >= 0
+        })
+      }
     }
 
     this.filteredData = crm;
     this.formatCRM(this.filteredData);
     this.refreshTable(this.filteredData);
+  }
+
+  handleChangeSector() {
+    this.filterCRM();
+  }
+
+  onZipCodeChange() {
+    this.filterCRM();
   }
 
   async open(message: string, action: string) {

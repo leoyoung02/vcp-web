@@ -1404,7 +1404,8 @@
         "reactivate": "Berriaktibatu",
         "sendpaymentlink": "Ordainketa esteka",
         "send": "Bidali",
-        "editstatus": "Editatu egoera"
+        "editstatus": "Editatu egoera",
+        "time": "Denbora"
     },
     "edit-plan": {
         "uploadimage": "Igo irudia",

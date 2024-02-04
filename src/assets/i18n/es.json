@@ -1408,7 +1408,8 @@
         "reactivate": "Reactivar",
         "sendpaymentlink": "Enlace de pago",
         "send": "Enviar",
-        "editstatus": "Editar estado"
+        "editstatus": "Editar estado",
+        "time": "Hora"
     },
     "edit-plan": {
         "uploadimage": "Cargar imagen",

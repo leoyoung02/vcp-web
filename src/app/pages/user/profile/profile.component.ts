@@ -176,6 +176,7 @@ export class ProfileComponent {
   selectedCourseTutorType:any = []
   tutorTypeTags:any = [];
   tutorInfo:any
+  uploadImageMode: string = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -1196,6 +1197,20 @@ export class ProfileComponent {
   }
 
   async uploadPhoto(event: any) {
+    this.uploadImageMode = 'profile';
+    this.imageChangedEvent = event;
+    const file = event.target.files[0];
+    if (file.size > 2000000) {
+    } else {
+      initFlowbite();
+      setTimeout(() => {
+        this.modalbutton?.nativeElement.click();
+      }, 500);
+    }
+  }
+
+  async uploadCompanyLogo(event: any) {
+    this.uploadImageMode = 'companylogo';
     this.imageChangedEvent = event;
     const file = event.target.files[0];
     if (file.size > 2000000) {
@@ -1209,13 +1224,23 @@ export class ProfileComponent {
 
   imageCropped(event: ImageCroppedEvent) {
     if (event.base64) {
-      this.imageSrc = this.croppedImage = event.base64;
-      this.file = {
-        name: "image",
-        image: base64ToFile(event.base64), //event.file
-      };
-      this.hasImage = true;
-      this.myImage = this.imageSrc;
+      if(this.uploadImageMode == 'companylogo') {
+        this.companyLogoImageSrc = this.croppedImage = event.base64;
+        this.logoFile = {
+          name: "image",
+          image: base64ToFile(event.base64), //event.file
+        };
+        this.hasCompanyLogoImage = true;
+        this.myCompanyLogoImage = this.companyLogoImageSrc;
+      } else {
+        this.imageSrc = this.croppedImage = event.base64;
+        this.file = {
+          name: "image",
+          image: base64ToFile(event.base64), //event.file
+        };
+        this.hasImage = true;
+        this.myImage = this.imageSrc;
+      }
     }
   }
 
@@ -1398,8 +1423,8 @@ export class ProfileComponent {
   }
 
   updateLogoFile(formData) {
-    if (this.logoFile?.image) {
-      this._userService.updateASLogo(this.asUser.id, this.logoFile).subscribe(
+    if (this.logoFile?.image && this.companyId == 15) {
+      this._userService.updateASLogo(this.asUser?.id || this.userId, this.logoFile).subscribe(
         (res) => {
           this.updateDynamicForm(formData);
         },
@@ -1427,9 +1452,9 @@ export class ProfileComponent {
           this._userService.updateProfileImage(this.me.id, this.file).subscribe(
             (res) => {
               if (res) {
-                if (this.companylogofile) {
+                if (this.logoFile) {
                   this._userService
-                    .updateCompanyLogoImage(this.me.id, this.companylogofile)
+                    .updateCompanyLogoImage(this.me.id, this.logoFile)
                     .subscribe(
                       (res) => {
                         if (res) {
@@ -1482,9 +1507,9 @@ export class ProfileComponent {
             }
           );
         } else {
-          if (this.companylogofile) {
+          if (this.logoFile) {
             this._userService
-              .updateCompanyLogoImage(this.me.id, this.companylogofile)
+              .updateCompanyLogoImage(this.me.id, this.logoFile)
               .subscribe(
                 (res) => {
                   if (res) {

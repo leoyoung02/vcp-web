@@ -927,3 +927,8 @@ div.event-description a {
 .script-full-height iframe {
     min-height: 456px;
 }
+
+.mat-column-plan_image { 
+  flex: 0 0 10% !important;
+  width: 10% !important;
+}
