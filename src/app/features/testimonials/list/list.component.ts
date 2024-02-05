@@ -12,7 +12,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { TestimonialCardComponent } from '@share/components/card/testimonial/testimonial.component';
 import moment from "moment";
 import get from 'lodash/get';
-import he from 'he';
+import * as he from 'he';
 
 @Component({
   selector: 'app-testimonials-list',

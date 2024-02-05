@@ -44,6 +44,7 @@ export class MemberCardComponent {
   @Input() email: any;
   @Input() references: any;
   @Input() image: any;
+  @Input() logo: any;
   @Input() buttonColor: any;
   @Input() page: any;
   @Output() sendReference = new EventEmitter();

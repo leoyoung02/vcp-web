@@ -67,11 +67,16 @@ export class TestimonialCardComponent {
         }
       );
 
-    this.formatData();
-  }
+    this.formatAuthorName();
 
-  formatData() {
+  }
+  formatData(){
     
+  }
+  formatAuthorName(){
+    const parser = new DOMParser();
+    const parsedHTML = parser.parseFromString(this.author, 'text/html');
+    this.author = parsedHTML.body.textContent;
   }
 
   toggleReadHover(event, id) {

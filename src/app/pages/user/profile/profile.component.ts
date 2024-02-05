@@ -42,6 +42,7 @@ import each from "lodash/each";
 import keys from "lodash/keys";
 import filter from "lodash/filter";
 import moment from "moment";
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 
 @Component({
   standalone: true,
@@ -57,6 +58,7 @@ import moment from "moment";
     EditorModule,
     PageTitleComponent,
     ToastComponent,
+    NgMultiSelectDropDownModule
   ],
   templateUrl: "./profile.component.html",
 })
@@ -169,6 +171,12 @@ export class ProfileComponent {
   acceptText: string = "";
   cancelText: string = "";
   company: any;
+  tutorTypes: any = [];
+  tutorTypeDropdownSettings: any
+  selectedCourseTutorType:any = []
+  tutorTypeTags:any = [];
+  tutorInfo:any
+  uploadImageMode: string = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -331,7 +339,26 @@ export class ProfileComponent {
     if (this.hasTutors) {
       this.getTutors();
     }
+
+    this.tutorTypeDropdownSettings = {
+      singleSelection: false,
+      idField: 'id',
+      textField: this.language == 'en' ? 'name_EN' :
+        (this.language == 'fr' ? 'name_FR' : 
+            (this.language == 'eu' ? 'name_EU' : 
+            (this.language == 'ca' ? 'name_CA' : 
+                (this.language == 'de' ? 'name_DE' : 'name_ES')
+            )
+            )
+        ),
+      selectAllText: this._translateService.instant('dialog.selectall'),
+      unSelectAllText: this._translateService.instant('dialog.clearall'),
+      itemsShowLimit: 5,
+      allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search')
+    }
   }
+
 
   getUserMemberTypes() {
     this._userService.getUserMemberType(this.userId).subscribe(
@@ -940,6 +967,31 @@ export class ProfileComponent {
       .subscribe(
         (response) => {
           this.tutor = response[0] ? response[0]["tutor"] : [];
+          this.tutorInfo = response[6] ? response[6]["tutor"]:[];
+          this.tutorTypeTags = response[6] ? response[6]["tutor_type_tags"]:[];
+          this.tutorTypes = response[6] ? response[6]["all_tutor_types"] : [];
+          this.tutorTypes= this.tutorTypes?.sort((a, b) => a?.name_EN.localeCompare(b.name_EN));
+          const temp:any = []
+          if(this.tutorTypes?.length > 0) {
+            this.tutorTypes?.forEach(tt => {
+              this.tutorTypeTags?.forEach(ttt => {
+                if(ttt.type_id == tt.id){
+                  temp.push(tt)
+                }
+              })
+            })
+          }
+          this.selectedCourseTutorType  = temp.map( category => {
+            return {
+              id: category?.id,
+              name_EN: category?.name_EN,
+              name_ES: category?.name_ES,
+              name_CA: category?.name_CA,
+              name_DE: category?.name_DE,
+              name_EU: category?.name_EU,
+              name_FR: category?.name_FR
+            }
+          })
           if (this.me) {
             if (
               this.me.fk_company_id == 32 &&
@@ -1145,6 +1197,20 @@ export class ProfileComponent {
   }
 
   async uploadPhoto(event: any) {
+    this.uploadImageMode = 'profile';
+    this.imageChangedEvent = event;
+    const file = event.target.files[0];
+    if (file.size > 2000000) {
+    } else {
+      initFlowbite();
+      setTimeout(() => {
+        this.modalbutton?.nativeElement.click();
+      }, 500);
+    }
+  }
+
+  async uploadCompanyLogo(event: any) {
+    this.uploadImageMode = 'companylogo';
     this.imageChangedEvent = event;
     const file = event.target.files[0];
     if (file.size > 2000000) {
@@ -1158,13 +1224,23 @@ export class ProfileComponent {
 
   imageCropped(event: ImageCroppedEvent) {
     if (event.base64) {
-      this.imageSrc = this.croppedImage = event.base64;
-      this.file = {
-        name: "image",
-        image: base64ToFile(event.base64), //event.file
-      };
-      this.hasImage = true;
-      this.myImage = this.imageSrc;
+      if(this.uploadImageMode == 'companylogo') {
+        this.companyLogoImageSrc = this.croppedImage = event.base64;
+        this.logoFile = {
+          name: "image",
+          image: base64ToFile(event.base64), //event.file
+        };
+        this.hasCompanyLogoImage = true;
+        this.myCompanyLogoImage = this.companyLogoImageSrc;
+      } else {
+        this.imageSrc = this.croppedImage = event.base64;
+        this.file = {
+          name: "image",
+          image: base64ToFile(event.base64), //event.file
+        };
+        this.hasImage = true;
+        this.myImage = this.imageSrc;
+      }
     }
   }
 
@@ -1227,16 +1303,22 @@ export class ProfileComponent {
       ) {
         this.invalidPassword = true;
         this.invalidPasswordMessage = "Las contraseñas no coinciden";
+        this.open(this._translateService.instant("dialog.passwordnotmatch"), "");
         return false;
       } else {
         if (this.profileForm.get("password").value.length < 8) {
           this.invalidPassword = true;
           this.invalidPasswordMessage =
             "La contraseña debe tener al menos 8 caracteres";
+            this.open(this._translateService.instant("dialog.passwordlength"), "");
           return false;
         }
       }
     }
+    let typeIdArray: any[] = [];
+    this.selectedCourseTutorType?.forEach(sctt => {
+      typeIdArray.push(sctt?.id);
+    })
 
     if (this.isValidForm()) {
       let formData = [];
@@ -1254,12 +1336,23 @@ export class ProfileComponent {
       if (!this.hasCompanyLogoImage) {
         formData["company_logo"] = "empty_avatar.png";
       }
+      if(this.tutorInfo?.user_id == this.userId){
+        formData['type_ids'] = typeIdArray
+  
+        if(this.companyId){
+          formData['company_id'] = this.companyId
+        }
+  
+        if(this.tutorInfo?.user_id !== null){
+          formData['tutor_id'] = this.tutorInfo.id
+        }
+      }
 
       if (this.showProfileFieldsInMembers) {
         let params = {
           company_id: this.companyId,
           custom_member_type_id: this.memberTypeId,
-          settings: this.selectedFields,
+          settings: this.selectedFields
         };
         this._userService
           .manageProfileFieldSettings(this.userId, params)
@@ -1330,8 +1423,8 @@ export class ProfileComponent {
   }
 
   updateLogoFile(formData) {
-    if (this.logoFile?.image) {
-      this._userService.updateASLogo(this.asUser.id, this.logoFile).subscribe(
+    if (this.logoFile?.image && this.companyId == 15) {
+      this._userService.updateASLogo(this.asUser?.id || this.userId, this.logoFile).subscribe(
         (res) => {
           this.updateDynamicForm(formData);
         },
@@ -1359,9 +1452,9 @@ export class ProfileComponent {
           this._userService.updateProfileImage(this.me.id, this.file).subscribe(
             (res) => {
               if (res) {
-                if (this.companylogofile) {
+                if (this.logoFile) {
                   this._userService
-                    .updateCompanyLogoImage(this.me.id, this.companylogofile)
+                    .updateCompanyLogoImage(this.me.id, this.logoFile)
                     .subscribe(
                       (res) => {
                         if (res) {
@@ -1414,9 +1507,9 @@ export class ProfileComponent {
             }
           );
         } else {
-          if (this.companylogofile) {
+          if (this.logoFile) {
             this._userService
-              .updateCompanyLogoImage(this.me.id, this.companylogofile)
+              .updateCompanyLogoImage(this.me.id, this.logoFile)
               .subscribe(
                 (res) => {
                   if (res) {

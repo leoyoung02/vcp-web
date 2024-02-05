@@ -87,6 +87,7 @@ export class MembersListComponent {
   selectedCity: any;
   selectedSector: any;
   showMembersCount: boolean = false;
+  featureTitle: string = '';
 
   constructor(
     private _router: Router,
@@ -203,7 +204,9 @@ export class MembersListComponent {
   mapFeatures(features) {
     this.membersFeature = features?.find((f) => f.feature_id == 15);
     this.featureId = this.membersFeature?.id;
-    this.pageName = this.getFeatureTitle(this.membersFeature);
+    let featureName = this.getFeatureTitle(this.membersFeature);
+    this.featureTitle = featureName;
+    this.pageName = featureName;
     this.pageDescription = this.getFeatureDescription(this.membersFeature);
   }
 
@@ -286,6 +289,7 @@ export class MembersListComponent {
         id: item?.id,
         path: `/members/details/${item.id}`,
         image: `${environment.api}/${item.image}`,
+        company_image: `${environment.api}/${item.company_logo}`,
         display_name: item?.first_name ? `${item?.first_name} ${item?.last_name}` : item?.name,
         email: `mailto:${item?.email}`,
         phone: `tel:${item?.phone}`
@@ -308,7 +312,7 @@ export class MembersListComponent {
     }
 
     if(this.showMembersCount) {
-      this.pageName += this.showMembersCount && this.members?.length > 0 ? ` (+${this.members?.length})` : '';
+      this.pageName = this.featureTitle + (this.showMembersCount && this.members?.length > 0 ? ` (+${this.members?.length})` : '');
     }
   }
 

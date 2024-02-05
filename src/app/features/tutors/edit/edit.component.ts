@@ -184,7 +184,7 @@ export class TutorEditComponent {
         ),
       selectAllText: this._translateService.instant('dialog.selectall'),
       unSelectAllText: this._translateService.instant('dialog.clearall'),
-      itemsShowLimit: 2,
+      itemsShowLimit: 6,
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search'),
     }
@@ -231,6 +231,7 @@ export class TutorEditComponent {
           this.mapUserPermissions(data?.user_permissions);
           this.tutorTypeTags = data?.tutor_type_tags;
           this.tutorTypes = data?.all_tutor_types;
+          this.tutorTypes= this.tutorTypes?.sort((a, b) => a?.name_EN.localeCompare(b.name_EN));
           this.formatTutor(data?.tutor);
           this.isLoading = false;
           setTimeout(() => {
@@ -359,7 +360,6 @@ export class TutorEditComponent {
       tutorFormData['calendly_url'] =  this.tutorUserCalendlyURL
       tutorFormData['calendly_personal_access_token'] =  this.tutorPersonalAccessToken
     }
-    console.log('tutorFormData: ', tutorFormData);
     return Object.keys(tutorFormData).every(key=>tutorFormData[key] !== "")
   }
 
@@ -382,11 +382,8 @@ export class TutorEditComponent {
 
     }
    
-    console.log('isValidCalendlyUrl: ', isValidCalendlyUrl);
-    console.log('isValidCalendlyToken: ', isValidCalendlyToken);
-
+  
     if(isValidCalendlyToken && isFromValid){
-      console.log("valid token")
       this.errorMessage = "";
       
       if(

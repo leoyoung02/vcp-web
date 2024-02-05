@@ -95,6 +95,31 @@
         </div>
     </div>
 </div>
+<div class="py-3 flex flex-wrap items-center align-center">
+    <input 
+        type="text" 
+        class="md:w-[300px] lg:w-[300px] mr-4 text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+        [(ngModel)]="zipCode"
+        [ngModelOptions]="{standalone: true}"
+        placeholder="{{ 'crm.postalcode' | translate }}"
+        (input)="onZipCodeChange()">
+    <select 
+        id="sector" 
+        [(ngModel)]="selectedSector"
+        [ngModelOptions]="{standalone: true}"
+        class="md:w-[300px] lg:w-[300px bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        [ngStyle]="{'border-color': buttonColor}"
+        (change)="handleChangeSector()"
+    >
+        <option value="" selected>{{ 'category.selectsector' | translate }}</option>
+        <option
+            *ngFor="let sector of sectors"
+            [value]="sector.name"
+        >
+            {{ sector?.name }}
+        </option>
+    </select>
+</div>
 <div class="py-6">
     <div class="w-full min-w-full">
         <div class="mat-table-responsive users-table-container">

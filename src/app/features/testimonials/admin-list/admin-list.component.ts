@@ -24,7 +24,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ToastComponent } from "@share/components";
 import { environment } from "@env/environment";
 import moment from "moment";
-import he from 'he';
+import * as he from 'he';
 
 @Component({
   selector: "app-testimonials-admin-list",

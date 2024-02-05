@@ -194,20 +194,20 @@
                 >
                 </app-calendly>
             </div>
-            <ng-container *ngIf="!isValidCalenldyAccount">
-                <div class="h-full max-h-full flex align-center items-center justify-center">   
-                    <p>{{'tutors.notsetupaccount' | translate}}</p>
-                </div>
-            </ng-container>
-            <ng-container *ngIf="!canBook() || !tutorCalendlyUrl || !tutorPersonalAccessToken">
-                <div class="h-full max-h-full flex align-center items-center justify-center">
+            <ng-container *ngIf="!canBook() || !tutorCalendlyUrl || !tutorPersonalAccessToken || !isValidCalenldyAccount">
+                <div class="h-full max-h-full flex-col flex align-center items-center justify-center">
                     <div class="flex-col">
                         <div class="text-center flex justify-center mb-4">
                             <svg class="w-16 h-16 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z"/>
                             </svg>
                         </div>
-                        <div class="capitalize font-bold px-8 text-center">
+                        <ng-container *ngIf="!isValidCalenldyAccount">
+                            <div class="flex align-center items-center justify-center">
+                                <p>{{'tutors.notsetupaccount' | translate}}</p>
+                            </div>
+                        </ng-container>
+                        <div class="capitalize font-bold px-20 text-center">
                             {{ !canBook() ? 
                                 ('course-create.insufficientcredits' | translate) : 
                                 (!tutorCalendlyUrl || !tutorPersonalAccessToken ? 

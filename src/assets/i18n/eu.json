@@ -1404,7 +1404,8 @@
         "reactivate": "Berriaktibatu",
         "sendpaymentlink": "Ordainketa esteka",
         "send": "Bidali",
-        "editstatus": "Editatu egoera"
+        "editstatus": "Editatu egoera",
+        "time": "Denbora"
     },
     "edit-plan": {
         "uploadimage": "Igo irudia",
@@ -3065,7 +3066,9 @@
         "confirmresendemail": "Benetan nahi al duzu ikastaroaren sarbide-mezua berriro bidali?",
         "userexists":"Erabiltzaile hau jada existitzen da",
         "questionnairemandatoryfields":"Jarraitzeko, galdetegi osoa bete behar duzu.",
-        "bookingcancel":"Zure erreserba behar bezala bertan behera utzi da."
+        "bookingcancel":"Zure erreserba behar bezala bertan behera utzi da.",
+        "passwordnotmatch":"Pasahitzak ez datoz bat",
+        "passwordlength":"Pasahitzak 8 karaktere izan behar ditu gutxienez"
     },
     "buddy": {
         "mentorprofile": "Tutorearen profila",

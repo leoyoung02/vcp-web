@@ -13,8 +13,8 @@
         </div>
     </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-8 py-8">
-    <ng-container *ngFor="let plan of events | paginate: {itemsPerPage: 9, currentPage: p}">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 py-8">
+    <ng-container *ngFor="let plan of events | paginate: {itemsPerPage: 16, currentPage: p}">
         <app-plan-card
             [image]="getImage(plan)"
             [title]="getEventTitle(plan)"
@@ -29,6 +29,7 @@
             [credits]="plan?.credits"
             [price]="plan?.price"
             [buttonColor]="buttonColor"
+            page="category"
             (handleDetailsClick)="goToEventRegistration(plan?.slug)"
         >
         </app-plan-card>

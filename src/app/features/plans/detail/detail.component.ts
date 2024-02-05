@@ -922,7 +922,7 @@ export class PlanDetailComponent {
       this.planDay = moment
         .utc(this.plan.plan_date)
         .locale(this.language)
-        .format("D MMMM");
+        .format("dddd, D MMMM YYYY");
 
       if(this.plan?.limit_date) {
         let end = moment

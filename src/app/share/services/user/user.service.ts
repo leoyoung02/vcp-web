@@ -79,6 +79,7 @@ import {
     CRM_DATA_URL,
     CRM_ASSIGNED_GUESTS_DATA_URL,
     USER_GUID_INFO_URL,
+    TUTOR_DETAILS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
@@ -409,14 +410,16 @@ export class UserService {
     let civil_status = this._http.get(CIVIL_STATUS_URL);
     let wellbeing_activities = this._http.get(WELLBEING_ACTIVITIES_URL);
     let result = this._http.get(`${AREA_GROUPS_URL}/${userId}/${companyId}`);
-
+    let tutorInfo = this._http.get(`${TUTOR_DETAILS_URL}/${userId}/${companyId}/${userId}`);
+    
     return forkJoin([
       tutor,
       user,
       categories,
       civil_status,
       wellbeing_activities,
-      result
+      result,
+      tutorInfo
     ])
   }
 
