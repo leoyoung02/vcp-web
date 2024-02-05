@@ -1,5 +1,5 @@
 import { CommonModule, Location } from "@angular/common";
-import { Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, ViewChild, ChangeDetectorRef } from "@angular/core";
 import { Router } from "@angular/router";
 import {
   LangChangeEvent,
@@ -12,6 +12,7 @@ import { SearchComponent } from "@share/components/search/search.component";
 import {
   CompanyService,
   LocalService,
+  UserService,
 } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
@@ -27,6 +28,13 @@ import { initFlowbite } from "flowbite";
 import { Media } from "@lib/interfaces";
 import get from "lodash/get";
 
+import { FilePondModule, registerPlugin } from 'ngx-filepond';
+import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
+
 @Component({
   selector: "app-personalize-home",
   standalone: true,
@@ -37,6 +45,7 @@ import get from "lodash/get";
     ReactiveFormsModule,
     MatSnackBarModule,
     EmailEditorModule,
+    FilePondModule,
     SearchComponent,
     BreadcrumbComponent,
     ToastComponent,
@@ -74,34 +83,65 @@ export class PersonalizeHomeComponent {
   isSectionsStep: boolean = false;
   isSectionsStepCompleted: boolean = false;
 
-  playlist: Array<Media> = [
-    {
-      title: 'Personalizar diseño',
-      src: `${environment.api}/get-course-unit-file/homeVideoFile_10277_1677186128469.mov`,
-      type: 'video/mp4',
-      poster: `${environment.api}/get-image-company/video-tutorials.png`
-    },
-    {
-      title: 'Activar módulos',
-      src: `${environment.api}/get-course-unit-file/homeVideoFile_10277_1677186128469.mov`,
-      type: 'video/mp4',
-      poster: `${environment.api}/get-image-company/video-tutorials.png`
-    },
-    {
-      title: 'Configuración de privacidad',
-      src: `${environment.api}/get-course-unit-file/homeVideoFile_10277_1677186128469.mov`,
-      type: 'video/mp4',
-      poster: `${environment.api}/get-image-company/video-tutorials.png`
-    },
-    {
-      title: 'Configuración del menú',
-      src: `${environment.api}/get-course-unit-file/homeVideoFile_10277_1677186128469.mov`,
-      type: 'video/mp4',
-      poster: `${environment.api}/get-image-company/video-tutorials.png`
-    }
-  ];
+  playlist: Array<Media> = [];
   homeTemplates: any = [];
   activeLayoutId: any;
+
+  videoFileName: any
+  videoFile: any
+  selectedVideoOption: any = 'Self-hosted'
+  externalLink: any = ''
+  videoFormSubmitted: boolean = false
+  videoOptions = ['YouTube', 'Vimeo', 'External', 'Self-hosted']
+  @ViewChild('myPond', {static: false}) myPond: any;
+  pondOptions = {
+      class: 'my-filepond',
+      multiple: false,
+      labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+      labelFileProcessing: "En curso",
+      labelFileProcessingComplete: "Carga completa",
+      labelFileProcessingAborted: "Carga cancelada",
+      labelFileProcessingError: "Error durante la carga",
+      labelTapToCancel: "toque para cancelar",
+      labelTapToRetry: "toca para reintentar",
+      labelTapToUndo: "toque para deshacer",
+      acceptedFileTypes: 'video/mp4',
+      server: {
+        process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+          const formData = new FormData();
+          let fileExtension = file ? file.name.split('.').pop() : '';
+          this.videoFileName = 'homeVideoFile_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+          formData.append('file', file, this.videoFileName);
+          localStorage.setItem('home_video_file', 'uploading');
+  
+          const request = new XMLHttpRequest();
+          request.open('POST', environment.api + '/company/course/temp-upload');
+  
+          request.upload.onprogress = (e) => {
+            progress(e.lengthComputable, e.loaded, e.total);
+          };
+  
+          request.onload = function () {
+              if (request.status >= 200 && request.status < 300) {
+                load(request.responseText);
+                localStorage.setItem('home_video_file', 'complete');
+              } else {
+                error('oh no');
+              }
+          };
+  
+          request.send(formData);
+  
+          return {
+            abort: () => {
+              request.abort();
+              abort();
+            },
+          };
+        },
+      },
+  };
+  pondFiles = [];
   title: string = '';
   description: string = '';
   
@@ -111,6 +151,9 @@ export class PersonalizeHomeComponent {
   sectionOptions: any = [];
   user: any;
   customMemberTypeId: any;
+  customMemberType: any = [];
+  selectedProfile: any = '';
+  profileHomeContent: any = [];
 
   templates: any;
   template: any;
@@ -145,14 +188,26 @@ export class PersonalizeHomeComponent {
   includedFeatures: any = [];
   modulesOrder: any = [];
   homePersonalizeSettings: any;
+  activatedTemplate: boolean = false;
+  homeVideoPlaylist: Array<Media> = [];
+  homeTemplate: any;
+  showVideo: boolean = false
+  showTitle: boolean = false
+  videoTitle: any
+  videoDescription: any
+  templateVideoFile: any
+  showCourses: boolean = false
+  showEvents: boolean = false
 
   constructor(
     private _router: Router,
     private _companyService: CompanyService,
     private _translateService: TranslateService,
     private _localService: LocalService,
+    private _userService: UserService,
     private _snackBar: MatSnackBar,
-    private _location: Location
+    private _location: Location,
+    private cd: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
@@ -211,6 +266,11 @@ export class PersonalizeHomeComponent {
 
   initializeHomeTemplates() {
     this.initializeSettings();
+    this.initializeTemplates();
+    this.getLandingTemplates();
+  }
+
+  initializeTemplates() {
     this.homeTemplates.push(
       {
         id: 1,
@@ -236,7 +296,6 @@ export class PersonalizeHomeComponent {
         (!this.company?.predefined_template_id && !this.company?.predefined_template) ? 3 : 0
       )
     )
-    this.getLandingTemplates();
   }
 
   initializeSettings() {
@@ -289,6 +348,42 @@ export class PersonalizeHomeComponent {
     )
   }
 
+  getCustomMemberTypes(member_types) {
+    this.customMemberType = member_types;
+    this.profileHomeContent.push({
+      id: 0,
+      type: 'General',
+      type_en: '',
+      type_fr: '',
+      type_de: '',
+      type_eu: '',
+      type_ca: '',
+      video_title: this.videoTitle,
+      video_description: this.videoDescription,
+      video_file: this.templateVideoFile,
+      selected_video_option: this.selectedVideoOption,
+      has_courses: 0,
+      has_events: 0
+    })
+    this.customMemberType?.forEach(cmt => {
+      this.profileHomeContent.push({
+        id: cmt.id,
+        type: cmt.type,
+        type_en: cmt.type_en,
+        type_fr: cmt.type_fr,
+        type_de: cmt.type_de,
+        type_eu: cmt.type_eu,
+        type_ca: cmt.type_ca,
+        video_title: '',
+        video_description: '',
+        video_file: '',
+        selected_video_option: '',
+        has_courses: 0,
+        has_events: 0
+      })
+    })
+  }
+
   getPredefinedTemplate(id) {
     this._companyService.getHomeTemplate(id, this.companyId).subscribe(
       (response) => {
@@ -334,6 +429,17 @@ export class PersonalizeHomeComponent {
         this.predefinedTemplate = this.predefinedTemplate?.length > 0 ? this.predefinedTemplate[0] : "";
         this.title = this.predefinedTemplate?.video_title || "";
         this.description = this.predefinedTemplate?.video_description || "";
+
+        if(this.predefinedTemplate?.has_video && this.predefinedTemplate?.video_file) {
+          this.homeVideoPlaylist = [
+            {
+              title: this.title,
+              src: `${environment.api}/get-course-unit-file/${this.predefinedTemplate?.video_file}`,
+              type: 'video/mp4',
+              poster: `${environment.api}/get-image-company/video-tutorials.png`
+            },
+          ];
+        }
       },
       (error) => {
         console.log(error);
@@ -368,45 +474,45 @@ export class PersonalizeHomeComponent {
 
   loadContent() {
     if(this.template?.id > 0) {
-        this._companyService.getLandingTemplate(this.template?.id, this.companyId)
-        .subscribe(
-            async (response) => {
-                this.template = response.template
-                if(response.template) {
-                  this.source = this.template.source
-                  this.source_es = this.template.source_es
-                  this.source_eu = this.template.source_eu
-                  this.source_fr = this.template.source_fr
-                  this.source_de = this.template.source_de
-                  this.source_ca = this.template.source_ca
+      this._companyService.getLandingTemplate(this.template?.id, this.companyId)
+      .subscribe(
+        async (response) => {
+          this.template = response.template
+          if(response.template) {
+            this.source = this.template.source
+            this.source_es = this.template.source_es
+            this.source_eu = this.template.source_eu
+            this.source_fr = this.template.source_fr
+            this.source_de = this.template.source_de
+            this.source_ca = this.template.source_ca
 
-                  this.body = this.template.body
-                  this.body_es = this.template.body_es
-                  this.body_eu = this.template.body_eu
-                  this.body_fr = this.template.body_fr
-                  this.body_de = this.template.body_de
-                  this.body_ca = this.template.body_ca
+            this.body = this.template.body
+            this.body_es = this.template.body_es
+            this.body_eu = this.template.body_eu
+            this.body_fr = this.template.body_fr
+            this.body_de = this.template.body_de
+            this.body_ca = this.template.body_ca
 
-                  this.css = this.template.css
-                  this.css_es = this.template.css_es
-                  this.css_eu = this.template.css_eu
-                  this.css_fr = this.template.css_fr
-                  this.css_de = this.template.css_de
-                  this.css_ca = this.template.css_ca
+            this.css = this.template.css
+            this.css_es = this.template.css_es
+            this.css_eu = this.template.css_eu
+            this.css_fr = this.template.css_fr
+            this.css_de = this.template.css_de
+            this.css_ca = this.template.css_ca
 
-                  this.html = this.template.html
-                  this.html_es = this.template.html_es
-                  this.html_eu = this.template.html_eu
-                  this.html_fr = this.template.html_fr
-                  this.html_de = this.template.html_de
-                  this.html_ca = this.template.html_ca
-                }
-                this.setContent()
-            },
-            error => {
-                console.log(error)
-            }
-        )
+            this.html = this.template.html
+            this.html_es = this.template.html_es
+            this.html_eu = this.template.html_eu
+            this.html_fr = this.template.html_fr
+            this.html_de = this.template.html_de
+            this.html_ca = this.template.html_ca
+          }
+          this.setContent()
+        },
+        error => {
+            console.log(error)
+        }
+      )
     }
   }
 
@@ -461,8 +567,11 @@ export class PersonalizeHomeComponent {
           companyFeatures = companyFeatures?.filter((f) => {
             return f.id != 22 && f.status == 1;
           });
-          this.formatFeatures(companyFeatures);
+          this.formatFeatures(companyFeatures, response['settings']);
           this.homePersonalizeSettings = response['settings'];
+          this.initializeVideoTutorials(this.homePersonalizeSettings);
+          this.getCustomMemberTypes(response['member_types']);
+          this.initializeHomeTemplate(response['template'], response['home_template_mapping']);
         },
         (error) => {
           console.log(error);
@@ -470,15 +579,122 @@ export class PersonalizeHomeComponent {
       );
   }
 
-  formatFeatures(features) {
+  initializeVideoTutorials(settings) {
+    if(settings?.videos?.length > 0) {
+      settings?.videos.forEach(video => {
+        this.playlist.push({
+          title: video?.title,
+          src: `${environment.api}/get-course-unit-file/${video?.video}`,
+          type: 'video/mp4',
+          poster: `${environment.api}/get-image-company/${video?.poster}`
+        })
+      })
+    }
+  }
+
+  initializeHomeTemplate(template, home_template_mapping) {
+    this.homeTemplate = (home_template_mapping)?.filter(tmp => {
+      return !tmp.custom_member_type_id
+    })
+    this.homeTemplate = this.homeTemplate[0]
+
+    let custom_member_template = (home_template_mapping)?.filter(tmp => {
+      return tmp.custom_member_type_id
+    })
+
+    this.profileHomeContent?.forEach(phc => {
+      if(custom_member_template?.title) {
+        let cmt = custom_member_template
+        if(phc.id == cmt.custom_member_type_id){
+          phc.video_title = cmt.video_title
+          phc.video_description = cmt.video_description
+          phc.video_file = cmt.video_file,
+          phc.has_courses = cmt.has_courses ? 1 : 0,
+          phc.has_events = cmt.has_events ? 1 : 0
+        }
+
+        if(phc.video_file) {
+          if(phc.video_file.indexOf('.mp4') >= 0) {
+            phc.selected_video_option = 'Self-hosted'
+          } else if(phc.video_file.indexOf('youtube') >= 0) {
+            phc.selected_video_option = 'YouTube'
+          } else if(phc.video_file.indexOf('vimeo') >= 0) {
+            phc.selected_video_option = 'Vimeo'
+          } else {
+            phc.selected_video_option = 'External'
+          }
+        }
+      } else {
+        custom_member_template?.forEach(cmt => {
+          if(phc.id == cmt.custom_member_type_id){
+            phc.video_title = cmt.video_title
+            phc.video_description = cmt.video_description
+            phc.video_file = cmt.video_file,
+            phc.has_courses = cmt.has_courses ? 1 : 0,
+            phc.has_events = cmt.has_events ? 1 : 0
+          }
+
+          if(phc.video_file) {
+            if(phc.video_file.indexOf('.mp4') >= 0) {
+              phc.selected_video_option = 'Self-hosted'
+            } else if(phc.video_file.indexOf('youtube') >= 0) {
+              phc.selected_video_option = 'YouTube'
+            } else if(phc.video_file.indexOf('vimeo') >= 0) {
+              phc.selected_video_option = 'Vimeo'
+            } else {
+              phc.selected_video_option = 'External'
+            }
+          }
+        })
+      }
+      
+    })
+
+    if(this.homeTemplate) {
+        this.showTitle = this.homeTemplate.has_title == 1 ? true : false
+        this.showVideo = this.homeTemplate.has_video == 1 ? true : false
+        this.showCourses = this.homeTemplate.has_courses == 1 ? true : false
+        this.showEvents = this.homeTemplate.has_events == 1 ? true : false
+        this.videoTitle = this.homeTemplate.video_title
+        this.videoDescription = this.homeTemplate.video_description
+        this.templateVideoFile = this.homeTemplate.video_file
+        this.profileHomeContent[0].video_title = this.homeTemplate.video_title
+        this.profileHomeContent[0].video_description = this.homeTemplate.video_description
+        this.profileHomeContent[0].video_file = this.homeTemplate.video_file
+        this.profileHomeContent[0].has_title = this.homeTemplate.has_title
+        this.profileHomeContent[0].has_video = this.homeTemplate.has_video
+        this.profileHomeContent[0].has_courses = this.homeTemplate.has_courses
+        this.profileHomeContent[0].has_events = this.homeTemplate.has_events
+
+
+        if(this.homeTemplate.video_file) {
+            if(this.homeTemplate.video_file.indexOf('.mp4') >= 0) {
+                this.selectedVideoOption = 'Self-hosted'
+            } else if(this.homeTemplate.video_file.indexOf('youtube') >= 0) {
+                this.selectedVideoOption = 'YouTube'
+                this.externalLink = this.homeTemplate.video_file
+            } else if(this.homeTemplate.video_file.indexOf('vimeo') >= 0) {
+                this.selectedVideoOption = 'Vimeo'
+                this.externalLink = this.homeTemplate.video_file
+            } else {
+                this.selectedVideoOption = 'External'
+                this.externalLink = this.homeTemplate.video_file
+            }
+            this.profileHomeContent[0].selected_video_option = this.selectedVideoOption
+        }
+    }
+  }
+
+  formatFeatures(features, settings) {
     features = features?.map((item) => {
-        return {
-            ...item,
-            checked: false,
-            id: item?.id,
-            title: this.getFeatureTitle(item),
-            order: 'latest'
-        };
+      let activated_section = settings?.modules?.find(f => f.module_id == item?.id);
+      return {
+        ...item,
+        checked: activated_section ? true : false,
+        id: item?.id,
+        title: this.getFeatureTitle(item),
+        order: activated_section ? activated_section?.module_order : 'latest'
+      };
     });
     if(features?.length > 0) {
       features = features.sort((a, b) => {
@@ -487,6 +703,15 @@ export class PersonalizeHomeComponent {
     }
 
     this.features = features;
+    this.formatSections()
+  }
+
+  formatSections() {
+    let activatedFeatures = this.features?.filter(feature => {
+      return feature.checked
+    })
+
+    this.includedFeatures = activatedFeatures;
   }
 
   getFeatureTitle(feature) {
@@ -540,16 +765,129 @@ export class PersonalizeHomeComponent {
     }, 1000)
   }
 
-  saveContentTitleDescription() {
+  public getTimestamp() {
+    const date = new Date();
+    const timestamp = date.getTime();
+    return timestamp;
+  }
 
+  pondHandleInit() {
+    console.log('FilePond has initialised', this.myPond);
+  }
+
+  pondHandleAddFile(event: any) {
+    console.log('A file was added', event);
+  } 
+
+  saveContentTitleDescription() {
+    let video_file_status = localStorage.getItem('home_video_file');
+    let video_file = video_file_status == 'complete' ? this.videoFileName : '';
+
+    let params = {
+      id: 2,
+      custom_member_type_id: this.selectedProfile || 0,
+      company_id: this.companyId,
+      video_title: this.hasProfileHomeContent ? this.profileHomeContent[0].video_title : (this.title || this.videoTitle),
+      video_description: this.hasProfileHomeContent ? this.profileHomeContent[0].video_description : (this.description || this.videoDescription),
+      video_file: (video_file || this.externalLink) || this.videoFile,
+      profile_content: this.hasProfileHomeContent ? this.profileHomeContent : '',
+      has_video: this.template?.has_video,
+      has_title: this.template?.has_title
+    }
+
+    this._companyService.updateHomeVideoSettings(
+        params,
+      ).subscribe(
+        response => {
+            localStorage.removeItem('home_video_file');
+            this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+            this.refreshCompanies('content');
+        },
+        error => {
+            this.open(this._translateService.instant('dialog.error'), '')
+        }
+    )
   }
 
   saveContentEditor() {
+    this.emailEditor?.exportHtml((data) => {
+      let params
+      const source = JSON.stringify(data['design']);
+      const html = data['html'];
+      const body = data['chunks']['body'];
+      const css = data['chunks']['css'];
+      if(this.language == "en"){
+        this.source = source
+        this.body = body
+        this.html = html
+        this.css = css
+      } else if(this.language == "es"){
+        this.source_es = source
+        this.body_es = body
+        this.html_es = html
+        this.css_es = css
+      } else if(this.language == "eu"){
+        this.source_eu = source
+        this.body_eu = body
+        this.html_eu = html
+        this.css_eu = css
+      } else if(this.language == "de"){
+        this.source_de = source
+        this.body_de = body
+        this.html_de = html
+        this.css_de = css
+      } else if(this.language == "ca"){
+        this.source_ca = source
+        this.body_ca = body
+        this.html_ca = html
+        this.css_ca = css
+      } else if(this.language == "fr"){
+        this.source_fr = source
+        this.body_fr = body
+        this.html_fr = html
+        this.css_fr = css
+      }
 
+      params = {
+        source: this.source,
+        html: this.html,
+        body: this.body,
+        css: this.css,
+        source_es: this.source_es,
+        html_es: this.html_es,
+        body_es: this.body_es,
+        css_es: this.css_es,
+        source_eu: this.source_eu,
+        html_eu: this.html_eu,
+        body_eu: this.body_eu,
+        css_eu: this.css_eu,
+        source_fr: this.source_fr,
+        html_fr: this.html_fr,
+        body_fr: this.body_fr,
+        css_fr: this.css_fr,
+        source_de: this.source_de,
+        html_de: this.html_de,
+        body_de: this.body_de,
+        css_de: this.css_de,
+        source_ca: this.source_ca,
+        html_ca: this.html_ca,
+        body_ca: this.body_ca,
+        css_ca: this.css_ca,
+      }
+
+      this._companyService.editCompanyTemplate(this.template?.id, this.companyId, params)
+        .subscribe(
+          response => {
+            this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          },
+          error => {
+            console.log(error)
+          }
+        )
+    });
   }
 
   handleModuleChecked(feature) {
-    console.log(this.features)
     this.updateFeatures();
   }
 
@@ -557,6 +895,90 @@ export class PersonalizeHomeComponent {
     this.includedFeatures = this.features?.filter(f => {
       return f.checked
     })
+  }
+
+  handleActivate(id) {
+    let params = {
+      company_id: this.companyId,
+      layout_id: id,
+    }
+    this._companyService.activateHomeTemplate(params)
+    .subscribe(
+      async response => {
+        this.activeLayoutId = id;
+        this.refreshCompanies('template');
+        this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  async refreshCompanies(mode) {
+    this.companies = get(await this._companyService.getCompanies().toPromise(), 'companies');
+    let company = this._companyService.getCompany(this.companies);
+    if (company && company[0]) {
+      this.company = company[0];
+      this.refreshHomeTemplates(mode);
+    }
+  }
+
+  refreshHomeTemplates(mode) {
+    this.homeTemplates = [];
+    this.initializeTemplates();
+
+    switch(mode) {
+      case 'template':
+        this.isVideoTutorialsStep = true;
+        this.isVideoTutorialsStepCompleted = false;
+        this.isTemplateStep = false;
+
+        setTimeout(() => {
+          this.isVideoTutorialsStep = false;
+          this.isVideoTutorialsStepCompleted = true;
+          this.isTemplateStep = true;
+          this.cd.detectChanges();
+        }, 100)
+        break;
+      case 'content':
+        this.isTemplateStep = true;
+        this.isTemplateStepCompleted = false;
+        
+        if(this.activeLayoutId != 1) {  
+          this.isContentStep = false;
+        } else {
+          this.goToSectionsStep();
+        }
+
+        setTimeout(() => {
+          this.goToContentStep() 
+          this.cd.detectChanges();
+        }, 100)
+        break;
+    }
+  }
+
+  saveSections() {
+    let modules = this.includedFeatures?.filter(feature => {
+      return feature?.checked
+    })
+    let params = {
+      company_id: this.companyId,
+      modules,
+    }
+    this._companyService.editHomeTemplateSections(params)
+    .subscribe(
+      async response => {
+        this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  handleProfileContent(event) {
   }
 
   handleGoBack() {

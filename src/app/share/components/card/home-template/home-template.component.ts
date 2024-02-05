@@ -40,6 +40,7 @@ export class HomeTemplateCardComponent {
   @Input() active: any;
   @Input() buttonColor: any;
   @Input() primaryColor: any;
+  @Output() onActivate = new EventEmitter();
 
   languageChangeSubscription;
   language: any;
@@ -68,6 +69,10 @@ export class HomeTemplateCardComponent {
 
   formatData() {
     
+  }
+
+  activate() {
+    this.onActivate.emit(this.id);
   }
 
   goToImageGallery() {

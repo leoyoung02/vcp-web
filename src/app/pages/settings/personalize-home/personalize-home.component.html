@@ -84,7 +84,7 @@
                 </h2>
                 <div id="accordion-collapse-body-1" [ngClass]="{'hidden': !isVideoTutorialsStep}" aria-labelledby="accordion-collapse-heading-1">
                     <div class="p-5 border border-b-0 border-gray-200 dark:border-gray-700 dark:bg-gray-900">
-                        <div class="my-8">
+                        <div class="my-8" *ngIf="$any(playlist)?.length > 0">
                             <app-video-player [playlist]="playlist"></app-video-player>
                         </div>
                         <div class="flex justify-end">
@@ -120,7 +120,8 @@
                                     [image]="template?.image"
                                     [active]="template?.active"
                                     [buttonColor]="buttonColor"
-                                    [primaryColor]="primaryColor">
+                                    [primaryColor]="primaryColor"
+                                    (onActivate)="handleActivate($event)">
                                 </app-home-template-card>
                             </ng-container>
                         </div>
@@ -149,7 +150,142 @@
                 </h2>
                 <div *ngIf="activeLayoutId != 1" id="accordion-collapse-body-3" [ngClass]="{'hidden': !isContentStep}" aria-labelledby="accordion-collapse-heading-3">
                     <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
-                        <ng-container *ngIf="activeLayoutId == 2">
+                        <ng-container *ngIf="activeLayoutId == 2 && hasProfileHomeContent">
+                            <div class="mb-2 relative">
+                                <label for="member-types" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'company-settings.membertype' | translate }}</label>
+                                <select
+                                    id="member-types"
+                                    class="w-[300px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    [(ngModel)]="selectedProfile"
+                                    [ngModelOptions]="{standalone: true}"
+                                    (change)="handleProfileContent($event)"
+                                >
+                                    <option value="" disabled selected>{{ 'settings.selectprofile' | translate }}</option>
+                                    <option
+                                        *ngFor="let type of profileHomeContent"
+                                        [value]="type.id"
+                                    >
+                                        {{ type.type }}
+                                    </option>
+                                </select>
+                            </div>
+                            <ng-container *ngFor="let type of profileHomeContent">
+                                <ng-container *ngIf="type.id == selectedProfile && selectedProfile != ''">
+                                    <div class="mb-2 relative">
+                                        <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'plan-create.title' | translate }}</label>
+                                        <input
+                                            class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                            [(ngModel)]="type.video_title"
+                                            [ngModelOptions]="{standalone: true}"
+                                            placeholder="{{ 'plan-create.title' | translate }}">
+                                    </div>
+                                    <div class="mb-2 relative">
+                                        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'course-create.description' | translate }}</label>
+                                        <textarea name="" id="" cols="30" rows="3"
+                                            class="w-full rounded-lg p-4"
+                                            placeholder="{{ 'course-create.description' | translate }}"
+                                            [(ngModel)]="type.video_description"
+                                            [ngModelOptions]="{standalone: true}">
+                                        </textarea>
+                                    </div>
+                                    <div class="mb-2 relative">
+                                        <label for="video-options" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'course-create.chooseoption' | translate }}</label>
+                                        <select
+                                            id="video-options"
+                                            class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                            [(ngModel)]="type.selected_video_option"
+                                            [ngModelOptions]="{standalone: true}"
+                                        >
+                                            <option value="" disabled selected>{{ 'course-create.chooseoption' | translate }}</option>
+                                            <option
+                                                *ngFor="let option of videoOptions"
+                                                [value]="option"
+                                            >
+                                                {{ option == 'External' ? 'External (Embed code o URL)' : option }}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <ng-container *ngIf="type.selected_video_option != 'Self-hosted' && type.selected_video_option">
+                                        <div class="mb-2 relative">
+                                            <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ type.selected_video_option == 'YouTube' || type.selected_video_option == 'Vimeo' ? 'Embed code o URL' : 'URL' }}</label>
+                                            <input
+                                                class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                [(ngModel)]="type.video_file"
+                                                [ngModelOptions]="{standalone: true}"
+                                                placeholder="{{ type.selected_video_option == 'YouTube' || type.selected_video_option == 'Vimeo' ? 'Embed code o URL' : 'URL' }}">
+                                        </div>
+                                    </ng-container>
+                                    <ng-container *ngIf="type.selected_video_option == 'Self-hosted'">
+                                        <div class="mb-2 relative">
+                                            <div class="w-full max-w-full">
+                                                <file-pond
+                                                    #myPond
+                                                    [options]="pondOptions"
+                                                    [files]="pondFiles"
+                                                    (oninit)="pondHandleInit()"
+                                                    (onaddfile)="pondHandleAddFile($event)"
+                                                >
+                                                </file-pond>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+                                </ng-container>
+                            </ng-container>
+                        </ng-container>
+                        <ng-container *ngIf="activeLayoutId == 2 && !hasProfileHomeContent">
+                            <ng-container *ngIf="predefinedTemplate?.has_video && predefinedTemplate?.video_file && !videoFileName">
+                                <div class="w-full max-w-full mb-8">
+                                    <label for="title" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        {{'plan-details.video' | translate}}
+                                    </label>
+                                    <div class="my-4 mb-8">
+                                        <app-video-player [playlist]="homeVideoPlaylist"></app-video-player>
+                                    </div>
+                                </div>
+                            </ng-container>
+                            <div class="w-full max-w-full">
+                                <div class="mb-2 relative">
+                                    <label for="video-options" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'course-create.chooseoption' | translate }}</label>
+                                    <select
+                                        id="video-options"
+                                        class="w-[300px] mb-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                        [(ngModel)]="selectedVideoOption"
+                                        [ngModelOptions]="{standalone: true}"
+                                    >
+                                        <option value="" disabled selected>{{ 'course-create.chooseoption' | translate }}</option>
+                                        <option
+                                            *ngFor="let option of videoOptions"
+                                            [value]="option"
+                                        >
+                                            {{ option == 'External' ? ('company-settings.others' | translate) : option }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <ng-container *ngIf="selectedVideoOption != 'Self-hosted'">
+                                    <div class="mb-2 relative">
+                                        <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'plan-create.title' | translate }}</label>
+                                        <input
+                                            class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                            [(ngModel)]="externalLink"
+                                            [ngModelOptions]="{standalone: true}"
+                                            placeholder="{{ selectedVideoOption == 'YouTube' || selectedVideoOption == 'Vimeo' ? 'Embed code o URL' : 'URL' }}">
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="selectedVideoOption == 'Self-hosted'">
+                                    <div class="mb-2 relative">
+                                        <div class="w-full max-w-full">
+                                            <file-pond
+                                                #myPond
+                                                [options]="pondOptions"
+                                                [files]="pondFiles"
+                                                (oninit)="pondHandleInit()"
+                                                (onaddfile)="pondHandleAddFile($event)"
+                                            >
+                                            </file-pond>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                            </div>
                             <div class="w-full max-w-full">
                                 <label for="title" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     {{'plan-create.title' | translate}}
@@ -198,17 +334,22 @@
                                 [ngStyle]="{'background-color': buttonColor}">
                                 {{'your-admin-area.save' | translate}}
                             </button>
-                            <ng-container *ngIf="(activeLayoutId == 2 && isContentStep && title && description) ||
-                                (activeLayoutId == 3 && isContentStep)">
+                            <ng-container *ngIf="activeLayoutId == 2 && isContentStep && title && description">
                                 <button (click)="goToSectionsStep()" type="button" class="ml-4 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                     [ngStyle]="{'background-color': buttonColor}">
                                     {{'signup.next' | translate}}
                                 </button>
                             </ng-container>
+                            <ng-container *ngIf="activeLayoutId == 3 && isContentStep">
+                                <button (click)="finish()" type="button" class="ml-4 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                    [ngStyle]="{'background-color': buttonColor}">
+                                    {{'course-assessment.finish' | translate}}
+                                </button>
+                            </ng-container>
                         </div>
                     </div>
                 </div>
-                <h2 id="accordion-collapse-heading-4">
+                <h2 id="accordion-collapse-heading-4" *ngIf="activeLayoutId != 3">
                     <button type="button" class="flex items-center justify-between w-full p-5 py-3 rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-4" aria-expanded="false" aria-controls="accordion-collapse-body-4"
                         [ngClass]="{'font-medium': isContentStep}">
                         <span class="flex items-center">
@@ -279,29 +420,33 @@
                                                 <div class="grid grid-cols-4 gap-4">
                                                     <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">
                                                         <p class="text-2xl text-gray-400 dark:text-gray-500">
-                                                            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                                            <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                                             </svg>
                                                         </p>
                                                     </div>
                                                     <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">
                                                         <p class="text-2xl text-gray-400 dark:text-gray-500">
-                                                            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                                            <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                                             </svg>
                                                         </p>
                                                     </div>
                                                     <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">
                                                         <p class="text-2xl text-gray-400 dark:text-gray-500">
-                                                            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                                            <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                                             </svg>
                                                         </p>
                                                     </div>
                                                     <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">
                                                         <p class="text-2xl text-gray-400 dark:text-gray-500">
-                                                            <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                                            <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                                             </svg>
                                                         </p>
                                                     </div>
@@ -312,8 +457,9 @@
                                     <ng-container *ngIf="includedFeatures?.length == 0">
                                         <div class="flex items-center justify-center h-64 rounded bg-gray-100 dark:bg-gray-800">
                                             <p class="text-2xl text-gray-400 dark:text-gray-500">
-                                                <svg class="w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                                                <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
                                                 </svg>
                                             </p>
                                         </div>
@@ -322,7 +468,12 @@
                             </div>
                         </div>
                         <div class="flex justify-end">
-                            <button (click)="finish()" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            <button (click)="saveSections()" type="button" 
+                                class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                [ngStyle]="{'background-color': buttonColor}">
+                                {{'your-admin-area.save' | translate}}
+                            </button>
+                            <button (click)="finish()" type="button" class="ml-4 text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                                 [ngStyle]="{'background-color': buttonColor}">
                                 {{'course-assessment.finish' | translate}}
                             </button>

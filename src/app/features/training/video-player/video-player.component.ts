@@ -84,25 +84,7 @@ export class VideoPlayerComponent {
     this.initializePage();
   }
 
-  //  //Retrieve the video (Careful of CORS)
-  //  setVideoSourceToObjectUrl = (url: string) => fetch(url)
-  //  .then(response => response.blob()) //Encode the response as a blob
-  //  .then(blob =>  {
-  //      // Create an object url from the blob;
-  //      var blobUrl = URL.createObjectURL(blob)
-       
-  //      // Create a safe url and set it to the video source.
-  //      setTimeout(() => {
-  //       this.source = this.sanitizer?.bypassSecurityTrustUrl(blobUrl);
-  //       console.log('source')
-  //       console.log(this.source)
-  //     }, 2000)
-  //  });
-
   initializePage() {
-    // var url = 'https://upload.wikimedia.org/wikipedia/commons/transcoded/6/6c/Polar_orbit.ogv/Polar_orbit.ogv.360p.vp9.webm';
-    // this.setVideoSourceToObjectUrl(url);
-
     this.currentIndex = 0;
     this.currentItem = this.playlist[ this.currentIndex ];
   }

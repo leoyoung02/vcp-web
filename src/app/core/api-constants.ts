@@ -120,6 +120,8 @@ export const EDIT_CUSTOMER_SITE_DETAILS_URL = `${API_BASE}/v2/customer/site-deta
 export const FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings`;
 export const EDIT_FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings/edit`;
 export const HOME_PERSONALIZE_SETTINGS_URL = `${API_BASE}/v2/home/personalize/settings`;
+export const ACTIVATE_HOME_TEMPLATE_URL = `${API_BASE}/v2/home/personalize/template/edit`;
+export const EDIT_HOME_TEMPLATE_SECTIONS_URL = `${API_BASE}/v2/home/personalize/sections/edit`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;

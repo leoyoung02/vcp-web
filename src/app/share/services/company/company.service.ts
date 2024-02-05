@@ -210,6 +210,8 @@ import {
   EDIT_FILTER_SETTINGS_URL,
   RESPONSE_URL,
   HOME_PERSONALIZE_SETTINGS_URL,
+  ACTIVATE_HOME_TEMPLATE_URL,
+  EDIT_HOME_TEMPLATE_SECTIONS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1862,6 +1864,18 @@ export class CompanyService {
   getHomePersonalizeSettings(id) {
     return this._http.get(`${HOME_PERSONALIZE_SETTINGS_URL}/${id}`,
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  activateHomeTemplate(params): Observable<any> {
+    return this._http.put(`${ACTIVATE_HOME_TEMPLATE_URL}`,
+        params
+    ).pipe(map(res => res));
+  }
+
+  editHomeTemplateSections(params): Observable<any> {
+    return this._http.post(`${EDIT_HOME_TEMPLATE_SECTIONS_URL}`,
+        params
     ).pipe(map(res => res));
   }
 }
