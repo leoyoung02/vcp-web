@@ -3352,7 +3352,12 @@
         "purchasehistory": "Historial de compras",
         "failed":"fallido",
         "selectcredits": "Seleccionar créditos para comprar", 
-        "paymentconfirmed": "Gracias por su compra. Esto confirma que su pago se ha completado."
+        "paymentconfirmed": "Gracias por su compra. Esto confirma que su pago se ha completado.",
+        "totalcredits":"Creditos totales",
+        "creditadditon":"Adición de crédito",
+        "creditdeduction":"Deducción de crédito",
+        "credituser":"Usuario de crédito",
+        "creditlogs":"Registros de crédito"
     },
     "password": {
         "better": "Es mejor tener:",

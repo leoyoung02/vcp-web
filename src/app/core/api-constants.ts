@@ -661,6 +661,7 @@ export const TIKTOK_VIDEOS_CTAS_DATA_URL = `${API_BASE}/v2/tiktok-videos-ctas-da
 export const ACTIVITY_CODE_DATA_URL = `${API_BASE}/v2/activity-code-data`;
 export const CONFIRM_ATTENDANCE_URL = `${API_BASE}/v2/activity-code/validate`;
 export const USER_CREDIT_LOGS_URL = `${API_BASE}/v2/user-credit-logs`;
+export const USER_CREDIT_LOGS_HISTORY_URL = `${API_BASE}/v2/user-credit-logs-history`;
 export const SUBMIT_ACTIVITY_RATING_URL = `${API_BASE}/v2/activity/rating/submit`;
 export const EDIT_CREDITS_SETTINGS_URL = `${API_BASE}/v2/credits/settings`;
 export const COURSE_ASSESSMENT_ITEMS_URL = `${API_BASE}/v2/course-assessment-items`;

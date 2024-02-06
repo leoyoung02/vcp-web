@@ -1173,13 +1173,14 @@ export class ManageUsersComponent {
       this.members.slice(
         event.pageIndex * event.pageSize,
         (event.pageIndex + 1) * event.pageSize
-      )
-    );
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    } else {
-      setTimeout(() => (this.dataSource.sort = this.sort));
-    }
+        )
+        );
+        if (this.sort) {
+          this.dataSource.sort = this.sort;
+        } else {
+          setTimeout(() => (this.dataSource.sort = this.sort));
+        }
+  
   }
 
   refreshDataSource(members) {
@@ -5076,6 +5077,14 @@ export class ManageUsersComponent {
       }
     })
   }
+
+
+  goToCredits(id){
+    this._router.navigate([`/credits/${id}`]);
+  }
+
+
+
 
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();

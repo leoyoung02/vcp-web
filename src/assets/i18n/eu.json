@@ -3330,7 +3330,12 @@
         "purchasehistory": "Erosketa Historia",
         "failed":"huts egin zuen",
         "selectcredits": "Hautatu erosteko kredituak", 
-        "paymentconfirmed": "Eskerrik asko erosketagatik. Honek zure ordainketa amaitu dela berresten du."
+        "paymentconfirmed": "Eskerrik asko erosketagatik. Honek zure ordainketa amaitu dela berresten du.",
+        "totalcredits":"Kredituak guztira",
+        "creditadditon":"Kreditu gehikuntza",
+        "creditdeduction":"Kreditu kenkaria",
+        "credituser":"Kreditu Erabiltzailea",
+        "creditlogs":"Kreditu Erregistroak"
     },
     "password": {
         "better": "Hobe da edukitzea:",

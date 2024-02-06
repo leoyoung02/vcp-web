@@ -168,6 +168,12 @@ export const routes: Routes = [
         canMatch: [authGuard()],
     },
     {
+        path: 'credits',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@pages/credits')).routes,
+        canMatch: [authGuard()],
+    },
+    {
         path: 'support-tickets',
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@pages/support-tickets')).routes,
