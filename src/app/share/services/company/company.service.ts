@@ -212,6 +212,7 @@ import {
   HOME_PERSONALIZE_SETTINGS_URL,
   ACTIVATE_HOME_TEMPLATE_URL,
   EDIT_HOME_TEMPLATE_SECTIONS_URL,
+  HOME_SECTIONS_DATA_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1877,5 +1878,11 @@ export class CompanyService {
     return this._http.post(`${EDIT_HOME_TEMPLATE_SECTIONS_URL}`,
         params
     ).pipe(map(res => res));
+  }
+
+  getHomeSectionsData(id, userId, pageNo): Observable<any> {
+    return this._http.get(`${HOME_SECTIONS_DATA_URL}/${id}/${userId}/${pageNo}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
   }
 }

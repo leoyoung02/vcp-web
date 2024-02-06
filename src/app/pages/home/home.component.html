@@ -19,7 +19,7 @@
   <ng-container *ngIf="predefinedTemplate?.has_courses == 1 && companyId == 27">
     <app-courses-list [parentComponent]="'home'"></app-courses-list>
   </ng-container>
-  <app-masonry
+  <!-- <app-masonry
     *ngIf="showModuleSections && !(hasLandingTemplate && !hasPredefinedTemplate)"
     [userId]="userId"
     [superAdmin]="superAdmin"
@@ -30,5 +30,16 @@
     [isUESchoolOfLife]="isUESchoolOfLife"
     [campus]="campus"
   >
-  </app-masonry>
+  </app-masonry> -->
+  <ng-container *ngIf="showModuleSections && !(hasLandingTemplate && !hasPredefinedTemplate)">
+    <app-sections-masonry
+      *ngIf="sectionsList?.length > 0"
+      [userId]="userId"
+      [superAdmin]="superAdmin"
+      [company]="company"
+      [list]="sectionsList"
+      [isUESchoolOfLife]="isUESchoolOfLife"
+      [campus]="campus">
+    </app-sections-masonry>
+  </ng-container>
 </div>

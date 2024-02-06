@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { AppTheme, ThemeService } from "src/app/core/services/theme";
 import { Subject, takeUntil } from "rxjs";
@@ -17,8 +17,12 @@ import { SafeContentHtmlPipe } from "@lib/pipes";
 import { ClubsListComponent } from "@features/clubs/list/list.component";
 import { CoursesListComponent } from "@features/courses/list/list.component";
 import { JobOffersListComponent } from "@features/job-offers/list/list.component";
-import { MasonryComponent } from "@share/components";
-import { VideoSectionComponent } from "@share/components/video-section/video-section.component";
+import { 
+  MasonryComponent, 
+  VideoSectionComponent, 
+  SectionsMasonryComponent 
+} from "@share/components";
+import moment from "moment";
 
 @Component({
   standalone: true,
@@ -33,6 +37,7 @@ import { VideoSectionComponent } from "@share/components/video-section/video-sec
     JobOffersListComponent,
     MasonryComponent,
     VideoSectionComponent,
+    SectionsMasonryComponent,
   ],
   templateUrl: "./home.component.html",
 })
@@ -153,13 +158,15 @@ export class HomeComponent implements OnInit, OnDestroy {
   schoolOfLifeTitle: any;
   user: any;
   campus: any = '';
+  sectionsList: any = [];
 
   constructor(
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _companyService: CompanyService,
     private _userService: UserService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -513,12 +520,206 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
           });
         }
+        if(this.showModuleSections) {
+          this.loadSectionsList(1);
+        }
         this.loadedSettings = true;
       },
       (error) => {
         console.log(error);
       }
     );
+  }
+
+  loadSectionsList(pageNo) {
+    this._companyService
+    .getHomeSectionsData(this.companyId, this.userId, pageNo)
+    .subscribe(
+      response => {
+        this.formatSectionsData(response?.results);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  formatSectionsData(data) {
+    if(data?.length > 0) {
+      data?.forEach(item => {
+        this.sectionsList?.push({
+          id: 1,
+          path: this.getPath(item),
+          image: this.getImage(item),
+          title: this.getTitle(item),
+          date: this.getDate(item),
+          address: item?.address,
+          price: item?.price,
+        })
+      })
+    }
+
+    this.cd.detectChanges();
+  }
+
+  getPath(item) {
+    let object_type = item?.object_type;
+    let path = '';
+
+    switch(object_type) {
+      case 'plan':
+        path = `/plans/details/${item.id}/${item?.plan_type_id}`
+        break;
+      case 'club':
+        path = `/clubs/details/${item.id}`
+        break;
+    }
+
+    return path;
+  }
+
+  getImage(item) {
+    let object_type = item?.object_type;
+    let image = '';
+    let path = '';
+
+    switch(object_type) {
+      case 'plan':
+        path = item?.plan_type_id == 4 ? 'get-image-group-plan' : 'get-ie-image-plan';
+        image = `${environment.api}/${path}/${item.image}`;
+        break;
+      case 'club':
+        image = `${environment.api}/get-image-group/${item.image}`;
+        break;
+    }
+
+    return image;
+  }
+
+  getTitle(item) {
+    let object_type = item?.object_type;
+    let title = '';
+
+    switch(object_type) {
+      case 'plan':
+        title = this.getEventTitle(item);
+        break;
+      case 'club':
+        title = this.getGroupTitle(item);
+        break;
+    }
+
+    return title;
+  }
+
+  getDate(item) {
+    let object_type = item?.object_type;
+    let date = '';
+
+    switch(object_type) {
+      case 'plan':
+        date = this.getActivityDate(item);
+        break;
+    }
+
+    return date;
+  }
+
+  getEventTitle(event) {
+    return this.language == "en"
+      ? (event.title_en && event.title_en != 'undefined')
+        ? event.title_en || event.title
+        : event.title
+      : this.language == "fr"
+      ? event.title_fr
+        ? event.title_fr || event.title
+        : event.title
+      : this.language == "eu"
+      ? event.title_eu
+        ? event.title_eu || event.title
+        : event.title
+      : this.language == "ca"
+      ? event.title_ca
+        ? event.title_ca || event.title
+        : event.title
+      : this.language == "de"
+      ? event.title_de
+        ? event.title_de || event.title
+        : event.title
+      : event.title;
+  }
+
+  getActivityDate(activity) {
+    let date = moment
+      .utc(activity.plan_date)
+      .locale(this.language)
+      .format("D MMMM");
+    if (activity.limit_date) {
+      let start_month = moment
+        .utc(activity.plan_date)
+        .locale(this.language)
+        .format("M");
+      let end_month = moment
+        .utc(activity.limit_date)
+        .locale(this.language)
+        .format("M");
+      let activity_start_date = moment
+        .utc(activity.plan_date)
+        .locale(this.language)
+        .format("YYYY-MM-DD");
+      let activity_end_date = moment
+        .utc(activity.limit_date)
+        .locale(this.language)
+        .format("YYYY-MM-DD");
+
+      if (activity_start_date == activity_end_date) {
+        date = `${moment
+          .utc(activity.limit_date)
+          .locale(this.language)
+          .format("D MMMM")}`;
+      } else {
+        if (start_month == end_month) {
+          date = `${moment
+            .utc(activity.plan_date)
+            .locale(this.language)
+            .format("D")}-${moment(activity.limit_date)
+            .locale(this.language)
+            .format("D MMMM")}`;
+        } else {
+          date = `${moment
+            .utc(activity.plan_date)
+            .locale(this.language)
+            .format("D MMMM")}-${moment(activity.limit_date)
+            .locale(this.language)
+            .format("D MMMM")}`;
+        }
+      }
+    }
+    return date;
+  }
+
+  getGroupTitle(group) {
+    return this.language == "en"
+      ? group.title_en
+        ? group.title_en || group.title_es
+        : group.title
+      : this.language == "fr"
+      ? group.title_fr
+        ? group.title_fr || group.title
+        : group.title
+      : this.language == "eu"
+      ? group.title_eu
+        ? group.title_eu || group.title
+        : group.title
+      : this.language == "ca"
+      ? group.title_ca
+        ? group.title_ca || group.title
+        : group.title
+      : this.language == "de"
+      ? group.title_de
+        ? group.title_de || group.title
+        : group.title
+      : group.title;
   }
 
   getSettingsTitle() {
