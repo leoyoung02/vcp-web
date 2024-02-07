@@ -3329,7 +3329,9 @@
         "creditadditon":"Ajout de crédit",
         "creditdeduction":"Credit Deduction",
         "credituser":"Credit User",
-        "creditlogs":"Journaux de crédit"
+        "creditlogs":"Journaux de crédit",
+        "action": "Action",
+        "status": "Statut"
     },
     "password": {
         "better": "C'est mieux d'avoir :",

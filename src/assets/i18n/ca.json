@@ -3345,7 +3345,9 @@
         "creditadditon":"Addició de crèdit",
         "creditdeduction":"Deducció de crèdit",
         "credituser":"Usuari de crèdit",
-        "creditlogs":"Registres de crèdit"
+        "creditlogs":"Registres de crèdit",
+        "action": "Acció",
+        "status": "Estat"
     },
     "password": {
         "better": "És millor tenir:",

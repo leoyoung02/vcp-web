@@ -342,6 +342,8 @@ export class ManageUsersComponent {
   customMemberTypes :any;
   userRoleType:any;
   customMemberTypeId:any;
+  showCreditIcon :boolean = false;
+
 
   constructor(
     private _router: Router,
@@ -468,7 +470,6 @@ export class ManageUsersComponent {
       "news.searchbykeyword"
     );
   }
-// fetch
   fetchManageUsersData() {
     this._userService
       .fetchManageUsersData(this.companyId, this.userId)
@@ -486,9 +487,9 @@ export class ManageUsersComponent {
           this.courseCategories = data?.course_categories;
           this.courseCategoryMapping = data?.course_category_mapping;
           this.courseCategoriesAccessRoles = data?.course_category_access_roles;
-
           this.customMemberTypes = data?.member_types ? data?.member_types : [];
           this.customMemberTypeId = data?.user?.custom_member_type_id ? data.user.custom_member_type_id: ''
+          this.showCredits(data)
           this.initializeIconFilterList(this.cities);
           this.getUserType()
         },
@@ -496,6 +497,29 @@ export class ManageUsersComponent {
           console.log(error);
         }
       );
+  }
+
+  showCredits(data){
+    const featureToCheck = [
+      {
+        feature_id:20,
+        subfeatuers:[140,141],
+        title:"tutors"
+      }
+    ]
+
+    const featuredList = data?.features_mapping?.map(e=> e?.feature_id)
+    const isFeatureExsist = featureToCheck?.every(feature => featuredList.includes(feature?.feature_id));
+
+    if(isFeatureExsist){
+      const subfeaturedList = data?.settings?.subfeatures.map(e=> e?.subfeature_id)
+      const isSubfeatureExist = featureToCheck?.some(feature => {
+        return feature?.subfeatuers?.some(subfeature => subfeaturedList.includes(subfeature));
+      });
+      if(isFeatureExsist && isSubfeatureExist){
+        this.showCreditIcon = true
+      }
+    }
   }
 
   mapFeatures(features) {

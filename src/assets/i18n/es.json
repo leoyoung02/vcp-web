@@ -3357,7 +3357,9 @@
         "creditadditon":"Adición de crédito",
         "creditdeduction":"Deducción de crédito",
         "credituser":"Usuario de crédito",
-        "creditlogs":"Registros de crédito"
+        "creditlogs":"Registros de crédito",
+        "action": "Acción",
+        "status": "Estado"
     },
     "password": {
         "better": "Es mejor tener:",

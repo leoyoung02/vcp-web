@@ -3334,7 +3334,9 @@
         "creditadditon":"Kreditzusatz",
         "creditdeduction":"Kreditabzug",
         "credituser":"Kreditbenutzer",
-        "creditlogs":"Kreditprotokolle"
+        "creditlogs":"Kreditprotokolle",
+        "action": "Aktion",
+        "status": "Status"
     },
     "password": {
         "better": "Es ist besser zu haben:",

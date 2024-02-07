@@ -1,16 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
+import { Component,  HostListener, ViewChild } from '@angular/core';
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
-import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { ActivatedRoute, RouterModule } from "@angular/router";
 import { PageTitleComponent, ToastComponent } from '@share/components';
 import { CompanyService, LocalService, UserService } from '@share/services';
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "@env/environment";
-import { TutorsService } from '@features/services';
 import { StarRatingComponent } from '@lib/components';
 import { FormsModule } from '@angular/forms';
 import { initFlowbite } from 'flowbite';
@@ -58,7 +56,9 @@ export class UserCreditsComponent {
         'date',
         'time',
         'total_credits',
-        'credits'
+        'credits',
+        'action',
+        'status'
     ]
     isMobile: boolean = false;
     pageTitle: any;
@@ -130,12 +130,12 @@ export class UserCreditsComponent {
             async (response) => {
                 const {credit_logs_history} = response
                 this.creditLogData  = credit_logs_history?.map(credit=>{
-                    return {
-                        ...credit,
-                        credits: credit.credits,
-                        date:moment(credit?.created_at).format('DD/MM/YY'),
-                        time:moment(credit?.created_at).format('hh:mm A')
-                    }
+                  return {
+                    ...credit,
+                    credits: credit.credits,
+                    date:moment(credit?.created_at).format('DD/MM/YY'),
+                    time:moment(credit?.created_at).format('hh:mm A'),
+                  }
                 })
                 this.isLoading = false
                 this.populateBookingsTable()

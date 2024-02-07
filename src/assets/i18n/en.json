@@ -3371,7 +3371,9 @@
         "creditadditon":"Credit Addition",
         "creditdeduction":"Credit Deduction",
         "credituser":"Credit User",
-        "creditlogs":"Credit Logs"
+        "creditlogs":"Credit Logs",
+        "action": "Action",
+        "status": "Status"
     },
     "password": {
         "better": "It's better to have:",

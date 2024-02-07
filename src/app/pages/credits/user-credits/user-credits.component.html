@@ -49,6 +49,18 @@
                          {{row.credits }} 
                         </mat-cell>
                       </ng-container>
+                      <ng-container matColumnDef="action">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'credit-package.action' | translate }} </mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="action" class="capitalize"> 
+                         {{row.action }} 
+                        </mat-cell>
+                      </ng-container>
+                      <ng-container matColumnDef="status">
+                        <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'credit-package.status' | translate }} </mat-header-cell>
+                        <mat-cell *matCellDef="let row" data-label="status" class="capitalize"> 
+                         {{row.status }} 
+                        </mat-cell>
+                      </ng-container>
                     <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
                     <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
                 </mat-table>

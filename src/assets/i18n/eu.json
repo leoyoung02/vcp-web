@@ -3335,7 +3335,9 @@
         "creditadditon":"Kreditu gehikuntza",
         "creditdeduction":"Kreditu kenkaria",
         "credituser":"Kreditu Erabiltzailea",
-        "creditlogs":"Kreditu Erregistroak"
+        "creditlogs":"Kreditu Erregistroak",
+        "action": "Ekintza",
+        "status": "Egoera"
     },
     "password": {
         "better": "Hobe da edukitzea:",
