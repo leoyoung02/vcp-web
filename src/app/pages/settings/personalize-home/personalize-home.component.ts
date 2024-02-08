@@ -565,7 +565,7 @@ export class PersonalizeHomeComponent {
           let companyFeatures: any = [] 
           companyFeatures = response['features'];
           companyFeatures = companyFeatures?.filter((f) => {
-            return f.id != 22 && f.status == 1;
+            return f.id != 22 && (f.status == 1 || (this.companyId == 32 && f.id == 3));
           });
           this.formatFeatures(companyFeatures, response['settings']);
           this.homePersonalizeSettings = response['settings'];

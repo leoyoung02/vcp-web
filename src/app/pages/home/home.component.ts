@@ -159,6 +159,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   user: any;
   campus: any = '';
   sectionsList: any = [];
+  clubCategories: any = [];
+  clubCategoryMapping: any = [];
+  coursesProgress: any = [];
+  hasCategoryAccess: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -536,6 +540,11 @@ export class HomeComponent implements OnInit, OnDestroy {
     .getHomeSectionsData(this.companyId, this.userId, pageNo)
     .subscribe(
       response => {
+        console.log(response)
+        this.mapSubfeatures(response?.subfeatures);
+        this.clubCategories = response.club_categories;
+        this.clubCategoryMapping = response.club_category_mapping;
+        this.coursesProgress = response.courses_progress;
         this.formatSectionsData(response?.results);
       },
       error => {
@@ -544,10 +553,19 @@ export class HomeComponent implements OnInit, OnDestroy {
     )
   }
 
+  mapSubfeatures(subfeatures) {
+    if (subfeatures?.length > 0) {
+      this.hasCategoryAccess = subfeatures.some(
+        (a) => a.name_en == "Category access" && a.active == 1
+      );
+    }
+  }
+
   formatSectionsData(data) {
+    let temp_sections_list: any[] = [];
     if(data?.length > 0) {
       data?.forEach(item => {
-        this.sectionsList?.push({
+        temp_sections_list?.push({
           id: 1,
           path: this.getPath(item),
           image: this.getImage(item),
@@ -555,10 +573,38 @@ export class HomeComponent implements OnInit, OnDestroy {
           date: this.getDate(item),
           address: item?.address,
           price: item?.price,
+          object_type: item?.object_type,
+          category: this.getCategory(item),
+          button_text: this.getButtonText(item),
         })
       })
     }
 
+    // if(temp_sections_list?.length > 0) {
+    //   let plans = temp_sections_list?.filter(t => {
+    //     return t.object_type == 'plan'
+    //   })
+    //   let clubs = temp_sections_list?.filter(t => {
+    //     return t.object_type == 'club'
+    //   })
+    //   let courses = temp_sections_list?.filter(t => {
+    //     return t.object_type == 'course'
+    //   })
+    //   for(var i = 0;i < temp_sections_list?.length - 1;i++) {
+    //     if(plans?.length > 0 && i < plans?.length && i == 0, i == 5, i == 6) {
+    //       this.sectionsList.push(plans[i])
+    //     }
+    //     if(clubs?.length > 0 && i < clubs?.length) {
+    //       this.sectionsList.push(clubs[i])
+    //     }
+    //     if(courses?.length > 0 && i < courses?.length) {
+    //       this.sectionsList.push(courses[i])
+    //     }
+    //   }
+    // }
+    this.sectionsList = temp_sections_list;
+
+    console.log(this.sectionsList)
     this.cd.detectChanges();
   }
 
@@ -572,6 +618,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         break;
       case 'club':
         path = `/clubs/details/${item.id}`
+        break;
+      case 'course':
+        path = `/courses/details/${item.id}`
+        break;
+      case 'cityguide':
+        path = `/cityguide/details/${item.id}`
         break;
     }
 
@@ -591,6 +643,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       case 'club':
         image = `${environment.api}/get-image-group/${item.image}`;
         break;
+      case 'course':
+        image = `${environment.api}/get-course-image/${item.image}`;
+        break;
+      case 'cityguide':
+        image = `${environment.api}/get-image/${item.image}`;
+        break;
     }
 
     return image;
@@ -606,6 +664,12 @@ export class HomeComponent implements OnInit, OnDestroy {
         break;
       case 'club':
         title = this.getGroupTitle(item);
+        break;
+      case 'course':
+        title = this.getCourseTitle(item);
+        break;
+      case 'cityguide':
+        title = this.getCityGuideTitle(item);
         break;
     }
 
@@ -623,6 +687,219 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     return date;
+  }
+
+  getCategory(item) {
+    let object_type = item?.object_type;
+    let category = '';
+
+    switch(object_type) {
+      case 'club':
+        category = this.getClubCategory(item);
+        break;
+      case 'course':
+        category = this.getCourseCategory(item);
+        break;
+    }
+
+    return category;
+  }
+
+  getClubCategory(club) {
+    let category = ''
+    let club_category = this.clubCategoryMapping?.filter(cc => {
+      return cc.fk_group_id == club.id
+    })
+
+    if(club_category?.length > 0) {
+      let mapped = club_category?.map(cc => {
+        let category = this.clubCategories?.filter(c => {
+          return cc.fk_supercategory_id == c.id
+        })
+        let title = category?.length > 0 ? this.getCategoryTitle(category[0]) : ''
+        
+        return {
+          ...cc,
+          title,
+        }
+      })
+
+      if(mapped?.length > 0) {
+        category = mapped.map( (data) => { return data.title }).join(',')
+      }
+    }
+
+    return category
+  }
+
+  getCourseCategory(course) {
+    let category = '';
+    let category_texts = this.getCategoriesDisplay(course);
+
+    if(category_texts?.length > 0) {
+      category = category_texts?.map((data) => { return data.label }).join(', ');
+    }
+
+    return category;
+  }
+
+  getCategoriesDisplay(course) {
+    let list_categories: any[] = []
+    if(course?.course_categories?.length > 0) {
+      course?.course_categories?.forEach(category => {
+        list_categories.push({
+          label: this.getCategoryLabel(category)
+        })
+      })
+    }
+    return list_categories
+  }
+
+  getCategoryLabel(category) {
+    return category
+      ? this.language == "en"
+        ? category.name_EN ||
+          category.name_ES
+        : this.language == "fr"
+        ? category.name_FR ||
+          category.name_ES
+        : this.language == "eu"
+        ? category.name_EU ||
+          category.name_ES
+        : this.language == "ca"
+        ? category.name_CA ||
+          category.name_ES
+        : this.language == "de"
+        ? category.name_DE ||
+          category.name_ES
+        : category.name_ES
+      : "";
+  }
+
+  getCategoryTitle(category) {
+    return category ? (this.language == 'en' ? (category.name_EN || category.name_ES) : (this.language == 'fr' ? (category.name_fr || category.name_ES) : 
+        (this.language == 'eu' ? (category.name_eu || category.name_ES) : (this.language == 'ca' ? (category.name_ca || category.name_ES) : 
+        (this.language == 'de' ? (category.name_de || category.name_ES) : category.name_ES)
+      ))
+    )) : ''
+  }
+
+  getButtonText(item) {
+    let object_type = item?.object_type;
+    let button_text = '';
+    
+    switch(object_type) {
+      case 'course':
+        button_text = this.getCourseButtonText(item);
+        break;
+    }
+
+    return button_text;
+  }
+
+  getCourseButtonText(course) {
+    let button_text = '';
+
+    let progress = this.getUserProgress(course);
+
+    if (
+      (((course?.locked == 1 && this.hasCourseStarted(course)) ||
+        (course?.buy_now_status == 0 && this.hasCourseStarted(course)) ||
+        (!this.hasCourseStarted(course) && course?.show_buy_now)) &&
+        course?.show_buy_now &&
+        course?.cta_status != 1) ||
+      course.unassigned_status == 1
+    ) {
+      button_text = this._translateService.instant("courses.blocked");
+    }
+
+    if (
+      (!course?.locked || course?.locked != 1) &&
+      this.hasCourseStarted(course) &&
+      course?.show_buy_now &&
+      course?.buy_now_status == 1
+    ) {
+      button_text =
+        course.buy_now_status == 1 &&
+        (this.hasCategoryAccess
+          ? this.userId
+            ? this._translateService.instant("courses.buynow")
+            : this._translateService.instant("courses.logintoaccess")
+          : this._translateService.instant("courses.buynow"));
+    }
+
+    if (
+      ((!course?.locked || course?.locked != 1) &&
+        !this.hasCourseStarted(course) &&
+        !course?.show_buy_now) ||
+      (course.exception_access == 1 && !this.hasCourseStarted(course))
+    ) {
+      button_text = `${this._translateService.instant("courses.startson")} ${moment(
+        course.date
+      )
+        .locale(this.language)
+        .format("D MMM")}`;
+    }
+
+    if (
+      course?.cta_status == 1 &&
+      !(
+        (!course?.locked || course?.locked != 1) &&
+        this.hasCourseStarted(course) &&
+        !course?.show_buy_now
+      ) &&
+      !(
+        (!course?.locked || course?.locked != 1) &&
+        !this.hasCourseStarted(course) &&
+        !course?.show_buy_now
+      )
+    ) {
+      button_text = course.cta_text;
+    }
+
+    if (
+      ((!course?.locked || course?.locked != 1) &&
+        this.hasCourseStarted(course) &&
+        !course?.show_buy_now) ||
+      ((course.exception_access == 1 || this.superAdmin) &&
+        this.hasCourseStarted(course))
+    ) {
+      button_text = this.userId
+        ? progress == 0
+          ? `${this._translateService.instant(
+              "courses.begin"
+            )} ${this._translateService.instant("invite.here")}`
+          : this._translateService.instant("courses.continue")
+        : this._translateService.instant("courses.logintoaccess");
+    }
+
+    return button_text;
+  }
+
+  hasCourseStarted(course) {
+    let show = true;
+    let start_date = course.date;
+    let today = moment().format("YYYY-MM-DD");
+
+    if (start_date) {
+      start_date = moment(course.date).format("YYYY-MM-DD");
+      if (moment(today).isBefore(course.date)) {
+        show = false;
+      }
+    }
+
+    return show;
+  }
+
+  getUserProgress(course) {
+    let progress = 0;
+    let user_course = this.coursesProgress?.find(
+      (cp) => cp?.user_id == this.userId && cp?.course_id == course?.id
+    );
+    if (user_course) {
+      progress = user_course?.progress;
+    }
+    return progress;
   }
 
   getEventTitle(event) {
@@ -720,6 +997,22 @@ export class HomeComponent implements OnInit, OnDestroy {
         ? group.title_de || group.title
         : group.title
       : group.title;
+  }
+
+  getCityGuideTitle(guide) {
+    return guide
+      ? this.language == "en"
+        ? guide.name_EN || guide.name_ES
+        : this.language == "fr"
+        ? guide.name_FR || guide.name_ES
+        : this.language == "eu"
+        ? guide.name_EU || guide.name_ES
+        : this.language == "ca"
+        ? guide.name_CA || guide.name_ES
+        : this.language == "de"
+        ? guide.name_DE || guide.name_ES
+        : guide.name_ES
+      : "";
   }
 
   getSettingsTitle() {
