@@ -329,7 +329,8 @@
         "confirmattendance": "Confirm attendance",
         "confirmedattendance": "You have successfully confirmed your attendance",
         "invalidcode": "Invalid code",
-        "youearned": "Congratulations, you earned"
+        "youearned": "Congratulations, you earned",
+        "sendconfirmattendanceemail": "Send confirm attendance email"
     },
     "plan-create": {
         "fillup": "Fill out this form to create your plan",
@@ -3459,7 +3460,8 @@
         "onthesedays": "On these days",
         "emailschedulesummary": " The email will be sent every",
         "includeattachment": "Include attachment",
-        "emailrecipients": "Email recipients (separated by comma)"
+        "emailrecipients": "Email recipients (separated by comma)",
+        "sendcredits": "Send credits list"
     },
     "videos-ctas": {
         "activatetimer": "Activate timer",

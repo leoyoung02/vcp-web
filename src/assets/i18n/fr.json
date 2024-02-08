@@ -329,7 +329,8 @@
         "confirmattendance": "Confirmer la présence",
         "confirmedattendance": "Vous avez confirmé votre présence avec succès",
         "invalidcode": "Code invalide",
-        "youearned": "Félicitations, vous avez gagné"
+        "youearned": "Félicitations, vous avez gagné",
+        "sendconfirmattendanceemail": "Envoyer un e-mail de confirmation de présence"
     },
     "plan-create": {
         "fillup": "Remplissez ce formulaire pour créer votre plan",
@@ -3418,7 +3419,8 @@
         "onthedays": "Ces jours-là",
         "emailschedulesummary": " L'e-mail sera envoyé tous les",
         "includeattachment": "Inclure la pièce jointe",
-        "emailrecipients": "Destinataires de l'e-mail (séparés par une virgule)"
+        "emailrecipients": "Destinataires de l'e-mail (séparés par une virgule)",
+        "sendcredits": "Envoyer la liste des crédits"
     },
     "videos-ctas": {
         "activatetimer": "Activer le minuteur",

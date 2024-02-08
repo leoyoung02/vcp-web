@@ -329,7 +329,8 @@
         "confirmattendance": "Confirmar asistencia",
         "confirmedattendance": "Has confirmado exitosamente tu asistencia",
         "invalidcode": "Código no válido",
-        "youearned": "Felicitaciones, te lo ganaste"
+        "youearned": "Felicitaciones, te lo ganaste",
+        "sendconfirmattendanceemail": "Enviar correo electrónico de confirmación de asistencia"
     },
     "plan-create": {
         "fillup": "Rellena este formulario para crear tu plan",
@@ -3445,7 +3446,8 @@
         "onthesedays": "En estos días",
         "emailschedulesummary": " El correo electrónico se enviará cada",
         "includeattachment": "Incluir archivo adjunto",
-        "emailrecipients": "Destinatarios de correo electrónico (separados por coma)"
+        "emailrecipients": "Destinatarios de correo electrónico (separados por coma)",
+        "sendcredits": "Enviar lista de créditos"
     },
     "videos-ctas": {
         "activatetimer": "Activar temporizador",

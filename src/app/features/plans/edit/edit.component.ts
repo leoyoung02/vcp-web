@@ -707,6 +707,9 @@ export class PlanEditComponent {
     this.plansFeature = features?.find((f) => f.feature_id == 1);
     this.featureId = this.plansFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.plansFeature);
+    if(this.isUESchoolOfLife && this.companyId == 32) {
+      this.pageName = this.pageName?.replace('de Vida Universitaria', 'de School of Life')
+    }
     this.pageTitle = `${this.id > 0 ? this._translateService.instant('plan-create.edityouractivity') : this._translateService.instant('plan-create.createyouractivity')} ${this.pageName}` 
 
     this.clubsFeature = features?.find(

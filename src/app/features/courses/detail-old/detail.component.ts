@@ -292,7 +292,7 @@ export class CourseDetailComponent {
   getCourse() {
     this._coursesService
       .fetchCourseCombined(this.id, this.companyId, this.userId)
-      .pipe(takeUntil(this.destroy$))
+      // .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
           let course_data =  data[0] ? data[0] : [];
@@ -1461,8 +1461,10 @@ export class CourseDetailComponent {
             this.completemodalbutton?.nativeElement.click();
           } else {
             this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+            if(response['total_progress'] != 100) {
+              this.goToNextLesson()
+            }
           }
-          this.goToNextLesson()
       },
       error => {
           console.log(error);

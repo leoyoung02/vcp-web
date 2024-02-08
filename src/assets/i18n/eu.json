@@ -329,7 +329,8 @@
         "confirmattendance": "Berretsi asistentzia",
         "confirmedattendance": "Zure asistentzia behar bezala baieztatu duzu",
         "invalidcode": "Kode baliogabea",
-        "youearned": "Zorionak, irabazi duzu"
+        "youearned": "Zorionak, irabazi duzu",
+        "sendconfirmaattendanceemail": "Bidali berresteko asistentzia-mezu elektronikoa"
     },
     "plan-create": {
         "fillup": "Bete formulario hau zure plana sortzeko",
@@ -3423,7 +3424,8 @@
         "onthesedays": "Egun hauetan",
         "emailschedulesummary": "Mezu elektronikoa behin bidaliko da",
         "includeattachment": "Sartu eranskina",
-        "emailrecipients": "Mezu hartzaileak (komaz bereizita)"
+        "emailrecipients": "Mezu hartzaileak (komaz bereizita)",
+        "sendcredits": "Bidali kreditu-zerrenda"
     },
     "videos-ctas": {
         "activatetimer": "Aktibatu tenporizadorea",

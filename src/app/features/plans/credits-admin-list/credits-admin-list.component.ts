@@ -43,6 +43,7 @@ export class CreditsAdminListComponent {
     @Input() userId: any;
     @Input() superAdmin: any;
     @Input() language: any;
+    @Input() isUESchoolOfLife: any;
 
     languageChangeSubscription;
     isMobile: boolean = false;
@@ -78,6 +79,7 @@ export class CreditsAdminListComponent {
     selectedDays: any = [];
     companyId: any;
     emailRecipients: any = '';
+    sending: boolean = false;
 
     constructor(
         private _route: ActivatedRoute,
@@ -183,10 +185,11 @@ export class CreditsAdminListComponent {
 
     fetchCreditsData() {
       this._plansService
-        .fetchCreditsData(this.company?.id)
+        .fetchCreditsData(this.company?.id, this.isUESchoolOfLife)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           (data) => {
+            console.log(data)
             this.formatCredits(data?.credits);
           },
           (error) => {
@@ -415,6 +418,28 @@ export class CreditsAdminListComponent {
         (response) => {
           this.open(
             this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+          this.closemodalbutton?.nativeElement.click();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+
+    sendCredits() {
+      this.sending = true;
+      let params = {
+        id: this.companyId,
+        school_of_life: this.isUESchoolOfLife,
+      };
+
+      this._plansService.sendCreditsData(params).subscribe(
+        (response) => {
+          this.sending = false;
+          this.open(
+            this._translateService.instant("dialog.sentsuccessfully"),
             ""
           );
           this.closemodalbutton?.nativeElement.click();

@@ -551,14 +551,13 @@
                         ></star-rating>
                     </div>
                     <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
-                        <button
-                            class="w-full inline-block h-[40px] text-sm px-6 py-2 mt-6 font-semibold text-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
+                        <span
+                            class="text-center hover:cursor-pointer w-full inline-block h-[40px] text-sm px-6 py-[10px] mt-6 font-semibold text-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
                             [ngStyle]="{'background-color': rating ? buttonColor : '#c7c7c7'}"
-                            [disabled]="!rating"
                             (click)="submitEvaluation()"
                         >
                             {{ 'members.send' | translate }}
-                        </button>
+                        </span>
                     </div>
                 </form>
             </div>

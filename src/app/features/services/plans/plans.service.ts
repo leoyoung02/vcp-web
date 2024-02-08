@@ -65,7 +65,7 @@ import {
   PLANS_MANAGEMENT_DATA_URL,
   PLANS_OTHER_DATA_URL,
   PLANS_URL,
-  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_PAYMENT_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, SALES_PEOPLE_URL, SUBMIT_ACTIVITY_RATING_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
+  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_PAYMENT_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, SALES_PEOPLE_URL, SEND_CONFIRM_ATTENDANCE_EMAIL_URL, SEND_CREDITS_DATA_URL, SUBMIT_ACTIVITY_RATING_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -987,8 +987,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
-  fetchCreditsData(id): Observable<any> {
-    return this._http.get(`${ACTIVITY_CREDITS_URL}/${id}`,
+  fetchCreditsData(id, isUESchoolOfLife): Observable<any> {
+    let url = `${ACTIVITY_CREDITS_URL}/${id}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1`
+    }
+    return this._http.get(url,
       { headers: this.headers }
     ).pipe(map(res => res));
   }
@@ -1052,6 +1056,20 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
   getEventRegistrationTemplateByGuid(slug, invite_guid): Observable<any> {
     return this._http.get(`${EVENT_TEMPLATE_URL}/${slug}/${invite_guid}`,
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  sendCreditsData(payload): Observable<any> {
+    return this._http.post(SEND_CREDITS_DATA_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  sendConfirmAttendanceEmail(payload): Observable<any> {
+    return this._http.post(SEND_CONFIRM_ATTENDANCE_EMAIL_URL,
+        payload,
+        { headers: this.headers }
     ).pipe(map(res => res));
   }
 }

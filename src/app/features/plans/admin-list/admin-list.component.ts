@@ -86,6 +86,9 @@ export class PlansAdminListComponent {
     invoiceDetails: any;
     apiPath: string = environment.api;
     kcnTypes: any = [];
+    selectedConfirmEvent: any = '';
+    sending: boolean = false;
+    sortedPlansData: any;
 
     constructor(
         private _route: ActivatedRoute,
@@ -939,9 +942,46 @@ export class PlansAdminListComponent {
       );
     }
 
+    sendConfirmAttendance() {
+      if(this.plansData?.length > 0) {
+        this.sortedPlansData = this.plansData.sort((a, b) => {
+          return b.id - a.id
+        })
+      }
+
+      this.dialogMode = 'send-confirm-attendance';
+      this.modalbutton?.nativeElement.click();
+    }
+
+    sendConfirmAttendanceEmail() {
+      this.sending = true;
+      let plan = this.sortedPlansData.find((c) => c.id == this.selectedConfirmEvent);
+      let params = {
+        id: this.company?.id,
+        plan_id: plan?.id,
+        plan_type_id: plan?.plan_type_id,
+      };
+
+      this._plansService.sendConfirmAttendanceEmail(params).subscribe(
+        (response) => {
+          this.sending = false;
+          this.open(
+            this._translateService.instant("dialog.sentsuccessfully"),
+            ""
+          );
+          this.closemodalbutton?.nativeElement.click();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+
+      this.sending = false;
+    }
+
     ngOnDestroy() {
-        this.languageChangeSubscription?.unsubscribe();
-        this.destroy$.next();
-        this.destroy$.complete();
+      this.languageChangeSubscription?.unsubscribe();
+      this.destroy$.next();
+      this.destroy$.complete();
     }
 }

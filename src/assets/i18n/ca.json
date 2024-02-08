@@ -329,7 +329,8 @@
         "confirmattendance": "Confirmar l'assistència",
         "confirmedattendance": "Has confirmat correctament la teva assistència",
         "invalidcode": "Codi no vàlid",
-        "youearned": "Enhorabona, t'has guanyat"
+        "youearned": "Enhorabona, t'has guanyat",
+        "sendconfirmaattendanceemail": "Envia un correu electrònic de confirmació d'assistència"
     },
     "plan-create": {
         "fillup": "Omple aquest formulari per crear el teu pla",
@@ -3433,7 +3434,8 @@
         "onthesedays": "En aquests dies",
         "emailschedulesummary": "El correu electrònic s'enviarà cada",
         "includeattachment": "Inclou el fitxer adjunt",
-        "emailrecipients": "Destinataris de correu electrònic (separats per comes)"
+        "emailrecipients": "Destinataris de correu electrònic (separats per comes)",
+        "sendcredits": "Envia la llista de crèdits"
     },
     "videos-ctas": {
         "activatetimer": "Activa el temporitzador",
