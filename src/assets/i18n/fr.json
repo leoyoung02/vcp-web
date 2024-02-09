@@ -3330,8 +3330,12 @@
         "creditdeduction":"Credit Deduction",
         "credituser":"Credit User",
         "creditlogs":"Journaux de crédit",
-        "action": "Action",
-        "status": "Statut"
+        "action": "Modifié par",
+        "status": "Action",
+        "usercreated":"Utilisateur créé",
+        "useredited":"Modifié par l'utilisateur",
+        "bookingcredit":"Réservation",
+        "purchasedcredit":"Crédits achetés"
     },
     "password": {
         "better": "C'est mieux d'avoir :",

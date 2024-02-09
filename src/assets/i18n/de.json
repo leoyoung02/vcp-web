@@ -3335,8 +3335,12 @@
         "creditdeduction":"Kreditabzug",
         "credituser":"Kreditbenutzer",
         "creditlogs":"Kreditprotokolle",
-        "action": "Aktion",
-        "status": "Status"
+        "action": "Angepasst von",
+        "status": "Aktion",
+        "usercreated":"Vom Benutzer erstellt",
+        "useredited":"Vom Benutzer bearbeitet",
+        "bookingcredit":"Buchung",
+        "purchasedcredit":"Gekaufte Credits"
     },
     "password": {
         "better": "Es ist besser zu haben:",

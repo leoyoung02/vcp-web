@@ -3372,8 +3372,12 @@
         "creditdeduction":"Credit Deduction",
         "credituser":"Credit User",
         "creditlogs":"Credit Logs",
-        "action": "Action",
-        "status": "Status"
+        "action": "Modified by",
+        "status": "Action",
+        "usercreated":"User Created",
+        "useredited":"User Edited",
+        "bookingcredit":"Booking",
+        "purchasedcredit":"Credits Purchased"
     },
     "password": {
         "better": "It's better to have:",

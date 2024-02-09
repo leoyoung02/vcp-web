@@ -132,9 +132,12 @@ export class UserCreditsComponent {
                 this.creditLogData  = credit_logs_history?.map(credit=>{
                   return {
                     ...credit,
-                    credits: credit.credits,
+                    credits: credit?.credits,
                     date:moment(credit?.created_at).format('DD/MM/YY'),
                     time:moment(credit?.created_at).format('hh:mm A'),
+                    status: credit?.status.toLowerCase() === 'user created' ? this._translateService.instant('credit-package.usercreated'):  credit?.status.toLowerCase() === 'user edited' ? this._translateService.instant('credit-package.useredited'):
+                    credit?.status.toLowerCase() === 'booking' ? this._translateService.instant('credit-package.bookingcredit') : 
+                    credit?.status.toLowerCase() === 'credits purchased' ? this._translateService.instant('credit-package.purchasedcredit') : ''
                   }
                 })
                 this.isLoading = false

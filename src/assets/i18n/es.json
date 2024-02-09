@@ -3358,8 +3358,12 @@
         "creditdeduction":"Deducción de crédito",
         "credituser":"Usuario de crédito",
         "creditlogs":"Registros de crédito",
-        "action": "Acción",
-        "status": "Estado"
+        "action": "Modificado por",
+        "status": "Acción",
+        "usercreated":"Usuario creado",
+        "useredited":"Usuario editado",
+        "bookingcredit":"Reserva",
+        "purchasedcredit":"Créditos comprados"
     },
     "password": {
         "better": "Es mejor tener:",

@@ -3346,8 +3346,12 @@
         "creditdeduction":"Deducció de crèdit",
         "credituser":"Usuari de crèdit",
         "creditlogs":"Registres de crèdit",
-        "action": "Acció",
-        "status": "Estat"
+        "action": "Modificat per",
+        "status": "Acció",
+        "usercreated":"Usuari creat",
+        "useredited":"Editat per l'usuari",
+        "bookingcredit":"Reserva",
+        "purchasedcredit":"Crèdits adquirits"
     },
     "password": {
         "better": "És millor tenir:",

@@ -3336,8 +3336,12 @@
         "creditdeduction":"Kreditu kenkaria",
         "credituser":"Kreditu Erabiltzailea",
         "creditlogs":"Kreditu Erregistroak",
-        "action": "Ekintza",
-        "status": "Egoera"
+        "action": "arabera aldatua",
+        "status": "Ekintza",
+        "usercreated":"Erabiltzaileak sortua",
+        "useredited":"Erabiltzaileak editatua",
+        "bookingcredit":"Erreserba",
+        "purchasedcredit":"Erositako kredituak"
     },
     "password": {
         "better": "Hobe da edukitzea:",
