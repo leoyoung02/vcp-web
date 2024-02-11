@@ -579,7 +579,7 @@ export class CreditsComponent {
   redirect() {
     setTimeout(() => {
       if(this.userId > 0) {
-          this._router.navigate([`/user/my-credits`])
+          this._router.navigate([`/users/my-credits/tutors`])
           .then(() => {
             window.location.reload()
           })

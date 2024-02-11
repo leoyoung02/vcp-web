@@ -155,7 +155,6 @@ export class CalendlyComponent {
       calendly_event_id: event_guid, 
       calendly_invitee_id: invitee_guid,
     }
-    
     if(this.courseCreditSetting) {
       if(!this.separateCourseCredits && this.remainingCredits > 0) {
         params['remaining_course_credits'] = this.remainingCredits - 1

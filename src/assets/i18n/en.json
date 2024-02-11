@@ -3366,7 +3366,18 @@
         "purchasehistory": "Purchase History",
         "failed":"failed",
         "selectcredits": "Select credits to purchase",
-        "paymentconfirmed": "Thank you for your purchase. This confirms that your payment has been completed."
+        "paymentconfirmed": "Thank you for your purchase. This confirms that your payment has been completed.",
+        "totalcredits":"Total Credits",
+        "creditadditon":"Credit Addition",
+        "creditdeduction":"Credit Deduction",
+        "credituser":"Credit User",
+        "creditlogs":"Credit Logs",
+        "action": "Modified by",
+        "status": "Action",
+        "usercreated":"User Created",
+        "useredited":"User Edited",
+        "bookingcredit":"Booking",
+        "purchasedcredit":"Credits Purchased"
     },
     "password": {
         "better": "It's better to have:",
