@@ -267,7 +267,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.getMobileLimitSettings();
+    // this.getMobileLimitSettings();
 
     // Get all activated features
     // this.features = this._localService.getLocalStorage(environment.lsfeatures)
@@ -576,6 +576,12 @@ export class HomeComponent implements OnInit, OnDestroy {
           object_type: item?.object_type,
           category: this.getCategory(item),
           button_text: this.getButtonText(item),
+          languages: this.getLanguages(item),
+          city: this.getCity(item),
+          types: this.getTypes(item),
+          rating: this.getRating(item),
+          created_by_name: this.getCreatedByName(item),
+          created_by_image: this.getCreatedByImage(item),
         })
       })
     }
@@ -625,6 +631,15 @@ export class HomeComponent implements OnInit, OnDestroy {
       case 'cityguide':
         path = `/cityguide/details/${item.id}`
         break;
+      case 'discount':
+        path = `/discounts/details/${item.id}`
+        break;
+      case 'blog':
+        path = `/blog/details/${item.id}`
+        break;
+      case 'tutor':
+        path = `/tutors/details/${item.id}`
+        break;
     }
 
     return path;
@@ -649,6 +664,15 @@ export class HomeComponent implements OnInit, OnDestroy {
       case 'cityguide':
         image = `${environment.api}/get-image/${item.image}`;
         break;
+      case 'discount':
+        image = `${environment.api}/get-ie-image-disc/${item.image}`;
+        break;
+      case 'blog':
+        image = `${environment.api}/get-blog-image/${item.image}`;
+        break;
+      case 'tutor':
+        image = `${environment.api}/${item.image}`;
+        break;
     }
 
     return image;
@@ -671,6 +695,15 @@ export class HomeComponent implements OnInit, OnDestroy {
       case 'cityguide':
         title = this.getCityGuideTitle(item);
         break;
+      case 'discount':
+        title = this.getOfferTitle(item);
+        break;
+      case 'blog':
+        title = this.getBlogTitle(item);
+        break;
+      case 'tutor':
+        title = this.getTutorTitle(item);
+        break;
     }
 
     return title;
@@ -684,9 +717,107 @@ export class HomeComponent implements OnInit, OnDestroy {
       case 'plan':
         date = this.getActivityDate(item);
         break;
+      case 'blog':
+        date = item?.created_at;
+        break;
     }
 
     return date;
+  }
+
+  getCreatedByName(item) {
+    let object_type = item?.object_type;
+    let created_by = '';
+
+    switch(object_type) {
+      case 'blog':
+        created_by = item?.created_by_name;
+        break;
+    }
+
+    return created_by;
+  }
+
+  getCreatedByImage(item) {
+    let object_type = item?.object_type;
+    let created_by_image = '';
+
+    switch(object_type) {
+      case 'blog':
+        created_by_image = `${environment.api}/${item?.created_by_image}`;
+        break;
+    }
+
+    return created_by_image;
+  }
+
+  getLanguages(item) {
+    let object_type = item?.object_type;
+    let languages = '';
+
+    switch(object_type) {
+      case 'tutor':
+        languages = item?.languages || this._translateService.instant('tutors.spanish');
+        break;
+    }
+
+    return languages;
+  }
+
+  getCity(item) {
+    let object_type = item?.object_type;
+    let city = '';
+
+    switch(object_type) {
+      case 'tutor':
+        city = item?.city;
+        break;
+    }
+
+    return city;
+  }
+
+  getRating(item) {
+    let object_type = item?.object_type;
+    let rating = '';
+
+    switch(object_type) {
+      case 'tutor':
+        rating = this.getTutorRating(item);
+        break;
+    }
+
+    return rating;
+  }
+
+  getTutorRating(item) {
+    let rating
+
+    if(item?.tutor_ratings?.length > 0){
+      let rating_array = item['tutor_ratings']
+      let tut_rating = 0.0
+      let no_of_rating = 0
+      rating_array.forEach((tr) => {
+          tut_rating += tr.tutor_rating ? parseFloat(tr.tutor_rating) : 0
+          no_of_rating++
+      })
+      rating = (tut_rating/no_of_rating).toFixed(1);
+    }
+
+    return rating
+  }
+
+  getTypes(item) {
+    let object_type = item?.object_type;
+    let types = '';
+
+    switch(object_type) {
+      case 'tutor':
+        types = item?.types;
+        break;
+    }
+
+    return types;
   }
 
   getCategory(item) {
@@ -1015,6 +1146,34 @@ export class HomeComponent implements OnInit, OnDestroy {
       : "";
   }
 
+  getOfferTitle(offer) {
+    return offer ? (this.language == 'en' ? (offer.title_en || offer.title) : (this.language == 'fr' ? (offer.title_fr || offer.title) : 
+        (this.language == 'eu' ? (offer.title_eu || offer.title) : (this.language == 'ca' ? (offer.title_ca || offer.title) : 
+        (this.language == 'de' ? (offer.title_de || offer.title) : offer.title)
+      ))
+    )) : ''
+  }
+
+  getBlogTitle(blog) {
+    return blog
+      ? this.language == "en"
+        ? blog.name_EN || blog.name_ES
+        : this.language == "fr"
+        ? blog.name_FR || blog.name_ES
+        : this.language == "eu"
+        ? blog.name_EU || blog.name_ES
+        : this.language == "ca"
+        ? blog.name_CA || blog.name_ES
+        : this.language == "de"
+        ? blog.name_DE || blog.name_ES
+        : blog.name_ES
+      : "";
+  }
+
+  getTutorTitle(tutor) {
+    return tutor?.name || `${tutor?.first_name} ${tutor?.last_name}`;
+  }
+
   getSettingsTitle() {
     this._companyService
     .getCategorySetting(4)
@@ -1168,77 +1327,77 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
   }
 
-  getMobileLimitSettings() {
-    this._companyService
-      .getMobileLimitSettingsAll(this.companyId)
-      .pipe(takeUntil(this._destroy$))
-      .subscribe((data) => {
-        let settings = data.mobile_limit_settings;
+  // getMobileLimitSettings() {
+  //   this._companyService
+  //     .getMobileLimitSettingsAll(this.companyId)
+  //     .pipe(takeUntil(this._destroy$))
+  //     .subscribe((data) => {
+  //       let settings = data.mobile_limit_settings;
 
-        let activity_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 1;
-          });
-        if (activity_limit && activity_limit.length > 0) {
-          this.mobileLimitActivities = activity_limit[0].home_limit;
-        }
+  //       let activity_limit =
+  //         settings &&
+  //         settings.filter((s) => {
+  //           return s.feature_id == 1;
+  //         });
+  //       if (activity_limit && activity_limit.length > 0) {
+  //         this.mobileLimitActivities = activity_limit[0].home_limit;
+  //       }
 
-        let cityagenda_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 3;
-          });
-        if (cityagenda_limit && cityagenda_limit.length > 0) {
-          this.mobileLimitCityAgenda = cityagenda_limit[0].home_limit;
-        }
+  //       let cityagenda_limit =
+  //         settings &&
+  //         settings.filter((s) => {
+  //           return s.feature_id == 3;
+  //         });
+  //       if (cityagenda_limit && cityagenda_limit.length > 0) {
+  //         this.mobileLimitCityAgenda = cityagenda_limit[0].home_limit;
+  //       }
 
-        let club_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 5;
-          });
-        if (club_limit && club_limit.length > 0) {
-          this.mobileLimitClubs = club_limit[0].home_limit;
-        }
+  //       let club_limit =
+  //         settings &&
+  //         settings.filter((s) => {
+  //           return s.feature_id == 5;
+  //         });
+  //       if (club_limit && club_limit.length > 0) {
+  //         this.mobileLimitClubs = club_limit[0].home_limit;
+  //       }
 
-        let joboffers_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 18;
-          });
-        if (joboffers_limit && joboffers_limit.length > 0) {
-          this.mobileLimitJobOffers = joboffers_limit[0].home_limit;
-        }
+  //       let joboffers_limit =
+  //         settings &&
+  //         settings.filter((s) => {
+  //           return s.feature_id == 18;
+  //         });
+  //       if (joboffers_limit && joboffers_limit.length > 0) {
+  //         this.mobileLimitJobOffers = joboffers_limit[0].home_limit;
+  //       }
 
-        let discounts_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 4;
-          });
-        if (discounts_limit && discounts_limit.length > 0) {
-          this.mobileLimitDiscounts = discounts_limit[0].home_limit;
-        }
+  //       let discounts_limit =
+  //         settings &&
+  //         settings.filter((s) => {
+  //           return s.feature_id == 4;
+  //         });
+  //       if (discounts_limit && discounts_limit.length > 0) {
+  //         this.mobileLimitDiscounts = discounts_limit[0].home_limit;
+  //       }
 
-        let courses_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 11;
-          });
-        if (courses_limit && courses_limit.length > 0) {
-          this.mobileLimitCourses = courses_limit[0].home_limit;
-        }
+  //       let courses_limit =
+  //         settings &&
+  //         settings.filter((s) => {
+  //           return s.feature_id == 11;
+  //         });
+  //       if (courses_limit && courses_limit.length > 0) {
+  //         this.mobileLimitCourses = courses_limit[0].home_limit;
+  //       }
 
-        let startups_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 15;
-          });
-        if (startups_limit && startups_limit.length > 0) {
-          this.mobileLimitMembers = startups_limit[0].home_limit;
-        }
-      });
-  }
+  //       let startups_limit =
+  //         settings &&
+  //         settings.filter((s) => {
+  //           return s.feature_id == 15;
+  //         });
+  //       if (startups_limit && startups_limit.length > 0) {
+  //         this.mobileLimitMembers = startups_limit[0].home_limit;
+  //       }
+  //     });
+  // }
 
   getLandingTemplateBySlug(slug) {
     this._companyService

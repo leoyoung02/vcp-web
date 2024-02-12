@@ -16,6 +16,7 @@ import {
 import { CompanyService, LocalService } from "@share/services";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
+import { StarRatingComponent } from "@lib/components";
 
 @Component({
   selector: "app-sections-masonry",
@@ -24,6 +25,7 @@ import { initFlowbite } from "flowbite";
     CommonModule,
     RouterModule,
     TranslateModule,
+    StarRatingComponent
   ],
   templateUrl: "./sections-masonry.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
