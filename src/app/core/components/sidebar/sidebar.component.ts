@@ -458,7 +458,7 @@ export class SidebarComponent {
 
   getMenuIcon(menu) {
     let menuItem = this.menuIcons.filter((mnu) => {
-      return mnu.path == menu.path;
+      return mnu.path == menu.path || mnu.path == menu?.return_url;
     });
 
     let iconImage = "";
@@ -581,12 +581,19 @@ export class SidebarComponent {
   }
 
   navigateToPage(menu) {
-    if(menu?.new_button == 1 || menu?.new_url == 1) {
+    if(menu.new_button == 1 || menu.new_url == 1) {
       let path = menu.path;
       if(path?.indexOf('schooloflife') >= 0 && this.currentUser?.guid) {
         path = `${path}/sso/${this.currentUser?.guid}`;
       }
-      this.openUrl(menu?.new_url == 1 && this.isUESchoolOfLife ? `https://${this.company?.url}` : path);
+      this.openUrl(menu.new_url == 1 && this.isUESchoolOfLife ? `https://${this.company?.url}` : path);
+    } else if(menu.return_url) {
+      let path = menu.path;
+      if(path?.indexOf('schooloflife') >= 0 && this.currentUser?.guid) {
+        path = `${path?.replace('plans', '')?.replace('courses', '')}/sso/${this.currentUser?.guid}?returnUrl=${menu.return_url}`;
+        path = path?.replace('//sso', '/sso');
+      }
+      this.openUrl(path);
     } else {
       let link = menu?.path == 'home' ? '/' : menu?.path
 

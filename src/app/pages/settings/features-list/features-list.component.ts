@@ -379,12 +379,12 @@ export class FeaturesListComponent {
 
   getFeaturePath(feature) {
     let tempPath = feature.feature_name.replace(/\s/g, "").toLowerCase();
-    return tempPath == "cityagenda" ? "news" : tempPath;
+    return tempPath == "cityagenda" ? "cityguide" : tempPath;
   }
 
   getFeatureName(feature) {
     let tempName = feature.name_en ? feature.name_en : feature.feature_name;
-    return tempName == "cityagenda" ? "News" : tempName;
+    return tempName == "cityagenda" ? "cityguide" : tempName;
   }
 
   handleViewDetails(event) {

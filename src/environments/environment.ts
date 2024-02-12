@@ -5,7 +5,7 @@
 export const environment = {
     production: true,
     api: 'http://localhost:8977/secureapi',
-    company: 'vcp.vistingo.com',
+    company: 'vidauniversitaria.universidadeuropea.com',
     lstoken: 'MDzMJjldj0uCZf+DrObXFA==',
     lsrefreshtoken: 'EKHWGZB/EkSWmaO+0haEvA==',
     lsinitializationVector: 'encryptionIntVec',

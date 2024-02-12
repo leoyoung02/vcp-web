@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, OnDestroy, OnInit } from "@angular/core";
+import { Component, inject, Input, OnDestroy, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { AppTheme, ThemeService } from "src/app/core/services/theme";
 import { Subject, takeUntil } from "rxjs";
@@ -41,6 +41,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   private readonly _themeService = inject(ThemeService);
   private readonly _destroy$ = new Subject();
+
+  @Input() returnUrl!: string;
 
   userId: any;
   language: any;
@@ -223,6 +225,10 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.newURLButtonTextValueDe = company[0].new_url_button_text_de;
         this.newURLButtonUrl = company[0].new_url_button_url;
         this.getSchoolOfLifeTitle();
+      }
+
+      if(this.returnUrl) {
+        location.href = `/${this.returnUrl}` || '/';
       }
 
       if (company[0].landing_template == 1) {

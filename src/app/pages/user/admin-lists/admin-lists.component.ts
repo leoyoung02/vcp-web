@@ -200,23 +200,9 @@ export class AdminListsComponent {
       ? this.getFeatureTitle(this.jobOffersFeature)
       : "";
 
-    // Check if city agenda is activated, otherwise just add here for testing
     this.cityGuideFeature = features?.find(
       (f) => f.feature_id == 3 && f.status == 1
     );
-    // Check if city agenda is activated, otherwise just add here for testing
-    if(!this.cityGuideFeature && this.companyId == 32) {
-      this.cityGuideFeature = {
-        feature_id: 3,
-        name_ca: "City Agenda",
-        name_de: "City Agenda",
-        name_en: "City Guide",
-        name_es: "City Guide",
-        name_eu: "City Agenda",
-        name_fr: "Calendrier de la Ville",
-        status: 1
-      }
-    }
     this.cityGuideFeatureId = this.cityGuideFeature?.feature_id;
     this.cityGuideTitle = this.cityGuideFeature
       ? this.getFeatureTitle(this.cityGuideFeature)

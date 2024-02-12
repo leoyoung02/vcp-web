@@ -23,7 +23,11 @@
           (mouseleave)="toggleMenuHover(false, menu)"
         >
           <img
-            [src]="menu?.new_button == 1 || menu?.new_url == 1 ? (menuColor == '#000000' ? (menu?.new_button == 1 ? './assets/menu-icons/menu-icon-colleague-dark.png' : './assets/menu-icons/menu-icon-mmbers-dark.png') : (menu?.new_button == 1 ? './assets/menu-icons/menu-icon-colleague.png' : './assets/menu-icons/menu-icon-members.png')) : getMenuIcon(menu)"
+            [src]="menu?.new_button == 1 || (menu?.new_url == 1 && !menu?.original_path) ? 
+              (menuColor == '#000000' ? 
+                (menu?.new_button == 1 ? './assets/menu-icons/menu-icon-colleague-dark.png' : './assets/menu-icons/menu-icon-mmbers-dark.png') : 
+                (menu?.new_button == 1 ? './assets/menu-icons/menu-icon-colleague.png' : './assets/menu-icons/menu-icon-members.png')
+              ) : getMenuIcon(menu)"
             class="cursor-pointer w-[22px] max-w-[22px] h-[22px] max-h-[22px]"
             alt=""
           />

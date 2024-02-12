@@ -1354,56 +1354,13 @@ export class LayoutMainComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe((data) => {
             this.features = data[0] ? data[0] : [];
-            // Check if city agenda is activated, otherwise just add here for testing
-            let cityGuideFeature = this.features?.find((f) => f.id == 3);
-            if(cityGuideFeature?.id > 0) { } else {
-              if(this.companyId == 32) {
-                this.features?.push({
-                  app_image: "blog-icon.png",
-                  app_path: "city-agenda-list",
-                  description_ca: "Obtingueu més informació sobre els últims esdeveniments i mantingueu-vos actualitzats sobre el que està succeint.",
-                  description_de: "Erfahren Sie mehr über die neuesten Veranstaltungen und bleiben Sie auf dem Laufenden.",
-                  description_en: "Read these recommendations and feel at home!",
-                  description_es: "¡Lee estas recomendaciones y siéntete como en casa!",
-                  description_eu: "Lortu informazio gehiago azken ekitaldiei eta egon gertatzen ari denaren berri.",
-                  description_fr: "En savoir plus sur les derniers événements et être au courant de ce qui se passe.",
-                  entity_name: "Universidad Europea",
-                  entity_type_name: "Company",
-                  feature_name: "City Agenda",
-                  feature_name_ca: "City Agenda",
-                  feature_name_de: "City Agenda",
-                  feature_name_es: "Contenidos",
-                  feature_name_eu: "Udal Agenda",
-                  feature_name_fr: "Ordre du jour de la ville",
-                  id: 3,
-                  image: "features_blog.jpg",
-                  mapping_id: 182,
-                  name: "Company",
-                  name_ca: "City Agenda",
-                  name_de: "City Agenda",
-                  name_en: "City Guide",
-                  name_es: "City Guide",
-                  name_eu: "City Agenda",
-                  name_fr: "Calendrier de la Ville",
-                  sequence: 4
-                })
-                this.features = this.features?.sort((a, b) => {
-                  return a.sequence - b.sequence;
-                });
-              }
-            }
-
             let company_subfeatures = data[1] ? data[1]["subfeatures"] : [];
             let permissions = data[2] ? data[2]["permissions"] : [];
             let subfeatureMapping = data[3] ? data[3]["active"] : [];
             let course_subfeatures = data[4] ? data[4]["subfeatures"] : [];
-            this.courseSubscriptions = data[5]
-              ? data[5]["course_subscriptions"]
-              : [];
+            this.courseSubscriptions = data[5] ? data[5]["course_subscriptions"] : [];
             this.courseTutors = data[6] ? data[6]["course_tutors"] : [];
-            this.courseExceptionUser = data[7]
-              ? data[7]["company_course_exception_user"]
-              : [];
+            this.courseExceptionUser = data[7] ? data[7]["company_course_exception_user"] : [];
             this.courses = data[8] ? data[8]["courses"] : [];
             let plan_subfeatures = data[9] ? data[9]["subfeatures"] : [];
             let planFeature = this.features?.find((f) => f.id == 1);
@@ -1429,45 +1386,6 @@ export class LayoutMainComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe((data) => {
             this.features = data[0] ? data[0] : [];
-            // Check if city agenda is activated, otherwise just add here for testing
-            let cityGuideFeature = this.features?.find((f) => f.id == 3);
-            if(cityGuideFeature?.id > 0) { } else {
-              if(this.companyId == 32) {
-                this.features?.push({
-                  app_image: "blog-icon.png",
-                  app_path: "city-agenda-list",
-                  description_ca: "Obtingueu més informació sobre els últims esdeveniments i mantingueu-vos actualitzats sobre el que està succeint.",
-                  description_de: "Erfahren Sie mehr über die neuesten Veranstaltungen und bleiben Sie auf dem Laufenden.",
-                  description_en: "Read these recommendations and feel at home!",
-                  description_es: "¡Lee estas recomendaciones y siéntete como en casa!",
-                  description_eu: "Lortu informazio gehiago azken ekitaldiei eta egon gertatzen ari denaren berri.",
-                  description_fr: "En savoir plus sur les derniers événements et être au courant de ce qui se passe.",
-                  entity_name: "Universidad Europea",
-                  entity_type_name: "Company",
-                  feature_name: "City Agenda",
-                  feature_name_ca: "City Agenda",
-                  feature_name_de: "City Agenda",
-                  feature_name_es: "Contenidos",
-                  feature_name_eu: "Udal Agenda",
-                  feature_name_fr: "Ordre du jour de la ville",
-                  id: 3,
-                  image: "features_blog.jpg",
-                  mapping_id: 182,
-                  name: "Company",
-                  name_ca: "City Agenda",
-                  name_de: "City Agenda",
-                  name_en: "City Guide",
-                  name_es: "City Guide",
-                  name_eu: "City Agenda",
-                  name_fr: "Calendrier de la Ville",
-                  sequence: 4
-                })
-                this.features = this.features?.sort((a, b) => {
-                  return a.sequence - b.sequence;
-                });
-              }
-            }
-            
             let company_subfeatures = data[1] ? data[1]["subfeatures"] : [];
             let permissions = data[2] ? data[2]["permissions"] : [];
             let subfeatureMapping = data[3] ? data[3]["active"] : [];
@@ -1557,9 +1475,53 @@ export class LayoutMainComponent {
 
       mmatch = this.menus.some((a) => a.name === tempData.name);
       if (!mmatch) {
-        if(this.isUESchoolOfLife && this.companyId == 32) {
-          if(tempData?.id == 1 || tempData?.id == 11) {
-            this.menus.push(tempData);
+        if(this.companyId == 32) {
+          if(this.isUESchoolOfLife) {
+            if(tempData?.id == 1 || tempData?.id == 11) {
+              this.menus.push(tempData);
+            }
+          } else {
+            if(tempData?.id == 1) {
+              this.menus.push(tempData);
+              if (this.newURLButton == 1) {
+                this.menus.push({
+                  id: 5 + tempData?.id,
+                  path: `${this.newURLButtonUrl}/${tempPath}`,
+                  new_url: 0,
+                  new_button: 0,
+                  return_url: tempPath,
+                  name: `${tempName?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueEn || this.newURLButtonTextValue)}`,
+                  name_ES: `${name_ES?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValue)}`,
+                  name_FR: `${name_FR?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueFr || this.newURLButtonTextValue)}`,
+                  name_EU: `${name_EU?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueEu || this.newURLButtonTextValue)}`,
+                  name_CA: `${name_CA?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueCa || this.newURLButtonTextValue)}`,
+                  name_DE: `${name_DE?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueDe || this.newURLButtonTextValue)}`,
+                  show: true,
+                  sequence: this.features[i].sequence ? this.features[i].sequence : 3 + i,
+                })
+              }
+            }
+            if(tempData?.id == 11) {
+              this.menus.push({
+                id: 5 + tempData?.id,
+                path: `${this.newURLButtonUrl}/${tempPath}`,
+                new_url: 0,
+                new_button: 0,
+                return_url: tempPath,
+                name: tempName,
+                name_ES: name_ES,
+                name_FR: name_FR,
+                name_EU: name_EU,
+                name_CA: name_CA,
+                name_DE: name_DE,
+                show: true,
+                sequence: this.features[i].sequence ? this.features[i].sequence : 3 + i,
+              })
+            }
+
+            if(tempData?.id != 1 && tempData?.id != 11) {
+              this.menus.push(tempData);
+            }
           }
         } else {
           this.menus.push(tempData);
@@ -1569,7 +1531,12 @@ export class LayoutMainComponent {
 
     this.sortMenuOrdering();
     mmatch = this.renderNewMenu(mmatch);
-    this.renderCourseWallMenu(has_course_wall_subfeature);
+    if(
+      (this.companyId == 32 && this.isUESchoolOfLife) ||
+      this.companyId != 32
+    ) {
+      this.renderCourseWallMenu(has_course_wall_subfeature);
+    }
     this.renderTutorsMenu(subfeatureMapping);
 
     this._localService.setLocalStorage(
@@ -1913,29 +1880,6 @@ export class LayoutMainComponent {
   }
 
   renderNewMenu(mmatch) {
-    if (this.newMenuButton == 1) {
-      mmatch = this.menus.some(
-        (a) =>
-          a.name ===
-          (this.newMenuButtonTextValueEn || this.newMenuButtonTextValue)
-      );
-      if (!mmatch) {
-        this.menus.push({
-          id: this.menus.length + 100,
-          path: this.newMenuButtonUrl,
-          new_button: 1,
-          name: this.newMenuButtonTextValueEn || this.newMenuButtonTextValue,
-          name_ES: this.newMenuButtonTextValue,
-          name_FR: this.newMenuButtonTextValueFr || this.newMenuButtonTextValue,
-          name_EU: this.newMenuButtonTextValueEu || this.newMenuButtonTextValue,
-          name_CA: this.newMenuButtonTextValueCa || this.newMenuButtonTextValue,
-          name_DE: this.newMenuButtonTextValueDe || this.newMenuButtonTextValue,
-          show: true,
-          sequence: this.menus.length + 1,
-        });
-      }
-    }
-
     if (this.newURLButton == 1) {
       mmatch = this.menus.some(
         (a) =>
@@ -1947,12 +1891,39 @@ export class LayoutMainComponent {
           id: this.menus.length + 100,
           path: this.newURLButtonUrl,
           new_url: 1,
+          new_button: 0,
+          return_url: '',
           name: this.newURLButtonTextValueEn || this.newURLButtonTextValue,
           name_ES: this.newURLButtonTextValue,
           name_FR: this.newURLButtonTextValueFr || this.newURLButtonTextValue,
           name_EU: this.newURLButtonTextValueEu || this.newURLButtonTextValue,
           name_CA: this.newURLButtonTextValueCa || this.newURLButtonTextValue,
           name_DE: this.newURLButtonTextValueDe || this.newURLButtonTextValue,
+          show: true,
+          sequence: this.menus.length + 1,
+        });
+      }
+    }
+
+    if (this.newMenuButton == 1) {
+      mmatch = this.menus.some(
+        (a) =>
+          a.name ===
+          (this.newMenuButtonTextValueEn || this.newMenuButtonTextValue)
+      );
+      if (!mmatch) {
+        this.menus.push({
+          id: this.menus.length + 100,
+          path: this.newMenuButtonUrl,
+          new_url: 0,
+          new_button: 1,
+          return_url: '',
+          name: this.newMenuButtonTextValueEn || this.newMenuButtonTextValue,
+          name_ES: this.newMenuButtonTextValue,
+          name_FR: this.newMenuButtonTextValueFr || this.newMenuButtonTextValue,
+          name_EU: this.newMenuButtonTextValueEu || this.newMenuButtonTextValue,
+          name_CA: this.newMenuButtonTextValueCa || this.newMenuButtonTextValue,
+          name_DE: this.newMenuButtonTextValueDe || this.newMenuButtonTextValue,
           show: true,
           sequence: this.menus.length + 1,
         });

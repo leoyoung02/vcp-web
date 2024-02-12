@@ -7,7 +7,7 @@ import {
 import { MatListModule, MatSelectionList } from "@angular/material/list";
 import { CommonModule, Location } from "@angular/common";
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
-import { BreadcrumbComponent } from "@share/components";
+import { BreadcrumbComponent, PageTitleComponent } from "@share/components";
 import { CompanyService, LocalService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
@@ -22,6 +22,7 @@ import get from "lodash/get";
     MatSnackBarModule,
     MatListModule,
     BreadcrumbComponent,
+    PageTitleComponent,
   ],
   templateUrl: "./menu-order.component.html",
 })
