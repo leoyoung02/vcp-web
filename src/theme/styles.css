@@ -932,3 +932,7 @@ div.event-description a {
   flex: 0 0 10% !important;
   width: 10% !important;
 }
+
+.custom-video-landing-text strong{
+    font-family: inherit !important;
+}
