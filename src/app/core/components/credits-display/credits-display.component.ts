@@ -43,7 +43,6 @@ export class CreditsDisplayComponent {
     @Input() courses: any;
     @Input() language: any;
     @Input() creditPackages: any;
-
     courseCredits: any = 0;
     remainingCourseCredits: any = 0;
     creditsPercentage: any;
@@ -58,13 +57,12 @@ export class CreditsDisplayComponent {
     @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
     | ElementRef
     | undefined;
-
     constructor(
         private _router: Router,
         private _userService: UserService,
         private _translateService: TranslateService,
         private _localService: LocalService,) {
-        
+            
     }
 
     async ngOnInit() {

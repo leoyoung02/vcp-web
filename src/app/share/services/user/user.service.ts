@@ -80,6 +80,7 @@ import {
     CRM_ASSIGNED_GUESTS_DATA_URL,
     USER_GUID_INFO_URL,
     TUTOR_DETAILS_URL,
+    USER_CREDIT_LOGS_HISTORY_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
@@ -560,6 +561,11 @@ export class UserService {
 
   getUserCreditLogs(id): Observable<any> {
     return this._http.get(`${USER_CREDIT_LOGS_URL}/${id}`, 
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+  getUserCreditLogsHistory(userId): Observable<any> {
+    return this._http.get(`${USER_CREDIT_LOGS_HISTORY_URL}/${userId}`, 
       { headers: this.headers }
     ).pipe(map(res => res));
   }
