@@ -927,7 +927,7 @@ export class MainComponent {
               mi.submenus && mi.submenus.some((a) => a.value === "Events");
             if (!match) {
               mi.submenus.push({
-                text: this.planTitle,
+                text: this.isUESchoolOfLife ? this.planTitle?.replace('de Vida Universitaria', 'de School of Life') : this.planTitle,
                 value: "Events",
               });
             }
@@ -976,7 +976,7 @@ export class MainComponent {
               }
             }
           }
-          if (this.isCourseEnabled) {
+          if (this.isCourseEnabled && !(this.companyId == 32 && !this.isUESchoolOfLife)) {
             let match =
               mi.submenus && mi.submenus.some((a) => a.value === "Courses");
             if (!match) {

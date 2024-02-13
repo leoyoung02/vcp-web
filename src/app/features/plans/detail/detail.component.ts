@@ -429,6 +429,7 @@ export class PlanDetailComponent {
     this.categories = data?.plan_categories;
     this.subcategories = data?.plan_subcategories;
     this.planCategoryMapping = data?.plan_category_mapping;
+    this.getPlanWaitingList(data?.plan);
     this.formatPlan(
       data?.plan,
       data?.user_permissions?.user,
@@ -440,6 +441,14 @@ export class PlanDetailComponent {
       this.getNetculturaUsers();
     } else {
       this.checkLimitSeats();
+    }
+  }
+
+  getPlanWaitingList(plan) {
+    let waitingList = plan.waiting_list
+    if(waitingList && waitingList.length > 0) {
+      this.isInWaitingList = true;
+      this.waitingListPosition = waitingList[0].position;
     }
   }
 

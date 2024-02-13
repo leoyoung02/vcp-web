@@ -826,7 +826,7 @@ export class PlanEditComponent {
     this.showLanguages = true;
     this.selectedLanguage = this.language;
     if (this.guestMemberSeatActive) {
-      this, (this.showSeats = true);
+      this.showSeats = true;
       this.showGuestMemberSeat = true;
     }
     if (this.invitationLinkActive) {

@@ -228,6 +228,21 @@
                         </div>
                     </div>
                 </div>
+                <div class="my-4" *ngIf="activateWaitingList && (superAdmin || showOption) && waitingList?.length > 0">
+                    <button
+                        class="btn w-[345px] max-w-[345px] h-[52px] text-white text-base uppercase font-semibold transition duration-700 ease-in-out"
+                        [ngStyle]="{
+                            'background-color': '#1e1e1e',
+                            'opacity': joinHover ? 1.5 : 1,
+                            'filter': joinHover ? 'brightness(0.8)' : 'brightness(1)'
+                        }"
+                        (click)="downloadWaitingList()"
+                        (mouseover)="toggleJoinHover(true)"
+                        (mouseleave)="toggleJoinHover(false)"
+                    >
+                    {{ 'edit-plan.downloadwaitinglist' | translate }} ({{ waitingList?.length }})
+                    </button>
+                </div>
                 <ng-container *ngIf="plan?.show_attendee && limitPlanParticipants?.length > 0">
                     <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row my-12 items-center">
                         <div class="mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0">
