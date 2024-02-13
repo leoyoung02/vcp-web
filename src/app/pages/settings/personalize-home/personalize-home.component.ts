@@ -693,7 +693,8 @@ export class PersonalizeHomeComponent {
         checked: activated_section ? true : false,
         id: item?.id,
         title: this.getFeatureTitle(item),
-        order: activated_section ? activated_section?.module_order : 'latest'
+        order: activated_section ? activated_section?.module_order : 'latest',
+        limit: activated_section ? activated_section?.module_limit : 4,
       };
     });
     if(features?.length > 0) {

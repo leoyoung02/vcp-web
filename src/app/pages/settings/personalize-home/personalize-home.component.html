@@ -403,19 +403,28 @@
                                                     <h3 class="font-semibold text-gray-900 dark:text-white">
                                                         {{feature?.title}}
                                                     </h3>
-                                                    <select
-                                                        class="w-[250px] max-w-[250px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                        [(ngModel)]="feature.order"
-                                                        [ngModelOptions]="{standalone: true}"
-                                                    >
-                                                        <option value="" selected>{{ 'company-settings.selectorder' | translate }}</option>
-                                                        <option
-                                                            *ngFor="let order of modulesOrder"
-                                                            [value]="order.value"
+                                                    <div class="flex items-center">
+                                                        <input 
+                                                            type="number" 
+                                                            class="w-[175px] max-w-[175px] mr-4 text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                            [(ngModel)]="feature.limit"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                            placeholder="{{ 'company-settings.setlimit' | translate }}" 
+                                                            required>
+                                                        <select
+                                                            class="w-[265px] max-w-[265px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            [(ngModel)]="feature.order"
+                                                            [ngModelOptions]="{standalone: true}"
                                                         >
-                                                        {{ order.text }}
-                                                        </option>
-                                                    </select>
+                                                            <option value="" selected>{{ 'company-settings.selectorder' | translate }}</option>
+                                                            <option
+                                                                *ngFor="let order of modulesOrder"
+                                                                [value]="order.value"
+                                                            >
+                                                            {{ order.text }}
+                                                            </option>
+                                                        </select> 
+                                                    </div>
                                                 </div>
                                                 <div class="grid grid-cols-4 gap-4">
                                                     <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">

@@ -163,6 +163,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   clubCategoryMapping: any = [];
   coursesProgress: any = [];
   hasCategoryAccess: boolean = false;
+  types: any = [];
+  areas: any = [];
+  jobOfferAreasMapping: any = [];
 
   constructor(
     private _translateService: TranslateService,
@@ -267,18 +270,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
-    // this.getMobileLimitSettings();
 
     // Get all activated features
-    // this.features = this._localService.getLocalStorage(environment.lsfeatures)
-    //   ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
-    //   : "";
-    // if (!this.features) {
-      this.features = await this._companyService
-        .getFeatures(this.domain)
-        .toPromise();
-    // }
-    // console.log(this.features)
+    this.features = await this._companyService
+      .getFeatures(this.domain)
+      .toPromise();
 
     let plansFeature = this.features.filter((f) => {
       return f.feature_name == "Plans";
@@ -545,6 +541,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.clubCategories = response.club_categories;
         this.clubCategoryMapping = response.club_category_mapping;
         this.coursesProgress = response.courses_progress;
+        this.types = response?.job_types;
+        this.areas = response?.job_areas;
+        this.jobOfferAreasMapping = response?.job_offer_areas;
         this.formatSectionsData(response?.results);
       },
       error => {
@@ -580,6 +579,9 @@ export class HomeComponent implements OnInit, OnDestroy {
           city: this.getCity(item),
           types: this.getTypes(item),
           rating: this.getRating(item),
+          sector: this.getSector(item),
+          type: this.getType(item),
+          area: this.getArea(item),
           created_by_name: this.getCreatedByName(item),
           created_by_image: this.getCreatedByImage(item),
         })
@@ -640,6 +642,15 @@ export class HomeComponent implements OnInit, OnDestroy {
       case 'tutor':
         path = `/tutors/details/${item.id}`
         break;
+      case 'service':
+        path = `/services/details/${item.id}`
+        break;
+      case 'member':
+        path = `/members/details/${item.id}`
+        break;
+      case 'joboffer':
+        path = `/employmentchannel/details/${item.id}`
+        break;
     }
 
     return path;
@@ -673,6 +684,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       case 'tutor':
         image = `${environment.api}/${item.image}`;
         break;
+      case 'service':
+        image = `${environment.api}/get-image/${item.image}`;
+        break;
+      case 'member':
+        image = `${environment.api}/${item.image}`;
+        break;
     }
 
     return image;
@@ -703,6 +720,15 @@ export class HomeComponent implements OnInit, OnDestroy {
         break;
       case 'tutor':
         title = this.getTutorTitle(item);
+        break;
+      case 'service':
+        title = item?.name;
+        break;
+      case 'member':
+        title = item?.first_name ? `${item?.first_name} ${item?.last_name}` : item?.name;
+        break;
+      case 'joboffer':
+        title = this.getJobOfferTitle(item);
         break;
     }
 
@@ -770,6 +796,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     switch(object_type) {
       case 'tutor':
+        city = item?.city;
+        break;
+      case 'member':
         city = item?.city;
         break;
     }
@@ -913,6 +942,87 @@ export class HomeComponent implements OnInit, OnDestroy {
         (this.language == 'de' ? (category.name_de || category.name_ES) : category.name_ES)
       ))
     )) : ''
+  }
+
+  getSector(item) {
+    let object_type = item?.object_type;
+    let sector = '';
+
+    switch(object_type) {
+      case 'member':
+        sector = item?.sector;
+        break;
+    }
+
+    return sector;
+  }
+
+  getJobOfferTitle(offer) {
+    return this.language == 'en' ? (offer.title_en || offer.title) : (this.language == 'fr' ? (offer.title_fr || offer.title) :
+      (this.language == 'eu' ? (offer.title_eu || offer.title) : (this.language == 'ca' ? (offer.title_ca || offer.title) :
+        (this.language == 'de' ? (offer.title_de || offer.title) : offer.title)
+      ))
+    )
+  }
+
+  getType(item) {
+    let object_type = item?.object_type;
+    let type = '';
+
+    switch(object_type) {
+      case 'joboffer':
+        type = this.getJobOfferType(item);
+        break;
+    }
+
+    return type;
+  }
+
+  getJobOfferType(item) {
+    let type = '';
+
+    let type_row = this.types?.filter(jt => {
+      return jt.id == item.type_id
+    })
+
+    if(type_row?.length > 0) {
+      type = this.getTypeTitle(type_row[0])
+    }
+
+    return type;
+  }
+
+  getTypeTitle(type) {
+    return this.language == 'en' ? (type.title_en || type.title) : (this.language == 'fr' ? (type.title_fr || type.title) :
+      (this.language == 'eu' ? (type.title_eu || type.title) : (this.language == 'ca' ? (type.title_ca || type.title) :
+        (this.language == 'de' ? (type.title_de || type.title) : type.title)
+      ))
+    )
+  }
+
+  getArea(item) {
+    let object_type = item?.object_type;
+    let area = '';
+
+    switch(object_type) {
+      case 'joboffer':
+        area = this.getAreaDisplay(item);
+        break;
+    }
+
+    return area;
+  }
+
+  getAreaDisplay(offer) {
+    let area_display = ''
+
+    let job_areas = this.areas?.filter(ja => {
+      return this.jobOfferAreasMapping?.some((a) => a.job_offer_id === offer.id && a.area_id == ja.id);
+    })
+
+    area_display = job_areas?.length > 1 ? job_areas?.map( (data) => { return data.title }).join(', ') : (job_areas?.length == 1 ? job_areas[0].title : '')
+
+    return area_display
   }
 
   getButtonText(item) {
@@ -1326,78 +1436,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.disableMembers = true;
     }
   }
-
-  // getMobileLimitSettings() {
-  //   this._companyService
-  //     .getMobileLimitSettingsAll(this.companyId)
-  //     .pipe(takeUntil(this._destroy$))
-  //     .subscribe((data) => {
-  //       let settings = data.mobile_limit_settings;
-
-  //       let activity_limit =
-  //         settings &&
-  //         settings.filter((s) => {
-  //           return s.feature_id == 1;
-  //         });
-  //       if (activity_limit && activity_limit.length > 0) {
-  //         this.mobileLimitActivities = activity_limit[0].home_limit;
-  //       }
-
-  //       let cityagenda_limit =
-  //         settings &&
-  //         settings.filter((s) => {
-  //           return s.feature_id == 3;
-  //         });
-  //       if (cityagenda_limit && cityagenda_limit.length > 0) {
-  //         this.mobileLimitCityAgenda = cityagenda_limit[0].home_limit;
-  //       }
-
-  //       let club_limit =
-  //         settings &&
-  //         settings.filter((s) => {
-  //           return s.feature_id == 5;
-  //         });
-  //       if (club_limit && club_limit.length > 0) {
-  //         this.mobileLimitClubs = club_limit[0].home_limit;
-  //       }
-
-  //       let joboffers_limit =
-  //         settings &&
-  //         settings.filter((s) => {
-  //           return s.feature_id == 18;
-  //         });
-  //       if (joboffers_limit && joboffers_limit.length > 0) {
-  //         this.mobileLimitJobOffers = joboffers_limit[0].home_limit;
-  //       }
-
-  //       let discounts_limit =
-  //         settings &&
-  //         settings.filter((s) => {
-  //           return s.feature_id == 4;
-  //         });
-  //       if (discounts_limit && discounts_limit.length > 0) {
-  //         this.mobileLimitDiscounts = discounts_limit[0].home_limit;
-  //       }
-
-  //       let courses_limit =
-  //         settings &&
-  //         settings.filter((s) => {
-  //           return s.feature_id == 11;
-  //         });
-  //       if (courses_limit && courses_limit.length > 0) {
-  //         this.mobileLimitCourses = courses_limit[0].home_limit;
-  //       }
-
-  //       let startups_limit =
-  //         settings &&
-  //         settings.filter((s) => {
-  //           return s.feature_id == 15;
-  //         });
-  //       if (startups_limit && startups_limit.length > 0) {
-  //         this.mobileLimitMembers = startups_limit[0].home_limit;
-  //       }
-  //     });
-  // }
 
   getLandingTemplateBySlug(slug) {
     this._companyService
