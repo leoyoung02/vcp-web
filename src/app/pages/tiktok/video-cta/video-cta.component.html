@@ -1,19 +1,19 @@
 <ng-container *ngIf="!isLoading && videoCTA?.id > 0">
-    <div class="w-full relative" [ngStyle]="{
+    <div class="w-full min-h-screen relative" [ngStyle]="{
         'zIndex': '-1'
     }">
         <ng-container *ngIf="bannerImage">
-            <img class="absolute top-0 left-0 w-full h-full" src="{{ bannerImage }}"  [ngStyle]="{
+            <img class="absolute top-0 left-0 w-full h-full object-cover" src="{{ bannerImage }}"  [ngStyle]="{
                 'zIndex': '-1'
             }" />
         </ng-container>
-        <div class="max-w-full sm:max-w-full md:max-w-screen-xl lg:max-w-screen-xl pt-8 mx-auto">
+        <div class="max-w-full sm:max-w-full md:max-w-screen-xl lg:max-w-screen-xl p-5 mx-auto">
             <ng-container *ngIf="pageTitleText">
                 <span [innerHtml]="pageTitleText | safeContentHtml: 'html'"  class="custom-video-landing-text"></span> 
             </ng-container>
-            <div *ngIf="activateVideo" class="mt-10">
+            <div *ngIf="activateVideo" class="mt-5">
                 <ng-container *ngIf="activateTimedButton && activatedVideoTime">
-                    <div class="md:w-full md:max-w-full md:flex md:justify-center lg:w-full lg:max-w-full lg:flex lg:justify-center">
+                    <div class="w-full max-w-full flex justify-center max-h-[560px] min-h-[300px]">
                         <div id="vimeo-player" #playerContainer class="z-40"></div>
                     </div>
                 </ng-container>
@@ -40,19 +40,19 @@
                             </iframe>
                         </div>
                         <div 
-                            class="w-full max-w-full flex justify-center" 
+                            class="w-full max-w-full flex justify-center max-h-[560px] min-h-[300px]" 
                            [innerHtml]="updatedCode | safeContentHtml: 'html'" 
                             *ngIf="videoEmbed?.indexOf('iframe') >= 0">
                         </div>
                     </ng-container>
                 </ng-container>
             </div>
-            <div class="w-9/12 mx-auto my-8" *ngIf="activateDescription" [ngStyle]="{'color': descriptionTextColor}">
+            <div class="w-9/12 mx-auto my-10" *ngIf="activateDescription" [ngStyle]="{'color': descriptionTextColor}">
                 <div class="relative h-full max-h-full"
                     [ngClass]="{'flex flex-col': !descriptionText}">
                     <div [ngClass]="{'flex justify-center items-center': !descriptionText, 'flex-col': CTAText}">
                         <ng-container *ngIf="!activateTimedButton || (activateTimedButton && activatedTime)">
-                            <div *ngIf="activateCTA && CTAText && showCTA" class="pt-8">
+                            <div *ngIf="activateCTA && CTAText && showCTA">
                                 <ng-container *ngIf="descriptionText">
                                     <span [innerHtml]="descriptionText | safeContentHtml: 'html'" class="custom-video-landing-text"></span>
                                 </ng-container>
@@ -69,7 +69,7 @@
                             </div>
                         </ng-container>
                         <ng-container *ngIf="activateTimedButton && activatedVideoTime">
-                            <div *ngIf="activateCTA && CTAText" class="pt-8">
+                            <div *ngIf="activateCTA && CTAText" >
                                 <ng-container *ngIf="!videoCTA?.vimeo_id">
                                     <span [innerHtml]="descriptionText | safeContentHtml: 'html'" class="custom-video-landing-text"></span>
                                     <div class="text-center mt-3">
@@ -98,8 +98,8 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="quesAnsText" >
-                <div class="relative h-full max-h-full"
+            <div *ngIf="quesAnsText">
+                <div class="min-h-[100px]"
                     [ngClass]="{'flex flex-col': !quesAnsText}">
                     <div class=""
                     [ngClass]="{'flex justify-center items-center': quesAnsText}">
@@ -109,14 +109,14 @@
                     </div>
                 </div>
             </div>
-             <div *ngIf="footerText"  class="absolute w-full left-0 bottom-0">
-                <div class="min-h-[80px] bg-[#000000]"
-                [ngClass]="{'flex justify-center items-center': footerText}">
-                    <ng-container *ngIf="footerText">
-                        <p class="text-[#808080]">{{footerText}}</p>
-                    </ng-container>
-                </div>
-            </div>
+        </div>
+    </div>
+    <div *ngIf="footerText"  class="w-full">
+        <div class="min-h-[80px] bg-[#000000]"
+        [ngClass]="{'flex justify-center items-center': footerText}">
+            <ng-container *ngIf="footerText">
+                <p class="text-[#808080]">{{footerText}}</p>
+            </ng-container>
         </div>
     </div>
 </ng-container>
