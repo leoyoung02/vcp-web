@@ -2051,7 +2051,8 @@
         "pagetitletext":"Títol de la pàgina",
         "backgroundimage":"Imatge de fons",
         "questionanssection":"Secció de preguntes",
-        "footer":"Peu de pàgina"
+        "footer":"Peu de pàgina",
+        "pottutor":"Tutor d'olla"
     },
     "guest-landing": {
         "templates": "Plantilles",

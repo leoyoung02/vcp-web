@@ -2052,7 +2052,8 @@
         "pagetitletext":"Page Title",
         "backgroundimage":"Background Image",
         "questionanssection":"Question Section",
-        "footer":"Footer"
+        "footer":"Footer",
+        "pottutor":"Pot Tutor"
     },
     "guest-landing": {
         "templates": "Templates",

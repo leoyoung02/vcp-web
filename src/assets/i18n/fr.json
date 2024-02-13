@@ -2044,7 +2044,8 @@
         "pagetitletext":"Titre de la page",
         "backgroundimage":"Image de fond",
         "questionanssection":"Section des questions",
-        "footer":"Bas de page"
+        "footer":"Bas de page",
+        "pottutor":"Tuteur de pot"
     },
     "guest-landing": {
         "templates": "Modèles",

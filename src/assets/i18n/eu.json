@@ -2047,7 +2047,8 @@
         "pagetitletext":"Orriaren izenburua",
         "backgroundimage":"Atzeko planoko irudia",
         "questionanssection":"Galdera Atala",
-        "footer":"Oina"
+        "footer":"Oina",
+        "pottutor":"Pot Tutorea"
     },
     "guest-landing": {
         "templates": "Txantiloiak",

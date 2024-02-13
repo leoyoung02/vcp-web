@@ -2046,7 +2046,8 @@
         "pagetitletext":"Seitentitel",
         "backgroundimage":"Hintergrundbild",
         "questionanssection":"Fragenbereich",
-        "footer":"Fusszeile"
+        "footer":"Fusszeile",
+        "pottutor":"Pot-Lehrer"
     },
     "guest-landing": {
         "templates": "Vorlagen",
