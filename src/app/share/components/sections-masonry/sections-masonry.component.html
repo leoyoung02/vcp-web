@@ -21,7 +21,7 @@
             </p>
           </div>
           <div class="mt-auto">
-            <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black text-sm">
+            <span class="test__tag inline-block bg-white bg-opacity-60 py-1 px-4 rounded-md text-black text-sm">
               <span>
                 {{ item?.address }} <span *ngIf="item?.address" class="px-3">•</span><span>{{ item?.price > 0 ? (item?.price?.replace('.00', '') + '€') : ('category.free' | translate) }}</span>
               </span>

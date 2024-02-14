@@ -533,7 +533,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   loadSectionsList(pageNo) {
     this._companyService
-    .getHomeSectionsData(this.companyId, this.userId, pageNo)
+    .getHomeSectionsData(this.companyId, this.userId, pageNo, this.isUESchoolOfLife)
     .subscribe(
       response => {
         console.log(response)

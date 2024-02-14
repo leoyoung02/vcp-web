@@ -369,7 +369,7 @@
                         <div class="flex w-full max-w-full mt-4 mb-8">
                             <div class="w-full sm:w-full md:w-[250px] lg:w-[250px] relative">
                                 <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">{{'company-settings.modules' | translate}}</h3>
-                                <ul class="w-48 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
+                                <ul class="w-52 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
                                     <li *ngFor="let feature of features" 
                                         class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
                                         <div class="w-full max-w-full p-3">
@@ -406,13 +406,13 @@
                                                     <div class="flex items-center">
                                                         <input 
                                                             type="number" 
-                                                            class="w-[175px] max-w-[175px] mr-4 text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                            class="w-[160px] max-w-[160px] mr-4 text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                                             [(ngModel)]="feature.limit"
                                                             [ngModelOptions]="{standalone: true}"
                                                             placeholder="{{ 'company-settings.setlimit' | translate }}" 
                                                             required>
                                                         <select
-                                                            class="w-[265px] max-w-[265px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                            class="w-[300px] max-w-[300px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                                             [(ngModel)]="feature.order"
                                                             [ngModelOptions]="{standalone: true}"
                                                         >

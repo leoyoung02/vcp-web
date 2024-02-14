@@ -1880,8 +1880,12 @@ export class CompanyService {
     ).pipe(map(res => res));
   }
 
-  getHomeSectionsData(id, userId, pageNo): Observable<any> {
-    return this._http.get(`${HOME_SECTIONS_DATA_URL}/${id}/${userId}/${pageNo}`, { 
+  getHomeSectionsData(id, userId, pageNo, isUESchoolOfLife: boolean = false): Observable<any> {
+    let url = `${HOME_SECTIONS_DATA_URL}/${id}/${userId}/${pageNo}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1`
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }
