@@ -79,7 +79,7 @@
                                 apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
                                 [init]="{
                                     height: 180,
-                                    menubar: false,
+                                    menubar: true,
                                     plugins: [
                                     'advlist autolink lists link image imagetools charmap print',
                                     'textcolor preview anchor searchreplace visualblocks code',
@@ -95,7 +95,7 @@
                                     media | \
                                     paste pastetext | \
                                     image imagetools | \
-                                    bullist numlist outdent indent | help'
+                                    bullist numlist outdent indent | help',
                                 }"
                                 id="page-title-text"
                                 [(ngModel)]="pageTitleText"
@@ -310,7 +310,7 @@
                                 apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
                                 [init]="{
                                     height: 180,
-                                    menubar: false,
+                                    menubar: true,
                                     plugins: [
                                     'advlist autolink lists link image imagetools charmap print',
                                     'textcolor preview anchor searchreplace visualblocks code',
@@ -534,7 +534,7 @@
                                  apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
                                  [init]="{
                                      height: 180,
-                                     menubar: false,
+                                     menubar: true,
                                      plugins: [
                                      'advlist autolink lists link image imagetools charmap print',
                                      'textcolor preview anchor searchreplace visualblocks code',
@@ -628,7 +628,7 @@
             </div>
         </div>
         <div class="col-span-3">
-            <div class="bg-[#f8f4f4] p-8 min-h-[540px] px-40 ">
+            <div [class]="bannerImage ? 'min-h-[540px] sm:mx-20' : 'bg-[#f8f4f4] min-h-[540px] sm:mx-20'">
                 <div class="relative">
                     <ng-container *ngIf="bannerImage">
                         <img class="absolute inset-0 w-full h-full object-cover" src="{{ bannerImage }}" />
@@ -641,7 +641,7 @@
                             <div class="min-h-[130px] border  border-dashed p-8 flex justify-center items-center"
                             >
                                 <ng-container *ngIf="pageTitleText">
-                                    <span [innerHtml]="pageTitleText | safeContentHtml: 'html'"></span>
+                                    <span [innerHtml]="pageTitleText | safeContentHtml: 'html'" class="custom-video-landing-text"></span>
                                 </ng-container>
                                 <ng-container *ngIf="!pageTitleText">
                                     <span class="font-semibold text-lg">{{ 'company-settings.pagetitletext' | translate }}</span>
@@ -691,7 +691,7 @@
                             <div class="min-h-[130px] border  border-dashed p-8"
                             [ngClass]="{'flex justify-center items-center': !descriptionText, 'flex-col': CTAText}">
                                 <ng-container *ngIf="descriptionText">
-                                    <span [innerHtml]="descriptionText | safeContentHtml: 'html'"></span>
+                                    <span [innerHtml]="descriptionText | safeContentHtml: 'html'" class="custom-video-landing-text"></span>
                                 </ng-container>
                                 <ng-container *ngIf="!descriptionText">
                                     <span class="font-semibold text-lg">{{ 'company-settings.description' | translate }}</span>
@@ -714,7 +714,7 @@
                             <div class="min-h-[130px] border  border-dashed p-8 flex justify-center items-center"
                             >
                                 <ng-container *ngIf="quesAnsText">
-                                    <span [innerHtml]="quesAnsText | safeContentHtml: 'html'"></span>
+                                    <span [innerHtml]="quesAnsText | safeContentHtml: 'html'" class="custom-video-landing-text"></span>
                                 </ng-container>
                                 <ng-container *ngIf="!quesAnsText">
                                     <span class="font-semibold text-lg">{{ 'company-settings.questionanssection' | translate }}</span>
@@ -725,7 +725,7 @@
                     <div *ngIf="activateFooter" >
                         <div class="relative h-full max-h-full"
                             [ngClass]="{'flex flex-col': !footerText}">
-                            <div class="min-h-[130px] border  border-dashed p-8 flex justify-center items-center"
+                            <div class="min-h-[130px] border  border-dashed p-8 flex justify-center items-center bg-[#000000]"
                         >
                                 <ng-container *ngIf="footerText">
                                     <p class="text-[#808080]">{{footerText}}</p>
