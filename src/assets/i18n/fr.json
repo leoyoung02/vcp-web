@@ -3364,7 +3364,8 @@
     },
     "contract": {
         "review": "Vérifier les termes et conditions",
-        "pleasereview": "Veuillez consulter les conditions ci-dessous :"
+        "pleasereview": "Veuillez consulter les conditions ci-dessous :",
+        "accept": "accepter les termes et conditionss"
     },
     "blogs": {
         "blogs": "Blogues",

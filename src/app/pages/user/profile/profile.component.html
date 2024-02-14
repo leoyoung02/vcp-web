@@ -324,6 +324,20 @@
                 </div>
             </div>
         </div>
+        <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mt-4">
+                <div class="flex items-center justify-start relative" *ngIf="me?.custom_member_type_id !== 144 && me?.custom_member_type_id !== 321 &&  me?.custom_member_type_id !== 243">
+                        <div *ngIf="!isTermsAccepted">
+                        <button
+                            type="button"
+                            class="w-full inline-block h-[40px] text-xs sm:text-sm px-6 py-2 my-6 font-semibold text-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
+                            [ngStyle]="{'background-color': buttonColor}"
+                            (click)="acceptTerms()"
+                        >
+                            {{ "contract.accept" | translate }}
+                        </button>
+                    </div>
+                </div>
+        </div>
         <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
             <button
                 type="submit"
@@ -439,6 +453,14 @@
             </div>
         </div>
     </div>
+</div>
+
+<div *ngIf="isOpenContact" class="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+    <app-contract
+    [id]="companyId"
+    [typeId]="me?.custom_member_type_id"
+    [closeContract]="closeContract"
+    ></app-contract>
 </div>
 <app-toast 
     *ngIf="showConfirmationModal" 

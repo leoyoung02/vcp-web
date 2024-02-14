@@ -3369,7 +3369,8 @@
     },
     "contract": {
         "review": "Bewertungsbedingungen",
-        "pleasereview": "Bitte überprüfen Sie die folgenden Bedingungen:"
+        "pleasereview": "Bitte überprüfen Sie die folgenden Bedingungen:",
+        "accept": "Nutzungsbedingungen akzeptieren"
     },
     "blogs": {
         "blogs": "Blogs",

@@ -3380,7 +3380,8 @@
     },
     "contract": {
         "review": "Revisa els termes i condicions",
-        "pleasereview": "Reviseu les condicions següents:"
+        "pleasereview": "Reviseu les condicions següents:",
+        "accept": "Accepteu els termes i condicions"
     },
     "blogs": {
         "blogs": "Blocs",

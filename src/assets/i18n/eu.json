@@ -3370,7 +3370,8 @@
     },
     "contract": {
         "review": "Berrikusi zehaztapenak eta baldintzak",
-        "pleasereview": "Mesedez, berrikusi beheko baldintzak:"
+        "pleasereview": "Mesedez, berrikusi beheko baldintzak:",
+        "accept": "Onartu terminoak eta baldintzak"
     },
     "blogs": {
         "blogs": "Blogak",

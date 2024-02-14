@@ -3392,7 +3392,8 @@
     },
     "contract": {
         "review": "Revisar términos y condiciones",
-        "pleasereview": "Por favor revise las condiciones a continuación:"
+        "pleasereview": "Por favor revise las condiciones a continuación:",
+        "accept": "Aceptar terminos y condiciones"
     },
     "blogs": {
         "blogs": "Blogs",

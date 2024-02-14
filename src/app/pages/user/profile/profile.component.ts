@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from "@angular/core";
 import {
   LangChangeEvent,
   TranslateModule,
@@ -43,6 +43,7 @@ import keys from "lodash/keys";
 import filter from "lodash/filter";
 import moment from "moment";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { ContractComponent } from "@pages/general/contract/contract.component";
 
 @Component({
   standalone: true,
@@ -58,9 +59,11 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
     EditorModule,
     PageTitleComponent,
     ToastComponent,
-    NgMultiSelectDropDownModule
+    NgMultiSelectDropDownModule,
+    ContractComponent
   ],
   templateUrl: "./profile.component.html",
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent {
   private destroy$ = new Subject<void>();
@@ -177,7 +180,9 @@ export class ProfileComponent {
   tutorTypeTags:any = [];
   tutorInfo:any
   uploadImageMode: string = '';
-
+  isTermsAccepted:boolean = false;
+  isOpenContact:boolean= false;
+  
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -187,27 +192,28 @@ export class ProfileComponent {
     private _userService: UserService,
     private _tutorsService: TutorsService,
     private _snackBar: MatSnackBar,
-    private fb: FormBuilder
-  ) {}
-
-  async ngOnInit() {
-    this.email = this._localService.getLocalStorage(environment.lsemail);
-    this.language = this._localService.getLocalStorage(environment.lslang);
+    private fb: FormBuilder,
+    private cd: ChangeDetectorRef
+    ) {}
+    
+    async ngOnInit() {
+      this.email = this._localService.getLocalStorage(environment.lsemail);
+      this.language = this._localService.getLocalStorage(environment.lslang);
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(
       environment.lscompanyId
-    );
-    this.domain = this._localService.getLocalStorage(environment.lsdomain);
-    this._translateService.use(this.language || "es");
-    this.companies = this._localService.getLocalStorage(environment.lscompanies)
+      );
+      this.domain = this._localService.getLocalStorage(environment.lsdomain);
+      this._translateService.use(this.language || "es");
+      this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
       : "";
-    if (!this.companies) {
-      this.companies = get(
-        await this._companyService.getCompanies().toPromise(),
-        "companies"
-      );
-    }
+      if (!this.companies) {
+        this.companies = get(
+          await this._companyService.getCompanies().toPromise(),
+          "companies"
+          );
+        }
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
@@ -215,86 +221,86 @@ export class ProfileComponent {
       this.companyId = company[0].id;
       this.primaryColor = company[0].primary_color;
       this.buttonColor = company[0].button_color
-        ? company[0].button_color
-        : company[0].primary_color;
+      ? company[0].button_color
+      : company[0].primary_color;
       this.hoverColor = company[0].hover_color
-        ? company[0].hover_color
-        : company[0].primary_color;
+      ? company[0].hover_color
+      : company[0].primary_color;
     }
-
+    
     this.languageChangeSubscription =
       this._translateService.onLangChange.subscribe(
         (event: LangChangeEvent) => {
           this.language = event.lang;
           this.initializePage();
         }
-      );
-
-    this.initializePage();
-  }
-
-  async initializePage() {
-    this.pageTitle = this._translateService.instant("sidebar.profilesettings");
-    this.getUserMemberTypes();
-
-    this.categoryDropdownSettings = {
-      singleSelection: this.companyId == 15 ? false : true,
-      idField: "id",
-      textField: "name",
-      selectAllText: this._translateService.instant("dialog.selectall"),
-      unSelectAllText: this._translateService.instant("dialog.clearall"),
-      itemsShowLimit: 1,
-      allowSearchFilter: true,
-      searchPlaceholderText: this._translateService.instant("guests.search"),
-    };
-
-    this.customMemberTypes = get(
-      await this._userService.getCustomMemberTypes(this.companyId).toPromise(),
-      "member_types"
-    );
-
-    this.features = this._localService.getLocalStorage(environment.lsfeatures)
-      ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
-      : "";
+        );
+        
+        this.initializePage();
+      }
+      
+    async initializePage() {
+        this.pageTitle = this._translateService.instant("sidebar.profilesettings");
+        this.getUserMemberTypes();
+        
+        this.categoryDropdownSettings = {
+          singleSelection: this.companyId == 15 ? false : true,
+          idField: "id",
+          textField: "name",
+          selectAllText: this._translateService.instant("dialog.selectall"),
+          unSelectAllText: this._translateService.instant("dialog.clearall"),
+          itemsShowLimit: 1,
+          allowSearchFilter: true,
+          searchPlaceholderText: this._translateService.instant("guests.search"),
+        };
+        
+        this.customMemberTypes = get(
+          await this._userService.getCustomMemberTypes(this.companyId).toPromise(),
+          "member_types"
+          );
+          
+          this.features = this._localService.getLocalStorage(environment.lsfeatures)
+          ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
+          : "";
     if (!this.features) {
       this.features = await this._companyService
-        .getFeatures(this.domain)
-        .toPromise();
+      .getFeatures(this.domain)
+      .toPromise();
     }
     if (this.features) {
       let memberFeature = this.features.filter((f) => {
         return f.feature_name == "Members";
       });
-
+      
       let tutorFeature = this.features.filter((f) => {
         return f.feature_name == "Tutors";
       });
-
+      
       if (memberFeature && memberFeature[0]) {
         this.membersFeatureId = memberFeature[0].id;
         this.membersTitle =
-          this.language == "en"
-            ? memberFeature[0].name_en ||
-              memberFeature[0].feature_name ||
-              memberFeature[0].name_es ||
-              memberFeature[0].feature_name_ES
-            : this.language == "fr"
-            ? memberFeature[0].name_fr ||
-              memberFeature[0].feature_name_FR ||
-              memberFeature[0].name_es ||
-              memberFeature[0].feature_name_ES
-            : this.language == "eu"
-            ? memberFeature[0].name_eu ||
-              memberFeature[0].feature_name_EU ||
-              memberFeature[0].name_es ||
-              memberFeature[0].feature_name_ES
-            : this.language == "ca"
+        this.language == "en"
+        ? memberFeature[0].name_en ||
+        memberFeature[0].feature_name ||
+        memberFeature[0].name_es ||
+        memberFeature[0].feature_name_ES
+        : this.language == "fr"
+        ? memberFeature[0].name_fr ||
+        memberFeature[0].feature_name_FR ||
+        memberFeature[0].name_es ||
+        memberFeature[0].feature_name_ES
+        : this.language == "eu"
+        ? memberFeature[0].name_eu ||
+        memberFeature[0].feature_name_EU ||
+        memberFeature[0].name_es ||
+        memberFeature[0].feature_name_ES
+        : this.language == "ca"
             ? memberFeature[0].name_ca ||
               memberFeature[0].feature_name_CA ||
               memberFeature[0].name_es ||
               memberFeature[0].feature_name_ES
-            : this.language == "de"
-            ? memberFeature[0].name_de ||
+              : this.language == "de"
+              ? memberFeature[0].name_de ||
               memberFeature[0].feature_name_DE ||
               memberFeature[0].name_es ||
               memberFeature[0].feature_name_ES
@@ -308,9 +314,9 @@ export class ProfileComponent {
         this.membersTitle =
           this.language == "en"
             ? tutorFeature[0].name_en ||
-              tutorFeature[0].feature_name ||
-              tutorFeature[0].name_es ||
-              tutorFeature[0].feature_name_ES
+            tutorFeature[0].feature_name ||
+            tutorFeature[0].name_es ||
+            tutorFeature[0].feature_name_ES
             : this.language == "fr"
             ? tutorFeature[0].name_fr ||
               tutorFeature[0].feature_name_FR ||
@@ -318,21 +324,21 @@ export class ProfileComponent {
               tutorFeature[0].feature_name_ES
             : this.language == "eu"
             ? tutorFeature[0].name_eu ||
-              tutorFeature[0].feature_name_EU ||
-              tutorFeature[0].name_es ||
-              tutorFeature[0].feature_name_ES
+            tutorFeature[0].feature_name_EU ||
+            tutorFeature[0].name_es ||
+            tutorFeature[0].feature_name_ES
             : this.language == "ca"
             ? tutorFeature[0].name_ca ||
               tutorFeature[0].feature_name_CA ||
               tutorFeature[0].name_es ||
               tutorFeature[0].feature_name_ES
-            : this.language == "de"
-            ? tutorFeature[0].name_de ||
+              : this.language == "de"
+              ? tutorFeature[0].name_de ||
               tutorFeature[0].feature_name_DE ||
               tutorFeature[0].name_es ||
               tutorFeature[0].feature_name_ES
-            : tutorFeature[0].name_es || tutorFeature[0].feature_name_ES;
-      }
+              : tutorFeature[0].name_es || tutorFeature[0].feature_name_ES;
+            }
     }
 
     this.getSettings();
@@ -344,21 +350,20 @@ export class ProfileComponent {
       singleSelection: false,
       idField: 'id',
       textField: this.language == 'en' ? 'name_EN' :
-        (this.language == 'fr' ? 'name_FR' : 
-            (this.language == 'eu' ? 'name_EU' : 
-            (this.language == 'ca' ? 'name_CA' : 
-                (this.language == 'de' ? 'name_DE' : 'name_ES')
-            )
-            )
+      (this.language == 'fr' ? 'name_FR' : 
+      (this.language == 'eu' ? 'name_EU' : 
+      (this.language == 'ca' ? 'name_CA' : 
+      (this.language == 'de' ? 'name_DE' : 'name_ES')
+      )
+      )
         ),
-      selectAllText: this._translateService.instant('dialog.selectall'),
-      unSelectAllText: this._translateService.instant('dialog.clearall'),
+        selectAllText: this._translateService.instant('dialog.selectall'),
+        unSelectAllText: this._translateService.instant('dialog.clearall'),
       itemsShowLimit: 5,
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search')
     }
   }
-
 
   getUserMemberTypes() {
     this._userService.getUserMemberType(this.userId).subscribe(
@@ -397,6 +402,11 @@ export class ProfileComponent {
         this.me = data[1] ? data[1]["CompanyUser"] : [];
         let members_subfeatures = data[2] ? data[2]["subfeatures"] : [];
         let tutors_subfeatures = data[3] ? data[3]["subfeatures"] : [];
+
+        if(this.me?.accepted_conditions == 1){
+            this.isTermsAccepted = true
+        }
+
         this.mapSubfeatures(members_subfeatures, tutors_subfeatures);
         this.getOtherSettings();
       });
@@ -1706,6 +1716,17 @@ export class ProfileComponent {
         }
       });
     }
+  }
+
+  acceptTerms(){
+    if(!this.isTermsAccepted){
+      this.isOpenContact = true
+    }
+  }
+  closeContract = () =>{
+    this.isOpenContact = false
+    this.isTermsAccepted = true
+    this.cd.detectChanges();
   }
 
   ngOnDestroy() {
