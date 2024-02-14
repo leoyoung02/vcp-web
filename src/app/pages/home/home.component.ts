@@ -227,7 +227,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.getSchoolOfLifeTitle();
       }
 
-      if(this.returnUrl) {
+      if(this.returnUrl && this.returnUrl != 'undefined') {
         location.href = `/${this.returnUrl}` || '/';
       }
 

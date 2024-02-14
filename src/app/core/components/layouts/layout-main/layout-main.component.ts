@@ -1359,6 +1359,13 @@ export class LayoutMainComponent {
             let subfeatureMapping = data[3] ? data[3]["active"] : [];
             let course_subfeatures = data[4] ? data[4]["subfeatures"] : [];
             this.courseSubscriptions = data[5] ? data[5]["course_subscriptions"] : [];
+
+            if(this.companyId == 32 && this.isUESchoolOfLife) {
+              this.courseSubscriptions = this.courseSubscriptions?.filter(cs => {
+                return cs?.course?.school_of_life == 1
+              })
+            }
+            
             this.courseTutors = data[6] ? data[6]["course_tutors"] : [];
             this.courseExceptionUser = data[7] ? data[7]["company_course_exception_user"] : [];
             this.courses = data[8] ? data[8]["courses"] : [];

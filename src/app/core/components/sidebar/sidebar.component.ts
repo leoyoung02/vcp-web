@@ -590,7 +590,10 @@ export class SidebarComponent {
     } else if(menu.return_url) {
       let path = menu.path;
       if(path?.indexOf('schooloflife') >= 0 && this.currentUser?.guid) {
-        path = `${path?.replace('plans', '')?.replace('courses', '')}/sso/${this.currentUser?.guid}?returnUrl=${menu.return_url}`;
+        path = `${path?.replace('plans', '')?.replace('courses', '')}/sso/${this.currentUser?.guid}`;
+        if(menu.return_url && menu.return_url != 'undefined') {
+          path += `?returnUrl=${menu.return_url}`
+        }
         path = path?.replace('//sso', '/sso');
       }
       this.openUrl(path);
