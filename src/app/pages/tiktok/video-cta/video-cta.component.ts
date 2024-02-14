@@ -210,7 +210,7 @@ export class TikTokVideoCTAComponent {
         }, (this.timedDuration * 1000));
       }
     }
-    this.videoEmbed = this.videoCTA?.video_embed?.replace('width="640"', 'width="100%"')?.replace('<iframe', '<iframe class="video-cta-iframe" '); 
+    this.videoEmbed = this.videoCTA?.video_embed?.replace('width="640"', 'width="100%"')?.replace('<iframe', '<iframe class="video-cta-iframe mt-0" '); 
     if(this.activateVideo && this.videoEmbed) {
       this.getSafeLessonURL();
     }
