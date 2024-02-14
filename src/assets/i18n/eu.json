@@ -3495,5 +3495,16 @@
         "log": "Erregistroa",
         "customercreated": "Bezero berria behar bezala sortu da.",
         "pendingstatus": "Mezu elektroniko bat bidaliko zaio administratzaileari domeinurako beharrezko zerbitzari-aldaketak egiteko."
+    },
+    "personalize-home": {
+        "tutorialvideos": "Tutorial bideoak",
+        "template": "Txantiloi",
+        "content": "Edukia",
+        "sections": "Atalak",
+        "latest": "Erakutsi lehenik azkena",
+        "random": "Erakutsi ausaz"
+    },
+    "training": {
+        "training": "Prestakuntza"
     }
 }

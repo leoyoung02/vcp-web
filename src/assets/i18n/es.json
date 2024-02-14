@@ -3517,5 +3517,16 @@
         "log": "Registro",
         "customercreated": "El nuevo cliente ha sido creado exitosamente.",
         "pendingstatus": "Se enviará un correo electrónico al administrador para realizar los cambios necesarios en el servidor del dominio."
+    },
+    "personalize-home": {
+        "tutorialvideos": "Vídeos tutoriales",
+        "template": "Plantilla",
+        "content": "Contenido",
+        "sections": "Secciones",
+        "latest": "Mostrar lo último primero",
+        "random": "Mostrar aleatorio"
+    },
+    "training": {
+        "training": "Formación"
     }
 }

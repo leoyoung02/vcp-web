@@ -3505,5 +3505,16 @@
         "log": "Registre",
         "customercreated": "S'ha creat un client nou amb èxit.",
         "pendingstatus": "S'enviarà un correu electrònic a l'administrador per fer els canvis de servidor necessaris per al domini."
+    },
+    "personalize-home": {
+        "tutorialvideos": "Vídeos tutorials",
+        "template": "Plantilla",
+        "content": "Contingut",
+        "sections": "Seccions",
+        "latest": "Mostra el darrer primer",
+        "random": "Mostra l'atzar"
+    },
+    "training": {
+        "training": "Formació"
     }
 }

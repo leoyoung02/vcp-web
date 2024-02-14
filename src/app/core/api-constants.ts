@@ -119,6 +119,9 @@ export const DEACTIVATE_CUSTOMER_URL = `${API_BASE}/v2/customer/deactivate`;
 export const EDIT_CUSTOMER_SITE_DETAILS_URL = `${API_BASE}/v2/customer/site-details/edit`;
 export const FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings`;
 export const EDIT_FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings/edit`;
+export const HOME_PERSONALIZE_SETTINGS_URL = `${API_BASE}/v2/home/personalize/settings`;
+export const ACTIVATE_HOME_TEMPLATE_URL = `${API_BASE}/v2/home/personalize/template/edit`;
+export const EDIT_HOME_TEMPLATE_SECTIONS_URL = `${API_BASE}/v2/home/personalize/sections/edit`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;
@@ -128,6 +131,7 @@ export const MOBILE_LIMIT_SETTINGS_URL = `${API_BASE}/mobile/settings/limit-all`
 export const HOME_DATA_URL = `${API_BASE}/v2/home`;
 export const HOME_COURSES_TUTORS_TESTIMONIALS_DATA_URL = `${API_BASE}/v2/home-courses-tutors-testimonials`;
 export const HOME_PLANS_COURSES_DATA_URL = `${API_BASE}/v2/home-plans-courses`;
+export const HOME_SECTIONS_DATA_URL = `${API_BASE}/v2/home/sections-data`;
 
 // SETTINGS
 export const SETTINGS_CATEGORY_URL = `${API_BASE}/company/settings/category/list/all`;

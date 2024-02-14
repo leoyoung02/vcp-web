@@ -3490,5 +3490,16 @@
         "log": "Journal",
         "customercreated": "Un nouveau client a été créé avec succès.",
         "endingstatus": "Un e-mail sera envoyé à l'administrateur pour apporter les modifications nécessaires au serveur pour le domaine."
+    },
+    "personalize-home": {
+        "tutorialvideos": "Vidéos tutorielles",
+        "template": "Modèle",
+        "content": "Contenu",
+        "sections": "Sections",
+        "latest": "Afficher le dernier en premier",
+        "random": "Afficher au hasard"
+    },
+    "training": {
+        "training": "Formation"
     }
 }
