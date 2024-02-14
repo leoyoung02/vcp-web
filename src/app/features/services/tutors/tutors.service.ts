@@ -61,6 +61,7 @@ import {
   TUTOR_COURSES_URL,
   TUTOR_DETAILS_URL,
   TUTOR_PACKAGES_URL,
+  TUTOR_PER_HOUR_RATE,
   TUTOR_TYPES_URL,
   TUTOR_URL,
   UPDATE_CALENDLY_URL,
@@ -103,6 +104,12 @@ export class TutorsService {
 
   fetchTutor(id: number = 0, companyId: number = 0, userId: number = 0): Observable<any> {
     return this._http.get(`${TUTOR_DETAILS_URL}/${id}/${companyId}/${userId}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  gettutorPerHourRate(companyId: number = 0): Observable<any> {
+    return this._http.get(`${TUTOR_PER_HOUR_RATE}/${companyId}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }

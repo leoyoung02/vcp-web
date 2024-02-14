@@ -40,9 +40,8 @@ import { EditorModule } from "@tinymce/tinymce-angular";
 import get from "lodash/get";
 import each from "lodash/each";
 import keys from "lodash/keys";
-import filter from "lodash/filter";
-import moment from "moment";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { TutorHourlyateBanner } from "@pages/general/banner/tutor-hourly-rate.component";
 
 @Component({
   standalone: true,
@@ -58,7 +57,8 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
     EditorModule,
     PageTitleComponent,
     ToastComponent,
-    NgMultiSelectDropDownModule
+    NgMultiSelectDropDownModule,
+    TutorHourlyateBanner
   ],
   templateUrl: "./profile.component.html",
 })
@@ -358,8 +358,6 @@ export class ProfileComponent {
       searchPlaceholderText: this._translateService.instant('guests.search')
     }
   }
-
-
   getUserMemberTypes() {
     this._userService.getUserMemberType(this.userId).subscribe(
       (response) => {
