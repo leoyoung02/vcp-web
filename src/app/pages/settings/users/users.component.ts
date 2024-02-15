@@ -343,7 +343,7 @@ export class ManageUsersComponent {
   userRoleType:any;
   customMemberTypeId:any;
   showCreditIcon :boolean = false;
-
+  potTutor:boolean = false;
 
   constructor(
     private _router: Router,
@@ -2441,6 +2441,7 @@ export class ManageUsersComponent {
     this.tutor = false;
     this.superTutor = false;
     this.potSuperTutor = false;
+    this.potTutor = false;
     this.startDate = new Date() // moment().format('YYYY-MM-DD HH:mm:ss');
 
     if (this.showDefaultRegistrationFields) {
@@ -2653,6 +2654,7 @@ export class ManageUsersComponent {
     this.newSelectedRole = "";
     this.superTutor = false;
     this.potSuperTutor = false;
+    this.potTutor = false;
     this.isGuardianType = false;
     this.tabIndex = 0;
     this.hasAddedUser = false;
@@ -2790,6 +2792,11 @@ export class ManageUsersComponent {
                 (a) => a.user_id == user.id && a.potsuper_tutor == 1
               );
               this.potSuperTutor = potsuper_match ? true : false;
+
+              let pottutor_match = this.tutorToAssign2?.some(
+                (a) => a.user_id == user.id && a.pot_tutor == 1
+                );
+              this.potTutor = pottutor_match ? true : false;
 
               let potsuper_tutor = this.tutorToAssign2?.filter((tut) => {
                 return tut.user_id == user.id && tut.potsuper_tutor == 1 
@@ -3664,7 +3671,7 @@ export class ManageUsersComponent {
       formData['tutor'] = this.tutor ? 1 : 0;
       formData['super_tutor'] = this.superTutor ? 1 : 0;
       formData['potsuper_tutor'] = this.potSuperTutor ? 1 : 0;
-      formData['potsuper_tutor'] = this.potSuperTutor ? 1 : 0;
+      formData['pot_tutor'] = this.potTutor ? 1 : 0;
       formData['companion'] = this.userTypeName == 'Acompañante' ? 1 : 0;
       formData['assigned_students'] = this.selectedAssignedStudent;
       formData['guardian'] = this.isGuardianType ? 1 : 0;
@@ -4649,6 +4656,7 @@ export class ManageUsersComponent {
     if(!this.tutor){
       this.superTutor = false;
       this.potSuperTutor = false;
+      this.potTutor = false;
       this.selectedAssignedTutor = ''
     }
     this.checkClubPresident();
@@ -4656,33 +4664,43 @@ export class ManageUsersComponent {
       this.memberRoleGroups = get(await this._clubsService.getGroups(this.domain).toPromise(), 'CompanyGroup')
       this.memberRoleGroups = this.handleSortClubs(this.memberRoleGroups)
     }
+
   }
 
   async checkSuperTutor(event,key) {
       this.tutorToAssign = get(await this._tutorsService.getTutors(this.companyId).toPromise(), 'tutors')
-      if(key === 'supertutor'){
-        let super_tutor = this.tutorToAssign2?.filter(tut => {
-          return (tut.user_id == this.selectedUser?.id && tut.super_tutor == 1)
-        })
-        this.tutorToAssign = this.tutorToAssign?.length > 0 ? this.tutorToAssign.filter(tta => {
-          return !tta.parent_tutor_id || tta.super_tutor != 1
-        }) : [  ]
-        this.superTutor = event.target.checked
-        if(!this.superTutor || super_tutor?.length == 0){
-          this.selectedAssignedTutor = ''
+        if(key === 'supertutor'){
+          let super_tutor = this.tutorToAssign2?.filter(tut => {
+            return (tut.user_id == this.selectedUser?.id && tut.super_tutor == 1)
+          })
+          this.tutorToAssign = this.tutorToAssign?.length > 0 ? this.tutorToAssign.filter(tta => {
+            return !tta.parent_tutor_id || tta.super_tutor != 1
+          }) : [  ]
+          if(!this.superTutor || super_tutor?.length == 0){
+            this.selectedAssignedTutor = ''
+          }
+          
+          this.superTutor = event.target.checked
+          this.potSuperTutor = false
+          this.potTutor = false
+        }else if(key === 'potsupertutor'){
+          let potsuper_tutor = this.tutorToAssign2?.filter(tut => {
+            return (tut.user_id == this.selectedUser?.id && tut.potsuper_tutor == 1)
+          })
+          this.tutorToAssign = this.tutorToAssign?.length > 0 ? this.tutorToAssign.filter(tta => {
+            return !tta.parent_tutor_id || tta.potsuper_tutor != 1
+          }) : [  ]
+          if(!this.potSuperTutor || potsuper_tutor?.length == 0){
+            this.selectedAssignedTutor = ''
+          }
+          
+          this.potSuperTutor = event.target.checked
+          this.superTutor = false
+          this.potTutor = false
+        }else if (key === 'pottutor'){
+          this.superTutor = false
+          this.potSuperTutor = false
         }
-      }else{
-        let potsuper_tutor = this.tutorToAssign2?.filter(tut => {
-          return (tut.user_id == this.selectedUser?.id && tut.potsuper_tutor == 1)
-        })
-        this.tutorToAssign = this.tutorToAssign?.length > 0 ? this.tutorToAssign.filter(tta => {
-          return !tta.parent_tutor_id || tta.potsuper_tutor != 1
-        }) : [  ]
-        this.potSuperTutor = event.target.checked
-        if(!this.potSuperTutor || potsuper_tutor?.length == 0){
-          this.selectedAssignedTutor = ''
-        }
-      }
   }
 
 
