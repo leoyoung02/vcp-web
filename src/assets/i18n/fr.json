@@ -3199,7 +3199,8 @@
         "endingtransfer": "Transfert en attente",
         "validtoken":"Veuillez fournir un jeton valide pour continuer",
         "notsetupaccount":"Ce profl de tuteur n'est pas correctement configuré.",
-        "correctcalendlycredntials":"Veuillez vérifier vos informations d'identification Calendly pour continuer."
+        "correctcalendlycredntials":"Veuillez vérifier vos informations d'identification Calendly pour continuer.",
+        "perhourrate":"commission par heure de tutorat."
     },
     "general-details": {
         "name" : "Nom",

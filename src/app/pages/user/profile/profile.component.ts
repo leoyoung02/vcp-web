@@ -40,6 +40,7 @@ import get from "lodash/get";
 import each from "lodash/each";
 import keys from "lodash/keys";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { TutorHourlyateBanner } from "@pages/general/banner/tutor-hourly-rate.component";
 
 @Component({
   standalone: true,
@@ -55,7 +56,8 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
     EditorModule,
     PageTitleComponent,
     ToastComponent,
-    NgMultiSelectDropDownModule
+    NgMultiSelectDropDownModule,
+    TutorHourlyateBanner
   ],
   templateUrl: "./profile.component.html"
 })

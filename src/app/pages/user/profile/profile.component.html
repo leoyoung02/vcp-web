@@ -1,5 +1,10 @@
+<div *ngIf="isTutorUser">
+    <app-tutor-hourly-rate-banner>
+    </app-tutor-hourly-rate-banner>
+</div>
 <app-page-title [title]="pageTitle"></app-page-title>
 <ng-container *ngIf="profileForm && selectedFields?.length > 0">
+ 
     <form [formGroup]="profileForm" (ngSubmit)="save()" class="profile-form" autocomplete="off">
         <ng-container *ngIf="selectedFields && selectedFields?.length > 0">
             <div *ngFor="let section of sectionFields; let n = index;">

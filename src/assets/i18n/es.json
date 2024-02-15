@@ -3226,7 +3226,8 @@
         "pendingtransfer": "Transferencia pendiente",
         "validtoken":"Proporcione un token válido para continuar",
         "notsetupaccount":"Este tutor profle no está configurado previamente.",
-        "correctcalendlycredntials":"Verifique sus credenciales de calendario para continuar."
+        "correctcalendlycredntials":"Verifique sus credenciales de calendario para continuar.",
+        "perhourrate":"Comisión por hora de tutoría."
     },
     "general-details": {
         "name" : "Nombre",
