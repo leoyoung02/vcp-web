@@ -1503,7 +1503,9 @@ export class MainComponent {
   }
 
   showContent(content, menu) {
-    if (menu.value == "ManagementSection") {
+    if (content == 'Customize home screen') {
+      this._router.navigate([`/settings/home`]);
+    } else if (menu.value == "ManagementSection") {
       if (content == "Events") {
         this._router.navigate([`/settings/manage-list/plans`]);
       } else if (content == "Groups") {

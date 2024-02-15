@@ -145,7 +145,8 @@ export class MyLessonsComponent {
     placeholderText: any;
     searchKeyword: any;
     isRoleCompanion:any
-    potsuperTutor:any
+    potsuperTutor:any;
+    potTutor:any
 
     constructor(
         private _route: ActivatedRoute,
@@ -235,11 +236,19 @@ export class MyLessonsComponent {
                 let super_tutor = this.tutorUsers?.filter(tutor => {
                     return tutor?.user_id == this.userId && tutor?.super_tutor == 1
                 })
+                this.superTutor = super_tutor?.length > 0 ? true : false
+
+
                 let potsuper_tutor = this.tutorUsers?.filter(tutor => {
                     return tutor?.user_id == this.userId && tutor?.potsuper_tutor == 1
                 })
-                this.superTutor = super_tutor?.length > 0 ? true : false
                 this.potsuperTutor = potsuper_tutor?.length > 0 ? true : false
+                
+                let pot_tutor = this.tutorUsers?.filter(tutor => {
+                    return tutor?.user_id == this.userId && tutor?.pot_tutor == 1
+                })
+                this.potTutor = pot_tutor?.length > 0 ? true : false
+
                 if(this.superTutor) {
                     this.superTutorStudents = super_tutor[0].super_tutor_students
                 }
@@ -810,7 +819,6 @@ export class MyLessonsComponent {
             setTimeout(() => (this.showConfirmationModal = true));
         }
     }
-
     markComplete(booking, confirmed) {
         if(confirmed) {
             let role = this.superTutor ? 'super_tutor' :  this.isTutorUser && !this.superAdmin ? 'tutor' : (this.superAdmin ? 'admin' : 'user')
@@ -830,46 +838,47 @@ export class MyLessonsComponent {
             this._tutorsService.editBookingStatus(params)
             .subscribe(
                 async (response) => {
-                    let completedLesson = response?.booking ? response.booking : '';
-                    let lessonCompleted = response?.booking?.completed == 1 ? true : false
-
-                    if(lessonCompleted){
-                        let params2 = {
-                            booking_id : completedLesson?.id ? completedLesson.id : 0,
-                            course_id: completedLesson?.course_id,
-                            package_id: completedLesson?.package_id,
-                            user_id: completedLesson?.user_id,
-                            tutor_id: completedLesson?.tutor_id,
-                            tutor_minutes: booking.tutor_minutes,
-                            per_hour_commission: this.perHourCommission
-                        }
-
-                        if(this.hasDifferentStripeAccounts){
-                            params2['has_diff_stripe_account'] = this.hasDifferentStripeAccounts
-                            params2['stripe_id'] = response.stripe_id
-                        }
-                        await this._tutorsService.handleTutorTransfer(booking_id, params2)
-                        .subscribe(
-                            async (response) => {
-                                if(response?.message == 'balance_insufficient' && (this.isTutorUser || this.superAdmin)){
-                                    this.getBookings('refresh-action')
-                                } else {
-                                    let bookings = this.allBookings
-                                    bookings?.forEach(b => {
-                                        if(b.id == this.selectedItem.id) {
-                                            b.completed = 1
-                                        }
-                                    })
-                                    this.statusFilter = 'Completed';
-                                    this.filterBookings();
-                                }
-                                this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+                        let completedLesson = response?.booking ? response.booking : '';
+                        let lessonCompleted = response?.booking?.completed == 1 ? true : false
+    
+                        if(lessonCompleted && !this.potTutor){
+                            let params2 = {
+                                booking_id : completedLesson?.id ? completedLesson.id : 0,
+                                course_id: completedLesson?.course_id,
+                                package_id: completedLesson?.package_id,
+                                user_id: completedLesson?.user_id,
+                                tutor_id: completedLesson?.tutor_id,
+                                tutor_minutes: booking.tutor_minutes,
+                                per_hour_commission: this.perHourCommission
                             }
-                        )
-                    } else {
-                        this.getBookings('refresh-action')
-                        this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
-                    }
+    
+                            if(this.hasDifferentStripeAccounts){
+                                params2['has_diff_stripe_account'] = this.hasDifferentStripeAccounts
+                                params2['stripe_id'] = response.stripe_id
+                            }
+                            await this._tutorsService.handleTutorTransfer(booking_id, params2)
+                            .subscribe(
+                                async (response) => {
+                                    if(response?.message == 'balance_insufficient' && (this.isTutorUser || this.superAdmin)){
+                                        this.getBookings('refresh-action')
+                                    } else {
+                                        let bookings = this.allBookings
+                                        bookings?.forEach(b => {
+                                            if(b.id == this.selectedItem.id) {
+                                                b.completed = 1
+                                            }
+                                        })
+                                        this.statusFilter = 'Completed';
+                                        this.filterBookings();
+                                    }
+                                    this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+                                }
+                            )
+                        } else {
+                            console.log("no transfer")
+                            this.getBookings('refresh-action')
+                            this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+                        }
                 },
                 error => {
                     console.log(error)

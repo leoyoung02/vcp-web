@@ -2044,7 +2044,8 @@
         "pagetitletext":"Titre de la page",
         "backgroundimage":"Image de fond",
         "questionanssection":"Section des questions",
-        "footer":"Bas de page"
+        "footer":"Bas de page",
+        "pottutor":"Tuteur de pot"
     },
     "guest-landing": {
         "templates": "Modèles",
@@ -3489,5 +3490,16 @@
         "log": "Journal",
         "customercreated": "Un nouveau client a été créé avec succès.",
         "endingstatus": "Un e-mail sera envoyé à l'administrateur pour apporter les modifications nécessaires au serveur pour le domaine."
+    },
+    "personalize-home": {
+        "tutorialvideos": "Vidéos tutorielles",
+        "template": "Modèle",
+        "content": "Contenu",
+        "sections": "Sections",
+        "latest": "Afficher le dernier en premier",
+        "random": "Afficher au hasard"
+    },
+    "training": {
+        "training": "Formation"
     }
 }

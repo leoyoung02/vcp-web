@@ -2046,7 +2046,8 @@
         "pagetitletext":"Seitentitel",
         "backgroundimage":"Hintergrundbild",
         "questionanssection":"Fragenbereich",
-        "footer":"Fusszeile"
+        "footer":"Fusszeile",
+        "pottutor":"Pot-Lehrer"
     },
     "guest-landing": {
         "templates": "Vorlagen",
@@ -3494,5 +3495,16 @@
         "log": "Protokoll",
         "customercreated": "Neuer Kunde wurde erfolgreich erstellt.",
         "pendingstatus": "Eine E-Mail wird an den Administrator gesendet, um die erforderlichen Serveränderungen für die Domain vorzunehmen."
+    },
+    "personalize-home": {
+        "tutorialvideos": "Tutorial-Videos",
+        "template": "Vorlage",
+        "content": "Inhalt",
+        "sections": "Abschnitte",
+        "latest": "Neueste zuerst anzeigen",
+        "random": "Zufällig anzeigen"
+    },
+    "training": {
+        "training": "Training"
     }
 }

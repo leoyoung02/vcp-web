@@ -164,7 +164,7 @@
                         <ng-container 
                         *ngIf="hasAccess('tutors') && 
                             (
-                                (isTutorUser && !(userTypeName?.toLowerCase()?.indexOf('admin sede') >= 0) && !potSuperTutor) ||
+                                (isTutorUser && !(userTypeName?.toLowerCase()?.indexOf('admin sede') >= 0) && !potSuperTutor && !potTutor) ||
                                 (userTypeName?.toLowerCase()?.indexOf('admin sede') >= 0)
                             )
                         ">
