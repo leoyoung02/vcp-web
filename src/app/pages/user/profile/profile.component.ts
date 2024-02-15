@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, ViewChild } from "@angular/core";
 import {
   LangChangeEvent,
   TranslateModule,
@@ -19,7 +19,6 @@ import {
   ValidationErrors,
   Validators,
 } from "@angular/forms";
-import { DatePipe } from "@angular/common";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
 import {
@@ -40,10 +39,7 @@ import { EditorModule } from "@tinymce/tinymce-angular";
 import get from "lodash/get";
 import each from "lodash/each";
 import keys from "lodash/keys";
-import filter from "lodash/filter";
-import moment from "moment";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
-import { ContractComponent } from "@pages/general/contract/contract.component";
 
 @Component({
   standalone: true,
@@ -59,11 +55,9 @@ import { ContractComponent } from "@pages/general/contract/contract.component";
     EditorModule,
     PageTitleComponent,
     ToastComponent,
-    NgMultiSelectDropDownModule,
-    ContractComponent
+    NgMultiSelectDropDownModule
   ],
-  templateUrl: "./profile.component.html",
-  changeDetection: ChangeDetectionStrategy.OnPush
+  templateUrl: "./profile.component.html"
 })
 export class ProfileComponent {
   private destroy$ = new Subject<void>();
@@ -182,7 +176,10 @@ export class ProfileComponent {
   uploadImageMode: string = '';
   isTermsAccepted:boolean = false;
   isOpenContact:boolean= false;
-  
+  contracts: any;
+  contract: any;
+
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -192,11 +189,10 @@ export class ProfileComponent {
     private _userService: UserService,
     private _tutorsService: TutorsService,
     private _snackBar: MatSnackBar,
-    private fb: FormBuilder,
-    private cd: ChangeDetectorRef
+    private fb: FormBuilder
     ) {}
     
-    async ngOnInit() {
+  async ngOnInit() {
       this.email = this._localService.getLocalStorage(environment.lsemail);
       this.language = this._localService.getLocalStorage(environment.lslang);
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
@@ -235,11 +231,12 @@ export class ProfileComponent {
           this.initializePage();
         }
         );
-        
         this.initializePage();
-      }
+  }
+
+
       
-    async initializePage() {
+  async initializePage() {
         this.pageTitle = this._translateService.instant("sidebar.profilesettings");
         this.getUserMemberTypes();
         
@@ -341,6 +338,7 @@ export class ProfileComponent {
             }
     }
 
+    this.getContract()
     this.getSettings();
     if (this.hasTutors) {
       this.getTutors();
@@ -363,6 +361,21 @@ export class ProfileComponent {
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search')
     }
+  }
+
+
+  getContract() {
+    this._companyService
+    .getCompanyContracts(this.companyId)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(
+      (data) => {
+        this.contracts = data.contracts
+      },
+      (error) => {
+          console.log(error);
+        }
+      );
   }
 
   getUserMemberTypes() {
@@ -405,6 +418,13 @@ export class ProfileComponent {
 
         if(this.me?.accepted_conditions == 1){
             this.isTermsAccepted = true
+        }
+
+        if(this.me?.custom_member_type_id) {
+          let contract = this.contracts?.filter(contract => {
+            return contract.custom_member_type_id == this.me?.custom_member_type_id
+          })
+          this.contract = contract?.length > 0 ? contract[0].contract : '';
         }
 
         this.mapSubfeatures(members_subfeatures, tutors_subfeatures);
@@ -1718,15 +1738,13 @@ export class ProfileComponent {
     }
   }
 
-  acceptTerms(){
-    if(!this.isTermsAccepted){
-      this.isOpenContact = true
-    }
+  openTermDialog(){
+    this.isOpenContact = true
   }
-  closeContract = () =>{
+
+  closeTermDialog(){
     this.isOpenContact = false
-    this.isTermsAccepted = true
-    this.cd.detectChanges();
+    
   }
 
   ngOnDestroy() {

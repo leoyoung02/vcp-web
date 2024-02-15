@@ -31,7 +31,6 @@ export class ContractComponent implements OnInit, OnDestroy {
 
   @Input() id!: number;
   @Input() typeId!: number;
-  @Input() closeContract!: () => void;
 
 
   languageChangeSubscription;
@@ -93,7 +92,7 @@ export class ContractComponent implements OnInit, OnDestroy {
       this.getContract();
     }
 
-    getContract() {
+ getContract() {
     this._companyService
     .getCompanyContracts(this.id)
     .pipe(takeUntil(this.destroy$))
@@ -125,13 +124,7 @@ export class ContractComponent implements OnInit, OnDestroy {
       .subscribe(
         (data: any) => {
           this._authService.redirectToPlatform()
-          const currentRoute = window?.location?.pathname
-          if(!currentRoute.includes('/users/profile'
-          )){
-            this._router.navigate([`/`]);
-          }else{
-            this.closeContract()
-          }
+          this._router.navigate([`/`]);
         },
         (error) => {
           this.open(this._translateService.instant("dialog.error"), "");
