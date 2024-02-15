@@ -2047,7 +2047,8 @@
         "pagetitletext":"Orriaren izenburua",
         "backgroundimage":"Atzeko planoko irudia",
         "questionanssection":"Galdera Atala",
-        "footer":"Oina"
+        "footer":"Oina",
+        "pottutor":"Pot Tutorea"
     },
     "guest-landing": {
         "templates": "Txantiloiak",
@@ -3495,5 +3496,16 @@
         "log": "Erregistroa",
         "customercreated": "Bezero berria behar bezala sortu da.",
         "pendingstatus": "Mezu elektroniko bat bidaliko zaio administratzaileari domeinurako beharrezko zerbitzari-aldaketak egiteko."
+    },
+    "personalize-home": {
+        "tutorialvideos": "Tutorial bideoak",
+        "template": "Txantiloi",
+        "content": "Edukia",
+        "sections": "Atalak",
+        "latest": "Erakutsi lehenik azkena",
+        "random": "Erakutsi ausaz"
+    },
+    "training": {
+        "training": "Prestakuntza"
     }
 }

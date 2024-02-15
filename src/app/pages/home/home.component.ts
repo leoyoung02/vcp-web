@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { AppTheme, ThemeService } from "src/app/core/services/theme";
 import { Subject, takeUntil } from "rxjs";
@@ -17,8 +17,12 @@ import { SafeContentHtmlPipe } from "@lib/pipes";
 import { ClubsListComponent } from "@features/clubs/list/list.component";
 import { CoursesListComponent } from "@features/courses/list/list.component";
 import { JobOffersListComponent } from "@features/job-offers/list/list.component";
-import { MasonryComponent } from "@share/components";
-import { VideoSectionComponent } from "@share/components/video-section/video-section.component";
+import { 
+  MasonryComponent, 
+  VideoSectionComponent, 
+  SectionsMasonryComponent 
+} from "@share/components";
+import moment from "moment";
 
 @Component({
   standalone: true,
@@ -33,6 +37,7 @@ import { VideoSectionComponent } from "@share/components/video-section/video-sec
     JobOffersListComponent,
     MasonryComponent,
     VideoSectionComponent,
+    SectionsMasonryComponent,
   ],
   templateUrl: "./home.component.html",
 })
@@ -153,13 +158,22 @@ export class HomeComponent implements OnInit, OnDestroy {
   schoolOfLifeTitle: any;
   user: any;
   campus: any = '';
+  sectionsList: any = [];
+  clubCategories: any = [];
+  clubCategoryMapping: any = [];
+  coursesProgress: any = [];
+  hasCategoryAccess: boolean = false;
+  types: any = [];
+  areas: any = [];
+  jobOfferAreasMapping: any = [];
 
   constructor(
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _companyService: CompanyService,
     private _userService: UserService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private cd: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -256,18 +270,11 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
-    this.getMobileLimitSettings();
 
     // Get all activated features
-    // this.features = this._localService.getLocalStorage(environment.lsfeatures)
-    //   ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
-    //   : "";
-    // if (!this.features) {
-      this.features = await this._companyService
-        .getFeatures(this.domain)
-        .toPromise();
-    // }
-    // console.log(this.features)
+    this.features = await this._companyService
+      .getFeatures(this.domain)
+      .toPromise();
 
     let plansFeature = this.features.filter((f) => {
       return f.feature_name == "Plans";
@@ -513,12 +520,768 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
           });
         }
+        if(this.showModuleSections) {
+          this.loadSectionsList(1);
+        }
         this.loadedSettings = true;
       },
       (error) => {
         console.log(error);
       }
     );
+  }
+
+  loadSectionsList(pageNo) {
+    this._companyService
+    .getHomeSectionsData(this.companyId, this.userId, pageNo, this.isUESchoolOfLife)
+    .subscribe(
+      response => {
+        console.log(response)
+        this.mapSubfeatures(response?.subfeatures);
+        this.clubCategories = response.club_categories;
+        this.clubCategoryMapping = response.club_category_mapping;
+        this.coursesProgress = response.courses_progress;
+        this.types = response?.job_types;
+        this.areas = response?.job_areas;
+        this.jobOfferAreasMapping = response?.job_offer_areas;
+        this.formatSectionsData(response?.results);
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  mapSubfeatures(subfeatures) {
+    if (subfeatures?.length > 0) {
+      this.hasCategoryAccess = subfeatures.some(
+        (a) => a.name_en == "Category access" && a.active == 1
+      );
+    }
+  }
+
+  formatSectionsData(data) {
+    let temp_sections_list: any[] = [];
+    if(data?.length > 0) {
+      data?.forEach(item => {
+        temp_sections_list?.push({
+          id: 1,
+          path: this.getPath(item),
+          image: this.getImage(item),
+          title: this.getTitle(item),
+          date: this.getDate(item),
+          address: item?.address,
+          price: item?.price,
+          object_type: item?.object_type,
+          category: this.getCategory(item),
+          button_text: this.getButtonText(item),
+          languages: this.getLanguages(item),
+          city: this.getCity(item),
+          types: this.getTypes(item),
+          rating: this.getRating(item),
+          sector: this.getSector(item),
+          type: this.getType(item),
+          area: this.getArea(item),
+          created_by_name: this.getCreatedByName(item),
+          created_by_image: this.getCreatedByImage(item),
+        })
+      })
+    }
+
+    // if(temp_sections_list?.length > 0) {
+    //   let plans = temp_sections_list?.filter(t => {
+    //     return t.object_type == 'plan'
+    //   })
+    //   let clubs = temp_sections_list?.filter(t => {
+    //     return t.object_type == 'club'
+    //   })
+    //   let courses = temp_sections_list?.filter(t => {
+    //     return t.object_type == 'course'
+    //   })
+    //   for(var i = 0;i < temp_sections_list?.length - 1;i++) {
+    //     if(plans?.length > 0 && i < plans?.length && i == 0, i == 5, i == 6) {
+    //       this.sectionsList.push(plans[i])
+    //     }
+    //     if(clubs?.length > 0 && i < clubs?.length) {
+    //       this.sectionsList.push(clubs[i])
+    //     }
+    //     if(courses?.length > 0 && i < courses?.length) {
+    //       this.sectionsList.push(courses[i])
+    //     }
+    //   }
+    // }
+    this.sectionsList = temp_sections_list;
+
+    console.log(this.sectionsList)
+    this.cd.detectChanges();
+  }
+
+  getPath(item) {
+    let object_type = item?.object_type;
+    let path = '';
+
+    switch(object_type) {
+      case 'plan':
+        path = `/plans/details/${item.id}/${item?.plan_type_id}`
+        break;
+      case 'club':
+        path = `/clubs/details/${item.id}`
+        break;
+      case 'course':
+        path = `/courses/details/${item.id}`
+        break;
+      case 'cityguide':
+        path = `/cityguide/details/${item.id}`
+        break;
+      case 'discount':
+        path = `/discounts/details/${item.id}`
+        break;
+      case 'blog':
+        path = `/blog/details/${item.id}`
+        break;
+      case 'tutor':
+        path = `/tutors/details/${item.id}`
+        break;
+      case 'service':
+        path = `/services/details/${item.id}`
+        break;
+      case 'member':
+        path = `/members/details/${item.id}`
+        break;
+      case 'joboffer':
+        path = `/employmentchannel/details/${item.id}`
+        break;
+    }
+
+    return path;
+  }
+
+  getImage(item) {
+    let object_type = item?.object_type;
+    let image = '';
+    let path = '';
+
+    switch(object_type) {
+      case 'plan':
+        path = item?.plan_type_id == 4 ? 'get-image-group-plan' : 'get-ie-image-plan';
+        image = `${environment.api}/${path}/${item.image}`;
+        break;
+      case 'club':
+        image = `${environment.api}/get-image-group/${item.image}`;
+        break;
+      case 'course':
+        image = `${environment.api}/get-course-image/${item.image}`;
+        break;
+      case 'cityguide':
+        image = `${environment.api}/get-image/${item.image}`;
+        break;
+      case 'discount':
+        image = `${environment.api}/get-ie-image-disc/${item.image}`;
+        break;
+      case 'blog':
+        image = `${environment.api}/get-blog-image/${item.image}`;
+        break;
+      case 'tutor':
+        image = `${environment.api}/${item.image}`;
+        break;
+      case 'service':
+        image = `${environment.api}/get-image/${item.image}`;
+        break;
+      case 'member':
+        image = `${environment.api}/${item.image}`;
+        break;
+    }
+
+    return image;
+  }
+
+  getTitle(item) {
+    let object_type = item?.object_type;
+    let title = '';
+
+    switch(object_type) {
+      case 'plan':
+        title = this.getEventTitle(item);
+        break;
+      case 'club':
+        title = this.getGroupTitle(item);
+        break;
+      case 'course':
+        title = this.getCourseTitle(item);
+        break;
+      case 'cityguide':
+        title = this.getCityGuideTitle(item);
+        break;
+      case 'discount':
+        title = this.getOfferTitle(item);
+        break;
+      case 'blog':
+        title = this.getBlogTitle(item);
+        break;
+      case 'tutor':
+        title = this.getTutorTitle(item);
+        break;
+      case 'service':
+        title = item?.name;
+        break;
+      case 'member':
+        title = item?.first_name ? `${item?.first_name} ${item?.last_name}` : item?.name;
+        break;
+      case 'joboffer':
+        title = this.getJobOfferTitle(item);
+        break;
+    }
+
+    return title;
+  }
+
+  getDate(item) {
+    let object_type = item?.object_type;
+    let date = '';
+
+    switch(object_type) {
+      case 'plan':
+        date = this.getActivityDate(item);
+        break;
+      case 'blog':
+        date = item?.created_at;
+        break;
+    }
+
+    return date;
+  }
+
+  getCreatedByName(item) {
+    let object_type = item?.object_type;
+    let created_by = '';
+
+    switch(object_type) {
+      case 'blog':
+        created_by = item?.created_by_name;
+        break;
+    }
+
+    return created_by;
+  }
+
+  getCreatedByImage(item) {
+    let object_type = item?.object_type;
+    let created_by_image = '';
+
+    switch(object_type) {
+      case 'blog':
+        created_by_image = `${environment.api}/${item?.created_by_image}`;
+        break;
+    }
+
+    return created_by_image;
+  }
+
+  getLanguages(item) {
+    let object_type = item?.object_type;
+    let languages = '';
+
+    switch(object_type) {
+      case 'tutor':
+        languages = item?.languages || this._translateService.instant('tutors.spanish');
+        break;
+    }
+
+    return languages;
+  }
+
+  getCity(item) {
+    let object_type = item?.object_type;
+    let city = '';
+
+    switch(object_type) {
+      case 'tutor':
+        city = item?.city;
+        break;
+      case 'member':
+        city = item?.city;
+        break;
+    }
+
+    return city;
+  }
+
+  getRating(item) {
+    let object_type = item?.object_type;
+    let rating = '';
+
+    switch(object_type) {
+      case 'tutor':
+        rating = this.getTutorRating(item);
+        break;
+    }
+
+    return rating;
+  }
+
+  getTutorRating(item) {
+    let rating
+
+    if(item?.tutor_ratings?.length > 0){
+      let rating_array = item['tutor_ratings']
+      let tut_rating = 0.0
+      let no_of_rating = 0
+      rating_array.forEach((tr) => {
+          tut_rating += tr.tutor_rating ? parseFloat(tr.tutor_rating) : 0
+          no_of_rating++
+      })
+      rating = (tut_rating/no_of_rating).toFixed(1);
+    }
+
+    return rating
+  }
+
+  getTypes(item) {
+    let object_type = item?.object_type;
+    let types = '';
+
+    switch(object_type) {
+      case 'tutor':
+        types = item?.types;
+        break;
+    }
+
+    return types;
+  }
+
+  getCategory(item) {
+    let object_type = item?.object_type;
+    let category = '';
+
+    switch(object_type) {
+      case 'club':
+        category = this.getClubCategory(item);
+        break;
+      case 'course':
+        category = this.getCourseCategory(item);
+        break;
+    }
+
+    return category;
+  }
+
+  getClubCategory(club) {
+    let category = ''
+    let club_category = this.clubCategoryMapping?.filter(cc => {
+      return cc.fk_group_id == club.id
+    })
+
+    if(club_category?.length > 0) {
+      let mapped = club_category?.map(cc => {
+        let category = this.clubCategories?.filter(c => {
+          return cc.fk_supercategory_id == c.id
+        })
+        let title = category?.length > 0 ? this.getCategoryTitle(category[0]) : ''
+        
+        return {
+          ...cc,
+          title,
+        }
+      })
+
+      if(mapped?.length > 0) {
+        category = mapped.map( (data) => { return data.title }).join(',')
+      }
+    }
+
+    return category
+  }
+
+  getCourseCategory(course) {
+    let category = '';
+    let category_texts = this.getCategoriesDisplay(course);
+
+    if(category_texts?.length > 0) {
+      category = category_texts?.map((data) => { return data.label }).join(', ');
+    }
+
+    return category;
+  }
+
+  getCategoriesDisplay(course) {
+    let list_categories: any[] = []
+    if(course?.course_categories?.length > 0) {
+      course?.course_categories?.forEach(category => {
+        list_categories.push({
+          label: this.getCategoryLabel(category)
+        })
+      })
+    }
+    return list_categories
+  }
+
+  getCategoryLabel(category) {
+    return category
+      ? this.language == "en"
+        ? category.name_EN ||
+          category.name_ES
+        : this.language == "fr"
+        ? category.name_FR ||
+          category.name_ES
+        : this.language == "eu"
+        ? category.name_EU ||
+          category.name_ES
+        : this.language == "ca"
+        ? category.name_CA ||
+          category.name_ES
+        : this.language == "de"
+        ? category.name_DE ||
+          category.name_ES
+        : category.name_ES
+      : "";
+  }
+
+  getCategoryTitle(category) {
+    return category ? (this.language == 'en' ? (category.name_EN || category.name_ES) : (this.language == 'fr' ? (category.name_fr || category.name_ES) : 
+        (this.language == 'eu' ? (category.name_eu || category.name_ES) : (this.language == 'ca' ? (category.name_ca || category.name_ES) : 
+        (this.language == 'de' ? (category.name_de || category.name_ES) : category.name_ES)
+      ))
+    )) : ''
+  }
+
+  getSector(item) {
+    let object_type = item?.object_type;
+    let sector = '';
+
+    switch(object_type) {
+      case 'member':
+        sector = item?.sector;
+        break;
+    }
+
+    return sector;
+  }
+
+  getJobOfferTitle(offer) {
+    return this.language == 'en' ? (offer.title_en || offer.title) : (this.language == 'fr' ? (offer.title_fr || offer.title) :
+      (this.language == 'eu' ? (offer.title_eu || offer.title) : (this.language == 'ca' ? (offer.title_ca || offer.title) :
+        (this.language == 'de' ? (offer.title_de || offer.title) : offer.title)
+      ))
+    )
+  }
+
+  getType(item) {
+    let object_type = item?.object_type;
+    let type = '';
+
+    switch(object_type) {
+      case 'joboffer':
+        type = this.getJobOfferType(item);
+        break;
+    }
+
+    return type;
+  }
+
+  getJobOfferType(item) {
+    let type = '';
+
+    let type_row = this.types?.filter(jt => {
+      return jt.id == item.type_id
+    })
+
+    if(type_row?.length > 0) {
+      type = this.getTypeTitle(type_row[0])
+    }
+
+    return type;
+  }
+
+  getTypeTitle(type) {
+    return this.language == 'en' ? (type.title_en || type.title) : (this.language == 'fr' ? (type.title_fr || type.title) :
+      (this.language == 'eu' ? (type.title_eu || type.title) : (this.language == 'ca' ? (type.title_ca || type.title) :
+        (this.language == 'de' ? (type.title_de || type.title) : type.title)
+      ))
+    )
+  }
+
+  getArea(item) {
+    let object_type = item?.object_type;
+    let area = '';
+
+    switch(object_type) {
+      case 'joboffer':
+        area = this.getAreaDisplay(item);
+        break;
+    }
+
+    return area;
+  }
+
+  getAreaDisplay(offer) {
+    let area_display = ''
+
+    let job_areas = this.areas?.filter(ja => {
+      return this.jobOfferAreasMapping?.some((a) => a.job_offer_id === offer.id && a.area_id == ja.id);
+    })
+
+    area_display = job_areas?.length > 1 ? job_areas?.map( (data) => { return data.title }).join(', ') : (job_areas?.length == 1 ? job_areas[0].title : '')
+
+    return area_display
+  }
+
+  getButtonText(item) {
+    let object_type = item?.object_type;
+    let button_text = '';
+    
+    switch(object_type) {
+      case 'course':
+        button_text = this.getCourseButtonText(item);
+        break;
+    }
+
+    return button_text;
+  }
+
+  getCourseButtonText(course) {
+    let button_text = '';
+
+    let progress = this.getUserProgress(course);
+
+    if (
+      (((course?.locked == 1 && this.hasCourseStarted(course)) ||
+        (course?.buy_now_status == 0 && this.hasCourseStarted(course)) ||
+        (!this.hasCourseStarted(course) && course?.show_buy_now)) &&
+        course?.show_buy_now &&
+        course?.cta_status != 1) ||
+      course.unassigned_status == 1
+    ) {
+      button_text = this._translateService.instant("courses.blocked");
+    }
+
+    if (
+      (!course?.locked || course?.locked != 1) &&
+      this.hasCourseStarted(course) &&
+      course?.show_buy_now &&
+      course?.buy_now_status == 1
+    ) {
+      button_text =
+        course.buy_now_status == 1 &&
+        (this.hasCategoryAccess
+          ? this.userId
+            ? this._translateService.instant("courses.buynow")
+            : this._translateService.instant("courses.logintoaccess")
+          : this._translateService.instant("courses.buynow"));
+    }
+
+    if (
+      ((!course?.locked || course?.locked != 1) &&
+        !this.hasCourseStarted(course) &&
+        !course?.show_buy_now) ||
+      (course.exception_access == 1 && !this.hasCourseStarted(course))
+    ) {
+      button_text = `${this._translateService.instant("courses.startson")} ${moment(
+        course.date
+      )
+        .locale(this.language)
+        .format("D MMM")}`;
+    }
+
+    if (
+      course?.cta_status == 1 &&
+      !(
+        (!course?.locked || course?.locked != 1) &&
+        this.hasCourseStarted(course) &&
+        !course?.show_buy_now
+      ) &&
+      !(
+        (!course?.locked || course?.locked != 1) &&
+        !this.hasCourseStarted(course) &&
+        !course?.show_buy_now
+      )
+    ) {
+      button_text = course.cta_text;
+    }
+
+    if (
+      ((!course?.locked || course?.locked != 1) &&
+        this.hasCourseStarted(course) &&
+        !course?.show_buy_now) ||
+      ((course.exception_access == 1 || this.superAdmin) &&
+        this.hasCourseStarted(course))
+    ) {
+      button_text = this.userId
+        ? progress == 0
+          ? `${this._translateService.instant(
+              "courses.begin"
+            )} ${this._translateService.instant("invite.here")}`
+          : this._translateService.instant("courses.continue")
+        : this._translateService.instant("courses.logintoaccess");
+    }
+
+    return button_text;
+  }
+
+  hasCourseStarted(course) {
+    let show = true;
+    let start_date = course.date;
+    let today = moment().format("YYYY-MM-DD");
+
+    if (start_date) {
+      start_date = moment(course.date).format("YYYY-MM-DD");
+      if (moment(today).isBefore(course.date)) {
+        show = false;
+      }
+    }
+
+    return show;
+  }
+
+  getUserProgress(course) {
+    let progress = 0;
+    let user_course = this.coursesProgress?.find(
+      (cp) => cp?.user_id == this.userId && cp?.course_id == course?.id
+    );
+    if (user_course) {
+      progress = user_course?.progress;
+    }
+    return progress;
+  }
+
+  getEventTitle(event) {
+    return this.language == "en"
+      ? (event.title_en && event.title_en != 'undefined')
+        ? event.title_en || event.title
+        : event.title
+      : this.language == "fr"
+      ? event.title_fr
+        ? event.title_fr || event.title
+        : event.title
+      : this.language == "eu"
+      ? event.title_eu
+        ? event.title_eu || event.title
+        : event.title
+      : this.language == "ca"
+      ? event.title_ca
+        ? event.title_ca || event.title
+        : event.title
+      : this.language == "de"
+      ? event.title_de
+        ? event.title_de || event.title
+        : event.title
+      : event.title;
+  }
+
+  getActivityDate(activity) {
+    let date = moment
+      .utc(activity.plan_date)
+      .locale(this.language)
+      .format("D MMMM");
+    if (activity.limit_date) {
+      let start_month = moment
+        .utc(activity.plan_date)
+        .locale(this.language)
+        .format("M");
+      let end_month = moment
+        .utc(activity.limit_date)
+        .locale(this.language)
+        .format("M");
+      let activity_start_date = moment
+        .utc(activity.plan_date)
+        .locale(this.language)
+        .format("YYYY-MM-DD");
+      let activity_end_date = moment
+        .utc(activity.limit_date)
+        .locale(this.language)
+        .format("YYYY-MM-DD");
+
+      if (activity_start_date == activity_end_date) {
+        date = `${moment
+          .utc(activity.limit_date)
+          .locale(this.language)
+          .format("D MMMM")}`;
+      } else {
+        if (start_month == end_month) {
+          date = `${moment
+            .utc(activity.plan_date)
+            .locale(this.language)
+            .format("D")}-${moment(activity.limit_date)
+            .locale(this.language)
+            .format("D MMMM")}`;
+        } else {
+          date = `${moment
+            .utc(activity.plan_date)
+            .locale(this.language)
+            .format("D MMMM")}-${moment(activity.limit_date)
+            .locale(this.language)
+            .format("D MMMM")}`;
+        }
+      }
+    }
+    return date;
+  }
+
+  getGroupTitle(group) {
+    return this.language == "en"
+      ? group.title_en
+        ? group.title_en || group.title_es
+        : group.title
+      : this.language == "fr"
+      ? group.title_fr
+        ? group.title_fr || group.title
+        : group.title
+      : this.language == "eu"
+      ? group.title_eu
+        ? group.title_eu || group.title
+        : group.title
+      : this.language == "ca"
+      ? group.title_ca
+        ? group.title_ca || group.title
+        : group.title
+      : this.language == "de"
+      ? group.title_de
+        ? group.title_de || group.title
+        : group.title
+      : group.title;
+  }
+
+  getCityGuideTitle(guide) {
+    return guide
+      ? this.language == "en"
+        ? guide.name_EN || guide.name_ES
+        : this.language == "fr"
+        ? guide.name_FR || guide.name_ES
+        : this.language == "eu"
+        ? guide.name_EU || guide.name_ES
+        : this.language == "ca"
+        ? guide.name_CA || guide.name_ES
+        : this.language == "de"
+        ? guide.name_DE || guide.name_ES
+        : guide.name_ES
+      : "";
+  }
+
+  getOfferTitle(offer) {
+    return offer ? (this.language == 'en' ? (offer.title_en || offer.title) : (this.language == 'fr' ? (offer.title_fr || offer.title) : 
+        (this.language == 'eu' ? (offer.title_eu || offer.title) : (this.language == 'ca' ? (offer.title_ca || offer.title) : 
+        (this.language == 'de' ? (offer.title_de || offer.title) : offer.title)
+      ))
+    )) : ''
+  }
+
+  getBlogTitle(blog) {
+    return blog
+      ? this.language == "en"
+        ? blog.name_EN || blog.name_ES
+        : this.language == "fr"
+        ? blog.name_FR || blog.name_ES
+        : this.language == "eu"
+        ? blog.name_EU || blog.name_ES
+        : this.language == "ca"
+        ? blog.name_CA || blog.name_ES
+        : this.language == "de"
+        ? blog.name_DE || blog.name_ES
+        : blog.name_ES
+      : "";
+  }
+
+  getTutorTitle(tutor) {
+    return tutor?.name || `${tutor?.first_name} ${tutor?.last_name}`;
   }
 
   getSettingsTitle() {
@@ -672,78 +1435,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (!members || (members && members.length == 0)) {
       this.disableMembers = true;
     }
-  }
-
-  getMobileLimitSettings() {
-    this._companyService
-      .getMobileLimitSettingsAll(this.companyId)
-      .pipe(takeUntil(this._destroy$))
-      .subscribe((data) => {
-        let settings = data.mobile_limit_settings;
-
-        let activity_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 1;
-          });
-        if (activity_limit && activity_limit.length > 0) {
-          this.mobileLimitActivities = activity_limit[0].home_limit;
-        }
-
-        let cityagenda_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 3;
-          });
-        if (cityagenda_limit && cityagenda_limit.length > 0) {
-          this.mobileLimitCityAgenda = cityagenda_limit[0].home_limit;
-        }
-
-        let club_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 5;
-          });
-        if (club_limit && club_limit.length > 0) {
-          this.mobileLimitClubs = club_limit[0].home_limit;
-        }
-
-        let joboffers_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 18;
-          });
-        if (joboffers_limit && joboffers_limit.length > 0) {
-          this.mobileLimitJobOffers = joboffers_limit[0].home_limit;
-        }
-
-        let discounts_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 4;
-          });
-        if (discounts_limit && discounts_limit.length > 0) {
-          this.mobileLimitDiscounts = discounts_limit[0].home_limit;
-        }
-
-        let courses_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 11;
-          });
-        if (courses_limit && courses_limit.length > 0) {
-          this.mobileLimitCourses = courses_limit[0].home_limit;
-        }
-
-        let startups_limit =
-          settings &&
-          settings.filter((s) => {
-            return s.feature_id == 15;
-          });
-        if (startups_limit && startups_limit.length > 0) {
-          this.mobileLimitMembers = startups_limit[0].home_limit;
-        }
-      });
   }
 
   getLandingTemplateBySlug(slug) {

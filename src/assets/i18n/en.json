@@ -2052,7 +2052,8 @@
         "pagetitletext":"Page Title",
         "backgroundimage":"Background Image",
         "questionanssection":"Question Section",
-        "footer":"Footer"
+        "footer":"Footer",
+        "pottutor":"Pot Tutor"
     },
     "guest-landing": {
         "templates": "Templates",
@@ -3531,5 +3532,16 @@
         "log": "Log",
         "customercreated": "New customer has successfully been created.",
         "pendingstatus": "An email will be sent to admin to make the necessary server changes for the domain." 
+    },
+    "personalize-home": {
+        "tutorialvideos": "Tutorial videos",
+        "template": "Template",
+        "content": "Content",
+        "sections": "Sections",
+        "latest": "Show latest first",
+        "random": "Show random"
+    },
+    "training": {
+        "training": "Training"
     }
 }

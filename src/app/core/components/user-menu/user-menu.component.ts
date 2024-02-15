@@ -73,7 +73,9 @@ export class UserMenuComponent {
   @Input() hasCredits: any;
   @Input() campus: any;
   @Input() isNetculturaUser: any;
-  @Input() potSuperTutor:any
+  @Input() potSuperTutor:any;
+  @Input() potTutor:any;
+
   @Output() changeLanguage = new EventEmitter();
 
   companyName: any;
