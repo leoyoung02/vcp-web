@@ -467,6 +467,22 @@
                                     </label>
                                 </div>
                             </div>
+                            <div class="flex items-center relative" *ngIf="hasTutors && tutor">
+                                <div class="flex items-center my-1">
+                                    <input 
+                                        id="pottutor" 
+                                        type="checkbox"
+                                        (change)="checkSuperTutor($event,'pottutor')" 
+                                        [(ngModel)]="potTutor"
+                                        [ngModelOptions]="{standalone: true}"
+                                        [ngStyle]="{'color': potTutor ? buttonColor : 'text-blue-500'}"
+                                        class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                    />
+                                    <label for="pottutor" class="ml-2 text-sm font-medium dark:text-gray-300">
+                                        {{'company-settings.pottutor' | translate}}
+                                    </label>
+                                </div>
+                            </div>
                             <div class="flex items-center justify-center relative" *ngIf="showClubsDropdown">
                                 <div class="w-full max-w-full">
                                     <label for="role" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
