@@ -3215,7 +3215,8 @@
         "pendingtransfer": "Pendent de transferència",
         "validtoken":"Proporcioneu un testimoni vàlid per continuar",
         "notsetupaccount":"Aquest perfil de tutor no està configurat correctament.",
-        "correctcalendlycredntials":"Comproveu les vostres credencials de calendari per continuar."
+        "correctcalendlycredntials":"Comproveu les vostres credencials de calendari per continuar.",
+        "perhourrate":"comissió per hora de tutoria."
     },
     "general-details": {
         "name" : "Nom",
@@ -3381,7 +3382,8 @@
     },
     "contract": {
         "review": "Revisa els termes i condicions",
-        "pleasereview": "Reviseu les condicions següents:"
+        "pleasereview": "Reviseu les condicions següents:",
+        "accept": "Accepteu els termes i condicions"
     },
     "blogs": {
         "blogs": "Blocs",

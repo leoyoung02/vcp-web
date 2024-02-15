@@ -3241,7 +3241,8 @@
         "pendingtransfer": "Pending transfer",
         "validtoken":"Please provide a valid token to proceed",
         "notsetupaccount":"This tutor profle is not prpoerly setup.",
-        "correctcalendlycredntials":"Please check your calendly credentials to proceed."
+        "correctcalendlycredntials":"Please check your calendly credentials to proceed.",
+        "perhourrate":"commission per hour of tutoring."
     },
     "general-details": {
         "name" : "Name",
@@ -3407,7 +3408,8 @@
     },
     "contract": {
         "review": "Review terms and conditions",
-        "pleasereview": "Please review the conditions below:"
+        "pleasereview": "Please review the conditions below:",
+        "accept": "Accept terms and conditions"
     },
     "blogs": {
         "blogs": "Blogs",

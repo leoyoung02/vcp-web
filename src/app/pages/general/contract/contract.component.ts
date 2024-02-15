@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, inject, Input, OnDestroy, OnInit } from "@angular/core";
+import { Component, inject, Input, OnDestroy, OnInit, Output } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import {
@@ -15,6 +15,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
+  selector: "app-contract",
   standalone: true,
   imports: [
     CommonModule, 
@@ -30,6 +31,7 @@ export class ContractComponent implements OnInit, OnDestroy {
 
   @Input() id!: number;
   @Input() typeId!: number;
+
 
   languageChangeSubscription;
   userId: any;
@@ -48,7 +50,7 @@ export class ContractComponent implements OnInit, OnDestroy {
   acceptTermsAndConditions: boolean = false;
   contracts: any;
   contract: any;
-
+  
   constructor(
     private _translateService: TranslateService,
     private _localService: LocalService,
@@ -57,16 +59,16 @@ export class ContractComponent implements OnInit, OnDestroy {
     private _userService: UserService,
     private _router: Router,
     private _snackBar: MatSnackBar,
-  ) {}
-
-  async ngOnInit() {
+    ) {}
+    
+    async ngOnInit() {
     this.language = this._localService.getLocalStorage(environment.lslang) || "es";
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this._translateService.use(this.language || "es");
-
+    
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
-      ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
-      : "";
+    ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
+    : "";
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
@@ -75,31 +77,31 @@ export class ContractComponent implements OnInit, OnDestroy {
       this.domain = company[0].domain;
       this.primaryColor = company[0].primary_color;
       this.buttonColor = company[0].button_color
-        ? company[0].button_color
-        : company[0].primary_color;
+      ? company[0].button_color
+      : company[0].primary_color;
     }
 
     this.languageChangeSubscription =
-      this._translateService.onLangChange.subscribe(
-        (event: LangChangeEvent) => {
-          this.language = event.lang;
-          this.initializePage();
-        }
+    this._translateService.onLangChange.subscribe(
+      (event: LangChangeEvent) => {
+        this.language = event.lang;
+        this.initializePage();
+      }
       );
+      
+      this.getContract();
+    }
 
-    this.getContract();
-  }
-
-  getContract() {
+ getContract() {
     this._companyService
-      .getCompanyContracts(this.id)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (data) => {
-          this.contracts = data.contracts;
-          this.initializePage();
-        },
-        (error) => {
+    .getCompanyContracts(this.id)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(
+      (data) => {
+        this.contracts = data.contracts;
+        this.initializePage();
+      },
+      (error) => {
           console.log(error);
         }
       );

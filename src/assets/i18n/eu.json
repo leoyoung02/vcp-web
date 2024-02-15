@@ -3205,7 +3205,8 @@
         "pendingtransfer": "Transferentzia zain",
         "validtoken":"Mesedez, eman baliozko token bat aurrera egiteko",
         "notsetupaccount":"Tutore-profil hau ez dago behar bezala konfiguratuta.",
-        "correctcalendlycredntials":"Mesedez, egiaztatu zure calendly kredentzialak aurrera egiteko."
+        "correctcalendlycredntials":"Mesedez, egiaztatu zure calendly kredentzialak aurrera egiteko.",
+        "perhourrate":"tutoretza ordu bakoitzeko komisioa."
     },
     "general-details": {
         "name" : "Izena",
@@ -3371,7 +3372,8 @@
     },
     "contract": {
         "review": "Berrikusi zehaztapenak eta baldintzak",
-        "pleasereview": "Mesedez, berrikusi beheko baldintzak:"
+        "pleasereview": "Mesedez, berrikusi beheko baldintzak:",
+        "accept": "Onartu terminoak eta baldintzak"
     },
     "blogs": {
         "blogs": "Blogak",

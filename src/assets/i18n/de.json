@@ -3204,7 +3204,8 @@
         "pendingtransfer": "Übertragung ausstehend",
         "validtoken":"Bitte geben Sie einen gültigen Token an, um fortzufahren",
         "notsetupaccount":"Dieses Tutorprofil ist nicht ordnungsgemäß eingerichtet.",
-        "correctcalendlycredntials":"Bitte überprüfen Sie Ihre Kalenderdaten, um fortzufahren."
+        "correctcalendlycredntials":"Bitte überprüfen Sie Ihre Kalenderdaten, um fortzufahren.",
+        "perhourrate":"Provision pro Nachhilfestunde."
     },
     "general-details": {
         "name" : "Name",
@@ -3370,7 +3371,8 @@
     },
     "contract": {
         "review": "Bewertungsbedingungen",
-        "pleasereview": "Bitte überprüfen Sie die folgenden Bedingungen:"
+        "pleasereview": "Bitte überprüfen Sie die folgenden Bedingungen:",
+        "accept": "Nutzungsbedingungen akzeptieren"
     },
     "blogs": {
         "blogs": "Blogs",
