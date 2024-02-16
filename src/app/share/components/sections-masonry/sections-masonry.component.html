@@ -31,7 +31,7 @@
       </div>
       <div *ngIf="item?.object_type == 'club'" 
         class="row-span-2 hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-        [routerLink]="[item.path]">
+        (click)="goToClubDetails(item)">
         <div class="relative">
           <img class="rounded-t-lg w-full object-cover" [src]="item.image" alt="" />
           <div class="test__body absolute inset-0 p-4 text-white flex flex-col">

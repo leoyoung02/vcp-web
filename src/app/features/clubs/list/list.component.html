@@ -19,7 +19,7 @@
     </button>
     <button 
         class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 border flex items-center h-[52px] p-3.5 px-8 rounded-[15px] justify-center transition duration-700 ease-in-out"
-        *ngIf="isMyClubsActive && myClubs?.title_es"
+        *ngIf="isMyClubsActive && myClubs?.title_es && userId > 0"
         [ngStyle]="{
             'border-color':  myClubsHover ? 'transparent' : buttonColor,
             'background-color': myClubsHover ? buttonColor : '#fff',
@@ -70,7 +70,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-evenly relative h-full max-h-full gap-8 py-8">
         <ng-container *ngFor="let group of filteredGroup | paginate: {itemsPerPage: 8, currentPage: p}">
             <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] lg:max-h-[267px] flex flex-col items-center bg-white rounded-lg shadow md:flex-row"
-                [routerLink]="['/clubs/details/', group?.id]"
+                (click)="goToClubDetails(group)"
             >
                 <img class="border object-cover rounded-t-lg h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] w-full md:rounded-none md:rounded-l-lg" 
                     *ngIf="group?.image" [ngSrc]="group?.image?.indexOf('http') >= 0 ? group?.image : (apiPath + '/get-image-group/' + group.image)" [alt]="group?.title" width="192" height="256"

@@ -2,7 +2,7 @@ import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
 import { environment } from '@env/environment';
 import { AuthService } from 'src/app/core/services';
-import { LocalService, TokenStorageService } from '@share/services';
+import { CompanyService, LocalService, TokenStorageService } from '@share/services';
 import { storage } from 'src/app/core/utils/storage/storage.utils';
 
 /**
@@ -21,7 +21,33 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
     if (isRequestAuthorized) {
         const tokenService = inject(TokenStorageService);
         const _localService = inject(LocalService);
+        const _companyService = inject(CompanyService);
+        const companyId = _localService.getLocalStorage(environment.lscompanyId);
+        const userId = _localService.getLocalStorage(environment.lsuserId);
         let token = tokenService.getToken() || _localService.getLocalStorage(environment.lstoken);
+
+        if(!token && !userId) {
+            let companies = _localService.getLocalStorage(environment.lscompanies)
+                ? JSON.parse(_localService.getLocalStorage(environment.lscompanies))
+                : "";
+            let setGuestAccessToken = false;
+            if(companies?.length > 0) {
+                let comp = _companyService.getCompany(companies);
+                if (comp?.length > 0) {
+                    let company = comp[0];
+                    if(company.guest_access == 1) {
+                        setGuestAccessToken = true;
+                    }
+                }
+            } else {
+                if(companyId == 32 || environment.company == 'vidauniversitaria.universidadeuropea.com') {
+                    setGuestAccessToken = true;
+                }
+            }
+            if(setGuestAccessToken) {
+                token = environment.lsguestaccesstoken;
+            }
+        }
 
         if(tokenService.getToken()) {
             // console.log('use token from session storage')
@@ -33,7 +59,7 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
 
         if (token) {
             const payload = parseJwt(token); // decode JWT payload part.
-            if (payload && Date.now() >= payload.exp * 1000) { // Check token exp.
+            if (payload && payload.exp && Date.now() >= payload.exp * 1000) { // Check token exp.
                 storage.removeItem('appSession');
                 _localService.removeLocalStorage(environment.lstoken);
                 _localService.removeLocalStorage(environment.lsrefreshtoken);
@@ -76,7 +102,6 @@ export function parseJwt(token): any {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
           }).join(''));
     }
-    
   
     return jsonPayload ? JSON.parse(jsonPayload) : null;
 }

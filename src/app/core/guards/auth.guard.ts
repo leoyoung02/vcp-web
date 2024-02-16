@@ -1,7 +1,7 @@
 import { inject } from '@angular/core';
 import { CanMatchFn, Route, Router, UrlSegment } from '@angular/router';
 import { environment } from '@env/environment';
-import { LocalService, TokenStorageService } from '@share/services';
+import { CompanyService, LocalService, TokenStorageService } from '@share/services';
 import { AuthService } from 'src/app/core/services';
 
 type AuthGuardOptions = {
@@ -48,8 +48,11 @@ export const authGuard = (options: AuthGuardOptions = defaultAuthGuardOptions())
         const authService = inject(AuthService);
 
         const _localService = inject(LocalService);
+        const _companyService = inject(CompanyService);
         const localToken = _localService.getLocalStorage(environment.lstoken);
         const localUser = _localService.getLocalStorage(environment.lsuser);
+        const companyId = _localService.getLocalStorage(environment.lscompanyId);
+        const userId = _localService.getLocalStorage(environment.lsuserId);
         const localAppSession = localStorage.getItem('appSession');
         if(localToken && localUser && !localAppSession) {
             localStorage.setItem('appSession', JSON.stringify({
@@ -58,11 +61,43 @@ export const authGuard = (options: AuthGuardOptions = defaultAuthGuardOptions())
             }))
         }
 
+        let setGuestAccessToken = false;
+        if(!userId) {
+            let companies = _localService.getLocalStorage(environment.lscompanies)
+                ? JSON.parse(_localService.getLocalStorage(environment.lscompanies))
+                : "";
+            if(companies?.length > 0) {
+                let comp = _companyService.getCompany(companies);
+                if (comp?.length > 0) {
+                    let company = comp[0];
+                    if(company.guest_access == 1) {
+                        setGuestAccessToken = true;
+                    }
+                }
+            } else {
+                if(companyId == 32 || environment.company == 'vidauniversitaria.universidadeuropea.com') {
+                    setGuestAccessToken = true;
+                }
+            }
+
+            if(setGuestAccessToken) {
+                _localService.setLocalStorage(environment.lsuserId, 0);
+                localStorage.setItem('appSession', JSON.stringify({
+                    user: environment.lsuserId,
+                    token: environment.lsguestaccesstoken,
+                }))
+            }
+        }
+
         if (options.requiresAuthentication === authService.isAuthenticated) {
             return true;
         }
 
         if (!options.requiresAuthentication) {
+            return true;
+        }
+
+        if(setGuestAccessToken) {
             return true;
         }
 

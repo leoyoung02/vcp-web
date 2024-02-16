@@ -19,7 +19,7 @@
     </button>
     <button 
         class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 border flex items-center h-[52px] p-3.5 px-8 rounded-[15px] justify-center transition duration-700 ease-in-out"
-        *ngIf="isMyActivitiesActive && myActivities?.title_es"
+        *ngIf="isMyActivitiesActive && myActivities?.title_es && userId > 0"
         [ngStyle]="{
             'border-color': myActivitiesHover ? 'transparent' : buttonColor,
             'background-color': myActivitiesHover ? buttonColor : '#fff',

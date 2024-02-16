@@ -6,7 +6,7 @@ import {
   Input,
   SimpleChange,
 } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
 import {
   LangChangeEvent,
@@ -45,6 +45,7 @@ export class SectionsMasonryComponent {
   buttonColor: any;
 
   constructor(
+    private _router: Router,
     private _companyService: CompanyService,
     private _translateService: TranslateService,
     private _localService: LocalService,
@@ -72,6 +73,14 @@ export class SectionsMasonryComponent {
 
   fetchData() {
 
+  }
+
+  goToClubDetails(item) {
+    if(this.userId > 0) {
+      this._router.navigate([item.path]);
+    } else {
+      this._router.navigate(["/auth/login"]);
+    }
   }
 
   ngOnDestroy() {

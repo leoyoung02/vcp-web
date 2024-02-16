@@ -17,6 +17,7 @@ import { ToastComponent } from "@share/components";
 import { FormsModule } from "@angular/forms";
 import { SidebarComponent } from "@lib/components/sidebar/sidebar.component";
 import { UserMenuComponent } from "@lib/components/user-menu/user-menu.component";
+import { GuestMenuComponent } from "@lib/components/guest-menu/guest-menu.component";
 import moment from "moment";
 import get from "lodash/get";
 
@@ -32,6 +33,7 @@ import get from "lodash/get";
     ToastComponent,
     UserMenuComponent,
     MobileNavbarComponent,
+    GuestMenuComponent,
   ],
   templateUrl: "./layout-main.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -205,7 +207,6 @@ export class LayoutMainComponent {
     if (!this._localService.getLocalStorage(environment.lslang)) { this._localService.setLocalStorage(environment.lslang, "es"); }
     this.language = this._localService.getLocalStorage(environment.lslang) || "es";
     this.user = this._localService.getLocalStorage(environment.lsuser);
-    // this.campus = this.user?.campus || '';
 
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
@@ -1359,6 +1360,8 @@ export class LayoutMainComponent {
           )
           .pipe(takeUntil(this.destroy$))
           .subscribe((data) => {
+            console.log('getCombinedCourseMenuItemsPrefetch')
+            console.log(data)
             this.features = data[0] ? data[0] : [];
             let company_subfeatures = data[1] ? data[1]["subfeatures"] : [];
             let permissions = data[2] ? data[2]["permissions"] : [];
@@ -1398,6 +1401,8 @@ export class LayoutMainComponent {
           )
           .pipe(takeUntil(this.destroy$))
           .subscribe((data) => {
+            console.log('getMinCombinedMenuItemsPrefetch')
+            console.log(data)
             this.features = data[0] ? data[0] : [];
             let company_subfeatures = data[1] ? data[1]["subfeatures"] : [];
             let permissions = data[2] ? data[2]["permissions"] : [];
@@ -1430,8 +1435,14 @@ export class LayoutMainComponent {
       course_subfeatures
     );
 
+    console.log('features 0')
+    console.log(this.features)
     this.features = this.updateFeaturesMembers(company_subfeatures);
+    console.log('features 1')
+    console.log(this.features)
     this.updateFeaturesPermissions(permissions);
+    console.log('features 2')
+    console.log(this.features)
     this._localService.setLocalStorage(
       environment.lsfeatures,
       JSON.stringify(this.features)
@@ -1683,55 +1694,61 @@ export class LayoutMainComponent {
         }
       });
 
+    console.log('filteredFeatures')
+    console.log(filteredFeatures)
     return filteredFeatures;
   }
 
   updateFeaturesPermissions(permissions) {
-    if (
-      this.features &&
-      this.hasCustomMemberTypeSettings &&
-      this.currentUser &&
-      !this.superAdmin
-    ) {
-      let member_type_id = this.currentUser.custom_member_type_id;
-      let member_type_permissions = permissions.filter((p) => {
-        return p.custom_member_type_id == member_type_id && p.view == 1;
-      });
-      if (member_type_permissions && member_type_permissions.length > 0) {
-        if (!this.superAdmin) {
-          this.features = this.features.filter((f) => {
-            let match = member_type_permissions.some(
-              (a) => a.feature_id == f.id
-            );
-            return match;
-          });
-        }
-      } else {
-        this.features = [];
-      }
+    let localUserId = this._localService.getLocalStorage(environment.lsuserId);
+    if(this.company?.guest_access == 1 && !localUserId) {
     } else {
-      if (this.features && this.currentUser && !this.superAdmin) {
-        let member_type_id = 1;
-        if (this.admin1) {
-          member_type_id = 2;
-        }
-        if (this.admin2) {
-          member_type_id = 3;
-        }
+      if (
+        this.features &&
+        this.hasCustomMemberTypeSettings &&
+        this.currentUser &&
+        !this.superAdmin
+      ) {
+        let member_type_id = this.currentUser.custom_member_type_id;
         let member_type_permissions = permissions.filter((p) => {
           return p.custom_member_type_id == member_type_id && p.view == 1;
         });
-        if (
-          member_type_permissions &&
-          member_type_permissions.length > 0 &&
-          !this.superAdmin
-        ) {
-          this.features = this.features.filter((f) => {
-            let match = member_type_permissions.some(
-              (a) => a.feature_id == f.id
-            );
-            return match;
+        if (member_type_permissions && member_type_permissions.length > 0) {
+          if (!this.superAdmin) {
+            this.features = this.features.filter((f) => {
+              let match = member_type_permissions.some(
+                (a) => a.feature_id == f.id
+              );
+              return match;
+            });
+          }
+        } else {
+          this.features = [];
+        }
+      } else {
+        if (this.features && this.currentUser && !this.superAdmin) {
+          let member_type_id = 1;
+          if (this.admin1) {
+            member_type_id = 2;
+          }
+          if (this.admin2) {
+            member_type_id = 3;
+          }
+          let member_type_permissions = permissions.filter((p) => {
+            return p.custom_member_type_id == member_type_id && p.view == 1;
           });
+          if (
+            member_type_permissions &&
+            member_type_permissions.length > 0 &&
+            !this.superAdmin
+          ) {
+            this.features = this.features.filter((f) => {
+              let match = member_type_permissions.some(
+                (a) => a.feature_id == f.id
+              );
+              return match;
+            });
+          }
         }
       }
     }
