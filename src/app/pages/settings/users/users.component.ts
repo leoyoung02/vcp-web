@@ -478,6 +478,7 @@ export class ManageUsersComponent {
         (data) => {
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data);
+          this.customMemberTypeId = data?.user?.custom_member_type_id ? data.user.custom_member_type_id: ''
           this.mapUserPermissions(data?.user_permissions);
           this.mapSettings(data);
           this.adminSedeCity = data?.user?.city ? data.user.city : '' 
@@ -488,7 +489,6 @@ export class ManageUsersComponent {
           this.courseCategoryMapping = data?.course_category_mapping;
           this.courseCategoriesAccessRoles = data?.course_category_access_roles;
           this.customMemberTypes = data?.member_types ? data?.member_types : [];
-          this.customMemberTypeId = data?.user?.custom_member_type_id ? data.user.custom_member_type_id: ''
           this.showCredits(data)
           this.initializeIconFilterList(this.cities);
           this.getUserType()
@@ -580,7 +580,11 @@ export class ManageUsersComponent {
   }
 
   mapUserPermissions(user_permissions: any) {
-    this.isSuperAdmin = user_permissions?.super_admin_user ? true : false;
+    if(this.customMemberTypeId == 243){
+      this.isSuperAdmin = true
+    }else{
+      this.isSuperAdmin =  user_permissions?.super_admin_user ? true : false;
+    }
   }
 
   mapSettings(data) {
