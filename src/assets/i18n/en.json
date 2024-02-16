@@ -2053,7 +2053,8 @@
         "pagetitletext":"Page Title",
         "backgroundimage":"Background Image",
         "questionanssection":"Question Section",
-        "footer":"Footer"
+        "footer":"Footer",
+        "pottutor":"Pot Tutor"
     },
     "guest-landing": {
         "templates": "Templates",
@@ -3241,7 +3242,8 @@
         "pendingtransfer": "Pending transfer",
         "validtoken":"Please provide a valid token to proceed",
         "notsetupaccount":"This tutor profle is not prpoerly setup.",
-        "correctcalendlycredntials":"Please check your calendly credentials to proceed."
+        "correctcalendlycredntials":"Please check your calendly credentials to proceed.",
+        "perhourrate":"commission per hour of tutoring."
     },
     "general-details": {
         "name" : "Name",
@@ -3407,7 +3409,8 @@
     },
     "contract": {
         "review": "Review terms and conditions",
-        "pleasereview": "Please review the conditions below:"
+        "pleasereview": "Please review the conditions below:",
+        "accept": "Accept terms and conditions"
     },
     "blogs": {
         "blogs": "Blogs",
@@ -3532,5 +3535,16 @@
         "log": "Log",
         "customercreated": "New customer has successfully been created.",
         "pendingstatus": "An email will be sent to admin to make the necessary server changes for the domain." 
+    },
+    "personalize-home": {
+        "tutorialvideos": "Tutorial videos",
+        "template": "Template",
+        "content": "Content",
+        "sections": "Sections",
+        "latest": "Show latest first",
+        "random": "Show random"
+    },
+    "training": {
+        "training": "Training"
     }
 }

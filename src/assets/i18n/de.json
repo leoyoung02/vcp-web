@@ -2047,7 +2047,8 @@
         "pagetitletext":"Seitentitel",
         "backgroundimage":"Hintergrundbild",
         "questionanssection":"Fragenbereich",
-        "footer":"Fusszeile"
+        "footer":"Fusszeile",
+        "pottutor":"Pot-Lehrer"
     },
     "guest-landing": {
         "templates": "Vorlagen",
@@ -3204,7 +3205,8 @@
         "pendingtransfer": "Übertragung ausstehend",
         "validtoken":"Bitte geben Sie einen gültigen Token an, um fortzufahren",
         "notsetupaccount":"Dieses Tutorprofil ist nicht ordnungsgemäß eingerichtet.",
-        "correctcalendlycredntials":"Bitte überprüfen Sie Ihre Kalenderdaten, um fortzufahren."
+        "correctcalendlycredntials":"Bitte überprüfen Sie Ihre Kalenderdaten, um fortzufahren.",
+        "perhourrate":"Provision pro Nachhilfestunde."
     },
     "general-details": {
         "name" : "Name",
@@ -3370,7 +3372,8 @@
     },
     "contract": {
         "review": "Bewertungsbedingungen",
-        "pleasereview": "Bitte überprüfen Sie die folgenden Bedingungen:"
+        "pleasereview": "Bitte überprüfen Sie die folgenden Bedingungen:",
+        "accept": "Nutzungsbedingungen akzeptieren"
     },
     "blogs": {
         "blogs": "Blogs",
@@ -3496,5 +3499,16 @@
         "log": "Protokoll",
         "customercreated": "Neuer Kunde wurde erfolgreich erstellt.",
         "pendingstatus": "Eine E-Mail wird an den Administrator gesendet, um die erforderlichen Serveränderungen für die Domain vorzunehmen."
+    },
+    "personalize-home": {
+        "tutorialvideos": "Tutorial-Videos",
+        "template": "Vorlage",
+        "content": "Inhalt",
+        "sections": "Abschnitte",
+        "latest": "Neueste zuerst anzeigen",
+        "random": "Zufällig anzeigen"
+    },
+    "training": {
+        "training": "Training"
     }
 }

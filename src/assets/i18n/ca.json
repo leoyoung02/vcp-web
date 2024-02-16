@@ -2052,7 +2052,8 @@
         "pagetitletext":"Títol de la pàgina",
         "backgroundimage":"Imatge de fons",
         "questionanssection":"Secció de preguntes",
-        "footer":"Peu de pàgina"
+        "footer":"Peu de pàgina",
+        "pottutor":"Tutor d'olla"
     },
     "guest-landing": {
         "templates": "Plantilles",
@@ -3215,7 +3216,8 @@
         "pendingtransfer": "Pendent de transferència",
         "validtoken":"Proporcioneu un testimoni vàlid per continuar",
         "notsetupaccount":"Aquest perfil de tutor no està configurat correctament.",
-        "correctcalendlycredntials":"Comproveu les vostres credencials de calendari per continuar."
+        "correctcalendlycredntials":"Comproveu les vostres credencials de calendari per continuar.",
+        "perhourrate":"comissió per hora de tutoria."
     },
     "general-details": {
         "name" : "Nom",
@@ -3381,7 +3383,8 @@
     },
     "contract": {
         "review": "Revisa els termes i condicions",
-        "pleasereview": "Reviseu les condicions següents:"
+        "pleasereview": "Reviseu les condicions següents:",
+        "accept": "Accepteu els termes i condicions"
     },
     "blogs": {
         "blogs": "Blocs",
@@ -3506,5 +3509,16 @@
         "log": "Registre",
         "customercreated": "S'ha creat un client nou amb èxit.",
         "pendingstatus": "S'enviarà un correu electrònic a l'administrador per fer els canvis de servidor necessaris per al domini."
+    },
+    "personalize-home": {
+        "tutorialvideos": "Vídeos tutorials",
+        "template": "Plantilla",
+        "content": "Contingut",
+        "sections": "Seccions",
+        "latest": "Mostra el darrer primer",
+        "random": "Mostra l'atzar"
+    },
+    "training": {
+        "training": "Formació"
     }
 }

@@ -149,6 +149,7 @@ export class LayoutMainComponent {
   manageMembers: boolean = false;
   superTutor: boolean = false;
   potSuperTutor: boolean = false;
+  potTutor: boolean = false;
   cityAdmin:  boolean = false;
   showProfileButton: boolean = false;
   perHourCommission: boolean = false;
@@ -909,6 +910,11 @@ export class LayoutMainComponent {
               return tutor?.user_id == this.userId && tutor?.potsuper_tutor == 1
             })
             this.potSuperTutor = potsuper_tutor?.length > 0 ? true : false
+
+            let pot_tutor = this.tutorUsers?.filter(tutor => {
+              return tutor?.user_id == this.userId && tutor?.pot_tutor == 1
+            })
+            this.potTutor = pot_tutor?.length > 0 ? true : false
           }
 
           let cityAdmins = response['city_admins']

@@ -2052,7 +2052,8 @@
         "pagetitletext":"Título de la página",
         "backgroundimage":"Imagen de fondo",
         "questionanssection":"Sección de preguntas",
-        "footer":"Pie de página"
+        "footer":"Pie de página",
+        "pottutor":"PotTutor"
     },
     "guest-landing": {
         "templates": "Plantillas",
@@ -3226,7 +3227,8 @@
         "pendingtransfer": "Transferencia pendiente",
         "validtoken":"Proporcione un token válido para continuar",
         "notsetupaccount":"Este tutor profle no está configurado previamente.",
-        "correctcalendlycredntials":"Verifique sus credenciales de calendario para continuar."
+        "correctcalendlycredntials":"Verifique sus credenciales de calendario para continuar.",
+        "perhourrate":"Comisión por hora de tutoría."
     },
     "general-details": {
         "name" : "Nombre",
@@ -3393,7 +3395,8 @@
     },
     "contract": {
         "review": "Revisar términos y condiciones",
-        "pleasereview": "Por favor revise las condiciones a continuación:"
+        "pleasereview": "Por favor revise las condiciones a continuación:",
+        "accept": "Aceptar terminos y condiciones"
     },
     "blogs": {
         "blogs": "Blogs",
@@ -3518,5 +3521,16 @@
         "log": "Registro",
         "customercreated": "El nuevo cliente ha sido creado exitosamente.",
         "pendingstatus": "Se enviará un correo electrónico al administrador para realizar los cambios necesarios en el servidor del dominio."
+    },
+    "personalize-home": {
+        "tutorialvideos": "Vídeos tutoriales",
+        "template": "Plantilla",
+        "content": "Contenido",
+        "sections": "Secciones",
+        "latest": "Mostrar lo último primero",
+        "random": "Mostrar aleatorio"
+    },
+    "training": {
+        "training": "Formación"
     }
 }
