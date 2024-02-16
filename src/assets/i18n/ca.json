@@ -3438,7 +3438,10 @@
         "emailschedulesummary": "El correu electrònic s'enviarà cada",
         "includeattachment": "Inclou el fitxer adjunt",
         "emailrecipients": "Destinataris de correu electrònic (separats per comes)",
-        "sendcredits": "Envia la llista de crèdits"
+        "sendcredits": "Envia la llista de crèdits",
+        "lastnameandname": "Cognoms i nom",
+        "activeenrollment": "Num. Matrícula activa",
+        "activitycodesigeca": "Codi activitat SIGECA"
     },
     "videos-ctas": {
         "activatetimer": "Activa el temporitzador",

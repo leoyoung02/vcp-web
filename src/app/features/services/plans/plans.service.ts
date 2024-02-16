@@ -523,6 +523,9 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
     if(activityCodeActive) {
       formData.append( 'activity_code', planForm.activity_code );
+      if(entityId == 32) {
+        formData.append( 'activity_code_sigeca', planForm.activity_code_sigeca );
+      }
     }
 
     if(planForm.plan_date) {
@@ -763,6 +766,9 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
     if(activityCodeActive) {
       formData.append( 'activity_code', planForm.activity_code );
+      if(entityId == 32) {
+        formData.append( 'activity_code_sigeca', planForm.activity_code_sigeca );
+      }
     }
 
     if(planForm.plan_date) {

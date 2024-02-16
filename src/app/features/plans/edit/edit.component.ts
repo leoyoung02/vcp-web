@@ -398,6 +398,7 @@ export class PlanEditComponent {
   pageTitle: string = "";
   hasActivityCodeActivated: boolean = false;
   activityCode: any;
+  activityCodeSigeca: any;
   isUESchoolOfLife: boolean = false;
   hasCredits: boolean = false;
 
@@ -1244,6 +1245,7 @@ export class PlanEditComponent {
       show_comments,
       show_description,
       activity_code,
+      activity_code_sigeca,
       member_seats,
       guest_seats,
     } = this.plan;
@@ -1475,6 +1477,9 @@ export class PlanEditComponent {
     this.isShowDescription = show_description == 1 ? true : false;
     if(this.hasActivityCodeActivated) {
       this.activityCode = activity_code
+      if(this.companyId == 32) {
+        this.activityCodeSigeca = activity_code_sigeca
+      }
     }
   }
 
@@ -2020,6 +2025,9 @@ export class PlanEditComponent {
 
     if(this.hasActivityCodeActivated) {
       this.plan["activity_code"] = this.activityCode || "";
+      if(this.companyId == 32) {
+        this.plan["activity_code_sigeca"] = this.activityCodeSigeca || "";
+      }
     }
 
     let publish = 1;

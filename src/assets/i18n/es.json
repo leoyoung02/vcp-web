@@ -3450,7 +3450,10 @@
         "emailschedulesummary": " El correo electrónico se enviará cada",
         "includeattachment": "Incluir archivo adjunto",
         "emailrecipients": "Destinatarios de correo electrónico (separados por coma)",
-        "sendcredits": "Enviar lista de créditos"
+        "sendcredits": "Enviar lista de créditos",
+        "lastnameandname": "Apellidos y nombre",
+        "activeenrollment": "Num. Matrícula activa",
+        "activitycodesigeca": "Código actividad SIGECA"
     },
     "videos-ctas": {
         "activatetimer": "Activar temporizador",

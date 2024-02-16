@@ -3428,7 +3428,10 @@
         "emailschedulesummary": "Mezu elektronikoa behin bidaliko da",
         "includeattachment": "Sartu eranskina",
         "emailrecipients": "Mezu hartzaileak (komaz bereizita)",
-        "sendcredits": "Bidali kreditu-zerrenda"
+        "sendcredits": "Bidali kreditu-zerrenda",
+        "lastnameandname": "Abizenak eta izena",
+        "activeenrollment": "Matrikula-zenbaki aktiboa",
+        "activitycodesigeca": "SIGECA jarduera-kodea"
     },
     "videos-ctas": {
         "activatetimer": "Aktibatu tenporizadorea",

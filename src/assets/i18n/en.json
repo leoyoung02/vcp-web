@@ -3464,7 +3464,10 @@
         "emailschedulesummary": " The email will be sent every",
         "includeattachment": "Include attachment",
         "emailrecipients": "Email recipients (separated by comma)",
-        "sendcredits": "Send credits list"
+        "sendcredits": "Send credits list",
+        "lastnameandname": "Last name and first name",
+        "activeenrollment": "Active enrollment number",
+        "activitycodesigeca": "SIGECA activity code"
     },
     "videos-ctas": {
         "activatetimer": "Activate timer",

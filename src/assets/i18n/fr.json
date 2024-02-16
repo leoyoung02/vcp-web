@@ -3423,7 +3423,10 @@
         "emailschedulesummary": " L'e-mail sera envoyé tous les",
         "includeattachment": "Inclure la pièce jointe",
         "emailrecipients": "Destinataires de l'e-mail (séparés par une virgule)",
-        "sendcredits": "Envoyer la liste des crédits"
+        "sendcredits": "Envoyer la liste des crédits",
+        "lastnameandname": "Nom et prénom",
+        "activeenrollment": "Numéro d'inscription actif",
+        "activitycodesigeca": "Code activité SIGECA"
     },
     "videos-ctas": {
         "activatetimer": "Activer le minuteur",

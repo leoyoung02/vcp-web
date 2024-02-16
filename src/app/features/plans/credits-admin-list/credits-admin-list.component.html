@@ -63,28 +63,43 @@
 <div class="w-full min-w-full py-8">
     <div class="mat-table-responsive">
         <mat-table [dataSource]="dataSource" matSort class="manage-list">
-            <ng-container matColumnDef="name">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'your-admin-area.name' | translate }} </mat-header-cell>
+            <ng-container matColumnDef="active_enrollment" *ngIf="company?.id == 32">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'credits.activeenrollment' | translate }} </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="name">
-                    {{ row?.name }}
+                    <ng-container *ngIf="row?.active_enrollment_array?.length > 0">
+                        <div class="flex flex-col">
+                            <div *ngFor="let num of row?.active_enrollment_array">
+                                {{num}}
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="row?.active_enrollment_array?.length == 0">
+                        {{ row?.active_enrollment }}
+                    </ng-container>
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="city">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>Campus</mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="city">
-                    {{ row?.city }}
+            <ng-container matColumnDef="activity_code_sigeca" *ngIf="company?.id == 32">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'credits.activitycodesigeca' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="name">
+                    {{ row?.activity_code_sigeca }}
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="user_name">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'credits.lastnameandname' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="user_name">
+                    {{ row?.user_name }}
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="event">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> <span class="capitalize">{{ 'plan-create.title' | translate }}</span> </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> <span class="capitalize">{{ 'plans.activity' | translate }}</span> </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="event">
                     {{ row?.event }}
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="type">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> <span class="capitalize">{{ 'company-settings.type' | translate }}</span> </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="type">
-                    <span class="capitalize">{{ row?.type }}</span>
+            <ng-container matColumnDef="credits">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'course-create.credits' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="credits">
+                    <span class="capitalize">{{ row?.credits }}</span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="date_display">
@@ -93,10 +108,10 @@
                    {{ row?.date_display }}
                 </mat-cell>
             </ng-container>
-            <ng-container matColumnDef="credits">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'course-create.credits' | translate }} </mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="credits">
-                    <span class="capitalize">+ {{ row?.credits }}</span>
+            <ng-container matColumnDef="city" *ngIf="company?.id == 32">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>Campus</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="city">
+                    {{ row?.city }}
                 </mat-cell>
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

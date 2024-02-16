@@ -3428,7 +3428,10 @@
         "emailschedulesummary": "Die E-Mail wird alle gesendet.",
         "includeattachment": "Anhang einschließen",
         "emailrecipients": "E-Mail-Empfänger (durch Komma getrennt)",
-        "sendcredits": "Credits-Liste senden"
+        "sendcredits": "Credits-Liste senden",
+        "lastnameandname": "Nachname und Vorname",
+        "activeenrollment": "Aktive Registrierungsnummer",
+        "activitycodesigeca": "SIGECA-Aktivitätscode"
     },
     "videos-ctas": {
         "activatetimer": "Timer aktivieren",
