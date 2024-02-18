@@ -372,7 +372,7 @@ export class CoursesListComponent {
   }
 
   getCourseTitle(course) {
-    return this.language == "en"
+    let title = this.language == "en"
       ? course.title_en
         ? course.title_en || course.title
         : course.title
@@ -393,6 +393,11 @@ export class CoursesListComponent {
         ? course.title_de || course.title
         : course.title
       : course.title;
+
+    if(!title) {
+      title = course?.title || course?.title_en || course?.title_fr || course?.title_eu || course?.title_ca || course?.title_de
+    }
+    return title
   }
 
   getCreditPackages() {
