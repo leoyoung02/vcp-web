@@ -99,6 +99,7 @@
                                 required>
                             <input 
                                 *ngIf="selectedLanguage == 'en'"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'en' && courseForm?.get('title')?.errors }"
                                 type="text" 
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 formControlName="title_en" 
@@ -111,6 +112,7 @@
                                 placeholder="{{ 'club-create.title' | translate }}">
                             <input 
                                 *ngIf="selectedLanguage == 'eu'"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'eu' && !courseForm?.get('title_eu')?.value }"
                                 type="text" 
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 formControlName="title_eu" 
@@ -223,7 +225,7 @@
                         <div class="flex items-center justify-center relative" *ngIf="hasCourseCreditSetting">
                             <div class="w-full max-w-full">
                                 <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                    {{'course-create.coursecredits' | translate}}
+                                    {{'edit-plan.numberofcredits' | translate}}
                                 </label>
                                 <input 
                                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
@@ -231,7 +233,7 @@
                                     [ngModelOptions]="{standalone: true}"
                                     min="0"
                                     type="number"
-                                    placeholder="{{ 'course-create.creditsplaceholder' | translate }}">
+                                    placeholder="{{ 'edit-plan.numberofcredits' | translate }}">
                             </div>
                         </div>
                         <div class="flex items-center justify-center relative">
@@ -643,25 +645,22 @@
                         <editor
                             *ngIf="selectedLanguage == 'es'"
                             class="w-full"
+                            [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': courseForm.get('description')?.errors }"
                             apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
                             [init]="{
                                 height: 183,
                                 menubar: false,
                                 plugins: [
-                                'advlist autolink lists link image imagetools charmap print',
-                                'preview anchor searchreplace visualblocks code',
-                                'fullscreen insertdatetime media table paste',
-                                'help wordcount',
-                                'code media'
+                                'link'
                                 ],
                                 toolbar:
-                                'undo redo | formatselect | bold italic | \
+                                'undo redo | formatselect | bold italic | fontsize | \
                                 alignleft aligncenter alignright alignjustify | \
-                                media | \
+                                link | \
+                                forecolor backcolor \ \
                                 paste pastetext | \
-                                image imagetools | \
                                 bullist numlist outdent indent | help',
-                                valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
                             }"
                             id="description"
                             formControlName="description" 
@@ -669,25 +668,22 @@
                         <editor
                             *ngIf="selectedLanguage == 'en'"
                             class="w-full"
+                            [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'en' && !courseForm.get('description_en')?.value }"
                             apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
                             [init]="{
                                 height: 183,
                                 menubar: false,
                                 plugins: [
-                                'advlist autolink lists link image imagetools charmap print',
-                                'preview anchor searchreplace visualblocks code',
-                                'fullscreen insertdatetime media table paste',
-                                'help wordcount',
-                                'code media'
+                                'link'
                                 ],
                                 toolbar:
-                                'undo redo | formatselect | bold italic | \
+                                'undo redo | formatselect | bold italic | fontsize | \
                                 alignleft aligncenter alignright alignjustify | \
-                                media | \
+                                link | \
+                                forecolor backcolor \ \
                                 paste pastetext | \
-                                image imagetools | \
                                 bullist numlist outdent indent | help',
-                                valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
                             }"
                             id="description"
                             formControlName="description_en" 
@@ -700,20 +696,16 @@
                                 height: 183,
                                 menubar: false,
                                 plugins: [
-                                'advlist autolink lists link image imagetools charmap print',
-                                'preview anchor searchreplace visualblocks code',
-                                'fullscreen insertdatetime media table paste',
-                                'help wordcount',
-                                'code media'
+                                'link'
                                 ],
                                 toolbar:
-                                'undo redo | formatselect | bold italic | \
+                                'undo redo | formatselect | bold italic | fontsize | \
                                 alignleft aligncenter alignright alignjustify | \
-                                media | \
+                                link | \
+                                forecolor backcolor \ \
                                 paste pastetext | \
-                                image imagetools | \
                                 bullist numlist outdent indent | help',
-                                valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
                             }"
                             id="description"
                             formControlName="description_fr" 
@@ -721,25 +713,22 @@
                         <editor
                             *ngIf="selectedLanguage == 'eu'"
                             class="w-full"
+                            [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'eu' && !courseForm.get('description_eu')?.value }"
                             apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
                             [init]="{
                                 height: 183,
                                 menubar: false,
                                 plugins: [
-                                'advlist autolink lists link image imagetools charmap print',
-                                'preview anchor searchreplace visualblocks code',
-                                'fullscreen insertdatetime media table paste',
-                                'help wordcount',
-                                'code media'
+                                'link'
                                 ],
                                 toolbar:
-                                'undo redo | formatselect | bold italic | \
+                                'undo redo | formatselect | bold italic | fontsize | \
                                 alignleft aligncenter alignright alignjustify | \
-                                media | \
+                                link | \
+                                forecolor backcolor \ \
                                 paste pastetext | \
-                                image imagetools | \
                                 bullist numlist outdent indent | help',
-                                valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
                             }"
                             id="description"
                             formControlName="description_eu" 
@@ -752,20 +741,16 @@
                                 height: 183,
                                 menubar: false,
                                 plugins: [
-                                'advlist autolink lists link image imagetools charmap print',
-                                'preview anchor searchreplace visualblocks code',
-                                'fullscreen insertdatetime media table paste',
-                                'help wordcount',
-                                'code media'
+                                'link'
                                 ],
                                 toolbar:
-                                'undo redo | formatselect | bold italic | \
+                                'undo redo | formatselect | bold italic | fontsize | \
                                 alignleft aligncenter alignright alignjustify | \
-                                media | \
+                                link | \
+                                forecolor backcolor \ \
                                 paste pastetext | \
-                                image imagetools | \
                                 bullist numlist outdent indent | help',
-                                valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
                             }"
                             id="description"
                             formControlName="description_ca" 
@@ -778,20 +763,16 @@
                                 height: 183,
                                 menubar: false,
                                 plugins: [
-                                'advlist autolink lists link image imagetools charmap print',
-                                'preview anchor searchreplace visualblocks code',
-                                'fullscreen insertdatetime media table paste',
-                                'help wordcount',
-                                'code media'
+                                'link'
                                 ],
                                 toolbar:
-                                'undo redo | formatselect | bold italic | \
+                                'undo redo | formatselect | bold italic | fontsize | \
                                 alignleft aligncenter alignright alignjustify | \
-                                media | \
+                                link | \
+                                forecolor backcolor \ \
                                 paste pastetext | \
-                                image imagetools | \
                                 bullist numlist outdent indent | help',
-                                valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
+                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
                             }"
                             id="description"
                             formControlName="description_de" 
