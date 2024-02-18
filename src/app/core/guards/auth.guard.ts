@@ -75,7 +75,12 @@ export const authGuard = (options: AuthGuardOptions = defaultAuthGuardOptions())
                     }
                 }
             } else {
-                if(companyId == 32 || environment.company == 'vidauniversitaria.universidadeuropea.com') {
+                if(companyId == 32 || 
+                    environment.company == 'vidauniversitaria.universidadeuropea.com' ||
+                    environment.company == 'schooloflife.vistingo.com' ||
+                    window.location.host?.indexOf('vidauniversitaria.') >= 0 ||
+                    window.location.host?.indexOf('schooloflife.') >= 0
+                ) {
                     setGuestAccessToken = true;
                 }
             }

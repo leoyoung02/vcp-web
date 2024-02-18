@@ -587,7 +587,7 @@ export class SidebarComponent {
         path = `${path}/sso/${this.currentUser?.guid}`;
       }
       this.openUrl(menu.new_url == 1 && this.isUESchoolOfLife ? `https://${this.company?.url}` : path);
-    } else if(menu.return_url) {
+    } else if(menu.return_url && menu.url != 'undefined') {
       let path = menu.path;
       if(path?.indexOf('schooloflife') >= 0 && this.currentUser?.guid) {
         path = `${path?.replace('plans', '')?.replace('courses', '')}/sso/${this.currentUser?.guid}`;

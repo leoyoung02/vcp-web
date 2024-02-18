@@ -109,27 +109,27 @@ export class PlanEditComponent {
     group_id: new FormControl("", [Validators.required]),
     title_es: new FormControl("", [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(255),
     ]),
     title_en: new FormControl("", [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(255),
     ]),
     title_fr: new FormControl("", [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(255),
     ]),
     title_eu: new FormControl("", [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(255),
     ]),
     title_ca: new FormControl("", [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(255),
     ]),
     title_de: new FormControl("", [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(255),
     ]),
     descriptionEs: new FormControl("", [Validators.required]),
     descriptionEn: new FormControl("", [Validators.required]),
@@ -138,7 +138,7 @@ export class PlanEditComponent {
     descriptionCa: new FormControl("", [Validators.required]),
     descriptionDe: new FormControl("", [Validators.required]),
     address: new FormControl(""),
-    meeting_point: new FormControl("", [Validators.maxLength(150)]),
+    meeting_point: new FormControl("", [Validators.maxLength(255)]),
     plan_date: new FormControl(null, [Validators.required]),
     plan_date_hh: new FormControl("00", [Validators.required]),
     plan_date_mm: new FormControl("00", [Validators.required]),
@@ -953,7 +953,7 @@ export class PlanEditComponent {
     if (!this.subcategories) {
       this.clubList = data?.clubs;
       this.clubList = this.clubList.filter((club) => {
-        return club.fk_company_id == this.user.fk_company_id;
+        return club.fk_company_id == this.user?.fk_company_id;
       });
       if (this.user.fk_company_id == 10) {
         this.selectedClub = 364;
@@ -965,7 +965,7 @@ export class PlanEditComponent {
       if (!this.superAdmin) {
         if (this.hasSubgroups) {
           let club_access = this.clubList.filter((club) => {
-            return club.fk_user_id == this.user.id;
+            return club.fk_user_id == this.user?.id;
           });
           this.clubList = this.clubList.filter((club) => {
             let include = false;

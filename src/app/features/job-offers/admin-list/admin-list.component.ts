@@ -290,7 +290,7 @@ export class JobOffersAdminListComponent {
   }
 
   handleCreateRoute() {
-    this._router.navigate([`/employmentchannel/create`]);
+    this._router.navigate([`/employmentchannel/create/0`]);
   }
 
   handleSearch(event) {

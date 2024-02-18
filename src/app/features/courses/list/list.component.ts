@@ -593,7 +593,7 @@ export class CoursesListComponent {
           "product_id": course.product_id,
           "plan_id": course.plan_id,
           "payment_type": course.payment_type,
-          "show_buy_now": show_buy_now,
+          "show_buy_now": course?.exclude ? true : show_buy_now,
           "difficulty": course.difficulty,
           "difficulty_en": course.difficulty_en,
           "difficulty_es": course.difficulty_es,
@@ -672,7 +672,7 @@ export class CoursesListComponent {
   }
 
   initialFilter(courses_list) {
-    let courses = courses_list && courses_list.filter(course => {
+    courses_list?.forEach(course => {
       let include = false
 
       let active = course?.status == 1 ? true : false
@@ -759,10 +759,11 @@ export class CoursesListComponent {
         include = true;
       }
       
-      return active && include
+      let exclude = active && include ? false : true;
+      course['exclude'] = exclude;
     })
 
-    return courses;
+    return courses_list;
   }
 
   async showCoursesWithAccess() {

@@ -1401,8 +1401,6 @@ export class LayoutMainComponent {
           )
           .pipe(takeUntil(this.destroy$))
           .subscribe((data) => {
-            console.log('getMinCombinedMenuItemsPrefetch')
-            console.log(data)
             this.features = data[0] ? data[0] : [];
             let company_subfeatures = data[1] ? data[1]["subfeatures"] : [];
             let permissions = data[2] ? data[2]["permissions"] : [];
@@ -1435,14 +1433,8 @@ export class LayoutMainComponent {
       course_subfeatures
     );
 
-    console.log('features 0')
-    console.log(this.features)
     this.features = this.updateFeaturesMembers(company_subfeatures);
-    console.log('features 1')
-    console.log(this.features)
     this.updateFeaturesPermissions(permissions);
-    console.log('features 2')
-    console.log(this.features)
     this._localService.setLocalStorage(
       environment.lsfeatures,
       JSON.stringify(this.features)
@@ -1694,8 +1686,6 @@ export class LayoutMainComponent {
         }
       });
 
-    console.log('filteredFeatures')
-    console.log(filteredFeatures)
     return filteredFeatures;
   }
 
