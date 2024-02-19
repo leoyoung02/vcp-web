@@ -600,11 +600,7 @@ export class ManageUsersComponent {
   }
 
   mapUserPermissions(user_permissions: any) {
-    if(this.customMemberTypeId == 243){
-      this.isSuperAdmin = true
-    }else{
-      this.isSuperAdmin =  user_permissions?.super_admin_user ? true : false;
-    }
+    this.isSuperAdmin =  user_permissions?.super_admin_user ? true : false;
   }
 
   mapSettings(data) {
@@ -3051,7 +3047,6 @@ export class ManageUsersComponent {
             })
           }
         }
-
         let course_row = this.courses?.filter(c => {
           return c.id == course_item?.id
         })
@@ -3699,11 +3694,11 @@ export class ManageUsersComponent {
       formData['companion'] = this.userTypeName == 'Acompañante' ? 1 : 0;
       formData['assigned_students'] = this.selectedAssignedStudent;
       formData['guardian'] = this.isGuardianType ? 1 : 0;
-      if(this.courseCreditsList?.length && this.isSuperAdmin) {
+      if(this.courseCreditsList?.length && (this.isSuperAdmin || this.customMemberTypeId == 243)) {
         formData['separate_course_credits'] = this.separateCourseCredits ? 1 : 0
         formData['user_course_credits'] = this.courseCreditsList
       }
-      if(this.selectedCourses?.length && this.isSuperAdmin) {
+      if(this.selectedCourses?.length && (this.isSuperAdmin || this.customMemberTypeId == 243)) {
         let user_courses: any[] = []
         this.selectedCourses?.forEach(c => {
           user_courses.push({
