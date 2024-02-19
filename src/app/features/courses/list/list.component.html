@@ -46,7 +46,7 @@
                     class="pb-[24px]"
                     [id]="course?.id"
                     [path]="course?.path"
-                    [title]="course?.title"
+                    [title]="course?.title_language || course?.title"
                     [category]="course?.category"
                     [price]="course?.price"
                     [image]="course?.image"
