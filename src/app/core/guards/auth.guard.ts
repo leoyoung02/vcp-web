@@ -79,6 +79,7 @@ export const authGuard = (options: AuthGuardOptions = defaultAuthGuardOptions())
                     environment.company == 'vidauniversitaria.universidadeuropea.com' ||
                     environment.company == 'schooloflife.vistingo.com' ||
                     window.location.host?.indexOf('vidauniversitaria.') >= 0 ||
+                    window.location.host?.indexOf('uestaging.') >= 0 ||
                     window.location.host?.indexOf('schooloflife.') >= 0
                 ) {
                     setGuestAccessToken = true;

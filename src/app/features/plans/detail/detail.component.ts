@@ -928,16 +928,23 @@ export class PlanDetailComponent {
         .locale(this.language)
         .format("HH:mm");
 
-      this.planDay = moment
+      if(this.plan?.limit_date) {
+        this.planDay = moment
+          .utc(this.plan.plan_date)
+          .locale(this.language)
+          .format("dddd, D MMMM");
+      } else {
+        this.planDay = moment
         .utc(this.plan.plan_date)
         .locale(this.language)
         .format("dddd, D MMMM YYYY");
+      }
 
       if(this.plan?.limit_date) {
         let end = moment
         .utc(this.plan.limit_date)
         .locale(this.language)
-        .format("D MMMM")
+        .format("D MMMM YYYY")
         if(this.planDay != end) {
           this.planDay += ' - ' + end;
         }    

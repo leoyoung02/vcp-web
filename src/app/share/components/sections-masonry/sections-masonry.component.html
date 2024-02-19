@@ -61,7 +61,7 @@
       </div>
       <div *ngIf="item?.object_type == 'course'" 
         class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-        [routerLink]="[item.path]">
+        (click)="goToCourseDetails(item)">
         <div class="relative">
           <img class="rounded-t-lg w-full object-cover" [src]="item.image" alt="" />
           <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
@@ -85,7 +85,7 @@
           <a href="javascript:;">
               <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{item?.title}}</h5>
           </a>
-          <a href="javascript:;" class="inline-flex items-center px-6 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          <a href="javascript:;" class="hover:cursor-pointer inline-flex items-center px-6 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             [ngStyle]="{'background-color': buttonColor}">
             {{item?.button_text}}
             <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">

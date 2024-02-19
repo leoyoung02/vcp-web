@@ -1360,8 +1360,6 @@ export class LayoutMainComponent {
           )
           .pipe(takeUntil(this.destroy$))
           .subscribe((data) => {
-            console.log('getCombinedCourseMenuItemsPrefetch')
-            console.log(data)
             this.features = data[0] ? data[0] : [];
             let company_subfeatures = data[1] ? data[1]["subfeatures"] : [];
             let permissions = data[2] ? data[2]["permissions"] : [];

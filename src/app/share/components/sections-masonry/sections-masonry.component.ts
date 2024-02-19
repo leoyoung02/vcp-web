@@ -83,6 +83,14 @@ export class SectionsMasonryComponent {
     }
   }
 
+  goToCourseDetails(item) {
+    if(this.userId > 0) {
+      this._router.navigate([item.path]);
+    } else {
+      this._router.navigate(["/auth/login"]);
+    }
+  }
+
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();

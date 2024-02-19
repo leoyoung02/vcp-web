@@ -757,7 +757,7 @@ export class PlansListComponent {
   initialFilter(data) {
     let plans = data?.plans;
 
-    if(this.companyId == 32 && !this.superAdmin) {
+    if(this.companyId == 32 && this.userId && !this.superAdmin) {
       plans = plans?.filter(plan => {
         let include = false
 
@@ -887,9 +887,9 @@ export class PlansListComponent {
         include = true;
       }
 
-      if (!this.userId && !plan.private) {
-        include = false;
-      }
+      // if (!this.userId && !plan.private) {
+      //   include = false;
+      // }
 
       return include;
     });
