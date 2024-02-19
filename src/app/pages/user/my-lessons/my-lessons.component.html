@@ -100,7 +100,7 @@
                     </ng-container>
                     <ng-container matColumnDef="status">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'landing.status' | translate }} </mat-header-cell>
-                        <mat-cell *matCellDef="let row" data-label="status"> 
+                        <mat-cell *matCellDef="let row" data-label="status">
                             <span [ngStyle]="{'color': row?.cancelled == 1 ? '#c24130' : '#000'}" [innerHtml]="row?.cancelled == 1 ? ('company-settings.cancelled' | translate) : row.status"></span>
                         </mat-cell>
                     </ng-container>
@@ -160,7 +160,7 @@
                                 </button>
                                 </ng-container>
                                 <ng-container *ngIf="hasDifferentStripeAccounts">
-                                    <ng-container *ngIf="row?.stripe_connect || !isTutorUser" >
+                                    <ng-container *ngIf="(row?.stripe_connect || !isTutorUser) && !cityAdmin" >
                                         <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                             <button (click)="confirmMarkComplete(row)" 
                                                 class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white"
@@ -170,7 +170,24 @@
                                             </button>
                                         </ng-container>
                                     </ng-container>
-                                    <ng-container *ngIf="!row?.stripe_connect && isTutorUser && tutorAccountId.length > 0">
+
+                                    <ng-container *ngIf="cityAdmin && row?.stripe_connect && row?.tutor_user_id == me?.id" >
+                                        <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
+                                            <button (click)="confirmMarkComplete(row)" 
+                                                class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white"
+                                                [ngStyle]="{'background-color': buttonColor}"
+                                                >
+                                                {{ 'course-details.completebutton' | translate }}
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
+                                    <ng-container *ngIf="!row?.stripe_connect && isTutorUser && tutorAccountId.length > 0 && !cityAdmin">
+                                        <span class="text-xs text-center font-medium inline-block py-2 px-3 capitalize rounded-full text-red-600 bg-red-200">
+                                            {{ 'course-details.stripeinactivetransfer' | translate}}
+                                          </span>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="!row?.stripe_connect && isTutorUser && tutorAccountId.length > 0 && cityAdmin && row?.tutor_user_id == me?.id">
                                         <span class="text-xs text-center font-medium inline-block py-2 px-3 capitalize rounded-full text-red-600 bg-red-200">
                                             {{ 'course-details.stripeinactivetransfer' | translate}}
                                           </span>
