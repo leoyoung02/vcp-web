@@ -774,7 +774,7 @@
                                             >
                                             </ng-multiselect-dropdown>
                                         </div>
-                                        <ng-container *ngIf="userMode == 'edit' && courseCreditSetting && isSuperAdmin">
+                                        <ng-container *ngIf="userMode == 'edit' && courseCreditSetting && (isSuperAdmin || customMemberTypeId == 243)">
                                             <ng-container *ngIf="!superAdmin && !superTutor && !tutor && !isGuardianType && !(userTypeName?.indexOf('Admin') >= 0)">
                                                 <div *ngIf="(separateCourseCredits && selectedCourses?.length > 0 && courseCreditsList?.length > 0) || !separateCourseCredits" 
                                                     class="my-4 uppercase border border-b-2 border-l-0 border-r-0 border-t-0 border-gray-200 font-semibold">

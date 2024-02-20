@@ -481,6 +481,7 @@ export class ManageUsersComponent {
         (data) => {
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data);
+          this.customMemberTypeId = data?.user?.custom_member_type_id ? data.user.custom_member_type_id: ''
           this.mapUserPermissions(data?.user_permissions);
           this.mapSettings(data);
           this.adminSedeCity = data?.user?.city ? data.user.city : '' 
@@ -491,7 +492,6 @@ export class ManageUsersComponent {
           this.courseCategoryMapping = data?.course_category_mapping;
           this.courseCategoriesAccessRoles = data?.course_category_access_roles;
           this.customMemberTypes = data?.member_types ? data?.member_types : [];
-          this.customMemberTypeId = data?.user?.custom_member_type_id ? data.user.custom_member_type_id: ''
           this.showCredits(data)
           this.initializeIconFilterList(this.cities);
           this.getUserType()
@@ -600,7 +600,7 @@ export class ManageUsersComponent {
   }
 
   mapUserPermissions(user_permissions: any) {
-    this.isSuperAdmin = user_permissions?.super_admin_user ? true : false;
+    this.isSuperAdmin =  user_permissions?.super_admin_user ? true : false;
   }
 
   mapSettings(data) {
@@ -3047,7 +3047,6 @@ export class ManageUsersComponent {
             })
           }
         }
-
         let course_row = this.courses?.filter(c => {
           return c.id == course_item?.id
         })
@@ -3695,11 +3694,11 @@ export class ManageUsersComponent {
       formData['companion'] = this.userTypeName == 'Acompañante' ? 1 : 0;
       formData['assigned_students'] = this.selectedAssignedStudent;
       formData['guardian'] = this.isGuardianType ? 1 : 0;
-      if(this.courseCreditsList?.length && this.isSuperAdmin) {
+      if(this.courseCreditsList?.length && (this.isSuperAdmin || this.customMemberTypeId == 243)) {
         formData['separate_course_credits'] = this.separateCourseCredits ? 1 : 0
         formData['user_course_credits'] = this.courseCreditsList
       }
-      if(this.selectedCourses?.length && this.isSuperAdmin) {
+      if(this.selectedCourses?.length && (this.isSuperAdmin || this.customMemberTypeId == 243)) {
         let user_courses: any[] = []
         this.selectedCourses?.forEach(c => {
           user_courses.push({

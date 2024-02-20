@@ -367,13 +367,13 @@ export class MyLessonsComponent {
           .subscribe(
             async (response) => {
                 let user_bookings = response['bookings']
-                if(role == 'tutor' || role == 'super_tutor' || role == 'admin'){
+                if(role == 'tutor' || role == 'super_tutor' || role == 'admin' || role == 'city_admin'){
                     user_bookings.forEach(ub => {
                         ub.stripe_connect = this.tutorAccountId?.find((ta) => ((ub.stripe_id == ta.stripe_id) && ta.stripe_connect)) ? true : false;
                     })
                 }
                 
-                user_bookings = user_bookings.map((booking) => {
+                user_bookings = user_bookings?.map((booking) => {
                     return {
                         booking_date_display: moment(booking?.booking_date).format('DD/MM/YYYY'),
                         created_at_display: moment(booking?.created_at).format('DD/MM/YYYY'),
@@ -654,14 +654,12 @@ export class MyLessonsComponent {
             return false
         }
     }
-
     getStatus(booking) {
         let status = ''
 
         if(this.isTutorUser && !booking.student_complete) {
             status = this._translateService.instant('tutors.waitingstudentcomplete')
         }
-
         if(!this.isTutorUser && !this.superAdmin && !booking.tutor_complete) {
             status = this._translateService.instant('tutors.waitingtutorcomplete')
         }
