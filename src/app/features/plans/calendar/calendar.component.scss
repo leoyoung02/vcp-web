@@ -1,10 +1,6 @@
 .calendar-container {
     padding: 5px;
 
-    .flex-wrap {
-        height: 200px;
-    }
-
     .calendar {
         .col-md-12 {
             padding: 0px !important;
@@ -37,7 +33,7 @@
         
         .calendar-body {
             position: relative;
-            padding-top: 12px;
+            padding-top: 35px;
         }
         
         .grid {
@@ -108,8 +104,8 @@
         
         .currentDate {
             float: left;
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
             border-radius: 50%;
             display: flex;
             align-items: center;
