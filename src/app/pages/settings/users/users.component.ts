@@ -344,6 +344,9 @@ export class ManageUsersComponent {
   customMemberTypeId:any;
   showCreditIcon :boolean = false;
   potTutor:boolean = false;
+  isOpenContact:boolean= false;
+  contracts: any;
+  contract: any;
 
   constructor(
     private _router: Router,
@@ -492,12 +495,29 @@ export class ManageUsersComponent {
           this.showCredits(data)
           this.initializeIconFilterList(this.cities);
           this.getUserType()
+          this.getContract()
         },
         (error) => {
           console.log(error);
         }
       );
   }
+
+
+  getContract() {
+    this._companyService
+    .getCompanyContracts(this.companyId)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(
+      (data) => {
+        this.contracts = data.contracts
+      },
+      (error) => {
+          console.log(error);
+        }
+      );
+  }
+
 
   showCredits(data){
     const featureToCheck = [
@@ -5130,6 +5150,21 @@ export class ManageUsersComponent {
   }
 
 
+  openTermDialog(custommemberID){
+    console.log('custommemberID: ', custommemberID);
+    if(custommemberID) {
+      let contract = this.contracts?.filter(contract => {
+        return contract.custom_member_type_id == custommemberID
+      })
+      this.contract = contract?.length > 0 ? contract[0].contract : '';
+      this.isOpenContact = true
+    }
+  }
+
+  closeTermDialog(){
+    this.isOpenContact = false
+    
+  }
 
 
   ngOnDestroy() {

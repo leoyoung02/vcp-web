@@ -939,19 +939,18 @@ export class CourseEditComponent {
           return lang.default == true;
         })
       : [];
-    this.selectedLanguage = this.language || "es";
+    this.selectedLanguage = this.language || this.defaultLanguage;
     this.initializeButtonGroup();
   }
 
   initializeButtonGroup() {
     let list: any[] = [];
-
     this.languages?.forEach((language) => {
       list.push({
         id: language.id,
         value: language.code,
         text: this.getLanguageName(language),
-        selected: language.default ? true : false,
+        selected: this.selectedLanguage == language.code ? true : false,
         code: language.code,
       });
     });
@@ -1542,6 +1541,20 @@ export class CourseEditComponent {
     });
   }
 
+  setDefaultTitleAndDescription(code) {
+    let title = this.courseForm.get('title' + code);
+    let entered_title = this.courseForm.get('title' + (this.selectedLanguage == 'es' ? '' : ('_' + this.selectedLanguage)));
+    if(!title.value && code?.replace('_', '') != this.selectedLanguage && entered_title?.value) {
+      this.courseForm.controls['title' + code].setValue(entered_title?.value);
+    }
+
+    let description = this.courseForm.get('description' + code);
+    let entered_description = this.courseForm.get('description' + (this.selectedLanguage == 'es' ? '' : ('_' + this.selectedLanguage)));
+    if(!description.value && code?.replace('_', '') != this.selectedLanguage && entered_description?.value) {
+      this.courseForm.controls['description' + code].setValue(entered_description?.value);
+    }
+  }
+
   saveCourse() {
     this.courseFormSubmitted = true
 
@@ -1594,6 +1607,8 @@ export class CourseEditComponent {
         })
       }
     }
+
+    this.setDefaultTitleAndDescription(code);
 
     if(this.hasCoursePayment) {
       if(this.requirePayment) {
