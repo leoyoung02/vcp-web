@@ -68,43 +68,40 @@
 </div>
 <div class="py-8">
     <div class="columns-1 sm:columns-1 gap-4 space-y-4"
-        [ngClass]="{'md:columns-3 lg:columns-4': filteredPlan?.length > 0}"
-    >
-        <ng-container *ngFor="let plan of filteredPlan; let i = index;">
-            <ng-container *ngIf="i == 0">
-                <div class="relative">
+        [ngClass]="{'md:columns-3 lg:columns-4': filteredPlan?.length > 0}">
+        <div class="relative max-w-[384px]">
+            <div class="relative">
+                <img class="w-full rounded-md object-cover" [src]="apiPath + '/get-image-group-plan/white.jpg'">
+                <div class="test__body absolute inset-0 py-4 text-white flex flex-col">
                     <div class="relative">
-                        <img class="w-full rounded-md object-cover" [src]="apiPath + plan.path + 'white.jpg'">
-                        <div class="test__body absolute inset-0 py-4 text-white flex flex-col">
-                            <div class="relative">
-                                <app-plans-calendar
-                                    *ngIf="showEventsCalendar && !parentComponent"
-                                    [hasDateSelected]="hasDateSelected"
-                                    [showPastEvents]="showPastEvents"
-                                    [joinedPlan]="joinedPlan"
-                                    [courses]="courses"
-                                    [groups]="groups"
-                                    [courseCategoriesAccessRoles]="courseCategoriesAccessRoles"
-                                    [allCourseCategories]="allCourseCategories"
-                                    [courseCategoryMapping]="courseCategoryMapping"
-                                    [admin1]="admin1"
-                                    [admin2]="admin2"
-                                    [superAdmin]="superAdmin"
-                                    [calendarFilterMode]="calendarFilterMode"
-                                    [canCreatePlan]="canCreatePlan"
-                                    (handleCalendarDateChange)="handleCalendarDateChanged($event)" 
-                                    (handleJoinChange)="handleJoinChanged($event)"
-                                    (handleExitCalendarFilter)="exitCalendarEventMode()"
-                                    [notifier]="childNotifier"
-                                    [isUESchoolOfLife]="isUESchoolOfLife"
-                                    [campus]="campus"
-                                >
-                                </app-plans-calendar>
-                            </div>
-                        </div>
+                        <app-plans-calendar
+                            *ngIf="showEventsCalendar && !parentComponent"
+                            [hasDateSelected]="hasDateSelected"
+                            [showPastEvents]="showPastEvents"
+                            [joinedPlan]="joinedPlan"
+                            [courses]="courses"
+                            [groups]="groups"
+                            [courseCategoriesAccessRoles]="courseCategoriesAccessRoles"
+                            [allCourseCategories]="allCourseCategories"
+                            [courseCategoryMapping]="courseCategoryMapping"
+                            [admin1]="admin1"
+                            [admin2]="admin2"
+                            [superAdmin]="superAdmin"
+                            [calendarFilterMode]="calendarFilterMode"
+                            [canCreatePlan]="canCreatePlan"
+                            (handleCalendarDateChange)="handleCalendarDateChanged($event)" 
+                            (handleJoinChange)="handleJoinChanged($event)"
+                            (handleExitCalendarFilter)="exitCalendarEventMode()"
+                            [notifier]="childNotifier"
+                            [isUESchoolOfLife]="isUESchoolOfLife"
+                            [campus]="campus"
+                        >
+                        </app-plans-calendar>
                     </div>
                 </div>
-            </ng-container>
+            </div>
+        </div>
+        <ng-container *ngFor="let plan of filteredPlan; let i = index;">
             <div class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
                 <app-plan-card
                     [image]="apiPath + plan.path + plan.image"
