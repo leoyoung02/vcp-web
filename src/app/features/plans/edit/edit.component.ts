@@ -2722,6 +2722,42 @@ export class PlanEditComponent {
     }
   }
 
+  tinymceInitialize() {
+    let language = this._localService.getLocalStorage(environment.lslang);
+    return {
+      language: language == 'en' ? 'en_US' : (language == 'fr' ? 'fr_FR' : 'es'),
+      height: 183,
+      menubar: false,
+      plugins: [
+      'link',
+      'media',
+      'image'
+      ],
+      toolbar:
+      'undo redo | formatselect | bold italic | fontsize \
+      alignleft aligncenter alignright alignjustify | \
+      link | \
+      image | \
+      forecolor backcolor | \
+      bullist numlist outdent indent | help | \
+      fontsize_formats: \'8pt 10pt 12pt 14pt 18pt 24pt 36pt\' | \
+      paste pastetext',
+      paste_data_images: true,
+      images_upload_handler: (blobInfo) => {
+        const file = blobInfo.blob();
+        const filePath = blobInfo.filename();
+        const task = this._plansService.uploadPlanImage(file, filePath);
+        const promise = new Promise<string>((resolve, reject) => {
+          task
+            .subscribe((response) => {
+              resolve(`${environment.api}/get-image-group-plan/${response.filename}`);
+            });
+        });
+        return promise;
+      },
+    }
+  }
+
   async open(message: string, action: string) {
     await this._snackBar.open(message, action, {
       duration: 3000,
