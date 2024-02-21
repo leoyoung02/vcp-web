@@ -912,21 +912,7 @@
                     class="w-full"
                     [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': planForm.get('descriptionEs')?.errors }"
                     apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
+                    [init]="tinymceInitialize()"
                     id="description"
                     formControlName="descriptionEs" 
                 ></editor>
@@ -934,21 +920,7 @@
                     *ngIf="selectedLanguage == 'en'"
                     class="w-full"
                     apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
+                    [init]="tinymceInitialize()"
                     id="description"
                     formControlName="descriptionEn" 
                 ></editor>
@@ -956,21 +928,7 @@
                     *ngIf="selectedLanguage == 'fr'"
                     class="w-full"
                     apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
+                    [init]="tinymceInitialize()"
                     id="description"
                     formControlName="descriptionFr" 
                 ></editor>
@@ -978,21 +936,7 @@
                     *ngIf="selectedLanguage == 'eu'"
                     class="w-full"
                     apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
+                    [init]="tinymceInitialize()"
                     id="description"
                     formControlName="descriptionEu" 
                 ></editor>
@@ -1000,21 +944,7 @@
                     *ngIf="selectedLanguage == 'ca'"
                     class="w-full"
                     apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
+                    [init]="tinymceInitialize()"
                     id="description"
                     formControlName="descriptionCa" 
                 ></editor>
@@ -1022,21 +952,7 @@
                     *ngIf="selectedLanguage == 'de'"
                     class="w-full"
                     apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
+                    [init]="tinymceInitialize()"
                     id="description"
                     formControlName="descriptionDe" 
                 ></editor>
