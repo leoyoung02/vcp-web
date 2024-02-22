@@ -3367,7 +3367,8 @@
         "tags": "Tags",
         "gallery": "Galerie",
         "socialmedia": "Social-Media-URL",
-        "author": "Autor"
+        "author": "Autor",
+        "uploadcover": "UCover hochladen"
     },
     "contract": {
         "review": "Bewertungsbedingungen",

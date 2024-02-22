@@ -3404,7 +3404,8 @@
         "tags": "Tags",
         "gallery": "Gallery",
         "socialmedia": "Social Media URL",
-        "author": "Author"
+        "author": "Author",
+        "uploadcover": "Upload Cover"
     },
     "contract": {
         "review": "Review terms and conditions",

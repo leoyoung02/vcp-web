@@ -43,7 +43,10 @@ export class TestimonialCardComponent {
   @Input() socialMediaUrl: any;
   @Input() page: any;
   @Input() companyId: any;
+  @Input() video: any;
+  @Input() isCoverImage: any;
 
+  
   languageChangeSubscription;
   language: any;
   selectedTestimonialId: any;
@@ -67,6 +70,9 @@ export class TestimonialCardComponent {
         }
       );
 
+      console.log('isCoverImage: ', this.isCoverImage);
+      console.log('video: ', this.video);
+      console.log('image: ', this.image);
     this.formatAuthorName();
 
   }

@@ -3390,7 +3390,8 @@
         "tags": "Etiquetas",
         "gallery": "Galería",
         "socialmedia": "URL de redes sociales",
-        "author": "Autor"
+        "author": "Autor",
+        "uploadcover": "Subir portada"
     },
     "contract": {
         "review": "Revisar términos y condiciones",

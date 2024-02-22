@@ -177,8 +177,11 @@ export class TestimonialDetailComponent {
     const parsedHTML = parser.parseFromString(author, 'text/html');
     return parsedHTML.body.textContent;
   }
+  // format testimonial
 
   formatTestimonial(testimonial) {
+
+    console.log('testimonial: ', testimonial);
     let highlight_description = testimonial.description?.replace(testimonial?.short_description?.replace(/<(?:.|\n)*?>/gm, ''), '<div class="font-semibold px-4 py-1 border border-2 border-black border-t-0 border-b-0 border-r-0 italic">' + testimonial?.short_description?.replace(/<(?:.|\n)*?>/gm, '') + '</div>')
     let t = {
       id: testimonial.id,
@@ -192,7 +195,9 @@ export class TestimonialDetailComponent {
       testimonial_image: `${environment.api}/get-testimonial-image/${testimonial.image}`,
       created_by: testimonial.created_by,
       created_at: testimonial.created_at,
-      date_display: moment.utc(testimonial.created_at).locale(this.language).format('D MMMM')
+      isCoverImage: testimonial.isCoverImage,
+      date_display: moment.utc(testimonial.created_at).locale(this.language).format('D MMMM'),
+      video: `${environment.api}/get-testimonial-video/${testimonial.video}`
     }
     this.testimonial = t;
   };

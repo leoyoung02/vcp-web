@@ -48,9 +48,9 @@
 </div>
 <div class="pt-12">
     <div>
-        <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row mb-24">
-            <div *ngIf="testimonial?.testimonial_image" 
-                class="mr-0 sm:mr-0 md:mr-[50px] lg:mr-[50px]">
+        <div class="flex justify-center   flex-col sm:flex-col md:flex-row lg:flex-row mb-24">
+            <div *ngIf="testimonial?.testimonial_image && testimonial?.isCoverImage" 
+                class="mr-0 sm:mr-0 md:mr-[50px] lg:mr-[50px] mb-6">
                 <img 
                     *ngIf="testimonial?.testimonial_image"
                     class="rounded-[30px] object-cover object-top w-full max-w-full sm:w-full sm:max-w-full md:w-[345px] md:max-w-[345px] lg:w-[345px] lg:max-w-[345px] sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]"
@@ -60,6 +60,10 @@
                 />
             </div>
             <div class="w-full sm:w-full md:w-6/12 lg:w-6/12">
+                <div class="mb-6 w-full" *ngIf="!testimonial?.isCoverImage">
+                    <video class="w-full" controls  [src]="testimonial?.video">
+                      </video>
+                </div>
                 <div class="capitalize mb-2">{{ testimonial?.date_display }}</div>
                 <div class="text-xl font-bold mb-6">
                     {{ testimonial?.author || ('plans.student' | translate) }}

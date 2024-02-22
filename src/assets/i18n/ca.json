@@ -3378,7 +3378,8 @@
         "tags": "Etiquetes",
         "gallery": "Galeria",
         "socialmedia": "URL de xarxes socials",
-        "author": "Autor"
+        "author": "Autor",
+        "uploadcover": "Carrega la portada"
     },
     "contract": {
         "review": "Revisa els termes i condicions",

@@ -220,6 +220,7 @@ export class TestimonialsListComponent {
   }
 
   formatTestimonials(testimonials) {
+    console.log('testimonials: ', testimonials);
     testimonials = testimonials?.map((item) => {
       let tags_texts = this.getTagsDisplay(item);
 
@@ -228,6 +229,8 @@ export class TestimonialsListComponent {
         id: item?.id,
         path: `/testimonials/details/${item.id}`,
         image: `${environment.api}/get-testimonial-image/${item.image}`,
+        video: `${environment.api}/get-testimonial-video/${item.video}`,
+        isCoverImage: item.isCoverImage,
         tags_display: tags_texts?.map((data) => { return data.tag_label }).join(', '),
         date_display: moment.utc(item.created_at).locale(this.language).format('D MMMM')
       };
