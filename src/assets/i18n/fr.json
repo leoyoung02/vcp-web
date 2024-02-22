@@ -1477,7 +1477,10 @@
         "downloadwaitinglist": "Télécharger la liste d'attente",
         "renewal": "Date de renouvellement",
         "activitycode": "Code d'activité",
-        "numberofcredits": "Nombre de crédits"
+        "numberofcredits": "Nombre de crédits",
+        "plandetailschanged": "Les détails ont changé. Voulez-vous envoyer ces mises à jour aux participants ?",
+        "yes": "Oui",
+        "no": "Non"
     },
     "edit-club": {
         "uploadimage": "Télécharger une image",

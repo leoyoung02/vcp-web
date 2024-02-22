@@ -1482,7 +1482,10 @@
         "downloadwaitinglist": "Baixa la llista d'espera",
         "renewal": "Data de renovació",
         "activitycode": "Codi d'activitat",
-        "numberofcredits": "Nombre de crèdits"
+        "numberofcredits": "Nombre de crèdits",
+        "plandetailschanged": "Els detalls han canviat. Vols enviar aquestes actualitzacions als participants?",
+        "yes": "Sí",
+        "no": "No"
     },
     "edit-club": {
         "uploadimage": "Carregar imatge",

@@ -1479,7 +1479,10 @@
         "downloadwaitinglist": "Deskargatu itxaron zerrenda",
         "renewal": "Berritze data",
         "activitycode": "Jarduera kodea",
-        "numberofcredits": "Kreditu kopurua"
+        "numberofcredits": "Kreditu kopurua",
+        "plandetailschanged": "Xehetasunak aldatu dira. Parte-hartzaileei eguneraketa hauek bidali nahi dizkiezu?",
+        "yes": "Bai",
+        "no": "Ez"
     },
     "edit-club": {
         "uploadimage": "Igo irudia",

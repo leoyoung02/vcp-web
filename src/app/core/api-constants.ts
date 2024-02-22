@@ -354,6 +354,7 @@ export const ACTIVITY_CREDITS_URL = `${API_BASE}/v2/activity/credits`;
 export const INVOICE_DETAILS_URL = `${API_BASE}/v2/invoice-details`;
 export const SEND_CREDITS_DATA_URL = `${API_BASE}/v2/credits-data/send`;
 export const SEND_CONFIRM_ATTENDANCE_EMAIL_URL = `${API_BASE}/v2/confirm-attendance-email/send`;
+export const PLAN_DETAILS_UPDATED_EMAIL_URL = `${API_BASE}/v2/plan-updated/send-email`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;

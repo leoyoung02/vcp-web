@@ -1483,7 +1483,10 @@
         "downloadwaitinglist": "Download waiting list",
         "renewal": "Renewal date",
         "activitycode": "Activity code",
-        "numberofcredits": "Number of credits"
+        "numberofcredits": "Number of credits",
+        "plandetailschanged": "Details have changed. Do you want to send these updates to the participants?",
+        "yes": "Yes",
+        "no": "No"
     },
     "edit-club": {
         "uploadimage": "Upload image",
