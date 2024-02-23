@@ -142,7 +142,7 @@ export class TestimonialEditComponent {
   uploadImages:any  = [];
   isCoverImage:any = true;
   videoImagePreview:any='';
-  isVideoFormatRight:boolean=true
+  isVideoFormatRight:boolean=true;
 
   @ViewChild('myPond', {static: false}) myPond: any;
   pondOptions = {
@@ -431,14 +431,11 @@ export class TestimonialEditComponent {
           this.tagsMapping = data?.tags_mapping;
           this.formatTestimonial(data?.testimonial, data?.testimonial_tags);
           this.formatImageVideos(data?.testimonial_images, data?.testimonial_videos);
-          this.uploadImages = data?.testimonial_images?.map(testimonial => testimonial?.image) || []
-          this.uploadVideos = data?.testimonial_videos?.map(testimonial => testimonial?.video) || []
-          localStorage.setItem('gallery_video_files',JSON.stringify(this.uploadVideos))
-          localStorage.setItem('gallery_image_files',JSON.stringify(this.uploadImages))
 
-          let totalFiles = [...data?.testimonial_images,...data?.testimonial_videos]
-          this.pondFiles = totalFiles
-          
+          this.uploadImages = []
+          this.uploadVideos = []
+          localStorage.setItem('gallery_video_files',this.uploadVideos)
+          localStorage.setItem('gallery_image_files',this.uploadImages)
 
           this.isLoading = false;
         },
@@ -620,9 +617,7 @@ export class TestimonialEditComponent {
 
   async fileChangeEvent(event: any) {
     this.imageChangedEvent = event;
-    console.log('event: ', event);
     const file = event?.target?.files[0];
-    console.log('file: ', file);
 
     if(file && file.type == 'video/mp4'){
       this.isCoverImage =  false
@@ -630,13 +625,11 @@ export class TestimonialEditComponent {
       let fileExtension = file ? file.name.split('.').pop() : '';
       let timestamp = this.getTimestamp()
       this.coverVideo = 'testimonial_' + this.userId + '_' + timestamp + '.' + fileExtension;
-      console.log('this.coverVideo: ', this.coverVideo);
       
+      this.videoSrc = URL.createObjectURL(file);
       if(this.coverVideo){
         localStorage.setItem('cover_video', this.coverVideo);
         this.isCoverImage = false
-        this.videoSrc = `${environment.api}/get-testimonial-video/${this.coverVideo}`,
-        console.log('this.videoSrc: ', this.videoSrc);
         formData.append('file', file, this.coverVideo);
   
         this._testimonialsService
@@ -716,12 +709,10 @@ export class TestimonialEditComponent {
     
     let author = this.testimonialForm.get("author")?.value;
     this.isAuthorExsist = this.testimonialForm.get("author")?.value ? true : false
-    console.log('this.isAuthorExsist: ', this.isAuthorExsist);
     if ( 
       this.testimonialForm?.get('short_description')?.errors
       || this.testimonialForm?.get('description')?.errors
       || !this.isAuthorExsist
-      || !this.coverVideo
     ) {
       this.scrollToTop();
       return false;
@@ -730,9 +721,6 @@ export class TestimonialEditComponent {
     this.issaving = true;
 
     let gallery_items = localStorage.getItem('gallery_filenames');
-    console.log('gallery_items: ', gallery_items);
-
-    
     let short_description = this.testimonialForm.get("short_description")?.value;
     let description = this.testimonialForm.get("description")?.value;
     let social_media_url = this.testimonialForm.get("social_media_url")?.value;
