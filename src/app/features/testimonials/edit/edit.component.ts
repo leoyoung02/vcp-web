@@ -39,6 +39,7 @@ import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+import { FilePond } from "filepond";
 registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
 
 @Component({
@@ -131,7 +132,7 @@ export class TestimonialEditComponent {
   imageFileName: any = '';
   uploadedVideos: any = [];
   uploadedImages: any = [];
-  pondFiles = [];
+  pondFiles:any = [];
   customMemberTypes :any;
   userRoleType:any;
   customMemberTypeId:any;
@@ -140,7 +141,8 @@ export class TestimonialEditComponent {
   uploadVideos:any  = [];
   uploadImages:any  = [];
   isCoverImage:any = true;
-  videoImagePreview:any=''
+  videoImagePreview:any='';
+  isVideoFormatRight:boolean=true
 
   @ViewChild('myPond', {static: false}) myPond: any;
   pondOptions = {
@@ -155,7 +157,6 @@ export class TestimonialEditComponent {
     labelTapToRetry: "toca para reintentar",
     labelTapToUndo: "toque para deshacer",
     acceptedFileTypes: 'image/jpg, image/jpeg, image/png, video/mp4',
-    // acceptedFileTypes: 'video/mp4',
     server: {
     process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
       console.log('file: ', file);
@@ -197,7 +198,6 @@ export class TestimonialEditComponent {
         } else {
           request.open('POST', environment.api + '/company/testimonial/image/temp-upload');
         }
-
         request.upload.onprogress = (e) => {
           progress(e.lengthComputable, e.loaded, e.total);
         };
@@ -206,29 +206,41 @@ export class TestimonialEditComponent {
             if (request.status >= 200 && request.status < 300) {
               load(request.responseText);
               localStorage.setItem('gallery_file', 'complete');
-              // let filename: any = localStorage.getItem('gallery_filename');
-              // let filenames = localStorage.getItem('gallery_filenames');
-              // if(filenames) {
-              //   localStorage.setItem('gallery_filenames', filenames + ',' + filename);
-              // } else {
-              //   localStorage.setItem('gallery_filenames', filename);
-              // }
+              const videosData = localStorage.getItem('gallery_video_files');
+              const imagesData = localStorage.getItem('gallery_image_files');
+              let videos = [];
+              let images = [];
 
-              const videos = JSON.parse(localStorage.getItem('gallery_video_files') || '')
-              const images = JSON.parse(localStorage.getItem('gallery_image_files') || '')
-              const total_files = [...videos,...images]
-              console.log('total_files: ', total_files);
-              let filenames = localStorage.getItem('gallery_filenames');
+              if (videosData) {
+                try {
+                  videos = JSON.parse(videosData);
+                } catch (error) {
+                  console.error('Error parsing video data:', error);
+                }
+              }
+
+              if (imagesData) {
+                try {
+                  images = JSON.parse(imagesData);
+                } catch (error) {
+                  console.error('Error parsing image data:', error);
+                }
+              }
+
+              let totalFiles = [];
+              if (images.length > 0) {
+                totalFiles = [...images];
+              }
+              if (videos.length > 0) {
+                totalFiles = [...totalFiles, ...videos];
+              }
+
+
+              if (totalFiles?.length > 0) {
+                localStorage.setItem('gallery_filenames', totalFiles?.join(','));
+              }
               
-              // total_files?.forEach(file=>{
-              //   if(filenames) {
-              //     localStorage.setItem('gallery_filenames', filenames + ',' + file);
-              //   }else{
-              //   } 
-              // })
-              localStorage.setItem('gallery_filenames',total_files?.join(','))
-              
-            } else {
+            } else {  
             error('oh no');
             }
         };
@@ -419,6 +431,15 @@ export class TestimonialEditComponent {
           this.tagsMapping = data?.tags_mapping;
           this.formatTestimonial(data?.testimonial, data?.testimonial_tags);
           this.formatImageVideos(data?.testimonial_images, data?.testimonial_videos);
+          this.uploadImages = data?.testimonial_images?.map(testimonial => testimonial?.image) || []
+          this.uploadVideos = data?.testimonial_videos?.map(testimonial => testimonial?.video) || []
+          localStorage.setItem('gallery_video_files',JSON.stringify(this.uploadVideos))
+          localStorage.setItem('gallery_image_files',JSON.stringify(this.uploadImages))
+
+          let totalFiles = [...data?.testimonial_images,...data?.testimonial_videos]
+          this.pondFiles = totalFiles
+          
+
           this.isLoading = false;
         },
         (error) => {
@@ -428,8 +449,6 @@ export class TestimonialEditComponent {
   }
 
   formatTestimonial(testimonial, tags) {
-    console.log('testimonial: ', testimonial);
-    this.isCoverImage = testimonial?.isCoverImage
     let t = {
       id: testimonial.id,
       company_id: testimonial.company_id,
@@ -447,6 +466,7 @@ export class TestimonialEditComponent {
       created_at: testimonial.created_at,
     }
     this.testimonial = t;
+    this.isCoverImage = testimonial?.isCoverImage || !testimonial.video ? true : false
 
     this.testimonialForm.controls['short_description'].setValue(this.testimonial.short_description);
     this.testimonialForm.controls['description'].setValue(this.testimonial.description);
@@ -465,7 +485,6 @@ export class TestimonialEditComponent {
             tag
           }
       })
-      console.log(' this.tag: ',  this.tag);
     }
   };
 
@@ -606,30 +625,33 @@ export class TestimonialEditComponent {
     console.log('file: ', file);
 
     if(file && file.type == 'video/mp4'){
-
-
       this.isCoverImage =  false
       const formData = new FormData();
       let fileExtension = file ? file.name.split('.').pop() : '';
       let timestamp = this.getTimestamp()
-
       this.coverVideo = 'testimonial_' + this.userId + '_' + timestamp + '.' + fileExtension;
       console.log('this.coverVideo: ', this.coverVideo);
-
-
-      localStorage.setItem('cover_video', this.coverVideo);
-      formData.append('file', file, this.coverVideo);
-
-      this._testimonialsService
-      .uploadcoverVideo(formData)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (data) => {
-        }, 
-        (error) => {
-          console.log(error);
-        }
-      );
+      
+      if(this.coverVideo){
+        localStorage.setItem('cover_video', this.coverVideo);
+        this.isCoverImage = false
+        this.videoSrc = `${environment.api}/get-testimonial-video/${this.coverVideo}`,
+        console.log('this.videoSrc: ', this.videoSrc);
+        formData.append('file', file, this.coverVideo);
+  
+        this._testimonialsService
+        .uploadcoverVideo(formData)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (data) => {
+          }, 
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
+    }else if(file.type !== 'video/mp4'&& file.type.includes('video')){
+      this.isVideoFormatRight = false
     }else{
       if (file?.size > 2000000) {
       } else {
@@ -651,7 +673,6 @@ export class TestimonialEditComponent {
         name: "image",
         image: base64ToFile(event.base64),
       };
-      console.log('this.file: ', this.file);
     }
   }
 
@@ -700,6 +721,7 @@ export class TestimonialEditComponent {
       this.testimonialForm?.get('short_description')?.errors
       || this.testimonialForm?.get('description')?.errors
       || !this.isAuthorExsist
+      || !this.coverVideo
     ) {
       this.scrollToTop();
       return false;
@@ -722,12 +744,10 @@ export class TestimonialEditComponent {
     formData.append("social_media_url", social_media_url);
     formData.append("company_id", this.companyId.toString());
     formData.append("testimonial_course_id", this.course);
-    formData.append("tag_id", this.tag);
+    formData.append("tag_id", JSON.stringify(this.tag));
     formData.append("video", this.coverVideo);
-    
-    console.log('this.tag: ', this.tag);
 
-    console.log('this.file: ', this.file);
+
     if (this.file) {
       const filename = 'testimonial_' + this.userId + '_' + this.getTimestamp();
       formData.append('image', this.file.image, filename + '.jpg');

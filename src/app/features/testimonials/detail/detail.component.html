@@ -59,11 +59,12 @@
                     [ngSrc]="testimonial?.testimonial_image"
                 />
             </div>
+            <div  *ngIf="!testimonial?.isCoverImage && testimonial?.video" 
+            class="mr-0 sm:mr-0 md:mr-[50px] lg:mr-[50px] mb-6">
+            <video *ngIf="testimonial?.video"  controls  [src]="testimonial?.video" class="rounded-[30px] object-cover object-top w-full max-w-full sm:w-full sm:max-w-full md:w-[345px] md:max-w-[345px] lg:w-[345px] lg:max-w-[345px] sm:h-auto md:h-[382px] lg:h-[382px] max-h-auto md:max-h-[382px] lg:max-h-[382px]">
+            </video>
+            </div>
             <div class="w-full sm:w-full md:w-6/12 lg:w-6/12">
-                <div class="mb-6 w-full" *ngIf="!testimonial?.isCoverImage">
-                    <video class="w-full" controls  [src]="testimonial?.video">
-                      </video>
-                </div>
                 <div class="capitalize mb-2">{{ testimonial?.date_display }}</div>
                 <div class="text-xl font-bold mb-6">
                     {{ testimonial?.author || ('plans.student' | translate) }}
@@ -71,7 +72,8 @@
                 <div class="text-sm whitespace-pre-wrap mb-6" 
                     [innerHtml]="testimonial?.short_description">
                 </div>
-                <div class="w-full max-w-full flex flex-col items-center justify-center py-6 pt-16 text-sm">
+                <!-- description -->
+                <div class="w-full max-w-full flex flex-col items-center justify-center py-6 pt-16 text-sm mb-6">
                     <div class="relative">
                         <svg *ngIf="testimonial?.description" class="absolute -top-16 w-12 h-12 rotate-180 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
                             <path d="M6 0H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3H2a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Zm10 0h-4a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h4v1a3 3 0 0 1-3 3h-1a1 1 0 0 0 0 2h1a5.006 5.006 0 0 0 5-5V2a2 2 0 0 0-2-2Z"/>
@@ -82,6 +84,19 @@
                         </svg>
                     </div>
                 </div>
+                <div class="w-full max-w-full py-6 pt-16 text-sm overflow-y-auto max-h-[1000px] mb-6">
+                    <div *ngFor="let obj of testimonialImages" class="mb-6">
+                        <img src="{{obj?.image}}" alt="" class="w-full h-[450px] object-cover">
+                    </div>
+                </div>
+                
+
+                <div class="w-full max-w-full py-6 pt-16 text-sm overflow-y-auto max-h-[1000px] mb-6">
+                    <div *ngFor="let obj of testimonialVideos" class="mb-6">
+                         <video width="100%"  controls  [src]="obj.video">
+                         </video>
+                    </div>
+                 </div>
             </div>
         </div>
     </div>
