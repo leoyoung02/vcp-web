@@ -570,15 +570,8 @@ export class MyLessonsComponent {
             bookings = bookings && bookings.filter(booking => {
                 let include = false
                 if(booking.completed != 1 && booking?.cancelled != 1) {
-
-                    if(this.isTutorUser){
-                        if (moment().isSame(moment(booking?.booking_date + ' ' + booking?.booking_start_time), 'day') && moment().isAfter(moment(booking?.booking_date + ' ' + booking?.booking_start_time).add(1, 'minute'))) {
-                            include = true
-                        }
-                    }else{
-                        if(moment(moment(booking.booking_date + ' ' + booking.booking_end_time).format('YYYY-MM-DD HH:mm:ss')).isBefore(moment().format('YYYY-MM-DD HH:mm:ss'))) {
-                            include = true
-                        }
+                    if (moment().isSame(moment(booking?.booking_date + ' ' + booking?.booking_start_time), 'day') && moment().isAfter(moment(booking?.booking_date + ' ' + booking?.booking_start_time).add(1, 'minute'))) {
+                        include = true
                     }
                 }
                 if(booking.completed == 1 && booking.transfer_status == 0 && (this.superAdmin || this.isTutorUser)){
