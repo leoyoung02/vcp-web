@@ -5,6 +5,7 @@ import {
   ACTIVITY_CITIES_URL,
   ACTIVITY_CODE_DATA_URL,
   ACTIVITY_CREDITS_URL,
+  ADD_ALIAS_URL,
   ADD_GROUP_PLAN_COMMENT_REACTION_URL,
   ADD_GROUP_PLAN_COMMENT_REPLY_URL,
   ADD_GROUP_PLAN_COMMENT_URL,
@@ -35,10 +36,12 @@ import {
   CREATE_PLAN_ROLES_URL,
   CREATE_PLAN_URL,
   DASHBOARD_DETAILS_URL,
+  DELETE_ALIAS_URL,
   DELETE_COMMENT_URL,
   DELETE_GROUP_PLAN_COMMENT_REACTION_URL,
   DELETE_GUEST_REGISTRATION_FIELDS_URL,
   DELETE_RECURRING_SERIES_URL,
+  EDIT_ALIAS_URL,
   EDIT_CLUB_PLAN_URL,
   EDIT_FEATURED_TEXT_URL,
   EDIT_GUEST_REGISTRATION_FIELDS_URL,
@@ -1061,5 +1064,28 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append('filename', file_name + '.jpg')
     formData.append('image', blob, file_name + '.jpg')
     return this._http.post(UPLOAD_PLAN_IMAGE_URL, formData)
+  }
+
+  addAdditionalAlias(payload): Observable<any> {
+    return this._http.post(ADD_ALIAS_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editAlias(payload, id): Observable<any> {
+    return this._http.post(
+      `${EDIT_ALIAS_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+}
+
+  deleteAlias(payload, id): Observable<any> {
+    return this._http.post(
+      `${DELETE_ALIAS_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

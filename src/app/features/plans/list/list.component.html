@@ -66,65 +66,58 @@
         </div>
     </div>
 </div>
-<div class="py-8">
-    <div class="columns-1 sm:columns-1 gap-4 space-y-4"
-        [ngClass]="{'md:columns-3 lg:columns-4': filteredPlan?.length > 0}">
-        <div class="relative" [ngClass]="{'max-w-[384px]': filteredPlan?.length == 0}">
-            <div class="relative">
-                <img class="w-full rounded-md object-cover" [src]="apiPath + '/get-image-group-plan/white.jpg'">
-                <div class="test__body absolute inset-0 py-4 text-white flex flex-col">
-                    <div class="relative">
-                        <app-plans-calendar
-                            *ngIf="showEventsCalendar && !parentComponent"
-                            [hasDateSelected]="hasDateSelected"
-                            [showPastEvents]="showPastEvents"
-                            [joinedPlan]="joinedPlan"
-                            [courses]="courses"
-                            [groups]="groups"
-                            [courseCategoriesAccessRoles]="courseCategoriesAccessRoles"
-                            [allCourseCategories]="allCourseCategories"
-                            [courseCategoryMapping]="courseCategoryMapping"
-                            [admin1]="admin1"
-                            [admin2]="admin2"
-                            [superAdmin]="superAdmin"
-                            [calendarFilterMode]="calendarFilterMode"
-                            [canCreatePlan]="canCreatePlan"
-                            (handleCalendarDateChange)="handleCalendarDateChanged($event)" 
-                            (handleJoinChange)="handleJoinChanged($event)"
-                            (handleExitCalendarFilter)="exitCalendarEventMode()"
-                            [notifier]="childNotifier"
-                            [isUESchoolOfLife]="isUESchoolOfLife"
-                            [campus]="campus"
-                        >
-                        </app-plans-calendar>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <ng-container *ngFor="let plan of filteredPlan; let i = index;">
-            <div class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20">
-                <app-plan-card
-                    [image]="apiPath + plan.path + plan.image"
-                    [title]="getEventTitle(plan)"
-                    [date]="getActivityDate(plan)"
-                    [id]="plan?.id"
-                    [planTypeId]="plan?.plan_type_id"
-                    [privacy]="plan?.privacy"
-                    [privateType]="plan?.private_type"
-                    [featuredTitle]="getFeaturedTitle()"
-                    [excerpt]="plan?.excerpt"
-                    [address]="plan?.address"
-                    [credits]="plan?.credits"
-                    [price]="plan?.price"
-                    [buttonColor]="buttonColor"
-                    [page]="'list'"
-                    [companyId]="companyId"
-                    (handleDetailsClick)="handleDetailsClickRoute($event)"
-                >
-                </app-plan-card>
-            </div>
-        </ng-container>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-8 py-8">
+    <div *ngIf="userId && showEventsCalendar && !parentComponent" 
+        class="w-full max-w-full rounded-lg py-4 shadow"
+        [ngStyle]="{'background-color': '#f8f4f4'}"
+    >
+        <app-plans-calendar
+            [hasDateSelected]="hasDateSelected"
+            [showPastEvents]="showPastEvents"
+            [joinedPlan]="joinedPlan"
+            [courses]="courses"
+            [groups]="groups"
+            [courseCategoriesAccessRoles]="courseCategoriesAccessRoles"
+            [allCourseCategories]="allCourseCategories"
+            [courseCategoryMapping]="courseCategoryMapping"
+            [admin1]="admin1"
+            [admin2]="admin2"
+            [superAdmin]="superAdmin"
+            [calendarFilterMode]="calendarFilterMode"
+            [canCreatePlan]="canCreatePlan"
+            (handleCalendarDateChange)="handleCalendarDateChanged($event)" 
+            (handleJoinChange)="handleJoinChanged($event)"
+            (handleExitCalendarFilter)="exitCalendarEventMode()"
+            [notifier]="childNotifier"
+            [isUESchoolOfLife]="isUESchoolOfLife"
+            [campus]="campus"
+        >
+        </app-plans-calendar>
     </div>
+    <ng-container *ngFor="let plan of filteredPlan | paginate: {itemsPerPage: (userId && showEventsCalendar && !parentComponent ? 15 : 16), currentPage: p}">
+        <app-plan-card
+            [image]="apiPath + plan.path + plan.image"
+            [title]="getEventTitle(plan)"
+            [date]="getActivityDate(plan)"
+            [id]="plan?.id"
+            [planTypeId]="plan?.plan_type_id"
+            [privacy]="plan?.privacy"
+            [privateType]="plan?.private_type"
+            [featuredTitle]="getFeaturedTitle()"
+            [excerpt]="plan?.excerpt"
+            [address]="plan?.address"
+            [credits]="plan?.credits"
+            [price]="plan?.price"
+            [buttonColor]="buttonColor"
+            [page]="'list'"
+            [companyId]="companyId"
+            (handleDetailsClick)="handleDetailsClickRoute($event)"
+        >
+        </app-plan-card>
+    </ng-container>
+</div>
+<div *ngIf="filteredPlan?.length > 0" class="text-center">
+    <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
 </div>
 <div *ngIf="!isloading && filteredPlan?.length == 0 && !showEventsCalendar" class="text-center">
     {{'club-details.noevents' | translate}}

@@ -90,9 +90,6 @@ export class AuthService {
 
           let proceed = false
           if(data?.accept_conditions && !data?.accepted_conditions) {
-            let created = moment(data?.created).format('YYYY-MM-DD')
-            let start_conditions = moment('2023-11-13').format('YYYY-MM-DD')
-            if(moment(created).isSameOrAfter(start_conditions)) {
               user.redirect_conditions = true;
               this._localService.setLocalStorage(environment.lsuser, result);
               this._localService.setLocalStorage(environment.lsuserId, result.id);
@@ -119,10 +116,8 @@ export class AuthService {
                 this._localService.setLocalStorage(environment.lslang, "es");
               }
 
-              return user;
-            } else {
               proceed = true;
-            }
+              return user;
           } else {
             proceed = true;
           }
