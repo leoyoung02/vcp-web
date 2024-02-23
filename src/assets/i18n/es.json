@@ -3083,7 +3083,8 @@
         "bookingcancel":"Su reserva ha sido cancelada con éxito.",
         "passwordnotmatch":"Las contraseñas no coinciden",
         "passwordlength":"La contraseña debe tener al menos 8 caracteres",
-        "validemail":"Por favor proporcione un correo electrónico válido."
+        "validemail":"Por favor proporcione un correo electrónico válido.",
+        "filedownloaded":"Archivo descargado exitosamente."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",

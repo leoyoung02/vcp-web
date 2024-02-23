@@ -3098,7 +3098,8 @@
         "bookingcancel":"Your booking has been succesfully cancelled.",
         "passwordnotmatch":"Passwords do not match",
         "passwordlength":"Password must be at least 8 characters",
-        "validemail":"Please provide a valid email."
+        "validemail":"Please provide a valid email.",
+        "filedownloaded":"File downloaded succesfully."
     },
     "buddy": {
         "mentorprofile": "Mentor profile",

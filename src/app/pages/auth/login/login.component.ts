@@ -247,6 +247,11 @@ export class LoginComponent {
       );
   }
 
+  onInputChange(){
+    const inputValue = this.loginForm?.controls["email"].value;
+    this.loginForm.controls["email"].setValue(inputValue.trim())
+  }
+
   checkConfirmEmail(showMessageSettings1, showMessageSettings2) {
     this._companyService
       .checkConfirmEmail({ companyId: this.companyId })

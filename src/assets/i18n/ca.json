@@ -3080,7 +3080,8 @@
         "bookingcancel":"La teva reserva s'ha cancel·lat correctament.",
         "passwordnotmatch":"Les contrasenyes no coincideixen",
         "passwordlength":"La contrasenya ha de tenir com a mínim 8 caràcters",
-        "validemail":"Proporcioneu un correu electrònic vàlid."
+        "validemail":"Proporcioneu un correu electrònic vàlid.",
+        "filedownloaded":"Fitxer baixat correctament."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",

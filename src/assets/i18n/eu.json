@@ -3070,7 +3070,8 @@
         "bookingcancel":"Zure erreserba behar bezala bertan behera utzi da.",
         "passwordnotmatch":"Pasahitzak ez datoz bat",
         "passwordlength":"Pasahitzak 8 karaktere izan behar ditu gutxienez",
-        "validemail":"Mesedez, eman baliozko posta elektroniko bat."
+        "validemail":"Mesedez, eman baliozko posta elektroniko bat.",
+        "filedownloaded":"Fitxategia ondo deskargatu da."
     },
     "buddy": {
         "mentorprofile": "Tutorearen profila",

@@ -3064,7 +3064,8 @@
         "bookingcancel":"Votre réservation a été annulée avec succès.",
         "passwordnotmatch":"Les mots de passe ne correspondent pas",
         "passwordlength":"Mot de passe doit être d'au moins 8 caractères",
-        "validemail":"Veuillez fournir un e-mail valide."
+        "validemail":"Veuillez fournir un e-mail valide.",
+        "filedownloaded":"Fichier téléchargé avec succès."
     },
     "buddy": {
         "mentorprofile": "Profil du mentor",

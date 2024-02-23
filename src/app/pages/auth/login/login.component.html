@@ -87,6 +87,7 @@
                 type="text"
                 placeholder="{{ ueLoginMode ? ('login.username' | translate) : ('login.emailaddress' | translate) }}"
                 formControlName="email"
+                (input)="onInputChange()"
               />
             </div>
             <div class="mb-8 relative">
