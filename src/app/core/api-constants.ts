@@ -344,6 +344,9 @@ export const ASSIGN_SALES_PERSON_URL = `${API_BASE}/company/guest/sales-person/a
 export const CATEGORY_EVENTS_URL = `${API_BASE}/guest/category/list`;
 export const EVENT_TEMPLATE_URL = `${API_BASE}/guest/event/registration/template-by-guid`;
 export const UPLOAD_PLAN_IMAGE_URL = `${API_BASE}/company/upload-plan-image`;
+export const ADD_ALIAS_URL = `${API_BASE}/company/user/additional/alias`;
+export const EDIT_ALIAS_URL = `${API_BASE}/company/user/edit-alias`;
+export const DELETE_ALIAS_URL = `${API_BASE}/company/user/delete-alias`;
 
 export const PLANS_URL = `${API_BASE}/v2/plans`;
 export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;
