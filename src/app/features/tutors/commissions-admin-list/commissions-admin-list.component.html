@@ -1,51 +1,63 @@
 <ng-container *ngIf="superAdmin">
     <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
         <div class="mb-6">
-            <div class="flex items-center w-full max-w-full">
-                <div class="flex-auto">
-                    <app-search
-                        [searchText]="searchText"
-                        [placeholderText]="placeholderText"
-                        [buttonColor]="buttonColor"
-                        (onEnterPressed)="handleSearch($event)"
-                        (doSearch)="handleSearch($event)"
-                    >
-                    </app-search>
-                </div>
-                <div>
-                    <select
-                        id="courses"
-                        class="ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        [(ngModel)]="selectedCourse"
-                        [ngModelOptions]="{standalone: true}"
-                        (change)="changeCourseFilter($event)"
-                    >
-                        <option value="">{{ 'keap.selectcourse' | translate }}</option>
-                        <option
-                            *ngFor="let course of courses"                                
-                            [value]="course.value"
+                <div class="flex items-center w-full max-w-full">
+                    <div class="flex-auto">
+                        <app-search
+                            [searchText]="searchText"
+                            [placeholderText]="placeholderText"
+                            [buttonColor]="buttonColor"
+                            (onEnterPressed)="handleSearch($event)"
+                            (doSearch)="handleSearch($event)"
                         >
-                            {{ course?.course_title }}
-                        </option>
-                    </select>
-                </div>
-                <div class="ml-6">
-                    <div class="flex-auto -mb-5">
-                        <mat-form-field class="datetime-picker-field">
-                            <mat-label>{{ 'plan-details.selectdate' | translate }}</mat-label>
-                            <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
-                              <input (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
-                              <input (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker></mat-date-range-picker>
-                        </mat-form-field>
+                        </app-search>
+                    </div>
+                    <div>
+                        <select
+                            id="courses"
+                            class="ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            [(ngModel)]="selectedCourse"
+                            [ngModelOptions]="{standalone: true}"
+                            (change)="changeCourseFilter($event)"
+                        >
+                            <option value="">{{ 'keap.selectcourse' | translate }}</option>
+                            <option
+                                *ngFor="let course of courses"                                
+                                [value]="course.value"
+                            >
+                                {{ course?.course_title }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="ml-6">
+                        <div class="flex-auto -mb-5">
+                            <mat-form-field class="datetime-picker-field">
+                                <mat-label>{{ 'plan-details.selectdate' | translate }}</mat-label>
+                                <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                                  <input (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
+                                  <input (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                            </mat-form-field>
+                        </div>
                     </div>
                 </div>
-            </div>
+        </div>
+        <div class="flex justify-end">
+            <button 
+            class="h-[40px] flex items-center py-1.5 p-2.5 px-4 rounded-[10px] justify-evenly hover:bg-black"
+            [ngStyle]="{'background-color': '#1e1e1e'}" 
+            (click)="downloadExcel()"
+        >
+                <svg class="w-3 h-3 text-white mr-2 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 1v4a1 1 0 0 1-1 1H1m8-2h3M9 7h3m-4 3v6m-4-3h8m3-11v16a.969.969 0 0 1-.932 1H1.934A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.829 1h8.239A.969.969 0 0 1 15 2ZM4 10h8v6H4v-6Z"/>
+                </svg>
+                <span class="text-white text-sm">{{ 'your-admin-area.downloadtoexcel' | translate }}</span>
+            </button>
         </div>
         <div class="pt-1.5 mb-6" *ngIf="selected && selected.length > 0 && status == 'Pending'">
-            <div class="flex justify-end">
+            <div class="flex justify-start">
                 <select 
                     id="bulk" 
                     class="w-xs max-w-xs mr-4 bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"

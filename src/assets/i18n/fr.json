@@ -3063,7 +3063,8 @@
         "questionnairemandatoryfields":"Vous devez remplir l’intégralité du questionnaire pour continuer.",
         "bookingcancel":"Votre réservation a été annulée avec succès.",
         "passwordnotmatch":"Les mots de passe ne correspondent pas",
-        "passwordlength":"Mot de passe doit être d'au moins 8 caractères"
+        "passwordlength":"Mot de passe doit être d'au moins 8 caractères",
+        "filedownloaded":"Fichier téléchargé avec succès."
     },
     "buddy": {
         "mentorprofile": "Profil du mentor",

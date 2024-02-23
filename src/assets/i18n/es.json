@@ -3082,7 +3082,8 @@
         "questionnairemandatoryfields":"Debes completar todo el cuestionario para continuar",
         "bookingcancel":"Su reserva ha sido cancelada con éxito.",
         "passwordnotmatch":"Las contraseñas no coinciden",
-        "passwordlength":"La contraseña debe tener al menos 8 caracteres"
+        "passwordlength":"La contraseña debe tener al menos 8 caracteres",
+        "filedownloaded":"Archivo descargado exitosamente."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",

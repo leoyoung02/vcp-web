@@ -3079,7 +3079,8 @@
         "questionnairemandatoryfields":"Cal omplir tot el qüestionari per continuar..",
         "bookingcancel":"La teva reserva s'ha cancel·lat correctament.",
         "passwordnotmatch":"Les contrasenyes no coincideixen",
-        "passwordlength":"La contrasenya ha de tenir com a mínim 8 caràcters"
+        "passwordlength":"La contrasenya ha de tenir com a mínim 8 caràcters",
+        "filedownloaded":"Fitxer baixat correctament."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",

@@ -3097,7 +3097,8 @@
         "questionnairemandatoryfields":"You need to fill out the entire questionnaire to proceed.",
         "bookingcancel":"Your booking has been succesfully cancelled.",
         "passwordnotmatch":"Passwords do not match",
-        "passwordlength":"Password must be at least 8 characters"
+        "passwordlength":"Password must be at least 8 characters",
+        "filedownloaded":"File downloaded succesfully."
     },
     "buddy": {
         "mentorprofile": "Mentor profile",
