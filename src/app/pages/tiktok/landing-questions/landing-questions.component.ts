@@ -169,8 +169,11 @@ export class TikTokLandingQuestionsComponent {
   }
 
   submit() {
-    const isNotEmpty = this.isValidForm()
-    if(isNotEmpty){
+    const isValid = this.isValidForm()
+      const emailQues = this.questionItems?.find(qi=>qi.id == 17)
+      const isEmailValid = this.emailValidator(emailQues?.answer?.trim())
+
+    if(isValid && isEmailValid){
       let whatsAppCommunityURL:string = "";
       let locAnsObj = this.questionItems?.find(qi => {
         return qi.title == 'Selecciona tu ubicación'
@@ -229,6 +232,21 @@ export class TikTokLandingQuestionsComponent {
       }
     }
   }
+
+  emailValidator(email) {
+      if(!email) return false
+      const emailRegEx = /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/
+      const isEmailValid = emailRegEx?.test(email)
+
+      if(!isEmailValid){
+        this.open(
+          this._translateService.instant("dialog.validemail"),
+          ""
+        );
+      }
+      return isEmailValid
+  }
+
 
   isValidForm() {
     let unanswered = this.questionItems?.filter(qi => {

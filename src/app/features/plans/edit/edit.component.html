@@ -109,22 +109,45 @@
                     placeholder="{{ 'club-create.title' | translate }}">
             </div>
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
-                <div class="flex items-center justify-center relative">
-                    <mat-form-field class="w-full datetime-picker-field" 
-                        [ngClass]="{'field-error': planForm.get('plan_date')?.errors }"
-                    >
-                        <input matInput [ngxMatDatetimePicker]="picker" placeholder="{{ 'plan-create.plandate' | translate }} {{pageName}}*" formControlName="plan_date">
-                        <ngx-mat-datepicker-toggle matSuffix [for]="picker"></ngx-mat-datepicker-toggle>
-                        <ngx-mat-datetime-picker #picker></ngx-mat-datetime-picker>
+                <div class="flex items-center justify-between relative plan-date">
+                    <mat-form-field class="w-full">
+                        <mat-label>{{ 'plan-create.plandate' | translate }} {{pageName}}</mat-label>
+                        <input matInput [matDatepicker]="picker" placeholder="{{ 'plan-create.plandate' | translate }} {{pageName}}" formControlName="plan_date">
+                        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker>
+                            <mat-datepicker-actions>
+                                <button mat-button matDatepickerCancel class="uppercase mr-8 text-cyan-400 mb-6 font-semibold">{{ 'settings.cancel' | translate }}</button>
+                                <button mat-raised-button color="primary" matDatepickerApply class="uppercase mr-8 text-cyan-400 mb-6 font-semibold">{{ 'company-settings.apply' | translate }}</button>
+                            </mat-datepicker-actions>
+                        </mat-datepicker>
                     </mat-form-field>
+                    <div class="ml-4">
+                        <input aria-label="HH:mm" [ngxTimepicker]="timepicker" 
+                            class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                            placeholder="hh:mm AM/PM" 
+                            formControlName="plan_date_hh">
+                        <ngx-material-timepicker #timepicker></ngx-material-timepicker>
+                   </div>
                 </div>
-                <div *ngIf="isPlanDurationActive">
-                    <mat-form-field class="w-full datetime-picker-field">
-                        <input matInput [ngxMatDatetimePicker]="picker1" placeholder="{{ 'plan-create.enddate' | translate }} {{pageName}}" 
-                        formControlName="end_date">
-                        <ngx-mat-datepicker-toggle matSuffix [for]="picker1"></ngx-mat-datepicker-toggle>
-                        <ngx-mat-datetime-picker #picker1></ngx-mat-datetime-picker>
+                <div *ngIf="isPlanDurationActive" class="flex items-center justify-between relative plan-date">
+                    <mat-form-field class="w-full">
+                        <mat-label>{{ 'plan-create.enddate' | translate }} {{pageName}}</mat-label>
+                        <input matInput [matDatepicker]="endpicker" placeholder="{{ 'plan-create.enddate' | translate }} {{pageName}}" formControlName="end_date">
+                        <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
+                        <mat-datepicker #endpicker>
+                            <mat-datepicker-actions>
+                                <button mat-button matDatepickerCancel class="uppercase mr-8 text-cyan-400 mb-6 font-semibold">{{ 'settings.cancel' | translate }}</button>
+                                <button mat-raised-button color="primary" matDatepickerApply class="uppercase mr-8 text-cyan-400 mb-6 font-semibold">{{ 'company-settings.apply' | translate }}</button>
+                            </mat-datepicker-actions>
+                        </mat-datepicker>
                     </mat-form-field>
+                    <div class="ml-4">
+                        <input aria-label="HH:mm" [ngxTimepicker]="endtimepicker" 
+                            class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                            placeholder="hh:mm AM/PM" 
+                            formControlName="end_date_hh">
+                        <ngx-material-timepicker #endtimepicker></ngx-material-timepicker>
+                   </div>
                 </div>
                 <ng-container *ngIf="types?.length > 0">
                     <div class="flex items-center justify-center relative">

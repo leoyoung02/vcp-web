@@ -3079,7 +3079,9 @@
         "questionnairemandatoryfields":"Cal omplir tot el qüestionari per continuar..",
         "bookingcancel":"La teva reserva s'ha cancel·lat correctament.",
         "passwordnotmatch":"Les contrasenyes no coincideixen",
-        "passwordlength":"La contrasenya ha de tenir com a mínim 8 caràcters"
+        "passwordlength":"La contrasenya ha de tenir com a mínim 8 caràcters",
+        "validemail":"Proporcioneu un correu electrònic vàlid.",
+        "filedownloaded":"Fitxer baixat correctament."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",
@@ -3216,7 +3218,8 @@
         "validtoken":"Proporcioneu un testimoni vàlid per continuar",
         "notsetupaccount":"Aquest perfil de tutor no està configurat correctament.",
         "correctcalendlycredntials":"Comproveu les vostres credencials de calendari per continuar.",
-        "perhourrate":"comissió per hora de tutoria."
+        "perhourrate":"comissió per hora de tutoria.",
+        "pendingtutorials":"Tens tutorials pendents per marcar com a complet."
     },
     "general-details": {
         "name" : "Nom",
