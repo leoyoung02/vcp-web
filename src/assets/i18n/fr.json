@@ -3067,7 +3067,9 @@
         "questionnairemandatoryfields":"Vous devez remplir l’intégralité du questionnaire pour continuer.",
         "bookingcancel":"Votre réservation a été annulée avec succès.",
         "passwordnotmatch":"Les mots de passe ne correspondent pas",
-        "passwordlength":"Mot de passe doit être d'au moins 8 caractères"
+        "passwordlength":"Mot de passe doit être d'au moins 8 caractères",
+        "validemail":"Veuillez fournir un e-mail valide.",
+        "filedownloaded":"Fichier téléchargé avec succès."
     },
     "buddy": {
         "mentorprofile": "Profil du mentor",
@@ -3204,7 +3206,8 @@
         "validtoken":"Veuillez fournir un jeton valide pour continuer",
         "notsetupaccount":"Ce profl de tuteur n'est pas correctement configuré.",
         "correctcalendlycredntials":"Veuillez vérifier vos informations d'identification Calendly pour continuer.",
-        "perhourrate":"commission par heure de tutorat."
+        "perhourrate":"commission par heure de tutorat.",
+        "pendingtutorials":"Vous avez des tutoriels en attente à marquer comme terminés."
     },
     "general-details": {
         "name" : "Nom",

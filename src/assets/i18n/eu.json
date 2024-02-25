@@ -3073,7 +3073,9 @@
         "questionnairemandatoryfields":"Jarraitzeko, galdetegi osoa bete behar duzu.",
         "bookingcancel":"Zure erreserba behar bezala bertan behera utzi da.",
         "passwordnotmatch":"Pasahitzak ez datoz bat",
-        "passwordlength":"Pasahitzak 8 karaktere izan behar ditu gutxienez"
+        "passwordlength":"Pasahitzak 8 karaktere izan behar ditu gutxienez",
+        "validemail":"Mesedez, eman baliozko posta elektroniko bat.",
+        "filedownloaded":"Fitxategia ondo deskargatu da."
     },
     "buddy": {
         "mentorprofile": "Tutorearen profila",
@@ -3210,7 +3212,8 @@
         "validtoken":"Mesedez, eman baliozko token bat aurrera egiteko",
         "notsetupaccount":"Tutore-profil hau ez dago behar bezala konfiguratuta.",
         "correctcalendlycredntials":"Mesedez, egiaztatu zure calendly kredentzialak aurrera egiteko.",
-        "perhourrate":"tutoretza ordu bakoitzeko komisioa."
+        "perhourrate":"tutoretza ordu bakoitzeko komisioa.",
+        "pendingtutorials":"Osatuta markatzeko zain dauden tutorialak dituzu."
     },
     "general-details": {
         "name" : "Izena",

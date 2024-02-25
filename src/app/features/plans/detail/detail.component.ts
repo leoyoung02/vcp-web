@@ -2642,6 +2642,133 @@ export class PlanDetailComponent {
     }
   }
 
+  linkAction(action, id = null) {
+    this.aliasId = id
+    
+    if (
+      this.newLink
+      && action === 'add'
+    ) {
+      let match = this.additionalInvitationLinks.some(a => a.link === this.newLink);
+
+      if (!match) {
+        let payload = {
+          user_id: this.userId,
+          alias: this.newLink,
+        }
+
+        this._plansService.addAdditionalAlias(payload)
+        .subscribe(
+          (data: any) => {
+            let aliases = data.alias;
+            if (aliases) {
+              this.additionalInvitationLinks = [];
+              aliases.forEach(data => {
+                const { alias, id } = data
+                this.additionalInvitationLinks.push({
+                  link: alias,
+                  aliasId: id,
+                  isEditLink: false
+                })
+              });
+            }
+            this.newLink = '';
+            this.isAddNewLink = false;
+          },
+          error => {
+        });
+      }
+    }
+
+    if (
+      this.editLink
+      && action === 'edit'
+    ) {
+      let match = this.additionalInvitationLinks.some(a => a.link === this.editLink);
+
+      if (!match) {
+        let payload = {
+          user_id: this.userId,
+          alias: this.editLink,
+        }
+
+        this._plansService.editAlias(payload, this.aliasId)
+        .subscribe(
+            (data: any) => {
+              let aliases = data.alias;
+              if (aliases) {
+                this.additionalInvitationLinks = [];
+
+                aliases.forEach(data => {
+                  const { alias, id } = data
+                  this.additionalInvitationLinks.push({
+                    link: alias,
+                    aliasId: id,
+                    isEditLink: false
+                  })
+                });
+              }
+              this.editLink = '';
+            },
+            error => {
+
+            });
+      }
+    }
+
+    if (action === 'delete') {
+      let payload = {
+        user_id: this.userId
+      }
+
+      this._plansService.deleteAlias(payload, this.aliasId)
+        .subscribe(
+          (data: any) => {
+            let aliases = data.alias;
+            if (aliases) {
+              this.additionalInvitationLinks = [];
+
+              aliases.forEach(data => {
+                const { alias, id } = data
+
+                this.additionalInvitationLinks.push({
+                  link: alias,
+                  aliasId: id,
+                  isEditLink: false
+                })
+              });
+            }
+          },
+          error => {
+
+          });
+
+    }
+  }
+
+  showEditLink(action, id = null) {
+    this.additionalInvitationLinks.map(data => {
+      if ( action === 'show' ) {
+        if(data.aliasId == id) {
+          this.editLink = data.link
+        }
+        return data.isEditLink = data.aliasId === id
+      }
+          
+      return data.isEditLink = false
+    })
+    
+    
+
+    if ( action === 'hide' ) {
+      this.editLink = '';
+    }
+  }
+
+  hideAdd() {
+    this.isAddNewLink = false;
+  } 
+
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();

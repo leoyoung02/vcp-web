@@ -50,6 +50,9 @@ import {
 } from "@angular-material-components/datetime-picker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import moment from "moment";
 import get from "lodash/get";
 
@@ -75,6 +78,10 @@ import get from "lodash/get";
     MatFormFieldModule,
     MatInputModule,
     ToastComponent,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    NgxMaterialTimepickerModule,
   ],
   templateUrl: "./edit.component.html",
 })
@@ -1374,6 +1381,7 @@ export class PlanEditComponent {
           .toString() + ":00Z"
       ).replace(" ", "T");
       this.planForm.controls["plan_date"].setValue(pd);
+      this.planForm.controls["plan_date_hh"].setValue(plan_date?.split('T')[1]?.replace(':00.000Z', ''));
     }
     if (end_date) {
       let timezoneOffset = new Date().getTimezoneOffset();
@@ -1385,6 +1393,7 @@ export class PlanEditComponent {
           .toString() + ":00Z"
       ).replace(" ", "T");
       this.planForm.controls["end_date"].setValue(pd);
+      this.planForm.controls["end_date_hh"].setValue(end_date?.split('T')[1]?.replace(':00.000Z', ''));
     }
     this.planForm.controls["title_es"].setValue(title);
     this.planForm.controls["title_en"].setValue(title_en);
@@ -1846,9 +1855,9 @@ export class PlanEditComponent {
     let start_date = moment(this.planForm.get("plan_date")?.value).format(
       "YYYY-MM-DD"
     );
-    let start_time = moment(this.planForm.get("plan_date")?.value).format(
-      "HH:mm"
-    );
+    let start_time_value = this.planForm.get("plan_date_hh")?.value;
+    let start_time = moment(start_time_value,'h:mm a').format('HH:mm');
+
     start_date = start_date + " " + start_time;
 
     let start_date_time = new Date(start_date).getTime();
@@ -1875,9 +1884,8 @@ export class PlanEditComponent {
       let end_date = moment(this.planForm.get("end_date")?.value).format(
         "YYYY-MM-DD"
       );
-      let end_time = moment(this.planForm.get("end_date")?.value).format(
-        "HH:mm"
-      );
+      let end_time_value = this.planForm.get("end_date_hh")?.value;
+      let end_time = moment(end_time_value,'h:mm a').format('HH:mm');
       end_date = end_date + " " + end_time;
       this.endDate = end_date;
 

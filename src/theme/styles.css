@@ -948,3 +948,7 @@ div.event-description a {
     border-radius: 6px;
     background: linear-gradient(0deg, rgba(0, 0, 0, 0.3) 17.3%, rgba(0, 0, 0, 0.1) 35.67%, rgba(0, 0, 0, 0) 50%);
 }
+
+.plan-date .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}

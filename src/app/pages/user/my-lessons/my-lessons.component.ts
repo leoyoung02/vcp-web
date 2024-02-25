@@ -146,7 +146,8 @@ export class MyLessonsComponent {
     searchKeyword: any;
     isRoleCompanion:any
     potsuperTutor:any;
-    potTutor:any
+    potTutor:any;
+    showPendingLessonAlert:boolean = false;
 
     constructor(
         private _route: ActivatedRoute,
@@ -181,6 +182,7 @@ export class MyLessonsComponent {
             this.primaryColor = company[0].primary_color
             this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color
         }
+
         this.initializeSearch();
         this.initializePage();
     }
@@ -405,6 +407,25 @@ export class MyLessonsComponent {
 
                 this.bookings = user_bookings
                 this.allBookings = this.bookings
+
+                if(this.allBookings?.length > 0){
+                    const bookings = this.allBookings && this.allBookings?.filter(booking => {
+                        let include = false
+                        if(booking.completed != 1 && booking?.cancelled != 1) {
+                            if (moment().isSame(moment(booking?.booking_date + ' ' + booking?.booking_start_time), 'day') && moment().isAfter(moment(booking?.booking_date + ' ' + booking?.booking_start_time).add(1, 'minute'))) {
+                                include = true
+                            }
+                        }
+                        if(booking.completed == 1 && booking.transfer_status == 0 && (this.superAdmin || this.isTutorUser)){
+                            include = true
+                        }
+        
+                        return include
+                    })
+                    if(bookings?.length > 0){
+                        this.showPendingLessonAlert = true
+                    }
+                }
                 this.isLoading = false
                 this.populateBookingsTable()
             
@@ -561,6 +582,7 @@ export class MyLessonsComponent {
                     if(moment(moment(booking.booking_date + ' ' + booking.booking_end_time).format('YYYY-MM-DD HH:mm:ss')).isSameOrAfter(moment().format('YYYY-MM-DD HH:mm:ss'))) {
                         include = true
                     }
+
                 }
 
                 return include
@@ -569,7 +591,11 @@ export class MyLessonsComponent {
             bookings = bookings && bookings.filter(booking => {
                 let include = false
                 if(booking.completed != 1 && booking?.cancelled != 1) {
-                    if(moment(moment(booking.booking_date + ' ' + booking.booking_end_time).format('YYYY-MM-DD HH:mm:ss')).isBefore(moment().format('YYYY-MM-DD HH:mm:ss'))) {
+                    if (moment().isSame(moment(booking?.booking_date + ' ' + booking?.booking_start_time), 'day') && moment().isAfter(moment(booking?.booking_date + ' ' + booking?.booking_start_time).add(1, 'minute'))) {
+                        include = true
+                    }
+
+                    if(moment(moment(booking.booking_date + ' ' + booking.booking_end_time).format('YYYY-MM-DD HH:mm:ss')).isBefore(moment().format('YYYY-MM-DD HH:mm:ss'))){
                         include = true
                     }
                 }
@@ -640,7 +666,6 @@ export class MyLessonsComponent {
     isBookingActionRequired(booking) {
         let action_required_bookings = this.allBookings && this.allBookings.filter(bk => {
             let include = false
-            
             if(moment(moment(booking.booking_date + ' ' + booking.booking_end_time).format('YYYY-MM-DD HH:mm:ss')).isBefore(moment().format('YYYY-MM-DD HH:mm:ss'))) {
                 include = true
             }

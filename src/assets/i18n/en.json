@@ -3101,7 +3101,9 @@
         "questionnairemandatoryfields":"You need to fill out the entire questionnaire to proceed.",
         "bookingcancel":"Your booking has been succesfully cancelled.",
         "passwordnotmatch":"Passwords do not match",
-        "passwordlength":"Password must be at least 8 characters"
+        "passwordlength":"Password must be at least 8 characters",
+        "validemail":"Please provide a valid email.",
+        "filedownloaded":"File downloaded succesfully."
     },
     "buddy": {
         "mentorprofile": "Mentor profile",
@@ -3246,7 +3248,8 @@
         "validtoken":"Please provide a valid token to proceed",
         "notsetupaccount":"This tutor profle is not prpoerly setup.",
         "correctcalendlycredntials":"Please check your calendly credentials to proceed.",
-        "perhourrate":"commission per hour of tutoring."
+        "perhourrate":"commission per hour of tutoring.",
+        "pendingtutorials":"You have pending tutorials to mark complete."
     },
     "general-details": {
         "name" : "Name",
