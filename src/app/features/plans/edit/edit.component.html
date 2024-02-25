@@ -111,8 +111,8 @@
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
                 <div class="flex items-center justify-between relative plan-date">
                     <mat-form-field class="w-full">
-                        <mat-label>{{ 'plan-create.plandate' | translate }} {{pageName}}</mat-label>
-                        <input matInput [matDatepicker]="picker" placeholder="{{ 'plan-create.plandate' | translate }} {{pageName}}" formControlName="plan_date">
+                        <mat-label>{{ 'landing.date' | translate }}</mat-label>
+                        <input matInput [matDatepicker]="picker" placeholder="{{ 'landing.date' | translate }}" formControlName="plan_date">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker>
                             <mat-datepicker-actions>
@@ -131,8 +131,8 @@
                 </div>
                 <div *ngIf="isPlanDurationActive" class="flex items-center justify-between relative plan-date">
                     <mat-form-field class="w-full">
-                        <mat-label>{{ 'plan-create.enddate' | translate }} {{pageName}}</mat-label>
-                        <input matInput [matDatepicker]="endpicker" placeholder="{{ 'plan-create.enddate' | translate }} {{pageName}}" formControlName="end_date">
+                        <mat-label>{{ 'plan-create.enddate' | translate }}</mat-label>
+                        <input matInput [matDatepicker]="endpicker" placeholder="{{ 'plan-create.enddate' | translate }}" formControlName="end_date">
                         <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
                         <mat-datepicker #endpicker>
                             <mat-datepicker-actions>

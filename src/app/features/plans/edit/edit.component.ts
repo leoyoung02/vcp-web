@@ -2328,7 +2328,7 @@ export class PlanEditComponent {
         this.initialPlan?.zoom_link != this.currentPlan?.zoom_link ||
         this.initialPlan?.zoom_link_text != this.currentPlan?.zoom_link_text ||
         this.initialPlan?.plan_date != this.currentPlan?.plan_date ||
-        this.initialPlan?.end_date != this.currentPlan?.end_date
+        (this.initialPlan?.end_date && this.currentPlan?.end_date?.indexOf('undefined') < 0 && this.initialPlan?.end_date != this.currentPlan?.end_date)
       ) {
         changed = true;
         this.setDetailsChanged();
@@ -2353,7 +2353,7 @@ export class PlanEditComponent {
       changedDetails.push(this._translateService.instant('your-admin-area.date'));
     }
 
-    if(this.initialPlan?.end_date != this.currentPlan?.end_date) {
+    if(this.initialPlan?.end_date && this.currentPlan?.end_date?.indexOf('undefined') < 0 && this.initialPlan?.end_date != this.currentPlan?.end_date) {
       changedDetails.push(this._translateService.instant('plan-create.enddate'));
     }
 
