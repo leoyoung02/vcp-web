@@ -12,7 +12,7 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import { CompanyService, LocalService } from "@share/services";
+import { CompanyService, ExcelService, LocalService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { SearchComponent } from "@share/components/search/search.component";
 import { TutorsService } from "@features/services";
@@ -65,7 +65,6 @@ export class CommissionsAdminListComponent {
   @Input() superAdmin: any;
   @Input() status: any;
   @Input() language: any;
-
   languageChangeSubscription;
   isMobile: boolean = false;
   searchText: any;
@@ -103,7 +102,6 @@ export class CommissionsAdminListComponent {
     end: new FormControl(),
   });
   actionMode: string = '';
-
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -111,7 +109,8 @@ export class CommissionsAdminListComponent {
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _companyService: CompanyService,
-    private _tutorsService: TutorsService
+    private _tutorsService: TutorsService,
+    private _excelService: ExcelService
   ) {}
 
   @HostListener("window:resize", [])
@@ -126,18 +125,15 @@ export class CommissionsAdminListComponent {
       this.loadCommissions(this.allCommissionsData);
     }
   }
-
   async ngOnInit() {
     this.onResize();
-
     this.languageChangeSubscription =
-      this._translateService.onLangChange.subscribe(
-        (event: LangChangeEvent) => {
-          this.language = event.lang;
-          this.initializePage();
-        }
+    this._translateService.onLangChange.subscribe(
+      (event: LangChangeEvent) => {
+        this.language = event.lang;
+        this.initializePage();
+      }
       );
-
     this.initializePage();
   }
 
@@ -426,6 +422,45 @@ export class CommissionsAdminListComponent {
         }
       )
     }
+  }
+
+
+
+  downloadExcel() {
+      let event_data: any[] = [];
+      console.log(this.commissionsData)
+
+      if(this.commissionsData?.length > 0){
+        this.commissionsData?.forEach(booking => {
+            event_data.push({
+              'Fecha para registrarse':booking.booking_date,
+              'Alumno':booking.student_name,
+              'Tutor':booking.tutor_name,
+              'Curso':booking.course_title,
+              'Comisión':booking.commission,
+            })
+        });
+
+
+      if(this.status == "Completed") {
+        this._excelService.exportAsExcelFile(event_data, 'paid_commission_' + this.getTimestamp());
+      }
+      
+      if(this.status != "Completed") {
+        this._excelService.exportAsExcelFile(event_data, 'pending_commission' + this.getTimestamp());
+      }
+
+
+      this.open(this._translateService.instant("dialog.filedownloaded"), "");
+      }
+  }
+
+
+  public getTimestamp() {
+    const date = new Date();
+    const timestamp = date.getTime();
+
+    return timestamp;
   }
 
   async open(message: string, action: string) {

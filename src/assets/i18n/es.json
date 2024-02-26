@@ -3082,7 +3082,9 @@
         "questionnairemandatoryfields":"Debes completar todo el cuestionario para continuar",
         "bookingcancel":"Su reserva ha sido cancelada con éxito.",
         "passwordnotmatch":"Las contraseñas no coinciden",
-        "passwordlength":"La contraseña debe tener al menos 8 caracteres"
+        "passwordlength":"La contraseña debe tener al menos 8 caracteres",
+        "validemail":"Por favor proporcione un correo electrónico válido.",
+        "filedownloaded":"Archivo descargado exitosamente."
     },
     "buddy": {
         "mentorprofile": "Perfil del mentor",
@@ -3227,7 +3229,8 @@
         "validtoken":"Proporcione un token válido para continuar",
         "notsetupaccount":"Este tutor profle no está configurado previamente.",
         "correctcalendlycredntials":"Verifique sus credenciales de calendario para continuar.",
-        "perhourrate":"Comisión por hora de tutoría."
+        "perhourrate":"Comisión por hora de tutoría.",
+        "pendingtutorials":"Tienes tutoriales pendientes para marcar como completos."
     },
     "general-details": {
         "name" : "Nombre",
