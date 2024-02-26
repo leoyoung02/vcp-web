@@ -3219,7 +3219,8 @@
         "notsetupaccount":"Aquest perfil de tutor no està configurat correctament.",
         "correctcalendlycredntials":"Comproveu les vostres credencials de calendari per continuar.",
         "perhourrate":"comissió per hora de tutoria.",
-        "pendingtutorials":"Tens tutorials pendents per marcar com a complet."
+        "pendingtutorials":"Tens tutorials pendents per marcar com a complet.",
+        "configurestripeaccount":"No es poden programar reserves fins que el tutor no configure el seu compte Stripe."
     },
     "general-details": {
         "name" : "Nom",

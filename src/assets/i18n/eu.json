@@ -3209,7 +3209,8 @@
         "notsetupaccount":"Tutore-profil hau ez dago behar bezala konfiguratuta.",
         "correctcalendlycredntials":"Mesedez, egiaztatu zure calendly kredentzialak aurrera egiteko.",
         "perhourrate":"tutoretza ordu bakoitzeko komisioa.",
-        "pendingtutorials":"Osatuta markatzeko zain dauden tutorialak dituzu."
+        "pendingtutorials":"Osatuta markatzeko zain dauden tutorialak dituzu.",
+        "configurestripeaccount":"Ezin dira erreserbarik antolatu tutoreak Stripe kontua konfiguratu arte."
     },
     "general-details": {
         "name" : "Izena",

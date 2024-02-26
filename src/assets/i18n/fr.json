@@ -3203,7 +3203,8 @@
         "notsetupaccount":"Ce profl de tuteur n'est pas correctement configuré.",
         "correctcalendlycredntials":"Veuillez vérifier vos informations d'identification Calendly pour continuer.",
         "perhourrate":"commission par heure de tutorat.",
-        "pendingtutorials":"Vous avez des tutoriels en attente à marquer comme terminés."
+        "pendingtutorials":"Vous avez des tutoriels en attente à marquer comme terminés.",
+        "configurestripeaccount":"Impossible de planifier des réservations tant que le tuteur n'a pas configuré son compte Stripe."
     },
     "general-details": {
         "name" : "Nom",
