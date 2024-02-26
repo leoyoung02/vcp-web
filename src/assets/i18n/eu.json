@@ -3372,7 +3372,8 @@
         "gallery": "Galeria",
         "socialmedia": "Sare sozialen URLa",
         "author": "Egilea",
-        "uploadcover": "Kargatu Azala"
+        "uploadcover": "Kargatu Azala",
+        "covernote":"Kargatu testigantzaren azalerako irudia edo bideoa. Kargatu testigantzaren azalerako irudia edo bideoa"
     },
     "contract": {
         "review": "Berrikusi zehaztapenak eta baldintzak",

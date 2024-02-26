@@ -3382,7 +3382,8 @@
         "gallery": "Galeria",
         "socialmedia": "URL de xarxes socials",
         "author": "Autor",
-        "uploadcover": "Carrega la portada"
+        "uploadcover": "Carrega la portada",
+        "covernote":"Carregueu la imatge o el vídeo per a la portada del testimoni. Pengeu la imatge o el vídeo per a la portada del testimoni"
     },
     "contract": {
         "review": "Revisa els termes i condicions",

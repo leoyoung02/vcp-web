@@ -71,8 +71,8 @@
         </div>
         <div *ngIf="!isCoverImage">
             <video [src]="video"
-            class="border object-cover rounded-t-lg h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] w-full md:rounded-none md:rounded-l-lg"
-                width="192" height="256"
+            class="border object-cover rounded-t-lg h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] w-[200px] md:rounded-none md:rounded-l-lg"
+                [ngStyle]="{'border-color': '#F8F4F4', 'max-width': '338px'}"
             ></video>
         </div>
 

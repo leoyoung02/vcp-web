@@ -3408,7 +3408,8 @@
         "gallery": "Gallery",
         "socialmedia": "Social Media URL",
         "author": "Author",
-        "uploadcover": "Upload Cover"
+        "uploadcover": "Upload Cover",
+        "covernote":"Upload image or video for the testimonial cover"
     },
     "contract": {
         "review": "Review terms and conditions",
