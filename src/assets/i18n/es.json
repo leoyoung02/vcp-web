@@ -2653,7 +2653,6 @@
         "for": "por",
         "taxesnotincluded": "(Impuestos no incluidos)",
         "taxesincluded":"(Impuestos incluidos)"
-
     },
     "inquiry": {
         "settings": "Configuraciones",
@@ -3310,7 +3309,7 @@
         "notconfigured": "No configurada",
         "configurenote": "Configure el ID de cuenta de Stripe Connect en su perfil",
         "commission": "Comisiones",
-         "notconnected": "No estás asignado como tutor a ningún curso."
+        "notconnected": "No estás asignado como tutor a ningún curso."
     },
     "timeunits": {
         "minutes": "minutos",

@@ -211,7 +211,7 @@ export class PersonalizeHomeComponent {
   ) {}
 
   async ngOnInit() {
-    this.language = this._localService.getLocalStorage(environment.lslanguage) || "es";
+    this.language = this._localService.getLocalStorage(environment.lslang) || "es";
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.user = this._localService.getLocalStorage(environment.lsuser);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
@@ -271,6 +271,7 @@ export class PersonalizeHomeComponent {
   }
 
   initializeTemplates() {
+    this.homeTemplates = [];
     this.homeTemplates.push(
       {
         id: 1,
@@ -349,6 +350,7 @@ export class PersonalizeHomeComponent {
   }
 
   getCustomMemberTypes(member_types) {
+    this.profileHomeContent = [];
     this.customMemberType = member_types;
     this.profileHomeContent.push({
       id: 0,
@@ -580,6 +582,7 @@ export class PersonalizeHomeComponent {
   }
 
   initializeVideoTutorials(settings) {
+    this.playlist = []
     if(settings?.videos?.length > 0) {
       settings?.videos.forEach(video => {
         this.playlist.push({
