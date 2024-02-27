@@ -120,7 +120,7 @@
     </main>
 </div>
 <app-toast 
-    *ngIf="newUpdatesAvailable" 
+    *ngIf="newUpdatesAvailable && companyId !== 52" 
     [company]="company" 
     [update]="true" 
     [confirm]="false"
