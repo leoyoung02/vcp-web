@@ -618,17 +618,19 @@ export class TestimonialEditComponent {
     this.imageChangedEvent = event;
     const file = event?.target?.files[0];
 
-    if(file && file.type == 'video/mp4'){
-      this.isCoverImage =  false
+    if(file && file.type.includes('video') && ( file.type == 'video/mp4' ||  file.type == 'video/webm'  || file.type == 'video/quicktime' )){
       const formData = new FormData();
       let fileExtension = file ? file.name.split('.').pop() : '';
       let timestamp = this.getTimestamp()
       this.coverVideo = 'testimonial_' + this.userId + '_' + timestamp + '.' + fileExtension;
       
+      this.isCoverImage =  false
+      this.isVideoFormatRight = true
       this.videoSrc = URL.createObjectURL(file);
+
       if(this.coverVideo){
-        localStorage.setItem('cover_video', this.coverVideo);
         this.isCoverImage = false
+        localStorage.setItem('cover_video', this.coverVideo);
         formData.append('file', file, this.coverVideo);
   
         this._testimonialsService
@@ -642,11 +644,14 @@ export class TestimonialEditComponent {
           }
         );
       }
-    }else if(file.type !== 'video/mp4'&& file.type.includes('video')){
+    }
+    else if(!file.type.includes('image') && !(file.type.includes('video') && ( file.type == 'video/mp4' ||  file.type == 'video/webm'  || file.type == 'video/quicktime' ))){
+      this.imgSrc = ""
+      this.videoSrc = "";
       this.isVideoFormatRight = false
-    }else{
-      if (file?.size > 2000000) {
-      } else {
+    }
+    else{
+      if (file?.size < 2000000) {
         initFlowbite();
         setTimeout(() => {
           this.modalbutton?.nativeElement.click();
@@ -660,6 +665,7 @@ export class TestimonialEditComponent {
   imageCropped(event: ImageCroppedEvent) {
     if (event.base64) {
       this.isCoverImage =  true
+      this.isVideoFormatRight = true
       this.imgSrc = this.croppedImage = event.base64;
       this.file = {
         name: "image",
@@ -730,6 +736,7 @@ export class TestimonialEditComponent {
       formData.append("social_media_url", social_media_url);
       formData.append("company_id", this.companyId.toString());
       formData.append("testimonial_course_id", this.course);
+      formData.append("video", this.coverVideo);
       
       if(this.tag?.length > 0){
         formData.append("tag_id", JSON.stringify(this.tag));
