@@ -402,7 +402,7 @@ export class TutorDetailComponent {
     if(this.isValidCalenldyAccount && this.tutorAccountIds?.length > 0){
       const custom_member_id =  this.user?.custom_member_type_id
       const canBook =  this.tutorAccountIds?.some(tutor=> tutor?.role_id == custom_member_id && tutor.stripe_connect == true)
-      this.canStudentBook = false
+      this.canStudentBook = canBook
     }else{
       this.canStudentBook = false
     }
