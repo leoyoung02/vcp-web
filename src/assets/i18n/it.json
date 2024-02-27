@@ -475,7 +475,7 @@
         "cancel": "Annulla",
         "resizeyourimage": "Ridimensiona la tua immagine"
     },
-    "notizia": {
+    "news": {
         "all": "Tutto",
         "thenewest": "Il più recente",
         "nonews": "Nessuna notizia trovata per ",
@@ -1970,7 +1970,7 @@
         "cities": "Città",
         "usersandcontrol": "Utenti e controllo",
         "modules": "Moduli",
-        "personalizzazione": "Personalizzazione",
+        "personalization": "Personalizzazione",
         "companydetails": "Dettagli azienda",
         "globalconfiguration": "Configurazione globale",
         "sectionconfiguration": "Sezione di configurazione",
