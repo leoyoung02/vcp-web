@@ -966,7 +966,8 @@ export class PlanDetailComponent {
     this.zoomLink = this.plan.zoom_link;
 
     this.planParticipants = plan?.plan_participants;
-    this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+    // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+    this.limitPlanParticipants = this.planParticipants;
     if (this.plan?.event_category_id > 0) {
       if(this.categories?.length > 0) {
         this.categories.forEach(category => {
@@ -1572,7 +1573,8 @@ export class PlanDetailComponent {
         (response) => {
           this.plan = response.CompanyPlan;
           this.planParticipants = this.plan.CompanyPlanParticipants;
-          this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+          // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+          this.limitPlanParticipants = this.planParticipants;
           this.planParticipantCount = this.plan.CompanyPlanParticipants.length;
           this.joinedParticipant = this.isUserJoined(
             this.plan.CompanyPlanParticipants
@@ -1640,12 +1642,10 @@ export class PlanDetailComponent {
         (response) => {
           this.plan = response.CompanyGroupPlan;
           this.planParticipants = this.plan.Company_Group_Plan_Participants;
-          this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
-          this.planParticipantCount =
-            this.plan.Company_Group_Plan_Participants.length;
-          this.joinedParticipant = this.isUserJoined(
-            this.plan.Company_Group_Plan_Participants
-          );
+          // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+          this.limitPlanParticipants = this.planParticipants;
+          this.planParticipantCount = this.plan.Company_Group_Plan_Participants.length;
+          this.joinedParticipant = this.isUserJoined(this.plan.Company_Group_Plan_Participants);
           this.onSubmit = false;
         },
         (error) => {
@@ -1676,7 +1676,8 @@ export class PlanDetailComponent {
           });
         }
         this.planParticipants = plan_participants;
-        this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+        // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+        this.limitPlanParticipants = this.planParticipants;
         this.planParticipantCount = this.planParticipants?.length;
         this.joinedParticipant = this.isUserJoined(this.planParticipants);
         this.onSubmit = false;
@@ -1710,7 +1711,8 @@ export class PlanDetailComponent {
           });
         }
         this.planParticipants = plan_participants;
-        this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+        // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+        this.limitPlanParticipants = this.planParticipants;
         this.planParticipantCount = this.planParticipants?.length;
         this.joinedParticipant = this.isUserJoined(this.planParticipants);
         this.onSubmit = false;
