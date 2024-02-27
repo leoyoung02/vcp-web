@@ -323,6 +323,14 @@ export class LayoutMainComponent {
     if(this.companyId == 12) {
       this.getNetculturaUsers();
     }
+    
+    if(this.newUpdatesAvailable && this.companyId == 52){
+      let newVersion = localStorage.getItem('new-version')?.toString();
+      if(newVersion) {
+          localStorage.setItem('version', newVersion);
+      }
+    }
+ 
   }
 
   getNetculturaUsers() {

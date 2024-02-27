@@ -170,10 +170,13 @@ export class TikTokLandingQuestionsComponent {
 
   submit() {
     const isValid = this.isValidForm()
-      const emailQues = this.questionItems?.find(qi=>qi.id == 17)
-      const isEmailValid = this.emailValidator(emailQues?.answer?.trim())
+    const emailQues = this.questionItems?.find(qi => qi?.title == 'Correo electrónico')
 
-    if(isValid && isEmailValid){
+    let validEmail = true
+    if(emailQues){
+      validEmail = this.emailValidator(emailQues?.answer?.trim())
+    }
+    if(isValid && validEmail){
       let whatsAppCommunityURL:string = "";
       let locAnsObj = this.questionItems?.find(qi => {
         return qi.title == 'Selecciona tu ubicación'
