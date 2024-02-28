@@ -94,6 +94,9 @@
                                 <th scope="col" class="px-2 py-1">
                                     {{ 'your-admin-area.email' | translate }}
                                 </th>
+                                <th scope="col" class="px-2 py-1">
+                                    {{ 'your-admin-area.invitedby' | translate }}
+                                </th>
                                 <th scope="col" class="px-2 py-1" *ngIf="status != 'salesprocess'">
                                     {{ 'your-admin-area.attendance' | translate }}
                                 </th>
@@ -117,13 +120,16 @@
                                     {{participant?.name}}
                                 </th>
                                 <td class="text-xs px-2 py-1 max-w-[60px]">
-                                    {{participant?.role}}
+                                    {{ participant?.role == 'Guest' ? ('plan-details.guest' | translate) : participant?.role }}
                                 </td>
                                 <td class="text-xs px-2 py-1 max-w-[50px]">
                                     {{ participant?.phone }}
                                 </td>
                                 <td class="text-xs px-2 py-1 max-w-[80px]">
                                     {{ participant?.email }}
+                                </td>
+                                <td class="text-xs px-2 py-1 max-w-[80px]">
+                                    {{ participant?.invited_by }}
                                 </td>
                                 <td class="text-xs px-2 py-1 flex items-center max-w-[80px]" *ngIf="status != 'salesprocess'">
                                     <ng-container>
