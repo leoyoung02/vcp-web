@@ -259,6 +259,8 @@ export class InvitesComponent {
         "guest_zip_code",
         "guest_email",
         "attended",
+        "sp_name",
+        "status",
       ];
     }
 
