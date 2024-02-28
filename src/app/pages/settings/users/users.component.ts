@@ -4973,14 +4973,33 @@ export class ManageUsersComponent {
         credits = course_credits[0].remaining_credits || course_credits[0].credits
       }
     }
-    
+
+    let totalCourseCredit = 0
+    if(this.courseCreditsList?.length > 0){
+      totalCourseCredit = this.courseCreditsList.reduce((result, value) => {
+        result = value?.credits + result;
+        return result;
+      }, 0);
+    }
+
     let match = this.courseCreditsList?.some(a => a.id === event.id)
     if(!match) {
-      this.courseCreditsList.push({
-        id: event.id,
-        title: event.title,
-        credits,
-      })
+      if(this.selectedUser?.custom_member_type_id !== 282 && event?.id == 131 && totalCourseCredit > 0){
+        this.courseCreditsList.push({
+          id: event.id,
+          title: event.title,
+          credits:0,
+        })
+
+      }else{
+        this.courseCreditsList.push({
+          id: event.id,
+          title: event.title,
+          credits,
+        })
+
+      }
+
     }
 
     if(this.courseCreditsList?.length == 0 && credits > 0) {
@@ -5002,14 +5021,33 @@ export class ManageUsersComponent {
         if(course?.length > 0) {
           credits = course[0].course_credits
         }
-        
+
+        let totalCourseCredit = 0
+        if(this.courseCreditsList?.length > 0){
+          totalCourseCredit = this.courseCreditsList.reduce((result, value) => {
+            result = value?.credits + result;
+            return result;
+          }, 0);
+        }
+
         let match = this.courseCreditsList.some(a => a.id === event.id)
         if(!match) {
-          this.courseCreditsList.push({
-            id: event.id,
-            title: event.title,
-            credits,
-          })
+
+          if(this.selectedUser?.custom_member_type_id !== 282 && event?.id == 131 && totalCourseCredit > 0){
+            this.courseCreditsList.push({
+              id: event.id,
+              title: event.title,
+              credits:0,
+            })
+    
+          }else{
+            this.courseCreditsList.push({
+              id: event.id,
+              title: event.title,
+              credits,
+            })
+
+          }
         }
       })
     }
