@@ -40,6 +40,7 @@ export class OfferCardComponent {
   @Input() image: any;
   @Input() buttonColor: any;
   @Input() page: any;
+  @Input() companyId: any;
 
   languageChangeSubscription;
   language: any;

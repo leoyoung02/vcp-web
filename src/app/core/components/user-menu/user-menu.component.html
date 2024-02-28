@@ -93,7 +93,7 @@
                             <div>CRM</div>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="hasAccess('plans') && company?.id == 12">
+                    <ng-container *ngIf="hasAccess('plans') && (company?.id == 12 || hasInvitations)">
                         <div class="hover:cursor-pointer flex capitalize pb-4 items-center" [routerLink]="['/users/invites']">
                             <div>
                                 <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
