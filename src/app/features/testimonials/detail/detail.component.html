@@ -72,7 +72,6 @@
                 <div class="text-sm whitespace-pre-wrap mb-6" 
                     [innerHtml]="testimonial?.short_description">
                 </div>
-                <!-- description -->
                 <div class="w-full max-w-full flex flex-col items-center justify-center py-6 pt-16 text-sm mb-6">
                     <div class="relative">
                         <svg *ngIf="testimonial?.description" class="absolute -top-16 w-12 h-12 rotate-180 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 14">
@@ -89,8 +88,6 @@
                         <img src="{{obj?.image}}" alt="" class="w-full h-[450px] object-cover">
                     </div>
                 </div>
-                
-
                 <div class="w-full max-w-full py-6 pt-16 text-sm overflow-y-auto max-h-[1000px] mb-6">
                     <div *ngFor="let obj of testimonialVideos" class="mb-6">
                          <video width="100%"  controls  [src]="obj.video">

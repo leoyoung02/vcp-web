@@ -69,10 +69,6 @@ export class TestimonialCardComponent {
           this.formatData();
         }
       );
-
-      console.log('isCoverImage: ', this.isCoverImage);
-      console.log('video: ', this.video);
-      console.log('image: ', this.image);
     this.formatAuthorName();
 
   }

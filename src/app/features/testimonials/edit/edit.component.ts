@@ -709,6 +709,9 @@ export class TestimonialEditComponent {
 
   // save testimonial
   saveTestimonial() {
+
+    const isTestimonialCoverExsist = (this.imgSrc || this.coverVideo) ? true : false 
+
     this.errorMessage = "";
     this.formSubmitted = true;
     let author = this.testimonialForm.get("author")?.value;
@@ -717,7 +720,7 @@ export class TestimonialEditComponent {
       this.testimonialForm?.get('short_description')?.errors
       || this.testimonialForm?.get('description')?.errors
       || !this.isAuthorExsist
-      || !this.course
+      || !isTestimonialCoverExsist
     ) {
       this.scrollToTop();
       return false;
@@ -735,9 +738,12 @@ export class TestimonialEditComponent {
       formData.append("author", author);
       formData.append("social_media_url", social_media_url);
       formData.append("company_id", this.companyId.toString());
-      formData.append("testimonial_course_id", this.course);
       formData.append("video", this.coverVideo);
       
+
+      const testimonial_course_id = this.course ? this.course : 0 
+      formData.append("testimonial_course_id", testimonial_course_id);
+
       if(this.tag?.length > 0){
         formData.append("tag_id", JSON.stringify(this.tag));
       }else{
