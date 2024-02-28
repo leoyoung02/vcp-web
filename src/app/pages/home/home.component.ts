@@ -536,7 +536,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     .getHomeSectionsData(this.companyId, this.userId, pageNo, this.isUESchoolOfLife)
     .subscribe(
       response => {
-        console.log(response)
         this.mapSubfeatures(response?.subfeatures);
         this.clubCategories = response.club_categories;
         this.clubCategoryMapping = response.club_category_mapping;
@@ -587,32 +586,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         })
       })
     }
-
-    // if(temp_sections_list?.length > 0) {
-    //   let plans = temp_sections_list?.filter(t => {
-    //     return t.object_type == 'plan'
-    //   })
-    //   let clubs = temp_sections_list?.filter(t => {
-    //     return t.object_type == 'club'
-    //   })
-    //   let courses = temp_sections_list?.filter(t => {
-    //     return t.object_type == 'course'
-    //   })
-    //   for(var i = 0;i < temp_sections_list?.length - 1;i++) {
-    //     if(plans?.length > 0 && i < plans?.length && i == 0, i == 5, i == 6) {
-    //       this.sectionsList.push(plans[i])
-    //     }
-    //     if(clubs?.length > 0 && i < clubs?.length) {
-    //       this.sectionsList.push(clubs[i])
-    //     }
-    //     if(courses?.length > 0 && i < courses?.length) {
-    //       this.sectionsList.push(courses[i])
-    //     }
-    //   }
-    // }
     this.sectionsList = temp_sections_list;
-
-    console.log(this.sectionsList)
     this.cd.detectChanges();
   }
 

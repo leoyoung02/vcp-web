@@ -77,8 +77,6 @@ export class InvitesComponent {
         "guest_zip_code",
         "guest_email",
         "attended",
-        "sp_name",
-        "status",
     ];
     @ViewChild(MatPaginator, { static: false }) paginator:
         | MatPaginator
@@ -246,6 +244,22 @@ export class InvitesComponent {
       this.hasCRM = other_settings.some(
         (a) => a.title_en == "CRM" && a.active == 1
       );
+    }
+
+    if(this.hasCRM) {
+      this.displayedColumns = [
+        "plan_title",
+        "plan_date",
+        "category",
+        "subcategory",
+        "guest_name",
+        "invited_by",
+        "alias",
+        "guest_phone",
+        "guest_zip_code",
+        "guest_email",
+        "attended",
+      ];
     }
 
     if(this.hasInvitations) {
