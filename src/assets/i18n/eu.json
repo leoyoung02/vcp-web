@@ -90,7 +90,10 @@
         "cookies_policy":"COOKIES POLITIKA",
         "cookies_policy_desc": "Eman erabiltzaileei zure plataforma bisitatzen dutenean beren datu pertsonalak nola tratatzen diren buruzko informazioa.",
         "iacceptthe": "espresuki onartzen dut",
-        "policyintro": "Izena emanez gero, politika hauek onartu behar dituzu:"
+        "policyintro": "Izena emanez gero, politika hauek onartu behar dituzu:",
+        "i":"I",
+        "acceptthe":"onartu",
+        "dateofacceptance":"Onarpen-data"
     },
     "settings": {
         "logo_banner": "Logoa eta pankarta",

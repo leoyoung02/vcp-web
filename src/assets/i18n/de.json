@@ -90,7 +90,10 @@
         "cookies_policy":"COOKIES-RICHTLINIE",
         "cookies_policy_desc": "Stellen Sie Benutzern Informationen darüber zur Verfügung, wie ihre personenbezogenen Daten verarbeitet werden, wenn sie Ihre Plattform besuchen.",
         "iacceptthe": "Ich akzeptiere ausdrücklich",
-        "policyintro": "Durch die Anmeldung müssen Sie diesen Richtlinien zustimmen:"
+        "policyintro": "Durch die Anmeldung müssen Sie diesen Richtlinien zustimmen:",
+        "i":"ICH",
+        "acceptthe":"akzeptieren",
+        "dateofacceptance":"Datum der Annahme"
     },
     "settings": {
         "logo_banner": "Logo und Banner",

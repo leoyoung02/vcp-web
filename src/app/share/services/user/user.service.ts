@@ -545,8 +545,8 @@ export class UserService {
     ).pipe(map(res => res));
   }
 
-  acceptConditions(id): Observable<any> {
-    return this._http.post(`${ACCEPT_CONDITIONS_URL}/${id}`, {}).pipe(
+  acceptConditions(id,payload): Observable<any> {
+    return this._http.post(`${ACCEPT_CONDITIONS_URL}/${id}`, payload).pipe(
       map((result) => {
         return result;
       })

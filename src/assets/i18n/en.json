@@ -90,7 +90,10 @@
         "cookies_policy":"COOKIES POLICY",
         "cookies_policy_desc": "Provide users with insights into how their personal data is being processed when visiting your platform.",
         "iacceptthe": "I accept the",
-        "policyintro": "To join, you must agree to these policies:"
+        "policyintro": "To join, you must agree to these policies:",
+        "i":"I",
+        "acceptthe":"accept the",
+        "dateofacceptance":"Date of Acceptance"
     },
     "settings": {
         "logo_banner": "Logo & Banner",

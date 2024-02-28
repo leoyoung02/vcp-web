@@ -90,7 +90,10 @@
         "cookies_policy":"POLÍTICA DE COOKIES",
         "cookies_policy_desc": "Proporcioneu als usuaris informació sobre com es processen les vostres dades personals quan visiten la vostra plataforma.",
         "iacceptthe": "Accepto expressament les",
-        "policyintro": "En inscriure's, ha d'acceptar aquestes polítiques:"
+        "policyintro": "En inscriure's, ha d'acceptar aquestes polítiques:",
+        "i":"jo",
+        "acceptthe":"acceptar el",
+        "dateofacceptance":"Data d'acceptació"
     },
     "settings": {
         "logo_banner": "Logo i Banner",
