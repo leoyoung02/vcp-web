@@ -1988,6 +1988,26 @@ export class ManageUsersComponent {
           if (field.field_display_es && field.field_display_es != null) {
             field_display_es = field.field_display_es;
           }
+          let field_display_fr = reg_field[0].field_display_fr;
+          if (field.field_display_fr && field.field_display_fr != null) {
+            field_display_fr = field.field_display_fr;
+          }
+          let field_display_eu = reg_field[0].field_display_eu;
+          if (field.field_display_eu && field.field_display_eu != null) {
+            field_display_eu = field.field_display_eu;
+          }
+          let field_display_ca = reg_field[0].field_display_ca;
+          if (field.field_display_ca && field.field_display_ca != null) {
+            field_display_ca = field.field_display_ca;
+          }
+          let field_display_de = reg_field[0].field_display_de;
+          if (field.field_display_de && field.field_display_de != null) {
+            field_display_de = field.field_display_de;
+          }
+          let field_display_it = reg_field[0].field_display_it;
+          if (field.field_display_it && field.field_display_it != null) {
+            field_display_it = field.field_display_it;
+          }
           let field_desc_en = reg_field[0].field_desc_en;
           if (field.field_desc_en && field.field_desc_en != null) {
             field_desc_en = field.field_desc_en;
@@ -1996,6 +2016,26 @@ export class ManageUsersComponent {
           if (field.field_desc_es && field.field_desc_es != null) {
             field_desc_es = field.field_desc_es;
           }
+          let field_desc_fr = reg_field[0].field_desc_fr;
+          if (field.field_desc_fr && field.field_desc_fr != null) {
+            field_desc_fr = field.field_desc_fr;
+          }
+          let field_desc_eu = reg_field[0].field_desc_eu;
+          if (field.field_desc_eu && field.field_desc_eu != null) {
+            field_desc_eu = field.field_desc_eu;
+          }
+          let field_desc_ca = reg_field[0].field_desc_ca;
+          if (field.field_desc_ca && field.field_desc_ca != null) {
+            field_desc_ca = field.field_desc_ca;
+          }
+          let field_desc_de = reg_field[0].field_desc_de;
+          if (field.field_desc_de && field.field_desc_de != null) {
+            field_desc_de = field.field_desc_de;
+          }
+          let field_desc_it = reg_field[0].field_desc_it;
+          if (field.field_desc_it && field.field_desc_it != null) {
+            field_desc_it = field.field_desc_it;
+          }
 
           fld = {
             id: reg_field[0].id,
@@ -2003,10 +2043,25 @@ export class ManageUsersComponent {
             field_type: reg_field[0].field_type,
             field_display_en: field_display_en,
             field_display_es: field_display_es,
+            field_display_fr: field_display_fr,
+            field_display_eu: field_display_eu,
+            field_display_ca: field_display_ca,
+            field_display_de: field_display_de,
+            field_display_it: field_display_it,
             field_group_en: reg_field[0].field_group_en,
             field_group_es: reg_field[0].field_group_es,
+            field_group_fr: reg_field[0].field_group_fr,
+            field_group_eu: reg_field[0].field_group_eu,
+            field_group_ca: reg_field[0].field_group_ca,
+            field_group_de: reg_field[0].field_group_de,
+            field_group_it: reg_field[0].field_group_it,
             field_desc_en: field_desc_en,
             field_desc_es: field_desc_es,
+            field_desc_fr: field_desc_fr,
+            field_desc_eu: field_desc_eu,
+            field_desc_ca: field_desc_ca,
+            field_desc_de: field_desc_de,
+            field_desc_it: field_desc_it,
             active: reg_field[0].active,
             required:
               this.companyId == 26 &&
@@ -2076,6 +2131,26 @@ export class ManageUsersComponent {
           if (field.field_display_es && field.field_display_es != null) {
             field_display_es = field.field_display_es;
           }
+          let field_display_fr = reg_field[0].field_display_fr;
+          if (field.field_display_fr && field.field_display_fr != null) {
+            field_display_fr = field.field_display_fr;
+          }
+          let field_display_eu = reg_field[0].field_display_eu;
+          if (field.field_display_eu && field.field_display_eu != null) {
+            field_display_eu = field.field_display_eu;
+          }
+          let field_display_ca = reg_field[0].field_display_ca;
+          if (field.field_display_ca && field.field_display_ca != null) {
+            field_display_ca = field.field_display_ca;
+          }
+          let field_display_de = reg_field[0].field_display_de;
+          if (field.field_display_de && field.field_display_de != null) {
+            field_display_de = field.field_display_de;
+          }
+          let field_display_it = reg_field[0].field_display_it;
+          if (field.field_display_it && field.field_display_it != null) {
+            field_display_it = field.field_display_it;
+          }
           let field_desc_en = reg_field[0].field_desc_en;
           if (field.field_desc_en && field.field_desc_en != null) {
             field_desc_en = field.field_desc_en;
@@ -2084,6 +2159,26 @@ export class ManageUsersComponent {
           if (field.field_desc_es && field.field_desc_es != null) {
             field_desc_es = field.field_desc_es;
           }
+          let field_desc_fr = reg_field[0].field_desc_fr;
+          if (field.field_desc_fr && field.field_desc_fr != null) {
+            field_desc_fr = field.field_desc_fr;
+          }
+          let field_desc_eu = reg_field[0].field_desc_eu;
+          if (field.field_desc_eu && field.field_desc_eu != null) {
+            field_desc_eu = field.field_desc_eu;
+          }
+          let field_desc_ca = reg_field[0].field_desc_ca;
+          if (field.field_desc_ca && field.field_desc_ca != null) {
+            field_desc_ca = field.field_desc_ca;
+          }
+          let field_desc_de = reg_field[0].field_desc_de;
+          if (field.field_desc_de && field.field_desc_de != null) {
+            field_desc_de = field.field_desc_de;
+          }
+          let field_desc_it = reg_field[0].field_desc_it;
+          if (field.field_desc_it && field.field_desc_it != null) {
+            field_desc_it = field.field_desc_it;
+          }
 
           fld = {
             id: reg_field[0].id,
@@ -2091,8 +2186,18 @@ export class ManageUsersComponent {
             field_type: reg_field[0].field_type,
             field_display_en: field_display_en,
             field_display_es: field_display_es,
+            field_display_fr: field_display_fr,
+            field_display_eu: field_display_eu,
+            field_display_ca: field_display_ca,
+            field_display_de: field_display_de,
+            field_display_it: field_display_it,
             field_group_en: reg_field[0].field_group_en,
             field_group_es: reg_field[0].field_group_es,
+            field_group_fr: reg_field[0].field_group_fr,
+            field_group_eu: reg_field[0].field_group_eu,
+            field_group_ca: reg_field[0].field_group_ca,
+            field_group_de: reg_field[0].field_group_de,
+            field_group_it: reg_field[0].field_group_it,
             field_desc_en: field_desc_en,
             field_desc_es: field_desc_es,
             active: reg_field[0].active,
@@ -3118,10 +3223,24 @@ export class ManageUsersComponent {
               field_display_en: p.field_display_en,
               field_display_es: p.field_display_es,
               field_display_fr: p.field_display_fr,
+              field_display_eu: p.field_display_eu,
+              field_display_ca: p.field_display_ca,
+              field_display_de: p.field_display_de,
+              field_display_it: p.field_display_it,
               field_group_en: p.field_group_en,
               field_group_es: p.field_group_es,
+              field_group_fr: p.field_group_fr,
+              field_group_eu: p.field_group_eu,
+              field_group_ca: p.field_group_ca,
+              field_group_de: p.field_group_de,
+              field_group_it: p.field_group_it,
               field_desc_en: p.field_desc_en,
               field_desc_es: p.field_desc_es,
+              field_desc_fr: p.field_desc_fr,
+              field_desc_eu: p.field_desc_eu,
+              field_desc_ca: p.field_desc_ca,
+              field_desc_de: p.field_desc_de,
+              field_desc_it: p.field_desc_it,
               field: p.field,
               required: p.required,
               created_at: p.created_at,
@@ -3160,12 +3279,24 @@ export class ManageUsersComponent {
             field_type: reg_field[0].field_type,
             field_display_en: reg_field[0].field_display_en,
             field_display_fr: reg_field[0].field_display_fr,
+            field_display_eu: reg_field[0].field_display_eu,
+            field_display_ca: reg_field[0].field_display_ca,
+            field_display_de: reg_field[0].field_display_de,
+            field_display_it: reg_field[0].field_display_it,
             field_group_en: reg_field[0].field_group_en,
             field_group_es: reg_field[0].field_group_es,
             field_group_fr: reg_field[0].field_group_fr,
+            field_group_eu: reg_field[0].field_group_eu,
+            field_group_ca: reg_field[0].field_group_ca,
+            field_group_de: reg_field[0].field_group_de,
+            field_group_it: reg_field[0].field_group_it,
             field_desc_en: reg_field[0].field_desc_en,
             field_desc_es: reg_field[0].field_desc_es,
             field_desc_fr: reg_field[0].field_desc_fr,
+            field_desc_eu: reg_field[0].field_desc_eu,
+            field_desc_ca: reg_field[0].field_desc_ca,
+            field_desc_de: reg_field[0].field_desc_de,
+            field_desc_it: reg_field[0].field_desc_it,
             show: field.show == 1 ? true : false,
             required: reg_field[0].required,
             created_at: reg_field[0].created_at,
@@ -3200,12 +3331,24 @@ export class ManageUsersComponent {
           field_display_en: f.field_display_en,
           field_display_es: f.field_display_es,
           field_display_fr: f.field_display_fr,
+          field_display_eu: f.field_display_eu,
+          field_display_ca: f.field_display_ca,
+          field_display_de: f.field_display_de,
+          field_display_it: f.field_display_it,
           field_group_en: f.field_group_en,
           field_group_es: f.field_group_es,
           field_group_fr: f.field_group_fr,
+          field_group_eu: f.field_group_eu,
+          field_group_ca: f.field_group_ca,
+          field_group_de: f.field_group_de,
+          field_group_it: f.field_group_it,
           field_desc_en: f.field_desc_en,
           field_desc_es: f.field_desc_es,
           field_desc_fr: f.field_desc_fr,
+          field_desc_eu: f.field_desc_eu,
+          field_desc_ca: f.field_desc_ca,
+          field_desc_de: f.field_desc_de,
+          field_desc_it: f.field_desc_it,
           show: true,
           required: f.required,
           created_at: f.created_at,
@@ -3792,12 +3935,6 @@ export class ManageUsersComponent {
               this.remainingCourseCredits || 0;
           }
         }
-        // console.log('formData: ', formData);
-        // if(formData['city'] === "Murcia (Chiara Pedemonte)"){
-        //   alert("same city")
-        //   return false;
-        // }
-        // console.log(formData['city'] === "Murcia (Chiara Pedemonte)")
         this._userService
           .updateUserDynamicCustom(
             this.selectedUser.id,
@@ -5146,7 +5283,6 @@ export class ManageUsersComponent {
 
 
   openTermDialog(custommemberID){
-    console.log('custommemberID: ', custommemberID);
     if(custommemberID) {
       let contract = this.contracts?.filter(contract => {
         return contract.custom_member_type_id == custommemberID
@@ -5158,7 +5294,31 @@ export class ManageUsersComponent {
 
   closeTermDialog(){
     this.isOpenContact = false
-    
+  }
+
+  getFieldDisplay(field) {
+    // language == 'en' ? field?.field_display_en : field?.field_display_es
+    return field
+    ? this.language == "en"
+      ? field.field_display_en ||
+        field.field_display_es
+      : this.language == "fr"
+      ? field.field_display_fr ||
+        field.field_display_es
+      : this.language == "eu"
+      ? field.field_display_eu ||
+        field.field_display_es
+      : this.language == "ca"
+      ? field.field_display_ca ||
+        field.field_display_es
+      : this.language == "de"
+      ? field.field_display_de ||
+        field.field_display_es
+      : this.language == "it"
+      ? field.field_display_it ||
+        field.field_display_es
+      : field.field_display_es
+    : "";
   }
 
 

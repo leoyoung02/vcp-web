@@ -210,6 +210,7 @@ export class CoursesListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(
             data?.settings?.subfeatures,
@@ -399,6 +400,10 @@ export class CoursesListComponent {
       ? course.title_de
         ? course.title_de || course.title
         : course.title
+      : this.language == "it"
+      ? course.title_it
+        ? course.title_it || course.title
+        : course.title
       : course.title;
 
     if(!title) {
@@ -452,6 +457,7 @@ export class CoursesListComponent {
       let tutorSubfeatures = data[9] ? data[9]['subfeatures'] : []
       this.mapTutorSubfeatures(tutorSubfeatures)
       this.filterCourses(courses_list);
+      console.log(data)
     }, error => {
       
     })
@@ -565,6 +571,7 @@ export class CoursesListComponent {
         var plainDescriptionEu = course.description_eu ? course.description_eu.replace(/<[^>]*>/g, '') : '';
         var plainDescriptionCa = course.description_ca ? course.description_ca.replace(/<[^>]*>/g, '') : '';
         var plainDescriptionDe = course.description_de ? course.description_de.replace(/<[^>]*>/g, '') : '';
+        var plainDescriptionIt = course.description_it ? course.description_it.replace(/<[^>]*>/g, '') : '';
 
         if(this.superAdmin || this.isAdmin){
           course.locked = 0
@@ -582,12 +589,14 @@ export class CoursesListComponent {
           "title_eu": course.title_eu,
           "title_ca": course.title_ca,
           "title_de": course.title_de,
+          "title_it": course.title_it,
           "description": plainDescription,
           "description_en": plainDescriptionEn,
           "description_fr": plainDescriptionFr,
           "description_eu": plainDescriptionEu,
           "description_ca": plainDescriptionCa,
           "description_de": plainDescriptionDe,
+          "description_it": plainDescriptionIt,
           "date": course.date,
           "month_name": course.month_name,
           "image": course.image,
@@ -608,6 +617,7 @@ export class CoursesListComponent {
           "difficulty_eu": course.difficulty_eu,
           "difficulty_ca": course.difficulty_ca,
           "difficulty_de": course.difficulty_de,
+          "difficulty_it": course.difficulty_it,
           "duration": course.duration,
           "duration_unit": course.duration_unit,
           "duration_unit_en": course.duration_unit_en,
@@ -616,6 +626,7 @@ export class CoursesListComponent {
           "duration_unit_eu": course.duration_unit_eu,
           "duration_unit_ca": course.duration_unit_ca,
           "duration_unit_de": course.duration_unit_de,
+          "duration_unit_it": course.duration_unit_it,
           "course_participants": course.course_participants,
           "course_quiz": course.course_quiz,
           "hotmart_product_id": course.hotmart_product_id,
@@ -932,6 +943,9 @@ export class CoursesListComponent {
         : this.language == "de"
         ? category.name_DE ||
           category.name_ES
+        : this.language == "it"
+        ? category.name_IT ||
+          category.name_ES
         : category.name_ES
       : "";
   }
@@ -1054,6 +1068,7 @@ export class CoursesListComponent {
           || (course?.title_eu && ((course?.title_eu.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
           || (course?.title_ca && ((course?.title_ca.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
           || (course?.title_de && ((course?.title_de.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+          || (course?.title_it && ((course?.title_it.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
           ) {
           include = true
         }

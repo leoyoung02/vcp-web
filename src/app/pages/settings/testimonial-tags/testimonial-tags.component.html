@@ -68,6 +68,10 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'categories.name_de' | translate }} </mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="tag_de"> {{ row.name_DE }} </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="tag_it">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'categories.name_it' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="tag_it"> {{ row.tag_it }}</mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'customer.action' | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="action" class="flex;">
@@ -212,6 +216,21 @@
                                 [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && tagForm.get('tag_de')?.errors }"
                                 placeholder="{{ 'categories.name_de' | translate }}*"
                                 formControlName="tag_de"
+                                required
+                            />
+                        </div>
+                    </div>
+                    <div *ngIf="isItalianEnabled" class="flex items-center justify-center mb-4">
+                        <div class="w-full max-w-full">
+                            <label for="nameit" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{'categories.name_it' | translate}}
+                            </label>
+                            <input
+                                id="nameit"
+                                class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && tagForm.get('tag_it')?.errors }"
+                                placeholder="{{ 'categories.name_it' | translate }}*"
+                                formControlName="tag_it"
                                 required
                             />
                         </div>

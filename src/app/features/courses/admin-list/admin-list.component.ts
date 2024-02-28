@@ -152,6 +152,7 @@ export class CoursesAdminListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data)
           this.data = data;
           this.user = data?.user_permissions?.user;
           this.mapFeatures(data?.features_mapping);
@@ -206,6 +207,11 @@ export class CoursesAdminListComponent {
           feature.feature_name_DE ||
           feature.name_es ||
           feature.feature_name_ES
+        : this.language == "it"
+        ? feature.name_it ||
+          feature.feature_name_IT ||
+          feature.name_es ||
+          feature.feature_name_IT
         : feature.name_es || feature.feature_name_ES
       : "";
   }
@@ -253,12 +259,14 @@ export class CoursesAdminListComponent {
         'title_eu': new FormControl(''),
         'title_ca': new FormControl(''),
         'title_de': new FormControl(''),
+        'title_it': new FormControl(''),
         'description_es': new FormControl('', [Validators.required]),
         'description_en': new FormControl(''),
         'description_fr': new FormControl(''),
         'description_eu': new FormControl(''),
         'description_ca': new FormControl(''),
         'description_de': new FormControl(''),
+        'description_it': new FormControl(''),
         'course_date': new FormControl(''),
         'duration': new FormControl(''),
         'points': new FormControl(''),
@@ -370,6 +378,72 @@ export class CoursesAdminListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
+          (course.title_en &&
+            course.title_en
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
+          (course.title_fr &&
+            course.title_fr
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
+          (course.title_eu &&
+            course.title_eu
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
+          (course.title_ca &&
+            course.title_ca
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
+          (course.title_de &&
+            course.title_de
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0) ||
+          (course.title_it &&
+            course.title_it
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.searchKeyword
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
             ) >= 0)
         );
       });
@@ -427,8 +501,8 @@ export class CoursesAdminListComponent {
   getCourseTitle(course) {
     return course ? this.language == 'en' ? (course.title_en || course.title) : (this.language == 'fr' ? (course.title_fr || course.title) : 
         (this.language == 'eu' ? (course.title_eu || course.title) : (this.language == 'ca' ? (course.title_ca || course.title) : 
-        (this.language == 'de' ? (course.title_de || course.title) : course.title)
-      ))
+        (this.language == 'de' ? (course.title_de || course.title) : (this.language == 'it' ? (course.title_it || course.title) : course.title)
+      )))
     ) : '';
   }
 
@@ -439,11 +513,12 @@ export class CoursesAdminListComponent {
     let category_EU = course?.categories?.map((data) => { return data.name_EU }).join(', ');
     let category_CA = course?.categories?.map((data) => { return data.name_CA }).join(', ');
     let category_DE = course?.categories?.map((data) => { return data.name_DE }).join(', ');
+    let category_IT = course?.categories?.map((data) => { return data.name_IT }).join(', ');
 
     return this.language == 'en' ? (category_EN || category_ES) : (this.language == 'fr' ? (category_FR || category_ES) : 
         (this.language == 'eu' ? (category_EU || category_ES) : (this.language == 'ca' ? (category_CA || category_ES) : 
-        (this.language == 'de' ? (category_DE || category_ES) : category_ES)
-      ))
+        (this.language == 'de' ? (category_DE || category_ES) : (this.language == 'it' ? (category_IT || category_ES) : category_ES)
+      )))
     );
   }
 

@@ -324,7 +324,7 @@ export class LayoutMainComponent {
       this.getNetculturaUsers();
     }
     
-    if(this.newUpdatesAvailable && this.companyId == 52){
+    if(this.newUpdatesAvailable && (this.companyId == 52 || this.companyId == 65)) {
       let newVersion = localStorage.getItem('new-version')?.toString();
       if(newVersion) {
           localStorage.setItem('version', newVersion);

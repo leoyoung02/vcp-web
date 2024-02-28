@@ -274,8 +274,7 @@ export class ManageMemberTypesComponent {
   ) {}
 
   async ngOnInit() {
-    this.language =
-      this._localService.getLocalStorage(environment.lslanguage) || "es";
+    this.language = this._localService.getLocalStorage(environment.lslang) || "es";
     this.from_commission = this._router.url.endsWith("/member-type/part");
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(
@@ -337,6 +336,7 @@ export class ManageMemberTypesComponent {
         type_eu: "Behin",
         type_ca: "Una vegada",
         type_de: "Einmal",
+        type_it: "Una volta",
       },
       {
         id: 2,
@@ -346,6 +346,7 @@ export class ManageMemberTypesComponent {
         type_eu: "Hileroko errepikakorra",
         type_ca: "Mensual recurrent",
         type_de: "Monatlich wiederkehrend",
+        type_it: "Ricorrente mensile",
       },
       {
         id: 4,
@@ -355,6 +356,7 @@ export class ManageMemberTypesComponent {
         type_eu: "3 hilabetero",
         type_ca: "Cada 3 mesos",
         type_de: "Alle 3 Monate",
+        type_it: "Ogni 3 mesi",
       },
       {
         id: 5,
@@ -364,6 +366,7 @@ export class ManageMemberTypesComponent {
         type_eu: "6 hilabetero",
         type_ca: "Cada 6 mesos",
         type_de: "Alle 6 Monate",
+        type_it: "Ogni 6 mesi",
       },
       {
         id: 3,
@@ -373,6 +376,7 @@ export class ManageMemberTypesComponent {
         type_eu: "Urteko errepikakorra",
         type_ca: "Anual recurrent",
         type_de: "Jährlich wiederkehrend",
+        type_it: "Ricorrente annuale",
       },
     ];
     this.taxIncludesOptions = [
@@ -380,11 +384,21 @@ export class ManageMemberTypesComponent {
         id: 1,
         type_en: "Taxes not included",
         type_es: "Impuestos no incluidos",
+        type_fr: "Taxes en sus",
+        type_eu: "Zergak ez daude barne",
+        type_ca: "Impostos no inclosos",
+        type_de: "Steuern nicht inbegriffen",
+        type_it: "Tasse non incluse",
       },
       {
         id: 2,
         type_en: "Taxes included",
-        type_es: " Impuestos incluidos",
+        type_es: "Impuestos incluidos",
+        type_fr: "Taxes incluses",
+        type_eu: "Zergak barne",
+        type_ca: "Impostos inclosos",
+        type_de: "Steuern inbegriffen",
+        type_it: "Tasse incluse",
       },
     ];
     this.fieldTypes = [
@@ -392,41 +406,81 @@ export class ManageMemberTypesComponent {
         type: "text",
         type_en: "texto",
         type_es: "text",
+        type_fr: "texte",
+        type_eu: "testua",
+        type_ca: "text",
+        type_de: "text",
+        type_it: "testo",
       },
       {
         type: "number",
-        type_en: "número",
-        type_es: "number",
+        type_en: "number",
+        type_es: "número",
+        type_fr: "le numéro",
+        type_eu: "zenbakia",
+        type_ca: "número",
+        type_de: "nummer",
+        type_it: "numero",
       },
       {
         type: "password",
-        type_en: "contraseña",
-        type_es: "password",
+        type_en: "password",
+        type_es: "contraseña",
+        type_fr: "mot de passe",
+        type_eu: "pasahitza",
+        type_ca: "password",
+        type_de: "passwort",
+        type_it: "parola d'ordine",
       },
       {
         type: "date",
-        type_en: "fecha",
-        type_es: "date",
+        type_en: "date",
+        type_es: "fecha",
+        type_fr: "date",
+        type_eu: "data",
+        type_ca: "date",
+        type_de: "datum",
+        type_it: "data",
       },
       {
         type: "textarea",
-        type_en: "texto largo",
-        type_es: "textarea",
+        type_en: "textarea",
+        type_es: "texto largo",
+        type_fr: "zone de texte",
+        type_eu: "testu eremua",
+        type_ca: "textarea",
+        type_de: "textbereich",
+        type_it: "textarea",
       },
       {
         type: "select",
-        type_en: "desplegable",
-        type_es: "select",
+        type_en: "select",
+        type_es: "desplegable",
+        type_fr: "select",
+        type_eu: "select",
+        type_ca: "select",
+        type_de: "wählen",
+        type_it: "selezionare",
       },
       {
         type: "image",
-        type_en: "imagen",
-        type_es: "image",
+        type_en: "image",
+        type_es: "imagen",
+        type_fr: "image",
+        type_eu: "irudia",
+        type_ca: "imatge",
+        type_de: "bild",
+        type_it: "immagine",
       },
       {
         type: "file",
-        type_en: "archivar",
-        type_es: "file",
+        type_en: "file",
+        type_es: "archivar",
+        type_fr: "des dossiers",
+        type_eu: "fitxategiak",
+        type_ca: "file",
+        type_de: "dateien",
+        type_it: "file",
       },
     ];
   }
@@ -492,8 +546,18 @@ export class ManageMemberTypesComponent {
           status: feature.status,
           feature_name: feature.name_en,
           feature_name_es: feature.name_es,
+          feature_name_fr: feature.name_fr,
+          feature_name_eu: feature.name_eu,
+          feature_name_ca: feature.name_ca,
+          feature_name_de: feature.name_de,
+          feature_name_it: feature.name_it,
           description_en: "",
           description_es: "",
+          description_fr: "",
+          description_eu: "",
+          description_ca: "",
+          description_de: "",
+          description_it: "",
           image: "",
         });
       }
@@ -646,6 +710,8 @@ export class ManageMemberTypesComponent {
       ? type.type_ca || type.type_es
       : this.language == "de"
       ? type.type_de || type.type_es
+      : this.language == "it"
+      ? type.type_it || type.type_es
       : type.type_es;
   }
 
@@ -774,8 +840,18 @@ export class ManageMemberTypesComponent {
           status: feature.status,
           feature_name: feature.feature_name,
           feature_name_es: feature.feature_name_es,
+          feature_name_fr: feature.feature_name_fr,
+          feature_name_eu: feature.feature_name_eu,
+          feature_name_ca: feature.feature_name_ca,
+          feature_name_de: feature.feature_name_de,
+          feature_name_it: feature.feature_name_it,
           description_en: feature.description_en,
           description_es: feature.description_es,
+          description_fr: feature.description_fr,
+          description_eu: feature.description_eu,
+          description_ca: feature.description_ca,
+          description_de: feature.description_de,
+          description_it: feature.description_it,
           image: feature.image,
           create: perm && perm[0] ? perm[0].create : 0,
           view: perm && perm[0] ? perm[0].view : 0,
@@ -1286,6 +1362,7 @@ export class ManageMemberTypesComponent {
             this._translateService.instant("dialog.savedsuccessfully"),
             ""
           );
+          this.issaving = false;
           this.getUpdatedCustomMemberTypes();
           this.closemodalbutton?.nativeElement.click();
         },
@@ -1342,6 +1419,7 @@ export class ManageMemberTypesComponent {
         .subscribe(
           (data) => {
             this.formSubmitted = false;
+            this.issaving = false;
             this.getUpdatedCustomMemberTypes();
             this.open(
               this._translateService.instant("dialog.savedsuccessfully"),
@@ -1457,10 +1535,28 @@ export class ManageMemberTypesComponent {
         });
         if (profile_field && profile_field[0]) {
           this.selectedFieldType = profile_field[0].field_type;
-          this.fieldDesc =
-            this.language == "en"
-              ? profile_field[0].field_display_en
-              : profile_field[0].field_display_es;
+          let field = profile_field[0]
+          this.fieldDesc = profile_field[0]
+            ? this.language == "en"
+              ? field.field_display_en ||
+                field.field_display_es
+              : this.language == "fr"
+              ? field.field_display_fr ||
+                field.field_display_es
+              : this.language == "eu"
+              ? field.field_display_eu ||
+                field.field_display_es
+              : this.language == "ca"
+              ? field.field_display_ca ||
+                field.field_display_es
+              : this.language == "de"
+              ? field.field_display_de ||
+                field.field_display_es
+              : this.language == "it"
+              ? field.field_display_it ||
+                field.field_display_es
+              : field.field_display_es
+            : "";
         }
       }
     } else {
@@ -1670,6 +1766,78 @@ export class ManageMemberTypesComponent {
           console.log(error);
         }
       );
+  }
+
+  getFeatureTitle(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.feature_name ||
+          feature.feature_name_es
+        : this.language == "fr"
+        ? feature.feature_name_fr ||
+          feature.feature_name_es
+        : this.language == "eu"
+        ? feature.feature_name_eu ||
+          feature.feature_name_es
+        : this.language == "ca"
+        ? feature.feature_name_ca ||
+          feature.feature_name_es
+        : this.language == "de"
+        ? feature.feature_name_de ||
+          feature.feature_name_es
+        : this.language == "it"
+        ? feature.feature_name_it ||
+          feature.feature_name_es
+        : feature.feature_name_es
+      : "";
+  }
+
+  getFieldDisplay(field) {
+    return field
+    ? this.language == "en"
+      ? field.field_display_en ||
+        field.field_display_es
+      : this.language == "fr"
+      ? field.field_display_fr ||
+        field.field_display_es
+      : this.language == "eu"
+      ? field.field_display_eu ||
+        field.field_display_es
+      : this.language == "ca"
+      ? field.field_display_ca ||
+        field.field_display_es
+      : this.language == "de"
+      ? field.field_display_de ||
+        field.field_display_es
+      : this.language == "it"
+      ? field.field_display_it ||
+        field.field_display_es
+      : field.field_display_es
+    : "";
+  }
+
+  getFieldTypeText(type) {
+    return type
+    ? this.language == "en"
+      ? type.type_en ||
+        type.type_es
+      : this.language == "fr"
+      ? type.type_fr ||
+        type.type_es
+      : this.language == "eu"
+      ? type.type_eu ||
+        type.type_es
+      : this.language == "ca"
+      ? type.type_ca ||
+        type.type_es
+      : this.language == "de"
+      ? type.type_de ||
+        type.type_es
+      : this.language == "it"
+      ? type.type_it ||
+        type.type_es
+      : type.type_es
+    : "";
   }
 
   ngOnDestroy() {

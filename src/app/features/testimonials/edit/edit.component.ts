@@ -423,7 +423,7 @@ export class TestimonialEditComponent {
       this.tag = this.testimonial?.testimonial_tags
         .map(item => {
           const { tag_id, tag } = item
-          
+        
           return {
             id: tag_id,
             tag
@@ -475,8 +475,8 @@ export class TestimonialEditComponent {
   getTagTitle(tag) {
     return tag ? this.language == 'en' ? (tag.tag_en || tag.tag_es) : (this.language == 'fr' ? (tag.tag_fr || tag.tag_es) : 
       (this.language == 'eu' ? (tag.tag_eu || tag.tag_es) : (this.language == 'ca' ? (tag.tag_ca || tag.tag_es) : 
-      (this.language == 'de' ? (tag.tag_de || tag.tag_es) : tag.tag_es)
-      ))
+      (this.language == 'de' ? (tag.tag_de || tag.tag_es) : (this.language == 'it' ? (tag.tag_it || tag.tag_es) : tag.tag_es)
+      )))
     ) : ''
   }
 
@@ -518,6 +518,9 @@ export class TestimonialEditComponent {
           tag.tag_es
         : this.language == "de"
         ? tag.tag_de ||
+          tag.tag_es
+        : this.language == "it"
+        ? tag.tag_it ||
           tag.tag_es
         : tag.tag_es
       : "";
@@ -628,7 +631,7 @@ export class TestimonialEditComponent {
     
     let author = this.testimonialForm.get("author")?.value;
     this.isAuthorExsist = this.testimonialForm.get("author")?.value ? true : false
-    console.log('this.isAuthorExsist: ', this.isAuthorExsist);
+    
     if ( 
       this.testimonialForm?.get('short_description')?.errors
       || this.testimonialForm?.get('description')?.errors
@@ -651,8 +654,8 @@ export class TestimonialEditComponent {
     formData.append("author", author);
     formData.append("social_media_url", social_media_url);
     formData.append("company_id", this.companyId.toString());
-    formData.append("testimonial_course_id", this.course);
-    formData.append("tag_id", this.tag);
+    formData.append("testimonial_course_id", this.course || 0);
+    formData.append("tag_id", this.tag ? this.tag?.map( (data) => { return data.id }).join() : '');
 
     if (this.file) {
       const filename = 'testimonial_' + this.userId + '_' + this.getTimestamp();

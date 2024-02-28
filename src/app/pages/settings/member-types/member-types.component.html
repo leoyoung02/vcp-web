@@ -447,7 +447,7 @@
                                     <th class="text-center font-semibold text-base">{{ 'member-type-registration.manage' | translate }}</th>
                                 </tr>
                                 <tr *ngFor="let permission of permissionsData" class="table-row">
-                                    <td class="py-2">{{ language == 'en' ? (permission?.feature_name ? permission?.feature_name : permission?.feature_name_es) : permission?.feature_name_es }}</td>
+                                    <td class="py-2">{{ getFeatureTitle(permission) }}</td>
                                     <td class="text-center">
                                         <input 
                                             type="checkbox"
@@ -528,7 +528,7 @@
                                                     *ngFor="let field of allProfileFields"
                                                     [value]="field.field"
                                                 >
-                                                    {{ language == 'en' ? field.field_display_en : field.field_display_es }}
+                                                    {{ getFieldDisplay(field) }}
                                                 </option>
                                             </select>
                                         </div>
@@ -545,7 +545,7 @@
                                                     *ngFor="let type of fieldTypes"
                                                     [value]="type.type"
                                                 >
-                                                    {{ language == 'en' ? type.type_en : type.type_es }}
+                                                    {{ getFieldTypeText(type) }}
                                                 </option>
                                             </select>
                                         </div>

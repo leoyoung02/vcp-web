@@ -129,6 +129,13 @@
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 formControlName="title_de" 
                                 placeholder="{{ 'club-create.title' | translate }}">
+                            <input 
+                                *ngIf="selectedLanguage == 'it'"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'it' && !courseForm?.get('title_it')?.value }"
+                                type="text" 
+                                class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                formControlName="title_it" 
+                                placeholder="{{ 'club-create.title' | translate }}">
                         </div>
                         <div class="flex items-center justify-center relative">
                             <ng-multiselect-dropdown
@@ -736,6 +743,7 @@
                         <editor
                             *ngIf="selectedLanguage == 'ca'"
                             class="w-full"
+                            [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'ca' && !courseForm.get('description_ca')?.value }"
                             apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
                             [init]="{
                                 height: 183,
@@ -758,6 +766,7 @@
                         <editor
                             *ngIf="selectedLanguage == 'de'"
                             class="w-full"
+                            [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'de' && !courseForm.get('description_de')?.value }"
                             apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
                             [init]="{
                                 height: 183,
@@ -776,6 +785,29 @@
                             }"
                             id="description"
                             formControlName="description_de" 
+                        ></editor>
+                        <editor
+                            *ngIf="selectedLanguage == 'it'"
+                            class="w-full"
+                            [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'it' && !courseForm.get('description_it')?.value }"
+                            apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                            [init]="{
+                                height: 183,
+                                menubar: false,
+                                plugins: [
+                                'link'
+                                ],
+                                toolbar:
+                                'undo redo | formatselect | bold italic | fontsize | \
+                                alignleft aligncenter alignright alignjustify | \
+                                link | \
+                                forecolor backcolor \ \
+                                paste pastetext | \
+                                bullist numlist outdent indent | help',
+                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
+                            }"
+                            id="description"
+                            formControlName="description_it" 
                         ></editor>
                     </div>
                     <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
@@ -824,6 +856,7 @@
                         <div class="flex items-center justify-center my-8 relative">
                             <input 
                                 *ngIf="selectedLanguage == 'en'"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'en' && !moduleTitleEn }"
                                 type="text" 
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="moduleTitleEn"
@@ -831,7 +864,7 @@
                                 placeholder="{{ 'club-create.title' | translate }}">
                             <input 
                                 *ngIf="selectedLanguage == 'es'"
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !moduleTitle }"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'es' && !moduleTitle }"
                                 type="text" 
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="moduleTitle"
@@ -840,6 +873,7 @@
                                 required>
                             <input 
                                 *ngIf="selectedLanguage == 'fr'"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'fr' && !moduleTitleFr }"
                                 type="text" 
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="moduleTitleFr"
@@ -847,6 +881,7 @@
                                 placeholder="{{ 'club-create.title' | translate }}">
                             <input 
                                 *ngIf="selectedLanguage == 'eu'"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'eu' && !moduleTitleEu }"
                                 type="text" 
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="moduleTitleEu"
@@ -854,6 +889,7 @@
                                 placeholder="{{ 'club-create.title' | translate }}">
                             <input 
                                 *ngIf="selectedLanguage == 'ca'"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'ca' && !moduleTitleCa }"
                                 type="text" 
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="moduleTitleCa"
@@ -861,9 +897,18 @@
                                 placeholder="{{ 'club-create.title' | translate }}">
                             <input 
                                 *ngIf="selectedLanguage == 'de'"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'de' && !moduleTitleDe }"
                                 type="text" 
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="moduleTitleDe"
+                                [ngModelOptions]="{standalone: true}"
+                                placeholder="{{ 'club-create.title' | translate }}">
+                            <input 
+                                *ngIf="selectedLanguage == 'it'"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'it' && !moduleTitleIt }"
+                                type="text" 
+                                class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                [(ngModel)]="moduleTitleIt"
                                 [ngModelOptions]="{standalone: true}"
                                 placeholder="{{ 'club-create.title' | translate }}">
                         </div>
@@ -908,11 +953,19 @@
                                     [ngModelOptions]="{standalone: true}">
                                 </textarea>
                             </div>
-                            <div *ngIf="selectedLanguage == 'de'">
+                            <div class="w-full max-w-full" *ngIf="selectedLanguage == 'de'">
                                 <textarea name="" id="" cols="30" rows="3"
                                     class="w-full rounded-lg p-4"
                                     placeholder="{{ 'company-settings.description' | translate }}"
                                     [(ngModel)]="moduleDescriptionDe"
+                                    [ngModelOptions]="{standalone: true}">
+                                </textarea>
+                            </div>
+                            <div class="w-full max-w-full" *ngIf="selectedLanguage == 'it'">
+                                <textarea name="" id="" cols="30" rows="3"
+                                    class="w-full rounded-lg p-4"
+                                    placeholder="{{ 'company-settings.description' | translate }}"
+                                    [(ngModel)]="moduleDescriptionIt"
                                     [ngModelOptions]="{standalone: true}">
                                 </textarea>
                             </div>
@@ -1038,7 +1091,7 @@
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="unitTitle"
                                 [ngModelOptions]="{standalone: true}"
-                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !unitTitle }"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'es' && !unitTitle }"
                                 placeholder="{{ 'club-create.title' | translate }}">
                             <input 
                                 *ngIf="selectedLanguage == 'en'"
@@ -1046,6 +1099,7 @@
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="unitTitleEn"
                                 [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'en' && !unitTitleEn }"
                                 placeholder="{{ 'club-create.title' | translate }}">
                             <input 
                                 *ngIf="selectedLanguage == 'fr'"
@@ -1053,6 +1107,15 @@
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="unitTitleFr"
                                 [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'fr' && !unitTitleFr }"
+                                placeholder="{{ 'club-create.title' | translate }}">
+                            <input 
+                                *ngIf="selectedLanguage == 'eu'"
+                                type="text" 
+                                class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                [(ngModel)]="unitTitleFr"
+                                [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'eu' && !unitTitleEu }"
                                 placeholder="{{ 'club-create.title' | translate }}">
                             <input 
                                 *ngIf="selectedLanguage == 'ca'"
@@ -1060,6 +1123,7 @@
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="unitTitleCa"
                                 [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'ca' && !unitTitleCa }"
                                 placeholder="{{ 'club-create.title' | translate }}">
                             <input 
                                 *ngIf="selectedLanguage == 'de'"
@@ -1067,11 +1131,19 @@
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="unitTitleDe"
                                 [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'de' && !unitTitleDe }"
+                                placeholder="{{ 'club-create.title' | translate }}">
+                            <input 
+                                *ngIf="selectedLanguage == 'it'"
+                                type="text" 
+                                class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                [(ngModel)]="unitTitleIt"
+                                [ngModelOptions]="{standalone: true}"
+                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'it' && !unitTitleIt }"
                                 placeholder="{{ 'club-create.title' | translate }}">
                         </div>
                         <div class="flex items-center justify-center my-8 relative">
                             <input 
-                                *ngIf="selectedLanguage == 'es'"
                                 type="number" 
                                 class="text-2xl mr-4 shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 [(ngModel)]="unitDuration"
