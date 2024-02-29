@@ -172,6 +172,7 @@ export class LayoutMainComponent {
   campus: any = '';
   refreshedMenu: boolean = false;
   isNetculturaUser: boolean = false;
+  hasInvitations: boolean = false;
 
   constructor(
     private _router: Router,
@@ -1202,6 +1203,13 @@ export class LayoutMainComponent {
               if (this.showContactUs) {
                 this.getContactUsDetails();
               }
+            }
+
+            let inviteSettings = m.content.filter(c => {
+              return c.title_en == 'Your Activity: Invitations'
+            })
+            if(inviteSettings && inviteSettings[0]) {
+              this.hasInvitations = inviteSettings[0].active == 1 ? true : false
             }
           }
         }

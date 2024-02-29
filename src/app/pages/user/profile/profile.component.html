@@ -4,7 +4,6 @@
 </div>
 <app-page-title [title]="pageTitle"></app-page-title>
 <ng-container *ngIf="profileForm && selectedFields?.length > 0">
- 
     <form [formGroup]="profileForm" (ngSubmit)="save()" class="profile-form" autocomplete="off">
         <ng-container *ngIf="selectedFields && selectedFields?.length > 0">
             <div *ngFor="let section of sectionFields; let n = index;">
@@ -35,11 +34,11 @@
                                                 [ngClass]="{'p-6': !hasImage}"
                                             >
                                                 <div
-                                                    class="grid mb-8 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300 place-items-center"
-                                                    [ngClass]="{'w-28 h-28': !hasImage, 'w-40 h-40': hasImage}"
+                                                    class="grid mb-8 place-items-center"
+                                                    [ngClass]="{'w-28 h-28 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300': !hasImage, 'w-40 h-40': hasImage}"
                                                 >
                                                     <img *ngIf="!hasImage" width="40" height="40" src="./assets/images/new-design/camera.png" />
-                                                    <img *ngIf="hasImage" class="rounded-xl object-contain" src="{{ myImage }}" />
+                                                    <img *ngIf="hasImage" class="w-[112px] h-[112px] rounded-full object-cover" src="{{ myImage }}" />
                                                 </div>
                                             </div>
                                             <div class="text-center absolute bottom-2 left-0 right-0 m-auto">
@@ -73,11 +72,11 @@
                                                 [ngClass]="{'p-6': !hasCompanyLogoImage}"
                                             >
                                                 <div
-                                                    class="grid mb-8 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300 place-items-center"
-                                                    [ngClass]="{'w-28 h-28': !hasCompanyLogoImage, 'w-40 h-40': hasCompanyLogoImage}"
+                                                    class="grid mb-8 place-items-center"
+                                                    [ngClass]="{'w-28 h-28 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300 ': !hasCompanyLogoImage, 'w-40 h-40': hasCompanyLogoImage}"
                                                 >
                                                     <img *ngIf="!hasCompanyLogoImage" width="40" height="40" src="./assets/images/new-design/camera.png" />
-                                                    <img *ngIf="hasCompanyLogoImage" class="rounded-xl object-contain" src="{{ myCompanyLogoImage }}" />
+                                                    <img *ngIf="hasCompanyLogoImage" class="w-[112px] h-[112px] rounded-full object-cover" src="{{ myCompanyLogoImage }}" />
                                                 </div>
                                             </div>
                                             <div class="text-center absolute bottom-2 left-0 right-0 m-auto">
@@ -453,8 +452,14 @@
                         [transform]="transform"
                         [imageChangedEvent]="imageChangedEvent" 
                         [maintainAspectRatio]="true"
-                        [cropperMinWidth]="360" 
-                        [cropperMinHeight]="320" 
+                        [containWithinAspectRatio]="true"
+                        [onlyScaleDown]="true"
+                        [roundCropper]="false"
+                        [aspectRatio]="16 / 9"
+                        [resizeToWidth]="256"
+                        [imageQuality]="100"
+                        [cropperMinWidth]="128"
+                        [alignImage]="'center'"
                         format="png" 
                         outputType="both"
                         (imageCropped)="imageCropped($event)" 
@@ -468,7 +473,6 @@
         </div>
     </div>
 </div>
-
  <div *ngIf="isOpenContact" class="fixed top-0 right-0 left-0 z-50 flex justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full bg-[#0F172A] bg-opacity-90"
  >
     <div class="relative p-4 w-full max-w-2xl max-h-full">
@@ -491,7 +495,6 @@
         </div>
     </div>
 </div>
-
 <app-toast 
     *ngIf="showConfirmationModal" 
     [company]="company" 
