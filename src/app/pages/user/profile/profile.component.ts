@@ -181,7 +181,8 @@ export class ProfileComponent {
   isOpenContact:boolean= false;
   contracts: any;
   contract: any;
-  userFullName:string = ''
+  userFullName:string = '';
+  dateOfAcceptance:string = ''
 
 
   constructor(
@@ -432,6 +433,7 @@ export class ProfileComponent {
         }
 
         this.userFullName = this.me?.name ? this.me?.name :  this.me?.first_name + ' ' + this.me?.last_name  
+        this.dateOfAcceptance = this.me?.date_of_acceptance ? moment(this.me.date_of_acceptance).format('DD/MM/YYYY') : ''
 
         this.mapSubfeatures(members_subfeatures, tutors_subfeatures);
         this.getOtherSettings();

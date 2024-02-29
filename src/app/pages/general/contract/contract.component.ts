@@ -118,9 +118,7 @@ export class ContractComponent implements OnInit, OnDestroy {
   }
 
   async goHome() {
-    const currentDate = new Date()
-    const dateOfAcceptance = moment(currentDate).format('DD/MM/YYYY');
-
+    const dateOfAcceptance = new Date()
     let userId = this._localService.getLocalStorage(environment.lsuserId)
     this._userService
       .acceptConditions(userId,{date_of_acceptance:dateOfAcceptance})

@@ -279,7 +279,7 @@
                         </div>
                     </ng-container>
                     <div class="my-8" *ngIf="me?.custom_member_type_id !== 144 && me?.custom_member_type_id !== 321 &&  me?.custom_member_type_id !== 243 && isTermsAccepted">
-                            <p class="text-sm mb-5" *ngIf="me?.date_of_acceptance">{{'footer.dateofacceptance' | translate}} : <span class="font-medium text-gray-900 dark:text-gray-300">{{me?.date_of_acceptance}}</span></p>
+                            <p class="text-sm mb-5" *ngIf="dateOfAcceptance">{{'footer.dateofacceptance' | translate}} : <span class="font-medium text-gray-900 dark:text-gray-300">{{dateOfAcceptance}}</span></p>
                         <label class="checkbox-container">
                             <div class="flex mb-4 align-center items-center">
                                 <input 
