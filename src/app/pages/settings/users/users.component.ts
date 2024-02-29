@@ -2733,6 +2733,9 @@ export class ManageUsersComponent {
             case "Admin Grupos temáticos":
               selected_role = 99;
               break;
+            case 'Netcultura': 
+              selected_role = 102
+              break
           }
         }
         this.selectedRole = selected_role;
@@ -2780,6 +2783,9 @@ export class ManageUsersComponent {
             case "Admin Grupos temáticos":
               selected_role = 99;
               break;
+            case 'Netcultura': 
+              selected_role = 102
+              break
           }
         }
 
@@ -3674,6 +3680,9 @@ export class ManageUsersComponent {
         case 99:
           user_role = "Admin Grupos temáticos";
           break;
+        case 102: 
+          user_role = 'Netcultura'
+          break
       }
 
       let formData = [];
@@ -4658,7 +4667,7 @@ export class ManageUsersComponent {
     } else {
       let role = row.user_role;
       if (row.user_role == "Member") {
-        role = this._translateService.instant("your-admin-area.member");
+        role = this.language == 'es' && this.companyId == 12 ? 'Miembro' : this._translateService.instant("your-admin-area.member");
         if (this.companyId == 12 && this.salesPeopleList?.length > 0) {
           let match = this.salesPeopleList?.some((a) => a.id === row.id);
           if (match) {
