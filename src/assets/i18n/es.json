@@ -2490,7 +2490,18 @@
         "askyourquestion": "Haz tu pregunta",
         "personalaccesstoken": "Token de acceso personal",
         "newquestion": "Nueva pregunta",
-        "newreference": "Nueva referencia"
+        "newreference": "Nueva referencia",
+        "clicktocreatetoken": "Haz clic aquí para aprender cómo crear un token de acceso personal?",
+        "createpersonalaccesstoken": "Crear un token de acceso personal",
+        "followstepstocreatetoken": "Sigue los pasos a continuación para generar tu token de acceso personal",
+        "calendlytokenstep2": "opción bajo Tokens de Acceso Personal",
+        "calendlytokenstep2option": "Obtener un token ahora",
+        "calendlytokenstep3dilaog": "Verás un cuadro de diálogo con el título",
+        "calendlytokenstep3dialogtitle": "Antes de comenzar",
+        "calendlytokenstep4": "Haz clic en el",
+        "calendlytokenstep5": "En Crea tu token de acceso personal, crea un nombre identificable para tu token y haz clic en el botón",
+        "calendlytokenstep5button": "Crear Token",
+        "calendlytokenstep6": "Copia y pega tu token de acceso personal"
     },
     "email": {
         "emails": "Correos electrónicos",
