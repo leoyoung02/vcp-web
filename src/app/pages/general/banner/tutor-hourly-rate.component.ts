@@ -37,7 +37,8 @@ export class TutorHourlyateBanner implements OnInit, OnDestroy {
   companies:any;
   companyId: any;
   domain: any;
-  tutorPerHourRate:number = 0
+  tutorPerHourRate:number = 0;
+  showBanner:boolean = true
 
   constructor(
     private _translateService: TranslateService,
@@ -84,6 +85,9 @@ export class TutorHourlyateBanner implements OnInit, OnDestroy {
       );
   }
 
+  closeBanner(){
+    this.showBanner = false
+  }
   
 
   ngOnDestroy(): void {

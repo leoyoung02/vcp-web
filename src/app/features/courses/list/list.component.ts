@@ -466,7 +466,7 @@ export class CoursesListComponent {
       courses?.forEach(course => {
         let show_buy_now = true
         let user_subscribed = false
-        if(this.hasCoursePayment && course.price > 0) {
+        if(this.hasCoursePayment ||  course.price > 0) {
           let course_subscription = this.courseSubscriptions && this.courseSubscriptions.filter(c => {
             return c.user_id == this.userId && c.course_id == course.id
           })

@@ -448,7 +448,7 @@
                         </option>
                     </select>
                 </div>
-                <ng-container *ngIf="showZoomLink">
+                <ng-container *ngIf="showZoomLink && showMeetingLinks">
                     <div class="flex items-center justify-center relative">
                         <input
                             type="text"
@@ -466,7 +466,7 @@
                         />
                     </div>
                 </ng-container>
-                <ng-container *ngIf="showTeamsLink">
+                <ng-container *ngIf="showTeamsLink && showMeetingLinks">
                     <div class="flex items-center justify-center relative">
                         <input
                             type="text"

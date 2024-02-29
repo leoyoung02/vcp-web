@@ -113,6 +113,7 @@
                 (changeLanguage)="changedLanguage($event)" 
                 [potSuperTutor]="potSuperTutor"
                 [potTutor]="potTutor"
+                [hasInvitations]="hasInvitations"
             >
             </app-user-menu>
         </div>
@@ -127,7 +128,7 @@
     </main>
 </div>
 <app-toast 
-    *ngIf="newUpdatesAvailable" 
+    *ngIf="newUpdatesAvailable && companyId !== 52" 
     [company]="company" 
     [update]="true" 
     [confirm]="false"

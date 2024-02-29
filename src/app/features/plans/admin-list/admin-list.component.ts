@@ -437,6 +437,17 @@ export class PlansAdminListComponent {
           time_display,
         };
       });
+
+      if(this.status == 'past' && formattedPlans?.length > 0) {
+        console.log('past')
+        formattedPlans = formattedPlans?.sort((a, b) => {
+          const oldDate: any = new Date(a.plan_date)
+          const newDate: any = new Date(b.plan_date)
+
+          return newDate - oldDate
+        })
+      }
+
       this.plansData = formattedPlans;
       this.refreshTable(this.plansData);
     }

@@ -431,6 +431,7 @@ export class PlanEditComponent {
   additionalPropertiesDropdownSettings = {};
   membersLimitGreaterThanSeats: boolean = false;
   guestsLimitGreaterThanSeats: boolean = false;
+  showMeetingLinks: boolean = true;
 
   initialPlan: any = {};
   currentPlan: any = {};
@@ -1410,6 +1411,13 @@ export class PlanEditComponent {
     this.planAddress = address;
     if(this.types?.length > 0) {
       this.eventType = event_type_id;
+      if(this.companyId == 12) {
+        if(this.eventType == 2) {
+          this.showMeetingLinks = false;
+        } else {
+          this.showMeetingLinks = true;
+        }
+      }
     }
     this.getSelectedCity(address);
 
@@ -2485,6 +2493,13 @@ export class PlanEditComponent {
 
   changeEventType(event) {
     this.initialLoad = false;
+    if(this.companyId == 12) {
+      if(event?.target?.value == 2) {
+        this.showMeetingLinks = false;
+      } else {
+        this.showMeetingLinks = true;
+      }
+    }
   }
 
   rotateLeft() {
@@ -2909,7 +2924,7 @@ export class PlanEditComponent {
     let language = this._localService.getLocalStorage(environment.lslang);
     return {
       language: language == 'en' ? 'en_US' : (language == 'fr' ? 'fr_FR' : 'es'),
-      height: 183,
+      height: 400,
       menubar: false,
       plugins: [
       'link',
