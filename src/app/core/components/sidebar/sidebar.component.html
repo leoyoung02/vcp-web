@@ -13,7 +13,9 @@
   </div>
   <ng-container *ngFor="let menu of menus$ | async" class="py-2 my-2 flex items-center">
     <ng-container *ngIf="!menu?.course_wall && menu?.path != 'dashboard'">
-      <div class="px-4 py-2 hover:cursor-pointer">
+      <div class="px-4 py-2 hover:cursor-pointer" 
+        *ngIf="menu?.school_of_life_submenu != 1 || 
+          (menu?.school_of_life_submenu == 1 && menuOpened)">
         <div 
           class="flex items-center p-2 hover:rounded-lg"
           [ngClass]="{'rounded-lg': selectedTab == menu.path, 'justify-center': !menuOpened}"
@@ -29,8 +31,16 @@
                 (menu?.new_button == 1 ? './assets/menu-icons/menu-icon-colleague.png' : './assets/menu-icons/menu-icon-members.png')
               ) : getMenuIcon(menu)"
             class="cursor-pointer w-[22px] max-w-[22px] h-[22px] max-h-[22px]"
+            [ngClass]="{'invisible': menu?.school_of_life_submenu == 1}"
             alt=""
           />
+          <svg style="width:45px;color:#fff;position:absolute;" 
+            *ngIf="menu?.school_of_life_submenu == 1" 
+            class="DocSearch-Hit-Tree" viewBox="0 0 24 54">
+            <g stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M8 6v42M20 27H8.3"></path>
+            </g>
+          </svg>
           <span
             *ngIf="menuOpened"
             class="text-sm ml-[36px]" 
@@ -240,56 +250,32 @@
       </div>
     </div>
   </ng-container>
-  <div *ngIf="menuOpened && showLanguageOptions" class="ml-4 -mb-2 bg-white divide-y divide-gray-100 rounded-lg shadow w-52 py-2 dark:bg-gray-700">
-    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="countries-button"
-      (mouseover)="toggleLanguageItemHover(true)"
-      (mouseleave)="toggleLanguageItemHover(false)">
-      <ng-container *ngFor="let lang of languages;let i = index;">
-        <li>
-          <button type="button" (click)="useLanguage(lang.code)" class="w-full px-4 py-2 text-sm text-gray-700">
-              <div class="w-full flex flex-start items-center">
-                <img *ngIf="lang?.code == 'eu'"
-                  src="./assets/menu-icons/menu-icon-eu.png"
-                  class="cursor-pointer w-[13px] max-w-[13px] h-[13px] max-h-[13px] rounded-full mr-2"
-                  alt=""
-                />
-                <svg *ngIf="lang?.code == 'es'" class="h-3.5 w-3.5 rounded-full mr-2" enable-background="new 0 0 512 512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="m0 256c0 31.314 5.633 61.31 15.923 89.043l240.077 22.261 240.077-22.261c10.29-27.733 15.923-57.729 15.923-89.043s-5.633-61.31-15.923-89.043l-240.077-22.261-240.077 22.261c-10.29 27.733-15.923 57.729-15.923 89.043z" fill="#ffda44"/><g fill="#d80027"><path d="m496.077 166.957c-36.171-97.484-130.006-166.957-240.077-166.957s-203.906 69.473-240.077 166.957z"/><path d="m15.923 345.043c36.171 97.484 130.006 166.957 240.077 166.957s203.906-69.473 240.077-166.957z"/></g><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/><g/></svg>
-                <svg *ngIf="lang?.code == 'en'" aria-hidden="true" class="h-3.5 w-3.5 rounded-full mr-2" xmlns="http://www.w3.org/2000/svg" id="flag-icon-css-es" viewBox="0 0 512 512"><g fill-rule="evenodd"><g stroke-width="1pt"><path fill="#bd3d44" d="M0 0h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0z" transform="scale(3.9385)"/><path fill="#fff" d="M0 10h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0zm0 20h247v10H0z" transform="scale(3.9385)"/></g><path fill="#192f5d" d="M0 0h98.8v70H0z" transform="scale(3.9385)"/><path fill="#fff" d="M8.2 3l1 2.8H12L9.7 7.5l.9 2.7-2.4-1.7L6 10.2l.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7L74 8.5l-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 7.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 24.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 21.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 38.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 35.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 52.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 49.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm-74.1 7l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7H65zm16.4 0l1 2.8H86l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm-74 7l.8 2.8h3l-2.4 1.7.9 2.7-2.4-1.7L6 66.2l.9-2.7-2.4-1.7h3zm16.4 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8H45l-2.4 1.7 1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9zm16.4 0l1 2.8h2.8l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h3zm16.5 0l.9 2.8h2.9l-2.3 1.7.9 2.7-2.4-1.7-2.3 1.7.9-2.7-2.4-1.7h2.9zm16.5 0l.9 2.8h2.9L92 63.5l1 2.7-2.4-1.7-2.4 1.7 1-2.7-2.4-1.7h2.9z" transform="scale(3.9385)"/></g></svg>  
-                <span class="uppercase">{{ lang?.code }}</span>
-              </div>
+  <ng-container *ngFor="let lang of languages;let i = index;">
+    <div class="px-4 py-2 hover:cursor-pointer" [ngClass]="{'pt-0': showLanguageOptions}">
+      <div class="px-2 flex items-center hover:rounded-lg"
+        [ngClass]="{'justify-center py-2': !menuOpened}"
+        [ngStyle]="{'background-color': languageHover && hoveredLanguage == lang.code ? hoverColor : 'transparent'}"
+        (click)="useLanguage(lang.code)"
+        (mouseover)="toggleLanguageHover(true, lang)"
+        (mouseleave)="toggleLanguageHover(false, lang)"
+      >
+        <img
+          [src]="lang.code == 'en' ? './assets/menu-icons/menu-icon-en.png' : (
+            lang.code == 'eu' ? './assets/menu-icons/menu-icon-eu.png' : './assets/menu-icons/menu-icon-es.png'
+          )"
+          class="cursor-pointer w-[30px] max-w-[30px] h-[23px] max-h-[23px] rounded-[5px]"
+          [ngClass]="{'border border-2 border-white': language == lang.code}"
+          alt=""
+        />
+        <ng-container *ngIf="menuOpened">
+          <button id="countries-button"
+            class="w-52 flex items-center justify-between py-2.5 px-4 text-sm font-medium text-center" type="button"
+            [ngClass]="{'rounded-lg': menuOpened && languageHover, 'text-white': menuColor != '#000000'}"
+          >
+            <span class="ml-3 capitalize">{{ getLanguage(lang) }}</span>
           </button>
-        </li>
-      </ng-container> 
-    </ul>
-  </div>
-  <div class="px-4 py-2 hover:cursor-pointer" [ngClass]="{'pt-0': showLanguageOptions}">
-    <div class="p-2 flex items-center hover:rounded-lg"
-      [ngStyle]="{'background-color': languageHover ? hoverColor : 'transparent'}"
-      [ngClass]="{'justify-center': !menuOpened}"
-      (mouseover)="toggleLanguageHover(true)"
-      (mouseleave)="toggleLanguageHover(false)"
-    >
-      <img
-        [src]="language == 'en' ? './assets/menu-icons/menu-icon-en.png' : (
-          language == 'eu' ? './assets/menu-icons/menu-icon-eu.png' : './assets/menu-icons/menu-icon-es.png'
-        )"
-        class="cursor-pointer w-[30px] max-w-[30px] h-[23px] max-h-[23px] rounded-[5px]"
-        alt=""
-      />
-      <ng-container *ngIf="menuOpened">
-        <button id="countries-button" (click)="toggleLanguageOptions()"
-          class="w-52 flex items-center justify-between py-2.5 px-4 text-sm font-medium text-center" type="button"
-          [ngClass]="{'rounded-lg': menuOpened && languageHover, 'text-white': menuColor != '#000000'}"
-        >
-          <span class="ml-3 uppercase">{{ language }}</span>
-          <svg *ngIf="showLanguageOptions" class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5 5 1 1 5"/>
-          </svg>
-          <svg *ngIf="!showLanguageOptions" class="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 9 4-4-4-4"/>
-          </svg>
-        </button>
-      </ng-container>
+        </ng-container>
+      </div>
     </div>
-  </div>
+  </ng-container>
 </aside>

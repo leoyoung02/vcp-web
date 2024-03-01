@@ -573,6 +573,7 @@ export class PlansListComponent {
   mapPageTitle() {
     if(this.isUESchoolOfLife && this.companyId == 32) {
       this.pageName = this.pageName?.replace('de Vida Universitaria', 'de School of Life')
+      this.pageName = this.pageName?.replace('University Life', 'School of Life')
     }
     this.title = this.view == 'joined' ? this.getMyActivitiesTitle() : this.pageName;
     this.subtitle = this.pageDescription;

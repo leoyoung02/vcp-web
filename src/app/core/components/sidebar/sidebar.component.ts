@@ -158,6 +158,7 @@ export class SidebarComponent {
   courseWallItemHover: boolean = false;
   supportTicketsHover: boolean = false;
   customerOnboardingHover: boolean = false;
+  hoveredLanguage: any;
 
   constructor(
     private _router: Router, 
@@ -548,6 +549,10 @@ export class SidebarComponent {
       text = text?.replace('de Vida Universitaria', 'de School of Life')
     }
 
+    if(this.company?.id == 32 && !this.isUESchoolOfLife) {
+      text = text?.replace("University Life Activities School of Life", "School of Life Activities")
+    }
+
     return text;
   }
 
@@ -628,8 +633,9 @@ export class SidebarComponent {
     this.wallMenuHover = event;
   }
 
-  toggleLanguageHover(event) {
+  toggleLanguageHover(event, lang) {
     this.languageHover = event;
+    this.hoveredLanguage = lang.code;
   }
 
   toggleCourseWallHover(event, menu) {
@@ -725,5 +731,9 @@ export class SidebarComponent {
 
   goToCustomerOnboarding() {
     this._router.navigate([`/customer-onboarding`])
+  }
+
+  getLanguage(language) {
+    return language[`name_${this.language.toUpperCase()}`];
   }
 }

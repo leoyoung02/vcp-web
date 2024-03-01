@@ -1501,6 +1501,8 @@ export class LayoutMainComponent {
         name_DE: name_DE,
         show: true,
         sequence: this.features[i].sequence ? this.features[i].sequence : 3 + i,
+        parent_path: '',
+        school_of_life_submenu: 0,
       };
 
       mmatch = this.menus.some((a) => a.name === tempData.name);
@@ -1511,45 +1513,7 @@ export class LayoutMainComponent {
               this.menus.push(tempData);
             }
           } else {
-            if(tempData?.id == 1) {
-              this.menus.push(tempData);
-              if (this.newURLButton == 1) {
-                this.menus.push({
-                  id: 5 + tempData?.id,
-                  path: `${this.newURLButtonUrl}/${tempPath}`,
-                  new_url: 0,
-                  new_button: 0,
-                  return_url: tempPath,
-                  name: `${tempName?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueEn || this.newURLButtonTextValue)}`,
-                  name_ES: `${name_ES?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValue)}`,
-                  name_FR: `${name_FR?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueFr || this.newURLButtonTextValue)}`,
-                  name_EU: `${name_EU?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueEu || this.newURLButtonTextValue)}`,
-                  name_CA: `${name_CA?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueCa || this.newURLButtonTextValue)}`,
-                  name_DE: `${name_DE?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueDe || this.newURLButtonTextValue)}`,
-                  show: true,
-                  sequence: this.features[i].sequence ? this.features[i].sequence : 3 + i,
-                })
-              }
-            }
-            if(tempData?.id == 11) {
-              this.menus.push({
-                id: 5 + tempData?.id,
-                path: `${this.newURLButtonUrl}/${tempPath}`,
-                new_url: 0,
-                new_button: 0,
-                return_url: tempPath,
-                name: tempName,
-                name_ES: name_ES,
-                name_FR: name_FR,
-                name_EU: name_EU,
-                name_CA: name_CA,
-                name_DE: name_DE,
-                show: true,
-                sequence: this.features[i].sequence ? this.features[i].sequence : 3 + i,
-              })
-            }
-
-            if(tempData?.id != 1 && tempData?.id != 11) {
+            if(tempData?.id != 11) {
               this.menus.push(tempData);
             }
           }
@@ -1839,6 +1803,8 @@ export class LayoutMainComponent {
         name_DE: this.homeTextValueDe,
         show: true,
         sequence: home_sequence,
+        parent_path: '',
+        school_of_life_submenu: 0,
       };
       mmatch = this.menus.some((a) => a.name === this.tempData.name);
       if (!mmatch) {
@@ -1888,6 +1854,8 @@ export class LayoutMainComponent {
             name_DE: this.dashboardDetails.title_de,
             show: true,
             sequence: dashboard_sequence,
+            parent_path: '',
+            school_of_life_submenu: 0,
           };
 
           mmatch = this.menus.some((a) => a.name === this.tempData.name);
@@ -1935,7 +1903,102 @@ export class LayoutMainComponent {
           name_DE: this.newURLButtonTextValueDe || this.newURLButtonTextValue,
           show: true,
           sequence: this.menus.length + 1,
+          parent_path: '',
+          school_of_life_submenu: 0,
         });
+
+        if(this.newURLButtonTextValue == 'School of Life' && !this.isUESchoolOfLife && this.companyId == 32) {
+          let features = this.features?.filter(f => {
+            return f.id == 1 || f.id == 11
+          })
+          if (features?.length > 0) {
+            features = features.sort((a, b) => {
+              return a.id - b.id;
+            });
+          }
+          for (let i = 0; features?.length > i; i++) {
+            let tempData;
+            let tempName = features[i].name_en
+              ? features[i].name_en
+              : features[i].feature_name;
+            let tempPath = features[i].feature_name
+              .replace(/\s/g, "")
+              .toLowerCase();
+            let name_ES = features[i].name_es
+              ? features[i].name_es
+              : features[i].feature_name_ES;
+            let name_FR = features[i].name_fr
+              ? features[i].name_fr
+              : features[i].feature_name_FR;
+            let name_EU = features[i].name_eu
+              ? features[i].name_eu
+              : features[i].feature_name_EU;
+            let name_CA = features[i].name_ca
+              ? features[i].name_ca
+              : features[i].feature_name_CA;
+            let name_DE = features[i].name_de
+              ? features[i].name_de
+              : features[i].feature_name_DE;
+      
+            tempPath = tempPath == "cityagenda" ? "cityguide" : tempPath;
+            tempName = tempPath == "cityagenda" ? "City Guide" : tempName;
+      
+            tempData = {
+              id: features[i].id,
+              path: tempPath,
+              name: tempName,
+              name_ES: name_ES,
+              name_FR: name_FR,
+              name_EU: name_EU,
+              name_CA: name_CA,
+              name_DE: name_DE,
+              show: true,
+              sequence: features[i].sequence ? features[i].sequence : 3 + i,
+              parent_path: '',
+              school_of_life_submenu: 0,
+            };
+            if(tempData?.id == 1) {
+              if (this.newURLButton == 1) {
+                this.menus.push({
+                  id: 5 + tempData?.id,
+                  path: `${this.newURLButtonUrl}/${tempPath}`,
+                  new_url: 0,
+                  new_button: 0,
+                  return_url: tempPath,
+                  name: `${tempName?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueEn || this.newURLButtonTextValue)}`,
+                  name_ES: `${name_ES?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValue)}`,
+                  name_FR: `${name_FR?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueFr || this.newURLButtonTextValue)}`,
+                  name_EU: `${name_EU?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueEu || this.newURLButtonTextValue)}`,
+                  name_CA: `${name_CA?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueCa || this.newURLButtonTextValue)}`,
+                  name_DE: `${name_DE?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueDe || this.newURLButtonTextValue)}`,
+                  show: true,
+                  sequence: features[i].sequence ? features[i].sequence : 3 + i,
+                  parent_path: this.newURLButtonUrl,
+                  school_of_life_submenu: 1,
+                })
+              }
+            }
+            if(tempData?.id == 11) {
+              this.menus.push({
+                id: 5 + tempData?.id,
+                path: `${this.newURLButtonUrl}/${tempPath}`,
+                new_url: 0,
+                new_button: 0,
+                return_url: tempPath,
+                name: tempName,
+                name_ES: name_ES,
+                name_FR: name_FR,
+                name_EU: name_EU,
+                name_CA: name_CA,
+                name_DE: name_DE,
+                show: true,
+                sequence: features[i].sequence ? features[i].sequence : 3 + i,
+                parent_path: this.newURLButtonUrl,
+                school_of_life_submenu: 1,
+              })
+            }
+          }
+        }
       }
     }
 
@@ -1960,6 +2023,8 @@ export class LayoutMainComponent {
           name_DE: this.newMenuButtonTextValueDe || this.newMenuButtonTextValue,
           show: true,
           sequence: this.menus.length + 1,
+          parent_path: '',
+          school_of_life_submenu: 0,
         });
       }
     }
@@ -2020,6 +2085,8 @@ export class LayoutMainComponent {
               name_DE: menu_name,
               show: true,
               sequence: this.menus.length + 1,
+              parent_path: '',
+              school_of_life_submenu: 0,
             });
           }
         } else {
@@ -2038,6 +2105,8 @@ export class LayoutMainComponent {
               name_DE: menu_name,
               show: true,
               sequence: this.menus.length + 1,
+              parent_path: '',
+              school_of_life_submenu: 0,
             });
           }
         }
@@ -2127,6 +2196,8 @@ export class LayoutMainComponent {
         name_DE: this._translateService.instant("sidebar.activityfeed"),
         show: true,
         sequence: this.menus.length + 1,
+        parent_path: '',
+        school_of_life_submenu: 0,
       });
     }
   }

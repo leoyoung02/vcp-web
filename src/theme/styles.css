@@ -956,3 +956,7 @@ div.event-description a {
 .plan-date .mat-mdc-form-field-subscript-wrapper {
     display: none;
 }
+
+.my-credits-table .mat-mdc-table mat-header-row.mat-mdc-header-row {
+    z-index: 49 !important;
+}

@@ -2,10 +2,12 @@ import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
   SimpleChange,
+  ViewChild,
   inject,
 } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
@@ -90,6 +92,10 @@ export class UserMenuComponent {
   isMyActivitiesActive: boolean = false;
   myClubs: any;
 
+  @ViewChild("outsidebutton", { static: false }) outsidebutton:
+    | ElementRef
+    | undefined;
+
   constructor(private _router: Router, private _authService: AuthService) {
       
   }
@@ -126,6 +132,21 @@ export class UserMenuComponent {
         initFlowbite();
       }, 100)
     }
+  }
+
+  redirectPath(mode) {
+    this.outsidebutton?.nativeElement.click();
+    let path = '';
+    switch(mode) {
+      case 'userprofile':
+        path = `/users/profile/${this.userid}`;
+        break;
+      case 'myclubs':
+        path = '/dashboard/5';
+        break;
+    }
+
+    this._router.navigate([path]);
   }
 
   ngOnDestroy() {
