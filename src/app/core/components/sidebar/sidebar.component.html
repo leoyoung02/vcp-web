@@ -56,7 +56,7 @@
       </div>
     </div>
   </ng-container>
-  <!-- <ng-container *ngIf="company?.id != 52 && superAdmin">
+  <ng-container *ngIf="(company?.id == 42 || company?.id == 35) && superAdmin">
     <div class="px-4 py-2 hover:cursor-pointer" [routerLink]="['/support-tickets']">
       <div class="p-2 flex items-center hover:rounded-lg"
         [ngStyle]="{'background-color': supportTicketsHover ? hoverColor : 'transparent'}"
@@ -74,7 +74,7 @@
         </span>
       </div>
     </div>
-  </ng-container> -->
+  </ng-container>
   <ng-container *ngIf="company?.show_terms == 1">
     <div class="px-4 py-2 hover:cursor-pointer" (click)="goToTerms()">
       <div class="p-2 flex items-center hover:rounded-lg"
