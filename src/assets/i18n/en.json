@@ -90,7 +90,10 @@
         "cookies_policy":"COOKIES POLICY",
         "cookies_policy_desc": "Provide users with insights into how their personal data is being processed when visiting your platform.",
         "iacceptthe": "I accept the",
-        "policyintro": "To join, you must agree to these policies:"
+        "policyintro": "To join, you must agree to these policies:",
+        "i":"I",
+        "acceptthe":"accept the",
+        "dateofacceptance":"Date of Acceptance"
     },
     "settings": {
         "logo_banner": "Logo & Banner",
@@ -2492,7 +2495,18 @@
         "askyourquestion": "Ask your question",
         "personalaccesstoken": "Personal access token",
         "newquestion": "New question",
-        "newreference": "New reference"
+        "newreference": "New reference",
+        "clicktocreatetoken":"Click here to learn how to create a personal access token ?",
+        "createpersonalaccesstoken":"Create Personal Access token",
+        "followstepstocreatetoken":"Follow the steps below to generate your personal access token",
+        "calendlytokenstep2":"option under Personal Access Tokens",
+        "calendlytokenstep2option":"Get a token now",
+        "calendlytokenstep3dilaog":"You will see a dialog box with title",
+        "calendlytokenstep3dialogtitle":"Before you begin",
+        "calendlytokenstep4":"Click on the",
+        "calendlytokenstep5":"At Create your personal access token, create an identifiable name for your token and click on the button",
+        "calendlytokenstep5button":"Create Token",
+        "calendlytokenstep6":"Copy and paste your personal access token"
     },
     "email": {
         "emails": "Emails",

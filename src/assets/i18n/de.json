@@ -90,7 +90,10 @@
         "cookies_policy":"COOKIES-RICHTLINIE",
         "cookies_policy_desc": "Stellen Sie Benutzern Informationen darüber zur Verfügung, wie ihre personenbezogenen Daten verarbeitet werden, wenn sie Ihre Plattform besuchen.",
         "iacceptthe": "Ich akzeptiere ausdrücklich",
-        "policyintro": "Durch die Anmeldung müssen Sie diesen Richtlinien zustimmen:"
+        "policyintro": "Durch die Anmeldung müssen Sie diesen Richtlinien zustimmen:",
+        "i":"ICH",
+        "acceptthe":"akzeptieren",
+        "dateofacceptance":"Datum der Annahme"
     },
     "settings": {
         "logo_banner": "Logo und Banner",
@@ -2486,7 +2489,18 @@
         "askyourquestion": "Stellen Sie Ihre Frage",
         "personalaccesstoken": "Persönlicher Zugriffstoken",
         "newquestion": "Pregunta nova",
-        "newreference": "Nova referència"
+        "newreference": "Nova referència",
+        "clicktocreatetoken": "Klicken Sie hier, um zu erfahren, wie Sie einen persönlichen Zugriffstoken erstellen?",
+        "createpersonalaccesstoken": "Erstellen Sie einen persönlichen Zugriffstoken",
+        "followstepstocreatetoken": "Befolgen Sie die folgenden Schritte, um Ihren persönlichen Zugriffstoken zu generieren",
+        "calendlytokenstep2": "Option unter Persönliche Zugriffstoken",
+        "calendlytokenstep2option": "Jetzt einen Token erhalten",
+        "calendlytokenstep3dilaog": "Sie sehen ein Dialogfeld mit dem Titel",
+        "calendlytokenstep3dialogtitle": "Bevor Sie beginnen",
+        "calendlytokenstep4": "Klicken Sie auf das",
+        "calendlytokenstep5": "Bei Erstellen Sie Ihren persönlichen Zugriffstoken geben Sie einen identifizierbaren Namen für Ihren Token ein und klicken Sie auf die Schaltfläche",
+        "calendlytokenstep5button": "Token erstellen",
+        "calendlytokenstep6": "Kopieren Sie Ihren persönlichen Zugriffstoken und fügen Sie ihn ein"
     },
     "email": {
         "emails": "E-Mails",

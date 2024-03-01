@@ -90,7 +90,10 @@
         "cookies_policy":"COOKIES POLITIKA",
         "cookies_policy_desc": "Eman erabiltzaileei zure plataforma bisitatzen dutenean beren datu pertsonalak nola tratatzen diren buruzko informazioa.",
         "iacceptthe": "espresuki onartzen dut",
-        "policyintro": "Izena emanez gero, politika hauek onartu behar dituzu:"
+        "policyintro": "Izena emanez gero, politika hauek onartu behar dituzu:",
+        "i":"I",
+        "acceptthe":"onartu",
+        "dateofacceptance":"Onarpen-data"
     },
     "settings": {
         "logo_banner": "Logoa eta pankarta",
@@ -2487,7 +2490,18 @@
         "askyourquestion": "Egin zure galdera",
         "personalaccesstoken": "Sarbide-token pertsonala",
         "newquestion": "Galdera berria",
-        "newreference": "Erreferentzia berria"
+        "newreference": "Erreferentzia berria",
+        "clicktocreatetoken": "Hemen klik egin token pertsonal baten sortzeko nola ikasteko?",
+        "createpersonalaccesstoken": "Sortu token pertsonal baten sarrera",
+        "followstepstocreatetoken": "Jarraitu beheko pausoak zure token pertsonal bat sortzeko",
+        "calendlytokenstep2": "aukeraren azpian Pertsonei Sarbide Tokenak",
+        "calendlytokenstep2option": "Eskuratu token bat orain",
+        "calendlytokenstep3dilaog": "Tituluarekin elkarrizketa-koadroa ikusiko duzu",
+        "calendlytokenstep3dialogtitle": "Hasieran baino lehen",
+        "calendlytokenstep4": "Egin klik",
+        "calendlytokenstep5": "Sortu zure token pertsonalaren sarrera sortu identifikagarri bat zure tokenarentzat eta egin klik botoian",
+        "calendlytokenstep5button": "Tokena sortu",
+        "calendlytokenstep6": "Kopiatu eta itsatsi zure token pertsonalaren sarbidea"
     },
     "email": {
         "emails": "Mezu elektronikoak",
