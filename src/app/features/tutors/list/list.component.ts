@@ -10,6 +10,7 @@ import { SearchComponent } from "@share/components/search/search.component";
 import { NgxPaginationModule } from "ngx-pagination";
 import { TutorCardComponent } from '@share/components/card/tutor/tutor.component';
 import get from 'lodash/get';
+import { searchSpecialCase } from 'src/app/utils/search/helper';
 
 @Component({
   selector: 'app-courses-list',
@@ -486,9 +487,15 @@ export class TutorsListComponent {
             let tutor_type_match = m?.types.some(a => ((a.toString().toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
 
             if (
-                (m.name && ((m.name).normalize("NFD").replace(/\p{Diacritic}/gu, "")).toLowerCase().indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-                || (m.first_name && ((m.first_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-                || (m.last_name && ((m.last_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+                (m.name && ((m.name).normalize("NFD").replace(/\p{Diacritic}/gu, "")).toLowerCase().indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0
+                ||  searchSpecialCase(this.search,m.name)
+                )
+                || (m.first_name && ((m.first_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0
+                || searchSpecialCase(this.search,m.first_name)
+                )
+                || (m.last_name && ((m.last_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0
+                || searchSpecialCase(this.search,m.last_name)
+                )
                 || tutor_type_match
                 ) {
                 include = true
