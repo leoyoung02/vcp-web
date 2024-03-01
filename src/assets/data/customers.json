@@ -418,5 +418,11 @@
         "name": "Curso Genius Italy",
         "url": "cursogeniusitaly.vistingo.com",
         "domain": "cursogeniusitaly.com"
+    },
+    {
+        "id": 65,  
+        "name": "Corso Genio",
+        "url": "corsogenio.vistingo.com",
+        "domain": "cursogeniusitaly.com"
     }
 ]
