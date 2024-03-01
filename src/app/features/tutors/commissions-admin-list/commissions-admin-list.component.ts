@@ -385,12 +385,15 @@ export class CommissionsAdminListComponent {
 
   deleteCommission(row) {
     this.showConfirmationModal = false;
+    
     this.confirmDeleteItemTitle = this._translateService.instant(
-      "dialog.confirmtransfer"
+      "dialog.confirmdelete"
     );
+
     this.confirmDeleteItemDescription = this._translateService.instant(
-      "dialog.confirmtransferitem"
+      "dialog.confirmdeleteitem"
     );
+
     this.acceptText = "OK";
     this.selectedItem = row;
     this.actionMode = 'delete';

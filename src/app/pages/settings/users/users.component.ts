@@ -2838,6 +2838,9 @@ export class ManageUsersComponent {
             case "Admin Grupos temáticos":
               selected_role = 99;
               break;
+            case 'Netcultura': 
+              selected_role = 102
+              break
           }
         }
         this.selectedRole = selected_role;
@@ -2885,6 +2888,9 @@ export class ManageUsersComponent {
             case "Admin Grupos temáticos":
               selected_role = 99;
               break;
+            case 'Netcultura': 
+              selected_role = 102
+              break
           }
         }
 
@@ -3817,6 +3823,9 @@ export class ManageUsersComponent {
         case 99:
           user_role = "Admin Grupos temáticos";
           break;
+        case 102: 
+          user_role = 'Netcultura'
+          break
       }
 
       let formData = [];
@@ -4795,7 +4804,7 @@ export class ManageUsersComponent {
     } else {
       let role = row.user_role;
       if (row.user_role == "Member") {
-        role = this._translateService.instant("your-admin-area.member");
+        role = this.language == 'es' && this.companyId == 12 ? 'Miembro' : this._translateService.instant("your-admin-area.member");
         if (this.companyId == 12 && this.salesPeopleList?.length > 0) {
           let match = this.salesPeopleList?.some((a) => a.id === row.id);
           if (match) {
@@ -5110,14 +5119,33 @@ export class ManageUsersComponent {
         credits = course_credits[0].remaining_credits || course_credits[0].credits
       }
     }
-    
+
+    let totalCourseCredit = 0
+    if(this.courseCreditsList?.length > 0){
+      totalCourseCredit = this.courseCreditsList.reduce((result, value) => {
+        result = value?.credits + result;
+        return result;
+      }, 0);
+    }
+
     let match = this.courseCreditsList?.some(a => a.id === event.id)
     if(!match) {
-      this.courseCreditsList.push({
-        id: event.id,
-        title: event.title,
-        credits,
-      })
+      if(this.selectedUser?.custom_member_type_id !== 282 && event?.id == 131 && totalCourseCredit > 0){
+        this.courseCreditsList.push({
+          id: event.id,
+          title: event.title,
+          credits:0,
+        })
+
+      }else{
+        this.courseCreditsList.push({
+          id: event.id,
+          title: event.title,
+          credits,
+        })
+
+      }
+
     }
 
     if(this.courseCreditsList?.length == 0 && credits > 0) {
@@ -5139,14 +5167,33 @@ export class ManageUsersComponent {
         if(course?.length > 0) {
           credits = course[0].course_credits
         }
-        
+
+        let totalCourseCredit = 0
+        if(this.courseCreditsList?.length > 0){
+          totalCourseCredit = this.courseCreditsList.reduce((result, value) => {
+            result = value?.credits + result;
+            return result;
+          }, 0);
+        }
+
         let match = this.courseCreditsList.some(a => a.id === event.id)
         if(!match) {
-          this.courseCreditsList.push({
-            id: event.id,
-            title: event.title,
-            credits,
-          })
+
+          if(this.selectedUser?.custom_member_type_id !== 282 && event?.id == 131 && totalCourseCredit > 0){
+            this.courseCreditsList.push({
+              id: event.id,
+              title: event.title,
+              credits:0,
+            })
+    
+          }else{
+            this.courseCreditsList.push({
+              id: event.id,
+              title: event.title,
+              credits,
+            })
+
+          }
         }
       })
     }
