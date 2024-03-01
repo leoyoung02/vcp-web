@@ -75,44 +75,44 @@
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                     formControlName="title_es" 
-                    placeholder="{{ 'club-create.title' | translate }}*" 
+                    placeholder="{{ 'plan-create.titleofevent' | translate }}*" 
                     required>
                 <input 
                     *ngIf="selectedLanguage == 'en'"
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                     formControlName="title_en" 
-                    placeholder="{{ 'club-create.title' | translate }}">
+                    placeholder="{{ 'plan-create.titleofevent' | translate }}">
                 <input 
                     *ngIf="selectedLanguage == 'fr'"
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                     formControlName="title_fr" 
-                    placeholder="{{ 'club-create.title' | translate }}">
+                    placeholder="{{ 'plan-create.titleofevent' | translate }}">
                 <input 
                     *ngIf="selectedLanguage == 'eu'"
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                     formControlName="title_eu" 
-                    placeholder="{{ 'club-create.title' | translate }}">
+                    placeholder="{{ 'plan-create.titleofevent' | translate }}">
                 <input 
                     *ngIf="selectedLanguage == 'ca'"
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                     formControlName="title_ca" 
-                    placeholder="{{ 'club-create.title' | translate }}">
+                    placeholder="{{ 'plan-create.titleofevent' | translate }}">
                 <input 
                     *ngIf="selectedLanguage == 'de'"
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                     formControlName="title_de" 
-                    placeholder="{{ 'club-create.title' | translate }}">
+                    placeholder="{{ 'plan-create.titleofevent' | translate }}">
             </div>
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
                 <div class="flex items-center justify-between relative plan-date">
                     <mat-form-field class="w-full">
-                        <mat-label>{{ 'landing.date' | translate }}</mat-label>
-                        <input matInput [matDatepicker]="picker" placeholder="{{ 'landing.date' | translate }}" formControlName="plan_date">
+                        <mat-label>{{ 'plan-create.eventstartdate' | translate }}</mat-label>
+                        <input matInput [matDatepicker]="picker" placeholder="{{ 'plan-create.eventstartdate' | translate }}" formControlName="plan_date">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker>
                             <mat-datepicker-actions>
@@ -131,7 +131,7 @@
                 </div>
                 <div *ngIf="isPlanDurationActive" class="flex items-center justify-between relative plan-date">
                     <mat-form-field class="w-full">
-                        <mat-label>{{ 'plan-create.enddate' | translate }}</mat-label>
+                        <mat-label>{{ 'plan-create.eventenddate' | translate }}</mat-label>
                         <input matInput [matDatepicker]="endpicker" placeholder="{{ 'plan-create.enddate' | translate }}" formControlName="end_date">
                         <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
                         <mat-datepicker #endpicker>
@@ -275,7 +275,7 @@
                         [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': planForm.get('meeting_point')?.errors }"
                         type="text"
                         class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
-                        placeholder="{{ 'plan-create.meetingpoint' | translate }}"
+                        placeholder="{{ companyId == 32 ? ('plan-create.uemeetingpoint' | translate) : ('plan-create.meetingpoint' | translate)}}"
                         formControlName="meeting_point"
                         maxlength="200"
                     />
