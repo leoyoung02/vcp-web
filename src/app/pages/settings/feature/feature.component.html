@@ -8,7 +8,7 @@
 />
 <div class="py-16">
     <div class="flex items-center justify-between border border-b-2 border-l-0 border-r-0 border-t-0 pb-3 mb-6">
-        <h1 class="text-2xl font-600">{{ this.language == 'en' ? this.featureNameEn : (this.language == 'fr' ? this.featureNameFr : (this.language == 'eu' ? (this.featureNameEu || this.featureNameEs) : (this.language == 'ca' ? (this.featureNameCa || this.featureNameEs) : (this.language == 'de' ? (this.featureNameDe || this.featureNameEs) : this.featureNameEs))))}}</h1>
+        <h1 class="text-2xl font-600">{{ getFeatureTitle() }}</h1>
         <button 
             class="min-w-[137px] inline-block h-[40px] text-sm px-6 py-2 font-semibold rounded-[10px] text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
             [ngStyle]="{
@@ -67,6 +67,12 @@
                             <input 
                                 type="text" name="namede" id="namede" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" 
                                 placeholder="{{ 'company-settings.namede' | translate }}" [(ngModel)]="featureNameDe" required>
+                        </div>
+                        <div *ngIf="isItalianEnabled">
+                            <label for="nameit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'company-settings.name' | translate }} (IT)</label>
+                            <input 
+                                type="text" name="nameit" id="nameit" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" 
+                                placeholder="{{ 'company-settings.nameit' | translate }}" [(ngModel)]="featureNameIt" required>
                         </div>
                         <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             (click)="saveFeatureName()"

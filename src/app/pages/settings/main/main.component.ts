@@ -450,6 +450,8 @@ export class MainComponent {
                   ? planFeature[0].name_ca || planFeature[0].feature_name_CA
                   : this.language == "de"
                   ? planFeature[0].name_de || planFeature[0].feature_name_DE
+                  : this.language == "it"
+                  ? planFeature[0].name_it || planFeature[0].feature_name_IT
                   : planFeature[0].name_es || planFeature[0].feature_name_ES;
               this.getPlanSubfeatures(planFeature[0].id);
             }
@@ -470,6 +472,8 @@ export class MainComponent {
                   ? clubFeature[0].name_ca || clubFeature[0].feature_name_CA
                   : this.language == "de"
                   ? clubFeature[0].name_de || clubFeature[0].feature_name_DE
+                  : this.language == "it"
+                  ? clubFeature[0].name_it || clubFeature[0].feature_name_IT
                   : clubFeature[0].name_es || clubFeature[0].feature_name_ES;
             }
 
@@ -494,6 +498,9 @@ export class MainComponent {
                   : this.language == "de"
                   ? discountFeature[0].name_de ||
                     discountFeature[0].feature_name_DE
+                  : this.language == "it"
+                  ? discountFeature[0].name_it ||
+                    discountFeature[0].feature_name_IT
                   : discountFeature[0].name_es ||
                     discountFeature[0].feature_name_ES;
             }
@@ -520,6 +527,9 @@ export class MainComponent {
                   : this.language == "de"
                   ? cityAgendaFeature[0].name_de ||
                     cityAgendaFeature[0].feature_name_DE
+                  : this.language == "it"
+                  ? cityAgendaFeature[0].name_it ||
+                    cityAgendaFeature[0].feature_name_IT
                   : cityAgendaFeature[0].name_es ||
                     cityAgendaFeature[0].feature_name_ES;
             }
@@ -540,6 +550,8 @@ export class MainComponent {
                   ? courseFeature[0].name_ca || courseFeature[0].feature_name_CA
                   : this.language == "de"
                   ? courseFeature[0].name_de || courseFeature[0].feature_name_DE
+                  : this.language == "it"
+                  ? courseFeature[0].name_it || courseFeature[0].feature_name_IT
                   : courseFeature[0].name_es ||
                     courseFeature[0].feature_name_ES;
             }
@@ -565,6 +577,9 @@ export class MainComponent {
                   : this.language == "de"
                   ? jobOffersFeature[0].name_de ||
                     jobOffersFeature[0].feature_name_de
+                  : this.language == "it"
+                  ? jobOffersFeature[0].name_it ||
+                    jobOffersFeature[0].feature_name_it
                   : jobOffersFeature[0].name_es ||
                     jobOffersFeature[0].feature_name_es;
             }
@@ -585,6 +600,8 @@ export class MainComponent {
                   ? tutorsFeature[0].name_ca || tutorsFeature[0].feature_name_CA
                   : this.language == "de"
                   ? tutorsFeature[0].name_de || tutorsFeature[0].feature_name_DE
+                  : this.language == "it"
+                  ? tutorsFeature[0].name_it || tutorsFeature[0].feature_name_IT
                   : tutorsFeature[0].name_es ||
                     tutorsFeature[0].feature_name_ES;
               this.getTutorSubfeatures(tutorsFeature[0].id);
@@ -607,6 +624,8 @@ export class MainComponent {
                 ? testimonialFeature[0].name_ca || testimonialFeature[0].feature_name_CA
                 : this.language == "de"
                 ? testimonialFeature[0].name_de || testimonialFeature[0].feature_name_DE
+                : this.language == "it"
+                ? testimonialFeature[0].name_it || testimonialFeature[0].feature_name_IT
                 : testimonialFeature[0].name_es ||
                   testimonialFeature[0].feature_name_ES;
           }
@@ -627,6 +646,8 @@ export class MainComponent {
                 ? servicesFeature[0].name_ca || servicesFeature[0].feature_name_CA
                 : this.language == "de"
                 ? servicesFeature[0].name_de || servicesFeature[0].feature_name_DE
+                : this.language == "it"
+                ? servicesFeature[0].name_it || servicesFeature[0].feature_name_IT
                 : servicesFeature[0].name_es ||
                   servicesFeature[0].feature_name_ES;
           }
@@ -647,6 +668,8 @@ export class MainComponent {
                 ? blogFeature[0].name_ca || blogFeature[0].feature_name_CA
                 : this.language == "de"
                 ? blogFeature[0].name_de || blogFeature[0].feature_name_DE
+                : this.language == "it"
+                ? blogFeature[0].name_it || blogFeature[0].feature_name_IT
                 : blogFeature[0].name_es ||
                   blogFeature[0].feature_name_ES;
           }
@@ -667,6 +690,8 @@ export class MainComponent {
                 ? membersFeature[0].name_ca || membersFeature[0].feature_name_CA
                 : this.language == "de"
                 ? membersFeature[0].name_de || membersFeature[0].feature_name_DE
+                : this.language == "it"
+                ? membersFeature[0].name_it || membersFeature[0].feature_name_IT
                 : membersFeature[0].name_es || membersFeature[0].feature_name_ES;
           }
 

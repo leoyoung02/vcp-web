@@ -175,13 +175,12 @@ export class TutorEditComponent {
       singleSelection: false,
       idField: 'id',
       textField: this.language == 'en' ? 'name_EN' :
-        (this.language == 'fr' ? 'name_FR' : 
-            (this.language == 'eu' ? 'name_EU' : 
-            (this.language == 'ca' ? 'name_CA' : 
-                (this.language == 'de' ? 'name_DE' : 'name_ES')
-            )
-            )
-        ),
+      (this.language == 'fr' ? 'name_FR' : 
+        (this.language == 'eu' ? 'name_EU' : 
+        (this.language == 'ca' ? 'name_CA' : 
+        (this.language == 'de' ? 'name_DE' : 
+        (this.language == 'it' ? 'name_IT' : 'name_ES')
+      )))),
       selectAllText: this._translateService.instant('dialog.selectall'),
       unSelectAllText: this._translateService.instant('dialog.clearall'),
       itemsShowLimit: 6,

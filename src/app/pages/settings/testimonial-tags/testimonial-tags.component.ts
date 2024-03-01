@@ -85,6 +85,7 @@ export class ManageTestimonialTagsComponent {
     tag_eu: new FormControl(""),
     tag_ca: new FormControl(""),
     tag_de: new FormControl(""),
+    tag_it: new FormControl(""),
   });
   formSubmitted: boolean = false;
   selectedId: any;
@@ -125,6 +126,7 @@ export class ManageTestimonialTagsComponent {
   @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
     | ElementRef
     | undefined;
+  isItalianEnabled: boolean = false;
 
   constructor(
     private _router: Router,
@@ -137,8 +139,7 @@ export class ManageTestimonialTagsComponent {
   ) {}
 
   async ngOnInit() {
-    this.language =
-      this._localService.getLocalStorage(environment.lslanguage) || "es";
+    this.language = this._localService.getLocalStorage(environment.lslang) || "es";
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(
       environment.lscompanyId
@@ -189,6 +190,7 @@ export class ManageTestimonialTagsComponent {
       .subscribe(
         (response) => {
           let languages = response.languages;
+          console.log(languages)
           this.languages = languages
             ? languages.filter((lang) => {
                 return lang.status == 1;
@@ -225,6 +227,11 @@ export class ManageTestimonialTagsComponent {
               return lang.code == "de" && lang.status == 1;
             });
             this.isGermanEnabled = german && german[0] ? true : false;
+
+            let italian = this.languages.filter((lang) => {
+              return lang.code == "it" && lang.status == 1;
+            });
+            this.isItalianEnabled = italian && italian[0] ? true : false;
           }
           this.setInitialParam();
           this.getTestimonialTags();
@@ -235,13 +242,14 @@ export class ManageTestimonialTagsComponent {
       );
   }
 
-  setInitialParam(tag_es = '', tag_en = '', tag_fr = '', tag_eu = '', tag_ca = '', tag_de = ''){
+  setInitialParam(tag_es = '', tag_en = '', tag_fr = '', tag_eu = '', tag_ca = '', tag_de = '', tag_it = ''){
     this.tagForm.controls['tag_es'].setValue(tag_es)
     if(this.isEnglishEnabled) { this.tagForm.controls['tag_en'].setValue(tag_en) }
     if(this.isFrenchEnabled) { this.tagForm.controls['tag_fr'].setValue(tag_fr) }
     if(this.isBasqueEnabled) { this.tagForm.controls['tag_eu'].setValue(tag_eu) }
     if(this.isCatalanEnabled) { this.tagForm.controls['tag_ca'].setValue(tag_ca) }
     if(this.isGermanEnabled) { this.tagForm.controls['tag_de'].setValue(tag_de) }
+    if(this.isItalianEnabled) { this.tagForm.controls['tag_it'].setValue(tag_it) }
 
     this.displayedColumns = ['tag_es']
 
@@ -250,6 +258,7 @@ export class ManageTestimonialTagsComponent {
     if(this.isBasqueEnabled) { this.displayedColumns.push('tag_eu'); }
     if(this.isCatalanEnabled) { this.displayedColumns.push('tag_ca'); }
     if(this.isGermanEnabled) { this.displayedColumns.push('tag_de'); }
+    if(this.isItalianEnabled) { this.displayedColumns.push('tag_it'); }
 
     this.displayedColumns.push('action')
 
@@ -260,6 +269,7 @@ export class ManageTestimonialTagsComponent {
       'tag_eu': this.isBasqueEnabled ? new FormControl('', [Validators.required]) : new FormControl(''),
       'tag_ca': this.isCatalanEnabled ? new FormControl('', [Validators.required]) : new FormControl(''),
       'tag_de': this.isGermanEnabled ? new FormControl('', [Validators.required]) : new FormControl(''),
+      'tag_it': this.isItalianEnabled ? new FormControl('', [Validators.required]) : new FormControl(''),
     })
   }
 
@@ -388,6 +398,7 @@ export class ManageTestimonialTagsComponent {
     this.tagForm.controls["tag_eu"].setValue(item.tag_eu);
     this.tagForm.controls["tag_ca"].setValue(item.tag_ca);
     this.tagForm.controls["tag_de"].setValue(item.tag_de);
+    this.tagForm.controls["tag_it"].setValue(item.tag_it);
    
     this.dialogMode = "edit";
     this.modalbutton?.nativeElement.click();
@@ -523,6 +534,17 @@ export class ManageTestimonialTagsComponent {
                   .toLowerCase()
                   .normalize("NFD")
                   .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
+          (m.tag_it &&
+            m.tag_it
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.searchKeyword
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
               ) >= 0)
         ) {
           include = true;
@@ -544,6 +566,7 @@ export class ManageTestimonialTagsComponent {
       || this.tagForm.get('tag_eu')?.errors
       || this.tagForm.get('tag_ca')?.errors
       || this.tagForm.get('tag_de')?.errors
+      || this.tagForm.get('tag_it')?.errors
     ) {
       return false;
     }
@@ -557,6 +580,7 @@ export class ManageTestimonialTagsComponent {
       tag_eu: this.isBasqueEnabled ? this.tagForm.get('tag_eu')?.value : this.tagForm.get('tag_es')?.value,
       tag_ca: this.isCatalanEnabled ? this.tagForm.get('tag_ca')?.value : this.tagForm.get('tag_es')?.value,
       tag_de: this.isGermanEnabled ? this.tagForm.get('tag_de')?.value : this.tagForm.get('tag_es')?.value,
+      tag_it: this.isItalianEnabled ? this.tagForm.get('tag_it')?.value : this.tagForm.get('tag_it')?.value,
       company_id: this.companyId
     };
     if (this.mode == "add") {

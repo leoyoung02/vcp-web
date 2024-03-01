@@ -15,14 +15,9 @@ import { storage } from 'src/app/core/utils/storage/storage.utils';
  * @returns The next Observable.
  */
 export const cacheInterceptor: HttpInterceptorFn = (request, next) => {
-    console.log('cache interceptor: ' + request.method)
-    console.log(request)
-
     if(request.method !== "GET") {
         return next(request);
     }
-
-    
 
     return next(request);
 };

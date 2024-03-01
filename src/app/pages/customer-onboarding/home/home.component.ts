@@ -24,18 +24,18 @@ import get from "lodash/get";
 @Component({
   standalone: true,
   imports: [
-        CommonModule, 
-        TranslateModule, 
-        NgxPaginationModule,
-        MatSnackBarModule,
-        FormsModule,
-        SearchComponent, 
-        PageTitleComponent,
-        NoAccessComponent,
-        CustomerCardComponent,
-        ToastComponent,
-    ],
-    templateUrl: "./home.component.html",
+    CommonModule, 
+    TranslateModule, 
+    NgxPaginationModule,
+    MatSnackBarModule,
+    FormsModule,
+    SearchComponent, 
+    PageTitleComponent,
+    NoAccessComponent,
+    CustomerCardComponent,
+    ToastComponent,
+],
+templateUrl: "./home.component.html",
 })
 export class CustomerOnboardingHomeComponent {
   private destroy$ = new Subject<void>();

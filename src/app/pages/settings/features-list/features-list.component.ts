@@ -1,5 +1,9 @@
 import { CommonModule, Location } from "@angular/common";
-import { Component } from "@angular/core";
+import { 
+  ChangeDetectionStrategy,
+  Component,
+  ChangeDetectorRef, 
+} from "@angular/core";
 import {
   LangChangeEvent,
   TranslateModule,
@@ -82,7 +86,8 @@ export class FeaturesListComponent {
     private _localService: LocalService,
     private _companyService: CompanyService,
     private _menuService: MenuService,
-    private _location: Location
+    private _location: Location,
+    private cd: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
@@ -116,17 +121,11 @@ export class FeaturesListComponent {
       this._translateService.onLangChange.subscribe(
         (event: LangChangeEvent) => {
           this.language = event.lang;
-          this.rerenderList();
+          this.initializeData();
         }
       );
 
     this.initializeData();
-  }
-
-  rerenderList() {
-    if (!this.isInitialLoad) {
-      this.initializeData();
-    }
   }
 
   initializeData() {
@@ -231,13 +230,11 @@ export class FeaturesListComponent {
   }
 
   getFeatureTitle(feature) {
-    return feature ? (this.language == 'en' ? 
-    (feature.name_en ? feature.name_en : feature.feature_name) : 
-        (this.language == 'fr' ? (feature.name_fr ? feature.name_fr : feature.feature_name) :
-            (feature.name_es ? feature.name_es : feature?.feature_name)
-        )
-    ) : ''
-  }
+    let code = this.language == 'en' ? '' : this.language;
+    let column = `feature_name_${code}` || `name_${code}`;
+    let text = feature[column];
+    return text || (feature.name_es || feature.feature_name_es);
+  } 
 
   getFeatureDescription(feature) {
     return this.language == "en"
@@ -250,6 +247,8 @@ export class FeaturesListComponent {
       ? feature.description_ca || feature.description_es
       : this.language == "de"
       ? feature.description_de || feature.description_es
+      : this.language == "it"
+      ? feature.description_it || feature.description_es
       : feature.description_es;
   }
 
@@ -296,6 +295,11 @@ export class FeaturesListComponent {
       domain: this.companyDomain,
       name_en: feature.feature_name,
       name_es: feature.feature_name_es,
+      name_fr: feature.feature_name_fr,
+      name_eu: feature.feature_name_eu,
+      name_ca: feature.feature_name_ca,
+      name_de: feature.feature_name_de,
+      name_it: feature.feature_name_it,
     };
 
     this._companyService
@@ -360,6 +364,9 @@ export class FeaturesListComponent {
                   name_FR: feature.name_fr
                     ? feature.name_fr
                     : feature.feature_name_FR,
+                  name_IT: feature.name_it
+                    ? feature.name_it
+                    : feature.feature_name_IT,
                   path: path,
                   sequence: feature?.sequence,
                   show: true,

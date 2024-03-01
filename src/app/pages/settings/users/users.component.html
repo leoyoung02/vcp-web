@@ -526,7 +526,7 @@
                                                     <div class="flex items-center justify-center relative">
                                                         <div class="w-full max-w-full">
                                                             <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                                {{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required ? '*' : ''}}
+                                                                {{ getFieldDisplay(field) }} {{field?.required ? '*' : ''}}
                                                             </label>
                                                             <input 
                                                                 [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
@@ -547,7 +547,7 @@
                                                     <div class="flex items-center justify-center relative">
                                                         <div class="w-full max-w-full">
                                                             <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                                {{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required ? '*' : ''}}
+                                                                {{ getFieldDisplay(field) }} {{field?.required ? '*' : ''}}
                                                             </label>
                                                             <input 
                                                                 [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': field?.required && !userForm.get(field?.field)?.value }"
@@ -566,7 +566,7 @@
                                                     <div class="flex items-center justify-center relative">
                                                         <div class="w-full max-w-full">
                                                             <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                                {{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required ? '*' : ''}}
+                                                                {{ getFieldDisplay(field) }} {{field?.required ? '*' : ''}}
                                                             </label>
                                                             <select 
                                                                 id="country" 
@@ -575,7 +575,7 @@
                                                                 [ngStyle]="{'border-color': buttonColor}"
                                                                 [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': userForm.get(field?.field)?.errors }"
                                                             >
-                                                                <option value="">{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}</option>
+                                                                <option value="">{{ getFieldDisplay(field) }}</option>
                                                                 <option
                                                                     *ngFor="let country of countries"
                                                                     [value]="country.country_name"
@@ -590,7 +590,7 @@
                                                     <div class="flex items-center justify-center relative">
                                                         <div class="w-full max-w-full">
                                                             <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                                {{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required ? '*' : ''}}
+                                                                {{ getFieldDisplay(field) }} {{field?.required ? '*' : ''}}
                                                             </label>
                                                             <select 
                                                                 id="city" 
@@ -631,7 +631,7 @@
                                                 <div class="flex items-center justify-center relative">
                                                     <div class="w-full max-w-full">
                                                         <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                                                            {{language == 'en' ? field?.field_display_en : field?.field_display_es}} {{field?.required ? '*' : ''}}
+                                                            {{ getFieldDisplay(field) }} {{field?.required ? '*' : ''}}
                                                         </label>
                                                         <input
                                                             class="text-sm shadow appearance-none border rounded-[10px] w-full py-2 px-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"

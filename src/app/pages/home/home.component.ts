@@ -906,6 +906,9 @@ export class HomeComponent implements OnInit, OnDestroy {
         : this.language == "de"
         ? category.name_DE ||
           category.name_ES
+        : this.language == "it"
+        ? category.name_IT ||
+          category.name_ES
         : category.name_ES
       : "";
   }
@@ -1360,6 +1363,10 @@ export class HomeComponent implements OnInit, OnDestroy {
       : this.language == "de"
       ? course.title_de
         ? course.title_de || course.title
+        : course.title
+      : this.language == "it"
+      ? course.title_it
+        ? course.title_it || course.title
         : course.title
       : course.title;
   }

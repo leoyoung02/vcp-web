@@ -128,6 +128,7 @@
     [cancelText]="cancelText"
     (onAccept)="confirm()"
 ></app-toast>
+{{user?.role}}
 <ng-container *ngIf="!isloading && user?.role != 'Admin'">
     <app-no-access></app-no-access>  
 </ng-container>

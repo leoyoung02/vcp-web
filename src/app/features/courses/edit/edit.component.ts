@@ -203,6 +203,7 @@ export class CourseEditComponent {
   moduleTitleEu: any;
   moduleTitleCa: any;
   moduleTitleDe: any;
+  moduleTitleIt: any;
   moduleNumber: any;
   moduleDescription: any;
   moduleDescriptionEn: any;
@@ -210,6 +211,7 @@ export class CourseEditComponent {
   moduleDescriptionEu: any;
   moduleDescriptionCa: any;
   moduleDescriptionDe: any;
+  moduleDescriptionIt: any;
   courseModuleMode: any;
   courseModuleFormSubmitted: boolean = false;
   showModuleDetails: boolean = false;
@@ -227,6 +229,7 @@ export class CourseEditComponent {
   blockedModuleTextDE: any = '';
   blockedModuleTextEU: any = '';
   blockedModuleTextFR: any = '';
+  blockedModuleTextIT: any = '';
   isModuleLockUnlock: boolean = false;
   packages: any;
   otherStripeAccounts: any = [];
@@ -263,6 +266,7 @@ export class CourseEditComponent {
   unitTitleEu: any
   unitTitleCa: any
   unitTitleDe: any
+  unitTitleIt: any
   unitDuration: any
   selectedUnitType: any = ''
   selectedUnitId: any
@@ -275,12 +279,14 @@ export class CourseEditComponent {
   textDE: any = ''
   textEU: any = ''
   textFR: any = ''
+  textIT: any = ''
   videoDescription: any = ''
   videoDescriptionEN: any = ''
   videoDescriptionCA: any = ''
   videoDescriptionDE: any = ''
   videoDescriptionEU: any = ''
   videoDescriptionFR: any = ''
+  videoDescriptionIT: any = ''
   unitTypes: any
   unitPoints: any
   courseUnitFile: any
@@ -518,12 +524,14 @@ export class CourseEditComponent {
       'title_eu': new FormControl(''),
       'title_ca': new FormControl(''),
       'title_de': new FormControl(''),
+      'title_it': new FormControl(''),
       'description': new FormControl('', [Validators.required]),
       'description_en': new FormControl(''),
       'description_fr': new FormControl(''),
       'description_eu': new FormControl(''),
       'description_ca': new FormControl(''),
       'description_de': new FormControl(''),
+      'description_it': new FormControl(''),
       'course_date': new FormControl(''),
       'duration': new FormControl(''),
       'points': new FormControl(''),
@@ -538,7 +546,9 @@ export class CourseEditComponent {
       (this.language == 'fr' ? 'name_FR' : 
         (this.language == 'eu' ? 'name_EU' : 
           (this.language == 'ca' ? 'name_CA' : 
-            (this.language == 'de' ? 'name_DE' : 'name_ES')
+            (this.language == 'de' ? 'name_DE' :
+              (this.language == 'it' ? 'name_IT' : 'name_ES')
+            )
           )
         )
       ),
@@ -576,9 +586,11 @@ export class CourseEditComponent {
       textField: this.language == 'en' ? 'name_EN' :
         (this.language == 'fr' ? 'name_FR' : 
             (this.language == 'eu' ? 'name_EU' : 
-            (this.language == 'ca' ? 'name_CA' : 
-                (this.language == 'de' ? 'name_DE' : 'name_ES')
-            )
+              (this.language == 'ca' ? 'name_CA' : 
+                (this.language == 'de' ? 'name_DE' : 
+                  (this.language == 'it' ? 'name_IT' :'name_ES')
+                )
+              )
             )
         ),
       selectAllText: this._translateService.instant('dialog.selectall'),
@@ -704,16 +716,6 @@ export class CourseEditComponent {
           }
         ]
       },
-      // {
-      //   value: 'before',
-      //   text: this._translateService.instant('course-assessment.before'),
-      //   subtypes: [
-      //     {
-      //       value: "module",
-      //       text: this._translateService.instant('course-assessment.module'),
-      //     }
-      //   ]
-      // },
       {
         value: 'after',
         text: this._translateService.instant('course-assessment.after'),
@@ -898,12 +900,14 @@ export class CourseEditComponent {
         'title_eu': new FormControl(''),
         'title_ca': new FormControl(''),
         'title_de': new FormControl(''),
+        'title_it': new FormControl(''),
         'description': new FormControl('', [Validators.required]),
         'description_en': new FormControl(''),
         'description_fr': new FormControl(''),
         'description_eu': new FormControl(''),
         'description_ca': new FormControl(''),
         'description_de': new FormControl(''),
+        'description_it': new FormControl(''),
         'course_date': new FormControl(''),
         'duration': new FormControl(''),
         'points': new FormControl(''),
@@ -969,6 +973,8 @@ export class CourseEditComponent {
       ? language.name_CA
       : this.language == "de"
       ? language.name_DE
+      : this.language == "it"
+      ? language.name_IT
       : language.name_ES;
   }
 
@@ -1129,12 +1135,14 @@ export class CourseEditComponent {
     this.courseForm.controls['title_eu']?.setValue(this.course.title_eu)
     this.courseForm.controls['title_ca']?.setValue(this.course.title_ca)
     this.courseForm.controls['title_de']?.setValue(this.course.title_de)
+    this.courseForm.controls['title_it']?.setValue(this.course.title_it)
     this.courseForm.controls['description']?.setValue(this.course.description)
     this.courseForm.controls['description_en']?.setValue(this.course.description_en)
     this.courseForm.controls['description_fr']?.setValue(this.course.description_fr)
     this.courseForm.controls['description_eu']?.setValue(this.course.description_eu)
     this.courseForm.controls['description_ca']?.setValue(this.course.description_ca)
     this.courseForm.controls['description_de']?.setValue(this.course.description_de)
+    this.courseForm.controls['description_it']?.setValue(this.course.description_it)
     this.courseForm.controls['points']?.setValue(this.course.points);
     this.courseForm.controls['ctatext']?.setValue(this.course?.cta_text ? (this.course?.cta_text == 'undefined' ? '' : this.course?.cta_text) : '');
     this.courseForm.controls['ctalink']?.setValue(this.course?.cta_link ? (this.course?.cta_link == 'undefined' ? '' : this.course?.cta_link) : '');
@@ -1161,7 +1169,7 @@ export class CourseEditComponent {
     if(this.courseCategoryMapping?.length > 0) {
       this.selectedCourseCategory = this.courseCategoryMapping
         .map(category => {
-          const { id, name_EN, name_ES, name_FR, name_EU, name_CA, name_DE } = category
+          const { id, name_EN, name_ES, name_FR, name_EU, name_CA, name_DE, name_IT } = category
           
           if(this.language == 'en') {
             return {
@@ -1187,6 +1195,11 @@ export class CourseEditComponent {
             return {
               id,
               name_DE
+            }
+          } else if(this.language == 'it') {
+            return {
+              id,
+              name_IT
             }
           } else {
             return {
@@ -1245,6 +1258,7 @@ export class CourseEditComponent {
         name_EU: categ?.name_EU,
         name_CA: categ?.name_CA,
         name_DE: categ?.name_DE,
+        name_IT: categ?.name_IT,
       };
     });
 
@@ -1370,6 +1384,11 @@ export class CourseEditComponent {
           feature.feature_name_DE ||
           feature.name_es ||
           feature.feature_name_ES
+        : this.language == "it"
+        ? feature.name_it ||
+          feature.feature_name_IT ||
+          feature.name_es ||
+          feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
       : "";
   }
@@ -1377,32 +1396,32 @@ export class CourseEditComponent {
   getCourseTitle(course) {
     return course ? (this.language == 'en' ? (course.title_en || course.title) : (this.language == 'fr' ? (course.title_fr || course.title) : 
       (this.language == 'eu' ? (course.title_eu || course.title) : (this.language == 'ca' ? (course.title_ca || course.title) : 
-      (this.language == 'de' ? (course.title_de || course.title) : course.title)
-      ))
+      (this.language == 'de' ? (course.title_de || course.title) : (this.language == 'it' ? (course.title_it || course.title) : course.title)
+      )))
     )) : ''
   }
 
   getDifficultyLevelTitle(difficulty) {
     return this.language == 'en' ? difficulty.difficulty : (this.language == 'fr' ? difficulty.difficulty_fr : 
       (this.language == 'eu' ? difficulty.difficulty_eu : (this.language == 'ca' ? difficulty.difficulty_ca : 
-      (this.language == 'de' ? difficulty.difficulty_de : difficulty.difficulty_es)
-      ))
+      (this.language == 'de' ? difficulty.difficulty_de : (this.language == 'it' ? difficulty.difficulty_it : difficulty.difficulty_es)
+      )))
     )
   }
 
   getCourseDurationUnitTitle(duration) {
     return this.language == 'en' ? duration.unit : (this.language == 'fr' ? duration.unit_fr : 
       (this.language == 'eu' ? duration.unit_eu : (this.language == 'ca' ? duration.unit_ca : 
-      (this.language == 'de' ? duration.unit_de : duration.unit_es)
-      ))
+      (this.language == 'de' ? duration.unit_de : (this.language == 'it' ? duration.unit_it : duration.unit_es)
+      )))
     )
   }
 
   getModuleTitle(module) {
     return this.language == 'en' ? module.title_en : (this.language == 'fr' ? (module.title_fr || module.title) : 
       (this.language == 'eu' ? (module.title_eu || module.title) : (this.language == 'ca' ? (module.title_ca || module.title) : 
-      (this.language == 'de' ? (module.title_de || module.title) : module.title)
-      ))
+      (this.language == 'de' ? (module.title_de || module.title) : (this.language == 'it' ? (module.title_it || module.title) : module.title)
+      )))
     )
   }
 
@@ -1417,8 +1436,8 @@ export class CourseEditComponent {
   getModuleDescription(module) {
     return this.language == 'en' ? module.description_en : (this.language == 'fr' ? (module.description_fr || module.description) : 
       (this.language == 'eu' ? (module.description_eu || module.description) : (this.language == 'ca' ? (module.description_ca || module.description) : 
-      (this.language == 'de' ? (module.description_de || module.description) : module.description)
-      ))
+      (this.language == 'de' ? (module.description_de || module.description) : (this.language == 'it' ? (module.description_it || module.description) : module.description)
+      )))
     )
   }
 
@@ -1728,12 +1747,14 @@ export class CourseEditComponent {
           'title_eu': this.courseForm.controls['title_eu'] ? this.courseForm.get('title_eu').value : this.title,
           'title_ca': this.courseForm.controls['title_ca'] ? this.courseForm.get('title_ca').value : this.title,
           'title_de': this.courseForm.controls['title_de'] ? this.courseForm.get('title_de').value : this.title,
+          'title_it': this.courseForm.controls['title_it'] ? this.courseForm.get('title_it').value : this.title,
           'description': this.courseForm.controls['description'] ? this.courseForm.get('description').value : this.description,
           'description_en': this.courseForm.controls['description_en'] ? this.courseForm.get('description_en').value : this.description,
           'description_fr': this.courseForm.controls['description_fr'] ? this.courseForm.get('description_fr').value : this.description,
           'description_eu': this.courseForm.controls['description_eu'] ? this.courseForm.get('description_eu').value : this.description,
           'description_ca': this.courseForm.controls['description_ca'] ? this.courseForm.get('description_ca').value : this.description,
           'description_de': this.courseForm.controls['description_de'] ? this.courseForm.get('description_de').value : this.description,
+          'description_it': this.courseForm.controls['description_it'] ? this.courseForm.get('description_it').value : this.description,
           'date': course_date,
           'points': this.courseForm.get('points').value || 0,
           'category': this.selectedCourseCategory ? this.selectedCourseCategory.map((data) => { return data.id }).join() : '',
@@ -1788,12 +1809,14 @@ export class CourseEditComponent {
           'title_eu': this.courseForm.controls['title_eu'] ? this.courseForm.get('title_eu').value : '',
           'title_ca': this.courseForm.controls['title_ca'] ? this.courseForm.get('title_ca').value : '',
           'title_de': this.courseForm.controls['title_de'] ? this.courseForm.get('title_de').value : '',
+          'title_it': this.courseForm.controls['title_it'] ? this.courseForm.get('title_it').value : '',
           'description': this.courseForm.controls['description'] ? this.courseForm.get('description').value : this.description,
           'description_en': this.courseForm.controls['description_en'] ? this.courseForm.get('description_en').value : '',
           'description_fr': this.courseForm.controls['description_fr'] ? this.courseForm.get('description_fr').value : '',
           'description_eu': this.courseForm.controls['description_eu'] ? this.courseForm.get('description_eu').value : '',
           'description_ca': this.courseForm.controls['description_ca'] ? this.courseForm.get('description_ca').value : '',
           'description_de': this.courseForm.controls['description_de'] ? this.courseForm.get('description_de').value : '',
+          'description_it': this.courseForm.controls['description_it'] ? this.courseForm.get('description_it').value : '',
           'date': course_date,
           'points': this.courseForm.get('points').value || 0,
           'category': this.selectedCourseCategory ? this.selectedCourseCategory.map((data) => { return data.id }).join() : '',
@@ -1957,6 +1980,10 @@ export class CourseEditComponent {
             this.description =  this.courseForm.get('description_fr').value;
             result = ! this.courseForm.get('description_fr').value;
             break;
+        case "it":
+          this.description =  this.courseForm.get('description_it').value;
+          result = ! this.courseForm.get('description_it').value;
+          break;
         default:
             this.description =  this.courseForm.get('description').value;
             result = ! this.courseForm.get('description').value;
@@ -2062,6 +2089,7 @@ export class CourseEditComponent {
     this.moduleTitleEu = item.title_eu
     this.moduleTitleCa = item.title_ca
     this.moduleTitleDe = item.title_de
+    this.moduleTitleIt = item.title_it
     this.moduleNumber = item.number
     this.moduleDescription = item.description
     this.moduleDescriptionEn = item.description_en
@@ -2069,6 +2097,7 @@ export class CourseEditComponent {
     this.moduleDescriptionEu = item.description_eu
     this.moduleDescriptionCa = item.description_ca
     this.moduleDescriptionDe = item.description_de
+    this.moduleDescriptionIt = item.description_it
     this.isModuleLockUnlock = item.block_other_modules == 1 ? true : false 
     this.moduleAvailableAfter = item.block_days_after > 0 ? item.block_days_after : ''
     this.unlockAfterStartDays = item.block_days_after_start > 0 ? item.block_days_after_start : ''
@@ -2078,6 +2107,7 @@ export class CourseEditComponent {
     this.blockedModuleTextDE =  item.blocked_module_text_de ? item.blocked_module_text_de : ''
     this.blockedModuleTextEU =  item.blocked_module_text_eu ? item.blocked_module_text_eu : ''
     this.blockedModuleTextFR =  item.blocked_module_text_fr ? item.blocked_module_text_fr : ''
+    this.blockedModuleTextIT =  item.blocked_module_text_it ? item.blocked_module_text_it : ''
     if(item.unblock_date) {
       let unlock_date
       if(this.course.date) {
@@ -2108,6 +2138,7 @@ export class CourseEditComponent {
     this.moduleTitleEu = ''
     this.moduleTitleCa = ''
     this.moduleTitleDe = ''
+    this.moduleTitleIt = ''
     this.moduleNumber = ''
     this.moduleDescription = ''
     this.moduleDescriptionEn = ''
@@ -2115,6 +2146,7 @@ export class CourseEditComponent {
     this.moduleDescriptionEu = ''
     this.moduleDescriptionCa = ''
     this.moduleDescriptionDe = ''
+    this.moduleDescriptionIt = ''
     this.selectedUnlockQuestionId = ''
     this.unlockDate = ''
     this.moduleAvailableAfter = ''
@@ -2131,6 +2163,7 @@ export class CourseEditComponent {
     this.blockedModuleTextDE = ''
     this.blockedModuleTextEU = ''
     this.blockedModuleTextFR = ''
+    this.blockedModuleTextIT = ''
   }
 
   cancelShowModule() {
@@ -2149,6 +2182,14 @@ export class CourseEditComponent {
 
   addModule() {
     this.courseModuleFormSubmitted = true
+
+    let code = this.defaultLanguage[0].code;
+    if(code == 'en') { this.moduleTitle = this.moduleTitleEn || this.moduleTitle }
+    if(code == 'fr') { this.moduleTitle = this.moduleTitleFr || this.moduleTitle }
+    if(code == 'eu') { this.moduleTitle = this.moduleTitleEu || this.moduleTitle }
+    if(code == 'ca') { this.moduleTitle = this.moduleTitleCa || this.moduleTitle }
+    if(code == 'de') { this.moduleTitle = this.moduleTitleDe || this.moduleTitle }
+    if(code == 'it') { this.moduleTitle = this.moduleTitleIt || this.moduleTitle }
 
     if(!this.moduleTitle) {
         return false
@@ -2171,12 +2212,14 @@ export class CourseEditComponent {
       title_eu: this.moduleTitleEu ? this.moduleTitleEu : this.moduleTitle,
       title_ca: this.moduleTitleCa ? this.moduleTitleCa : this.moduleTitle,
       title_de: this.moduleTitleDe ? this.moduleTitleDe : this.moduleTitle,
+      title_it: this.moduleTitleIt ? this.moduleTitleIt : this.moduleTitle,
       description: this.moduleDescription,
       description_en: this.moduleDescriptionEn ? this.moduleDescriptionEn : this.moduleDescription,
       description_fr: this.moduleDescriptionFr ? this.moduleDescriptionFr : this.moduleDescription,
       description_eu: this.moduleDescriptionEu ? this.moduleDescriptionEu : this.moduleDescription,
       description_ca: this.moduleDescriptionCa ? this.moduleDescriptionCa : this.moduleDescription,
       description_de: this.moduleDescriptionDe ? this.moduleDescriptionDe : this.moduleDescription,
+      description_it: this.moduleDescriptionIt ? this.moduleDescriptionIt : this.moduleDescription,
       block_other_modules: this.isModuleLockUnlock ? 1 : 0,
       block_days_after: this.isModuleLockUnlock && this.moduleAvailableAfter > 0 && this.selectedUnlockQuestionId == 1 ? this.moduleAvailableAfter : 0,
       block_days_after_start: this.isModuleLockUnlock && this.unlockAfterStartDays > 0 && this.selectedUnlockQuestionId == -1 ? this.unlockAfterStartDays : 0,
@@ -2190,6 +2233,7 @@ export class CourseEditComponent {
       blocked_module_text_de : this.blockedModuleTextDE,
       blocked_module_text_eu : this.blockedModuleTextEU,
       blocked_module_text_fr : this.blockedModuleTextFR,
+      blocked_module_text_it : this.blockedModuleTextIT,
     }
 
     this._coursesService.addCourseModule(
@@ -2228,12 +2272,14 @@ export class CourseEditComponent {
       title_eu: this.moduleTitleEu,
       title_ca: this.moduleTitleCa,
       title_de: this.moduleTitleDe,
+      title_it: this.moduleTitleIt,
       description: this.moduleDescription,
       description_en: this.moduleDescriptionEn,
       description_fr: this.moduleDescriptionFr,
       description_eu: this.moduleDescriptionEu,
       description_ca: this.moduleDescriptionCa,
       description_de: this.moduleDescriptionDe,
+      description_it: this.moduleDescriptionIt,
       block_other_modules: this.isModuleLockUnlock ? 1 : 0,
       block_days_after: this.isModuleLockUnlock && this.moduleAvailableAfter > 0 && this.selectedUnlockQuestionId == 1 ? this.moduleAvailableAfter : 0,
       block_days_after_start: this.isModuleLockUnlock && this.unlockAfterStartDays > 0 && this.selectedUnlockQuestionId == -1 ? this.unlockAfterStartDays : 0,
@@ -2247,6 +2293,7 @@ export class CourseEditComponent {
       blocked_module_text_de : this.blockedModuleTextDE,
       blocked_module_text_eu : this.blockedModuleTextEU,
       blocked_module_text_fr : this.blockedModuleTextFR,
+      blocked_module_text_it : this.blockedModuleTextIT,
     }
 
     this._coursesService.editCourseModule(
@@ -2532,18 +2579,21 @@ export class CourseEditComponent {
     this.unitTitleEu = ''
     this.unitTitleCa = ''
     this.unitTitleDe = ''
+    this.unitTitleIt = ''
     this.videoDescription = ''
     this.videoDescriptionEN = ''
     this.videoDescriptionCA = ''
     this.videoDescriptionDE = ''
     this.videoDescriptionEU = ''
     this.videoDescriptionFR = ''
+    this.videoDescriptionIT = ''
     this.text = ''
     this.textEN = ''
     this.textCA = ''
     this.textDE = ''
     this.textEU = ''
     this.textFR = ''
+    this.textIT = ''
     this.unitPoints = ''
     this.courseUnitFileName = ''
     this.selectedUnitOption = ''
@@ -2578,6 +2628,14 @@ export class CourseEditComponent {
         proceed = true
       }
     }
+
+    let code = this.defaultLanguage[0].code;
+    if(code == 'en') { this.unitTitle = this.unitTitleEn || this.unitTitle }
+    if(code == 'fr') { this.unitTitle = this.unitTitleFr || this.unitTitle }
+    if(code == 'eu') { this.unitTitle = this.unitTitleEu || this.unitTitle }
+    if(code == 'ca') { this.unitTitle = this.unitTitleCa || this.unitTitle }
+    if(code == 'de') { this.unitTitle = this.unitTitleDe || this.unitTitle }
+    if(code == 'it') { this.unitTitle = this.unitTitleIt || this.unitTitle }
 
     if(this.isAdvancedCourse) {
       if(!this.unitTitle
@@ -2614,6 +2672,7 @@ export class CourseEditComponent {
       title_eu: this.unitTitleEu ? this.unitTitleEu : this.unitTitle,
       title_ca: this.unitTitleCa ? this.unitTitleCa : this.unitTitle,
       title_de: this.unitTitleDe ? this.unitTitleDe : this.unitTitle,
+      title_it: this.unitTitleIt ? this.unitTitleIt : this.unitTitle,
       module_id: this.selectedUnitModule ? this.selectedUnitModule : 0,
       module_category_id: this.selectedUnitModuleCategory ? this.selectedUnitModuleCategory : 0,
       course_unit_type_id: this.selectedUnitType,
@@ -2633,12 +2692,14 @@ export class CourseEditComponent {
       description_de: this.videoDescriptionDE,
       description_eu: this.videoDescriptionEU,
       description_fr: this.videoDescriptionFR,
+      description_it: this.videoDescriptionIT,
       text: this.text,
       text_en: this.textEN,
       text_ca: this.textCA,
       text_de: this.textDE,
       text_eu: this.textEU,
       text_fr: this.textFR,
+      text_it: this.textIT,
       vimeo_id: this.vimeoID || null,
       video_always_available: this.videoAvailability || 0,
       unit_availability: this.unitAvailability || 0,
@@ -2689,6 +2750,14 @@ export class CourseEditComponent {
   updateUnit() {
     this.courseUnitFormSubmitted = true
 
+    let code = this.defaultLanguage[0].code;
+    if(code == 'en') { this.unitTitle = this.unitTitleEn || this.unitTitle }
+    if(code == 'fr') { this.unitTitle = this.unitTitleFr || this.unitTitle }
+    if(code == 'eu') { this.unitTitle = this.unitTitleEu || this.unitTitle }
+    if(code == 'ca') { this.unitTitle = this.unitTitleCa || this.unitTitle }
+    if(code == 'de') { this.unitTitle = this.unitTitleDe || this.unitTitle }
+    if(code == 'it') { this.unitTitle = this.unitTitleIt || this.unitTitle }
+
     if(this.isAdvancedCourse) {
       if(!this.unitTitle
         || !this.selectedUnitType
@@ -2713,6 +2782,7 @@ export class CourseEditComponent {
       title_eu: this.unitTitleEu,
       title_ca: this.unitTitleCa,
       title_de: this.unitTitleDe,
+      title_it: this.unitTitleIt,
       module_id: this.selectedUnitModule ? this.selectedUnitModule : 0,
       module_category_id: this.selectedUnitModuleCategory ? this.selectedUnitModuleCategory : 0,
       course_unit_type_id: this.selectedUnitType,
@@ -2732,12 +2802,14 @@ export class CourseEditComponent {
       description_de: this.videoDescriptionDE,
       description_eu: this.videoDescriptionEU,
       description_fr: this.videoDescriptionFR,
+      description_it: this.videoDescriptionIT,
       text: this.text,
       text_en: this.textEN,
       text_ca: this.textCA,
       text_de: this.textDE,
       text_eu: this.textEU,
       text_fr: this.textFR,
+      text_it: this.textIT,
       vimeo_id: this.vimeoID || null,
       video_always_available: this.videoAvailability || 0,
       unit_availability: this.unitAvailability || 0,
@@ -2809,6 +2881,7 @@ export class CourseEditComponent {
     this.unitTitleEu = item.title_eu
     this.unitTitleCa = item.title_ca
     this.unitTitleDe = item.title_de
+    this.unitTitleIt = item.title_it
     this.unitDuration = item.duration
     this.selectedCourseUnitDurationUnit = item.duration_unit
     this.selectedUnitType = item.course_unit_type_id || ''
@@ -2827,12 +2900,14 @@ export class CourseEditComponent {
     this.videoDescriptionDE = item.description_de || ''
     this.videoDescriptionEU = item.description_eu || ''
     this.videoDescriptionFR = item.description_fr || ''
+    this.videoDescriptionIT = item.description_it || ''
     this.text = item.text || ''
     this.textEN = item.text_en || ''
     this.textCA = item.text_ca || ''
     this.textDE = item.text_de || ''
     this.textEU = item.text_eu || ''
     this.textFR = item.text_fr || ''
+    this.textIT = item.text_it || ''
     this.vimeoID = item.vimeo_id
     this.videoBackgroundImgSrcUnit = item.video_cover ? (environment.api + '/get-course-image/' + item.video_cover) : ''
     this.videoAvailability = item.video_always_available
@@ -3095,8 +3170,8 @@ export class CourseEditComponent {
   getWallName(wall) {
     return this.language == 'en' ? (wall.title_en || wall.title) : (this.language == 'fr' ? (wall.title_fr || wall.title) : 
         (this.language == 'eu' ? (wall.title_eu || wall.title) : (this.language == 'ca' ? (wall.titlee_ca || wall.title) : 
-        (this.language == 'de' ? (wall.title_de || wall.title) : (wall.title))
-      ))
+        (this.language == 'de' ? (wall.title_de || wall.title) : (this.language == 'it' ? (wall.title_it || wall.title) : (wall.title))
+      )))
     )
   }
 
@@ -3129,7 +3204,7 @@ export class CourseEditComponent {
       return {
         ...item,
         course_assessment_timing: `${timing?.text} ${this._translateService.instant('course-assessment.of')} ${type}`,
-        passing_rate: `${item.passing_rate?.replace('.00', '')}%`
+        passing_rate: item.passing_rate && item.passing_rate != 'undefined' ? `${item.passing_rate?.replace('.00', '')}%` : ''
       }
     })
 

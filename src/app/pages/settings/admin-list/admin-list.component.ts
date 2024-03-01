@@ -286,11 +286,12 @@ export class AdminListComponent {
               return b.default - a.default;
             });
           }
-          this.defaultLanguage = languages
+          let defaultLanguage = languages
             ? languages.filter((lang) => {
                 return lang.default == true;
               })
             : [];
+          this.defaultLanguage = defaultLanguage?.length > 0 ? defaultLanguage[0] : {}
           this.generateFormFields();
           this.initializeList();
         },
@@ -524,6 +525,7 @@ export class AdminListComponent {
   formatCategories(categories) {
     let array: any[] = [];
     let default_language = this.defaultLanguage?.code || "es";
+    console.log('default: ' + default_language)
     categories?.forEach((category) => {
       array.push({
         "guests.id": category.id,
@@ -558,6 +560,7 @@ export class AdminListComponent {
   }
 
   getNameInDefaultLanguage(item, default_language) {
+    console.log(item)
     return default_language == "en"
       ? item.name_EN || item.name_en || item.name_ES || item.name_es
       : default_language == "fr"
@@ -568,6 +571,8 @@ export class AdminListComponent {
       ? item.name_CA || item.name_ca || item.name_ES || item.name_es
       : default_language == "de"
       ? item.name_DE || item.name_de || item.name_ES || item.name_es
+      : default_language == "it"
+      ? item.name_IT || item.name_it || item.name_ES || item.name_es
       : item.name_ES || item.name_es;
   }
 
@@ -1236,7 +1241,8 @@ export class AdminListComponent {
       this.form.get("name_EN")?.errors ||
       this.form.get("name_EU")?.errors ||
       this.form.get("name_CA")?.errors ||
-      this.form.get("name_DE")?.errors
+      this.form.get("name_DE")?.errors ||
+      this.form.get("name_IT")?.errors
     ) {
       return false;
     }
@@ -1253,6 +1259,8 @@ export class AdminListComponent {
         this.form.get("name_CA")?.value || this.form.get("name_ES")?.value,
       name_DE:
         this.form.get("name_DE")?.value || this.form.get("name_ES")?.value,
+      name_IT:
+        this.form.get("name_IT")?.value || this.form.get("name_IT")?.value,
       fk_company_id: this.companyId,
       sequence: this.form.get("sequence")?.value,
     };

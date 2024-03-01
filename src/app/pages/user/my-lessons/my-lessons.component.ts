@@ -898,7 +898,6 @@ export class MyLessonsComponent {
                                 }
                             )
                         } else {
-                            console.log("no transfer")
                             this.getBookings('refresh-action')
                             this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
                         }

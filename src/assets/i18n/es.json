@@ -2075,6 +2075,7 @@
         "name_eu": "Nombre (EU)",
         "name_ca": "Nombre (CA)",
         "name_de": "Nombre (DE)",
+        "name_it": "Nombre (IT)",
         "action": "Acción",
         "noresultsfound": "No se han encontrado resultados",
         "createcategory": "Crear nueva categoría",
@@ -2653,7 +2654,6 @@
         "for": "por",
         "taxesnotincluded": "(Impuestos no incluidos)",
         "taxesincluded":"(Impuestos incluidos)"
-
     },
     "inquiry": {
         "settings": "Configuraciones",
@@ -3310,7 +3310,7 @@
         "notconfigured": "No configurada",
         "configurenote": "Configure el ID de cuenta de Stripe Connect en su perfil",
         "commission": "Comisiones",
-         "notconnected": "No estás asignado como tutor a ningún curso."
+        "notconnected": "No estás asignado como tutor a ningún curso."
     },
     "timeunits": {
         "minutes": "minutos",

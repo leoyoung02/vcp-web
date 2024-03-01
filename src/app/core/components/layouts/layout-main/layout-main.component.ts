@@ -172,6 +172,10 @@ export class LayoutMainComponent {
   campus: any = '';
   refreshedMenu: boolean = false;
   isNetculturaUser: boolean = false;
+  homeTextValueIt: any;
+  newMenuButtonTextValueIt: any;
+  newURLButtonTextValueIt: any;
+  courseWallPrefixTextValueIt: any;
   hasInvitations: boolean = false;
 
   constructor(
@@ -232,6 +236,7 @@ export class LayoutMainComponent {
       this.homeTextValueEu = company[0].home_text_eu || "Hasi";
       this.homeTextValueCa = company[0].home_text_ca || "Inici";
       this.homeTextValueDe = company[0].home_text_de || "Anfang";
+      this.homeTextValueIt = company[0].home_text_it || "Casa";
       this.newMenuButton = company[0].new_menu_button;
       this.newMenuButtonTextValue = company[0].new_menu_button_text;
       this.newMenuButtonTextValueEn = company[0].new_menu_button_text_en;
@@ -239,6 +244,7 @@ export class LayoutMainComponent {
       this.newMenuButtonTextValueEu = company[0].new_menu_button_text_eu;
       this.newMenuButtonTextValueCa = company[0].new_menu_button_text_ca;
       this.newMenuButtonTextValueDe = company[0].new_menu_button_text_de;
+      this.newMenuButtonTextValueIt = company[0].new_menu_button_text_it;
       this.newMenuButtonUrl = company[0].new_menu_button_url;
       this.newURLButton = company[0].new_url_button;
       this.newURLButtonTextValue = company[0].new_url_button_text;
@@ -247,6 +253,7 @@ export class LayoutMainComponent {
       this.newURLButtonTextValueEu = company[0].new_url_button_text_eu;
       this.newURLButtonTextValueCa = company[0].new_url_button_text_ca;
       this.newURLButtonTextValueDe = company[0].new_url_button_text_de;
+      this.newURLButtonTextValueIt = company[0].new_url_button_text_it;
       this.newURLButtonUrl = company[0].new_url_button_url;
       this.homeActive = company[0].show_home_menu == 1 ? true : false;
       this.courseWallPrefix = company[0].course_wall_prefix;
@@ -256,6 +263,7 @@ export class LayoutMainComponent {
       this.courseWallPrefixTextValueEu = company[0].course_wall_prefix_text_eu;
       this.courseWallPrefixTextValueCa = company[0].course_wall_prefix_text_ca;
       this.courseWallPrefixTextValueDe = company[0].course_wall_prefix_text_de;
+      this.courseWallPrefixTextValueIt = company[0].course_wall_prefix_text_it;
       this.courseWallMenu = company[0].course_wall_menu;
     }
 
@@ -317,7 +325,7 @@ export class LayoutMainComponent {
       this.getNetculturaUsers();
     }
     
-    if(this.newUpdatesAvailable && this.companyId == 52){
+    if(this.newUpdatesAvailable && (this.companyId == 52 || this.companyId == 65)) {
       let newVersion = localStorage.getItem('new-version')?.toString();
       if(newVersion) {
           localStorage.setItem('version', newVersion);
@@ -869,6 +877,11 @@ export class LayoutMainComponent {
         : this.language == "de"
         ? coursesFeature.name_de ||
           coursesFeature.feature_name_DE ||
+          coursesFeature.name_es ||
+          coursesFeature.feature_name_ES
+        : this.language == "it"
+        ? coursesFeature.name_it ||
+          coursesFeature.feature_name_IT ||
           coursesFeature.name_es ||
           coursesFeature.feature_name_ES
         : coursesFeature.name_es || coursesFeature.feature_name_ES;
@@ -1464,6 +1477,7 @@ export class LayoutMainComponent {
                   description_es: "¡Lee estas recomendaciones y siéntete como en casa!",
                   description_eu: "Lortu informazio gehiago azken ekitaldiei eta egon gertatzen ari denaren berri.",
                   description_fr: "En savoir plus sur les derniers événements et être au courant de ce qui se passe.",
+                  description_it: "Leggi questi consigli e sentiti a casa!",
                   entity_name: "Universidad Europea",
                   entity_type_name: "Company",
                   feature_name: "City Agenda",
@@ -1472,6 +1486,7 @@ export class LayoutMainComponent {
                   feature_name_es: "Contenidos",
                   feature_name_eu: "Udal Agenda",
                   feature_name_fr: "Ordre du jour de la ville",
+                  feature_name_it: "Agenda cittadina",
                   id: 3,
                   image: "features_blog.jpg",
                   mapping_id: 182,
@@ -1482,6 +1497,7 @@ export class LayoutMainComponent {
                   name_es: "City Guide",
                   name_eu: "City Agenda",
                   name_fr: "Calendrier de la Ville",
+                  name_it: "Guida della città",
                   sequence: 4
                 })
                 this.features = this.features?.sort((a, b) => {
@@ -1560,6 +1576,9 @@ export class LayoutMainComponent {
       let name_DE = this.features[i].name_de
         ? this.features[i].name_de
         : this.features[i].feature_name_DE;
+      let name_IT = this.features[i].name_it
+        ? this.features[i].name_it
+        : this.features[i].feature_name_IT;
 
       tempPath = tempPath == "cityagenda" ? "cityguide" : tempPath;
       tempName = tempPath == "cityagenda" ? "City Guide" : tempName;
@@ -1573,6 +1592,7 @@ export class LayoutMainComponent {
         name_EU: name_EU,
         name_CA: name_CA,
         name_DE: name_DE,
+        name_IT: name_IT,
         show: true,
         sequence: this.features[i].sequence ? this.features[i].sequence : 3 + i,
       };
@@ -1809,6 +1829,7 @@ export class LayoutMainComponent {
       this.homeTextValueEu = company[0].home_text_eu || "Hasi";
       this.homeTextValueCa = company[0].home_text_ca || "Inici";
       this.homeTextValueDe = company[0].home_text_de || "Anfang";
+      this.homeTextValueIt = company[0].home_text_it || "Casa";
       this.newMenuButton = company[0].new_menu_button;
       if (this.newMenuButton == 1) {
         this.newMenuButtonTextValue = company[0].new_menu_button_text;
@@ -1817,6 +1838,7 @@ export class LayoutMainComponent {
         this.newMenuButtonTextValueEu = company[0].new_menu_button_text_eu;
         this.newMenuButtonTextValueCa = company[0].new_menu_button_text_ca;
         this.newMenuButtonTextValueDe = company[0].new_menu_button_text_de;
+        this.newMenuButtonTextValueIt = company[0].new_menu_button_text_it;
         this.newMenuButtonUrl = company[0].new_menu_button_url;
       }
       this.newURLButton = company[0].new_url_button;
@@ -1827,6 +1849,7 @@ export class LayoutMainComponent {
         this.newURLButtonTextValueEu = company[0].new_url_button_text_eu;
         this.newURLButtonTextValueCa = company[0].new_url_button_text_ca;
         this.newURLButtonTextValueDe = company[0].new_url_button_text_de;
+        this.newURLButtonTextValueIt = company[0].new_url_button_text_it;
         this.newURLButtonUrl = company[0].new_url_button_url;
       }
       this.courseWallPrefix = company[0].course_wall_prefix;
@@ -1842,6 +1865,8 @@ export class LayoutMainComponent {
           company[0].course_wall_prefix_text_ca;
         this.courseWallPrefixTextValueDe =
           company[0].course_wall_prefix_text_de;
+        this.courseWallPrefixTextValueIt =
+          company[0].course_wall_prefix_text_it;
       }
       this.courseWallMenu = company[0].course_wall_menu;
     }
@@ -1858,6 +1883,7 @@ export class LayoutMainComponent {
         name_EU: this.homeTextValueEu,
         name_CA: this.homeTextValueCa,
         name_DE: this.homeTextValueDe,
+        name_IT: this.homeTextValueIt,
         show: true,
         sequence: home_sequence,
       };
@@ -1907,6 +1933,7 @@ export class LayoutMainComponent {
             name_EU: this.dashboardDetails.title_eu,
             name_CA: this.dashboardDetails.title_ca,
             name_DE: this.dashboardDetails.title_de,
+            name_IT: this.dashboardDetails.title_it,
             show: true,
             sequence: dashboard_sequence,
           };
@@ -1952,6 +1979,7 @@ export class LayoutMainComponent {
           name_EU: this.newMenuButtonTextValueEu || this.newMenuButtonTextValue,
           name_CA: this.newMenuButtonTextValueCa || this.newMenuButtonTextValue,
           name_DE: this.newMenuButtonTextValueDe || this.newMenuButtonTextValue,
+          name_IT: this.newMenuButtonTextValueIt || this.newMenuButtonTextValue,
           show: true,
           sequence: this.menus.length + 1,
         });
@@ -1975,6 +2003,7 @@ export class LayoutMainComponent {
           name_EU: this.newURLButtonTextValueEu || this.newURLButtonTextValue,
           name_CA: this.newURLButtonTextValueCa || this.newURLButtonTextValue,
           name_DE: this.newURLButtonTextValueDe || this.newURLButtonTextValue,
+          name_IT: this.newURLButtonTextValueDe || this.newURLButtonTextValue,
           show: true,
           sequence: this.menus.length + 1,
         });
@@ -2035,6 +2064,7 @@ export class LayoutMainComponent {
               name_EU: menu_name,
               name_CA: menu_name,
               name_DE: menu_name,
+              name_IT: menu_name,
               show: true,
               sequence: this.menus.length + 1,
             });
@@ -2053,6 +2083,7 @@ export class LayoutMainComponent {
               name_EU: menu_name,
               name_CA: menu_name,
               name_DE: menu_name,
+              name_IT: menu_name,
               show: true,
               sequence: this.menus.length + 1,
             });
@@ -2089,6 +2120,9 @@ export class LayoutMainComponent {
             element.name_DE = this.courseWallPrefix
               ? `${this.courseWallPrefixTextValue} ${element.name_DE}`
               : element.name_DE;
+            element.name_IT = this.courseWallPrefix
+              ? `${this.courseWallPrefixTextValue} ${element.name_IT}`
+              : element.name_IT;
           }
         });
       }
@@ -2142,6 +2176,7 @@ export class LayoutMainComponent {
         name_EU: this._translateService.instant("sidebar.activityfeed"),
         name_CA: this._translateService.instant("sidebar.activityfeed"),
         name_DE: this._translateService.instant("sidebar.activityfeed"),
+        name_IT: this._translateService.instant("sidebar.activityfeed"),
         show: true,
         sequence: this.menus.length + 1,
       });
@@ -2168,6 +2203,10 @@ export class LayoutMainComponent {
       : this.language == "de"
       ? course.title_de
         ? course.title_de || course.title
+        : course.title
+      : this.language == "it"
+      ? course.title_it
+        ? course.title_it || course.title
         : course.title
       : course.title;
   }

@@ -227,7 +227,6 @@ export class SelectPlanComponent {
                 ...type,
               };
             });
-            console.log(this.memberTypes)
           }
           this.isLoading = false;
         },
