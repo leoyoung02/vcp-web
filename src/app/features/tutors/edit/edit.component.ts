@@ -1,5 +1,5 @@
 import { CommonModule, DatePipe } from "@angular/common";
-import { Component, HostListener, Input } from "@angular/core";
+import { Component, ElementRef, HostListener, Input, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import {
   LangChangeEvent,
@@ -110,7 +110,13 @@ export class TutorEditComponent {
   tutorTypes: any = []
   tutorTypeDropdownSettings: any
   selectedCourseTutorType:any = []
-  tutorTypeTags:any = []
+  tutorTypeTags:any = [];
+  @ViewChild("modalbutton", { static: false }) modalbutton:
+  | ElementRef
+  | undefined;
+  @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+  | ElementRef
+  | undefined;
 
   constructor(
     private _route: ActivatedRoute,
@@ -175,13 +181,12 @@ export class TutorEditComponent {
       singleSelection: false,
       idField: 'id',
       textField: this.language == 'en' ? 'name_EN' :
-        (this.language == 'fr' ? 'name_FR' : 
-            (this.language == 'eu' ? 'name_EU' : 
-            (this.language == 'ca' ? 'name_CA' : 
-                (this.language == 'de' ? 'name_DE' : 'name_ES')
-            )
-            )
-        ),
+      (this.language == 'fr' ? 'name_FR' : 
+        (this.language == 'eu' ? 'name_EU' : 
+        (this.language == 'ca' ? 'name_CA' : 
+        (this.language == 'de' ? 'name_DE' : 
+        (this.language == 'it' ? 'name_IT' : 'name_ES')
+      )))),
       selectAllText: this._translateService.instant('dialog.selectall'),
       unSelectAllText: this._translateService.instant('dialog.clearall'),
       itemsShowLimit: 6,
@@ -455,6 +460,11 @@ export class TutorEditComponent {
       duration: 3000,
       panelClass: ["info-snackbar"],
     });
+    
+  }
+
+  openTokenDialog(){
+    this.modalbutton?.nativeElement.click();
   }
 
   ngOnDestroy() {

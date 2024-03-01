@@ -1,5 +1,5 @@
 <app-page-title title="{{ 'company-settings.menuorder' | translate }}"></app-page-title>
-<div class="container flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
+<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row items-center justify-between center w-full px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
     <app-breadcrumb 
         [level1Title]="level1Title"
         [level2Title]="level2Title"
@@ -49,45 +49,8 @@
                 [value]="feature"
                 (click)="onIncludeListControlChanged(includefeatures)"
             >
-              {{ language == 'en' ? feature?.name : (language == 'fr' ? feature?.name_FR : feature?.name_ES) }}
+              {{ getFeatureTitle(feature) }}
             </mat-list-option>
         </mat-selection-list>
     </div>
 </div>
-<!-- <div class="menu-order-container">
-    <div class="flex">
-        <div class="fields-list selected">
-            <mat-selection-list #includefeatures>
-                <mat-list-option 
-                    *ngFor="let feature of selectedFeatures" 
-                    [value]="feature"
-                    (click)="onIncludeListControlChanged(includefeatures)"
-                >
-                  {{ language == 'en' ? feature?.name : (language == 'fr' ? feature?.name_FR : feature?.name_ES) }}
-                </mat-list-option>
-            </mat-selection-list>
-        </div>
-        <div class="button-container">
-            <div class="desc">{{ 'company-settings.moveupdowndesc' | translate }}</div>
-                <button 
-                    mat-button 
-                    (click)="moveUp()"
-                    [ngStyle]="{'background-color': buttonColor}"
-                >
-                    {{ 'profile-fields.moveup' | translate }}
-                    <i class="fa fa-angle-double-up" aria-hidden="true"></i>
-                </button>
-            <div>
-                <button 
-                    class="down" 
-                    mat-button 
-                    (click)="moveDown()"
-                    [ngStyle]="{'background-color': buttonColor}"
-                >
-                    <i class="fa fa-angle-double-down" aria-hidden="true"></i>
-                    {{ 'profile-fields.movedown' | translate }}
-                </button>
-            </div>
-        </div>
-    </div>
-</div> -->

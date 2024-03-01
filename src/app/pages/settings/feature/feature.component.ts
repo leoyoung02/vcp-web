@@ -80,12 +80,14 @@ export class FeatureComponent {
   isBasqueEnabled: boolean = false;
   isCatalanEnabled: boolean = false;
   isGermanEnabled: boolean = false;
+  isItalianEnabled: boolean = false;
   featureNameEn: any;
   featureNameEs: any;
   featureNameFr: any;
   featureNameEu: any;
   featureNameCa: any;
   featureNameDe: any;
+  featureNameIt: any;
   isEmploymentChannelFeature: boolean = false;
   jobOffersLists: any[] = [];
   allProfileFields: any[] = [];
@@ -143,6 +145,7 @@ export class FeatureComponent {
   selectedUserRoles: any = [];
   showFilterModal: boolean = false;
   selectedFilter: any = '';
+  featuredTextValueIt: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -192,6 +195,7 @@ export class FeatureComponent {
       this.featuredTextValueEu = company[0].featured_text_eu;
       this.featuredTextValueCa = company[0].featured_text_ca;
       this.featuredTextValueDe = company[0].featured_text_de;
+      this.featuredTextValueIt = company[0].featured_text_it;
     }
 
     this.initializeFeature();
@@ -242,6 +246,7 @@ export class FeatureComponent {
       this.featureNameEu = feature ? feature.name_eu || feature.name_es : "";
       this.featureNameCa = feature ? feature.name_ca || feature.name_es : "";
       this.featureNameDe = feature ? feature.name_de || feature.name_es : "";
+      this.featureNameIt = feature ? feature.name_it || feature.name_es : "";
       this.isEmploymentChannelFeature =
         this.featureNameEn == "Employment Channel" || feature.feature_id == 18
           ? true
@@ -305,6 +310,11 @@ export class FeatureComponent {
               return lang.code == "de" && lang.status == 1;
             });
             this.isGermanEnabled = german && german[0] ? true : false;
+
+            let italian = this.languages.filter((lang) => {
+              return lang.code == "it" && lang.status == 1;
+            });
+            this.isItalianEnabled = italian && italian[0] ? true : false;
           }
         },
         (error) => {
@@ -413,6 +423,8 @@ export class FeatureComponent {
       ? row.name_ca
       : this.language == "de"
       ? row.name_de
+      : this.language == "it"
+      ? row.name_it
       : row.name_es;
   }
 
@@ -427,6 +439,8 @@ export class FeatureComponent {
       ? row.description_ca
       : this.language == "de"
       ? row.description_de
+      : this.language == "it"
+      ? row.description_it
       : row.description_es;
   }
 
@@ -915,6 +929,7 @@ export class FeatureComponent {
         name_eu: this.featureNameEu,
         name_ca: this.featureNameCa,
         name_de: this.featureNameDe,
+        name_it: this.featureNameIt,
       };
       this._companyService
         .editCompanyFeature(this.id, this.companyId, payload)
@@ -946,6 +961,7 @@ export class FeatureComponent {
                     menu.name_ES = this.featureNameEs;
                     menu.name_EU = this.featureNameEu;
                     menu.name_FR = this.featureNameFr;
+                    menu.name_IT = this.featureNameIt;
                   }
                 });
               }
@@ -1343,6 +1359,10 @@ export class FeatureComponent {
             ? this.selectedSetting.name_de
               ? this.selectedSetting.name_de || this.selectedSetting.name_es
               : this.selectedSetting.name_es
+            : this.language == "it"
+            ? this.selectedSetting.name_it
+              ? this.selectedSetting.name_it || this.selectedSetting.name_es
+              : this.selectedSetting.name_it
             : this.selectedSetting.name_es;
       }
     }
@@ -1369,6 +1389,7 @@ export class FeatureComponent {
       featured_text_eu: this.featuredTextValueEu || this.featuredTextValue,
       featured_text_ca: this.featuredTextValueCa || this.featuredTextValue,
       featured_text_de: this.featuredTextValueDe || this.featuredTextValue,
+      featured_text_it: this.featuredTextValueIt || this.featuredTextValue,
     }
     this._plansService.saveFeaturedText(params)
       .subscribe(
@@ -2088,6 +2109,17 @@ export class FeatureComponent {
     if(event.target.value) {
       
     }
+  }
+
+  getFeatureTitle() {
+    return this.language == 'en' ? this.featureNameEn : 
+      (this.language == 'fr' ? this.featureNameFr : 
+      (this.language == 'eu' ? (this.featureNameEu || this.featureNameEs) : 
+      (this.language == 'ca' ? (this.featureNameCa || this.featureNameEs) : 
+      (this.language == 'de' ? (this.featureNameDe || this.featureNameEs) : 
+      (this.language == 'it' ? (this.featureNameIt || this.featureNameEs) : 
+      this.featureNameEs
+    )))))
   }
 
   handleGoBack() {

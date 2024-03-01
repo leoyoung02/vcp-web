@@ -13,6 +13,7 @@ import { FormsModule } from "@angular/forms";
 import { AuthService } from "@lib/services";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
+import moment from "moment";
 
 @Component({
   selector: "app-contract",
@@ -117,9 +118,10 @@ export class ContractComponent implements OnInit, OnDestroy {
   }
 
   async goHome() {
+    const dateOfAcceptance = new Date()
     let userId = this._localService.getLocalStorage(environment.lsuserId)
     this._userService
-      .acceptConditions(userId)
+      .acceptConditions(userId,{date_of_acceptance:dateOfAcceptance})
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data: any) => {

@@ -260,7 +260,7 @@ export class TutorsListComponent {
     if(this.tutorTypes?.length > 0){
       types = []
         this.tutorTypes.forEach(tt => {
-            let typeTutor = tt.tutorTypes.name_ES
+            let typeTutor = tt.tutorTypes[`name_${this.language?.toUpperCase()}`]
             if(tt.tutor_id == item.id && !(types).includes(typeTutor)){
                 (types)?.push(typeTutor)
             }
@@ -273,7 +273,7 @@ export class TutorsListComponent {
           return t.id == ttt.type_id
         })
         if(tt?.length > 0) {
-          typeTutor = tt[0].name_ES
+          typeTutor = tt[0][`name_${this.language?.toUpperCase()}`]
         }
         if(typeTutor) {
           let match = types?.some(
@@ -316,6 +316,11 @@ export class TutorsListComponent {
           feature.feature_name_DE ||
           feature.name_es ||
           feature.feature_name_ES
+        : this.language == "it"
+          ? feature.name_it ||
+            feature.feature_name_IT ||
+            feature.name_es ||
+            feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
       : "";
   }
@@ -332,6 +337,8 @@ export class TutorsListComponent {
         ? feature.description_ca || feature.description_es
         : this.language == "de"
         ? feature.description_de || feature.description_es
+        : this.language == "it"
+        ? feature.description_it || feature.description_es
         : feature.description_es
       : "";
   }
@@ -386,6 +393,7 @@ export class TutorsListComponent {
         name_ES: "All",
         name_EU: "All",
         name_FR: "All",
+        name_IT: "All",
         sequence: 1,
         status: 1,
       },
@@ -417,6 +425,7 @@ export class TutorsListComponent {
         name_ES: category.name_ES,
         name_EU: category.name_EU,
         name_FR: category.name_FR,
+        name_IT: category.name_IT,
         sequence: category.sequence,
         status: category.status,
       });
@@ -428,8 +437,9 @@ export class TutorsListComponent {
         (this.language == 'fr' ? (type.name_FR ? (type.name_FR || type.name_ES) : type.name_ES) : 
             (this.language == 'eu' ? (type.name_EU ? (type.name_EU || type.name_ES) : type.name_ES) : 
                 (this.language == 'ca' ? (type.name_CA ? (type.name_CA || type.name_ES) : type.name_ES) : 
-                    (this.language == 'de' ? (type.name_DE ? (type.name_DE || type.name_ES) : type.name_ES) : type.name_ES)
-                )
+                  (this.language == 'de' ? (type.name_DE ? (type.name_DE || type.name_ES) : type.name_ES) :
+                    (this.language == 'it' ? (type.name_IT ? (type.name_IT || type.name_ES) : type.name_ES) : type.name_ES)
+                ))
             )
         )
     ) : '';
@@ -471,7 +481,6 @@ export class TutorsListComponent {
     let tutors = this.allTutors
     if (this.search) {
         this.search = this.search.toLowerCase()
-        console.log(tutors)
         tutors = tutors.filter(m => {
             let include = false
             let tutor_type_match = m?.types.some(a => ((a.toString().toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)

@@ -90,7 +90,10 @@
         "cookies_policy":"POLITIQUE EN MATIÈRE DE COOKIES",
         "cookies_policy_desc": "Fournissez aux utilisateurs un aperçu de la manière dont leurs données personnelles sont traitées lorsqu'ils visitent votre plateforme.",
         "iacceptthe": "J'accepte expressément la",
-        "policyintro": "En vous inscrivant, vous devez accepter ces politiques :"
+        "policyintro": "En vous inscrivant, vous devez accepter ces politiques :",
+        "i":"je",
+        "acceptthe":"accepte le",
+        "dateofacceptance":"Date d'acceptation"
     },
     "settings": {
         "logo_banner": "Logo et bannière",
@@ -2072,6 +2075,7 @@
         "name_eu": "Nom (EU)",
         "name_ca": "Nom (CA)",
         "name_de": "Nom (DE)",
+        "name_it": "Nom (IT)",
         "action": "Action",
         "noresultsfound": "Aucun résultat trouvé",
         "createcategory": "Créer une nouvelle catégorie",
@@ -2485,7 +2489,18 @@
         "askyourquestion": "Pose ta question",
         "personalaccesstoken": "Jeton d'accès personnel",
         "newquestion": "Nouvelle question",
-        "newreference": "Nouvelle référence"
+        "newreference": "Nouvelle référence",
+        "clicktocreatetoken": "Cliquez ici pour apprendre comment créer un jeton d'accès personnel ?",
+        "createpersonalaccesstoken": "Créer un jeton d'accès personnel",
+        "followstepstocreatetoken": "Suivez les étapes ci-dessous pour générer votre jeton d'accès personnel",
+        "calendlytokenstep2": "option sous les jetons d'accès personnels",
+        "calendlytokenstep2option": "Obtenez un jeton maintenant",
+        "calendlytokenstep3dilaog": "Vous verrez une boîte de dialogue avec le titre",
+        "calendlytokenstep3dialogtitle": "Avant de commencer",
+        "calendlytokenstep4": "Cliquez sur le",
+        "calendlytokenstep5": "À Créez votre jeton d'accès personnel, créez un nom identifiable pour votre jeton et cliquez sur le bouton",
+        "calendlytokenstep5button": "Créer le jeton",
+        "calendlytokenstep6": "Copiez et collez votre jeton d'accès personnel"
     },
     "email": {
         "emails": "Emails",

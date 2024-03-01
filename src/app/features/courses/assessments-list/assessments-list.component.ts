@@ -139,7 +139,7 @@ export class CourseAssessmentsListComponent {
 
   async ngOnInit() {
     this.language =
-      this._localService.getLocalStorage(environment.lslanguage) || "es";
+      this._localService.getLocalStorage(environment.lslang) || "es";
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(
       environment.lscompanyId
@@ -267,8 +267,8 @@ export class CourseAssessmentsListComponent {
   getTypeTitle(type) {
     return type ? this.language == 'en' ? (type.type_en || type.type_es) : (this.language == 'fr' ? (type.type_fr || type.type_es) : 
       (this.language == 'eu' ? (type.type_eu || type.type_es) : (this.language == 'ca' ? (type.type_ca || type.type_es) : 
-      (this.language == 'de' ? (type.type_de || type.type_es) : type.type_es)
-      ))
+      (this.language == 'de' ? (type.type_de || type.type_es) : (this.language == 'it' ? (type.type_it || type.type_es) : type.type_es)
+      )))
     ) : ''
   }
 

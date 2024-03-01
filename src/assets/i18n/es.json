@@ -90,7 +90,10 @@
         "cookies_policy":"POLÍTICA DE COOKIES",
         "cookies_policy_desc": "Proporcione a los usuarios información sobre cómo se procesan sus datos personales cuando visitan su plataforma.",
         "iacceptthe": "Acepto expresamente las",
-        "policyintro": "Al inscribirse, debe aceptar estas políticas:"
+        "policyintro": "Al inscribirse, debe aceptar estas políticas:",
+        "i":"I",
+        "acceptthe":"aceptar el",
+        "dateofacceptance":"Fecha de Aceptación"
     },
     "settings": {
         "logo_banner": "Logo y Banner",
@@ -2079,6 +2082,7 @@
         "name_eu": "Nombre (EU)",
         "name_ca": "Nombre (CA)",
         "name_de": "Nombre (DE)",
+        "name_it": "Nombre (IT)",
         "action": "Acción",
         "noresultsfound": "No se han encontrado resultados",
         "createcategory": "Crear nueva categoría",
@@ -2494,7 +2498,18 @@
         "askyourquestion": "Haz tu pregunta",
         "personalaccesstoken": "Token de acceso personal",
         "newquestion": "Nueva pregunta",
-        "newreference": "Nueva referencia"
+        "newreference": "Nueva referencia",
+        "clicktocreatetoken": "Haz clic aquí para aprender cómo crear un token de acceso personal?",
+        "createpersonalaccesstoken": "Crear un token de acceso personal",
+        "followstepstocreatetoken": "Sigue los pasos a continuación para generar tu token de acceso personal",
+        "calendlytokenstep2": "opción bajo Tokens de Acceso Personal",
+        "calendlytokenstep2option": "Obtener un token ahora",
+        "calendlytokenstep3dilaog": "Verás un cuadro de diálogo con el título",
+        "calendlytokenstep3dialogtitle": "Antes de comenzar",
+        "calendlytokenstep4": "Haz clic en el",
+        "calendlytokenstep5": "En Crea tu token de acceso personal, crea un nombre identificable para tu token y haz clic en el botón",
+        "calendlytokenstep5button": "Crear Token",
+        "calendlytokenstep6": "Copia y pega tu token de acceso personal"
     },
     "email": {
         "emails": "Correos electrónicos",
@@ -2657,7 +2672,6 @@
         "for": "por",
         "taxesnotincluded": "(Impuestos no incluidos)",
         "taxesincluded":"(Impuestos incluidos)"
-
     },
     "inquiry": {
         "settings": "Configuraciones",
@@ -3314,7 +3328,7 @@
         "notconfigured": "No configurada",
         "configurenote": "Configure el ID de cuenta de Stripe Connect en su perfil",
         "commission": "Comisiones",
-         "notconnected": "No estás asignado como tutor a ningún curso."
+        "notconnected": "No estás asignado como tutor a ningún curso."
     },
     "timeunits": {
         "minutes": "minutos",

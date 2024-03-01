@@ -98,7 +98,6 @@ export class ExternalCalendlyComponent {
         }
 
         if(evt.data.event && evt.data.event.indexOf('calendly.date_and_time_selected') === 0) {
-            console.log(this.courseId)
             console.log('calendly.date_and_time_selected: ' + this.courseId)
         }
     }

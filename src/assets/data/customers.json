@@ -412,5 +412,11 @@
         "name": "DT Monster Leads",
         "url": "dtmonsterleads.vistingo.com",
         "domain": "dtmonsterleads.com"
+    },
+    {
+        "id": 65,  
+        "name": "Curso Genius Italy",
+        "url": "cursogeniusitaly.vistingo.com",
+        "domain": "cursogeniusitaly.com"
     }
 ]

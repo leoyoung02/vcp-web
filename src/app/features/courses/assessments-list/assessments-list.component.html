@@ -204,7 +204,7 @@
                                             </select>
                                         </div>
                                     </div>
-                                    <div *ngIf="!showMultipleChoiceOptionDetails && selectedAssessmentItemType == 1 && assessmentItemMode != 'add'" class="my-8">
+                                    <div *ngIf="!showMultipleChoiceOptionDetails && selectedAssessmentItemType && assessmentItemMode != 'add'" class="my-8">
                                         <div class="flex mb-8 items-center align-center">
                                             <button 
                                                 class="h-[40px] flex items-center p-3.5 px-8 rounded-[15px] justify-evenly mt-4 transition duration-700 ease-in-out mr-8"
@@ -219,7 +219,7 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <ng-container *ngIf="selectedAssessmentItemType == 1 && showMultipleChoiceOptionDetails">
+                                    <ng-container *ngIf="selectedAssessmentItemType && showMultipleChoiceOptionDetails">
                                         <div class="flex items-center justify-center relative w-full max-w-full">
                                             <div class="mb-2 relative w-full max-w-full">
                                                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'wall.choice' | translate }}</label>
@@ -279,7 +279,7 @@
                                             </button>
                                         </div>
                                     </ng-container>
-                                    <table *ngIf="!showMultipleChoiceOptionDetails && selectedAssessmentItemType == 1 && assessmentItemMode != 'add'" class="my-8 w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                    <table *ngIf="!showMultipleChoiceOptionDetails && selectedAssessmentItemType && assessmentItemMode != 'add'" class="my-8 w-full text-sm text-left text-gray-500 dark:text-gray-400">
                                         <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                             <tr>
                                                 <th></th>

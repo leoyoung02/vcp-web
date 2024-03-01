@@ -178,6 +178,7 @@ export class MenuOrderComponent implements OnInit {
       .getFeatures(this.userEmailDomain)
       .subscribe(async (res) => {
         this.features = res;
+        this.selectedFeatures = [];
         if (this.hasLandingTemplate) {
           let home_sequence = 1;
           if (
@@ -200,6 +201,10 @@ export class MenuOrderComponent implements OnInit {
             name: "Home",
             name_ES: "Inicio",
             name_FR: "Maison",
+            name_EU: "Haci",
+            name_CA: "Inici",
+            name_DE: "Anfang",
+            name_IT: "Casa",
             show: true,
             sequence: home_sequence,
           };
@@ -220,6 +225,18 @@ export class MenuOrderComponent implements OnInit {
           let name_FR = this.features[i].name_fr
             ? this.features[i].name_fr
             : this.features[i].feature_name_FR;
+          let name_EU = this.features[i].name_eu
+            ? this.features[i].name_eu
+            : this.features[i].feature_name_EU;
+          let name_CA = this.features[i].name_ca
+            ? this.features[i].name_ca
+            : this.features[i].feature_name_CA;
+          let name_DE = this.features[i].name_de
+            ? this.features[i].name_de
+            : this.features[i].feature_name_DE;
+          let name_IT = this.features[i].name_it
+            ? this.features[i].name_it
+            : this.features[i].feature_name_IT;
 
           tempPath = tempPath == "cityagenda" ? "news" : tempPath;
           tempName = tempPath == "cityagenda" ? "News" : tempName;
@@ -232,6 +249,10 @@ export class MenuOrderComponent implements OnInit {
             name: tempName,
             name_ES: name_ES,
             name_FR: name_FR,
+            name_EU: name_EU,
+            name_CA: name_CA,
+            name_DE: name_DE,
+            name_IT: name_IT,
             show: true,
             sequence: this.features[i].sequence
               ? this.features[i].sequence
@@ -345,6 +366,30 @@ export class MenuOrderComponent implements OnInit {
 
     if (index < this.selectedFeatures.length - 1)
       this.swap(this.selectedFeatures, index, index + 1);
+  }
+
+  getFeatureTitle(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.name ||
+          feature.name_ES
+        : this.language == "fr"
+        ? feature.name_FR ||
+          feature.name_ES
+        : this.language == "eu"
+        ? feature.name_EU ||
+          feature.name_ES
+        : this.language == "ca"
+        ? feature.name_CA ||
+          feature.name_ES
+        : this.language == "de"
+        ? feature.name_DE ||
+          feature.name_ES
+        : this.language == "it"
+        ? feature.name_IT ||
+          feature.name_ES
+        : feature.name_ES
+      : "";
   }
 
   handleGoBack() {

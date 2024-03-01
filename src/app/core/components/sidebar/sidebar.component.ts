@@ -159,6 +159,7 @@ export class SidebarComponent {
   supportTicketsHover: boolean = false;
   customerOnboardingHover: boolean = false;
   hoveredLanguage: any;
+  courseWallPrefixTextValueIt: any;
 
   constructor(
     private _router: Router, 
@@ -205,6 +206,7 @@ export class SidebarComponent {
     this.courseWallPrefixTextValueEu = this.company?.course_wall_prefix_text_eu;
     this.courseWallPrefixTextValueCa = this.company?.course_wall_prefix_text_ca;
     this.courseWallPrefixTextValueDe = this.company?.course_wall_prefix_text_de;
+    this.courseWallPrefixTextValueIt = this.company?.course_wall_prefix_text_it;
     this.getCourseWallMenuText();
 
     setTimeout(() => {
@@ -357,6 +359,8 @@ export class SidebarComponent {
       ? language.name_CA || language.name_ES
       : this.language == "de"
       ? language.name_DE || language.name_ES
+      : this.language == "it"
+      ? language.name_IT || language.name_ES
       : language.name_ES;
   }
 
@@ -424,6 +428,10 @@ export class SidebarComponent {
       ? wall.name_DE
         ? wall.name_DE || wall.name_ES
         : wall.name_ES
+      : this.language == "it"
+      ? wall.name_IT
+        ? wall.name_IT || wall.name_ES
+        : wall.name_ES
       : wall.name_ES;
   }
 
@@ -447,6 +455,10 @@ export class SidebarComponent {
       : this.language == "de"
       ? this.courseWallPrefixTextValueDe
         ? this.courseWallPrefixTextValueDe || this.courseWallPrefixTextValue
+        : this.courseWallPrefixTextValue
+      : this.language == "it"
+      ? this.courseWallPrefixTextValueIt
+        ? this.courseWallPrefixTextValueIt || this.courseWallPrefixTextValue
         : this.courseWallPrefixTextValue
       : this.courseWallPrefixTextValue;
   }
@@ -543,6 +555,8 @@ export class SidebarComponent {
         ? menu.name_CA || menu.name_ES
         : this.language == "de"
         ? menu.name_DE || menu.name_ES
+        : this.language == "it"
+        ? menu.name_IT || menu.name_ES
         : menu.name_ES);
 
     if(this.isUESchoolOfLife && text?.indexOf('de Vida Universitaria') >= 0) {

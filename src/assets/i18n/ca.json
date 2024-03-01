@@ -90,7 +90,10 @@
         "cookies_policy":"POLÍTICA DE COOKIES",
         "cookies_policy_desc": "Proporcioneu als usuaris informació sobre com es processen les vostres dades personals quan visiten la vostra plataforma.",
         "iacceptthe": "Accepto expressament les",
-        "policyintro": "En inscriure's, ha d'acceptar aquestes polítiques:"
+        "policyintro": "En inscriure's, ha d'acceptar aquestes polítiques:",
+        "i":"jo",
+        "acceptthe":"acceptar el",
+        "dateofacceptance":"Data d'acceptació"
     },
     "settings": {
         "logo_banner": "Logo i Banner",
@@ -2079,6 +2082,7 @@
         "name_eu": "Nom (EU)",
         "name_ca": "Nom (CA)",
         "name_de": "Nom (DE)",
+        "name_it": "Nom (IT)",
         "action": "Acció",
         "noresultsfound": "No s'han trobat resultats",
         "createcategory": "Crear nova categoria",
@@ -2494,7 +2498,18 @@
         "askyourquestion": "Fes la teva pregunta",
         "personalaccesstoken": "Token d'accés personal",
         "newquestion": "Pregunta nova",
-        "newreference": "Nova referència"
+        "newreference": "Nova referència",
+        "clicktocreatetoken": "Feu clic aquí per aprendre com crear un testimoni d'accés personal?",
+        "createpersonalaccesstoken": "Crea un testimoni d'accés personal",
+        "followstepstocreatetoken": "Segueix els passos següents per generar el teu testimoni d'accés personal",
+        "calendlytokenstep2": "opció sota els Testimonis d'Accés Personal",
+        "calendlytokenstep2option": "Obteniu un testimoni ara",
+        "calendlytokenstep3dilaog": "Veureu una finestra de diàleg amb el títol",
+        "calendlytokenstep3dialogtitle": "Abans de començar",
+        "calendlytokenstep4": "Feu clic al",
+        "calendlytokenstep5": "A Crea el teu testimoni d'accés personal, crea un nom identificable per al teu testimoni i feu clic al botó",
+        "calendlytokenstep5button": "Crea el testimoni",
+        "calendlytokenstep6": "Copia i enganxa el teu testimoni d'accés personal"
     },
     "email": {
         "emails": "Correus electrònics",

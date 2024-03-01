@@ -88,11 +88,11 @@ export class TutorCardComponent {
 
   handleSettingsClick() {
     this.onSettingsClick.emit();
-}
+  }
 
-handleQuestionClick() {
+  handleQuestionClick() {
     this.onQuestionClick.emit();
-}
+  }
 
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();

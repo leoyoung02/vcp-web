@@ -179,7 +179,7 @@
             <div class="flex justify-center py-3 text-sm text-white font-semibold flex-wrap">
               <span>{{ item?.city }}</span>
               <span class="px-2">{{ item?.languages ? '•' : '' }}</span>
-              <span>{{ item?.languages }}</span>
+              <span class="capitalize">{{ item?.languages }}</span>
             </div>
             <div class="flex justify-center pb-8 flex-wrap">
               <ng-container *ngFor="let type of item?.types; let i = index;">

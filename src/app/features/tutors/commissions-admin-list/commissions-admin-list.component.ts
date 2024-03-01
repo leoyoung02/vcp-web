@@ -427,12 +427,8 @@ export class CommissionsAdminListComponent {
     }
   }
 
-
-
   downloadExcel() {
       let event_data: any[] = [];
-      console.log(this.commissionsData)
-
       if(this.commissionsData?.length > 0){
         this.commissionsData?.forEach(booking => {
             event_data.push({

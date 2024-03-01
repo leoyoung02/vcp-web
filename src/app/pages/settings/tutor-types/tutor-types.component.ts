@@ -85,6 +85,7 @@ export class ManageTutorTypesComponent {
     name_EU: new FormControl(""),
     name_CA: new FormControl(""),
     name_DE: new FormControl(""),
+    name_IT: new FormControl(""),
     sequence: new FormControl(""),
   });
   formSubmitted: boolean = false;
@@ -107,6 +108,7 @@ export class ManageTutorTypesComponent {
   isBasqueEnabled: boolean = false;
   isCatalanEnabled: boolean = false;
   isGermanEnabled: boolean = false;
+  isItalianEnabled: boolean = false;
   selectedItem: any;
   confirmDeleteItemTitle: any;
   confirmDeleteItemDescription: any;
@@ -138,8 +140,7 @@ export class ManageTutorTypesComponent {
   ) {}
 
   async ngOnInit() {
-    this.language =
-      this._localService.getLocalStorage(environment.lslanguage) || "es";
+    this.language = this._localService.getLocalStorage(environment.lslang) || "es";
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(
       environment.lscompanyId
@@ -226,6 +227,11 @@ export class ManageTutorTypesComponent {
               return lang.code == "de" && lang.status == 1;
             });
             this.isGermanEnabled = german && german[0] ? true : false;
+
+            let italian = this.languages.filter((lang) => {
+              return lang.code == "it" && lang.status == 1;
+            });
+            this.isItalianEnabled = italian && italian[0] ? true : false;
           }
           this.setInitialParam();
           this.getTutorTypes();
@@ -236,13 +242,14 @@ export class ManageTutorTypesComponent {
       );
   }
 
-  setInitialParam(name_ES = '', name_EN = '', name_FR = '', name_EU = '', name_CA = '', name_DE = '', sequence = ''){
+  setInitialParam(name_ES = '', name_EN = '', name_FR = '', name_EU = '', name_CA = '', name_DE = '', name_IT = '', sequence = ''){
     this.typeForm.controls['name_ES'].setValue(name_ES)
     if(this.isEnglishEnabled) { this.typeForm.controls['name_EN'].setValue(name_EN) }
     if(this.isFrenchEnabled) { this.typeForm.controls['name_FR'].setValue(name_FR) }
     if(this.isBasqueEnabled) { this.typeForm.controls['name_EU'].setValue(name_EU) }
     if(this.isCatalanEnabled) { this.typeForm.controls['name_CA'].setValue(name_CA) }
     if(this.isGermanEnabled) { this.typeForm.controls['name_DE'].setValue(name_DE) }
+    if(this.isItalianEnabled) { this.typeForm.controls['name_IT'].setValue(name_IT) }
 
     this.displayedColumns = ['name_ES']
 
@@ -251,6 +258,7 @@ export class ManageTutorTypesComponent {
     if(this.isBasqueEnabled) { this.displayedColumns.push('name_EU'); }
     if(this.isCatalanEnabled) { this.displayedColumns.push('name_CA'); }
     if(this.isGermanEnabled) { this.displayedColumns.push('name_DE'); }
+    if(this.isItalianEnabled) { this.displayedColumns.push('name_IT'); }
 
     this.displayedColumns.push('action')
 
@@ -261,6 +269,7 @@ export class ManageTutorTypesComponent {
       'name_EU': this.isBasqueEnabled ? new FormControl('', [Validators.required]) : new FormControl(''),
       'name_CA': this.isCatalanEnabled ? new FormControl('', [Validators.required]) : new FormControl(''),
       'name_DE': this.isGermanEnabled ? new FormControl('', [Validators.required]) : new FormControl(''),
+      'name_IT': this.isItalianEnabled ? new FormControl('', [Validators.required]) : new FormControl(''),
     })
   }
 
@@ -382,6 +391,8 @@ export class ManageTutorTypesComponent {
       ? type.name_CA || type.name_ES
       : this.language == "de"
       ? type.name_DE || type.name_ES
+      : this.language == "it"
+      ? type.name_IT || type.name_ES
       : type.name_ES;
   }
 
@@ -396,6 +407,7 @@ export class ManageTutorTypesComponent {
     this.typeForm.controls["name_EU"].setValue(item.name_EU);
     this.typeForm.controls["name_CA"].setValue(item.name_CA);
     this.typeForm.controls["name_DE"].setValue(item.name_DE);
+    this.typeForm.controls["name_IT"].setValue(item.name_IT);
    
     this.dialogMode = "edit";
     this.modalbutton?.nativeElement.click();
@@ -531,6 +543,17 @@ export class ManageTutorTypesComponent {
                   .toLowerCase()
                   .normalize("NFD")
                   .replace(/\p{Diacritic}/gu, "")
+              ) >= 0) ||
+          (m.name_IT &&
+            m.name_IT
+              .toLowerCase()
+              .normalize("NFD")
+              .replace(/\p{Diacritic}/gu, "")
+              .indexOf(
+                this.searchKeyword
+                  .toLowerCase()
+                  .normalize("NFD")
+                  .replace(/\p{Diacritic}/gu, "")
               ) >= 0)
         ) {
           include = true;
@@ -559,6 +582,7 @@ export class ManageTutorTypesComponent {
       name_EU: this.isBasqueEnabled ? this.typeForm.get('name_EU')?.value : this.typeForm.get('name_ES')?.value,
       name_CA: this.isCatalanEnabled ? this.typeForm.get('name_CA')?.value : this.typeForm.get('name_ES')?.value,
       name_DE: this.isGermanEnabled ? this.typeForm.get('name_DE')?.value : this.typeForm.get('name_ES')?.value,
+      name_IT: this.isItalianEnabled ? this.typeForm.get('name_IT')?.value : this.typeForm.get('name_ES')?.value,
       // sequence: this.typeForm.get('sequence')?.value || null,
       company_id: this.companyId
     };

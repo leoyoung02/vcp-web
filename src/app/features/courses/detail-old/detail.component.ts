@@ -746,6 +746,10 @@ export class CourseDetailComponent {
       ? course.title_de
         ? course.title_de || course.title
         : course.title
+      : this.language == "it"
+      ? course.title_it
+        ? course.title_it || course.title
+        : course.title
       : course.title;
   }
 
@@ -770,19 +774,31 @@ export class CourseDetailComponent {
       ? course.title_de
         ? course.title_de || course.description
         : course.description
+      : this.language == "it"
+      ? course.title_it
+        ? course.title_it || course.description
+        : course.description
       : course.description;
   }
 
   getModuleTitle(module) {
     return module && this.language == 'en' ? (module.title_en ? (module.title_en || module.title) : module.title) :
       (module && this.language == 'fr' ? (module.title_fr ? (module.title_fr || module.title) : module.title) : 
-         module && module.title)
+      (module && this.language == 'eu' ? (module.title_eu ? (module.title_eu || module.title) : module.title) :
+      (module && this.language == 'ca' ? (module.title_ca ? (module.title_ca || module.title) : module.title) :
+      (module && this.language == 'de' ? (module.title_de ? (module.title_de || module.title) : module.title) :
+      (module && this.language == 'it' ? (module.title_it ? (module.title_it || module.title) : module.title) :
+         module && module.title)))))
   }
 
   getUnitTitle(unit) {
     return this.language == 'en' ? (unit.title_en ? (unit.title_en || unit.title) : unit.title) :
       (this.language == 'fr' ? (unit.title_fr ? (unit.title_fr || unit.title) : unit.title) : 
-          unit.title)
+      (this.language == 'eu' ? (unit.title_eu ? (unit.title_eu || unit.title) : unit.title) : 
+      (this.language == 'ca' ? (unit.title_ca ? (unit.title_ca || unit.title) : unit.title) : 
+      (this.language == 'de' ? (unit.title_de ? (unit.title_de || unit.title) : unit.title) : 
+      (this.language == 'it' ? (unit.title_it ? (unit.title_it || unit.title) : unit.title) : 
+          unit.title)))))
   }
 
   getCourseSections() {

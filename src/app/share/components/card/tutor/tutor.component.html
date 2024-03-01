@@ -17,7 +17,7 @@
                         <span>{{city}}</span>
                     </div>
                     <div class="flex justify-center pb-3 text-sm text-white font-semibold flex-wrap">
-                        <span>{{ languages || ('tutors.spanish' | translate) }}</span>
+                        <span class="capitalize">{{ languages || ('tutors.spanish' | translate) }}</span>
                     </div>
                     <div class="flex justify-center pb-8 text-center">
                         <ng-container *ngFor="let type of types; let i = index;">
@@ -31,7 +31,7 @@
                     <div class="flex justify-center py-3 text-sm text-white font-semibold flex-wrap">
                         <span>{{city}}</span>
                         <span class="px-2">{{ (languages || ('tutors.spanish' | translate)) ? '•' : '' }}</span>
-                        <span>{{languages || ('tutors.spanish' | translate)}}</span>
+                        <span class="capitalize">{{languages || ('tutors.spanish' | translate)}}</span>
                     </div>
                     <div class="flex justify-center pb-8 flex-wrap">
                         <ng-container *ngFor="let type of types; let i = index;">
