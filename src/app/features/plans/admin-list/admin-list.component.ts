@@ -253,7 +253,7 @@ export class PlansAdminListComponent {
         : category.name_ES || category.name_es;
     }
 
-    formatPlans(plans) {
+    formatPlans(plans, mode = '') {
         let data 
         if(plans?.length > 0) {
           data = plans?.map(plan => {
@@ -291,7 +291,7 @@ export class PlansAdminListComponent {
           this.allPlansData = data
         }
         
-        this.loadPlans(data);
+        this.loadPlans(data, mode);
     }
 
     getParticipantRole(participant) {
@@ -313,7 +313,7 @@ export class PlansAdminListComponent {
         this.loadPlans(this.allPlansData);
     }
 
-    loadPlans(data) {
+    loadPlans(data, mode = '') {
       if(this.status == 'draft') {
           this.plansData = this.allPlanDrafts
       } else {
@@ -375,7 +375,6 @@ export class PlansAdminListComponent {
               }
             }
             
-            
             return active
           })
       }
@@ -424,7 +423,6 @@ export class PlansAdminListComponent {
         })
       }
 
-
       let formattedPlans = this.plansData?.map((item) => {
         let plan_date_display = moment.utc(item.plan_date).locale(this.language).format('DD-MM-YYYY HH:mm')
         let date_display = moment.utc(item.plan_date).locale(this.language).format('M/D/YYYY')
@@ -446,10 +444,10 @@ export class PlansAdminListComponent {
       }
 
       this.plansData = formattedPlans;
-      this.refreshTable(this.plansData);
+      this.refreshTable(this.plansData, mode);
     }
 
-    refreshTable(list) {
+    refreshTable(list, mode = '') {
         this.dataSource = new MatTableDataSource(list)
         if (this.sort) {
             this.dataSource.sort = this.sort;
@@ -457,15 +455,27 @@ export class PlansAdminListComponent {
             setTimeout(() => this.dataSource.sort = this.sort);
         }
 
-        if (this.paginator) {
+        if(mode == 'refresh') {
+          if (this.paginator) {
+            this.paginator._changePageSize(this.paginator.pageSize);
+          } else {
+            setTimeout(() => {
+              this.dataSource.paginator = this.paginator;
+              this.paginator?._changePageSize(this.paginator.pageSize);
+            });
+          }
+        } else {
+          if (this.paginator) {
             this.dataSource.paginator = this.paginator
             this.paginator.firstPage()
-        } else {
+          } else {
             setTimeout(() => {
-                this.dataSource.paginator = this.paginator
-                this.paginator?.firstPage()
+              this.dataSource.paginator = this.paginator
+              this.paginator?.firstPage()
             });
+          }
         }
+        
 
         this.isLoading = false;
     }
@@ -534,161 +544,161 @@ export class PlansAdminListComponent {
     }
 
     confirmAttendance(id, type, actionUserId, eventId, plan_type) {
-        let param = {
-          user_id: this.userId,
-          action_user_id: actionUserId,
-          event_id: eventId
-        }
-    
-        if(plan_type == 'company_plan') {
-          this._plansService.confirmPlanParticipantAttendance(id, param)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(data => {
-            this.planParticipants.forEach((participant, index) => {
-              if(participant.participant_id == id) {
-                this.planParticipants[index].attended = 1;
-                this.planParticipants[index].clear_attended = 0;
-              }
-            })
-            this.formatPlans(this.allPlansData);
-            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-          }, err => {
-            console.log('err: ', err);
+      let param = {
+        user_id: this.userId,
+        action_user_id: actionUserId,
+        event_id: eventId
+      }
+  
+      if(plan_type == 'company_plan') {
+        this._plansService.confirmPlanParticipantAttendance(id, param)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
+          this.planParticipants.forEach((participant, index) => {
+            if(participant.participant_id == id) {
+              this.planParticipants[index].attended = 1;
+              this.planParticipants[index].clear_attended = 0;
+            }
           })
-        } else {
-          this._plansService.confirmParticipantAttendance(id, param)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(data => {
-            this.planParticipants.forEach((participant, index) => {
-              if(participant.participant_id == id) {
-                this.planParticipants[index].attended = 1;
-                this.planParticipants[index].clear_attended = 0;
-              }
-            })
-            this.formatPlans(this.allPlansData);
-            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-          }, err => {
-            console.log('err: ', err);
+          this.formatPlans(this.allPlansData, 'refresh');
+          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+        }, err => {
+          console.log('err: ', err);
+        })
+      } else {
+        this._plansService.confirmParticipantAttendance(id, param)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
+          this.planParticipants.forEach((participant, index) => {
+            if(participant.participant_id == id) {
+              this.planParticipants[index].attended = 1;
+              this.planParticipants[index].clear_attended = 0;
+            }
           })
-        }
+          this.formatPlans(this.allPlansData, 'refresh');
+          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+        }, err => {
+          console.log('err: ', err);
+        })
+      }
     }
     
     clearAttendance(id, type, actionUserId, eventId, plan_type) {
-        let param = {
-          user_id: this.userId,
-          action_user_id: actionUserId,
-          event_id: eventId
-        }
-    
-        if(plan_type == 'company_plan') {
-          this._plansService.clearPlanParticipantAttendance(id, param)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(data => {
-            this.planParticipants.forEach((participant, index) => {
-              if(participant.participant_id == id) {
-                  this.planParticipants[index].attended = 0;
-                  this.planParticipants[index].clear_attended = 1;
-              }
-            })
-            this.formatPlans(this.allPlansData);
-            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-          }, err => {
-            console.log('err: ', err);
+      let param = {
+        user_id: this.userId,
+        action_user_id: actionUserId,
+        event_id: eventId
+      }
+  
+      if(plan_type == 'company_plan') {
+        this._plansService.clearPlanParticipantAttendance(id, param)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
+          this.planParticipants.forEach((participant, index) => {
+            if(participant.participant_id == id) {
+                this.planParticipants[index].attended = 0;
+                this.planParticipants[index].clear_attended = 1;
+            }
           })
-        } else {
-          this._plansService.clearParticipantAttendance(id, param)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(data => {
-            this.planParticipants.forEach((participant, index) => {
-              if(participant.participant_id == id) {
-                  this.planParticipants[index].attended = 0;
-                  this.planParticipants[index].clear_attended = 1;
-              }
-            })
-            this.formatPlans(this.allPlansData);
-            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-          }, err => {
-            console.log('err: ', err);
+          this.formatPlans(this.allPlansData, 'refresh');
+          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+        }, err => {
+          console.log('err: ', err);
+        })
+      } else {
+        this._plansService.clearParticipantAttendance(id, param)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
+          this.planParticipants.forEach((participant, index) => {
+            if(participant.participant_id == id) {
+                this.planParticipants[index].attended = 0;
+                this.planParticipants[index].clear_attended = 1;
+            }
           })
-        }
+          this.formatPlans(this.allPlansData, 'refresh');
+          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+        }, err => {
+          console.log('err: ', err);
+        })
+      }
     }
 
     confirmation(id, type, actionUserId, eventId, plan_type) {
-        let param = {
-          user_id: this.userId,
-          action_user_id: actionUserId,
-          event_id: eventId
-        }
-        if(plan_type == 'company_plan') {
-          this._plansService.confirmPlanParticipant(id, param)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(data => {
-            this.planParticipants.forEach((participant, index) => {
-              if(participant.participant_id == id) {
-                  this.planParticipants[index].confirmed = 1;
-                  this.planParticipants[index].clear_confirmed = 0;
-              }
-            })
-            this.formatPlans(this.allPlansData);
-            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-          }, err => {
-            console.log('err: ', err);
+      let param = {
+        user_id: this.userId,
+        action_user_id: actionUserId,
+        event_id: eventId
+      }
+      if(plan_type == 'company_plan') {
+        this._plansService.confirmPlanParticipant(id, param)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
+          this.planParticipants.forEach((participant, index) => {
+            if(participant.participant_id == id) {
+                this.planParticipants[index].confirmed = 1;
+                this.planParticipants[index].clear_confirmed = 0;
+            }
           })
-        } else {
-          this._plansService.confirmParticipant(id, param)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(data => {
-            this.planParticipants.forEach((participant, index) => {
-              if(participant.participant_id == id) {
-                  this.planParticipants[index].confirmed = 1;
-                  this.planParticipants[index].clear_confirmed = 0;
-              }
-            })
-            this.formatPlans(this.allPlansData);
-            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-          }, err => {
-            console.log('err: ', err);
+          this.formatPlans(this.allPlansData, 'refresh');
+          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+        }, err => {
+          console.log('err: ', err);
+        })
+      } else {
+        this._plansService.confirmParticipant(id, param)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
+          this.planParticipants.forEach((participant, index) => {
+            if(participant.participant_id == id) {
+              this.planParticipants[index].confirmed = 1;
+              this.planParticipants[index].clear_confirmed = 0;
+            }
           })
-        }
+          this.formatPlans(this.allPlansData, 'refresh');
+          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+        }, err => {
+          console.log('err: ', err);
+        })
+      }
     }
     
     clearConfirmation(id, type, actionUserId, eventId, plan_type) {
-        let param = {
-          user_id: this.userId,
-          action_user_id: actionUserId,
-          event_id: eventId
-        }
-        if(plan_type == 'company_plan') {
-          this._plansService.clearPlanConfirmation(id, param)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(data => {
-            this.planParticipants.forEach((participant, index) => {
-              if(participant.participant_id == id) {
-                  this.planParticipants[index].confirmed = 0;
-                  this.planParticipants[index].clear_confirmed = 1;
-              }
-            })
-            this.formatPlans(this.allPlansData);
-            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-          }, err => {
-            console.log('err: ', err);
+      let param = {
+        user_id: this.userId,
+        action_user_id: actionUserId,
+        event_id: eventId
+      }
+      if(plan_type == 'company_plan') {
+        this._plansService.clearPlanConfirmation(id, param)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
+          this.planParticipants.forEach((participant, index) => {
+            if(participant.participant_id == id) {
+                this.planParticipants[index].confirmed = 0;
+                this.planParticipants[index].clear_confirmed = 1;
+            }
           })
-        } else {
-          this._plansService.clearConfirmation(id, param)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(data => {
-            this.planParticipants.forEach((participant, index) => {
-              if(participant.participant_id == id) {
-                  this.planParticipants[index].confirmed = 0;
-                  this.planParticipants[index].clear_confirmed = 1;
-              }
-            })
-            this.formatPlans(this.allPlansData);
-            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-          }, err => {
-            console.log('err: ', err);
+          this.formatPlans(this.allPlansData, 'refresh');
+          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+        }, err => {
+          console.log('err: ', err);
+        })
+      } else {
+        this._plansService.clearConfirmation(id, param)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(data => {
+          this.planParticipants.forEach((participant, index) => {
+            if(participant.participant_id == id) {
+                this.planParticipants[index].confirmed = 0;
+                this.planParticipants[index].clear_confirmed = 1;
+            }
           })
-        }
+          this.formatPlans(this.allPlansData, 'refresh');
+          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+        }, err => {
+          console.log('err: ', err);
+        })
+      }
     }
 
     async open(message: string, action: string) {
