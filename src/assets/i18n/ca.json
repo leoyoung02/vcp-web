@@ -2491,7 +2491,18 @@
         "askyourquestion": "Fes la teva pregunta",
         "personalaccesstoken": "Token d'accés personal",
         "newquestion": "Pregunta nova",
-        "newreference": "Nova referència"
+        "newreference": "Nova referència",
+        "clicktocreatetoken": "Feu clic aquí per aprendre com crear un testimoni d'accés personal?",
+        "createpersonalaccesstoken": "Crea un testimoni d'accés personal",
+        "followstepstocreatetoken": "Segueix els passos següents per generar el teu testimoni d'accés personal",
+        "calendlytokenstep2": "opció sota els Testimonis d'Accés Personal",
+        "calendlytokenstep2option": "Obteniu un testimoni ara",
+        "calendlytokenstep3dilaog": "Veureu una finestra de diàleg amb el títol",
+        "calendlytokenstep3dialogtitle": "Abans de començar",
+        "calendlytokenstep4": "Feu clic al",
+        "calendlytokenstep5": "A Crea el teu testimoni d'accés personal, crea un nom identificable per al teu testimoni i feu clic al botó",
+        "calendlytokenstep5button": "Crea el testimoni",
+        "calendlytokenstep6": "Copia i enganxa el teu testimoni d'accés personal"
     },
     "email": {
         "emails": "Correus electrònics",

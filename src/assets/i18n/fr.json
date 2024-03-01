@@ -2482,7 +2482,18 @@
         "askyourquestion": "Pose ta question",
         "personalaccesstoken": "Jeton d'accès personnel",
         "newquestion": "Nouvelle question",
-        "newreference": "Nouvelle référence"
+        "newreference": "Nouvelle référence",
+        "clicktocreatetoken": "Cliquez ici pour apprendre comment créer un jeton d'accès personnel ?",
+        "createpersonalaccesstoken": "Créer un jeton d'accès personnel",
+        "followstepstocreatetoken": "Suivez les étapes ci-dessous pour générer votre jeton d'accès personnel",
+        "calendlytokenstep2": "option sous les jetons d'accès personnels",
+        "calendlytokenstep2option": "Obtenez un jeton maintenant",
+        "calendlytokenstep3dilaog": "Vous verrez une boîte de dialogue avec le titre",
+        "calendlytokenstep3dialogtitle": "Avant de commencer",
+        "calendlytokenstep4": "Cliquez sur le",
+        "calendlytokenstep5": "À Créez votre jeton d'accès personnel, créez un nom identifiable pour votre jeton et cliquez sur le bouton",
+        "calendlytokenstep5button": "Créer le jeton",
+        "calendlytokenstep6": "Copiez et collez votre jeton d'accès personnel"
     },
     "email": {
         "emails": "Emails",
