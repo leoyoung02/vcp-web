@@ -90,7 +90,10 @@
         "cookies_policy":"POLITIQUE EN MATIÈRE DE COOKIES",
         "cookies_policy_desc": "Fournissez aux utilisateurs un aperçu de la manière dont leurs données personnelles sont traitées lorsqu'ils visitent votre plateforme.",
         "iacceptthe": "J'accepte expressément la",
-        "policyintro": "En vous inscrivant, vous devez accepter ces politiques :"
+        "policyintro": "En vous inscrivant, vous devez accepter ces politiques :",
+        "i":"je",
+        "acceptthe":"accepte le",
+        "dateofacceptance":"Date d'acceptation"
     },
     "settings": {
         "logo_banner": "Logo et bannière",

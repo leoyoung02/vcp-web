@@ -41,6 +41,7 @@ import each from "lodash/each";
 import keys from "lodash/keys";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { TutorHourlyateBanner } from "@pages/general/banner/tutor-hourly-rate.component";
+import moment from "moment";
 
 @Component({
   standalone: true,
@@ -180,6 +181,8 @@ export class ProfileComponent {
   isOpenContact:boolean= false;
   contracts: any;
   contract: any;
+  userFullName:string = '';
+  dateOfAcceptance:string = ''
 
 
   constructor(
@@ -428,6 +431,9 @@ export class ProfileComponent {
           })
           this.contract = contract?.length > 0 ? contract[0].contract : '';
         }
+
+        this.userFullName = this.me?.name ? this.me?.name :  this.me?.first_name + ' ' + this.me?.last_name  
+        this.dateOfAcceptance = this.me?.date_of_acceptance ? moment(this.me.date_of_acceptance).format('DD/MM/YYYY') : ''
 
         this.mapSubfeatures(members_subfeatures, tutors_subfeatures);
         this.getOtherSettings();
