@@ -88,6 +88,7 @@ export class MembersListComponent {
   selectedSector: any;
   showMembersCount: boolean = false;
   featureTitle: string = '';
+  postalCodes: any = [];
 
   constructor(
     private _router: Router,
@@ -189,8 +190,10 @@ export class MembersListComponent {
           this.allMembers = data?.members;
           this.formatMembers(data?.members);
 
-          this.cities = data?.cities;
-          this.initializeIconFilterList(this.cities);
+          if(this.companyId != 12) {
+            this.cities = data?.cities;
+            this.initializeIconFilterList(this.cities);
+          }
 
           this.sectors = data?.sectors;
           this.initializeButtonGroup();
@@ -284,6 +287,25 @@ export class MembersListComponent {
 
   formatMembers(members) {
     members = members?.map((item) => {
+      if(this.companyId == 12 && item?.zip_code) {
+        let match = this.postalCodes?.some((a) => a.value == item.zip_code);
+        if(!match) {
+          this.postalCodes?.push({
+            id: this.postalCodes?.length,
+            value: item.zip_code,
+            text: item.zip_code,
+            selected: false,
+            company_id: this.companyId,
+            city: item.zip_code,
+            province: '',
+            region: '',
+            country: '',
+            sequence: this.postalCodes?.length,
+            campus: '',
+          })
+        }
+      }
+      
       return {
         ...item,
         id: item?.id,
@@ -297,6 +319,20 @@ export class MembersListComponent {
     });
 
     this.members = members;
+
+    if(this.postalCodes?.length > 0) {
+      this.postalCodes?.sort(function (a, b) {
+        if (a.text < b.text) {
+          return -1;
+        }
+        if (a.text > b.text) {
+          return 1;
+        }
+        return 0;
+      });
+
+      this.initializeIconFilterList(this.postalCodes);
+    }
 
     let selected = localStorage.getItem('member-filter-city');
     if(selected && this.list?.length > 0) {
@@ -448,9 +484,16 @@ export class MembersListComponent {
     }
 
     if(this.selectedCity) {
-      members = members?.filter(m => {
-        return m?.city == this.selectedCity
-      })
+      if(this.companyId == 12) {
+        members = members?.filter(m => {
+          return m?.zip_code == this.selectedCity
+        })
+      } else {
+        members = members?.filter(m => {
+          return m?.city == this.selectedCity
+        })
+      }
+      
     }
 
     if(this.selectedSector && !(this.selectedSector == 'Todas' || this.selectedSector == 'All')) {

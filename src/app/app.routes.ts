@@ -186,6 +186,12 @@ export const routes: Routes = [
         canMatch: [authGuard()],
     },
     {
+        path: 'reports',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@pages/reports')).routes,
+        canMatch: [authGuard()],
+    },
+    {
         path: 'customer-onboarding',
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@pages/customer-onboarding')).routes,

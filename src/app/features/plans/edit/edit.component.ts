@@ -53,6 +53,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { DateAdapter } from '@angular/material/core';
 import moment from "moment";
 import get from "lodash/get";
 
@@ -431,6 +432,8 @@ export class PlanEditComponent {
   membersLimitGreaterThanSeats: boolean = false;
   guestsLimitGreaterThanSeats: boolean = false;
   showMeetingLinks: boolean = true;
+  createdByUser: any = '';
+  users: any = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -440,7 +443,8 @@ export class PlanEditComponent {
     private _localService: LocalService,
     private _companyService: CompanyService,
     private _plansService: PlansService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private dateAdapter: DateAdapter<Date>
   ) {}
 
   @HostListener("window:resize", [])
@@ -450,6 +454,8 @@ export class PlanEditComponent {
 
   async ngOnInit() {
     this.onResize();
+    this.dateAdapter.setLocale('en-US');
+    this.dateAdapter.getFirstDayOfWeek = () => { return 1; }
 
     this.createdBy = this.planTypeId;
     this.language = this._localService.getLocalStorage(environment.lslang);
@@ -678,11 +684,14 @@ export class PlanEditComponent {
           this.cities = data?.cities;
           this.mapLanguages(data?.languages);
           this.mapClubs(data);
+          this.mapUsers(data?.users);
 
           this.isLoading = false;
 
           if (this.id > 0) {
             this.fetchPlan();
+          } else {
+            this.createdByUser = this.userId;
           }
         },
         (error) => {
@@ -1018,6 +1027,31 @@ export class PlanEditComponent {
     if (this.companyId == 32 && !this.superAdmin) {
       this.getClubPresidents(data?.club_presidents_mapping);
     }
+  }
+
+  mapUsers(users) {
+    if(users?.length > 0) {
+      users = users?.map((user) => {
+        let user_name = (user?.name ? user?.name : (user?.first_name + ' ' + user?.last_name))?.trim() + ' - ' + user?.email;
+  
+        return {
+          ...user,
+          user_name: user_name,
+        };
+      });
+
+      users.sort(function (a, b) {
+        if (a.user_name < b.user_name) {
+          return -1;
+        }
+        if (a.user_name > b.user_name) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+
+    this.users = users;
   }
 
   getClubPresidents(club_presidents_mapping) {
@@ -1487,9 +1521,10 @@ export class PlanEditComponent {
     this.isShowAttendee = show_attendee == 1 ? true : false;
     this.isShowComments = show_comments == 1 ? true : false;
     this.isShowDescription = show_description == 1 ? true : false;
-    if(this.hasActivityCodeActivated) {
-      this.activityCode = activity_code
+    if(this.hasActivityCodeActivated) { 
+      this.activityCode = activity_code 
     }
+    this.createdByUser = this.plan?.fk_user_id || this.userId;
   }
 
   mapCategories(category_mapping) {
@@ -2171,7 +2206,7 @@ export class PlanEditComponent {
       this._plansService
         .updatePlan(
           this.companyId,
-          this.userId,
+          this.createdByUser || this.userId,
           this.id,
           this.planTypeId,
           this.plan,
@@ -2204,7 +2239,7 @@ export class PlanEditComponent {
       this._plansService
         .createPlan(
           this.companyId,
-          this.userId,
+          this.createdByUser || this.userId,
           this.planTypeId,
           this.plan,
           this.file,

@@ -86,6 +86,11 @@ export class PlansAdminListComponent {
     invoiceDetails: any;
     apiPath: string = environment.api;
     kcnTypes: any = [];
+    guestHistory: any = [];
+    allGuestHistory: any = [];
+    selectedGuestId: any;
+    showHistory: boolean = false;
+    assignParticipantIds: any;
 
     constructor(
         private _route: ActivatedRoute,
@@ -130,8 +135,42 @@ export class PlansAdminListComponent {
       this.fetchPlansManagementData();
       this.initializeSearch();
       if(this.company?.id == 12) {
+        this.getAllGuestHistory();
         this.guestSalesPersonList();
       }
+    }
+
+    getAllGuestHistory() {
+      this._plansService.getGuestHistory(this.company?.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(response => {
+          this.guestHistory = response.guest_history;
+          this.allGuestHistory = this.guestHistory;
+        }, err => {
+          console.log('err: ', err);
+        })
+    }
+
+    getGuestHistory(id) {
+      let history: any[] = [];
+  
+      if(this.allGuestHistory?.length > 0) {
+        history = this.allGuestHistory.filter(guest => {
+          return guest.user_id == id
+        })
+      }
+
+      return history;
+    }
+
+    showGuestHistory(id) {
+      if(this.selectedGuestId == id) {
+        this.showHistory = !this.showHistory;
+      }
+      else {
+        this.showHistory = true;
+      }
+      this.selectedGuestId = id;
     }
 
     guestSalesPersonList() {
@@ -287,6 +326,7 @@ export class PlansAdminListComponent {
             }
           })
         }
+
         if(this.allPlansData?.length == 0) {
           this.allPlansData = data
         }
@@ -900,43 +940,91 @@ export class PlansAdminListComponent {
     }
 
     assignSales() {
-      let params = {
-        'plan_id': this.assignEventId,
-        'user_id': this.assignParticipantId,
-        'assigned_sales_person_id': this.selectedSalesPerson,
-        'action_user_id': this.userId,
-        'action_id': 5, // Assign Sales Person 
-      }
-  
-      this._plansService.assignGuestToSalesPerson(
-        params
-      )
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        response => {
-          // update local array
-          if(this.planParticipants) {
-            this.planParticipants.forEach((p, index) => {
-              if(p.fk_user_id == this.assignParticipantId && p.id == this.assignEventId) {
-                if(this.salesPeople) {
-                  this.salesPeople.forEach(sp => {
-                    if(sp.id == this.selectedSalesPerson) {
-                      this.planParticipants[index].assigned_sales_person = sp.name;
-                    }
-                  });
-                }
-              }
-            });
-          }
-          setTimeout(() => {
-            this.formatPlans(this.allPlansData);
-            this.closemodalbutton?.nativeElement.click();
-          }, 500)
-        },
-        error => {
-            console.log(error);
+      if(this.dialogMode == 'assign-sales-person') {
+        let params = {
+          'plan_id': this.assignEventId,
+          'user_id': this.assignParticipantId,
+          'assigned_sales_person_id': this.selectedSalesPerson,
+          'action_user_id': this.userId,
+          'action_id': 5, // Assign Sales Person 
         }
-      );
+    
+        this._plansService.assignGuestToSalesPerson(
+          params
+        )
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          response => {
+            // update local array
+            if(this.planParticipants) {
+              this.planParticipants.forEach((p, index) => {
+                if(p.fk_user_id == this.assignParticipantId && p.id == this.assignEventId) {
+                  if(this.salesPeople) {
+                    this.salesPeople.forEach(sp => {
+                      if(sp.id == this.selectedSalesPerson) {
+                        this.planParticipants[index].assigned_sales_person = sp.name;
+                      }
+                    });
+                  }
+                }
+              });
+            }
+            setTimeout(() => {
+              this.formatPlans(this.allPlansData);
+              this.closemodalbutton?.nativeElement.click();
+            }, 500)
+          },
+          error => {
+              console.log(error);
+          }
+        );
+      } else if(this.dialogMode == 'assign-event-sales-person') {
+        let params = {
+          'plan_id': this.assignEventId,
+          'assigned_sales_person_id': this.selectedSalesPerson,
+          'action_user_id': this.userId,
+          'action_id': 5, // Assign Sales Person 
+          'participants': this.assignParticipantIds,
+        }
+
+        this._plansService.assignSalesPersonToEvent(
+          params
+        )
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          response => {
+            // update local array
+            if(this.planParticipants) {
+              this.planParticipants.forEach((p, index) => {
+                if(p.id == this.assignEventId) {
+                  if(this.salesPeople) {
+                    this.salesPeople.forEach(sp => {
+                      if(sp.id == this.selectedSalesPerson) {
+                        this.planParticipants[index].assigned_sales_person = sp.name;
+                      }
+                    });
+                  }
+                }
+              });
+            }
+            setTimeout(() => {
+              this.formatPlans(this.allPlansData);
+              this.closemodalbutton?.nativeElement.click();
+            }, 500)
+          },
+          error => {
+              console.log(error);
+          }
+        );
+      }
+    }
+
+    assignEventToSalesPerson(event) {
+      this.assignEventId = event.id;
+      this.assignParticipantIds = event?.participants?.map((data) => { return data.fk_user_id }).join(', ');
+
+      this.dialogMode = 'assign-event-sales-person';
+      this.modalbutton?.nativeElement.click();
     }
 
     changeSalesPerson(event) {

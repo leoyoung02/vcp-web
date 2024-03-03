@@ -341,12 +341,14 @@ export const CHECKOUT_PLAN_DETAILS_URL = `${API_BASE}/guest/plans`;
 export const PLAN_PAYMENT_URL = `${API_BASE}/company/activity/subscribe/stripe`;
 export const SALES_PEOPLE_URL = `${API_BASE}/company/group-management/sales-people`;
 export const ASSIGN_SALES_PERSON_URL = `${API_BASE}/company/guest/sales-person/assign`;
+export const ASSIGN_SALES_PERSON_EVENT_URL = `${API_BASE}/company/guest/sales-person/assign-event`;
 export const CATEGORY_EVENTS_URL = `${API_BASE}/guest/category/list`;
 export const EVENT_TEMPLATE_URL = `${API_BASE}/guest/event/registration/template-by-guid`;
 export const UPLOAD_PLAN_IMAGE_URL = `${API_BASE}/company/upload-plan-image`;
 export const ADD_ALIAS_URL = `${API_BASE}/company/user/additional/alias`;
 export const EDIT_ALIAS_URL = `${API_BASE}/company/user/edit-alias`;
 export const DELETE_ALIAS_URL = `${API_BASE}/company/user/delete-alias`;
+export const GUEST_HISTORY_LIST_URL = `${API_BASE}/company/guest-history/list`;
 
 export const PLANS_URL = `${API_BASE}/v2/plans`;
 export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;
@@ -540,7 +542,6 @@ export const STRIPE_CONNECT_ACCOUNT_STATUS_URL = `${API_BASE}/v2/stripe-connect-
 export const GET_CALENDLY_ACCOUNT_ORGANIZATION_URI = `https://api.calendly.com/users/me`;
 export const GET_CALENDLY_ACCOUNT_EVENTS_LIST = `https://api.calendly.com/event_types`;
 
-
 // TESTIMONIALS
 export const TESTIMONIALS_DATA_URL = `${API_BASE}/guest/testimonials-data`;
 export const ADD_TESTIMONIAL_URL = `${API_BASE}/company/testimonial/add`;
@@ -562,6 +563,8 @@ export const SEND_REFERENCE_URL = `${API_BASE}/company/member/reference/send-tes
 export const MEMBERS_RESTRICTED_LIST_URL = `${API_BASE}/company/members/restricted-list`;
 export const MEMBERS_REFERENCES_URL = `${API_BASE}/v2/members-references`;
 export const DELETE_REFERENCE_URL = `${API_BASE}/v2/member-reference/delete`;
+export const GUESTS_LIST_URL = `${API_BASE}/company/guests/list`;
+export const GUESTS_REPORT_URL = `${API_BASE}/company/guests/report`;
 
 // OFFERS
 export const OFFERS_COMBINED_URL = `${API_BASE}/v2/offers`;

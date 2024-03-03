@@ -384,11 +384,11 @@ export class ClubEditComponent {
 
   mapUsers(users) {
     this.CompanyUser = users;
-    this.CompanyUserData = this.CompanyUser.map((i) => ({
+    this.CompanyUserData = this.CompanyUser?.map((i) => ({
       id: i.id,
       name: i.name ? i.name : i.first_name + " " + i.last_name,
     }));
-    this.CompanyUserData.sort((a, b) => a.name.localeCompare(b.name));
+    this.CompanyUserData?.sort((a, b) => a.name.localeCompare(b.name));
   }
 
   mapLanguages(languages) {
@@ -560,6 +560,11 @@ export class ClubEditComponent {
           this.selectedAdmin = company_user_data;
         } else {
           this.selectedAdmin = [this.selectedAdminId];
+        }
+      } else {
+        const item = this.CompanyUserData.find((i) => i.id == this.selectedAdminId);
+        if (item) {
+          this.selectedAdmin = [item];
         }
       }
     }

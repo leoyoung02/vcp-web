@@ -1,0 +1,181 @@
+<div class="flex flex-wrap items-center justify-between">
+    <div class="mb-6">
+        <div class="flex items-center w-full max-w-full">
+            <div class="flex-auto">
+                <app-search
+                    [searchText]="searchText"
+                    [placeholderText]="placeholderText"
+                    [buttonColor]="buttonColor"
+                    (onEnterPressed)="handleSearch($event)"
+                    (doSearch)="handleSearch($event)"
+                >
+                </app-search>
+            </div>
+            <div class="ml-6">
+                <div class="flex-auto -mb-5">
+                    <mat-form-field class="datetime-picker-field">
+                        <mat-label class="text-sm">{{ 'your-admin-area.registrationdate' | translate }}</mat-label>
+                        <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                          <input (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
+                          <input (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                </div>
+            </div>
+            <ng-container *ngIf="mode == 'guests'">
+                <div>
+                    <select
+                        id="event"
+                        class="ml-4 max-w-[280px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedEvent"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeEventFilter($event)"
+                    >
+                        <option value="">{{ 'your-admin-area.selectevent' | translate }}</option>
+                        <option
+                            *ngFor="let event of events"                                
+                            [value]="event.title"
+                        >
+                            {{ event?.title }}
+                        </option>
+                    </select>
+                </div>
+                <div class="ml-4">
+                    <select
+                        id="event-type"
+                        class="ml-4 max-w-[250px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedEventType"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeEventTypeFilter($event)"
+                    >
+                        <option value="">{{ 'plan-create.selecteventtype' | translate }}</option>
+                        <option
+                            *ngFor="let type of eventTypes"                                
+                            [value]="type.type"
+                        >
+                            {{ type?.type }}
+                        </option>
+                    </select>
+                </div>
+                <div class="ml-4">
+                    <select
+                        id="invited-by"
+                        class="max-w-[250px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedInvitedBy"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeInvitedByFilter($event)"
+                    >
+                        <option value="">{{ 'your-admin-area.selectinvitedby' | translate }}</option>
+                        <option
+                            *ngFor="let invited of invitedBy"                                
+                            [value]="invited.invited_by"
+                        >
+                            {{ invited?.invited_by }}
+                        </option>
+                    </select>
+                </div>
+            </ng-container>
+            <div class="ml-4">
+                <select
+                    id="zip-code"
+                    class="min-w-[120px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    [(ngModel)]="selectedZipCode"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="changeZipCodeFilter($event)"
+                >
+                    <option value="">{{ 'crm.postalcode' | translate }}</option>
+                    <option
+                        *ngFor="let zip of postalCodes"                                
+                        [value]="zip.zip_code"
+                    >
+                        {{ zip.zip_code }}
+                    </option>
+                </select>
+            </div>
+            <div class="ml-4">
+                <select
+                    id="sector"
+                    class="max-w-[200px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    [(ngModel)]="selectedSector"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="changeSectorFilter($event)"
+                >
+                    <option value="">{{ 'members.selectsector' | translate }}</option>
+                    <option
+                        *ngFor="let sector of sectors"                                
+                        [value]="sector.sector"
+                    >
+                        {{ sector.sector }}
+                    </option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="pt-1.5 mb-6 flex justify-end">
+        <button 
+            class="inline-block h-[40px] bg-black text-sm px-6 py-2 font-semibold rounded-[10px] text-white focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
+            (click)="downloadCSV()"
+        >
+            {{ 'company-reports.downloadCSV' | translate }}
+        </button>
+    </div>
+</div>
+<div class="w-full min-w-full py-8">
+    <div class="mat-table-responsive">
+        <mat-table [dataSource]="dataSource" matSort>
+            <ng-container matColumnDef="name_display">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'general-details.name' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="name_display"> {{ row.name_display }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="registration_date">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'your-admin-area.registrationdate' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="registration_date"> {{ row.registration_date | date:'dd MMM yyyy' }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="event">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'your-admin-area.event' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="event"> {{ row.event }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="event_date">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'guests.eventdate' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="event_date"> {{ row.event_date | date:'dd MMM yyyy H:mm a' }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="event_type">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'crm.eventtype' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="event_type"> {{ row.event_type }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="invited_by">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.invitedby' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="invited_by"> {{ row.invited_by }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="email_display">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'services.email' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="email_display"> {{ row.email_display }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="phone">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'services.phone' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="phone"> {{ row.phone }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="zip_code">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'guests.zipcode' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="zip_code"> {{ row.zip_code }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="sector">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'members.sector' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="sector"> {{ row.sector }}</mat-cell>
+            </ng-container>
+            <ng-container>
+                <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+                    <mat-row *matRowDef="let row; columns: displayedColumns">
+                </mat-row>
+            </ng-container>
+        </mat-table>
+    </div>
+    <div>
+        <mat-paginator #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"
+        (page)="getPageDetails($event)"
+            [showFirstLastButtons]="true">
+        </mat-paginator>
+    </div>
+</div>
