@@ -2055,7 +2055,9 @@
         "backgroundimage":"Imatge de fons",
         "questionanssection":"Secció de preguntes",
         "footer":"Peu de pàgina",
-        "pottutor":"Tutor d'olla"
+        "pottutor":"Tutor d'olla",
+        "memberreports": "Informes de membres",
+        "guesreports": "Informes de convidats"
     },
     "guest-landing": {
         "templates": "Plantilles",

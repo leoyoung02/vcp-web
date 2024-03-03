@@ -439,7 +439,8 @@
         "occurences": "Ocurrencias",
         "limitmemberseats": "Límite (Miembros)",
         "limitguestseats": "Límite (Invitados)",
-        "limitgreaterthanseats": "Establezca un límite menor o igual al número de asientos"
+        "limitgreaterthanseats": "Establezca un límite menor o igual al número de asientos",
+        "selectincharge": "Seleccione el delegado"
     },
     "plan-recommendations": {
         "applauses": "Aplauso",
@@ -2055,7 +2056,9 @@
         "backgroundimage":"Imagen de fondo",
         "questionanssection":"Sección de preguntas",
         "footer":"Pie de página",
-        "pottutor":"PotTutor"
+        "pottutor":"PotTutor",
+        "memberreports": "Informes de miembros",
+        "guestreports": "Informes de invitados"
     },
     "guest-landing": {
         "templates": "Plantillas",

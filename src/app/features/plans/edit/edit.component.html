@@ -122,9 +122,9 @@
                         </mat-datepicker>
                     </mat-form-field>
                     <div class="ml-4">
-                        <input aria-label="HH:mm" [ngxTimepicker]="timepicker" 
+                        <input aria-label="HH:mm" [ngxTimepicker]="timepicker" [format]="24" 
                             class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
-                            placeholder="hh:mm AM/PM" 
+                            placeholder="HH:mm" 
                             formControlName="plan_date_hh">
                         <ngx-material-timepicker #timepicker></ngx-material-timepicker>
                    </div>
@@ -412,6 +412,23 @@
                         formControlName="price"
                         (input)="onPriceChange($event)"
                     />
+                </div>
+                <div class="flex items-center justify-center relative" *ngIf="users?.length > 0">
+                    <select
+                        id="created-by-user"
+                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && !createdByUser }"
+                        [(ngModel)]="createdByUser"
+                        [ngModelOptions]="{standalone: true}"
+                    >
+                        <option value="" disabled selected>{{ 'plan-create.selectincharge' | translate }}</option>
+                        <option
+                            *ngFor="let user of users"
+                            [value]="user.id"
+                        >
+                            {{ user.user_name }}
+                        </option>
+                    </select>
                 </div>
                 <div class="flex items-center mt-4 w-full mx-auto" *ngIf="activityFeeEnabled && withFee">
                     <label class="checkbox-container">

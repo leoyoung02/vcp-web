@@ -439,7 +439,8 @@
         "occurences": "Occurences",
         "limitmemberseats": "Limit (Members)",
         "limitguestseats": "Limit (Guests)",
-        "limitgreaterthanseats": "Please set a limit less than or equal the number of seats"
+        "limitgreaterthanseats": "Please set a limit less than or equal the number of seats",
+        "selectincharge": "Select the Delegate"
     },
     "plan-recommendations": {
         "applauses": "Applauses",
@@ -2056,7 +2057,9 @@
         "backgroundimage":"Background Image",
         "questionanssection":"Question Section",
         "footer":"Footer",
-        "pottutor":"Pot Tutor"
+        "pottutor":"Pot Tutor",
+        "memberreports": "Member Reports",
+        "guestreports": "Guest Reports"
     },
     "guest-landing": {
         "templates": "Templates",

@@ -846,58 +846,11 @@ export class MainComponent {
           },
         ],
       },
-      // {
-      //   icon: "./assets/images/new-design/icons/Personalization.png",
-      //   text: this._translateService.instant(
-      //     "company-settings.personalization"
-      //   ),
-      //   value: "Personalization",
-      //   submenus: [
-      //     {
-      //       text: this._translateService.instant("company-settings.modules"),
-      //       value: "Features",
-      //     },
-      //   ],
-      // },
-      // {
-      //   icon: "./assets/images/new-design/icons/Channels.png",
-      //   text: this._translateService.instant("company-settings.adminaccess"),
-      //   value: "AdminAccess",
-      //   submenus: [
-      //     {
-      //       text: this._translateService.instant(
-      //         "company-settings.registration"
-      //       ),
-      //       value: "Registration",
-      //     },
-      //     {
-      //       text: this._translateService.instant(
-      //         "company-settings.membertypes"
-      //       ),
-      //       value: "MemberTypes",
-      //     },
-      //   ],
-      // },
       {
         icon: "./assets/images/new-design/icons/Channels.png",
         text: this._translateService.instant("company-settings.tools"),
         value: "Tools",
-        submenus: [
-          {
-            text: this._translateService.instant("company-settings.reports"),
-            value: "Reports",
-          },
-          {
-            text: this._translateService.instant("company-settings.statistics"),
-            value: "Statistics",
-          },
-          // {
-          //   text: this._translateService.instant(
-          //     "company-settings.supporttickets"
-          //   ),
-          //   value: "Support Tickets",
-          // },
-        ],
+        submenus: [],
       },
       {
         icon: "./assets/images/new-design/icons/Channels.png",
@@ -930,17 +883,6 @@ export class MainComponent {
         value: "ManagementSection",
         submenus: [],
       },
-      // {
-      //   icon: "./assets/images/new-design/icons/Channels.png",
-      //   text: this._translateService.instant("company-settings.invoice"),
-      //   value: "Invoices",
-      //   submenus: [
-      //     {
-      //       text: "Stripe",
-      //       value: "Stripe",
-      //     },
-      //   ],
-      // },
     ];
   }
 
@@ -1136,10 +1078,44 @@ export class MainComponent {
             }
           }
         }
+
+        if(mi.value == 'Tools') {
+          if(this.companyId == 12) {
+            let member_reports_match = mi.submenus && mi.submenus.some((a) => a.value === "MemberReports");
+            if (!member_reports_match) {
+              mi.submenus.push({
+                text: this._translateService.instant("company-settings.memberreports"),
+                value: "MemberReports",
+              });
+            }
+            let guest_reports_match = mi.submenus && mi.submenus.some((a) => a.value === "GuestReports");
+            if (!guest_reports_match) {
+              mi.submenus.push({
+                text: this._translateService.instant("company-settings.guestreports"),
+                value: "GuestReports",
+              });
+            }
+          } else {
+            let reports_match = mi.submenus && mi.submenus.some((a) => a.value === "Reports");
+            if (!reports_match) {
+              mi.submenus.push({
+                text: this._translateService.instant("company-settings.reports"),
+                value: "Reports",
+              });
+            }
+            let statistics_match = mi.submenus && mi.submenus.some((a) => a.value === "Statistics");
+            if (!statistics_match) {
+              mi.submenus.push({
+                text: this._translateService.instant("company-settings.statistics"),
+                value: "Statistics",
+              });
+            }
+          }
+        }
       });
     }
 
-
+    console.log(this.mainMenuItems)
     this.allMainMenuItems = this.mainMenuItems;
   }
 
@@ -1567,6 +1543,10 @@ export class MainComponent {
         this._router.navigate([`/settings/reports`]);
       } else if (content == "Statistics") {
         this._router.navigate([`/settings/statistics`]);
+      } else if(content == "MemberReports") {
+        this._router.navigate([`/reports/members`]);
+      } else if(content == "GuestReports") {
+        this._router.navigate([`/reports/guests`]);
       }
     } else if(menu.value == "Invoices" && content == "InvoicesList") {
       this._router.navigate([`/users/invoices-list`]);
