@@ -14,6 +14,7 @@ import {
   ADD_TO_WAITING_LIST_URL,
   ALL_GUEST_REGISTRATION_FIELDS_URL,
   ANSWER_EMAIL_INVITE_QUESTIONS_URL,
+  ASSIGN_SALES_PERSON_EVENT_URL,
   ASSIGN_SALES_PERSON_URL,
   CATEGORY_EVENTS_URL,
   CHECKOUT_PLAN_DETAILS_URL,
@@ -54,6 +55,7 @@ import {
   EVENT_TYPES_URL,
   FEATURES_MAPPING_URL,
   GROUP_PLAN_COMMENTS_URL,
+  GUEST_HISTORY_LIST_URL,
   GUEST_REGISTRATION_FIELDS_URL,
   INVOICE_DETAILS_URL,
   JOIN_GROUP_PLAN_URL,
@@ -1050,6 +1052,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
+  assignSalesPersonToEvent(payload): Observable<any> {
+    return this._http.post(ASSIGN_SALES_PERSON_EVENT_URL, 
+      payload
+    ).pipe(map(res => res));
+  }
+
   getCategoryEvents(categoryId): Observable<any> {
     return this._http.get(`${CATEGORY_EVENTS_URL}/${categoryId}`,
       { headers: this.headers }
@@ -1117,6 +1125,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     return this._http.post(
       `${DELETE_ALIAS_URL}/${id}`,
       payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getGuestHistory(companyId): Observable<any> {
+    return this._http.get(`${GUEST_HISTORY_LIST_URL}/${companyId}`, 
       { headers: this.headers }
     ).pipe(map(res => res));
   }

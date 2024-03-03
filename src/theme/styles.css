@@ -960,3 +960,7 @@ div.event-description a {
 .my-credits-table .mat-mdc-table mat-header-row.mat-mdc-header-row {
     z-index: 49 !important;
 }
+
+.mat-column-email_display {
+    word-break: break-all;
+}

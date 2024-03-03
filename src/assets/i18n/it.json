@@ -440,7 +440,8 @@
         "occurences": "Eventi",
         "limitmemberseats": "Limite (membri)",
         "limitguestseats": "Limite (ospiti)",
-        "limitgreaterthanseats": "Imposta un limite inferiore o uguale al numero di posti"
+        "limitgreaterthanseats": "Imposta un limite inferiore o uguale al numero di posti",
+        "selectincharge": "Seleziona il delegato"
     },
     "plan-recommendations": {
         "applauses": "Applausi",
@@ -2057,7 +2058,9 @@
         "backgroundimage": "Immagine di sfondo",
         "questionanssection": "Sezione domande",
         "footer": "Piè di pagina",
-        "pottutor":"PotTutor"
+        "pottutor": "PotTutor",
+        "memberreports": "Rapporti dei membri",
+        "guestreports": "Rapporti degli ospiti"
     },
     "guest-landing": {
         "templates": "Modelli",

@@ -444,7 +444,8 @@
         "occurences": "Vorkommen",
         "limitmemberseats": "Limit (Mitgliederplätze)",
         "limitguestseats": "Limit (Gästeplätze)",
-        "limitgreaterthanseats": "Bitte legen Sie ein Limit fest, das kleiner oder gleich der Anzahl der Sitzplätze ist."
+        "limitgreaterthanseats": "Bitte legen Sie ein Limit fest, das kleiner oder gleich der Anzahl der Sitzplätze ist.",
+        "selectincharge": "Den Delegierten auswählen"
     },
     "plan-recommendations": {
         "applauses": "Applaus",
@@ -2058,7 +2059,9 @@
         "backgroundimage":"Hintergrundbild",
         "questionanssection":"Fragenbereich",
         "footer":"Fusszeile",
-        "pottutor":"Pot-Lehrer"
+        "pottutor":"Pot-Lehrer",
+        "memberreports": "Mitgliederberichte",
+        "guestreports": "Gästeberichte"
     },
     "guest-landing": {
         "templates": "Vorlagen",

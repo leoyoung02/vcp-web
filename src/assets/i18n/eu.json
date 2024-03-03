@@ -444,7 +444,8 @@
         "occurences": "Gertaerak",
         "limitmemberseats": "Mugatu (Bazkideen)",
         "limitguestseats": "Muga (Gonbidatuen)",
-        "limitgreaterthanseats": "Ezarri eserleku kopurua baino txikiagoa edo berdina den muga"
+        "limitgreaterthanseats": "Ezarri eserleku kopurua baino txikiagoa edo berdina den muga",
+        "selectincharge": "Hautatu ordezkaria"
     },
     "plan-recommendations": {
         "applauses": "Txaloak",
@@ -2059,7 +2060,9 @@
         "backgroundimage":"Atzeko planoko irudia",
         "questionanssection":"Galdera Atala",
         "footer":"Oina",
-        "pottutor":"Pot Tutorea"
+        "pottutor":"Pot Tutorea",
+        "memberreports": "Informes de membres",
+        "guesreports": "Informes de convidats"
     },
     "guest-landing": {
         "templates": "Txantiloiak",
