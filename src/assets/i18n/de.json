@@ -3388,7 +3388,9 @@
         "tags": "Tags",
         "gallery": "Galerie",
         "socialmedia": "Social-Media-URL",
-        "author": "Autor"
+        "author": "Autor",
+        "uploadcover": "UCover hochladen",
+        "covernote":"Laden Sie ein Bild oder Video für das Testimonial-Cover hoch. Laden Sie ein Bild oder Video für das Testimonial-Cover hoch"
     },
     "contract": {
         "review": "Bewertungsbedingungen",
