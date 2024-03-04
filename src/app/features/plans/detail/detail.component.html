@@ -182,12 +182,12 @@
                     </div>
                     <div class="ml-4 w-full max-w-full flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between items-center" 
                         *ngIf="joinedParticipant && (plan?.plan_date >= today || !isPastEvent)">
-                        <div class="flex items-center justify-center sm:justify-center md:justify-normal lg:justify-normal mr-4 bg-white rounded-lg w-full">
+                        <div class="w-[200px] flex items-center justify-center sm:justify-center md:justify-normal lg:justify-normal mr-4 bg-white rounded-lg">
                             <img class="w-6 h-6 object-fit mr-4" src="./assets/images/new-design/icons/check.png">
                             <span class="text-base uppercase font-semibold">{{ 'plan-details.youjoined' | translate }}</span>
                         </div>
                         <button
-                            class="btn w-2 text-base text-white p-0 h-[52px] transition duration-700 ease-in-out"
+                            class="px-4 btn text-base text-white uppercase p-0 h-[52px] transition duration-700 ease-in-out"
                             (click)="handleLeave()"
                             [disabled]="onSubmit"
                             [ngStyle]="{
@@ -198,9 +198,10 @@
                             (mouseover)="toggleLeaveHover(true)"
                             (mouseleave)="toggleLeaveHover(false)"
                         >
-                            <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
+                            <!-- <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"/>
-                            </svg>
+                            </svg> -->
+                            {{ 'plan-details.leaveplan' | translate }}
                         </button>
                     </div>
                     <div class="w-full max-w-full flex-gap-col mt-4 sm:mt-4 md:mt-0 lg:mt-0 transition duration-700 ease-in-out"
@@ -305,7 +306,7 @@
                           <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
                         </g>
                     </svg>
-                    <div class="capitalize font-semibold">{{ getAddress(plan) }}</div>
+                    <div class="capitalize font-semibold">{{ getAddress(plan) }}{{ plan?.meeting_point ? (', ' + plan?.meeting_point) : '' }}</div>
                 </div>
                 <ng-container *ngIf="plan?.zoom_link">
                     <ng-container *ngIf="(companyId == 12 && (superAdmin || showOption || joinedParticipant)) || (companyId != 12 && (superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant)))">
@@ -376,24 +377,24 @@
                         {{ createdBy || planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name) }}
                     </div>
                 </div>
-                <div class="flex items-center" *ngIf="userId && invitationLinkActive && (superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant))">
-                    <div (click)="goToLink(emailTo)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">
+                <div class="flex items-center flex-wrap" *ngIf="userId && invitationLinkActive && (superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant))">
+                    <div (click)="goToLink(emailTo)" class="flex flex-col items-center justify-center mr-12 mb-12 hover:cursor-pointer">
                         <img width="36" height="36" class="object-contain mr-6 ml-4" src="./assets/icons/link-chain.png">
                         <div class="mt-10 text-center opacity-60">{{ 'plan-details.share' | translate }}</div>
                     </div>
-                    <div (click)="copyText()" class="flex flex-col items-center justify-center mr-16 hover:cursor-pointer">
+                    <div (click)="copyText()" class="flex flex-col items-center justify-center mr-16 mb-12 hover:cursor-pointer">
                         <img width="36" height="36" class="object-contain ml-6" src="./assets/icons/copy-paste.png">
                         <div class="w-[36px] max-w-[36px] mt-6 text-center opacity-60">{{ 'plan-details.copylink' | translate }}</div>
                     </div>
-                    <div (click)="sendEmailInvite()" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer" *ngIf="hasEmailInvite && (superAdmin || showOption)">
+                    <div (click)="sendEmailInvite()" class="flex flex-col items-center justify-center mr-12 mb-12 hover:cursor-pointer" *ngIf="hasEmailInvite && (superAdmin || showOption)">
                         <img width="36" height="36" class="object-contain" src="./assets/icons/mail-send.png">
                         <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">{{ 'plan-details.sharebyemail' | translate }}</div>
                     </div>
-                    <div (click)="shareByWhatsApp(whatsAppTemplate)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer -mt-6">
+                    <div (click)="shareByWhatsApp(whatsAppTemplate)" class="flex flex-col items-center justify-center mr-12 mb-12 hover:cursor-pointer -mt-6">
                         <img width="36" height="36" class="object-contain -mt-1 mb-1" src="./assets/icons/whatsapp.png">
                         <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">WhatsApp</div>
                     </div>
-                    <div (click)="shareByTelegram(telegramTemplate)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer -mt-[26px]">
+                    <div (click)="shareByTelegram(telegramTemplate)" class="flex flex-col items-center justify-center mr-12 mb-12 hover:cursor-pointer -mt-[26px]">
                         <img width="36" height="36" class="object-contain" src="./assets/icons/telegram.png">
                         <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">Telegram</div>
                     </div>
@@ -510,6 +511,11 @@
                                             <div class="text-sm">{{ formatDate(comment?.createdAt) }}</div>
                                         </div>
                                         <div class="flex">
+                                            <div *ngIf="companyId == 32 && superAdmin && comment?.approved != 1" class="hover:cursor-pointer p-2 px-4 h-8 rounded-lg mr-4" [ngStyle]="{'background-color': buttonColor}">
+                                                <svg class="w-4 h-4 text-white dark:text-white" (click)="approveComment(comment)" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m5 12 4.7 4.5 9.3-9"/>
+                                                </svg>
+                                            </div>
                                             <div *ngIf="superAdmin || showOption" class="hover:cursor-pointer p-2 px-4 h-8 rounded-lg" (click)="confirmDeleteComment(comment)" [ngStyle]="{'background-color': buttonColor}">
                                                 <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
                                                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"></path>

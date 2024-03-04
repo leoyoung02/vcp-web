@@ -445,6 +445,7 @@ export class PlanEditComponent {
   closepopupbutton: ElementRef<HTMLInputElement> = {} as ElementRef;
   isPlanDetailsEmailActive: boolean = false;
   changedDetails: any;
+  isShowPastEvent: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -568,6 +569,7 @@ export class PlanEditComponent {
       itemsShowLimit: 2,
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search'),
+      noDataAvailablePlaceholderText: this._translateService.instant('your-admin-area.nodata'),
     };
     this.eventCategoryDropdownSettings = {
       singleSelection: false,
@@ -641,6 +643,7 @@ export class PlanEditComponent {
       itemsShowLimit: 2,
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search'),
+      noDataAvailablePlaceholderText: this._translateService.instant('your-admin-area.nodata'),
     };
     this.additionalPropertiesDropdownSettings = {
       singleSelection: false,
@@ -690,7 +693,7 @@ export class PlanEditComponent {
             this.types = data?.types;
             this.categories = data?.plan_categories;
           }
-          this.subcategories = data?.plan_subcategories;
+          this.subcategories = []; // data?.plan_subcategories;
           this.allSubcategories = data?.plan_subcategories;
           this.cities = data?.cities;
           this.mapLanguages(data?.languages);
@@ -1480,6 +1483,7 @@ export class PlanEditComponent {
     this.planForm.controls["seats"].setValue(totalseats);
     this.planForm.controls["member_seats"].setValue(memberseats);
     this.planForm.controls["guest_seats"].setValue(guestseats);
+    this.isShowPastEvent = this.plan?.show == 1 ? true : false;
 
     if (price && parseInt(price) > 0) {
       this.price = price;
@@ -1509,7 +1513,7 @@ export class PlanEditComponent {
     this.isStripePayment =
       this.activityFeeEnabled && stripe_pay == 1 ? true : false;
     this.credits = credits == 1 ? true : false;
-    this.creditsValue = credits_value;
+    this.creditsValue = credits_value?.replace(',', '.');
     this.featured = featured == 1 ? true : false;
     (this.isExternalRegistration = external_registration == 1 ? true : false),
       (this.requestDNI = request_dni == 1 ? true : false);
@@ -1905,7 +1909,7 @@ export class PlanEditComponent {
 
     let start_date_time = new Date(start_date).getTime();
     let today_date_time = new Date().getTime();
-    if (start_date_time < today_date_time) {
+    if (start_date_time < today_date_time && !(this.id > 0)) {
       this.showError = true;
       this.startDateTimeError = true;
       this.open(
@@ -2087,6 +2091,7 @@ export class PlanEditComponent {
     this.plan["school_of_life"] = this.isUESchoolOfLife ? 1 : 0;
     this.plan["member_seats"] = this.guestMemberSeatActive && this.planForm.get("member_seats")?.value ? this.planForm.get("member_seats")?.value : null;
     this.plan["guest_seats"] = this.guestMemberSeatActive && this.planForm.get("guest_seats")?.value ? this.planForm.get("guest_seats")?.value : null;
+    this.plan["show"] = this.isShowPastEvent ? 1 : 0;
 
     if(this.companyId == 32) {
       this.plan['additional_properties_course_access'] = this.allowCourseAccess == true ? '1' : '0',
@@ -2988,6 +2993,14 @@ export class PlanEditComponent {
         });
         return promise;
       },
+    }
+  }
+
+  onDeSelectCategory(event) {
+    if(event.fk_supercategory_id && this.subcategories?.length > 0) {
+      this.subcategories = this.subcategories?.filter(sc => {
+        return sc.category_id != event.fk_supercategory_id
+      })
     }
   }
 

@@ -320,8 +320,8 @@
         "confirmedattendees": "Partecipanti confermati",
         "attendees": "Assistenti",
         "attendee": "Assistente",
-        "youjoined": "Hai aderito a questo piano",
-        "leaveplan": "Lascia questo piano",
+        "youjoined": "Ti sei unito a questo evento",
+        "leaveplan": "Abbandona questo evento",
         "duplicate": "Duplicato",
         "emailinvite": "Invito via e-mail",
         "exitcalendarmode": "Esci dalla modalità calendario",
@@ -348,6 +348,7 @@
         "plandate": "Data di",
         "category": "Categoria",
         "seats": "Posti liberi",
+        "indicatemaxseats": "Indica la capacità massima di partecipanti per questo evento",
         "price": "Prezzo",
         "link": "collegamento",
         "description": "Descrizione",
@@ -441,7 +442,9 @@
         "limitmemberseats": "Limite (membri)",
         "limitguestseats": "Limite (ospiti)",
         "limitgreaterthanseats": "Imposta un limite inferiore o uguale al numero di posti",
-        "selectincharge": "Seleziona il delegato"
+        "selectincharge": "Seleziona il delegato",
+        "selectmodality": "Seleziona modalità",
+        "showpastevent": "Mostra evento passato"
     },
     "plan-recommendations": {
         "applauses": "Applausi",

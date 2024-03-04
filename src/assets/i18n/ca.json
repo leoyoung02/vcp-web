@@ -323,8 +323,8 @@
         "confirmedattendees": "Assistents confirmats",
         "attendees": "Assistents",
         "attendee": "Assistent",
-        "youjoined": "T'has unit a aquest pla",
-        "leaveplan": "Abandonar aquest pla",
+        "youjoined": "T'has unit a aquest esdeveniment",
+        "leaveplan": "Abandonar aquest esdeveniment",
         "duplicate": "Duplicat",
         "emailinvite": "Envia una invitació per email",
         "exitcalendarmode": "Surt del mode de calendari",
@@ -352,6 +352,7 @@
         "plandate": "Data del",
         "category": "Categoria",
         "seats": "Llocs lliures",
+        "indicatemaxseats": "Indiqueu l'aforament màxim d'assistents a aquest esdeveniment",
         "price": "Preu",
         "link": "Enllaç",
         "description": "Descripció",
@@ -444,7 +445,10 @@
         "occurences": "Ocurrències",
         "limitmemberseats": "Límit (Membres)",
         "limitguestseats": "Límit (Convidats)",
-        "limitgreaterthanseats": "Definiu un límit inferior o igual al nombre de seients"
+        "limitgreaterthanseats": "Definiu un límit inferior o igual al nombre de seients",
+        "selectincharge": "Seleccioneu el delegat",
+        "selectmodality": "Seleccionar modalitat",
+        "showpastevent": "Erakutsi iraganeko gertaera"
     },
     "plan-recommendations": {
         "applauses": "Aplaudiment",

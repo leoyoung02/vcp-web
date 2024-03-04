@@ -349,6 +349,8 @@ export const ADD_ALIAS_URL = `${API_BASE}/company/user/additional/alias`;
 export const EDIT_ALIAS_URL = `${API_BASE}/company/user/edit-alias`;
 export const DELETE_ALIAS_URL = `${API_BASE}/company/user/delete-alias`;
 export const GUEST_HISTORY_LIST_URL = `${API_BASE}/company/guest-history/list`;
+export const APPROVE_PLAN_COMMENT_URL = `${API_BASE}/company/plan/comment/approve`;
+export const APPROVE_GROUP_PLAN_COMMENT_URL = `${API_BASE}/company/group-plan/comment/approve`;
 
 export const PLANS_URL = `${API_BASE}/v2/plans`;
 export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;

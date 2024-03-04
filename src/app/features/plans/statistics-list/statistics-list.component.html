@@ -48,6 +48,23 @@
                     </option>
                 </select>
             </div>
+            <div class="ml-4">
+                <select
+                    id="event"
+                    class="ml-4 max-w-[250px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    [(ngModel)]="selectedEventFilter"
+                    [ngModelOptions]="{standalone: true}"
+                    (change)="changeEventFilter($event)"
+                >
+                    <option value="">{{ 'your-admin-area.selectevent' | translate }}</option>
+                    <option
+                        *ngFor="let plan of allPlansData"                                
+                        [value]="plan.id"
+                    >
+                        {{ getEventTitle(plan) }}
+                    </option>
+                </select>
+            </div>
             <div class="ml-8">
                 <button 
                     class="h-[40px] flex items-center py-1.5 p-2.5 px-4 rounded-[10px] justify-evenly hover:bg-black"

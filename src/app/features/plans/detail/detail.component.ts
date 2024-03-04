@@ -1247,21 +1247,26 @@ export class PlanDetailComponent {
             return children.parent_plan_comment_id == comment.id;
           });
 
-          comment_rows.push({
-            id: comment.id,
-            plan_id: comment.plan_id,
-            user_id: comment.user_id,
-            comment: comment.comment,
-            parent_plan_comment_id: comment.parent_plan_comment_id,
-            createdAt: comment.createdAt,
-            updatedAt: comment.updatedAt,
-            deletedAt: comment.deletedAt,
-            image: comment.image,
-            first_name: comment.first_name,
-            last_name: comment.last_name,
-            name: comment.name,
-            CommentChild: comment_children,
-          });
+          if(this.companyId != 32 || 
+            (this.companyId == 32 && (this.superAdmin || (!this.superAdmin && comment.approved == 1)))
+          ) {
+            comment_rows.push({
+              id: comment.id,
+              plan_id: comment.plan_id,
+              user_id: comment.user_id,
+              comment: comment.comment,
+              parent_plan_comment_id: comment.parent_plan_comment_id,
+              createdAt: comment.createdAt,
+              updatedAt: comment.updatedAt,
+              deletedAt: comment.deletedAt,
+              image: comment.image,
+              first_name: comment.first_name,
+              last_name: comment.last_name,
+              name: comment.name,
+              CommentChild: comment_children,
+              approved: comment.approved,
+            });
+          }
         }
       });
     }
@@ -2160,8 +2165,9 @@ export class PlanDetailComponent {
       );
     } else {
       this.onSubmit = true;
+      let approved = this.companyId == 32 ? (this.superAdmin ? 1 : 0) : 1;
       this._plansService
-        .addPlanComment(this.plan.id, this.user.id, this.comment)
+        .addPlanComment(this.plan.id, this.user.id, this.comment, approved)
         .subscribe(
           (response) => {
             this.comment = "";
@@ -2184,6 +2190,7 @@ export class PlanDetailComponent {
       );
     } else {
       this.onSubmit = true;
+      let approved = this.companyId == 32 ? (this.superAdmin ? 1 : 0) : 1;
       this._plansService
         .addGroupPlanComment(this.plan.id, this.user.id, this.comment)
         .subscribe(
@@ -2212,6 +2219,18 @@ export class PlanDetailComponent {
                   data.comment = data.comment.replaceAll("\n", "<br/>");
                 });
               }
+
+              let visible = false;
+              if(this.companyId == 32) {
+                if(this.superAdmin) {
+                  visible = true;
+                } else {
+                  visible = data?.approved == 1 ? true : false
+                }
+              } else {
+                visible = true;
+              }
+
               return data;
             }
           );
@@ -2223,10 +2242,39 @@ export class PlanDetailComponent {
                 data.comment = data.comment.replaceAll("\n", "<br/>");
               });
             }
-            return data;
+
+            let visible = false;
+            if(this.companyId == 32) {
+              if(this.superAdmin) {
+                visible = true;
+              } else {
+                visible = data?.approved == 1 ? true : false
+              }
+            } else {
+              visible = true;
+            }
+            
+            return data && visible;
           });
         }
+
+        if(this.companyId == 32 && !this.superAdmin) {
+          this.showDoneForApprovalModal();
+        }
       });
+  }
+
+  showDoneForApprovalModal(id: number = 0) {
+    this.confirmMode = 'add-comment';
+    this.showConfirmationModal = false;
+    this.confirmDeleteItemTitle = this._translateService.instant(
+      "create-content.done"
+    );
+    this.confirmDeleteItemDescription = this._translateService.instant(
+      "create-content.desc"
+    );
+    this.acceptText = "OK";
+    setTimeout(() => (this.showConfirmationModal = true));
   }
 
   checkHeartReaction(comment) {
@@ -2390,6 +2438,8 @@ export class PlanDetailComponent {
       this.showConfirmationModal = false;
     } else if(this.confirmMode == 'plan') {
       this.deletePlan(this.id, this.planTypeId, true, 0)
+    } else if(this.confirmMode == 'add-comment') {
+      this.showConfirmationModal = false;
     }
   }
 
@@ -2774,6 +2824,28 @@ export class PlanDetailComponent {
   hideAdd() {
     this.isAddNewLink = false;
   } 
+
+  approveComment(comment) {
+    if(this.planTypeId == 4) {
+      this._plansService.approveGroupPlanComment(comment.id)
+      .subscribe(
+        (data: any) => {
+          this.open(this._translateService.instant('company-settings.approved'), '');
+          this.refreshComments();
+        },
+        error => {
+      });
+    } else {
+      this._plansService.approvePlanComment(comment.id)
+      .subscribe(
+        (data: any) => {
+          this.open(this._translateService.instant('company-settings.approved'), '');
+          this.refreshComments();
+        },
+        error => {
+      });
+    }
+  }
 
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();

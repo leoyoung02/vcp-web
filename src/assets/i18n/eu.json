@@ -323,8 +323,8 @@
         "confirmedattendees": "Berretsitako parte-hartzaileak",
         "attendees": "Laguntzaileak",
         "attendee": "Laguntzailea",
-        "youjoined": "Plan honetan sartu zara",
-        "leaveplan": "Utzi plan hau",
+        "youjoined": "Ekitaldi honetan sartu zara",
+        "leaveplan": "Utzi gertaera hau",
         "duplicate": "Bikoiztu",
         "emailinvite": "E-posta gonbidapena",
         "exitcalendarmode": "Iten egutegi modutik",
@@ -352,6 +352,7 @@
         "plandate": "Data",
         "category": "Kategoria",
         "seats": "Doako eserlekuak",
+        "indicatemaxseats": "Adierazi ekitaldi honetarako parte-hartzaileen gehienezko edukiera",
         "price": "Prezioa",
         "link": "Esteka",
         "description": "Deskribapena",
@@ -445,7 +446,9 @@
         "limitmemberseats": "Mugatu (Bazkideen)",
         "limitguestseats": "Muga (Gonbidatuen)",
         "limitgreaterthanseats": "Ezarri eserleku kopurua baino txikiagoa edo berdina den muga",
-        "selectincharge": "Hautatu ordezkaria"
+        "selectincharge": "Hautatu ordezkaria",
+        "selectmodality": "Hautatu modalitatea",
+        "showpastevent": "Erakutsi iraganeko gertaera"
     },
     "plan-recommendations": {
         "applauses": "Txaloak",

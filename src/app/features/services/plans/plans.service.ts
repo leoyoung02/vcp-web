@@ -14,6 +14,8 @@ import {
   ADD_TO_WAITING_LIST_URL,
   ALL_GUEST_REGISTRATION_FIELDS_URL,
   ANSWER_EMAIL_INVITE_QUESTIONS_URL,
+  APPROVE_GROUP_PLAN_COMMENT_URL,
+  APPROVE_PLAN_COMMENT_URL,
   ASSIGN_SALES_PERSON_EVENT_URL,
   ASSIGN_SALES_PERSON_URL,
   CATEGORY_EVENTS_URL,
@@ -360,20 +362,24 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
-  addPlanComment( plan_id: number, user_id: number, comment: string ): Observable<any> {
-    return this._http.post(`${ADD_PLAN_COMMENT_URL}/${plan_id}/${user_id}?comment=${comment}`,
-        {'comment' : comment},
+  addPlanComment( plan_id: number, user_id: number, comment: string, approved: number = 1 ): Observable<any> {
+    return this._http.post(`${ADD_PLAN_COMMENT_URL}/${plan_id}/${user_id}?comment=${comment}&approved=${approved}`,
+        {
+          'comment': comment,
+          'approved': approved
+        },
         { headers: this.headers }
     ).pipe(map(res => res));
   }
 
-  addGroupPlanComment( group_plan_id: number, user_id: number, comment: string ): Observable<any> {
-      const url = `${ADD_GROUP_PLAN_COMMENT_URL}/${group_plan_id}/${user_id}?comment=${comment}`
+  addGroupPlanComment( group_plan_id: number, user_id: number, comment: string, approved: number = 1 ): Observable<any> {
+      const url = `${ADD_GROUP_PLAN_COMMENT_URL}/${group_plan_id}/${user_id}?comment=${comment}&approved=${approved}`
       const headers = {
-          headers: this.headers
+        headers: this.headers
       }
       return this._http.post(url,{
-          'comment' : comment,
+        'comment' : comment,
+        'approved': approved
       }, headers).pipe(map(res => res));
   }
 
@@ -758,6 +764,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_description', planForm.isShowDescription );
     formData.append( 'show_price', planForm.isShowPrice );
     formData.append( 'school_of_life', planForm.school_of_life );
+    formData.append( 'show', planForm.show );
 
     if(entityId == 32) {
       formData.append( 'additional_properties_course_access', planForm.additional_properties_course_access );
@@ -1131,6 +1138,20 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
   getGuestHistory(companyId): Observable<any> {
     return this._http.get(`${GUEST_HISTORY_LIST_URL}/${companyId}`, 
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  approvePlanComment(id): Observable<any> {
+    return this._http.post(`${APPROVE_PLAN_COMMENT_URL}/${id}`,
+      {},
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  approveGroupPlanComment(id): Observable<any> {
+    return this._http.post(`${APPROVE_GROUP_PLAN_COMMENT_URL}/${id}`,
+      {},
       { headers: this.headers }
     ).pipe(map(res => res));
   }

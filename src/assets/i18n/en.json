@@ -323,8 +323,8 @@
         "confirmedattendees": "Confirmed attendees",
         "attendees": "Attendees",
         "attendee": "Attendee",
-        "youjoined": "You have joined this plan",
-        "leaveplan": "Leave this plan",
+        "youjoined": "You have joined this event",
+        "leaveplan": "Leave this event",
         "duplicate": "Duplicate",
         "emailinvite": "Email invite",
         "exitcalendarmode": "Exit calendar mode",
@@ -352,6 +352,7 @@
         "plandate": "Date of",
         "category": "Category",
         "seats": "Seats",
+        "indicatemaxseats": "Indicate the maximum capacity of attendees for this event",
         "price": "Price",
         "link": "Link",
         "description": "Description",
@@ -445,7 +446,9 @@
         "limitmemberseats": "Limit (Members)",
         "limitguestseats": "Limit (Guests)",
         "limitgreaterthanseats": "Please set a limit less than or equal the number of seats",
-        "selectincharge": "Select the Delegate"
+        "selectincharge": "Select the Delegate",
+        "selectmodality": "Select modality",
+        "showpastevent": "Show past event"
     },
     "plan-recommendations": {
         "applauses": "Applauses",

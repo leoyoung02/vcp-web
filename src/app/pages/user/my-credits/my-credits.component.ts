@@ -55,7 +55,7 @@ export class MyCreditsComponent {
     userCourseCredits: any;
     pageTitle: any;
     isLoading: boolean = false;
-    userTotalCredits: number = 0;
+    userTotalCredits: any = '';
     @ViewChild(MatSort, { static: false }) sort: MatSort | undefined;
 
     constructor(
@@ -124,6 +124,7 @@ export class MyCreditsComponent {
     getSettings() {
         if(this.mode == 'activities') {
             this._userService.getUserCreditLogs(this.userId).subscribe(data => {
+                console.log(data)
                 this.formatUserCreditLogs(data?.user_credit_logs);
                 this.populateUserCreditsTable()
             }, error => {
@@ -174,7 +175,7 @@ export class MyCreditsComponent {
       
         if(user_credit_logs?.length > 0) {
             user_credit_logs?.forEach(log => {
-                this.userTotalCredits += parseInt(log.credits || 0)
+                this.userTotalCredits += parseFloat(log.credits || 0)?.toFixed(2)
             })
         }
         this.userCredits = user_credit_logs;

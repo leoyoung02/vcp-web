@@ -83,6 +83,7 @@ export class PlansStatisticsListComponent {
         end: new FormControl(),
     });
     planRatings: any = [];
+    selectedEventFilter: any = '';
 
     constructor(
         private _route: ActivatedRoute,
@@ -282,6 +283,12 @@ export class PlansStatisticsListComponent {
             })
         }
 
+        if(this.selectedEventFilter) {
+            this.plansData = this.plansData.filter(p => {
+                return p.id == this.selectedEventFilter
+            })
+        }
+
         if(this.selectedAttendanceStatusFilter) {
             this.plansData = this.plansData.filter(p => {
                 let include = false;
@@ -422,6 +429,10 @@ export class PlansStatisticsListComponent {
         this.loadPlans(this.allPlansData);
     } 
 
+    changeEventFilter(event) {
+        this.loadPlans(this.allPlansData);
+    } 
+
     handleDateChange(type, event) {
         if (type == "start") {
           if(moment(event?.value).isValid()) {
@@ -483,6 +494,12 @@ export class PlansStatisticsListComponent {
         const timestamp = date.getTime();
     
         return timestamp;
+    }
+
+    getEventTitle(event) {
+        return this.language == 'en' ? (event.title_en ? (event.title_en || event.title) : event.title) :
+            (this.language == 'fr' ? (event.title_fr ? (event.title_fr || event.title) : event.title) : 
+                event.title)
     }
 
     ngOnDestroy() {

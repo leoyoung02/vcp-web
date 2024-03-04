@@ -142,9 +142,9 @@
                         </mat-datepicker>
                     </mat-form-field>
                     <div class="ml-4">
-                        <input aria-label="HH:mm" [ngxTimepicker]="endtimepicker" 
+                        <input aria-label="HH:mm" [ngxTimepicker]="endtimepicker" [format]="24"
                             class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
-                            placeholder="hh:mm AM/PM" 
+                            placeholder="HH:mm" 
                             formControlName="end_date_hh">
                         <ngx-material-timepicker #endtimepicker></ngx-material-timepicker>
                    </div>
@@ -315,7 +315,7 @@
                         (change)="changePlanTypeId($event)"
                     >
                         <option value=1>{{ 'plan-create.you' | translate }}</option>
-                        <option value=4 *ngIf="clubTitle">{{ clubTitle }}</option>
+                        <option value=4 *ngIf="clubTitle && !isUESchoolOfLife">{{ clubTitle }}</option>
                         <option *ngIf="superAdmin && companyId != 32" value="5">{{ 'plan-create.company' | translate }}</option>
                     </select>
                 </div>
@@ -362,6 +362,7 @@
                         [(ngModel)]="category_id"
                         [ngModelOptions]="{standalone: true}"
                         (onSelect)="handleChangeCategory($event)"
+                        (onDeSelect)="onDeSelectCategory($event)"
                         [disabled]="isClubPresident"
                     >
                     </ng-multiselect-dropdown>
@@ -369,7 +370,7 @@
                 <div class="flex items-center justify-center relative"
                     *ngIf="(!types || (types && types?.length == 0)) && showCategorySelect" >
                     <ng-multiselect-dropdown
-                        placeholder="{{ 'dialog.picksubcategory' | translate }}"
+                        placeholder="{{ companyId == 32 ? ('plan-create.selectmodality' | translate) : ('dialog.picksubcategory' | translate) }}"
                         [settings]="subcategoryDropdownSettings"
                         [data]="subcategories"
                         [(ngModel)]="selectedSubcategory"
@@ -381,7 +382,7 @@
                     <input
                         type="number"
                         class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
-                        placeholder="{{ 'plan-create.seats' | translate }}"
+                        placeholder="{{ companyId == 32 ? ('plan-create.indicatemaxseats' | translate) : ('plan-create.seats' | translate) }}"
                         formControlName="seats"
                         (input)="calculateLimit('seats')"
                     />
@@ -404,7 +405,7 @@
                         />
                     </ng-container>
                 </div>
-                <div class="flex items-center justify-center relative">
+                <div class="flex items-center justify-center relative" *ngIf="companyId != 32">
                     <input
                         type="number"
                         class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
@@ -593,7 +594,7 @@
                         </div>
                     </label>
                 </div>
-                <div class="flex items-center mt-4 w-full mx-auto" *ngIf="hasFeatured">
+                <div class="flex items-center mt-4 w-full mx-auto" *ngIf="hasFeatured && companyId != 32">
                     <label class="checkbox-container">
                         <div class="flex mb-4">
                             <input 
@@ -816,6 +817,25 @@
                             <label for="showdescription" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.show_description' | translate }}
+                                </span>
+                            </label>
+                        </div>
+                    </label>
+                </div>
+                <div class="flex items-center mt-4 w-full mx-auto" *ngIf="companyId == 32">
+                    <label class="checkbox-container">
+                        <div class="flex mb-4">
+                            <input 
+                                id="showpastevent" 
+                                type="checkbox"
+                                [(ngModel)]="isShowPastEvent" 
+                                [ngModelOptions]="{standalone: true}"
+                                [ngStyle]="{'color': isShowPastEvent ? 'text-blue-500' : 'text-gray-900'}"
+                                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            >
+                            <label for="showpastevent" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                <span>
+                                    {{ 'plan-create.showpastevent' | translate }}
                                 </span>
                             </label>
                         </div>
