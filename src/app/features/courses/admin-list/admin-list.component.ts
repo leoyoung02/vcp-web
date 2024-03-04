@@ -24,8 +24,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ToastComponent } from "@share/components";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { COURSE_IMAGE_URL } from "@lib/api-constants";
-import { environment } from "@env/environment";
-import moment from "moment";
+import { searchSpecialCase } from "src/app/utils/search/helper";
 
 @Component({
   selector: "app-courses-admin-list",
@@ -378,7 +377,9 @@ export class CoursesAdminListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0) ||
+            ) >= 0
+            || searchSpecialCase(this.searchKeyword,course.title)
+            ) ||
           (course.title_en &&
             course.title_en
             .toLowerCase()
@@ -389,7 +390,10 @@ export class CoursesAdminListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0) ||
+            ) >= 0
+            
+            || searchSpecialCase(this.searchKeyword,course.title_en)
+            ) ||
           (course.title_fr &&
             course.title_fr
             .toLowerCase()
@@ -400,7 +404,10 @@ export class CoursesAdminListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0) ||
+            ) >= 0
+            
+            || searchSpecialCase(this.searchKeyword,course.title_fr)
+            ) ||
           (course.title_eu &&
             course.title_eu
             .toLowerCase()
@@ -411,7 +418,10 @@ export class CoursesAdminListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0) ||
+            ) >= 0
+            
+            || searchSpecialCase(this.searchKeyword,course.title_eu)
+            ) ||
           (course.title_ca &&
             course.title_ca
             .toLowerCase()
@@ -422,7 +432,10 @@ export class CoursesAdminListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0) ||
+            ) >= 0
+            
+            || searchSpecialCase(this.searchKeyword,course.title_ca)
+            ) ||
           (course.title_de &&
             course.title_de
             .toLowerCase()
@@ -433,7 +446,10 @@ export class CoursesAdminListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0) ||
+            ) >= 0
+            
+            || searchSpecialCase(this.searchKeyword,course.title_de)
+            ) ||
           (course.title_it &&
             course.title_it
             .toLowerCase()
@@ -444,7 +460,10 @@ export class CoursesAdminListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0)
+            ) >= 0
+            
+            || searchSpecialCase(this.searchKeyword,course.title_it)
+            )
         );
       });
     }

@@ -25,6 +25,7 @@ import { ToastComponent } from "@share/components";
 import { environment } from "@env/environment";
 import moment from "moment";
 import * as he from 'he';
+import { searchSpecialCase } from "src/app/utils/search/helper";
 
 @Component({
   selector: "app-testimonials-admin-list",
@@ -225,7 +226,9 @@ export class TestimonialsAdminListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0) ||
+            ) >= 0
+            || searchSpecialCase(this.searchKeyword,testimonial.author)
+            ) ||
           (testimonial.short_description &&
             he.decode(testimonial.short_description)
               .toLowerCase()

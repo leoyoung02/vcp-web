@@ -47,6 +47,7 @@ import { ClubsService, CoursesService, TutorsService } from "@features/services"
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import moment from "moment";
 import get from "lodash/get";
+import { searchSpecialCase } from "src/app/utils/search/helper";
 
 @Component({
   selector: "app-manage-users",
@@ -1394,14 +1395,14 @@ export class ManageUsersComponent {
 
     return result;
   }
-
+  
   filterSearchKeyword(members) {
     if (members) {
       return members.filter((m) => {
         let include = false;
         if (
           (m.name &&
-            m.name
+            (m.name
             .toLowerCase()
             .normalize("NFD")
             .replace(/\p{Diacritic}/gu, "")
@@ -1410,9 +1411,13 @@ export class ManageUsersComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0) ||
+            ) >= 0
+            ||
+            searchSpecialCase(this.searchKeyword, m.name)
+            )
+            ) ||
           (m.first_name &&
-            m.first_name
+            (m.first_name
               .toLowerCase()
               .normalize("NFD")
               .replace(/\p{Diacritic}/gu, "")
@@ -1421,9 +1426,13 @@ export class ManageUsersComponent {
                   .toLowerCase()
                   .normalize("NFD")
                   .replace(/\p{Diacritic}/gu, "")
-              ) >= 0) ||
+              ) >= 0
+              ||
+              searchSpecialCase(this.searchKeyword, m.first_name)
+              )
+              ) ||
           (m.last_name &&
-            m.last_name
+           (( m.last_name
               .toLowerCase()
               .normalize("NFD")
               .replace(/\p{Diacritic}/gu, "")
@@ -1432,7 +1441,11 @@ export class ManageUsersComponent {
                   .toLowerCase()
                   .normalize("NFD")
                   .replace(/\p{Diacritic}/gu, "")
-              ) >= 0) ||
+              ) >= 0)
+              ||
+              (searchSpecialCase(this.searchKeyword, m.last_name))
+              )
+              ) ||
           (m.startup_name &&
             m.startup_name
               .toLowerCase()
