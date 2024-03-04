@@ -29,6 +29,12 @@
     </div>
 </div>
 <div class="w-full min-w-full py-8">
+    <mat-paginator
+    #paginator [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20, 50, 100, 200]" class="mb-5"
+    *ngIf="pageSize == 200"
+    (page)="getPageDetails($event)"
+    [showFirstLastButtons]="true"
+></mat-paginator>
     <div class="mat-table-responsive">
         <mat-table [dataSource]="dataSource" matSort class="manage-list">
             <ng-container matColumnDef="first_name">
@@ -73,7 +79,8 @@
         </mat-table>
     </div>
     <mat-paginator
-        #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"
+        #paginator [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20, 50, 100, 200]"
+        *ngIf="pageSize < 200"
         (page)="getPageDetails($event)"
         [showFirstLastButtons]="true"
     ></mat-paginator>
