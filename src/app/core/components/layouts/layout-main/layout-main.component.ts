@@ -10,7 +10,7 @@ import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
 import { MenuService, NotificationsService } from "@lib/services";
-import { TutorsService } from "@features/services";
+import { PlansService, TutorsService } from "@features/services";
 import { FooterComponent, MobileNavbarComponent } from "src/app/core/components";
 import { Subject, takeUntil } from "rxjs";
 import { ToastComponent } from "@share/components";
@@ -177,6 +177,8 @@ export class LayoutMainComponent {
   newURLButtonTextValueIt: any;
   courseWallPrefixTextValueIt: any;
   hasInvitations: boolean = false;
+  salesPeople: any = [];
+  isSalesPerson: boolean = false;
 
   constructor(
     private _router: Router,
@@ -186,6 +188,7 @@ export class LayoutMainComponent {
     private _menuService: MenuService,
     private _userService: UserService,
     private _tutorsService: TutorsService,
+    private _plansService: PlansService,
     private _notificationsService: NotificationsService,
     private cd: ChangeDetectorRef
   ) {
@@ -322,6 +325,7 @@ export class LayoutMainComponent {
     }
 
     if(this.companyId == 12) {
+      this.getSalesPersonList();
       this.getNetculturaUsers();
     }
     
@@ -345,6 +349,25 @@ export class LayoutMainComponent {
             console.log(error)
         }
       )
+  }
+
+  getSalesPersonList() {
+    this._plansService.salesPeople(this.company?.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(data => {
+        this.salesPeople = data.people;
+        if(this.salesPeople) {
+          this.salesPeople.forEach(sp => {
+            if(sp.id == this.userId) {
+              this.isSalesPerson = true
+            }
+          });
+        }
+
+        if(this.isSalesPerson) { this.canManageEvents = true; }
+      }, err => {
+        console.log(err);
+      });
   }
 
   getSettings() {
@@ -556,6 +579,8 @@ export class LayoutMainComponent {
           }
         });
       }
+
+      if(this.isSalesPerson) { this.canManageEvents = true; }
 
       this.getUserTypeInformation();
       this.getExpireInformation();
