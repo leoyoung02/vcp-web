@@ -9,7 +9,7 @@ import {
   EDIT_TESTIMONIAL_TAG_URL,
   EDIT_TESTIMONIAL_URL,
   TESTIMONIALS_DATA_URL,
-  TESTIMONIALS_URL, TESTIMONIAL_DETAILS_URL, TESTIMONIAL_TAGS_URL,
+  TESTIMONIALS_URL, TESTIMONIAL_DETAILS_URL, TESTIMONIAL_TAGS_URL, TESTIMONIAL_VIDEO_UPLOAD,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
@@ -41,6 +41,10 @@ export class TestimonialsService {
     return this._http.get(`${TESTIMONIAL_DETAILS_URL}/${id}/${companyId}/${userId}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
+  }
+
+  uploadcoverVideo(payload): Observable<any> {
+    return this._http.post(`${TESTIMONIAL_VIDEO_UPLOAD}`,payload).pipe(map(res => res));
   }
 
   addTestimonial(payload): Observable<any> {

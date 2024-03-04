@@ -13,6 +13,7 @@ import { TestimonialCardComponent } from '@share/components/card/testimonial/tes
 import moment from "moment";
 import get from 'lodash/get';
 import * as he from 'he';
+import { searchSpecialCase } from 'src/app/utils/search/helper';
 
 @Component({
   selector: 'app-testimonials-list',
@@ -228,6 +229,8 @@ export class TestimonialsListComponent {
         id: item?.id,
         path: `/testimonials/details/${item.id}`,
         image: `${environment.api}/get-testimonial-image/${item.image}`,
+        video: `${environment.api}/get-testimonial-video/${item.video}`,
+        isCoverImage: item.isCoverImage || !item.video ? true :  false,
         tags_display: tags_texts?.map((data) => { return data.tag_label }).join(', '),
         date_display: moment.utc(item.created_at).locale(this.language).format('D MMMM')
       };
@@ -440,7 +443,8 @@ export class TestimonialsListComponent {
     if (this.search) {
       testimonials = testimonials.filter(m => {
         return (
-          (m.author && m.author
+          (m.author && 
+            (m.author
             .toLowerCase()
             .normalize("NFD")
             .replace(/\p{Diacritic}/gu, "")
@@ -449,7 +453,9 @@ export class TestimonialsListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0) ||
+            ) >= 0 
+            || searchSpecialCase(this.search,m.author))
+            ) ||
           (m.tags_display && m.tags_display
             .toLowerCase()
             .normalize("NFD")

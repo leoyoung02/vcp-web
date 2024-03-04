@@ -28,6 +28,7 @@ import {
 } from "@angular/forms";
 import { initFlowbite } from "flowbite";
 import get from "lodash/get";
+import { searchSpecialCase } from "src/app/utils/search/helper";
 
 @Component({
   selector: "app-settings-lead-videos-ctas",
@@ -255,6 +256,7 @@ export class LandingVideosCTAsComponent {
               .normalize("NFD")
               .replace(/\p{Diacritic}/gu, "")
           ) >= 0
+          || searchSpecialCase(this.searchKeyword,m.title)
         ) {
           include = true;
         }

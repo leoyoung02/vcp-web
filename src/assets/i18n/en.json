@@ -3263,7 +3263,8 @@
         "notsetupaccount":"This tutor profle is not prpoerly setup.",
         "correctcalendlycredntials":"Please check your calendly credentials to proceed.",
         "perhourrate":"commission per hour of tutoring.",
-        "pendingtutorials":"You have pending tutorials to mark complete."
+        "pendingtutorials":"You have pending tutorials to mark complete.",
+        "configurestripeaccount":"Cannot schedule bookings until the tutor configures their Stripe account."
     },
     "general-details": {
         "name" : "Name",
@@ -3425,7 +3426,9 @@
         "tags": "Tags",
         "gallery": "Gallery",
         "socialmedia": "Social Media URL",
-        "author": "Author"
+        "author": "Author",
+        "uploadcover": "Upload Cover",
+        "covernote":"Upload image or video for the testimonial cover"
     },
     "contract": {
         "review": "Review terms and conditions",

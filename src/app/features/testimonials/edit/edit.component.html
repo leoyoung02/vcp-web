@@ -4,8 +4,8 @@ userRoleType == 'Admin SEDE')">
     <div class="pt-6">
         <form [formGroup]="testimonialForm" (ngSubmit)="saveTestimonial()">
             <div class="grid gap-0 sm:gap-0 md:gap-6 lg:gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
-                <div class="flex items-center justify-center mb-8 relative col-span-2">
-                    <div>
+                <div class="flex flex-col items-center justify-center mb-14 relative col-span-2">
+                    <div [ngClass]="{'rounded-xl bg-red-50 border border-red-500': !isVideoFormatRight}">
                         <input 
                             required 
                             type="file"
@@ -18,24 +18,35 @@ userRoleType == 'Admin SEDE')">
                             [ngClass]="{'p-6': !imgSrc}"
                         >
                             <div
+                            *ngIf="isCoverImage"
                                 class="grid mb-8 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300 place-items-center"
                                 [ngClass]="{'w-28 h-28': !imgSrc, 'w-60 h-60': imgSrc}"
                             >
-                                <img *ngIf="!imgSrc" width="40" height="40" src="./assets/images/new-design/camera.png" />
-                                <img *ngIf="imgSrc" class="rounded-xl object-contain" src="{{ imgSrc }}" />
+                            <img *ngIf="imgSrc" class="rounded-xl object-contain" src="{{ imgSrc }}" />
+                            <img *ngIf="!imgSrc" width="40" height="40" src="./assets/images/new-design/camera.png" />
+                        </div>
+                        <div
+                        *ngIf="!isCoverImage"
+                        class="grid mb-8 rounded-full place-items-center"
+                        [ngClass]="{'w-28 h-28 bg-gradient-to-br from-neutral-900 to-indigo-300': !videoSrc, 'w-60 h-60': videoSrc}"
+                        >
+                                <img *ngIf="!videoSrc" width="40" height="40" src="./assets/images/new-design/camera.png" />
+                                <video  *ngIf="videoSrc"  src="{{ videoSrc }}" class="h-52"></video>
                             </div>
                         </div>
-                        <div class="text-center absolute bottom-2 left-0 right-0 m-auto">
+                        <div class="text-center absolute -bottom-10 left-0 right-0 m-auto">
                             <label
                                 for="photo"
                                 [ngStyle]="{'background-color': buttonColor}"
-                                class="btn text-white"
+                                class="btn text-white mb-6 w-max"
                             >
-                                {{ 'club-create.uploadimage' | translate }}
+                                {{ 'testimonials.uploadcover' | translate }}
                             </label>
+                            <p class="text-sm font-medium text-gray-900 dark:text-white">*{{ 'testimonials.covernote' | translate }}</p>
                         </div>
                     </div>
                 </div>
+                
                 <div class="flex items-center justify-center mb-4 relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
                     <div class="w-full max-w-full">
                         <label for="author" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">

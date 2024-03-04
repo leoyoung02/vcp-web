@@ -151,7 +151,9 @@ export class TutorDetailComponent {
   isAdminRole: boolean = false;
   tutorPersonalAccessToken: any;
   allTutorTypes: any = [];
-  isValidCalenldyAccount : boolean = true
+  isValidCalenldyAccount : boolean = true;
+  tutorAccountIds:any=[];
+  canStudentBook : any = false;
 
   constructor(
     private _router: Router,
@@ -232,6 +234,7 @@ export class TutorDetailComponent {
     this.mapFeatures(data?.features_mapping);
     this.mapSubfeatures(data);
     this.mapUserPermissions(data?.user_permissions);
+    this.tutorAccountIds = data?.tutor_account_ids
     this.formatTutor(data);
     this.initializeBreadcrumb(data);
   }
@@ -392,8 +395,17 @@ export class TutorDetailComponent {
     }else{
       this.isValidCalenldyAccount = false
     }
-
     this.getCompanyCourses();
+  }
+
+  canStudentBookTutor(){
+    if(this.isValidCalenldyAccount && this.tutorAccountIds?.length > 0){
+      const custom_member_id =  this.user?.custom_member_type_id
+      const canBook =  this.tutorAccountIds?.some(tutor=> tutor?.role_id == custom_member_id && tutor.stripe_connect == true)
+      this.canStudentBook = canBook
+    }else{
+      this.canStudentBook = false
+    }
   }
 
   getCompanyCourses() {
@@ -547,6 +559,7 @@ export class TutorDetailComponent {
     if(this.hasCategoryAccess) {
       this.showCoursesWithAccess()
     }
+    this.canStudentBookTutor()
   }
 
   async showCoursesWithAccess() {
@@ -632,9 +645,8 @@ export class TutorDetailComponent {
     }
     var typesArr: any[] = []
     this.selectedTutorTypes.forEach(element => {
-        typesArr.push(element.id);
+      typesArr.push(element.id);
     });
-    
     
     this._tutorsService.getCoursesFromTutorTypes(this.userId ? this.userId : 0, this.companyId, typesArr).subscribe(
         async response => {

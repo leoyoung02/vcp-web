@@ -39,6 +39,7 @@ import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+import { FilePond } from "filepond";
 registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
 
 @Component({
@@ -109,8 +110,9 @@ export class TestimonialEditComponent {
   tagsMapping: any;
   tags: any = [];
   imgSrc: any;
+  videoSrc: any;
   course: any;
-  tag: any;
+  tag: any = [];
   courses: any;
   data: any = [];
   items: GalleryItem[] = [];
@@ -130,12 +132,17 @@ export class TestimonialEditComponent {
   imageFileName: any = '';
   uploadedVideos: any = [];
   uploadedImages: any = [];
-  pondFiles = [];
+  pondFiles:any = [];
   customMemberTypes :any;
   userRoleType:any;
   customMemberTypeId:any;
   isAuthorExsist:boolean = true;
-
+  coverVideo:string = '';
+  uploadVideos:any  = [];
+  uploadImages:any  = [];
+  isCoverImage:any = true;
+  videoImagePreview:any='';
+  isVideoFormatRight:boolean=true;
 
   @ViewChild('myPond', {static: false}) myPond: any;
   pondOptions = {
@@ -155,23 +162,33 @@ export class TestimonialEditComponent {
         const formData = new FormData();
         let fileExtension = file ? file.name.split('.').pop() : '';
 
+
         let timestamp = this.getTimestamp()
         if(fileExtension == 'mp4') {
-          // video
-          let id = this.uploadedImages?.length || 1
-          this.imageFileName = 'testimonial_' + this.userId + '_' + timestamp + '.' + fileExtension;
-          formData.append('file', file, this.imageFileName);
-          localStorage.setItem('gallery_id', id);
-          localStorage.setItem('gallery_filename', this.imageFileName);
-          localStorage.setItem('gallery_file', 'uploading');
-        } else {
-          // image
           let id = this.uploadedVideos?.length || 1
           this.videoFileName = 'testimonial_' + this.userId + '_' + timestamp + '.' + fileExtension;
           formData.append('file', file, this.videoFileName);
           localStorage.setItem('gallery_id', id);
           localStorage.setItem('gallery_filename', this.videoFileName);
           localStorage.setItem('gallery_file', 'uploading');
+          
+          if(!this.uploadVideos.includes(this.videoFileName)){
+            this.uploadVideos.push(this.videoFileName)
+            localStorage.setItem('gallery_video_files',JSON.stringify(this.uploadVideos))
+          }
+        } else {
+          let id = this.uploadedImages?.length || 1
+          this.imageFileName = 'testimonial_' + this.userId + '_' + timestamp + '.' + fileExtension;
+          formData.append('file', file, this.imageFileName);
+          localStorage.setItem('gallery_id', id);
+          localStorage.setItem('gallery_filename', this.imageFileName);
+          localStorage.setItem('gallery_file', 'uploading');
+          
+          
+          if(!this.uploadImages.includes(this.imageFileName)){
+            this.uploadImages.push(this.imageFileName)
+            localStorage.setItem('gallery_image_files',JSON.stringify(this.uploadImages))
+          }
         }
 
         const request = new XMLHttpRequest();
@@ -180,7 +197,6 @@ export class TestimonialEditComponent {
         } else {
           request.open('POST', environment.api + '/company/testimonial/image/temp-upload');
         }
-
         request.upload.onprogress = (e) => {
           progress(e.lengthComputable, e.loaded, e.total);
         };
@@ -189,14 +205,41 @@ export class TestimonialEditComponent {
             if (request.status >= 200 && request.status < 300) {
               load(request.responseText);
               localStorage.setItem('gallery_file', 'complete');
-              let filename: any = localStorage.getItem('gallery_filename');
-              let filenames = localStorage.getItem('gallery_filenames');
-              if(filenames) {
-                localStorage.setItem('gallery_filenames', filenames + ',' + filename);
-              } else {
-                localStorage.setItem('gallery_filenames', filename);
+              const videosData = localStorage.getItem('gallery_video_files');
+              const imagesData = localStorage.getItem('gallery_image_files');
+              let videos = [];
+              let images = [];
+
+              if (videosData) {
+                try {
+                  videos = JSON.parse(videosData);
+                } catch (error) {
+                  console.error('Error parsing video data:', error);
+                }
               }
-            } else {
+
+              if (imagesData) {
+                try {
+                  images = JSON.parse(imagesData);
+                } catch (error) {
+                  console.error('Error parsing image data:', error);
+                }
+              }
+
+              let totalFiles = [];
+              if (images.length > 0) {
+                totalFiles = [...images];
+              }
+              if (videos.length > 0) {
+                totalFiles = [...totalFiles, ...videos];
+              }
+
+
+              if (totalFiles?.length > 0) {
+                localStorage.setItem('gallery_filenames', totalFiles?.join(','));
+              }
+              
+            } else {  
             error('oh no');
             }
         };
@@ -387,6 +430,12 @@ export class TestimonialEditComponent {
           this.tagsMapping = data?.tags_mapping;
           this.formatTestimonial(data?.testimonial, data?.testimonial_tags);
           this.formatImageVideos(data?.testimonial_images, data?.testimonial_videos);
+
+          this.uploadImages = []
+          this.uploadVideos = []
+          localStorage.setItem('gallery_video_files',this.uploadVideos)
+          localStorage.setItem('gallery_image_files',this.uploadImages)
+
           this.isLoading = false;
         },
         (error) => {
@@ -407,28 +456,31 @@ export class TestimonialEditComponent {
       image: testimonial.image,
       testimonial_tags: tags,
       testimonial_image: `${environment.api}/get-testimonial-image/${testimonial.image}`,
+      testimonial_video: `${environment.api}/get-testimonial-video/${testimonial.video}`,
       testimonial_course_id: testimonial.testimonial_course_id,
       created_by: testimonial.created_by,
       created_at: testimonial.created_at,
     }
     this.testimonial = t;
+    this.isCoverImage = testimonial?.isCoverImage || !testimonial.video ? true : false
 
     this.testimonialForm.controls['short_description'].setValue(this.testimonial.short_description);
     this.testimonialForm.controls['description'].setValue(this.testimonial.description);
     this.testimonialForm.controls['author'].setValue(this.testimonial.author);
     this.testimonialForm.controls['social_media_url'].setValue(this.testimonial.social_media_url);
     this.imgSrc = this.testimonial?.testimonial_image;
+    this.videoSrc = this.testimonial?.testimonial_video
     this.course = this.testimonial?.testimonial_course_id || '';
     if(this.testimonial?.testimonial_tags?.length > 0) {
       this.tag = this.testimonial?.testimonial_tags
-        .map(item => {
-          const { tag_id, tag } = item
-        
+      .map(item => {
+        const { tag_id, tag } = item
+          
           return {
             id: tag_id,
             tag
           }
-      })
+      }) 
     }
   };
 
@@ -570,20 +622,58 @@ export class TestimonialEditComponent {
     )) : ''
   }
 
-  fileChangeEvent(event: any): void {
+  async fileChangeEvent(event: any) {
     this.imageChangedEvent = event;
     const file = event?.target?.files[0];
-    if (file?.size > 2000000) {
-    } else {
-      initFlowbite();
-      setTimeout(() => {
-        this.modalbutton?.nativeElement.click();
-      }, 500);
+
+    if(file && file.type.includes('video') && ( file.type == 'video/mp4' ||  file.type == 'video/webm'  || file.type == 'video/quicktime' )){
+      const formData = new FormData();
+      let fileExtension = file ? file.name.split('.').pop() : '';
+      let timestamp = this.getTimestamp()
+      this.coverVideo = 'testimonial_' + this.userId + '_' + timestamp + '.' + fileExtension;
+      
+      this.isCoverImage =  false
+      this.isVideoFormatRight = true
+      this.videoSrc = URL.createObjectURL(file);
+
+      if(this.coverVideo){
+        this.isCoverImage = false
+        localStorage.setItem('cover_video', this.coverVideo);
+        formData.append('file', file, this.coverVideo);
+  
+        this._testimonialsService
+        .uploadcoverVideo(formData)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (data) => {
+          }, 
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
     }
+    else if(!file.type.includes('image') && !(file.type.includes('video') && ( file.type == 'video/mp4' ||  file.type == 'video/webm'  || file.type == 'video/quicktime' ))){
+      this.imgSrc = ""
+      this.videoSrc = "";
+      this.isVideoFormatRight = false
+    }
+    else{
+      if (file?.size < 2000000) {
+        initFlowbite();
+        setTimeout(() => {
+          this.modalbutton?.nativeElement.click();
+        }, 500);
+      }
+
+    }
+
   }
 
   imageCropped(event: ImageCroppedEvent) {
     if (event.base64) {
+      this.isCoverImage =  true
+      this.isVideoFormatRight = true
       this.imgSrc = this.croppedImage = event.base64;
       this.file = {
         name: "image",
@@ -625,87 +715,101 @@ export class TestimonialEditComponent {
     });
   }
 
+  // save testimonial
   saveTestimonial() {
+
+    const isTestimonialCoverExsist = (this.imgSrc || this.coverVideo) ? true : false 
+
     this.errorMessage = "";
     this.formSubmitted = true;
-    
     let author = this.testimonialForm.get("author")?.value;
     this.isAuthorExsist = this.testimonialForm.get("author")?.value ? true : false
-    
     if ( 
       this.testimonialForm?.get('short_description')?.errors
       || this.testimonialForm?.get('description')?.errors
       || !this.isAuthorExsist
+      || !isTestimonialCoverExsist
     ) {
       this.scrollToTop();
       return false;
     }
+      this.issaving = true;
+  
+      let gallery_items = localStorage.getItem('gallery_filenames');
+      let short_description = this.testimonialForm.get("short_description")?.value;
+      let description = this.testimonialForm.get("description")?.value;
+      let social_media_url = this.testimonialForm.get("social_media_url")?.value;
+  
+      let formData = new FormData();
+      formData.append("short_description", short_description);
+      formData.append("description", description);
+      formData.append("author", author);
+      formData.append("social_media_url", social_media_url);
+      formData.append("company_id", this.companyId.toString());
+      formData.append("video", this.coverVideo);
+      
 
-    this.issaving = true;
+      const testimonial_course_id = this.course ? this.course : 0 
+      formData.append("testimonial_course_id", testimonial_course_id);
 
-    let gallery_items = localStorage.getItem('gallery_filenames');
-    let short_description = this.testimonialForm.get("short_description")?.value;
-    let description = this.testimonialForm.get("description")?.value;
-    let social_media_url = this.testimonialForm.get("social_media_url")?.value;
-
-    let formData = new FormData();
-    formData.append("short_description", short_description);
-    formData.append("description", description);
-    formData.append("author", author);
-    formData.append("social_media_url", social_media_url);
-    formData.append("company_id", this.companyId.toString());
-    formData.append("testimonial_course_id", this.course || 0);
-    formData.append("tag_id", this.tag ? this.tag?.map( (data) => { return data.id }).join() : '');
-
-    if (this.file) {
-      const filename = 'testimonial_' + this.userId + '_' + this.getTimestamp();
-      formData.append('image', this.file.image, filename + '.jpg');
-    }
-
-    if(gallery_items) {
-      formData.append( 'image_video_files', gallery_items );
-    }
-
-    if (this.id == 0) {
-      formData.append("created_by", this.userId.toString());
-    }
-
-    if (this.id > 0) {
-      // Edit
-      this._testimonialsService.editTestimonial(this.id, formData).subscribe(
-        (response) => {
-          this.open(
-            this._translateService.instant("dialog.savedsuccessfully"),
-            ""
-          );
-          this.clearFileLocal();
-          this._router.navigate([`/testimonials/details/${this.id}`]);
-        },
-        (error) => {
-          this.issaving = false;
-          this.open(this._translateService.instant("dialog.error"), "");
-        }
-      );
-    } else {
-      // Create
-      this._testimonialsService.addTestimonial(formData).subscribe(
-        (response) => {
-          if (response.id > 0) {
+      if(this.tag?.length > 0){
+        formData.append("tag_id", JSON.stringify(this.tag));
+      }else{
+        formData.append("tag_id",this.tag);
+      }
+  
+      if (this.file) {
+        const filename = 'testimonial_' + this.userId + '_' + this.getTimestamp();
+        formData.append('image', this.file.image, filename + '.jpg');
+      }
+  
+      if(gallery_items) {
+        formData.append( 'image_video_files', gallery_items );
+      }
+  
+      if (this.id == 0) {
+        formData.append("created_by", this.userId.toString());
+      }
+  
+      if (this.id > 0) {
+        // Edit
+        
+        this._testimonialsService.editTestimonial(this.id, formData).subscribe(
+          (response) => {
+            this.open(
+              this._translateService.instant("dialog.savedsuccessfully"),
+              ""
+            );
             this.clearFileLocal();
-            this._router.navigate([
-              `/testimonials/details/${response.id}`,
-            ]);
-          } else {
+            this._router.navigate([`/testimonials/details/${this.id}`]);
+          },
+          (error) => {
             this.issaving = false;
             this.open(this._translateService.instant("dialog.error"), "");
           }
-        },
-        (error) => {
-          this.issaving = false;
-          this.open(this._translateService.instant("dialog.error"), "");
-        }
-      );
-    }
+        );
+      } else {
+        // Create
+        this._testimonialsService.addTestimonial(formData).subscribe(
+          (response) => {
+            if (response.id > 0) {
+              this.clearFileLocal();
+              this._router.navigate([
+                `/testimonials/details/${response.id}`,
+              ]);
+            } else {
+              this.issaving = false;
+              this.open(this._translateService.instant("dialog.error"), "");
+            }
+          },
+          (error) => {
+            this.issaving = false;
+            this.open(this._translateService.instant("dialog.error"), "");
+          }
+        );
+      }
+      
+
   }
 
   pondHandleInit() {
@@ -727,6 +831,8 @@ export class TestimonialEditComponent {
     localStorage.removeItem('gallery_filename');
     localStorage.removeItem('gallery_file');
     localStorage.removeItem('gallery_filenames');
+    localStorage.removeItem('gallery_video_files');
+    localStorage.removeItem('gallery_image_files');
   }
 
   async open(message: string, action: string) {

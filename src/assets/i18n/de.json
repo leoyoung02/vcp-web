@@ -3226,7 +3226,8 @@
         "notsetupaccount":"Dieses Tutorprofil ist nicht ordnungsgemäß eingerichtet.",
         "correctcalendlycredntials":"Bitte überprüfen Sie Ihre Kalenderdaten, um fortzufahren.",
         "perhourrate":"Provision pro Nachhilfestunde.",
-        "pendingtutorials":"Sie haben ausstehende Tutorials, die Sie als abgeschlossen markieren müssen."
+        "pendingtutorials":"Sie haben ausstehende Tutorials, die Sie als abgeschlossen markieren müssen.",
+        "configurestripeaccount":"Es können keine Buchungen geplant werden, bis der Tutor sein Stripe-Konto konfiguriert."
     },
     "general-details": {
         "name" : "Name",
@@ -3388,7 +3389,9 @@
         "tags": "Tags",
         "gallery": "Galerie",
         "socialmedia": "Social-Media-URL",
-        "author": "Autor"
+        "author": "Autor",
+        "uploadcover": "UCover hochladen",
+        "covernote":"Laden Sie ein Bild oder Video für das Testimonial-Cover hoch. Laden Sie ein Bild oder Video für das Testimonial-Cover hoch"
     },
     "contract": {
         "review": "Bewertungsbedingungen",
