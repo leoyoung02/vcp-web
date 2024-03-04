@@ -554,6 +554,7 @@ export const DELETE_TESTIMONIAL_TAG_URL = `${API_BASE}/company/testimonial/tag/d
 
 export const TESTIMONIALS_URL = `${API_BASE}/v2/testimonials`;
 export const TESTIMONIAL_DETAILS_URL = `${API_BASE}/v2/testimonial-details`;
+export const TESTIMONIAL_VIDEO_UPLOAD = `${API_BASE}/company/testimonial/video/temp-upload`;
 
 // MEMBERS
 export const MEMBERS_COMBINED_URL = `${API_BASE}/v2/members`;

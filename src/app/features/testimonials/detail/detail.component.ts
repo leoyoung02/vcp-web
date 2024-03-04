@@ -74,6 +74,8 @@ export class TestimonialDetailComponent {
   deleteHover: boolean = false;
   superTutor: boolean = false;
   canEdit: boolean = false;
+  testimonialImages:any = [];
+  testimonialVideos:any = []
 
   constructor(
     private _router: Router,
@@ -147,6 +149,24 @@ export class TestimonialDetailComponent {
   initializePage() {
     let data = this.testimonialData;
     this.user = data?.user_permissions?.user;
+    this.testimonialVideos = data?.testimonial_videos
+    this.testimonialImages = data?.testimonial_images
+    if(this.testimonialVideos?.length > 0)
+    this.testimonialVideos = this.testimonialVideos.map(testimonial=>{
+      return {
+        id:testimonial.id,
+        video:`${environment.api}/get-testimonial-video/${testimonial.video}`,
+      }
+    })
+    
+    if(this.testimonialImages?.length > 0)
+    this.testimonialImages = this.testimonialImages.map(testimonial=>{
+      return {
+        id:testimonial.id,
+        image:`${environment.api}/get-testimonial-image/${testimonial.image}`,
+      }
+    })
+
     this.mapFeatures(data?.features_mapping);
     this.mapUserPermissions(data);
     this.formatTestimonial(data?.testimonial);
@@ -177,6 +197,7 @@ export class TestimonialDetailComponent {
     const parsedHTML = parser.parseFromString(author, 'text/html');
     return parsedHTML.body.textContent;
   }
+  // format testimonial
 
   formatTestimonial(testimonial) {
     let highlight_description = testimonial.description?.replace(testimonial?.short_description?.replace(/<(?:.|\n)*?>/gm, ''), '<div class="font-semibold px-4 py-1 border border-2 border-black border-t-0 border-b-0 border-r-0 italic">' + testimonial?.short_description?.replace(/<(?:.|\n)*?>/gm, '') + '</div>')
@@ -192,7 +213,9 @@ export class TestimonialDetailComponent {
       testimonial_image: `${environment.api}/get-testimonial-image/${testimonial.image}`,
       created_by: testimonial.created_by,
       created_at: testimonial.created_at,
-      date_display: moment.utc(testimonial.created_at).locale(this.language).format('D MMMM')
+      isCoverImage: testimonial.isCoverImage || !testimonial.video ? true :  false,
+      date_display: moment.utc(testimonial.created_at).locale(this.language).format('D MMMM'),
+      video: `${environment.api}/get-testimonial-video/${testimonial.video}`
     }
     this.testimonial = t;
   };

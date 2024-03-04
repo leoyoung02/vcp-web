@@ -3384,7 +3384,9 @@
         "tags": "Balises",
         "gallery": "Galerie",
         "socialmedia": "URL du réseau social",
-        "author": "Auteur"
+        "author": "Auteur",
+        "uploadcover": "Télécharger la couverture",
+        "covernote":"Téléchargez une image ou une vidéo pour la couverture du témoignageTéléchargez une image ou une vidéo pour la couverture du témoignage"
     },
     "contract": {
         "review": "Vérifier les termes et conditions",
