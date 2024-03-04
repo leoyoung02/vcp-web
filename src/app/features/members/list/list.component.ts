@@ -475,7 +475,7 @@ export class MembersListComponent {
           (m?.name && ((m?.name).normalize("NFD").replace(/\p{Diacritic}/gu, "")).toLowerCase().indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
           (m?.first_name && ((m?.first_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
           (m?.last_name && ((m?.last_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
-          (m?.displaßy_name && ((m?.display_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
+          (m?.display_name && ((m?.display_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
           (m.city?.toLowerCase().indexOf(this.search.toLowerCase()) >= 0) ||
           (m.sector?.toLowerCase().indexOf(this.search.toLowerCase()) >= 0) ||
           (m.email?.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
