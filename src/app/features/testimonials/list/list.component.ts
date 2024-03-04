@@ -13,6 +13,7 @@ import { TestimonialCardComponent } from '@share/components/card/testimonial/tes
 import moment from "moment";
 import get from 'lodash/get';
 import * as he from 'he';
+import { searchSpecialCase } from 'src/app/utils/search/helper';
 
 @Component({
   selector: 'app-testimonials-list',
@@ -440,7 +441,8 @@ export class TestimonialsListComponent {
     if (this.search) {
       testimonials = testimonials.filter(m => {
         return (
-          (m.author && m.author
+          (m.author && 
+            (m.author
             .toLowerCase()
             .normalize("NFD")
             .replace(/\p{Diacritic}/gu, "")
@@ -449,7 +451,9 @@ export class TestimonialsListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0) ||
+            ) >= 0 
+            || searchSpecialCase(this.search,m.author))
+            ) ||
           (m.tags_display && m.tags_display
             .toLowerCase()
             .normalize("NFD")

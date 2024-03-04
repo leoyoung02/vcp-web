@@ -30,6 +30,7 @@ import {
 } from "@angular/forms";
 import { initFlowbite } from "flowbite";
 import get from "lodash/get";
+import { searchSpecialCase } from "src/app/utils/search/helper";
 
 @Component({
   selector: "app-settings-lead-locations",
@@ -234,6 +235,7 @@ export class LocationsComponent {
               .normalize("NFD")
               .replace(/\p{Diacritic}/gu, "")
           ) >= 0
+          || searchSpecialCase(this.searchKeyword, m.location)
         ) {
           include = true;
         }
