@@ -11,14 +11,6 @@
             <div class="flex justify-center" *ngIf="done">
                 <svg [ngStyle]="{'color': '#5cb85c'}" class="my-4 w-16 h-16 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                </svg>
-                <span class="sr-only">Refresh icon</span>
-            </div>
-            <div class="ml-3 text-sm font-normal">
-                <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">{{ title }}</span>
-                <div class="flex justify-center" *ngIf="done">
-                    <svg [ngStyle]="{'color': '#5cb85c'}" class="my-4 w-16 h-16 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                     </svg>
                 </div>
                 <div class="mb-4 text-xs font-normal" [ngClass]="{'text-center': done}">{{ description }}</div> 
