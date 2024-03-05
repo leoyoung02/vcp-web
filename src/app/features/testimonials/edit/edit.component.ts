@@ -430,7 +430,7 @@ export class TestimonialEditComponent {
           this.tagsMapping = data?.tags_mapping;
           this.formatTestimonial(data?.testimonial, data?.testimonial_tags);
           this.formatImageVideos(data?.testimonial_images, data?.testimonial_videos);
-
+          this.coverVideo = data?.testimonial?.video
           this.uploadImages = []
           this.uploadVideos = []
           localStorage.setItem('gallery_video_files',this.uploadVideos)
@@ -674,6 +674,7 @@ export class TestimonialEditComponent {
     if (event.base64) {
       this.isCoverImage =  true
       this.isVideoFormatRight = true
+      this.coverVideo = ""
       this.imgSrc = this.croppedImage = event.base64;
       this.file = {
         name: "image",
