@@ -28,8 +28,11 @@ export class ToastComponent {
     @Input() description: any;
     @Input() acceptText: any;
     @Input() cancelText: any;
+    @Input() isBookingDialog: any;
     @Output() onAccept = new EventEmitter();
 
+    showCloseButton:boolean = true
+    
     primaryColor: any;
     buttonColor: any;
 
@@ -40,6 +43,10 @@ export class ToastComponent {
         initFlowbite();
         this.primaryColor = this.company.primary_color || this.company.button_color;
         this.buttonColor = this.company.button_color || this.company.primary_color;
+        
+        if(this._router.url?.includes('/tutors/details') && this.isBookingDialog){
+            this.showCloseButton = false
+        }
     }
 
     applyUpdates() {

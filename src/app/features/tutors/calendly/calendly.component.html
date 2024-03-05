@@ -12,13 +12,19 @@
         data-auto-load="false">
     </div>
 </div>
-<app-toast 
-    *ngIf="showConfirmationModal" 
-    [company]="company" 
-    [update]="false" 
-    [confirm]="true"
-    [title]="confirmItemTitle"
-    [description]="confirmItemDescription"
-    [acceptText]="acceptText"
-    (onAccept)="confirm()"
-></app-toast>
+
+<div class="fixed top-0 left-0 h-full w-full"  [ngStyle]="{
+    'zIndex': '1000'
+  }"
+*ngIf="showConfirmationModal">
+    <app-toast 
+        [company]="company" 
+        [update]="false" 
+        [confirm]="true"
+        [title]="confirmItemTitle"
+        [description]="confirmItemDescription"
+        [acceptText]="acceptText"
+        (onAccept)="confirm()"
+        [isBookingDialog]="isBookingDialog"
+    ></app-toast>
+</div>

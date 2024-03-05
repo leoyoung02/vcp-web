@@ -12,28 +12,37 @@
                 <svg [ngStyle]="{'color': '#5cb85c'}" class="my-4 w-16 h-16 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                     <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                 </svg>
+                <span class="sr-only">Refresh icon</span>
             </div>
-            <div class="mb-4 text-xs font-normal" [ngClass]="{'text-center': done}">{{ description }}</div> 
-            <div>
-                <div>
-                    <ng-container *ngIf="update">
-                        <a href="javascript:;" (click)="applyUpdates()" [ngStyle]="{'background-color': buttonColor}" class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
-                            {{ 'profile-settings.update' | translate }}
-                        </a>
-                    </ng-container>
-                    <ng-container *ngIf="confirm || done">
-                        <a href="javascript:;" (click)="handleAccept()" [ngStyle]="{'background-color': buttonColor}" class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800" data-dismiss-target="#toast-interactive">
-                            {{ acceptText }}
-                        </a>
-                    </ng-container>
+            <div class="ml-3 text-sm font-normal">
+                <span class="mb-1 text-sm font-semibold text-gray-900 dark:text-white">{{ title }}</span>
+                <div class="flex justify-center" *ngIf="done">
+                    <svg [ngStyle]="{'color': '#5cb85c'}" class="my-4 w-16 h-16 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                    </svg>
                 </div>
-            </div>    
+                <div class="mb-4 text-xs font-normal" [ngClass]="{'text-center': done}">{{ description }}</div> 
+                <div>
+                    <div>
+                        <ng-container *ngIf="update">
+                            <a href="javascript:;" (click)="applyUpdates()" [ngStyle]="{'background-color': buttonColor}" class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800">
+                                {{ 'profile-settings.update' | translate }}
+                            </a>
+                        </ng-container>
+                        <ng-container *ngIf="confirm || done">
+                            <a href="javascript:;" (click)="handleAccept()" [ngStyle]="{'background-color': buttonColor}" class="inline-flex justify-center w-full px-2 py-1.5 text-xs font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800" data-dismiss-target="#toast-interactive">
+                                {{ acceptText }}
+                            </a>
+                        </ng-container>
+                    </div>
+                </div>    
+            </div>
+            <button *ngIf="showCloseButton" type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white items-center justify-center flex-shrink-0 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-interactive" aria-label="Close"
+            >
+                <span class="sr-only">Close</span>
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+            </button>
         </div>
-        <button type="button" class="ml-auto -mx-1.5 -my-1.5 bg-white items-center justify-center flex-shrink-0 text-gray-400 hover:text-gray-900 rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 hover:bg-gray-100 inline-flex h-8 w-8 dark:text-gray-500 dark:hover:text-white dark:bg-gray-800 dark:hover:bg-gray-700" data-dismiss-target="#toast-interactive" aria-label="Close">
-            <span class="sr-only">Close</span>
-            <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
-            </svg>
-        </button>
-    </div>
 </div>

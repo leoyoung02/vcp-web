@@ -61,6 +61,8 @@ export class CalendlyComponent {
   confirmItemDescription: any;
   acceptText: string = '';
   bookingSuccessful: boolean = false;
+  isBookingDialog:boolean = false
+
 
   constructor(
     private _router: Router,
@@ -211,6 +213,7 @@ export class CalendlyComponent {
       )  + '                                                                                  ';
     }
     this.acceptText = "OK";
+    this.isBookingDialog = true
     setTimeout(() => (this.showConfirmationModal = true));
   }
 
@@ -224,7 +227,6 @@ export class CalendlyComponent {
       })
     }
   }
-
   close() {
     this.closeCalendar.emit()
   }
