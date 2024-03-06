@@ -153,7 +153,7 @@ export class TutorDetailComponent {
   allTutorTypes: any = [];
   isValidCalenldyAccount : boolean = true;
   tutorAccountIds:any=[];
-  canStudentBook : any = true;
+  tutorStripeConnect : any = true;
 
   constructor(
     private _router: Router,
@@ -398,20 +398,7 @@ export class TutorDetailComponent {
     this.getCompanyCourses();
   }
 
-  canStudentBookTutor(){
-    const isPotSuperTutor = this.tutor?.potsuper_tutor
-    const isPotTutor = this.tutor?.pot_tutor
 
-    if(!isPotSuperTutor && !isPotTutor){
-      if(this.isValidCalenldyAccount && this.tutorAccountIds?.length > 0){
-        const custom_member_id =  this.user?.custom_member_type_id
-        const canBook =  this.tutorAccountIds?.some(tutor=> tutor?.role_id == custom_member_id && tutor.stripe_connect == true)
-        this.canStudentBook = canBook
-      }else{
-        this.canStudentBook = false
-      }
-    }
-  }
 
   getCompanyCourses() {
     this.courses = this.courses?.filter(cu => {
@@ -564,7 +551,6 @@ export class TutorDetailComponent {
     if(this.hasCategoryAccess) {
       this.showCoursesWithAccess()
     }
-    this.canStudentBookTutor()
   }
 
   async showCoursesWithAccess() {
@@ -992,7 +978,27 @@ export class TutorDetailComponent {
     this.modalbutton?.nativeElement.click();
   }
 
+
+  canStudentBookTutor(custom_member_id){
+
+    const isPotSuperTutor = this.tutor?.potsuper_tutor
+    const isPotTutor = this.tutor?.pot_tutor
+
+    let can_student_book = true
+
+    if(!isPotSuperTutor && !isPotTutor){
+      if(this.isValidCalenldyAccount && this.tutorAccountIds?.length > 0){
+       can_student_book =  this.tutorAccountIds?.some(tutor=> tutor?.role_id == custom_member_id && tutor.stripe_connect == true)
+      }else{
+       can_student_book = false
+      }
+    }
+    this.tutorStripeConnect = can_student_book
+    return can_student_book
+  }
+
   canBook() {
+    const custom_member_id =  this.user?.custom_member_type_id
     if(
       this.courseCreditSetting && (
         (
@@ -1002,7 +1008,11 @@ export class TutorDetailComponent {
         )
       )
     ) {
-      return true;
+      if((custom_member_id  == 282 || custom_member_id  == 143)){
+        return this.canStudentBookTutor(custom_member_id)
+      }else{
+        return true;
+      } 
     } else {
       return false;
     }
