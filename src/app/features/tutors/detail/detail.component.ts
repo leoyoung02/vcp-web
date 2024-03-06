@@ -153,7 +153,7 @@ export class TutorDetailComponent {
   allTutorTypes: any = [];
   isValidCalenldyAccount : boolean = true;
   tutorAccountIds:any=[];
-  canStudentBook : any = false;
+  canStudentBook : any = true;
 
   constructor(
     private _router: Router,
@@ -399,12 +399,17 @@ export class TutorDetailComponent {
   }
 
   canStudentBookTutor(){
-    if(this.isValidCalenldyAccount && this.tutorAccountIds?.length > 0){
-      const custom_member_id =  this.user?.custom_member_type_id
-      const canBook =  this.tutorAccountIds?.some(tutor=> tutor?.role_id == custom_member_id && tutor.stripe_connect == true)
-      this.canStudentBook = canBook
-    }else{
-      this.canStudentBook = false
+    const isPotSuperTutor = this.tutor?.potsuper_tutor
+    const isPotTutor = this.tutor?.pot_tutor
+
+    if(!isPotSuperTutor && !isPotTutor){
+      if(this.isValidCalenldyAccount && this.tutorAccountIds?.length > 0){
+        const custom_member_id =  this.user?.custom_member_type_id
+        const canBook =  this.tutorAccountIds?.some(tutor=> tutor?.role_id == custom_member_id && tutor.stripe_connect == true)
+        this.canStudentBook = canBook
+      }else{
+        this.canStudentBook = false
+      }
     }
   }
 
