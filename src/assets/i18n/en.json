@@ -2019,6 +2019,7 @@
         "page": "Page (mobile)",
         "pagedesktop": "Page (desktop)",
         "myactivities": "My activities",
+        "myinvitations": "My invitations",
         "incomplete": "Incomplete",
         "stripeinvoicetemplate": "Invoice template",
         "webhookinstructions": "Instructions to setup webhook on Stripe account",

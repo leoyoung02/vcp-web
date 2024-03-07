@@ -2013,6 +2013,7 @@
         "page": "Seite (mobil)",
         "pagedesktop": "Seite (Desktop)",
         "myactivities": "Meine Aktivitäten",
+        "myinvitations": "Meine Einladungen",
         "incomplete": "Unvollständig",
         "stripeinvoicetemplate": "Rechnungsvorlage",
         "webhookinstructions": "Anweisungen zum Einrichten des Webhook auf dem Stripe-Konto",

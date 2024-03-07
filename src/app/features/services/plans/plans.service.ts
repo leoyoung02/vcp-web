@@ -6,6 +6,8 @@ import {
   ACTIVITY_CODE_DATA_URL,
   ACTIVITY_CREDITS_URL,
   ADD_ALIAS_URL,
+  ADD_EVENT_CATEGORY_URL,
+  ADD_EVENT_SUBCATEGORY_URL,
   ADD_GROUP_PLAN_COMMENT_REACTION_URL,
   ADD_GROUP_PLAN_COMMENT_REPLY_URL,
   ADD_GROUP_PLAN_COMMENT_URL,
@@ -39,17 +41,23 @@ import {
   DASHBOARD_DETAILS_URL,
   DELETE_ALIAS_URL,
   DELETE_COMMENT_URL,
+  DELETE_EVENT_CATEGORY_URL,
+  DELETE_EVENT_SUBCATEGORY_URL,
   DELETE_GROUP_PLAN_COMMENT_REACTION_URL,
   DELETE_GUEST_REGISTRATION_FIELDS_URL,
   DELETE_RECURRING_SERIES_URL,
   EDIT_ALIAS_URL,
   EDIT_CLUB_PLAN_URL,
+  EDIT_EVENT_CATEGORY_URL,
+  EDIT_EVENT_SUBCATEGORY_URL,
   EDIT_FEATURED_TEXT_URL,
   EDIT_GUEST_REGISTRATION_FIELDS_URL,
   EDIT_PLAN_URL,
+  EVENT_CATEGORIES_LIST_URL,
   EVENT_CATEGORIES_URL,
   EVENT_CUSTOM_SUBCATEGORIES_URL,
   EVENT_SETTINGS_URL,
+  EVENT_SUBCATEGORIES_LIST_URL,
   EVENT_SUBCATEGORIES_URL,
   EVENT_TEMPLATE_URL,
   EVENT_TYPES_URL,
@@ -85,6 +93,64 @@ export class PlansService {
     this.headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
+  }
+
+  getEventCategories(id): Observable<any> {
+    return this._http.get(
+      `${EVENT_CATEGORIES_LIST_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getEventSubcategories(id): Observable<any> {
+    return this._http.get(
+      `${EVENT_SUBCATEGORIES_LIST_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addEventOtherCategory(payload): Observable<any> {
+    return this._http.post(ADD_EVENT_CATEGORY_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editEventOtherCategory(id, payload): Observable<any> {
+    return this._http.post(`${EDIT_EVENT_CATEGORY_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteEventOtherCategory(id): Observable<any> {
+    return this._http.post(
+      `${DELETE_EVENT_CATEGORY_URL}/${id}`,
+      {},
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addEventSubcategory(payload): Observable<any> {
+    return this._http.post(ADD_EVENT_SUBCATEGORY_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editEventSubcategory(id, payload): Observable<any> {
+    return this._http.post(`${EDIT_EVENT_SUBCATEGORY_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteEventSubcategory(id): Observable<any> {
+    return this._http.post(
+      `${DELETE_EVENT_SUBCATEGORY_URL}/${id}`,
+      {},
+      { headers: this.headers }
+    ).pipe(map(res => res));
   }
 
   getPlanCategories(id): Observable<any> {
