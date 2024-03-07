@@ -3,6 +3,12 @@ import { CustomTitleResolver } from '@lib/resolvers';
 
 export const routes: Routes = [
     {
+        path: '',
+        title: CustomTitleResolver,
+        data: { titleKey: 'login.login'},
+        loadComponent: async () => (await import('./login/login.component')).LoginComponent,
+    },
+    {
         path: 'login',
         title: CustomTitleResolver,
         data: { titleKey: 'login.login'},

@@ -11,6 +11,12 @@ export const routes: Routes = [
         canMatch: [authGuard({ requiresAuthentication: false })],
     },
     {
+        path: 'new-login',
+        data: { layout: PageLayout.LeftBanner },
+        loadChildren: async () => (await import('@pages/auth')).routes,
+        canMatch: [authGuard({ requiresAuthentication: false })],
+    },
+    {
         path: 'sso/:token',
         data: { layout: PageLayout.LeftBanner },
         loadChildren: async () => (await import('@pages/sso')).routes,

@@ -1,4 +1,4 @@
-<app-page-title title="{{ 'company-settings.myactivities' | translate }}"></app-page-title>
+<app-page-title title="{{ 'company-settings.myinvitations' | translate }}"></app-page-title>
 <div class="pt-6">
     <div *ngIf="categories?.length > 0" class="p-6" [ngStyle]="{'background-color': '#F8F4F4', 'box-shadow': '0px 40px 54px -45px #00000099'}">
         <div class="flex row flex-wrap justify-center">
@@ -144,8 +144,16 @@
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'crm.attended' | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="status">
                         <svg
-                            *ngIf="row?.attended == 1"
-                            [ngStyle]="{'color': '#5cb85c'}" class="mr-2 hover:cursor-pointer w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            [ngStyle]="{'color': row?.attended == 1 ? '#5cb85c' : '#c7c7c7'}" class="mr-2 hover:cursor-pointer w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                        </svg>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="member">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'guests.member' | translate }}</mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="member">
+                        <svg
+                            [ngStyle]="{'color': row?.converted == 1 ? '#5cb85c' : '#c7c7c7'}" class="mr-2 hover:cursor-pointer w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
                         </svg>
                     </mat-cell>
