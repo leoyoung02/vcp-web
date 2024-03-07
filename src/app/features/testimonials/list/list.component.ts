@@ -13,7 +13,7 @@ import { TestimonialCardComponent } from '@share/components/card/testimonial/tes
 import moment from "moment";
 import get from 'lodash/get';
 import * as he from 'he';
-import { searchSpecialCase } from 'src/app/utils/search/helper';
+import { searchSpecialCase, sortSerchedMembers } from 'src/app/utils/search/helper';
 
 @Component({
   selector: 'app-testimonials-list',
@@ -488,6 +488,8 @@ export class TestimonialsListComponent {
               ) >= 0)
         )
       })
+
+      testimonials = sortSerchedMembers(testimonials,this.search,'TESTIMONIALS')
     }
 
     if(this.selectedCourse?.id > 0) {

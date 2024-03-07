@@ -25,7 +25,7 @@ import { ToastComponent } from "@share/components";
 import { environment } from "@env/environment";
 import moment from "moment";
 import * as he from 'he';
-import { searchSpecialCase } from "src/app/utils/search/helper";
+import { searchSpecialCase, sortSerchedMembers } from "src/app/utils/search/helper";
 
 @Component({
   selector: "app-testimonials-admin-list",
@@ -253,6 +253,8 @@ export class TestimonialsAdminListComponent {
               ) >= 0)
         );
       });
+
+      this.testimonialsData = sortSerchedMembers(this.testimonialsData, this.searchKeyword, 'TESTIMONIALS')
     }
 
     this.refreshTable(this.testimonialsData);
