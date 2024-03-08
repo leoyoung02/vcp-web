@@ -140,6 +140,8 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
   isLoading: boolean = true;
   memberParticipants: any = [];
   guestParticipants: any = [];
+  isOpenTerms: boolean = false;
+  isOpenPrivacy: boolean = false;
 
   constructor(
     private _router: Router,
@@ -170,6 +172,8 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
       this.buttonColor = company[0].button_color
         ? company[0].button_color
         : company[0].primary_color;
+      this.termsAndConditions = company[0].terms_and_conditions
+      this.privacyPolicy = company[0].policy
     }
 
     this.languageChangeSubscription =
@@ -873,6 +877,21 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
     let plan_type_id = this.event.plan_type_id > 0 ? this.event.plan_type_id : 4;
     let user_id = this.userId || 0;
     this._router.navigate([`/plan-registration/payment/${this.event.id}/${plan_type_id}/${user_id}`]);
+  }
+
+  openTermsDialog() {
+    this.isOpenTerms = true;
+    this.isOpenPrivacy = false;
+  }
+
+  closeTermsPrivacyDialog() {
+    this.isOpenTerms = false;
+    this.isOpenPrivacy = false;
+  }
+
+  openPrivacyDialog() {
+    this.isOpenPrivacy = true;
+    this.isOpenTerms = false;
   }
 
   async open(message: string, action: string) {
