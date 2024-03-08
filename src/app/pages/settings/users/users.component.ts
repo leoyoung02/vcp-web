@@ -47,7 +47,7 @@ import { ClubsService, CoursesService, TutorsService } from "@features/services"
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import moment from "moment";
 import get from "lodash/get";
-import { searchSpecialCase } from "src/app/utils/search/helper";
+import { searchSpecialCase, sortSerchedMembers } from "src/app/utils/search/helper";
 
 @Component({
   selector: "app-manage-users",
@@ -1200,6 +1200,7 @@ export class ManageUsersComponent {
 
     if (this.searchKeyword) {
       members = this.filterSearchKeyword(members);
+      members = sortSerchedMembers(members,this.searchKeyword)
     }
     if (this.selectedCustomMemberTypeRole) {
       members = this.filterRole(members);
