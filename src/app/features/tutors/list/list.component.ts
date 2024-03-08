@@ -10,7 +10,7 @@ import { SearchComponent } from "@share/components/search/search.component";
 import { NgxPaginationModule } from "ngx-pagination";
 import { TutorCardComponent } from '@share/components/card/tutor/tutor.component';
 import get from 'lodash/get';
-import { searchSpecialCase } from 'src/app/utils/search/helper';
+import { searchSpecialCase, sortSerchedMembers } from 'src/app/utils/search/helper';
 
 @Component({
   selector: 'app-courses-list',
@@ -478,6 +478,7 @@ export class TutorsListComponent {
     this.searchTutors();
   }
 
+
   searchTutors() {
     let tutors = this.allTutors
     if (this.search) {
@@ -503,6 +504,8 @@ export class TutorsListComponent {
 
             return include
         })
+
+        tutors = sortSerchedMembers(tutors,this.search,'TUTORS')
     }
 
     if(this.selectedType) {

@@ -24,7 +24,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "@env/environment";
 import { FormsModule } from "@angular/forms";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
-import { searchSpecialCase } from "src/app/utils/search/helper";
+import { searchSpecialCase, sortSerchedMembers } from "src/app/utils/search/helper";
 
 @Component({
   selector: "app-tutors-admin-list",
@@ -216,8 +216,9 @@ export class TutorsAdminListComponent {
               .indexOf(this.searchKeyword.toLowerCase()) >= 0)
         );
       });
-    }
 
+      this.tutorsData = sortSerchedMembers(this.tutorsData, this.searchKeyword)
+    }
     this.refreshTable(this.tutorsData);
   }
 

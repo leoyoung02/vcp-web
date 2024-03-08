@@ -18,7 +18,7 @@ import { HistoryListComponent } from '@features/tutors/history-list/history-list
 import { SearchComponent } from '@share/components/search/search.component';
 import moment from 'moment';
 import get from 'lodash/get';
-import { searchSpecialCase } from 'src/app/utils/search/helper';
+import { searchSpecialCase, sortSerchedMembers } from 'src/app/utils/search/helper';
 
 @Component({
     standalone: true,
@@ -633,6 +633,7 @@ export class MyLessonsComponent {
             })
         }
 
+        bookings = sortSerchedMembers(bookings,this.searchKeyword, 'LESSONS')
         this.bookings = bookings
         this.populateBookingsTable()
     }
