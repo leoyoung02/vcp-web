@@ -1287,7 +1287,7 @@ export class PlanDetailComponent {
                 ? encodeURIComponent(txt?.textContent)
                 : "";
             this.emailTo = `mailto:?Subject=${template.subject}&ISO-8859-1&Body=${email_body}`;
-            this.whatsAppTemplate = `whatsapp://send?text=${email_body}`;
+            this.whatsAppTemplate = `https://wa.me?text=${email_body}` // `whatsapp://send?text=${email_body}`;
             this.telegramTemplate = `https://telegram.me/share/url?url=${window.location.href}&text=${email_body}`;
           } else {
             if (this.planTypeId == 4) {
