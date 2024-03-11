@@ -56,6 +56,12 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { DateAdapter } from '@angular/material/core';
 import moment from "moment";
 import get from "lodash/get";
+import { FilePondModule, registerPlugin } from 'ngx-filepond';
+import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
 
 @Component({
   selector: "app-clubs-edit",
@@ -70,6 +76,7 @@ import get from "lodash/get";
     EditorModule,
     ImageCropperModule,
     FontAwesomeModule,
+    FilePondModule,
     ButtonGroupComponent,
     PageTitleComponent,
     NoAccessComponent,
@@ -434,6 +441,57 @@ export class PlanEditComponent {
   showMeetingLinks: boolean = true;
   createdByUser: any = '';
   users: any = [];
+
+  isImageCenterButton: boolean = false;
+  @ViewChild('myPond', {static: false}) myPond: any;
+  pondOptions = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+          const formData = new FormData();
+          let fileExtension = file ? file.name.split('.').pop() : '';
+          this.eventGuestRegFileName = 'p_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+          formData.append('file', file, this.eventGuestRegFileName);
+          localStorage.setItem('event_reg_file', 'uploading');
+
+          const request = new XMLHttpRequest();
+          request.open('POST', environment.api + '/company/course/temp-upload');
+
+          request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+          };
+
+          request.onload = function () {
+              if (request.status >= 200 && request.status < 300) {
+              load(request.responseText);
+              localStorage.setItem('event_reg_file', 'complete');
+              } else {
+              error('oh no');
+              }
+          };
+
+          request.send(formData);
+
+          return {
+          abort: () => {
+              request.abort();
+              abort();
+          },
+          };
+      },
+    },
+  };
+  pondFiles = [];
+  eventGuestRegFileName: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -818,6 +876,9 @@ export class PlanEditComponent {
       );
       this.hasCredits = subfeatures.some(
         (a) => a.name_en == "Credits" && a.active == 1
+      );
+      this.isImageCenterButton = subfeatures.some(
+        (a) => a.name_en == "Event registration with image and center button" && a.active == 1
       );
     }
 
@@ -2057,6 +2118,10 @@ export class PlanEditComponent {
     this.plan["school_of_life"] = this.isUESchoolOfLife ? 1 : 0;
     this.plan["member_seats"] = this.guestMemberSeatActive && this.planForm.get("member_seats")?.value ? this.planForm.get("member_seats")?.value : null;
     this.plan["guest_seats"] = this.guestMemberSeatActive && this.planForm.get("guest_seats")?.value ? this.planForm.get("guest_seats")?.value : null;
+    
+    let event_reg_file_status = localStorage.getItem('event_reg_file')
+    let event_reg_file = event_reg_file_status == 'complete' ? this.eventGuestRegFileName : ''
+    this.plan["orig_image"] = this.isImageCenterButton ? event_reg_file : null
 
     if(this.companyId == 32) {
       this.plan['additional_properties_course_access'] = this.allowCourseAccess == true ? '1' : '0',
@@ -2817,6 +2882,14 @@ export class PlanEditComponent {
         return promise;
       },
     }
+  }
+
+  pondHandleInit() {
+    console.log('FilePond has initialised', this.myPond);
+  }
+
+  pondHandleAddFile(event: any) {
+    console.log('A file was added', event);
   }
 
   async open(message: string, action: string) {

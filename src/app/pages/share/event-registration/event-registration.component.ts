@@ -142,6 +142,7 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
   guestParticipants: any = [];
   isOpenTerms: boolean = false;
   isOpenPrivacy: boolean = false;
+  isImageCenterButton: boolean = false;
 
   constructor(
     private _router: Router,
@@ -193,6 +194,7 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data);
           this.user = data?.user;
@@ -220,6 +222,7 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
 
   mapSubfeatures(data) {
     let subfeatures = data?.settings?.subfeatures;
+    console.log(subfeatures)
     if (subfeatures?.length > 0) {
       this.hasGuestRegistration = subfeatures.some(
         (a) => a.subfeature_id == 99 && a.active == 1
@@ -232,6 +235,10 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
       }
       this.canAssignMultipleCities = subfeatures.some(
         (a) => a.name_en == "Assign multiple cities" && a.active == 1
+      );
+
+      this.isImageCenterButton = subfeatures.some(
+        (a) => a.name_en == "Event registration with image and center button" && a.active == 1
       );
     }
 
@@ -374,7 +381,13 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
     this.sectors = data?.sectors;
     if(this.event) {
         let path = this.event?.plan_type_id > 0 ? '/get-ie-image-plan/' : '/get-image-group-plan/';
-        this.eventImage = this.apiPath + path + this.event?.image;
+        if(this.isImageCenterButton) {
+          if(this.event?.orig_image) {
+            path = '/get-course-unit-file/'
+          }
+        }
+        let image = this.isImageCenterButton ? (this.event?.orig_image || this.event?.image) : this.event?.image;
+        this.eventImage = this.apiPath + path + image;
         this.featuredTitle = this.getFeaturedTitle();
         this.planCreator = data?.created_by;
         if (this.companyId == 32 && this.event?.plan_type_id != 4) {
@@ -725,6 +738,7 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
   }
 
   registerGuest() {
+    this.scrollToBottom();
     this.registerAsGuest = true;
   }
 
@@ -892,6 +906,18 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
   openPrivacyDialog() {
     this.isOpenPrivacy = true;
     this.isOpenTerms = false;
+  }
+
+  scrollToBottom() {
+    window.scrollTo({
+      top: 300,
+      behavior: "smooth",
+    });
+    const contentContainer = document.querySelector(".mat-sidenav-content") || window;
+    contentContainer.scrollTo({
+      top: 300,
+      behavior: "smooth",
+    });
   }
 
   async open(message: string, action: string) {

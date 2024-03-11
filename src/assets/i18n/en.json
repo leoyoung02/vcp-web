@@ -1486,7 +1486,8 @@
         "downloadwaitinglist": "Download waiting list",
         "renewal": "Renewal date",
         "activitycode": "Activity code",
-        "numberofcredits": "Number of credits"
+        "numberofcredits": "Number of credits",
+        "eventregistrationimage": "Event's Guest Registration Page Image"
     },
     "edit-club": {
         "uploadimage": "Upload image",

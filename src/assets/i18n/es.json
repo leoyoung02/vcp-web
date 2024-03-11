@@ -1485,7 +1485,8 @@
         "downloadwaitinglist": "Descargar lista de espera",
         "renewal": "Fecha de renovación",
         "activitycode": "Código de la actividad",
-        "numberofcredits": "Número de créditos"
+        "numberofcredits": "Número de créditos", 
+        "eventregistrationimage": "Imagen de la página de registro de invitados al evento"
     },
     "edit-club": {
         "uploadimage": "Cargar imagen",
