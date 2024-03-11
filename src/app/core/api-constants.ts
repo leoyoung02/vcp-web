@@ -349,6 +349,14 @@ export const ADD_ALIAS_URL = `${API_BASE}/company/user/additional/alias`;
 export const EDIT_ALIAS_URL = `${API_BASE}/company/user/edit-alias`;
 export const DELETE_ALIAS_URL = `${API_BASE}/company/user/delete-alias`;
 export const GUEST_HISTORY_LIST_URL = `${API_BASE}/company/guest-history/list`;
+export const EVENT_CATEGORIES_LIST_URL = `${API_BASE}/company/event/categories/list`;
+export const EVENT_SUBCATEGORIES_LIST_URL = `${API_BASE}/company/event/subcategories/list`;
+export const ADD_EVENT_CATEGORY_URL = `${API_BASE}/company/event-other/category/add`;
+export const EDIT_EVENT_CATEGORY_URL = `${API_BASE}/company/event-other/category/edit`;
+export const DELETE_EVENT_CATEGORY_URL = `${API_BASE}/company/event-other/category/delete`;
+export const ADD_EVENT_SUBCATEGORY_URL = `${API_BASE}/company/event-other/subcategory/add`;
+export const EDIT_EVENT_SUBCATEGORY_URL = `${API_BASE}/company/event-other/subcategory/edit`;
+export const DELETE_EVENT_SUBCATEGORY_URL = `${API_BASE}/company/event-other/subcategory/delete`;
 
 export const PLANS_URL = `${API_BASE}/v2/plans`;
 export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;

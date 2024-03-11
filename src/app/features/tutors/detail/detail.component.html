@@ -171,7 +171,7 @@
                     </div>
                 </div>
             </ng-container>
-            <div *ngIf="canStudentBook">
+            <div *ngIf="isValidCalenldyAccount">
                 <app-calendly 
                     *ngIf="canBook() && tutorCalendlyUrl && tutorPersonalAccessToken"
                     [buttonColor]="buttonColor"
@@ -194,7 +194,7 @@
                 >
                 </app-calendly>
             </div>
-            <ng-container *ngIf="!canBook() || !tutorCalendlyUrl || !tutorPersonalAccessToken || !isValidCalenldyAccount || !canStudentBook">
+            <ng-container *ngIf="!canBook() || !tutorCalendlyUrl || !tutorPersonalAccessToken || !isValidCalenldyAccount">
                 <div class="h-full max-h-full flex-col flex align-center items-center justify-center">
                     <div class="flex-col">
                         <div class="text-center flex justify-center mb-4">
@@ -208,13 +208,13 @@
                             </div>
                         </ng-container>
                         <div class="capitalize font-bold px-20 text-center">
-                            {{ !canBook() ? 
+                            {{ !canBook() && tutorStripeConnect  ? 
                                 ('course-create.insufficientcredits' | translate) : 
                                 (!tutorCalendlyUrl || !tutorPersonalAccessToken? 
                                     (
                                         ('company-settings.incomplete' | translate) + ' ' + ('landing.calendar' | translate) + ' ' + ('customer.setup' | translate) + '. ' + ('club-details.pleasecontactadministrator' | translate)
                                     ) : 
-                                    !canStudentBook ? ('tutors.configurestripeaccount' | translate) : ''
+                                    !tutorStripeConnect && isValidCalenldyAccount ? ('tutors.configurestripeaccount' | translate) : ''
                                 )
                             }}
                         </div>

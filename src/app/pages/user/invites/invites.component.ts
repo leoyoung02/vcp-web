@@ -77,6 +77,7 @@ export class InvitesComponent {
         "guest_zip_code",
         "guest_email",
         "attended",
+        "member",
     ];
     @ViewChild(MatPaginator, { static: false }) paginator:
         | MatPaginator

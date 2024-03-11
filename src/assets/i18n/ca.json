@@ -2017,6 +2017,7 @@
         "page": "Pàgina (mòbil)",
         "pagedesktop": "Pàgina (escriptori)",
         "myactivities": "Les meves activitats",
+        "myinvitations": "Les meves invitacions",
         "incomplete": "Incomplet",
         "stripeinvoicetemplate": "Plantilla de factura",
         "webhookinstructions": "Instruccions per configurar el webhook al compte de Stripe",

@@ -1285,6 +1285,7 @@ export class PlanEditComponent {
       activity_code,
       member_seats,
       guest_seats,
+      netcultura,
     } = this.plan;
 
     if(this.types && this.types.length > 0 && this.planCategoryMapping?.length > 0) {
@@ -1525,6 +1526,7 @@ export class PlanEditComponent {
       this.activityCode = activity_code 
     }
     this.createdByUser = this.plan?.fk_user_id || this.userId;
+    this.netcultura = netcultura;
   }
 
   mapCategories(category_mapping) {
@@ -2788,6 +2790,7 @@ export class PlanEditComponent {
       menubar: false,
       plugins: [
       'link',
+      'lists',
       'media',
       'image'
       ],
