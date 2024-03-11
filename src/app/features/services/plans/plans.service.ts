@@ -821,6 +821,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_description', planForm.isShowDescription );
     formData.append( 'show_price', planForm.isShowPrice );
     formData.append( 'school_of_life', planForm.school_of_life );
+    formData.append( 'orig_image', planForm.orig_image );
 
     if(entityId == 32) {
       formData.append( 'additional_properties_course_access', planForm.additional_properties_course_access );

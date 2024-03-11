@@ -1482,7 +1482,8 @@
         "downloadwaitinglist": "Deskargatu itxaron zerrenda",
         "renewal": "Berritze data",
         "activitycode": "Jarduera kodea",
-        "numberofcredits": "Kreditu kopurua"
+        "numberofcredits": "Kreditu kopurua", 
+        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia"
     },
     "edit-club": {
         "uploadimage": "Igo irudia",
