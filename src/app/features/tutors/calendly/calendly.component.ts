@@ -61,7 +61,6 @@ export class CalendlyComponent {
   confirmItemDescription: any;
   acceptText: string = '';
   bookingSuccessful: boolean = false;
-  isBookingDialog:boolean = false
 
 
   constructor(
@@ -204,6 +203,12 @@ export class CalendlyComponent {
       this.confirmItemDescription = this._translateService.instant(
         "tutors.bookingconfirmed"
       ) + '                                                                                  ';
+
+      this._tutorsService.sendBookingConfirmationEmail(params).subscribe(data => {
+        location.reload()
+      }, err => {
+        console.log('err: ', err);
+      })
     } else {
       this.confirmItemTitle = this._translateService.instant(
         "calendly-course.bookingheadertext"
@@ -211,22 +216,15 @@ export class CalendlyComponent {
       this.confirmItemDescription = this._translateService.instant(
         "calendly-course.bookingbodytext"
       )  + '                                                                                  ';
+      setTimeout(() => (this.showConfirmationModal = true));;
     }
     this.acceptText = "OK";
-    this.isBookingDialog = true
-    setTimeout(() => (this.showConfirmationModal = true));
   }
 
   async confirm() {
-    if(this.bookingSuccessful) {
-      let params = this.params;
-      this._tutorsService.sendBookingConfirmationEmail(params).subscribe(data => {
-        location.reload()
-      }, err => {
-        console.log('err: ', err);
-      })
-    }
   }
+
+
   close() {
     this.closeCalendar.emit()
   }

@@ -13,10 +13,7 @@
     </div>
 </div>
 
-<div class="fixed top-0 left-0 h-full w-full"  [ngStyle]="{
-    'zIndex': '1000'
-  }"
-*ngIf="showConfirmationModal">
+<div *ngIf="showConfirmationModal">
     <app-toast 
         [company]="company" 
         [update]="false" 
@@ -25,6 +22,5 @@
         [description]="confirmItemDescription"
         [acceptText]="acceptText"
         (onAccept)="confirm()"
-        [isBookingDialog]="isBookingDialog"
     ></app-toast>
 </div>
