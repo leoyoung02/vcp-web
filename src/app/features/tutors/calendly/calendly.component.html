@@ -12,13 +12,15 @@
         data-auto-load="false">
     </div>
 </div>
-<app-toast 
-    *ngIf="showConfirmationModal" 
-    [company]="company" 
-    [update]="false" 
-    [confirm]="true"
-    [title]="confirmItemTitle"
-    [description]="confirmItemDescription"
-    [acceptText]="acceptText"
-    (onAccept)="confirm()"
-></app-toast>
+
+<div *ngIf="showConfirmationModal">
+    <app-toast 
+        [company]="company" 
+        [update]="false" 
+        [confirm]="true"
+        [title]="confirmItemTitle"
+        [description]="confirmItemDescription"
+        [acceptText]="acceptText"
+        (onAccept)="confirm()"
+    ></app-toast>
+</div>

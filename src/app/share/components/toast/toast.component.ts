@@ -30,6 +30,7 @@ export class ToastComponent {
     @Input() cancelText: any;
     @Output() onAccept = new EventEmitter();
 
+    
     primaryColor: any;
     buttonColor: any;
 
