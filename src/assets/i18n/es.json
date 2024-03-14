@@ -3250,7 +3250,10 @@
         "correctcalendlycredntials":"Verifique sus credenciales de calendario para continuar.",
         "perhourrate":"Comisión por hora de tutoría.",
         "pendingtutorials":"Tienes tutoriales pendientes para marcar como completos.",
-        "configurestripeaccount":"No se pueden programar reservas hasta que el tutor configure su cuenta Stripe."
+        "configurestripeaccount":"No se pueden programar reservas hasta que el tutor configure su cuenta Stripe.",
+        "transferinactive":"Transacciones fallidas debido a capacidades de transferencia inactivas en la cuenta Stripe del tutor asociada con el ID de reserva.",
+        "bookingid": "ID de reserva",
+        "tranfersummary":"Resumen de transferencia"
     },
     "general-details": {
         "name" : "Nombre",
@@ -3358,7 +3361,8 @@
         "mainaccounttextcontinue": "y deshabilite la configuración de múltiples cuentas.",
         "setupaccount": "Configurar Stripe Connect",
         "other": "Otro",
-        "stripeconnectdesc": "Las comisiones por reservar sesiones con estudiantes se pagarán a su cuenta conectada. Para configurar, realice el proceso de incorporación y cargue los documentos de verificación requeridos. Una vez configurado correctamente, también podrá acceder al panel de control de su cuenta conectada desde esta página."
+        "stripeconnectdesc": "Las comisiones por reservar sesiones con estudiantes se pagarán a su cuenta conectada. Para configurar, realice el proceso de incorporación y cargue los documentos de verificación requeridos. Una vez configurado correctamente, también podrá acceder al panel de control de su cuenta conectada desde esta página.",
+        "incompletestripesetup":"El estado de configuración de su Stripe está incompleto y evitará el procesamiento de pagos a su cuenta Stripe y desde su cuenta Stripe a su cuenta bancaria vinculada. Puede deberse a que falta la documentación necesaria para autenticar su cuenta. Inicie sesión en su cuenta Stripe y cargue los documentos requeridos para permitir pagos y pagos."
 
     },
     "booking-error" : {

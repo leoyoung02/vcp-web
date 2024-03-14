@@ -3229,7 +3229,10 @@
         "correctcalendlycredntials":"Bitte überprüfen Sie Ihre Kalenderdaten, um fortzufahren.",
         "perhourrate":"Provision pro Nachhilfestunde.",
         "pendingtutorials":"Sie haben ausstehende Tutorials, die Sie als abgeschlossen markieren müssen.",
-        "configurestripeaccount":"Es können keine Buchungen geplant werden, bis der Tutor sein Stripe-Konto konfiguriert."
+        "configurestripeaccount":"Es können keine Buchungen geplant werden, bis der Tutor sein Stripe-Konto konfiguriert.",
+        "transferinactive":"Fehlgeschlagene Transaktionen aufgrund inaktiver Übertragungsfunktionen auf dem Stripe-Konto des Tutors, das mit der Buchungs-ID verknüpft ist.",
+        "bookingid": "Buchungs-ID",
+        "tranfersummary":"Übertragungszusammenfassung"
     },
     "general-details": {
         "name" : "Name",
@@ -3337,7 +3340,8 @@
         "mainaccounttextcontinue": "und deaktivieren Sie mehrere Kontoeinstellungen.",
         "setupaccount": "Richten Sie Stripe Connect ein",
         "other": "Andere",
-        "stripeconnectdesc": "Provisionen für die Buchung von Sitzungen mit Studenten werden an Ihr verbundenes Konto ausgezahlt. Richten Sie es ein, indem Sie den Onboarding-Prozess durchlaufen und die erforderlichen Verifizierungsdokumente hochladen. Nach erfolgreicher Einrichtung können Sie von dieser Seite aus auch auf das Dashboard Ihres verbundenen Kontos zugreifen."
+        "stripeconnectdesc": "Provisionen für die Buchung von Sitzungen mit Studenten werden an Ihr verbundenes Konto ausgezahlt. Richten Sie es ein, indem Sie den Onboarding-Prozess durchlaufen und die erforderlichen Verifizierungsdokumente hochladen. Nach erfolgreicher Einrichtung können Sie von dieser Seite aus auch auf das Dashboard Ihres verbundenen Kontos zugreifen.",
+        "incompletestripesetup":"Ihr Stripe-Einrichtungsstatus ist unvollständig und verhindert die Verarbeitung von Zahlungen auf Ihr Stripe-Konto und von Ihrem Stripe-Konto auf Ihr verknüpftes Bankkonto. Möglicherweise liegt es daran, dass die für die Authentifizierung Ihres Kontos erforderliche Dokumentation fehlt. Bitte melden Sie sich bei Ihrem Stripe-Konto an und laden Sie die erforderlichen Dokumente hoch, um Zahlungen und Auszahlungen zu ermöglichen."
     },
     "booking-error" : {
         "insufficientbalanceadmintext": "Ausstehende Überweisung aufgrund unzureichender Mittel",

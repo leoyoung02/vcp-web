@@ -3239,7 +3239,10 @@
         "correctcalendlycredntials":"Comproveu les vostres credencials de calendari per continuar.",
         "perhourrate":"comissió per hora de tutoria.",
         "pendingtutorials":"Tens tutorials pendents per marcar com a complet.",
-        "configurestripeaccount":"No es poden programar reserves fins que el tutor no configure el seu compte Stripe."
+        "configurestripeaccount":"No es poden programar reserves fins que el tutor no configure el seu compte Stripe.",
+        "transferinactive":"Transaccions fallides a causa de les capacitats de transferència inactives al compte Stripe del tutor associat a l'identificador de reserva.",
+        "bookingid": "Id. de reserva",
+        "tranfersummary":"Resum de transferència"
     },
     "general-details": {
         "name" : "Nom",
@@ -3347,7 +3350,8 @@
         "mainaccounttext": "Aquest és el compte principal establert a la pàgina de configuració de Stripe. Només es pot editar el camp de nom. Per editar les claus, aneu a",
         "mainaccounttextcontinue": "i desactiveu la configuració de diversos comptes.",
         "setupaccount": "Configura Stripe Connect",
-        "other": "Altres"
+        "other": "Altres",
+        "incompletestripesetup":"El vostre estat de configuració de Stripe és incomplet i impedirà el processament dels pagaments al vostre compte de Stripe i des del vostre compte de Stripe al vostre compte bancari enllaçat. Pot ser degut a la falta de la documentació necessària per autenticar el vostre compte. Si us plau, inicieu la sessió al vostre compte de Stripe i carregueu els documents necessaris per activar els pagaments i els pagaments."
     },
     "booking-error" : {
         "insufficientbalanceadmintext": "Transferència pendent per falta de fons",

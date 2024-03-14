@@ -3230,7 +3230,10 @@
         "correctcalendlycredntials":"Mesedez, egiaztatu zure calendly kredentzialak aurrera egiteko.",
         "perhourrate":"tutoretza ordu bakoitzeko komisioa.",
         "pendingtutorials":"Osatuta markatzeko zain dauden tutorialak dituzu.",
-        "configurestripeaccount":"Ezin dira erreserbarik antolatu tutoreak Stripe kontua konfiguratu arte."
+        "configurestripeaccount":"Ezin dira erreserbarik antolatu tutoreak Stripe kontua konfiguratu arte.",
+        "transferinactive":"Transakzioak huts egin ditu erreserbaren IDarekin lotutako tutorearen Stripe kontuko transferentzia gaitasun inaktiboengatik.",
+        "bookingid": "Erreserba ID",
+        "tranfersummary":"Transferentziaren laburpena"
     },
     "general-details": {
         "name" : "Izena",
@@ -3338,7 +3341,8 @@
         "mainaccounttextcontinue": "atalera eta desgaitu hainbat konturen ezarpenak.",
         "setupaccount": "Konfiguratu Stripe Connect",
         "other": "Bestela",
-        "stripeconnectdesc": "Les comissions per reservar sessions amb estudiants es pagaran al vostre compte connectat. Per configurar-lo, seguiu el procés d'incorporació i pengeu els documents de verificació necessaris. Un cop hàgiu configurat correctament, també podeu accedir al tauler del vostre compte connectat des d'aquesta pàgina ."
+        "stripeconnectdesc": "Les comissions per reservar sessions amb estudiants es pagaran al vostre compte connectat. Per configurar-lo, seguiu el procés d'incorporació i pengeu els documents de verificació necessaris. Un cop hàgiu configurat correctament, també podeu accedir al tauler del vostre compte connectat des d'aquesta pàgina .",
+        "incompletestripesetup":"Zure stripe konfigurazio egoera osatu gabe dago eta zure Stripe konturako eta zure Stripe kontutik estekatutako banku-konturako ordainketak prozesatzea eragotziko du. Baliteke zure kontua autentifikatzeko beharrezkoa den dokumentazioa falta izateagatik izan daiteke. Hasi saioa Stripe kontuan eta kargatu beharrezko dokumentuak ordainketak eta ordainketak gaitzeko."
     },
     "booking-error" : {
         "insufficientbalanceadmintext": "Transferentziaren zain, funts nahikorik ez dagoelako",

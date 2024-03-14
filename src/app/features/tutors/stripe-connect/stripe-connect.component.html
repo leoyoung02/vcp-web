@@ -73,7 +73,12 @@
         </tbody>
     </table>
     <div *ngIf="!isLoading && (!stripeAccounts || (stripeAccounts?.length == 0))" 
-        class="text-center opacity-75 my-8">
-        {{ 'tutor-stripe.notconnected' | translate }}
-    </div>
+    class="text-center opacity-75 my-8">
+    {{ 'tutor-stripe.notconnected' | translate }}
+</div>
+</div>
+<div *ngIf="isStripeRestricted && !isLoading">
+    <p class="mt-1 text-sm font-normal text-gray-500 dark:text-gray-400">
+        <span class="font-semibold text-left text-gray-900 bg-white dark:text-white dark:bg-gray-800">{{'guests.note' | translate}}: </span>{{'stripe-account.incompletestripesetup' | translate }}
+     </p>
 </div>

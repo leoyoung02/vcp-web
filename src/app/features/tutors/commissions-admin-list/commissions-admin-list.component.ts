@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import {
   Component,
+  ElementRef,
   HostListener,
   Input,
   SimpleChange,
@@ -32,6 +33,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatNativeDateModule } from "@angular/material/core";
 import moment from "moment";
 import { searchSpecialCase } from "src/app/utils/search/helper";
+import { environment } from "@env/environment";
 
 @Component({
   selector: "app-commissions-admin-list",
@@ -103,6 +105,23 @@ export class CommissionsAdminListComponent {
     end: new FormControl(),
   });
   actionMode: string = '';
+  companyId:number = 0;
+  @ViewChild("modalbutton", { static: false }) modalbutton:
+  | ElementRef
+  | undefined;
+  @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+  | ElementRef
+  | undefined;
+  
+
+  bookingDataSource:any=[]
+
+  displayedBookingColumns = [
+    "booking_id",
+    "status"
+  ];
+
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -128,6 +147,9 @@ export class CommissionsAdminListComponent {
   }
   async ngOnInit() {
     this.onResize();
+    this.companyId = this._localService.getLocalStorage(
+      environment.lscompanyId
+    );
     this.languageChangeSubscription =
     this._translateService.onLangChange.subscribe(
       (event: LangChangeEvent) => {
@@ -142,6 +164,18 @@ export class CommissionsAdminListComponent {
     if(this.superAdmin) {
       this.fetchCommissions();
       this.initializeSearch();
+    }
+    if(this.companyId == 52){
+      this.displayedColumns = [
+        "checked",
+        "booking_id",
+        "date",
+        "student_name",
+        "tutor_name",
+        "course_title",
+        "commission",
+        "action"
+      ];
     }
   }
 
@@ -230,11 +264,11 @@ export class CommissionsAdminListComponent {
         (commission?.tutor_name && (commission?.tutor_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
         || searchSpecialCase(this.searchKeyword,commission.tutor_name)
         ) ||
-        (commission?.tutor_email && (commission?.tutor_email?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+        (commission?.tutor_email && (commission?.tutor_email?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
+        (commission?.booking_id && (commission?.booking_id?.toLowerCase()).indexOf(this.searchKeyword?.toLowerCase()) >= 0)
        ) {
         include = true;
        }
-
         return include;
       });
     }
@@ -380,14 +414,44 @@ export class CommissionsAdminListComponent {
         company_id: this.company?.id,
         action: this.selectedBulkAction
       }
-      
       this._tutorsService.bulkTransferCommission(params).subscribe(
         response => {
-          this.selected = [];
-          this.open(`${this._translateService.instant('tutors.transfercompleted')}`, '');
-          setTimeout(() => {
-            location.reload();
-          }, 500);
+          if(response?.code == 'insufficient_capabilities_for_transfer' && this.companyId == 52){
+            if(response?.inactiveTransferBoookingIds?.length > 0){
+
+              if(response?.activeTransferBoookingIds?.length > 0){
+                this.bookingDataSource = response.activeTransferBoookingIds.map( booking_id => {
+                  return {
+                    booking_id: booking_id,
+                    status: 'success'
+                  }
+                })
+              }
+
+              const temp:any = []
+
+              response.inactiveTransferBoookingIds.forEach( booking_id => {
+                temp.push({
+                  booking_id: booking_id,
+                  status: 'failed'
+                })
+              })
+              this.bookingDataSource = [...this.bookingDataSource, ...temp]
+              if(this.bookingDataSource?.length > 0){
+                this.modalbutton?.nativeElement.click();
+              }else{
+                setTimeout(() => {
+                  location.reload();
+                }, 500);
+              }
+            }
+          }else{
+            this.selected = [];
+            this.open(`${this._translateService.instant('tutors.transfercompleted')}`, '');
+            setTimeout(() => {
+              location.reload();
+            }, 500);
+          }
         },
         error => {
             console.log(error);
@@ -480,6 +544,11 @@ export class CommissionsAdminListComponent {
       duration: 3000,
       panelClass: ["info-snackbar"],
     });
+  }
+  closeTransfersSummaryDialog(){
+    setTimeout(() => {
+      location.reload();
+    }, 300);
   }
 
   ngOnDestroy() {
