@@ -3242,7 +3242,8 @@
         "configurestripeaccount":"No es poden programar reserves fins que el tutor no configure el seu compte Stripe.",
         "transferinactive":"Transaccions fallides a causa de les capacitats de transferència inactives al compte Stripe del tutor associat a l'identificador de reserva.",
         "bookingid": "Id. de reserva",
-        "tranfersummary":"Resum de transferència"
+        "tranfersummary":"Resum de transferència",
+        "loadingcalendar": "S'està carregant el calendari..."
     },
     "general-details": {
         "name" : "Nom",

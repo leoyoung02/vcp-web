@@ -3232,7 +3232,8 @@
         "configurestripeaccount":"Es können keine Buchungen geplant werden, bis der Tutor sein Stripe-Konto konfiguriert.",
         "transferinactive":"Fehlgeschlagene Transaktionen aufgrund inaktiver Übertragungsfunktionen auf dem Stripe-Konto des Tutors, das mit der Buchungs-ID verknüpft ist.",
         "bookingid": "Buchungs-ID",
-        "tranfersummary":"Übertragungszusammenfassung"
+        "tranfersummary":"Übertragungszusammenfassung",
+        "loadingcalendar": "Kalender wird geladen …"
     },
     "general-details": {
         "name" : "Name",

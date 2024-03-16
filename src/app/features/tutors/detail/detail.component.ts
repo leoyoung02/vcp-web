@@ -154,6 +154,7 @@ export class TutorDetailComponent {
   isValidCalenldyAccount : boolean = true;
   tutorAccountIds:any=[];
   tutorStripeConnect : any = true;
+  hasCheckedCalendly: boolean = false;
 
   constructor(
     private _router: Router,
@@ -388,17 +389,16 @@ export class TutorDetailComponent {
     this.courseCategoriesAccessRoles = data?.course_category_access_roles;
     this.courseExceptionUser = data?.company_course_exception_user;
 
-    const  eventObj = await checkIfValidCalendlyAccount(this.tutorPersonalAccessToken,this.tutorCalendlyUrl)
+    const eventObj = await checkIfValidCalendlyAccount(this.tutorPersonalAccessToken,this.tutorCalendlyUrl)
     
     if(eventObj?.isValidToken && eventObj?.isValidURL){
       this.isValidCalenldyAccount = true
     }else{
       this.isValidCalenldyAccount = false
     }
+    this.hasCheckedCalendly = true;
     this.getCompanyCourses();
   }
-
-
 
   getCompanyCourses() {
     this.courses = this.courses?.filter(cu => {

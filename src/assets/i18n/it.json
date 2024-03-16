@@ -3235,7 +3235,8 @@
         "notsetupaccount": "Questo profilo tutor non è stato precedentemente configurato.",
         "correctcalendlycredntials": "Verifica le credenziali del tuo calendario per continuare.",
         "perhourrate": "Commissione per ora di tutoraggio.",
-        "pendingtutorials": "Hai tutorial in sospeso da contrassegnare come completati."
+        "pendingtutorials": "Hai tutorial in sospeso da contrassegnare come completati.",
+        "loadingcalendar": "Caricamento calendario..."
     },
     "general-details": {
         "name": "Nome",

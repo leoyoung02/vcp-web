@@ -3227,7 +3227,8 @@
         "configurestripeaccount":"Impossible de planifier des réservations tant que le tuteur n'a pas configuré son compte Stripe.",
         "transferinactive":"Échec des transactions en raison de capacités de transfert inactives sur le compte Stripe du tuteur associé à l'identifiant de réservation.",
         "bookingid": "Identifiant de réservation",
-        "tranfersummary":"Résumé du transfert"
+        "tranfersummary":"Résumé du transfert",
+        "loadingcalendar": "Chargement du calendrier..."
     },
     "general-details": {
         "name" : "Nom",

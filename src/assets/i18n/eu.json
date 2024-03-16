@@ -3233,7 +3233,8 @@
         "configurestripeaccount":"Ezin dira erreserbarik antolatu tutoreak Stripe kontua konfiguratu arte.",
         "transferinactive":"Transakzioak huts egin ditu erreserbaren IDarekin lotutako tutorearen Stripe kontuko transferentzia gaitasun inaktiboengatik.",
         "bookingid": "Erreserba ID",
-        "tranfersummary":"Transferentziaren laburpena"
+        "tranfersummary":"Transferentziaren laburpena",
+        "loadingcalendar": "Egutegia kargatzen..."
     },
     "general-details": {
         "name" : "Izena",

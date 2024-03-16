@@ -3269,7 +3269,8 @@
         "configurestripeaccount":"Cannot schedule bookings until the tutor configures their Stripe account.",
         "transferinactive":"Failed transactions due to inactive transfer capabilities on the tutor's Stripe account associated with the booking ID.",
         "bookingid": "Booking Id",
-        "tranfersummary":"Transfer Summary"
+        "tranfersummary":"Transfer Summary",
+        "loadingcalendar": "Loading calendar..."
     },
     "general-details": {
         "name" : "Name",
