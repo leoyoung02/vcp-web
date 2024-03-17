@@ -133,7 +133,7 @@
                                     *ngFor="let category of categories"
                                     [value]="category.id"
                                 >
-                                    {{ language == 'en' ? category.title : category?.title_ES }}
+                                    {{ getCategoryTitle(category) }}
                                 </option>
                             </select>
                         </div>
@@ -154,7 +154,7 @@
                                     *ngFor="let priority of priorities"
                                     [value]="priority.id"
                                 >
-                                    {{ language == 'en' ? priority.priority : priority.priority_ES }}
+                                    {{ getPriorityTitle(priority) }}
                                 </option>
                             </select>
                         </div>
