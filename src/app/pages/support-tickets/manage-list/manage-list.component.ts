@@ -441,6 +441,24 @@ export class ManageSupportTicketsListComponent {
 
     }
 
+    getCategoryTitle(category) {
+        return category ? (this.language == 'en' ? (category.title || category.title_ES) : (this.language == 'fr' ? (category.title_FR || category.title_ES) : 
+            (this.language == 'eu' ? (category.title_EU || category.title_ES) : (this.language == 'ca' ? (category.title_CA || category.title_ES) : 
+            (this.language == 'de' ? (category.title_DE || category.title_ES) : (this.language == 'it' ? (category.title_IT || category.title_ES) :
+            category.title_ES)
+        )))
+        )) : ''
+    }
+
+    getPriorityTitle(priority) {
+        return priority ? (this.language == 'en' ? (priority.priority || priority.priority_ES) : (this.language == 'fr' ? (priority.priority_FR || priority.priority_ES) : 
+            (this.language == 'eu' ? (priority.priority_EU || priority.priority_ES) : (this.language == 'ca' ? (priority.priority_CA || priority.priority_ES) : 
+            (this.language == 'de' ? (priority.priority_DE || priority.priority_ES) : (this.language == 'it' ? (priority.priority_IT || priority.priority_ES) :
+            priority.priority_ES)
+        )))
+        )) : ''
+    }
+
     saveSupportTicket() {
         this.formSubmitted = true
 

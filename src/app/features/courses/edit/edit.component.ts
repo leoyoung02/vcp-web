@@ -3360,6 +3360,10 @@ export class CourseEditComponent {
     return true;
   }
 
+  deleteBackground(){
+    this.videoBackgroundImgSrc = ""
+  }
+  
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
