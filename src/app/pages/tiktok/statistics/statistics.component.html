@@ -1,4 +1,4 @@
-<ng-container *ngIf="!isloading && superAdmin">
+<ng-container *ngIf="!isloading && ( superAdmin || hasAccess )">
     <app-page-title title="{{ 'company-settings.statistics' | translate }}"></app-page-title>
     <div class="container w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3">
         <app-breadcrumb 
@@ -58,6 +58,6 @@
         </div>
     </div>
 </ng-container>
-<div *ngIf="!isloading && !superAdmin" class="center pt-16">
+<div *ngIf="!isloading && !superAdmin && !hasAccess" class="center pt-16">
     <app-no-access></app-no-access>
 </div>

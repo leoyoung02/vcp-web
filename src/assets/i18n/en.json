@@ -3266,7 +3266,8 @@
         "correctcalendlycredntials":"Please check your calendly credentials to proceed.",
         "perhourrate":"commission per hour of tutoring.",
         "pendingtutorials":"You have pending tutorials to mark complete.",
-        "configurestripeaccount":"Cannot schedule bookings until the tutor configures their Stripe account."
+        "configurestripeaccount":"Cannot schedule bookings until the tutor configures their Stripe account.",
+        "gotostatistics":"Go to Statistics"
     },
     "general-details": {
         "name" : "Name",

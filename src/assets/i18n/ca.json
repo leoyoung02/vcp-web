@@ -3239,7 +3239,8 @@
         "correctcalendlycredntials":"Comproveu les vostres credencials de calendari per continuar.",
         "perhourrate":"comissió per hora de tutoria.",
         "pendingtutorials":"Tens tutorials pendents per marcar com a complet.",
-        "configurestripeaccount":"No es poden programar reserves fins que el tutor no configure el seu compte Stripe."
+        "configurestripeaccount":"No es poden programar reserves fins que el tutor no configure el seu compte Stripe.",
+        "gotostatistics":"Vés a Estadístiques"
     },
     "general-details": {
         "name" : "Nom",

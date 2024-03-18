@@ -71,6 +71,7 @@ export class TiktokStatisticsComponent {
   company: any;
   videosCTAsFeature: any;
   videosCTAsTitle: any;
+  hasAccess: boolean = false
 
   constructor(
     private _router: Router,
@@ -116,6 +117,9 @@ export class TiktokStatisticsComponent {
         }
       );
 
+    if(this._router?.url){
+      this.hasAccess = (this._router.url?.split("?"))[1]?.split("=")[1] == 'true' ? true : false 
+    }
     this.initializePage();
   }
 

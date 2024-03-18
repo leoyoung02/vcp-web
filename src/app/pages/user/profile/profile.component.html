@@ -278,7 +278,7 @@
                             </div>
                         </div>
                     </ng-container>
-                    <div class="my-8" *ngIf="me?.custom_member_type_id !== 144 && me?.custom_member_type_id !== 321 &&  me?.custom_member_type_id !== 243 && isTermsAccepted">
+                    <div class="mt-[6px]" *ngIf="me?.custom_member_type_id !== 144 && me?.custom_member_type_id !== 321 &&  me?.custom_member_type_id !== 243 && isTermsAccepted">
                             <p class="text-sm mb-5" *ngIf="dateOfAcceptance">{{'footer.dateofacceptance' | translate}} : <span class="font-medium text-gray-900 dark:text-gray-300">{{dateOfAcceptance}}</span></p>
                         <label class="checkbox-container">
                             <div class="flex mb-4 align-center items-center">
@@ -299,6 +299,16 @@
                                 </label>
                             </div>
                         </label>
+                    </div>
+                    <div class="mb-6" *ngIf="tutorInfo?.user_id == userId">
+                        <button
+                        type="button"
+                        class="w-max h-[40px] text-sm px-6 py-2 font-semibold text-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
+                        [ngStyle]="{'background-color': buttonColor}"
+                        (click)="goToStatistics()"
+                    >
+                        {{ "tutors.gotostatistics" | translate }}
+                    </button>
                     </div>
                 </div>
             </div>
