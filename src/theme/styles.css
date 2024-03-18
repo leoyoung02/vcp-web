@@ -964,3 +964,7 @@ div.event-description a {
 .mat-column-email_display {
     word-break: break-all;
 }
+
+app-sidebar > aside > div:nth-child(8) > div > svg, app-sidebar > aside > div:nth-child(10) > div > svg {
+    clip: rect(0px, 45px, 51px, 0px) !important;
+}
