@@ -71,7 +71,8 @@ export const environment = {
     lstutortypes: 'VsPZU9fGTkeAnzcI96Gbug==',
     lsusergeocountry: "9tUVhOGJtEa0brNJCgI7tA==",
     lsusergeocity: "dYvVSQsQU0yuMBCmjuE3Xg==",
-    lsusergeoipaddress: "y8Y+yUkz7E6QhkVODnJYWw=="
+    lsusergeoipaddress: "y8Y+yUkz7E6QhkVODnJYWw==",
+    lsusercoursecredits: "N4RxzstAvEeTmLstp5yICA=="
 };
 
 /*
