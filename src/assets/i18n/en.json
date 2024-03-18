@@ -3343,7 +3343,9 @@
         "personalaccesstokentext1": "get personal access token ",
         "personalaccesstokentext2": "to generate your personal access token. Copy and paste it here.",
         "bookingheadertext": "Booking failed",
-        "bookingbodytext": "There was a problem with confirming your booking."
+        "bookingbodytext": "There was a problem with confirming your booking.",
+        "syncingyourbooking": "Syncing your booking...",
+        "pleasedonotclose": "Please do not close your browser as we process your reservation."
     },
     "tutor-stripe": {
         "accountid": "Account ID",

@@ -3309,7 +3309,9 @@
         "personalaccesstokentext1": "ottieni token di accesso personale",
         "personalaccesstokentext2": "per generare il tuo token di accesso personale. Copialo e incollalo qui.",
         "bookingheadertext": "Prenotazione fallita",
-        "bookingbodytext": "Si è verificato un problema con la conferma della prenotazione."
+        "bookingbodytext": "Si è verificato un problema con la conferma della prenotazione.",
+        "syncingyourbooking": "Sincronizzazione della tua prenotazione...",
+        "pleasedonotclose": "Non chiudere il browser mentre elaboriamo la tua prenotazione."
     },
     "tutor-stripe": {
         "accountid": "ID conto",

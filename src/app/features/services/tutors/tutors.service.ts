@@ -52,6 +52,7 @@ import {
   STRIPE_ACCOUNT_IDS_URL,
   STRIPE_CONNECT_ACCOUNT_STATUS_URL,
   STRIPE_LOGIN_URL,
+  SYNC_CALENDLY_EVENT_PLATFORM_URL,
   TRANSFER_COMMISSION_URL,
   TUTORS_COMBINED_URL,
   TUTORS_URL,
@@ -521,4 +522,11 @@ export class TutorsService {
     }).pipe(map(res => res));
   }
 
+  syncCalendlyBookingWithPlatform(payload): Observable<any> {
+    return this._http.post(
+        `${SYNC_CALENDLY_EVENT_PLATFORM_URL}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
 }

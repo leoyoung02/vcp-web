@@ -3316,7 +3316,9 @@
         "personalaccesstokentext1": "obté un testimoni d'accés personal ",
         "personalaccesstokentext2": "per generar el vostre testimoni d'accés personal. Copieu-lo i enganxeu-lo aquí.",
         "bookingheadertext": "La reserva ha fallat",
-        "bookingbodytext": "S'ha produït un problema en confirmar la teva reserva."
+        "bookingbodytext": "S'ha produït un problema en confirmar la teva reserva.",
+        "syncingyourbooking": "S'està sincronitzant la reserva...",
+        "pleasedonotclose": "Si us plau, no tanquis el teu navegador mentre processem la teva reserva."
     },
     "tutor-stripe": {
         "accountid": "ID del compte",

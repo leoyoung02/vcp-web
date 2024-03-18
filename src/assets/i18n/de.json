@@ -3306,7 +3306,9 @@
         "personalaccesstokentext1": "Persönlichen Zugangstoken erhalten ",
         "personalaccesstokentext2": "um Ihren persönlichen Zugangstoken zu generieren. Kopieren Sie es und fügen Sie es hier ein.",
         "bookingheadertext": "Die Buchung ist fehlgeschlagen",
-        "bookingbodytext": "Bei der Bestätigung Ihrer Buchung ist ein Problem aufgetreten."
+        "bookingbodytext": "Bei der Bestätigung Ihrer Buchung ist ein Problem aufgetreten.",
+        "syncingyourbooking": "Ihre Buchung wird synchronisiert…",
+        "pleasedonotclose": "Bitte schließen Sie Ihren Browser nicht, während wir Ihre Reservierung bearbeiten."
     },
     "tutor-stripe": {
         "accountid": "Konto-ID",

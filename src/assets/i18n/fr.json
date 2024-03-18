@@ -3301,7 +3301,9 @@
         "personalaccesstokentext1": "obtenir un jeton d'accès personnel",
         "personalaccesstokentext2": " pour générer votre jeton d'accès personnel. Copiez-le et collez-le ici.",
         "bookingheadertext": "La réservation a échoué",
-        "bookingbodytext": "Il y a eu un problème avec la confirmation de votre réservation."
+        "bookingbodytext": "Il y a eu un problème avec la confirmation de votre réservation.",
+        "syncingyourbooking": "Synchronisation de votre réservation...",
+        "pleasedonotclose": "Veuillez ne pas fermer votre navigateur pendant que nous traitons votre réservation."
     },
     "tutor-stripe": {
         "accountid": "identifiant de compte",

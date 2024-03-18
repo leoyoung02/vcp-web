@@ -5,6 +5,7 @@ import {
   ElementRef,
   Input,
   ViewChild,
+  inject,
 } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
 import { LogoComponent } from "../logo/logo.component";
@@ -32,6 +33,8 @@ import { COURSE_IMAGE_URL } from "@lib/api-constants";
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CreditsDisplayComponent {
+    userCourseCredits$ = inject(UserService).userCourseCredits$;
+
     @Input() currentUser: any;
     @Input() primaryColor: any;
     @Input() buttonColor: any;

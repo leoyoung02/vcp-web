@@ -3307,7 +3307,9 @@
         "personalaccesstokentext1": "lortu sarbide-token pertsonala",
         "personalaccesstokentext2": "-n zure sarbide-token pertsonala sortzeko. Kopiatu eta itsatsi hemen.",
         "bookingheadertext": "Erreserbak huts egin du",
-        "bookingbodytext": "Arazo bat izan da erreserba berresteko."
+        "bookingbodytext": "Arazo bat izan da erreserba berresteko.",
+        "syncingyourbooking": "Zure erreserba sinkronizatzen...",
+        "pleasedonotclose": "Mesedez, ez itxi arakatzailea zure erreserba prozesatzen dugun bitartean."
     },
     "tutor-stripe": {
         "accountid": "Kontuaren IDa",

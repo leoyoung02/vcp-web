@@ -83,11 +83,18 @@ import {
     USER_CREDIT_LOGS_HISTORY_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
+import { environment } from "@env/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class UserService {
+  userCourseCredits$ = new BehaviorSubject<any[]>(
+    (this._localService.getLocalStorage(environment.lsusercoursecredits)
+      ? JSON.parse(this._localService.getLocalStorage(environment.lsusercoursecredits))
+      : [])
+  );
+
   private headers: HttpHeaders;
 
   private refreshNotifications = new BehaviorSubject(false);
@@ -100,6 +107,10 @@ export class UserService {
     this.headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
+  }
+
+  get userCourseCredits(): any[] {
+    return this.userCourseCredits$.getValue();
   }
 
   getUserMemberTypes(id): Observable<any> {
@@ -632,5 +643,13 @@ export class UserService {
     return this._http.get(`${CRM_ASSIGNED_GUESTS_DATA_URL}/${id}/${userId}`,
         { headers: this.headers }
     ).pipe(map(res => res));
+  }
+
+  updateUserCourseCredits(userCourseCredits: any[] = []) {
+    this._localService.setLocalStorage(
+      environment.lsusercoursecredits,
+      JSON.stringify(userCourseCredits)
+    );
+    this.userCourseCredits$.next(userCourseCredits);
   }
 }
