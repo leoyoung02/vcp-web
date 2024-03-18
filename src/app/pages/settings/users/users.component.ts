@@ -48,6 +48,7 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import moment from "moment";
 import get from "lodash/get";
 import { searchSpecialCase, sortSerchedMembers } from "src/app/utils/search/helper";
+import Fuse from 'fuse.js';
 
 @Component({
   selector: "app-manage-users",
@@ -348,6 +349,18 @@ export class ManageUsersComponent {
   isOpenContact:boolean= false;
   contracts: any;
   contract: any;
+  searchOptions = {
+    keys: [{
+      name: 'normalized_first_name',
+      weight: 0.4
+    }, {
+      name: 'normalized_last_name',
+      weight: 0.3
+    }, {
+      name: 'normalized_name',
+      weight: 0.3
+    }]
+  };
 
   constructor(
     private _router: Router,
@@ -996,6 +1009,9 @@ export class ManageUsersComponent {
 
         this.members = this.members.map((i) => ({
           ...i,
+          normalized_name: this.normalizeCase(i.name),
+          normalized_first_name: this.normalizeCase(i.first_name?.toLowerCase()),
+          normalized_last_name: this.normalizeCase(i.last_name?.toLowerCase()),
           recordStatus: "company-settings.active",
         }));
         this.allMembers = this.members;
@@ -1200,7 +1216,12 @@ export class ManageUsersComponent {
 
     if (this.searchKeyword) {
       members = this.filterSearchKeyword(members);
-      members = sortSerchedMembers(members,this.searchKeyword)
+      let fuse = new Fuse(members, this.searchOptions);
+      let filtered_search = fuse.search(this.normalizeCase(this.searchKeyword));
+      members = []
+      filtered_search?.forEach(item => {
+        members.push(item?.item)
+      })
     }
     if (this.selectedCustomMemberTypeRole) {
       members = this.filterRole(members);
@@ -5382,6 +5403,15 @@ export class ManageUsersComponent {
     : "";
   }
 
+  normalizeCase(str) {
+    if (str) {
+      return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .trim();
+    }
+  }
 
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
