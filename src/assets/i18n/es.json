@@ -3254,7 +3254,9 @@
         "transferinactive":"Transacciones fallidas debido a capacidades de transferencia inactivas en la cuenta Stripe del tutor asociada con el ID de reserva.",
         "bookingid": "ID de reserva",
         "tranfersummary":"Resumen de transferencia",
-        "loadingcalendar": "Cargando calendario..."
+        "loadingcalendar": "Cargando calendario...",
+        "charged": "Cobrada 🟢",
+        "moneyontheway": "Realizada. Dinero en camino ⏳. <br/>Disponible en"
     },
     "general-details": {
         "name" : "Nombre",

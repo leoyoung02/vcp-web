@@ -3228,7 +3228,9 @@
         "transferinactive":"Échec des transactions en raison de capacités de transfert inactives sur le compte Stripe du tuteur associé à l'identifiant de réservation.",
         "bookingid": "Identifiant de réservation",
         "tranfersummary":"Résumé du transfert",
-        "loadingcalendar": "Chargement du calendrier..."
+        "loadingcalendar": "Chargement du calendrier...",
+        "charged": "Chargé 🟢",
+        "moneyontheway": "Terminé. Argent en route ⏳. Disponible dans"
     },
     "general-details": {
         "name" : "Nom",

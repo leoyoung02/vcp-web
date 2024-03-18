@@ -3236,7 +3236,9 @@
         "correctcalendlycredntials": "Verifica le credenziali del tuo calendario per continuare.",
         "perhourrate": "Commissione per ora di tutoraggio.",
         "pendingtutorials": "Hai tutorial in sospeso da contrassegnare come completati.",
-        "loadingcalendar": "Caricamento calendario..."
+        "loadingcalendar": "Caricamento calendario...",
+        "charged": "Carico 🟢",
+        "moneyontheway": "Fatto. Soldi in arrivo ⏳. Disponibile in"
     },
     "general-details": {
         "name": "Nome",

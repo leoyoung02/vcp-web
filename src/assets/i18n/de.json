@@ -3233,7 +3233,9 @@
         "transferinactive":"Fehlgeschlagene Transaktionen aufgrund inaktiver Übertragungsfunktionen auf dem Stripe-Konto des Tutors, das mit der Buchungs-ID verknüpft ist.",
         "bookingid": "Buchungs-ID",
         "tranfersummary":"Übertragungszusammenfassung",
-        "loadingcalendar": "Kalender wird geladen …"
+        "loadingcalendar": "Kalender wird geladen …",
+        "charged": "Aufgeladen 🟢",
+        "moneyontheway": "Fertig. Geld unterwegs ⏳. Verfügbar in"
     },
     "general-details": {
         "name" : "Name",

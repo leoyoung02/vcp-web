@@ -3234,7 +3234,9 @@
         "transferinactive":"Transakzioak huts egin ditu erreserbaren IDarekin lotutako tutorearen Stripe kontuko transferentzia gaitasun inaktiboengatik.",
         "bookingid": "Erreserba ID",
         "tranfersummary":"Transferentziaren laburpena",
-        "loadingcalendar": "Egutegia kargatzen..."
+        "loadingcalendar": "Egutegia kargatzen...",
+        "charged": "Kobratuta 🟢",
+        "moneyontheway": "Bukatuta. Dirua bidean ⏳. Hemen eskuragarri"
     },
     "general-details": {
         "name" : "Izena",

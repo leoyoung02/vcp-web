@@ -105,7 +105,26 @@
                     <ng-container matColumnDef="status">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'landing.status' | translate }} </mat-header-cell>
                         <mat-cell *matCellDef="let row" data-label="status">
-                            <span [ngStyle]="{'color': row?.cancelled == 1 ? '#c24130' : '#000'}" [innerHtml]="row?.cancelled == 1 ? ('company-settings.cancelled' | translate) : row.status"></span>
+                            <ng-container *ngIf="row?.cancelled == 1">
+                                <span [ngStyle]="{'color': '#c24130'}" [innerHtml]="('company-settings.cancelled' | translate)"></span>
+                            </ng-container>
+                            <ng-container *ngIf="row?.cancelled != 1 && row?.completed != 1 && row?.past_booking">
+                                <p class="flex items-center justify-between my-2">
+                                    <span class="uppercase text-sm">{{'tutors.tutor' | translate}}</span>
+                                    <svg [ngStyle]="{'color': row?.tutor_complete == 1 ? '#5cb85c' : '#c7c7c7'}" class="ml-2 w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                    </svg>
+                                </p>
+                                <p class="flex items-center justify-between mb-2">
+                                    <span class="uppercase text-sm">{{'plans.student' | translate}}</span>
+                                    <svg [ngStyle]="{'color': row?.student_complete == 1 ? '#5cb85c' : '#c7c7c7'}" class="ml-2 w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                    </svg>
+                                </p>
+                            </ng-container>
+                            <ng-container *ngIf="row?.completed == 1 && row?.transfer_date">
+                                <span [innerHtml]="row?.transferred ? ('tutors.charged' | translate) : (('tutors.moneyontheway' | translate) + ' ' + (row?.transfer_date | date:'dd/MM/YYYY'))"></span>
+                            </ng-container>
                         </mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="rating">

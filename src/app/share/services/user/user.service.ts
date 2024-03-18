@@ -81,6 +81,7 @@ import {
     USER_GUID_INFO_URL,
     TUTOR_DETAILS_URL,
     USER_CREDIT_LOGS_HISTORY_URL,
+    STRIPE_TRANSFERS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -375,6 +376,7 @@ export class UserService {
     let account_ids = this._http.get(`${TUTOR_ACCOUNT_IDS_URL}/${userId}/${companyId}`);
     let packages = this._http.get(`${TUTOR_USER_PACKAGES_URL}/${userId}/${companyId}`);
     let member_types = this._http.get(`${MEMBER_TYPES_URL}/${companyId}`);
+    let stripe_transfers = this._http.get(`${STRIPE_TRANSFERS_URL}/${companyId}`);
 
     return forkJoin([
       subfeatures,
@@ -385,7 +387,8 @@ export class UserService {
       tutors,
       account_ids,
       packages,
-      member_types
+      member_types,
+      stripe_transfers,
     ])
   }
 

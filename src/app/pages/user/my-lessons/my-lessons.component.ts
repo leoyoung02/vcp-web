@@ -149,6 +149,7 @@ export class MyLessonsComponent {
     potsuperTutor:any;
     potTutor:any;
     showPendingLessonAlert:boolean = false;
+    stripeTransfers: any = [];
 
     constructor(
         private _route: ActivatedRoute,
@@ -219,7 +220,7 @@ export class MyLessonsComponent {
       
         this.getCombinedBookingsPrefetch();
     }
-// combine fetch
+
     async getCombinedBookingsPrefetch() {
         this._userService.getCombinedBookingsPrefetch(this.companyId, this.tutorsFeatureId, this.coursesFeatureId, this.userId).subscribe(data => {
             let subfeatures = data[0] ? data[0]['subfeatures'] : []
@@ -291,6 +292,8 @@ export class MyLessonsComponent {
                 }
             }
             
+            this.stripeTransfers = data[9] ? data[9]['stripe_transfers'] : [];
+
             this.mapSubfeatures(subfeatures, courses_subfeatures)
             this.getBookings()
         }, error => {
@@ -377,6 +380,8 @@ export class MyLessonsComponent {
                 }
                 
                 user_bookings = user_bookings?.map((booking) => {
+                    let transfer_date = booking?.completed == 1 ? this.getTransferDate(booking) : '';
+
                     return {
                         booking_date_display: moment(booking?.booking_date).format('DD/MM/YYYY'),
                         created_at_display: moment(booking?.created_at).format('DD/MM/YYYY'),
@@ -386,6 +391,7 @@ export class MyLessonsComponent {
                         tutor_commission: `${booking?.commission ? (booking.commission).replace('.',',') : 0}€`,
                         rating: booking?.tutor_rating,
                         status: this.getStatus(booking),
+                        past_booking: moment(booking.booking_date).isSameOrBefore(moment().format('YYYY-MM-DD')) ? true : false,
                         transfer_status: booking.transfer_status,
                         error_code: booking.error_code,
                         show_feedback_button: !booking.feedback && booking.student_complete && (booking.user_id == this.userId) ? true : false,
@@ -396,6 +402,8 @@ export class MyLessonsComponent {
                         pending_transfer: booking?.completed == 1 && booking?.transfer_status != 1 ? true : false,
                         can_receive_commission: booking?.tutor_user_type?.toLowerCase()?.indexOf('tutor') >= 0 && !booking?.super_tutor ? true : false,
                         show_cancel: this.showCancelButton(booking),
+                        transfer_date: booking?.completed == 1 ? this.getTransferDate(booking) : '',
+                        transferred: transfer_date ? (moment(transfer_date).isBefore(moment().format('YYYY-MM-DD')) ? true : false) : false,
                         ...booking,
                     };
                 })
@@ -408,6 +416,7 @@ export class MyLessonsComponent {
 
                 this.bookings = user_bookings
                 this.allBookings = this.bookings
+                console.log(this.bookings)
 
                 if(this.allBookings?.length > 0){
                     const bookings = this.allBookings && this.allBookings?.filter(booking => {
@@ -439,6 +448,19 @@ export class MyLessonsComponent {
               console.log(error)
             }
           )
+    }
+
+    getTransferDate(booking) {
+        let transfer_date = ''
+
+        if(this.isTutorUser || this.superAdmin) {
+            let stripe_transfer = this.stripeTransfers?.find((f) => f?.source?.id == booking.commission_transfer_id);
+            if(stripe_transfer?.available_on) {
+                transfer_date = moment.unix(stripe_transfer?.available_on).format("YYYY-MM-DD")
+            }
+        }
+
+        return transfer_date
     }
 
     getCourseTitle(booking) {
@@ -688,6 +710,7 @@ export class MyLessonsComponent {
             return false
         }
     }
+
     getStatus(booking) {
         let status = ''
 

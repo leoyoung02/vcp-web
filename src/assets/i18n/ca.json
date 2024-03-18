@@ -3243,7 +3243,9 @@
         "transferinactive":"Transaccions fallides a causa de les capacitats de transferència inactives al compte Stripe del tutor associat a l'identificador de reserva.",
         "bookingid": "Id. de reserva",
         "tranfersummary":"Resum de transferència",
-        "loadingcalendar": "S'està carregant el calendari..."
+        "loadingcalendar": "S'està carregant el calendari...",
+        "charged": "Cobrada 🟢",
+        "moneyontheway": "Realitzada. Diners en camí ⏳. Disponible a"
     },
     "general-details": {
         "name" : "Nom",

@@ -3270,7 +3270,9 @@
         "transferinactive":"Failed transactions due to inactive transfer capabilities on the tutor's Stripe account associated with the booking ID.",
         "bookingid": "Booking Id",
         "tranfersummary":"Transfer Summary",
-        "loadingcalendar": "Loading calendar..."
+        "loadingcalendar": "Loading calendar...",
+        "charged": "Charged 🟢",
+        "moneyontheway": "Made. Money on the way ⏳. Disponible en"
     },
     "general-details": {
         "name" : "Name",
