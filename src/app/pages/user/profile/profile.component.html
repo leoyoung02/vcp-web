@@ -300,16 +300,6 @@
                             </div>
                         </label>
                     </div>
-                    <div class="mb-6" *ngIf="tutorInfo?.user_id == userId">
-                        <button
-                        type="button"
-                        class="w-max h-[40px] text-sm px-6 py-2 font-semibold text-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
-                        [ngStyle]="{'background-color': buttonColor}"
-                        (click)="goToStatistics()"
-                    >
-                        {{ "tutors.gotostatistics" | translate }}
-                    </button>
-                    </div>
                 </div>
             </div>
         </ng-container>

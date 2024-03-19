@@ -3251,7 +3251,7 @@
         "perhourrate":"Comisión por hora de tutoría.",
         "pendingtutorials":"Tienes tutoriales pendientes para marcar como completos.",
         "configurestripeaccount":"No se pueden programar reservas hasta que el tutor configure su cuenta Stripe.",
-        "gotostatistics":"Ir a Estadísticas"
+        "tiktokstats":"Estadísticas de TikTok"
     },
     "general-details": {
         "name" : "Nombre",

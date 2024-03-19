@@ -76,6 +76,7 @@ export class UserMenuComponent {
   @Input() potSuperTutor: any;
   @Input() potTutor: any;
   @Input() hasInvitations: any;
+  @Input() companyId: any;
 
   @Output() changeLanguage = new EventEmitter();
 
@@ -95,7 +96,6 @@ export class UserMenuComponent {
   }
 
   async ngOnInit() {
-    
   }
 
   hasAccess(path) {

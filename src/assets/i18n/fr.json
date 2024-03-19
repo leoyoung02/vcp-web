@@ -3225,7 +3225,7 @@
         "perhourrate":"commission par heure de tutorat.",
         "pendingtutorials":"Vous avez des tutoriels en attente à marquer comme terminés.",
         "configurestripeaccount":"Impossible de planifier des réservations tant que le tuteur n'a pas configuré son compte Stripe.",
-        "gotostatistics":"Aller aux statistiques"
+        "tiktokstats":"Statistiques TikTok"
     },
     "general-details": {
         "name" : "Nom",

@@ -3231,7 +3231,7 @@
         "perhourrate":"tutoretza ordu bakoitzeko komisioa.",
         "pendingtutorials":"Osatuta markatzeko zain dauden tutorialak dituzu.",
         "configurestripeaccount":"Ezin dira erreserbarik antolatu tutoreak Stripe kontua konfiguratu arte.",
-        "gotostatistics":"Joan Estatistikak"
+        "tiktokstats":"TikTok Estatistikak"
     },
     "general-details": {
         "name" : "Izena",

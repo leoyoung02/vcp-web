@@ -3230,7 +3230,7 @@
         "perhourrate":"Provision pro Nachhilfestunde.",
         "pendingtutorials":"Sie haben ausstehende Tutorials, die Sie als abgeschlossen markieren müssen.",
         "configurestripeaccount":"Es können keine Buchungen geplant werden, bis der Tutor sein Stripe-Konto konfiguriert.",
-        "gotostatistics":"Gehen Sie zu Statistik"
+        "tiktokstats":"TikTok-Statistiken"
     },
     "general-details": {
         "name" : "Name",

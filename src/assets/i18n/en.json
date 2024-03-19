@@ -3267,7 +3267,7 @@
         "perhourrate":"commission per hour of tutoring.",
         "pendingtutorials":"You have pending tutorials to mark complete.",
         "configurestripeaccount":"Cannot schedule bookings until the tutor configures their Stripe account.",
-        "gotostatistics":"Go to Statistics"
+        "tiktokstats":"TikTok Statistics"
     },
     "general-details": {
         "name" : "Name",
