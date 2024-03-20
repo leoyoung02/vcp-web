@@ -1755,6 +1755,10 @@ export class ProfileComponent {
     
   }
 
+  goToStatistics(){
+    this._router.navigate(['/tiktok/statistics'], { queryParams: { access: encodeURIComponent('true') } });
+  }
+
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
