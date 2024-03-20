@@ -175,6 +175,7 @@ export class AuthService {
     this._localService.removeLocalStorage(environment.lstoken);
     this._localService.removeLocalStorage(environment.lsrefreshtoken);
     this._localService.removeLocalStorage(environment.lsuser);
+    this._localService.removeLocalStorage(environment.lsusercoursecredits);
     this.isAuthenticated$.next(false);
   }
 

@@ -17,6 +17,7 @@ import {
   BOOKING_CONFIRMATION_EMAIL_URL,
   BOOKING_HISTORY_URL,
   BOOKING_NOTES_URL,
+  BULK_TRANSFER_COMMISSION_IMPROVED_URL,
   BULK_TRANSFER_COMMISSION_URL,
   CALENDLY_EVENT_URL,
   CANCEL_BOOKING_URL,
@@ -52,6 +53,7 @@ import {
   STRIPE_ACCOUNT_IDS_URL,
   STRIPE_CONNECT_ACCOUNT_STATUS_URL,
   STRIPE_LOGIN_URL,
+  STRIPE_TRANSFERS_URL,
   SYNC_CALENDLY_EVENT_PLATFORM_URL,
   TRANSFER_COMMISSION_URL,
   TUTORS_COMBINED_URL,
@@ -306,6 +308,16 @@ export class TutorsService {
     ).pipe(map(res => res))
   }
 
+  getCombinedCommissionsPrefetch(id) {
+    let commissions = this._http.get(`${TUTOR_COMMISSIONS_URL}/${id}`);
+    let stripe_transfers = this._http.get(`${STRIPE_TRANSFERS_URL}/${id}`);
+
+    return forkJoin([
+      commissions,
+      stripe_transfers,
+    ])
+  }
+
   getCommissions(id): Observable<any> {
     return this._http.get(`${TUTOR_COMMISSIONS_URL}/${id}`,
       { headers: this.headers }
@@ -527,6 +539,12 @@ export class TutorsService {
         `${SYNC_CALENDLY_EVENT_PLATFORM_URL}`,
         payload,
         { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  bulkTransferCommissionImproved(payload): Observable<any> {
+    return this._http.post(`${BULK_TRANSFER_COMMISSION_IMPROVED_URL}`,
+      payload
     ).pipe(map(res => res));
   }
 }

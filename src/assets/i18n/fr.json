@@ -2024,6 +2024,7 @@
         "width": "Largeur",
         "height": "Hauteur",
         "selecttutorrole": "Sélectionner le rôle du tuteur",
+        "selecttutor": "Sélectionner un tuteur",
         "selectorder": "Sélectionner la commande",
         "chronological": "Chronologique",
         "reverse": "Inverser", 
@@ -3312,7 +3313,9 @@
         "notconfigured": "Pas configuré",
         "configurenote": "Configurez l'identifiant de compte Stripe Connect dans votre profil",
         "commission": "Commission",
-        "notconnected": "Vous n'êtes affecté en tant que tuteur à aucun cours."
+        "notconnected": "Vous n'êtes affecté en tant que tuteur à aucun cours.",
+        "success": "Succès",
+        "failed": "Échec"
     },
     "timeunits": {
         "minutes": "minutes",

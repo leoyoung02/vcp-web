@@ -2032,6 +2032,7 @@
         "width": "Width",
         "height": "Height",
         "selecttutorrole": "Select tutor role",
+        "selecttutor": "Select tutor",
         "selectorder": "Select order",
         "chronological": "Chronological",
         "reverse": "Reverse",
@@ -3354,7 +3355,9 @@
         "notconfigured": "Not Configured",
         "configurenote": "Configure Stripe Connect account Id in your profile",
         "commission": "Commission",
-        "notconnected": "You are not assigned as a tutor to any course."
+        "notconnected": "You are not assigned as a tutor to any course.",
+        "success": "Success",
+        "failed": "Failed"
     },
     "timeunits": {
         "minutes": "minutes",

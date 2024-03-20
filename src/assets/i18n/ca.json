@@ -2030,6 +2030,7 @@
         "width": "Amplada",
         "height": "Alçada",
         "selecttutorrole": "Selecciona la funció de tutor",
+        "selecttutor": "Selecciona el tutor",
         "selectorder": "Selecciona l'ordre",
         "chronological": "Cronològica",
         "reverse": "Reverse",
@@ -3327,7 +3328,9 @@
         "notconfigured": "No configurat",
         "configurenote": "Configura l'identificador del compte de Stripe Connect al teu perfil",
         "commission": "Comissions",
-        "notconnected": "No es pot assignar a tutor per any course."
+        "notconnected": "No es pot assignar a tutor per any course.",
+        "success": "Èxit",
+        "failed": "Ha fallat"
     },
     "timeunits": {
         "minutes": "minuts",

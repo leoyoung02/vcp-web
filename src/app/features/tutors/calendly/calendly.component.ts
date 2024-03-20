@@ -292,21 +292,6 @@ export class CalendlyComponent {
   async confirm() {
   }
 
-  updateUserCredits() {
-    let userCourseCredits = [
-      {
-        company_id: 52,
-        course_id: 192,
-        created_at: "2023-11-20T10:44:41.000Z",
-        credits: 10,
-        id: 1015,
-        remaining_credits: 6,
-        user_id: 57195
-      }
-    ]
-    this._userService.updateUserCourseCredits(userCourseCredits);
-  }
-
   continue() {
     
   }

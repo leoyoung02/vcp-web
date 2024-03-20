@@ -17,6 +17,7 @@ import { initFlowbite } from "flowbite";
 import { AuthService, MenuService } from "@lib/services";
 import { DateAgoPipe } from "@lib/pipes";
 import { CreditsDisplayComponent } from "../credits-display/credits-display.component";
+import { UserService } from "@share/services";
 
 @Component({
   selector: "app-user-menu",
@@ -90,12 +91,24 @@ export class UserMenuComponent {
   isMyActivitiesActive: boolean = false;
   myClubs: any;
 
-  constructor(private _router: Router, private _authService: AuthService) {
+  constructor(
+    private _router: Router, 
+    private _authService: AuthService,
+    private _userService: UserService,
+  ) {
       
   }
 
   async ngOnInit() {
     
+  }
+
+  ngOnChanges(changes: SimpleChange) {
+    let userCourseCreditsChange = changes["userCourseCredits"];
+    if (userCourseCreditsChange?.currentValue?.length > 0) {
+      this.userCourseCredits = userCourseCreditsChange.currentValue;
+      this._userService.updateUserCourseCredits(this.userCourseCredits);
+    }
   }
 
   hasAccess(path) {

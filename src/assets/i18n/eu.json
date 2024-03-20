@@ -2027,6 +2027,7 @@
         "width": "Zabalera",
         "height": "Altuera",
         "selecttutorrole": "Hautatu tutore rola",
+        "selecttutor": "Hautatu tutorea",
         "selectorder": "Hautatu ordena",
         "chronological": "Kronologikoa",
         "reverse": "Alderantziz", 
@@ -3318,7 +3319,9 @@
         "notconfigured": "Konfiguratu gabe",
         "configurenote": "Konfiguratu Stripe Connect kontuaren IDa zure profilean",
         "commission": "Batzordea",
-        "notconnected": "Ez zaude inongo ikastarotan tutore gisa esleituta."
+        "notconnected": "Ez zaude inongo ikastarotan tutore gisa esleituta.",
+        "success": "Arrakasta",
+        "failed": "Huts egin du"
     },
     "timeunits": {
         "minutes": "minutu",
