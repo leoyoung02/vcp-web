@@ -3236,7 +3236,8 @@
         "tranfersummary":"Übertragungszusammenfassung",
         "loadingcalendar": "Kalender wird geladen …",
         "charged": "Aufgeladen 🟢",
-        "moneyontheway": "Fertig. Geld unterwegs ⏳. Verfügbar in"
+        "moneyontheway": "Fertig. Geld unterwegs ⏳. Verfügbar in",
+        "tiktokstats":"TikTok-Statistiken"
     },
     "general-details": {
         "name" : "Name",

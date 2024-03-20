@@ -3237,7 +3237,8 @@
         "tranfersummary":"Transferentziaren laburpena",
         "loadingcalendar": "Egutegia kargatzen...",
         "charged": "Kobratuta 🟢",
-        "moneyontheway": "Bukatuta. Dirua bidean ⏳. Hemen eskuragarri"
+        "moneyontheway": "Bukatuta. Dirua bidean ⏳. Hemen eskuragarri",
+        "tiktokstats":"TikTok Estatistikak"
     },
     "general-details": {
         "name" : "Izena",

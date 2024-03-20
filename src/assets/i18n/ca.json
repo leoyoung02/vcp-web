@@ -3246,7 +3246,8 @@
         "tranfersummary":"Resum de transferència",
         "loadingcalendar": "S'està carregant el calendari...",
         "charged": "Cobrada 🟢",
-        "moneyontheway": "Realitzada. Diners en camí ⏳. Disponible a"
+        "moneyontheway": "Realitzada. Diners en camí ⏳. Disponible a",
+        "tiktokstats":"Estadístiques de TikTok"
     },
     "general-details": {
         "name" : "Nom",

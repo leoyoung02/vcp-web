@@ -3273,7 +3273,8 @@
         "tranfersummary":"Transfer Summary",
         "loadingcalendar": "Loading calendar...",
         "charged": "Charged 🟢",
-        "moneyontheway": "Made. Money on the way ⏳. Disponible en"
+        "moneyontheway": "Made. Money on the way ⏳. Disponible en",
+        "tiktokstats":"TikTok Statistics"
     },
     "general-details": {
         "name" : "Name",

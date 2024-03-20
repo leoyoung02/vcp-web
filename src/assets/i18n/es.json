@@ -3257,7 +3257,8 @@
         "tranfersummary":"Resumen de transferencia",
         "loadingcalendar": "Cargando calendario...",
         "charged": "Cobrada 🟢",
-        "moneyontheway": "Realizada. Dinero en camino ⏳. <br/>Disponible en"
+        "moneyontheway": "Realizada. Dinero en camino ⏳. <br/>Disponible en",
+        "tiktokstats":"Estadísticas de TikTok"
     },
     "general-details": {
         "name" : "Nombre",

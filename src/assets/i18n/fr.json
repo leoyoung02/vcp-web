@@ -3231,7 +3231,8 @@
         "tranfersummary":"Résumé du transfert",
         "loadingcalendar": "Chargement du calendrier...",
         "charged": "Chargé 🟢",
-        "moneyontheway": "Terminé. Argent en route ⏳. Disponible dans"
+        "moneyontheway": "Terminé. Argent en route ⏳. Disponible dans",
+        "tiktokstats":"Statistiques TikTok"
     },
     "general-details": {
         "name" : "Nom",

@@ -71,6 +71,7 @@ export class TiktokStatisticsComponent {
   company: any;
   videosCTAsFeature: any;
   videosCTAsTitle: any;
+  isTutorUser: boolean = false
 
   constructor(
     private _router: Router,
@@ -184,6 +185,7 @@ export class TiktokStatisticsComponent {
 
   mapUserPermissions(user_permissions) {
     this.superAdmin = user_permissions?.super_admin_user ? true : false;
+    this.isTutorUser = user_permissions?.tutor_user ? true : false
   }
 
   getModuleTitle(module) {
