@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -101,6 +102,7 @@ export class UserMenuComponent {
     private _router: Router, 
     private _authService: AuthService,
     private _userService: UserService,
+    private cd: ChangeDetectorRef,
     private renderer2: Renderer2,
     @Inject(DOCUMENT) private _document,
   ) {
@@ -174,6 +176,12 @@ export class UserMenuComponent {
         initFlowbite();
       }, 100)
     }
+  }
+
+
+  goToStatistics(){
+    this._router.navigate(['/tiktok/statistics'])
+    this.cd.detectChanges();
   }
 
   ngOnDestroy() {
