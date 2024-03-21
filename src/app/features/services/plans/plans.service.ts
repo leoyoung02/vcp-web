@@ -74,6 +74,7 @@ import {
   LEAVE_GROUP_PLAN_URL,
   LEAVE_PLAN_URL,
   OTHER_SETTINGS_URL,
+  PAST_PLANS_LIST_URL,
   PAST_PLANS_URL,
   PLANS_CALENDAR_URL,
   PLANS_LIST_URL,
@@ -307,7 +308,24 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ])
   }
 
-  getCalendarPlans(id: number, plan_type_id: number, page=1, limit=20, status = 'all', isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
+  getCalendarPlans(id: number, plan_type_id: number, page=1, limit=20, status = 'all', isUESchoolOfLife: boolean = false, campus: string = '', mode: string = ''): Observable<any> {
+    let params = `plan_type_id=${plan_type_id}&page=${page}&limit=${limit}&status=${status}`;
+    if(isUESchoolOfLife) {
+      params += `&schooloflife=1&campus=${campus}`
+    } else {
+      if(campus) {
+        params += `&campus=${campus}`
+      }
+    }
+    if(mode == 'history') {
+      params += `&history=1`
+    }
+    return this._http.get(`${PLANS_CALENDAR_URL}/${id}?${params}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  getCalendarPastPlans(id: number, plan_type_id: number, page=1, limit=20, status = 'all', isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
     let params = `plan_type_id=${plan_type_id}&page=${page}&limit=${limit}&status=${status}`;
     if(isUESchoolOfLife) {
       params += `&schooloflife=1&campus=${campus}`
@@ -335,6 +353,20 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
   fetchPlansCombined(id: number = 0, mode: string = 'active', isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
     let url = `${PLANS_URL}/${id}/${mode}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1&campus=${campus}`
+    } else {
+      if(campus) {
+        url += `?campus=${campus}`
+      }
+    }
+    return this._http.get(url, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  fetchPastPlansCombined(id: number = 0, isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
+    let url = `${PAST_PLANS_LIST_URL}/${id}`
     if(isUESchoolOfLife) {
       url += `?schooloflife=1&campus=${campus}`
     } else {

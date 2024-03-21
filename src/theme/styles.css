@@ -965,6 +965,8 @@ div.event-description a {
     word-break: break-all;
 }
 
-app-sidebar > aside > div:nth-child(8) > div > svg, app-sidebar > aside > div:nth-child(10) > div > svg {
+app-sidebar > aside > div:nth-child(8) > div > svg.no-history, 
+app-sidebar > aside > div:nth-child(10) > div > svg.no-history, 
+app-sidebar > aside > div:nth-child(9) > div > svg.has-history {
     clip: rect(0px, 45px, 51px, 0px) !important;
 }

@@ -34,6 +34,7 @@ export class PlansCalendarComponent {
     @Input() calendarFilterMode: any
     @Input() isUESchoolOfLife: any;
     @Input() campus: any;
+    @Input() mode: any;
     @Input() notifier: Subject<boolean> | undefined
     @Output() handleCalendarDateChange = new EventEmitter()
     @Output() handleJoinChange = new EventEmitter()
@@ -177,27 +178,6 @@ export class PlansCalendarComponent {
         this.currentDate = new Date().getDate();
         this.currMonth = this.language == 'en' ? this.monthNames[new Date().getMonth()] : (this.language == 'fr' ? this.monthNamesFR[new Date().getMonth()] : this.monthNamesES[new Date().getMonth()]);
     
-        // this.types = get(await this._plansService.getEventTypes(this.companyId).toPromise(), 'types')
-        // this.features = this._localService.getLocalStorage(environment.lsfeatures) ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures)) : ''
-        // if(this.features && this.companyId > 0) {
-        //   let plansFeature = this.features.filter(f => {
-        //     return f.feature_name == "Plans"
-        //   })
-        //   if(plansFeature && plansFeature[0]) {
-        //     this.plansFeature = plansFeature[0]
-        //     // this.getTitles()
-        //   }
-    
-        //   let clubFeature = this.features.filter(f => {
-        //     return f.feature_name == "Clubs"
-        // })
-        // if(clubFeature) {
-        //     if(clubFeature && clubFeature[0]) {
-        //         this.clubTitle = this.language == 'en' ? (clubFeature[0].name_en ? clubFeature[0].name_en : clubFeature[0].feature_name) : (clubFeature[0].name_es ? clubFeature[0].name_es : clubFeature[0].feature_name_ES)
-        //     }
-        // }
-        // }
-    
         this._translateService.onLangChange.subscribe((event: LangChangeEvent) => {
           this.language = event.lang
           this.initializePage()
@@ -215,13 +195,6 @@ export class PlansCalendarComponent {
           });
         }
       }
-    
-      // getTitles() {
-      //   this.planTitle = this.language == 'en' ? (this.plansFeature.name_en ? this.plansFeature.name_en : this.plansFeature.feature_name) : (this.plansFeature.name_es ? this.plansFeature.name_es : this.plansFeature.feature_name_ES)
-      //   if(this.monthNames && this.date) {
-      //     this.currentMonth = this.language == 'en' ? this.monthNames[this.date.getMonth()] : this.monthNamesES[this.date.getMonth()]
-      //   }
-      // }
     
       initializePage() {
         this.getOtherSettings()
@@ -246,22 +219,11 @@ export class PlansCalendarComponent {
                 20, 
                 filter, 
                 this.isUESchoolOfLife,
-                this.campus
+                this.campus,
+                this.mode,
               ).subscribe(
                 async response => {
                   this.allPlans = response['Plans'];
-                  // let course_restrictions_event = get(await this._companyService.getCompanySubfeatureMapping({companyId: this.companyId, featureId: 1, subfeatureId: 125}).toPromise(), 'active')
-                  // if(!this.admin1 && !this.admin2 && !this.superAdmin && !this.canCreatePlan && this.courseCategoryMapping?.length > 0 && course_restrictions_event){   
-                  //   this.allPlans = this.allPlans.filter((event) => {
-                  //     if(this.groups && this.groups.length > 0 && this.groups.some((group) => group.id == event.group_id )){
-                  //       return true
-                  //     }
-    
-                  //     if(!event.private && !event.group_id) {
-                  //       return true
-                  //     }
-                  //   })
-                  // }
                   this.loadPlans();
                 }
               );

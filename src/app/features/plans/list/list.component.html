@@ -1,5 +1,5 @@
 <app-page-title [title]="title" [subtitle]="subtitle"></app-page-title>
-<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4" *ngIf="view != 'joined'">
+<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4" *ngIf="view != 'joined' && mode != 'history'">
    <button 
         class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-center mb-4 sm:mb-4 md:mb-0 lg:mb-0 transition duration-700 ease-in-out"
         *ngIf="canCreatePlan" 
@@ -73,7 +73,7 @@
     >
         <app-plans-calendar
             [hasDateSelected]="hasDateSelected"
-            [showPastEvents]="showPastEvents"
+            [showPastEvents]="mode == 'history' ? true : showPastEvents"
             [joinedPlan]="joinedPlan"
             [courses]="courses"
             [groups]="groups"
@@ -91,6 +91,7 @@
             [notifier]="childNotifier"
             [isUESchoolOfLife]="isUESchoolOfLife"
             [campus]="campus"
+            [mode]="mode"
         >
         </app-plans-calendar>
     </div>

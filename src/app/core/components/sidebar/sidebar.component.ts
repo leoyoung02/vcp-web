@@ -88,6 +88,7 @@ export class SidebarComponent {
   @Input() isUESchoolOfLife: any;
   @Input() refreshedMenu: any;
   @Input() superAdmin: any;
+  @Input() hasHistoryOfActivities: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;

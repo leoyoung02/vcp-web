@@ -103,5 +103,12 @@
         "icondark": "./assets/menu-icons/menu-icon-colleague-dark.png", 
         "facode": "fas fa-user-friends", 
         "activeicon": "./assets/images/new-design/icons/menus/Buddy-active.png"   
+    },
+    {  
+        "path": "plans/list/history",  
+        "icon": "./assets/menu-icons/menu-icon-plans.png",  
+        "icondark": "./assets/menu-icons/menu-icon-plans-dark.png",  
+        "facode": "fas fa-calendar-alt",
+        "activeicon": "./assets/images/new-design/icons/menus/Plans-active.png"     
     }
 ]  

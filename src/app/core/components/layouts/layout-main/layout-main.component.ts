@@ -181,6 +181,7 @@ export class LayoutMainComponent {
   hasInvitations: boolean = false;
   salesPeople: any = [];
   isSalesPerson: boolean = false;
+  hasHistoryOfActivities: any;
 
   constructor(
     private _router: Router,
@@ -653,6 +654,9 @@ export class LayoutMainComponent {
     if (plan_subfeatures?.length > 0) {
       this.hasCredits = plan_subfeatures.some(
         (a) => (a.name_en == "Credits" || a.subfeature_id == 149) && a.active == 1
+      );
+      this.hasHistoryOfActivities = plan_subfeatures.some(
+        (a) => (a.name_en == "History of Activities" || a.subfeature_id == 153) && a.active == 1
       );
     }
   }
@@ -1553,6 +1557,26 @@ export class LayoutMainComponent {
           if(this.isUESchoolOfLife) {
             if(tempData?.id == 1 || tempData?.id == 11) {
               this.menus.push(tempData);
+
+              if(tempData?.id == 1 && this.hasHistoryOfActivities) {
+                this.menus.push({
+                  id: tempData?.id + 1,
+                  path: 'plans/list/history',
+                  new_url: 0,
+                  new_button: 0,
+                  return_url: '',
+                  name: 'History of Activities',
+                  name_ES: 'Historical de actividades',
+                  name_FR: 'Historique des activités',
+                  name_EU: 'Jardueren historia',
+                  name_CA: '"Historical d\'activitats',
+                  name_DE: 'Geschichte der Aktivitäten',
+                  show: true,
+                  sequence: (this.features[i].sequence ? this.features[i].sequence : 3 + i) + 1,
+                  parent_path: '',
+                  school_of_life_submenu: 0,
+                })
+              }
             }
           } else {
             if(tempData?.id != 11) {
@@ -2026,6 +2050,26 @@ export class LayoutMainComponent {
                   parent_path: this.newURLButtonUrl,
                   school_of_life_submenu: 1,
                 })
+
+                if(this.hasHistoryOfActivities) {
+                  this.menus.push({
+                    id: 5 + tempData?.id + 1,
+                    path: `${this.newURLButtonUrl}/${tempPath}/list/history`,
+                    new_url: 0,
+                    new_button: 0,
+                    return_url: `${tempPath}/list/history`,
+                    name: 'History of Activities',
+                    name_ES: 'Historical de actividades',
+                    name_FR: 'Historique des activités',
+                    name_EU: 'Jardueren historia',
+                    name_CA: '"Historical d\'activitats',
+                    name_DE: 'Geschichte der Aktivitäten',
+                    show: true,
+                    sequence: features[i].sequence ? features[i].sequence : 3 + i,
+                    parent_path: this.newURLButtonUrl,
+                    school_of_life_submenu: 1,
+                  })
+                }
               }
             }
             if(tempData?.id == 11) {

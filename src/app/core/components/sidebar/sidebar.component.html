@@ -34,7 +34,7 @@
             [ngClass]="{'invisible': menu?.school_of_life_submenu == 1}"
             alt=""
           />
-          <svg style="width:45px;color:#fff;position:absolute;" 
+          <svg [ngClass]="{'has-history': hasHistoryOfActivities, 'no-history': !hasHistoryOfActivities}" style="width:45px;color:#fff;position:absolute;" 
             *ngIf="menu?.school_of_life_submenu == 1" 
             class="DocSearch-Hit-Tree" viewBox="0 0 24 54">
             <g stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">

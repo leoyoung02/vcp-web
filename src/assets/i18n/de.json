@@ -731,7 +731,8 @@
         "termsandconditions": "Termes i condicions",
         "privacypolicy": "Política de privadesa",
         "cookiespolicy":"Política de cookies", 
-        "customeronboarding": "Kunden Onboarding"
+        "customeronboarding": "Kunden Onboarding", 
+        "historyofactivities": "Geschichte der Aktivitäten"
     },
     "public-profile": {
         "publicprofile": "Öffentliches Profil",
