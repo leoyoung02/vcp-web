@@ -14,6 +14,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlansService } from '@features/services';
 import { FormsModule } from '@angular/forms';
 import { environment } from "@env/environment";
+import { initFlowbite } from "flowbite";
 import moment from "moment";
 
 @Component({
@@ -120,6 +121,7 @@ export class PlansAdminListComponent {
     }
 
     async ngOnInit() {
+        initFlowbite();
         this.onResize();
 
         this.languageChangeSubscription =

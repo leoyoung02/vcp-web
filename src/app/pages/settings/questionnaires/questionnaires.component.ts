@@ -38,6 +38,7 @@ import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
 import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+import { searchSpecialCase } from "src/app/utils/search/helper";
 registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
 
 @Component({
@@ -540,7 +541,7 @@ export class QuestionnairesComponent {
         let include = false;
         if (
           m.title &&
-          m.title.toLowerCase()
+          (m.title.toLowerCase()
           .normalize("NFD")
           .replace(/\p{Diacritic}/gu, "")
           .indexOf(
@@ -549,6 +550,7 @@ export class QuestionnairesComponent {
               .normalize("NFD")
               .replace(/\p{Diacritic}/gu, "")
           ) >= 0
+          || searchSpecialCase(this.searchKeyword, m.title))
         ) {
           include = true;
         }

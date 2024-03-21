@@ -308,6 +308,14 @@
                     </svg>
                     <div class="capitalize font-semibold">{{ getAddress(plan) }}{{ plan?.meeting_point ? (', ' + plan?.meeting_point) : '' }}</div>
                 </div>
+                <div class="flex my-4" *ngIf="plan?.price > 0">
+                    <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" d="M7 6c0-1.1.9-2 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-2v-4a3 3 0 0 0-3-3H7V6Z" clip-rule="evenodd"/>
+                        <path fill-rule="evenodd" d="M2 11c0-1.1.9-2 2-2h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-7Zm7.5 1a2.5 2.5 0 1 0 0 5 2.5 2.5 0 0 0 0-5Z" clip-rule="evenodd"/>
+                        <path d="M10.5 14.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0Z"/>
+                    </svg>
+                    <div class="capitalize font-semibold">€{{ plan?.price }}</div>
+                </div>
                 <ng-container *ngIf="plan?.zoom_link">
                     <ng-container *ngIf="(companyId == 12 && (superAdmin || showOption || joinedParticipant)) || (companyId != 12 && (superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant)))">
                         <div class="flex my-4">
@@ -483,7 +491,17 @@
         <div class="container mb-4 flex items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3">
             <h1 class="text-lg font-semibold">{{ 'plan-details.details' | translate }}</h1>
         </div>
-        <div class="w-full max-w-full event-description" [innerHtml]="planDescription | safeContentHtml: 'html'"></div>
+        <!-- <div class="w-full max-w-full event-description" [innerHtml]="planDescription | safeContentHtml: 'html'"></div> -->
+        <div class="whitespace-pre-wrap text-base w-full">
+            <iframe scrolling="no" style="display:none;width:100%;border:none;height:100%;" #iframeEventDescription></iframe>
+            <div style="display:none;" #editor>
+                <editor
+                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
+                    [init]="{ plugins: ['autoresize'] }"
+                    (onInit)="handleEditorInit($event)"
+                ></editor>
+            </div>
+        </div>
     </div>
     <div class="py-4" 
         *ngIf="((userId && !showPastEvents) || (userId && showPastEvents && !isPastEvent)) && plan?.show_comments">

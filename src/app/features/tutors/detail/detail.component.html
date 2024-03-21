@@ -203,17 +203,18 @@
                             </svg>
                         </div>
                         <ng-container *ngIf="!isValidCalenldyAccount">
-                            <div class="flex align-center items-center justify-center">
+                            <div class="flex align-center items-center justify-center capitalize font-bold px-20">
                                 <p>{{'tutors.notsetupaccount' | translate}}</p>
                             </div>
                         </ng-container>
                         <div class="capitalize font-bold px-20 text-center">
-                            {{ !canBook() ? 
+                            {{ !canBook() && tutorStripeConnect  ? 
                                 ('course-create.insufficientcredits' | translate) : 
-                                (!tutorCalendlyUrl || !tutorPersonalAccessToken ? 
+                                (!tutorCalendlyUrl || !tutorPersonalAccessToken? 
                                     (
                                         ('company-settings.incomplete' | translate) + ' ' + ('landing.calendar' | translate) + ' ' + ('customer.setup' | translate) + '. ' + ('club-details.pleasecontactadministrator' | translate)
-                                    ) : ''
+                                    ) : 
+                                    !tutorStripeConnect && isValidCalenldyAccount ? ('tutors.configurestripeaccount' | translate) : ''
                                 )
                             }}
                         </div>

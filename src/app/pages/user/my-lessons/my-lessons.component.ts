@@ -18,6 +18,7 @@ import { HistoryListComponent } from '@features/tutors/history-list/history-list
 import { SearchComponent } from '@share/components/search/search.component';
 import moment from 'moment';
 import get from 'lodash/get';
+import { searchSpecialCase, sortSerchedMembers } from 'src/app/utils/search/helper';
 
 @Component({
     standalone: true,
@@ -534,7 +535,7 @@ export class MyLessonsComponent {
               let include = false;
               if (
                 (m.tutor_name &&
-                  m.tutor_name
+                  (m.tutor_name
                     .toLowerCase()
                     .normalize("NFD")
                     .replace(/\p{Diacritic}/gu, "")
@@ -543,9 +544,13 @@ export class MyLessonsComponent {
                         .toLowerCase()
                         .normalize("NFD")
                         .replace(/\p{Diacritic}/gu, "")
-                    ) >= 0) ||
+                    ) >= 0 
+                    || 
+                    searchSpecialCase(this.searchKeyword, m.tutor_name)
+                    )
+                    ) ||
                 (m.student_name &&
-                    m.student_name
+                    (m.student_name
                         .toLowerCase()
                         .normalize("NFD")
                         .replace(/\p{Diacritic}/gu, "")
@@ -554,7 +559,10 @@ export class MyLessonsComponent {
                             .toLowerCase()
                             .normalize("NFD")
                             .replace(/\p{Diacritic}/gu, "")
-                        ) >= 0) ||
+                        ) >= 0 
+                        || 
+                        searchSpecialCase(this.searchKeyword, m.student_name))
+                        ) ||
                 (m.course &&
                     m.course
                         .toLowerCase()
@@ -625,6 +633,7 @@ export class MyLessonsComponent {
             })
         }
 
+        bookings = sortSerchedMembers(bookings,this.searchKeyword, 'LESSONS')
         this.bookings = bookings
         this.populateBookingsTable()
     }

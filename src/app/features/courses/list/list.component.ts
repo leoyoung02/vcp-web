@@ -655,8 +655,7 @@ export class CoursesListComponent {
       });
     }
 
-    let isTutor = this.courseTutors && this.courseTutors.some(a => a.id == this.userId)
-    if((this.showCoursesByAccess || this.showMemberCoursesOnly) && !isTutor && !this.superAdmin){
+    if((this.showCoursesByAccess || this.showMemberCoursesOnly)  && !this.superAdmin){
       all_courses = all_courses.filter((ac: any) => {
         let include = courseIdArray.indexOf(ac.id) != -1
         

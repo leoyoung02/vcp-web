@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   EventEmitter,
@@ -78,6 +79,7 @@ export class UserMenuComponent {
   @Input() potSuperTutor: any;
   @Input() potTutor: any;
   @Input() hasInvitations: any;
+  @Input() companyId: any;
 
   @Output() changeLanguage = new EventEmitter();
 
@@ -96,12 +98,11 @@ export class UserMenuComponent {
     | ElementRef
     | undefined;
 
-  constructor(private _router: Router, private _authService: AuthService) {
+  constructor(private _router: Router, private _authService: AuthService,private cd: ChangeDetectorRef) {
       
   }
 
   async ngOnInit() {
-    
   }
 
   hasAccess(path) {
@@ -147,6 +148,11 @@ export class UserMenuComponent {
     }
 
     this._router.navigate([path]);
+  }
+
+  goToStatistics(){
+    this._router.navigate(['/tiktok/statistics'])
+    this.cd.detectChanges();
   }
 
   ngOnDestroy() {

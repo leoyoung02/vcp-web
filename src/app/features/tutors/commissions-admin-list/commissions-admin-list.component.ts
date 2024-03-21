@@ -31,6 +31,7 @@ import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatNativeDateModule } from "@angular/material/core";
 import moment from "moment";
+import { searchSpecialCase } from "src/app/utils/search/helper";
 
 @Component({
   selector: "app-commissions-admin-list",
@@ -210,13 +211,25 @@ export class CommissionsAdminListComponent {
       commissions = commissions?.filter((commission) => {
         let include = false;
        if(
-        (commission?.student_first_name && (commission?.student_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) || 
-        (commission?.student_last_name && (commission?.student_last_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
-        (commission?.student_name && (commission?.student_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
+        (commission?.student_first_name && (commission?.student_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.student_first_name)
+        ) || 
+        (commission?.student_last_name && (commission?.student_last_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.student_last_name)
+        ) ||
+        (commission?.student_name && (commission?.student_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.student_name)
+        ) ||
         (commission?.student_email && (commission?.student_email?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
-        (commission?.tutor_first_name && (commission?.tutor_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
-        (commission?.tutor_last_name && (commission?.tutor_last_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
-        (commission?.tutor_name && (commission?.tutor_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
+        (commission?.tutor_first_name && (commission?.tutor_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.tutor_first_name)
+        ) ||
+        (commission?.tutor_last_name && (commission?.tutor_last_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.tutor_last_name)
+        ) ||
+        (commission?.tutor_name && (commission?.tutor_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.tutor_name)
+        ) ||
         (commission?.tutor_email && (commission?.tutor_email?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
        ) {
         include = true;

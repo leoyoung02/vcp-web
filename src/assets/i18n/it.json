@@ -1489,7 +1489,8 @@
         "downloadwaitinglist": "Scarica la lista d'attesa",
         "renewal": "Data di rinnovo",
         "activitycode": "Codice attività",
-        "numberofcredits": "Numero di crediti"
+        "numberofcredits": "Numero di crediti", 
+        "eventregistrationimage": "Immagine della pagina di registrazione dell'ospite dell'evento"
     },
     "edit-club": {
         "uploadimage": "Carica immagine",
@@ -2023,6 +2024,7 @@
         "page": "Pagina (mobile)",
         "pagedesktop": "Pagina (desktop)",
         "myactivities": "Le mie attività",
+        "myinvitations": "I miei inviti",
         "incomplete": "Incompleto",
         "stripeinvoicetemplate": "Modello di fattura",
         "webhookinstructions": "Istruzioni per impostare un webhook su un account Stripe",

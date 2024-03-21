@@ -24,6 +24,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "@env/environment";
 import { FormsModule } from "@angular/forms";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { searchSpecialCase, sortSerchedMembers } from "src/app/utils/search/helper";
 
 @Component({
   selector: "app-tutors-admin-list",
@@ -193,7 +194,9 @@ export class TutorsAdminListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0) ||
+            ) >= 0
+            || searchSpecialCase(this.searchKeyword,tutor.first_name)
+            ) ||
           (tutor.last_name &&
             tutor.last_name
             .toLowerCase()
@@ -204,15 +207,18 @@ export class TutorsAdminListComponent {
                 .toLowerCase()
                 .normalize("NFD")
                 .replace(/\p{Diacritic}/gu, "")
-            ) >= 0) ||
+            ) >= 0
+            ||  searchSpecialCase(this.searchKeyword,tutor.last_name)
+            ) ||
           (tutor.email &&
             tutor.email
               .toLowerCase()
               .indexOf(this.searchKeyword.toLowerCase()) >= 0)
         );
       });
-    }
 
+      this.tutorsData = sortSerchedMembers(this.tutorsData, this.searchKeyword)
+    }
     this.refreshTable(this.tutorsData);
   }
 

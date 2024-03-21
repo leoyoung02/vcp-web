@@ -1496,7 +1496,8 @@
         "numberofcredits": "Número de créditos",
         "plandetailschanged": "Los detalles han cambiado. ¿Quieres enviar estas actualizaciones a los participantes?",
         "yes": "Sí",
-        "no": "No"
+        "no": "No",
+        "eventregistrationimage": "Imagen de la página de registro de invitados al evento"
     },
     "edit-club": {
         "uploadimage": "Cargar imagen",
@@ -2029,6 +2030,7 @@
         "page": "Página (móvil)",
         "pagedesktop": "Página (escritorio)",
         "myactivities": "Mis actividades",
+        "myinvitations": "Mis invitaciones",
         "incomplete": "Incompleto",
         "stripeinvoicetemplate": "Plantilla de factura",
         "webhookinstructions": "Instrucciones para configurar un webhook en una cuenta de Stripe",
@@ -2390,7 +2392,7 @@
         "takenby": "Interpretado por",
         "clicktoexpand": "Haga clic para ampliar",
         "selectsalesperson": "Seleccionar vendedor",
-        "member": "MIEMBRO",
+        "member": "Miembro",
         "selectevent": "Seleccionar evento",
         "salesmeeting": "Reunión de ventas",
         "salesmeetingdate": "Fecha de la reunión",
@@ -3258,7 +3260,9 @@
         "notsetupaccount":"Este tutor profle no está configurado previamente.",
         "correctcalendlycredntials":"Verifique sus credenciales de calendario para continuar.",
         "perhourrate":"Comisión por hora de tutoría.",
-        "pendingtutorials":"Tienes tutoriales pendientes para marcar como completos."
+        "pendingtutorials":"Tienes tutoriales pendientes para marcar como completos.",
+        "configurestripeaccount":"No se pueden programar reservas hasta que el tutor configure su cuenta Stripe.",
+        "tiktokstats":"Estadísticas de TikTok"
     },
     "general-details": {
         "name" : "Nombre",
@@ -3421,7 +3425,9 @@
         "tags": "Etiquetas",
         "gallery": "Galería",
         "socialmedia": "URL de redes sociales",
-        "author": "Autor"
+        "author": "Autor",
+        "uploadcover": "Subir portada",
+        "covernote":"Subir imagen o vídeo para la portada testimonial"
     },
     "contract": {
         "review": "Revisar términos y condiciones",

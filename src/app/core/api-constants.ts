@@ -351,6 +351,14 @@ export const DELETE_ALIAS_URL = `${API_BASE}/company/user/delete-alias`;
 export const GUEST_HISTORY_LIST_URL = `${API_BASE}/company/guest-history/list`;
 export const APPROVE_PLAN_COMMENT_URL = `${API_BASE}/company/plan/comment/approve`;
 export const APPROVE_GROUP_PLAN_COMMENT_URL = `${API_BASE}/company/group-plan/comment/approve`;
+export const EVENT_CATEGORIES_LIST_URL = `${API_BASE}/company/event/categories/list`;
+export const EVENT_SUBCATEGORIES_LIST_URL = `${API_BASE}/company/event/subcategories/list`;
+export const ADD_EVENT_CATEGORY_URL = `${API_BASE}/company/event-other/category/add`;
+export const EDIT_EVENT_CATEGORY_URL = `${API_BASE}/company/event-other/category/edit`;
+export const DELETE_EVENT_CATEGORY_URL = `${API_BASE}/company/event-other/category/delete`;
+export const ADD_EVENT_SUBCATEGORY_URL = `${API_BASE}/company/event-other/subcategory/add`;
+export const EDIT_EVENT_SUBCATEGORY_URL = `${API_BASE}/company/event-other/subcategory/edit`;
+export const DELETE_EVENT_SUBCATEGORY_URL = `${API_BASE}/company/event-other/subcategory/delete`;
 
 export const PLANS_URL = `${API_BASE}/v2/plans`;
 export const PLANS_OTHER_DATA_URL = `${API_BASE}/v2/plans-other-data`;
@@ -559,6 +567,7 @@ export const DELETE_TESTIMONIAL_TAG_URL = `${API_BASE}/company/testimonial/tag/d
 
 export const TESTIMONIALS_URL = `${API_BASE}/v2/testimonials`;
 export const TESTIMONIAL_DETAILS_URL = `${API_BASE}/v2/testimonial-details`;
+export const TESTIMONIAL_VIDEO_UPLOAD = `${API_BASE}/company/testimonial/video/temp-upload`;
 
 // MEMBERS
 export const MEMBERS_COMBINED_URL = `${API_BASE}/v2/members`;

@@ -28,6 +28,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { SafeContentHtmlPipe } from "@lib/pipes";
 import { FormsModule } from "@angular/forms";
 import { initFlowbite } from "flowbite";
+import { EditorModule } from "@tinymce/tinymce-angular";
 import get from "lodash/get";
 import momenttz from "moment-timezone";
 import moment from "moment";
@@ -48,6 +49,7 @@ declare const addeventatc: any;
     FormsModule,
     MatSnackBarModule,
     RouterModule,
+    EditorModule,
     BreadcrumbComponent,
     PageTitleComponent,
     NgOptimizedImage,
@@ -1310,7 +1312,7 @@ export class PlanDetailComponent {
                 ? encodeURIComponent(txt?.textContent)
                 : "";
             this.emailTo = `mailto:?Subject=${template.subject}&ISO-8859-1&Body=${email_body}`;
-            this.whatsAppTemplate = `whatsapp://send?text=${email_body}`;
+            this.whatsAppTemplate = `https://wa.me?text=${email_body}` // `whatsapp://send?text=${email_body}`;
             this.telegramTemplate = `https://telegram.me/share/url?url=${window.location.href}&text=${email_body}`;
           } else {
             if (this.planTypeId == 4) {
@@ -2845,6 +2847,24 @@ export class PlanDetailComponent {
         error => {
       });
     }
+  }
+  
+  handleEditorInit(e) {
+    setTimeout(() => {
+      if (this.editor && this.iframeEventDescription && this.eventDescription) {
+        this.editor.nativeElement.style.display = 'block'
+        e.editor.setContent(this.eventDescription)
+        this.iframeEventDescription.nativeElement.style.height = `${e.editor.container.clientHeight + 200}px`
+        this.editor.nativeElement.style.display = 'none'
+        this.iframeEventDescription.nativeElement.src =
+            'data:text/html;charset=utf-8,' +
+            '<html>' +
+            '<head>' + e.editor.getDoc().head.innerHTML + '<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins" /><style>* {font-family: "Poppins", sans-serif;}</style></head>' +
+            '<body>' + e.editor.getDoc().body.innerHTML + '</body>' +
+            '</html>';
+        this.iframeEventDescription.nativeElement.style.display = 'block'
+      }
+    }, 500)
   }
 
   ngOnDestroy() {

@@ -683,6 +683,11 @@ export class SettingComponent {
           feature.feature_name_DE ||
           feature.name_es ||
           feature.feature_name_ES
+        : this.language == "it"
+        ? feature.name_it ||
+          feature.feature_name_IT ||
+          feature.name_es ||
+          feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
       : "";
   }
@@ -795,16 +800,16 @@ export class SettingComponent {
   getSettingItemTitle(item) {
     return this.language == 'en' ? item.title_en : (this.language == 'fr' ? item.title_fr : 
       (this.language == 'eu' ? item.title_eu : (this.language == 'ca' ? item.title_ca : 
-      (this.language == 'de' ? item.title_de : item.title_es)
-      ))
+      (this.language == 'de' ? item.title_de : (this.language == 'it' ? item.title_it : item.title_es)
+      )))
     )
   }
 
   getSettingItemDescription(item) {
     return this.language == 'en' ? item.description_en : (this.language == 'fr' ? item.description_fr : 
       (this.language == 'eu' ? item.description_eu : (this.language == 'ca' ? item.description_ca : 
-      (this.language == 'de' ? item.description_de : item.description_es)
-      ))
+      (this.language == 'de' ? item.description_de : (this.language == 'it' ? item.description_it : item.description_es)
+      )))
     )
   }
 
@@ -815,8 +820,9 @@ export class SettingComponent {
         (this.language == 'fr' ? (this.selectedSetting.title_fr ? (this.selectedSetting.title_fr || this.selectedSetting.title_es) : this.selectedSetting.title_es) : 
           (this.language == 'eu' ? (this.selectedSetting.title_eu ? (this.selectedSetting.title_eu || this.selectedSetting.title_es) : this.selectedSetting.title_es) : 
               (this.language == 'ca' ? (this.selectedSetting.title_ca ? (this.selectedSetting.title_ca || this.selectedSetting.title_es) : this.selectedSetting.title_es) : 
-                  (this.language == 'de' ? (this.selectedSetting.title_de ? (this.selectedSetting.title_de || this.selectedSetting.title_es) : this.selectedSetting.title_es) : this.selectedSetting.title_es)
-              )
+                  (this.language == 'de' ? (this.selectedSetting.title_de ? (this.selectedSetting.title_de || this.selectedSetting.title_es) : this.selectedSetting.title_es) : 
+                    (this.language == 'it' ? (this.selectedSetting.title_it ? (this.selectedSetting.title_it || this.selectedSetting.title_es) : this.selectedSetting.title_es) : this.selectedSetting.title_es)
+              ))
           )
         )
     }

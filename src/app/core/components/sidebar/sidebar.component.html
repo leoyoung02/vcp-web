@@ -70,7 +70,7 @@
       </div>
     </div>
   </ng-container>
-  <ng-container *ngIf="(company?.id == 42 || company?.id == 35) && superAdmin">
+  <ng-container *ngIf="(company?.id == 42 || company?.id == 35 || company?.id == 65) && (superAdmin || isAdmin)">
     <div class="px-4 py-2 hover:cursor-pointer" [routerLink]="['/support-tickets']">
       <div class="p-2 flex items-center hover:rounded-lg"
         [ngStyle]="{'background-color': supportTicketsHover ? hoverColor : 'transparent'}"

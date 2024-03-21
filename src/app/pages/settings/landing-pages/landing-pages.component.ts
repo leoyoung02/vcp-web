@@ -30,6 +30,7 @@ import {
 } from "@angular/forms";
 import { initFlowbite } from "flowbite";
 import get from "lodash/get";
+import { searchSpecialCase } from "src/app/utils/search/helper";
 
 @Component({
   selector: "app-settings-lead-landing-pages",
@@ -269,6 +270,7 @@ export class LandingPagesComponent {
               .normalize("NFD")
               .replace(/\p{Diacritic}/gu, "")
           ) >= 0
+          || searchSpecialCase(this.searchKeyword,m.title)
         ) {
           include = true;
         }

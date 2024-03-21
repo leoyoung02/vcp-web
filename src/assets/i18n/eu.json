@@ -1493,7 +1493,8 @@
         "numberofcredits": "Kreditu kopurua",
         "plandetailschanged": "Xehetasunak aldatu dira. Parte-hartzaileei eguneraketa hauek bidali nahi dizkiezu?",
         "yes": "Bai",
-        "no": "Ez"
+        "no": "Ez",
+        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia"
     },
     "edit-club": {
         "uploadimage": "Igo irudia",
@@ -2025,6 +2026,7 @@
         "page": "Orria (mugikorra)",
         "pagedesktop": "Orria (mahaigaina)",
         "myactivities": "Nire jarduerak",
+        "myinvitations": "Nire gonbidapenak",
         "incomplete": "Osatu gabe",
         "stripeinvoicetemplate": "Faktura txantiloia",
         "webhookinstructions": "Stripe kontuan webhook konfiguratzeko argibideak",
@@ -3238,7 +3240,9 @@
         "notsetupaccount":"Tutore-profil hau ez dago behar bezala konfiguratuta.",
         "correctcalendlycredntials":"Mesedez, egiaztatu zure calendly kredentzialak aurrera egiteko.",
         "perhourrate":"tutoretza ordu bakoitzeko komisioa.",
-        "pendingtutorials":"Osatuta markatzeko zain dauden tutorialak dituzu."
+        "pendingtutorials":"Osatuta markatzeko zain dauden tutorialak dituzu.",
+        "configurestripeaccount":"Ezin dira erreserbarik antolatu tutoreak Stripe kontua konfiguratu arte.",
+        "tiktokstats":"TikTok Estatistikak"
     },
     "general-details": {
         "name" : "Izena",
@@ -3400,7 +3404,9 @@
         "tags": "Etiketak",
         "gallery": "Galeria",
         "socialmedia": "Sare sozialen URLa",
-        "author": "Egilea"
+        "author": "Egilea",
+        "uploadcover": "Kargatu Azala",
+        "covernote":"Kargatu testigantzaren azalerako irudia edo bideoa. Kargatu testigantzaren azalerako irudia edo bideoa"
     },
     "contract": {
         "review": "Berrikusi zehaztapenak eta baldintzak",

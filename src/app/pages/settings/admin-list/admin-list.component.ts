@@ -304,9 +304,15 @@ export class AdminListComponent {
   initializeList() {
     if (this.list == "categories") {
       if (this.id == 1) {
-        this.selectedFilter?.value == "subcategory"
+        if(this.companyId == 12) {
+          this.selectedFilter?.value == "subcategory"
+          ? this.getEventSubcategories()
+          : this.getEventCategories();
+        } else {
+          this.selectedFilter?.value == "subcategory"
           ? this.getPlanSubcategories()
           : this.getPlanCategories();
+        }
       }
       if (this.id == 5) {
         this.selectedFilter?.value == "subcategory"
@@ -325,6 +331,51 @@ export class AdminListComponent {
     } else if (this.list == "contactdetails") {
       this.getContactDetailsFields();
     }
+  }
+
+  getEventCategories() {
+    this._plansService.getEventCategories(this.companyId).subscribe(
+      async response => {
+        console.log(response.categories);
+        let categories = response.categories;
+        this.completeCategories = categories;
+        categories = this.formatCategories(categories);
+        this.categories = this.sortBySequence(categories);
+        this.allCategories = this.categories;
+        this.initializeData(this.categories);
+      },
+      error => {
+          console.log( error );
+      }
+    );
+  }
+
+  getEventSubcategories() {
+    this._plansService.getEventSubcategories(this.companyId).subscribe(
+        async response => {
+          console.log(response.subcategories)
+          let subcategories = response.subcategories;
+          this.completeSubcategories = subcategories;
+          subcategories = this.formatSubcategories(subcategories);
+          this.subcategories = this.sortBySequence(subcategories);
+          this.allSubcategories = this.subcategories;
+          this.initializeData(this.subcategories);
+          // this.subcategories = response.subcategories;
+          // if(this.categories && this.categories.length > 0) {
+          //     this.fType = this.language == 'en' ? this.categories[0].name_en : this.categories[0].name_es;
+          //     let catId = this.categories[0].id;
+          //     this.subcats = this.subcategories.filter(sc => {
+          //         return sc.category_id == catId
+          //     });
+          //     if(this.subcats && this.subcats.length > 0) {
+          //         this.filterType = this.language == 'en' ? this.subcats[0].name_es : this.subcats[0].name_en;
+          //     }
+          // }
+        },
+        error => {
+          console.log( error );
+        }
+    );
   }
 
   getPlanCategories() {
@@ -684,7 +735,11 @@ export class AdminListComponent {
       switch (event.value) {
         case "category":
           if (this.id == 1) {
-            this.getPlanCategories();
+            if(this.companyId == 12) {
+              this.getEventCategories();
+            } else {
+              this.getPlanCategories();
+            }
           } else if (this.id == 5) {
             this.getGroupCategories();
           } else if (this.id == 11) {
@@ -695,7 +750,11 @@ export class AdminListComponent {
           break;
         case "subcategory":
           if (this.id == 1) {
-            this.getPlanSubcategories();
+            if(this.companyId == 12) {
+              this.getEventSubcategories();
+            } else {
+              this.getPlanSubcategories();
+            }
           } else if (this.id == 5) {
             this.getGroupSubcategories();
           }
@@ -719,7 +778,7 @@ export class AdminListComponent {
       this.mode != "access"
     ) {
       this.languages.forEach((language, index) => {
-        let language_code = language.code.toUpperCase();
+        let language_code = this.companyId == 12 ? language.code : language.code.toUpperCase();
         if (this.list == "contactdetails") {
           language_code = language.code;
         }
@@ -903,7 +962,11 @@ export class AdminListComponent {
   confirm() {
     if (this.list == "categories") {
       if (this.id == 1) {
-        this.deletePlanCategory();
+        if(this.companyId == 12) {
+          this.deleteEventCategory();
+        } else {
+          this.deletePlanCategory();
+        }
       }
       if (this.id == 5) {
         this.deleteGroupCategory();
@@ -933,6 +996,34 @@ export class AdminListComponent {
     } else {
       this._plansService
         .deletePlanEventCategory(this.selectedItem["guests.id"])
+        .subscribe(
+          (response) => {
+            this.initializeList();
+            this.showConfirmationModal = false;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
+  }
+
+  deleteEventCategory() {
+    if (this.selectedFilter?.value == "subcategory") {
+      this._plansService
+        .deleteEventSubcategory(this.selectedItem["guests.id"])
+        .subscribe(
+          (response) => {
+            this.initializeList();
+            this.showConfirmationModal = false;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    } else {
+      this._plansService
+        .deleteEventOtherCategory(this.selectedItem["guests.id"])
         .subscribe(
           (response) => {
             this.initializeList();
@@ -1029,7 +1120,11 @@ export class AdminListComponent {
   doSave() {
     if (this.list == "categories") {
       if (this.id == 1) {
-        this.savePlanCategoryForm();
+        if(this.companyId == 12) {
+          this.saveEventCategoryForm();
+        } else {
+          this.savePlanCategoryForm();
+        }
       }
       if (this.id == 5) {
         this.saveGroupCategoryForm();
@@ -1129,6 +1224,88 @@ export class AdminListComponent {
       } else if (this.mode == "edit") {
         this._plansService
           .editPlanEventCategory(this.selectedItem["guests.id"], params)
+          .subscribe(
+            (response) => {
+              this.initializeList();
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      }
+    }
+  }
+
+  saveEventCategoryForm() {
+    if (
+      this.form.get("name_es")?.errors ||
+      this.form.get("name_fr")?.errors ||
+      this.form.get("name_en")?.errors ||
+      this.form.get("name_eu")?.errors ||
+      this.form.get("name_ca")?.errors ||
+      this.form.get("name_de")?.errors
+    ) {
+      return false;
+    }
+
+    if (this.selectedFilter?.value == "subcategory") {
+      let params = {
+        name_ES: this.form.get("name_es")?.value,
+        name_EN: this.form.get("name_en")?.value || this.form.get("name_es")?.value,
+        name_FR: this.form.get("name_fr")?.value || this.form.get("name_es")?.value,
+        name_EU: this.form.get("name_eu")?.value || this.form.get("name_es")?.value,
+        name_CA: this.form.get("name_ca")?.value || this.form.get("name_es")?.value,
+        name_DE: this.form.get("name_de")?.value || this.form.get("name_es")?.value,
+        fk_company_id: this.companyId,
+        category_id: this.form.get("category_id")?.value,
+        sequence: this.form.get("sequence")?.value,
+      };
+
+      if (this.mode == "add") {
+        this._plansService.addEventSubcategory(params).subscribe(
+          (response) => {
+            this.initializeList();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else if (this.mode == "edit") {
+        this._plansService
+          .editEventSubcategory(this.selectedItem["guests.id"], params)
+          .subscribe(
+            (response) => {
+              this.initializeList();
+            },
+            (error) => {
+              console.log(error);
+            }
+          );
+      }
+    } else {
+      let params = {
+        name_ES: this.form.get("name_es")?.value,
+        name_EN: this.form.get("name_en")?.value || this.form.get("name_es")?.value,
+        name_FR: this.form.get("name_fr")?.value || this.form.get("name_es")?.value,
+        name_EU: this.form.get("name_eu")?.value || this.form.get("name_es")?.value,
+        name_CA: this.form.get("name_ca")?.value || this.form.get("name_es")?.value,
+        name_DE: this.form.get("name_de")?.value || this.form.get("name_es")?.value,
+        fk_company_id: this.companyId,
+        sequence: this.form.get("sequence")?.value,
+      };
+
+      if (this.mode == "add") {
+        this._plansService.addEventOtherCategory(params).subscribe(
+          (response) => {
+            this.initializeList();
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      } else if (this.mode == "edit") {
+        this._plansService
+          .editEventOtherCategory(this.selectedItem["guests.id"], params)
           .subscribe(
             (response) => {
               this.initializeList();

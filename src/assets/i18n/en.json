@@ -1497,7 +1497,8 @@
         "numberofcredits": "Number of credits",
         "plandetailschanged": "Details have changed. Do you want to send these updates to the participants?",
         "yes": "Yes",
-        "no": "No"
+        "no": "No",
+        "eventregistrationimage": "Event's Guest Registration Page Image"
     },
     "edit-club": {
         "uploadimage": "Upload image",
@@ -2030,6 +2031,7 @@
         "page": "Page (mobile)",
         "pagedesktop": "Page (desktop)",
         "myactivities": "My activities",
+        "myinvitations": "My invitations",
         "incomplete": "Incomplete",
         "stripeinvoicetemplate": "Invoice template",
         "webhookinstructions": "Instructions to setup webhook on Stripe account",
@@ -3274,7 +3276,9 @@
         "notsetupaccount":"This tutor profle is not prpoerly setup.",
         "correctcalendlycredntials":"Please check your calendly credentials to proceed.",
         "perhourrate":"commission per hour of tutoring.",
-        "pendingtutorials":"You have pending tutorials to mark complete."
+        "pendingtutorials":"You have pending tutorials to mark complete.",
+        "configurestripeaccount":"Cannot schedule bookings until the tutor configures their Stripe account.",
+        "tiktokstats":"TikTok Statistics"
     },
     "general-details": {
         "name" : "Name",
@@ -3436,7 +3440,9 @@
         "tags": "Tags",
         "gallery": "Gallery",
         "socialmedia": "Social Media URL",
-        "author": "Author"
+        "author": "Author",
+        "uploadcover": "Upload Cover",
+        "covernote":"Upload image or video for the testimonial cover"
     },
     "contract": {
         "review": "Review terms and conditions",

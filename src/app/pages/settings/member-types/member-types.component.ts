@@ -767,7 +767,7 @@ export class ManageMemberTypesComponent {
     this.requirePayment = item.require_payment == 1 ? true : false;
     this.activateTrialPeriod = item.trial_period == 1 ? true : false;
     this.contractDescription = item?.contract ? item?.contract?.contract : '';
-    this.activeContract = item?.accept_conditions == 1 ? true : false;
+    this.activeContract = item?.contract?.contract ? true : false;
     if (this.requirePayment) {
       if (this.memberTypeForm.controls["price"]) {
         this.memberTypeForm.controls["price"].setValue(item.price);

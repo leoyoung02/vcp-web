@@ -1496,7 +1496,8 @@
         "numberofcredits": "Nombre de crèdits",
         "plandetailschanged": "Els detalls han canviat. Vols enviar aquestes actualitzacions als participants?",
         "yes": "Sí",
-        "no": "No"
+        "no": "No",
+        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia"
     },
     "edit-club": {
         "uploadimage": "Carregar imatge",
@@ -2029,6 +2030,7 @@
         "page": "Pàgina (mòbil)",
         "pagedesktop": "Pàgina (escriptori)",
         "myactivities": "Les meves activitats",
+        "myinvitations": "Les meves invitacions",
         "incomplete": "Incomplet",
         "stripeinvoicetemplate": "Plantilla de factura",
         "webhookinstructions": "Instruccions per configurar el webhook al compte de Stripe",
@@ -3248,7 +3250,9 @@
         "notsetupaccount":"Aquest perfil de tutor no està configurat correctament.",
         "correctcalendlycredntials":"Comproveu les vostres credencials de calendari per continuar.",
         "perhourrate":"comissió per hora de tutoria.",
-        "pendingtutorials":"Tens tutorials pendents per marcar com a complet."
+        "pendingtutorials":"Tens tutorials pendents per marcar com a complet.",
+        "configurestripeaccount":"No es poden programar reserves fins que el tutor no configure el seu compte Stripe.",
+        "tiktokstats":"Estadístiques de TikTok"
     },
     "general-details": {
         "name" : "Nom",
@@ -3410,7 +3414,9 @@
         "tags": "Etiquetes",
         "gallery": "Galeria",
         "socialmedia": "URL de xarxes socials",
-        "author": "Autor"
+        "author": "Autor",
+        "uploadcover": "Carrega la portada",
+        "covernote":"Carregueu la imatge o el vídeo per a la portada del testimoni. Pengeu la imatge o el vídeo per a la portada del testimoni"
     },
     "contract": {
         "review": "Revisa els termes i condicions",

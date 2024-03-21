@@ -972,6 +972,24 @@
                     </div>
                 </div>
             </ng-container>
+            <ng-container *ngIf="isImageCenterButton">
+                <div class="flex items-center border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 my-8">
+                    <img class="w-6 object-contain mr-4" src="./assets/images/new-design/icons/id-card-alt.png" />
+                    <div class="font-light text-xl">{{ 'edit-plan.eventregistrationimage' | translate }}</div>
+                </div>
+                <div class="flex items-center justify-center mb-4 relative">
+                    <div class="w-full max-w-full">
+                        <file-pond
+                            #myPond
+                            [options]="pondOptions"
+                            [files]="pondFiles"
+                            (oninit)="pondHandleInit()"
+                            (onaddfile)="pondHandleAddFile($event)"
+                        >
+                        </file-pond>
+                    </div>
+                </div>
+            </ng-container>
             <div class="flex items-center border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 my-8">
                 <img class="w-6 object-contain mr-4" src="./assets/images/new-design/icons/Write.png" />
                 <div class="font-light text-xl">{{ 'job-offers.description' | translate }}</div>

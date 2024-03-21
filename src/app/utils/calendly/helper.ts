@@ -29,16 +29,15 @@ export const checkIfValidCalendlyAccount = async (token,calendlyUrl)=>{
         }
       })).json()
 
-      const eventList = data.collection.map(event => {
+      const eventList = data?.collection?.map(event => {
         return{
-          // active:false,
           active:event.active,
           calendly_url:event.scheduling_url
         }
       });
       
-      const isValidToken = eventList.some(event => event.calendly_url == calendlyUrl) 
-      const isValidURL = eventList.some(event => event.calendly_url == calendlyUrl && event.active == true) 
+      const isValidToken = eventList?.some(event => event.calendly_url == calendlyUrl) 
+      const isValidURL = eventList?.some(event => event.calendly_url == calendlyUrl && event.active == true) 
       return {
         eventList,
         isValidToken,

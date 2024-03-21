@@ -1492,7 +1492,8 @@
         "numberofcredits": "Anzahl der Credits",
         "plandetailschanged": "Details haben sich geändert. Möchten Sie diese Aktualisierungen an die Teilnehmer senden?",
         "yes": "Ja",
-        "no": "Nein"
+        "no": "Nein",
+        "eventregistrationimage": "Bild der Event-Gäste-Registrierungsseite"
     },
     "edit-club": {
         "uploadimage": "Bild hochladen",
@@ -2024,6 +2025,7 @@
         "page": "Seite (mobil)",
         "pagedesktop": "Seite (Desktop)",
         "myactivities": "Meine Aktivitäten",
+        "myinvitations": "Meine Einladungen",
         "incomplete": "Unvollständig",
         "stripeinvoicetemplate": "Rechnungsvorlage",
         "webhookinstructions": "Anweisungen zum Einrichten des Webhook auf dem Stripe-Konto",
@@ -3237,7 +3239,9 @@
         "notsetupaccount":"Dieses Tutorprofil ist nicht ordnungsgemäß eingerichtet.",
         "correctcalendlycredntials":"Bitte überprüfen Sie Ihre Kalenderdaten, um fortzufahren.",
         "perhourrate":"Provision pro Nachhilfestunde.",
-        "pendingtutorials":"Sie haben ausstehende Tutorials, die Sie als abgeschlossen markieren müssen."
+        "pendingtutorials":"Sie haben ausstehende Tutorials, die Sie als abgeschlossen markieren müssen.",
+        "configurestripeaccount":"Es können keine Buchungen geplant werden, bis der Tutor sein Stripe-Konto konfiguriert.",
+        "tiktokstats":"TikTok-Statistiken"
     },
     "general-details": {
         "name" : "Name",
@@ -3399,7 +3403,9 @@
         "tags": "Tags",
         "gallery": "Galerie",
         "socialmedia": "Social-Media-URL",
-        "author": "Autor"
+        "author": "Autor",
+        "uploadcover": "UCover hochladen",
+        "covernote":"Laden Sie ein Bild oder Video für das Testimonial-Cover hoch. Laden Sie ein Bild oder Video für das Testimonial-Cover hoch"
     },
     "contract": {
         "review": "Bewertungsbedingungen",
