@@ -3926,8 +3926,13 @@ export class ManageUsersComponent {
           .subscribe(
             (response) => {
               if (response.code == "user_exists") {
+                let message = `Existing User ${response?.existing_vcp_user ? JSON.stringify(response.existing_vcp_user) : ''} `
+                this._companyService.logMessage(this.companyId, this.userId, message, 'warn')
                 this.open(this._translateService.instant("dialog.userexists"), "");
               } else {
+                let message = `User created ${response?.user ? JSON.stringify(response.user) : ''} ${response?.add_user_credits ? JSON.stringify(response?.add_user_credits) : ''} ${response?.add_course_user ? JSON.stringify(response?.add_course_user) : ''}`
+                this._companyService.logMessage(this.companyId, this.userId, message, 'log')
+
                 this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
                 this.reloadMembersInfo();
                 this.hasAddedUser = true;
@@ -3937,6 +3942,8 @@ export class ManageUsersComponent {
             },
             (error) => {
               console.log(error);
+              let message = 'Unable to add user ' + JSON.stringify(error)
+              this._companyService.logMessage(this.companyId, this.userId, message, 'error')
               this.open(this._translateService.instant("dialog.error"), "");
             }
           );
@@ -3968,6 +3975,8 @@ export class ManageUsersComponent {
             },
             (error) => {
               console.log(error);
+              let message = 'Unable to edit user ' + JSON.stringify(error)
+              this._companyService.logMessage(this.companyId, this.userId, message, 'error')
               this.open(this._translateService.instant("dialog.error"), "");
             }
           );
