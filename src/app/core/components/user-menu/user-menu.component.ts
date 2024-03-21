@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -91,7 +92,7 @@ export class UserMenuComponent {
   isMyActivitiesActive: boolean = false;
   myClubs: any;
 
-  constructor(private _router: Router, private _authService: AuthService) {
+  constructor(private _router: Router, private _authService: AuthService,private cd: ChangeDetectorRef) {
       
   }
 
@@ -126,6 +127,12 @@ export class UserMenuComponent {
         initFlowbite();
       }, 100)
     }
+  }
+
+
+  goToStatistics(){
+    this._router.navigate(['/tiktok/statistics'])
+    this.cd.detectChanges();
   }
 
   ngOnDestroy() {
