@@ -7,7 +7,11 @@ import {
   Output,
   SimpleChange,
   inject,
+  Renderer2,
+  Inject,
+  isDevMode,
 } from "@angular/core";
+import { DOCUMENT } from '@angular/common';
 import { Router, RouterModule } from "@angular/router";
 import { LogoComponent } from "../logo/logo.component";
 import { TranslateModule } from "@ngx-translate/core";
@@ -18,6 +22,7 @@ import { AuthService, MenuService } from "@lib/services";
 import { DateAgoPipe } from "@lib/pipes";
 import { CreditsDisplayComponent } from "../credits-display/credits-display.component";
 import { UserService } from "@share/services";
+import { environment } from "@env/environment";
 
 @Component({
   selector: "app-user-menu",
@@ -96,11 +101,16 @@ export class UserMenuComponent {
     private _router: Router, 
     private _authService: AuthService,
     private _userService: UserService,
+    private renderer2: Renderer2,
+    @Inject(DOCUMENT) private _document,
   ) {
       
   }
 
   async ngOnInit() {
+    if(this.companyId == 52 && !isDevMode()) {
+      this.enableHotmart();
+    }
   }
 
   ngOnChanges(changes: SimpleChange) {
@@ -126,6 +136,31 @@ export class UserMenuComponent {
     }
 
     return access;
+  }
+
+  enableInspectlet() {
+    let slScript = this.renderer2.createElement('script');
+    slScript.innerText = `(function() {
+      window.__insp = window.__insp || [];
+      __insp.push(['wid', 118077099]);
+      var ldinsp = function(){
+      if(typeof window.__inspld != "undefined") return; window.__inspld = 1; var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js?wid=118077099&r=' + Math.floor(new Date().getTime()/3600000); var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); };
+      setTimeout(ldinsp, 0);
+      })();`;
+    this.renderer2.appendChild(this._document.body, slScript);
+  }
+
+  enableHotmart() {
+    let slScript = this.renderer2.createElement('script');
+    slScript.innerText = `(function(h,o,t,j,a,r){
+      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+      h._hjSettings={hjid:3913753,hjsv:6};
+      a=o.getElementsByTagName('head')[0];
+      r=o.createElement('script');r.async=1;
+      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`
+    this.renderer2.appendChild(this._document.body, slScript);
   }
 
   logout(): void {

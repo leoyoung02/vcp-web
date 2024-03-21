@@ -525,6 +525,10 @@ export class CommissionsAdminListComponent {
           }
 
           this.bookingDataSource = [...this.bookingDataSource, ...temp]
+
+          let message = `Bulk transfer ${this.bookingDataSource?.length > 0 ? JSON.stringify(this.bookingDataSource) : ''}`
+          this._companyService.logMessage(this.companyId, this.userId, message, 'log')
+
           if(this.bookingDataSource?.length > 0) {
             this.modalbutton?.nativeElement.click();
           } else {
@@ -535,6 +539,8 @@ export class CommissionsAdminListComponent {
         },
         error => {
           console.log(error);
+          let message = `Error in Bulk transfer ${JSON.stringify(error)}`
+          this._companyService.logMessage(this.companyId, this.userId, message, 'error')
         }
       )
     }

@@ -3784,34 +3784,6 @@ export class ManageUsersComponent {
             return false;
           }
         }
-        // this.mainService.editCompanyUser(
-        //   this.selectedUser.id,
-        //   params
-        // ).subscribe(
-        //   response => {
-        //       this.showEditUserModal = false
-        //       let dataSource = this.members
-        //       if(dataSource) {
-        //         dataSource.forEach(s => {
-        //           if(s.id == this.selectedUser.id) {
-        //             s.first_name = this.userForm?.get('first_name').value
-        //             s.last_name = this.userForm?.get('last_name').value
-        //             s.email = this.userForm?.get('email').value
-        //             s.user_role = user_role
-
-        //             if(this.hasMemberContract) {
-        //               s.contract_unit = this.selectedMemberContractDuration
-        //               s.contract_duration = this.memberContract
-        //             }
-        //           }
-        //         });
-        //         this.dataSource = dataSource
-        //       }
-        //   },
-        //   error => {
-        //       console.log(error);
-        //   }
-        // )
       }
     } else {
       if (this.userMode != "deny") {
@@ -3884,6 +3856,9 @@ export class ManageUsersComponent {
       if(this.courseCreditsList?.length && (this.isSuperAdmin || this.customMemberTypeId == 243)) {
         formData['separate_course_credits'] = this.separateCourseCredits ? 1 : 0
         formData['user_course_credits'] = this.courseCreditsList
+
+        let message = `Existing User credits ${this.userCourseCredits?.length > 0 ? JSON.stringify(this.userCourseCredits) : ''} will be updated to ${this.courseCreditsList?.length > 0 ? JSON.stringify(this.courseCreditsList) : ''} `
+        this._companyService.logMessage(this.companyId, this.userId, message, 'log')
       }
       if(this.selectedCourses?.length && (this.isSuperAdmin || this.customMemberTypeId == 243)) {
         let user_courses: any[] = []

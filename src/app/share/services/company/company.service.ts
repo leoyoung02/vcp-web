@@ -216,6 +216,7 @@ import {
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
+import { NGXLogger } from "ngx-logger";
 import moment from 'moment';
 
 @Injectable({
@@ -229,7 +230,11 @@ export class CompanyService {
 
   private headers: HttpHeaders;
 
-  constructor(private _http: HttpClient, private _localService: LocalService) {
+  constructor(
+    private _http: HttpClient, 
+    private _localService: LocalService,
+    private _logger: NGXLogger
+  ) {
     this.headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
@@ -1888,5 +1893,24 @@ export class CompanyService {
     return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
+  }
+
+  logMessage(companyId, userId, message, mode: string = 'log') {
+    if(mode == 'log') {
+      this._logger.log(message, {
+        company_id: companyId,
+        user_id: userId,
+      });
+    } else if(mode == 'error') {
+      this._logger.error(message, {
+        company_id: companyId,
+        user_id: userId,
+      });
+    } else if(mode == 'warn') {
+      this._logger.warn(message, {
+        company_id: companyId,
+        user_id: userId,
+      });
+    }
   }
 }

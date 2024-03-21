@@ -47,6 +47,9 @@ export class CalendlyComponent {
   @Input() email: any;
   @Input() company: any;
   @Input() canBook: any;
+  @Input() bookingCourseId: any;
+  @Input() bookingCourseTitle: any;
+  @Input() userCourseCredits: any;
   @Output() closeCalendar = new EventEmitter();
 
   userId: any;
@@ -62,6 +65,7 @@ export class CalendlyComponent {
   confirmItemDescription: any;
   acceptText: string = '';
   bookingSuccessful: boolean = false;
+  hasSyncError: boolean = false;
 
   processingProgress: number = 0;
   @ViewChild("modalbutton", { static: false }) modalbutton:
@@ -143,6 +147,12 @@ export class CalendlyComponent {
     this.processingProgress = 65;
     this.packageId = this._localService.getLocalStorage("selectedWorkingPackage") ? this._localService.getLocalStorage("selectedWorkingPackage") : 0;
 
+    if(this.userCourseCredits?.length == 1 && this.userCourseCredits[0].course_id != this.courseId) {
+      let message = `Course ID corrected to ${this.userCourseCredits[0].course_id} from ${this.courseId}.`
+      this.courseId = this.userCourseCredits[0].course_id;
+      this._companyService.logMessage(this.companyId, this.userId, message, 'warn')
+    }
+
     let params = {
       company_id: this.companyId,
       user_id: this.userId,
@@ -163,6 +173,9 @@ export class CalendlyComponent {
         params['remaining_credits'] = this.separateRemainingCourseCredits - 1
       }
     }
+
+    let message = 'calendly.event_scheduled ' + JSON.stringify(params)
+    this._companyService.logMessage(this.companyId, this.userId, message, 'log')
 
     this._tutorsService.syncCalendlyBookingWithPlatform(params).subscribe(data => {
       this.processingProgress = 75;
@@ -189,7 +202,10 @@ export class CalendlyComponent {
         location.href = `/login?redirect=signup/tutor/pay/${bookingId}/`
       }
     }, err => {
+      this.hasSyncError = true;
       console.log('err: ', err);
+      let message = 'syncCalendlyBookingWithPlatform ' + JSON.stringify(err)
+      this._companyService.logMessage(this.companyId, this.userId, message, 'error')
     })
   }
 
@@ -294,6 +310,10 @@ export class CalendlyComponent {
 
   continue() {
     
+  }
+
+  closeProcessingModal() {
+    this.closemodalbutton?.nativeElement.click();
   }
 
   close() {

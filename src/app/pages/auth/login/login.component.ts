@@ -11,7 +11,7 @@ import { Router, RouterModule } from "@angular/router";
 import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { AuthService } from "src/app/core/services";
-import { LocalService, CompanyService } from "src/app/share/services";
+import { LocalService, CompanyService, UserService } from "src/app/share/services";
 import { CompanyLogoComponent } from "@share/components";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -87,7 +87,8 @@ export class LoginComponent {
     private _translateService: TranslateService,
     private _snackBar: MatSnackBar,
     private _localService: LocalService,
-    private _companyService: CompanyService
+    private _companyService: CompanyService,
+    private _userService: UserService
   ) {
     this.loginForm = new FormGroup({
       email: new FormControl("", [Validators.required]),
@@ -299,6 +300,9 @@ export class LoginComponent {
 
   async login() {
     this._localService.removeLocalStorage(environment.lsmenus);
+    this._localService.removeLocalStorage(environment.lsusercoursecredits);
+    this._userService.updateUserCourseCredits([]);
+
     const email = this.loginForm?.controls["email"].value;
     const password = this.loginForm?.controls["password"].value;
 

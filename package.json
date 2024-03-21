@@ -92,6 +92,7 @@
     "ngx-filepond": "^7.0.1",
     "ngx-image-cropper": "^7.0.2",
     "ngx-infinite-scroll": "^16.0.0",
+    "ngx-logger": "^5.0.12",
     "ngx-material-timepicker": "^13.1.1",
     "ngx-pagination": "^6.0.3",
     "ngx-stripe": "^16.2.0",
@@ -100,6 +101,7 @@
     "rxjs": "~7.8.0",
     "secure-web-storage": "^1.0.2",
     "tslib": "^2.3.0",
+    "vlq": "^2.0.4",
     "xlsx": "^0.18.5",
     "zone.js": "~0.13.0"
   },

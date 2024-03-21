@@ -30,11 +30,12 @@ import { environment } from "@env/environment";
 import { provideNgxStripe } from "ngx-stripe";
 import { Meta, Title } from "@angular/platform-browser";
 import { Customer } from "@lib/interfaces";
-import customersData from "src/assets/data/customers.json";
 import { StarRatingModule } from "angular-star-rating";
 import { provideNgcCookieConsent} from 'ngx-cookieconsent';
 import { cookieConfig } from "./constants/cookie-banner";
-import {CookieService} from 'ngx-cookie-service';
+import { CookieService } from 'ngx-cookie-service';
+import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
+import customersData from "src/assets/data/customers.json";
 
 
 @Injectable({ providedIn: "root" })
@@ -112,6 +113,14 @@ export const appConfig: ApplicationConfig = {
         ttl: 1000 * 60 * 10,
         strategy: 'explicit',
       }),
+    ),
+    importProvidersFrom(
+      LoggerModule.forRoot({
+        serverLoggingUrl: `${environment.api}/v2/logs`,
+        level: environment.logLevel,
+        serverLogLevel: environment.serverLogLevel,
+        disableConsoleLogging: false,
+      })
     ),
     makeEnvironmentProviders(useHttpCacheLocalStorage),
     provideNgcCookieConsent(cookieConfig),
