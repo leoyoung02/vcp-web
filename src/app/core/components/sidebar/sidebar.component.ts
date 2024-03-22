@@ -188,6 +188,12 @@ export class SidebarComponent {
           route = splitRowObject[1];
         } else {
         }
+        
+        if(splitRowObject?.length == 4) {
+          if(splitRowObject[1] == 'plans' && splitRowObject[2] == 'list' && splitRowObject[3] == 'history') {
+            route = 'plans/list/history';
+          }
+        } 
         this.selectedTab = route || "home";
       }
     });
@@ -609,12 +615,15 @@ export class SidebarComponent {
       this.openUrl(menu.new_url == 1 && this.isUESchoolOfLife ? `https://${this.company?.url}` : path);
     } else if(menu.return_url && menu.url != 'undefined') {
       let path = menu.path;
-      if(path?.indexOf('schooloflife') >= 0 && this.currentUser?.guid) {
-        path = `${path?.replace('plans', '')?.replace('courses', '')}/sso/${this.currentUser?.guid}`;
-        if(menu.return_url && menu.return_url != 'undefined') {
-          path += `?returnUrl=${menu.return_url}`
+      if(path?.indexOf('plans/list/history') >= 0) {
+      } else {
+        if(path?.indexOf('schooloflife') >= 0 && this.currentUser?.guid) {
+          path = `${path?.replace('plans', '')?.replace('courses', '')}/sso/${this.currentUser?.guid}`;
+          if(menu.return_url && menu.return_url != 'undefined') {
+            path += `?returnUrl=${menu.return_url}`
+          }
+          path = path?.replace('//sso', '/sso');
         }
-        path = path?.replace('//sso', '/sso');
       }
       this.openUrl(path);
     } else {
