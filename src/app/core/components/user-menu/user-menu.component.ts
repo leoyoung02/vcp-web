@@ -111,7 +111,7 @@ export class UserMenuComponent {
 
   async ngOnInit() {
     if(this.companyId == 52 && !isDevMode()) {
-      this.enableHotmart();
+      this.enableHotjar();
     }
   }
 
@@ -152,7 +152,7 @@ export class UserMenuComponent {
     this.renderer2.appendChild(this._document.body, slScript);
   }
 
-  enableHotmart() {
+  enableHotjar() {
     let slScript = this.renderer2.createElement('script');
     slScript.innerText = `(function(h,o,t,j,a,r){
       h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
