@@ -352,13 +352,19 @@ export class ManageUsersComponent {
   searchOptions = {
     keys: [{
       name: 'normalized_first_name',
-      weight: 0.4
+      weight: 0.2
     }, {
       name: 'normalized_last_name',
-      weight: 0.3
+      weight: 0.2
     }, {
       name: 'normalized_name',
-      weight: 0.3
+      weight: 0.2
+    }, {
+      name: 'email',
+      weight: 0.2
+    }, {
+      name: 'recordStatus',
+      weight: 0.2
     }]
   };
 
@@ -487,6 +493,7 @@ export class ManageUsersComponent {
       "news.searchbykeyword"
     );
   }
+
   fetchManageUsersData() {
     this._userService
       .fetchManageUsersData(this.companyId, this.userId)
@@ -517,7 +524,6 @@ export class ManageUsersComponent {
       );
   }
 
-
   getContract() {
     this._companyService
     .getCompanyContracts(this.companyId)
@@ -531,7 +537,6 @@ export class ManageUsersComponent {
         }
       );
   }
-
 
   showCredits(data){
     const featureToCheck = [
@@ -1419,7 +1424,7 @@ export class ManageUsersComponent {
   }
   
   filterSearchKeyword(members) {
-    if (members) {
+    if (members?.length > 0) {
       return members.filter((m) => {
         let include = false;
         if (
@@ -1478,6 +1483,12 @@ export class ManageUsersComponent {
               .indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
           (m.email &&
             m.email.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >=
+              0) ||
+          (m.recordStatus &&
+            this._translateService.instant(m.recordStatus)?.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >=
+              0) ||
+          (m.user_role &&
+            this.getTranslatedRole(m)?.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >=
               0)
         ) {
           include = true;

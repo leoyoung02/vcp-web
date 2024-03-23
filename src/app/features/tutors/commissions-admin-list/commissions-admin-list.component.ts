@@ -33,6 +33,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatNativeDateModule } from "@angular/material/core";
 import moment from "moment";
 import { searchSpecialCase } from "src/app/utils/search/helper";
+import Fuse from 'fuse.js';
 import { environment } from "@env/environment";
 
 @Component({
@@ -123,6 +124,27 @@ export class CommissionsAdminListComponent {
   | ElementRef
   | undefined;
 
+  searchOptions = {
+    keys: [{
+      name: 'normalized_student_name',
+      weight: 0.2
+    }, {
+      name: 'normalized_tutor_name',
+      weight: 0.2
+    }, {
+      name: 'course_title',
+      weight: 0.2
+    }, {
+      name: 'account_id',
+      weight: 0.2
+    }, {
+      name: 'commission_transfer_id',
+      weight: 0.2
+    }]
+  };
+  statusList: any = [];
+  selectedStatus: any = '';
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -146,6 +168,7 @@ export class CommissionsAdminListComponent {
       this.loadCommissions(this.allCommissionsData);
     }
   }
+
   async ngOnInit() {
     this.onResize();
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
@@ -178,6 +201,10 @@ export class CommissionsAdminListComponent {
         "action"
       ];
     }
+    this.statusList = [
+      { value: this._translateService.instant('tutors.charged') },
+      { value: this._translateService.instant('tutors.moneyonthewaystatus') }
+    ]
   }
 
   fetchCommissions(mode: any = '', status: any = '') {
@@ -221,16 +248,21 @@ export class CommissionsAdminListComponent {
         }
 
         let transfer_date = commission?.commission_transfer_id ? this.getTransferDate(commission) : '';
+        let student_name = commission?.student_name || (`${commission?.student_first_name} ${commission?.student_last_name}`)
+        let transferred = transfer_date ? (moment(transfer_date).isBefore(moment().format('YYYY-MM-DD')) ? true : false) : false
 
         return {
           ...commission,
-          student_name: commission?.student_name || (`${commission?.student_first_name} ${commission?.student_last_name}`),
+          student_name,
           tutor_name,
+          normalized_tutor_name: this.normalizeCase(tutor_name?.toLowerCase()),
+          normalized_student_name: this.normalizeCase(student_name?.toLowerCase()),
           date: moment(commission.booking_date).locale(this.language || 'es').format('DD MMM YYYY'),
           commission_display: `€ ${commission.commission_per_hour}`,
           transfer_date,
-          transferred: transfer_date ? (moment(transfer_date).isBefore(moment().format('YYYY-MM-DD')) ? true : false) : false,
+          transferred,
           checked: false,
+          transfer_status: transferred ? this._translateService.instant('tutors.charged') : (this._translateService.instant('tutors.moneyontheway') + ' ' + (moment(transfer_date).format('DD/MM/YYYY'))),
         };
       });
     }
@@ -250,6 +282,16 @@ export class CommissionsAdminListComponent {
       });
     }
     this.loadCommissions(data);
+  }
+
+  normalizeCase(str) {
+    if (str) {
+      return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .trim();
+    }
   }
 
   loadCommissions(data) {
@@ -291,36 +333,14 @@ export class CommissionsAdminListComponent {
       return include;
     });
 
-    if (this.searchKeyword && commissions?.length > 0) {
-      commissions = commissions?.filter((commission) => {
-        let include = false;
-       if(
-        (commission?.student_first_name && (commission?.student_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
-        || searchSpecialCase(this.searchKeyword,commission.student_first_name)
-        ) || 
-        (commission?.student_last_name && (commission?.student_last_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
-        || searchSpecialCase(this.searchKeyword,commission.student_last_name)
-        ) ||
-        (commission?.student_name && (commission?.student_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
-        || searchSpecialCase(this.searchKeyword,commission.student_name)
-        ) ||
-        (commission?.student_email && (commission?.student_email?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
-        (commission?.tutor_first_name && (commission?.tutor_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
-        || searchSpecialCase(this.searchKeyword,commission.tutor_first_name)
-        ) ||
-        (commission?.tutor_last_name && (commission?.tutor_last_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
-        || searchSpecialCase(this.searchKeyword,commission.tutor_last_name)
-        ) ||
-        (commission?.tutor_name && (commission?.tutor_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
-        || searchSpecialCase(this.searchKeyword,commission.tutor_name)
-        ) ||
-        (commission?.tutor_email && (commission?.tutor_email?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
-        (commission?.booking_id && (commission?.booking_id?.toLowerCase()).indexOf(this.searchKeyword?.toLowerCase()) >= 0)
-       ) {
-        include = true;
-       }
-        return include;
-      });
+    if (this.searchKeyword) {
+      commissions = this.filterSearchKeyword(commissions);
+      let fuse = new Fuse(commissions, this.searchOptions);
+      let filtered_search = fuse.search(this.normalizeCase(this.searchKeyword));
+      commissions = []
+      filtered_search?.forEach(item => {
+        commissions.push(item?.item)
+      })
     }
 
     if(this.selectedCourse) {
@@ -332,6 +352,12 @@ export class CommissionsAdminListComponent {
     if(this.selectedTutor) {
       commissions = commissions?.filter((commission) => {
         return commission?.tutor_name == this.selectedTutor
+      })
+    }
+
+    if(this.selectedStatus) {
+      commissions = commissions?.filter((commission) => {
+        return commission?.transfer_status?.indexOf(this.selectedStatus) >= 0
       })
     }
 
@@ -353,6 +379,45 @@ export class CommissionsAdminListComponent {
 
     this.commissionsData = commissions;
     this.refreshTable(this.commissionsData);
+  }
+
+  filterSearchKeyword(commissions) {
+    if (commissions?.length > 0) {
+      return commissions?.filter((commission) => {
+        let include = false;
+       if(
+        (commission?.course_title && (commission?.course_title?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.course_title)
+        ) ||
+        (commission?.student_first_name && (commission?.student_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.student_first_name)
+        ) || 
+        (commission?.student_last_name && (commission?.student_last_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.student_last_name)
+        ) ||
+        (commission?.student_name && (commission?.student_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.student_name)
+        ) ||
+        (commission?.student_email && (commission?.student_email?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
+        (commission?.tutor_first_name && (commission?.tutor_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.tutor_first_name)
+        ) ||
+        (commission?.tutor_last_name && (commission?.tutor_last_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.tutor_last_name)
+        ) ||
+        (commission?.tutor_name && (commission?.tutor_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.tutor_name)
+        ) ||
+        (commission?.tutor_email && (commission?.tutor_email?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
+        (commission?.booking_id && (commission?.booking_id?.toLowerCase()).indexOf(this.searchKeyword?.toLowerCase()) >= 0) ||
+        (commission?.account_id && (commission?.account_id?.toLowerCase()).indexOf(this.searchKeyword?.toLowerCase()) >= 0) ||
+        (commission?.commission_transfer_id && (commission?.commission_transfer_id?.toLowerCase()).indexOf(this.searchKeyword?.toLowerCase()) >= 0)
+       ) {
+        include = true;
+       }
+        return include;
+      });
+    }
   }
 
   refreshTable(list) {
@@ -380,6 +445,10 @@ export class CommissionsAdminListComponent {
   }
 
   changeTutorFilter(event) {
+    this.loadCommissions(this.allCommissionsData);
+  }
+
+  changeStatusFilter(event) {
     this.loadCommissions(this.allCommissionsData);
   }
 

@@ -3274,7 +3274,8 @@
         "loadingcalendar": "Loading calendar...",
         "charged": "Charged 🟢",
         "moneyontheway": "Made. Money on the way ⏳. Disponible en",
-        "tiktokstats":"TikTok Statistics"
+        "moneyonthewaystatus": "Money on the way ⏳",
+        "tiktokstats": "TikTok Statistics"
     },
     "general-details": {
         "name" : "Name",

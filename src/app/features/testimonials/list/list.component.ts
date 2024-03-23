@@ -14,6 +14,7 @@ import moment from "moment";
 import get from 'lodash/get';
 import * as he from 'he';
 import { searchSpecialCase, sortSerchedMembers } from 'src/app/utils/search/helper';
+import Fuse from 'fuse.js';
 
 @Component({
   selector: 'app-testimonials-list',
@@ -76,6 +77,22 @@ export class TestimonialsListComponent {
   selectedCourse: any;
   superTutor: boolean = false;
   potSuperTutor: boolean = false;
+
+  searchOptions = {
+    keys: [{
+      name: 'author',
+      weight: 0.25
+    }, {
+      name: 'tags_display',
+      weight: 0.25
+    }, {
+      name: 'short_description',
+      weight: 0.25
+    }, {
+      name: 'description',
+      weight: 0.25
+    }]
+  };
 
   constructor(
     private _router: Router,
@@ -441,7 +458,27 @@ export class TestimonialsListComponent {
   filterTestimonials() {
     let testimonials = this.allTestimonials
     if (this.search) {
+      testimonials = this.filterSearchKeyword(testimonials)
+      let fuse = new Fuse(testimonials, this.searchOptions);
+      let filtered_search = fuse.search(this.normalizeCase(this.search));
+      testimonials = []
+      filtered_search?.forEach(item => {
+        testimonials.push(item?.item)
+      })
+    }
+
+    if(this.selectedCourse?.id > 0) {
       testimonials = testimonials.filter(m => {
+        return m.testimonial_course_id == this.selectedCourse?.id
+      })
+    }
+
+    this.formatTestimonials(testimonials);
+  }
+
+  filterSearchKeyword(testimonials) {
+    if(testimonials?.length > 0) {
+      return testimonials.filter(m => {
         return (
           (m.author && 
             (m.author
@@ -488,17 +525,17 @@ export class TestimonialsListComponent {
               ) >= 0)
         )
       })
-
-      testimonials = sortSerchedMembers(testimonials,this.search,'TESTIMONIALS')
     }
+  }
 
-    if(this.selectedCourse?.id > 0) {
-      testimonials = testimonials.filter(m => {
-        return m.testimonial_course_id == this.selectedCourse?.id
-      })
+  normalizeCase(str) {
+    if (str) {
+      return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .trim();
     }
-
-    this.formatTestimonials(testimonials);
   }
 
   ngOnDestroy() {

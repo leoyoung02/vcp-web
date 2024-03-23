@@ -11,6 +11,7 @@ import { NgxPaginationModule } from "ngx-pagination";
 import { TutorCardComponent } from '@share/components/card/tutor/tutor.component';
 import get from 'lodash/get';
 import { searchSpecialCase, sortSerchedMembers } from 'src/app/utils/search/helper';
+import Fuse from 'fuse.js';
 
 @Component({
   selector: 'app-courses-list',
@@ -69,6 +70,22 @@ export class TutorsListComponent {
   selectedCity: any = '';
   selectedType: any = '';
   defaultActiveFilter: boolean = true;
+
+  searchOptions = {
+    keys: [{
+      name: 'normalized_first_name',
+      weight: 0.25
+    }, {
+      name: 'normalized_last_name',
+      weight: 0.25
+    }, {
+      name: 'normalized_name',
+      weight: 0.25
+    }, {
+      name: 'type_values',
+      weight: 0.25
+    }]
+  };
 
   constructor(
     private _translateService: TranslateService,
@@ -211,19 +228,23 @@ export class TutorsListComponent {
 
   formatTutors(tutors) {
     tutors = tutors?.map((item) => {
+      let types = this.getTutorTypes(item)
       return {
         ...item,
         id: item?.id,
         path: `/tutors/details/${item.user_id}`,
         image: `${environment.api}/${item.image}`,
+        normalized_name: this.normalizeCase(item.name),
+        normalized_first_name: this.normalizeCase(item.first_name?.toLowerCase()),
+        normalized_last_name: this.normalizeCase(item.last_name?.toLowerCase()),
         rating: this.getTutorRating(item),
-        types: this.getTutorTypes(item)
+        types,
+        type_values: types?.length > 0 ? types?.map( (data) => { return data }).join(', ') : '',
       };
     });
 
     this.tutors = tutors;
     this.allTutors = tutors;
-
 
     let selected = localStorage.getItem('tutor-filter-city');
     if(selected && this.list?.length > 0) {
@@ -478,34 +499,17 @@ export class TutorsListComponent {
     this.searchTutors();
   }
 
-
   searchTutors() {
     let tutors = this.allTutors
     if (this.search) {
         this.search = this.search.toLowerCase()
-        tutors = tutors.filter(m => {
-            let include = false
-            let tutor_type_match = m?.types.some(a => ((a.toString().toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-
-            if (
-                (m.name && ((m.name).normalize("NFD").replace(/\p{Diacritic}/gu, "")).toLowerCase().indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0
-                ||  searchSpecialCase(this.search,m.name)
-                )
-                || (m.first_name && ((m.first_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0
-                || searchSpecialCase(this.search,m.first_name)
-                )
-                || (m.last_name && ((m.last_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0
-                || searchSpecialCase(this.search,m.last_name)
-                )
-                || tutor_type_match
-                ) {
-                include = true
-            }
-
-            return include
+        tutors = this.filterSearchKeyword(tutors);
+        let fuse = new Fuse(tutors, this.searchOptions);
+        let filtered_search = fuse.search(this.normalizeCase(this.search));
+        tutors = []
+        filtered_search?.forEach(item => {
+          tutors.push(item?.item)
         })
-
-        tutors = sortSerchedMembers(tutors,this.search,'TUTORS')
     }
 
     if(this.selectedType) {
@@ -530,5 +534,44 @@ export class TutorsListComponent {
     }
 
     this.tutors = tutors;
+  }
+
+  normalizeCase(str) {
+    if (str) {
+      return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .trim();
+    }
+  }
+
+  filterSearchKeyword(tutors) {
+    if(tutors?.length > 0) {
+      return tutors.filter(m => {
+        let include = false
+        let tutor_type_match = m?.types.some(a => ((a.toString().toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
+
+        if (
+            (m.name && ((m.name).normalize("NFD").replace(/\p{Diacritic}/gu, "")).toLowerCase().indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0
+            ||  searchSpecialCase(this.search,m.name)
+            )
+            || (m.first_name && ((m.first_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0
+            || searchSpecialCase(this.search,m.first_name)
+            )
+            || (m.last_name && ((m.last_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search.normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0
+            || searchSpecialCase(this.search,m.last_name)
+            ) || tutor_type_match ||
+            (m.type_values &&
+              m.type_values
+                .toLowerCase()
+                .indexOf(this.search.toLowerCase()) >= 0)
+            ) {
+            include = true
+        }
+
+        return include
+      })
+    }
   }
 }

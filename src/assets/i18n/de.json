@@ -3237,7 +3237,8 @@
         "loadingcalendar": "Kalender wird geladen …",
         "charged": "Aufgeladen 🟢",
         "moneyontheway": "Fertig. Geld unterwegs ⏳. Verfügbar in",
-        "tiktokstats":"TikTok-Statistiken"
+        "moneyonthewaystatus": "Geld unterwegs ⏳",
+        "tiktokstats": "TikTok-Statistiken"
     },
     "general-details": {
         "name" : "Name",

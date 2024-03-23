@@ -3238,7 +3238,8 @@
         "loadingcalendar": "Egutegia kargatzen...",
         "charged": "Kobratuta 🟢",
         "moneyontheway": "Bukatuta. Dirua bidean ⏳. Hemen eskuragarri",
-        "tiktokstats":"TikTok Estatistikak"
+        "moneyonthewaystatus": "Dirua bidean ⏳",
+        "tiktokstats": "TikTok Estatistikak"
     },
     "general-details": {
         "name" : "Izena",

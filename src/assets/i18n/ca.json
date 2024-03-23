@@ -3247,7 +3247,8 @@
         "loadingcalendar": "S'està carregant el calendari...",
         "charged": "Cobrada 🟢",
         "moneyontheway": "Realitzada. Diners en camí ⏳. Disponible a",
-        "tiktokstats":"Estadístiques de TikTok"
+        "moneyonthewaystatus": "Diners en camí ⏳",
+        "tiktokstats": "Estadístiques de TikTok"
     },
     "general-details": {
         "name" : "Nom",

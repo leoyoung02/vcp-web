@@ -1,6 +1,6 @@
 <ng-container *ngIf="superAdmin">
-    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-3">
-        <div class="col-span-2 mb-6">
+    <div class="flex flex-row items-center justify-between">
+        <div class="col-span-2">
             <div class="flex items-center w-full max-w-full">
                 <div class="flex-auto">
                     <app-search
@@ -43,6 +43,23 @@
                             [value]="tutor.tutor_name"
                         >
                             {{ tutor.tutor_name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="ml-6" *ngIf="status == 'Completed'">
+                    <select
+                        id="status-item"
+                        class="ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedStatus"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeStatusFilter($event)"
+                    >
+                        <option value="">{{ 'your-admin-area.selectstatus' | translate }}</option>
+                        <option
+                            *ngFor="let item of statusList"                                
+                            [value]="item.value"
+                        >
+                            {{ item.value }}
                         </option>
                     </select>
                 </div>
@@ -197,7 +214,7 @@
                             <span class="sr-only">Icon description</span>
                         </button>
                         <ng-container *ngIf="row?.transfer_date">
-                            <span class="text-xs" [innerHtml]="row?.transferred ? ('tutors.charged' | translate) : (('tutors.moneyontheway' | translate) + ' ' + (row?.transfer_date | date:'dd/MM/YYYY'))"></span>
+                            <span class="text-xs" [innerHtml]="row?.transfer_status"></span>
                         </ng-container>
                     </mat-cell>
                 </ng-container>

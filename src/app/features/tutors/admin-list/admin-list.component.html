@@ -29,12 +29,6 @@
     </div>
 </div>
 <div class="w-full min-w-full py-8">
-    <mat-paginator
-    #paginator [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20, 50, 100, 200]" class="mb-5"
-    *ngIf="pageSize == 200"
-    (page)="getPageDetails($event)"
-    [showFirstLastButtons]="true"
-></mat-paginator>
     <div class="mat-table-responsive">
         <mat-table [dataSource]="dataSource" matSort class="manage-list">
             <ng-container matColumnDef="first_name">
@@ -59,7 +53,7 @@
             <ng-container matColumnDef="email">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'customer.email' | translate }} </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="email">
-                   <span class="capitalize">{{ row?.email }}</span>
+                   <span>{{ row?.email }}</span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="action">
@@ -78,12 +72,6 @@
             </mat-row>
         </mat-table>
     </div>
-    <mat-paginator
-        #paginator [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20, 50, 100, 200]"
-        *ngIf="pageSize < 200"
-        (page)="getPageDetails($event)"
-        [showFirstLastButtons]="true"
-    ></mat-paginator>
 </div>
 <button #modalbutton data-modal-target="item-modal" data-modal-toggle="item-modal" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
     &nbsp;

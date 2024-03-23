@@ -3239,7 +3239,9 @@
         "pendingtutorials": "Hai tutorial in sospeso da contrassegnare come completati.",
         "loadingcalendar": "Caricamento calendario...",
         "charged": "Carico 🟢",
-        "moneyontheway": "Fatto. Soldi in arrivo ⏳. Disponibile in"
+        "moneyontheway": "Fatto. Soldi in arrivo ⏳. Disponibile in",
+        "moneyonthewaystatus": "Soldi in arrivo ⏳",
+        "tiktokstats": "Statistiche TikTok"
     },
     "general-details": {
         "name": "Nome",

@@ -11,7 +11,7 @@ export const searchSpecialCase = (searchWord, wordToFindFrom) => {
     return searchWord?.split(' ')?.length > 0  && searchWord.split(' ').filter(e=>e !== '').some(wordToFind => {
       const normalizedWordToFind = normalizeCase(wordToFind)
   
-      return normalizedName.includes(normalizedWordToFind)
+      return normalizedName?.includes(normalizedWordToFind)
     })
   }
   return false

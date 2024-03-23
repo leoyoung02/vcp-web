@@ -3258,7 +3258,8 @@
         "loadingcalendar": "Cargando calendario...",
         "charged": "Cobrada 🟢",
         "moneyontheway": "Realizada. Dinero en camino ⏳. <br/>Disponible en",
-        "tiktokstats":"Estadísticas de TikTok"
+        "moneyonthewaystatus": "Dinero en camino ⏳",
+        "tiktokstats": "Estadísticas de TikTok"
     },
     "general-details": {
         "name" : "Nombre",

@@ -3232,7 +3232,8 @@
         "loadingcalendar": "Chargement du calendrier...",
         "charged": "Chargé 🟢",
         "moneyontheway": "Terminé. Argent en route ⏳. Disponible dans",
-        "tiktokstats":"Statistiques TikTok"
+        "moneyonthewaystatus": "Argent en route ⏳",
+        "tiktokstats": "Statistiques TikTok"
     },
     "general-details": {
         "name" : "Nom",
