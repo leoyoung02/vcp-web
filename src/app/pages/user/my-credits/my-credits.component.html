@@ -33,7 +33,7 @@
         {{ mode == 'activities' ? ("ranking.history" | translate) : ("credit-package.purchasehistory" | translate) }}
     </div>
     <div *ngIf="!isLoading" class="w-full min-w-full">
-        <div class="mat-table-responsive py-6">
+        <div class="mat-table-responsive my-credits-table py-6">
             <mat-table [dataSource]="packagesDataSource" matSort>
                 <ng-container matColumnDef="credit_package_name" *ngIf="mode == 'tutors'">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'plan-details.name' | translate }} </mat-header-cell>

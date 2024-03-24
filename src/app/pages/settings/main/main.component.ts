@@ -1115,7 +1115,6 @@ export class MainComponent {
       });
     }
 
-    console.log(this.mainMenuItems)
     this.allMainMenuItems = this.mainMenuItems;
   }
 
