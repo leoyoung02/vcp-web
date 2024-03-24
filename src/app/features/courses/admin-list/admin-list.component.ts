@@ -151,7 +151,6 @@ export class CoursesAdminListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.data = data;
           this.user = data?.user_permissions?.user;
           this.mapFeatures(data?.features_mapping);

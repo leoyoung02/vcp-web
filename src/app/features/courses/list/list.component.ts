@@ -210,7 +210,6 @@ export class CoursesListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(
             data?.settings?.subfeatures,
@@ -457,7 +456,6 @@ export class CoursesListComponent {
       let tutorSubfeatures = data[9] ? data[9]['subfeatures'] : []
       this.mapTutorSubfeatures(tutorSubfeatures)
       this.filterCourses(courses_list);
-      console.log(data)
     }, error => {
       
     })

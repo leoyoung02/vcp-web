@@ -416,7 +416,6 @@ export class MyLessonsComponent {
 
                 this.bookings = user_bookings
                 this.allBookings = this.bookings
-                console.log(this.bookings)
 
                 if(this.allBookings?.length > 0){
                     const bookings = this.allBookings && this.allBookings?.filter(booking => {
