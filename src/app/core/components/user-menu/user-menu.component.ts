@@ -3,12 +3,18 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
   SimpleChange,
+  ViewChild,
   inject,
+  Renderer2,
+  Inject,
+  isDevMode,
 } from "@angular/core";
+import { DOCUMENT } from '@angular/common';
 import { Router, RouterModule } from "@angular/router";
 import { LogoComponent } from "../logo/logo.component";
 import { TranslateModule } from "@ngx-translate/core";
@@ -92,11 +98,24 @@ export class UserMenuComponent {
   isMyActivitiesActive: boolean = false;
   myClubs: any;
 
-  constructor(private _router: Router, private _authService: AuthService,private cd: ChangeDetectorRef) {
+  @ViewChild("outsidebutton", { static: false }) outsidebutton:
+    | ElementRef
+    | undefined;
+
+  constructor(
+    private _router: Router, 
+    private _authService: AuthService,
+    private cd: ChangeDetectorRef,
+    private renderer2: Renderer2,
+    @Inject(DOCUMENT) private _document,
+  ) {
       
   }
 
   async ngOnInit() {
+    if(this.companyId == 52 && !isDevMode()) {
+      this.enableHotjar();
+    }
   }
 
   hasAccess(path) {
@@ -116,6 +135,19 @@ export class UserMenuComponent {
     return access;
   }
 
+  enableHotjar() {
+    let slScript = this.renderer2.createElement('script');
+    slScript.innerText = `(function(h,o,t,j,a,r){
+      h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+      h._hjSettings={hjid:3913753,hjsv:6};
+      a=o.getElementsByTagName('head')[0];
+      r=o.createElement('script');r.async=1;
+      r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+      a.appendChild(r);
+    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');`
+    this.renderer2.appendChild(this._document.body, slScript);
+  }
+
   logout(): void {
     this._authService.logout();
     this._router.navigate(["/auth/login"]);
@@ -129,13 +161,65 @@ export class UserMenuComponent {
     }
   }
 
+  goToStatistics() {
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      this._router.navigate(['/tiktok/statistics'])
+      this.cd.detectChanges();
+    }, 500)
+  }
 
-  goToStatistics(){
-    this._router.navigate(['/tiktok/statistics'])
-    this.cd.detectChanges();
+  redirectPath(mode) {
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      let path = '';
+      switch(mode) {
+        case 'userprofile':
+          path = `/users/profile/${this.userid}`;
+          break;
+        case 'myclubs':
+          path = '/dashboard/5';
+          break;
+        case 'crm':
+          path = `/users/crm`;
+          break;
+        case 'invites':
+          path = `/users/invites`;
+          break;
+        case 'myactivities':
+          path = '/dashboard/1';
+          break;
+        case 'adminlists':
+          path = '/users/admin-lists';
+          break;
+        case 'mylessons':
+          path = '/users/my-lessons';
+          break;
+        case 'bookingshistory':
+          path = '/tutors/bookings/history';
+          break;
+        case 'mycreditstutors':
+          path = '/users/my-credits/tutors';
+          break;
+        case 'mycreditsactivities':
+          path = '/users/my-credits/activities';
+          break;
+        case 'tutorsstripeconnect':
+          path = '/tutors/stripe-connect';
+          break;
+        case 'studentsmanagement':
+          path = '/settings/students-management';
+          break;
+        case 'manageusers':
+          path = '/settings/manage-list/users';
+          break;
+      }
+
+      this._router.navigate([path]);
+    }, 500)
   }
 
   ngOnDestroy() {
-      this.navigationSubscription?.unsubscribe();
+    this.navigationSubscription?.unsubscribe();
   }
 }
