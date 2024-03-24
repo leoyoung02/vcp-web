@@ -3,10 +3,12 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
   SimpleChange,
+  ViewChild,
   inject,
   Renderer2,
   Inject,
@@ -98,6 +100,10 @@ export class UserMenuComponent {
   isMyActivitiesActive: boolean = false;
   myClubs: any;
 
+  @ViewChild("outsidebutton", { static: false }) outsidebutton:
+    | ElementRef
+    | undefined;
+
   constructor(
     private _router: Router, 
     private _authService: AuthService,
@@ -140,18 +146,6 @@ export class UserMenuComponent {
     return access;
   }
 
-  enableInspectlet() {
-    let slScript = this.renderer2.createElement('script');
-    slScript.innerText = `(function() {
-      window.__insp = window.__insp || [];
-      __insp.push(['wid', 118077099]);
-      var ldinsp = function(){
-      if(typeof window.__inspld != "undefined") return; window.__inspld = 1; var insp = document.createElement('script'); insp.type = 'text/javascript'; insp.async = true; insp.id = "inspsync"; insp.src = ('https:' == document.location.protocol ? 'https' : 'http') + '://cdn.inspectlet.com/inspectlet.js?wid=118077099&r=' + Math.floor(new Date().getTime()/3600000); var x = document.getElementsByTagName('script')[0]; x.parentNode.insertBefore(insp, x); };
-      setTimeout(ldinsp, 0);
-      })();`;
-    this.renderer2.appendChild(this._document.body, slScript);
-  }
-
   enableHotjar() {
     let slScript = this.renderer2.createElement('script');
     slScript.innerText = `(function(h,o,t,j,a,r){
@@ -178,13 +172,65 @@ export class UserMenuComponent {
     }
   }
 
+  goToStatistics() {
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      this._router.navigate(['/tiktok/statistics'])
+      this.cd.detectChanges();
+    }, 500)
+  }
 
-  goToStatistics(){
-    this._router.navigate(['/tiktok/statistics'])
-    this.cd.detectChanges();
+  redirectPath(mode) {
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      let path = '';
+      switch(mode) {
+        case 'userprofile':
+          path = `/users/profile/${this.userid}`;
+          break;
+        case 'myclubs':
+          path = '/dashboard/5';
+          break;
+        case 'crm':
+          path = `/users/crm`;
+          break;
+        case 'invites':
+          path = `/users/invites`;
+          break;
+        case 'myactivities':
+          path = '/dashboard/1';
+          break;
+        case 'adminlists':
+          path = '/users/admin-lists';
+          break;
+        case 'mylessons':
+          path = '/users/my-lessons';
+          break;
+        case 'bookingshistory':
+          path = '/tutors/bookings/history';
+          break;
+        case 'mycreditstutors':
+          path = '/users/my-credits/tutors';
+          break;
+        case 'mycreditsactivities':
+          path = '/users/my-credits/activities';
+          break;
+        case 'tutorsstripeconnect':
+          path = '/tutors/stripe-connect';
+          break;
+        case 'studentsmanagement':
+          path = '/settings/students-management';
+          break;
+        case 'manageusers':
+          path = '/settings/manage-list/users';
+          break;
+      }
+
+      this._router.navigate([path]);
+    }, 500)
   }
 
   ngOnDestroy() {
-      this.navigationSubscription?.unsubscribe();
+    this.navigationSubscription?.unsubscribe();
   }
 }
