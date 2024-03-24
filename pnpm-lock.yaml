@@ -182,6 +182,9 @@ dependencies:
   ngx-infinite-scroll:
     specifier: ^16.0.0
     version: 16.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)
+  ngx-logger:
+    specifier: ^5.0.12
+    version: 5.0.12(rxjs@7.8.0)
   ngx-material-timepicker:
     specifier: ^13.1.1
     version: 13.1.1(@types/luxon@3.4.2)(luxon@3.4.4)
@@ -206,6 +209,9 @@ dependencies:
   tslib:
     specifier: ^2.3.0
     version: 2.4.1
+  vlq:
+    specifier: ^2.0.4
+    version: 2.0.4
   xlsx:
     specifier: ^0.18.5
     version: 0.18.5
@@ -8249,6 +8255,16 @@ packages:
       tslib: 2.6.2
     dev: false
 
+  /ngx-logger@5.0.12(rxjs@7.8.0):
+    resolution: {integrity: sha512-4kTtPvxQoV2ka6pigtvkbtaLKpMYWqZm7Slu0YQVcwzBKoVR2K+oLmMVcA50S6kCxkZXq7iKcrXUKR2vhMXPqQ==}
+    peerDependencies:
+      rxjs: '>6.0.0'
+    dependencies:
+      rxjs: 7.8.0
+      tslib: 2.6.2
+      vlq: 1.0.1
+    dev: false
+
   /ngx-material-timepicker@13.1.1(@types/luxon@3.4.2)(luxon@3.4.4):
     resolution: {integrity: sha512-GST4IBFXrPSBB5VP5LVxoOk1yHbdSnaB293tjuyu+vusg+pQ/3+AtcxQEIadk6Nmsdt8zKsbXNgvLrI4nbYRKQ==}
     peerDependencies:
@@ -10938,6 +10954,14 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
+
+  /vlq@1.0.1:
+    resolution: {integrity: sha512-gQpnTgkubC6hQgdIcRdYGDSDc+SaujOdyesZQMv6JlfQee/9Mp0Qhnys6WxDWvQnL5WZdT7o2Ul187aSt0Rq+w==}
+    dev: false
+
+  /vlq@2.0.4:
+    resolution: {integrity: sha512-aodjPa2wPQFkra1G8CzJBTHXhgk3EVSwxSWXNPr1fgdFLUb8kvLV1iEb6rFgasIsjP82HWI6dsb5Io26DDnasA==}
+    dev: false
 
   /void-elements@2.0.1:
     resolution: {integrity: sha512-qZKX4RnBzH2ugr8Lxa7x+0V6XD9Sb/ouARtiasEQCHB1EVU4NXtmHsDDrx1dO4ne5fc3J6EW05BP1Dl0z0iung==}

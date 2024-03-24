@@ -549,6 +549,9 @@ export const TUTOR_PER_HOUR_RATE = `${API_BASE}/v2/tutor-per-hour-rate`;
 export const STRIPE_CONNECT_ACCOUNT_STATUS_URL = `${API_BASE}/v2/stripe-connect-account-status`;
 export const GET_CALENDLY_ACCOUNT_ORGANIZATION_URI = `https://api.calendly.com/users/me`;
 export const GET_CALENDLY_ACCOUNT_EVENTS_LIST = `https://api.calendly.com/event_types`;
+export const SYNC_CALENDLY_EVENT_PLATFORM_URL = `${API_BASE}/v2/calendly/booking/sync`;
+export const STRIPE_TRANSFERS_URL = `${API_BASE}/v2/stripe/transfers`;
+export const BULK_TRANSFER_COMMISSION_IMPROVED_URL = `${API_BASE}/v2/tutor/commissions/bulk-transfer`;
 
 // TESTIMONIALS
 export const TESTIMONIALS_DATA_URL = `${API_BASE}/guest/testimonials-data`;

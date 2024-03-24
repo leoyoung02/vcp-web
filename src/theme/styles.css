@@ -964,3 +964,8 @@ div.event-description a {
 .mat-column-email_display {
     word-break: break-all;
 }
+
+.mat-column-commission_transfer_id {
+    flex: 0 0 18% !important;
+    width: 18% !important;
+}

@@ -2030,6 +2030,7 @@
         "width": "Amplada",
         "height": "Alçada",
         "selecttutorrole": "Selecciona la funció de tutor",
+        "selecttutor": "Selecciona el tutor",
         "selectorder": "Selecciona l'ordre",
         "chronological": "Cronològica",
         "reverse": "Reverse",
@@ -3240,7 +3241,14 @@
         "perhourrate":"comissió per hora de tutoria.",
         "pendingtutorials":"Tens tutorials pendents per marcar com a complet.",
         "configurestripeaccount":"No es poden programar reserves fins que el tutor no configure el seu compte Stripe.",
-        "tiktokstats":"Estadístiques de TikTok"
+        "transferinactive":"Transaccions fallides a causa de les capacitats de transferència inactives al compte Stripe del tutor associat a l'identificador de reserva.",
+        "bookingid": "Id. de reserva",
+        "tranfersummary":"Resum de transferència",
+        "loadingcalendar": "S'està carregant el calendari...",
+        "charged": "Cobrada 🟢",
+        "moneyontheway": "Realitzada. Diners en camí ⏳. Disponible a",
+        "moneyonthewaystatus": "Diners en camí ⏳",
+        "tiktokstats": "Estadístiques de TikTok"
     },
     "general-details": {
         "name" : "Nom",
@@ -3313,14 +3321,18 @@
         "personalaccesstokentext1": "obté un testimoni d'accés personal ",
         "personalaccesstokentext2": "per generar el vostre testimoni d'accés personal. Copieu-lo i enganxeu-lo aquí.",
         "bookingheadertext": "La reserva ha fallat",
-        "bookingbodytext": "S'ha produït un problema en confirmar la teva reserva."
+        "bookingbodytext": "S'ha produït un problema en confirmar la teva reserva.",
+        "syncingyourbooking": "S'està sincronitzant la reserva...",
+        "pleasedonotclose": "Si us plau, no tanquis el teu navegador mentre processem la teva reserva."
     },
     "tutor-stripe": {
         "accountid": "ID del compte",
         "notconfigured": "No configurat",
         "configurenote": "Configura l'identificador del compte de Stripe Connect al teu perfil",
         "commission": "Comissions",
-        "notconnected": "No es pot assignar a tutor per any course."
+        "notconnected": "No es pot assignar a tutor per any course.",
+        "success": "Èxit",
+        "failed": "Ha fallat"
     },
     "timeunits": {
         "minutes": "minuts",
@@ -3348,7 +3360,8 @@
         "mainaccounttext": "Aquest és el compte principal establert a la pàgina de configuració de Stripe. Només es pot editar el camp de nom. Per editar les claus, aneu a",
         "mainaccounttextcontinue": "i desactiveu la configuració de diversos comptes.",
         "setupaccount": "Configura Stripe Connect",
-        "other": "Altres"
+        "other": "Altres",
+        "incompletestripesetup":"El vostre estat de configuració de Stripe és incomplet i impedirà el processament dels pagaments al vostre compte de Stripe i des del vostre compte de Stripe al vostre compte bancari enllaçat. Pot ser degut a la falta de la documentació necessària per autenticar el vostre compte. Si us plau, inicieu la sessió al vostre compte de Stripe i carregueu els documents necessaris per activar els pagaments i els pagaments."
     },
     "booking-error" : {
         "insufficientbalanceadmintext": "Transferència pendent per falta de fons",

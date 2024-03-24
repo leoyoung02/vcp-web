@@ -660,7 +660,12 @@ export class LayoutMainComponent {
     this._userService.getUserCourseCredits(this.userId)
       .subscribe(
         async (response) => {
-          this.userCourseCredits = response['user_course_credits']
+          this._localService.removeLocalStorage(environment.lsusercoursecredits)
+          this.userCourseCredits = response['user_course_credits'];
+          this._localService.setLocalStorage(
+            environment.lsusercoursecredits,
+            JSON.stringify(this.userCourseCredits)
+          );
         },
         error => {
           console.log(error)

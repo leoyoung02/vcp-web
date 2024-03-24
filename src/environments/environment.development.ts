@@ -1,7 +1,11 @@
+import { NgxLoggerLevel } from 'ngx-logger';
+
 export const environment = {
     production: false,
     api: 'http://localhost:8977/secureapi',
     company: 'vcp.vistingo.com',
+    logLevel: NgxLoggerLevel.LOG,
+    serverLogLevel: NgxLoggerLevel.LOG,
     lstoken: 'MDzMJjldj0uCZf+DrObXFA==',
     lsrefreshtoken: 'EKHWGZB/EkSWmaO+0haEvA==',
     lsinitializationVector: 'encryptionIntVec',
@@ -67,5 +71,6 @@ export const environment = {
     lstutortypes: 'VsPZU9fGTkeAnzcI96Gbug==',
     lsusergeocountry: "9tUVhOGJtEa0brNJCgI7tA==",
     lsusergeocity: "dYvVSQsQU0yuMBCmjuE3Xg==",
-    lsusergeoipaddress: "y8Y+yUkz7E6QhkVODnJYWw=="
+    lsusergeoipaddress: "y8Y+yUkz7E6QhkVODnJYWw==",
+    lsusercoursecredits: "N4RxzstAvEeTmLstp5yICA=="
 };

@@ -2027,6 +2027,7 @@
         "width": "Zabalera",
         "height": "Altuera",
         "selecttutorrole": "Hautatu tutore rola",
+        "selecttutor": "Hautatu tutorea",
         "selectorder": "Hautatu ordena",
         "chronological": "Kronologikoa",
         "reverse": "Alderantziz", 
@@ -3231,7 +3232,14 @@
         "perhourrate":"tutoretza ordu bakoitzeko komisioa.",
         "pendingtutorials":"Osatuta markatzeko zain dauden tutorialak dituzu.",
         "configurestripeaccount":"Ezin dira erreserbarik antolatu tutoreak Stripe kontua konfiguratu arte.",
-        "tiktokstats":"TikTok Estatistikak"
+        "transferinactive":"Transakzioak huts egin ditu erreserbaren IDarekin lotutako tutorearen Stripe kontuko transferentzia gaitasun inaktiboengatik.",
+        "bookingid": "Erreserba ID",
+        "tranfersummary":"Transferentziaren laburpena",
+        "loadingcalendar": "Egutegia kargatzen...",
+        "charged": "Kobratuta 🟢",
+        "moneyontheway": "Bukatuta. Dirua bidean ⏳. Hemen eskuragarri",
+        "moneyonthewaystatus": "Dirua bidean ⏳",
+        "tiktokstats": "TikTok Estatistikak"
     },
     "general-details": {
         "name" : "Izena",
@@ -3304,14 +3312,18 @@
         "personalaccesstokentext1": "lortu sarbide-token pertsonala",
         "personalaccesstokentext2": "-n zure sarbide-token pertsonala sortzeko. Kopiatu eta itsatsi hemen.",
         "bookingheadertext": "Erreserbak huts egin du",
-        "bookingbodytext": "Arazo bat izan da erreserba berresteko."
+        "bookingbodytext": "Arazo bat izan da erreserba berresteko.",
+        "syncingyourbooking": "Zure erreserba sinkronizatzen...",
+        "pleasedonotclose": "Mesedez, ez itxi arakatzailea zure erreserba prozesatzen dugun bitartean."
     },
     "tutor-stripe": {
         "accountid": "Kontuaren IDa",
         "notconfigured": "Konfiguratu gabe",
         "configurenote": "Konfiguratu Stripe Connect kontuaren IDa zure profilean",
         "commission": "Batzordea",
-        "notconnected": "Ez zaude inongo ikastarotan tutore gisa esleituta."
+        "notconnected": "Ez zaude inongo ikastarotan tutore gisa esleituta.",
+        "success": "Arrakasta",
+        "failed": "Huts egin du"
     },
     "timeunits": {
         "minutes": "minutu",
@@ -3339,7 +3351,8 @@
         "mainaccounttextcontinue": "atalera eta desgaitu hainbat konturen ezarpenak.",
         "setupaccount": "Konfiguratu Stripe Connect",
         "other": "Bestela",
-        "stripeconnectdesc": "Les comissions per reservar sessions amb estudiants es pagaran al vostre compte connectat. Per configurar-lo, seguiu el procés d'incorporació i pengeu els documents de verificació necessaris. Un cop hàgiu configurat correctament, també podeu accedir al tauler del vostre compte connectat des d'aquesta pàgina ."
+        "stripeconnectdesc": "Les comissions per reservar sessions amb estudiants es pagaran al vostre compte connectat. Per configurar-lo, seguiu el procés d'incorporació i pengeu els documents de verificació necessaris. Un cop hàgiu configurat correctament, també podeu accedir al tauler del vostre compte connectat des d'aquesta pàgina .",
+        "incompletestripesetup":"Zure stripe konfigurazio egoera osatu gabe dago eta zure Stripe konturako eta zure Stripe kontutik estekatutako banku-konturako ordainketak prozesatzea eragotziko du. Baliteke zure kontua autentifikatzeko beharrezkoa den dokumentazioa falta izateagatik izan daiteke. Hasi saioa Stripe kontuan eta kargatu beharrezko dokumentuak ordainketak eta ordainketak gaitzeko."
     },
     "booking-error" : {
         "insufficientbalanceadmintext": "Transferentziaren zain, funts nahikorik ez dagoelako",

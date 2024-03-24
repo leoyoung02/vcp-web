@@ -16,7 +16,6 @@ import { CompanyService, LocalService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { SearchComponent } from "@share/components/search/search.component";
 import { TestimonialsService } from "@features/services";
-import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -26,6 +25,7 @@ import { environment } from "@env/environment";
 import moment from "moment";
 import * as he from 'he';
 import { searchSpecialCase, sortSerchedMembers } from "src/app/utils/search/helper";
+import Fuse from 'fuse.js';
 
 @Component({
   selector: "app-testimonials-admin-list",
@@ -34,7 +34,6 @@ import { searchSpecialCase, sortSerchedMembers } from "src/app/utils/search/help
     CommonModule,
     TranslateModule,
     MatTableModule,
-    MatPaginatorModule,
     MatSortModule,
     MatSnackBarModule,
     SearchComponent,
@@ -72,9 +71,6 @@ export class TestimonialsAdminListComponent {
   ];
   pageSize: number = 10;
   pageIndex: number = 0;
-  @ViewChild(MatPaginator, { static: false }) paginator:
-    | MatPaginator
-    | undefined;
   @ViewChild(MatSort, { static: false }) sort: MatSort | undefined;
   showConfirmationModal: boolean = false;
   selectedItem: any;
@@ -85,6 +81,22 @@ export class TestimonialsAdminListComponent {
   courses: any;
   tags: any;
   tagMapping: any;
+
+  searchOptions = {
+    keys: [{
+      name: 'author',
+      weight: 0.25
+    }, {
+      name: 'tags_display',
+      weight: 0.25
+    }, {
+      name: 'short_description',
+      weight: 0.25
+    }, {
+      name: 'description',
+      weight: 0.25
+    }]
+  };
 
   constructor(
     private _route: ActivatedRoute,
@@ -213,8 +225,32 @@ export class TestimonialsAdminListComponent {
   loadTestimonials(data) {
     this.testimonialsData = data;
 
-    if (this.searchKeyword && this.testimonialsData) {
-      this.testimonialsData = this.testimonialsData.filter((testimonial) => {
+    if (this.searchKeyword) {
+      this.testimonialsData = this.filterSearchKeyword(this.testimonialsData)
+      let fuse = new Fuse(this.testimonialsData, this.searchOptions);
+      let filtered_search = fuse.search(this.normalizeCase(this.searchKeyword));
+      this.testimonialsData = []
+      filtered_search?.forEach(item => {
+        this.testimonialsData.push(item?.item)
+      })
+    }
+
+    this.refreshTable(this.testimonialsData);
+  }
+
+  normalizeCase(str) {
+    if (str) {
+      return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .trim();
+    }
+  }
+
+  filterSearchKeyword(testimonials) {
+    if(testimonials?.length > 0) {
+      return testimonials.filter((testimonial) => {
         return (
           (testimonial.author &&
             testimonial.author
@@ -253,40 +289,15 @@ export class TestimonialsAdminListComponent {
               ) >= 0)
         );
       });
-
-      this.testimonialsData = sortSerchedMembers(this.testimonialsData, this.searchKeyword, 'TESTIMONIALS')
     }
-
-    this.refreshTable(this.testimonialsData);
   }
 
   refreshTable(list) {
-    this.dataSource = new MatTableDataSource(
-      list.slice(
-        this.pageIndex * this.pageSize,
-        (this.pageIndex + 1) * this.pageSize
-      )
-    );
+    this.dataSource = new MatTableDataSource(list);
     if (this.sort) {
       this.dataSource.sort = this.sort;
     } else {
       setTimeout(() => (this.dataSource.sort = this.sort));
-    }
-    if (this.paginator) {
-      new MatTableDataSource(list).paginator = this.paginator;
-      if (this.pageIndex > 0) {
-      } else {
-        this.paginator.firstPage();
-      }
-    } else {
-      setTimeout(() => {
-        if (this.paginator) {
-          new MatTableDataSource(list).paginator = this.paginator;
-          if (this.pageIndex > 0) {
-            this.paginator.firstPage();
-          }
-        }
-      });
     }
   }
 
@@ -304,22 +315,6 @@ export class TestimonialsAdminListComponent {
   handleSearch(event) {
     this.searchKeyword = event;
     this.loadTestimonials(this.allTestimonialsData);
-  }
-
-  getPageDetails(event: any) {
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
-    this.dataSource = new MatTableDataSource(
-      this.testimonialsData.slice(
-        event.pageIndex * event.pageSize,
-        (event.pageIndex + 1) * event.pageSize
-      )
-    );
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    } else {
-      setTimeout(() => (this.dataSource.sort = this.sort));
-    }
   }
 
   viewItem(id) {

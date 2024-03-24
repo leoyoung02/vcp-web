@@ -24,6 +24,8 @@ import { initFlowbite } from "flowbite";
 import { AuthService, MenuService } from "@lib/services";
 import { DateAgoPipe } from "@lib/pipes";
 import { CreditsDisplayComponent } from "../credits-display/credits-display.component";
+import { UserService } from "@share/services";
+import { environment } from "@env/environment";
 
 @Component({
   selector: "app-user-menu",
@@ -105,6 +107,7 @@ export class UserMenuComponent {
   constructor(
     private _router: Router, 
     private _authService: AuthService,
+    private _userService: UserService,
     private cd: ChangeDetectorRef,
     private renderer2: Renderer2,
     @Inject(DOCUMENT) private _document,
@@ -115,6 +118,14 @@ export class UserMenuComponent {
   async ngOnInit() {
     if(this.companyId == 52 && !isDevMode()) {
       this.enableHotjar();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChange) {
+    let userCourseCreditsChange = changes["userCourseCredits"];
+    if (userCourseCreditsChange?.currentValue?.length > 0) {
+      this.userCourseCredits = userCourseCreditsChange.currentValue;
+      this._userService.updateUserCourseCredits(this.userCourseCredits);
     }
   }
 

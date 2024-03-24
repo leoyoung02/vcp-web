@@ -142,9 +142,9 @@
                         </mat-datepicker>
                     </mat-form-field>
                     <div class="ml-4">
-                        <input aria-label="HH:mm" [ngxTimepicker]="endtimepicker" 
+                        <input aria-label="HH:mm" [ngxTimepicker]="endtimepicker" [format]="24"
                             class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
-                            placeholder="hh:mm AM/PM" 
+                            placeholder="HH:mm" 
                             formControlName="end_date_hh">
                         <ngx-material-timepicker #endtimepicker></ngx-material-timepicker>
                    </div>

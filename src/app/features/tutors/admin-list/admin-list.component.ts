@@ -16,7 +16,6 @@ import { CompanyService, LocalService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { SearchComponent } from "@share/components/search/search.component";
 import { CoursesService, TutorsService } from "@features/services";
-import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -25,6 +24,7 @@ import { environment } from "@env/environment";
 import { FormsModule } from "@angular/forms";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { searchSpecialCase, sortSerchedMembers } from "src/app/utils/search/helper";
+import Fuse from 'fuse.js';
 
 @Component({
   selector: "app-tutors-admin-list",
@@ -33,7 +33,6 @@ import { searchSpecialCase, sortSerchedMembers } from "src/app/utils/search/help
     CommonModule,
     TranslateModule,
     MatTableModule,
-    MatPaginatorModule,
     MatSortModule,
     MatSnackBarModule,
     FormsModule,
@@ -71,9 +70,6 @@ export class TutorsAdminListComponent {
   ];
   pageSize: number = 10;
   pageIndex: number = 0;
-  @ViewChild(MatPaginator, { static: false }) paginator:
-    | MatPaginator
-    | undefined;
   @ViewChild(MatSort, { static: false }) sort: MatSort | undefined;
   showConfirmationModal: boolean = false;
   selectedItem: any;
@@ -92,6 +88,22 @@ export class TutorsAdminListComponent {
   @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
     | ElementRef
     | undefined;
+
+  searchOptions = {
+    keys: [{
+      name: 'normalized_first_name',
+      weight: 0.25
+    }, {
+      name: 'normalized_last_name',
+      weight: 0.25
+    }, {
+      name: 'normalized_name',
+      weight: 0.25
+    }, {
+      name: 'email',
+      weight: 0.25
+    }]
+  };
 
   constructor(
     private _route: ActivatedRoute,
@@ -166,6 +178,9 @@ export class TutorsAdminListComponent {
       data = tutors?.map((item) => {
         return {
           ...item,
+          normalized_name: this.normalizeCase(item.name),
+          normalized_first_name: this.normalizeCase(item.first_name?.toLowerCase()),
+          normalized_last_name: this.normalizeCase(item.last_name?.toLowerCase()),
           path: `/tutors/details/${item.id}`,
           image: `${environment.api}/${item.image}`,
         };
@@ -178,11 +193,34 @@ export class TutorsAdminListComponent {
     this.loadTutors(data);
   }
 
+  normalizeCase(str) {
+    if (str) {
+      return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .trim();
+    }
+  }
+
   loadTutors(data) {
     this.tutorsData = data;
 
-    if (this.searchKeyword && this.tutorsData) {
-      this.tutorsData = this.tutorsData.filter((tutor) => {
+    if (this.searchKeyword) {
+      this.tutorsData = this.filterSearchKeyword(this.tutorsData);
+      let fuse = new Fuse(this.tutorsData, this.searchOptions);
+      let filtered_search = fuse.search(this.normalizeCase(this.searchKeyword));
+      this.tutorsData = []
+      filtered_search?.forEach(item => {
+        this.tutorsData.push(item?.item)
+      })
+    }
+    this.refreshTable(this.tutorsData);
+  }
+
+  filterSearchKeyword(tutors) {
+    if(tutors?.length > 0) {
+      return tutors.filter((tutor) => {
         return (
           (tutor.first_name &&
             tutor.first_name
@@ -216,39 +254,15 @@ export class TutorsAdminListComponent {
               .indexOf(this.searchKeyword.toLowerCase()) >= 0)
         );
       });
-
-      this.tutorsData = sortSerchedMembers(this.tutorsData, this.searchKeyword)
     }
-    this.refreshTable(this.tutorsData);
   }
 
   refreshTable(list) {
-    this.dataSource = new MatTableDataSource(
-      list.slice(
-        this.pageIndex * this.pageSize,
-        (this.pageIndex + 1) * this.pageSize
-      )
-    );
+    this.dataSource = new MatTableDataSource(list);
     if (this.sort) {
       this.dataSource.sort = this.sort;
     } else {
       setTimeout(() => (this.dataSource.sort = this.sort));
-    }
-    if (this.paginator) {
-      new MatTableDataSource(list).paginator = this.paginator;
-      if (this.pageIndex > 0) {
-      } else {
-        this.paginator.firstPage();
-      }
-    } else {
-      setTimeout(() => {
-        if (this.paginator) {
-          new MatTableDataSource(list).paginator = this.paginator;
-          if (this.pageIndex > 0) {
-            this.paginator.firstPage();
-          }
-        }
-      });
     }
   }
 
@@ -284,22 +298,6 @@ export class TutorsAdminListComponent {
   handleSearch(event) {
     this.searchKeyword = event;
     this.loadTutors(this.allTutorsData);
-  }
-
-  getPageDetails(event: any) {
-    this.pageSize = event.pageSize;
-    this.pageIndex = event.pageIndex;
-    this.dataSource = new MatTableDataSource(
-      this.tutorsData.slice(
-        event.pageIndex * event.pageSize,
-        (event.pageIndex + 1) * event.pageSize
-      )
-    );
-    if (this.sort) {
-      this.dataSource.sort = this.sort;
-    } else {
-      setTimeout(() => (this.dataSource.sort = this.sort));
-    }
   }
 
   viewItem(row) {

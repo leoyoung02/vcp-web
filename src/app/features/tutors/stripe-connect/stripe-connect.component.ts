@@ -57,6 +57,7 @@ export class StripeConnectComponent {
   stripeAccounts: any;
   hasDifferentStripeAccounts: boolean = false;
   isLoading: boolean = true;
+  isStripeRestricted:boolean = false
 
   constructor(
     private _route: ActivatedRoute,
@@ -303,6 +304,8 @@ export class StripeConnectComponent {
             }
           })
         }
+
+        this.isStripeRestricted = stripe_accounts?.some( acc => acc?.status == 'incomplete')
       }
     )
   }

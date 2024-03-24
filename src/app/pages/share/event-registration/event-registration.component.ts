@@ -194,7 +194,6 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data);
           this.user = data?.user;

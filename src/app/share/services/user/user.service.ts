@@ -81,13 +81,21 @@ import {
     USER_GUID_INFO_URL,
     TUTOR_DETAILS_URL,
     USER_CREDIT_LOGS_HISTORY_URL,
+    STRIPE_TRANSFERS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
+import { environment } from "@env/environment";
 
 @Injectable({
   providedIn: "root",
 })
 export class UserService {
+  userCourseCredits$ = new BehaviorSubject<any[]>(
+    (this._localService.getLocalStorage(environment.lsusercoursecredits)
+      ? JSON.parse(this._localService.getLocalStorage(environment.lsusercoursecredits))
+      : [])
+  );
+
   private headers: HttpHeaders;
 
   private refreshNotifications = new BehaviorSubject(false);
@@ -100,6 +108,10 @@ export class UserService {
     this.headers = new HttpHeaders({
       "Content-Type": "application/json",
     });
+  }
+
+  get userCourseCredits(): any[] {
+    return this.userCourseCredits$.getValue();
   }
 
   getUserMemberTypes(id): Observable<any> {
@@ -364,6 +376,7 @@ export class UserService {
     let account_ids = this._http.get(`${TUTOR_ACCOUNT_IDS_URL}/${userId}/${companyId}`);
     let packages = this._http.get(`${TUTOR_USER_PACKAGES_URL}/${userId}/${companyId}`);
     let member_types = this._http.get(`${MEMBER_TYPES_URL}/${companyId}`);
+    let stripe_transfers = this._http.get(`${STRIPE_TRANSFERS_URL}/${companyId}`);
 
     return forkJoin([
       subfeatures,
@@ -374,7 +387,8 @@ export class UserService {
       tutors,
       account_ids,
       packages,
-      member_types
+      member_types,
+      stripe_transfers,
     ])
   }
 
@@ -632,5 +646,13 @@ export class UserService {
     return this._http.get(`${CRM_ASSIGNED_GUESTS_DATA_URL}/${id}/${userId}`,
         { headers: this.headers }
     ).pipe(map(res => res));
+  }
+
+  updateUserCourseCredits(userCourseCredits: any[] = []) {
+    this._localService.setLocalStorage(
+      environment.lsusercoursecredits,
+      JSON.stringify(userCourseCredits)
+    );
+    this.userCourseCredits$.next(userCourseCredits);
   }
 }

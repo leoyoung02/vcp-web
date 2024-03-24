@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import {
   Component,
+  ElementRef,
   HostListener,
   Input,
   SimpleChange,
@@ -32,6 +33,8 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatNativeDateModule } from "@angular/material/core";
 import moment from "moment";
 import { searchSpecialCase } from "src/app/utils/search/helper";
+import Fuse from 'fuse.js';
+import { environment } from "@env/environment";
 
 @Component({
   selector: "app-commissions-admin-list",
@@ -103,6 +106,45 @@ export class CommissionsAdminListComponent {
     end: new FormControl(),
   });
   actionMode: string = '';
+  companyId: number = 0;
+  stripeTransfers: any = [];
+  tutors: any = [];
+  selectedTutor: any = '';
+  idempotencyKey: any = '';
+  bookingDataSource: any = [];
+  displayedBookingColumns = [
+    "booking_id",
+    "status"
+  ];
+
+  @ViewChild("modalbutton", { static: false }) modalbutton:
+  | ElementRef
+  | undefined;
+  @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+  | ElementRef
+  | undefined;
+
+  searchOptions = {
+    keys: [{
+      name: 'normalized_student_name',
+      weight: 0.2
+    }, {
+      name: 'normalized_tutor_name',
+      weight: 0.2
+    }, {
+      name: 'course_title',
+      weight: 0.2
+    }, {
+      name: 'account_id',
+      weight: 0.2
+    }, {
+      name: 'commission_transfer_id',
+      weight: 0.2
+    }]
+  };
+  statusList: any = [];
+  selectedStatus: any = '';
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -126,8 +168,12 @@ export class CommissionsAdminListComponent {
       this.loadCommissions(this.allCommissionsData);
     }
   }
+
   async ngOnInit() {
     this.onResize();
+    this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
+    this.language = this._localService.getLocalStorage(environment.lslang);
+
     this.languageChangeSubscription =
     this._translateService.onLangChange.subscribe(
       (event: LangChangeEvent) => {
@@ -143,15 +189,32 @@ export class CommissionsAdminListComponent {
       this.fetchCommissions();
       this.initializeSearch();
     }
+    if(this.companyId == 52){
+      this.displayedColumns = [
+        "checked",
+        "booking_id",
+        "date",
+        "student_name",
+        "tutor_name",
+        "course_title",
+        "commission",
+        "action"
+      ];
+    }
+    this.statusList = [
+      { value: this._translateService.instant('tutors.charged') },
+      { value: this._translateService.instant('tutors.moneyonthewaystatus') }
+    ]
   }
 
   fetchCommissions(mode: any = '', status: any = '') {
     this._tutorsService
-      .getCommissions(this.company?.id)
+      .getCombinedCommissionsPrefetch(this.company?.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-          response => {
-            let commissions = response.commissions
+          data => {
+            let commissions =  data[0] ? data[0]['commissions'] : [];
+            this.stripeTransfers = data[1] ? data[1]['stripe_transfers'] : [];
             this.formatCommissions(commissions)
           },
           error => {
@@ -174,13 +237,32 @@ export class CommissionsAdminListComponent {
           })
         }
 
+        let tutor_name = commission?.tutor_name || (`${commission?.tutor_first_name} ${commission?.tutor_last_name}`)
+        let tutor_match = this.tutors?.some(
+          (a) => a.tutor_name == tutor_name
+        );
+        if(!tutor_match) {
+          this.tutors.push({
+            tutor_name: tutor_name,
+          })
+        }
+
+        let transfer_date = commission?.commission_transfer_id ? this.getTransferDate(commission) : '';
+        let student_name = commission?.student_name || (`${commission?.student_first_name} ${commission?.student_last_name}`)
+        let transferred = transfer_date ? (moment(transfer_date).isBefore(moment().format('YYYY-MM-DD')) ? true : false) : false
+
         return {
           ...commission,
-          student_name: commission?.student_name || (`${commission?.student_first_name} ${commission?.student_last_name}`),
-          tutor_name: commission?.tutor_name || (`${commission?.tutor_first_name} ${commission?.tutor_last_name}`),
-          date: moment(commission.booking_date).format('DD MMM YYYY'),
+          student_name,
+          tutor_name,
+          normalized_tutor_name: this.normalizeCase(tutor_name?.toLowerCase()),
+          normalized_student_name: this.normalizeCase(student_name?.toLowerCase()),
+          date: moment(commission.booking_date).locale(this.language || 'es').format('DD MMM YYYY'),
           commission_display: `€ ${commission.commission_per_hour}`,
+          transfer_date,
+          transferred,
           checked: false,
+          transfer_status: transferred ? this._translateService.instant('tutors.charged') : (this._translateService.instant('tutors.moneyontheway') + ' ' + (moment(transfer_date).format('DD/MM/YYYY'))),
         };
       });
     }
@@ -188,10 +270,54 @@ export class CommissionsAdminListComponent {
       this.allCommissionsData = data;
     }
 
+    if(this.tutors?.length > 0) {
+      this.tutors.sort(function (a, b) {
+        if (a.tutor_name < b.tutor_name) {
+          return -1;
+        }
+        if (a.tutor_name > b.tutor_name) {
+          return 1;
+        }
+        return 0;
+      });
+    }
     this.loadCommissions(data);
   }
 
+  normalizeCase(str) {
+    if (str) {
+      return str
+        .toLowerCase()
+        .normalize("NFD")
+        .replace(/\p{Diacritic}/gu, "")
+        .trim();
+    }
+  }
+
   loadCommissions(data) {
+    if(this.status == 'Completed') {
+      this.displayedColumns = [
+        "booking_id",
+        "date",
+        "student_name",
+        "tutor_name",
+        "course_title",
+        "commission",
+        "commission_transfer_id",
+        "action"
+      ];
+    } else {
+      this.displayedColumns = [
+        "checked",
+        "booking_id",
+        "date",
+        "student_name",
+        "tutor_name",
+        "course_title",
+        "commission",
+        "action"
+      ];
+    }
     let commissions = data;
 
     commissions = commissions?.filter((commission) => {
@@ -207,41 +333,31 @@ export class CommissionsAdminListComponent {
       return include;
     });
 
-    if (this.searchKeyword && commissions?.length > 0) {
-      commissions = commissions?.filter((commission) => {
-        let include = false;
-       if(
-        (commission?.student_first_name && (commission?.student_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
-        || searchSpecialCase(this.searchKeyword,commission.student_first_name)
-        ) || 
-        (commission?.student_last_name && (commission?.student_last_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
-        || searchSpecialCase(this.searchKeyword,commission.student_last_name)
-        ) ||
-        (commission?.student_name && (commission?.student_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
-        || searchSpecialCase(this.searchKeyword,commission.student_name)
-        ) ||
-        (commission?.student_email && (commission?.student_email?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
-        (commission?.tutor_first_name && (commission?.tutor_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
-        || searchSpecialCase(this.searchKeyword,commission.tutor_first_name)
-        ) ||
-        (commission?.tutor_last_name && (commission?.tutor_last_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
-        || searchSpecialCase(this.searchKeyword,commission.tutor_last_name)
-        ) ||
-        (commission?.tutor_name && (commission?.tutor_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
-        || searchSpecialCase(this.searchKeyword,commission.tutor_name)
-        ) ||
-        (commission?.tutor_email && (commission?.tutor_email?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0)
-       ) {
-        include = true;
-       }
-
-        return include;
-      });
+    if (this.searchKeyword) {
+      commissions = this.filterSearchKeyword(commissions);
+      let fuse = new Fuse(commissions, this.searchOptions);
+      let filtered_search = fuse.search(this.normalizeCase(this.searchKeyword));
+      commissions = []
+      filtered_search?.forEach(item => {
+        commissions.push(item?.item)
+      })
     }
 
     if(this.selectedCourse) {
       commissions = commissions?.filter((commission) => {
         return commission?.course_title == this.selectedCourse
+      })
+    }
+
+    if(this.selectedTutor) {
+      commissions = commissions?.filter((commission) => {
+        return commission?.tutor_name == this.selectedTutor
+      })
+    }
+
+    if(this.selectedStatus) {
+      commissions = commissions?.filter((commission) => {
+        return commission?.transfer_status?.indexOf(this.selectedStatus) >= 0
       })
     }
 
@@ -265,6 +381,45 @@ export class CommissionsAdminListComponent {
     this.refreshTable(this.commissionsData);
   }
 
+  filterSearchKeyword(commissions) {
+    if (commissions?.length > 0) {
+      return commissions?.filter((commission) => {
+        let include = false;
+       if(
+        (commission?.course_title && (commission?.course_title?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.course_title)
+        ) ||
+        (commission?.student_first_name && (commission?.student_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.student_first_name)
+        ) || 
+        (commission?.student_last_name && (commission?.student_last_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.student_last_name)
+        ) ||
+        (commission?.student_name && (commission?.student_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.student_name)
+        ) ||
+        (commission?.student_email && (commission?.student_email?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
+        (commission?.tutor_first_name && (commission?.tutor_first_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.tutor_first_name)
+        ) ||
+        (commission?.tutor_last_name && (commission?.tutor_last_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.tutor_last_name)
+        ) ||
+        (commission?.tutor_name && (commission?.tutor_name?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0 
+        || searchSpecialCase(this.searchKeyword,commission.tutor_name)
+        ) ||
+        (commission?.tutor_email && (commission?.tutor_email?.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "").indexOf(this.searchKeyword?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
+        (commission?.booking_id && (commission?.booking_id?.toLowerCase()).indexOf(this.searchKeyword?.toLowerCase()) >= 0) ||
+        (commission?.account_id && (commission?.account_id?.toLowerCase()).indexOf(this.searchKeyword?.toLowerCase()) >= 0) ||
+        (commission?.commission_transfer_id && (commission?.commission_transfer_id?.toLowerCase()).indexOf(this.searchKeyword?.toLowerCase()) >= 0)
+       ) {
+        include = true;
+       }
+        return include;
+      });
+    }
+  }
+
   refreshTable(list) {
     this.dataSource = new MatTableDataSource(list);
     if (this.sort) {
@@ -274,7 +429,26 @@ export class CommissionsAdminListComponent {
     }
   }
 
+  getTransferDate(commission) {
+    let transfer_date = ''
+
+    let stripe_transfer = this.stripeTransfers?.find((f) => f?.source?.id == commission.commission_transfer_id);
+      if(stripe_transfer?.available_on) {
+          transfer_date = moment.unix(stripe_transfer?.available_on).format("YYYY-MM-DD")
+      }
+
+    return transfer_date
+}
+
   changeCourseFilter(event) {
+    this.loadCommissions(this.allCommissionsData);
+  }
+
+  changeTutorFilter(event) {
+    this.loadCommissions(this.allCommissionsData);
+  }
+
+  changeStatusFilter(event) {
     this.loadCommissions(this.allCommissionsData);
   }
 
@@ -370,7 +544,18 @@ export class CommissionsAdminListComponent {
     }
   }
 
+  generateGuid() : string {
+    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+      var r = Math.random() * 16 | 0,
+        v = c == 'x' ? r : (r & 0x3 | 0x8);
+      return v.toString(16);
+    });
+  }
+
   applyBulkAction(confirmed) {
+    if(!this.idempotencyKey) {
+      this.idempotencyKey = this.generateGuid();
+    }
     if(confirmed) {
       this.showConfirmationModal = false;
       this.isProcessing = true;
@@ -378,19 +563,53 @@ export class CommissionsAdminListComponent {
         user_id: this.userId,
         booking_id: this.selected.map( (data) => { return data.booking_id }).join(),
         company_id: this.company?.id,
-        action: this.selectedBulkAction
+        action: this.selectedBulkAction,
+        idempotency_key: this.idempotencyKey,
       }
-      
-      this._tutorsService.bulkTransferCommission(params).subscribe(
+      this._tutorsService.bulkTransferCommissionImproved(params).subscribe(
         response => {
-          this.selected = [];
-          this.open(`${this._translateService.instant('tutors.transfercompleted')}`, '');
-          setTimeout(() => {
-            location.reload();
-          }, 500);
+          this.isProcessing = false;
+          if(response?.activeTransferBoookingIds?.length > 0) {
+            this.bookingDataSource = response.activeTransferBoookingIds.map(booking_id => {
+              return {
+                booking_id: booking_id,
+                status: 'success'
+              }
+            })
+          }
+
+          const temp:any = [];
+          if(response?.inactiveTransferBoookingIds?.length > 0) {
+            response.inactiveTransferBoookingIds.forEach(booking_id => {
+              let match = temp?.some(
+                (a) => a.booking_id == booking_id
+              );
+              if(!match) {
+                temp.push({
+                  booking_id: booking_id,
+                  status: 'failed'
+                })
+              }
+            })
+          }
+
+          this.bookingDataSource = [...this.bookingDataSource, ...temp]
+
+          let message = `Bulk transfer ${this.bookingDataSource?.length > 0 ? JSON.stringify(this.bookingDataSource) : ''}`
+          this._companyService.logMessage(this.companyId, this.userId, message, 'log')
+
+          if(this.bookingDataSource?.length > 0) {
+            this.modalbutton?.nativeElement.click();
+          } else {
+            setTimeout(() => {
+              location.reload();
+            }, 500);
+          }
         },
         error => {
-            console.log(error);
+          console.log(error);
+          let message = `Error in Bulk transfer ${JSON.stringify(error)}`
+          this._companyService.logMessage(this.companyId, this.userId, message, 'error')
         }
       )
     }
@@ -441,32 +660,41 @@ export class CommissionsAdminListComponent {
   }
 
   downloadExcel() {
-      let event_data: any[] = [];
-      if(this.commissionsData?.length > 0){
-        this.commissionsData?.forEach(booking => {
-            event_data.push({
-              'Fecha para registrarse':booking.booking_date,
-              'Alumno':booking.student_name,
-              'Tutor':booking.tutor_name,
-              'Curso':booking.course_title,
-              'Comisión':booking.commission,
-            })
-        });
+    let event_data: any[] = [];
+    if(this.commissionsData?.length > 0){
+      this.commissionsData?.forEach(booking => {
+          let row: any
 
+          if(this.status == 'Completed') {
+            let status = booking?.transferred ? this._translateService.instant('tutors.charged') : (this._translateService.instant('tutors.moneyontheway') + ' ' + moment(row?.transfer_date).format('DD/MM/YYYY'))
+            row = {
+              'Fecha para registrarse': booking.booking_date,
+              'Alumno': booking.student_name,
+              'Tutor': booking.tutor_name,
+              'Curso': booking.course_title,
+              'Comisión': booking.commission,
+              'ID de transferencia': booking?.commission_transfer_id,
+              'Estado': status?.replace('<br/>', '')
+            }
+          } else {
+            row = {
+              'Fecha para registrarse': booking.booking_date,
+              'Alumno': booking.student_name,
+              'Tutor': booking.tutor_name,
+              'Curso': booking.course_title,
+              'Comisión': booking.commission,
+            }
+          }
 
-      if(this.status == "Completed") {
-        this._excelService.exportAsExcelFile(event_data, 'paid_commission_' + this.getTimestamp());
-      }
-      
-      if(this.status != "Completed") {
-        this._excelService.exportAsExcelFile(event_data, 'pending_commission' + this.getTimestamp());
-      }
+          event_data.push(row);
+      });
 
+      let filename = this.status == "Completed" ? ('paid_commission_' + this.getTimestamp()) : ('pending_commission' + this.getTimestamp());
+      this._excelService.exportAsExcelFile(event_data, filename);
 
       this.open(this._translateService.instant("dialog.filedownloaded"), "");
-      }
+    }
   }
-
 
   public getTimestamp() {
     const date = new Date();
@@ -480,6 +708,12 @@ export class CommissionsAdminListComponent {
       duration: 3000,
       panelClass: ["info-snackbar"],
     });
+  }
+
+  closeTransfersSummaryDialog() {
+    setTimeout(() => {
+      location.reload();
+    }, 300);
   }
 
   ngOnDestroy() {

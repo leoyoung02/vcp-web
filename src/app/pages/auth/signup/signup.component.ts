@@ -310,7 +310,6 @@ export class SignupComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         async (data) => {
-          console.log(data);
           this.signupData = data;
           this.confirm_email = data?.confirm_email;
           this.mapSubfeatures(data);

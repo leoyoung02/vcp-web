@@ -2026,6 +2026,7 @@
         "width": "Breite",
         "height": "Höhe",
         "selecttutorrole": "Tutorrolle auswählen",
+        "selecttutor": "Tutor auswählen",
         "selectorder": "Auftrag auswählen",
         "chronological": "chronologisch",
         "reverse": "umgekehrt",
@@ -3230,7 +3231,14 @@
         "perhourrate":"Provision pro Nachhilfestunde.",
         "pendingtutorials":"Sie haben ausstehende Tutorials, die Sie als abgeschlossen markieren müssen.",
         "configurestripeaccount":"Es können keine Buchungen geplant werden, bis der Tutor sein Stripe-Konto konfiguriert.",
-        "tiktokstats":"TikTok-Statistiken"
+        "transferinactive":"Fehlgeschlagene Transaktionen aufgrund inaktiver Übertragungsfunktionen auf dem Stripe-Konto des Tutors, das mit der Buchungs-ID verknüpft ist.",
+        "bookingid": "Buchungs-ID",
+        "tranfersummary":"Übertragungszusammenfassung",
+        "loadingcalendar": "Kalender wird geladen …",
+        "charged": "Aufgeladen 🟢",
+        "moneyontheway": "Fertig. Geld unterwegs ⏳. Verfügbar in",
+        "moneyonthewaystatus": "Geld unterwegs ⏳",
+        "tiktokstats": "TikTok-Statistiken"
     },
     "general-details": {
         "name" : "Name",
@@ -3303,14 +3311,18 @@
         "personalaccesstokentext1": "Persönlichen Zugangstoken erhalten ",
         "personalaccesstokentext2": "um Ihren persönlichen Zugangstoken zu generieren. Kopieren Sie es und fügen Sie es hier ein.",
         "bookingheadertext": "Die Buchung ist fehlgeschlagen",
-        "bookingbodytext": "Bei der Bestätigung Ihrer Buchung ist ein Problem aufgetreten."
+        "bookingbodytext": "Bei der Bestätigung Ihrer Buchung ist ein Problem aufgetreten.",
+        "syncingyourbooking": "Ihre Buchung wird synchronisiert…",
+        "pleasedonotclose": "Bitte schließen Sie Ihren Browser nicht, während wir Ihre Reservierung bearbeiten."
     },
     "tutor-stripe": {
         "accountid": "Konto-ID",
         "notconfigured": "Nicht konfiguriert",
         "configurenote": "Konfigurieren Sie die Stripe Connect-Konto-ID in Ihrem Profil",
         "commission": "Kommission",
-        "notconnected": "Sie sind keinem Kurs als Tutor zugeordnet."
+        "notconnected": "Sie sind keinem Kurs als Tutor zugeordnet.",
+        "success": "Erfolg",
+        "failed": "Fehlgeschlagen"
     },
     "timeunits": {
         "minutes": "Protokoll",
@@ -3338,7 +3350,8 @@
         "mainaccounttextcontinue": "und deaktivieren Sie mehrere Kontoeinstellungen.",
         "setupaccount": "Richten Sie Stripe Connect ein",
         "other": "Andere",
-        "stripeconnectdesc": "Provisionen für die Buchung von Sitzungen mit Studenten werden an Ihr verbundenes Konto ausgezahlt. Richten Sie es ein, indem Sie den Onboarding-Prozess durchlaufen und die erforderlichen Verifizierungsdokumente hochladen. Nach erfolgreicher Einrichtung können Sie von dieser Seite aus auch auf das Dashboard Ihres verbundenen Kontos zugreifen."
+        "stripeconnectdesc": "Provisionen für die Buchung von Sitzungen mit Studenten werden an Ihr verbundenes Konto ausgezahlt. Richten Sie es ein, indem Sie den Onboarding-Prozess durchlaufen und die erforderlichen Verifizierungsdokumente hochladen. Nach erfolgreicher Einrichtung können Sie von dieser Seite aus auch auf das Dashboard Ihres verbundenen Kontos zugreifen.",
+        "incompletestripesetup":"Ihr Stripe-Einrichtungsstatus ist unvollständig und verhindert die Verarbeitung von Zahlungen auf Ihr Stripe-Konto und von Ihrem Stripe-Konto auf Ihr verknüpftes Bankkonto. Möglicherweise liegt es daran, dass die für die Authentifizierung Ihres Kontos erforderliche Dokumentation fehlt. Bitte melden Sie sich bei Ihrem Stripe-Konto an und laden Sie die erforderlichen Dokumente hoch, um Zahlungen und Auszahlungen zu ermöglichen."
     },
     "booking-error" : {
         "insufficientbalanceadmintext": "Ausstehende Überweisung aufgrund unzureichender Mittel",

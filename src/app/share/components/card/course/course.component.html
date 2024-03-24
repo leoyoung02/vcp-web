@@ -12,7 +12,7 @@
                 'min-h-full max-h-full sm:min-h-full sm:max-h-full w-full max-w-full sm:w-full sm:max:w-full md:w-[350px] md:max-w-[350px] lg:w-[350px] lg:max-w-[350px] md:min-h-[192px] md:max-h-[192px] lg:min-h-[192px] lg:max-h-[192px]': page != 'home', 
                 'opacity-25': section == 'more'
             }"
-            [ngSrc]="image" alt="" />
+            [ngSrc]="image" alt="" loading="lazy" />
     </div>
     <div [ngClass]="{'mt-12': page == 'home', 'mt-6': page != 'home'}">
         <div 

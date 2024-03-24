@@ -1,48 +1,82 @@
 <ng-container *ngIf="superAdmin">
-    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2">
-        <div class="mb-6">
-                <div class="flex items-center w-full max-w-full">
-                    <div class="flex-auto">
-                        <app-search
-                            [searchText]="searchText"
-                            [placeholderText]="placeholderText"
-                            [buttonColor]="buttonColor"
-                            (onEnterPressed)="handleSearch($event)"
-                            (doSearch)="handleSearch($event)"
+    <div class="flex flex-row items-center justify-between">
+        <div class="col-span-2">
+            <div class="flex items-center w-full max-w-full">
+                <div class="flex-auto">
+                    <app-search
+                        [searchText]="searchText"
+                        [placeholderText]="placeholderText"
+                        [buttonColor]="buttonColor"
+                        (onEnterPressed)="handleSearch($event)"
+                        (doSearch)="handleSearch($event)"
+                    >
+                    </app-search>
+                </div>
+                <div>
+                    <select
+                        id="courses"
+                        class="ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedCourse"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeCourseFilter($event)"
+                    >
+                        <option value="">{{ 'keap.selectcourse' | translate }}</option>
+                        <option
+                            *ngFor="let course of courses"                                
+                            [value]="course.value"
                         >
-                        </app-search>
-                    </div>
-                    <div>
-                        <select
-                            id="courses"
-                            class="ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                            [(ngModel)]="selectedCourse"
-                            [ngModelOptions]="{standalone: true}"
-                            (change)="changeCourseFilter($event)"
+                            {{ course?.course_title }}
+                        </option>
+                    </select>
+                </div>
+                <div class="ml-6">
+                    <select
+                        id="tutors"
+                        class="ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedTutor"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeTutorFilter($event)"
+                    >
+                        <option value="">{{ 'company-settings.selecttutor' | translate }}</option>
+                        <option
+                            *ngFor="let tutor of tutors"                                
+                            [value]="tutor.tutor_name"
                         >
-                            <option value="">{{ 'keap.selectcourse' | translate }}</option>
-                            <option
-                                *ngFor="let course of courses"                                
-                                [value]="course.value"
-                            >
-                                {{ course?.course_title }}
-                            </option>
-                        </select>
-                    </div>
-                    <div class="ml-6">
-                        <div class="flex-auto -mb-5">
-                            <mat-form-field class="datetime-picker-field">
-                                <mat-label>{{ 'plan-details.selectdate' | translate }}</mat-label>
-                                <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
-                                  <input (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
-                                  <input (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
-                                </mat-date-range-input>
-                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                <mat-date-range-picker #picker></mat-date-range-picker>
-                            </mat-form-field>
-                        </div>
+                            {{ tutor.tutor_name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="ml-6" *ngIf="status == 'Completed'">
+                    <select
+                        id="status-item"
+                        class="ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedStatus"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeStatusFilter($event)"
+                    >
+                        <option value="">{{ 'your-admin-area.selectstatus' | translate }}</option>
+                        <option
+                            *ngFor="let item of statusList"                                
+                            [value]="item.value"
+                        >
+                            {{ item.value }}
+                        </option>
+                    </select>
+                </div>
+                <div class="ml-6">
+                    <div class="flex-auto -mb-5">
+                        <mat-form-field class="datetime-picker-field">
+                            <mat-label>{{ 'plan-details.selectdate' | translate }}</mat-label>
+                            <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                                <input (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
+                                <input (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
                     </div>
                 </div>
+            </div>
         </div>
         <div class="flex justify-end">
             <button 
@@ -70,7 +104,7 @@
                     <option value="transfer">{{ 'booking-error.transfercommission' | translate }}</option>
                 </select>
                 <button 
-                    class="float-right flex items-center py-1.5 p-2.5 rounded-[10px] justify-evenly hover:bg-black"
+                    class="float-right flex items-center py-1.5 p-2.5 px-8 rounded-[10px] justify-evenly hover:bg-black"
                     [ngStyle]="{'background-color': buttonColor}" 
                     (click)="bulkApply()"
                 >
@@ -119,10 +153,16 @@
                         </div>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="booking_id" *ngIf="companyId == 52">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.bookingid' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="booking_id">
+                        {{ row?.booking_id }}
+                    </mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="date">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.bookingdate' | translate }} </mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="date">
-                        {{ row?.date }}
+                        <span class="capitalize">{{ row?.date }}</span>
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="student_name">
@@ -134,7 +174,16 @@
                 <ng-container matColumnDef="tutor_name">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.tutor' | translate }} </mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="tutor_name">
-                        {{ row?.tutor_name }} ({{row?.type}})
+                        <div>
+                            <div class="relative">
+                                <span>{{ row?.tutor_name }}</span>
+                                <div class="border border-white rounded-xl pr-4 py-[3px]">
+                                    <div class="text-xs" title="{{ row?.type }}">
+                                        {{ row?.type }}{{row?.account_id ? ': ' : ''}} <b>{{row?.account_id}}</b>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="course_title">
@@ -148,15 +197,15 @@
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="commission_transfer_id">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'dialog.transferid' | translate }} ID</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'dialog.transferid' | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="commission_transfer_id">
                         {{ row?.commission_transfer_id }}
                     </mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="action">
-                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'customer.action' | translate }}</mat-header-cell>
+                    <mat-header-cell *matHeaderCellDef mat-sort-header>{{ status == 'Completed' ? ('landing.status' | translate) : ('customer.action' | translate) }}</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="action" style="display:flex;">
-                        <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        <button *ngIf="status != 'Completed'" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             [ngStyle]="{'background-color': buttonColor}" (click)="deleteCommission(row)"
                         >
                             <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -164,6 +213,9 @@
                             </svg>
                             <span class="sr-only">Icon description</span>
                         </button>
+                        <ng-container *ngIf="row?.transfer_date">
+                            <span class="text-xs" [innerHtml]="row?.transfer_status"></span>
+                        </ng-container>
                     </mat-cell>
                 </ng-container>
                 <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
@@ -183,6 +235,63 @@
         [cancelText]="cancelText"
         (onAccept)="confirm()"
     ></app-toast>
+    <button #modalbutton data-modal-target="item-modal" data-modal-toggle="item-modal" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+        &nbsp;
+    </button>
+    <div id="item-modal" data-modal-backdrop="static" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-h-full max-w-xl">
+            <div class="relative bg-white rounded-lg shadow">
+                <button #closemodalbutton type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" (click)="closeTransfersSummaryDialog()" data-modal-hide="item-modal">
+                    <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                </button>
+                <div class="px-6 py-6 lg:px-8">
+                    <h3 class="text-xl font-medium text-gray-900 dark:text-white">
+                        {{'tutors.tranfersummary' | translate}}
+                    </h3>
+                    <div class="w-full min-w-full py-8">
+                        <div class="mat-table-responsive">
+                            <mat-table [dataSource]="bookingDataSource" matSort class="manage-list w-full">
+                                <ng-container matColumnDef="booking_id" *ngIf="companyId == 52">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header class="w-1/2"> {{ 'tutors.bookingid' | translate }} </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" data-label="booking_id" class="w-1/2">
+                                        {{ row?.booking_id }}
+                                    </mat-cell>
+                                </ng-container>
+                                <ng-container matColumnDef="status">
+                                    <mat-header-cell *matHeaderCellDef mat-sort-header class="w-1/2"> {{ 'general-details.status' | translate }} </mat-header-cell>
+                                    <mat-cell *matCellDef="let row" data-label="status" class="w-1/2">
+                                        <div *ngIf="row?.status" class="flex py-1 px-4 items-center rounded-lg"
+                                            [ngClass]="{'bg-green-200': row?.status == 'success', 'bg-pink-200': row?.status == 'failed'}">
+                                            <div class="capitalize mr-1 text-xs"
+                                                [ngClass]="{'text-green-700': row?.status == 'success', 'text-pink-700': row?.status == 'failed'}">
+                                                {{row?.status == 'success' ? ('tutor-stripe.success' | translate) : (row?.status == 'failed' ? ('tutor-stripe.failed' | translate) : row?.status)}}
+                                            </div>
+                                            <div>
+                                                <svg *ngIf="row?.status == 'success'"class="w-3 h-3 text-green-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
+                                                </svg>
+                                                <svg *ngIf="row?.status == 'failed'" class="w-3 h-3 text-pink-700 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                                                </svg>
+                                            </div>
+                                        </div>
+                                    </mat-cell>
+                                </ng-container>
+                                <mat-header-row *matHeaderRowDef="displayedBookingColumns"></mat-header-row>
+                                <mat-row *matRowDef="let row; columns: displayedBookingColumns;"></mat-row>
+                            </mat-table>
+                        </div>
+                        
+                        <div class="mt-8">
+                           <span class="text-sm text-gray-900 dark:text-white">{{'guests.note' | translate}} : {{'tutors.transferinactive' | translate}} </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </ng-container>
 <div *ngIf="!superAdmin" class="center pt-16">
     <app-no-access></app-no-access>

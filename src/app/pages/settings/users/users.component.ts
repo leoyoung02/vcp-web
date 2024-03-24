@@ -352,13 +352,19 @@ export class ManageUsersComponent {
   searchOptions = {
     keys: [{
       name: 'normalized_first_name',
-      weight: 0.4
+      weight: 0.2
     }, {
       name: 'normalized_last_name',
-      weight: 0.3
+      weight: 0.2
     }, {
       name: 'normalized_name',
-      weight: 0.3
+      weight: 0.2
+    }, {
+      name: 'email',
+      weight: 0.2
+    }, {
+      name: 'recordStatus',
+      weight: 0.2
     }]
   };
 
@@ -487,6 +493,7 @@ export class ManageUsersComponent {
       "news.searchbykeyword"
     );
   }
+
   fetchManageUsersData() {
     this._userService
       .fetchManageUsersData(this.companyId, this.userId)
@@ -517,7 +524,6 @@ export class ManageUsersComponent {
       );
   }
 
-
   getContract() {
     this._companyService
     .getCompanyContracts(this.companyId)
@@ -531,7 +537,6 @@ export class ManageUsersComponent {
         }
       );
   }
-
 
   showCredits(data){
     const featureToCheck = [
@@ -1419,7 +1424,7 @@ export class ManageUsersComponent {
   }
   
   filterSearchKeyword(members) {
-    if (members) {
+    if (members?.length > 0) {
       return members.filter((m) => {
         let include = false;
         if (
@@ -1478,6 +1483,12 @@ export class ManageUsersComponent {
               .indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
           (m.email &&
             m.email.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >=
+              0) ||
+          (m.recordStatus &&
+            this._translateService.instant(m.recordStatus)?.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >=
+              0) ||
+          (m.user_role &&
+            this.getTranslatedRole(m)?.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >=
               0)
         ) {
           include = true;
@@ -3784,34 +3795,6 @@ export class ManageUsersComponent {
             return false;
           }
         }
-        // this.mainService.editCompanyUser(
-        //   this.selectedUser.id,
-        //   params
-        // ).subscribe(
-        //   response => {
-        //       this.showEditUserModal = false
-        //       let dataSource = this.members
-        //       if(dataSource) {
-        //         dataSource.forEach(s => {
-        //           if(s.id == this.selectedUser.id) {
-        //             s.first_name = this.userForm?.get('first_name').value
-        //             s.last_name = this.userForm?.get('last_name').value
-        //             s.email = this.userForm?.get('email').value
-        //             s.user_role = user_role
-
-        //             if(this.hasMemberContract) {
-        //               s.contract_unit = this.selectedMemberContractDuration
-        //               s.contract_duration = this.memberContract
-        //             }
-        //           }
-        //         });
-        //         this.dataSource = dataSource
-        //       }
-        //   },
-        //   error => {
-        //       console.log(error);
-        //   }
-        // )
       }
     } else {
       if (this.userMode != "deny") {
@@ -3884,6 +3867,9 @@ export class ManageUsersComponent {
       if(this.courseCreditsList?.length && (this.isSuperAdmin || this.customMemberTypeId == 243)) {
         formData['separate_course_credits'] = this.separateCourseCredits ? 1 : 0
         formData['user_course_credits'] = this.courseCreditsList
+
+        let message = `Existing User credits ${this.userCourseCredits?.length > 0 ? JSON.stringify(this.userCourseCredits) : ''} will be updated to ${this.courseCreditsList?.length > 0 ? JSON.stringify(this.courseCreditsList) : ''} `
+        this._companyService.logMessage(this.companyId, this.userId, message, 'log')
       }
       if(this.selectedCourses?.length && (this.isSuperAdmin || this.customMemberTypeId == 243)) {
         let user_courses: any[] = []
@@ -3951,8 +3937,13 @@ export class ManageUsersComponent {
           .subscribe(
             (response) => {
               if (response.code == "user_exists") {
+                let message = `Existing User ${response?.existing_vcp_user ? JSON.stringify(response.existing_vcp_user) : ''} `
+                this._companyService.logMessage(this.companyId, this.userId, message, 'warn')
                 this.open(this._translateService.instant("dialog.userexists"), "");
               } else {
+                let message = `User created ${response?.user ? JSON.stringify(response.user) : ''} ${response?.add_user_credits ? JSON.stringify(response?.add_user_credits) : ''} ${response?.add_course_user ? JSON.stringify(response?.add_course_user) : ''}`
+                this._companyService.logMessage(this.companyId, this.userId, message, 'log')
+
                 this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
                 this.reloadMembersInfo();
                 this.hasAddedUser = true;
@@ -3962,6 +3953,8 @@ export class ManageUsersComponent {
             },
             (error) => {
               console.log(error);
+              let message = 'Unable to add user ' + JSON.stringify(error)
+              this._companyService.logMessage(this.companyId, this.userId, message, 'error')
               this.open(this._translateService.instant("dialog.error"), "");
             }
           );
@@ -3993,6 +3986,8 @@ export class ManageUsersComponent {
             },
             (error) => {
               console.log(error);
+              let message = 'Unable to edit user ' + JSON.stringify(error)
+              this._companyService.logMessage(this.companyId, this.userId, message, 'error')
               this.open(this._translateService.instant("dialog.error"), "");
             }
           );

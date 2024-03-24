@@ -2024,6 +2024,7 @@
         "width": "Largeur",
         "height": "Hauteur",
         "selecttutorrole": "Sélectionner le rôle du tuteur",
+        "selecttutor": "Sélectionner un tuteur",
         "selectorder": "Sélectionner la commande",
         "chronological": "Chronologique",
         "reverse": "Inverser", 
@@ -3225,7 +3226,14 @@
         "perhourrate":"commission par heure de tutorat.",
         "pendingtutorials":"Vous avez des tutoriels en attente à marquer comme terminés.",
         "configurestripeaccount":"Impossible de planifier des réservations tant que le tuteur n'a pas configuré son compte Stripe.",
-        "tiktokstats":"Statistiques TikTok"
+        "transferinactive":"Échec des transactions en raison de capacités de transfert inactives sur le compte Stripe du tuteur associé à l'identifiant de réservation.",
+        "bookingid": "Identifiant de réservation",
+        "tranfersummary":"Résumé du transfert",
+        "loadingcalendar": "Chargement du calendrier...",
+        "charged": "Chargé 🟢",
+        "moneyontheway": "Terminé. Argent en route ⏳. Disponible dans",
+        "moneyonthewaystatus": "Argent en route ⏳",
+        "tiktokstats": "Statistiques TikTok"
     },
     "general-details": {
         "name" : "Nom",
@@ -3298,14 +3306,18 @@
         "personalaccesstokentext1": "obtenir un jeton d'accès personnel",
         "personalaccesstokentext2": " pour générer votre jeton d'accès personnel. Copiez-le et collez-le ici.",
         "bookingheadertext": "La réservation a échoué",
-        "bookingbodytext": "Il y a eu un problème avec la confirmation de votre réservation."
+        "bookingbodytext": "Il y a eu un problème avec la confirmation de votre réservation.",
+        "syncingyourbooking": "Synchronisation de votre réservation...",
+        "pleasedonotclose": "Veuillez ne pas fermer votre navigateur pendant que nous traitons votre réservation."
     },
     "tutor-stripe": {
         "accountid": "identifiant de compte",
         "notconfigured": "Pas configuré",
         "configurenote": "Configurez l'identifiant de compte Stripe Connect dans votre profil",
         "commission": "Commission",
-        "notconnected": "Vous n'êtes affecté en tant que tuteur à aucun cours."
+        "notconnected": "Vous n'êtes affecté en tant que tuteur à aucun cours.",
+        "success": "Succès",
+        "failed": "Échec"
     },
     "timeunits": {
         "minutes": "minutes",
@@ -3333,7 +3345,8 @@
         "mainaccounttextcontinue": "et désactivez plusieurs paramètres de compte.",
         "setupaccount": "Configurer Stripe Connect",
         "other": "Autre",
-        "stripeconnectdesc": "Les commissions sur la réservation de sessions avec des étudiants seront versées sur votre compte connecté. Configurez-le en suivant le processus d'intégration et en téléchargeant les documents de vérification requis. Une fois la configuration réussie, vous pouvez également accéder au tableau de bord de votre compte connecté à partir de cette page."
+        "stripeconnectdesc": "Les commissions sur la réservation de sessions avec des étudiants seront versées sur votre compte connecté. Configurez-le en suivant le processus d'intégration et en téléchargeant les documents de vérification requis. Une fois la configuration réussie, vous pouvez également accéder au tableau de bord de votre compte connecté à partir de cette page.",
+        "incompletestripesetup":"Votre statut de configuration Stripe est incomplet et empêchera le traitement des paiements vers votre compte Stripe et depuis votre compte Stripe vers votre compte bancaire lié. Cela peut être dû à l'absence de documents requis pour authentifier votre compte. Veuillez vous connecter à votre compte Stripe et télécharger les documents requis pour activer les paiements."
     },
     "booking-error" : {
         "insufficientbalanceadmintext": "Transfert en attente en raison de fonds insuffisants",

@@ -2031,6 +2031,7 @@
         "width": "Ancho",
         "height": "Altura",
         "selecttutorrole": "Seleccionar role de tutor",
+        "selecttutor": "Seleccionar tutor",
         "selectorder": "Seleccionar orden",
         "chronological": "Cronológico",
         "reverse": "Reversa",
@@ -3251,7 +3252,14 @@
         "perhourrate":"Comisión por hora de tutoría.",
         "pendingtutorials":"Tienes tutoriales pendientes para marcar como completos.",
         "configurestripeaccount":"No se pueden programar reservas hasta que el tutor configure su cuenta Stripe.",
-        "tiktokstats":"Estadísticas de TikTok"
+        "transferinactive":"Transacciones fallidas debido a capacidades de transferencia inactivas en la cuenta Stripe del tutor asociada con el ID de reserva.",
+        "bookingid": "ID de reserva",
+        "tranfersummary":"Resumen de transferencia",
+        "loadingcalendar": "Cargando calendario...",
+        "charged": "Cobrada 🟢",
+        "moneyontheway": "Realizada. Dinero en camino ⏳. <br/>Disponible en",
+        "moneyonthewaystatus": "Dinero en camino ⏳",
+        "tiktokstats": "Estadísticas de TikTok"
     },
     "general-details": {
         "name" : "Nombre",
@@ -3324,14 +3332,18 @@
         "personalaccesstokentext1": "obtener token de acceso personal ",
         "personalaccesstokentext2": "para generar su token de acceso personal. Cópialo y pégalo aquí.",
         "bookingheadertext": "Reserva fallida",
-        "bookingbodytext": "Hubo un problema con la confirmación de su reserva."
+        "bookingbodytext": "Hubo un problema con la confirmación de su reserva.",
+        "syncingyourbooking": "Sincronizando tu reserva...",
+        "pleasedonotclose": "Por favor, no cierre su navegador mientras procesamos su reserva."
     },
     "tutor-stripe": {
         "accountid": "ID de la cuenta",
         "notconfigured": "No configurada",
         "configurenote": "Configure el ID de cuenta de Stripe Connect en su perfil",
         "commission": "Comisiones",
-        "notconnected": "No estás asignado como tutor a ningún curso."
+        "notconnected": "No estás asignado como tutor a ningún curso.",
+        "success": "Éxito",
+        "failed": "Fallido"
     },
     "timeunits": {
         "minutes": "minutos",
@@ -3359,7 +3371,8 @@
         "mainaccounttextcontinue": "y deshabilite la configuración de múltiples cuentas.",
         "setupaccount": "Configurar Stripe Connect",
         "other": "Otro",
-        "stripeconnectdesc": "Las comisiones por reservar sesiones con estudiantes se pagarán a su cuenta conectada. Para configurar, realice el proceso de incorporación y cargue los documentos de verificación requeridos. Una vez configurado correctamente, también podrá acceder al panel de control de su cuenta conectada desde esta página."
+        "stripeconnectdesc": "Las comisiones por reservar sesiones con estudiantes se pagarán a su cuenta conectada. Para configurar, realice el proceso de incorporación y cargue los documentos de verificación requeridos. Una vez configurado correctamente, también podrá acceder al panel de control de su cuenta conectada desde esta página.",
+        "incompletestripesetup":"El estado de configuración de su Stripe está incompleto y evitará el procesamiento de pagos a su cuenta Stripe y desde su cuenta Stripe a su cuenta bancaria vinculada. Puede deberse a que falta la documentación necesaria para autenticar su cuenta. Inicie sesión en su cuenta Stripe y cargue los documentos requeridos para permitir pagos y pagos."
 
     },
     "booking-error" : {

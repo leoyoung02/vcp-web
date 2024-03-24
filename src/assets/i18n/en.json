@@ -2032,6 +2032,7 @@
         "width": "Width",
         "height": "Height",
         "selecttutorrole": "Select tutor role",
+        "selecttutor": "Select tutor",
         "selectorder": "Select order",
         "chronological": "Chronological",
         "reverse": "Reverse",
@@ -3267,7 +3268,14 @@
         "perhourrate":"commission per hour of tutoring.",
         "pendingtutorials":"You have pending tutorials to mark complete.",
         "configurestripeaccount":"Cannot schedule bookings until the tutor configures their Stripe account.",
-        "tiktokstats":"TikTok Statistics"
+        "transferinactive":"Failed transactions due to inactive transfer capabilities on the tutor's Stripe account associated with the booking ID.",
+        "bookingid": "Booking Id",
+        "tranfersummary":"Transfer Summary",
+        "loadingcalendar": "Loading calendar...",
+        "charged": "Charged 🟢",
+        "moneyontheway": "Made. Money on the way ⏳. Disponible en",
+        "moneyonthewaystatus": "Money on the way ⏳",
+        "tiktokstats": "TikTok Statistics"
     },
     "general-details": {
         "name" : "Name",
@@ -3340,14 +3348,18 @@
         "personalaccesstokentext1": "get personal access token ",
         "personalaccesstokentext2": "to generate your personal access token. Copy and paste it here.",
         "bookingheadertext": "Booking failed",
-        "bookingbodytext": "There was a problem with confirming your booking."
+        "bookingbodytext": "There was a problem with confirming your booking.",
+        "syncingyourbooking": "Syncing your booking...",
+        "pleasedonotclose": "Please do not close your browser as we process your reservation."
     },
     "tutor-stripe": {
         "accountid": "Account ID",
         "notconfigured": "Not Configured",
         "configurenote": "Configure Stripe Connect account Id in your profile",
         "commission": "Commission",
-        "notconnected": "You are not assigned as a tutor to any course."
+        "notconnected": "You are not assigned as a tutor to any course.",
+        "success": "Success",
+        "failed": "Failed"
     },
     "timeunits": {
         "minutes": "minutes",
@@ -3375,7 +3387,8 @@
         "mainaccounttextcontinue": "and disable multiple account settings.",
         "setupaccount": "Setup Stripe Connect",
         "other": "Other",
-        "stripeconnectdesc": "Commissions on booking sessions with students will be paid out to your connected account. Set up by going through the onboarding process and uploading required verification documents. Once successfully set up, you can also access your connected account dashboard from this page."
+        "stripeconnectdesc": "Commissions on booking sessions with students will be paid out to your connected account. Set up by going through the onboarding process and uploading required verification documents. Once successfully set up, you can also access your connected account dashboard from this page.",
+        "incompletestripesetup":"Your stripe setup status is incomplete and will prevent the processing of payments to your Stripe account and from your Stripe account into your linked bank account. It might be due to missing documentation required to authenticate your account. Please login to your Stripe Account & Upload the required documents to enable payments and payouts."
     },
     "booking-error" : {
         "insufficientbalanceadmintext": "Pending Transfer due to insuffcient funds",
