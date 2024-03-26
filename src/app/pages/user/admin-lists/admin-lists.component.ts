@@ -396,6 +396,14 @@ export class AdminListsComponent {
     if (plan) {
       sublist.push({
         id: 2,
+        value: "inactive",
+        text: this._translateService.instant("company-settings.inactive"),
+        selected: false,
+        fk_company_id: this.companyId,
+        filter: "inactive",
+      });
+      sublist.push({
+        id: 3,
         value: "draft",
         text: this._translateService.instant("plan-create.draft"),
         selected: false,

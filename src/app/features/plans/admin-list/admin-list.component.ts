@@ -364,68 +364,75 @@ export class PlansAdminListComponent {
 
     loadPlans(data, mode = '') {
       if(this.status == 'draft') {
-          this.plansData = this.allPlanDrafts
+        this.plansData = this.allPlanDrafts
+      } else if(this.status == 'inactive') {
+        this.plansData = data?.filter(activity => {
+          return activity.status == 0
+        });
       } else {
-          this.plansData = data?.filter(activity => {
-            let plan_date = moment(activity.plan_date).format("YYYY-MM-DD");
-            var day = this.date.getDate();
-            var day_number = (day < 10 ? '0' : '') + day;
-            var month_number = ((this.date.getMonth() + 1) < 10 ? '0' : '') + (this.date.getMonth() + 1);
-            let date = this.date.getFullYear() + "-" + month_number + "-" + day_number;
-      
-            let active;
-            if(activity.type == 2) {
-              let today = moment(new Date()).utcOffset('+0100').format('YYYY-MM-DD HH:mm:ss');
-              let endDateReached = true;
-              if(activity.end_date) {
-                  if(activity.end_date > activity.plan_date) {
-                      if(activity.end_date >= today.replace(" ", "T") + '.000Z') {
-                          endDateReached = false;
-                      }
-                  }
-              }
-      
-              let include = false;
-              if(activity.id == 0) {
-                  include = true;
-              } else if(!endDateReached) {
-                  include = true;
-              } else if(!activity.end_date && activity.plan_date >= today.replace(" ", "T") + '.000Z' ) {
-                  include = true;
-              }
-      
-              if(!activity.plan_date) {
+        this.plansData = data?.filter(activity => {
+          let plan_date = moment(activity.plan_date).format("YYYY-MM-DD");
+          var day = this.date.getDate();
+          var day_number = (day < 10 ? '0' : '') + day;
+          var month_number = ((this.date.getMonth() + 1) < 10 ? '0' : '') + (this.date.getMonth() + 1);
+          let date = this.date.getFullYear() + "-" + month_number + "-" + day_number;
+    
+          let active;
+          if(activity.type == 2) {
+            let today = moment(new Date()).utcOffset('+0100').format('YYYY-MM-DD HH:mm:ss');
+            let endDateReached = true;
+            if(activity.end_date) {
+                if(activity.end_date > activity.plan_date) {
+                    if(activity.end_date >= today.replace(" ", "T") + '.000Z') {
+                        endDateReached = false;
+                    }
+                }
+            }
+    
+            let include = false;
+            if(activity.id == 0) {
                 include = true;
-              } 
-              
-              if(this.status == 'active') {
+            } else if(!endDateReached) {
+                include = true;
+            } else if(!activity.end_date && activity.plan_date >= today.replace(" ", "T") + '.000Z' ) {
+                include = true;
+            }
+    
+            if(!activity.plan_date) {
+              include = true;
+            } 
+            
+            if(this.status == 'active' && activity) {
+              active = include;
+            } else {
+              active = !include;
+            }
+          } else {
+            let include = false;
+            if(!activity.plan_date) {
+              include = true;
+            }
+    
+            if(
+              (this.status == 'active' && activity.status == 1) ||
+              (this.status == 'inactive' && activity.status == 0)
+            ) {
+              if(plan_date != 'Invalid date') {
+                active = plan_date >= date;
+              } else {
                 active = include;
+              }
+            } else {
+              if(plan_date != 'Invalid date') {
+                active = plan_date < date;
               } else {
                 active = !include;
               }
-            } else {
-              let include = false;
-              if(!activity.plan_date) {
-                include = true;
-              }
-      
-              if(this.status == 'active') {
-                if(plan_date != 'Invalid date') {
-                  active = plan_date >= date;
-                } else {
-                  active = include;
-                }
-              } else {
-                if(plan_date != 'Invalid date') {
-                  active = plan_date < date;
-                } else {
-                  active = !include;
-                }
-              }
             }
-            
-            return active
-          })
+          }
+          
+          return active
+        })
       }
       
       if(this.status == 'salesprocess') {
@@ -1092,6 +1099,41 @@ export class PlansAdminListComponent {
       );
 
       this.sending = false;
+    }
+
+    editPlanStatus(event, plan) {
+      let new_status = event?.target?.checked
+      plan.status = new_status ? 1 : 0
+      let params = {
+        id: plan.id,
+        status: new_status ? 1 : 0,
+        plan_type_id: plan.plan_type_id,
+      }
+      this._plansService.editPlanStatus(params).subscribe(
+        response => {
+          this.refreshStatus(plan, new_status);
+          this.open(
+            this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
+
+    refreshStatus(plan, new_status) {
+      let allPlansData = this.allPlansData;
+      if(allPlansData?.length > 0) {
+        this.allPlansData?.forEach(item => {
+          if(item.id == plan.id && item.plan_type_id == plan.plan_type_id) {
+            item.status = new_status ? 1 : 0
+          }
+        })
+      }
+      this.allPlansData = allPlansData;
+      this.loadPlans(this.allPlansData);
     }
 
     ngOnDestroy() {

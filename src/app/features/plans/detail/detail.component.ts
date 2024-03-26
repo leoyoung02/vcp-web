@@ -15,7 +15,7 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
+import { BreadcrumbComponent, NoAccessComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import {
   LocalService,
   ExcelService,
@@ -55,6 +55,7 @@ declare const addeventatc: any;
     NgOptimizedImage,
     SafeContentHtmlPipe,
     ToastComponent,
+    NoAccessComponent,
   ],
   templateUrl: "./detail.component.html",
 })
@@ -1212,6 +1213,7 @@ export class PlanDetailComponent {
     setTimeout(function () {
       addeventatc.refresh();
     }, 200);
+    this.isloading = false;
   }
 
   getFeaturedTitle() {

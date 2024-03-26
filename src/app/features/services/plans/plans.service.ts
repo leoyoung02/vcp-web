@@ -54,6 +54,7 @@ import {
   EDIT_EVENT_SUBCATEGORY_URL,
   EDIT_FEATURED_TEXT_URL,
   EDIT_GUEST_REGISTRATION_FIELDS_URL,
+  EDIT_PLAN_STATUS_URL,
   EDIT_PLAN_URL,
   EVENT_CATEGORIES_LIST_URL,
   EVENT_CATEGORIES_URL,
@@ -1252,6 +1253,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     return this._http.post(`${APPROVE_GROUP_PLAN_COMMENT_URL}/${id}`,
       {},
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editPlanStatus(params): Observable<any> {
+    return this._http.post(EDIT_PLAN_STATUS_URL,
+        params
     ).pipe(map(res => res));
   }
 }

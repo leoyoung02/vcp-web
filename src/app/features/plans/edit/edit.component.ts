@@ -1621,6 +1621,7 @@ export class PlanEditComponent {
     if(this.plan) { 
       this.initialPlan = this.initializeCurrentPlan(this.plan?.plan_date, this.plan?.end_date, 'initial'); 
     }
+    this.status = this.plan.status == 1 ? true : false;
     this.createdByUser = this.plan?.fk_user_id || this.userId;
     this.netcultura = netcultura;
   }
@@ -2176,9 +2177,9 @@ export class PlanEditComponent {
       }
     }
 
-    let publish = 1;
+    let publish = this.status ? 1 : 0;
     if (this.id > 0) {
-      this.plan["publish"] = publish || 1;
+      this.plan["publish"] = publish;
       this.plan["isShowAttendee"] = this.isShowAttendee ? 1 : 0;
       this.plan["isShowComments"] = this.isShowComments ? 1 : 0;
       this.plan["isShowDescription"] = this.isShowDescription ? 1 : 0;

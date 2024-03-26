@@ -371,6 +371,7 @@ export const SEND_CREDITS_DATA_URL = `${API_BASE}/v2/credits-data/send`;
 export const SEND_CONFIRM_ATTENDANCE_EMAIL_URL = `${API_BASE}/v2/confirm-attendance-email/send`;
 export const PLAN_DETAILS_UPDATED_EMAIL_URL = `${API_BASE}/v2/plan-updated/send-email`;
 export const PAST_PLANS_LIST_URL = `${API_BASE}/v2/past-plans`;
+export const EDIT_PLAN_STATUS_URL = `${API_BASE}/v2/plans/edit-status`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;

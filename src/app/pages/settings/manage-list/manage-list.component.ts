@@ -619,6 +619,14 @@ export class ManageListComponent {
     if (plan) {
       sublist.push({
         id: 2,
+        value: "inactive",
+        text: this._translateService.instant("company-settings.inactive"),
+        selected: false,
+        fk_company_id: this.companyId,
+        filter: "inactive",
+      });
+      sublist.push({
+        id: 3,
         value: "draft",
         text: this._translateService.instant("plan-create.draft"),
         selected: false,
@@ -626,7 +634,7 @@ export class ManageListComponent {
         filter: "draft",
       });
       sublist.push({
-        id: 3,
+        id: 4,
         value: "past",
         text: this._translateService.instant("your-admin-area.past"),
         selected: false,
