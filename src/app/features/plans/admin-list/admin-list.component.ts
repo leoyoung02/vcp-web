@@ -124,6 +124,10 @@ export class PlansAdminListComponent {
         initFlowbite();
         this.onResize();
 
+        if(this.company) {
+          this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(this.company);
+        }
+
         this.languageChangeSubscription =
         this._translateService.onLangChange.subscribe(
           (event: LangChangeEvent) => {

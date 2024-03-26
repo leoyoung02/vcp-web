@@ -333,7 +333,8 @@
         "confirmedattendance": "Sie haben Ihre Teilnahme erfolgreich bestätigt",
         "invalidcode": "Ungültiger Code",
         "youearned": "Herzlichen Glückwunsch, Sie haben es verdient",
-        "sendconfirmattendanceemail": "E-Mail zur Bestätigung der Teilnahme senden"
+        "sendconfirmattendanceemail": "E-Mail zur Bestätigung der Teilnahme senden",
+        "expiredconfirm": "Leider ist der Link zur Teilnahmebestätigung abgelaufen."
     },
     "plan-create": {
         "fillup": "Füllen Sie dieses Formular aus, um Ihren Plan zu erstellen",

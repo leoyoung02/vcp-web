@@ -2096,7 +2096,7 @@ export class LayoutMainComponent {
       }
     }
 
-    if (this.newMenuButton == 1) {
+    if (this.newMenuButton == 1 && !this.isUESchoolOfLife) {
       mmatch = this.menus.some(
         (a) =>
           a.name ===

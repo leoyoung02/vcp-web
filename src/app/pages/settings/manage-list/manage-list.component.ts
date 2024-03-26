@@ -260,7 +260,15 @@ export class ManageListComponent {
   getListTitle() {
     switch (this.list) {
       case "plans":
-        this.listTitle = this.plansTitle;
+        let title = this.plansTitle;
+        if(this.isUESchoolOfLife) {
+          if(this.language == 'en') {
+            title = title?.replace('University Life', 'School of Life')
+          } else {
+            title = title?.replace('de Vida Universitaria', 'de School of Life')
+          }
+        }
+        this.listTitle = title;
         break;
       case "clubs":
         this.listTitle = this.clubsTitle;

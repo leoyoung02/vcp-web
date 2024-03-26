@@ -151,6 +151,9 @@
                                             <th scope="col" class="px-2 py-1">
                                                 {{ 'wall.rating' | translate }}
                                             </th>
+                                            <th scope="col" class="px-2 py-1">
+                                                {{ 'company-settings.feedback' | translate }}
+                                            </th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -197,6 +200,9 @@
                                             </td>
                                             <td class="text-xs px-2 py-1 max-w-[80px]">
                                                 {{ participant?.ratings }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 max-w-[80px]">
+                                                {{ participant?.feedback }}
                                             </td>
                                         </tr>
                                     </tbody>

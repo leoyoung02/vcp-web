@@ -333,7 +333,8 @@
         "confirmedattendance": "Vous avez confirmé votre présence avec succès",
         "invalidcode": "Code invalide",
         "youearned": "Félicitations, vous avez gagné",
-        "sendconfirmattendanceemail": "Envoyer un e-mail de confirmation de présence"
+        "sendconfirmattendanceemail": "Envoyer un e-mail de confirmation de présence",
+        "expiredconfirm": "Désolé, le lien de confirmation de participation a expiré."
     },
     "plan-create": {
         "fillup": "Remplissez ce formulaire pour créer votre plan",

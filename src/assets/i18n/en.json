@@ -333,7 +333,8 @@
         "confirmedattendance": "You have successfully confirmed your attendance",
         "invalidcode": "Invalid code",
         "youearned": "Congratulations, you earned",
-        "sendconfirmattendanceemail": "Send confirm attendance email"
+        "sendconfirmattendanceemail": "Send confirm attendance email",
+        "expiredconfirm": "Sorry, the confirm attendance link has expired."
     },
     "plan-create": {
         "fillup": "Fill out this form to create your plan",

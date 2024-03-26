@@ -210,7 +210,8 @@ export class PlansStatisticsListComponent {
                     return {
                       ...participant,
                       credits: this.getUserActivityCredits(participant),
-                      ratings: this.getUserActivityRatings(plan, participant)
+                      ratings: this.getUserActivityRatings(plan, participant),
+                      feedback: this.getUserActivityFeedback(plan, participant)
                     };
                 });
 
@@ -256,6 +257,21 @@ export class PlansStatisticsListComponent {
         }
 
         return ratings;
+    }
+
+    getUserActivityFeedback(plan, participant) {
+        let feedback = '';
+
+        if(this.planRatings?.length > 0) {
+            let user_rating = this.planRatings?.filter(p => {
+                return p.plan_id == plan.id && participant.fk_user_id == p.created_by
+            })
+            if(user_rating?.length > 0) {
+                feedback = user_rating[0].feedback;
+            }
+        }
+
+        return feedback;
     }
 
     handleSearch(event) {

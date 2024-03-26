@@ -333,7 +333,8 @@
         "confirmedattendance": "Zure asistentzia behar bezala baieztatu duzu",
         "invalidcode": "Kode baliogabea",
         "youearned": "Zorionak, irabazi duzu",
-        "sendconfirmaattendanceemail": "Bidali berresteko asistentzia-mezu elektronikoa"
+        "sendconfirmaattendanceemail": "Bidali berresteko asistentzia-mezu elektronikoa",
+        "expiredconfirm": "Barkatu, berresteko asistentzia esteka iraungi egin da."
     },
     "plan-create": {
         "fillup": "Bete formulario hau zure plana sortzeko",

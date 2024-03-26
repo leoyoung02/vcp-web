@@ -329,7 +329,8 @@
         "confirmattendance": "Conferma la presenza",
         "confirmedattendance": "Hai confermato con successo la tua presenza",
         "invalidcode": "Codice non valido",
-        "youearned": "Congratulazioni, te lo sei guadagnato"
+        "youearned": "Congratulazioni, te lo sei guadagnato",
+        "expiredconfirm": "Siamo spiacenti, il link per confermare la partecipazione è scaduto."
     },
     "plan-create": {
         "fillup": "Compila questo modulo per creare il tuo piano",

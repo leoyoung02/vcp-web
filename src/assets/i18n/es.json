@@ -333,7 +333,8 @@
         "confirmedattendance": "Has confirmado exitosamente tu asistencia",
         "invalidcode": "Código no válido",
         "youearned": "Felicitaciones, te lo ganaste",
-        "sendconfirmattendanceemail": "Enviar correo electrónico de confirmación de asistencia"
+        "sendconfirmattendanceemail": "Enviar correo electrónico de confirmación de asistencia",
+        "expiredconfirm": "Lo sentimos, el enlace para confirmar asistencia ha caducado."
     },
     "plan-create": {
         "fillup": "Rellena este formulario para crear tu plan",

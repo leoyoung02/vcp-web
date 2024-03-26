@@ -173,11 +173,14 @@ export class MyCreditsComponent {
             };
         });
       
+        let total_credits = 0
         if(user_credit_logs?.length > 0) {
             user_credit_logs?.forEach(log => {
-                this.userTotalCredits += parseFloat(log.credits || 0)?.toFixed(2)
+                total_credits += parseFloat(log.credits || 0)
             })
         }
+
+        this.userTotalCredits = parseFloat(total_credits.toString())?.toFixed(2);
         this.userCredits = user_credit_logs;
     }
 
