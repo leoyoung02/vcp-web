@@ -437,7 +437,8 @@
         "limitmemberseats": "Limite (membri)",
         "limitguestseats": "Limite (ospiti)",
         "limitgreaterthanseats": "Imposta un limite inferiore o uguale al numero di posti",
-        "selectincharge": "Seleziona il delegato"
+        "selectincharge": "Seleziona il delegato",
+        "incharge": "Responsabile"
     },
     "plan-recommendations": {
         "applauses": "Applausi",

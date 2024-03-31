@@ -10,9 +10,12 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatNativeDateModule } from "@angular/material/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlansService } from '@features/services';
-import { FormsModule } from '@angular/forms';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
 import moment from "moment";
@@ -21,17 +24,21 @@ import moment from "moment";
     selector: 'app-plans-admin-list',
     standalone: true,
     imports: [
-        CommonModule, 
-        TranslateModule,
-        MatTableModule,
-        MatPaginatorModule,
-        MatSortModule,
-        MatSnackBarModule,
-        FormsModule,
-        SearchComponent,
-        IconFilterComponent,
-        FilterComponent,
-        NgOptimizedImage
+      CommonModule, 
+      TranslateModule,
+      MatTableModule,
+      MatPaginatorModule,
+      MatSortModule,
+      MatSnackBarModule,
+      FormsModule,
+      ReactiveFormsModule,
+      MatFormFieldModule,
+      MatNativeDateModule,
+      MatDatepickerModule,
+      SearchComponent,
+      IconFilterComponent,
+      FilterComponent,
+      NgOptimizedImage
     ],
     templateUrl: './admin-list.component.html',
 })
@@ -92,6 +99,13 @@ export class PlansAdminListComponent {
     selectedGuestId: any;
     showHistory: boolean = false;
     assignParticipantIds: any;
+    defaultActiveFilter: boolean = true;
+    selectedStartDate: any;
+    selectedEndDate: any;
+    dateRange = new FormGroup({
+        start: new FormControl(),
+        end: new FormControl(),
+    });
 
     constructor(
         private _route: ActivatedRoute,
@@ -447,6 +461,32 @@ export class PlansAdminListComponent {
         }
       }
 
+      if(this.company?.id == 12 && this.status == 'active') {
+        this.plansData = this.plansData?.map(plan => {
+          let filtered_participants = this.planParticipants?.filter(pp => {
+            return pp.id == plan.id
+          })
+
+          let participants = filtered_participants?.map(participant => {
+            return {
+              ...participant,
+              role: this.getParticipantRole(participant)
+            }
+          })
+
+          return {
+            ...plan,
+            participants
+          }
+        })
+
+        if(this.plansData?.length > 0) {
+          this.plansData = this.plansData?.filter(plan => {
+            return plan?.participants?.length > 0
+          })
+        }
+      }
+
       if(this.searchKeyword && this.plansData) {
           this.plansData = this.plansData.filter(p => {
             return p.title && p.title.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0 
@@ -475,13 +515,28 @@ export class PlansAdminListComponent {
         };
       });
 
-      if(this.status == 'past' && formattedPlans?.length > 0) {
-        console.log('past')
+      if((this.status == 'past' || this.status == 'salesprocess') && formattedPlans?.length > 0) {
         formattedPlans = formattedPlans?.sort((a, b) => {
           const oldDate: any = new Date(a.plan_date)
           const newDate: any = new Date(b.plan_date)
 
           return newDate - oldDate
+        })
+      }
+
+      if(this.selectedStartDate && this.selectedEndDate) {
+        formattedPlans = formattedPlans?.filter((plan) => {
+          let include = false
+  
+          let formatted_plan_date = moment(plan?.plan_date?.substr(0, 10))?.format('YYYY-MM-DD');
+          if(
+            moment(formatted_plan_date).isSameOrAfter(moment(this.selectedStartDate))
+            && moment(formatted_plan_date).isSameOrBefore(moment(this.selectedEndDate))
+           ) {
+            include = true;
+          }
+  
+          return include
         })
       }
 
@@ -972,7 +1027,7 @@ export class PlansAdminListComponent {
               });
             }
             setTimeout(() => {
-              this.formatPlans(this.allPlansData);
+              this.formatPlans(this.allPlansData, 'refresh');
               this.closemodalbutton?.nativeElement.click();
             }, 500)
           },
@@ -1002,7 +1057,13 @@ export class PlansAdminListComponent {
                   if(this.salesPeople) {
                     this.salesPeople.forEach(sp => {
                       if(sp.id == this.selectedSalesPerson) {
-                        this.planParticipants[index].assigned_sales_person = sp.name;
+                        if(this.status == 'active') {
+                          if(this.planParticipants[index].role == 'Guest') {
+                            this.planParticipants[index].assigned_sales_person = sp.name;
+                          }
+                        } else {
+                          this.planParticipants[index].assigned_sales_person = sp.name;
+                        }
                       }
                     });
                   }
@@ -1010,7 +1071,7 @@ export class PlansAdminListComponent {
               });
             }
             setTimeout(() => {
-              this.formatPlans(this.allPlansData);
+              this.formatPlans(this.allPlansData, 'refresh');
               this.closemodalbutton?.nativeElement.click();
             }, 500)
           },
@@ -1048,6 +1109,25 @@ export class PlansAdminListComponent {
           console.log(error);
         }
       );
+    }
+
+    handleDateChange(type, event) {
+      if (type == "start") {
+        if(moment(event?.value).isValid()) {
+          this.selectedStartDate = moment(event.value).format("YYYY-MM-DD");
+        } else {
+          this.selectedStartDate = '';
+        }
+      }
+      if (type == "end") {
+        if(moment(event?.value).isValid()) {
+          this.selectedEndDate = moment(event.value).format("YYYY-MM-DD");
+        } else {
+          this.selectedEndDate = '';
+        }
+      }
+  
+      this.loadPlans(this.allPlansData);
     }
 
     ngOnDestroy() {

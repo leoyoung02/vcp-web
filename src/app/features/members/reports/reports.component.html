@@ -1,7 +1,7 @@
 <div class="flex flex-wrap items-center justify-between">
     <div class="mb-6">
         <div class="flex items-center w-full max-w-full">
-            <div class="flex-auto">
+            <div class="flex-auto block w-[250px]">
                 <app-search
                     [searchText]="searchText"
                     [placeholderText]="placeholderText"
@@ -28,12 +28,12 @@
                 <div>
                     <select
                         id="event"
-                        class="ml-4 max-w-[280px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="ml-4 max-w-[150px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         [(ngModel)]="selectedEvent"
                         [ngModelOptions]="{standalone: true}"
                         (change)="changeEventFilter($event)"
                     >
-                        <option value="">{{ 'your-admin-area.selectevent' | translate }}</option>
+                        <option value="">{{ 'your-admin-area.event' | translate }}</option>
                         <option
                             *ngFor="let event of events"                                
                             [value]="event.title"
@@ -45,12 +45,12 @@
                 <div class="ml-4">
                     <select
                         id="event-type"
-                        class="ml-4 max-w-[250px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="ml-4 max-w-[200px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         [(ngModel)]="selectedEventType"
                         [ngModelOptions]="{standalone: true}"
                         (change)="changeEventTypeFilter($event)"
                     >
-                        <option value="">{{ 'plan-create.selecteventtype' | translate }}</option>
+                        <option value="">{{ 'crm.eventtype' | translate }}</option>
                         <option
                             *ngFor="let type of eventTypes"                                
                             [value]="type.type"
@@ -62,12 +62,12 @@
                 <div class="ml-4">
                     <select
                         id="invited-by"
-                        class="max-w-[250px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="max-w-[150px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         [(ngModel)]="selectedInvitedBy"
                         [ngModelOptions]="{standalone: true}"
                         (change)="changeInvitedByFilter($event)"
                     >
-                        <option value="">{{ 'your-admin-area.selectinvitedby' | translate }}</option>
+                        <option value="">{{ 'your-admin-area.invitedby' | translate }}</option>
                         <option
                             *ngFor="let invited of invitedBy"                                
                             [value]="invited.invited_by"
@@ -80,7 +80,7 @@
             <div class="ml-4">
                 <select
                     id="zip-code"
-                    class="min-w-[120px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="min-w-[150px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     [(ngModel)]="selectedZipCode"
                     [ngModelOptions]="{standalone: true}"
                     (change)="changeZipCodeFilter($event)"
@@ -97,12 +97,12 @@
             <div class="ml-4">
                 <select
                     id="sector"
-                    class="max-w-[200px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    class="max-w-[150px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                     [(ngModel)]="selectedSector"
                     [ngModelOptions]="{standalone: true}"
                     (change)="changeSectorFilter($event)"
                 >
-                    <option value="">{{ 'members.selectsector' | translate }}</option>
+                    <option value="">{{ 'profile-settings.sector' | translate }}</option>
                     <option
                         *ngFor="let sector of sectors"                                
                         [value]="sector.sector"

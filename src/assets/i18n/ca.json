@@ -439,7 +439,9 @@
         "occurences": "Ocurrències",
         "limitmemberseats": "Límit (Membres)",
         "limitguestseats": "Límit (Convidats)",
-        "limitgreaterthanseats": "Definiu un límit inferior o igual al nombre de seients"
+        "limitgreaterthanseats": "Definiu un límit inferior o igual al nombre de seients",
+        "selectincharge": "Seleccioneu el delegat",
+        "incharge": "Responsable"
     },
     "plan-recommendations": {
         "applauses": "Aplaudiment",

@@ -4,7 +4,8 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
+  SimpleChange,
 } from "@angular/core";
 import { initFlowbite } from "flowbite";
 
@@ -25,8 +26,19 @@ export class ButtonGroupComponent {
   @Output() onSubButtonClick = new EventEmitter();
   @Output() onSubSubButtonClick = new EventEmitter();
 
+  refreshed: boolean = false;
+
   async ngOnInit() {
     initFlowbite();
+  }
+
+  ngOnChanges(changes: SimpleChange) {
+    let buttonListChange = changes["buttonList"];
+    this.refreshed = false;
+    if (buttonListChange?.currentValue?.length > 0) {
+      this.buttonList = buttonListChange.currentValue;
+      this.refreshed = true
+    }
   }
 
   handleActionClick(event) {

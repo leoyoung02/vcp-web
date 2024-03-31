@@ -440,7 +440,8 @@
         "limitmemberseats": "Limit (Members)",
         "limitguestseats": "Limit (Guests)",
         "limitgreaterthanseats": "Please set a limit less than or equal the number of seats",
-        "selectincharge": "Select the Delegate"
+        "selectincharge": "Select the Delegate",
+        "incharge": "Persin in charge"
     },
     "plan-recommendations": {
         "applauses": "Applauses",

@@ -478,7 +478,9 @@ export class MembersListComponent {
           (m?.display_name && ((m?.display_name.toLowerCase()).normalize("NFD").replace(/\p{Diacritic}/gu, "")).indexOf(this.search?.toLowerCase().normalize("NFD").replace(/\p{Diacritic}/gu, "")) >= 0) ||
           (m.city?.toLowerCase().indexOf(this.search.toLowerCase()) >= 0) ||
           (m.sector?.toLowerCase().indexOf(this.search.toLowerCase()) >= 0) ||
-          (m.email?.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
+          (m.email?.toLowerCase().indexOf(this.search.toLowerCase()) >= 0) ||
+          (m.phone?.toLowerCase().indexOf(this.search.toLowerCase()) >= 0) ||
+          (m.zip_code?.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
         ) {
           include = true
         }

@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { Component, HostListener, Input } from "@angular/core";
+import { Component, HostListener, Input, ChangeDetectorRef } from "@angular/core";
 import {
   LangChangeEvent,
   TranslateModule,
@@ -172,7 +172,7 @@ export class PlansListComponent {
   pageDescription: any;
   title: any;
   subtitle: any;
-  p: any;
+  p: number = 1;
   createHover: boolean = false;
   myActivitiesHover: boolean = false;
 
@@ -199,7 +199,8 @@ export class PlansListComponent {
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _companyService: CompanyService,
-    private _plansService: PlansService
+    private _plansService: PlansService,
+    private cd: ChangeDetectorRef
   ) {
     this.selectedPlanType = 1;
     this.selected = undefined;
@@ -925,6 +926,9 @@ export class PlansListComponent {
                   item.selected = false;
                 }
               })
+              if(this.selectedFilterCategory) {
+                this.filteredCategory(this.selectedFilterCategory)
+              }
             } else {
               let categories = this.types?.length > 0 ? this.categories : this.categoryList;
               if(categories?.length > 0) {
@@ -1320,11 +1324,26 @@ export class PlansListComponent {
     this.calendarFilterMode = true;
     this.selected = params.selectedDate || "";
     this.hasDateSelected = true;
+    if(this.companyId == 12) { this.refreshButtonList(); }
     this.handleDateChange("", params.joined, params.joinedPlans);
+  }
+
+  refreshButtonList() {
+    this.fType = '';
+    let buttonList = this.buttonList;
+    buttonList?.forEach(item => {
+      return item.selected = false;
+    })
+    this.buttonList = [];
+    setTimeout(() => { 
+      this.buttonList = buttonList;
+      this.cd.detectChanges()
+    }, 100)
   }
 
   filterPlans = async (filter, categoryName, categoryNameEs) => {
     // Reset paging and array that populates the paging
+    this.p = 1;
     this.filteredPlan = [];
     this.subcats = [];
 
@@ -1799,7 +1818,8 @@ export class PlansListComponent {
   }
 
   filteredCategory(category) {
-    this.buttonList?.forEach((item) => {
+    let buttonList = this.buttonList;
+    buttonList?.forEach((item) => {
       if (item.id === category.id) {
         item.selected = true;
       } else {
@@ -1820,6 +1840,12 @@ export class PlansListComponent {
         category.name_ES
       );
     }
+
+    this.buttonList = [];
+    setTimeout(() => { 
+      this.buttonList = buttonList;
+      this.cd.detectChanges()
+    }, 100)
   }
 
   filteredSubcategory(category) {

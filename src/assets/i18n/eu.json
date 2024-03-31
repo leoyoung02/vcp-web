@@ -440,7 +440,8 @@
         "limitmemberseats": "Mugatu (Bazkideen)",
         "limitguestseats": "Muga (Gonbidatuen)",
         "limitgreaterthanseats": "Ezarri eserleku kopurua baino txikiagoa edo berdina den muga",
-        "selectincharge": "Hautatu ordezkaria"
+        "selectincharge": "Hautatu ordezkaria",
+        "incharge": "Arduraduna"
     },
     "plan-recommendations": {
         "applauses": "Txaloak",
