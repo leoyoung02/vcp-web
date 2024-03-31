@@ -282,7 +282,7 @@ export class MembersReportsComponent {
                 }
 
                 if(user.title) {
-                    let title_match = this.sectors?.some((a) => a.title == user.title);
+                    let title_match = this.events?.some((a) => a.title == user.title);
                     if(!title_match) {
                         this.events?.push({
                             title: user.title
@@ -411,7 +411,9 @@ export class MembersReportsComponent {
                             .replace(/\p{Diacritic}/gu, "")
                         ) >= 0) ||
                     (user.phone && user.phone.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
-                    (user.email && user.email.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0)
+                    (user.email && user.email.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
+                    (user.zip_code && user.zip_code.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
+                    (user.phone && user.phone.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0)
                 );
             });
         }

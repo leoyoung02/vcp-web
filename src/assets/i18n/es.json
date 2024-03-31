@@ -440,7 +440,8 @@
         "limitmemberseats": "Límite (Miembros)",
         "limitguestseats": "Límite (Invitados)",
         "limitgreaterthanseats": "Establezca un límite menor o igual al número de asientos",
-        "selectincharge": "Seleccione el delegado"
+        "selectincharge": "Seleccione el delegado",
+        "incharge": "Persona a carga"
     },
     "plan-recommendations": {
         "applauses": "Aplauso",

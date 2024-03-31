@@ -11,6 +11,19 @@
                 >
                 </app-search>
             </div>
+            <div class="ml-6">
+                <div class="flex-auto -mb-5">
+                    <mat-form-field class="datetime-picker-field">
+                        <mat-label class="text-sm">{{ 'guests.eventdate' | translate }}</mat-label>
+                        <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                          <input class="text-[13px]" (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
+                          <input class="text-[13px]" (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
+                        </mat-date-range-input>
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-date-range-picker #picker></mat-date-range-picker>
+                    </mat-form-field>
+                </div>
+            </div>
             <div class="px-5">
                 <app-icon-filter 
                     *ngIf="company?.id != 12 && list?.length > 0"
@@ -23,6 +36,7 @@
                     [buttonList]="buttonList"
                     [buttonColor]="buttonColor"
                     [list]="list"
+                    [defaultActiveFilter]="defaultActiveFilter"
                     (filterList)="filteredCity($event)"
                     (onButtonClick)="filteredCategory($event)"
                 ></app-filter>
@@ -66,7 +80,7 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'your-admin-area.name' | translate }} </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="title">
                     <div class="flex">
-                        <svg *ngIf="company?.id == 12 && status == 'salesprocess'" (click)="assignEventToSalesPerson(row)" class="hover:cursor-pointer w-6 h-6 mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                        <svg *ngIf="company?.id == 12 && (status == 'salesprocess' || status == 'active')" (click)="assignEventToSalesPerson(row)" class="hover:cursor-pointer w-6 h-6 mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                             <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-2V5a1 1 0 0 0-2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 0 0 2 0V9h2a1 1 0 1 0 0-2Z"/>
                         </svg>
                         <a [ngStyle]="{'color': buttonColor}" class="hover:cursor-pointer hover:underline" href="javascript:;" (click)="viewItem(row?.id, row?.type)">
@@ -108,12 +122,12 @@
                                 <th scope="col" class="px-2 py-1" *ngIf="row?.paid_activity">
                                     {{ 'members.paid' | translate }}
                                 </th>
-                                <ng-container *ngIf="status == 'salesprocess'">
-                                    <th scope="col" class="px-2 py-1">
+                                <ng-container *ngIf="status == 'salesprocess' || (company?.id == 12 && status == 'active')">
+                                    <th scope="col" class="px-2 py-1" *ngIf="status == 'salesprocess'">
                                         ADMIN 1
                                     </th>
                                     <th scope="col" class="px-2 py-1">
-                                        {{ 'your-admin-area.assign' | translate }}
+                                        {{ status == 'active' ? ('crm.salesperson' | translate) : ('your-admin-area.assign' | translate) }}
                                     </th>
                                 </ng-container>
                             </tr>
@@ -201,13 +215,13 @@
                                     <td class="text-xs px-2 py-1 max-w-[80px]" *ngIf="row?.paid_activity">
                                         <a href="javascript:;" class="text-blue-600 hover:cursor-pointer" (click)="goToInvoice(participant?.invoice)">{{ participant?.invoice }}</a>
                                     </td>
-                                    <ng-container *ngIf="status == 'salesprocess'">
-                                        <td class="text-xs px-2 py-1 max-w-[80px]">
+                                    <ng-container *ngIf="status == 'salesprocess' || (company?.id == 12 && status == 'active')">
+                                        <td class="text-xs px-2 py-1 max-w-[80px]" *ngIf="status == 'salesprocess'">
                                             {{participant?.admin1 ? participant?.admin1 : ('your-admin-area.freearea' | translate)}}
                                         </td>
                                         <td class="text-xs px-2 py-1 max-w-[80px]">
                                             <div class="flex">
-                                                <svg (click)="assignSalesPerson(participant)" class="hover:cursor-pointer w-6 h-6 mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                <svg *ngIf="status == 'salesprocess'" (click)="assignSalesPerson(participant)" class="hover:cursor-pointer w-6 h-6 mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                                     <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-2V5a1 1 0 0 0-2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 0 0 2 0V9h2a1 1 0 1 0 0-2Z"/>
                                                 </svg>
                                                 <span *ngIf="participant?.assigned_sales_person">{{participant?.assigned_sales_person}}</span>

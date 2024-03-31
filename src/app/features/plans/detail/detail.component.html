@@ -364,7 +364,7 @@
                     </div>
                 </ng-container>
                 <div class="my-12 flex items-center" *ngIf="title">
-                    <div class="opacity-60 mr-4">{{ 'plan-details.createdby' | translate }}:</div>
+                    <div class="opacity-60 mr-4">{{ companyId == 12 ? ('plan-create.incharge' | translate) : ('plan-details.createdby' | translate) }}:</div>
                     <div class="font-semibold">
                         {{ createdBy || planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name) }}
                     </div>

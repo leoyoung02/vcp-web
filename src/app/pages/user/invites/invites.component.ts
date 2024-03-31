@@ -501,6 +501,22 @@ export class InvitesComponent {
     this.refreshTable(this.invites);
   }
 
+  copyToClipboard(link) {
+    let selBox = document.createElement("textarea");
+    selBox.style.position = "fixed";
+    selBox.style.left = "0";
+    selBox.style.top = "0";
+    selBox.style.opacity = "0";
+    selBox.value = link;
+    document.body.appendChild(selBox);
+    selBox.focus();
+    selBox.select();
+    document.execCommand("copy");
+    document.body.removeChild(selBox);
+
+    this.open(this._translateService.instant("dialog.copiedlink"), "");
+  }
+
   async open(message: string, action: string) {
     await this._snackBar.open(message, action, {
       duration: 3000,

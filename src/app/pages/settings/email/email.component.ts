@@ -267,6 +267,11 @@ export class EmailComponent {
         type: "questionnaire_completed",
         title_en: "Submitted questions email",
       },
+      {
+        id: 157,
+        type: "join_in_charge",
+        title_en: "Joined person to In charge email",
+      },
     ];
     this.shortcodes = [
       {

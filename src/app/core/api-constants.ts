@@ -241,6 +241,15 @@ export const AS_CUSTOMER_PORTAL_URL = `${API_BASE}/company/as-service/customer/p
 export const CUSTOMER_PORTAL_URL = `${API_BASE}/company/customer/portal/create`;
 export const CANCEL_MEMBERSHIP_URL = `${API_BASE}/user/member-type/cancel`;
 export const NETCULTURA_USERS_URL = `${API_BASE}/company/netcultura/users/list`;
+export const DELETE_GUEST_URL = `${API_BASE}/company/guest/delete`;
+export const EDIT_CONTACT_INFO_URL = `${API_BASE}/company/crm/contact/edit`;
+export const EDIT_CRM_USER_COMMENT_URL = `${API_BASE}/company/crm/comment/edit`;
+export const CRM_ALARMS_URL = `${API_BASE}/company/crm/alarms`;
+export const CRM_COMMUNICATIONS_URL = `${API_BASE}/company/crm/communications`;
+export const ADD_CRM_STATUS_URL = `${API_BASE}/company/crm/guest/status/add`;
+export const CRM_SIGN_GUEST_URL = `${API_BASE}/company/crm/sign`;
+export const CRM_UNSIGN_GUEST_URL = `${API_BASE}/company/crm/unsign`;
+export const CRM_EDIT_COMMUNICATION_URL = `${API_BASE}/company/crm/guest/status/edit`;
 
 export const MANAGE_USERS_DATA_URL = `${API_BASE}/v2/manage-users-data`;
 export const INVOICES_DATA_URL = `${API_BASE}/v2/invoices-data`;

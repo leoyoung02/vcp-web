@@ -82,6 +82,15 @@ import {
     TUTOR_DETAILS_URL,
     USER_CREDIT_LOGS_HISTORY_URL,
     STRIPE_TRANSFERS_URL,
+    DELETE_GUEST_URL,
+    EDIT_CONTACT_INFO_URL,
+    EDIT_CRM_USER_COMMENT_URL,
+    CRM_ALARMS_URL,
+    CRM_COMMUNICATIONS_URL,
+    ADD_CRM_STATUS_URL,
+    CRM_SIGN_GUEST_URL,
+    CRM_UNSIGN_GUEST_URL,
+    CRM_EDIT_COMMUNICATION_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -654,5 +663,61 @@ export class UserService {
       JSON.stringify(userCourseCredits)
     );
     this.userCourseCredits$.next(userCourseCredits);
+  }
+
+  getAlarms(id): Observable<any> {
+    return this._http.get(`${CRM_ALARMS_URL}/${id}`,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getCommunications(id): Observable<any> {
+    return this._http.get(`${CRM_COMMUNICATIONS_URL}/${id}`,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editContactInfo(id, payload): Observable<any> {
+    return this._http.post(
+      `${EDIT_CONTACT_INFO_URL}/${id}`, 
+      payload
+    ).pipe(map(res => res));
+  }
+
+  editCrmUserComment(id, payload): Observable<any> {
+    return this._http.post(
+      `${EDIT_CRM_USER_COMMENT_URL}/${id}`, 
+      payload
+    ).pipe(map(res => res));
+  }
+
+  addCRMStatus(id, payload): Observable<any> {
+    return this._http.post(`${ADD_CRM_STATUS_URL}/${id}`, 
+      payload
+    ).pipe(map(res => res));
+  }
+
+  signGuest(userId, eventId, params): Observable<any> {
+    return this._http.post(
+      `${CRM_SIGN_GUEST_URL}/${userId}/${eventId}`, 
+      params
+    ).pipe(map(res => res));
+  }
+
+  unsignGuest(userId, eventId): Observable<any> {
+    return this._http.post(
+      `${CRM_UNSIGN_GUEST_URL}/${userId}/${eventId}`, 
+      {}
+    ).pipe(map(res => res));
+  }
+
+  editCRMCommunication(id, payload): Observable<any> {
+    return this._http.post(`${CRM_EDIT_COMMUNICATION_URL}/${id}`, 
+      payload
+    ).pipe(map(res => res));
+  }
+
+  deleteGuest(id, guestId) {
+    return this._http.post(`${DELETE_GUEST_URL}/${id}/${guestId}`, {});
   }
 }
