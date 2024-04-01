@@ -952,15 +952,36 @@ export class PlanDetailComponent {
         .utc(this.plan.limit_date)
         .locale(this.language)
         .format("D MMMM YYYY")
-        if(this.planDay != end) {
+        let end_display = moment
+        .utc(this.plan.limit_date)
+        .locale(this.language)
+        .format("dddd, D MMMM");
+        if(this.planDay != end_display) {
           this.planDay += ' - ' + end;
-        }    
+        }
       }
 
       this.planTime = moment
         .utc(this.plan.plan_date)
         .locale(this.language)
         .format("HH:mm A");
+      if(this.plan?.limit_date) {
+        let startHour = moment
+        .utc(this.plan.plan_date)
+        .hour();
+        let endHour = moment
+        .utc(this.plan.limit_date)
+        .hour();
+        if(endHour > startHour) {
+          let endTime = moment
+          .utc(this.plan.limit_date)
+          .locale(this.language)
+          .format("HH:mm A");
+          if(this.planTime != endTime) {
+            this.planTime += ' - ' + endTime;
+          }
+        }
+      }
 
       var date = moment(
         this.plan.plan_date.replace("T", " ").replace(".000Z", "")

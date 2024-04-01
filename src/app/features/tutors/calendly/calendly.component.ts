@@ -153,6 +153,8 @@ export class CalendlyComponent {
       this._companyService.logMessage(this.companyId, this.userId, message, 'warn')
     }
 
+    let timezoneOffset = new Date().getTimezoneOffset()
+    let offset = moment().format('Z')
     let params = {
       company_id: this.companyId,
       user_id: this.userId,
@@ -163,6 +165,8 @@ export class CalendlyComponent {
       tutor_types: this.tutorTypes && this.tutorTypes.map( (data) => { return data.id }).join(),
       event_guid, 
       invitee_guid,
+      timezone: timezoneOffset,
+      offset,
     }
     if(this.courseCreditSetting) {
       if(!this.separateCourseCredits && this.remainingCredits > 0) {
