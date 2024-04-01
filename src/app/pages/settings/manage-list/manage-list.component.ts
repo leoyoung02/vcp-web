@@ -260,7 +260,15 @@ export class ManageListComponent {
   getListTitle() {
     switch (this.list) {
       case "plans":
-        this.listTitle = this.plansTitle;
+        let title = this.plansTitle;
+        if(this.isUESchoolOfLife) {
+          if(this.language == 'en') {
+            title = title?.replace('University Life', 'School of Life')
+          } else {
+            title = title?.replace('de Vida Universitaria', 'de School of Life')
+          }
+        }
+        this.listTitle = title;
         break;
       case "clubs":
         this.listTitle = this.clubsTitle;
@@ -611,6 +619,14 @@ export class ManageListComponent {
     if (plan) {
       sublist.push({
         id: 2,
+        value: "inactive",
+        text: this._translateService.instant("company-settings.inactive"),
+        selected: false,
+        fk_company_id: this.companyId,
+        filter: "inactive",
+      });
+      sublist.push({
+        id: 3,
         value: "draft",
         text: this._translateService.instant("plan-create.draft"),
         selected: false,
@@ -618,7 +634,7 @@ export class ManageListComponent {
         filter: "draft",
       });
       sublist.push({
-        id: 3,
+        id: 4,
         value: "past",
         text: this._translateService.instant("your-admin-area.past"),
         selected: false,

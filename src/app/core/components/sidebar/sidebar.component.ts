@@ -88,6 +88,7 @@ export class SidebarComponent {
   @Input() isUESchoolOfLife: any;
   @Input() refreshedMenu: any;
   @Input() superAdmin: any;
+  @Input() hasHistoryOfActivities: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;
@@ -158,6 +159,7 @@ export class SidebarComponent {
   courseWallItemHover: boolean = false;
   supportTicketsHover: boolean = false;
   customerOnboardingHover: boolean = false;
+  hoveredLanguage: any;
   courseWallPrefixTextValueIt: any;
 
   constructor(
@@ -186,6 +188,12 @@ export class SidebarComponent {
           route = splitRowObject[1];
         } else {
         }
+        
+        if(splitRowObject?.length == 4) {
+          if(splitRowObject[1] == 'plans' && splitRowObject[2] == 'list' && splitRowObject[3] == 'history') {
+            route = 'plans/list/history';
+          }
+        } 
         this.selectedTab = route || "home";
       }
     });
@@ -470,7 +478,7 @@ export class SidebarComponent {
 
   getMenuIcon(menu) {
     let menuItem = this.menuIcons.filter((mnu) => {
-      return mnu.path == menu.path;
+      return mnu.path == menu.path || mnu.path == menu?.return_url;
     });
 
     let iconImage = "";
@@ -562,6 +570,10 @@ export class SidebarComponent {
       text = text?.replace('de Vida Universitaria', 'de School of Life')
     }
 
+    if(this.company?.id == 32 && !this.isUESchoolOfLife) {
+      text = text?.replace("University Life Activities School of Life", "School of Life Activities")
+    }
+
     return text;
   }
 
@@ -595,12 +607,25 @@ export class SidebarComponent {
   }
 
   navigateToPage(menu) {
-    if(menu?.new_button == 1 || menu?.new_url == 1) {
+    if(menu.new_button == 1 || menu.new_url == 1) {
       let path = menu.path;
       if(path?.indexOf('schooloflife') >= 0 && this.currentUser?.guid) {
         path = `${path}/sso/${this.currentUser?.guid}`;
       }
-      this.openUrl(menu?.new_url == 1 && this.isUESchoolOfLife ? `https://${this.company?.url}` : path);
+      this.openUrl(menu.new_url == 1 && this.isUESchoolOfLife ? `https://${this.company?.url}` : path);
+    } else if(menu.return_url && menu.url != 'undefined') {
+      let path = menu.path;
+      if(path?.indexOf('plans/list/history') >= 0) {
+      } else {
+        if(path?.indexOf('schooloflife') >= 0 && this.currentUser?.guid) {
+          path = `${path?.replace('plans', '')?.replace('courses', '')}/sso/${this.currentUser?.guid}`;
+          if(menu.return_url && menu.return_url != 'undefined') {
+            path += `?returnUrl=${menu.return_url}`
+          }
+          path = path?.replace('//sso', '/sso');
+        }
+      }
+      this.openUrl(path);
     } else {
       let link = menu?.path == 'home' ? '/' : menu?.path
 
@@ -632,8 +657,9 @@ export class SidebarComponent {
     this.wallMenuHover = event;
   }
 
-  toggleLanguageHover(event) {
+  toggleLanguageHover(event, lang) {
     this.languageHover = event;
+    this.hoveredLanguage = lang.code;
   }
 
   toggleCourseWallHover(event, menu) {
@@ -729,5 +755,9 @@ export class SidebarComponent {
 
   goToCustomerOnboarding() {
     this._router.navigate([`/customer-onboarding`])
+  }
+
+  getLanguage(language) {
+    return language[`name_${this.language.toUpperCase()}`];
   }
 }

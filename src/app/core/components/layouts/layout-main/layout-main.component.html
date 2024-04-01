@@ -34,6 +34,7 @@
         [logoSource]="logoSource"
         [superAdmin]="superAdmin"
         [isUESchoolOfLife]="isUESchoolOfLife"
+        [hasHistoryOfActivities]="hasHistoryOfActivities"
         (changeLanguage)="changedLanguage($event)" 
     >
     </app-sidebar>
@@ -117,6 +118,13 @@
                 [companyId]="companyId"
             >
             </app-user-menu>
+        </div>
+        <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" *ngIf="!userId">
+            <app-guest-menu
+                [company]="company"
+                [language]="language"
+                [buttonColor]="buttonColor">
+            </app-guest-menu>
         </div>
         <ng-content></ng-content>
     </main>

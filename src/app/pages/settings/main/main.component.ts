@@ -505,9 +505,8 @@ export class MainComponent {
                     discountFeature[0].feature_name_ES;
             }
 
-            // Check if city agenda is activated, otherwise just add here for testing
             let cityAgendaFeature = companyFeatures.filter((f) => {
-              return f.feature_name == "City Agenda" && (f.status == 1 || this.companyId == 32);
+              return f.feature_name == "City Agenda" && f.status == 1;
             });
             if (cityAgendaFeature?.length > 0) {
               this.isCityAgendaEnabled = true;
@@ -895,7 +894,7 @@ export class MainComponent {
               mi.submenus && mi.submenus.some((a) => a.value === "Events");
             if (!match) {
               mi.submenus.push({
-                text: this.planTitle,
+                text: this.isUESchoolOfLife ? this.planTitle?.replace('de Vida Universitaria', 'de School of Life') : this.planTitle,
                 value: "Events",
               });
             }
@@ -944,7 +943,7 @@ export class MainComponent {
               }
             }
           }
-          if (this.isCourseEnabled) {
+          if (this.isCourseEnabled && !(this.companyId == 32 && !this.isUESchoolOfLife)) {
             let match =
               mi.submenus && mi.submenus.some((a) => a.value === "Courses");
             if (!match) {

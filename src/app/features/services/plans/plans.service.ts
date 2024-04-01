@@ -16,6 +16,8 @@ import {
   ADD_TO_WAITING_LIST_URL,
   ALL_GUEST_REGISTRATION_FIELDS_URL,
   ANSWER_EMAIL_INVITE_QUESTIONS_URL,
+  APPROVE_GROUP_PLAN_COMMENT_URL,
+  APPROVE_PLAN_COMMENT_URL,
   ASSIGN_SALES_PERSON_EVENT_URL,
   ASSIGN_SALES_PERSON_URL,
   CATEGORY_EVENTS_URL,
@@ -52,6 +54,7 @@ import {
   EDIT_EVENT_SUBCATEGORY_URL,
   EDIT_FEATURED_TEXT_URL,
   EDIT_GUEST_REGISTRATION_FIELDS_URL,
+  EDIT_PLAN_STATUS_URL,
   EDIT_PLAN_URL,
   EVENT_CATEGORIES_LIST_URL,
   EVENT_CATEGORIES_URL,
@@ -72,13 +75,14 @@ import {
   LEAVE_GROUP_PLAN_URL,
   LEAVE_PLAN_URL,
   OTHER_SETTINGS_URL,
+  PAST_PLANS_LIST_URL,
   PAST_PLANS_URL,
   PLANS_CALENDAR_URL,
   PLANS_LIST_URL,
   PLANS_MANAGEMENT_DATA_URL,
   PLANS_OTHER_DATA_URL,
   PLANS_URL,
-  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_PAYMENT_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, SALES_PEOPLE_URL, SUBMIT_ACTIVITY_RATING_URL, UPLOAD_PLAN_IMAGE_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
+  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_UPDATED_EMAIL_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_PAYMENT_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, SALES_PEOPLE_URL, SEND_CONFIRM_ATTENDANCE_EMAIL_URL, SEND_CREDITS_DATA_URL, SUBMIT_ACTIVITY_RATING_URL, UPLOAD_PLAN_IMAGE_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -305,7 +309,24 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ])
   }
 
-  getCalendarPlans(id: number, plan_type_id: number, page=1, limit=20, status = 'all', isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
+  getCalendarPlans(id: number, plan_type_id: number, page=1, limit=20, status = 'all', isUESchoolOfLife: boolean = false, campus: string = '', mode: string = ''): Observable<any> {
+    let params = `plan_type_id=${plan_type_id}&page=${page}&limit=${limit}&status=${status}`;
+    if(isUESchoolOfLife) {
+      params += `&schooloflife=1&campus=${campus}`
+    } else {
+      if(campus) {
+        params += `&campus=${campus}`
+      }
+    }
+    if(mode == 'history') {
+      params += `&history=1`
+    }
+    return this._http.get(`${PLANS_CALENDAR_URL}/${id}?${params}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  getCalendarPastPlans(id: number, plan_type_id: number, page=1, limit=20, status = 'all', isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
     let params = `plan_type_id=${plan_type_id}&page=${page}&limit=${limit}&status=${status}`;
     if(isUESchoolOfLife) {
       params += `&schooloflife=1&campus=${campus}`
@@ -333,6 +354,20 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
   fetchPlansCombined(id: number = 0, mode: string = 'active', isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
     let url = `${PLANS_URL}/${id}/${mode}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1&campus=${campus}`
+    } else {
+      if(campus) {
+        url += `?campus=${campus}`
+      }
+    }
+    return this._http.get(url, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  fetchPastPlansCombined(id: number = 0, isUESchoolOfLife: boolean = false, campus: string = ''): Observable<any> {
+    let url = `${PAST_PLANS_LIST_URL}/${id}`
     if(isUESchoolOfLife) {
       url += `?schooloflife=1&campus=${campus}`
     } else {
@@ -426,20 +461,24 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
-  addPlanComment( plan_id: number, user_id: number, comment: string ): Observable<any> {
-    return this._http.post(`${ADD_PLAN_COMMENT_URL}/${plan_id}/${user_id}?comment=${comment}`,
-        {'comment' : comment},
+  addPlanComment( plan_id: number, user_id: number, comment: string, approved: number = 1 ): Observable<any> {
+    return this._http.post(`${ADD_PLAN_COMMENT_URL}/${plan_id}/${user_id}?comment=${comment}&approved=${approved}`,
+        {
+          'comment': comment,
+          'approved': approved
+        },
         { headers: this.headers }
     ).pipe(map(res => res));
   }
 
-  addGroupPlanComment( group_plan_id: number, user_id: number, comment: string ): Observable<any> {
-      const url = `${ADD_GROUP_PLAN_COMMENT_URL}/${group_plan_id}/${user_id}?comment=${comment}`
+  addGroupPlanComment( group_plan_id: number, user_id: number, comment: string, approved: number = 1 ): Observable<any> {
+      const url = `${ADD_GROUP_PLAN_COMMENT_URL}/${group_plan_id}/${user_id}?comment=${comment}&approved=${approved}`
       const headers = {
-          headers: this.headers
+        headers: this.headers
       }
       return this._http.post(url,{
-          'comment' : comment,
+        'comment' : comment,
+        'approved': approved
       }, headers).pipe(map(res => res));
   }
 
@@ -594,6 +633,9 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
     if(activityCodeActive) {
       formData.append( 'activity_code', planForm.activity_code );
+      if(entityId == 32) {
+        formData.append( 'activity_code_sigeca', planForm.activity_code_sigeca );
+      }
     }
 
     if(planForm.plan_date) {
@@ -821,6 +863,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_description', planForm.isShowDescription );
     formData.append( 'show_price', planForm.isShowPrice );
     formData.append( 'school_of_life', planForm.school_of_life );
+    formData.append( 'show', planForm.show );
     formData.append( 'orig_image', planForm.orig_image );
 
     if(entityId == 32) {
@@ -835,6 +878,9 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
 
     if(activityCodeActive) {
       formData.append( 'activity_code', planForm.activity_code );
+      if(entityId == 32) {
+        formData.append( 'activity_code_sigeca', planForm.activity_code_sigeca );
+      }
     }
 
     if(planForm.plan_date) {
@@ -1059,8 +1105,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
-  fetchCreditsData(id): Observable<any> {
-    return this._http.get(`${ACTIVITY_CREDITS_URL}/${id}`,
+  fetchCreditsData(id, isUESchoolOfLife): Observable<any> {
+    let url = `${ACTIVITY_CREDITS_URL}/${id}`
+    if(isUESchoolOfLife) {
+      url += `?schooloflife=1`
+    }
+    return this._http.get(url,
       { headers: this.headers }
     ).pipe(map(res => res));
   }
@@ -1133,12 +1183,34 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
+  sendCreditsData(payload): Observable<any> {
+    return this._http.post(SEND_CREDITS_DATA_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  sendConfirmAttendanceEmail(payload): Observable<any> {
+    return this._http.post(SEND_CONFIRM_ATTENDANCE_EMAIL_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+  
   uploadPlanImage(blob, filename): Observable<any> {
     const formData = new FormData()
     const file_name = 'p_' + this.getTimestamp()
     formData.append('filename', file_name + '.jpg')
     formData.append('image', blob, file_name + '.jpg')
     return this._http.post(UPLOAD_PLAN_IMAGE_URL, formData)
+  }
+
+  sendPlanDetailsUpdatedEmail(payload): Observable<any> {
+    return this._http.post(
+      `${PLAN_DETAILS_UPDATED_EMAIL_URL}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
   }
 
   addAdditionalAlias(payload): Observable<any> {
@@ -1154,7 +1226,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
       payload,
       { headers: this.headers }
     ).pipe(map(res => res));
-}
+  }
 
   deleteAlias(payload, id): Observable<any> {
     return this._http.post(
@@ -1167,6 +1239,26 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
   getGuestHistory(companyId): Observable<any> {
     return this._http.get(`${GUEST_HISTORY_LIST_URL}/${companyId}`, 
       { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  approvePlanComment(id): Observable<any> {
+    return this._http.post(`${APPROVE_PLAN_COMMENT_URL}/${id}`,
+      {},
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  approveGroupPlanComment(id): Observable<any> {
+    return this._http.post(`${APPROVE_GROUP_PLAN_COMMENT_URL}/${id}`,
+      {},
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editPlanStatus(params): Observable<any> {
+    return this._http.post(EDIT_PLAN_STATUS_URL,
+        params
     ).pipe(map(res => res));
   }
 }

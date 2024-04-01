@@ -43,6 +43,7 @@ export class CreditsAdminListComponent {
     @Input() userId: any;
     @Input() superAdmin: any;
     @Input() language: any;
+    @Input() isUESchoolOfLife: any;
 
     languageChangeSubscription;
     isMobile: boolean = false;
@@ -50,7 +51,7 @@ export class CreditsAdminListComponent {
     placeholderText: any;
     creditsData: any = [];
     dataSource: any;
-    displayedColumns = ["name", "city", "event", "type", "date_display", "credits"];
+    displayedColumns = ["user_name", "event", "credits", "date_display"];
     pageSize: number = 10;
     pageIndex: number = 0;
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator | undefined;
@@ -78,6 +79,7 @@ export class CreditsAdminListComponent {
     selectedDays: any = [];
     companyId: any;
     emailRecipients: any = '';
+    sending: boolean = false;
 
     constructor(
         private _route: ActivatedRoute,
@@ -114,6 +116,11 @@ export class CreditsAdminListComponent {
     }
 
     initializePage() {
+      if(this.company?.id == 32) {
+        this.displayedColumns = ["active_enrollment", "activity_code_sigeca", "user_name", "event", "credits", "date_display", "city"];
+      } else {
+        this.displayedColumns = ["user_name", "event", "credits", "date_display"];
+      }
       this.schedules = [
         {
           value: 'days',
@@ -183,7 +190,7 @@ export class CreditsAdminListComponent {
 
     fetchCreditsData() {
       this._plansService
-        .fetchCreditsData(this.company?.id)
+        .fetchCreditsData(this.company?.id, this.isUESchoolOfLife)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           (data) => {
@@ -227,14 +234,16 @@ export class CreditsAdminListComponent {
       let data;
       if (credits?.length > 0) {
         data = credits?.map((item) => {
-          let name = item?.first_name ? `${item?.first_name} ${item?.last_name}` : (item?.name || item?.email);
+          let name = item?.first_name ? `${item?.last_name}, ${item?.first_name}` : (item?.name || item?.email);
   
           return {
             ...item,
-            name,
+            user_name: name,
+            active_enrollment: item?.num_matricula,
+            active_enrollment_array: item?.num_matricula?.indexOf(',') >= 0 ? item?.num_matricula?.split(',') : [],
             event: this.getEventTitle(item),
             type: item?.course_id > 0 ? this._translateService.instant('course-create.course') : this._translateService.instant('plans.activity'),
-            date_display: moment.utc(item.created_at).locale(this.language).format('D MMMM YYYY')
+            date_display: moment.utc(item.created_at).locale(this.language).format('DD-MM-YYYY')
           };
         });
       }
@@ -355,13 +364,24 @@ export class CreditsAdminListComponent {
       if(this.creditsData?.length > 0) {
         this.creditsData.forEach(p => {
           let date_display = moment.utc(p?.created_at).locale(this.language).format('DD-MM-YYYY')
-          credits_data.push({
-            'Nombre': p.name,
-            'Actividad': p.event,
-            'Fecha': date_display,
-            'Campus': p.city,
-            'Créditos': p.credits,
-          })
+          if(this.companyId == 32) {
+            credits_data.push({
+              'Num. Matrícula activa': p.active_enrollment,
+              'Código actividad SIGECA': p.activity_code_sigeca,
+              'Apellidos y nombre': p.user_name,
+              'Actividad': p.event,
+              'Fecha': date_display,
+              'Créditos': p.credits,
+              'Campus': p.city,
+            })
+          } else {
+            credits_data.push({
+              'Apellidos y nombre': p.name,
+              'Actividad': p.event,
+              'Fecha': date_display,
+              'Créditos': p.credits,
+            })
+          }
         });
       }
     
@@ -415,6 +435,28 @@ export class CreditsAdminListComponent {
         (response) => {
           this.open(
             this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+          this.closemodalbutton?.nativeElement.click();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+
+    sendCredits() {
+      this.sending = true;
+      let params = {
+        id: this.companyId,
+        school_of_life: this.isUESchoolOfLife,
+      };
+
+      this._plansService.sendCreditsData(params).subscribe(
+        (response) => {
+          this.sending = false;
+          this.open(
+            this._translateService.instant("dialog.sentsuccessfully"),
             ""
           );
           this.closemodalbutton?.nativeElement.click();

@@ -1002,7 +1002,7 @@ export class FeatureComponent {
                 }
               });
             }
-            if (id == 89 || id == 122) {
+            if (id == 89 || id == 122 || id == 153) {
               location.reload();
             }
           }
@@ -1042,7 +1042,7 @@ export class FeatureComponent {
                   feat.show_action_button = false;
                 }
               });
-              if (id == 89 || id == 122) {
+              if (id == 89 || id == 122 || id == 153) {
                 location.reload();
               }
             }

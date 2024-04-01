@@ -323,8 +323,8 @@
         "confirmedattendees": "Assistents confirmats",
         "attendees": "Assistents",
         "attendee": "Assistent",
-        "youjoined": "T'has unit a aquest pla",
-        "leaveplan": "Abandonar aquest pla",
+        "youjoined": "T'has unit a aquest esdeveniment",
+        "leaveplan": "Abandonar aquest esdeveniment",
         "duplicate": "Duplicat",
         "emailinvite": "Envia una invitació per email",
         "exitcalendarmode": "Surt del mode de calendari",
@@ -332,21 +332,28 @@
         "confirmattendance": "Confirmar l'assistència",
         "confirmedattendance": "Has confirmat correctament la teva assistència",
         "invalidcode": "Codi no vàlid",
-        "youearned": "Enhorabona, t'has guanyat"
+        "youearned": "Enhorabona, t'has guanyat",
+        "sendconfirmaattendanceemail": "Envia un correu electrònic de confirmació d'assistència",
+        "expiredconfirm": "Ho sentim, l'enllaç de confirmació d'assistència ha caducat."
     },
     "plan-create": {
         "fillup": "Omple aquest formulari per crear el teu pla",
         "fillupevent": "Omple aquest formulari per crear el teu esdeveniment",
         "uploadimage": "Carregar imatge",
         "title": "Títol",
+        "titleofevent": "Títol de l'esdeveniment",
+        "eventstartdate": "Data d'inici de l'esdeveniment",
+        "eventenddate": "Data final de l'esdeveniment",
         "address": "Ubicació",
         "meetingpoint": "Punt de trobada",
+        "uemeetingpoint": "Aula on se celebrarà l´esdeveniment",
         "plantype": "Tipus de",
         "selectclub": "Seleccionar",
         "selectcompany": "Seleccionar empresa",
         "plandate": "Data del",
         "category": "Categoria",
         "seats": "Llocs lliures",
+        "indicatemaxseats": "Indiqueu l'aforament màxim d'assistents a aquest esdeveniment",
         "price": "Preu",
         "link": "Enllaç",
         "description": "Descripció",
@@ -441,7 +448,9 @@
         "limitguestseats": "Límit (Convidats)",
         "limitgreaterthanseats": "Definiu un límit inferior o igual al nombre de seients",
         "selectincharge": "Seleccioneu el delegat",
-        "incharge": "Responsable"
+        "incharge": "Responsable",
+        "selectmodality": "Seleccionar modalitat",
+        "showpastevent": "Erakutsi iraganeko gertaera"
     },
     "plan-recommendations": {
         "applauses": "Aplaudiment",
@@ -724,7 +733,8 @@
         "termsandconditions": "Termes i condicions",
         "privacypolicy": "Política de privadesa",
         "cookiespolicy":"Política de cookies", 
-        "customeronboarding": "Incorporació del client"
+        "customeronboarding": "Incorporació del client", 
+        "historyofactivities": "Historical d'activitats"
     },
     "public-profile": {
         "publicprofile": "Perfil Públic",
@@ -1486,7 +1496,10 @@
         "downloadwaitinglist": "Baixa la llista d'espera",
         "renewal": "Data de renovació",
         "activitycode": "Codi d'activitat",
-        "numberofcredits": "Nombre de crèdits", 
+        "numberofcredits": "Nombre de crèdits",
+        "plandetailschanged": "Els detalls han canviat. Vols enviar aquestes actualitzacions als participants?",
+        "yes": "Sí",
+        "no": "No",
         "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia"
     },
     "edit-club": {
@@ -3477,7 +3490,11 @@
         "onthesedays": "En aquests dies",
         "emailschedulesummary": "El correu electrònic s'enviarà cada",
         "includeattachment": "Inclou el fitxer adjunt",
-        "emailrecipients": "Destinataris de correu electrònic (separats per comes)"
+        "emailrecipients": "Destinataris de correu electrònic (separats per comes)",
+        "sendcredits": "Envia la llista de crèdits",
+        "lastnameandname": "Cognoms i nom",
+        "activeenrollment": "Num. Matrícula activa",
+        "activitycodesigeca": "Codi activitat SIGECA"
     },
     "videos-ctas": {
         "activatetimer": "Activa el temporitzador",

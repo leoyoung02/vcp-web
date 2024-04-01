@@ -76,7 +76,8 @@ export const environment = {
     lsusergeocountry: "9tUVhOGJtEa0brNJCgI7tA==",
     lsusergeocity: "dYvVSQsQU0yuMBCmjuE3Xg==",
     lsusergeoipaddress: "y8Y+yUkz7E6QhkVODnJYWw==",
-    lsusercoursecredits: "N4RxzstAvEeTmLstp5yICA=="
+    lsusercoursecredits: "N4RxzstAvEeTmLstp5yICA==",
+    lsguestaccesstoken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiZW1haWwiOiIiLCJyb2xlIjoiTSIsImd1aWQiOiIiLCJpYXQiOjE3MDgyNDc4NzB9.PWfu6_YIvd56bK-YsX9qAvW9cwdYzeW7ZYWhLWlOwqU"
 };
 
 /*
