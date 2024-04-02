@@ -39,6 +39,7 @@ export class SectionsMasonryComponent {
   @Input() list: any;
   @Input() isUESchoolOfLife: any;
   @Input() campus: any;
+  @Input() bottomEventTitles: any;
 
   languageChangeSubscription;
   language: any;

@@ -168,6 +168,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   types: any = [];
   areas: any = [];
   jobOfferAreasMapping: any = [];
+  bottomEventTitles: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -561,6 +562,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (subfeatures?.length > 0) {
       this.hasCategoryAccess = subfeatures.some(
         (a) => a.name_en == "Category access" && a.active == 1
+      );
+      this.bottomEventTitles = subfeatures.some(
+        (a) => a.name_en == "Event titles (Bottom)" && a.active == 1
       );
     }
   }

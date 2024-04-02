@@ -60,7 +60,11 @@ export class GuestMenuComponent {
     }
 
     login(): void {
-        this._router.navigate(["/auth/login"]);
+        this._router.navigate(["/auth/login"], {
+            queryParams: {
+                returnUrl: this._router.routerState.snapshot.url
+            }
+        });
     }
 
     signup(): void {
