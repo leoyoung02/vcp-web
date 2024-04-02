@@ -3484,7 +3484,8 @@
         "sendcredits": "Bidali kreditu-zerrenda",
         "lastnameandname": "Abizenak eta izena",
         "activeenrollment": "Matrikula-zenbaki aktiboa",
-        "activitycodesigeca": "SIGECA jarduera-kodea"
+        "activitycodesigeca": "SIGECA jarduera-kodea",
+        "expediente": "Fitxategia"
     },
     "videos-ctas": {
         "activatetimer": "Aktibatu tenporizadorea",

@@ -78,6 +78,12 @@
                     </ng-container>
                 </mat-cell>
             </ng-container>
+            <ng-container matColumnDef="expediente" *ngIf="company?.id == 32">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'credits.expediente' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="name">
+                    {{ row?.expediente }}
+                </mat-cell>
+            </ng-container>
             <ng-container matColumnDef="activity_code_sigeca" *ngIf="company?.id == 32">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'credits.activitycodesigeca' | translate }} </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="name">

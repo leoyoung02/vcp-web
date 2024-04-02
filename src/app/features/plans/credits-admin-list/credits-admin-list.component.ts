@@ -117,7 +117,7 @@ export class CreditsAdminListComponent {
 
     initializePage() {
       if(this.company?.id == 32) {
-        this.displayedColumns = ["active_enrollment", "activity_code_sigeca", "user_name", "event", "credits", "date_display", "city"];
+        this.displayedColumns = ["active_enrollment", "expediente", "activity_code_sigeca", "user_name", "event", "credits", "date_display", "city"];
       } else {
         this.displayedColumns = ["user_name", "event", "credits", "date_display"];
       }
@@ -194,6 +194,7 @@ export class CreditsAdminListComponent {
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           (data) => {
+            console.log(data)
             this.formatCredits(data?.credits);
           },
           (error) => {
@@ -238,6 +239,7 @@ export class CreditsAdminListComponent {
   
           return {
             ...item,
+            expediente: item?.employee_id,
             user_name: name,
             active_enrollment: item?.num_matricula,
             active_enrollment_array: item?.num_matricula?.indexOf(',') >= 0 ? item?.num_matricula?.split(',') : [],
@@ -367,6 +369,7 @@ export class CreditsAdminListComponent {
           if(this.companyId == 32) {
             credits_data.push({
               'Num. Matrícula activa': p.active_enrollment,
+              'Expediente': p.employee_id,
               'Código actividad SIGECA': p.activity_code_sigeca,
               'Apellidos y nombre': p.user_name,
               'Actividad': p.event,

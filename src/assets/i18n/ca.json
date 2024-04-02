@@ -3494,7 +3494,8 @@
         "sendcredits": "Envia la llista de crèdits",
         "lastnameandname": "Cognoms i nom",
         "activeenrollment": "Num. Matrícula activa",
-        "activitycodesigeca": "Codi activitat SIGECA"
+        "activitycodesigeca": "Codi activitat SIGECA",
+        "expediente": "Expedient"
     },
     "videos-ctas": {
         "activatetimer": "Activa el temporitzador",

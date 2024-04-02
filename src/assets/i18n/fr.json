@@ -3479,7 +3479,8 @@
         "sendcredits": "Envoyer la liste des crédits",
         "lastnameandname": "Nom et prénom",
         "activeenrollment": "Numéro d'inscription actif",
-        "activitycodesigeca": "Code activité SIGECA"
+        "activitycodesigeca": "Code activité SIGECA",
+        "expediente": "Fichier"
     },
     "videos-ctas": {
         "activatetimer": "Activer le minuteur",

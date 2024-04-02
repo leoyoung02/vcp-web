@@ -193,6 +193,7 @@ export class PlansListComponent {
   selectedType: any = '';
   userAdditionalProperties: any = [];
   filterTypeControl: any = '';
+  bottomEventTitles: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -618,6 +619,9 @@ export class PlansListComponent {
       );
       this.hasCourseRestrictions = subfeatures.some(
         (a) => a.name_en == "Course Restrictions" && a.active == 1
+      );
+      this.bottomEventTitles = subfeatures.some(
+        (a) => a.name_en == "Event titles (Bottom)" && a.active == 1
       );
     }
 
@@ -1102,14 +1106,14 @@ export class PlansListComponent {
           date = `${moment
             .utc(activity.plan_date)
             .locale(this.language)
-            .format("D")}-${moment(activity.limit_date)
+            .format("D")} - ${moment(activity.limit_date)
             .locale(this.language)
             .format("D MMMM")}`;
         } else {
           date = `${moment
             .utc(activity.plan_date)
             .locale(this.language)
-            .format("D MMMM")}-${moment(activity.limit_date)
+            .format("D MMMM")} - ${moment(activity.limit_date)
             .locale(this.language)
             .format("D MMMM")}`;
         }

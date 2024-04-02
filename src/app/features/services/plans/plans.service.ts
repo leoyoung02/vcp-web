@@ -461,24 +461,26 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
-  addPlanComment( plan_id: number, user_id: number, comment: string, approved: number = 1 ): Observable<any> {
+  addPlanComment( plan_id: number, user_id: number, comment: string, approved: number = 1, company_id): Observable<any> {
     return this._http.post(`${ADD_PLAN_COMMENT_URL}/${plan_id}/${user_id}?comment=${comment}&approved=${approved}`,
         {
           'comment': comment,
-          'approved': approved
+          'approved': approved,
+          'company_id': company_id
         },
         { headers: this.headers }
     ).pipe(map(res => res));
   }
 
-  addGroupPlanComment( group_plan_id: number, user_id: number, comment: string, approved: number = 1 ): Observable<any> {
+  addGroupPlanComment( group_plan_id: number, user_id: number, comment: string, approved: number = 1, company_id: number): Observable<any> {
       const url = `${ADD_GROUP_PLAN_COMMENT_URL}/${group_plan_id}/${user_id}?comment=${comment}&approved=${approved}`
       const headers = {
         headers: this.headers
       }
       return this._http.post(url,{
         'comment' : comment,
-        'approved': approved
+        'approved': approved,
+        'company_id': company_id
       }, headers).pipe(map(res => res));
   }
 

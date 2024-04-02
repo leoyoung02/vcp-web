@@ -3484,7 +3484,8 @@
         "sendcredits": "Credits-Liste senden",
         "lastnameandname": "Nachname und Vorname",
         "activeenrollment": "Aktive Registrierungsnummer",
-        "activitycodesigeca": "SIGECA-Aktivitätscode"
+        "activitycodesigeca": "SIGECA-Aktivitätscode",
+        "expediente": "Datei"
     },
     "videos-ctas": {
         "activatetimer": "Timer aktivieren",
