@@ -402,13 +402,17 @@ export class JobOfferDetailComponent {
   }
 
   register() {
-    if(this.userId && this.user.accept_job_terms != 1 && this.showAcceptTermsAndConditionsModal) {
-      setTimeout(() => {
-        initFlowbite();
-        this.modalbutton?.nativeElement.click();
-      }, 100);
+    if(this.userId > 0) {
+      if(this.userId && this.user.accept_job_terms != 1 && this.showAcceptTermsAndConditionsModal) {
+        setTimeout(() => {
+          initFlowbite();
+          this.modalbutton?.nativeElement.click();
+        }, 100);
+      } else {
+        this.continueRegister()
+      }
     } else {
-      this.continueRegister()
+      this._router.navigate(["/auth/login"]);
     }
   }
 

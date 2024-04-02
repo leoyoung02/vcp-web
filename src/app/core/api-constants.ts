@@ -358,6 +358,8 @@ export const ADD_ALIAS_URL = `${API_BASE}/company/user/additional/alias`;
 export const EDIT_ALIAS_URL = `${API_BASE}/company/user/edit-alias`;
 export const DELETE_ALIAS_URL = `${API_BASE}/company/user/delete-alias`;
 export const GUEST_HISTORY_LIST_URL = `${API_BASE}/company/guest-history/list`;
+export const APPROVE_PLAN_COMMENT_URL = `${API_BASE}/company/plan/comment/approve`;
+export const APPROVE_GROUP_PLAN_COMMENT_URL = `${API_BASE}/company/group-plan/comment/approve`;
 export const EVENT_CATEGORIES_LIST_URL = `${API_BASE}/company/event/categories/list`;
 export const EVENT_SUBCATEGORIES_LIST_URL = `${API_BASE}/company/event/subcategories/list`;
 export const ADD_EVENT_CATEGORY_URL = `${API_BASE}/company/event-other/category/add`;
@@ -374,6 +376,11 @@ export const PLANS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/plans-management-data`;
 export const PLAN_REGISTRATION_DATA_URL = `${API_BASE}/v2/plan-registration-data`;
 export const ACTIVITY_CREDITS_URL = `${API_BASE}/v2/activity/credits`;
 export const INVOICE_DETAILS_URL = `${API_BASE}/v2/invoice-details`;
+export const SEND_CREDITS_DATA_URL = `${API_BASE}/v2/credits-data/send`;
+export const SEND_CONFIRM_ATTENDANCE_EMAIL_URL = `${API_BASE}/v2/confirm-attendance-email/send`;
+export const PLAN_DETAILS_UPDATED_EMAIL_URL = `${API_BASE}/v2/plan-updated/send-email`;
+export const PAST_PLANS_LIST_URL = `${API_BASE}/v2/past-plans`;
+export const EDIT_PLAN_STATUS_URL = `${API_BASE}/v2/plans/edit-status`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;

@@ -42,6 +42,7 @@ export class PlansListComponent {
   @Input() parentComponent: any;
   @Input() limit: any;
   @Input() view: any;
+  @Input() mode: any;
 
   languageChangeSubscription;
   language: any;
@@ -574,9 +575,10 @@ export class PlansListComponent {
   mapPageTitle() {
     if(this.isUESchoolOfLife && this.companyId == 32) {
       this.pageName = this.pageName?.replace('de Vida Universitaria', 'de School of Life')
+      this.pageName = this.pageName?.replace('University Life', 'School of Life')
     }
-    this.title = this.view == 'joined' ? this.getMyActivitiesTitle() : this.pageName;
-    this.subtitle = this.pageDescription;
+    this.title = this.view == 'joined' ? this.getMyActivitiesTitle() : (this.mode == 'history' ? this._translateService.instant('sidebar.historyofactivities') : this.pageName);
+    this.subtitle = this.mode == 'history' ? '' : this.pageDescription;
   }
 
   mapSubfeatures(subfeatures) {
@@ -737,28 +739,47 @@ export class PlansListComponent {
   }
 
   fetchPlans() {
-    this._plansService
-      .fetchPlansCombined(this.companyId, "active", this.isUESchoolOfLife, this.campus)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (data) => {
-          this.userAdditionalProperties = data?.users_additional_properties;
-          this.plans = this.initialFilter(data);
-          this.planCategoriesMapping = data?.category_mappings?.plan_categories_mapping || [];
-          this.planSubcategoriesMapping = data?.category_mappings?.plan_subcategories_mapping || [];
-          this.formatPlans(data?.plan_participants);
-          this.isloading = false;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    if(this.mode == 'history') {
+      this._plansService
+        .fetchPastPlansCombined(this.companyId, this.isUESchoolOfLife, this.campus)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (data) => {
+            this.userAdditionalProperties = data?.users_additional_properties;
+            this.plans = this.initialFilter(data);
+            this.planCategoriesMapping = data?.category_mappings?.plan_categories_mapping || [];
+            this.planSubcategoriesMapping = data?.category_mappings?.plan_subcategories_mapping || [];
+            this.formatPlans(data?.plan_participants);
+            this.isloading = false;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    } else {
+      this._plansService
+        .fetchPlansCombined(this.companyId, "active", this.isUESchoolOfLife, this.campus)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (data) => {
+            this.userAdditionalProperties = data?.users_additional_properties;
+            this.plans = this.initialFilter(data);
+            this.planCategoriesMapping = data?.category_mappings?.plan_categories_mapping || [];
+            this.planSubcategoriesMapping = data?.category_mappings?.plan_subcategories_mapping || [];
+            this.formatPlans(data?.plan_participants);
+            this.isloading = false;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
   }
 
   initialFilter(data) {
     let plans = data?.plans;
 
-    if(this.companyId == 32 && !this.superAdmin) {
+    if(this.companyId == 32 && this.userId && !this.superAdmin) {
       plans = plans?.filter(plan => {
         let include = false
 
@@ -888,9 +909,9 @@ export class PlansListComponent {
         include = true;
       }
 
-      if (!this.userId && !plan.private) {
-        include = false;
-      }
+      // if (!this.userId && !plan.private) {
+      //   include = false;
+      // }
 
       return include;
     });
@@ -1801,6 +1822,10 @@ export class PlansListComponent {
 
     if (this.user.custom_member_type_id == 60) {
       this.plan_type = 4;
+    }
+
+    if(this.isUESchoolOfLife) {
+      this.plan_type = 1;
     }
     this._router.navigate([`/plans/create/0/${this.plan_type}`]);
   }

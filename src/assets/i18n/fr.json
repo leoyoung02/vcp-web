@@ -323,8 +323,8 @@
         "confirmedattendees": "Participants confirmés",
         "attendees": "Participants",
         "attendee": "Participant",
-        "youjoined": "Vous avez rejoint ce plan",
-        "leaveplan": "Abandonner ce projet",
+        "youjoined": "Vous avez rejoint cet événement",
+        "leaveplan": "Quitter cet événement",
         "duplicate": "Dupliquer",
         "emailinvite": "Invitation par e-mail",
         "exitcalendarmode": "Quitter le mode calendrier",
@@ -332,21 +332,28 @@
         "confirmattendance": "Confirmer la présence",
         "confirmedattendance": "Vous avez confirmé votre présence avec succès",
         "invalidcode": "Code invalide",
-        "youearned": "Félicitations, vous avez gagné"
+        "youearned": "Félicitations, vous avez gagné",
+        "sendconfirmattendanceemail": "Envoyer un e-mail de confirmation de présence",
+        "expiredconfirm": "Désolé, le lien de confirmation de participation a expiré."
     },
     "plan-create": {
         "fillup": "Remplissez ce formulaire pour créer votre plan",
         "fillupevent": "Remplissez ce formulaire pour créer votre événement",
         "uploadimage": "Télécharger une image",
         "title": "Titre",
+        "titleofevent": "Titre de l'événement",
+        "eventstartdate": "Date de début de l'événement",
+        "eventenddate": "Date de fin de l'événement",
         "address": "Emplacement",
         "meetingpoint": "Point de rencontre",
+        "uemeetingpoint": "Salle de classe où aura lieu l'événement",
         "plantype": "Type de",
         "selectclub": "Sélectionner un",
         "selectcompany": "Sélectionner une entreprise",
         "plandate": "Date du",
         "category": "Catégorie",
         "seats": "Sièges libres",
+        "indicatemaxseats": "Indiquez la capacité maximale de participants pour cet événement",
         "price": "Prix",
         "lien": "Lien",
         "description": "La description",
@@ -441,7 +448,9 @@
         "limitguestseats": "Limite (Invités)",
         "limitgreaterthanseats": "Veuillez définir une limite inférieure ou égale au nombre de sièges",
         "selectincharge": "Sélectionner le délégué",
-        "incharge": "Personne responsable"
+        "incharge": "Personne responsable",
+        "selectmodality": "Sélectionner la modalité",
+        "showpastevent": "Afficher l'événement passé"
     },
     "plan-recommendations": {
         "applaudissements": "Applaudissements",
@@ -725,7 +734,8 @@
         "termsandconditions": "Termes et conditions",
         "privacypolicy": "Politique de confidentialité",
         "cookiespolicy": "Politique en matière de cookies", 
-        "customeronboarding": "Intégration client"
+        "customeronboarding": "Intégration client", 
+        "historyofactivities" : "Historique des activités"
     },
     "public-profile": {
         "publicprofile": "Profil public",
@@ -1481,7 +1491,10 @@
         "downloadwaitinglist": "Télécharger la liste d'attente",
         "renewal": "Date de renouvellement",
         "activitycode": "Code d'activité",
-        "numberofcredits": "Nombre de crédits", 
+        "numberofcredits": "Nombre de crédits",
+        "plandetailschanged": "Les détails ont changé. Voulez-vous envoyer ces mises à jour aux participants ?",
+        "yes": "Oui",
+        "no": "Non",
         "eventregistrationimage": "Image de la page d'inscription des invités à l'événement"
     },
     "edit-club": {
@@ -3462,7 +3475,11 @@
         "onthedays": "Ces jours-là",
         "emailschedulesummary": " L'e-mail sera envoyé tous les",
         "includeattachment": "Inclure la pièce jointe",
-        "emailrecipients": "Destinataires de l'e-mail (séparés par une virgule)"
+        "emailrecipients": "Destinataires de l'e-mail (séparés par une virgule)",
+        "sendcredits": "Envoyer la liste des crédits",
+        "lastnameandname": "Nom et prénom",
+        "activeenrollment": "Numéro d'inscription actif",
+        "activitycodesigeca": "Code activité SIGECA"
     },
     "videos-ctas": {
         "activatetimer": "Activer le minuteur",

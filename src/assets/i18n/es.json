@@ -323,8 +323,8 @@
         "confirmedattendees": "Asistentes confirmados",
         "attendees": "Asistentes",
         "attendee": "Asistente",
-        "youjoined": "Te has unido a este plan",
-        "leaveplan": "Abandonar este plan",
+        "youjoined": "Te has unido a este evento",
+        "leaveplan": "Abandonar este evento",
         "duplicate": "Duplicado",
         "emailinvite": "Invitación por email",
         "exitcalendarmode": "Salir del modo calendario",
@@ -332,21 +332,28 @@
         "confirmattendance": "Confirmar asistencia",
         "confirmedattendance": "Has confirmado exitosamente tu asistencia",
         "invalidcode": "Código no válido",
-        "youearned": "Felicitaciones, te lo ganaste"
+        "youearned": "Felicitaciones, te lo ganaste",
+        "sendconfirmattendanceemail": "Enviar correo electrónico de confirmación de asistencia",
+        "expiredconfirm": "Lo sentimos, el enlace para confirmar asistencia ha caducado."
     },
     "plan-create": {
         "fillup": "Rellena este formulario para crear tu plan",
         "fillupevent": "Rellena este formulario para crear tu evento",
         "uploadimage": "Cargar imagen",
         "title": "Título",
+        "titleofevent": "Título del evento",
+        "eventstartdate": "Fecha de inicio del evento",
+        "eventenddate": "Fecha final del evento",
         "address": "Ubicación",
         "meetingpoint": "Punto de encuentro",
+        "uemeetingpoint": "Aula donde se celebrará el evento",
         "plantype": "Tipo de",
         "selectclub": "Seleccionar",
         "selectcompany": "Seleccionar empresa",
         "plandate": "Fecha del",
         "category": "Categoría",
         "seats": "Sitios libres",
+        "indicatemaxseats": "Indicar el aforo máximo de asistentes a este evento",
         "price": "Precio",
         "link": "Enlace",
         "description": "Descripción",
@@ -441,7 +448,9 @@
         "limitguestseats": "Límite (Invitados)",
         "limitgreaterthanseats": "Establezca un límite menor o igual al número de asientos",
         "selectincharge": "Seleccione el delegado",
-        "incharge": "Persona a carga"
+        "incharge": "Persona a carga",
+        "selectmodality": "Seleccionar modalidad",
+        "showpastevent": "Mostrar evento pasado"
     },
     "plan-recommendations": {
         "applauses": "Aplauso",
@@ -725,7 +734,8 @@
         "termsandconditions": "Términos y condiciones",
         "privacypolicy": "Política de privacidad",
         "cookiespolicy":"Política de cookies", 
-        "customeronboarding": "Incorporación de clientes"
+        "customeronboarding": "Incorporación de clientes",
+        "historyofactivities": "Historical de actividades"
     },
     "public-profile": {
         "publicprofile": "Perfil Público",
@@ -1486,7 +1496,10 @@
         "downloadwaitinglist": "Descargar lista de espera",
         "renewal": "Fecha de renovación",
         "activitycode": "Código de la actividad",
-        "numberofcredits": "Número de créditos", 
+        "numberofcredits": "Número de créditos",
+        "plandetailschanged": "Los detalles han cambiado. ¿Quieres enviar estas actualizaciones a los participantes?",
+        "yes": "Sí",
+        "no": "No",
         "eventregistrationimage": "Imagen de la página de registro de invitados al evento"
     },
     "edit-club": {
@@ -3488,7 +3501,11 @@
         "onthesedays": "En estos días",
         "emailschedulesummary": " El correo electrónico se enviará cada",
         "includeattachment": "Incluir archivo adjunto",
-        "emailrecipients": "Destinatarios de correo electrónico (separados por coma)"
+        "emailrecipients": "Destinatarios de correo electrónico (separados por coma)",
+        "sendcredits": "Enviar lista de créditos",
+        "lastnameandname": "Apellidos y nombre",
+        "activeenrollment": "Num. Matrícula activa",
+        "activitycodesigeca": "Código actividad SIGECA"
     },
     "videos-ctas": {
         "activatetimer": "Activar temporizador",

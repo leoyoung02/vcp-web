@@ -452,15 +452,15 @@ export class LoginComponent {
   }
 
   loginUEStudent() {
-    this.ueLoginMode == '';
-    this.ueLoginMode = 'Estudiante';
-    // location.href = `https://sso.vistingo.com/api/login/student`;
+    // this.ueLoginMode == '';
+    // this.ueLoginMode = 'Estudiante';
+    location.href = `https://sso.vistingo.com/api/login/student`;
   }
 
   loginUEEmployee() {
-    this.ueLoginMode == '';
-    this.ueLoginMode = 'Empleado';
-    // location.href = `https://sso.vistingo.com/api/login/employee`;
+    // this.ueLoginMode == '';
+    // this.ueLoginMode = 'Empleado';
+    location.href = `https://sso.vistingo.com/api/login/employee`;
   }
 
   toggleAdminLogin(event): void {

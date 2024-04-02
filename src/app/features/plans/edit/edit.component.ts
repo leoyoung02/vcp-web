@@ -124,27 +124,27 @@ export class PlanEditComponent {
     group_id: new FormControl("", [Validators.required]),
     title_es: new FormControl("", [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(255),
     ]),
     title_en: new FormControl("", [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(255),
     ]),
     title_fr: new FormControl("", [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(255),
     ]),
     title_eu: new FormControl("", [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(255),
     ]),
     title_ca: new FormControl("", [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(255),
     ]),
     title_de: new FormControl("", [
       Validators.required,
-      Validators.maxLength(150),
+      Validators.maxLength(255),
     ]),
     descriptionEs: new FormControl("", [Validators.required]),
     descriptionEn: new FormControl("", [Validators.required]),
@@ -153,7 +153,7 @@ export class PlanEditComponent {
     descriptionCa: new FormControl("", [Validators.required]),
     descriptionDe: new FormControl("", [Validators.required]),
     address: new FormControl(""),
-    meeting_point: new FormControl("", [Validators.maxLength(150)]),
+    meeting_point: new FormControl("", [Validators.maxLength(255)]),
     plan_date: new FormControl(null, [Validators.required]),
     plan_date_hh: new FormControl("00", [Validators.required]),
     plan_date_mm: new FormControl("00", [Validators.required]),
@@ -413,6 +413,7 @@ export class PlanEditComponent {
   pageTitle: string = "";
   hasActivityCodeActivated: boolean = false;
   activityCode: any;
+  activityCodeSigeca: any;
   isUESchoolOfLife: boolean = false;
   hasCredits: boolean = false;
 
@@ -442,6 +443,16 @@ export class PlanEditComponent {
   createdByUser: any = '';
   users: any = [];
 
+  initialPlan: any = {};
+  currentPlan: any = {};
+  hasPlanChanges: boolean = false;
+  @ViewChild("popupbutton", { static: false })
+  popupbutton: ElementRef<HTMLInputElement> = {} as ElementRef;
+  @ViewChild("closepopupbutton", { static: false })
+  closepopupbutton: ElementRef<HTMLInputElement> = {} as ElementRef;
+  isPlanDetailsEmailActive: boolean = false;
+  changedDetails: any;
+  isShowPastEvent: boolean = false;
   isImageCenterButton: boolean = false;
   @ViewChild('myPond', {static: false}) myPond: any;
   pondOptions = {
@@ -615,6 +626,7 @@ export class PlanEditComponent {
       itemsShowLimit: 2,
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search'),
+      noDataAvailablePlaceholderText: this._translateService.instant('your-admin-area.nodata'),
     };
     this.eventCategoryDropdownSettings = {
       singleSelection: false,
@@ -688,6 +700,7 @@ export class PlanEditComponent {
       itemsShowLimit: 2,
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search'),
+      noDataAvailablePlaceholderText: this._translateService.instant('your-admin-area.nodata'),
     };
     this.additionalPropertiesDropdownSettings = {
       singleSelection: false,
@@ -737,7 +750,7 @@ export class PlanEditComponent {
             this.types = data?.types;
             this.categories = data?.plan_categories;
           }
-          this.subcategories = data?.plan_subcategories;
+          this.subcategories = []; // data?.plan_subcategories;
           this.allSubcategories = data?.plan_subcategories;
           this.cities = data?.cities;
           this.mapLanguages(data?.languages);
@@ -782,6 +795,9 @@ export class PlanEditComponent {
     this.plansFeature = features?.find((f) => f.feature_id == 1);
     this.featureId = this.plansFeature?.feature_id;
     this.pageName = this.getFeatureTitle(this.plansFeature);
+    if(this.isUESchoolOfLife && this.companyId == 32) {
+      this.pageName = this.pageName?.replace('de Vida Universitaria', 'de School of Life')
+    }
     this.pageTitle = `${this.id > 0 ? this._translateService.instant('plan-create.edityouractivity') : this._translateService.instant('plan-create.createyouractivity')} ${this.pageName}` 
 
     this.clubsFeature = features?.find(
@@ -901,7 +917,7 @@ export class PlanEditComponent {
     this.showLanguages = true;
     this.selectedLanguage = this.language;
     if (this.guestMemberSeatActive) {
-      this, (this.showSeats = true);
+      this.showSeats = true;
       this.showGuestMemberSeat = true;
     }
     if (this.invitationLinkActive) {
@@ -1027,7 +1043,7 @@ export class PlanEditComponent {
     if (!this.subcategories) {
       this.clubList = data?.clubs;
       this.clubList = this.clubList.filter((club) => {
-        return club.fk_company_id == this.user.fk_company_id;
+        return club.fk_company_id == this.user?.fk_company_id;
       });
       if (this.user.fk_company_id == 10) {
         this.selectedClub = 364;
@@ -1039,7 +1055,7 @@ export class PlanEditComponent {
       if (!this.superAdmin) {
         if (this.hasSubgroups) {
           let club_access = this.clubList.filter((club) => {
-            return club.fk_user_id == this.user.id;
+            return club.fk_user_id == this.user?.id;
           });
           this.clubList = this.clubList.filter((club) => {
             let include = false;
@@ -1204,6 +1220,7 @@ export class PlanEditComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          this.mapSettings(data);
           if(this.types?.length > 0) {
             this.planCategoryMapping = data?.plan_category_mapping;
           }
@@ -1214,6 +1231,15 @@ export class PlanEditComponent {
           console.log(error);
         }
       );
+  }
+
+  mapSettings(data) {
+    let other_settings = data?.settings?.other_settings;
+    if(other_settings?.length > 0) {
+      this.isPlanDetailsEmailActive = other_settings.some(
+        (a) => a.title_en == "Updated plan details email" && a.active == 1
+      );
+    }
   }
 
   formatAdditionalProperties(data) {
@@ -1344,6 +1370,7 @@ export class PlanEditComponent {
       show_comments,
       show_description,
       activity_code,
+      activity_code_sigeca,
       member_seats,
       guest_seats,
       netcultura,
@@ -1517,6 +1544,7 @@ export class PlanEditComponent {
     this.planForm.controls["seats"].setValue(totalseats);
     this.planForm.controls["member_seats"].setValue(memberseats);
     this.planForm.controls["guest_seats"].setValue(guestseats);
+    this.isShowPastEvent = this.plan?.show == 1 ? true : false;
 
     if (price && parseInt(price) > 0) {
       this.price = price;
@@ -1546,7 +1574,7 @@ export class PlanEditComponent {
     this.isStripePayment =
       this.activityFeeEnabled && stripe_pay == 1 ? true : false;
     this.credits = credits == 1 ? true : false;
-    this.creditsValue = credits_value;
+    this.creditsValue = credits_value?.replace(',', '.');
     this.featured = featured == 1 ? true : false;
     (this.isExternalRegistration = external_registration == 1 ? true : false),
       (this.requestDNI = request_dni == 1 ? true : false);
@@ -1583,9 +1611,17 @@ export class PlanEditComponent {
     this.isShowAttendee = show_attendee == 1 ? true : false;
     this.isShowComments = show_comments == 1 ? true : false;
     this.isShowDescription = show_description == 1 ? true : false;
-    if(this.hasActivityCodeActivated) { 
-      this.activityCode = activity_code 
+    if(this.hasActivityCodeActivated) {
+      this.activityCode = activity_code
+      if(this.companyId == 32) {
+        this.activityCodeSigeca = activity_code_sigeca
+      }
     }
+
+    if(this.plan) { 
+      this.initialPlan = this.initializeCurrentPlan(this.plan?.plan_date, this.plan?.end_date, 'initial'); 
+    }
+    this.status = this.plan.status == 1 ? true : false;
     this.createdByUser = this.plan?.fk_user_id || this.userId;
     this.netcultura = netcultura;
   }
@@ -1936,7 +1972,7 @@ export class PlanEditComponent {
 
     let start_date_time = new Date(start_date).getTime();
     let today_date_time = new Date().getTime();
-    if (start_date_time < today_date_time) {
+    if (start_date_time < today_date_time && !(this.id > 0)) {
       this.showError = true;
       this.startDateTimeError = true;
       this.open(
@@ -2118,6 +2154,7 @@ export class PlanEditComponent {
     this.plan["school_of_life"] = this.isUESchoolOfLife ? 1 : 0;
     this.plan["member_seats"] = this.guestMemberSeatActive && this.planForm.get("member_seats")?.value ? this.planForm.get("member_seats")?.value : null;
     this.plan["guest_seats"] = this.guestMemberSeatActive && this.planForm.get("guest_seats")?.value ? this.planForm.get("guest_seats")?.value : null;
+    this.plan["show"] = this.isShowPastEvent ? 1 : 0;
     
     let event_reg_file_status = localStorage.getItem('event_reg_file')
     let event_reg_file = event_reg_file_status == 'complete' ? this.eventGuestRegFileName : ''
@@ -2135,11 +2172,14 @@ export class PlanEditComponent {
 
     if(this.hasActivityCodeActivated) {
       this.plan["activity_code"] = this.activityCode || "";
+      if(this.companyId == 32) {
+        this.plan["activity_code_sigeca"] = this.activityCodeSigeca || "";
+      }
     }
 
-    let publish = 1;
+    let publish = this.status ? 1 : 0;
     if (this.id > 0) {
-      this.plan["publish"] = publish || 1;
+      this.plan["publish"] = publish;
       this.plan["isShowAttendee"] = this.isShowAttendee ? 1 : 0;
       this.plan["isShowComments"] = this.isShowComments ? 1 : 0;
       this.plan["isShowDescription"] = this.isShowDescription ? 1 : 0;
@@ -2268,8 +2308,14 @@ export class PlanEditComponent {
       }
     }
 
+    if(this.id > 0) {
+      this.currentPlan = this.initializeCurrentPlan(start_date, this.endDate, 'current');
+    }
+
     if (this.id > 0) {
-      //   Edit
+      this.hasPlanChanges = this.detectPlanChanges();
+      
+      // Edit
       this._plansService
         .updatePlan(
           this.companyId,
@@ -2291,9 +2337,11 @@ export class PlanEditComponent {
               this._translateService.instant("dialog.savedsuccessfully"),
               ""
             );
-            this._router.navigate([
-              `/plans/details/${this.id}/${this.planTypeId}`,
-            ]);
+            if(this.hasPlanChanges && this.isPlanDetailsEmailActive) {
+              this.popupbutton?.nativeElement.click();
+            } else {
+              this.redirectToPlanPage();
+            }
           },
           (error) => {
             this.showError = true;
@@ -2344,6 +2392,138 @@ export class PlanEditComponent {
           }
         );
     }
+  }
+
+  initializeCurrentPlan(start_date, end_date, mode) {
+    return {
+      title: this.planForm?.value?.title_es,
+      title_en: this.planForm?.value?.title_en,
+      title_fr: this.planForm?.value?.title_fr,
+      title_eu: this.planForm?.value?.title_eu,
+      title_ca: this.planForm?.value?.title_ca,
+      title_de: this.planForm?.value?.title_de,
+      description: this.planForm?.value?.descriptionEs,
+      description_en: this.planForm?.value?.descriptionEn,
+      description_fr: this.planForm?.value?.descriptionFr,
+      description_eu: this.planForm?.value?.descriptionEu,
+      description_ca: this.planForm?.value?.descriptionCa,
+      description_de: this.planForm?.value?.descriptionDe,
+      activity_code: this.activityCode,
+      address: this.planForm?.value?.address,
+      meeting_point: this.planForm?.value?.meeting_point,
+      seats: this.planForm?.value?.seats || 0,
+      zoom_link: this.planForm?.value?.zoom_link,
+      zoom_link_text: this.planForm?.value?.zoom_link_text,
+      plan_date: mode == 'current' ? start_date?.replace(' ', 'T') + ':00.000Z' : start_date,
+      end_date: mode == 'current' ? (end_date?.replace(' ', 'T') + ':00.000Z') : end_date,
+    }
+  }
+
+  detectPlanChanges() {
+    let changed = false;
+
+    if(this.initialPlan?.title && this.currentPlan?.title) {
+      if(
+        this.initialPlan?.title != this.currentPlan?.title ||
+        this.initialPlan?.title_en != this.currentPlan?.title_en ||
+        this.initialPlan?.title_fr != this.currentPlan?.title_fr ||
+        this.initialPlan?.title_eu != this.currentPlan?.title_eu ||
+        this.initialPlan?.title_ca != this.currentPlan?.title_ca ||
+        this.initialPlan?.title_de != this.currentPlan?.title_de || 
+        this.initialPlan?.description != this.currentPlan?.description?.replaceAll('\n', '\r\n') ||
+        this.initialPlan?.description_en != this.currentPlan?.description_en ||
+        this.initialPlan?.description_fr != this.currentPlan?.description_fr ||
+        this.initialPlan?.description_eu != this.currentPlan?.description_eu ||
+        this.initialPlan?.description_ca != this.currentPlan?.description_ca ||
+        this.initialPlan?.description_de != this.currentPlan?.description_de ||
+        this.initialPlan?.activity_code != this.currentPlan?.activity_code ||
+        this.initialPlan?.address != this.currentPlan?.address ||
+        this.initialPlan?.meeting_point != this.currentPlan?.meeting_point ||
+        this.initialPlan?.seats != this.currentPlan?.seats ||
+        this.initialPlan?.zoom_link != this.currentPlan?.zoom_link ||
+        this.initialPlan?.zoom_link_text != this.currentPlan?.zoom_link_text ||
+        this.initialPlan?.plan_date != this.currentPlan?.plan_date ||
+        (this.initialPlan?.end_date && this.currentPlan?.end_date?.indexOf('undefined') < 0 && this.initialPlan?.end_date != this.currentPlan?.end_date)
+      ) {
+        changed = true;
+        this.setDetailsChanged();
+      }
+    }
+
+    return changed;
+  }
+
+  setDetailsChanged() {
+    let changedDetails:any[] = [];
+
+    if(this.initialPlan?.title != this.currentPlan?.title) {
+      changedDetails.push(this._translateService.instant('plan-create.title'));
+    }
+
+    if(this.initialPlan?.description != this.currentPlan?.description?.replaceAll('\n', '\r\n')) {
+      changedDetails.push(this._translateService.instant('plan-create.description'));
+    }
+
+    if(this.initialPlan?.plan_date != this.currentPlan?.plan_date) {
+      changedDetails.push(this._translateService.instant('your-admin-area.date'));
+    }
+
+    if(this.initialPlan?.end_date && this.currentPlan?.end_date?.indexOf('undefined') < 0 && this.initialPlan?.end_date != this.currentPlan?.end_date) {
+      changedDetails.push(this._translateService.instant('plan-create.enddate'));
+    }
+
+    if(this.initialPlan?.address != this.currentPlan?.address) {
+      changedDetails.push(this._translateService.instant('plan-create.address'));
+    }
+
+    if(this.initialPlan?.meeting_point != this.currentPlan?.meeting_point) {
+      changedDetails.push(this._translateService.instant('plan-create.meetingpoint'));
+    }
+
+    if(this.initialPlan?.activity_code != this.currentPlan?.activity_code) {
+      changedDetails.push(this._translateService.instant('edit-plan.activitycode'));
+    }
+
+    if(this.initialPlan?.seats != this.currentPlan?.seats) {
+      changedDetails.push(this._translateService.instant('plan-create.seats'));
+    }
+
+    if(this.initialPlan?.zoom_link != this.currentPlan?.zoom_link) {
+      changedDetails.push(this._translateService.instant('plan-create.zoomlink'));
+    }
+
+    if(changedDetails?.length > 0) {
+      this.changedDetails = changedDetails?.map((data) => { return data }).join(', ')
+    }
+  }
+
+  closePopupButton(mode) {
+    if(mode == 'yes') {
+      let params = {
+        plan_id: this.id,
+        plan_type_id: this.planTypeId,
+        company_id: this.companyId,
+        details_changed: this.changedDetails,
+      }
+      this._plansService.sendPlanDetailsUpdatedEmail(params).subscribe(data => {
+        this.redirectAfterClosingPopup();
+      }, err => {
+          console.log('err: ', err);
+      })
+    } else {
+      this.redirectAfterClosingPopup();
+    }
+  }
+
+  redirectAfterClosingPopup() {
+    this.closepopupbutton?.nativeElement.click();
+    this.redirectToPlanPage();
+  }
+
+  redirectToPlanPage() {
+    this._router.navigate([
+      `/plans/details/${this.id}/${this.planTypeId}`,
+    ]);
   }
 
   setCurrentPlan(response, require_approval: boolean = false) {
@@ -2884,6 +3064,14 @@ export class PlanEditComponent {
     }
   }
 
+  onDeSelectCategory(event) {
+    if(event.fk_supercategory_id && this.subcategories?.length > 0) {
+      this.subcategories = this.subcategories?.filter(sc => {
+        return sc.category_id != event.fk_supercategory_id
+      })
+    }
+  }
+  
   pondHandleInit() {
     console.log('FilePond has initialised', this.myPond);
   }

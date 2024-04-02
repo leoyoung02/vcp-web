@@ -320,8 +320,8 @@
         "confirmedattendees": "Partecipanti confermati",
         "attendees": "Assistenti",
         "attendee": "Assistente",
-        "youjoined": "Hai aderito a questo piano",
-        "leaveplan": "Lascia questo piano",
+        "youjoined": "Ti sei unito a questo evento",
+        "leaveplan": "Abbandona questo evento",
         "duplicate": "Duplicato",
         "emailinvite": "Invito via e-mail",
         "exitcalendarmode": "Esci dalla modalità calendario",
@@ -329,21 +329,27 @@
         "confirmattendance": "Conferma la presenza",
         "confirmedattendance": "Hai confermato con successo la tua presenza",
         "invalidcode": "Codice non valido",
-        "youearned": "Congratulazioni, te lo sei guadagnato"
+        "youearned": "Congratulazioni, te lo sei guadagnato",
+        "expiredconfirm": "Siamo spiacenti, il link per confermare la partecipazione è scaduto."
     },
     "plan-create": {
         "fillup": "Compila questo modulo per creare il tuo piano",
         "fillupevent": "Compila questo modulo per creare il tuo evento",
         "uploadimage": "Carica immagine",
         "title": "Titolo",
+        "titleofevent": "Titolo dell'evento",
+        "eventstartdate": "Data di inizio evento",
+        "eventenddate": "Data di fine evento",
         "address": "Posizione",
         "meetingpoint": "Punto d'incontro",
+        "uemeetingpoint": "Aula dove si terrà l'evento",
         "planttype": "Tipo di",
         "selectclub": "Seleziona",
         "selectcompany": "Seleziona azienda",
         "plandate": "Data di",
         "category": "Categoria",
         "seats": "Posti liberi",
+        "indicatemaxseats": "Indica la capacità massima di partecipanti per questo evento",
         "price": "Prezzo",
         "link": "collegamento",
         "description": "Descrizione",
@@ -438,7 +444,9 @@
         "limitguestseats": "Limite (ospiti)",
         "limitgreaterthanseats": "Imposta un limite inferiore o uguale al numero di posti",
         "selectincharge": "Seleziona il delegato",
-        "incharge": "Responsabile"
+        "incharge": "Responsabile",
+        "selectmodality": "Seleziona modalità",
+        "showpastevent": "Mostra evento passato"
     },
     "plan-recommendations": {
         "applauses": "Applausi",
@@ -722,7 +730,8 @@
         "termsandconditions": "Termini e condizioni",
         "privacypolicy": "Informativa sulla privacy",
         "cookiespolicy":"Politica sui cookie",
-        "customeronboarding": "Onboarding del cliente"
+        "customeronboarding": "Onboarding del cliente", 
+        "historyofactivities": "Storia delle attività"
     },
     "public-profile": {
         "publicprofile": "Profilo pubblico",

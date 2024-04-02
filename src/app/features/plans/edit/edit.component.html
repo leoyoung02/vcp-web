@@ -75,44 +75,44 @@
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                     formControlName="title_es" 
-                    placeholder="{{ 'club-create.title' | translate }}*" 
+                    placeholder="{{ 'plan-create.titleofevent' | translate }}*" 
                     required>
                 <input 
                     *ngIf="selectedLanguage == 'en'"
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                     formControlName="title_en" 
-                    placeholder="{{ 'club-create.title' | translate }}">
+                    placeholder="{{ 'plan-create.titleofevent' | translate }}">
                 <input 
                     *ngIf="selectedLanguage == 'fr'"
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                     formControlName="title_fr" 
-                    placeholder="{{ 'club-create.title' | translate }}">
+                    placeholder="{{ 'plan-create.titleofevent' | translate }}">
                 <input 
                     *ngIf="selectedLanguage == 'eu'"
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                     formControlName="title_eu" 
-                    placeholder="{{ 'club-create.title' | translate }}">
+                    placeholder="{{ 'plan-create.titleofevent' | translate }}">
                 <input 
                     *ngIf="selectedLanguage == 'ca'"
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                     formControlName="title_ca" 
-                    placeholder="{{ 'club-create.title' | translate }}">
+                    placeholder="{{ 'plan-create.titleofevent' | translate }}">
                 <input 
                     *ngIf="selectedLanguage == 'de'"
                     type="text" 
                     class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                     formControlName="title_de" 
-                    placeholder="{{ 'club-create.title' | translate }}">
+                    placeholder="{{ 'plan-create.titleofevent' | translate }}">
             </div>
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
                 <div class="flex items-center justify-between relative plan-date">
                     <mat-form-field class="w-full">
-                        <mat-label>{{ 'plan-create.plandate' | translate }} {{pageName}}</mat-label>
-                        <input matInput [matDatepicker]="picker" placeholder="{{ 'plan-create.plandate' | translate }} {{pageName}}" formControlName="plan_date">
+                        <mat-label>{{ 'plan-create.eventstartdate' | translate }}</mat-label>
+                        <input matInput [matDatepicker]="picker" placeholder="{{ 'plan-create.eventstartdate' | translate }}" formControlName="plan_date">
                         <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
                         <mat-datepicker #picker>
                             <mat-datepicker-actions>
@@ -131,8 +131,8 @@
                 </div>
                 <div *ngIf="isPlanDurationActive" class="flex items-center justify-between relative plan-date">
                     <mat-form-field class="w-full">
-                        <mat-label>{{ 'plan-create.enddate' | translate }} {{pageName}}</mat-label>
-                        <input matInput [matDatepicker]="endpicker" placeholder="{{ 'plan-create.enddate' | translate }} {{pageName}}" formControlName="end_date">
+                        <mat-label>{{ 'plan-create.eventenddate' | translate }}</mat-label>
+                        <input matInput [matDatepicker]="endpicker" placeholder="{{ 'plan-create.enddate' | translate }}" formControlName="end_date">
                         <mat-datepicker-toggle matIconSuffix [for]="endpicker"></mat-datepicker-toggle>
                         <mat-datepicker #endpicker>
                             <mat-datepicker-actions>
@@ -275,7 +275,7 @@
                         [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': planForm.get('meeting_point')?.errors }"
                         type="text"
                         class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
-                        placeholder="{{ 'plan-create.meetingpoint' | translate }}"
+                        placeholder="{{ companyId == 32 ? ('plan-create.uemeetingpoint' | translate) : ('plan-create.meetingpoint' | translate)}}"
                         formControlName="meeting_point"
                         maxlength="200"
                     />
@@ -315,7 +315,7 @@
                         (change)="changePlanTypeId($event)"
                     >
                         <option value=1>{{ 'plan-create.you' | translate }}</option>
-                        <option value=4 *ngIf="clubTitle">{{ clubTitle }}</option>
+                        <option value=4 *ngIf="clubTitle && !isUESchoolOfLife">{{ clubTitle }}</option>
                         <option *ngIf="superAdmin && companyId != 32" value="5">{{ 'plan-create.company' | translate }}</option>
                     </select>
                 </div>
@@ -362,6 +362,7 @@
                         [(ngModel)]="category_id"
                         [ngModelOptions]="{standalone: true}"
                         (onSelect)="handleChangeCategory($event)"
+                        (onDeSelect)="onDeSelectCategory($event)"
                         [disabled]="isClubPresident"
                     >
                     </ng-multiselect-dropdown>
@@ -369,7 +370,7 @@
                 <div class="flex items-center justify-center relative"
                     *ngIf="(!types || (types && types?.length == 0)) && showCategorySelect" >
                     <ng-multiselect-dropdown
-                        placeholder="{{ 'dialog.picksubcategory' | translate }}"
+                        placeholder="{{ companyId == 32 ? ('plan-create.selectmodality' | translate) : ('dialog.picksubcategory' | translate) }}"
                         [settings]="subcategoryDropdownSettings"
                         [data]="subcategories"
                         [(ngModel)]="selectedSubcategory"
@@ -377,11 +378,11 @@
                     >
                     </ng-multiselect-dropdown>
                 </div>
-                <div class="flex items-center justify-center relative" *ngIf="showSeats">
+                <div class="flex items-center justify-center relative">
                     <input
                         type="number"
                         class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
-                        placeholder="{{ 'plan-create.seats' | translate }}"
+                        placeholder="{{ companyId == 32 ? ('plan-create.indicatemaxseats' | translate) : ('plan-create.seats' | translate) }}"
                         formControlName="seats"
                         (input)="calculateLimit('seats')"
                     />
@@ -404,7 +405,7 @@
                         />
                     </ng-container>
                 </div>
-                <div class="flex items-center justify-center relative">
+                <div class="flex items-center justify-center relative" *ngIf="companyId != 32">
                     <input
                         type="number"
                         class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
@@ -551,6 +552,16 @@
                         placeholder="{{ 'edit-plan.activitycode' | translate }}"
                         maxlength="200"
                     />
+                    <input
+                        *ngIf="companyId == 32"
+                        id="activity-code-sigeca"
+                        type="text"
+                        class="ml-4 text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                        [(ngModel)]="activityCodeSigeca"
+                        [ngModelOptions]="{standalone: true}"
+                        placeholder="{{ 'credits.activitycodesigeca' | translate }}"
+                        maxlength="200"
+                    />
                 </div>
                 <div class="flex items-center justify-center relative" *ngIf="credits">
                     <input
@@ -583,7 +594,7 @@
                         </div>
                     </label>
                 </div>
-                <div class="flex items-center mt-4 w-full mx-auto" *ngIf="hasFeatured">
+                <div class="flex items-center mt-4 w-full mx-auto" *ngIf="hasFeatured && companyId != 32">
                     <label class="checkbox-container">
                         <div class="flex mb-4">
                             <input 
@@ -806,6 +817,25 @@
                             <label for="showdescription" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
                                 <span>
                                     {{ 'edit-plan.show_description' | translate }}
+                                </span>
+                            </label>
+                        </div>
+                    </label>
+                </div>
+                <div class="flex items-center mt-4 w-full mx-auto" *ngIf="companyId == 32">
+                    <label class="checkbox-container">
+                        <div class="flex mb-4">
+                            <input 
+                                id="showpastevent" 
+                                type="checkbox"
+                                [(ngModel)]="isShowPastEvent" 
+                                [ngModelOptions]="{standalone: true}"
+                                [ngStyle]="{'color': isShowPastEvent ? 'text-blue-500' : 'text-gray-900'}"
+                                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            >
+                            <label for="showpastevent" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                <span>
+                                    {{ 'plan-create.showpastevent' | translate }}
                                 </span>
                             </label>
                         </div>
@@ -1076,6 +1106,34 @@
                         output="base64">
                     </image-cropper>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<button #popupbutton data-modal-target="popup-modal" data-modal-toggle="popup-modal" class="hidden block text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+    &nbsp;
+</button>
+<div id="popup-modal" tabindex="-1" class="hidden overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative p-4 w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button #closepopupbutton type="button" class="absolute top-3 end-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="popup-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="p-4 md:p-5 text-center">
+                <svg [ngStyle]="{'color': buttonColor}" class="mx-auto mb-4 w-12 h-12" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3.6 6.4 12 13l8.7-6.6L13 2.3a2 2 0 0 0-2 0l-7.4 4Z"/>
+                    <path d="m22 8-8.8 6.7a2 2 0 0 1-2.4 0L2 7.7v11.2A3 3 0 0 0 5 22h14a3 3 0 0 0 3-3V8Z"/>
+                </svg>
+                <h3 class="mb-5 text-lg font-normal text-gray-500 dark:text-gray-400">{{'edit-plan.plandetailschanged' | translate}}</h3>
+                <button (click)="closePopupButton('yes')" type="button" class="text-white bg-red-600 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm inline-flex items-center px-5 py-2.5 text-center">
+                    {{'edit-plan.yes' | translate}}
+                </button>
+                <button (click)="closePopupButton('no')" type="button" class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">
+                    {{'edit-plan.no' | translate}}
+                </button>
             </div>
         </div>
     </div>

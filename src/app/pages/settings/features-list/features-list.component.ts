@@ -79,6 +79,7 @@ export class FeaturesListComponent {
   isInitialLoad = true;
   isLoading: boolean = false;
   languageChangeSubscription;
+  isUESchoolOfLife: boolean = false;
 
   constructor(
     private _router: Router,
@@ -109,6 +110,7 @@ export class FeaturesListComponent {
     }
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.companyId = company[0].id;
       this.companyDomain = company[0].domain;
       this.primaryColor = company[0].primary_color;
@@ -231,8 +233,14 @@ export class FeaturesListComponent {
 
   getFeatureTitle(feature) {
     let code = this.language == 'en' ? '' : this.language;
-    let column = `feature_name_${code}` || `name_${code}`;
+    let column = `name_${code}` || `feature_name_${code}`;
     let text = feature[column];
+    if(this.companyId == 32) {
+      if(this.isUESchoolOfLife) {
+        text = text?.replace('de Vida Universitaria', 'de School of Life');
+        text = text?.replace('University Life', 'School of Life')
+      }
+    }
     return text || (feature.name_es || feature.feature_name_es);
   } 
 
@@ -386,12 +394,12 @@ export class FeaturesListComponent {
 
   getFeaturePath(feature) {
     let tempPath = feature.feature_name.replace(/\s/g, "").toLowerCase();
-    return tempPath == "cityagenda" ? "news" : tempPath;
+    return tempPath == "cityagenda" ? "cityguide" : tempPath;
   }
 
   getFeatureName(feature) {
     let tempName = feature.name_en ? feature.name_en : feature.feature_name;
-    return tempName == "cityagenda" ? "News" : tempName;
+    return tempName == "cityagenda" ? "cityguide" : tempName;
   }
 
   handleViewDetails(event) {

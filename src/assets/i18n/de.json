@@ -323,8 +323,8 @@
         "confirmedattendees": "Bestätigte Teilnehmer",
         "attendees": "Assistenten",
         "attendee": "Assistent",
-        "youjoined": "Sie sind diesem Plan beigetreten",
-        "leaveplan": "Diesen Plan verlassen",
+        "youjoined": "Sie haben dieser Veranstaltung beigetreten",
+        "leaveplan": "Verlassen Sie diese Veranstaltung",
         "duplicate": "Duplikat",
         "emailinvite": "E-Mail-Einladung",
         "exitcalendarmode": "Kalendermodus beenden",
@@ -332,21 +332,28 @@
         "confirmattendance": "Anwesenheit bestätigen",
         "confirmedattendance": "Sie haben Ihre Teilnahme erfolgreich bestätigt",
         "invalidcode": "Ungültiger Code",
-        "youearned": "Herzlichen Glückwunsch, Sie haben es verdient"
+        "youearned": "Herzlichen Glückwunsch, Sie haben es verdient",
+        "sendconfirmattendanceemail": "E-Mail zur Bestätigung der Teilnahme senden",
+        "expiredconfirm": "Leider ist der Link zur Teilnahmebestätigung abgelaufen."
     },
     "plan-create": {
         "fillup": "Füllen Sie dieses Formular aus, um Ihren Plan zu erstellen",
         "fillupevent": "Füllen Sie dieses Formular aus, um Ihr Event zu erstellen",
         "uploadimage": "Bild hochladen",
         "title": "Titel",
+        "titleofevent": "Titel der Veranstaltung",
+        "eventstartdate": "Startdatum der Veranstaltung",
+        "eventenddate": "Enddatum der Veranstaltung",
         "address": "Standort",
         "meetingpoint": "Treffpunkt",
+        "uemeetingpoint": "Klassenzimmer, in dem die Veranstaltung stattfinden wird",
         "plantype": "Plantyp",
         "selectclub": "Verein auswählen",
         "selectcompany": "Unternehmen auswählen",
         "plandate": "Datum",
         "category": "Kategorie",
         "seats": "Freie Plätze",
+        "indicatemaxseats": "Geben Sie die maximale Teilnehmerzahl für diese Veranstaltung an",
         "price": "Preis",
         "link": "Link",
         "description": "Beschreibung",
@@ -441,7 +448,9 @@
         "limitguestseats": "Limit (Gästeplätze)",
         "limitgreaterthanseats": "Bitte legen Sie ein Limit fest, das kleiner oder gleich der Anzahl der Sitzplätze ist.",
         "selectincharge": "Den Delegierten auswählen",
-        "incharge": "Verantwortliche Person"
+        "incharge": "Verantwortliche Person",
+        "selectmodality": "Modalität auswählen",
+        "showpastevent": "Vergangenes Ereignis anzeigen"
     },
     "plan-recommendations": {
         "applauses": "Applaus",
@@ -724,7 +733,8 @@
         "termsandconditions": "Termes i condicions",
         "privacypolicy": "Política de privadesa",
         "cookiespolicy":"Política de cookies", 
-        "customeronboarding": "Kunden Onboarding"
+        "customeronboarding": "Kunden Onboarding", 
+        "historyofactivities": "Geschichte der Aktivitäten"
     },
     "public-profile": {
         "publicprofile": "Öffentliches Profil",
@@ -1482,7 +1492,10 @@
         "downloadwaitinglist": "Warteliste herunterladen",
         "renewal": "Verlängerungsdatum",
         "activitycode": "Aktivitätscode",
-        "numberofcredits": "Anzahl der Credits", 
+        "numberofcredits": "Anzahl der Credits",
+        "plandetailschanged": "Details haben sich geändert. Möchten Sie diese Aktualisierungen an die Teilnehmer senden?",
+        "yes": "Ja",
+        "no": "Nein",
         "eventregistrationimage": "Bild der Event-Gäste-Registrierungsseite"
     },
     "edit-club": {
@@ -3467,7 +3480,11 @@
         "onthesedays": "An diesen Tagen",
         "emailschedulesummary": "Die E-Mail wird alle gesendet.",
         "includeattachment": "Anhang einschließen",
-        "emailrecipients": "E-Mail-Empfänger (durch Komma getrennt)"
+        "emailrecipients": "E-Mail-Empfänger (durch Komma getrennt)",
+        "sendcredits": "Credits-Liste senden",
+        "lastnameandname": "Nachname und Vorname",
+        "activeenrollment": "Aktive Registrierungsnummer",
+        "activitycodesigeca": "SIGECA-Aktivitätscode"
     },
     "videos-ctas": {
         "activatetimer": "Timer aktivieren",

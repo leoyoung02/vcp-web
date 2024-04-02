@@ -19,7 +19,7 @@
             <mat-table [dataSource]="notificationsDataSource" matSort>
                 <ng-container matColumnDef="message">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'notification-popup.message' | translate }} </mat-header-cell>
-                    <mat-cell *matCellDef="let row" data-label="message"><div [innerHtml]="row?.message + ' - ' + row.id"></div></mat-cell>
+                    <mat-cell *matCellDef="let row" data-label="message"><div [innerHtml]="row?.message"></div></mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="email">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'login.emailaddress' | translate }} </mat-header-cell>

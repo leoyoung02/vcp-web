@@ -33,6 +33,7 @@ export class AuthComponent {
   private destroy$ = new Subject<void>();
 
   @Input() token!: string;
+  @Input() returnUrl!: string;
 
   language: any;
   logoSource: any;
@@ -113,7 +114,8 @@ export class AuthComponent {
           user: environment.lsuserId,
           token: environment.lstoken,
         });
-        location.href = `/`;
+
+        location.href = `/?returnUrl=${this.returnUrl}` || '/';
       });
   }
 

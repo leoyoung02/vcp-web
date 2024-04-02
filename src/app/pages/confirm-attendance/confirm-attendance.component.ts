@@ -20,6 +20,7 @@ import {
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlansService } from "@features/services";
 import { NoAccessComponent } from "@share/components";
+import moment from "moment";
 
 @Component({
   standalone: true,
@@ -65,6 +66,8 @@ export class ConfirmAttendanceComponent implements OnInit, OnDestroy {
   onClickResult: ClickEvent | undefined;
   onHoverRatingChangeResult: HoverRatingChangeEvent | undefined;
   onRatingChangeResult: RatingChangeEvent | undefined;
+  activityFeedback: any = '';
+  isValidConfirmAttendance: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -122,6 +125,9 @@ export class ConfirmAttendanceComponent implements OnInit, OnDestroy {
         (data) => {
           this.event = data.event;
           this.user = data.user;
+          this.isValidConfirmAttendance = this.event ? 
+            (this.event?.plan_date?.substr(0, 10) == moment().format('YYYY-MM-DD') ? true : false) :
+            false;
           this.initializePage();
         },
         (error) => {
@@ -194,6 +200,7 @@ export class ConfirmAttendanceComponent implements OnInit, OnDestroy {
       user_id: this.user?.id,
       company_id: this.companyId,
       rating: this.rating,
+      feedback: this.activityFeedback,
     }
 
     this._plansService.submitActivityRating(params)    

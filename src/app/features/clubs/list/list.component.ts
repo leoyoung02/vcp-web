@@ -1021,6 +1021,14 @@ export class ClubsListComponent {
     this.selectedClubId = state ? club.id : ''
   }
 
+  goToClubDetails(club) {
+    if(this.userId > 0) {
+      this._router.navigate([`/clubs/details/${club.id}`]);
+    } else {
+      this._router.navigate(["/auth/login"]);
+    }
+  }
+
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();

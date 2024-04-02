@@ -9,6 +9,12 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./list/list.component')).PlansListComponent,
     },
     {
+        path: 'list/:mode',
+        title: CustomTitleResolver,
+        data: { titleKey: 'dashboard.plans'},
+        loadComponent: async () => (await import('./list/list.component')).PlansListComponent,
+    },
+    {
         path: 'details/:id/:planTypeId',
         title: CustomTitleResolver,
         data: { titleKey: 'plan-details.plan'},
