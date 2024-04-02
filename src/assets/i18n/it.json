@@ -3476,7 +3476,8 @@
         "onthesedays": "In questi giorni",
         "emailschedulesummary": "L'email verrà inviata ogni",
         "includeattachment": "Includi allegato",
-        "emailrecipients": "Destinatari email (separati da virgola)"
+        "emailrecipients": "Destinatari email (separati da virgola)",
+        "expediente": "File"
     },
     "video-ctas": {
         "activatetimer": "Attiva il timer",

@@ -2192,7 +2192,7 @@ export class PlanDetailComponent {
       this.onSubmit = true;
       let approved = this.companyId == 32 ? (this.superAdmin ? 1 : 0) : 1;
       this._plansService
-        .addPlanComment(this.plan.id, this.user.id, this.comment, approved)
+        .addPlanComment(this.plan.id, this.user.id, this.comment, approved, this.companyId)
         .subscribe(
           (response) => {
             this.comment = "";
@@ -2217,7 +2217,7 @@ export class PlanDetailComponent {
       this.onSubmit = true;
       let approved = this.companyId == 32 ? (this.superAdmin ? 1 : 0) : 1;
       this._plansService
-        .addGroupPlanComment(this.plan.id, this.user.id, this.comment)
+        .addGroupPlanComment(this.plan.id, this.user.id, this.comment, approved, this.companyId)
         .subscribe(
           (response) => {
             this.comment = "";

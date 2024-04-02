@@ -3520,7 +3520,8 @@
         "sendcredits": "Send credits list",
         "lastnameandname": "Last name and first name",
         "activeenrollment": "Active enrollment number",
-        "activitycodesigeca": "SIGECA activity code"
+        "activitycodesigeca": "SIGECA activity code",
+        "expediente": "File"
     },
     "videos-ctas": {
         "activatetimer": "Activate timer",

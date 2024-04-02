@@ -3505,7 +3505,8 @@
         "sendcredits": "Enviar lista de créditos",
         "lastnameandname": "Apellidos y nombre",
         "activeenrollment": "Num. Matrícula activa",
-        "activitycodesigeca": "Código actividad SIGECA"
+        "activitycodesigeca": "Código actividad SIGECA",
+        "expediente": "Expediente"
     },
     "videos-ctas": {
         "activatetimer": "Activar temporizador",

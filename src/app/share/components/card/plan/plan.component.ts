@@ -51,6 +51,7 @@ export class PlanCardComponent {
   @Input() size: any;
   @Input() position: any;
   @Input() companyId: any;
+  @Input() bottomEventTitles: any;
   @Output() handleDetailsClick = new EventEmitter()
 
   languageChangeSubscription;
