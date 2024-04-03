@@ -106,8 +106,8 @@ export class PlansAdminListComponent {
     selectedStartDate: any;
     selectedEndDate: any;
     dateRange = new FormGroup({
-        start: new FormControl(),
-        end: new FormControl(),
+      start: new FormControl(),
+      end: new FormControl(),
     });
 
     constructor(
@@ -137,6 +137,7 @@ export class PlansAdminListComponent {
     async ngOnInit() {
         initFlowbite();
         this.onResize();
+        this.initializeDate();
 
         if(this.company) {
           this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(this.company);
@@ -149,9 +150,22 @@ export class PlansAdminListComponent {
             this.initializePage();
           }
         );
+
+        if(this.company?.id == 12) {
+          this.guestSalesPersonList();
+        }
     
         this.isLoading = true;
         this.initializePage();
+    }
+
+    initializeDate() {
+      this.selectedStartDate = moment().add(-1, 'months').startOf('month').format("YYYY-MM-DD");
+      this.selectedEndDate = moment().endOf('month').format("YYYY-MM-DD");
+      this.dateRange = new FormGroup({
+        start: new FormControl(this.selectedStartDate),
+        end: new FormControl( this.selectedEndDate)
+      });
     }
 
     initializePage() {
@@ -159,12 +173,11 @@ export class PlansAdminListComponent {
       this.initializeSearch();
       if(this.company?.id == 12) {
         this.getAllGuestHistory();
-        this.guestSalesPersonList();
       }
     }
 
     getAllGuestHistory() {
-      this._plansService.getGuestHistory(this.company?.id)
+      this._plansService.getGuestHistory(this.company?.id, this.selectedStartDate, this.selectedEndDate)
         .pipe(takeUntil(this.destroy$))
         .subscribe(response => {
           this.guestHistory = response.guest_history;
@@ -215,7 +228,7 @@ export class PlansAdminListComponent {
 
     fetchPlansManagementData() {
       this._plansService
-        .fetchPlansManagementData(this.company?.id, this.userId, (this.superAdmin ? 'superadmin' : 'user'), this.isUESchoolOfLife)
+        .fetchPlansManagementData(this.company?.id, this.userId, (this.superAdmin ? 'superadmin' : 'user'), this.isUESchoolOfLife, this.selectedStartDate, this.selectedEndDate)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           (data) => {
@@ -1139,6 +1152,10 @@ export class PlansAdminListComponent {
         } else {
           this.selectedEndDate = '';
         }
+      }
+
+      if(this.selectedStartDate && this.selectedEndDate) {
+        this.initializePage();
       }
     }
   

@@ -534,11 +534,19 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     }).pipe(map(res => res));
   }
 
-  fetchPlansManagementData(id: number = 0, userId: number = 0, role: string = '', isUESchoolOfLife: boolean = false): Observable<any> {
+  fetchPlansManagementData(id: number = 0, userId: number = 0, role: string = '', isUESchoolOfLife: boolean = false, startDate: any = '', endDate: any = ''): Observable<any> {
     let url = `${PLANS_MANAGEMENT_DATA_URL}/${id}/${userId}/${role}`
     if(isUESchoolOfLife) {
       url += `?schooloflife=1`
+      if(startDate && endDate) {
+        url += `&start=${startDate}&end=${endDate}`
+      }
+    } else {
+      if(startDate && endDate) {
+        url += `?start=${startDate}&end=${endDate}`
+      }
     }
+
     return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
@@ -1238,8 +1246,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
-  getGuestHistory(companyId): Observable<any> {
-    return this._http.get(`${GUEST_HISTORY_LIST_URL}/${companyId}`, 
+  getGuestHistory(companyId, startDate, endDate): Observable<any> {
+    let url = `${GUEST_HISTORY_LIST_URL}/${companyId}`
+    if(startDate && endDate) {
+      url += `?start=${startDate}&end=${endDate}`
+    }
+    return this._http.get(url, 
       { headers: this.headers }
     ).pipe(map(res => res));
   }
