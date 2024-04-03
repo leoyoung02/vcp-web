@@ -88,7 +88,11 @@ export class SectionsMasonryComponent {
     if(this.userId > 0) {
       this._router.navigate([item.path]);
     } else {
-      this._router.navigate(["/auth/login"]);
+      this._router.navigate(["/auth/login"], {
+        queryParams: {
+          returnUrl: this._router.routerState.snapshot.url
+        }
+      });
     }
   }
 
