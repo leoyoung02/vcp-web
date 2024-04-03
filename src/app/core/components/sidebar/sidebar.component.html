@@ -261,7 +261,8 @@
       >
         <img
           [src]="lang.code == 'en' ? './assets/menu-icons/menu-icon-en.png' : (
-            lang.code == 'eu' ? './assets/menu-icons/menu-icon-eu.png' : './assets/menu-icons/menu-icon-es.png'
+            lang.code == 'eu' ? './assets/menu-icons/menu-icon-eu.png' : (
+              lang.code == 'it' ? './assets/menu-icons/menu-icon-it.png' : './assets/menu-icons/menu-icon-es.png')
           )"
           class="cursor-pointer w-[30px] max-w-[30px] h-[23px] max-h-[23px] rounded-[5px]"
           [ngClass]="{'border border-2 border-white': language == lang.code}"
