@@ -7,7 +7,7 @@ import { NgxLoggerLevel } from 'ngx-logger';
 export const environment = {
     production: true,
     api: 'http://localhost:8977/secureapi',
-    company: 'vcp.vistingo.com',
+    company: 'schooloflife.vistingo.com',
     logLevel: NgxLoggerLevel.LOG,
     serverLogLevel: NgxLoggerLevel.LOG,
     lstoken: 'MDzMJjldj0uCZf+DrObXFA==',
@@ -77,7 +77,7 @@ export const environment = {
     lsusergeocity: "dYvVSQsQU0yuMBCmjuE3Xg==",
     lsusergeoipaddress: "y8Y+yUkz7E6QhkVODnJYWw==",
     lsusercoursecredits: "N4RxzstAvEeTmLstp5yICA==",
-    lsguestaccesstoken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiZW1haWwiOiIiLCJyb2xlIjoiTSIsImd1aWQiOiIiLCJpYXQiOjE3MDgyNDc4NzB9.PWfu6_YIvd56bK-YsX9qAvW9cwdYzeW7ZYWhLWlOwqU"
+    lsguestaccesstoken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiZW1haWwiOiIiLCJyb2xlIjoiTSIsImd1aWQiOiIiLCJpYXQiOjE3MTIyMDk2NzcsImV4cCI6MTc0Mzc0NTY3N30.-p7g_upTn26pZUAks5iNMdIywT7vToVOUpn0VCctiTM"
 };
 
 /*

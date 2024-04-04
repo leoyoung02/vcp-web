@@ -4,6 +4,7 @@
     {{ 'landing.login' | translate }}
 </button>
 <button (click)="signup()" type="button" 
+    *ngIf="canRegister"
     [ngStyle]="{
         'background-color': buttonColor,
         'opacity': signupHover ? 1.5 : 1,

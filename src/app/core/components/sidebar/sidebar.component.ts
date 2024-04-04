@@ -200,10 +200,19 @@ export class SidebarComponent {
   }
 
   async ngOnInit() {
-    this.companyName = this.company.entity_name;
-    this.menuColor = this.company.menu_color || "#ffffff";
-    this.primaryColor = this.company.primary_color || this.company.button_color;
-    this.buttonColor = this.company.button_color || this.company.primary_color;
+    this.initializePage();
+    this.getCourseWallMenuText();
+
+    setTimeout(() => {
+      initFlowbite();
+    }, 1000)
+  }
+
+  initializePage() {
+    this.companyName = this.company?.entity_name;
+    this.menuColor = this.company?.menu_color || "#ffffff";
+    this.primaryColor = this.company?.primary_color || this.company?.button_color;
+    this.buttonColor = this.company?.button_color || this.company?.primary_color;
     this.logoSrc = `${COMPANY_IMAGE_URL}/${this.company?.image}`;
     this.courseWallButton = this.company?.course_wall_button;
     this.courseWallPrefix = this.company?.course_wall_prefix;
@@ -214,11 +223,6 @@ export class SidebarComponent {
     this.courseWallPrefixTextValueCa = this.company?.course_wall_prefix_text_ca;
     this.courseWallPrefixTextValueDe = this.company?.course_wall_prefix_text_de;
     this.courseWallPrefixTextValueIt = this.company?.course_wall_prefix_text_it;
-    this.getCourseWallMenuText();
-
-    setTimeout(() => {
-      initFlowbite();
-    }, 1000)
   }
 
   getCourseWallMenuText() {
@@ -260,6 +264,13 @@ export class SidebarComponent {
       } else {
         this.refreshWallMenus(menus);
       }
+    }
+
+    let companyChange = changes["company"];
+    if (companyChange?.currentValue?.id > 0) {
+      let company = companyChange.currentValue;
+      this.company = company;
+      this.initializePage();
     }
   }
 

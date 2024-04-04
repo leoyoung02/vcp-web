@@ -39,8 +39,8 @@ export class ToastComponent {
 
     ngOnInit(): void {
         initFlowbite();
-        this.primaryColor = this.company.primary_color || this.company.button_color;
-        this.buttonColor = this.company.button_color || this.company.primary_color;
+        this.primaryColor = this.company?.primary_color || this.company?.button_color;
+        this.buttonColor = this.company?.button_color || this.company?.primary_color;
     }
 
     applyUpdates() {

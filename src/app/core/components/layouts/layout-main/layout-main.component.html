@@ -123,13 +123,14 @@
             <app-guest-menu
                 [company]="company"
                 [language]="language"
-                [buttonColor]="buttonColor">
+                [buttonColor]="buttonColor"
+                [canRegister]="canRegister">
             </app-guest-menu>
         </div>
         <ng-content></ng-content>
     </main>
 </div>
-<app-toast 
+<!-- <app-toast 
     *ngIf="newUpdatesAvailable && companyId !== 52 && companyId !== 65 && companyId !== 32" 
     [company]="company" 
     [update]="true" 
@@ -137,4 +138,4 @@
     [title]="title"
     [description]="description"
     [acceptText]="acceptText"
-></app-toast>
+></app-toast> -->

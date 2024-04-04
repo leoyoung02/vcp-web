@@ -182,6 +182,7 @@ export class LayoutMainComponent {
   salesPeople: any = [];
   isSalesPerson: boolean = false;
   hasHistoryOfActivities: any;
+  canRegister: boolean = false;
 
   constructor(
     private _router: Router,
@@ -1236,6 +1237,14 @@ export class LayoutMainComponent {
 
             if(profileButtonSettings && profileButtonSettings[0]) {
               this.showProfileButton = profileButtonSettings[0].active == 1 ? true : false
+            }
+
+            let canRegisterSettings = m.content.filter((c) => {
+              return c.title_en.indexOf("Allow member registration") >= 0;
+            });
+            if (canRegisterSettings && canRegisterSettings[0]) {
+              this.canRegister =
+                canRegisterSettings[0].active == 1 ? true : false;
             }
           }
         }

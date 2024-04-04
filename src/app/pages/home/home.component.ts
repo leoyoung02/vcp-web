@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectorRef, Component, inject, Input, OnDestroy, OnInit } from "@angular/core";
+import { ChangeDetectorRef, Component, inject, Input, OnDestroy, OnInit, SimpleChange } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { AppTheme, ThemeService } from "src/app/core/services/theme";
 import { Subject, takeUntil } from "rxjs";
@@ -23,6 +23,7 @@ import {
   SectionsMasonryComponent 
 } from "@share/components";
 import moment from "moment";
+import get from 'lodash/get';
 
 @Component({
   standalone: true,
@@ -197,6 +198,9 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
       : "";
+    if(!this.companies) { 
+      this.companies = get(await this._companyService.getCompanies().toPromise(), 'companies') 
+    }
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];

@@ -115,9 +115,8 @@ export class AuthComponent {
           token: environment.lstoken,
         });
 
-        if(this.returnUrl && this.returnUrl != 'undefined') {
-          location.href = `/?returnUrl=${this.returnUrl}` || '/';
-        }
+        if(this.returnUrl == 'undefined') { this.returnUrl = ''; }
+        location.href = `/?returnUrl=${this.returnUrl}` || '/';
       });
   }
 

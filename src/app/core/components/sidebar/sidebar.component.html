@@ -4,7 +4,7 @@
   (mouseover)="toggleHover(true)"
   (mouseleave)="toggleHover(false)">
   <div class="px-4 py-4 hover:cursor-pointer" [ngClass]="{'relative inset-0': !menuOpened}">
-    <img class="w-[40px] max-w-[40px] h-[40px] max-h-[40px] object-left hover:w-[150px] hover:max-w-[150px]" 
+    <img *ngIf="logoSource" class="w-[40px] max-w-[40px] h-[40px] max-h-[40px] object-left hover:w-[150px] hover:max-w-[150px]" 
       [ngClass]="{'m-auto': !menuOpened, 'object-cover': company?.id == 32, 'object-contain': company?.id != 32}"
       [src]="logoSource" />
   </div>
