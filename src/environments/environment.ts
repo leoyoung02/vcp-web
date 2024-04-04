@@ -7,7 +7,7 @@ import { NgxLoggerLevel } from 'ngx-logger';
 export const environment = {
     production: true,
     api: 'http://localhost:8977/secureapi',
-    company: 'schooloflife.vistingo.com',
+    company: 'vcp.vistingo.com',
     logLevel: NgxLoggerLevel.LOG,
     serverLogLevel: NgxLoggerLevel.LOG,
     lstoken: 'MDzMJjldj0uCZf+DrObXFA==',
