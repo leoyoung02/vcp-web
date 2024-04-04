@@ -1,6 +1,6 @@
 <div class="columns-1 sm:columns-1 md:columns-3 lg:columns-4 gap-4 space-y-4">
   <ng-container *ngFor="let item of list; let even=even; let i = index;">
-    <div class="break-inside-avoid-column" *ngIf="item?.object_type == 'plan'"
+    <div class="relative break-inside-avoid-column" *ngIf="item?.object_type == 'plan'"
       [ngClass]="{'bg-white border border-gray-200 rounded-lg shadow flex flex-col h-full': bottomEventTitles}">
       <div class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
         [routerLink]="[item.path]"
@@ -32,6 +32,12 @@
         </div>
       </div>
       <ng-container *ngIf="bottomEventTitles">
+        <div class="test__body absolute right-0 p-4 text-white flex flex-col">
+          <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
+              [ngStyle]="{'background-color': buttonColor}">
+              <img class="w-[28px] h-[16px]" src="/assets/menu-icons/menu-icon-plans.png" />
+            </div>
+        </div>
         <div class="relative p-4"
           [ngClass]="{'h-1/5': bottomEventTitles}">
           <div class="flex">

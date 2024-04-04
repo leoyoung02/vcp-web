@@ -1461,8 +1461,15 @@ export class PlanEditComponent {
         }
       }
 
-      if(event_category_id > 0 && event_subcategory_id > 0) { 
-        this.mapKCNSubcategories(event_category_id, event_subcategory_id, fk_group_id);
+      if(event_category_id > 0) { 
+        if(event_subcategory_id > 0) {
+          this.mapKCNSubcategories(event_category_id, event_subcategory_id, fk_group_id);
+        } else {
+          let subcats = this.allSubcategories?.filter(subcat => {
+            return subcat.category_id == event_category_id;
+          })
+          this.subcats = this.sortKCNSubcategories(subcats);
+        }
       }
     } else {
       let categories = this.mapCategories(data?.plan?.categories_mapping);
@@ -1753,51 +1760,48 @@ export class PlanEditComponent {
 
   mapKCNSubcategories(event_category_id, event_subcategory_id, fk_group_id) {
     if(event_subcategory_id) {
-      this.subcats = this.allSubcategories.filter(subcat => {
+      let subcats = this.allSubcategories?.filter(subcat => {
         return subcat.category_id == event_category_id;
       })
-      if(this.subcats?.length > 0) {
-        this.subcats?.sort((a, b) => a.name_es.localeCompare(b.name_es));
-        
-        let subcat = this.allSubcategories.filter(sc => {
-          return sc.id == event_subcategory_id;
-        })
-        if(subcat?.length > 0) {
-          this.eventSubcategory = subcat
-            .map(category => {
-              if(this.language == 'en') {
-                return {
-                  id: category.id,
-                  name_en: category.name_en,
-                }
-              } else if(this.language == 'fr') {
-                return {
-                  id: category.id,
-                  name_fr: category.name_fr,
-                }
-              } else if(this.language == 'eu') {
-                return {
-                  id: category.id,
-                  name_eu: category.name_eu,
-                }
-              } else if(this.language == 'ca') {
-                return {
-                  id: category.id,
-                  name_ca: category.name_ca,
-                }
-              } else if(this.language == 'de') {
-                  return {
-                    id: category.id,
-                    name_de: category.name_de,
-                  }
-              } else {
-                return {
-                  id: category.id,
-                  name_es: category.name_es,
-                }
+      this.subcats = this.sortKCNSubcategories(subcats);
+      let subcat = this.allSubcategories?.filter(sc => {
+        return sc.id == event_subcategory_id;
+      })
+      if(subcat?.length > 0) {
+        this.eventSubcategory = subcat
+          .map(category => {
+            if(this.language == 'en') {
+              return {
+                id: category.id,
+                name_en: category.name_en,
               }
-            })
-        }
+            } else if(this.language == 'fr') {
+              return {
+                id: category.id,
+                name_fr: category.name_fr,
+              }
+            } else if(this.language == 'eu') {
+              return {
+                id: category.id,
+                name_eu: category.name_eu,
+              }
+            } else if(this.language == 'ca') {
+              return {
+                id: category.id,
+                name_ca: category.name_ca,
+              }
+            } else if(this.language == 'de') {
+                return {
+                  id: category.id,
+                  name_de: category.name_de,
+                }
+            } else {
+              return {
+                id: category.id,
+                name_es: category.name_es,
+              }
+            }
+          })
       }
       
       if(this.planSubcategoryMapping?.length > 0) {
@@ -1850,6 +1854,15 @@ export class PlanEditComponent {
       }
       this.selectedClub = fk_group_id ? fk_group_id : '';
     }
+  }
+
+  sortKCNSubcategories(subcats) {
+    let result = []
+    if(subcats?.length > 0) {
+      result = subcats?.sort((a, b) => a.name_es.localeCompare(b.name_es));
+    }
+
+    return result;
   }
 
   setPlanSubcategoryMapping() {
@@ -2831,19 +2844,17 @@ export class PlanEditComponent {
     this.subcats = [];
     this.eventSubcategory = "";
     this.planForm.controls["seats"].setValue("");
-    this.subcats = this.allSubcategories.filter((category) => {
+    let subcats = this.allSubcategories?.filter((category) => {
       return category.category_id == event?.id;
     });
-    if(this.subcats?.length > 0) {
-      this.subcats?.sort((a, b) => a.name_es.localeCompare(b.name_es));
-    }
+    this.subcats = this.sortKCNSubcategories(subcats);
   }
 
   changeEventSubcategory(event) {
     this.selectedClub = "";
     let subcategory_id = event?.id;
 
-    let sc = this.allSubcategories.filter((s) => {
+    let sc = this.allSubcategories?.filter((s) => {
       return s.id == subcategory_id;
     });
 
