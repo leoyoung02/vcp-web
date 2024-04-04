@@ -1,42 +1,64 @@
 <div class="columns-1 sm:columns-1 md:columns-3 lg:columns-4 gap-4 space-y-4">
   <ng-container *ngFor="let item of list; let even=even; let i = index;">
-    <div *ngIf="item?.object_type == 'plan'" class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
-      [routerLink]="[item.path]">
-      <img class="w-full rounded-md object-cover" [src]="item.image" [alt]="item.title" loading="lazy">
-      <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
-        <div class="relative">
-          <a class="test__link absolute inset-0" target="_blank" href="javascript:;"></a>
-          <div class="flex justify-between">
-            <h1 class="test__title text-lg font-bold mb-3 pr-2">{{company?.id != 12 ? item?.title : ''}}</h1>
-            <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
+    <div class="relative break-inside-avoid-column" *ngIf="item?.object_type == 'plan'"
+      [ngClass]="{'bg-white border border-gray-200 rounded-lg shadow flex flex-col h-full': bottomEventTitles}">
+      <div class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
+        [routerLink]="[item.path]"
+        [ngClass]="{'h-4/5': bottomEventTitles}">
+        <img class="w-full rounded-md object-cover" [src]="item.image" [alt]="item.title" loading="lazy">
+        <div class="test__body absolute inset-0 p-4 text-white flex flex-col" *ngIf="!bottomEventTitles">
+          <div class="relative">
+            <div class="flex justify-between">
+              <h1 class="test__title text-lg font-bold mb-3 pr-2" [routerLink]="[item.path]">{{company?.id != 12 ? item?.title : ''}}</h1>
+              <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
+                [ngStyle]="{'background-color': buttonColor}">
+                <img class="w-[28px] h-[16px]" src="/assets/menu-icons/menu-icon-plans.png" />
+              </div>
+            </div>
+            <p class="test__author font-sm font-light flex items-center" *ngIf="item?.date && company?.id != 12">
+              <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
+              </svg>
+              {{item?.date}}
+            </p>
+          </div>
+          <div class="mt-auto" *ngIf="company?.id !- 12">
+            <span class="test__tag inline-block bg-white bg-opacity-60 py-1 px-4 rounded-md text-black text-sm">
+              <span>
+                {{ item?.address }} <span *ngIf="item?.address" class="px-3">•</span><span>{{ item?.price > 0 ? (item?.price?.replace('.00', '') + '€') : ('category.free' | translate) }}</span>
+              </span>
+            </span>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="bottomEventTitles">
+        <div class="test__body absolute right-0 p-4 text-white flex flex-col">
+          <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
               [ngStyle]="{'background-color': buttonColor}">
               <img class="w-[28px] h-[16px]" src="/assets/menu-icons/menu-icon-plans.png" />
             </div>
+        </div>
+        <div class="relative p-4"
+          [ngClass]="{'h-1/5': bottomEventTitles}">
+          <div class="flex">
+              <h1 class="test__title text-lg leading-[22px] font-bold mb-3 pr-2 hover:cursor-pointer" [routerLink]="[item.path]">{{item?.title}}</h1>
           </div>
-          <p class="test__author font-sm font-light flex items-center" *ngIf="item?.date && company?.id != 12">
-            <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+          <p class="test__author font-sm font-light flex items-center capitalize" *ngIf="item?.date">
+              <svg class="w-3 h-3 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
               <path d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"/>
-            </svg>
-            {{item?.date}}
+              </svg>
+              {{item?.date}}
           </p>
-        </div>
-        <div class="mt-auto" *ngIf="company?.id !- 12">
-          <span class="test__tag inline-block bg-white bg-opacity-60 py-1 px-4 rounded-md text-black text-sm">
-            <span>
-              {{ item?.address }} <span *ngIf="item?.address" class="px-3">•</span><span>{{ item?.price > 0 ? (item?.price?.replace('.00', '') + '€') : ('category.free' | translate) }}</span>
-            </span>
-          </span>
-        </div>
       </div>
+      </ng-container>
     </div>
     <div *ngIf="item?.object_type == 'club'" 
-      class="row-span-2 hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      class="break-inside-avoid-column row-span-2 hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
       [routerLink]="[item.path]">
       <div class="relative">
         <img class="rounded-t-lg w-full object-cover" [src]="item.image" [alt]="item.title" loading="lazy" />
         <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
           <div class="relative">
-            <a class="test__link absolute inset-0" target="_blank" href="javascript:;"></a>
             <div class="flex justify-end">
               <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
                 [ngStyle]="{'background-color': buttonColor}">
@@ -60,13 +82,12 @@
       </div>
     </div>
     <div *ngIf="item?.object_type == 'course'" 
-      class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
-      [routerLink]="[item.path]">
+      class="break-inside-avoid-column hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+      (click)="goToCourseDetails(item)">
       <div class="relative">
         <img class="rounded-t-lg w-full object-cover" [src]="item.image" [alt]="item.title" loading="lazy" />
         <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
           <div class="relative">
-            <a class="test__link absolute inset-0" target="_blank" href="javascript:;"></a>
             <div class="flex justify-end">
               <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
                 [ngStyle]="{'background-color': buttonColor}">
@@ -94,12 +115,11 @@
         </a>
       </div>
     </div>
-    <div *ngIf="item?.object_type == 'cityguide'" class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
+    <div *ngIf="item?.object_type == 'cityguide'" class="break-inside-avoid-column hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
       [routerLink]="[item.path]">
       <img class="w-full rounded-md object-cover" [src]="item.image" [alt]="item.title" loading="lazy" />
       <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
         <div class="relative">
-          <a class="test__link absolute inset-0" target="_blank" href="javascript:;"></a>
           <div class="flex justify-between">
             <h1 class="test__title text-lg font-bold mb-3 pr-2">{{item?.title}}</h1>
             <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
@@ -110,12 +130,11 @@
         </div>
       </div>
     </div>
-    <div *ngIf="item?.object_type == 'discount' || item?.object_type == 'service'" class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
+    <div *ngIf="item?.object_type == 'discount' || item?.object_type == 'service'" class="break-inside-avoid-column hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
       [routerLink]="[item.path]">
       <img class="w-full rounded-md object-cover" [src]="item.image" [alt]="item.title" loading="lazy">
       <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
         <div class="relative">
-          <a class="test__link absolute inset-0" target="_blank" href="javascript:;"></a>
           <div class="flex justify-between">
             <h1 class="test__title text-lg font-bold mb-3 pr-2">{{item?.title}}</h1>
             <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
@@ -126,12 +145,11 @@
         </div>
       </div>
     </div>
-    <div *ngIf="item?.object_type == 'blog'" class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
+    <div *ngIf="item?.object_type == 'blog'" class="break-inside-avoid-column hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
       [routerLink]="[item.path]">
       <img class="w-full rounded-md object-cover" [src]="item.image">
       <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
         <div class="relative">
-          <a class="test__link absolute inset-0" target="_blank" href="javascript:;"></a>
           <div class="flex justify-between">
             <h1 class="test__title text-lg font-bold mb-3 pr-2">{{item?.title}}</h1>
             <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
@@ -156,13 +174,12 @@
         </div>
       </div>
     </div>
-    <div *ngIf="item?.object_type == 'tutor'" class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
+    <div *ngIf="item?.object_type == 'tutor'" class="break-inside-avoid-column hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
       [routerLink]="[item.path]">
       <img class="w-full rounded-md object-cover" [src]="item.image" [alt]="item.title" loading="lazy">
       <div class="absolute inset-0 flex items-center justify-center">
         <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
           <div class="relative">
-            <a class="test__link absolute inset-0" target="_blank" href="javascript:;"></a>
             <div class="flex justify-between">
               <h1 class="test__title text-lg font-bold mb-3 pr-2">&nbsp;</h1>
               <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
@@ -192,13 +209,12 @@
         </div>
       </div>
     </div>
-    <div *ngIf="item?.object_type == 'member'" class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
+    <div *ngIf="item?.object_type == 'member'" class="break-inside-avoid-column hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
       [routerLink]="[item.path]">
       <img class="w-full rounded-md object-cover" [src]="item.image" [alt]="item.title" loading="lazy">
       <div class="absolute inset-0 flex items-center justify-center">
         <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
           <div class="relative">
-            <a class="test__link absolute inset-0" target="_blank" href="javascript:;"></a>
             <div class="flex justify-between">
               <h1 class="test__title text-lg font-bold mb-3 pr-2">&nbsp;</h1>
               <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
@@ -224,13 +240,12 @@
       </div>
     </div>
     <div *ngIf="item?.object_type == 'joboffer'" 
-      class="relative hover:cursor-pointer w-full max-w-full bg-white rounded-[10px] transition duration-700 ease-in-out" 
+      class="break-inside-avoid-column relative hover:cursor-pointer w-full max-w-full bg-white rounded-[10px] transition duration-700 ease-in-out" 
       [ngStyle]="{'box-shadow': '0px 40px 54px -45px #00000099'}"
       [routerLink]="[item.path]">
       <div class="absolute inset-0 flex items-center justify-center">
         <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
           <div class="relative">
-            <a class="test__link absolute inset-0" target="_blank" href="javascript:;"></a>
             <div class="flex justify-between">
               <h1 class="test__title text-lg font-bold mb-3 pr-2">&nbsp;</h1>
               <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"

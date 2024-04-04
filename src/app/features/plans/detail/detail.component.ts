@@ -834,6 +834,9 @@ export class PlanDetailComponent {
 
     if(this.eventCategory) {
       category = this.eventCategory;
+      if(this.planCategoryMapping?.length > 0) {
+        category = this.planCategoryMapping?.map((data) => { return data.name_es }).join(', ');
+      }
     } else {
       if(this.superCategories?.length > 0) {
         this.superCategories?.forEach((cat: any) => {

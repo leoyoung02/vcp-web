@@ -208,7 +208,6 @@ export class ManageMemberTypesComponent {
     "dialog.confirmupdateaccesstext"
   );
 
-  // @ViewChild("mtTab", { static: false }) mtTab: MatTabGroup;
   @ViewChild("trialsubscriptionbaseprice") trialSubscriptionBasePriceElement:
     | ElementRef
     | undefined;
@@ -327,6 +326,22 @@ export class ManageMemberTypesComponent {
   }
 
   initData() {
+    if(this.companyId == 12) {
+      this.displayedColumns = [
+        "title",
+        "action",
+      ];
+    } else {
+      this.displayedColumns = [
+        "move",
+        "sequence",
+        "title",
+        "show_register",
+        "require_payment",
+        "members_visible",
+        "action",
+      ];
+    }
     this.paymentTypes = [
       {
         id: 1,
@@ -700,7 +715,7 @@ export class ManageMemberTypesComponent {
   }
 
   getTypeTitle(type) {
-    return this.language == "en"
+    let type_text =  this.language == "en"
       ? type.type || type.type_es
       : this.language == "fr"
       ? type.type_fr || type.type_es
@@ -713,6 +728,12 @@ export class ManageMemberTypesComponent {
       : this.language == "it"
       ? type.type_it || type.type_es
       : type.type_es;
+
+    if(type_text == 'Member' && this.companyId == 12) {
+      type_text = this._translateService.instant('guests.member');
+    }
+
+    return type_text;
   }
 
   generateCartLink(row) {
