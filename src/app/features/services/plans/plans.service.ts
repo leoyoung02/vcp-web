@@ -1038,6 +1038,10 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
         formData.append( 'participants_comments', planForm.participants_comments );
     }
 
+    if(id > 0) {
+      formData.append( 'slug', planForm.slug );
+    }
+
     const url = planTypeId == 4
         ? EDIT_CLUB_PLAN_URL
         : EDIT_PLAN_URL

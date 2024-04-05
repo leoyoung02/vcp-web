@@ -171,6 +171,7 @@ export class PlanEditComponent {
     teams_link_text: new FormControl(""),
     youtube_link: new FormControl(""),
     youtube_link_text: new FormControl(""),
+    slug: new FormControl(""),
   });
   createdBy: any = 4;
   planType: any = 0;
@@ -504,6 +505,7 @@ export class PlanEditComponent {
   pondFiles = [];
   eventGuestRegFileName: any = '';
   planSubcategoryMapping: any = [];
+  companyUrl: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -563,6 +565,7 @@ export class PlanEditComponent {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
+      this.companyUrl = `https://${company[0].url}/`;
       this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.emailDomain = company[0].domain;
       this.userEmailDomain = this.emailDomain;
@@ -1379,6 +1382,7 @@ export class PlanEditComponent {
       member_seats,
       guest_seats,
       netcultura,
+      slug,
     } = this.plan;
 
     if(this.types && this.types.length > 0) {
@@ -1560,6 +1564,7 @@ export class PlanEditComponent {
     this.planForm.controls["title_eu"].setValue(title_eu);
     this.planForm.controls["title_ca"].setValue(title_ca);
     this.planForm.controls["title_de"].setValue(title_de);
+    this.planForm.controls["slug"].setValue(slug);
     this.planForm.controls["address"].setValue(
       address && address != "null" ? address : ""
     );
@@ -2410,6 +2415,8 @@ export class PlanEditComponent {
       this.plan.end_datetime = end_date;
       this.plan.end_date = this.endDate;
     }
+
+    let slug_form = this.planForm.get("slug")?.value;
     if (this.eventType) {
       this.plan.event_type_id = this.eventType;
       this.plan.event_category_id = this.eventCategory?.length > 0 ? this.eventCategory[0].id : 0;
@@ -2466,7 +2473,16 @@ export class PlanEditComponent {
             }
           });
         }
-        this.plan.slug = updated_slug;
+        updated_slug = updated_slug?.replace(/[^a-zA-Z0-9]/g, "");
+        if(this.id > 0 && slug_form) {
+          this.plan.slug = slug_form;
+        } else {
+          this.plan.slug = updated_slug;
+        }
+      }
+    } else {
+      if(this.id > 0) {
+        this.plan.slug = slug_form;
       }
     }
     if (this.eventType) {
@@ -3233,6 +3249,11 @@ export class PlanEditComponent {
 
   pondHandleAddFile(event: any) {
     console.log('A file was added', event);
+  }
+
+  removeSpecialCharacters(event): boolean {
+    let regexStr = '^[a-zA-Z0-9-]*$';
+    return new RegExp(regexStr).test(event.key);
   }
 
   async open(message: string, action: string) {
