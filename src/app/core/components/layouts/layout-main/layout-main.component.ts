@@ -558,6 +558,9 @@ export class LayoutMainComponent {
       this.imageSrc = this.currentUser
         ? `${this.apiPath}/${this.currentUser.image}`
         : "";
+      if(this.currentUser?.photo) {
+        this.imageSrc = `data:image/png;base64,${this.currentUser?.photo}`
+      }
       this.username =
         this.currentUser && this.currentUser.first_name
           ? `${this.currentUser.first_name} ${this.currentUser.last_name}`
