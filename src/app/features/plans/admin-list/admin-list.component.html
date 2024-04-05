@@ -15,7 +15,7 @@
                 <div class="flex-auto -mb-5">
                     <mat-form-field class="datetime-picker-field">
                         <mat-label class="text-sm">{{ 'guests.eventdate' | translate }}</mat-label>
-                        <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                        <mat-date-range-input [min]="minDate" [max]="maxDate" [rangePicker]="picker" [formGroup]="dateRange">
                           <input class="text-[13px]" (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
                           <input class="text-[13px]" (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
                         </mat-date-range-input>

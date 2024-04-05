@@ -13,6 +13,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatNativeDateModule } from "@angular/material/core";
+import { DateAdapter } from '@angular/material/core';
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PlansService } from '@features/services';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -109,6 +110,8 @@ export class PlansAdminListComponent {
       start: new FormControl(),
       end: new FormControl(),
     });
+    minDate: any;
+    maxDate: any;
 
     constructor(
         private _route: ActivatedRoute,
@@ -119,6 +122,7 @@ export class PlansAdminListComponent {
         private _companyService: CompanyService,
         private _plansService: PlansService,
         private _excelService: ExcelService,
+        private dateAdapter: DateAdapter<Date>,
     ) { }
 
     @HostListener("window:resize", [])
@@ -130,13 +134,17 @@ export class PlansAdminListComponent {
         let statusChange = changes["status"];
         if(statusChange.previousValue != statusChange.currentValue) {
             this.status = statusChange.currentValue;
-            this.loadPlans(this.allPlansData);
+            this.initializeDate();
+            this.initializePage();
         }
     }
 
     async ngOnInit() {
         initFlowbite();
         this.onResize();
+
+        this.dateAdapter.setLocale('es-ES');
+        this.initializeSearch();
         this.initializeDate();
 
         if(this.company) {
@@ -152,16 +160,27 @@ export class PlansAdminListComponent {
         );
 
         if(this.company?.id == 12) {
+          this.getEventTypes();
           this.guestSalesPersonList();
         }
-    
+
         this.isLoading = true;
         this.initializePage();
     }
 
     initializeDate() {
-      this.selectedStartDate = moment().add(-1, 'months').startOf('month').format("YYYY-MM-DD");
-      this.selectedEndDate = moment().endOf('month').format("YYYY-MM-DD");
+      this.selectedStartDate = this.status == 'past' || this.status == 'salesprocess' ? 
+        moment().add(-1, 'months').format("YYYY-MM-DD") :
+        moment().add(1, 'days').format("YYYY-MM-DD");
+      this.selectedEndDate = this.status == 'past' || this.status == 'salesprocess' ?
+        moment().format("YYYY-MM-DD") :
+        moment().add(1, 'months').format("YYYY-MM-DD");
+      this.minDate = this.status == 'past' || this.status == 'salesprocess' ?
+        moment().add(-3, 'months').format("YYYY-MM-DD") :
+        moment().add(1, 'days').format("YYYY-MM-DD");
+      this.maxDate = this.status == 'past' || this.status == 'salesprocess' ?
+        moment().format("YYYY-MM-DD") :
+        moment().add(3, 'months').format("YYYY-MM-DD");
       this.dateRange = new FormGroup({
         start: new FormControl(this.selectedStartDate),
         end: new FormControl( this.selectedEndDate)
@@ -170,7 +189,6 @@ export class PlansAdminListComponent {
 
     initializePage() {
       this.fetchPlansManagementData();
-      this.initializeSearch();
       if(this.company?.id == 12) {
         this.getAllGuestHistory();
       }
@@ -239,7 +257,6 @@ export class PlansAdminListComponent {
             this.formatPlans(data?.plans || []);
             if(this.company?.id == 12) {
               this.initializeButtonGroup();
-              this.getEventTypes()
             }
           },
           (error) => {
@@ -935,7 +952,8 @@ export class PlansAdminListComponent {
                   'Comercial': '',
                   'Delegado': '',
                   'coordinador': '',
-                  'Observaciones': ''
+                  'Observaciones': '',
+                  'Registrado': p.participant_created ? moment(p.participant_created).format('DD-MM-YYYY HH:mm') : '',
                 }
               } else {
                 dt = {
