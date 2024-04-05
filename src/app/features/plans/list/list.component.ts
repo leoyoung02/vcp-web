@@ -550,12 +550,12 @@ export class PlansListComponent {
 
   mapCities(cities) {
     this.cities = cities;
-    if(this.cities?.length > 0 && this.companyId == 32) {
-      let campus = this.cities?.find((f) => f.campus?.indexOf(this.userInfo?.campus?.replace(/ /g,"_")) >= 0);
-      if(campus?.city) {
-        localStorage.setItem('plan-filter-city', campus?.city);
-      }
-    }
+    // if(this.cities?.length > 0 && this.companyId == 32) {
+    //   let campus = this.cities?.find((f) => f.campus?.indexOf(this.userInfo?.campus?.replace(/ /g,"_")) >= 0);
+    //   if(campus?.city) {
+    //     localStorage.setItem('plan-filter-city', campus?.city);
+    //   }
+    // }
   }
 
   mapFeatures(features) {

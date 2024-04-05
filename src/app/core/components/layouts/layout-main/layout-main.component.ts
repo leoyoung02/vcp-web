@@ -1410,7 +1410,8 @@ export class LayoutMainComponent {
       !this.menus ||
       (this.menus && this.menus.length == 0)
     ) {
-      if (this.hasCourses) {
+      let ueActivityCourses = this.companyId == 32 && this.isUESchoolOfLife ? true : false;
+      if (this.hasCourses || ueActivityCourses) {
         this._menuService
           .getCombinedCourseMenuItemsPrefetch(
             this.domain,
@@ -1571,11 +1572,11 @@ export class LayoutMainComponent {
                   new_button: 0,
                   return_url: '',
                   name: 'History of Activities',
-                  name_ES: 'Historical de actividades',
-                  name_FR: 'Historique des activités',
+                  name_ES: 'Historial de actividades',
+                  name_FR: 'Historique d\'activité',
                   name_EU: 'Jardueren historia',
-                  name_CA: '"Historical d\'activitats',
-                  name_DE: 'Geschichte der Aktivitäten',
+                  name_CA: '"Historial d\'activitats',
+                  name_DE: 'Aktivitätsverlauf',
                   show: true,
                   sequence: (this.features[i].sequence ? this.features[i].sequence : 3 + i) + 1,
                   parent_path: '',
@@ -2064,11 +2065,11 @@ export class LayoutMainComponent {
                     new_button: 0,
                     return_url: `${tempPath}/list/history`,
                     name: 'History of Activities',
-                    name_ES: 'Historical de actividades',
-                    name_FR: 'Historique des activités',
+                    name_ES: 'Historial de actividades',
+                    name_FR: 'Historique d\'activité',
                     name_EU: 'Jardueren historia',
-                    name_CA: '"Historical d\'activitats',
-                    name_DE: 'Geschichte der Aktivitäten',
+                    name_CA: '"Historial d\'activitats',
+                    name_DE: 'Aktivitätsverlauf',
                     show: true,
                     sequence: features[i].sequence ? features[i].sequence : 3 + i,
                     parent_path: this.newURLButtonUrl,
