@@ -280,6 +280,18 @@
                         maxlength="200"
                     />
                 </div>
+                <div class="flex items-center justify-center relative" *ngIf="id > 0">
+                    <label class="mr-4">{{companyUrl}}</label>
+                    <input
+                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': planForm.get('slug')?.errors }"
+                        type="text"
+                        class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                        placeholder="{{ 'plan-details.invitationlink' | translate }}"
+                        formControlName="slug"
+                        maxlength="200"
+                        (keypress)="removeSpecialCharacters($event)"
+                    />
+                </div>
                 <div class="flex items-center justify-center relative" *ngIf="(!types || (types && types?.length == 0))">
                     <select
                         id="plan-type"
