@@ -1399,6 +1399,7 @@
         "delete": "Delete",
         "requirepayment": "Require payment?",
         "searchbynameorpostalcode": "Search by name or postal code",
+        "searchbypostalcode": "Search by postal code",
         "selectalias": "Select alias",
         "nocreatedgars": "No created GAR yet",
         "submissions": "Submissions",

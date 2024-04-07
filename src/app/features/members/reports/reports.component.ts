@@ -61,9 +61,12 @@ export class MembersReportsComponent {
     isMobile: boolean = false;
     searchText: any;
     placeholderText: any;
+    searchZipText: any;
+    placeholderZipText: any;
     allUsersData: any = [];
     usersData: any = [];
     searchKeyword: any;
+    searchZipKeyword: any;
     dataSource: any;
     displayedColumns = [
         "name_display",
@@ -92,6 +95,7 @@ export class MembersReportsComponent {
         start: new FormControl(),
         end: new FormControl(),
     });
+    searchMode: string = '';
 
     constructor(
         private _router: Router,
@@ -121,29 +125,21 @@ export class MembersReportsComponent {
     }
 
     initializePage() {
+        this.displayedColumns = [
+            "name_display",
+            "registration_date",
+            "event",
+            "event_date",
+            "event_type",
+            "invited_by",
+            "email_display",
+            "phone",
+            "zip_code",
+            "sector"
+        ]
         if(this.mode == 'guests') {
-            this.displayedColumns = [
-                "name_display",
-                "registration_date",
-                "event",
-                "event_date",
-                "event_type",
-                "invited_by",
-                "email_display",
-                "phone",
-                "zip_code",
-                "sector"
-            ]
             this.fetchGuestsReportData();
         } else if(this.mode == 'members') {
-            this.displayedColumns = [
-                "name_display",
-                "registration_date",
-                "email_display",
-                "phone",
-                "zip_code",
-                "sector"
-            ]
             this.fetchMembersReportData();
         }
         this.initializeSearch();
@@ -165,7 +161,7 @@ export class MembersReportsComponent {
 
     fetchMembersReportData() {
         this._membersService
-            .fetchMembers(this.company?.id, this.userId)
+            .fetchMembersReport(this.company?.id)
             .pipe(takeUntil(this.destroy$))
             .subscribe(
                 (data) => {
@@ -195,9 +191,12 @@ export class MembersReportsComponent {
                 }
 
                 return {
+                    event: user.title,
                     name_display: user.first_name ? `${user.first_name} ${user.last_name}` : user.name,
                     email_display: user.email,
                     registration_date: user.created,
+                    event_date: user.plan_date,
+                    event_type: user.type_es,
                     ...user,
                 };
             });
@@ -411,10 +410,14 @@ export class MembersReportsComponent {
                             .replace(/\p{Diacritic}/gu, "")
                         ) >= 0) ||
                     (user.phone && user.phone.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
-                    (user.email && user.email.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
-                    (user.zip_code && user.zip_code.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0) ||
-                    (user.phone && user.phone.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0)
+                    (user.email && user.email.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0)
                 );
+            });
+        }
+
+        if (this.searchZipKeyword && this.usersData?.length > 0) {
+            this.usersData = this.usersData.filter((user) => {
+                return user.zip_code && user.zip_code.toLowerCase().indexOf(this.searchZipKeyword.toLowerCase()) >= 0;
             });
         }
 
@@ -499,9 +502,9 @@ export class MembersReportsComponent {
 
     initializeSearch() {
         this.searchText = this._translateService.instant("guests.search");
-        this.placeholderText = this._translateService.instant(
-            "news.searchbykeyword"
-        );
+        this.placeholderText = this._translateService.instant("news.searchbykeyword");
+        this.searchZipText = this._translateService.instant("your-admin-area.searchbypostalcode");
+        this.placeholderZipText = this._translateService.instant("your-admin-area.searchbypostalcode");
     }
 
     downloadCSV() {
@@ -545,6 +548,11 @@ export class MembersReportsComponent {
 
     handleSearch(event) {
         this.searchKeyword = event;
+        this.loadUsers(this.allUsersData);
+    }
+
+    handleZipSearch(event) {
+        this.searchZipKeyword = event;
         this.loadUsers(this.allUsersData);
     }
 

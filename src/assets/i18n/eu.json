@@ -1394,6 +1394,7 @@
         "delete": "Ezabatu",
         "requirepayment": "Ordainketa eskatzen duzu?",
         "searchbynameorpostalcode": "Bilatu izena edo posta-kodearen arabera",
+        "searchbypostalcode": "Bilatu posta-kodearen arabera",
         "selectalias": "Hautatu ezizena",
         "nocreatedgars": "Oraindik ez da GAR bat sortu",
         "submissions": "Bidalketak",
