@@ -701,7 +701,21 @@ export class PlansAdminListComponent {
               this.planParticipants[index].clear_attended = 0;
             }
           })
-          this.formatPlans(this.allPlansData, 'refresh');
+          if(this.plansData?.length > 0) {
+            this.plansData?.forEach(p => {
+              if(p.id == eventId) {
+                if(p.participants?.length > 0) {
+                  p.participants?.forEach(par => {
+                    if(par.participant_id == id) {
+                      par.attended = 1;
+                      par.clear_attended = 0;
+                    }
+                  })
+                }
+              }
+            })
+          }
+          this.refreshTable(this.plansData, 'refresh');
           this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
         }, err => {
           console.log('err: ', err);
@@ -716,7 +730,21 @@ export class PlansAdminListComponent {
               this.planParticipants[index].clear_attended = 0;
             }
           })
-          this.formatPlans(this.allPlansData, 'refresh');
+          if(this.plansData?.length > 0) {
+            this.plansData?.forEach(p => {
+              if(p.id == eventId) {
+                if(p.participants?.length > 0) {
+                  p.participants?.forEach(par => {
+                    if(par.participant_id == id) {
+                      par.attended = 1;
+                      par.clear_attended = 0;
+                    }
+                  })
+                }
+              }
+            })
+          }
+          this.refreshTable(this.plansData, 'refresh');
           this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
         }, err => {
           console.log('err: ', err);
@@ -741,7 +769,21 @@ export class PlansAdminListComponent {
                 this.planParticipants[index].clear_attended = 1;
             }
           })
-          this.formatPlans(this.allPlansData, 'refresh');
+          if(this.plansData?.length > 0) {
+            this.plansData?.forEach(p => {
+              if(p.id == eventId) {
+                if(p.participants?.length > 0) {
+                  p.participants?.forEach(par => {
+                    if(par.participant_id == id) {
+                      par.attended = 0;
+                      par.clear_attended = 1;
+                    }
+                  })
+                }
+              }
+            })
+          }
+          this.refreshTable(this.plansData, 'refresh');
           this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
         }, err => {
           console.log('err: ', err);
@@ -756,7 +798,21 @@ export class PlansAdminListComponent {
                 this.planParticipants[index].clear_attended = 1;
             }
           })
-          this.formatPlans(this.allPlansData, 'refresh');
+          if(this.plansData?.length > 0) {
+            this.plansData?.forEach(p => {
+              if(p.id == eventId) {
+                if(p.participants?.length > 0) {
+                  p.participants?.forEach(par => {
+                    if(par.participant_id == id) {
+                      par.attended = 0;
+                      par.clear_attended = 1;
+                    }
+                  })
+                }
+              }
+            })
+          }
+          this.refreshTable(this.plansData, 'refresh');
           this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
         }, err => {
           console.log('err: ', err);
@@ -780,7 +836,21 @@ export class PlansAdminListComponent {
                 this.planParticipants[index].clear_confirmed = 0;
             }
           })
-          this.formatPlans(this.allPlansData, 'refresh');
+          if(this.plansData?.length > 0) {
+            this.plansData?.forEach(p => {
+              if(p.id == eventId) {
+                if(p.participants?.length > 0) {
+                  p.participants?.forEach(par => {
+                    if(par.participant_id == id) {
+                      par.confirmed = 1;
+                      par.clear_confirmed = 0;
+                    }
+                  })
+                }
+              }
+            })
+          }
+          this.refreshTable(this.plansData, 'refresh');
           this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
         }, err => {
           console.log('err: ', err);
@@ -795,7 +865,21 @@ export class PlansAdminListComponent {
               this.planParticipants[index].clear_confirmed = 0;
             }
           })
-          this.formatPlans(this.allPlansData, 'refresh');
+          if(this.plansData?.length > 0) {
+            this.plansData?.forEach(p => {
+              if(p.id == eventId) {
+                if(p.participants?.length > 0) {
+                  p.participants?.forEach(par => {
+                    if(par.participant_id == id) {
+                      par.confirmed = 1;
+                      par.clear_confirmed = 0;
+                    }
+                  })
+                }
+              }
+            })
+          }
+          this.refreshTable(this.plansData, 'refresh');
           this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
         }, err => {
           console.log('err: ', err);
@@ -819,7 +903,21 @@ export class PlansAdminListComponent {
                 this.planParticipants[index].clear_confirmed = 1;
             }
           })
-          this.formatPlans(this.allPlansData, 'refresh');
+          if(this.plansData?.length > 0) {
+            this.plansData?.forEach(p => {
+              if(p.id == eventId) {
+                if(p.participants?.length > 0) {
+                  p.participants?.forEach(par => {
+                    if(par.participant_id == id) {
+                      par.confirmed = 0;
+                      par.clear_confirmed = 1;
+                    }
+                  })
+                }
+              }
+            })
+          }
+          this.refreshTable(this.plansData, 'refresh');
           this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
         }, err => {
           console.log('err: ', err);
@@ -834,7 +932,21 @@ export class PlansAdminListComponent {
                 this.planParticipants[index].clear_confirmed = 1;
             }
           })
-          this.formatPlans(this.allPlansData, 'refresh');
+          if(this.plansData?.length > 0) {
+            this.plansData?.forEach(p => {
+              if(p.id == eventId) {
+                if(p.participants?.length > 0) {
+                  p.participants?.forEach(par => {
+                    if(par.participant_id == id) {
+                      par.confirmed = 0;
+                      par.clear_confirmed = 1;
+                    }
+                  })
+                }
+              }
+            })
+          }
+          this.refreshTable(this.plansData, 'refresh');
           this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
         }, err => {
           console.log('err: ', err);
@@ -1071,8 +1183,26 @@ export class PlansAdminListComponent {
                 }
               });
             }
+            if(this.plansData?.length > 0) {
+              this.plansData?.forEach(p => {
+                if(p.id == this.assignEventId) {
+                  if(p.participants?.length > 0) {
+                    p.participants?.forEach((par, idx) => {
+                      if(this.salesPeople?.length > 0) {
+                        this.salesPeople.forEach(sp => {
+                          if(sp.id == this.selectedSalesPerson && par.fk_user_id == this.assignParticipantId) {
+                            p.participants[idx].assigned_sales_person_id = this.selectedSalesPerson;
+                            p.participants[idx].assigned_sales_person = sp.name;
+                          }
+                        });
+                      }
+                    })
+                  }
+                }
+              })
+            }
             setTimeout(() => {
-              this.formatPlans(this.allPlansData, 'refresh');
+              this.refreshTable(this.plansData, 'refresh');
               this.closemodalbutton?.nativeElement.click();
             }, 500)
           },
@@ -1115,8 +1245,33 @@ export class PlansAdminListComponent {
                 }
               });
             }
+            if(this.plansData?.length > 0) {
+              this.plansData?.forEach(p => {
+                if(p.id == this.assignEventId) {
+                  if(p.participants?.length > 0) {
+                    p.participants?.forEach((par, idx) => {
+                      if(this.salesPeople?.length > 0) {
+                        this.salesPeople.forEach(sp => {
+                          if(sp.id == this.selectedSalesPerson) {
+                            if(this.status == 'active') {
+                              if(p.participants[idx].role == 'Guest') {
+                                p.participants[idx].assigned_sales_person_id = this.selectedSalesPerson;
+                                p.participants[idx].assigned_sales_person = sp.name;
+                              }
+                            } else {
+                              p.participants[idx].assigned_sales_person_id = this.selectedSalesPerson;
+                              p.participants[idx].assigned_sales_person = sp.name;
+                            }
+                          }
+                        });
+                      }
+                    })
+                  }
+                }
+              })
+            }
             setTimeout(() => {
-              this.formatPlans(this.allPlansData, 'refresh');
+              this.refreshTable(this.plansData, 'refresh');
               this.closemodalbutton?.nativeElement.click();
             }, 500)
           },
