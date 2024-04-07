@@ -272,6 +272,11 @@ export class EmailComponent {
         type: "join_in_charge",
         title_en: "Joined person to In charge email",
       },
+      {
+        id: 158,
+        type: "admin_confirmed_attendance",
+        title_en: "Admin confirmed attendance email",
+      },
     ];
     this.shortcodes = [
       {

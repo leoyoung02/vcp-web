@@ -1394,6 +1394,7 @@
         "delete": "Elimina",
         "requirepayment": "Richiedi il pagamento?",
         "searchbynameorpostalcode": "Cerca per nome o codice postale",
+        "searchbypostalcode": "Cerca per codice postale",
         "selectalias": "Seleziona alias",
         "nocreatedgars": "Un GAR non è stato ancora creato",
         "submissions": "Contributi",
