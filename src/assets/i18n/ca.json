@@ -1397,6 +1397,7 @@
         "delete": "Eliminar",
         "requirepayment": "Requereix pagament?",
         "searchbynameorpostalcode": "Cerca per nom o codi postal",
+        "searchbypostalcode": "Cerca per codi postal",
         "selectalias": "Seleccionar àlies",
         "nocreatedgars": "Encara no s'ha creat un GAR",
         "submissions": "Enviaments",

@@ -911,6 +911,8 @@ export class PlansListComponent {
         include = true;
       } else if (!plan.limit_date && plan.plan_date >= today) {
         include = true;
+      } else if (endDateReached && this.showPastEvents) {
+        include = true;
       }
 
       // if (!this.userId && !plan.private) {

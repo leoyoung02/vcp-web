@@ -2580,7 +2580,7 @@ export class PlanDetailComponent {
     this.plan.subcategory_id = this.plan.event_subcategory_id || null
     this.plan.company_id = this.companyId
     this.plan.medical = 0
-    this.plan.title = `${this.plan.title} ${this._translateService.instant('plan-details.duplicate')} (1)`
+    this.plan.title = this.plan.title
     this.plan.link = this.plan.link || ''
     this.plan.time_slot = null
     this.plan.privacy = this.plan.private

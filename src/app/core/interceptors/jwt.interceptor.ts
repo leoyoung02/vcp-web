@@ -16,55 +16,52 @@ import { storage } from 'src/app/core/utils/storage/storage.utils';
 export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
     const authService = inject(AuthService);
 
-    const isRequestAuthorized = authService.isAuthenticated && request.url.startsWith(environment.api);
+    let isRequestAuthorized = authService.isAuthenticated && request.url.startsWith(environment.api);
 
-    if (isRequestAuthorized) {
-        const tokenService = inject(TokenStorageService);
-        const _localService = inject(LocalService);
-        const _companyService = inject(CompanyService);
-        const companyId = _localService.getLocalStorage(environment.lscompanyId);
-        const userId = _localService.getLocalStorage(environment.lsuserId);
-        let token = tokenService.getToken() || _localService.getLocalStorage(environment.lstoken);
-
-        if(!token && !userId) {
-            let companies = _localService.getLocalStorage(environment.lscompanies)
-                ? JSON.parse(_localService.getLocalStorage(environment.lscompanies))
-                : "";
-            let setGuestAccessToken = false;
-            if(companies?.length > 0) {
-                let comp = _companyService.getCompany(companies);
-                if (comp?.length > 0) {
-                    let company = comp[0];
-                    if(company.guest_access == 1) {
-                        setGuestAccessToken = true;
-                    }
-                }
-            } else {
-                if(companyId == 32 || 
-                    environment.company == 'vidauniversitaria.universidadeuropea.com' ||
-                    environment.company == 'schooloflife.vistingo.com' ||
-                    window.location.host?.indexOf('vidauniversitaria.') >= 0 ||
-                    window.location.host?.indexOf('uestaging.') >= 0 ||
-                    window.location.host?.indexOf('schooloflife.') >= 0
-                ) {
+    const tokenService = inject(TokenStorageService);
+    const _localService = inject(LocalService);
+    const _companyService = inject(CompanyService);
+    const companyId = _localService.getLocalStorage(environment.lscompanyId);
+    const userId = _localService.getLocalStorage(environment.lsuserId);
+    let token = tokenService.getToken() || _localService.getLocalStorage(environment.lstoken);
+    let setGuestAccessToken = false;
+    if(!token && !userId) {
+        let companies = _localService.getLocalStorage(environment.lscompanies)
+            ? JSON.parse(_localService.getLocalStorage(environment.lscompanies))
+            : "";
+        if(companies?.length > 0) {
+            let comp = _companyService.getCompany(companies);
+            if (comp?.length > 0) {
+                let company = comp[0];
+                if(company.guest_access == 1) {
                     setGuestAccessToken = true;
                 }
             }
-            if(setGuestAccessToken) {
-                token = environment.lsguestaccesstoken;
-            }
-        }
-
-        if(tokenService.getToken()) {
-            
         } else {
-            if(_localService.getLocalStorage(environment.lstoken)) {
-                
+            if(companyId == 32 || 
+                environment.company == 'vidauniversitaria.universidadeuropea.com' ||
+                environment.company == 'schooloflife.vistingo.com' ||
+                window.location.host?.indexOf('vidauniversitaria.') >= 0 ||
+                window.location.host?.indexOf('uestaging.') >= 0 ||
+                window.location.host?.indexOf('schooloflife.') >= 0
+            ) {
+                setGuestAccessToken = true;
             }
         }
+        if(setGuestAccessToken) {
+            token = environment.lsguestaccesstoken;
+        }
+    }
 
+    if(!isRequestAuthorized && setGuestAccessToken) {
+        authService.isAuthenticated$.next(true);
+        isRequestAuthorized = authService.isAuthenticated && request.url.startsWith(environment.api);
+    }
+
+    if (isRequestAuthorized) {
         if (token) {
             const payload = parseJwt(token); // decode JWT payload part.
+
             if (payload && payload.exp && Date.now() >= payload.exp * 1000) { // Check token exp.
                 storage.removeItem('appSession');
                 _localService.removeLocalStorage(environment.lstoken);

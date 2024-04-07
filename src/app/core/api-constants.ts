@@ -593,6 +593,7 @@ export const MEMBERS_REFERENCES_URL = `${API_BASE}/v2/members-references`;
 export const DELETE_REFERENCE_URL = `${API_BASE}/v2/member-reference/delete`;
 export const GUESTS_LIST_URL = `${API_BASE}/company/guests/list`;
 export const GUESTS_REPORT_URL = `${API_BASE}/company/guests/report`;
+export const MEMBERS_REPORT_URL = `${API_BASE}/company/members/report`;
 
 // OFFERS
 export const OFFERS_COMBINED_URL = `${API_BASE}/v2/offers`;

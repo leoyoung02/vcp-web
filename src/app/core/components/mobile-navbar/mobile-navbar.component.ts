@@ -154,10 +154,10 @@ export class MobileNavbarComponent {
   }
 
   async ngOnInit() {
-    this.companyName = this.company.entity_name;
-    this.menuColor = this.company.menu_color || "#ffffff";
-    this.primaryColor = this.company.primary_color || this.company.button_color;
-    this.buttonColor = this.company.button_color || this.company.primary_color;
+    this.companyName = this.company?.entity_name;
+    this.menuColor = this.company?.menu_color || "#ffffff";
+    this.primaryColor = this.company?.primary_color || this.company?.button_color;
+    this.buttonColor = this.company?.button_color || this.company?.primary_color;
     this.logoSrc = `${COMPANY_IMAGE_URL}/${this.company?.image}`;
     this.courseWallButton = this.company?.course_wall_button;
     this.courseWallPrefix = this.company?.course_wall_prefix;

@@ -87,7 +87,7 @@
             <ng-container matColumnDef="activity_code_sigeca" *ngIf="company?.id == 32">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'credits.activitycodesigeca' | translate }} </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="name">
-                    {{ row?.activity_code_sigeca }}
+                    <div class="text-center w-full">{{ row?.activity_code_sigeca }}</div>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="user_name">

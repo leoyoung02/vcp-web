@@ -1,115 +1,129 @@
-<div class="flex flex-wrap items-center justify-between">
+<div class="flex flex-wrap justify-between">
     <div class="mb-6">
-        <div class="flex items-center w-full max-w-full">
-            <div class="flex-auto block w-[250px]">
+        <div>
+            <div class="flex items-center w-full max-w-full">
+                <div class="flex-auto block w-[250px]">
+                    <app-search
+                        [searchText]="searchText"
+                        [placeholderText]="placeholderText"
+                        [buttonColor]="buttonColor"
+                        (onEnterPressed)="handleSearch($event)"
+                        (doSearch)="handleSearch($event)"
+                    >
+                    </app-search>
+                </div>
+                <div class="ml-6">
+                    <div class="flex-auto -mb-5">
+                        <mat-form-field class="datetime-picker-field">
+                            <mat-label class="text-sm">{{ 'your-admin-area.registrationdate' | translate }}</mat-label>
+                            <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
+                            <input (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
+                            <input (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <ng-container *ngIf="mode == 'guests'">
+                    <div>
+                        <select
+                            id="event"
+                            class="ml-4 max-w-[150px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            [(ngModel)]="selectedEvent"
+                            [ngModelOptions]="{standalone: true}"
+                            (change)="changeEventFilter($event)"
+                        >
+                            <option value="">{{ 'your-admin-area.event' | translate }}</option>
+                            <option
+                                *ngFor="let event of events"                                
+                                [value]="event.title"
+                            >
+                                {{ event?.title }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="ml-4">
+                        <select
+                            id="event-type"
+                            class="ml-4 max-w-[200px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            [(ngModel)]="selectedEventType"
+                            [ngModelOptions]="{standalone: true}"
+                            (change)="changeEventTypeFilter($event)"
+                        >
+                            <option value="">{{ 'crm.eventtype' | translate }}</option>
+                            <option
+                                *ngFor="let type of eventTypes"                                
+                                [value]="type.type"
+                            >
+                                {{ type?.type }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="ml-4">
+                        <select
+                            id="invited-by"
+                            class="max-w-[150px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                            [(ngModel)]="selectedInvitedBy"
+                            [ngModelOptions]="{standalone: true}"
+                            (change)="changeInvitedByFilter($event)"
+                        >
+                            <option value="">{{ 'your-admin-area.invitedby' | translate }}</option>
+                            <option
+                                *ngFor="let invited of invitedBy"                                
+                                [value]="invited.invited_by"
+                            >
+                                {{ invited?.invited_by }}
+                            </option>
+                        </select>
+                    </div>
+                </ng-container>
+                <div class="ml-4">
+                    <select
+                        id="zip-code"
+                        class="min-w-[150px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedZipCode"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeZipCodeFilter($event)"
+                    >
+                        <option value="">{{ 'crm.postalcode' | translate }}</option>
+                        <option
+                            *ngFor="let zip of postalCodes"                                
+                            [value]="zip.zip_code"
+                        >
+                            {{ zip.zip_code }}
+                        </option>
+                    </select>
+                </div>
+                <div class="ml-4">
+                    <select
+                        id="sector"
+                        class="max-w-[150px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedSector"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeSectorFilter($event)"
+                    >
+                        <option value="">{{ 'profile-settings.sector' | translate }}</option>
+                        <option
+                            *ngFor="let sector of sectors"                                
+                            [value]="sector.sector"
+                        >
+                            {{ sector.sector }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <div class="mt-2">
+            <div class="flex-auto block w-[400px]">
                 <app-search
-                    [searchText]="searchText"
-                    [placeholderText]="placeholderText"
+                    [searchText]="searchZipText"
+                    [placeholderText]="placeholderZipText"
                     [buttonColor]="buttonColor"
-                    (onEnterPressed)="handleSearch($event)"
-                    (doSearch)="handleSearch($event)"
+                    (onEnterPressed)="handleZipSearch($event)"
+                    (doSearch)="handleZipSearch($event)"
                 >
                 </app-search>
-            </div>
-            <div class="ml-6">
-                <div class="flex-auto -mb-5">
-                    <mat-form-field class="datetime-picker-field">
-                        <mat-label class="text-sm">{{ 'your-admin-area.registrationdate' | translate }}</mat-label>
-                        <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
-                          <input (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
-                          <input (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
-                        </mat-date-range-input>
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                        <mat-date-range-picker #picker></mat-date-range-picker>
-                    </mat-form-field>
-                </div>
-            </div>
-            <ng-container *ngIf="mode == 'guests'">
-                <div>
-                    <select
-                        id="event"
-                        class="ml-4 max-w-[150px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        [(ngModel)]="selectedEvent"
-                        [ngModelOptions]="{standalone: true}"
-                        (change)="changeEventFilter($event)"
-                    >
-                        <option value="">{{ 'your-admin-area.event' | translate }}</option>
-                        <option
-                            *ngFor="let event of events"                                
-                            [value]="event.title"
-                        >
-                            {{ event?.title }}
-                        </option>
-                    </select>
-                </div>
-                <div class="ml-4">
-                    <select
-                        id="event-type"
-                        class="ml-4 max-w-[200px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        [(ngModel)]="selectedEventType"
-                        [ngModelOptions]="{standalone: true}"
-                        (change)="changeEventTypeFilter($event)"
-                    >
-                        <option value="">{{ 'crm.eventtype' | translate }}</option>
-                        <option
-                            *ngFor="let type of eventTypes"                                
-                            [value]="type.type"
-                        >
-                            {{ type?.type }}
-                        </option>
-                    </select>
-                </div>
-                <div class="ml-4">
-                    <select
-                        id="invited-by"
-                        class="max-w-[150px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                        [(ngModel)]="selectedInvitedBy"
-                        [ngModelOptions]="{standalone: true}"
-                        (change)="changeInvitedByFilter($event)"
-                    >
-                        <option value="">{{ 'your-admin-area.invitedby' | translate }}</option>
-                        <option
-                            *ngFor="let invited of invitedBy"                                
-                            [value]="invited.invited_by"
-                        >
-                            {{ invited?.invited_by }}
-                        </option>
-                    </select>
-                </div>
-            </ng-container>
-            <div class="ml-4">
-                <select
-                    id="zip-code"
-                    class="min-w-[150px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    [(ngModel)]="selectedZipCode"
-                    [ngModelOptions]="{standalone: true}"
-                    (change)="changeZipCodeFilter($event)"
-                >
-                    <option value="">{{ 'crm.postalcode' | translate }}</option>
-                    <option
-                        *ngFor="let zip of postalCodes"                                
-                        [value]="zip.zip_code"
-                    >
-                        {{ zip.zip_code }}
-                    </option>
-                </select>
-            </div>
-            <div class="ml-4">
-                <select
-                    id="sector"
-                    class="max-w-[150px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    [(ngModel)]="selectedSector"
-                    [ngModelOptions]="{standalone: true}"
-                    (change)="changeSectorFilter($event)"
-                >
-                    <option value="">{{ 'profile-settings.sector' | translate }}</option>
-                    <option
-                        *ngFor="let sector of sectors"                                
-                        [value]="sector.sector"
-                    >
-                        {{ sector.sector }}
-                    </option>
-                </select>
             </div>
         </div>
     </div>

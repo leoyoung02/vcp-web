@@ -1393,6 +1393,7 @@
         "delete": "Supprimer",
         "requirepayment": "Demander un paiement ?",
         "searchbynameorpostalcode": "Recherche par nom ou code postal",
+        "searchbypostalcode": "Recherche par code postal",
         "selectalias": "Sélectionner des alias",
         "nocreatedgars": "Un GAR n'a pas encore été créé",
         "submissions": "Soumissions",
