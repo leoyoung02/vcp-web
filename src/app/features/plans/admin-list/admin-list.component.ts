@@ -523,12 +523,6 @@ export class PlansAdminListComponent {
             participants
           }
         })
-
-        if(this.plansData?.length > 0) {
-          this.plansData = this.plansData?.filter(plan => {
-            return plan?.participants?.length > 0
-          })
-        }
       }
 
       if(this.searchKeyword && this.plansData) {
