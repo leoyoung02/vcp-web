@@ -231,6 +231,7 @@ export class CourseDetailComponent {
   currentAssessment: any;
   showAssessment: boolean = false;
   afterModuleAssessments: any = [];
+  hasCourseVideoComments: boolean = false;
 
   constructor(
     private _router: Router,
@@ -444,6 +445,7 @@ export class CourseDetailComponent {
       this.showTitle = subfeatures.some(a => a.name_en == 'Cover Title' && a.active == 1);
       this.onlyAssignedTutorAccess = subfeatures.some(a => a.name_en == 'Tutors assigned to courses' && a.active == 1);
       this.hasCourseCreditSetting = subfeatures.some(a => a.name_en == 'Credits' && a.active == 1 && a.feature_id == 11);
+      this.hasCourseVideoComments = subfeatures.some(a => a.name_en == 'Course video comments' && a.active == 1 && a.feature_id == 11);
     }
   }
 
