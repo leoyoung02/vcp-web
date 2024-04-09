@@ -194,6 +194,7 @@ export class PlansListComponent {
   userAdditionalProperties: any = [];
   filterTypeControl: any = '';
   bottomEventTitles: boolean = false;
+  activityCities: any = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -750,6 +751,7 @@ export class PlansListComponent {
         .subscribe(
           (data) => {
             this.userAdditionalProperties = data?.users_additional_properties;
+            this.activityCities = data?.activity_cities;
             this.plans = this.initialFilter(data);
             this.planCategoriesMapping = data?.category_mappings?.plan_categories_mapping || [];
             this.planSubcategoriesMapping = data?.category_mappings?.plan_subcategories_mapping || [];
@@ -767,6 +769,7 @@ export class PlansListComponent {
         .subscribe(
           (data) => {
             this.userAdditionalProperties = data?.users_additional_properties;
+            this.activityCities = data?.activity_cities;
             this.plans = this.initialFilter(data);
             this.planCategoriesMapping = data?.category_mappings?.plan_categories_mapping || [];
             this.planSubcategoriesMapping = data?.category_mappings?.plan_subcategories_mapping || [];
@@ -1646,12 +1649,11 @@ export class PlansListComponent {
 
             if (
               !include &&
-              event.company_value &&
               this.canAssignMultipleCities
             ) {
               let event_cities =
-                event.company_value &&
-                event.company_value.filter((cv) => {
+                this.activityCities &&
+                this.activityCities?.filter((cv) => {
                   return cv.plan_id == event.id;
                 });
               if (event_cities && event_cities.length > 0) {
