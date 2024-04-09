@@ -11,7 +11,13 @@
                 <div class="col-md-12">
                     <div class="calendar-month">
                         <div class="current-month current-month pl-4 text-left font-semibold text-base text-black">
-                            <span>{{currentMonth}} {{currentYear}}</span>
+                            <div class="flex items-center">
+                                <div *ngIf="mode == 'home'" class="mr-2 w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
+                                    [ngStyle]="{'background-color': buttonColor}">
+                                    <img class="w-[28px] h-[16px]" src="/assets/menu-icons/menu-icon-plans.png" />
+                                </div>
+                                <span>{{currentMonth}} {{currentYear}}</span>
+                            </div>
                         </div>
                         <div class="calendar2 arrow-back" (click)="goToLastMonth()">
                             <span>
@@ -30,7 +36,7 @@
                     </div>
                     <div class="calendar-body">
                         <div class="flex items-center justify-center px-4">
-                            <div>
+                            <div *ngIf="mode != 'home'">
                                 <input 
                                     id="link-checkbox" 
                                     type="checkbox"

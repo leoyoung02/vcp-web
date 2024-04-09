@@ -614,7 +614,7 @@ export class PlanDetailComponent {
       this.typeOfActivities = data?.activity_types;
     }
     if (this.canAssignMultipleCities) {
-      this.activityCities = data?.activity_cities;
+      this.activityCities = data?.plan?.activity_cities;
       this.canShowAddress = true;
     } else {
       this.canShowAddress = true;
@@ -1488,7 +1488,7 @@ export class PlanDetailComponent {
   getAddress(plan) {
     let address = plan.address;
 
-    if (!address && this.canAssignMultipleCities && this.activityCities) {
+    if (this.canAssignMultipleCities && this.activityCities) {
       address = this.activityCities
         .map((data) => {
           return data.city;

@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { 
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component, 
+  EventEmitter, 
+  Input, 
+  Output 
+} from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { PlansService } from '@features/services';
@@ -35,6 +42,7 @@ export class PlansCalendarComponent {
     @Input() isUESchoolOfLife: any;
     @Input() campus: any;
     @Input() mode: any;
+    @Input() plansList: any;
     @Input() notifier: Subject<boolean> | undefined
     @Output() handleCalendarDateChange = new EventEmitter()
     @Output() handleJoinChange = new EventEmitter()
@@ -106,6 +114,7 @@ export class PlansCalendarComponent {
         private _localService: LocalService,
         private _companyService: CompanyService,
         private _userService: UserService,
+        private cd: ChangeDetectorRef,
     ) { }
 
     async ngOnInit() {
@@ -224,6 +233,14 @@ export class PlansCalendarComponent {
               ).subscribe(
                 async response => {
                   this.allPlans = response['Plans'];
+                  if(this.mode == 'home') {
+                    // Filter dates based on loaded plans
+                    if(this.plansList?.length > 0 && this.allPlans?.length > 0) {
+                      this.allPlans?.filter(plan => {
+                        return this.plansList?.some((a) => a.item_id == plan.id);
+                      })
+                    }
+                  }
                   this.loadPlans();
                 }
               );
@@ -334,6 +351,8 @@ export class PlansCalendarComponent {
             this.currentDate = obj;
           }
         }
+
+        this.cd.detectChanges();
       }
     
       checkGroups(day?) {

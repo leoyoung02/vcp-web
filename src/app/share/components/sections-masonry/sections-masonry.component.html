@@ -1,4 +1,32 @@
 <div class="columns-1 sm:columns-1 md:columns-3 lg:columns-4 gap-4 space-y-4">
+  <ng-container *ngIf="homeCalendar">
+    <div>
+      <app-plans-calendar
+        [hasDateSelected]="hasDateSelected"
+        [showPastEvents]="mode == 'history' ? true : false"
+        [joinedPlan]="joinedPlan"
+        [courses]="courses"
+        [groups]="groups"
+        [courseCategoriesAccessRoles]="courseCategoriesAccessRoles"
+        [allCourseCategories]="allCourseCategories"
+        [courseCategoryMapping]="courseCategoryMapping"
+        [admin1]="admin1"
+        [admin2]="admin2"
+        [superAdmin]="superAdmin"
+        [calendarFilterMode]="calendarFilterMode"
+        [canCreatePlan]="canCreatePlan"
+        (handleCalendarDateChange)="handleCalendarDateChanged($event)" 
+        (handleJoinChange)="handleJoinChanged($event)"
+        (handleExitCalendarFilter)="exitCalendarEventMode()"
+        [notifier]="childNotifier"
+        [isUESchoolOfLife]="isUESchoolOfLife"
+        [plansList]="plansList"
+        [campus]="campus"
+        [mode]="mode"
+      >
+      </app-plans-calendar>
+    </div>
+  </ng-container>
   <ng-container *ngFor="let item of list; let even=even; let i = index;">
     <div class="relative break-inside-avoid-column" *ngIf="item?.object_type == 'plan'"
       [ngClass]="{'bg-white border border-gray-200 rounded-lg shadow flex flex-col h-full': bottomEventTitles}">
