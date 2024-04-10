@@ -977,3 +977,7 @@ app-sidebar > aside > div:nth-child(10) > div > svg.no-history,
 app-sidebar > aside > div:nth-child(11) > div > svg.has-history {
     clip: rect(0px, 45px, 51px, 0px) !important;
 }
+
+.event-description-div img {
+    margin: auto;
+}
