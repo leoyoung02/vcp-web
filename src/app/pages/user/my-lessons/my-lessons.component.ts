@@ -895,7 +895,7 @@ export class MyLessonsComponent {
                         let completedLesson = response?.booking ? response.booking : '';
                         let lessonCompleted = response?.booking?.completed == 1 ? true : false
     
-                        if(lessonCompleted && !this.potTutor){
+                        if(lessonCompleted && !this.potTutor && !this.potsuperTutor){
                             let params2 = {
                                 booking_id : completedLesson?.id ? completedLesson.id : 0,
                                 course_id: completedLesson?.course_id,
@@ -916,20 +916,13 @@ export class MyLessonsComponent {
                                     if(response?.message == 'balance_insufficient' && (this.isTutorUser || this.superAdmin)){
                                         this.getBookings('refresh-action')
                                     } else {
-                                        let bookings = this.allBookings
-                                        bookings?.forEach(b => {
-                                            if(b.id == this.selectedItem.id) {
-                                                b.completed = 1
-                                            }
-                                        })
-                                        this.statusFilter = 'Completed';
-                                        this.filterBookings();
+                                        this.refreshFilter();
                                     }
                                     this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
                                 }
                             )
                         } else {
-                            this.getBookings('refresh-action')
+                            this.refreshFilter();
                             this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
                         }
                 },
@@ -938,6 +931,17 @@ export class MyLessonsComponent {
                 }
             )
         }
+    }
+
+    refreshFilter() {
+        let bookings = this.allBookings
+        bookings?.forEach(b => {
+            if(b.id == this.selectedItem.id) {
+                b.completed = 1
+            }
+        })
+        this.statusFilter = 'Completed';
+        this.filterBookings();
     }
 
     async open(message: string, action: string) {
