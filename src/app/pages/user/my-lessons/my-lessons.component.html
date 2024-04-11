@@ -194,6 +194,16 @@
                                         </ng-container>
                                     </ng-container>
 
+                                    <ng-container *ngIf="!row?.stripe_connect && isTutorUser && row?.tutor_user_id == me?.id && (potTutor || potsuperTutor) && !cityAdmin" >
+                                        <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
+                                            <button (click)="confirmMarkComplete(row)" 
+                                                class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white"
+                                                [ngStyle]="{'background-color': buttonColor}"
+                                                >
+                                                {{ 'course-details.completebutton' | translate }}
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
                                     <ng-container *ngIf="cityAdmin && isTutorUser && row?.stripe_connect && row?.tutor_user_id == me?.id" >
                                         <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                             <button (click)="confirmMarkComplete(row)" 
