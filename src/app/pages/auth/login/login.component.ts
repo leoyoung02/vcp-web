@@ -80,6 +80,7 @@ export class LoginComponent {
   menuColor: any;
   alreadyLoggedIn: boolean = false;
   ueLoginMode: string = '';
+  isUESchoolOfLife: boolean = false;
 
   constructor(
     private _router: Router,
@@ -109,6 +110,7 @@ export class LoginComponent {
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.companyId = company[0].id;
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.domain = company[0].domain;
       this.initialPage = company[0].start_page;
       this.buttonColor = company[0].button_color
@@ -454,13 +456,13 @@ export class LoginComponent {
   loginUEStudent() {
     // this.ueLoginMode == '';
     // this.ueLoginMode = 'Estudiante';
-    location.href = `https://sso.vistingo.com/api/login/student`;
+    location.href = this.isUESchoolOfLife ? `https://sso.vistingo.com/api/login/sol-student` : `https://sso.vistingo.com/api/login/student`;
   }
 
   loginUEEmployee() {
     // this.ueLoginMode == '';
     // this.ueLoginMode = 'Empleado';
-    location.href = `https://sso.vistingo.com/api/login/employee`;
+    location.href = this.isUESchoolOfLife ? `https://sso.vistingo.com/api/login/sol-employee` : `https://sso.vistingo.com/api/login/employee`;
   }
 
   toggleAdminLogin(event): void {
