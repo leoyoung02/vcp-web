@@ -3327,7 +3327,10 @@
         "bookingheadertext": "Prenotazione fallita",
         "bookingbodytext": "Si è verificato un problema con la conferma della prenotazione.",
         "syncingyourbooking": "Sincronizzazione della tua prenotazione...",
-        "pleasedonotclose": "Non chiudere il browser mentre elaboriamo la tua prenotazione."
+        "pleasedonotclose": "Non chiudere il browser mentre elaboriamo la tua prenotazione.",
+        "pleasedonotclosetransfer": "Non chiudere il browser mentre elaboriamo i tuoi trasferimenti.",
+        "ongoingtransfer": "C'è un trasferimento esistente in fase di elaborazione in questo momento. Riprova tra qualche minuto.",
+        "notprocessed": "Non elaborato"
     },
     "tutor-stripe": {
         "accountid": "ID conto",

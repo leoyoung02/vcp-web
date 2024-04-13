@@ -3328,7 +3328,10 @@
         "bookingheadertext": "Die Buchung ist fehlgeschlagen",
         "bookingbodytext": "Bei der Bestätigung Ihrer Buchung ist ein Problem aufgetreten.",
         "syncingyourbooking": "Ihre Buchung wird synchronisiert…",
-        "pleasedonotclose": "Bitte schließen Sie Ihren Browser nicht, während wir Ihre Reservierung bearbeiten."
+        "pleasedonotclose": "Bitte schließen Sie Ihren Browser nicht, während wir Ihre Reservierung bearbeiten.",
+        "pleasedonotclosetransfer": "Bitte schließen Sie Ihren Browser nicht, während wir Ihre Übertragungen verarbeiten.",
+        "ongoingtransfer": "Derzeit wird eine bestehende Übertragung verarbeitet. Bitte versuchen Sie es nach ein paar Minuten erneut.",
+        "notprocessed": "Nicht verarbeitet"
     },
     "tutor-stripe": {
         "accountid": "Konto-ID",

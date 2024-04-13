@@ -116,11 +116,17 @@ export class CommissionsAdminListComponent {
     "booking_id",
     "status"
   ];
-
+  processingProgress: number = 0;
   @ViewChild("modalbutton", { static: false }) modalbutton:
   | ElementRef
   | undefined;
   @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+  | ElementRef
+  | undefined;
+  @ViewChild("processingmodalbutton", { static: false }) processingmodalbutton:
+  | ElementRef
+  | undefined;
+  @ViewChild("closeprocessingmodalbutton", { static: false }) closeprocessingmodalbutton:
   | ElementRef
   | undefined;
 
@@ -144,6 +150,8 @@ export class CommissionsAdminListComponent {
   };
   statusList: any = [];
   selectedStatus: any = '';
+  transferError: boolean = false;
+  transferErrorType: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -189,6 +197,7 @@ export class CommissionsAdminListComponent {
       this.fetchCommissions();
       this.initializeSearch();
     }
+    this.idempotencyKey = this.generateGuid();
     if(this.companyId == 52){
       this.displayedColumns = [
         "checked",
@@ -538,7 +547,7 @@ export class CommissionsAdminListComponent {
 
   confirm() {
     if(this.actionMode == 'bulk') {
-      this.applyBulkAction(true);
+      this.proceedTransfer(true);
     } else if(this.actionMode == 'delete') {
       this.handleDeleteCommission(true);
     }
@@ -552,13 +561,16 @@ export class CommissionsAdminListComponent {
     });
   }
 
+  proceedTransfer(confirmed) {
+    this. processingProgress = 8;
+    this.isProcessing = true;
+    this.showConfirmationModal = false;
+    this.processingmodalbutton?.nativeElement.click();
+    this.applyBulkAction(confirmed);
+  }
+
   applyBulkAction(confirmed) {
-    if(!this.idempotencyKey) {
-      this.idempotencyKey = this.generateGuid();
-    }
     if(confirmed) {
-      this.showConfirmationModal = false;
-      this.isProcessing = true;
       let params = {
         user_id: this.userId,
         booking_id: this.selected.map( (data) => { return data.booking_id }).join(),
@@ -598,6 +610,8 @@ export class CommissionsAdminListComponent {
           let message = `Bulk transfer ${this.bookingDataSource?.length > 0 ? JSON.stringify(this.bookingDataSource) : ''}`
           this._companyService.logMessage(this.companyId, this.userId, message, 'log')
 
+          this.closeprocessingmodalbutton?.nativeElement.click();
+
           if(this.bookingDataSource?.length > 0) {
             this.modalbutton?.nativeElement.click();
           } else {
@@ -607,9 +621,13 @@ export class CommissionsAdminListComponent {
           }
         },
         error => {
+          this.transferError = true;
           console.log(error);
-          let message = `Error in Bulk transfer ${JSON.stringify(error)}`
-          this._companyService.logMessage(this.companyId, this.userId, message, 'error')
+          let message = `Error in Bulk transfer ${JSON.stringify(error)}`;
+          this._companyService.logMessage(this.companyId, this.userId, message, 'error');
+          if(error?.status == 429) {
+            this.transferErrorType = 'Too Many Requests'; 
+          }
         }
       )
     }

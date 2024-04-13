@@ -3323,7 +3323,10 @@
         "bookingheadertext": "La réservation a échoué",
         "bookingbodytext": "Il y a eu un problème avec la confirmation de votre réservation.",
         "syncingyourbooking": "Synchronisation de votre réservation...",
-        "pleasedonotclose": "Veuillez ne pas fermer votre navigateur pendant que nous traitons votre réservation."
+        "pleasedonotclose": "Veuillez ne pas fermer votre navigateur pendant que nous traitons votre réservation.",
+        "pleasedonotclosetransfer": "Veuillez ne pas fermer votre navigateur pendant que nous traitons vos transferts.",
+        "ongoingtransfer": "Un transfert existant est en cours de traitement en ce moment. Veuillez réessayer après quelques minutes.",
+        "notprocessed": "Non traité"
     },
     "tutor-stripe": {
         "accountid": "identifiant de compte",

@@ -3339,7 +3339,10 @@
         "bookingheadertext": "La reserva ha fallat",
         "bookingbodytext": "S'ha produït un problema en confirmar la teva reserva.",
         "syncingyourbooking": "S'està sincronitzant la reserva...",
-        "pleasedonotclose": "Si us plau, no tanquis el teu navegador mentre processem la teva reserva."
+        "pleasedonotclose": "Si us plau, no tanquis el teu navegador mentre processem la teva reserva.",
+        "pleasedonotclosetransfer": "Si us plau, no tanqueu el vostre navegador mentre processem les vostres transferències.",
+        "ongoingtransfer": "En aquest moment s'està processant una transferència. Torneu-ho a provar al cap d'uns minuts.",
+        "notprocessed": "No s'ha processat"
     },
     "tutor-stripe": {
         "accountid": "ID del compte",

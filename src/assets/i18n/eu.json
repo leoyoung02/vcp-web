@@ -3329,7 +3329,10 @@
         "bookingheadertext": "Erreserbak huts egin du",
         "bookingbodytext": "Arazo bat izan da erreserba berresteko.",
         "syncingyourbooking": "Zure erreserba sinkronizatzen...",
-        "pleasedonotclose": "Mesedez, ez itxi arakatzailea zure erreserba prozesatzen dugun bitartean."
+        "pleasedonotclose": "Mesedez, ez itxi arakatzailea zure erreserba prozesatzen dugun bitartean.",
+        "pleasedonotclosetransfer": "Mesedez, ez itxi arakatzailea zure transferentziak prozesatzen ditugun bitartean.",
+        "ongoingtransfer": "Une honetan transferentzia bat prozesatzen ari da. Saiatu berriro minutu batzuk igaro ondoren.",
+        "notprocessed": "Ez da prozesatu"
     },
     "tutor-stripe": {
         "accountid": "Kontuaren IDa",

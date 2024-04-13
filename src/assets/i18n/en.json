@@ -3365,7 +3365,10 @@
         "bookingheadertext": "Booking failed",
         "bookingbodytext": "There was a problem with confirming your booking.",
         "syncingyourbooking": "Syncing your booking...",
-        "pleasedonotclose": "Please do not close your browser as we process your reservation."
+        "pleasedonotclose": "Please do not close your browser as we process your reservation.",
+        "pleasedonotclosetransfer": "Please do not close your browser as we process your transfers.",
+        "ongoingtransfer": "There's an existing transfer being processed at this time. Please try again after a few minutes.",
+        "notprocessed": "Not processed"
     },
     "tutor-stripe": {
         "accountid": "Account ID",

@@ -3349,7 +3349,10 @@
         "bookingheadertext": "Reserva fallida",
         "bookingbodytext": "Hubo un problema con la confirmación de su reserva.",
         "syncingyourbooking": "Sincronizando tu reserva...",
-        "pleasedonotclose": "Por favor, no cierre su navegador mientras procesamos su reserva."
+        "pleasedonotclose": "Por favor, no cierre su navegador mientras procesamos su reserva.",
+        "pleasedonotclosetransfer": "No cierre su navegador mientras procesamos sus transferencias.",
+        "ongoingtransfer": "Hay una transferencia existente en proceso en este momento. Vuelve a intentarlo después de unos minutos.",
+        "notprocessed": "No procesado"
     },
     "tutor-stripe": {
         "accountid": "ID de la cuenta",
