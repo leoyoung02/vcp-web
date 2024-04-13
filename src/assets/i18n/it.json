@@ -3252,7 +3252,8 @@
         "charged": "Carico 🟢",
         "moneyontheway": "Fatto. Soldi in arrivo ⏳. Disponibile in",
         "moneyonthewaystatus": "Soldi in arrivo ⏳",
-        "tiktokstats": "Statistiche TikTok"
+        "tiktokstats": "Statistiche TikTok",
+        "daterangedesc": "Seleziona l'intervallo di date (massimo 1 mese). Fai clic su Ripristina per impostare il mese predefinito"
     },
     "general-details": {
         "name": "Nome",

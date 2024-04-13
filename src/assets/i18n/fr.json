@@ -3248,7 +3248,8 @@
         "charged": "Chargé 🟢",
         "moneyontheway": "Terminé. Argent en route ⏳. Disponible dans",
         "moneyonthewaystatus": "Argent en route ⏳",
-        "tiktokstats": "Statistiques TikTok"
+        "tiktokstats": "Statistiques TikTok",
+        "daterangedesc": "Sélectionnez une plage de dates (maximum de 1 mois). Cliquez sur réinitialiser pour définir le mois par défaut"
     },
     "general-details": {
         "name" : "Nom",
