@@ -1293,8 +1293,13 @@ export class CompanyService {
     ).pipe(map(res => res));
   }
 
-  getSubmissions(id, userId): Observable<any> {
-    return this._http.get(`${SUBMISSIONS_URL}/${id}/${userId}`,
+  getSubmissions(id, userId, startDate: any = '', endDate: any = ''): Observable<any> {
+    let url = `${SUBMISSIONS_URL}/${id}/${userId}`
+
+    if(startDate && endDate) {
+      url += `?start=${startDate}&end=${endDate}`
+    }
+    return this._http.get(url,
       { headers: this.headers }
     ).pipe(map(res => res));
   }

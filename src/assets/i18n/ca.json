@@ -3264,7 +3264,8 @@
         "charged": "Cobrada 🟢",
         "moneyontheway": "Realitzada. Diners en camí ⏳. Disponible a",
         "moneyonthewaystatus": "Diners en camí ⏳",
-        "tiktokstats": "Estadístiques de TikTok"
+        "tiktokstats": "Estadístiques de TikTok",
+        "daterangedesc": "Seleccioneu l'interval de dates (màxim d'1 mes). Feu clic a Restableix per establir el mes predeterminat"
     },
     "general-details": {
         "name" : "Nom",
