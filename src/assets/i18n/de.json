@@ -3253,7 +3253,8 @@
         "charged": "Aufgeladen 🟢",
         "moneyontheway": "Fertig. Geld unterwegs ⏳. Verfügbar in",
         "moneyonthewaystatus": "Geld unterwegs ⏳",
-        "tiktokstats": "TikTok-Statistiken"
+        "tiktokstats": "TikTok-Statistiken",
+        "daterangedesc": "Datumsbereich auswählen (maximal 1 Monat). Klicken Sie auf „Zurücksetzen“, um den Standardmonat festzulegen."
     },
     "general-details": {
         "name" : "Name",

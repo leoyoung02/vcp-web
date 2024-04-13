@@ -23,7 +23,36 @@
                     >
                     </app-search>
                 </div>
+                <div class="ml-6">
+                    <div class="flex-auto -mb-5">
+                        <mat-form-field class="datetime-picker-field">
+                            <mat-label class="text-sm">{{ 'landing.date' | translate }}</mat-label>
+                            <mat-date-range-input [min]="minDate" [max]="maxDate" [rangePicker]="picker" [formGroup]="dateRange">
+                              <input class="text-[13px]" (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
+                              <input class="text-[13px]" (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
+                            </mat-date-range-input>
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                        </mat-form-field>
+                        <div class="-mt-6 text-[10px] text-gray-400 pl-4 w-[250px]">
+                            {{ 'tutors.daterangedesc' | translate }}
+                        </div>
+                    </div>
+                </div>
+                <div class="-mt-4 ml-6 hover:cursor-pointer py-2 px-6 text-sm text-white rounded-lg" 
+                    [ngStyle]="{'background-color': buttonColor}"
+                    (click)="resetDate()">
+                    {{ 'crm.reset' | translate }}
+                </div>
             </div>
+        </div>
+        <div class="flex justify-end mt-3">
+            <button 
+                class="inline-block h-[40px] bg-black text-sm px-6 py-2 font-semibold rounded-[10px] text-white focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mtb-3 md:mb-0 lg:mb-0"
+                (click)="downloadCSV()"
+            >
+                {{ 'company-reports.downloadCSV' | translate }}
+            </button>
         </div>
     </div>
 </div>
@@ -42,14 +71,18 @@
         </ul>
         <div id="fullWidthTabContent" class="border-t border-gray-200 dark:border-gray-600">
             <div class="hidden p-4 bg-white rounded-lg md:p-8 dark:bg-gray-800" id="stats" role="tabpanel" aria-labelledby="stats-tab">
-                <dl class="grid max-w-screen-xl grid-cols-1 gap-8 mx-auto text-gray-900 sm:grid-cols-2 xl:grid-cols-2 dark:text-white">
+                <dl class="grid max-w-screen-xl grid-cols-1 gap-8 mx-auto text-gray-900 sm:grid-cols-3 xl:grid-cols-3 dark:text-white">
                     <div class="flex flex-col items-center justify-center">
-                        <dt class="mb-2 text-3xl font-extrabold">{{submissions?.length || '-'}}</dt>
+                        <dt class="mb-2 text-3xl font-extrabold">{{currentSubmissions || '-'}}</dt>
                         <dd class="text-gray-500 dark:text-gray-400">{{'landing.thismonth' | translate}}</dd>
                     </div>
                     <div class="flex flex-col items-center justify-center">
+                        <dt class="mb-2 text-3xl font-extrabold">{{submissions?.length || '-'}}</dt>
+                        <dd class="text-gray-500 dark:text-gray-400">Total ({{'your-admin-area.date' | translate}})</dd>
+                    </div>
+                    <div class="flex flex-col items-center justify-center">
                         <dt class="mb-2 text-3xl font-extrabold">{{totalSubmissions || '-'}}</dt>
-                        <dd class="text-gray-500 dark:text-gray-400">{{'signup.total' | translate}}</dd>
+                        <dd class="text-gray-500 dark:text-gray-400">Total</dd>
                     </div>
                 </dl>
             </div>

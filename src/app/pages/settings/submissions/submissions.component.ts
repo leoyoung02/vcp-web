@@ -10,11 +10,16 @@ import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatNativeDateModule } from "@angular/material/core";
+import { DateAdapter } from '@angular/material/core';
 import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import { SearchComponent } from "@share/components/search/search.component";
 import {
   CompanyService,
   LocalService,
+  ExcelService,
 } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
@@ -41,6 +46,9 @@ import get from "lodash/get";
     MatPaginatorModule,
     MatSortModule,
     MatSnackBarModule,
+    MatFormFieldModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
     SearchComponent,
     BreadcrumbComponent,
     PageTitleComponent,
@@ -97,6 +105,15 @@ export class SubmissionsComponent {
   selectedItemId: any;
   questionAnswers: any = [];
   totalSubmissions: any;
+  selectedStartDate: any;
+  selectedEndDate: any;
+  dateRange = new FormGroup({
+    start: new FormControl(),
+    end: new FormControl(),
+  });
+  minDate: any;
+  maxDate: any;
+  currentSubmissions: any;
 
   constructor(
     private _router: Router,
@@ -104,7 +121,9 @@ export class SubmissionsComponent {
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _snackBar: MatSnackBar,
-    private _location: Location
+    private _location: Location,
+    private dateAdapter: DateAdapter<Date>,
+    private _excelService: ExcelService,
   ) {}
 
   async ngOnInit() {
@@ -144,13 +163,17 @@ export class SubmissionsComponent {
         }
       );
 
+    initFlowbite();
+    this.initializeBreadcrumb();
+    this.initializeSearch();
+
+    this.dateAdapter.setLocale('es-ES');
+    this.initializeDate();
+
     this.initializePage();
   }
 
   initializePage() {
-    initFlowbite();
-    this.initializeBreadcrumb();
-    this.initializeSearch();
     this.getSubmissions();
   }
 
@@ -172,15 +195,27 @@ export class SubmissionsComponent {
     );
   }
 
+  initializeDate() {
+    this.selectedStartDate = moment().startOf('month').format("YYYY-MM-DD");
+    this.selectedEndDate = moment().format("YYYY-MM-DD");
+    this.minDate = moment().startOf('year').format("YYYY-MM-DD");
+    this.maxDate = moment().format("YYYY-MM-DD");
+    this.dateRange = new FormGroup({
+      start: new FormControl(this.selectedStartDate),
+      end: new FormControl( this.selectedEndDate)
+    });
+  }
+
   async getSubmissions() {
     this._companyService
-      .getSubmissions(this.companyId, this.userId)
+      .getSubmissions(this.companyId, this.userId, this.selectedStartDate, this.selectedEndDate)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (response) => {
           this.submissions = response.answers;
           this.allSubmissions = this.submissions;
           this.totalSubmissions = response.total_question_answers;
+          this.currentSubmissions = response.current_question_answers;
           this.refreshTable(this.submissions);
           this.isloading = false;
         },
@@ -329,6 +364,54 @@ export class SubmissionsComponent {
       .format("D MMM YYYY H:mm A");
 
     return date;
+  }
+
+  resetDate() {
+    this.initializeDate();
+    this.initializePage();
+  }
+
+  handleDateChange(type, event) {
+    if (type == "start") {
+      if(moment(event?.value).isValid()) {
+        this.selectedStartDate = moment(event.value).format("YYYY-MM-DD");
+        this.maxDate = moment(this.selectedStartDate).endOf('month').format("YYYY-MM-DD");
+      } else {
+        this.selectedStartDate = '';
+        this.maxDate = moment().format("YYYY-MM-DD");
+      }
+    }
+    if (type == "end") {
+      if(moment(event?.value).isValid()) {
+        this.selectedEndDate = moment(event.value).format("YYYY-MM-DD");
+      } else {
+        this.selectedEndDate = '';
+      }
+    }
+
+    if(this.selectedStartDate && this.selectedEndDate) {
+      this.initializePage();
+    }
+  }
+
+  downloadCSV() {
+    let export_data: any = [];
+    if(this.submissions?.length > 0) {
+      this.submissions?.forEach(row => {
+        export_data.push({
+          'Pregunta': row.question_title,
+          'Fecha': moment(row.created_at).format("YYYY-MM-DD HH:mm:ss"),
+          'País': row.country,
+          'URL de la comunidad de WhatsApp': row.whatsapp_community,
+        });
+      })
+    }
+
+    this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+    this._excelService.exportAsExcelFile(
+      export_data,
+      "tiktok-envios-" + moment().format("YYYYMMDDHHmmss")
+    );
   }
 
   handleGoBack() {

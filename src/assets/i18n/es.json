@@ -3274,7 +3274,8 @@
         "charged": "Cobrada 🟢",
         "moneyontheway": "Realizada. Dinero en camino ⏳. <br/>Disponible en",
         "moneyonthewaystatus": "Dinero en camino ⏳",
-        "tiktokstats": "Estadísticas de TikTok"
+        "tiktokstats": "Estadísticas de TikTok",
+        "daterangedesc": "Seleccione el rango de fechas (máximo 1 mes). Haga clic en restablecer para establecer el mes predeterminado"
     },
     "general-details": {
         "name" : "Nombre",

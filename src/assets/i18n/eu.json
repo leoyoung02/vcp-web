@@ -3254,7 +3254,8 @@
         "charged": "Kobratuta 🟢",
         "moneyontheway": "Bukatuta. Dirua bidean ⏳. Hemen eskuragarri",
         "moneyonthewaystatus": "Dirua bidean ⏳",
-        "tiktokstats": "TikTok Estatistikak"
+        "tiktokstats": "TikTok Estatistikak",
+        "daterangedesc": "Hautatu data-tartea (gehienez hilabetekoa). Egin klik berrezarri hilabete lehenetsi gisa ezartzeko"
     },
     "general-details": {
         "name" : "Izena",
