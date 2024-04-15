@@ -3488,7 +3488,9 @@
         "uploadimages": "Subir 1 o más imágenes",
         "redirectcustomlink": "Redirigir al enlace CTA",
         "ctaLinkLabel": "Enlace de llamada a la acción",
-        "ctaLinkPlaceholder": "Ingrese el enlace CTA"
+        "ctaLinkPlaceholder": "Ingrese el enlace CTA",
+        "exportingdata": "Exportando datos...",
+        "pleasedonotcloseexport": "No cierre su navegador mientras exportamos los datos."
     },
     "credits": {
         "automatedemail": "Activar correo electrónico automatizado del historial de créditos",

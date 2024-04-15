@@ -3467,7 +3467,9 @@
         "uploadimages": "Kargatu irudi bat edo gehiago",
         "redirectcustomlink": "Birbideratu CTA estekara",
         "ctaLinkLabel": "CTA esteka",
-        "ctaLinkPlaceholder": "Sartu CTA esteka"
+        "ctaLinkPlaceholder": "Sartu CTA esteka",
+        "exportingdata": "Datuak esportatzen...",
+        "pleasedonotcloseexport": "Mesedez, ez itxi arakatzailea datuak esportatzen ditugun heinean."
     },
     "credits": {
         "automatedemail": "Aktibatu cedits historiaren posta elektroniko automatizatua",

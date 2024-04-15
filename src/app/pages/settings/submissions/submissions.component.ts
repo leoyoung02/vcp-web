@@ -114,6 +114,14 @@ export class SubmissionsComponent {
   minDate: any;
   maxDate: any;
   currentSubmissions: any;
+  hasExportedError: boolean = false;
+  processingProgress: number = 0;
+  @ViewChild("modalbutton1", { static: false }) modalbutton1:
+    | ElementRef
+    | undefined;
+  @ViewChild("closemodalbutton1", { static: false }) closemodalbutton1:
+    | ElementRef
+    | undefined;
 
   constructor(
     private _router: Router,
@@ -412,6 +420,51 @@ export class SubmissionsComponent {
       export_data,
       "tiktok-envios-" + moment().format("YYYYMMDDHHmmss")
     );
+  }
+
+  downloadCSVAll() {
+    this.modalbutton1?.nativeElement.click();
+    this.processingProgress = 25;
+    this._companyService
+      .getAllSubmissions(this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response) => {
+          console.log(response)
+          this.processingProgress = 60;
+          let export_data: any = [];
+          if(response.answers?.length > 0) {
+            response.answers?.forEach(row => {
+              export_data.push({
+                'Pregunta': row.question_title,
+                'Fecha': moment(row.registered_date).format("YYYY-MM-DD HH:mm:ss"),
+                'Nombre': row.answer_first_name,
+                'Apellido': row.answer_last_name,
+                'Correo electrónico': row.answer_email,
+                'Móvil': row.answer_mobile,
+                'País': row.country,
+                'URL de la comunidad de WhatsApp': row.whatsapp_community,
+              });
+            })
+          }
+          this._excelService.exportAsExcelFile(
+            export_data,
+            "tiktok-envios-todos-" + moment().format("YYYYMMDDHHmmss")
+          );
+          this.processingProgress = 100;
+          setTimeout(() => {
+            this.closemodalbutton1?.nativeElement.click();
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+          }, 500)
+        },
+        (error) => {
+          this.hasExportedError = true;
+        }
+      );
+  }
+
+  closeProcessingModal() {
+    this.closemodalbutton1?.nativeElement.click();
   }
 
   handleGoBack() {

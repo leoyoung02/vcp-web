@@ -3466,8 +3466,9 @@
         "uploadimages": "Ein oder mehrere Bilder hochladen",
         "redirectcustomlink": "Weiterleitung zum CTA-Link",
         "ctaLinkLabel": "CTA-Link",
-        "ctaLinkPlaceholder": "Geben Sie den CTA-Link ein"
-        
+        "ctaLinkPlaceholder": "Geben Sie den CTA-Link ein",
+        "exportingdata": "Daten exportieren…",
+        "pleasedonotcloseexport": "Bitte schließen Sie Ihren Browser nicht, während wir die Daten exportieren."
     },
     "credits": {
         "automatedemail": "Automatische E-Mail des Rechnungsverlaufs aktivieren",

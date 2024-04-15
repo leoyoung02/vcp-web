@@ -3461,8 +3461,9 @@
         "uploadimages": "Télécharger 1 ou plusieurs images",
         "redirectcustomlink": "Redirection vers le lien CTA",
         "ctaLinkLabel": "Lien CTA",
-        "ctaLinkPlaceholder": "Entrez le lien CTA"
-        
+        "ctaLinkPlaceholder": "Entrez le lien CTA",
+        "exportingdata": "Exportation de données...",
+        "pleasedonotcloseexport": "Veuillez ne pas fermer votre navigateur pendant que nous exportons les données."
     },
     "credits": {
         "automatedemail": "Activer l'email automatisé de l'historique des crédits",
