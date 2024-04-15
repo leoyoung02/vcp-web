@@ -60,8 +60,13 @@ export class MembersService {
     }).pipe(map(res => res));
   }
 
-  fetchGuestsReport(id: number = 0): Observable<any> {
-    return this._http.get(`${GUESTS_REPORT_URL}/${id}`, { 
+  fetchGuestsReport(id: number = 0, startDate: any = '', endDate: any = ''): Observable<any> {
+    let url = `${GUESTS_REPORT_URL}/${id}`
+
+    if(startDate && endDate) {
+      url += `?start=${startDate}&end=${endDate}`
+    }
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }

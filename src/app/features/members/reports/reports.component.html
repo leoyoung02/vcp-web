@@ -16,14 +16,22 @@
                     <div class="flex-auto -mb-5">
                         <mat-form-field class="datetime-picker-field">
                             <mat-label class="text-sm">{{ 'your-admin-area.registrationdate' | translate }}</mat-label>
-                            <mat-date-range-input [rangePicker]="picker" [formGroup]="dateRange">
-                            <input (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
-                            <input (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
+                            <mat-date-range-input [min]="minDate" [max]="maxDate" [rangePicker]="picker" [formGroup]="dateRange">
+                                <input (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
+                                <input (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
                             </mat-date-range-input>
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             <mat-date-range-picker #picker></mat-date-range-picker>
                         </mat-form-field>
+                        <div *ngIf="mode == 'guests'" class="-mt-6 text-[10px] text-gray-400 pl-4 w-[250px]">
+                            {{ 'tutors.daterangedesc' | translate }}
+                        </div>
                     </div>
+                </div>
+                <div *ngIf="mode == 'guests'" class="ml-6 hover:cursor-pointer py-2 px-6 text-sm text-white rounded-lg" 
+                    [ngStyle]="{'background-color': buttonColor}"
+                    (click)="resetDate()">
+                    {{ 'crm.reset' | translate }}
                 </div>
                 <ng-container *ngIf="mode == 'guests'">
                     <div>
@@ -78,7 +86,21 @@
                         </select>
                     </div>
                 </ng-container>
-                <div class="ml-4">
+            </div>
+        </div>
+        <div class="mt-2" [ngClass]="{'mt-6': mode == 'guests'}">
+            <div class="flex items-center w-full max-w-full">
+                <div class="flex-auto block w-[400px]">
+                    <app-search
+                        [searchText]="searchZipText"
+                        [placeholderText]="placeholderZipText"
+                        [buttonColor]="buttonColor"
+                        (onEnterPressed)="handleZipSearch($event)"
+                        (doSearch)="handleZipSearch($event)"
+                    >
+                    </app-search>
+                </div>
+                <div *ngIf="mode == 'guests'">
                     <select
                         id="zip-code"
                         class="min-w-[150px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -112,18 +134,6 @@
                         </option>
                     </select>
                 </div>
-            </div>
-        </div>
-        <div class="mt-2">
-            <div class="flex-auto block w-[400px]">
-                <app-search
-                    [searchText]="searchZipText"
-                    [placeholderText]="placeholderZipText"
-                    [buttonColor]="buttonColor"
-                    (onEnterPressed)="handleZipSearch($event)"
-                    (doSearch)="handleZipSearch($event)"
-                >
-                </app-search>
             </div>
         </div>
     </div>

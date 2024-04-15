@@ -678,6 +678,7 @@ export const LEADS_LANDING_PAGE_BY_SLUG_URL = `${API_BASE}/v2/landing-page`;
 export const QUESTIONS_URL = `${API_BASE}/v2/landing-questions`;
 export const SUBMIT_QUESTION_ANSWERS_URL = `${API_BASE}/v2/landing-questions/answers/submit`;
 export const SUBMISSIONS_URL = `${API_BASE}/v2/answers`;
+export const EXPORT_ALL_SUBMISSIONS_URL = `${API_BASE}/v2/answers-all`;
 export const EDIT_QUESTION_STYLES_URL = `${API_BASE}/v2/question-styles/edit`;
 export const QUESTIONS_BY_ID_URL = `${API_BASE}/v2/landing-questions-by-id`;
 export const EDIT_QUESTION_OTHER_IMAGES_URL = `${API_BASE}/v2/question-other-images/edit`;
