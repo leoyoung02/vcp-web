@@ -3500,7 +3500,9 @@
         "uploadimages": "Upload 1 or more images",
         "redirectcustomlink": "Redirect to CTA Link",
         "ctaLinkLabel": "CTA Link",
-        "ctaLinkPlaceholder": "Enter CTA Link"
+        "ctaLinkPlaceholder": "Enter CTA Link",
+        "exportingdata": "Exporting data...",
+        "pleasedonotcloseexport": "Please do not close your browser as we export the data."
     },
     "credits": {
         "automatedemail": "Activate automated email of cedits history",

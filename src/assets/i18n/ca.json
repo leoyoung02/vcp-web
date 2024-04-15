@@ -3474,7 +3474,9 @@
         "uploadimages": "Penja 1 o més imatges",
         "redirectcustomlink": "Redirigeix a l'enllaç CTA",
         "ctaLinkLabel": "Enllaç CTA",
-        "ctaLinkPlaceholder": "Introduïu l'enllaç CTA"
+        "ctaLinkPlaceholder": "Introduïu l'enllaç CTA",
+        "exportingdata": "S'estan exportant dades...",
+        "pleasedonotcloseexport": "Si us plau, no tanqueu el vostre navegador mentre exportem les dades."
     },
     "credits": {
         "automatedemail": "Activa el correu electrònic automatitzat de l'historial de cedits",

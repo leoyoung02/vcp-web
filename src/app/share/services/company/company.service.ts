@@ -213,6 +213,7 @@ import {
   ACTIVATE_HOME_TEMPLATE_URL,
   EDIT_HOME_TEMPLATE_SECTIONS_URL,
   HOME_SECTIONS_DATA_URL,
+  EXPORT_ALL_SUBMISSIONS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1300,6 +1301,12 @@ export class CompanyService {
       url += `?start=${startDate}&end=${endDate}`
     }
     return this._http.get(url,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getAllSubmissions(id): Observable<any> { 
+    return this._http.get(`${EXPORT_ALL_SUBMISSIONS_URL}/${id}`,
       { headers: this.headers }
     ).pipe(map(res => res));
   }
