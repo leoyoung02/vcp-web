@@ -15,8 +15,25 @@
                 </div>
                 <div>
                     <select
+                        id="tutors"
+                        class="w-[250px] min-w-[250px] max-w-[250px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedTutor"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeTutorFilter($event)"
+                    >
+                        <option value="">{{ 'company-settings.selecttutor' | translate }}</option>
+                        <option
+                            *ngFor="let tutor of tutors"                                
+                            [value]="tutor.tutor_name"
+                        >
+                            {{ tutor.tutor_name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="ml-2">
+                    <select
                         id="students"
-                        class="w-[320px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        class="w-[250px] min-w-[250px] max-w-[250px] ml-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                         [(ngModel)]="selectedStudent"
                         [ngModelOptions]="{standalone: true}"
                         (change)="changeStudentFilter($event)"

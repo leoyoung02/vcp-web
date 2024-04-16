@@ -152,6 +152,8 @@ export class MyLessonsComponent {
     stripeTransfers: any = [];
     students: any = [];
     selectedStudent: any = '';
+    tutors: any = [];
+    selectedTutor: any = '';
 
     constructor(
         private _route: ActivatedRoute,
@@ -393,6 +395,16 @@ export class MyLessonsComponent {
                         })
                     }
 
+                    let tutor_name = booking?.tutor_name
+                    let tutor_match = this.tutors?.some(
+                        (a) => a.tutor_name == tutor_name
+                    );
+                    if(!tutor_match && tutor_name) {
+                        this.tutors.push({
+                            tutor_name: tutor_name,
+                        })
+                    }
+
                     let transfer_date = booking?.completed == 1 ? this.getTransferDate(booking) : '';
 
                     return {
@@ -420,6 +432,18 @@ export class MyLessonsComponent {
                         ...booking,
                     };
                 })
+
+                if(this.tutors?.length > 0) {
+                    this.tutors.sort(function (a, b) {
+                        if (a.tutor_name < b.tutor_name) {
+                            return -1;
+                        }
+                        if (a.tutor_name > b.tutor_name) {
+                            return 1;
+                        }
+                        return 0;
+                    });
+                }
 
                 if(this.students?.length > 0) {
                     this.students.sort(function (a, b) {
@@ -632,6 +656,12 @@ export class MyLessonsComponent {
         if(this.selectedStudent) {
             bookings = bookings?.filter((booking) => {
               return booking?.student_name == this.selectedStudent
+            })
+        }
+
+        if(this.selectedTutor) {
+            bookings = bookings?.filter((booking) => {
+              return booking?.tutor_name == this.selectedTutor
             })
         }
 
@@ -1070,6 +1100,10 @@ export class MyLessonsComponent {
     }
 
     changeStudentFilter(event) {
+        this.filterBookings();
+    }
+
+    changeTutorFilter(event) {
         this.filterBookings();
     }
 }
