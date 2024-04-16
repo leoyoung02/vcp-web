@@ -24,7 +24,7 @@ import { StarRatingComponent } from "@lib/components";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 @Component({
-  selector: "app-tutor-card",
+  selector: "app-tutor-small-card",
   standalone: true,
   imports: [
     CommonModule,
@@ -34,10 +34,10 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     NgOptimizedImage,
     StarRatingComponent,
   ],
-  templateUrl: "./tutor.component.html",
+  templateUrl: "./tutor-small.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TutorCardComponent {
+export class TutorSmallCardComponent {
   private destroy$ = new Subject<void>();
 
   @Input() id: any;
@@ -53,7 +53,6 @@ export class TutorCardComponent {
   @Input() page: any;
   @Input() buttonColor: any;
   @Input() showSettings: any;
-  @Input() tutorCardSmallImage: any;
   @Output() onSettingsClick = new EventEmitter();
   @Output() onQuestionClick = new EventEmitter();
 

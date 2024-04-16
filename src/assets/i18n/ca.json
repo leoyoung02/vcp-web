@@ -2076,7 +2076,8 @@
         "footer":"Peu de pàgina",
         "pottutor":"Tutor d'olla",
         "memberreports": "Informes de membres",
-        "guesreports": "Informes de convidats"
+        "guestreports": "Informes de convidats",
+        "selectstudent": "Selecciona un estudiant"
     },
     "guest-landing": {
         "templates": "Plantilles",
@@ -3265,7 +3266,8 @@
         "moneyontheway": "Realitzada. Diners en camí ⏳. Disponible a",
         "moneyonthewaystatus": "Diners en camí ⏳",
         "tiktokstats": "Estadístiques de TikTok",
-        "daterangedesc": "Seleccioneu l'interval de dates (màxim d'1 mes). Feu clic a Restableix per establir el mes predeterminat"
+        "daterangedesc": "Seleccioneu l'interval de dates (màxim d'1 mes). Feu clic a Restableix per establir el mes predeterminat",
+        "noratingsyet": "Encara no hi ha cap valoració"
     },
     "general-details": {
         "name" : "Nom",
@@ -3340,7 +3342,10 @@
         "bookingheadertext": "La reserva ha fallat",
         "bookingbodytext": "S'ha produït un problema en confirmar la teva reserva.",
         "syncingyourbooking": "S'està sincronitzant la reserva...",
-        "pleasedonotclose": "Si us plau, no tanquis el teu navegador mentre processem la teva reserva."
+        "pleasedonotclose": "Si us plau, no tanquis el teu navegador mentre processem la teva reserva.",
+        "pleasedonotclosetransfer": "Si us plau, no tanqueu el vostre navegador mentre processem les vostres transferències.",
+        "ongoingtransfer": "En aquest moment s'està processant una transferència. Torneu-ho a provar al cap d'uns minuts.",
+        "notprocessed": "No s'ha processat"
     },
     "tutor-stripe": {
         "accountid": "ID del compte",

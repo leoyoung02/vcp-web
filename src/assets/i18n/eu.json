@@ -2072,7 +2072,8 @@
         "footer":"Oina",
         "pottutor":"Pot Tutorea",
         "memberreports": "Informes de membres",
-        "guesreports": "Informes de convidats"
+        "guestreports": "Informes de convidats",
+        "selectstudent": "Hautatu ikaslea"
     },
     "guest-landing": {
         "templates": "Txantiloiak",
@@ -3255,7 +3256,8 @@
         "moneyontheway": "Bukatuta. Dirua bidean ⏳. Hemen eskuragarri",
         "moneyonthewaystatus": "Dirua bidean ⏳",
         "tiktokstats": "TikTok Estatistikak",
-        "daterangedesc": "Hautatu data-tartea (gehienez hilabetekoa). Egin klik berrezarri hilabete lehenetsi gisa ezartzeko"
+        "daterangedesc": "Hautatu data-tartea (gehienez hilabetekoa). Egin klik berrezarri hilabete lehenetsi gisa ezartzeko",
+        "noratingsyet": "Oraindik ez dago baloraziorik"
     },
     "general-details": {
         "name" : "Izena",
@@ -3330,7 +3332,10 @@
         "bookingheadertext": "Erreserbak huts egin du",
         "bookingbodytext": "Arazo bat izan da erreserba berresteko.",
         "syncingyourbooking": "Zure erreserba sinkronizatzen...",
-        "pleasedonotclose": "Mesedez, ez itxi arakatzailea zure erreserba prozesatzen dugun bitartean."
+        "pleasedonotclose": "Mesedez, ez itxi arakatzailea zure erreserba prozesatzen dugun bitartean.",
+        "pleasedonotclosetransfer": "Mesedez, ez itxi arakatzailea zure transferentziak prozesatzen ditugun bitartean.",
+        "ongoingtransfer": "Une honetan transferentzia bat prozesatzen ari da. Saiatu berriro minutu batzuk igaro ondoren.",
+        "notprocessed": "Ez da prozesatu"
     },
     "tutor-stripe": {
         "accountid": "Kontuaren IDa",

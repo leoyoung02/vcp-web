@@ -2071,7 +2071,8 @@
         "footer":"Fusszeile",
         "pottutor":"Pot-Lehrer",
         "memberreports": "Mitgliederberichte",
-        "guestreports": "Gästeberichte"
+        "guestreports": "Gästeberichte",
+        "selectstudent": "Student auswählen"
     },
     "guest-landing": {
         "templates": "Vorlagen",
@@ -3254,7 +3255,8 @@
         "moneyontheway": "Fertig. Geld unterwegs ⏳. Verfügbar in",
         "moneyonthewaystatus": "Geld unterwegs ⏳",
         "tiktokstats": "TikTok-Statistiken",
-        "daterangedesc": "Datumsbereich auswählen (maximal 1 Monat). Klicken Sie auf „Zurücksetzen“, um den Standardmonat festzulegen."
+        "daterangedesc": "Datumsbereich auswählen (maximal 1 Monat). Klicken Sie auf „Zurücksetzen“, um den Standardmonat festzulegen.",
+        "noratingsyet": "Noch keine Bewertungen"
     },
     "general-details": {
         "name" : "Name",
@@ -3329,7 +3331,10 @@
         "bookingheadertext": "Die Buchung ist fehlgeschlagen",
         "bookingbodytext": "Bei der Bestätigung Ihrer Buchung ist ein Problem aufgetreten.",
         "syncingyourbooking": "Ihre Buchung wird synchronisiert…",
-        "pleasedonotclose": "Bitte schließen Sie Ihren Browser nicht, während wir Ihre Reservierung bearbeiten."
+        "pleasedonotclose": "Bitte schließen Sie Ihren Browser nicht, während wir Ihre Reservierung bearbeiten.",
+        "pleasedonotclosetransfer": "Bitte schließen Sie Ihren Browser nicht, während wir Ihre Übertragungen verarbeiten.",
+        "ongoingtransfer": "Derzeit wird eine bestehende Übertragung verarbeitet. Bitte versuchen Sie es nach ein paar Minuten erneut.",
+        "notprocessed": "Nicht verarbeitet"
     },
     "tutor-stripe": {
         "accountid": "Konto-ID",

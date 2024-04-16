@@ -9,9 +9,10 @@ import { FilterComponent, PageTitleComponent } from '@share/components';
 import { SearchComponent } from "@share/components/search/search.component";
 import { NgxPaginationModule } from "ngx-pagination";
 import { TutorCardComponent } from '@share/components/card/tutor/tutor.component';
-import get from 'lodash/get';
+import { TutorSmallCardComponent } from '@share/components/card/tutor-small/tutor-small.component';
 import { searchSpecialCase, sortSerchedMembers } from 'src/app/utils/search/helper';
 import Fuse from 'fuse.js';
+import get from 'lodash/get';
 
 @Component({
   selector: 'app-courses-list',
@@ -23,6 +24,7 @@ import Fuse from 'fuse.js';
     PageTitleComponent,
     SearchComponent,
     TutorCardComponent,
+    TutorSmallCardComponent,
     FilterComponent,
     NgxPaginationModule,
   ],
@@ -70,7 +72,7 @@ export class TutorsListComponent {
   selectedCity: any = '';
   selectedType: any = '';
   defaultActiveFilter: boolean = true;
-
+  tutorCardSmallImage: boolean = false;
   searchOptions = {
     keys: [{
       name: 'normalized_first_name',
@@ -218,7 +220,9 @@ export class TutorsListComponent {
 
   mapSubfeatures(subfeatures) {
     if (subfeatures?.length > 0) {
-      
+      this.tutorCardSmallImage = subfeatures.some(
+        (a) => a.name_en == "Tutor card (small image)" && a.active == 1
+      );
     }
   }
 
@@ -573,5 +577,9 @@ export class TutorsListComponent {
         return include
       })
     }
+  }
+
+  getTutorTypesText(types) {
+    return types?.join(', ')
   }
 }

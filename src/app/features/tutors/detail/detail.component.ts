@@ -155,6 +155,8 @@ export class TutorDetailComponent {
   tutorAccountIds:any=[];
   tutorStripeConnect : any = true;
   hasCheckedCalendly: boolean = false;
+  tutorCardSmallImage: boolean = false;
+  showImageLoadingAnimation: boolean = false;
 
   constructor(
     private _router: Router,
@@ -266,6 +268,7 @@ export class TutorDetailComponent {
 
   mapSubfeatures(data) {
     let subfeatures = data?.settings?.subfeatures;
+    console.log(subfeatures)
     if (subfeatures?.length > 0) {
       this.showCalendly = subfeatures.some(a => a.name_en == 'Calendly' && a.active == 1 && a.feature_id == 20)
       this.showTutorTypes = subfeatures.some(a => a.name_en == 'Tutor types' && a.active == 1 && a.feature_id == 20)
@@ -276,7 +279,9 @@ export class TutorDetailComponent {
       this.courseCreditSetting = subfeatures.some(a => a.name_en == 'Credits' && a.active == 1 && a.feature_id == 20)
       this.hasCreditPackageSetting = subfeatures.some(a => a.name_en == 'Credit Packages' && a.active == 1 && a.feature_id == 20)
       this.separateCourseCredits = subfeatures.some(a => a.name_en == 'Separate credits by course' && a.active == 1 && a.feature_id == 20)
-      
+      this.tutorCardSmallImage = subfeatures.some(a => a.name_en == 'Tutor card (small image)' && a.active == 1 && a.feature_id == 20)
+      if(!this.tutorCardSmallImage) { this.showImageLoadingAnimation = true; }
+
       this.hasCategoryAccess = subfeatures.some(a => a.name_en == 'Category access' && a.active == 1 && a.feature_id == 11)
       this.showCoursesByAccess = subfeatures.some(a => a.name_en == 'Show Courses' && a.active == 1 && a.feature_id == 11)
       this.hasCoursePayment = subfeatures.some(a => a.name_en == 'Course fee' && a.active == 1 && a.feature_id == 11)

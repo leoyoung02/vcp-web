@@ -2077,7 +2077,8 @@
         "footer":"Footer",
         "pottutor":"Pot Tutor",
         "memberreports": "Member Reports",
-        "guestreports": "Guest Reports"
+        "guestreports": "Guest Reports",
+        "selectstudent": "Select student"
     },
     "guest-landing": {
         "templates": "Templates",
@@ -3291,7 +3292,8 @@
         "moneyontheway": "Made. Money on the way ⏳. Disponible en",
         "moneyonthewaystatus": "Money on the way ⏳",
         "tiktokstats": "TikTok Statistics",
-        "daterangedesc": "Select date range (maximum of 1 month). Click reset to set to default month" 
+        "daterangedesc": "Select date range (maximum of 1 month). Click reset to set to default month",
+        "noratingsyet": "No ratings yet"
     },
     "general-details": {
         "name" : "Name",
@@ -3366,7 +3368,10 @@
         "bookingheadertext": "Booking failed",
         "bookingbodytext": "There was a problem with confirming your booking.",
         "syncingyourbooking": "Syncing your booking...",
-        "pleasedonotclose": "Please do not close your browser as we process your reservation."
+        "pleasedonotclose": "Please do not close your browser as we process your reservation.",
+        "pleasedonotclosetransfer": "Please do not close your browser as we process your transfers.",
+        "ongoingtransfer": "There's an existing transfer being processed at this time. Please try again after a few minutes.",
+        "notprocessed": "Not processed"
     },
     "tutor-stripe": {
         "accountid": "Account ID",
