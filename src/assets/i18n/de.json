@@ -2071,7 +2071,8 @@
         "footer":"Fusszeile",
         "pottutor":"Pot-Lehrer",
         "memberreports": "Mitgliederberichte",
-        "guestreports": "Gästeberichte"
+        "guestreports": "Gästeberichte",
+        "selectstudent": "Student auswählen"
     },
     "guest-landing": {
         "templates": "Vorlagen",
@@ -3254,7 +3255,8 @@
         "moneyontheway": "Fertig. Geld unterwegs ⏳. Verfügbar in",
         "moneyonthewaystatus": "Geld unterwegs ⏳",
         "tiktokstats": "TikTok-Statistiken",
-        "daterangedesc": "Datumsbereich auswählen (maximal 1 Monat). Klicken Sie auf „Zurücksetzen“, um den Standardmonat festzulegen."
+        "daterangedesc": "Datumsbereich auswählen (maximal 1 Monat). Klicken Sie auf „Zurücksetzen“, um den Standardmonat festzulegen.",
+        "noratingsyet": "Noch keine Bewertungen"
     },
     "general-details": {
         "name" : "Name",

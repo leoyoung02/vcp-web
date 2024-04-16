@@ -2072,7 +2072,8 @@
         "footer":"Oina",
         "pottutor":"Pot Tutorea",
         "memberreports": "Informes de membres",
-        "guesreports": "Informes de convidats"
+        "guestreports": "Informes de convidats",
+        "selectstudent": "Hautatu ikaslea"
     },
     "guest-landing": {
         "templates": "Txantiloiak",
@@ -3255,7 +3256,8 @@
         "moneyontheway": "Bukatuta. Dirua bidean ⏳. Hemen eskuragarri",
         "moneyonthewaystatus": "Dirua bidean ⏳",
         "tiktokstats": "TikTok Estatistikak",
-        "daterangedesc": "Hautatu data-tartea (gehienez hilabetekoa). Egin klik berrezarri hilabete lehenetsi gisa ezartzeko"
+        "daterangedesc": "Hautatu data-tartea (gehienez hilabetekoa). Egin klik berrezarri hilabete lehenetsi gisa ezartzeko",
+        "noratingsyet": "Oraindik ez dago baloraziorik"
     },
     "general-details": {
         "name" : "Izena",

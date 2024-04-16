@@ -25,23 +25,43 @@
     </div>
 </div>
 <div class="pt-6">
-    <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 gap-8 py-2 pb-20">
+    <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 py-2 pb-20"
+        [ngClass]="{'gap-8': !tutorCardSmallImage, 'gap-4': tutorCardSmallImage}">
         <ng-container *ngFor="let tutor of tutors">
             <div class="rounded-[30px] row-span-1 cursor-pointer relative mb-8 sm:mb-8 md:mb-0 lg:mb-0" >
-                <app-tutor-card
-                    [id]="tutor?.id"
-                    [path]="tutor?.path"
-                    [image]="tutor?.image"
-                    [name]="tutor?.name"
-                    [first_name]="tutor?.first_name"
-                    [last_name]="tutor?.last_name"
-                    [rating]="tutor?.rating"
-                    [city]="tutor?.city"
-                    [languages]="tutor?.languages"
-                    [types]="tutor?.types"
-                    [page]="'list'"
-                >
-                </app-tutor-card>
+                <ng-container *ngIf="!tutorCardSmallImage">
+                    <app-tutor-card
+                        [id]="tutor?.id"
+                        [path]="tutor?.path"
+                        [image]="tutor?.image"
+                        [name]="tutor?.name"
+                        [first_name]="tutor?.first_name"
+                        [last_name]="tutor?.last_name"
+                        [rating]="tutor?.rating"
+                        [city]="tutor?.city"
+                        [languages]="tutor?.languages"
+                        [types]="tutor?.types"
+                        [page]="'list'"
+                    >
+                    </app-tutor-card>
+                </ng-container>
+                <ng-container *ngIf="tutorCardSmallImage">
+                    <app-tutor-small-card
+                        [id]="tutor?.id"
+                        [path]="tutor?.path"
+                        [image]="tutor?.image"
+                        [name]="tutor?.name"
+                        [first_name]="tutor?.first_name"
+                        [last_name]="tutor?.last_name"
+                        [rating]="tutor?.rating"
+                        [city]="tutor?.city"
+                        [languages]="tutor?.languages"
+                        [types]="getTutorTypesText(tutor?.types)"
+                        [page]="'list'"
+                        [buttonColor]="buttonColor"
+                    >
+                    </app-tutor-small-card>
+                </ng-container>
             </div>
         </ng-container>
     </div>

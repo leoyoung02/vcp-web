@@ -2076,7 +2076,8 @@
         "footer":"Peu de pàgina",
         "pottutor":"Tutor d'olla",
         "memberreports": "Informes de membres",
-        "guesreports": "Informes de convidats"
+        "guestreports": "Informes de convidats",
+        "selectstudent": "Selecciona un estudiant"
     },
     "guest-landing": {
         "templates": "Plantilles",
@@ -3265,7 +3266,8 @@
         "moneyontheway": "Realitzada. Diners en camí ⏳. Disponible a",
         "moneyonthewaystatus": "Diners en camí ⏳",
         "tiktokstats": "Estadístiques de TikTok",
-        "daterangedesc": "Seleccioneu l'interval de dates (màxim d'1 mes). Feu clic a Restableix per establir el mes predeterminat"
+        "daterangedesc": "Seleccioneu l'interval de dates (màxim d'1 mes). Feu clic a Restableix per establir el mes predeterminat",
+        "noratingsyet": "Encara no hi ha cap valoració"
     },
     "general-details": {
         "name" : "Nom",

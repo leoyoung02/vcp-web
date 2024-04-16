@@ -2070,7 +2070,8 @@
         "footer": "Piè di pagina",
         "pottutor": "PotTutor",
         "memberreports": "Rapporti dei membri",
-        "guestreports": "Rapporti degli ospiti"
+        "guestreports": "Rapporti degli ospiti",
+        "selectstudent": "Seleziona studente"
     },
     "guest-landing": {
         "templates": "Modelli",
@@ -3253,7 +3254,8 @@
         "moneyontheway": "Fatto. Soldi in arrivo ⏳. Disponibile in",
         "moneyonthewaystatus": "Soldi in arrivo ⏳",
         "tiktokstats": "Statistiche TikTok",
-        "daterangedesc": "Seleziona l'intervallo di date (massimo 1 mese). Fai clic su Ripristina per impostare il mese predefinito"
+        "daterangedesc": "Seleziona l'intervallo di date (massimo 1 mese). Fai clic su Ripristina per impostare il mese predefinito",
+        "noratingsyet": "Ancora nessuna valutazione"
     },
     "general-details": {
         "name": "Nome",
