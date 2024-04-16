@@ -26,23 +26,44 @@
 <div class="pt-6">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-8 py-2 pb-20">
         <ng-container *ngFor="let member of members | paginate: {itemsPerPage: 56, currentPage: p}">
-            <app-member-card
-                [id]="member?.id"
-                [path]="member?.path"
-                [name]="member?.display_name"
-                [city]="member?.city"
-                [sector]="member?.sector"
-                [linkedin]="member?.linkedin"
-                [email]="member?.email"
-                [phone]="member?.phone"
-                [references]="member?.references"
-                [image]="member?.image"
-                [logo]="member?.company_image"
-                [buttonColor]="buttonColor"
-                [page]="'list'"
-                (sendReference)="handleSendReference($event)"
-            >
-            </app-member-card>
+            <ng-container *ngIf="!alternativeCardDesign">
+                <app-member-card
+                    [id]="member?.id"
+                    [path]="member?.path"
+                    [name]="member?.display_name"
+                    [city]="member?.city"
+                    [sector]="member?.sector"
+                    [linkedin]="member?.linkedin"
+                    [email]="member?.email"
+                    [phone]="member?.phone"
+                    [references]="member?.references"
+                    [image]="member?.image"
+                    [logo]="member?.company_image"
+                    [buttonColor]="buttonColor"
+                    [page]="'list'"
+                    (sendReference)="handleSendReference($event)"
+                >
+                </app-member-card>
+            </ng-container>
+            <ng-container *ngIf="alternativeCardDesign">
+                <app-member-small-card
+                    [id]="member?.id"
+                    [path]="member?.path"
+                    [name]="member?.display_name"
+                    [city]="member?.city"
+                    [sector]="member?.sector"
+                    [linkedin]="member?.linkedin"
+                    [email]="member?.email"
+                    [phone]="member?.phone"
+                    [references]="member?.references"
+                    [image]="member?.image"
+                    [logo]="member?.company_image"
+                    [buttonColor]="buttonColor"
+                    [page]="'list'"
+                    (sendReference)="handleSendReference($event)"
+                >
+                </app-member-small-card>
+            </ng-container>
         </ng-container>
     </div>
     <div *ngIf="members?.length > 0" class="text-center">

@@ -90,7 +90,7 @@
             <ng-container *ngIf="tutor">
                 <div class="flex items-center pt-6">
                     <div class="flex-shrink-0" *ngIf="tutorCardSmallImage">
-                        <img class="w-32 h-32 rounded-full cover" width="128" height="128" [ngSrc]="tutorImage" alt="{{ tutor?.name }}">
+                        <img class="w-32 h-32 rounded-full object-cover" width="128" height="128" [ngSrc]="tutorImage" alt="{{ tutor?.name }}">
                     </div>
                     <div [ngClass]="{'flex-1 min-w-0 ms-4': tutorCardSmallImage}">
                         <div class="pt-3 text-3xl font-semibold">

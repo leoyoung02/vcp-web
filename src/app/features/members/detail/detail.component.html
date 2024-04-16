@@ -10,14 +10,21 @@
 </div>
 <app-page-title [title]="pageName" [subtitle]="pageDescription"></app-page-title>
 <div class="pt-10 flex flex-col sm:flex-col md:flex-row lg:flex-row pb-20">
-    <div class="w-full max-w-full sm:w-full sm:max-w-full md:min-w-[461px] md:w-[461px] md:max-w-[461px] lg:w-[461px] lg:min-w-[461px] lg:max-w-[461px]">
+    <div *ngIf="!alternativeCardDesign" class="w-full max-w-full sm:w-full sm:max-w-full md:min-w-[461px] md:w-[461px] md:max-w-[461px] lg:w-[461px] lg:min-w-[461px] lg:max-w-[461px]">
         <div class="h-full max-h-full">
             <img width="347" height="300" *ngIf="member?.image" [ngSrc]="member?.image" alt="" 
                 class="object-top mr-4 object-cover rounded-[30px] w-full max-w-full h-full max-h-full min-h-[559px]">
         </div>
     </div>
     <div class="py-6 h-full max-h-full sm:h-full sm:max-h-full md:h-[591px] md:max-h-[591px] lg:h-[591px] lg:max-h-[591px] w-full max-w-full sm:w-full sm:max-w-full md:w-5/12 md:max-w-5/12 lg:w-5/12 lg:max-w-5/12 flex flex-col px-10">
-        <div class="text-2xl leading-6 pb-2 font-bold">{{member?.display_name}}</div>
+        <div class="flex items-center">
+            <div class="flex-shrink-0" *ngIf="alternativeCardDesign">
+                <img class="w-32 h-32 rounded-full object-cover object-top" width="128" height="128" [ngSrc]="member?.image" alt="{{ member?.display_name }}">
+            </div>
+            <div [ngClass]="{'flex-1 min-w-0 ms-4': alternativeCardDesign}">
+                <div class="text-2xl leading-6 pb-2 font-bold">{{member?.display_name}}</div>
+            </div>
+        </div>
         <div class="py-4">
             <span>{{member?.city}}</span>
             <span *ngIf="member?.city && member?.sector" class="px-6">•</span>

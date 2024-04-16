@@ -1,10 +1,10 @@
-<div [routerLink]="path" class="w-full max-w-md bg-white border border-gray-200 rounded-lg shadow sm:p-6 dark:bg-gray-800 dark:border-gray-700">
+<div [routerLink]="path" class="w-full max-w-md bg-white border border-gray-200 rounded-lg shadow p-6 dark:bg-gray-800 dark:border-gray-700">
     <div class="flow-root">
         <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
             <li>
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
-                        <img class="w-20 h-20 rounded-full cover" width="75" height="75" [ngSrc]="image" alt="{{ name || (first_name + ' ' + last_name) }}">
+                        <img class="w-20 h-20 rounded-full object-cover" width="75" height="75" [ngSrc]="image" alt="{{ name || (first_name + ' ' + last_name) }}">
                     </div>
                     <div class="flex-1 min-w-0 ms-4">
                         <p class="text-base text-gray2 font-bold text-gray-900 truncate dark:text-white">
