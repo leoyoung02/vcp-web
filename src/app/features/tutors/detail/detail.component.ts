@@ -268,7 +268,6 @@ export class TutorDetailComponent {
 
   mapSubfeatures(data) {
     let subfeatures = data?.settings?.subfeatures;
-    console.log(subfeatures)
     if (subfeatures?.length > 0) {
       this.showCalendly = subfeatures.some(a => a.name_en == 'Calendly' && a.active == 1 && a.feature_id == 20)
       this.showTutorTypes = subfeatures.some(a => a.name_en == 'Tutor types' && a.active == 1 && a.feature_id == 20)
