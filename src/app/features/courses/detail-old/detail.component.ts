@@ -8,7 +8,7 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import { BreadcrumbComponent, NoAccessComponent, ToastComponent } from "@share/components";
+import { BreadcrumbComponent, CommentsComponent, NoAccessComponent, ToastComponent } from "@share/components";
 import { LocalService, CompanyService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule, MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
@@ -50,6 +50,7 @@ import get from "lodash/get";
     StarRatingModule,
     SafeContentHtmlPipe,
     AssessmentComponent,
+    CommentsComponent,
   ],
   templateUrl: './detail.component.html'
 })
