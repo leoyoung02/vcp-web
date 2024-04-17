@@ -68,6 +68,7 @@ import {
   TUTOR_TYPES_URL,
   TUTOR_URL,
   UPDATE_CALENDLY_URL,
+  UPDATE_TRANSFER_QUEUE_URL,
   USER_COURSES_URL,
   USER_COURSE_CREDITS_URL,
   USER_ROLE_URL,
@@ -544,6 +545,18 @@ export class TutorsService {
 
   bulkTransferCommissionImproved(payload): Observable<any> {
     return this._http.post(`${BULK_TRANSFER_COMMISSION_IMPROVED_URL}`,
+      payload,
+      { 
+        headers: new HttpHeaders({
+          "Content-Type": "application/json",
+          "x-idempotency-key": payload.idempotency_key,
+        }) 
+      }
+    ).pipe(map(res => res));
+  }
+
+  updateTransferProcessingStatus(payload): Observable<any> {
+    return this._http.post(`${UPDATE_TRANSFER_QUEUE_URL}`,
       payload
     ).pipe(map(res => res));
   }

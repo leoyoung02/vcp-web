@@ -170,6 +170,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   areas: any = [];
   jobOfferAreasMapping: any = [];
   bottomEventTitles: boolean = false;
+  homeCalendar: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -570,6 +571,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.bottomEventTitles = subfeatures.some(
         (a) => a.name_en == "Event titles (Bottom)" && a.active == 1
       );
+      this.homeCalendar = subfeatures.some(
+        (a) => a.name_en == "Event calendar in Home" && a.active == 1
+      );
     }
   }
 
@@ -579,10 +583,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       data?.forEach(item => {
         temp_sections_list?.push({
           id: 1,
+          item_id: item?.id,
           path: this.getPath(item),
           image: this.getImage(item),
           title: this.getTitle(item),
           date: this.getDate(item),
+          plan_date: item?.plan_date,
           address: item?.address,
           price: item?.price,
           object_type: item?.object_type,

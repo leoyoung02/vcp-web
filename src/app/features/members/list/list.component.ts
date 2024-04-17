@@ -12,6 +12,8 @@ import { environment } from '@env/environment';
 import { MemberCardComponent } from '@share/components/card/member/member.component';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
+import { MemberSmallCardComponent } from '@share/components/card/member-small/member-small.component';
+import { initFlowbite } from 'flowbite';
 import get from 'lodash/get';
 
 @Component({
@@ -28,6 +30,7 @@ import get from 'lodash/get';
     PageTitleComponent,
     SearchComponent,
     MemberCardComponent,
+    MemberSmallCardComponent,
     FilterComponent,
   ],
   templateUrl: './list.component.html'
@@ -89,6 +92,7 @@ export class MembersListComponent {
   showMembersCount: boolean = false;
   featureTitle: string = '';
   postalCodes: any = [];
+  alternativeCardDesign: boolean = false;
 
   constructor(
     private _router: Router,
@@ -106,6 +110,7 @@ export class MembersListComponent {
   }
 
   async ngOnInit() {
+    initFlowbite();
     this.onResize();
 
     this.email = this._localService.getLocalStorage(environment.lsemail);
@@ -217,6 +222,9 @@ export class MembersListComponent {
     if (subfeatures?.length > 0) {
       this.showMembersCount = subfeatures.some(
         (a) => a.name_en == "Members count" && a.active == 1 && a.feature_id == 15
+      );
+      this.alternativeCardDesign = subfeatures.some(
+        (a) => a.name_en == "Alternative card design" && a.active == 1 && a.feature_id == 15
       );
     }
   }
@@ -521,7 +529,11 @@ export class MembersListComponent {
     this.sendReferenceFormSubmitted = false;
     this.dialogMode = "reference";
     this.dialogTitle =  this._translateService.instant('members.sendreference');
-    this.modalbutton?.nativeElement.click();
+    
+    setTimeout(() => {
+      initFlowbite();
+      this.modalbutton?.nativeElement.click();
+    }, 500)
   }
 
   sendReference() {

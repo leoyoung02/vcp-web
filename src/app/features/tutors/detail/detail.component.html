@@ -47,8 +47,10 @@
     </div>
 </div>
 <div>
-    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 mb-20 rounded-[30px] rounded-tr-[10px]" [ngStyle]="{'background-color': showCalendarSection ? '#f6f6f6' : 'transparent'}">
-        <div class="rounded-[30px] w-full max-w-full row-span-1 cursor-pointer relative">
+    <div class="grid grid-cols-1 mb-20 rounded-[30px] rounded-tr-[10px]" 
+        [ngStyle]="{'background-color': showCalendarSection ? '#f6f6f6' : 'transparent'}"
+        [ngClass]="{'md:grid-cols-3 lg:grid-cols-3': !tutorCardSmallImage && showImageLoadingAnimation, 'md:grid-cols-2 lg:grid-cols-2': tutorCardSmallImage}">
+        <div class="rounded-[30px] w-full max-w-full row-span-1 cursor-pointer relative" *ngIf="!tutorCardSmallImage && showImageLoadingAnimation">
             <app-tutor-card
                 [id]="tutor?.id"
                 [path]=""
@@ -72,7 +74,7 @@
             class="flex flex-col justify-between px-[58px]"
             [ngStyle]="{'background-color': showCalendarSection ? '#f6f6f6' : 'transparent'}"
         >
-            <div *ngIf="!tutor" ole="status" class="h-full space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex items-center">
+            <div *ngIf="!tutor && !tutorCardSmallImage && showImageLoadingAnimation" ole="status" class="h-full space-y-8 animate-pulse md:space-y-0 md:space-x-8 rtl:space-x-reverse md:flex items-center">
                 <div class="w-full">
                     <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[460px] mb-2.5"></div>
                     <div class="h-2 bg-gray-200 rounded-full dark:bg-gray-700 max-w-[440px] mb-2.5"></div>
@@ -86,8 +88,68 @@
                 <span class="sr-only">Loading...</span>
             </div>
             <ng-container *ngIf="tutor">
-                <div class="pt-3 text-3xl font-semibold">{{tutor?.name}}</div>
-                <div class="py-3 sm:py-3 md:py-0 lg:py-0">
+                <div class="flex items-center pt-6">
+                    <div class="flex-shrink-0" *ngIf="tutorCardSmallImage">
+                        <img class="w-32 h-32 rounded-full object-cover" width="128" height="128" [ngSrc]="tutorImage" alt="{{ tutor?.name }}">
+                    </div>
+                    <div [ngClass]="{'flex-1 min-w-0 ms-4': tutorCardSmallImage}">
+                        <div class="pt-3 text-3xl font-semibold">
+                            {{tutor?.name}}
+                        </div>
+                        <div *ngIf="tutorCardSmallImage" class="py-3 sm:py-3 md:py-0 lg:py-0">
+                            <div class="flex">
+                                <ng-container *ngIf="tutorRating > 0">
+                                    <svg *ngIf="!(tutorRating > 0 && tutorRating < 1)" [ngStyle]="{'color': '#fbbf24'}" class="w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg *ngIf="tutorRating > 0 && tutorRating < 1" [ngStyle]="{'color': '#fbbf24'}" class="w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 12 20">
+                                        <path d="M11.707.707A1 1 0 0 0 11 .414a1.6 1.6 0 0 0-1.409.816l-2.525 4.6-5.687.744A1.576 1.576 0 0 0 .065 7.667a1.485 1.485 0 0 0 .456 1.566l4.05 3.552-.95 4.988a1.5 1.5 0 0 0 .567 1.473 1.624 1.624 0 0 0 1.703.18l5.194-2.457a1 1 0 0 0 .915-1V1.414a1 1 0 0 0-.293-.707Z"/>
+                                    </svg>
+                                </ng-container>
+                                <ng-container *ngIf="tutorRating > 1">
+                                    <svg *ngIf="!(tutorRating > 1 && tutorRating < 2)" [ngStyle]="{'color': '#fbbf24'}" class="ml-2 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg *ngIf="tutorRating > 1 && tutorRating < 2" [ngStyle]="{'color': '#fbbf24'}" class="ml-2 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 12 20">
+                                        <path d="M11.707.707A1 1 0 0 0 11 .414a1.6 1.6 0 0 0-1.409.816l-2.525 4.6-5.687.744A1.576 1.576 0 0 0 .065 7.667a1.485 1.485 0 0 0 .456 1.566l4.05 3.552-.95 4.988a1.5 1.5 0 0 0 .567 1.473 1.624 1.624 0 0 0 1.703.18l5.194-2.457a1 1 0 0 0 .915-1V1.414a1 1 0 0 0-.293-.707Z"/>
+                                    </svg>
+                                </ng-container>
+                                <ng-container *ngIf="tutorRating > 2">
+                                    <svg *ngIf="!(tutorRating > 2 && tutorRating < 3)" [ngStyle]="{'color': '#fbbf24'}" class="ml-2 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg *ngIf="tutorRating > 2 && tutorRating < 3" [ngStyle]="{'color': '#fbbf24'}" class="ml-2 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 12 20">
+                                        <path d="M11.707.707A1 1 0 0 0 11 .414a1.6 1.6 0 0 0-1.409.816l-2.525 4.6-5.687.744A1.576 1.576 0 0 0 .065 7.667a1.485 1.485 0 0 0 .456 1.566l4.05 3.552-.95 4.988a1.5 1.5 0 0 0 .567 1.473 1.624 1.624 0 0 0 1.703.18l5.194-2.457a1 1 0 0 0 .915-1V1.414a1 1 0 0 0-.293-.707Z"/>
+                                    </svg>
+                                </ng-container>
+                                <ng-container *ngIf="tutorRating > 3">
+                                    <svg *ngIf="!(tutorRating > 3 && tutorRating < 4)" [ngStyle]="{'color': '#fbbf24'}" class="ml-2 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg *ngIf="tutorRating > 3 && tutorRating < 4" [ngStyle]="{'color': '#fbbf24'}" class="ml-2 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 12 20">
+                                        <path d="M11.707.707A1 1 0 0 0 11 .414a1.6 1.6 0 0 0-1.409.816l-2.525 4.6-5.687.744A1.576 1.576 0 0 0 .065 7.667a1.485 1.485 0 0 0 .456 1.566l4.05 3.552-.95 4.988a1.5 1.5 0 0 0 .567 1.473 1.624 1.624 0 0 0 1.703.18l5.194-2.457a1 1 0 0 0 .915-1V1.414a1 1 0 0 0-.293-.707Z"/>
+                                    </svg>
+                                </ng-container>
+                                <ng-container *ngIf="tutorRating > 4">
+                                    <svg *ngIf="!(tutorRating > 4 && tutorRating < 5)" [ngStyle]="{'color': '#fbbf24'}" class="ml-2 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
+                                        <path d="M20.924 7.625a1.523 1.523 0 0 0-1.238-1.044l-5.051-.734-2.259-4.577a1.534 1.534 0 0 0-2.752 0L7.365 5.847l-5.051.734A1.535 1.535 0 0 0 1.463 9.2l3.656 3.563-.863 5.031a1.532 1.532 0 0 0 2.226 1.616L11 17.033l4.518 2.375a1.534 1.534 0 0 0 2.226-1.617l-.863-5.03L20.537 9.2a1.523 1.523 0 0 0 .387-1.575Z"/>
+                                    </svg>
+                                    <svg *ngIf="tutorRating > 4 && tutorRating < 5" [ngStyle]="{'color': '#fbbf24'}" class="ml-2 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 12 20">
+                                        <path d="M11.707.707A1 1 0 0 0 11 .414a1.6 1.6 0 0 0-1.409.816l-2.525 4.6-5.687.744A1.576 1.576 0 0 0 .065 7.667a1.485 1.485 0 0 0 .456 1.566l4.05 3.552-.95 4.988a1.5 1.5 0 0 0 .567 1.473 1.624 1.624 0 0 0 1.703.18l5.194-2.457a1 1 0 0 0 .915-1V1.414a1 1 0 0 0-.293-.707Z"/>
+                                    </svg>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="py-1" *ngIf="tutor && tutorCardSmallImage">
+                            <div class="flex text-base font-medium flex-wrap">
+                                <span>{{tutor?.city}}</span>
+                                <span class="px-2">{{ (tutor?.languages || ('tutors.spanish' | translate)) ? '•' : '' }}</span>
+                                <span>{{tutor?.languages || ('tutors.spanish' | translate)}}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="!tutorCardSmallImage" class="py-3 sm:py-3 md:py-0 lg:py-0">
                     <div class="flex">
                         <ng-container *ngIf="tutorRating > 0">
                             <svg *ngIf="!(tutorRating > 0 && tutorRating < 1)" [ngStyle]="{'color': '#fbbf24'}" class="w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 20">
@@ -132,7 +194,7 @@
                     </div>
                 </div>
                 <div class="py-3 text-sm" [innerHtml]="tutor?.description"></div>
-                <div class="py-3" *ngIf="tutor">
+                <div class="py-3" *ngIf="tutor && !tutorCardSmallImage">
                     <div class="flex text-base font-medium flex-wrap">
                         <span>{{tutor?.city}}</span>
                         <span class="px-2">{{ (tutor?.languages || ('tutors.spanish' | translate)) ? '•' : '' }}</span>

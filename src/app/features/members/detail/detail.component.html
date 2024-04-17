@@ -10,14 +10,21 @@
 </div>
 <app-page-title [title]="pageName" [subtitle]="pageDescription"></app-page-title>
 <div class="pt-10 flex flex-col sm:flex-col md:flex-row lg:flex-row pb-20">
-    <div class="w-full max-w-full sm:w-full sm:max-w-full md:min-w-[461px] md:w-[461px] md:max-w-[461px] lg:w-[461px] lg:min-w-[461px] lg:max-w-[461px]">
+    <div *ngIf="!alternativeCardDesign" class="w-full max-w-full sm:w-full sm:max-w-full md:min-w-[461px] md:w-[461px] md:max-w-[461px] lg:w-[461px] lg:min-w-[461px] lg:max-w-[461px]">
         <div class="h-full max-h-full">
             <img width="347" height="300" *ngIf="member?.image" [ngSrc]="member?.image" alt="" 
                 class="object-top mr-4 object-cover rounded-[30px] w-full max-w-full h-full max-h-full min-h-[559px]">
         </div>
     </div>
     <div class="py-6 h-full max-h-full sm:h-full sm:max-h-full md:h-[591px] md:max-h-[591px] lg:h-[591px] lg:max-h-[591px] w-full max-w-full sm:w-full sm:max-w-full md:w-5/12 md:max-w-5/12 lg:w-5/12 lg:max-w-5/12 flex flex-col px-10">
-        <div class="text-2xl leading-6 pb-2 font-bold">{{member?.display_name}}</div>
+        <div class="flex items-center">
+            <div class="flex-shrink-0" *ngIf="alternativeCardDesign">
+                <img class="w-32 h-32 rounded-full object-cover object-top" width="128" height="128" [ngSrc]="member?.image" alt="{{ member?.display_name }}">
+            </div>
+            <div [ngClass]="{'flex-1 min-w-0 ms-4': alternativeCardDesign}">
+                <div class="text-2xl leading-6 pb-2 font-bold">{{member?.display_name}}</div>
+            </div>
+        </div>
         <div class="py-4">
             <span>{{member?.city}}</span>
             <span *ngIf="member?.city && member?.sector" class="px-6">•</span>
@@ -95,7 +102,7 @@
                 </div>
             </div>
         </div>
-        <div class="grid grid-cols-2 gap-8">
+        <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
             <button 
                 class="h-[52px] flex items-center p-3.5 px-6 rounded-[15px] justify-evenly mt-4 transition duration-700 ease-in-out"
                 [ngStyle]="{
@@ -131,7 +138,7 @@
         </div>
     </div>
     <div class="text-lg leading-6 pb-2 py-6 flex flex-col bg-[#F8F4F4] px-16 rounded-lg w-full sm:w-full md:w-2/6 lg:w-2/6">
-        <div class="text-2xl leading-6 pb-2 font-bold border border-1 pb-4 mb-4 border-[#c7c7c7] border-t-0 border-l-0 border-r-0 pr-8">{{'members.moreinformation' | translate}}</div>
+        <div class="text-2xl leading-6 pb-2 font-bold border border-1 pb-4 mb-4 border-[#c7c7c7] border-t-0 border-l-0 border-r-0 pr-8">{{alternativeCardDesign ? ('plan-details.details' | translate) : ('members.moreinformation' | translate) }}</div>
         <div class="text-sm" [ngClass]="{'border border-2 border-t-0 border-l-0 border-r-0': moreFieldValues?.length > 0}">
             <div *ngIf="member?.email_display && showEmail" class="mb-4 flex items-center">
                 <div class="mr-4">
@@ -168,11 +175,22 @@
                 <div>{{member?.sector}}</div>
             </div>
         </div>
-        <div *ngIf="moreFieldValues?.length > 0"
+        <div *ngIf="moreFieldValues?.length > 0 && !alternativeCardDesign"
             class="text-sm my-4">
             <ng-container *ngFor="let field of moreFieldValues; let i = index;">
                 <div *ngIf="field?.value" class="mb-4">
                     <span class="font-semibold mb-8 mr-2">{{field?.label}}:</span><span [innerHtml]="field?.value"></span>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div class="text-lg leading-6 pb-2 py-6 flex flex-col bg-[#F8F4F4] px-16 rounded-lg w-full sm:w-full md:w-2/6 lg:w-2/6" *ngIf="alternativeCardDesign">
+        <div class="text-2xl leading-6 pb-2 font-bold border border-1 pb-4 mb-4 border-[#c7c7c7] border-t-0 border-l-0 border-r-0 pr-8">{{'members.moreinformation' | translate}}</div>
+        <div *ngIf="moreFieldValues?.length > 0"
+            class="text-sm my-4">
+            <ng-container *ngFor="let field of moreFieldValues; let i = index;">
+                <div *ngIf="field?.value" class="mb-4">
+                    <span class="font-semibold mb-8 mr-2">{{field?.label}}:</span><span class="break-words" [innerHtml]="field?.value"></span>
                 </div>
             </ng-container>
         </div>

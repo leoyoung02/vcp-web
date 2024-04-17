@@ -497,7 +497,8 @@
             <div class="container mb-4 flex items-center justify-between center w-full max-w-full px-4 md:px-0 lg:px-0 mx-auto py-3">
                 <h1 class="text-lg font-semibold">{{ 'plan-details.details' | translate }}</h1>
             </div>
-            <div class="whitespace-pre-wrap text-base w-full">
+            <div class="event-description-div whitespace-pre-wrap text-base w-full" [innerHTML]="eventDescription | safeContentHtml: 'html'"></div>
+            <!-- <div class="whitespace-pre-wrap text-base w-full">
                 <iframe scrolling="no" style="display:none;width:100%;border:none;height:100%;" #iframeEventDescription></iframe>
                 <div style="display:none;" #editor>
                     <editor
@@ -506,7 +507,7 @@
                         (onInit)="handleEditorInit($event)"
                     ></editor>
                 </div>
-            </div>
+            </div> -->
         </div>
         <div class="py-4" 
             *ngIf="((userId && !showPastEvents) || (userId && showPastEvents && !isPastEvent)) && plan?.show_comments">

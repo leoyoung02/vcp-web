@@ -2069,7 +2069,8 @@
         "footer":"Bas de page",
         "pottutor":"Tuteur de pot",
         "memberreports": "Rapports des membres",
-        "guestreports": "Rapports d'invités"
+        "guestreports": "Rapports d'invités",
+        "selectstudent": "Sélectionner un étudiant"
     },
     "guest-landing": {
         "templates": "Modèles",
@@ -3248,7 +3249,9 @@
         "charged": "Chargé 🟢",
         "moneyontheway": "Terminé. Argent en route ⏳. Disponible dans",
         "moneyonthewaystatus": "Argent en route ⏳",
-        "tiktokstats": "Statistiques TikTok"
+        "tiktokstats": "Statistiques TikTok",
+        "daterangedesc": "Sélectionnez une plage de dates (maximum de 1 mois). Cliquez sur réinitialiser pour définir le mois par défaut",
+        "noratingsyet": "Aucune note pour l'instant"
     },
     "general-details": {
         "name" : "Nom",
@@ -3323,7 +3326,10 @@
         "bookingheadertext": "La réservation a échoué",
         "bookingbodytext": "Il y a eu un problème avec la confirmation de votre réservation.",
         "syncingyourbooking": "Synchronisation de votre réservation...",
-        "pleasedonotclose": "Veuillez ne pas fermer votre navigateur pendant que nous traitons votre réservation."
+        "pleasedonotclose": "Veuillez ne pas fermer votre navigateur pendant que nous traitons votre réservation.",
+        "pleasedonotclosetransfer": "Veuillez ne pas fermer votre navigateur pendant que nous traitons vos transferts.",
+        "ongoingtransfer": "Un transfert existant est en cours de traitement en ce moment. Veuillez réessayer après quelques minutes.",
+        "notprocessed": "Non traité"
     },
     "tutor-stripe": {
         "accountid": "identifiant de compte",
@@ -3457,8 +3463,9 @@
         "uploadimages": "Télécharger 1 ou plusieurs images",
         "redirectcustomlink": "Redirection vers le lien CTA",
         "ctaLinkLabel": "Lien CTA",
-        "ctaLinkPlaceholder": "Entrez le lien CTA"
-        
+        "ctaLinkPlaceholder": "Entrez le lien CTA",
+        "exportingdata": "Exportation de données...",
+        "pleasedonotcloseexport": "Veuillez ne pas fermer votre navigateur pendant que nous exportons les données."
     },
     "credits": {
         "automatedemail": "Activer l'email automatisé de l'historique des crédits",

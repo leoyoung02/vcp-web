@@ -24,6 +24,7 @@ import { MembersService } from "@features/services/members/members.service";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatNativeDateModule } from "@angular/material/core";
+import { DateAdapter } from '@angular/material/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from "@env/environment";
 import moment from "moment";
@@ -95,6 +96,8 @@ export class MembersReportsComponent {
         start: new FormControl(),
         end: new FormControl(),
     });
+    minDate: any;
+    maxDate: any;
     searchMode: string = '';
 
     constructor(
@@ -103,6 +106,7 @@ export class MembersReportsComponent {
         private _translateService: TranslateService,
         private _membersService: MembersService,
         private _excelService: ExcelService,
+        private dateAdapter: DateAdapter<Date>,
     ) {}
 
     @HostListener("window:resize", [])
@@ -121,10 +125,6 @@ export class MembersReportsComponent {
             }
         );
 
-        this.initializePage();
-    }
-
-    initializePage() {
         this.displayedColumns = [
             "name_display",
             "registration_date",
@@ -137,17 +137,36 @@ export class MembersReportsComponent {
             "zip_code",
             "sector"
         ]
+
+        if(this.mode == 'guests') {
+            this.dateAdapter.setLocale('es-ES');
+            this.initializeDate();
+        }
+        this.initializeSearch();
+        this.initializePage();
+    }
+
+    initializeDate() {
+        this.selectedStartDate = moment().startOf('month').format("YYYY-MM-DD");
+        this.selectedEndDate = moment().format("YYYY-MM-DD");
+        this.maxDate = moment().format("YYYY-MM-DD");
+        this.dateRange = new FormGroup({
+          start: new FormControl(this.selectedStartDate),
+          end: new FormControl( this.selectedEndDate)
+        });
+      }
+
+    initializePage() {
         if(this.mode == 'guests') {
             this.fetchGuestsReportData();
         } else if(this.mode == 'members') {
             this.fetchMembersReportData();
         }
-        this.initializeSearch();
     }
 
     fetchGuestsReportData() {
         this._membersService
-        .fetchGuestsReport(this.company?.id)
+        .fetchGuestsReport(this.company?.id, this.selectedStartDate, this.selectedEndDate)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
             (data) => {
@@ -596,8 +615,14 @@ export class MembersReportsComponent {
         if (type == "start") {
           if(moment(event?.value).isValid()) {
             this.selectedStartDate = moment(event.value).format("YYYY-MM-DD");
+            if(this.mode == 'guests') {
+                this.maxDate = moment(this.selectedStartDate).endOf('month').format("YYYY-MM-DD");
+            }
           } else {
             this.selectedStartDate = '';
+            if(this.mode == 'guests') {
+                this.maxDate = moment().format("YYYY-MM-DD");
+            }
           }
         }
         if (type == "end") {
@@ -608,7 +633,18 @@ export class MembersReportsComponent {
           }
         }
     
-        this.loadUsers(this.allUsersData);
+        if(this.mode == 'guests') {
+            if(this.selectedStartDate && this.selectedEndDate) {
+                this.initializePage();
+            }
+        } else {
+            this.loadUsers(this.allUsersData);
+        }
+    }
+
+    resetDate() {
+        this.initializeDate();
+        this.initializePage(); 
     }
 
     async open(message: string, action: string) {

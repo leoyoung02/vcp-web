@@ -13,6 +13,40 @@
                     >
                     </app-search>
                 </div>
+                <div>
+                    <select
+                        id="tutors"
+                        class="w-[250px] min-w-[250px] max-w-[250px] ml-4 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedTutor"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeTutorFilter($event)"
+                    >
+                        <option value="">{{ 'company-settings.selecttutor' | translate }}</option>
+                        <option
+                            *ngFor="let tutor of tutors"                                
+                            [value]="tutor.tutor_name"
+                        >
+                            {{ tutor.tutor_name }}
+                        </option>
+                    </select>
+                </div>
+                <div class="ml-2">
+                    <select
+                        id="students"
+                        class="w-[250px] min-w-[250px] max-w-[250px] ml-2 bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedStudent"
+                        [ngModelOptions]="{standalone: true}"
+                        (change)="changeStudentFilter($event)"
+                    >
+                        <option value="">{{ 'company-settings.selectstudent' | translate }}</option>
+                        <option
+                            *ngFor="let student of students"                                
+                            [value]="student.student_name"
+                        >
+                            {{ student?.student_name }}
+                        </option>
+                    </select>
+                </div>
             </div>
         </div>
         <div class="pt-1.5 mb-6 flex justify-end">
@@ -194,6 +228,16 @@
                                         </ng-container>
                                     </ng-container>
 
+                                    <ng-container *ngIf="!row?.stripe_connect && isTutorUser && row?.tutor_user_id == me?.id && (potTutor || potsuperTutor) && !cityAdmin" >
+                                        <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
+                                            <button (click)="confirmMarkComplete(row)" 
+                                                class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white"
+                                                [ngStyle]="{'background-color': buttonColor}"
+                                                >
+                                                {{ 'course-details.completebutton' | translate }}
+                                            </button>
+                                        </ng-container>
+                                    </ng-container>
                                     <ng-container *ngIf="cityAdmin && isTutorUser && row?.stripe_connect && row?.tutor_user_id == me?.id" >
                                         <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                             <button (click)="confirmMarkComplete(row)" 

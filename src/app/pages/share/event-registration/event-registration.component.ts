@@ -221,7 +221,6 @@ export class EventRegistrationComponent implements OnInit, OnDestroy {
 
   mapSubfeatures(data) {
     let subfeatures = data?.settings?.subfeatures;
-    console.log(subfeatures)
     if (subfeatures?.length > 0) {
       this.hasGuestRegistration = subfeatures.some(
         (a) => a.subfeature_id == 99 && a.active == 1

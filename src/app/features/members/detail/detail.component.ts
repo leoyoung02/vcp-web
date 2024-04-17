@@ -111,6 +111,7 @@ export class MemberDetailComponent {
   allRegistrationFields: any;
   allRegistrationFieldMapping: any;
   registrationFields: any = [];
+  alternativeCardDesign: boolean = false;
 
   constructor(
     private _router: Router,
@@ -214,6 +215,9 @@ export class MemberDetailComponent {
     if (subfeatures?.length > 0) {
       this.showProfileFieldsInMembers = subfeatures.some(
         (a) => a.name_en == "Show/hide fields in Member details" && a.active == 1
+      );
+      this.alternativeCardDesign = subfeatures.some(
+        (a) => a.name_en == "Alternative card design" && a.active == 1 && a.feature_id == 15
       );
     }
   }

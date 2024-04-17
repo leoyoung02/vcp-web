@@ -568,6 +568,7 @@ export const GET_CALENDLY_ACCOUNT_EVENTS_LIST = `https://api.calendly.com/event_
 export const SYNC_CALENDLY_EVENT_PLATFORM_URL = `${API_BASE}/v2/calendly/booking/sync`;
 export const STRIPE_TRANSFERS_URL = `${API_BASE}/v2/stripe/transfers`;
 export const BULK_TRANSFER_COMMISSION_IMPROVED_URL = `${API_BASE}/v2/tutor/commissions/bulk-transfer`;
+export const UPDATE_TRANSFER_QUEUE_URL = `${API_BASE}/v2/transfers/queue`;
 
 // TESTIMONIALS
 export const TESTIMONIALS_DATA_URL = `${API_BASE}/guest/testimonials-data`;
@@ -678,6 +679,7 @@ export const LEADS_LANDING_PAGE_BY_SLUG_URL = `${API_BASE}/v2/landing-page`;
 export const QUESTIONS_URL = `${API_BASE}/v2/landing-questions`;
 export const SUBMIT_QUESTION_ANSWERS_URL = `${API_BASE}/v2/landing-questions/answers/submit`;
 export const SUBMISSIONS_URL = `${API_BASE}/v2/answers`;
+export const EXPORT_ALL_SUBMISSIONS_URL = `${API_BASE}/v2/answers-all`;
 export const EDIT_QUESTION_STYLES_URL = `${API_BASE}/v2/question-styles/edit`;
 export const QUESTIONS_BY_ID_URL = `${API_BASE}/v2/landing-questions-by-id`;
 export const EDIT_QUESTION_OTHER_IMAGES_URL = `${API_BASE}/v2/question-other-images/edit`;

@@ -5,7 +5,6 @@ import {
   EventEmitter,
   Input,
   Output,
-  SimpleChange,
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { Subject } from "rxjs";
@@ -24,7 +23,7 @@ import { StarRatingComponent } from "@lib/components";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 
 @Component({
-  selector: "app-tutor-card",
+  selector: "app-member-small-card",
   standalone: true,
   imports: [
     CommonModule,
@@ -34,31 +33,31 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
     NgOptimizedImage,
     StarRatingComponent,
   ],
-  templateUrl: "./tutor.component.html",
+  templateUrl: "./member-small.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TutorCardComponent {
+export class MemberSmallCardComponent {
   private destroy$ = new Subject<void>();
 
   @Input() id: any;
   @Input() path: any;
-  @Input() image: any;
   @Input() name: any;
-  @Input() first_name: any;
-  @Input() last_name: any;
-  @Input() rating: any;
   @Input() city: any;
-  @Input() languages: any;
-  @Input() types: any;
-  @Input() page: any;
+  @Input() sector: any;
+  @Input() phone: any;
+  @Input() linkedin: any;
+  @Input() email: any;
+  @Input() references: any;
+  @Input() image: any;
+  @Input() logo: any;
   @Input() buttonColor: any;
-  @Input() showSettings: any;
-  @Input() tutorCardSmallImage: any;
-  @Output() onSettingsClick = new EventEmitter();
-  @Output() onQuestionClick = new EventEmitter();
+  @Input() page: any;
+  @Output() sendReference = new EventEmitter();
 
   languageChangeSubscription;
   language: any;
+  selectedMemberId: any;
+  readHover: boolean = false;
 
   sendIcon = faPaperPlane;
 
@@ -87,12 +86,14 @@ export class TutorCardComponent {
     
   }
 
-  handleSettingsClick() {
-    this.onSettingsClick.emit();
+  toggleReadHover(event, id) {
+    this.readHover = event;
+    this.selectedMemberId = event ? id : ''
   }
 
-  handleQuestionClick() {
-    this.onQuestionClick.emit();
+  handleSendReference() {
+    console.log('handleSendReference emit')
+    this.sendReference.emit(this.id);
   }
 
   ngOnDestroy() {

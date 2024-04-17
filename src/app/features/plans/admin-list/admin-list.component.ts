@@ -171,15 +171,15 @@ export class PlansAdminListComponent {
     initializeDate() {
       this.selectedStartDate = this.status == 'past' || this.status == 'salesprocess' ? 
         moment().add(-1, 'months').format("YYYY-MM-DD") :
-        moment().add(1, 'days').format("YYYY-MM-DD");
+        moment().format("YYYY-MM-DD");
       this.selectedEndDate = this.status == 'past' || this.status == 'salesprocess' ?
-        moment().format("YYYY-MM-DD") :
+        moment().add(-1, 'days').format("YYYY-MM-DD") :
         moment().add(1, 'months').format("YYYY-MM-DD");
       this.minDate = this.status == 'past' || this.status == 'salesprocess' ?
         moment().add(-3, 'months').format("YYYY-MM-DD") :
-        moment().add(1, 'days').format("YYYY-MM-DD");
+        moment().format("YYYY-MM-DD");
       this.maxDate = this.status == 'past' || this.status == 'salesprocess' ?
-        moment().format("YYYY-MM-DD") :
+        moment().add(-1, 'days').format("YYYY-MM-DD") :
         moment().add(3, 'months').format("YYYY-MM-DD");
       this.dateRange = new FormGroup({
         start: new FormControl(this.selectedStartDate),

@@ -2076,7 +2076,8 @@
         "footer":"Pie de página",
         "pottutor":"PotTutor",
         "memberreports": "Informes de miembros",
-        "guestreports": "Informes de invitados"
+        "guestreports": "Informes de invitados",
+        "selectstudent": "Seleccionar estudiante"
     },
     "guest-landing": {
         "templates": "Plantillas",
@@ -3274,7 +3275,9 @@
         "charged": "Cobrada 🟢",
         "moneyontheway": "Realizada. Dinero en camino ⏳. <br/>Disponible en",
         "moneyonthewaystatus": "Dinero en camino ⏳",
-        "tiktokstats": "Estadísticas de TikTok"
+        "tiktokstats": "Estadísticas de TikTok",
+        "daterangedesc": "Seleccione el rango de fechas (máximo 1 mes). Haga clic en restablecer para establecer el mes predeterminado",
+        "noratingsyet": "Aún no hay calificaciones"
     },
     "general-details": {
         "name" : "Nombre",
@@ -3349,7 +3352,10 @@
         "bookingheadertext": "Reserva fallida",
         "bookingbodytext": "Hubo un problema con la confirmación de su reserva.",
         "syncingyourbooking": "Sincronizando tu reserva...",
-        "pleasedonotclose": "Por favor, no cierre su navegador mientras procesamos su reserva."
+        "pleasedonotclose": "Por favor, no cierre su navegador mientras procesamos su reserva.",
+        "pleasedonotclosetransfer": "No cierre su navegador mientras procesamos sus transferencias.",
+        "ongoingtransfer": "Hay una transferencia existente en proceso en este momento. Vuelve a intentarlo después de unos minutos.",
+        "notprocessed": "No procesado"
     },
     "tutor-stripe": {
         "accountid": "ID de la cuenta",
@@ -3484,7 +3490,9 @@
         "uploadimages": "Subir 1 o más imágenes",
         "redirectcustomlink": "Redirigir al enlace CTA",
         "ctaLinkLabel": "Enlace de llamada a la acción",
-        "ctaLinkPlaceholder": "Ingrese el enlace CTA"
+        "ctaLinkPlaceholder": "Ingrese el enlace CTA",
+        "exportingdata": "Exportando datos...",
+        "pleasedonotcloseexport": "No cierre su navegador mientras exportamos los datos."
     },
     "credits": {
         "automatedemail": "Activar correo electrónico automatizado del historial de créditos",

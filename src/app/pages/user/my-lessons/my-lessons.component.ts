@@ -150,6 +150,10 @@ export class MyLessonsComponent {
     potTutor:any;
     showPendingLessonAlert:boolean = false;
     stripeTransfers: any = [];
+    students: any = [];
+    selectedStudent: any = '';
+    tutors: any = [];
+    selectedTutor: any = '';
 
     constructor(
         private _route: ActivatedRoute,
@@ -380,13 +384,34 @@ export class MyLessonsComponent {
                 }
                 
                 user_bookings = user_bookings?.map((booking) => {
+                    let student_name = booking?.user_name || (booking?.user_first_name + ' ' + booking?.user_last_name)
+                    if(student_name == "null null") { student_name = ''; } 
+                    let student_match = this.students?.some(
+                        (a) => a.student_name == student_name
+                      );
+                      if(!student_match && student_name) {
+                        this.students.push({
+                            student_name: student_name,
+                        })
+                    }
+
+                    let tutor_name = booking?.tutor_name
+                    let tutor_match = this.tutors?.some(
+                        (a) => a.tutor_name == tutor_name
+                    );
+                    if(!tutor_match && tutor_name) {
+                        this.tutors.push({
+                            tutor_name: tutor_name,
+                        })
+                    }
+
                     let transfer_date = booking?.completed == 1 ? this.getTransferDate(booking) : '';
 
                     return {
                         booking_date_display: moment(booking?.booking_date).format('DD/MM/YYYY'),
                         created_at_display: moment(booking?.created_at).format('DD/MM/YYYY'),
                         booking_time: `${this.getTime(booking?.booking_start_time)} - ${this.getTime(booking?.booking_end_time)}`,
-                        student_name: booking?.user_name || (booking?.user_first_name + ' ' + booking?.user_last_name),
+                        student_name,
                         course: this.getCourseTitle(booking),
                         tutor_commission: `${booking?.commission ? (booking.commission).replace('.',',') : 0}€`,
                         rating: booking?.tutor_rating,
@@ -407,6 +432,31 @@ export class MyLessonsComponent {
                         ...booking,
                     };
                 })
+
+                if(this.tutors?.length > 0) {
+                    this.tutors.sort(function (a, b) {
+                        if (a.tutor_name < b.tutor_name) {
+                            return -1;
+                        }
+                        if (a.tutor_name > b.tutor_name) {
+                            return 1;
+                        }
+                        return 0;
+                    });
+                }
+
+                if(this.students?.length > 0) {
+                    this.students.sort(function (a, b) {
+                        if (a.student_name < b.student_name) {
+                            return -1;
+                        }
+                        if (a.student_name > b.student_name) {
+                            return 1;
+                        }
+                        return 0;
+                    });
+                }
+
                 user_bookings?.sort((a, b) => {
                     const oldDate: any = new Date(a.booking_date)
                     const newDate: any = new Date(b.booking_date)
@@ -601,6 +651,18 @@ export class MyLessonsComponent {
       
               return include;
             });
+        }
+
+        if(this.selectedStudent) {
+            bookings = bookings?.filter((booking) => {
+              return booking?.student_name == this.selectedStudent
+            })
+        }
+
+        if(this.selectedTutor) {
+            bookings = bookings?.filter((booking) => {
+              return booking?.tutor_name == this.selectedTutor
+            })
         }
 
         if(this.statusFilter == 'Upcoming') {
@@ -895,7 +957,7 @@ export class MyLessonsComponent {
                         let completedLesson = response?.booking ? response.booking : '';
                         let lessonCompleted = response?.booking?.completed == 1 ? true : false
     
-                        if(lessonCompleted && !this.potTutor){
+                        if(lessonCompleted && !this.potTutor && !this.potsuperTutor){
                             let params2 = {
                                 booking_id : completedLesson?.id ? completedLesson.id : 0,
                                 course_id: completedLesson?.course_id,
@@ -916,20 +978,13 @@ export class MyLessonsComponent {
                                     if(response?.message == 'balance_insufficient' && (this.isTutorUser || this.superAdmin)){
                                         this.getBookings('refresh-action')
                                     } else {
-                                        let bookings = this.allBookings
-                                        bookings?.forEach(b => {
-                                            if(b.id == this.selectedItem.id) {
-                                                b.completed = 1
-                                            }
-                                        })
-                                        this.statusFilter = 'Completed';
-                                        this.filterBookings();
+                                        this.refreshFilter();
                                     }
                                     this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
                                 }
                             )
                         } else {
-                            this.getBookings('refresh-action')
+                            this.refreshFilter();
                             this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
                         }
                 },
@@ -938,6 +993,17 @@ export class MyLessonsComponent {
                 }
             )
         }
+    }
+
+    refreshFilter() {
+        let bookings = this.allBookings
+        bookings?.forEach(b => {
+            if(b.id == this.selectedItem.id) {
+                b.completed = 1
+            }
+        })
+        this.statusFilter = 'Completed';
+        this.filterBookings();
     }
 
     async open(message: string, action: string) {
@@ -1031,5 +1097,13 @@ export class MyLessonsComponent {
         } else {
           setTimeout(() => (this.dataSource.sort = this.sort));
         }
+    }
+
+    changeStudentFilter(event) {
+        this.filterBookings();
+    }
+
+    changeTutorFilter(event) {
+        this.filterBookings();
     }
 }
