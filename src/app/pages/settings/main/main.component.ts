@@ -1094,6 +1094,13 @@ export class MainComponent {
                 value: "GuestReports",
               });
             }
+            let export_match = mi.submenus && mi.submenus.some((a) => a.value === "Export");
+            if (!export_match) {
+              mi.submenus.push({
+                text: this._translateService.instant("company-settings.export"),
+                value: "Export",
+              });
+            }
           } else {
             let reports_match = mi.submenus && mi.submenus.some((a) => a.value === "Reports");
             if (!reports_match) {
@@ -1545,6 +1552,8 @@ export class MainComponent {
         this._router.navigate([`/reports/members`]);
       } else if(content == "GuestReports") {
         this._router.navigate([`/reports/guests`]);
+      } else if(content == "Export") {
+        this._router.navigate([`/reports/export`]);
       }
     } else if(menu.value == "Invoices" && content == "InvoicesList") {
       this._router.navigate([`/users/invoices-list`]);
