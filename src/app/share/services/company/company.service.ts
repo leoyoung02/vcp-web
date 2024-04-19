@@ -214,6 +214,8 @@ import {
   EDIT_HOME_TEMPLATE_SECTIONS_URL,
   HOME_SECTIONS_DATA_URL,
   EXPORT_ALL_SUBMISSIONS_URL,
+  DATA_SOURCE_FIELDS_URL,
+  QUERY_DATABASE_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1924,5 +1926,18 @@ export class CompanyService {
         user_id: userId,
       });
     }
+  }
+
+  getDataSourceFields(id): Observable<any> {
+    return this._http.get(`${DATA_SOURCE_FIELDS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  queryDatabase(payload): Observable<any> {
+    return this._http.post(QUERY_DATABASE_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

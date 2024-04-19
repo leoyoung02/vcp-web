@@ -105,6 +105,8 @@ export const EDIT_KEAP_INTEGRATION_URL = `${API_BASE}/keap/integration/edit`;
 export const DELETE_KEAP_INTEGRATION_URL = `${API_BASE}/keap/integration/delete`;
 export const SUBMIT_SUPPORT_TICKET_URL = `${API_BASE}/company/ticket/create`;
 export const CREATE_TICKET_REPLY_URL = `${API_BASE}/company/ticket/reply/create`;
+export const DATA_SOURCE_FIELDS_URL = `${API_BASE}/company/database/data-source/fields`;
+export const QUERY_DATABASE_URL = `${API_BASE}/company/database/query`;
 
 export const LISTS_MANAGEMENT_DATA_URL = `${API_BASE}/v2/lists-management-data`;
 export const MANAGE_MEMBER_TYPES_DATA_URL = `${API_BASE}/v2/manage-member-types-data`;
