@@ -470,7 +470,10 @@
                     <ng-container *ngIf="hasCourseVideoComments && (selectedUnit?.Company_Course_Unit_Type?.type == 'video' && (canAccessLesson() || superAdmin))">
                         <div class="my-4">
                             <!-- TODO Video Comments -->
-                            <app-comments></app-comments>
+                            <app-comments
+                                [list]="commentsList"
+                                [superAdmin]="superAdmin">
+                            </app-comments>
                         </div>
                     </ng-container>
                 </div>

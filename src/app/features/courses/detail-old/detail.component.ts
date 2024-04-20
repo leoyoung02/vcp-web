@@ -234,6 +234,8 @@ export class CourseDetailComponent {
   afterModuleAssessments: any = [];
   hasCourseVideoComments: boolean = false;
 
+  commentsList: any = [];
+
   constructor(
     private _router: Router,
     private _coursesService: CoursesService,
@@ -447,6 +449,10 @@ export class CourseDetailComponent {
       this.onlyAssignedTutorAccess = subfeatures.some(a => a.name_en == 'Tutors assigned to courses' && a.active == 1);
       this.hasCourseCreditSetting = subfeatures.some(a => a.name_en == 'Credits' && a.active == 1 && a.feature_id == 11);
       this.hasCourseVideoComments = subfeatures.some(a => a.name_en == 'Course video comments' && a.active == 1 && a.feature_id == 11);
+
+      if(this.hasCourseVideoComments) {
+        this.initializeCommentsList();
+      }
     }
   }
 
@@ -1758,6 +1764,57 @@ export class CourseDetailComponent {
     }
 
     return result;
+  }
+
+  initializeCommentsList() {
+    this.commentsList = [
+      {
+        id: 1,
+        author_name: 'Michael Gough',
+        display_date: '18 de Febrero, 2024',
+        date: "2024-02-18",
+        image: 'https://flowbite.com/docs/images/people/profile-picture-2.jpg',
+        likes: 22,
+        comment: 'Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy.',
+        current_user_image: 'https://wendyhamel.github.io/FmInteractiveCommentsSection/images/avatars/image-juliusomo.png',
+        current_user_name: "Julius",
+        replies: [
+          {
+            id: 2,
+            author_name: 'Jese Leos',
+            display_date: '12 de Febrero, 2024',
+            date: "2024-02-12",
+            image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
+            likes: 0,
+            comment: 'Much appreciated! Glad you liked it ☺️',
+            current_user_image: 'https://wendyhamel.github.io/FmInteractiveCommentsSection/images/avatars/image-juliusomo.png',
+            current_user_name: "Julius"
+          },
+        ]
+      },
+      {
+        id: 3,
+        author_name: 'Bonnie Green',
+        display_date: '12 de Enero, 2024',
+        date: "2024-01-12",
+        image: 'https://flowbite.com/docs/images/people/profile-picture-3.jpg',
+        likes: 0,
+        comment: 'The article covers the essentials, challenges, myths and stages the UX designer should consider while creating the design strategy.',
+        current_user_image: 'https://wendyhamel.github.io/FmInteractiveCommentsSection/images/avatars/image-juliusomo.png',
+        current_user_name: "Julius"
+      },
+      {
+        id: 4,
+        author_name: 'Helene Engels',
+        display_date: '23 de Diciembre, 2023',
+        date: "2023-12-23",
+        image: 'https://flowbite.com/docs/images/people/profile-picture-4.jpg',
+        likes: 0,
+        comment: 'Thanks for sharing this. I do came from the Backend development and explored some of the tools to design my Side Projects.',
+        current_user_image: 'https://wendyhamel.github.io/FmInteractiveCommentsSection/images/avatars/image-juliusomo.png',
+        current_user_name: "Julius"
+      }
+    ]
   }
 
   handleGoBack() {
