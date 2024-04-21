@@ -96,6 +96,10 @@ export class MemberSmallCardComponent {
     this.sendReference.emit(this.id);
   }
 
+  audioCall() {
+    
+  }
+
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
