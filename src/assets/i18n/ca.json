@@ -617,7 +617,8 @@
         "canvadesc1": "Per inserir el vídeo de Canva a la descripció, utilitzeu",
         "canvadesc2": "on l'enllaç és l'Smartlink quan feu clic a Compartir > Incrustar a Canva.",
         "vidalyticsdesc1": "Per inserir el vídeo de Vidalytics a la descripció, utilitzeu",
-        "vidalyticsdesc2": "on l'enllaç és l'identificador del vídeo."
+        "vidalyticsdesc2": "on l'enllaç és l'identificador del vídeo.",
+        "chat": "Xatejar"
     },
     "ranking": {
         "pointsyouhave": "Punts que tens",

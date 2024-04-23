@@ -35,6 +35,8 @@ import { initFlowbite } from "flowbite";
 export class CommentsComponent {
   private destroy$ = new Subject<void>();
 
+  @Input() private: any;
+  @Input() joinedMember: any;
   @Input() newComment: any;
   @Input() list: any;
   @Input() superAdmin: any;
@@ -81,6 +83,16 @@ export class CommentsComponent {
     if (listChange?.currentValue?.length > 0) {
       let list = listChange.currentValue;
       this.list = list;
+    }
+
+    let privateChange = changes["private"];
+    if (privateChange?.previousValue != privateChange?.currentValue) {
+      this.private = privateChange.currentValue;
+    }
+
+    let joinedMemberChange = changes["joinedMember"];
+    if (joinedMemberChange?.previousValue != joinedMemberChange?.currentValue) {
+      this.joinedMember = joinedMemberChange.currentValue;
     }
   }
 

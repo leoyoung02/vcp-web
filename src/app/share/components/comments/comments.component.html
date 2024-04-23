@@ -1,9 +1,9 @@
 <section class="bg-white dark:bg-gray-900 py-8 antialiased">
     <div class="w-full mx-auto">
         <div class="flex justify-between items-center mb-6">
-            <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">{{list?.length > 0 ? (list?.length + ' ') : ''}}{{'plan-details.comments' | translate}}</h2>
+            <h2 class="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">{{list?.length > 0 ? (list?.length + ' ') : ''}}{{list?.length > 1 ? ('plan-details.comments' | translate) : ('crm.comment' | translate)}}</h2>
         </div>
-        <form class="mb-6">
+        <form class="mb-6" *ngIf="superAdmin || (private == 1 && joinedMember) || (private != 1)">
             <div
                 class="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                 <label for="comment" class="sr-only">Your comment</label>
@@ -14,8 +14,12 @@
                     [ngModelOptions]="{standalone: true}" 
                     required></textarea>
             </div>
-            <button (click)="handleComment()"
-                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800">
+            <button 
+                (click)="handleComment()"
+                [ngClass]="{'opacity-80': !newComment}"
+                class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800"
+                [disabled]="!newComment"
+            >
                 {{ 'crm.comment' | translate }}
             </button>
         </form>
@@ -59,7 +63,8 @@
                     </div>
                 </footer>
                 <p class="text-gray-500 dark:text-gray-400">{{ item?.comment }}</p>
-                <div class="flex items-center mt-4 space-x-4">
+                <div class="flex items-center mt-4 space-x-4" 
+                    *ngIf="superAdmin || (private == 1 && joinedMember) || (private != 1)">
                     <button (click)="handleShowReply(item)" type="button"
                         class="flex items-center text-sm text-gray-500 hover:underline dark:text-gray-400 font-medium">
                         <svg class="mr-1.5 w-3.5 h-3.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
@@ -86,7 +91,10 @@
                         <img class="w-8 h-8 shrink-0 md:w-10 md:h-10 rounded-full" [src]="item.current_user_image" [alt]="item.current_user_name">
                     </div>
                     <div class="flex justify-end md:block md:col-start-4">
-                        <button (click)="handleChildComment(item)" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800" type="submit">
+                        <button 
+                            [ngClass]="{'opacity-80': !childComment}"
+                            [disabled]="!childComment"
+                            (click)="handleChildComment(item)" class="inline-flex items-center py-2.5 px-4 text-xs font-medium text-center text-white bg-blue-600 rounded-lg focus:ring-4 focus:ring-primary-200 dark:focus:ring-primary-900 hover:bg-primary-800" type="submit">
                             <span>{{ 'wall.reply' | translate }}</span>
                         </button>
                     </div>

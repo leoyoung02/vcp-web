@@ -1784,7 +1784,6 @@ export class CourseDetailComponent {
       .subscribe(
         (data) => {
           this.commentsList = this.formatComments(data.comments, data.user);
-          console.log(this.commentsList);
           this.cd.detectChanges();
         },
         (error) => {
@@ -1878,8 +1877,6 @@ export class CourseDetailComponent {
   }
 
   handleReactToComment(event) {
-    console.log('handleReactToComment')
-    console.log(event)
     let current_user_reaction = event?.reactions?.filter(react => {
       return react.user_id == this.userId
     })
