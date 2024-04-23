@@ -467,12 +467,20 @@
                             </div>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="hasCourseVideoComments && (selectedUnit?.Company_Course_Unit_Type?.type == 'video' && (canAccessLesson() || superAdmin))">
+                    <ng-container *ngIf="showComments && hasCourseVideoComments && (selectedUnit?.Company_Course_Unit_Type?.type == 'video' && (canAccessLesson() || superAdmin))">
                         <div class="my-4">
                             <!-- TODO Video Comments -->
                             <app-comments
+                                [newComment]="newComment"
                                 [list]="commentsList"
-                                [superAdmin]="superAdmin">
+                                [superAdmin]="superAdmin"
+                                [primaryColor]="primaryColor"
+                                [buttonColor]="buttonColor"
+                                (addComment)="handleAddComment($event)"
+                                (addChildComment)="handleAddChildComment($event)"
+                                (deleteComment)="handleDeleteComment($event)"
+                                (deleteChildComment)="handleDeleteChildComment($event)"
+                                (reactToComment)="handleReactToComment($event)">
                             </app-comments>
                         </div>
                     </ng-container>
@@ -574,3 +582,14 @@
         </div>
     </div>
 </div> 
+<app-toast 
+    *ngIf="showConfirmationModal" 
+    [company]="company" 
+    [update]="false" 
+    [confirm]="true"
+    [title]="confirmDeleteItemTitle"
+    [description]="confirmDeleteItemDescription"
+    [acceptText]="acceptText"
+    [cancelText]="cancelText"
+    (onAccept)="confirm()"
+></app-toast>

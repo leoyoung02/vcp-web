@@ -216,6 +216,11 @@ import {
   EXPORT_ALL_SUBMISSIONS_URL,
   DATA_SOURCE_FIELDS_URL,
   QUERY_DATABASE_URL,
+  MODULE_COMMENTS_URL,
+  ADD_MODULE_COMMENT_URL,
+  EDIT_MODULE_COMMENT_URL,
+  REACT_MODULE_COMMENT_URL,
+  DELETE_MODULE_COMMENT_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1938,6 +1943,39 @@ export class CompanyService {
     return this._http.post(QUERY_DATABASE_URL,
         payload,
         { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  fetchComments(id, userId, mode): Observable<any> {
+    return this._http.get(
+      `${MODULE_COMMENTS_URL}/${id}/${userId}/${mode}`,
+      { headers: this.headers }
+    )
+    .pipe(map(res => res));
+  }
+
+  addModuleComment(payload): Observable<any> {
+    return this._http.post(ADD_MODULE_COMMENT_URL, payload, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  editModuleComment(payload): Observable<any> {
+    return this._http.put(EDIT_MODULE_COMMENT_URL, payload, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  deleteModuleComment(id): Observable<any> {
+    return this._http.delete(
+        `${DELETE_MODULE_COMMENT_URL}/${id}`,
+        {},
+    ).pipe(map(res => res));
+  }
+
+  reactToModuleComment(payload): Observable<any> {
+    return this._http.post(REACT_MODULE_COMMENT_URL, payload, { 
+      headers: this.headers }
     ).pipe(map(res => res));
   }
 }

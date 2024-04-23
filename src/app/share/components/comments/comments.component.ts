@@ -2,7 +2,10 @@ import { CommonModule, NgOptimizedImage } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
-  Input
+  EventEmitter,
+  Input,
+  Output,
+  SimpleChange
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { Subject } from "rxjs";
@@ -32,11 +35,20 @@ import { initFlowbite } from "flowbite";
 export class CommentsComponent {
   private destroy$ = new Subject<void>();
 
+  @Input() newComment: any;
   @Input() list: any;
   @Input() superAdmin: any;
+  @Input() primaryColor: any;
+  @Input() buttonColor: any;
+  @Output() addComment = new EventEmitter();
+  @Output() addChildComment = new EventEmitter();
+  @Output() deleteComment = new EventEmitter();
+  @Output() deleteChildComment = new EventEmitter();
+  @Output() reactToComment = new EventEmitter();
 
   languageChangeSubscription;
   language: any;
+  childComment: any;
 
   constructor(
     private _translateService: TranslateService,
@@ -59,8 +71,61 @@ export class CommentsComponent {
     this.formatData();
   }
 
+  ngOnChanges(changes: SimpleChange) {
+    let newCommentChange = changes["newComment"];
+    if (newCommentChange?.previousValue != newCommentChange?.currentValue) {
+      this.newComment = newCommentChange.currentValue;
+    }
+
+    let listChange = changes["list"];
+    if (listChange?.currentValue?.length > 0) {
+      let list = listChange.currentValue;
+      this.list = list;
+    }
+  }
+
   formatData() {
     
+  }
+
+  handleComment() {
+    this.addComment.emit(this.newComment);
+  }
+
+  handleDeleteComment(item) {
+    this.deleteComment.emit(item);
+  }
+
+  handleReactToComment(item) {
+    this.reactToComment.emit(item);
+  }
+
+  handleShowReply(item) {
+    if(this.list?.length > 0) {
+      this.list?.forEach(l => {
+        if(l.id == item.id) {
+          l.show_reply = !l.show_reply;
+        }
+      })
+    }
+  }
+
+  handleChildComment(item) {
+    let payload = {
+      item,
+      child_comment: this.childComment
+    }
+    this.addChildComment.emit(payload);
+    setTimeout(() => {
+      this.childComment = '';
+    }, 500)
+  }
+
+  handleDeleteChildComment(parent_comment_id, child_comment_id) {
+    this.deleteChildComment.emit({
+      parent_comment_id, 
+      child_comment_id
+    });
   }
 
   ngOnDestroy() {

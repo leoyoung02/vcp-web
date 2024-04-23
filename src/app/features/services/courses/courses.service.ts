@@ -418,6 +418,7 @@ export class CoursesService {
     formData.append( 'wall_status', params.wall_status);
     formData.append( 'buy_now_button_color', params.buy_now_button_color || '' );
     formData.append( 'school_of_life', params.school_of_life );
+    formData.append( 'show_comments', params.show_comments );
 
     if(params.group_id > 0) {
       formData.append( 'group_id', params.group_id);

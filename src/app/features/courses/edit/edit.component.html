@@ -411,6 +411,34 @@
                                 </div>
                             </div>
                         </div>
+                        <div *ngIf="hasCourseVideoComments" class="flex items-center justify-center relative">
+                            <div class="w-full max-w-full">
+                                <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ 'plan-details.comments' | translate }}
+                                </label>
+                                <div class="flex items-center">
+                                    <div class="flex items-center justify-between relative">
+                                        <label
+                                            for="setting-20"
+                                            class="flex items-center w-full justify-between cursor-pointer"
+                                        >
+                                            <div class="relative mr-1">
+                                                <input
+                                                    id="setting-20"
+                                                    name="setting-20"
+                                                    type="checkbox"
+                                                    class="sr-only"
+                                                    [(ngModel)]="showComments" 
+                                                    [ngModelOptions]="{standalone: true}"
+                                                />
+                                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <ng-container *ngIf="hasCoursePayment && !hotmartProductId">
                             <div class="flex items-center justify-center relative">
                                 <div class="w-full max-w-full">

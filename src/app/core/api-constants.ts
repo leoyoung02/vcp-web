@@ -124,6 +124,11 @@ export const EDIT_FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings/edit`;
 export const HOME_PERSONALIZE_SETTINGS_URL = `${API_BASE}/v2/home/personalize/settings`;
 export const ACTIVATE_HOME_TEMPLATE_URL = `${API_BASE}/v2/home/personalize/template/edit`;
 export const EDIT_HOME_TEMPLATE_SECTIONS_URL = `${API_BASE}/v2/home/personalize/sections/edit`;
+export const MODULE_COMMENTS_URL = `${API_BASE}/v2/comments`;
+export const ADD_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/add`;
+export const EDIT_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/edit`;
+export const DELETE_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/delete`;
+export const REACT_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/react`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;

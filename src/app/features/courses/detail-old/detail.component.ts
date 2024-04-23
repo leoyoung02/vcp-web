@@ -51,6 +51,7 @@ import get from "lodash/get";
     SafeContentHtmlPipe,
     AssessmentComponent,
     CommentsComponent,
+    ToastComponent,
   ],
   templateUrl: './detail.component.html'
 })
@@ -235,7 +236,9 @@ export class CourseDetailComponent {
   hasCourseVideoComments: boolean = false;
 
   commentsList: any = [];
-
+  newComment: any = '';
+  showComments: boolean = false;
+  
   constructor(
     private _router: Router,
     private _coursesService: CoursesService,
@@ -472,6 +475,7 @@ export class CourseDetailComponent {
     this.courseTitle =this.getCourseTitle(this.course);
     this.courseDescription = this.getCourseDescription(this.course);
     this.courseImage = `${COURSE_IMAGE_URL}/${this.course?.image}`;
+    this.showComments = this.course?.show_comments == 1 ? true : false;
 
     if(this.course) {
       this.coursePoints = this.course.course_users && this.course.course_users[0] ? ((parseInt(this.course.course_users[0].progress) * parseInt(this.course.points)) / 100) : 0;
@@ -1095,6 +1099,7 @@ export class CourseDetailComponent {
       this.selectUnit(previous_unit)
     }
   }
+
   goToNextLesson() {
     let current_unit_index = 0
     if(this.course.course_units) {
@@ -1675,7 +1680,13 @@ export class CourseDetailComponent {
   }
 
   confirm() {
-    this.deleteCourse(this.id, true);
+    if(this.confirmMode == 'deletecomment') {
+      this.deleteComment(this.selectedItem, true);
+    } else if(this.confirmMode == 'deletechildcomment') {
+      this.deleteChildComment(this.selectedItem, true);
+    } else {
+      this.deleteCourse(this.id, true);
+    }
   }
 
   deleteCourse(id, confirmed) {
@@ -1767,54 +1778,234 @@ export class CourseDetailComponent {
   }
 
   initializeCommentsList() {
-    this.commentsList = [
-      {
-        id: 1,
-        author_name: 'Michael Gough',
-        display_date: '18 de Febrero, 2024',
-        date: "2024-02-18",
-        image: 'https://flowbite.com/docs/images/people/profile-picture-2.jpg',
-        likes: 22,
-        comment: 'Very straight-to-point article. Really worth time reading. Thank you! But tools are just the instruments for the UX designers. The knowledge of the design tools are as important as the creation of the design strategy.',
-        current_user_image: 'https://wendyhamel.github.io/FmInteractiveCommentsSection/images/avatars/image-juliusomo.png',
-        current_user_name: "Julius",
-        replies: [
-          {
-            id: 2,
-            author_name: 'Jese Leos',
-            display_date: '12 de Febrero, 2024',
-            date: "2024-02-12",
-            image: 'https://flowbite.com/docs/images/people/profile-picture-5.jpg',
-            likes: 0,
-            comment: 'Much appreciated! Glad you liked it ☺️',
-            current_user_image: 'https://wendyhamel.github.io/FmInteractiveCommentsSection/images/avatars/image-juliusomo.png',
-            current_user_name: "Julius"
-          },
-        ]
-      },
-      {
-        id: 3,
-        author_name: 'Bonnie Green',
-        display_date: '12 de Enero, 2024',
-        date: "2024-01-12",
-        image: 'https://flowbite.com/docs/images/people/profile-picture-3.jpg',
-        likes: 0,
-        comment: 'The article covers the essentials, challenges, myths and stages the UX designer should consider while creating the design strategy.',
-        current_user_image: 'https://wendyhamel.github.io/FmInteractiveCommentsSection/images/avatars/image-juliusomo.png',
-        current_user_name: "Julius"
-      },
-      {
-        id: 4,
-        author_name: 'Helene Engels',
-        display_date: '23 de Diciembre, 2023',
-        date: "2023-12-23",
-        image: 'https://flowbite.com/docs/images/people/profile-picture-4.jpg',
-        likes: 0,
-        comment: 'Thanks for sharing this. I do came from the Backend development and explored some of the tools to design my Side Projects.',
-        current_user_image: 'https://wendyhamel.github.io/FmInteractiveCommentsSection/images/avatars/image-juliusomo.png',
-        current_user_name: "Julius"
+    this._companyService
+      .fetchComments(this.companyId, this.userId, 'course')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          this.commentsList = this.formatComments(data.comments, data.user);
+          console.log(this.commentsList);
+          this.cd.detectChanges();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  formatComments(comments, user) {
+    let data;
+    data = comments.map((comment, index) => {
+      return {
+        author_name: comment.name,
+        display_date: moment(comment.created_at).locale(this.language).format('DD MMMM, YYYY HH:mm A'),
+        date: moment(comment.created_at).format('YYYY-MM-DD'),
+        author_image: `${this.apiPath}/${comment.image}`,
+        likes: comment?.reactions?.length,
+        show_reply: false,
+        current_user_image: `${this.apiPath}/${user.image}`,
+        current_user_name: user.first_name ? `${user.first_name} ${user.last_name}` : user.name,
+        ...comment
       }
-    ]
+    })
+
+    return data;
+  }
+
+  handleAddComment(event) {
+    this.newComment = event;
+    this._companyService.addModuleComment({ 
+      company_id: this.companyId, 
+      user_id: this.userId, 
+      object: 'course', 
+      object_id: this.id,
+      parent_comment_id: null,
+      comment: this.newComment,
+    }).subscribe(
+      (response) => {
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+        this.newComment = '';
+        this.initializeCommentsList();
+      }
+    )
+  } 
+
+  handleDeleteComment(event) {
+    if(event) {
+      this.showConfirmationModal = false;
+      this.selectedItem = event;
+      this.confirmMode = 'deletecomment';
+      this.confirmDeleteItemTitle = this._translateService.instant(
+          "dialog.confirmdelete"
+      );
+      this.confirmDeleteItemDescription = this._translateService.instant(
+          "dialog.confirmdeleteitem"
+      );
+      this.acceptText = "OK";
+      setTimeout(() => (this.showConfirmationModal = true));
+    }
+  }
+
+  deleteComment(id, confirmed) {
+    if(confirmed) {
+      this._companyService.deleteModuleComment(id).subscribe(
+        response => {
+          this.showConfirmationModal = false;
+          let all_comments = this.commentsList;
+            if (all_comments?.length > 0) {
+              all_comments.forEach((comment, index) => {
+                if (comment.id == this.selectedItem) {
+                  all_comments.splice(index, 1);
+                }
+            });
+          }
+          
+          this.open(this._translateService.instant('dialog.deletedsuccessfully'), '');
+          this.commentsList = [];
+          setTimeout(() => {
+            this.commentsList = all_comments;
+            this.cd.detectChanges();
+          }, 100)
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
+  }
+
+  handleReactToComment(event) {
+    console.log('handleReactToComment')
+    console.log(event)
+    let current_user_reaction = event?.reactions?.filter(react => {
+      return react.user_id == this.userId
+    })
+
+    let mode = current_user_reaction?.length > 0 ? 'unlike' : 'like'
+    let params = {
+      company_id: this.companyId, 
+      user_id: this.userId, 
+      comment_id: event.id,
+      heart: current_user_reaction?.length > 0 ? null : 1,
+      mode,
+    }
+    this._companyService.reactToModuleComment(params).subscribe(
+      response => {
+        this.showConfirmationModal = false;
+        let all_comments = this.commentsList;
+          if (all_comments?.length > 0) {
+            all_comments.forEach((comment, index) => {
+              if (comment.id == event.id) {
+                if(mode == 'like') {
+                  let reactions = comment.reactions || [];
+                  reactions.push({
+                    comment_id: comment.id,
+                    company_id: comment.company_id,
+                    created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+                    heart: 1,
+                    id: 100,
+                    updated_at: null,
+                    user_id: this.userId,
+                  })
+                  comment.reactions = reactions;
+                  comment.likes = reactions?.length;
+                } else if(mode == 'unlike') {
+                  if(comment.reactions?.length > 0) {
+                    comment.reactions.forEach((rxn, idx) => {
+                      if(rxn.user_id == this.userId && rxn.comment_id == comment.id) {
+                        comment.reactions.splice(idx, 1);
+                      }
+                    })
+                  }
+                  comment.likes = comment.reactions?.length
+                }
+              }
+          });
+        }
+        
+        this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+        this.commentsList = [];
+        setTimeout(() => {
+          this.commentsList = all_comments;
+          this.cd.detectChanges();
+        }, 100)
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  handleAddChildComment(event) {
+    this.newComment = event?.child_comment;
+    this._companyService.addModuleComment({ 
+      company_id: this.companyId, 
+      user_id: this.userId, 
+      object: 'course', 
+      object_id: this.id,
+      parent_comment_id: event.item.id,
+      comment: this.newComment,
+    }).subscribe(
+      (response) => {
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+        this.newComment = '';
+        this.initializeCommentsList();
+      }
+    )
+  } 
+
+  handleDeleteChildComment(event) {
+    if(event) {
+      this.showConfirmationModal = false;
+      this.selectedItem = event;
+      this.confirmMode = 'deletechildcomment';
+      this.confirmDeleteItemTitle = this._translateService.instant(
+          "dialog.confirmdelete"
+      );
+      this.confirmDeleteItemDescription = this._translateService.instant(
+          "dialog.confirmdeleteitem"
+      );
+      this.acceptText = "OK";
+      setTimeout(() => (this.showConfirmationModal = true));
+    }
+  }
+
+  deleteChildComment(id, confirmed) {
+    if(confirmed) {
+      this._companyService.deleteModuleComment(id.child_comment_id).subscribe(
+        response => {
+          this.showConfirmationModal = false;
+          let all_comments = this.commentsList;
+            if (all_comments?.length > 0) {
+              all_comments.forEach((comment, index) => {
+                if (comment.replies?.length > 0) {
+                  comment?.replies?.forEach((reply, idx) => {
+                    if(reply.id == id.child_comment_id) {
+                      comment?.replies.splice(idx, 1);
+                    }
+                  })
+                }
+            });
+          }
+          
+          this.open(this._translateService.instant('dialog.deletedsuccessfully'), '');
+          this.commentsList = [];
+          setTimeout(() => {
+            this.commentsList = all_comments;
+            this.cd.detectChanges();
+          }, 100)
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
   }
 
   handleGoBack() {
