@@ -3848,6 +3848,9 @@ export class ManageUsersComponent {
 
       let formData = [];
       formData = this.userForm?.value;
+      if(formData['city'] == '' && this.userRoleType == 'Admin SEDE' && this.adminSedeCity) {
+        formData['city'] = this.adminSedeCity
+      }
       formData["user_role"] = user_role;
       (formData["gar_thematic_group"] = 0), (formData["user_id"] = this.userId);
       formData["custom_member_type_id"] = this.hasCustomMemberTypeSettings
