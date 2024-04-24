@@ -5,6 +5,7 @@ import {
   Input,
   ViewChild,
   SecurityContext,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { DomSanitizer } from "@angular/platform-browser";
 import { Router } from "@angular/router";
@@ -17,6 +18,7 @@ import {
 } from "@ngx-translate/core";
 import {
   BreadcrumbComponent,
+  CommentsComponent,
   ListShowcaseComponent,
   PageTitleComponent,
   ToastComponent,
@@ -45,6 +47,7 @@ import get from "lodash/get";
     ToastComponent,
     ListShowcaseComponent,
     PageTitleComponent,
+    CommentsComponent,
   ],
   templateUrl: "./detail.component.html",
 })
@@ -220,6 +223,12 @@ export class ClubDetailComponent {
   clubMembers: any[] = [];
   hasMembers: boolean = false;
 
+  hasGroupChat: boolean = false;
+  showChat: boolean = false;
+  commentsList: any = [];
+  newComment: any = '';
+  showComments: boolean = false;
+
   constructor(
     private _router: Router,
     private _clubsService: ClubsService,
@@ -229,7 +238,8 @@ export class ClubDetailComponent {
     private _localService: LocalService,
     private _location: Location,
     private _snackBar: MatSnackBar,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private cd: ChangeDetectorRef
   ) {}
 
   async ngOnInit() {
@@ -395,6 +405,13 @@ export class ClubDetailComponent {
       this.blockResponseToComments = subfeatures.some(
         (a) => a.name_en == "Block response to comments" && a.active == 1
       );
+      this.hasGroupChat = subfeatures.some(
+        (a) => a.name_en == 'Group chat' && a.active == 1
+      );
+
+      if(this.hasGroupChat) {
+        this.initializeCommentsList();
+      }
     }
 
     localStorage.setItem("show_past_events", this.showPastEvents ? "1" : "0");
@@ -773,6 +790,7 @@ export class ClubDetailComponent {
     this.groupMemberCount = this.members.length;
     this.joinedMember = this.isUserJoined(this.members);
     this.emailTo = `mailto:?Subject=Inquiries&body=` + window.location.href;
+    this.showChat = this.group?.show_chat == 1 ? true : false;
 
     setTimeout(() => {
       initFlowbite();
@@ -1295,7 +1313,11 @@ export class ClubDetailComponent {
       this.showConfirmationModal = false;
     } else if (this.confirmMode == "club") {
       this.deleteGroup(this.selectedItem, true);
-    }
+    } else if(this.confirmMode == 'deletecomment') {
+      this.deleteChat(this.selectedItem, true);
+    } else if(this.confirmMode == 'deletechildcomment') {
+      this.deleteChildChat(this.selectedItem, true);
+    } 
   }
 
   deleteComment(id, confirmed) {
@@ -1425,6 +1447,237 @@ export class ClubDetailComponent {
   goToMemberProfilePage(member) {
     if(this.hasMembers) {
       this._router.navigate([`/members/details/${member?.user_id}`])
+    }
+  }
+
+  initializeCommentsList() {
+    this._companyService
+      .fetchComments(this.companyId, this.userId, 'club')
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          this.commentsList = this.formatComments(data.comments, data.user);
+          console.log(this.commentsList);
+          this.cd.detectChanges();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  formatComments(comments, user) {
+    let data;
+    data = comments.map((comment, index) => {
+      return {
+        mode: 'club',
+        private: this.group?.private,
+        author_name: comment.name,
+        display_date: moment(comment.created_at).locale(this.language).format('DD MMMM, YYYY HH:mm A'),
+        date: moment(comment.created_at).format('YYYY-MM-DD'),
+        author_image: `${this.apiPath}/${comment.image}`,
+        likes: comment?.reactions?.length,
+        show_reply: false,
+        current_user_image: `${this.apiPath}/${user.image}`,
+        current_user_name: user.first_name ? `${user.first_name} ${user.last_name}` : user.name,
+        ...comment
+      }
+    })
+
+    return data;
+  }
+
+  handleAddComment(event) {
+    this.newComment = event;
+    this._companyService.addModuleComment({ 
+      company_id: this.companyId, 
+      user_id: this.userId, 
+      object: 'club', 
+      object_id: this.id,
+      parent_comment_id: null,
+      comment: this.newComment,
+    }).subscribe(
+      (response) => {
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+        this.newComment = '';
+        this.initializeCommentsList();
+      }
+    )
+  } 
+
+  handleDeleteComment(event) {
+    if(event) {
+      this.showConfirmationModal = false;
+      this.selectedItem = event;
+      this.confirmMode = 'deletecomment';
+      this.confirmDeleteItemTitle = this._translateService.instant(
+          "dialog.confirmdelete"
+      );
+      this.confirmDeleteItemDescription = this._translateService.instant(
+          "dialog.confirmdeleteitem"
+      );
+      this.acceptText = "OK";
+      setTimeout(() => (this.showConfirmationModal = true));
+    }
+  }
+
+  deleteChat(id, confirmed) {
+    if(confirmed) {
+      this._companyService.deleteModuleComment(id).subscribe(
+        response => {
+          this.showConfirmationModal = false;
+          let all_comments = this.commentsList;
+            if (all_comments?.length > 0) {
+              all_comments.forEach((comment, index) => {
+                if (comment.id == this.selectedItem) {
+                  all_comments.splice(index, 1);
+                }
+            });
+          }
+          
+          this.open(this._translateService.instant('dialog.deletedsuccessfully'), '');
+          this.commentsList = [];
+          setTimeout(() => {
+            this.commentsList = all_comments;
+            this.cd.detectChanges();
+          }, 100)
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
+  }
+
+  handleReactToComment(event) {
+    let current_user_reaction = event?.reactions?.filter(react => {
+      return react.user_id == this.userId
+    })
+
+    let mode = current_user_reaction?.length > 0 ? 'unlike' : 'like'
+    let params = {
+      company_id: this.companyId, 
+      user_id: this.userId, 
+      comment_id: event.id,
+      heart: current_user_reaction?.length > 0 ? null : 1,
+      mode,
+    }
+    this._companyService.reactToModuleComment(params).subscribe(
+      response => {
+        this.showConfirmationModal = false;
+        let all_comments = this.commentsList;
+          if (all_comments?.length > 0) {
+            all_comments.forEach((comment, index) => {
+              if (comment.id == event.id) {
+                if(mode == 'like') {
+                  let reactions = comment.reactions || [];
+                  reactions.push({
+                    comment_id: comment.id,
+                    company_id: comment.company_id,
+                    created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+                    heart: 1,
+                    id: 100,
+                    updated_at: null,
+                    user_id: this.userId,
+                  })
+                  comment.reactions = reactions;
+                  comment.likes = reactions?.length;
+                } else if(mode == 'unlike') {
+                  if(comment.reactions?.length > 0) {
+                    comment.reactions.forEach((rxn, idx) => {
+                      if(rxn.user_id == this.userId && rxn.comment_id == comment.id) {
+                        comment.reactions.splice(idx, 1);
+                      }
+                    })
+                  }
+                  comment.likes = comment.reactions?.length
+                }
+              }
+          });
+        }
+        
+        this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+        this.commentsList = [];
+        setTimeout(() => {
+          this.commentsList = all_comments;
+          this.cd.detectChanges();
+        }, 100)
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  handleAddChildComment(event) {
+    this.newComment = event?.child_comment;
+    this._companyService.addModuleComment({ 
+      company_id: this.companyId, 
+      user_id: this.userId, 
+      object: 'club', 
+      object_id: this.id,
+      parent_comment_id: event.item.id,
+      comment: this.newComment,
+    }).subscribe(
+      (response) => {
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+        this.newComment = '';
+        this.initializeCommentsList();
+      }
+    )
+  } 
+
+  handleDeleteChildComment(event) {
+    if(event) {
+      this.showConfirmationModal = false;
+      this.selectedItem = event;
+      this.confirmMode = 'deletechildcomment';
+      this.confirmDeleteItemTitle = this._translateService.instant(
+          "dialog.confirmdelete"
+      );
+      this.confirmDeleteItemDescription = this._translateService.instant(
+          "dialog.confirmdeleteitem"
+      );
+      this.acceptText = "OK";
+      setTimeout(() => (this.showConfirmationModal = true));
+    }
+  }
+
+  deleteChildChat(id, confirmed) {
+    if(confirmed) {
+      this._companyService.deleteModuleComment(id.child_comment_id).subscribe(
+        response => {
+          this.showConfirmationModal = false;
+          let all_comments = this.commentsList;
+            if (all_comments?.length > 0) {
+              all_comments.forEach((comment, index) => {
+                if (comment.replies?.length > 0) {
+                  comment?.replies?.forEach((reply, idx) => {
+                    if(reply.id == id.child_comment_id) {
+                      comment?.replies.splice(idx, 1);
+                    }
+                  })
+                }
+            });
+          }
+          
+          this.open(this._translateService.instant('dialog.deletedsuccessfully'), '');
+          this.commentsList = [];
+          setTimeout(() => {
+            this.commentsList = all_comments;
+            this.cd.detectChanges();
+          }, 100)
+        },
+        error => {
+          console.log(error);
+        }
+      )
     }
   }
 

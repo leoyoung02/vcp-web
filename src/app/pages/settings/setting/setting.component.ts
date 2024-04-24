@@ -2011,6 +2011,10 @@ export class SettingComponent {
     location.href = `/settings/coupons`
   }
 
+  manageRegistrationFields() {
+    this._router.navigate([`/settings/registration-fields`])
+  }
+
   handleGoBack() {
     this._location.back();
   }

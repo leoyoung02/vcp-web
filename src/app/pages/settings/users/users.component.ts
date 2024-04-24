@@ -18,6 +18,9 @@ import {
 } from "@angular-material-components/datetime-picker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {
   BreadcrumbComponent,
   ButtonGroupComponent,
@@ -70,6 +73,10 @@ import Fuse from 'fuse.js';
     MatFormFieldModule,
     MatInputModule,
     NgMultiSelectDropDownModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    NgxMaterialTimepickerModule,
     SearchComponent,
     BreadcrumbComponent,
     IconFilterComponent,

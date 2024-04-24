@@ -124,6 +124,11 @@ export const EDIT_FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings/edit`;
 export const HOME_PERSONALIZE_SETTINGS_URL = `${API_BASE}/v2/home/personalize/settings`;
 export const ACTIVATE_HOME_TEMPLATE_URL = `${API_BASE}/v2/home/personalize/template/edit`;
 export const EDIT_HOME_TEMPLATE_SECTIONS_URL = `${API_BASE}/v2/home/personalize/sections/edit`;
+export const MODULE_COMMENTS_URL = `${API_BASE}/v2/comments`;
+export const ADD_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/add`;
+export const EDIT_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/edit`;
+export const DELETE_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/delete`;
+export const REACT_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/react`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;
@@ -258,6 +263,9 @@ export const INVOICES_DATA_URL = `${API_BASE}/v2/invoices-data`;
 export const INVITATIONS_DATA_URL = `${API_BASE}/v2/invitations-data`;
 export const CRM_DATA_URL = `${API_BASE}/v2/crm-data`;
 export const CRM_ASSIGNED_GUESTS_DATA_URL = `${API_BASE}/v2/crm-assigned-guests-data`;
+export const UPDATE_REGISTRATION_FIELDS_URL = `${API_BASE}/company/registration-fields/update`;
+export const REGISTRATION_FIELD_URL = `${API_BASE}/company/registration-field`;
+export const UPDATE_REGISTRATION_FIELD_DETAILS_URL = `${API_BASE}/company/registration-field/details/update`;
 
 // NOTIFICATIONS
 export const ACCEPT_CLUB_NOTIFICATION_URL = `${API_BASE}/company-approve-join-group`;

@@ -301,10 +301,12 @@ export class SelectPlanComponent {
 
   redirectToLogin(type) {
     if (type.require_approval == 1) {
-      this._router.navigate([`/auth/login?type=${type.id}`]);
+      // this._router.navigate([`/auth/login?type=${type.id}`]);
+      this._router.navigate([`/auth/login`]);
     } else {
       if (this.confirm_email) {
-        this._router.navigate([`/auth/login?type=${type.id}`]);
+        // this._router.navigate([`/auth/login?type=${type.id}`]);
+        this._router.navigate([`/auth/login`]);
       } else {
         this._router.navigate([`/auth/login`]);
       }

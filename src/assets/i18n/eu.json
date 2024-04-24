@@ -617,7 +617,8 @@
         "canvadesc1": "Deskribapenean Canva bideoa txertatzeko, erabili",
         "canvadesc2": "non dagoen esteka Smartlinka Partekatu > Kanva-n txertatu sakatzen duzunean.",
         "vidalyticsdesc1": "Vidalytics bideoa deskribapenean txertatzeko, erabili",
-        "vidalyticsdesc2": "non dagoen esteka bideoaren IDa."
+        "vidalyticsdesc2": "non dagoen esteka bideoaren IDa.",
+        "chat": "Txateatu"
     },
     "ranking": {
         "pointsyouhave": "Dauzkazun puntuak",

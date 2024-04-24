@@ -617,7 +617,8 @@
         "canvadesc1": "Um ein Canva-Video in die Beschreibung einzufügen, verwenden Sie",
         "canvadesc2": "wobei Link der Smartlink ist, wenn Sie auf Teilen > In Canva einbetten klicken.",
         "vidalyticsdesc1": "Um ein Vidalytics-Video in die Beschreibung einzufügen, verwenden Sie",
-        "vidalyticsdesc2": "wobei Link die Video-ID ist."
+        "vidalyticsdesc2": "wobei Link die Video-ID ist.",
+        "chat": "Plaudern"
     },
     "ranking": {
         "pointsyouhave": "Punkte, die Sie haben",

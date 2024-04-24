@@ -28,6 +28,17 @@ import {
   faCheckCircle,
   faTimesCircle,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from "@angular-material-components/datetime-picker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { DateAdapter } from '@angular/material/core';
 import { initFlowbite } from "flowbite";
 import { COMPANY_IMAGE_URL } from "@lib/api-constants";
 import { Subject, takeUntil } from "rxjs";
@@ -54,6 +65,15 @@ registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPlug
     RouterModule,
     NgMultiSelectDropDownModule,
     FilePondModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    NgxMaterialTimepickerModule,
     CompanyLogoComponent,
   ],
   templateUrl: "./signup.component.html",

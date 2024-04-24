@@ -292,6 +292,34 @@
                         </div>
                     </label>
                 </div>
+                <div *ngIf="hasGroupChat" class="flex items-center justify-center relative">
+                    <div class="w-full max-w-full">
+                        <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            {{ 'club-create.chat' | translate }}
+                        </label>
+                        <div class="flex items-center">
+                            <div class="flex items-center justify-between relative">
+                                <label
+                                    for="setting-20"
+                                    class="flex items-center w-full justify-between cursor-pointer"
+                                >
+                                    <div class="relative mr-1">
+                                        <input
+                                            id="setting-20"
+                                            name="setting-20"
+                                            type="checkbox"
+                                            class="sr-only"
+                                            [(ngModel)]="showChat" 
+                                            [ngModelOptions]="{standalone: true}"
+                                        />
+                                        <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
             <div class="flex items-center border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 my-8">
                 <img class="w-6 object-contain mr-4" src="./assets/images/new-design/icons/Write.png" />

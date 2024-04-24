@@ -614,7 +614,8 @@
         "canvadesc1": "Per inserire un video Canva nella descrizione, usa",
         "canvadesc2": "dove link è lo Smartlink quando fai clic su Condividi > Incorpora in Canva.",
         "vidalyticsdesc1": "Per incorporare il video Vidalytics nella descrizione, usa",
-        "vidalyticsdesc2": "dove il collegamento è l'ID del video."
+        "vidalyticsdesc2": "dove il collegamento è l'ID del video.",
+        "chat": "Chiacchierata"
     },
     "ranking": {
         "pointsyouhave": "Punti che hai",

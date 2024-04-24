@@ -618,7 +618,8 @@
         "canvadesc1": "To insert Canva video in the description, use",
         "canvadesc2": "where link is the Smartlink when you click Share > Embed in Canva.",
         "vidalyticsdesc1": "To insert Vidalytics video in the description, use",
-        "vidalyticsdesc2": "where link is the video id."
+        "vidalyticsdesc2": "where link is the video id.",
+        "chat": "Chat"
     },
     "ranking": {
         "pointsyouhave": "Points you have",

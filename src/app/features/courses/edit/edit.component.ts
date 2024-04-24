@@ -453,6 +453,8 @@ export class CourseEditComponent {
   selectedAssessment: any = '';
 
   isUESchoolOfLife: boolean = false;
+  hasCourseVideoComments: boolean = false;
+  showComments: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -890,6 +892,9 @@ export class CourseEditComponent {
       this.hasCourseCreditSetting = subfeatures.some(
         (a) => a.name_en == "Credits" && a.active == 1
       );
+      this.hasCourseVideoComments = subfeatures.some(
+        (a) => a.name_en == 'Course video comments' && a.active == 1 
+      );
     }
 
     if(this.isAdvancedCourse) {
@@ -1153,6 +1158,7 @@ export class CourseEditComponent {
     this.hotmartProductId = this.course.hotmart_product_id;
     this.startButtonColor = this.course.button_color || this.buttonColor;
     this.buyNowButtonColor = this.course.buy_now_button_color || this.buttonColor;
+    this.showComments = this.course.show_comments == 1 ? true : false;
 
     if(this.course.price > 0 
       && (this.course.payment_type > 0 || data?.recurring_payments)) {
@@ -1776,6 +1782,7 @@ export class CourseEditComponent {
           'tutor_types': this.hasTutors && this.selectedCourseTutorType ? this.selectedCourseTutorType.map((data) => { return data.id }).join() : '',
           'multiple_payments' : payment_option_array.includes(3) || payment_option_array.includes(4) ? 1 : 0,
           'buy_now_button_color': this.buyNowButtonColor || this.buttonColor,
+          'show_comments': this.showComments ? 1 : 0,
         }
         if(this.id > 0) {
           params.video_cover = !this.videoBackgroundImgSrc ? 'remove' : this.course.video_cover
@@ -1834,6 +1841,7 @@ export class CourseEditComponent {
           'package_activation': this.activatePackage ? this.activatePackage : 0,
           'allow_upload_resources': this.allowUploadResources ? 1 : 0,
           'buy_now_button_color': this.buyNowButtonColor || this.buttonColor,
+          'show_comments': this.showComments ? 1 : 0,
         }
         if(this.id > 0) {
           params.video_cover = !this.videoBackgroundImgSrc ? 'remove' : this.course.video_cover
