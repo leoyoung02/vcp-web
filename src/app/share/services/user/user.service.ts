@@ -91,6 +91,9 @@ import {
     CRM_SIGN_GUEST_URL,
     CRM_UNSIGN_GUEST_URL,
     CRM_EDIT_COMMUNICATION_URL,
+    UPDATE_REGISTRATION_FIELDS_URL,
+    REGISTRATION_FIELD_URL,
+    UPDATE_REGISTRATION_FIELD_DETAILS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -719,5 +722,25 @@ export class UserService {
 
   deleteGuest(id, guestId) {
     return this._http.post(`${DELETE_GUEST_URL}/${id}/${guestId}`, {});
+  }
+
+  updateRegistrationFields(payload): Observable<any> {
+    return this._http.post(UPDATE_REGISTRATION_FIELDS_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getFieldDetails(id, companyId): Observable<any> {
+    return this._http.get(`${REGISTRATION_FIELD_URL}/${id}/${companyId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  updateFieldDetails(id, payload): Observable<any> {
+    return this._http.post(`${UPDATE_REGISTRATION_FIELD_DETAILS_URL}/${id}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

@@ -263,6 +263,9 @@ export const INVOICES_DATA_URL = `${API_BASE}/v2/invoices-data`;
 export const INVITATIONS_DATA_URL = `${API_BASE}/v2/invitations-data`;
 export const CRM_DATA_URL = `${API_BASE}/v2/crm-data`;
 export const CRM_ASSIGNED_GUESTS_DATA_URL = `${API_BASE}/v2/crm-assigned-guests-data`;
+export const UPDATE_REGISTRATION_FIELDS_URL = `${API_BASE}/company/registration-fields/update`;
+export const REGISTRATION_FIELD_URL = `${API_BASE}/company/registration-field`;
+export const UPDATE_REGISTRATION_FIELD_DETAILS_URL = `${API_BASE}/company/registration-field/details/update`;
 
 // NOTIFICATIONS
 export const ACCEPT_CLUB_NOTIFICATION_URL = `${API_BASE}/company-approve-join-group`;

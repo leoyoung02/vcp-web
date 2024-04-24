@@ -186,5 +186,11 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'testimonials.gallery'},
         loadComponent: async () => (await import('./home-gallery/home-gallery.component')).HomeGalleryComponent,
-    }
+    },
+    {
+        path: 'registration-fields',
+        title: CustomTitleResolver,
+        data: { titleKey: 'registration-fields.registrationfields'},
+        loadComponent: async () => (await import('./registration-fields/registration-fields.component')).RegistrationFieldsComponent,
+    },
 ];
