@@ -93,6 +93,7 @@ export class TestimonialsListComponent {
       weight: 0.25
     }]
   };
+  defaultActiveFilter: boolean = false;
 
   constructor(
     private _router: Router,
@@ -536,6 +537,10 @@ export class TestimonialsListComponent {
         .replace(/\p{Diacritic}/gu, "")
         .trim();
     }
+  }
+
+  filterViewChanged(event) {
+    this.defaultActiveFilter = event;
   }
 
   ngOnDestroy() {

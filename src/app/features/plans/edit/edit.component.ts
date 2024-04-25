@@ -506,6 +506,10 @@ export class PlanEditComponent {
   eventGuestRegFileName: any = '';
   planSubcategoryMapping: any = [];
   companyUrl: any = '';
+  ageGroupsList: any = [];
+  ageGroupFilterActive: boolean = false;
+  groupFilterActive: boolean = false;
+  selectedAgeGroup: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -748,6 +752,8 @@ export class PlanEditComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          this.ageGroupsList = data?.age_groups;
+
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data);
           this.mapUserPermissions(data?.user_permissions);
@@ -976,6 +982,13 @@ export class PlanEditComponent {
       //this.loadUsers()
     }
     this.showCategorySelect = true;
+
+    this.ageGroupFilterActive = subfeatures.some(
+      (a) => a.name_en == "Age group filter" && a.active == 1
+    );
+    this.groupFilterActive = subfeatures.some(
+      (a) => a.name_en == "Group filter" && a.active == 1
+    );
   }
 
   getFeatureTitle(feature) {
@@ -1383,6 +1396,7 @@ export class PlanEditComponent {
       guest_seats,
       netcultura,
       slug,
+      age_group_id,
     } = this.plan;
 
     if(this.types && this.types.length > 0) {
@@ -1689,6 +1703,7 @@ export class PlanEditComponent {
     this.status = this.plan.status == 1 ? true : false;
     this.createdByUser = this.plan?.fk_user_id || this.userId;
     this.netcultura = netcultura;
+    this.selectedAgeGroup = age_group_id || '';
   }
 
   mapCategories(category_mapping) {
@@ -2368,6 +2383,7 @@ export class PlanEditComponent {
     this.plan["member_seats"] = this.guestMemberSeatActive && this.planForm.get("member_seats")?.value ? this.planForm.get("member_seats")?.value : null;
     this.plan["guest_seats"] = this.guestMemberSeatActive && this.planForm.get("guest_seats")?.value ? this.planForm.get("guest_seats")?.value : null;
     this.plan["show"] = this.isShowPastEvent ? 1 : 0;
+    this.plan['age_group_id'] = this.ageGroupFilterActive && this.selectedAgeGroup ? this.selectedAgeGroup : null;
     
     let event_reg_file_status = localStorage.getItem('event_reg_file')
     let event_reg_file = event_reg_file_status == 'complete' ? this.eventGuestRegFileName : ''

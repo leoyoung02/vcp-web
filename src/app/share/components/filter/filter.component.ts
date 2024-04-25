@@ -9,11 +9,18 @@ import {
 import { FormsModule } from "@angular/forms";
 import { IconFilterComponent } from "../icon-filter/icon-filter.component";
 import { TypeFilterComponent } from "../type-filter/type-filter.component";
+import { AgeGroupFilterComponent } from "../age-group-filter/age-group-filter.component";
 
 @Component({
   selector: "app-filter",
   standalone: true,
-  imports: [CommonModule, FormsModule, IconFilterComponent, TypeFilterComponent],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    IconFilterComponent, 
+    TypeFilterComponent,
+    AgeGroupFilterComponent,
+  ],
   templateUrl: "./filter.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -26,6 +33,7 @@ export class FilterComponent {
     @Input() defaultActiveFilter: any;
     @Output() filterList = new EventEmitter();
     @Output() onButtonClick = new EventEmitter();
+    @Output() onFilterClick = new EventEmitter();
 
     isActiveFilter: boolean = false;
 
@@ -89,6 +97,7 @@ export class FilterComponent {
     showFilter() {
       this.isActiveFilter = !this.isActiveFilter;
       this.defaultActiveFilter = !this.isActiveFilter;
+      this.onFilterClick.emit(this.isActiveFilter);
     }
 
     filteredCity(event) {

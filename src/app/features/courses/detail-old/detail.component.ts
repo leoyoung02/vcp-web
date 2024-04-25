@@ -452,10 +452,6 @@ export class CourseDetailComponent {
       this.onlyAssignedTutorAccess = subfeatures.some(a => a.name_en == 'Tutors assigned to courses' && a.active == 1);
       this.hasCourseCreditSetting = subfeatures.some(a => a.name_en == 'Credits' && a.active == 1 && a.feature_id == 11);
       this.hasCourseVideoComments = subfeatures.some(a => a.name_en == 'Course video comments' && a.active == 1 && a.feature_id == 11);
-
-      if(this.hasCourseVideoComments) {
-        this.initializeCommentsList();
-      }
     }
   }
 
@@ -615,6 +611,10 @@ export class CourseDetailComponent {
     }
 
     if(this.selectedUnit) {
+      if(this.hasCourseVideoComments) {
+        this.initializeCommentsList();
+      }
+
       this.isSelectedUnitCompleted = this.selectedUnit && this.selectedUnit.Company_Course_Unit_Users 
         && this.selectedUnit.Company_Course_Unit_Users[0] && this.selectedUnit.Company_Course_Unit_Users[0].progress == 100 ? true : false
 
@@ -1075,6 +1075,10 @@ export class CourseDetailComponent {
     if (this.selectedModuleUnitsCompleted) {
       this.selectedModulePackageId = this.selectedModule[0].package_id;
       this.selectedModulePackageText = this.selectedModule[0].package_text;
+    }
+
+    if(this.hasCourseVideoComments) {
+      this.initializeCommentsList();
     }
   }
 
@@ -1779,7 +1783,7 @@ export class CourseDetailComponent {
 
   initializeCommentsList() {
     this._companyService
-      .fetchComments(this.companyId, this.userId, 'course')
+      .fetchComments(this.companyId, this.userId, 'course', this.selectedUnit?.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
@@ -1817,7 +1821,7 @@ export class CourseDetailComponent {
       company_id: this.companyId, 
       user_id: this.userId, 
       object: 'course', 
-      object_id: this.id,
+      object_id: this.selectedUnit?.id,
       parent_comment_id: null,
       comment: this.newComment,
     }).subscribe(

@@ -1452,7 +1452,7 @@ export class ClubDetailComponent {
 
   initializeCommentsList() {
     this._companyService
-      .fetchComments(this.companyId, this.userId, 'club')
+      .fetchComments(this.companyId, this.userId, 'club', this.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {

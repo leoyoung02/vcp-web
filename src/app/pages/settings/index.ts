@@ -193,4 +193,10 @@ export const routes: Routes = [
         data: { titleKey: 'registration-fields.registrationfields'},
         loadComponent: async () => (await import('./registration-fields/registration-fields.component')).RegistrationFieldsComponent,
     },
+    {
+        path: 'age-groups',
+        title: CustomTitleResolver,
+        data: { titleKey: 'plan-create.agegroups'},
+        loadComponent: async () => (await import('./age-groups/age-groups.component')).ManageAgeGroupsComponent,
+    },
 ];

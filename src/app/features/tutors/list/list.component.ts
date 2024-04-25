@@ -71,7 +71,7 @@ export class TutorsListComponent {
   allTutorTypes: any = [];
   selectedCity: any = '';
   selectedType: any = '';
-  defaultActiveFilter: boolean = true;
+  defaultActiveFilter: boolean = false;
   tutorCardSmallImage: boolean = false;
   searchOptions = {
     keys: [{
@@ -188,6 +188,8 @@ export class TutorsListComponent {
           this.initializeButtonGroup();
 
           this.formatTutors(this.allTutors);
+
+          if(this.companyId == 52) { this.defaultActiveFilter = true; }
         },
         (error) => {
           console.log(error);
@@ -581,5 +583,9 @@ export class TutorsListComponent {
 
   getTutorTypesText(types) {
     return types?.join(', ')
+  }
+
+  filterViewChanged(event) {
+    this.defaultActiveFilter = event;
   }
 }

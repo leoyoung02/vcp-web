@@ -51,7 +51,6 @@ export class GuestMenuComponent {
         initFlowbite();
         this.language = this._localService.getLocalStorage(environment.lslang);
         this._translateService.use(this.language || "es");
-        console.log(this.company)
 
         this.languageChangeSubscription =
         this._translateService.onLangChange.subscribe(

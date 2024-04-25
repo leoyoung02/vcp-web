@@ -450,7 +450,9 @@
         "selectincharge": "Hautatu ordezkaria",
         "incharge": "Arduraduna",
         "selectmodality": "Hautatu modalitatea",
-        "showpastevent": "Erakutsi iraganeko gertaera"
+        "showpastevent": "Erakutsi iraganeko gertaera",
+        "selectagegroup": "Hautatu adin-taldea",
+        "agegroups": "Adin-taldeak"
     },
     "plan-recommendations": {
         "applauses": "Txaloak",

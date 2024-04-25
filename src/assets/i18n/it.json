@@ -446,7 +446,9 @@
         "selectincharge": "Seleziona il delegato",
         "incharge": "Responsabile",
         "selectmodality": "Seleziona modalità",
-        "showpastevent": "Mostra evento passato"
+        "showpastevent": "Mostra evento passato",
+        "selectagegroup": "Seleziona fascia di età",
+        "agegroups": "Gruppi di età"
     },
     "plan-recommendations": {
         "applauses": "Applausi",

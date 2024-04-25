@@ -450,7 +450,9 @@
         "selectincharge": "Seleccioneu el delegat",
         "incharge": "Responsable",
         "selectmodality": "Seleccionar modalitat",
-        "showpastevent": "Erakutsi iraganeko gertaera"
+        "showpastevent": "Erakutsi iraganeko gertaera",
+        "selectagegroup": "Selecciona el grup d'edat",
+        "agegroups": "Grups d'edat"
     },
     "plan-recommendations": {
         "applauses": "Aplaudiment",

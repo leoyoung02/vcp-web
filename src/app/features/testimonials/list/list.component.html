@@ -38,8 +38,10 @@
                 [buttonList]="buttonList"
                 [buttonColor]="buttonColor"
                 [list]="list"
+                [defaultActiveFilter]="defaultActiveFilter"
                 (filterList)="filteredList($event)"
                 (onButtonClick)="filteredType($event)"
+                (onFilterClick)="filterViewChanged($event)"
             ></app-filter>
         </div>
     </div>

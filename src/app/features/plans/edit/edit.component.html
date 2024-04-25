@@ -390,6 +390,22 @@
                     >
                     </ng-multiselect-dropdown>
                 </div>
+                <div class="flex items-center justify-center relative" *ngIf="ageGroupFilterActive">
+                    <select
+                        id="age-group"
+                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedAgeGroup"
+                        [ngModelOptions]="{standalone: true}"
+                    >
+                        <option value="" disabled selected>{{ 'plan-create.selectagegroup' | translate }}</option>
+                        <option
+                            *ngFor="let item of ageGroupsList"
+                            [value]="item.id"
+                        >
+                            {{ item.age_group }}
+                        </option>
+                    </select>
+                </div>
                 <div class="flex items-center justify-center relative">
                     <input
                         type="number"
