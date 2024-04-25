@@ -391,6 +391,10 @@ export const SEND_CONFIRM_ATTENDANCE_EMAIL_URL = `${API_BASE}/v2/confirm-attenda
 export const PLAN_DETAILS_UPDATED_EMAIL_URL = `${API_BASE}/v2/plan-updated/send-email`;
 export const PAST_PLANS_LIST_URL = `${API_BASE}/v2/past-plans`;
 export const EDIT_PLAN_STATUS_URL = `${API_BASE}/v2/plans/edit-status`;
+export const AGE_GROUPS_URL = `${API_BASE}/company/age-groups`;
+export const ADD_AGE_GROUP_URL = `${API_BASE}/company/age-groups/add`;
+export const EDIT_AGE_GROUP_URL = `${API_BASE}/company/age-groups/edit`;
+export const DELETE_AGE_GROUP_URL = `${API_BASE}/company/age-groups/delete`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;

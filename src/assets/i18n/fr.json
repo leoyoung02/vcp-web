@@ -450,7 +450,9 @@
         "selectincharge": "Sélectionner le délégué",
         "incharge": "Personne responsable",
         "selectmodality": "Sélectionner la modalité",
-        "showpastevent": "Afficher l'événement passé"
+        "showpastevent": "Afficher l'événement passé",
+        "selectagegroup": "Sélectionner la tranche d'âge",
+        "agegroups": "Groupes d'âge"
     },
     "plan-recommendations": {
         "applaudissements": "Applaudissements",

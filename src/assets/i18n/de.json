@@ -450,7 +450,9 @@
         "selectincharge": "Den Delegierten auswählen",
         "incharge": "Verantwortliche Person",
         "selectmodality": "Modalität auswählen",
-        "showpastevent": "Vergangenes Ereignis anzeigen"
+        "showpastevent": "Vergangenes Ereignis anzeigen",
+        "selectagegroup": "Altersgruppe auswählen",
+        "agegroups": "Altersgruppen"
     },
     "plan-recommendations": {
         "applauses": "Applaus",

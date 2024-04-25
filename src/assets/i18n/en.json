@@ -450,7 +450,9 @@
         "selectincharge": "Select the Delegate",
         "incharge": "Persin in charge",
         "selectmodality": "Select modality",
-        "showpastevent": "Show past event"
+        "showpastevent": "Show past event",
+        "selectagegroup": "Select age group",
+        "agegroups": "Age groups"
     },
     "plan-recommendations": {
         "applauses": "Applauses",

@@ -94,6 +94,7 @@ export class OffersListComponent {
   discountCategories: any = [];
   discountTypes: any = [];
   selectedCategory: any = '';
+  defaultActiveFilter: boolean = false;
 
   constructor(
     private _router: Router,
@@ -420,7 +421,10 @@ export class OffersListComponent {
 
     this.selectedCategory = category;
     this.filterOffers();
+  }
 
+  filterViewChanged(event) {
+    this.defaultActiveFilter = event;
   }
 
   async open(message: string, action: string) {

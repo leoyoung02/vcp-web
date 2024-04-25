@@ -97,6 +97,7 @@ export class ClubsListComponent {
   userInfo: any;
   campus: any = '';
   filterTypeControl: any = '';
+  defaultActiveFilter: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -1027,6 +1028,10 @@ export class ClubsListComponent {
     } else {
       this._router.navigate(["/auth/login"]);
     }
+  }
+
+  filterViewChanged(event) {
+    this.defaultActiveFilter = event;
   }
 
   ngOnDestroy() {

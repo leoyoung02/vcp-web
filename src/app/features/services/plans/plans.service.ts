@@ -5,6 +5,7 @@ import {
   ACTIVITY_CITIES_URL,
   ACTIVITY_CODE_DATA_URL,
   ACTIVITY_CREDITS_URL,
+  ADD_AGE_GROUP_URL,
   ADD_ALIAS_URL,
   ADD_EVENT_CATEGORY_URL,
   ADD_EVENT_SUBCATEGORY_URL,
@@ -14,6 +15,7 @@ import {
   ADD_GUEST_REGISTRATION_FIELDS_URL,
   ADD_PLAN_COMMENT_URL,
   ADD_TO_WAITING_LIST_URL,
+  AGE_GROUPS_URL,
   ALL_GUEST_REGISTRATION_FIELDS_URL,
   ANSWER_EMAIL_INVITE_QUESTIONS_URL,
   APPROVE_GROUP_PLAN_COMMENT_URL,
@@ -41,6 +43,7 @@ import {
   CREATE_PLAN_ROLES_URL,
   CREATE_PLAN_URL,
   DASHBOARD_DETAILS_URL,
+  DELETE_AGE_GROUP_URL,
   DELETE_ALIAS_URL,
   DELETE_COMMENT_URL,
   DELETE_EVENT_CATEGORY_URL,
@@ -48,6 +51,7 @@ import {
   DELETE_GROUP_PLAN_COMMENT_REACTION_URL,
   DELETE_GUEST_REGISTRATION_FIELDS_URL,
   DELETE_RECURRING_SERIES_URL,
+  EDIT_AGE_GROUP_URL,
   EDIT_ALIAS_URL,
   EDIT_CLUB_PLAN_URL,
   EDIT_EVENT_CATEGORY_URL,
@@ -630,6 +634,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_description', isShowDescription );
     formData.append( 'show_price', isShowPrice );
     formData.append( 'school_of_life', planForm.school_of_life );
+    formData.append( 'age_group_id', planForm.age_group_id );
 
     if(entityId == 32) {
       formData.append( 'additional_properties_course_access', allowCourseAccess == true ? '1' : '0' );
@@ -875,6 +880,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'school_of_life', planForm.school_of_life );
     formData.append( 'show', planForm.show );
     formData.append( 'orig_image', planForm.orig_image );
+    formData.append( 'age_group_id', planForm.age_group_id );
 
     if(entityId == 32) {
       formData.append( 'additional_properties_course_access', planForm.additional_properties_course_access );
@@ -1277,6 +1283,32 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
   editPlanStatus(params): Observable<any> {
     return this._http.post(EDIT_PLAN_STATUS_URL,
         params
+    ).pipe(map(res => res));
+  }
+
+  getAgeGroups(id): Observable<any> {
+    return this._http.get(`${AGE_GROUPS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addAgeGroup(payload): Observable<any> {
+    return this._http.post(ADD_AGE_GROUP_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editAgeGroup(id, payload): Observable<any> {
+    return this._http.put(`${EDIT_AGE_GROUP_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteAgeGroup(id, companyId): Observable<any> {
+    return this._http.delete(`${DELETE_AGE_GROUP_URL}/${id}/${companyId}`,
+      {},
     ).pipe(map(res => res));
   }
 }

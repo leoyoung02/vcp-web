@@ -93,6 +93,7 @@ export class MembersListComponent {
   featureTitle: string = '';
   postalCodes: any = [];
   alternativeCardDesign: boolean = false;
+  defaultActiveFilter: boolean = false;
 
   constructor(
     private _router: Router,
@@ -594,6 +595,10 @@ export class MembersListComponent {
       }
     });
     return valid;
+  }
+
+  filterViewChanged(event) {
+    this.defaultActiveFilter = event;
   }
 
   ngOnDestroy() {

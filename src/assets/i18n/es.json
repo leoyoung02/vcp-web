@@ -450,7 +450,9 @@
         "selectincharge": "Seleccione el delegado",
         "incharge": "Persona a carga",
         "selectmodality": "Seleccionar modalidad",
-        "showpastevent": "Mostrar evento pasado"
+        "showpastevent": "Mostrar evento pasado",
+        "selectagegroup": "Seleccione grupo de edad",
+        "agegroups": "Grupos de edad"
     },
     "plan-recommendations": {
         "applauses": "Aplauso",

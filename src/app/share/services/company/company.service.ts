@@ -1946,9 +1946,9 @@ export class CompanyService {
     ).pipe(map(res => res));
   }
 
-  fetchComments(id, userId, mode): Observable<any> {
+  fetchComments(id, userId, mode, objectId): Observable<any> {
     return this._http.get(
-      `${MODULE_COMMENTS_URL}/${id}/${userId}/${mode}`,
+      `${MODULE_COMMENTS_URL}/${id}/${userId}/${mode}/${objectId}`,
       { headers: this.headers }
     )
     .pipe(map(res => res));

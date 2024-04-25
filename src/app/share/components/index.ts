@@ -6,6 +6,8 @@ export * from './page-title/page-title.component';
 export * from './button-group/button-group.component';
 export * from './icon-filter/icon-filter.component';
 export * from './type-filter/type-filter.component';
+export * from './age-group-filter/age-group-filter.component';
+export * from './group-filter/group-filter.component';
 export * from './filter/filter.component';
 export * from './list-showcase/list-showcase.component';
 export * from './no-access/no-access.component';

@@ -40,7 +40,9 @@
                 [buttonList]="buttonList"
                 [buttonColor]="buttonColor"
                 [list]="list"
+                [defaultActiveFilter]="defaultActiveFilter"
                 (onButtonClick)="filteredCategory($event)"
+                (onFilterClick)="filterViewChanged($event)"
             ></app-filter>
             <app-button-group
                 *ngIf="filterTypeControl == 'button'"

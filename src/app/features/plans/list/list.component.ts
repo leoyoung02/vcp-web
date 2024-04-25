@@ -12,7 +12,14 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { PlansService } from "@features/services";
 import { PlansCalendarComponent } from "../calendar/calendar.component";
 import { SearchComponent } from "@share/components/search/search.component";
-import { ButtonGroupComponent, FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
+import { 
+  ButtonGroupComponent, 
+  FilterComponent, 
+  IconFilterComponent, 
+  PageTitleComponent, 
+  AgeGroupFilterComponent, 
+  GroupFilterComponent 
+} from "@share/components";
 import { NgxPaginationModule } from "ngx-pagination";
 import { PlanCardComponent } from "@share/components/card/plan/plan.component";
 import moment from "moment";
@@ -33,6 +40,8 @@ import get from "lodash/get";
     ButtonGroupComponent,
     NgOptimizedImage,
     NgxPaginationModule,
+    AgeGroupFilterComponent,
+    GroupFilterComponent,
   ],
   templateUrl: "./list.component.html",
 })
@@ -195,6 +204,15 @@ export class PlansListComponent {
   filterTypeControl: any = '';
   bottomEventTitles: boolean = false;
   activityCities: any = [];
+  ageGroupFilterActive: boolean = false;
+  groupFilterActive: boolean = false;
+  allAgeGroups: any = [];
+  ageGroupList: any = [];
+  allGroups: any = [];
+  groupList: any = [];
+  selectedAgeGroup: any = '';
+  selectedGroup: any = '';
+  defaultActiveFilter: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -516,6 +534,10 @@ export class PlansListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data)
+          this.allGroups = data?.clubs;
+          this.allAgeGroups = data?.age_groups;
+
           this.mapCities(data?.cities);
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
@@ -624,6 +646,16 @@ export class PlansListComponent {
       this.bottomEventTitles = subfeatures.some(
         (a) => a.name_en == "Event titles (Bottom)" && a.active == 1
       );
+      this.ageGroupFilterActive = subfeatures.some(
+        (a) => a.name_en == "Age group filter" && a.active == 1
+      );
+      this.groupFilterActive = subfeatures.some(
+        (a) => a.name_en == "Group filter" && a.active == 1
+      );
+
+      if(this.ageGroupFilterActive) { this.initializeAgeGroupList(); }
+      if(this.groupFilterActive) { this.initializeGroupList(); }
+      // if(this.ageGroupFilterActive || this.groupFilterActive) { this.defaultActiveFilter = true; }
     }
 
     localStorage.setItem("show_past_events", this.showPastEvents ? "1" : "0");
@@ -741,6 +773,88 @@ export class PlansListComponent {
         : this.companyId == 12
         ? "Networking"
         : "All";
+  }
+
+  initializeAgeGroupList() {
+    this.ageGroupList = [
+      {
+        id: "All",
+        value: "All",
+        text: this._translateService.instant("plans.all"),
+        selected: true,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: "All",
+        name_CA: "All",
+        name_DE: "All",
+        name_EN: "All",
+        name_ES: "All",
+        name_EU: "All",
+        name_FR: "All",
+        sequence: 1,
+        status: 1,
+      },
+    ];
+    if(this.allAgeGroups?.length > 0) {
+      this.allAgeGroups?.forEach((ag, index) => {
+        this.ageGroupList?.push({
+          id: ag.id,
+          value: ag.id,
+          text: ag.age_group,
+          selected: false,
+          fk_company_id: this.companyId,
+          fk_supercategory_id: ag.id,
+          name_CA: ag.age_group,
+          name_DE: ag.age_group,
+          name_EN: ag.age_group,
+          name_ES: ag.age_group,
+          name_EU: ag.age_group,
+          name_FR: ag.age_group,
+          sequence: index + 2,
+          status: index + 2,
+        })
+      })
+    }
+  }
+
+  initializeGroupList() {
+    this.groupList = [
+      {
+        id: "All",
+        value: "All",
+        text: this._translateService.instant("plans.all"),
+        selected: true,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: "All",
+        name_CA: "All",
+        name_DE: "All",
+        name_EN: "All",
+        name_ES: "All",
+        name_EU: "All",
+        name_FR: "All",
+        sequence: 1,
+        status: 1,
+      },
+    ];
+    if(this.allGroups?.length > 0) {
+      this.allGroups?.forEach((ag, index) => {
+        this.groupList?.push({
+          id: ag.id,
+          value: ag.id,
+          text: ag.title,
+          selected: false,
+          fk_company_id: this.companyId,
+          fk_supercategory_id: ag.id,
+          name_CA: ag.title_ca,
+          name_DE: ag.title_de,
+          name_EN: ag.title_en,
+          name_ES: ag.title,
+          name_EU: ag.title_eu,
+          name_FR: ag.title_fr,
+          sequence: index + 2,
+          status: index + 2,
+        })
+      })
+    }
   }
 
   fetchPlans() {
@@ -1670,6 +1784,18 @@ export class PlansListComponent {
         }
       }
 
+      if(this.selectedAgeGroup && this.selectedAgeGroup != 'All') {
+        this.filteredPlan = this.filteredPlan.filter((event) => {
+          return event.age_group_id == this.selectedAgeGroup;
+        });
+      }
+
+      if(this.selectedGroup && this.selectedGroup != 'All') {
+        this.filteredPlan = this.filteredPlan.filter((event) => {
+          return event.fk_group_id == this.selectedGroup;
+        });
+      }
+
       if (mode == "joined" || this.joinedPlan) {
         if (join || this.joinedPlan) {
           this.filteredPlan =
@@ -2234,6 +2360,36 @@ export class PlansListComponent {
 
     this.selectedCity = event || "";
     localStorage.setItem('plan-filter-city', this.selectedCity);
+    this.searchPlans("new");
+  }
+
+  filterViewChanged(event) {
+    this.defaultActiveFilter = event;
+  }
+
+  filteredAgeGroupList(event) {
+    this.ageGroupList?.forEach((item) => {
+      if (item.id === event) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    this.selectedAgeGroup = event || "";
+    this.searchPlans("new");
+  }
+
+  filteredGroupList(event) {
+    this.groupList?.forEach((item) => {
+      if (item.id === event) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    this.selectedGroup = event || "";
     this.searchPlans("new");
   }
 

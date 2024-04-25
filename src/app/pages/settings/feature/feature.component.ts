@@ -357,7 +357,8 @@ export class FeatureComponent {
       { id: 30, name_en: "Candidates display" },
       { id: 31, name_en: "Tags" },
       { id: 32, name_en: "Filter" },
-      { id: 32, name_en: "Categories filter" },
+      { id: 33, name_en: "Categories filter" },
+      { id: 34, name_en: "Age group filter" },
     ];
   }
 
@@ -497,7 +498,14 @@ export class FeatureComponent {
       case "Tags":
         this.goToTestimonialTags(row);
         break;
+      case "Age group filter":
+        this.goToAgeGroups(row);
+        break;
     }
+  }
+
+  goToAgeGroups(row) {
+    this._router.navigate(["/settings/age-groups"]);
   }
 
   openSettingModal(row) {
