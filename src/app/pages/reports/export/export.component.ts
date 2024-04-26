@@ -30,9 +30,9 @@ import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { OffersService, PlansService } from "@features/services";
+import { initFlowbite } from "flowbite";
 import moment from "moment";
 import get from "lodash/get";
-import { initFlowbite } from "flowbite";
 
 @Component({
   selector: "app-export",
