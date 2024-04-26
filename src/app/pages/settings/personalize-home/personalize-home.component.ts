@@ -290,6 +290,12 @@ export class PersonalizeHomeComponent {
         name: `${this._translateService.instant('leads.layout')} 3`,
         image: `${environment.api}/get-image-company/home_template_3.png`,
         active: !this.company?.predefined_template_id && !this.company?.predefined_template ? true : false
+      },
+      {
+        id: 4,
+        name: `${this._translateService.instant('leads.layout')} 4`,
+        image: `${environment.api}/get-image-company/home_template_4.png`,
+        active: !this.company?.predefined_template_id && !this.company?.predefined_template ? true : false
       }
     );
     this.activeLayoutId = this.company?.predefined_template_id == 1 ? 1 : (
