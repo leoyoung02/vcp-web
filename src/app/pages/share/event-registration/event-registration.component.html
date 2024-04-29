@@ -31,7 +31,7 @@
                         [ngStyle]="{'background-color': buttonColor}"
                         (click)="pay()"
                     >
-                        {{ 'signup.pay' | translate }}
+                        {{ companyId == 35 ? ('service.reserve' | translate) : ('signup.pay' | translate) }}
                     </button>
                 </ng-container>
                 <ng-container *ngIf="hasRegistrationButtonForm && !registerAsGuest && !hasPaymentButtonForm && !limitReached && !pastEvent">
@@ -279,7 +279,7 @@
                                 [ngStyle]="{'background-color': buttonColor}"
                                 (click)="pay()"
                             >
-                                {{ 'signup.pay' | translate }}
+                                {{ companyId == 35 ? ('service.reserve' | translate) : ('signup.pay' | translate) }}
                             </button>
                         </div>
                     </div>

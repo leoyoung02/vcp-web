@@ -1781,7 +1781,8 @@
     },
     "service": {
         "subscribe": "Suscribir",
-        "pay": "Pagar"
+        "pay": "Pagar",
+        "reserve": "Reservar"
     },
     "ambassadors": {
         "ambassadors": "Embajadores",

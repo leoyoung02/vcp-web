@@ -1776,7 +1776,8 @@
     },
     "service": {
         "subscribe": "S'abonner",
-        "pay": "Payer"
+        "pay": "Payer",
+        "reserve": "Réserver"
     },
     "ambassadors": {
         "ambassadors": "Ambassadeurs",

@@ -163,7 +163,7 @@
                                     (mouseover)="toggleJoinHover(true)"
                                     (mouseleave)="toggleJoinHover(false)"
                                 >
-                                    {{ activityFeeEnabled && plan?.stripe_pay == 1 && plan?.price > 0 ? (('service.pay' | translate) + ' ' + (plan?.price.replace('.00', '') + '€')) : ('plan-details.join' | translate) }}
+                                    {{ activityFeeEnabled && plan?.stripe_pay == 1 && plan?.price > 0 ? ((companyId == 35 ? ('service.reserve' | translate) : ('service.pay' | translate)) + ' ' + (plan?.price.replace('.00', '') + '€')) : ('plan-details.join' | translate) }}
                                 </button>
                                 <ng-container *ngIf="waitingListActive && plan?.waiting_list == 1">
                                     <button
