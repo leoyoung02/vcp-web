@@ -1774,7 +1774,8 @@
     },
     "service": {
         "subscribe": "Iscriviti",
-        "pay": "Paga"
+        "pay": "Paga",
+        "riserva": "Riserva"
     },
     "ambassadors": {
         "ambassadors": "Ambasciatori",
