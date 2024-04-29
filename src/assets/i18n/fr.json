@@ -2673,7 +2673,15 @@
         "selecttutoraccess": "Sélectionnez l'accès des membres aux tuteurs",
         "access": "Accès",
         "info": "Info",
-        "sameprice": "Appliquer le même prix à tous"
+        "sameprice": "Appliquer le même prix à tous", 
+        "createupdatedelete": "Créer, Mettre à jour, Supprimer",
+        "platformsettings": "Accéder aux paramètres de la plateforme",
+        "registereventsall": "S'inscrire aux événements (Tous)",
+        "registereventsnetcultura": "S'inscrire aux événements (Netcultura)",
+        "registereventsguests": "Inscrivez-vous aux événements (Vos invités)",
+        "accessprofile": "Profil d'accès",
+        "accessmyinvitations": "Accéder à mes invitations",
+        "inviteallevents": "Vous pouvez inviter à tous les événements"
     },
     "member-type": {
         "welcometo": "Bienvenue dans", 

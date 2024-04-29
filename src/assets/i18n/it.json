@@ -2664,7 +2664,15 @@
         "selecttutoraccess": "Seleziona l'accesso dei membri ai tutor",
         "access": "Accesso",
         "info": "Informazioni",
-        "sameprice": "Applica lo stesso prezzo a tutti"
+        "sameprice": "Applica lo stesso prezzo a tutti", 
+        "createupdatedelete": "Crea, aggiorna, elimina",
+        "platformsettings": "Accedi alle impostazioni della piattaforma",
+        "registereventsall": "Registrati agli eventi (tutti)",
+        "registereventsnetcultura": "Registrati agli eventi (Netcultura)",
+        "registereventsguests": "Registrati agli eventi (i tuoi ospiti)",
+        "accessprofile": "Profilo di accesso",
+        "accessmyinvitations": "Accedi ai miei inviti",
+        "inviteallevents": "Puoi invitare a tutti gli eventi"
     },
     "member-type": {
         "welcometo": "Benvenuto a",
