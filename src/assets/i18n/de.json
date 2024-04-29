@@ -1777,7 +1777,8 @@
     },
     "service": {
         "subscribe": "Abonnieren",
-        "pay": "Bezahlen"
+        "pay": "Bezahlen",
+        "reserve": "Reservieren"
     },
     "ambassadors": {
         "ambassadors": "Botschafter",

@@ -1782,7 +1782,8 @@
     },
     "service": {
         "subscribe": "Subscribe",
-        "pay": "Pay"
+        "pay": "Pay",
+        "reserve": "Reserve"
     },
     "ambassadors": {
         "ambassadors": "Ambassadors",

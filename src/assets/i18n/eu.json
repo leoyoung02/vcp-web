@@ -1778,7 +1778,8 @@
     },
     "service": {
         "subscribe": "Harpidetu",
-        "pay": "Ordaindu"
+        "pay": "Ordaindu",
+        "reserve": "Erreserba"
     },
     "ambassadors": {
         "ambassadors": "Enbaxadoreak",
