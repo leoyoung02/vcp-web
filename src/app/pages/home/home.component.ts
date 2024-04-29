@@ -512,6 +512,10 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getTitles() {
     this.plansTitle = this.plansFeature ? this.getFeatureTitle(this.plansFeature) : '';
+    if(this.isUESchoolOfLife && this.companyId == 32) {
+      this.plansTitle = this.plansTitle?.replace('de Vida Universitaria', 'de School of Life');
+      this.plansTitle = this.plansTitle?.replace('University Life', 'School of Life');
+    }
     this.groupsTitle = this.clubsFeature ? this.getFeatureTitle(this.clubsFeature) : '';
     this.cityGuidesTitle = this.cityGuideFeature ? this.getFeatureTitle(this.cityGuideFeature) : '';
     this.jobOffersTitle = this.jobOffersFeature ? this.getFeatureTitle(this.jobOffersFeature) : '';
