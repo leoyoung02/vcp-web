@@ -16,4 +16,5 @@ export class PageTitleComponent {
     @Input() title: any;
     @Input() subtitle: any;
     @Input() showBack: any;
+    @Input() mode: any;
 }

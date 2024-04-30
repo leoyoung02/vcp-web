@@ -1,5 +1,5 @@
 <ng-container *ngIf="plans?.length > 0">
-  <app-page-title [title]="plansSectionTitle"></app-page-title>
+  <app-page-title [mode]="'section'" [title]="plansSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12" >
     <ng-container *ngIf="homeCalendar">
       <div>
@@ -54,7 +54,7 @@
   </div>
 </ng-container>
 <ng-container *ngIf="clubs?.length > 0">
-  <app-page-title [title]="groupsSectionTitle"></app-page-title>
+  <app-page-title [mode]="'section'" [title]="groupsSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
     <ng-container *ngFor="let item of clubs; let even=even; let i = index;">
       <div *ngIf="item?.object_type == 'club'" 
@@ -63,14 +63,14 @@
         <div class="relative">
           <img class="rounded-t-lg w-full object-cover" [src]="item.image" [alt]="item.title" loading="lazy" />
           <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
-            <div class="relative">
+            <!-- <div class="relative">
               <div class="flex justify-end">
                 <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
                   [ngStyle]="{'background-color': buttonColor}">
                   <img class="w-[28px] h-[16px]" src="/assets/menu-icons/menu-icon-clubs.png" />
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="mt-auto">
               <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black text-sm">
                 {{item?.category}}
@@ -90,7 +90,7 @@
   </div>
 </ng-container>
 <ng-container *ngIf="cityGuides?.length > 0">
-  <app-page-title [title]="cityGuidesSectionTitle"></app-page-title>
+  <app-page-title [mode]="'section'" [title]="cityGuidesSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
     <ng-container *ngFor="let item of cityGuides; let even=even; let i = index;">
       <div *ngIf="item?.object_type == 'cityguide'" class="hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
@@ -101,10 +101,10 @@
           <div class="relative">
             <div class="flex justify-between">
               <h1 class="test__title text-lg font-bold mb-3 pr-2">{{item?.title}}</h1>
-              <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
+              <!-- <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
                 [ngStyle]="{'background-color': buttonColor}">
                 <img class="w-[28px] h-[16px]" src="/assets/menu-icons/menu-icon-city-guide.png" />
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -113,14 +113,14 @@
   </div>
 </ng-container>
 <ng-container *ngIf="jobOffers?.length > 0">
-  <app-page-title [title]="jobOffersSectionTitle"></app-page-title>
+  <app-page-title [mode]="'section'" [title]="jobOffersSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
     <ng-container *ngFor="let item of jobOffers; let even=even; let i = index;">
       <div *ngIf="item?.object_type == 'joboffer'" 
         class="break-inside-avoid-column relative hover:cursor-pointer w-full max-w-full bg-white rounded-[10px] transition duration-700 ease-in-out" 
         [ngStyle]="{'box-shadow': '0px 40px 54px -45px #00000099'}"
         [routerLink]="[item.path]">
-        <div class="absolute inset-0 flex items-center justify-center">
+        <!-- <div class="absolute inset-0 flex items-center justify-center">
           <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
             <div class="relative">
               <div class="flex justify-between">
@@ -132,7 +132,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </div> -->
         <div class="flex h-full">
             <div class="w-4 rounded-l-lg" [ngStyle]="{'background-color': buttonColor}">&nbsp;</div>
             <div class="py-4 bg-transparent text-[#1e1e1e] flex flex-col justify-evenly w-full pl-6 pr-12 rounded-r-[10px] transition duration-700 ease-in-out">
@@ -150,7 +150,7 @@
   </div>
 </ng-container>
 <ng-container *ngIf="courses?.length > 0">
-  <app-page-title [title]="coursesSectionTitle"></app-page-title>
+  <app-page-title [mode]="'section'" [title]="coursesSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
     <ng-container *ngFor="let item of courses; let even=even; let i = index;">
       <div *ngIf="item?.object_type == 'course'" 
@@ -159,14 +159,14 @@
         <div class="relative">
           <img class="rounded-t-lg w-full object-cover" [src]="item.image" [alt]="item.title" loading="lazy" />
           <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
-            <div class="relative">
+            <!-- <div class="relative">
               <div class="flex justify-end">
                 <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
                   [ngStyle]="{'background-color': buttonColor}">
                   <img class="w-[28px] h-[16px]" src="/assets/menu-icons/menu-icon-courses.png" />
                 </div>
               </div>
-            </div>
+            </div> -->
             <div class="mt-auto">
               <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black text-sm">
                 {{item?.category}}
@@ -191,7 +191,7 @@
   </div>
 </ng-container>
 <ng-container *ngIf="discounts?.length > 0">
-  <app-page-title [title]="discountsSectionTitle"></app-page-title>
+  <app-page-title [mode]="'section'" [title]="discountsSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
     <ng-container *ngFor="let item of discounts; let even=even; let i = index;">
       <div *ngIf="item?.object_type == 'discount' || item?.object_type == 'service'" class="break-inside-avoid-column hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
@@ -201,10 +201,10 @@
           <div class="relative">
             <div class="flex justify-between">
               <h1 class="test__title text-lg font-bold mb-3 pr-2">{{item?.title}}</h1>
-              <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
+              <!-- <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
                 [ngStyle]="{'background-color': buttonColor}">
                 <img class="w-[28px] h-[16px]" src="/assets/menu-icons/menu-icon-offers.png" />
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
@@ -213,7 +213,7 @@
   </div>
 </ng-container>
 <ng-container *ngIf="blogs?.length > 0">
-  <app-page-title [title]="blogsSectionTitle"></app-page-title>
+  <app-page-title [mode]="'section'" [title]="blogsSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
     <ng-container *ngFor="let item of blogs; let even=even; let i = index;">
       <div *ngIf="item?.object_type == 'blog'" class="break-inside-avoid-column hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
@@ -223,10 +223,10 @@
           <div class="relative">
             <div class="flex justify-between">
               <h1 class="test__title text-lg font-bold mb-3 pr-2">{{item?.title}}</h1>
-              <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
+              <!-- <div class="w-[32px] min-w-[32px] max-w-[32px] h-[32px] min-h-[32px] max-h-[32px] relative inline-flex items-center p-2 font-medium rounded-lg"
                 [ngStyle]="{'background-color': buttonColor}">
                 <img class="w-[28px] h-[16px]" src="/assets/menu-icons/menu-icon-blog.png" />
-              </div>
+              </div> -->
             </div>
             <p class="test__author font-sm font-light flex items-center" *ngIf="item?.date">
               <svg class="w-3 h-3 mr-2 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
@@ -249,14 +249,14 @@
   </div>
 </ng-container>
 <ng-container *ngIf="members?.length > 0">
-  <app-page-title [title]="membersSectionTitle"></app-page-title>
+  <app-page-title [mode]="'section'" [title]="membersSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
     <ng-container *ngFor="let item of members; let even=even; let i = index;">
       <div *ngIf="item?.object_type == 'member'" class="break-inside-avoid-column hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
         [routerLink]="[item.path]">
         <img class="w-full rounded-md object-cover" [src]="item.image" [alt]="item.title" loading="lazy">
         <div class="absolute inset-0 flex items-center justify-center">
-          <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
+          <!-- <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
             <div class="relative">
               <div class="flex justify-between">
                 <h1 class="test__title text-lg font-bold mb-3 pr-2">&nbsp;</h1>
@@ -266,7 +266,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="absolute inset-0 flex items-end p-4">
             <div class="flex flex-col w-full w-max-full">
               <p class="text-white text-lg leading-6 pb-2 text-center font-bold">{{ item?.title }}</p>
@@ -286,14 +286,14 @@
   </div>
 </ng-container>
 <ng-container *ngIf="tutors?.length > 0">
-  <app-page-title [title]="tutorsSectionTitle"></app-page-title>
+  <app-page-title [mode]="'section'" [title]="tutorsSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
     <ng-container *ngFor="let item of tutors; let even=even; let i = index;">
       <div *ngIf="item?.object_type == 'tutor'" class="break-inside-avoid-column hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
         [routerLink]="[item.path]">
         <img class="w-full rounded-md object-cover" [src]="item.image" [alt]="item.title" loading="lazy">
         <div class="absolute inset-0 flex items-center justify-center">
-          <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
+          <!-- <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
             <div class="relative">
               <div class="flex justify-between">
                 <h1 class="test__title text-lg font-bold mb-3 pr-2">&nbsp;</h1>
@@ -303,7 +303,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
           <div class="absolute inset-0 flex items-end p-4">
             <div class="flex flex-col w-full w-max-full">
               <p class="text-white text-lg leading-6 pb-2 text-center font-bold">{{ item?.title }}</p>

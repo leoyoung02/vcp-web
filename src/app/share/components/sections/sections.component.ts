@@ -172,7 +172,7 @@ export class SectionsComponent {
   }
 
   fetchData() {
-    this.mode = this.homeCalendar ? 'home' : '';
+    this.mode = this.homeCalendar && !this.hasSectionsTemplate ? 'home' : '';
     this.list = this.allList;
     this.plansList = this.allList;
     this.separateByType(this.list);
