@@ -213,6 +213,8 @@ export class PlansListComponent {
   selectedAgeGroup: any = '';
   selectedGroup: any = '';
   defaultActiveFilter: boolean = false;
+  filterSettings: any = [];
+  showFilters: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -365,11 +367,20 @@ export class PlansListComponent {
     if(this.companyId == 12) {
       this.buttonList = [];
     } else {
-       this.buttonList = [
+      let text = this._translateService.instant("plans.all");
+      if(this.filterSettings?.length > 0) {
+        let category_filter = this.filterSettings?.filter(fs => {
+          return fs.field == 'category'
+        })
+        if(category_filter?.length > 0 && category_filter[0].filter_type == 'dropdown') {
+          text = category_filter[0].select_text;
+        }
+      }
+      this.buttonList = [
         {
           id: "All",
           value: "All",
-          text: this._translateService.instant("plans.all"),
+          text,
           selected: true,
           fk_company_id: this.companyId,
           fk_supercategory_id: "All",
@@ -447,11 +458,20 @@ export class PlansListComponent {
 
   initializeIconFilterList(list) {
     if(list?.length > 0) {
+      let text = this._translateService.instant("plans.all");
+      if(this.filterSettings?.length > 0) {
+        let city_filter = this.filterSettings?.filter(fs => {
+          return fs.field == 'city'
+        })
+        if(city_filter?.length > 0) {
+          text = city_filter[0].select_text;
+        }
+      }
       this.list = [
         {
           id: "All",
           value: "",
-          text: this._translateService.instant("plans.all"),
+          text,
           selected: true,
           company_id: this.companyId,
           city: "",
@@ -542,6 +562,8 @@ export class PlansListComponent {
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 
+          this.initializeFilterSettings(data?.module_filter_settings);
+
           this.user = data?.user;
           this.mapUserPermissions(data?.user_permissions);
 
@@ -569,6 +591,18 @@ export class PlansListComponent {
           console.log(error);
         }
       );
+  }
+
+  initializeFilterSettings(filter_settings) {
+    let filter_settings_active = filter_settings?.filter(fs => {
+      return fs.active == 1
+    })
+    if(filter_settings_active?.length > 0 && this.categoriesFilterActive) {
+      this.showFilters = true;
+      this.filterSettings = filter_settings;
+      if(this.ageGroupFilterActive) { this.initializeAgeGroupList(); }
+      if(this.groupFilterActive) { this.initializeGroupList(); }
+    }
   }
 
   mapCities(cities) {
@@ -652,10 +686,6 @@ export class PlansListComponent {
       this.groupFilterActive = subfeatures.some(
         (a) => a.name_en == "Group filter" && a.active == 1
       );
-
-      if(this.ageGroupFilterActive) { this.initializeAgeGroupList(); }
-      if(this.groupFilterActive) { this.initializeGroupList(); }
-      // if(this.ageGroupFilterActive || this.groupFilterActive) { this.defaultActiveFilter = true; }
     }
 
     localStorage.setItem("show_past_events", this.showPastEvents ? "1" : "0");
@@ -776,11 +806,20 @@ export class PlansListComponent {
   }
 
   initializeAgeGroupList() {
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let age_group_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'age_group'
+      })
+      if(age_group_filter?.length > 0) {
+        text = age_group_filter[0].select_text;
+      }
+    }
     this.ageGroupList = [
       {
         id: "All",
         value: "All",
-        text: this._translateService.instant("plans.all"),
+        text,
         selected: true,
         fk_company_id: this.companyId,
         fk_supercategory_id: "All",
@@ -817,11 +856,20 @@ export class PlansListComponent {
   }
 
   initializeGroupList() {
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let group_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'group'
+      })
+      if(group_filter?.length > 0) {
+        text = group_filter[0].select_text;
+      }
+    }
     this.groupList = [
       {
         id: "All",
         value: "All",
-        text: this._translateService.instant("plans.all"),
+        text,
         selected: true,
         fk_company_id: this.companyId,
         fk_supercategory_id: "All",
