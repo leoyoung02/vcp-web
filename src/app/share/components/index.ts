@@ -18,4 +18,5 @@ export * from './masonry-section2/masonry-section2.component';
 export * from './masonry-section3/masonry-section3.component';
 export * from './video-section/video-section.component';
 export * from './sections-masonry/sections-masonry.component';
+export * from './sections/sections.component';
 export * from './comments/comments.component';
