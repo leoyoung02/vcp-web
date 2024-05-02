@@ -69,6 +69,9 @@ export class CityGuideListComponent {
   selectedGuideId: any;
   user: any;
   campus: any = '';
+  defaultActiveFilter: boolean = false;
+  filterSettings: any = [];
+  showFilters: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -149,6 +152,8 @@ export class CityGuideListComponent {
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 
+          this.initializeFilterSettings(data?.module_filter_settings);
+
           this.mapUserPermissions(data?.user_permissions);
 
           this.cities = data?.cities;
@@ -160,6 +165,16 @@ export class CityGuideListComponent {
           console.log(error);
         }
       );
+  }
+
+  initializeFilterSettings(filter_settings) {
+    let filter_settings_active = filter_settings?.filter(fs => {
+      return fs.active == 1
+    })
+    if(filter_settings_active?.length > 0 && this.filterActive) {
+      this.showFilters = true;
+      this.filterSettings = filter_settings;
+    }
   }
 
   mapCities(cities) {
@@ -213,11 +228,20 @@ export class CityGuideListComponent {
   }
 
   initializeIconFilterList(list) {
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let city_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'city'
+      })
+      if(city_filter?.length > 0) {
+        text = city_filter[0].select_text;
+      }
+    }
     this.list = [
       {
         id: "All",
         value: "",
-        text: this._translateService.instant("plans.all"),
+        text,
         selected: true,
         company_id: this.companyId,
         city: "",
@@ -481,6 +505,10 @@ export class CityGuideListComponent {
   toggleReadHover(event, guide) {
     this.readHover = event;
     this.selectedGuideId = event ? guide.id : ''
+  }
+
+  filterViewChanged(event) {
+    this.defaultActiveFilter = event;
   }
 
   ngOnDestroy() {

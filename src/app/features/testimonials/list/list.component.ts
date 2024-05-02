@@ -93,7 +93,10 @@ export class TestimonialsListComponent {
       weight: 0.25
     }]
   };
+  filterActive: boolean = false;
   defaultActiveFilter: boolean = false;
+  filterSettings: any = [];
+  showFilters: boolean = false;
 
   constructor(
     private _router: Router,
@@ -175,7 +178,10 @@ export class TestimonialsListComponent {
       .subscribe(
         (data) => {
           this.mapFeatures(data?.features_mapping);
-          this.mapSubfeatures(data?.settings?.subfeatures );
+          this.mapSubfeatures(data?.settings?.subfeatures);
+
+          this.initializeFilterSettings(data?.module_filter_settings);
+
           this.mapUserPermissions(data?.user_permissions);
           this.courses = data?.courses;
           this.tags = data?.tags;
@@ -189,6 +195,16 @@ export class TestimonialsListComponent {
           console.log(error);
         }
       );
+  }
+
+  initializeFilterSettings(filter_settings) {
+    let filter_settings_active = filter_settings?.filter(fs => {
+      return fs.active == 1
+    })
+    if(filter_settings_active?.length > 0 && this.filterActive) {
+      this.showFilters = true;
+      this.filterSettings = filter_settings;
+    }
   }
 
   shuffleArray(array) {
@@ -213,7 +229,9 @@ export class TestimonialsListComponent {
 
   mapSubfeatures(subfeatures) {
     if (subfeatures?.length > 0) {
-      
+      this.filterActive = subfeatures.some(
+        (a) => a.name_en == "Testimonials filter" && a.active == 1
+      );
     }
   }
 
@@ -356,11 +374,20 @@ export class TestimonialsListComponent {
 
   initializeButtonGroup() {
     let categories = this.courses;
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let category_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'category'
+      })
+      if(category_filter?.length > 0) {
+        text = category_filter[0].select_text;
+      }
+    }
     this.buttonList = [
       {
         id: "All",
         value: "All",
-        text: this._translateService.instant("plans.all"),
+        text,
         selected: true,
         fk_company_id: this.companyId,
         fk_supercategory_id: "All",

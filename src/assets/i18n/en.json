@@ -65,7 +65,11 @@
         "visitinstagram": "Visit our instagram",
         "privacysettings": "Privacy settings",
         "menusettings": "Menu settings",
-        "thismonth": "This month"
+        "thismonth": "This month",
+        "filtersettings": "Filter settings",
+        "display": "Display",
+        "selecttext": "Select text",
+        "agegroup": "Age group"
     },
     "user-popup": {
         "myplans": "My Plans",

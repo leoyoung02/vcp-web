@@ -221,6 +221,8 @@ import {
   EDIT_MODULE_COMMENT_URL,
   REACT_MODULE_COMMENT_URL,
   DELETE_MODULE_COMMENT_URL,
+  EDIT_MODULE_FILTER_SETTINGS_URL,
+  MODULE_FILTER_SETTINGS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -1977,5 +1979,17 @@ export class CompanyService {
     return this._http.post(REACT_MODULE_COMMENT_URL, payload, { 
       headers: this.headers }
     ).pipe(map(res => res));
+  }
+
+  editModuleFilterSettings(params): Observable<any> {
+    return this._http.post(`${EDIT_MODULE_FILTER_SETTINGS_URL}`,
+        params
+    ).pipe(map(res => res));
+  }
+
+  getModuleFilterSettings(id, featureId): Observable<any> {
+    return this._http
+      .get(`${MODULE_FILTER_SETTINGS_URL}/${id}/${featureId}`, { headers: this.headers })
+      .pipe(map((res) => res));
   }
 }
