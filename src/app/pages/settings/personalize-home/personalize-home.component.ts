@@ -199,6 +199,29 @@ export class PersonalizeHomeComponent {
   showCourses: boolean = false
   showEvents: boolean = false
 
+  selectedSetting: any
+  selectedSettingTitle: any = ''
+  modalTextNumber: any = 1
+  modalTextValues: any = []
+  showValueModal: boolean = false
+  selectedSettingId: any
+  selectedSettingValue: any
+  newValue: any
+  fieldType: any = ''
+  selectedReferralRateType: any = ''
+  dialogMode: string = ""
+  dialogTitle: any
+  selectedSettingItem: any
+  setting: any
+  settings: any
+  settings2: any
+  @ViewChild("modalbutton", { static: false }) modalbutton:
+    | ElementRef
+    | undefined
+  @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+    | ElementRef
+    | undefined
+
   constructor(
     private _router: Router,
     private _companyService: CompanyService,
@@ -253,6 +276,53 @@ export class PersonalizeHomeComponent {
     this.initializeBreadcrumb();
     this.initializeHomeTemplates();
     this.getCompanyFeatures();
+    this.fetchSettingsData();
+  }
+
+  fetchSettingsData() {
+    this._companyService.fetchManageSettingsData(4, this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        data => {
+            this.mapCategorySettings(data);
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  mapCategorySettings(data) {
+    this.setting = data?.setting ? (data?.setting?.setting?.length > 0 ? data?.setting?.setting[0] : '') : {}
+
+    let other_settings = data?.other_settings
+    if(other_settings) {
+        other_settings.content = other_settings?.content.filter(ots => {
+            return ots.title_en != 'Different welcome email template for members'
+        })
+        this.settings = other_settings.content
+        this.settings = this.removeUnusedSettings(this.settings);
+        this.settings2 = other_settings.content
+
+        let multipleStripeAccountSeeting = this.settings.some(a => a.title_en == 'Multiple Stripe Accounts' && a.active == 1)
+        if(multipleStripeAccountSeeting){
+            this.settings = this.settings.filter((setting) => {
+                return setting.title_en == 'Multiple Stripe Accounts'
+            })
+        }
+    }
+  }
+
+  removeUnusedSettings(settings) {
+    return settings?.filter(setting => {
+      return setting.title_en != 'Quizzes' && 
+      setting.title_en != 'Banner image link' &&
+      setting.title_en != 'Monday as calendar start day' &&
+      setting.title_en != 'Links access to terms and policies' && 
+      setting.title_en != 'Contact Us' &&
+      setting.title_en != 'Supported languages' &&
+      setting.title_en != 'Section title and dividing line'
+    })
   }
 
   initializeBreadcrumb() {
@@ -991,6 +1061,129 @@ export class PersonalizeHomeComponent {
   }
 
   handleProfileContent(event) {
+  }
+
+  getSettingItemTitle(item) {
+    return this.language == 'en' ? item.title_en : (this.language == 'fr' ? item.title_fr : 
+      (this.language == 'eu' ? item.title_eu : (this.language == 'ca' ? item.title_ca : 
+      (this.language == 'de' ? item.title_de : (this.language == 'it' ? item.title_it : item.title_es)
+      )))
+    )
+  }
+
+  getSettingItemDescription(item) {
+    return this.language == 'en' ? item.description_en : (this.language == 'fr' ? item.description_fr : 
+      (this.language == 'eu' ? item.description_eu : (this.language == 'ca' ? item.description_ca : 
+      (this.language == 'de' ? item.description_de : (this.language == 'it' ? item.description_it : item.description_es)
+      )))
+    )
+  }
+
+  getSettingTitle(setting) {
+    this.selectedSetting = setting
+    if(this.selectedSetting) {
+      this.selectedSettingTitle = this.language == 'en' ? (this.selectedSetting.title_en ? (this.selectedSetting.title_en || this.selectedSetting.title_es) : this.selectedSetting.title_es) :
+        (this.language == 'fr' ? (this.selectedSetting.title_fr ? (this.selectedSetting.title_fr || this.selectedSetting.title_es) : this.selectedSetting.title_es) : 
+          (this.language == 'eu' ? (this.selectedSetting.title_eu ? (this.selectedSetting.title_eu || this.selectedSetting.title_es) : this.selectedSetting.title_es) : 
+              (this.language == 'ca' ? (this.selectedSetting.title_ca ? (this.selectedSetting.title_ca || this.selectedSetting.title_es) : this.selectedSetting.title_es) : 
+                  (this.language == 'de' ? (this.selectedSetting.title_de ? (this.selectedSetting.title_de || this.selectedSetting.title_es) : this.selectedSetting.title_es) : 
+                    (this.language == 'it' ? (this.selectedSetting.title_it ? (this.selectedSetting.title_it || this.selectedSetting.title_es) : this.selectedSetting.title_es) : this.selectedSetting.title_es)
+              ))
+          )
+        )
+    }
+  }
+
+  multiInputEvent(event: any, i: number): void {
+    if(event && event.target.value){
+      this.modalTextValues[i] = event.target.value
+    }
+  }
+
+  changeValue(id, value, type = '') {
+    if(type.indexOf('text') >= 0 && type.length > 4){
+      this.modalTextNumber = type.substring(4);
+      this.modalTextValues = value.split(',');
+    }else {
+      this.modalTextNumber = 1
+      this.modalTextValues = []
+    }
+    this.showValueModal = true
+    this.selectedSettingId = id
+    this.selectedSettingValue = value
+    this.newValue = value
+    this.fieldType = type
+    this.selectedReferralRateType = type == 'select' ? value : ''
+
+    this.dialogMode = "update-value";
+    let setting_row = this.settings?.filter(setting => {
+      return setting.id == this.selectedSettingId
+    })
+    this.selectedSettingItem = {};
+    if(setting_row?.length > 0) {
+      this.selectedSettingItem = setting_row[0];
+      this.getSettingTitle(setting_row[0]); 
+    }
+    this.dialogTitle =  this.selectedSettingTitle
+    this.dialogTitle = this.selectedSettingTitle || this._translateService.instant('company-settings.updatevalue');
+    this.modalbutton?.nativeElement.click();
+  }
+
+  saveDialog() {
+    if(this.dialogMode == 'update-value') {
+      this.saveValue();
+    }
+  }
+
+  saveValue() {
+    let updatedStripeKeys = false
+    if(this.selectedSettingValue && this.newValue && this.newValue != this.selectedSettingValue && this.selectedSettingValue.indexOf('sk_') >= 0) {
+      updatedStripeKeys = true
+    }
+
+    let params;
+    if(this.modalTextNumber > 1){
+      params = {
+        value: this.modalTextValues.toString(),
+        company_id: this.companyId,
+        updated_stripe_keys: updatedStripeKeys ? 1 : 0
+      }
+    } else {
+      params = {
+        value: this.newValue,
+        company_id: this.companyId,
+        updated_stripe_keys: updatedStripeKeys ? 1 : 0
+      }
+    }
+    this._companyService.updateOtherSettingValue(this.selectedSettingId, params)
+      .subscribe(
+        response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          const item = this.settings.find((i) => i.id == this.selectedSettingId);
+          
+          if (item){
+            if(this.modalTextNumber > 1){
+              item.value = this.modalTextValues.toString();
+            }else {
+              item.value = this.newValue;
+            }
+          }
+
+          if(updatedStripeKeys) {
+            this._translateService.instant('dialog.stripekeyupdated')
+          }
+
+          this.closemodalbutton?.nativeElement.click();
+          this.dialogMode = '';
+
+          if(this.selectedSettingId == 291) {
+            location.reload()
+          }
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
   handleGoBack() {

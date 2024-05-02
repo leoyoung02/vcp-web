@@ -40,6 +40,7 @@
                         [list]="list"
                         (filterList)="filteredCity($event)"
                         [defaultActiveFilter]="defaultActiveFilter"
+                        [filterSettings]="filterSettings"
                         (onFilterClick)="filterViewChanged($event)"
                     ></app-filter>
                 </ng-container>

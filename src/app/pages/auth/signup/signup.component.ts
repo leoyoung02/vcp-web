@@ -256,7 +256,8 @@ export class SignupComponent {
     private _snackBar: MatSnackBar,
     private _localService: LocalService,
     private _companyService: CompanyService,
-    private _userService: UserService
+    private _userService: UserService,
+    private dateAdapter: DateAdapter<Date>,
   ) {}
 
   async ngOnInit() {
@@ -299,6 +300,7 @@ export class SignupComponent {
       }
     }
 
+    this.dateAdapter.setLocale('es-ES');
     this.initData();
   }
 
