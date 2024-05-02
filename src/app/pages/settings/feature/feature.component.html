@@ -551,7 +551,7 @@
                                 <th class="text-left font-semibold text-sm">{{ 'member-type-registration.field' | translate }}</th>
                                 <th class="text-left font-semibold text-sm">{{ 'guest-landing.activate' | translate }}</th>
                                 <th class="text-left font-semibold text-sm">{{ 'landing.selecttext' | translate }}</th>
-                                <th class="text-left font-semibold text-sm">{{ 'landing.display' | translate }}</th>
+                                <th class="text-left font-semibold text-sm" *ngIf="id == 1 || id == 4 || id == 5">{{ 'landing.display' | translate }}</th>
                             </tr>
                             <tr *ngFor="let setting of filterSettings" class="table-row">
                                 <td class="py-2">{{ setting?.text }}</td>
@@ -587,7 +587,7 @@
                                         />
                                     </div>
                                 </td>
-                                <td class="py-2">
+                                <td class="py-2" *ngIf="id == 1 || id == 4 || id == 5">
                                     <div *ngIf="setting?.field == 'category'" 
                                         class="flex items-center justify-center relative w-full max-w-full">
                                         <div class="mb-2 relative w-full max-w-full">

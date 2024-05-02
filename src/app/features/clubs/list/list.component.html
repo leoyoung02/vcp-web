@@ -47,24 +47,28 @@
             >
             </app-search>
         </div>
-        <div class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 mt-4 sm:mt-4 md:mt-0 lg:mt-0">
-            <app-filter
-                *ngIf="filterTypeControl == 'dropdown'"
-                [mode]="'clubs'"
-                [buttonList]="buttonList"
-                [buttonColor]="buttonColor"
-                [list]="list"
-                [defaultActiveFilter]="defaultActiveFilter"
-                (filterList)="filteredCity($event)"
-                (onButtonClick)="filteredCategory($event)"
-                (onFilterClick)="filterViewChanged($event)"
-            ></app-filter>
-            <app-button-group
-                *ngIf="filterTypeControl == 'button'"
-                [buttonList]="buttonList"
-                [buttonColor]="buttonColor"
-                (onButtonClick)="filteredCategory($event)"
-            ></app-button-group>
+        <div class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 mt-4 sm:mt-4 md:mt-0 lg:mt-0" *ngIf="showFilters">
+            <ng-container *ngFor="let setting of filterSettings">
+                <ng-container *ngIf="setting?.field == 'category' && setting?.active == 1 && setting?.filter_type == 'dropdown'">
+                    <app-filter
+                        [mode]="'clubs'"
+                        [buttonList]="buttonList"
+                        [buttonColor]="buttonColor"
+                        [list]="list"
+                        [defaultActiveFilter]="defaultActiveFilter"
+                        (filterList)="filteredCity($event)"
+                        (onButtonClick)="filteredCategory($event)"
+                        (onFilterClick)="filterViewChanged($event)"
+                    ></app-filter>
+                </ng-container>
+                <ng-container *ngIf="setting?.field == 'category' && setting?.active == 1 && setting?.filter_type != 'dropdown'">
+                    <app-button-group
+                        [buttonList]="buttonList"
+                        [buttonColor]="buttonColor"
+                        (onButtonClick)="filteredCategory($event)"
+                    ></app-button-group>
+                </ng-container>
+            </ng-container>
         </div>
     </div>
 </div>

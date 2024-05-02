@@ -88,6 +88,9 @@ export class TutorsListComponent {
       weight: 0.25
     }]
   };
+  filterActive: boolean = false;
+  filterSettings: any = [];
+  showFilters: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -169,6 +172,9 @@ export class TutorsListComponent {
         (data) => {
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
+
+          this.initializeFilterSettings(data?.module_filter_settings);
+
           this.mapUserPermissions(data?.user_permissions);
           this.tutorTypes = data?.tutor_types;
 
@@ -195,6 +201,16 @@ export class TutorsListComponent {
           console.log(error);
         }
       );
+  }
+
+  initializeFilterSettings(filter_settings) {
+    let filter_settings_active = filter_settings?.filter(fs => {
+      return fs.active == 1
+    })
+    if(filter_settings_active?.length > 0 && this.filterActive) {
+      this.showFilters = true;
+      this.filterSettings = filter_settings;
+    }
   }
 
   filter30idiomasTutors(tutors) {
@@ -224,6 +240,9 @@ export class TutorsListComponent {
     if (subfeatures?.length > 0) {
       this.tutorCardSmallImage = subfeatures.some(
         (a) => a.name_en == "Tutor card (small image)" && a.active == 1
+      );
+      this.filterActive = subfeatures.some(
+        (a) => a.name_en == "Tutors filter" && a.active == 1
       );
     }
   }
@@ -372,11 +391,20 @@ export class TutorsListComponent {
   }
 
   initializeIconFilterList(list) {
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let city_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'city'
+      })
+      if(city_filter?.length > 0) {
+        text = city_filter[0].select_text;
+      }
+    }
     this.list = [
       {
         id: "All",
         value: "",
-        text: this._translateService.instant("plans.all"),
+        text,
         selected: true,
         company_id: this.companyId,
         city: "",
@@ -407,11 +435,20 @@ export class TutorsListComponent {
 
   initializeButtonGroup() {
     let categories = this.allTutorTypes;
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let category_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'category'
+      })
+      if(category_filter?.length > 0 && category_filter[0].filter_type == 'dropdown') {
+        text = category_filter[0].select_text;
+      }
+    }
     this.buttonList = [
       {
         id: "All",
         value: "All",
-        text: this._translateService.instant("plans.all"),
+        text,
         selected: true,
         fk_company_id: this.companyId,
         fk_supercategory_id: "All",

@@ -554,7 +554,6 @@ export class PlansListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.allGroups = data?.clubs;
           this.allAgeGroups = data?.age_groups;
 

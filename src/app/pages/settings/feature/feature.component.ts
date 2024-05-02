@@ -377,6 +377,9 @@ export class FeatureComponent {
       { id: 32, name_en: "Filter" },
       { id: 33, name_en: "Categories filter" },
       { id: 34, name_en: "Age group filter" },
+      { id: 35, name_en: "Members filter" },
+      { id: 36, name_en: "Tutors filter" },
+      { id: 37, name_en: "Testimonials filter" },
     ];
   }
 
@@ -486,6 +489,9 @@ export class FeatureComponent {
       case "Vimeo":
       case "Filter":
       case "Categories filter":
+      case "Members filter":
+      case "Tutors filter":
+      case "Testimonials filter":
       case "Candidates display":
         this.openSettingModal(row);
         break;
@@ -593,6 +599,9 @@ export class FeatureComponent {
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Filter":
+      case "Members filter":
+      case "Tutors filter":
+      case "Testimonials filter":
       case "Categories filter":
         this.getSettingTitle(row);
         this.updateFilter();
@@ -919,6 +928,7 @@ export class FeatureComponent {
   }
 
   mapSubfeatures(subfeatures) {
+    console.log(subfeatures)
     if (subfeatures?.length > 0) {
       this.ageGroupFilterActive = subfeatures.some(
         (a) => a.name_en == "Age group filter" && a.active == 1
@@ -2133,30 +2143,35 @@ export class FeatureComponent {
 
   loadFilterSettings() {
     if(this.filterSettings?.length == 0) {
-      this.filterSettings.push({
-        id: 1,
-        company_id: this.companyId,
-        feature_id: this.id,
-        field: 'category',
-        text: this._translateService.instant('plan-details.category'),
-        display: this.selectedFilter || 'dropdown',
-        status: true,
-        select_text: '',
-      })
+      if(this.id != 3) {
+        this.filterSettings.push({
+          id: 1,
+          company_id: this.companyId,
+          feature_id: this.id,
+          field: 'category',
+          text: this._translateService.instant('plan-details.category'),
+          display: this.selectedFilter || 'dropdown',
+          status: true,
+          select_text: '',
+        })
+      }
+      if(
+        (this.companyId != 12 && (this.id == 1 || this.id == 3 || this.id == 5 || this.id == 15 || this.id == 18 || this.id == 20)) ||
+        (this.companyId == 12 && this.id == 15)
+      ) {
+        this.filterSettings.push({
+          id: 2,
+          company_id: this.companyId,
+          feature_id: this.id,
+          field: 'city',
+          text: this.id == 15 && this.companyId == 12 ? this._translateService.instant('company-settings.postalcode') : this._translateService.instant('profile-settings.city'),
+          display: 'dropdown',
+          status: true,
+          select_text: '',
+        })
+      }
 
       if(this.id == 1) {
-        if(this.companyId != 12) {
-          this.filterSettings.push({
-            id: 2,
-            company_id: this.companyId,
-            feature_id: this.id,
-            field: 'city',
-            text: this._translateService.instant('profile-settings.city'),
-            display: '',
-            status: true,
-            select_text: '',
-          })
-        }
         if(this.ageGroupFilterActive) {
           this.filterSettings.push({
             id: 3,
@@ -2164,7 +2179,7 @@ export class FeatureComponent {
             feature_id: this.id,
             field: 'age_group',
             text: this._translateService.instant('landing.agegroup'),
-            display: '',
+            display: 'dropdown',
             status: true,
             select_text: '',
           })
@@ -2176,7 +2191,7 @@ export class FeatureComponent {
             feature_id: this.id,
             field: 'group',
             text: this.clubTitle,
-            display: '',
+            display: 'dropdown',
             status: true,
             select_text: '',
           })
@@ -2207,7 +2222,7 @@ export class FeatureComponent {
           feature_id: fs.feature_id,
           field: fs.field,
           text,
-          display: fs.feature_id == 1 ? fs.filter_type : '',
+          display: fs.feature_id == 1 ? fs.filter_type : 'dropdown',
           status: fs.status == 1 || fs.active == 1 ? true : false,
           select_text: fs.select_text,
         }
@@ -2215,28 +2230,9 @@ export class FeatureComponent {
         this.filterSettings.push(filter)
       })
     }
-
-    console.log('filter settings') 
-    console.log(this.filterSettings)
   }
 
   saveFilter() {
-    // let params = {
-    //   company_id: this.companyId,
-    //   feature_id: this.id,
-    //   filter_type: this.selectedFilter
-    // }
-    // this._companyService.editFilterSettings(params)
-    // .subscribe(
-    //   response => {
-    //     this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
-    //     this.closesettingmodalbutton?.nativeElement?.click();
-    //   },
-    //   error => {
-    //     console.log(error)
-    //   }
-    // )
-
     this._companyService.editModuleFilterSettings({
       company_id: this.companyId,
       feature_id: this.id,
