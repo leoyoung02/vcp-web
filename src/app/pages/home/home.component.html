@@ -20,17 +20,43 @@
     <app-courses-list [parentComponent]="'home'"></app-courses-list>
   </ng-container>
   <ng-container *ngIf="showModuleSections && !(hasLandingTemplate && !hasPredefinedTemplate)">
-    <app-sections-masonry
-      *ngIf="sectionsList?.length > 0"
-      [userId]="userId"
-      [superAdmin]="superAdmin"
-      [company]="company"
-      [list]="sectionsList"
-      [allList]="sectionsList"
-      [isUESchoolOfLife]="isUESchoolOfLife"
-      [campus]="campus"
-      [bottomEventTitles]="bottomEventTitles"
-      [homeCalendar]="homeCalendar">
-    </app-sections-masonry>
+    <ng-container *ngIf="sectionsList?.length > 0 && !hasSectionsTemplate">
+      <app-sections-masonry
+        *ngIf="sectionsList?.length > 0"
+        [userId]="userId"
+        [superAdmin]="superAdmin"
+        [company]="company"
+        [list]="sectionsList"
+        [allList]="sectionsList"
+        [isUESchoolOfLife]="isUESchoolOfLife"
+        [campus]="campus"
+        [bottomEventTitles]="bottomEventTitles"
+        [homeCalendar]="homeCalendar">
+      </app-sections-masonry>
+    </ng-container>
+    <ng-container *ngIf="sectionsList?.length > 0 && hasSectionsTemplate">
+      <app-sections
+        *ngIf="sectionsList?.length > 0"
+        [userId]="userId"
+        [superAdmin]="superAdmin"
+        [company]="company"
+        [list]="sectionsList"
+        [allList]="sectionsList"
+        [isUESchoolOfLife]="isUESchoolOfLife"
+        [campus]="campus"
+        [bottomEventTitles]="bottomEventTitles"
+        [homeCalendar]="homeCalendar"
+        [hasSectionsTemplate]="hasSectionsTemplate"
+        [plansTitle]="plansTitle"
+        [groupsTitle]="groupsTitle"
+        [cityGuidesTitle]="cityGuidesTitle"
+        [jobOffersTitle]="jobOffersTitle"
+        [coursesTitle]="coursesTitle"
+        [discountsTitle]="discountsTitle"
+        [blogsTitle]="blogsTitle"
+        [membersTitle]="membersTitle"
+        [tutorsTitle]="tutorsTitle">
+      </app-sections>
+    </ng-container>
   </ng-container>
 </div>

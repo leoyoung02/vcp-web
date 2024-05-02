@@ -65,7 +65,11 @@
         "visitinstagram": "Visita il nostro Instagram",
         "privacysettings": "Impostazioni sulla privacy",
         "menusettings": "Impostazioni del menu",
-        "thismonth": "Questo mese"
+        "thismonth": "Questo mese",
+        "filtersettings": "Impostazioni filtro",
+        "display": "Visualizzazione",
+        "selecttext": "Seleziona testo",
+        "agegroup": "Gruppo di età"
     },
     "user-popup": {
         "myplans": "I miei piani",
@@ -1774,7 +1778,8 @@
     },
     "service": {
         "subscribe": "Iscriviti",
-        "pay": "Paga"
+        "pay": "Paga",
+        "riserva": "Riserva"
     },
     "ambassadors": {
         "ambassadors": "Ambasciatori",

@@ -117,6 +117,9 @@ export class JobOffersListComponent {
   selectedLocation: any = '';
   user: any;
   campus: any = '';
+  defaultActiveFilter: boolean = false;
+  filterSettings: any = [];
+  showFilters: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -189,6 +192,8 @@ export class JobOffersListComponent {
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 
+          this.initializeFilterSettings(data?.module_filter_settings);
+
           this.mapUserPermissions(data?.user_permissions);
 
           this.locations = data?.job_locations;
@@ -210,6 +215,16 @@ export class JobOffersListComponent {
           console.log(error);
         }
       );
+  }
+
+  initializeFilterSettings(filter_settings) {
+    let filter_settings_active = filter_settings?.filter(fs => {
+      return fs.active == 1
+    })
+    if(filter_settings_active?.length > 0 && this.showFilter) {
+      this.showFilters = true;
+      this.filterSettings = filter_settings;
+    }
   }
 
   mapCities(cities) {
@@ -307,11 +322,20 @@ export class JobOffersListComponent {
   }
 
   initializeIconFilterList(list) {
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let city_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'city'
+      })
+      if(city_filter?.length > 0) {
+        text = city_filter[0].select_text;
+      }
+    }
     this.list = [
       {
         id: "All",
         value: "",
-        text: this._translateService.instant("plans.all"),
+        text,
         selected: true,
         company_id: this.companyId,
       },
@@ -330,12 +354,20 @@ export class JobOffersListComponent {
 
   initializeButtonGroup() {
     let categories = this.categories;
-
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let category_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'category'
+      })
+      if(category_filter?.length > 0 && category_filter[0].filter_type == 'dropdown') {
+        text = category_filter[0].select_text;
+      }
+    }
     this.buttonList = [
       {
         id: "All",
         value: "All",
-        text: this._translateService.instant("plans.all"),
+        text,
         selected: true,
         fk_company_id: this.companyId,
         fk_supercategory_id: "All",
@@ -514,15 +546,27 @@ export class JobOffersListComponent {
       })
     }
     if(this.selectedArea) {
-      jobOffers = jobOffers.filter(jo => {
-        let include = false
-
-        if(this.jobOfferAreasMapping?.length > 0) {
-          include = this.jobOfferAreasMapping.some((a) => a.area_id == this.selectedArea && a.job_offer_id == jo.id);
+      let text = this._translateService.instant("plans.all");
+      if(this.filterSettings?.length > 0) {
+        let category_filter = this.filterSettings?.filter(fs => {
+          return fs.field == 'category'
+        })
+        if(category_filter?.length > 0 && category_filter[0].filter_type == 'dropdown') {
+          text = category_filter[0].select_text;
         }
+      }
 
-        return include
-      })
+      if(!(this.selectedArea == text || this.selectedArea == 'Todas' || this.selectedArea == 'All')) {
+        jobOffers = jobOffers.filter(jo => {
+          let include = false
+
+          if(this.jobOfferAreasMapping?.length > 0) {
+            include = this.jobOfferAreasMapping.some((a) => a.area_id == this.selectedArea && a.job_offer_id == jo.id);
+          }
+
+          return include
+        })
+      }
     }
 
     if(this.selectedLocation) {
@@ -553,6 +597,10 @@ export class JobOffersListComponent {
   toggleHover(state, offer) {
     this.hover = state
     this.selectedOfferId = state ? offer.id : ''
+  }
+
+  filterViewChanged(event) {
+    this.defaultActiveFilter = event;
   }
 
   ngOnDestroy() {

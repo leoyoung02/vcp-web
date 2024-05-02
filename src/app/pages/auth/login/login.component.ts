@@ -456,13 +456,13 @@ export class LoginComponent {
   loginUEStudent() {
     // this.ueLoginMode == '';
     // this.ueLoginMode = 'Estudiante';
-    location.href = this.isUESchoolOfLife ? `https://sso.vistingo.com/api/login/sol-student` : `https://sso.vistingo.com/api/login/student`;
+    location.href = this.isUESchoolOfLife ? `https://sso.vistingo.com/api/login/oauth-sol-student` : `https://sso.vistingo.com/api/login/student`;
   }
 
   loginUEEmployee() {
     // this.ueLoginMode == '';
     // this.ueLoginMode = 'Empleado';
-    location.href = this.isUESchoolOfLife ? `https://sso.vistingo.com/api/login/sol-employee` : `https://sso.vistingo.com/api/login/employee`;
+    location.href = this.isUESchoolOfLife ? `https://sso.vistingo.com/api/login/oauth-sol-employee` : `https://sso.vistingo.com/api/login/employee`;
   }
 
   toggleAdminLogin(event): void {

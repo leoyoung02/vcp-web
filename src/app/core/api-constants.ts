@@ -121,6 +121,7 @@ export const DEACTIVATE_CUSTOMER_URL = `${API_BASE}/v2/customer/deactivate`;
 export const EDIT_CUSTOMER_SITE_DETAILS_URL = `${API_BASE}/v2/customer/site-details/edit`;
 export const FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings`;
 export const EDIT_FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings/edit`;
+export const EDIT_MODULE_FILTER_SETTINGS_URL = `${API_BASE}/v2/module/filter-settings/edit`;
 export const HOME_PERSONALIZE_SETTINGS_URL = `${API_BASE}/v2/home/personalize/settings`;
 export const ACTIVATE_HOME_TEMPLATE_URL = `${API_BASE}/v2/home/personalize/template/edit`;
 export const EDIT_HOME_TEMPLATE_SECTIONS_URL = `${API_BASE}/v2/home/personalize/sections/edit`;
@@ -129,6 +130,7 @@ export const ADD_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/add`;
 export const EDIT_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/edit`;
 export const DELETE_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/delete`;
 export const REACT_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/react`;
+export const MODULE_FILTER_SETTINGS_URL = `${API_BASE}/v2/module/filters`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;

@@ -40,8 +40,8 @@
                             <mat-form-field class="datetime-picker-field">
                                 <mat-label class="text-sm">{{ 'landing.date' | translate }}</mat-label>
                                 <mat-date-range-input [min]="minDate" [max]="maxDate" [rangePicker]="picker" [formGroup]="dateRange">
-                                    <input (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
-                                    <input (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
+                                    <input readonly (dateChange)="handleDateChange('start', $event)" matStartDate formControlName="start" placeholder="{{ 'company-reports.startdate' | translate }}">
+                                    <input readonly (dateChange)="handleDateChange('end', $event)" matEndDate formControlName="end" placeholder="{{ 'plan-create.enddate' | translate }}">
                                 </mat-date-range-input>
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                                 <mat-date-range-picker #picker></mat-date-range-picker>

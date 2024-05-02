@@ -290,11 +290,19 @@ export class PersonalizeHomeComponent {
         name: `${this._translateService.instant('leads.layout')} 3`,
         image: `${environment.api}/get-image-company/home_template_3.png`,
         active: !this.company?.predefined_template_id && !this.company?.predefined_template ? true : false
+      },
+      {
+        id: 4,
+        name: `${this._translateService.instant('leads.layout')} 4`,
+        image: `${environment.api}/get-image-company/home_template_4.png`,
+        active: this.company?.predefined_template_id == 4 ? true : false,
       }
     );
     this.activeLayoutId = this.company?.predefined_template_id == 1 ? 1 : (
       this.company?.predefined_template_id == 2 ? 2 : (
-        (!this.company?.predefined_template_id && !this.company?.predefined_template) ? 3 : 0
+        this.company?.predefined_template_id == 4 ? 4 : (
+          (!this.company?.predefined_template_id && !this.company?.predefined_template) ? 3 : 0
+        )
       )
     )
   }
@@ -749,10 +757,10 @@ export class PersonalizeHomeComponent {
     this.isTemplateStep = false;
     this.isTemplateStepCompleted = true;
     
-    if(this.activeLayoutId != 1) {  
-      this.isContentStep = true;
-    } else {
+    if(this.activeLayoutId == 1 || this.activeLayoutId == 4) {  
       this.goToSectionsStep();
+    } else {
+      this.isContentStep = true;
     }
   }
 
@@ -949,10 +957,10 @@ export class PersonalizeHomeComponent {
         this.isTemplateStep = true;
         this.isTemplateStepCompleted = false;
         
-        if(this.activeLayoutId != 1) {  
-          this.isContentStep = false;
-        } else {
+        if(this.activeLayoutId == 1 || this.activeLayoutId == 4) {  
           this.goToSectionsStep();
+        } else {
+          this.isContentStep = false;
         }
 
         setTimeout(() => {

@@ -65,7 +65,11 @@
         "visitinstagram": "Bisitatu gure instagram", 
         "privacysettings": "Pribatutasun ezarpenak",
         "menusettings": "Menuen ezarpenak",
-        "thismonth": "Hilabete honetan"
+        "thismonth": "Hilabete honetan",
+        "filtersettings": "Iragazkien ezarpenak",
+        "display": "Bistaratu",
+        "selecttext": "Hautatu testua",
+        "agegroup": "Adin-taldea"
     },
     "user-popup": {
         "myplans": "Nire planak",
@@ -1778,7 +1782,8 @@
     },
     "service": {
         "subscribe": "Harpidetu",
-        "pay": "Ordaindu"
+        "pay": "Ordaindu",
+        "reserve": "Erreserba"
     },
     "ambassadors": {
         "ambassadors": "Enbaxadoreak",

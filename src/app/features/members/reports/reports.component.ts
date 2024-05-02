@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import {
   Component,
+  ElementRef,
   HostListener,
   Input,
   SimpleChange,
@@ -27,6 +28,7 @@ import { MatNativeDateModule } from "@angular/material/core";
 import { DateAdapter } from '@angular/material/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from "@env/environment";
+import { initFlowbite } from "flowbite";
 import moment from "moment";
 
 @Component({
@@ -99,6 +101,15 @@ export class MembersReportsComponent {
     minDate: any;
     maxDate: any;
     searchMode: string = '';
+    hasQueryError: boolean = false;
+    processingProgress: number = 0;
+    isGeneratingReport: boolean = false;
+    @ViewChild("modalbutton1", { static: false }) modalbutton1:
+    | ElementRef
+    | undefined;
+    @ViewChild("closemodalbutton1", { static: false }) closemodalbutton1:
+    | ElementRef
+    | undefined;
 
     constructor(
         private _router: Router,
@@ -149,7 +160,7 @@ export class MembersReportsComponent {
     initializeDate() {
         this.selectedStartDate = moment().startOf('month').format("YYYY-MM-DD");
         this.selectedEndDate = moment().format("YYYY-MM-DD");
-        this.maxDate = moment().format("YYYY-MM-DD");
+        // this.maxDate = moment().format("YYYY-MM-DD");
         this.dateRange = new FormGroup({
           start: new FormControl(this.selectedStartDate),
           end: new FormControl( this.selectedEndDate)
@@ -165,12 +176,26 @@ export class MembersReportsComponent {
     }
 
     fetchGuestsReportData() {
+        if(this.isGeneratingReport) {
+            this.processingProgress = 30;
+        }
+
         this._membersService
         .fetchGuestsReport(this.company?.id, this.selectedStartDate, this.selectedEndDate)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
             (data) => {
+                if(this.isGeneratingReport) {
+                    this.processingProgress = 60;
+                }
                 this.formatUsers(data || []);
+                if(this.isGeneratingReport) {
+                    this.processingProgress = 90;
+                    this.isGeneratingReport = false;
+                    setTimeout(() => {
+                        this.closemodalbutton1?.nativeElement.click();
+                    }, 500)
+                }
             },
             (error) => {
                 console.log(error);
@@ -179,13 +204,27 @@ export class MembersReportsComponent {
     }
 
     fetchMembersReportData() {
+        if(this.isGeneratingReport) {
+            this.processingProgress = 30;
+        }
+
         this._membersService
             .fetchMembersReport(this.company?.id)
             .pipe(takeUntil(this.destroy$))
             .subscribe(
                 (data) => {
+                    if(this.isGeneratingReport) {
+                        this.processingProgress = 60;
+                    }
                     this.sectors = data?.sectors;
                     this.formatMembers(data || []);
+                    if(this.isGeneratingReport) {
+                        this.processingProgress = 90;
+                        this.isGeneratingReport = false;
+                        setTimeout(() => {
+                            this.closemodalbutton1?.nativeElement.click();
+                        }, 500)
+                    }
                 },
                 (error) => {
                     console.log(error);
@@ -413,6 +452,10 @@ export class MembersReportsComponent {
     }
 
     loadUsers(data) {
+        if(this.isGeneratingReport) {
+            this.processingProgress = 30;
+        }
+
         this.usersData = data;
         if (this.searchKeyword && this.usersData?.length > 0) {
             this.usersData = this.usersData.filter((user) => {
@@ -486,7 +529,19 @@ export class MembersReportsComponent {
             })
         }
 
+        if(this.isGeneratingReport) {
+            this.processingProgress = 60;
+        }
+
         this.refreshTable(this.usersData);
+
+        if(this.isGeneratingReport) {
+            this.processingProgress = 90;
+            this.isGeneratingReport = false;
+            setTimeout(() => {
+                this.closemodalbutton1?.nativeElement.click();
+            }, 500)
+        }
     }
 
     refreshTable(list) {
@@ -615,14 +670,14 @@ export class MembersReportsComponent {
         if (type == "start") {
           if(moment(event?.value).isValid()) {
             this.selectedStartDate = moment(event.value).format("YYYY-MM-DD");
-            if(this.mode == 'guests') {
-                this.maxDate = moment(this.selectedStartDate).endOf('month').format("YYYY-MM-DD");
-            }
+            // if(this.mode == 'guests') {
+            //     this.maxDate = moment(this.selectedStartDate).endOf('month').format("YYYY-MM-DD");
+            // }
           } else {
             this.selectedStartDate = '';
-            if(this.mode == 'guests') {
-                this.maxDate = moment().format("YYYY-MM-DD");
-            }
+            // if(this.mode == 'guests') {
+            //     this.maxDate = moment().format("YYYY-MM-DD");
+            // }
           }
         }
         if (type == "end") {
@@ -633,18 +688,39 @@ export class MembersReportsComponent {
           }
         }
     
-        if(this.mode == 'guests') {
-            if(this.selectedStartDate && this.selectedEndDate) {
-                this.initializePage();
+        // if(this.mode == 'guests') {
+        //     if(this.selectedStartDate && this.selectedEndDate) {
+        //         this.initializePage();
+        //     }
+        // } else {
+        //     this.loadUsers(this.allUsersData);
+        // }
+    }
+
+    generateReport() {
+        this.isGeneratingReport = true;
+        setTimeout(() => {
+            initFlowbite();
+            this.modalbutton1?.nativeElement.click();
+            this.processingProgress = 15;
+
+            if(this.mode == 'guests') {
+                if(this.selectedStartDate && this.selectedEndDate) {
+                    this.initializePage();
+                }
+            } else {
+                this.loadUsers(this.allUsersData);
             }
-        } else {
-            this.loadUsers(this.allUsersData);
-        }
+        }, 500);
     }
 
     resetDate() {
         this.initializeDate();
         this.initializePage(); 
+    }
+
+    closeProcessingModal() {
+        this.closemodalbutton1?.nativeElement.click();
     }
 
     async open(message: string, action: string) {
