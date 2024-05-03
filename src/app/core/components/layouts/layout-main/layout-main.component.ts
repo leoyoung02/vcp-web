@@ -183,6 +183,8 @@ export class LayoutMainComponent {
   isSalesPerson: boolean = false;
   hasHistoryOfActivities: any;
   canRegister: boolean = false;
+  customMemberType: any;
+  customMemberTypePermissions: any;
 
   constructor(
     private _router: Router,
@@ -598,6 +600,7 @@ export class LayoutMainComponent {
   getUserTypeInformation() {
     if(this.customMemberTypes?.length > 0 && this.currentUser?.custom_member_type_id > 0) {
       let custom_member_type = this.customMemberTypes.find(f => f.id == this.currentUser.custom_member_type_id);
+      this.customMemberType = custom_member_type;
       this.manageMembers = custom_member_type?.manage_members ? true : false;
       this.getUserType()
     }
@@ -1286,6 +1289,8 @@ export class LayoutMainComponent {
             if (customMemberTypeSettings && customMemberTypeSettings[0]) {
               this.hasCustomMemberTypeSettings =
                 customMemberTypeSettings[0].active == 1 ? true : false;
+
+              if(this.companyId == 12) { this.hasCustomMemberTypeSettings = true; } 
               if (this.hasCustomMemberTypeSettings) {
                 this.getCustomMemberTypes();
               }
@@ -1319,6 +1324,7 @@ export class LayoutMainComponent {
         .subscribe(
           async (response) => {
             let permissions = response["permissions"];
+            this.customMemberTypePermissions = permissions;
             let plan_permission = permissions.filter((p) => {
               return (
                 p.custom_member_type_id == member_type_id && p.feature_id == 1

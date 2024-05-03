@@ -535,7 +535,6 @@ export class ManageMemberTypesComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data);
           this.mapUserPermissions(data?.user_permissions);
@@ -570,9 +569,7 @@ export class ManageMemberTypesComponent {
     this.plansFeatureId = this.plansFeature?.feature_id;
     this.hasPlans = this.plansFeatureId > 0 ? true : false;
     if(this.hasPlans) {
-      console.log(this.plansFeature)
       this.plansTitle = this.getFeatureTitle(this.plansFeature);
-      console.log('Plans: ' + this.plansTitle)
     }
 
     features.forEach((feature) => {

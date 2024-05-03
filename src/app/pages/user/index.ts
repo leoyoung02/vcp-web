@@ -40,7 +40,7 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./invoices-list/invoices-list.component')).InvoicesListComponent,
     },
     {
-        path: 'invites',
+        path: 'invites/:mode',
         title: CustomTitleResolver,
         data: { titleKey: 'your-events.invites'},
         loadComponent: async () => (await import('./invites/invites.component')).InvitesComponent,

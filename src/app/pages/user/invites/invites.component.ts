@@ -1,5 +1,5 @@
 import { CommonModule, Location } from "@angular/common";
-import { Component, ViewChild } from "@angular/core";
+import { Component, Input, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import {
   LangChangeEvent,
@@ -47,6 +47,8 @@ import get from "lodash/get";
 })
 export class InvitesComponent {
     private destroy$ = new Subject<void>();
+
+    @Input() mode: any;
 
     languageChangeSubscription;
     level1Title: string = "";

@@ -37,8 +37,10 @@
                     [buttonColor]="buttonColor"
                     [list]="list"
                     [defaultActiveFilter]="defaultActiveFilter"
+                    [filterSettings]="filterSettings"
                     (filterList)="filteredCity($event)"
                     (onButtonClick)="filteredCategory($event)"
+                    (onFilterClick)="filterViewChanged($event)"
                 ></app-filter>
             </div>
         </div>

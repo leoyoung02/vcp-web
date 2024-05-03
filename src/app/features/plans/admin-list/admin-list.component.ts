@@ -112,6 +112,7 @@ export class PlansAdminListComponent {
     });
     minDate: any;
     maxDate: any;
+    filterSettings: any;
 
     constructor(
         private _route: ActivatedRoute,
@@ -188,10 +189,24 @@ export class PlansAdminListComponent {
     }
 
     initializePage() {
+      this.initializeFilterSettings();
       this.fetchPlansManagementData();
       if(this.company?.id == 12) {
         this.getAllGuestHistory();
       }
+    }
+
+    initializeFilterSettings() {
+      this.filterSettings = [{
+        id: 1,
+        company_id: this.company?.id,
+        feature_id: 1,
+        field: 'category',
+        text: this._translateService.instant('company-settings.selectcategory'),
+        display: 'dropdown',
+        active: 1,
+        select_text: this._translateService.instant('company-settings.selectcategory'),
+      }]
     }
 
     getAllGuestHistory() {
@@ -1396,6 +1411,10 @@ export class PlansAdminListComponent {
       }
       this.allPlansData = allPlansData;
       this.loadPlans(this.allPlansData);
+    }
+
+    filterViewChanged(event) {
+      this.defaultActiveFilter = event;
     }
 
     ngOnDestroy() {

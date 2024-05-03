@@ -302,6 +302,10 @@ export class PlanDetailComponent {
   hasMembers: boolean = false;
   whatsAppTemplate: string = '';
   telegramTemplate: string = '';
+  canRegisterAllEvents: boolean = false;
+  canRegisterNetculturaEvents: boolean = false;
+  canRegisterGuestsOnly: boolean = false;
+  canInviteEvents: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -644,6 +648,63 @@ export class PlanDetailComponent {
     this.showOption =
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find((f) => f.create == 1 && f.feature_id == 1);
+
+    this.canRegisterAllEvents = user_permissions?.member_type_permissions?.find((f) => f.register_events_all == 1 && f.feature_id == 1) ? true : false;
+    this.canRegisterNetculturaEvents = user_permissions?.member_type_permissions?.find((f) => f.register_events_netcultura == 1 && f.feature_id == 1) ? true : false;
+    this.canRegisterGuestsOnly = user_permissions?.member_type_permissions?.find((f) => f.register_events_guests == 1 && f.feature_id == 1) ? true : false;
+
+    this.canInviteEvents = user_permissions?.member_type?.invite_all_events == 1 ? true : false;
+  }
+
+  getJoinStatus() {
+    let result = false;
+
+    let canJoin = this.showJoinButton && this.userId && ((!this.joinedParticipant
+      && !this.plan?.private
+      && (this.plan?.plan_date >= this.today || !this.isPastEvent)
+      && !this.activateWaitingList) || (this.plan?.private && !this.joinedParticipant && this.speedMember)
+      || (this.plan?.private && this.showOption && !this.joinedParticipant && (this.plan?.plan_date >= this.today || !this.isPastEvent)));
+
+    let canRegisterNetcultura = false;
+    if(!this.canRegisterAllEvents && this.canRegisterNetculturaEvents) {
+      if(this.getCategoryLabel()?.indexOf('Netcultura') >= 0) {
+        canRegisterNetcultura = true;
+      }
+    }
+
+    let canRegisterGuestsOnly = false;
+    if(!this.canRegisterAllEvents && this.canRegisterGuestsOnly) {
+      if(this.limitPlanParticipants?.length > 0) {
+        let invited_guests = this.limitPlanParticipants?.filter(participant => {
+          return participant.invited_by == this.userId
+        })
+        if(invited_guests?.length > 0) {
+          canRegisterGuestsOnly = true;
+        }
+      }
+    }
+
+    result = canJoin && (this.canRegisterAllEvents || canRegisterNetcultura || canRegisterGuestsOnly);
+
+    return result;
+  }
+
+  getRequestJoinStatus() {
+    return !this.joinedParticipant
+      && this.plan?.private
+      && this.pendingRequest
+      && !this.showOption
+      && this.plan?.plan_date >= this.today;
+  }
+
+  getShareStatus() {
+    let result = false;
+
+    let canShare = this.userId && this.invitationLinkActive && (this.superAdmin || this.showOption || !this.plan?.private || (this.plan?.private && this.joinedParticipant));
+
+    result = canShare && this.canInviteEvents;
+
+    return result;
   }
 
   getFeatureTitle(feature) {
