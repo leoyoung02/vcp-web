@@ -101,7 +101,7 @@ export class VideoPlayerComponent {
   }
 
   playVideo() {
-    this.api.play();
+    // this.api.play();
   }
 
   nextVideo() {

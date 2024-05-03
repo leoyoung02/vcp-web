@@ -215,6 +215,7 @@ export class PlansListComponent {
   defaultActiveFilter: boolean = false;
   filterSettings: any = [];
   showFilters: boolean = false;
+  noCategoryFilter: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -596,6 +597,7 @@ export class PlansListComponent {
     let filter_settings_active = filter_settings?.filter(fs => {
       return fs.active == 1
     })
+    
     if(filter_settings_active?.length > 0 && this.categoriesFilterActive) {
       this.showFilters = true;
       this.filterSettings = filter_settings;
@@ -2814,6 +2816,10 @@ export class PlansListComponent {
 
   toggleMyActivitiesHover(event) {
     this.myActivitiesHover = event;
+  }
+
+  showAdditionalFilter() {
+    this.defaultActiveFilter = !this.defaultActiveFilter;
   }
 
   ngOnDestroy() {

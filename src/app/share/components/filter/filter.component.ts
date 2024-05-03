@@ -31,11 +31,14 @@ export class FilterComponent {
     @Input() icon: any;
     @Input() buttonList: any;
     @Input() defaultActiveFilter: any;
+    @Input() filterSettings: any;
     @Output() filterList = new EventEmitter();
     @Output() onButtonClick = new EventEmitter();
     @Output() onFilterClick = new EventEmitter();
 
     isActiveFilter: boolean = false;
+    showButton: boolean = false;
+    showIcon: boolean = false;
 
     async ngOnInit() {
       let selected = this.mode == 'clubs' ? 
@@ -92,6 +95,21 @@ export class FilterComponent {
           }
         }
       }
+
+      if(this.filterSettings?.length > 0) {
+        this.checkFilterSettings();
+      }
+    }
+
+    checkFilterSettings() {
+      this.filterSettings?.forEach(filter => {
+        if(filter.field == 'category' && filter.active == 1) {
+          this.showButton = true;
+        }
+        if(filter.field == 'city' && filter.active == 1) {
+          this.showIcon = true;
+        }
+      })
     }
 
     showFilter() {

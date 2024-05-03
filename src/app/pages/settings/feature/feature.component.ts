@@ -928,7 +928,6 @@ export class FeatureComponent {
   }
 
   mapSubfeatures(subfeatures) {
-    console.log(subfeatures)
     if (subfeatures?.length > 0) {
       this.ageGroupFilterActive = subfeatures.some(
         (a) => a.name_en == "Age group filter" && a.active == 1
@@ -2227,6 +2226,10 @@ export class FeatureComponent {
           select_text: fs.select_text,
         }
 
+        if(fs.field == 'category') {
+          this.selectedFilter = fs.filter_type;
+        }
+        
         this.filterSettings.push(filter)
       })
     }
@@ -2252,7 +2255,15 @@ export class FeatureComponent {
 
   handleFilterChange(event) {
     if(event.target.value) {
-      
+      this.selectedFilter = event?.target?.value;
+      if(this.filterSettings?.length > 0) {
+        this.filterSettings?.forEach(setting => {
+          if(setting.field == 'category') {
+            setting.display = this.selectedFilter;
+            setting.filter_type = this.selectedFilter;
+          }
+        })
+      }
     }
   }
 

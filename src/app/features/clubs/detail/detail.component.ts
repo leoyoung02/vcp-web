@@ -1457,7 +1457,6 @@ export class ClubDetailComponent {
       .subscribe(
         (data) => {
           this.commentsList = this.formatComments(data.comments, data.user);
-          console.log(this.commentsList);
           this.cd.detectChanges();
         },
         (error) => {

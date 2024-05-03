@@ -13,13 +13,14 @@
         </div>
         <div class="ml-0 sm:ml-0 md:ml-4 lg:ml-4 mt-4 sm:mt-4 md:mt-0 lg:mt-0" *ngIf="showFilters">
             <ng-container *ngFor="let setting of filterSettings">
-                <ng-container *ngIf="setting?.field == 'category' && setting?.active == 1 && setting?.filter_type == 'dropdown'">
+                <ng-container *ngIf="setting?.field == 'category' && setting?.filter_type == 'dropdown'">
                     <app-filter
                         [mode]="'tutors'"
                         [buttonList]="buttonList"
                         [buttonColor]="buttonColor"
                         [list]="list"
                         [defaultActiveFilter]="defaultActiveFilter"
+                        [filterSettings]="filterSettings"
                         (filterList)="filteredList($event)"
                         (onButtonClick)="filteredType($event)"
                         (onFilterClick)="filterViewChanged($event)"
