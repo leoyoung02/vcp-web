@@ -2695,7 +2695,8 @@
         "registereventsguests": "Inscriure's a esdeveniments (Els seus convidats)",
         "accessprofile": "Accedeix a perfil",
         "accessmyinvitations": "Accedeix a les meves invitacions",
-        "inviteallevents": "Pot convidar tots els esdeveniments"
+        "inviteallevents": "Pot convidar tots els esdeveniments",
+        "viewguests": "Mostra els convidats"
     },
     "member-type": {
         "welcometo": "Benvingut a",

@@ -2690,7 +2690,8 @@
         "registereventsguests": "Für Veranstaltungen (Ihre Gäste) anmelden",
         "accessprofile": "Zugriffsprofil",
         "accessmyinvitations": "Auf meine Einladungen zugreifen",
-        "inviteallevents": "Sie können zu allen Veranstaltungen einladen"
+        "inviteallevents": "Sie können zu allen Veranstaltungen einladen",
+        "viewguests": "Gäste anzeigen"
     },
     "member-type": {
         "welcometo": "Willkommen bei",

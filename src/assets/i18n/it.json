@@ -2677,7 +2677,8 @@
         "registereventsguests": "Registrati agli eventi (i tuoi ospiti)",
         "accessprofile": "Profilo di accesso",
         "accessmyinvitations": "Accedi ai miei inviti",
-        "inviteallevents": "Puoi invitare a tutti gli eventi"
+        "inviteallevents": "Puoi invitare a tutti gli eventi",
+        "viewguests": "Visualizza gli ospiti"
     },
     "member-type": {
         "welcometo": "Benvenuto a",

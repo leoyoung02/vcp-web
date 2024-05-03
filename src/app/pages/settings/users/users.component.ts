@@ -666,6 +666,9 @@ export class ManageUsersComponent {
         }
       }
 
+      if(this.companyId == 12) {
+        this.hasCustomMemberTypeSettings = true;
+      }
       if (this.hasCustomMemberTypeSettings) {
         this.getCustomMemberTypes(data?.member_types);
       }
@@ -773,6 +776,7 @@ export class ManageUsersComponent {
     this.members = [];
     this._userService.getCombinedMiembrosListPrefetch(this.companyId).subscribe(
       async (response) => {
+        console.log(response)
         this.members = response[0] ? response[0]["all_members"] : [];
         if(this.members?.length > 0 && !this.currentUser && this.userId) {
           let current_user = this.members?.filter(member => {

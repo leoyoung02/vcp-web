@@ -268,6 +268,7 @@ export class ManageMemberTypesComponent {
   accessProfile: boolean = false;
   accessMyInvitations: boolean = false;
   inviteAllEvents: boolean = false;
+  viewGuests: boolean = false;
 
   constructor(
     private _router: Router,
@@ -813,6 +814,7 @@ export class ManageMemberTypesComponent {
     this.accessProfile = item.access_profile ? true : false;
     this.accessMyInvitations = item.my_invitations ? true : false;
     this.inviteAllEvents = item.invite_all_events ? true : false;
+    this.viewGuests = item.view_guests ? true : false;
     if (this.requirePayment) {
       if (this.memberTypeForm.controls["price"]) {
         this.memberTypeForm.controls["price"].setValue(item.price);
@@ -1063,6 +1065,7 @@ export class ManageMemberTypesComponent {
     this.accessProfile = false;
     this.accessMyInvitations = false;
     this.inviteAllEvents = false;
+    this.viewGuests = false;
     this.selectedPaymentType = "";
     this.taxIncludeStatus = "";
     if (this.memberTypeForm.controls["price"]) {
@@ -1115,6 +1118,7 @@ export class ManageMemberTypesComponent {
     this.accessProfile = false;
     this.accessMyInvitations = false;
     this.inviteAllEvents = false;
+    this.viewGuests = false;
   }
 
   handleSearch(event) {
@@ -1417,6 +1421,7 @@ export class ManageMemberTypesComponent {
         access_profile: this.accessProfile || 0,
         my_invitations: this.accessMyInvitations || 0,
         invite_all_events: this.inviteAllEvents || 0,
+        view_guests: this.viewGuests || 0,
       };
       this._companyService.addCustomMemberType(params).subscribe(
         (data) => {
@@ -1479,6 +1484,7 @@ export class ManageMemberTypesComponent {
         access_profile: this.accessProfile || 0,
         my_invitations: this.accessMyInvitations || 0,
         invite_all_events: this.inviteAllEvents || 0,
+        view_guests: this.viewGuests || 0,
       };
       this._companyService
         .editCustomMemberType(this.selectedId, params)

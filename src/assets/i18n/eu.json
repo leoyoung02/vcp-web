@@ -2691,7 +2691,8 @@
         "registereventsguests": "Eman izena ekitaldietarako (Zure gonbidatuak)",
         "accessprofile": "Sarbide profila",
         "accessmyinvitations": "Sartu nire gonbidapenak",
-        "inviteallevents": "Gertaera guztietara gonbida dezakezu"
+        "inviteallevents": "Gertaera guztietara gonbida dezakezu",
+        "viewguests": "Ikusi gonbidatuak"
     },
     "member-type": {
         "welcome": "Ongi etorri",
