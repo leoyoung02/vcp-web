@@ -1103,7 +1103,8 @@
         "changepasswordtitle": "Canvia la contrasenya",
         "changepassworddesc": "Ingressa i confirma la teva nova contrasenya",
         "adminlogin": "Inici de sessió d'administrador",
-        "username": "Nom d'usuari"
+        "username": "Nom d'usuari",
+        "emailpasswordrequired": "Es requereix un correu electrònic i una contrasenya per iniciar la sessió"
     },
     "signup": {
         "firsttitle": "Inscriure's a",

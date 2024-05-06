@@ -424,5 +424,11 @@
         "name": "Corso Genio",
         "url": "corsogenio.vistingo.com",
         "domain": "cursogeniusitaly.com"
+    },
+    {
+        "id": 66,  
+        "name": "Klub Okio Genio",
+        "url": "klubokio.vistingo.com",
+        "domain": "klubokio.com"
     }
 ]

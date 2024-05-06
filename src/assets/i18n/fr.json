@@ -1099,7 +1099,8 @@
         "changepasswordtitle": "Changer le mot de passe",
         "changepassworddesc": "Entrez et confirmez votre nouveau mot de passe",
         "adminlogin": "Connexion administrateur",
-        "username": "Nom d'utilisateur"
+        "username": "Nom d'utilisateur",
+        "emailpasswordrequired": "L'e-mail et le mot de passe sont requis pour se connecter"
     },
     "signup": {
         "firsttitle": "Inscrivez-vous pour",
