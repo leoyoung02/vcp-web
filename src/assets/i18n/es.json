@@ -1105,7 +1105,8 @@
         "changepasswordtitle": "Cambia la contraseña",
         "changepassworddesc": "Ingresa y confirma tu nueva contraseña",
         "adminlogin": "Inicio de sesión de administrador",
-        "username": "Nombre de usuario"
+        "username": "Nombre de usuario",
+        "emailpasswordrequired": "Se requiere correo electrónico y contraseña para iniciar sesión"
     },
     "signup": {
         "firsttitle": "Inscribirse a",

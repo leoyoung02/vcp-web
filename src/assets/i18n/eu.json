@@ -1100,7 +1100,8 @@
         "changepasswordtitle": "Aldatu pasahitza",
         "changepassworddesc": "Sartu eta berretsi pasahitz berria",
         "adminlogin": "Administratzailearen saioa",
-        "username": "Erabiltzaile izena"
+        "username": "Erabiltzaile izena",
+        "emailpasswordrequired": "E-posta eta pasahitza behar dira saioa hasteko"
     },
     "signup": {
         "firsttitle": "Eman izena",

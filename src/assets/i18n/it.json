@@ -1101,7 +1101,8 @@
         "changepasswordtitle": "Cambia password",
         "changepassworddesc": "Inserisci e conferma la tua nuova password",
         "adminlogin": "Accesso amministratore",
-        "username": "Nome utente"
+        "username": "Nome utente",
+        "emailpasswordrequired": "Per accedere sono necessari email e password"
     },
     "iscrizione": {
         "firsttitle": "Iscriviti",

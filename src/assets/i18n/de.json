@@ -1100,7 +1100,8 @@
         "changepasswordtitle": "Passwort ändern",
         "changepassworddesc": "Geben Sie Ihr neues Passwort ein und bestätigen Sie es",
         "adminlogin": "Admin-Login",
-        "username": "Benutzername"
+        "username": "Benutzername",
+        "emailpasswordrequired": "E-Mail-Adresse und Passwort sind zum Anmelden erforderlich"
     },
     "signup": {
         "firsttitle": "Anmelden für",

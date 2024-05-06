@@ -81,6 +81,7 @@ export class LoginComponent {
   alreadyLoggedIn: boolean = false;
   ueLoginMode: string = '';
   isUESchoolOfLife: boolean = false;
+  formSubmitted: boolean = false;
 
   constructor(
     private _router: Router,
@@ -301,6 +302,7 @@ export class LoginComponent {
   }
 
   async login() {
+    this.formSubmitted = true;
     this._localService.removeLocalStorage(environment.lsmenus);
     this._localService.removeLocalStorage(environment.lsusercoursecredits);
     this._userService.updateUserCourseCredits([]);
@@ -357,7 +359,7 @@ export class LoginComponent {
         }
       } else {
         this.open(
-          this._translateService.instant("dialog.invalidcredentials"),
+          this._translateService.instant("login.emailpasswordrequired"),
           ""
         );
       }
@@ -365,6 +367,11 @@ export class LoginComponent {
   }
 
   async validateLogin(email, password) {
+    if(this.companyId > 0) {
+    } else {
+      this.companyId = this._companyService.getCompanyByHost();
+    }
+    
     await this._authService
       .login(email, password, this.companyId)
       .pipe(takeUntil(this.destroy$))

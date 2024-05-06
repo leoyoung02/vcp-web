@@ -438,7 +438,7 @@ export class PlansAdminListComponent {
     
           let active;
           if(activity.type == 2) {
-            let today = moment(new Date()).utcOffset('+0100').format('YYYY-MM-DD HH:mm:ss');
+            let today = moment(new Date()).utcOffset('+0200').format('YYYY-MM-DD HH:mm:ss');
             let endDateReached = true;
             if(activity.end_date) {
                 if(activity.end_date > activity.plan_date) {
@@ -587,6 +587,13 @@ export class PlansAdminListComponent {
             && moment(formatted_plan_date).isSameOrBefore(moment(this.selectedEndDate))
            ) {
             include = true;
+          }
+
+          if(this.status == 'past' || this.status == 'salesprocess') {
+            let current_day = moment().format('YYYY-MM-DD')
+            if(moment(formatted_plan_date).isSame(moment(current_day))) {
+              include = true;
+            }
           }
   
           return include
@@ -999,15 +1006,15 @@ export class PlansAdminListComponent {
         })
       }
   
-      if(this.status == 'past') {
-        participants = participants.filter(cp => {
-          return cp.confirmed == 1 && cp.clear_confirmed != 1
-        })
-      } else if(this.status == 'salesprocess') {
-        participants = participants.filter(cp => {
-          return cp.attended == 1 && cp.clear_attended != 1 && cp.role == 'Guest'
-        })
-      }
+      // if(this.status == 'past') {
+      //   participants = participants.filter(cp => {
+      //     return cp.confirmed == 1 && cp.clear_confirmed != 1
+      //   })
+      // } else if(this.status == 'salesprocess') {
+      //   participants = participants.filter(cp => {
+      //     return cp.attended == 1 && cp.clear_attended != 1 && cp.role == 'Guest'
+      //   })
+      // }
   
       let event_data: any[] = [];
       if(participants) {

@@ -1992,4 +1992,20 @@ export class CompanyService {
       .get(`${MODULE_FILTER_SETTINGS_URL}/${id}/${featureId}`, { headers: this.headers })
       .pipe(map((res) => res));
   }
+
+  getCompanyByHost(): any {
+    let companyId = 0;
+    let host = window.location.host;
+
+    let customer =
+      this.customers &&
+      this.customers.find(
+        (c) => c.url == host || c.url == environment.company
+      );
+    if (customer) {
+      companyId = customer.id
+    }
+
+    return companyId;
+  }
 }
