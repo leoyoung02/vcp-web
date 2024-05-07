@@ -104,6 +104,7 @@ export class UserMenuComponent {
   myClubs: any;
   canViewCRM: boolean = false;
   canViewGuests: boolean = false;
+  canViewAdministrar: boolean = false;
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
@@ -135,8 +136,6 @@ export class UserMenuComponent {
     let customMemberTypeChange = changes["customMemberType"];
     if (customMemberTypeChange?.currentValue?.id > 0) {
       this.customMemberType = customMemberTypeChange.currentValue;
-      console.log('custom member type')
-      console.log(this.customMemberType)
       if(this.customMemberType) {
         this.canViewGuests = this.customMemberType?.view_guests == 1 ? true : false;
       }
@@ -147,6 +146,7 @@ export class UserMenuComponent {
       this.customMemberTypePermissions = customMemberTypePermissionsChange.currentValue;
       if(this.customMemberTypePermissions?.length > 0) {
         this.canViewCRM = this.getCRMPermissions(this.customMemberTypePermissions);
+        this.canViewAdministrar = this.getAdministrarPermissions(this.customMemberTypePermissions);
       }
     }
   }
@@ -156,6 +156,18 @@ export class UserMenuComponent {
     if(permissions?.length > 0) {
       let crm_permissions = permissions.find(f => f.feature_id == 22);
       if(crm_permissions?.view == 1) {
+        result = true;
+      }
+    }
+
+    return result;
+  }
+
+  getAdministrarPermissions(permissions) {
+    let result = false;
+    if(permissions?.length > 0) {
+      let admin_permissions = permissions.find(f => f.feature_id == 1);
+      if(admin_permissions?.admin_assign == 1 || admin_permissions?.admin_attendance == 1) {
         result = true;
       }
     }

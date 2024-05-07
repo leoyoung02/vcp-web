@@ -51,7 +51,7 @@
       </div>
     </ng-container>
   </ng-container>
-  <ng-container *ngIf="username && isAdmin">
+  <ng-container *ngIf="username && (isAdmin || canAccessPlatformSettings)">
     <div class="px-4 py-2 hover:cursor-pointer" [routerLink]="['/settings']">
       <div class="p-2 flex items-center hover:rounded-lg"
         [ngStyle]="{'background-color': settingsHover ? hoverColor : 'transparent'}"

@@ -113,6 +113,8 @@ export class PlansAdminListComponent {
     minDate: any;
     maxDate: any;
     filterSettings: any;
+    customMemberType: any;
+    customMemberTypePermissions: any;
 
     constructor(
         private _route: ActivatedRoute,
@@ -166,7 +168,6 @@ export class PlansAdminListComponent {
         }
 
         this.isLoading = true;
-        this.initializePage();
     }
 
     initializeDate() {
@@ -269,6 +270,8 @@ export class PlansAdminListComponent {
             this.allPlanDrafts = data?.plan_drafts || [];
             this.paidPlanSubscriptions = data?.paid_plan_subscriptions || [];
             this.categories = data?.plan_categories;
+            this.customMemberType = data?.custom_member_type;
+            this.customMemberTypePermissions = data?.role_permissions;
             this.formatPlans(data?.plans || []);
             if(this.company?.id == 12) {
               this.initializeButtonGroup();
@@ -701,272 +704,280 @@ export class PlansAdminListComponent {
     }
 
     confirmAttendance(id, type, actionUserId, eventId, plan_type) {
-      let param = {
-        user_id: this.userId,
-        action_user_id: actionUserId,
-        event_id: eventId
-      }
-  
-      if(plan_type == 'company_plan') {
-        this._plansService.confirmPlanParticipantAttendance(id, param)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(data => {
-          this.planParticipants.forEach((participant, index) => {
-            if(participant.participant_id == id) {
-              this.planParticipants[index].attended = 1;
-              this.planParticipants[index].clear_attended = 0;
-            }
-          })
-          if(this.plansData?.length > 0) {
-            this.plansData?.forEach(p => {
-              if(p.id == eventId) {
-                if(p.participants?.length > 0) {
-                  p.participants?.forEach(par => {
-                    if(par.participant_id == id) {
-                      par.attended = 1;
-                      par.clear_attended = 0;
-                    }
-                  })
-                }
+      if(this.superAdmin || this.customMemberTypePermissions?.admin_attendance == 1) {
+        let param = {
+          user_id: this.userId,
+          action_user_id: actionUserId,
+          event_id: eventId
+        }
+    
+        if(plan_type == 'company_plan') {
+          this._plansService.confirmPlanParticipantAttendance(id, param)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(data => {
+            this.planParticipants.forEach((participant, index) => {
+              if(participant.participant_id == id) {
+                this.planParticipants[index].attended = 1;
+                this.planParticipants[index].clear_attended = 0;
               }
             })
-          }
-          this.refreshTable(this.plansData, 'refresh');
-          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-        }, err => {
-          console.log('err: ', err);
-        })
-      } else {
-        this._plansService.confirmParticipantAttendance(id, param)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(data => {
-          this.planParticipants.forEach((participant, index) => {
-            if(participant.participant_id == id) {
-              this.planParticipants[index].attended = 1;
-              this.planParticipants[index].clear_attended = 0;
-            }
-          })
-          if(this.plansData?.length > 0) {
-            this.plansData?.forEach(p => {
-              if(p.id == eventId) {
-                if(p.participants?.length > 0) {
-                  p.participants?.forEach(par => {
-                    if(par.participant_id == id) {
-                      par.attended = 1;
-                      par.clear_attended = 0;
-                    }
-                  })
+            if(this.plansData?.length > 0) {
+              this.plansData?.forEach(p => {
+                if(p.id == eventId) {
+                  if(p.participants?.length > 0) {
+                    p.participants?.forEach(par => {
+                      if(par.participant_id == id) {
+                        par.attended = 1;
+                        par.clear_attended = 0;
+                      }
+                    })
+                  }
                 }
+              })
+            }
+            this.refreshTable(this.plansData, 'refresh');
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+          }, err => {
+            console.log('err: ', err);
+          })
+        } else {
+          this._plansService.confirmParticipantAttendance(id, param)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(data => {
+            this.planParticipants.forEach((participant, index) => {
+              if(participant.participant_id == id) {
+                this.planParticipants[index].attended = 1;
+                this.planParticipants[index].clear_attended = 0;
               }
             })
-          }
-          this.refreshTable(this.plansData, 'refresh');
-          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-        }, err => {
-          console.log('err: ', err);
-        })
+            if(this.plansData?.length > 0) {
+              this.plansData?.forEach(p => {
+                if(p.id == eventId) {
+                  if(p.participants?.length > 0) {
+                    p.participants?.forEach(par => {
+                      if(par.participant_id == id) {
+                        par.attended = 1;
+                        par.clear_attended = 0;
+                      }
+                    })
+                  }
+                }
+              })
+            }
+            this.refreshTable(this.plansData, 'refresh');
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+          }, err => {
+            console.log('err: ', err);
+          })
+        }
       }
     }
     
     clearAttendance(id, type, actionUserId, eventId, plan_type) {
-      let param = {
-        user_id: this.userId,
-        action_user_id: actionUserId,
-        event_id: eventId
-      }
-  
-      if(plan_type == 'company_plan') {
-        this._plansService.clearPlanParticipantAttendance(id, param)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(data => {
-          this.planParticipants.forEach((participant, index) => {
-            if(participant.participant_id == id) {
-                this.planParticipants[index].attended = 0;
-                this.planParticipants[index].clear_attended = 1;
-            }
-          })
-          if(this.plansData?.length > 0) {
-            this.plansData?.forEach(p => {
-              if(p.id == eventId) {
-                if(p.participants?.length > 0) {
-                  p.participants?.forEach(par => {
-                    if(par.participant_id == id) {
-                      par.attended = 0;
-                      par.clear_attended = 1;
-                    }
-                  })
-                }
+      if(this.superAdmin || this.customMemberTypePermissions?.admin_attendance == 1) {
+        let param = {
+          user_id: this.userId,
+          action_user_id: actionUserId,
+          event_id: eventId
+        }
+    
+        if(plan_type == 'company_plan') {
+          this._plansService.clearPlanParticipantAttendance(id, param)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(data => {
+            this.planParticipants.forEach((participant, index) => {
+              if(participant.participant_id == id) {
+                  this.planParticipants[index].attended = 0;
+                  this.planParticipants[index].clear_attended = 1;
               }
             })
-          }
-          this.refreshTable(this.plansData, 'refresh');
-          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-        }, err => {
-          console.log('err: ', err);
-        })
-      } else {
-        this._plansService.clearParticipantAttendance(id, param)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(data => {
-          this.planParticipants.forEach((participant, index) => {
-            if(participant.participant_id == id) {
-                this.planParticipants[index].attended = 0;
-                this.planParticipants[index].clear_attended = 1;
-            }
-          })
-          if(this.plansData?.length > 0) {
-            this.plansData?.forEach(p => {
-              if(p.id == eventId) {
-                if(p.participants?.length > 0) {
-                  p.participants?.forEach(par => {
-                    if(par.participant_id == id) {
-                      par.attended = 0;
-                      par.clear_attended = 1;
-                    }
-                  })
+            if(this.plansData?.length > 0) {
+              this.plansData?.forEach(p => {
+                if(p.id == eventId) {
+                  if(p.participants?.length > 0) {
+                    p.participants?.forEach(par => {
+                      if(par.participant_id == id) {
+                        par.attended = 0;
+                        par.clear_attended = 1;
+                      }
+                    })
+                  }
                 }
+              })
+            }
+            this.refreshTable(this.plansData, 'refresh');
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+          }, err => {
+            console.log('err: ', err);
+          })
+        } else {
+          this._plansService.clearParticipantAttendance(id, param)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(data => {
+            this.planParticipants.forEach((participant, index) => {
+              if(participant.participant_id == id) {
+                  this.planParticipants[index].attended = 0;
+                  this.planParticipants[index].clear_attended = 1;
               }
             })
-          }
-          this.refreshTable(this.plansData, 'refresh');
-          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-        }, err => {
-          console.log('err: ', err);
-        })
+            if(this.plansData?.length > 0) {
+              this.plansData?.forEach(p => {
+                if(p.id == eventId) {
+                  if(p.participants?.length > 0) {
+                    p.participants?.forEach(par => {
+                      if(par.participant_id == id) {
+                        par.attended = 0;
+                        par.clear_attended = 1;
+                      }
+                    })
+                  }
+                }
+              })
+            }
+            this.refreshTable(this.plansData, 'refresh');
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+          }, err => {
+            console.log('err: ', err);
+          })
+        }
       }
     }
 
     confirmation(id, type, actionUserId, eventId, plan_type) {
-      let param = {
-        user_id: this.userId,
-        action_user_id: actionUserId,
-        event_id: eventId
-      }
-      if(plan_type == 'company_plan') {
-        this._plansService.confirmPlanParticipant(id, param)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(data => {
-          this.planParticipants.forEach((participant, index) => {
-            if(participant.participant_id == id) {
+      if(this.superAdmin || this.customMemberTypePermissions?.admin_attendance == 1) {
+        let param = {
+          user_id: this.userId,
+          action_user_id: actionUserId,
+          event_id: eventId
+        }
+        if(plan_type == 'company_plan') {
+          this._plansService.confirmPlanParticipant(id, param)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(data => {
+            this.planParticipants.forEach((participant, index) => {
+              if(participant.participant_id == id) {
+                  this.planParticipants[index].confirmed = 1;
+                  this.planParticipants[index].clear_confirmed = 0;
+              }
+            })
+            if(this.plansData?.length > 0) {
+              this.plansData?.forEach(p => {
+                if(p.id == eventId) {
+                  if(p.participants?.length > 0) {
+                    p.participants?.forEach(par => {
+                      if(par.participant_id == id) {
+                        par.confirmed = 1;
+                        par.clear_confirmed = 0;
+                      }
+                    })
+                  }
+                }
+              })
+            }
+            this.refreshTable(this.plansData, 'refresh');
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+          }, err => {
+            console.log('err: ', err);
+          })
+        } else {
+          this._plansService.confirmParticipant(id, param)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(data => {
+            this.planParticipants.forEach((participant, index) => {
+              if(participant.participant_id == id) {
                 this.planParticipants[index].confirmed = 1;
                 this.planParticipants[index].clear_confirmed = 0;
-            }
-          })
-          if(this.plansData?.length > 0) {
-            this.plansData?.forEach(p => {
-              if(p.id == eventId) {
-                if(p.participants?.length > 0) {
-                  p.participants?.forEach(par => {
-                    if(par.participant_id == id) {
-                      par.confirmed = 1;
-                      par.clear_confirmed = 0;
-                    }
-                  })
-                }
               }
             })
-          }
-          this.refreshTable(this.plansData, 'refresh');
-          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-        }, err => {
-          console.log('err: ', err);
-        })
-      } else {
-        this._plansService.confirmParticipant(id, param)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(data => {
-          this.planParticipants.forEach((participant, index) => {
-            if(participant.participant_id == id) {
-              this.planParticipants[index].confirmed = 1;
-              this.planParticipants[index].clear_confirmed = 0;
-            }
-          })
-          if(this.plansData?.length > 0) {
-            this.plansData?.forEach(p => {
-              if(p.id == eventId) {
-                if(p.participants?.length > 0) {
-                  p.participants?.forEach(par => {
-                    if(par.participant_id == id) {
-                      par.confirmed = 1;
-                      par.clear_confirmed = 0;
-                    }
-                  })
+            if(this.plansData?.length > 0) {
+              this.plansData?.forEach(p => {
+                if(p.id == eventId) {
+                  if(p.participants?.length > 0) {
+                    p.participants?.forEach(par => {
+                      if(par.participant_id == id) {
+                        par.confirmed = 1;
+                        par.clear_confirmed = 0;
+                      }
+                    })
+                  }
                 }
-              }
-            })
-          }
-          this.refreshTable(this.plansData, 'refresh');
-          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-        }, err => {
-          console.log('err: ', err);
-        })
+              })
+            }
+            this.refreshTable(this.plansData, 'refresh');
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+          }, err => {
+            console.log('err: ', err);
+          })
+        }
       }
     }
     
     clearConfirmation(id, type, actionUserId, eventId, plan_type) {
-      let param = {
-        user_id: this.userId,
-        action_user_id: actionUserId,
-        event_id: eventId
-      }
-      if(plan_type == 'company_plan') {
-        this._plansService.clearPlanConfirmation(id, param)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(data => {
-          this.planParticipants.forEach((participant, index) => {
-            if(participant.participant_id == id) {
-                this.planParticipants[index].confirmed = 0;
-                this.planParticipants[index].clear_confirmed = 1;
-            }
-          })
-          if(this.plansData?.length > 0) {
-            this.plansData?.forEach(p => {
-              if(p.id == eventId) {
-                if(p.participants?.length > 0) {
-                  p.participants?.forEach(par => {
-                    if(par.participant_id == id) {
-                      par.confirmed = 0;
-                      par.clear_confirmed = 1;
-                    }
-                  })
-                }
+      if(this.superAdmin || this.customMemberTypePermissions?.admin_attendance == 1) {
+        let param = {
+          user_id: this.userId,
+          action_user_id: actionUserId,
+          event_id: eventId
+        }
+        if(plan_type == 'company_plan') {
+          this._plansService.clearPlanConfirmation(id, param)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(data => {
+            this.planParticipants.forEach((participant, index) => {
+              if(participant.participant_id == id) {
+                  this.planParticipants[index].confirmed = 0;
+                  this.planParticipants[index].clear_confirmed = 1;
               }
             })
-          }
-          this.refreshTable(this.plansData, 'refresh');
-          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-        }, err => {
-          console.log('err: ', err);
-        })
-      } else {
-        this._plansService.clearConfirmation(id, param)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(data => {
-          this.planParticipants.forEach((participant, index) => {
-            if(participant.participant_id == id) {
-                this.planParticipants[index].confirmed = 0;
-                this.planParticipants[index].clear_confirmed = 1;
-            }
-          })
-          if(this.plansData?.length > 0) {
-            this.plansData?.forEach(p => {
-              if(p.id == eventId) {
-                if(p.participants?.length > 0) {
-                  p.participants?.forEach(par => {
-                    if(par.participant_id == id) {
-                      par.confirmed = 0;
-                      par.clear_confirmed = 1;
-                    }
-                  })
+            if(this.plansData?.length > 0) {
+              this.plansData?.forEach(p => {
+                if(p.id == eventId) {
+                  if(p.participants?.length > 0) {
+                    p.participants?.forEach(par => {
+                      if(par.participant_id == id) {
+                        par.confirmed = 0;
+                        par.clear_confirmed = 1;
+                      }
+                    })
+                  }
                 }
+              })
+            }
+            this.refreshTable(this.plansData, 'refresh');
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+          }, err => {
+            console.log('err: ', err);
+          })
+        } else {
+          this._plansService.clearConfirmation(id, param)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(data => {
+            this.planParticipants.forEach((participant, index) => {
+              if(participant.participant_id == id) {
+                  this.planParticipants[index].confirmed = 0;
+                  this.planParticipants[index].clear_confirmed = 1;
               }
             })
-          }
-          this.refreshTable(this.plansData, 'refresh');
-          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
-        }, err => {
-          console.log('err: ', err);
-        })
+            if(this.plansData?.length > 0) {
+              this.plansData?.forEach(p => {
+                if(p.id == eventId) {
+                  if(p.participants?.length > 0) {
+                    p.participants?.forEach(par => {
+                      if(par.participant_id == id) {
+                        par.confirmed = 0;
+                        par.clear_confirmed = 1;
+                      }
+                    })
+                  }
+                }
+              })
+            }
+            this.refreshTable(this.plansData, 'refresh');
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+          }, err => {
+            console.log('err: ', err);
+          })
+        }
       }
     }
 
