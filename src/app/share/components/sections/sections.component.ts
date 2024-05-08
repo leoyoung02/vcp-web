@@ -317,7 +317,7 @@ export class SectionsComponent {
       let planTypeId = plan?.plan_type_id;
       if (plan?.privacy && !plan?.private_type) {
       } else {
-        this._router.navigate([`/plans/details/${plan?.id}/${planTypeId}`]);
+        this._router.navigate([`/plans/details/${plan?.item_id}/${planTypeId}`]);
       }
     }
   }
