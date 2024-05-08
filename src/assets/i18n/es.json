@@ -69,7 +69,10 @@
         "filtersettings": "Configuración de filtro",
         "display": "Pantalla",
         "selecttext": "Seleccionar texto",
-        "agegroup": "Grupo de edad"
+        "agegroup": "Grupo de edad",
+        "checkpasswordrequirements": "Asegúrate de verificar los requisitos de contraseña",
+        "unabletovalidate": "No se puede enviar su registro. Por favor verifique su información.",
+        "sendmeamessage": "Mándame un mensaje"
     },
     "user-popup": {
         "myplans": "Mis planes",

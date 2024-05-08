@@ -69,7 +69,10 @@
         "filtersettings": "Filter settings",
         "display": "Display",
         "selecttext": "Select text",
-        "agegroup": "Age group"
+        "agegroup": "Age group",
+        "checkpasswordrequirements": "Please make sure you check the password requirements",
+        "unabletovalidate": "Unable to submit your registration. Please check your info.",
+        "sendmeamessage": "Send me a message"
     },
     "user-popup": {
         "myplans": "My Plans",

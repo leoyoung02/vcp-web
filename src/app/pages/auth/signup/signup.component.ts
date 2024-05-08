@@ -248,6 +248,7 @@ export class SignupComponent {
   };
 
   pondFiles = [];
+  passwordRequirementsNotSatisfied: boolean = true;
 
   constructor(
     private _router: Router,
@@ -977,6 +978,7 @@ export class SignupComponent {
 
     this.hasError = false;
     this.formSubmitted = true;
+    this.passwordRequirementsNotSatisfied = true;
 
     if (
       this.hasConfirmPassword &&
@@ -1136,6 +1138,11 @@ export class SignupComponent {
     } else {
       this.hasError = true;
       this.formSubmitted = false;
+      if(!this.passwordRequirementsNotSatisfied) {
+        this.open(this._translateService.instant('landing.checkpasswordrequirements'), '');
+      } else {
+        this.open(this._translateService.instant('landing.unabletovalidate'), '');
+      }
     }
   }
 
@@ -1286,6 +1293,10 @@ export class SignupComponent {
               controlErrors["maxlength"].requiredLength
             } ${this._translateService.instant("dialog.characters")}`;
           }
+
+          if(key == 'password') {
+            this.passwordRequirementsNotSatisfied = false;
+          }
         }
       }
     });
@@ -1403,7 +1414,6 @@ export class SignupComponent {
         }
       }
     })
-    console.log(group)
     this.startupDataForm = new FormGroup(group)
   }
 

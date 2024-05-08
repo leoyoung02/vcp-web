@@ -442,6 +442,29 @@
                                     <div class="flex items-center justify-between w-full">
                                         <div class="flex items-center justify-between w-full relative">
                                             <label
+                                                for="require-approval"
+                                                class="flex items-center w-full justify-between cursor-pointer"
+                                            >
+                                                <div class="ml-3 text-black text-sm">
+                                                    {{ "member-type-registration.requireapproval" | translate }}
+                                                </div>
+                                                <div class="relative mr-1">
+                                                    <input
+                                                        id="require-approval"
+                                                        type="checkbox"
+                                                        class="sr-only"
+                                                        [(ngModel)]="requireApproval"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                    />
+                                                    <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                    <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between w-full">
+                                        <div class="flex items-center justify-between w-full relative">
+                                            <label
                                                 for="member-visible"
                                                 class="flex items-center w-full justify-between cursor-pointer"
                                             >

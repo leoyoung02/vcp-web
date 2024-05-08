@@ -84,6 +84,7 @@
                                         <div class="flex items-center justify-center mb-2 relative">
                                             <ng-container *ngIf="field?.field == 'password'">
                                                 <input 
+                                                    autocomplete="new-password"
                                                     [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': field?.required == 1 && getStartedForm.get(field?.field)?.errors }"
                                                     class="text-sm shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
                                                     [type]="fieldTextType ? 'text' : 'password'"
@@ -102,6 +103,7 @@
                                             </ng-container>
                                             <ng-container *ngIf="field?.field == 'confirm_password'">
                                                 <input 
+                                                    autocomplete="confirm-password"
                                                     [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': field?.required == 1 && getStartedForm.get(field?.field)?.errors }"
                                                     class="text-sm shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
                                                     [type]="fieldConfirmTextType ? 'text' : 'password'"
@@ -191,7 +193,7 @@
                                     <div *ngIf="field?.field_type == 'date'" class="-mb-5 signup-date">
                                         <mat-form-field class="w-full">
                                             <mat-label>{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}</mat-label>
-                                            <input matInput [matDatepicker]="pickerdate" placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}}" formControlName="{{ field?.field }}">
+                                            <input readonly autocomplete="off" matInput [matDatepicker]="pickerdate" placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}}" formControlName="{{ field?.field }}">
                                             <mat-datepicker-toggle matIconSuffix [for]="pickerdate"></mat-datepicker-toggle>
                                             <mat-datepicker #pickerdate>
                                                 <mat-datepicker-actions>

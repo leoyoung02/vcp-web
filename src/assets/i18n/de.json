@@ -69,7 +69,10 @@
         "filtersettings": "Filtereinstellungen",
         "display": "Anzeige",
         "selecttext": "Text auswählen",
-        "agegroup": "Altersgruppe"
+        "agegroup": "Altersgruppe",
+        "checkpasswordrequirements": "Bitte überprüfen Sie unbedingt die Passwortanforderungen.",
+        "unabletovalidate": "Ihre Registrierung konnte nicht gesendet werden. Bitte überprüfen Sie Ihre Informationen.",
+        "sendmeamessage": "Mandame eine Nachricht"
     },
     "user-popup": {
         "myplans": "Meine Pläne",

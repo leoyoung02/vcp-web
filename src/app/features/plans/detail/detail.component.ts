@@ -1648,19 +1648,19 @@ export class PlanDetailComponent {
   }
 
   async handleJoin() {
-    if (this.requestDNI) {
-      let user = this.currentUser;
-      if (!user) {
-        user = this.user;
-      }
-      if (user && !user.dni) {
-        this.showUpdateDNIModal = true;
-      } else {
-        this.proceedJoin();
-      }
-    } else {
+    // if (this.requestDNI) {
+    //   let user = this.currentUser;
+    //   if (!user) {
+    //     user = this.user;
+    //   }
+    //   if (user && !user.dni) {
+    //     this.showUpdateDNIModal = true;
+    //   } else {
+    //     this.proceedJoin();
+    //   }
+    // } else {
       this.proceedJoin();
-    }
+    // }
   }
 
   proceedJoin() {

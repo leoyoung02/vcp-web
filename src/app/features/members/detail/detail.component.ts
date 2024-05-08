@@ -851,7 +851,7 @@ export class MemberDetailComponent {
   handleCreateQuestion() {
     this.questionFormSubmitted = false;
     this.dialogMode = "question";
-    this.dialogTitle =  this._translateService.instant('members.askaquestion');
+    this.dialogTitle =  this.companyId == 66 ? this._translateService.instant('landing.sendmeamessage') : this._translateService.instant('members.askaquestion');
     this.modalbutton?.nativeElement.click();
   }
 

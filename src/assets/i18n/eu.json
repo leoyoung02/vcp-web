@@ -69,7 +69,10 @@
         "filtersettings": "Iragazkien ezarpenak",
         "display": "Bistaratu",
         "selecttext": "Hautatu testua",
-        "agegroup": "Adin-taldea"
+        "agegroup": "Adin-taldea",
+        "checkpasswordrequirements": "Mesedez, ziurtatu pasahitzaren eskakizunak egiaztatzen dituzula",
+        "unabletovalidate": "Ezin da zure erregistroa bidali. Egiaztatu zure informazioa.",
+        "sendmeamessage": "Eman mezu bat"
     },
     "user-popup": {
         "myplans": "Nire planak",

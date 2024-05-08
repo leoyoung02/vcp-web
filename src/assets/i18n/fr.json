@@ -69,7 +69,10 @@
         "filtersettings": "Paramètres du filtre",
         "display": "Afficher",
         "selecttext": "Sélectionner du texte",
-        "agegroup": "Tranche d'âge"
+        "agegroup": "Tranche d'âge",
+        "checkpasswordrequirements": "Veuillez vous assurer de vérifier les exigences relatives au mot de passe",
+        "unabletovalidate": "Impossible de soumettre votre inscription. Veuillez vérifier vos informations.",
+        "sendmeamessage": "Demande un message"
     },
     "user-popup": {
         "myplans": "Mes projets",
