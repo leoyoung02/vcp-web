@@ -54,9 +54,9 @@
                 <span class="sr-only">Loading...</span>
             </div>
             <mat-paginator #paginator [pageSize]="pageSize" [pageSizeOptions]="[5, 10, 20, 50, 100, 200]" *ngIf="pageSize == 200" class="mb-5"
-            (page)="getPageDetails($event)"
-            [showFirstLastButtons]="true">
-        </mat-paginator>
+                (page)="getPageDetails($event)"
+                [showFirstLastButtons]="true">
+            </mat-paginator>
             <mat-table [dataSource]="dataSource" matSort>
                 <ng-container matColumnDef="move">
                     <mat-header-cell *matHeaderCellDef mat-sort-header></mat-header-cell>
@@ -114,7 +114,7 @@
                 <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'customer.action' | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="action" class="flex;">
-                        <button *ngIf="row?.require_payment == 1 && companyId != 12" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        <button *ngIf="row?.require_payment == 1" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             [ngStyle]="{'background-color': buttonColor}" (click)="generateCartLink(row)"
                         >
                             <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
@@ -131,7 +131,7 @@
                             </svg>
                             <span class="sr-only">Icon description</span>
                         </button>
-                        <button *ngIf="companyId != 12" type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             [ngStyle]="{'background-color': buttonColor}" (click)="deleteMemberType(row)"
                         >
                             <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
@@ -157,7 +157,7 @@
 </button>
 <div id="item-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-h-full"
-        [ngClass]="{'max-w-2xl': dialogMode == 'add' || dialogMode == 'edit',
+        [ngClass]="{'max-w-4xl': dialogMode == 'add' || dialogMode == 'edit',
             'max-w-md': dialogMode != 'add' && dialogMode != 'edit'
         }"
     >
@@ -174,7 +174,7 @@
                 </h3>
                 <ng-container *ngIf="dialogMode == 'add' || dialogMode == 'edit'">
                     <mat-tab-group #mtTab class="member-type" (selectedTabChange)="changeTab($event)" [(selectedIndex)]="tabIndex">
-                        <mat-tab *ngIf="companyId != 12" label="{{ 'member-type-registration.details' | translate }}">
+                        <mat-tab label="{{ 'member-type-registration.details' | translate }}">
                             <form 
                                 [formGroup]="memberTypeForm"
                                 class="my-4 px-1"
@@ -190,6 +190,52 @@
                                     />
                                 </div>
                                 <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4 relative">
+                                    <div class="flex items-center justify-between w-full">
+                                        <div class="flex items-center justify-between w-full relative">
+                                            <label
+                                                for="access-profile"
+                                                class="flex items-center w-full justify-between cursor-pointer"
+                                            >
+                                                <div class="ml-3 text-black text-sm">
+                                                    {{ "member-type-registration.accessprofile" | translate }}
+                                                </div>
+                                                <div class="relative mr-1">
+                                                    <input
+                                                        id="access-profile"
+                                                        type="checkbox"
+                                                        class="sr-only"
+                                                        [(ngModel)]="accessProfile"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                    />
+                                                    <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                    <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-between w-full">
+                                        <div class="flex items-center justify-between w-full relative">
+                                            <label
+                                                for="platform-settings"
+                                                class="flex items-center w-full justify-between cursor-pointer"
+                                            >
+                                                <div class="ml-3 text-black text-sm">
+                                                    {{ "member-type-registration.platformsettings" | translate }}
+                                                </div>
+                                                <div class="relative mr-1">
+                                                    <input
+                                                        id="platform-settings"
+                                                        type="checkbox"
+                                                        class="sr-only"
+                                                        [(ngModel)]="accessPlatformSettings"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                    />
+                                                    <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                    <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
                                     <div class="flex items-center justify-between w-full">
                                         <div class="flex items-center justify-between w-full relative">
                                             <label
@@ -325,7 +371,7 @@
                                                 </label>
                                             </div>
                                         </div>
-                                        <div class="flex items-center justify-between w-full">
+                                        <div class="flex items-center justify-between w-full" *ngIf="hasCustomMemberTypeExpiration">
                                             <div class="flex items-center justify-between w-full relative">
                                             </div>
                                         </div>
@@ -399,7 +445,7 @@
                                                 for="member-visible"
                                                 class="flex items-center w-full justify-between cursor-pointer"
                                             >
-                                                <div class="ml-3 text-black text-xs">
+                                                <div class="ml-3 text-black text-sm">
                                                     {{ "member-type-registration.membersvisible" | translate }}
                                                 </div>
                                                 <div class="relative mr-1">
@@ -416,6 +462,85 @@
                                             </label>
                                         </div>
                                     </div>
+                                    <ng-container *ngIf="hasPlans">
+                                        <div class="col-span-2">
+                                            <div class="my-2">
+                                                <div class="uppercase border border-b-2 border-l-0 border-r-0 border-t-0 border-gray-200 font-semibold">
+                                                    {{ plansTitle }} {{'company-settings.settings' | translate}}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between w-full">
+                                            <div class="flex items-center justify-between w-full relative">
+                                                <label
+                                                    for="my-invitations"
+                                                    class="flex items-center w-full justify-between cursor-pointer"
+                                                >
+                                                    <div class="ml-3 text-black text-sm">
+                                                        {{ "member-type-registration.accessmyinvitations" | translate }}
+                                                    </div>
+                                                    <div class="relative mr-1">
+                                                        <input
+                                                            id="my-invitations"
+                                                            type="checkbox"
+                                                            class="sr-only"
+                                                            [(ngModel)]="accessMyInvitations"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                        />
+                                                        <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between w-full">
+                                            <div class="flex items-center justify-between w-full relative">
+                                                <label
+                                                    for="invite-all-events"
+                                                    class="flex items-center w-full justify-between cursor-pointer"
+                                                >
+                                                    <div class="ml-3 text-black text-sm">
+                                                        {{ "member-type-registration.inviteallevents" | translate }}
+                                                    </div>
+                                                    <div class="relative mr-1">
+                                                        <input
+                                                            id="invite-all-events"
+                                                            type="checkbox"
+                                                            class="sr-only"
+                                                            [(ngModel)]="inviteAllEvents"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                        />
+                                                        <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="flex items-center justify-between w-full">
+                                            <div class="flex items-center justify-between w-full relative">
+                                                <label
+                                                    for="view-guests"
+                                                    class="flex items-center w-full justify-between cursor-pointer"
+                                                >
+                                                    <div class="ml-3 text-black text-sm">
+                                                        {{ "member-type-registration.viewguests" | translate }}
+                                                    </div>
+                                                    <div class="relative mr-1">
+                                                        <input
+                                                            id="view-guests"
+                                                            type="checkbox"
+                                                            class="sr-only"
+                                                            [(ngModel)]="viewGuests"
+                                                            [ngModelOptions]="{standalone: true}"
+                                                        />
+                                                        <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </div>
+                                        <div class="col-span-2 -mb-[25px]">&nbsp;</div>
+                                    </ng-container>
                                 </div>
                                 <div class="flex items-center justify-center">
                                     <textarea name="" id="" cols="30" rows="3"
@@ -436,15 +561,22 @@
                             </div>
                         </mat-tab>
                         <mat-tab *ngIf="selectedId" label="{{ 'member-type-registration.permissions' | translate }}">
-                            <table class="w-full my-4">
+                            <table class="w-full my-4 mt-8">
                                 <tr>
-                                    <th class="text-left font-semibold text-base">{{ 'member-type-registration.feature' | translate }}</th>
-                                    <th class="text-center font-semibold text-base">{{ 'member-type-registration.view' | translate }}</th>
-                                    <th class="text-center font-semibold text-base">{{ 'member-type-registration.manage' | translate }}</th>
+                                    <th class="text-left font-semibold text-xs">{{ 'member-type-registration.feature' | translate }}</th>
+                                    <th class="text-center font-semibold text-xs">{{ 'member-type-registration.view' | translate }}</th>
+                                    <th class="text-center font-semibold text-xs">{{ 'member-type-registration.createupdatedelete' | translate }}</th>
+                                    <ng-container *ngIf="hasPlans">
+                                        <th class="text-center font-semibold text-xs">{{ 'company-settings.managelanding' | translate }} ({{'your-admin-area.attendance' | translate}})</th>
+                                        <th class="text-center font-semibold text-xs">{{ 'company-settings.managelanding' | translate }} ({{'your-admin-area.assign' | translate}})</th>
+                                        <th class="text-center font-semibold text-xs">{{ 'member-type-registration.registereventsall' | translate }}</th>
+                                        <th class="text-center font-semibold text-xs" *ngIf="companyId == 12">{{ 'member-type-registration.registereventsnetcultura' | translate }}</th>
+                                        <th class="text-center font-semibold text-xs">{{ 'member-type-registration.registereventsguests' | translate }}</th>
+                                    </ng-container>
                                 </tr>
                                 <tr *ngFor="let permission of permissionsData" class="table-row">
-                                    <td class="py-2">{{ getFeatureTitle(permission) }}</td>
-                                    <td class="text-center">
+                                    <td class="py-2 text-sm">{{ getFeatureTitle(permission) }}</td>
+                                    <td class="text-center w-[80px]">
                                         <input 
                                             type="checkbox"
                                             [(ngModel)]="permission.view"
@@ -452,7 +584,7 @@
                                             class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                         >
                                     </td>
-                                    <td class="text-center">
+                                    <td class="text-center w-[120px]">
                                         <input 
                                             type="checkbox"
                                             [(ngModel)]="permission.create"
@@ -460,6 +592,53 @@
                                             class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                         >
                                     </td>
+                                    <ng-container *ngIf="hasPlans">
+                                        <td class="text-center w-[100px]">
+                                            <input 
+                                                *ngIf="permission?.id == 1"
+                                                type="checkbox"
+                                                [(ngModel)]="permission.admin_attendance"
+                                                [ngStyle]="{'color': permission.admin_attendance ? buttonColor : 'text-blue-500'}"
+                                                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            >
+                                        </td>
+                                        <td class="text-center w-[100px]">
+                                            <input 
+                                                *ngIf="permission?.id == 1"
+                                                type="checkbox"
+                                                [(ngModel)]="permission.admin_assign"
+                                                [ngStyle]="{'color': permission.admin_assign ? buttonColor : 'text-blue-500'}"
+                                                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            >
+                                        </td> 
+                                        <td class="text-center w-[120px]">
+                                            <input 
+                                                *ngIf="permission?.id == 1"
+                                                type="checkbox"
+                                                [(ngModel)]="permission.register_events_all"
+                                                [ngStyle]="{'color': permission.register_events_all ? buttonColor : 'text-blue-500'}"
+                                                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            >
+                                        </td> 
+                                        <td class="text-center w-[150px]" *ngIf="companyId == 12">
+                                            <input 
+                                                *ngIf="permission?.id == 1"
+                                                type="checkbox"
+                                                [(ngModel)]="permission.register_events_netcultura"
+                                                [ngStyle]="{'color': permission.register_events_netcultura ? buttonColor : 'text-blue-500'}"
+                                                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            >
+                                        </td> 
+                                        <td class="text-center w-[150px]">
+                                            <input 
+                                                *ngIf="permission?.id == 1"
+                                                type="checkbox"
+                                                [(ngModel)]="permission.register_events_guests"
+                                                [ngStyle]="{'color': permission.register_events_guests ? buttonColor : 'text-blue-500'}"
+                                                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                            >
+                                        </td> 
+                                    </ng-container>
                                 </tr>
                             </table>
                             <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">

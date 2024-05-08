@@ -2683,7 +2683,16 @@
         "selecttutoraccess": "Wählen Sie den Mitgliederzugang zu Tutoren aus",
         "access": "Zugang",
         "info": "Info",
-        "sameprice": "Gleichen Preis auf alle anwenden"
+        "sameprice": "Gleichen Preis auf alle anwenden",
+        "createupdatedelete": "Erstellen, aktualisieren, löschen",
+        "platformsettings": "Zugriff auf Plattformeinstellungen",
+        "registereventsall": "Für Veranstaltungen registrieren (Alle)",
+        "registereventsnetcultura": "Für Veranstaltungen registrieren (Netcultura)",
+        "registereventsguests": "Für Veranstaltungen (Ihre Gäste) anmelden",
+        "accessprofile": "Zugriffsprofil",
+        "accessmyinvitations": "Auf meine Einladungen zugreifen",
+        "inviteallevents": "Sie können zu allen Veranstaltungen einladen",
+        "viewguests": "Gäste anzeigen"
     },
     "member-type": {
         "welcometo": "Willkommen bei",

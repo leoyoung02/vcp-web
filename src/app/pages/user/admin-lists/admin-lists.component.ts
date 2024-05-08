@@ -315,14 +315,16 @@ export class AdminListsComponent {
     }
 
     if (this.clubsFeatureId > 0 && !this.isUESchoolOfLife) {
-      list.push({
-        id: this.clubsFeatureId,
-        value: this.clubsFeatureId,
-        text: this.clubsTitle,
-        selected: !this.plansFeatureId ? true : false,
-        fk_company_id: this.companyId,
-        filter: "clubs",
-      });
+      if(this.superAdmin) {
+        list.push({
+          id: this.clubsFeatureId,
+          value: this.clubsFeatureId,
+          text: this.clubsTitle,
+          selected: !this.plansFeatureId ? true : false,
+          fk_company_id: this.companyId,
+          filter: "clubs",
+        });
+      }
     }
 
     if (this.jobOffersFeatureId > 0 && !this.isUESchoolOfLife) {

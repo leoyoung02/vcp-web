@@ -35,6 +35,7 @@
         [superAdmin]="superAdmin"
         [isUESchoolOfLife]="isUESchoolOfLife"
         [hasHistoryOfActivities]="hasHistoryOfActivities"
+        [customMemberType]="customMemberType"
         (changeLanguage)="changedLanguage($event)" 
     >
     </app-sidebar>
@@ -116,6 +117,9 @@
                 [potTutor]="potTutor"
                 [hasInvitations]="hasInvitations"
                 [companyId]="companyId"
+                [customMemberType]="customMemberType"
+                [customMemberTypePermissions]="customMemberTypePermissions"
+                [superAdmin]="superAdmin"
             >
             </app-user-menu>
         </div>
@@ -130,12 +134,3 @@
         <ng-content></ng-content>
     </main>
 </div>
-<!-- <app-toast 
-    *ngIf="newUpdatesAvailable && companyId !== 52 && companyId !== 65 && companyId !== 32" 
-    [company]="company" 
-    [update]="true" 
-    [confirm]="false"
-    [title]="title"
-    [description]="description"
-    [acceptText]="acceptText"
-></app-toast> -->

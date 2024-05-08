@@ -2688,7 +2688,16 @@
         "selecttutoraccess": "Seleccioneu l'accés dels membres als tutors",
         "access": "Accés",
         "info": "Informació",
-        "sameprice": "Aplica el mateix preu a tots"
+        "sameprice": "Aplica el mateix preu a tots", 
+        "createupdatedelete": "Crea, actualitza, elimina",
+        "platformsettings": "Accés a la configuració de la plataforma",
+        "registereventsall": "Inscriure's a esdeveniments (Tots)",
+        "registereventsnetcultura": "Inscriure's a esdeveniments (Netcultura)",
+        "registereventsguests": "Inscriure's a esdeveniments (Els seus convidats)",
+        "accessprofile": "Accedeix a perfil",
+        "accessmyinvitations": "Accedeix a les meves invitacions",
+        "inviteallevents": "Pot convidar tots els esdeveniments",
+        "viewguests": "Mostra els convidats"
     },
     "member-type": {
         "welcometo": "Benvingut a",

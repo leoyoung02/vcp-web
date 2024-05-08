@@ -89,6 +89,7 @@ export class SidebarComponent {
   @Input() refreshedMenu: any;
   @Input() superAdmin: any;
   @Input() hasHistoryOfActivities: any;
+  @Input() customMemberType: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;
@@ -161,6 +162,7 @@ export class SidebarComponent {
   customerOnboardingHover: boolean = false;
   hoveredLanguage: any;
   courseWallPrefixTextValueIt: any;
+  canAccessPlatformSettings: boolean = false;
 
   constructor(
     private _router: Router, 
@@ -271,6 +273,14 @@ export class SidebarComponent {
       let company = companyChange.currentValue;
       this.company = company;
       this.initializePage();
+    }
+
+    let customMemberTypeChange = changes["customMemberType"];
+    if (customMemberTypeChange?.currentValue?.id > 0) {
+      this.customMemberType = customMemberTypeChange.currentValue;
+      if(this.customMemberType) {
+        this.canAccessPlatformSettings = this.customMemberType?.access_platform_settings == 1 ? true : false;
+      }
     }
   }
 

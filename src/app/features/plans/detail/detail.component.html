@@ -117,27 +117,15 @@
                     <div *ngIf="planTitle" class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
                         <div *ngIf="showJoinButton && joinStatusChecked && !isExternalRegistration &&
                             (
-                                (!joinedParticipant
-                                && plan?.private
-                                && pendingRequest
-                                && !showOption
-                                && plan?.plan_date >= today) ||
-                                (userId && ((!joinedParticipant
-                                && !plan?.private
-                                && (plan?.plan_date >= today || !isPastEvent)
-                                && !activateWaitingList) || (plan?.private && !joinedParticipant && speedMember)
-                                || (plan?.private && showOption && !joinedParticipant && (plan?.plan_date >= today || !isPastEvent)))) ||
+                                getRequestJoinStatus() ||
+                                getJoinStatus() ||
                                 (waitingListActive && plan?.waiting_list == 1 && activateWaitingList && !joinedParticipant)
                             )
                         " 
                             class="w-full max-w-full flex justify-between items-center flex-gap-col">
                             <ng-container *ngIf="!isExternalRegistration">
                                 <button
-                                    *ngIf="!joinedParticipant
-                                        && plan?.private
-                                        && pendingRequest
-                                        && !showOption
-                                        && plan?.plan_date >= today"
+                                    *ngIf="getRequestJoinStatus()"
                                         class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold"
                                     [ngStyle]="{
                                         'background-color': buttonColor
@@ -148,11 +136,7 @@
                                     {{ 'plan-details.pending' | translate }}
                                 </button>
                                 <button
-                                    *ngIf="showJoinButton && userId && ((!joinedParticipant
-                                        && !plan?.private
-                                        && (plan?.plan_date >= today || !isPastEvent)
-                                        && !activateWaitingList) || (plan?.private && !joinedParticipant && speedMember)
-                                        || (plan?.private && showOption && !joinedParticipant && (plan?.plan_date >= today || !isPastEvent)))"
+                                    *ngIf="getJoinStatus()"
                                     class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold transition duration-700 ease-in-out"
                                     [ngStyle]="{
                                         'background-color': buttonColor,
@@ -390,7 +374,7 @@
                             {{ createdBy || planCreator?.name || (planCreator?.first_name + ' ' + planCreator?.last_name) }}
                         </div>
                     </div>
-                    <div class="flex items-center" *ngIf="userId && invitationLinkActive && (superAdmin || showOption || !plan?.private || (plan?.private && joinedParticipant))">
+                    <div class="flex items-center" *ngIf="getShareStatus()">
                         <div (click)="goToLink(emailTo)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">
                             <img width="36" height="36" class="object-contain mr-6 ml-4" src="./assets/icons/link-chain.png">
                             <div class="mt-10 text-center opacity-60">{{ 'plan-details.share' | translate }}</div>

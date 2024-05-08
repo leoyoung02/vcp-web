@@ -2684,7 +2684,16 @@
         "selecttutoraccess": "Hautatu kideen sarbidea tutoreetarako",
         "access": "Sarbidea",
         "info": "Info",
-        "sameprice": "Aplikatu prezio bera guztiei"
+        "sameprice": "Aplikatu prezio bera guztiei", 
+        "createupdatedelete": "Sortu, eguneratu, ezabatu",
+        "platformsettings": "Sartu plataformaren ezarpenak",
+        "registereventsall": "Eman izena ekitaldietarako (guztiak)",
+        "registereventsnetcultura": "Eman izena ekitaldietarako (Netcultura)",
+        "registereventsguests": "Eman izena ekitaldietarako (Zure gonbidatuak)",
+        "accessprofile": "Sarbide profila",
+        "accessmyinvitations": "Sartu nire gonbidapenak",
+        "inviteallevents": "Gertaera guztietara gonbida dezakezu",
+        "viewguests": "Ikusi gonbidatuak"
     },
     "member-type": {
         "welcome": "Ongi etorri",
