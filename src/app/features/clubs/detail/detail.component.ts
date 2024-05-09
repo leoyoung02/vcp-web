@@ -1041,7 +1041,7 @@ export class ClubDetailComponent {
   }
 
   handleNavigate() {
-    this._router.navigate([`/plans/create/0`]);
+    this._router.navigate([`/plans/create/0/4`]);
   }
 
   handleLeave() {

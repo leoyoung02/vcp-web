@@ -215,6 +215,19 @@ export class PersonalizeHomeComponent {
   setting: any
   settings: any
   settings2: any
+  showEditHomeTextModal: boolean = false
+  homeTextValue: any
+  homeTextValueEn: any
+  homeTextValueFr: any
+  homeTextValueEu: any
+  homeTextValueCa: any
+  homeTextValueDe: any
+  languages: any = []
+  isFrenchEnabled: boolean = false
+  isEnglishEnabled: boolean = false
+  isBasqueEnabled: boolean = false
+  isCatalanEnabled: boolean = false
+  isGermanEnabled: boolean = false
   @ViewChild("modalbutton", { static: false }) modalbutton:
     | ElementRef
     | undefined
@@ -258,6 +271,12 @@ export class PersonalizeHomeComponent {
       this.buttonColor = company[0].button_color
         ? company[0].button_color
         : company[0].primary_color;
+      this.homeTextValue = company[0].home_text || 'Inicio';
+      this.homeTextValueEn = company[0].home_text_en || 'Home';
+      this.homeTextValueFr = company[0].home_text_fr || 'Maison';
+      this.homeTextValueEu = company[0].home_text_eu || 'Hasi';
+      this.homeTextValueCa = company[0].home_text_ca || 'Inici';
+      this.homeTextValueDe = company[0].home_text_de || 'Anfang';
     }
 
     this.languageChangeSubscription =
@@ -284,12 +303,35 @@ export class PersonalizeHomeComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         data => {
-            this.mapCategorySettings(data);
+          console.log(data)
+          this.mapCategorySettings(data);
+          this.initializeLanguages(data?.languages);
         },
         error => {
           console.log(error)
         }
       )
+  }
+
+  initializeLanguages(languages) {
+    this.languages = languages ? languages.filter(lang => { return lang.status == 1 }) : []
+
+    if(this.languages) {
+        let french = this.languages.filter(lang => { return lang.code == 'fr' && lang.status == 1 })
+        this.isFrenchEnabled = french && french[0] ? true : false
+
+        let english = this.languages.filter(lang => { return lang.code == 'en' && lang.status == 1 })
+        this.isEnglishEnabled = english && english[0] ? true : false
+
+        let basque = this.languages.filter(lang => { return lang.code == 'eu' && lang.status == 1 })
+        this.isBasqueEnabled = basque && basque[0] ? true : false
+
+        let catalan = this.languages.filter(lang => { return lang.code == 'ca' && lang.status == 1 })
+        this.isCatalanEnabled = catalan && catalan[0] ? true : false
+
+        let german = this.languages.filter(lang => { return lang.code == 'de' && lang.status == 1 })
+        this.isGermanEnabled = german && german[0] ? true : false
+    }
   }
 
   mapCategorySettings(data) {
@@ -1132,6 +1174,8 @@ export class PersonalizeHomeComponent {
   saveDialog() {
     if(this.dialogMode == 'update-value') {
       this.saveValue();
+    } else if(this.dialogMode == 'update-home-text') {
+      this.saveHomeTextValue();
     }
   }
 
@@ -1184,6 +1228,48 @@ export class PersonalizeHomeComponent {
           console.log(error)
         }
       )
+  }
+
+  openEditHomeTextModal(setting) {
+    this.showEditHomeTextModal = true;
+    this.dialogMode = "update-home-text";
+    this.getSettingTitle(setting);
+    this.dialogTitle =  this.selectedSettingTitle
+    this.dialogTitle = this.selectedSettingTitle || this._translateService.instant('company-settings.updatevalue');
+    this.modalbutton?.nativeElement.click();
+  }
+
+  saveHomeTextValue() {
+    if(!this.homeTextValue) {
+      return false
+    }
+
+    let params = {
+      company_id: this.companyId,
+      home_text: this.homeTextValue,
+      home_text_en: this.homeTextValueEn || this.homeTextValue,
+      home_text_fr: this.homeTextValueFr || this.homeTextValue,
+      home_text_eu: this.homeTextValueEu || this.homeTextValue,
+      home_text_ca: this.homeTextValueCa || this.homeTextValue,
+      home_text_de: this.homeTextValueDe || this.homeTextValue,
+    }
+    this._companyService.saveHomeText(params)
+      .subscribe(
+        async (response) => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          this.showEditHomeTextModal = false
+          this.setMainService(true);
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  async setMainService(reload: boolean = true) {
+    this.companies = get(await this._companyService.getCompanies().toPromise(), 'companies')
+    this._companyService.getCompany(this.companies)
+    if(reload) { location.reload() }
   }
 
   handleGoBack() {

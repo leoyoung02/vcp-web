@@ -375,25 +375,54 @@
                         </div>
                     </div>
                     <div class="flex items-center" *ngIf="getShareStatus()">
-                        <div (click)="goToLink(emailTo)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">
-                            <img width="36" height="36" class="object-contain mr-6 ml-4" src="./assets/icons/link-chain.png">
-                            <div class="mt-10 text-center opacity-60">{{ 'plan-details.share' | translate }}</div>
+                        <div *ngIf="emailTo" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">
+                            <div class="h-[36px]">
+                                <a [href]="emailTo" target="_blank">
+                                    <img width="36" height="36" class="object-contain" src="./assets/icons/link-chain.png"> 
+                                </a>
+                            </div>
+                            <div class="my-4 text-center opacity-60">
+                                <div class="flex items-center justify-center">
+                                    <div>
+                                        <a [href]="emailTo" target="_blank">
+                                            {{ 'plan-details.share' | translate }}
+                                        </a>
+                                    </div>
+                                    <svg data-popover-target="popover-default1" 
+                                        class="w-4 h-4 ml-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" 
+                                        fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 11h2v5m-2 0h4m-2.592-8.5h.01M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    <div data-popover id="popover-default1" role="tooltip" 
+                                        (click)="openInstructionReference()" 
+                                        class="absolute w-3/12 invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-black rounded-lg shadow-sm opacity-0 dark:bg-gray-700">
+                                        {{ 'landing.mailto' | translate }}
+                                        <div class="tooltip-arrow" data-popper-arrow></div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div (click)="copyText()" class="flex flex-col items-center justify-center mr-16 hover:cursor-pointer">
-                            <img width="36" height="36" class="object-contain ml-6" src="./assets/icons/copy-paste.png">
-                            <div class="w-[36px] max-w-[36px] mt-6 text-center opacity-60">{{ 'plan-details.copylink' | translate }}</div>
+                        <div (click)="copyText()" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">
+                            <div class="h-[36px]">
+                                <img width="36" height="36" class="object-contain h-[36px]" src="./assets/icons/copy-paste.png">
+                            </div>
+                            <div class="my-4 text-center opacity-60">{{ 'plan-details.copylink' | translate }}</div>
                         </div>
-                        <div (click)="sendEmailInvite()" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer" *ngIf="hasEmailInvite && (superAdmin || showOption)">
+                        <!-- <div (click)="sendEmailInvite()" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer" *ngIf="hasEmailInvite && (superAdmin || showOption)">
                             <img width="36" height="36" class="object-contain" src="./assets/icons/mail-send.png">
                             <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">{{ 'plan-details.sharebyemail' | translate }}</div>
+                        </div> -->
+                        <div (click)="shareByWhatsApp(whatsAppTemplate)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">
+                            <div class="h-[36px]">
+                                <img width="36" height="36" class="object-contain h-[36px]" src="./assets/icons/whatsapp.png">
+                            </div>
+                            <div class="my-4 text-center opacity-60">WhatsApp</div>
                         </div>
-                        <div (click)="shareByWhatsApp(whatsAppTemplate)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer -mt-6">
-                            <img width="36" height="36" class="object-contain -mt-1 mb-1" src="./assets/icons/whatsapp.png">
-                            <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">WhatsApp</div>
-                        </div>
-                        <div (click)="shareByTelegram(telegramTemplate)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer -mt-[26px]">
-                            <img width="36" height="36" class="object-contain" src="./assets/icons/telegram.png">
-                            <div class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">Telegram</div>
+                        <div (click)="shareByTelegram(telegramTemplate)" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">
+                            <div class="h-[36px]">
+                                <img width="36" height="36" class="object-contain h-[36px]" src="./assets/icons/telegram.png">
+                            </div>
+                            <div class="my-4 text-center opacity-60">Telegram</div>
                         </div>
                     </div>
                     <ng-container *ngIf="(admin1 || superAdmin) && companyId == 12">

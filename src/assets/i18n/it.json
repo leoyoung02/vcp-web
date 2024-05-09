@@ -72,7 +72,8 @@
         "agegroup": "Gruppo di età",
         "checkpasswordrequirements": "Assicurati di controllare i requisiti della password",
         "unabletovalidate": "Impossibile inviare la registrazione. Controlla le tue informazioni.",
-        "sendmeamessage": "Inviami un messaggio"
+        "sendmeamessage": "Inviami un messaggio",
+        "mailto": "Se non succede nulla dopo aver fatto clic, assicurati di avere un client di posta predefinito installato o di aver configurato il browser per aprire i collegamenti e-mail. Puoi fare riferimento a https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome su come configurare il browser."
     },
     "user-popup": {
         "myplans": "I miei piani",
@@ -1107,7 +1108,7 @@
         "username": "Nome utente",
         "emailpasswordrequired": "Per accedere sono necessari email e password"
     },
-    "iscrizione": {
+    "signup": {
         "firsttitle": "Iscriviti",
         "secondtitle": "Piattaforma di prodotti dell'azienda Vistingo",
         "emailaddress": "E-mail",
@@ -1162,8 +1163,8 @@
         "foundername": "Nome e cognome",
         "nombredelasociedad": "Nome dell'azienda",
         "direccion": "Direzione",
-        "cif": "cif",
-        "coupon": "coupon",
+        "cif": "CIF",
+        "coupon": "Coupon",
         "back": "Indietro",
         "registrationtext": "Testi di registrazione",
         "passwordmatch": "Le password non corrispondono",
@@ -2687,7 +2688,7 @@
     "member-type": {
         "welcometo": "Benvenuto a",
         "chooseplan": "Scegli il tipo di account",
-        "free": "Gratis",
+        "free": "Gratuito",
         "select": "Seleziona",
         "try": "prova",
         "for": "da",

@@ -687,26 +687,26 @@ export class ClubEditComponent {
     return this.language == "en"
       ? (setting.name_en ? setting.name_en || setting.name : setting.name) +
           " " +
-          this.planName
+          (this.planName || this._translateService.instant('plans.plan'))
       : this.language == "fr"
       ? (setting.name_fr ? setting.name_fr || setting.name : setting.name) +
         " " +
-        this.planName
+        (this.planName || this._translateService.instant('plans.plan'))
       : this.language == "eu"
       ? (setting.name_eu ? setting.name_eu || setting.name : setting.name) +
         " " +
-        this.planName
+        (this.planName || this._translateService.instant('plans.plan'))
       : this.language == "ca"
       ? (setting.name_ca ? setting.name_ca || setting.name : setting.name) +
         " " +
-        this.planName
+        (this.planName || this._translateService.instant('plans.plan'))
       : (this.language == "de"
           ? setting.name_de
             ? setting.name_de || setting.name
             : setting.name
           : setting.name) +
         " " +
-        this.planName;
+        (this.planName || this._translateService.instant('plans.plan'));
   }
 
   closeLanguageNote() {

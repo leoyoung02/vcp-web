@@ -1398,7 +1398,7 @@ export class PlanDetailComponent {
               txt && txt?.textContent
                 ? encodeURIComponent(txt?.textContent)
                 : "";
-            this.emailTo = `mailto:?Subject=${template.subject}&ISO-8859-1&Body=${email_body}`;
+            this.emailTo = `mailto:recipient@email.com?Subject=${template.subject}&ISO-8859-1&Body=${email_body}`;
             this.whatsAppTemplate = `https://wa.me?text=${email_body}` // `whatsapp://send?text=${email_body}`;
             this.telegramTemplate = `https://telegram.me/share/url?url=${window.location.href}&text=${email_body}`;
           } else {
@@ -1425,6 +1425,9 @@ export class PlanDetailComponent {
               this.telegramTemplate = `https://telegram.me/share/url?url=${window.location.href}&text=` + window.location.href;
             }
           }
+          setTimeout(() => {
+            initFlowbite();
+          }, 500);
         },
         (error) => {
           console.log(error);
@@ -2952,6 +2955,10 @@ export class PlanDetailComponent {
         this.iframeEventDescription.nativeElement.style.display = 'block'
       }
     }, 500)
+  }
+
+  openInstructionReference() {
+    window.open("https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome", "_blank");
   }
 
   ngOnDestroy() {

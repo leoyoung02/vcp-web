@@ -2,10 +2,12 @@ import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
   SimpleChange,
+  ViewChild,
   inject,
 } from "@angular/core";
 import { Router, RouterModule, NavigationEnd } from "@angular/router";
@@ -30,6 +32,7 @@ import {
   faChalkboardTeacher,
   faEdit,
   faGraduationCap,
+  faCommenting,
 } from "@fortawesome/free-solid-svg-icons";
 import menuIconsData from "src/assets/data/menu-icons.json";
 
@@ -78,6 +81,7 @@ export class MobileNavbarComponent {
   @Input() hasCreditPackageSetting: any;
   @Input() myActivitiesTitle: any;
   @Input() myClubsTitle: any;
+  @Input() isUESchoolOfLife: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;
@@ -100,6 +104,7 @@ export class MobileNavbarComponent {
   courseIcon = faChalkboardTeacher;
   blogIcon = faEdit;
   graduationCapIcon = faGraduationCap;
+  testimoniosIcon = faCommenting;
 
   navigationSubscription;
   hasActivityFeed: boolean = false;
@@ -126,6 +131,10 @@ export class MobileNavbarComponent {
   hasCRMFeature: boolean = false;
   currentWallId: any;
   wallSelected: boolean = false;
+
+  @ViewChild("outsidebutton", { static: false }) outsidebutton:
+    | ElementRef
+    | undefined;
 
   constructor(private _router: Router, private _authService: AuthService) {
     this.navigationSubscription = this._router.events.subscribe((e: any) => {
@@ -438,6 +447,9 @@ export class MobileNavbarComponent {
       case "blog":
         icon = this.blogIcon;
         break;
+      case "testimonials":
+        icon = this.testimoniosIcon;
+        break;
       default:
         icon = null;
     }
@@ -446,20 +458,37 @@ export class MobileNavbarComponent {
   }
 
   getMenuTitle(menu) {
-    return this.language == "en"
-      ? menu.name
-      : this.language == "fr"
-      ? menu.name_FR || menu.name_ES
-      : this.language == "eu"
-      ? menu.name_EU || menu.name_ES
-      : this.language == "ca"
-      ? menu.name_CA || menu.name_ES
-      : this.language == "de"
-      ? menu.name_DE || menu.name_ES
-      : menu.name_ES;
+    let text = menu?.new_url == 1 && this.isUESchoolOfLife ? 'Vida Universitaria' :
+      (this.language == "en"
+        ? menu.name
+        : this.language == "fr"
+        ? menu.name_FR || menu.name_ES
+        : this.language == "eu"
+        ? menu.name_EU || menu.name_ES
+        : this.language == "ca"
+        ? menu.name_CA || menu.name_ES
+        : this.language == "de"
+        ? menu.name_DE || menu.name_ES
+        : this.language == "it"
+        ? menu.name_IT || menu.name_ES
+        : menu.name_ES);
+
+    if(this.isUESchoolOfLife && text?.indexOf('de Vida Universitaria') >= 0) {
+      text = text?.replace('de Vida Universitaria', 'de School of Life')
+    }
+
+    if(this.company?.id == 32 && !this.isUESchoolOfLife) {
+      text = text?.replace("University Life Activities School of Life", "School of Life Activities")
+    }
+
+    return text;
   }
 
   changeSelectedTab(path) {
-    this.selectedTab = path;
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      this.selectedTab = path;
+      this._router.navigate([path]);
+    }, 500)
   }
 }

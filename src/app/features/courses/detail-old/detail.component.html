@@ -10,7 +10,7 @@
 </div>
 <div class="pt-20 sm:pt-20 md:pt-14 lg:pt-14 pb-8 course-container">
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 relative" *ngIf="course">
-        <div class="col-span-1 h-full overflow-auto md:absolute lg:absolute md:top-0 lg:top-0 w-full max-w-full sm:w-full sm:max-w-full md:w-[350px] md:max-w-[350px] lg:w-[350px] lg:max-w-[350px]" 
+        <div class="z-10 col-span-1 h-full overflow-auto md:absolute lg:absolute md:top-0 lg:top-0 w-full max-w-full sm:w-full sm:max-w-full md:w-[350px] md:max-w-[350px] lg:w-[350px] lg:max-w-[350px]" 
             [ngClass]="{'h-full': canAccessLesson() && course?.course_modules?.length > 0 && !(hasCourseStarted(course) && course?.locked == 1 && !superAdmin) && !(hasCourseStarted(course) && (!course?.locked && showBuyNow) && !superAdmin)}">
             <div class="text-4xl font-semibold" [ngClass]="{'pb-4': !courseProgress}">{{ courseTitle }}</div>
             <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
@@ -161,11 +161,11 @@
             </ng-container>
         </div>
         <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
-            <div class="ml-0 sm:ml-0 md:ml-[416px] lg:ml-[416px] col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 w-full max-w-full" 
+            <div class="z-10 ml-0 sm:ml-0 md:ml-[416px] lg:ml-[416px] col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 w-full max-w-full" 
                 *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title && !showAssessment">
                 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between" [ngClass]="{'vidalytics-div1': selectedUnit?.option == 'Vidalytics'}">
-                    <div class="text-4xl font-semibold text-4xl font-semibold">{{ isModuleLocked ? selectedModuleTitle : getCourseUnitTitle(selectedUnit) }}</div>
-                    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row items-center">
+                    <div class="mb-4 sm:mb-4 md:mb-0 lg:mb-0 font-semibold text-4xl font-semibold">{{ isModuleLocked ? selectedModuleTitle : getCourseUnitTitle(selectedUnit) }}</div>
+                    <div class="mb-4 sm:mb-4 md:mb-0 lg:mb-0 flex flex-col sm:flex-col md:flex-row lg:flex-row items-center">
                         <div class="flex items-center align-center uppercase mr-4" *ngIf="selectedUnit?.Company_Course_Unit_Users[0]?.progress == 100">
                             <img class="w-4 h-4 mr-2" src="./assets/images/new-design/icons/Progress-completed.png" />
                             {{ 'courses.completed' | translate }}

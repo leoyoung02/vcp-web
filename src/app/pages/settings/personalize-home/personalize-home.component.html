@@ -26,7 +26,18 @@
                                 'background-color': buttonColor
                             }"
                         >
-                            {{ item?.value ? ('company-settings.update' | translate) : ('company-settings.set' | translate) }}
+                        {{ item?.value ? ('company-settings.update' | translate) : ('company-settings.set' | translate) }}
+                        </button>
+                    </div>
+                    <div *ngIf="item?.title_en == 'Home text'">
+                        <button 
+                            class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            (click)="openEditHomeTextModal(item)"
+                            [ngStyle]="{
+                                'background-color': buttonColor
+                            }"
+                        >
+                        {{ 'company-settings.edit' | translate }}
                         </button>
                     </div>
                 </div>
@@ -572,7 +583,65 @@
                         </div>
                     </form>
                 </ng-container>
-                <ng-container *ngIf="dialogMode == 'update-value'">
+                <ng-container *ngIf="dialogMode == 'update-home-text'">
+                    <form class="space-y-6">
+                        <div class="flex items-center justify-center mb-4">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !homeTextValue }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="{{ 'company-settings.value' | translate }}*"
+                                [(ngModel)]="homeTextValue"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="flex items-center justify-center mb-4" *ngIf="isEnglishEnabled">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !homeTextValueEn }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="{{ 'company-settings.value' | translate }} (EN)*"
+                                [(ngModel)]="homeTextValueEn"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="flex items-center justify-center mb-4" *ngIf="isFrenchEnabled">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !homeTextValueFr }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="{{ 'company-settings.value' | translate }} (FR)*"
+                                [(ngModel)]="homeTextValueFr"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="flex items-center justify-center mb-4" *ngIf="isBasqueEnabled">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !homeTextValueEu }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="{{ 'company-settings.value' | translate }} (EU)*"
+                                [(ngModel)]="homeTextValueEu"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="flex items-center justify-center mb-4" *ngIf="isCatalanEnabled">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !homeTextValueCa }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="{{ 'company-settings.value' | translate }} (CA)*"
+                                [(ngModel)]="homeTextValueCa"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                        <div class="flex items-center justify-center mb-4" *ngIf="isGermanEnabled">
+                            <input 
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !homeTextValueDe }"
+                                type="text" 
+                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                placeholder="{{ 'company-settings.value' | translate }} (DE)*"
+                                [(ngModel)]="homeTextValueDe"
+                                [ngModelOptions]="{standalone: true}">
+                        </div>
+                    </form>
+                </ng-container>
+                <ng-container *ngIf="dialogMode == 'update-value' || dialogMode == 'update-home-text'">
                     <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                         <button type="submit" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             (click)="saveDialog()"
