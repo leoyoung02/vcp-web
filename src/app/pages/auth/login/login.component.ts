@@ -101,7 +101,6 @@ export class LoginComponent {
   async ngOnInit() {
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.language = this._localService.getLocalStorage(environment.lslang);
-    this._translateService.use(this.language || "es");
     this._localService.removeLocalStorage(environment.lsmenus);
 
     this.companies = get(
@@ -138,8 +137,12 @@ export class LoginComponent {
         (company[0].photo || company[0].image);
       this.homeActive = company[0].show_home_menu == 1 ? true : false;
       this.startPage = company[0].start_page;
+      if(this.companyId == 65 && this.language == 'es') {
+        this.language = 'it';
+      }
     }
 
+    this._translateService.use(this.language || "es");
     this.getOtherSettings();
   }
 

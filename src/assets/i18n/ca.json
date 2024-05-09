@@ -72,7 +72,8 @@
         "agegroup": "Grup d'edat",
         "checkpasswordrequirements": "Assegureu-vos de comprovar els requisits de la contrasenya",
         "unabletovalidate": "No es pot enviar el vostre registre. Comproveu la vostra informació.",
-        "sendmeamessage": "Envia un missatge"
+        "sendmeamessage": "Envia un missatge",
+        "mailto": "Si no passa res en fer clic, assegureu-vos que teniu instal·lat un client de correu predeterminat o que teniu el navegador configurat per obrir enllaços de correu electrònic. Podeu consultar https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome sobre com configurar el vostre navegador."
     },
     "user-popup": {
         "myplans": "Els meus plans",

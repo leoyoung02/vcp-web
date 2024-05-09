@@ -223,6 +223,7 @@ import {
   DELETE_MODULE_COMMENT_URL,
   EDIT_MODULE_FILTER_SETTINGS_URL,
   MODULE_FILTER_SETTINGS_URL,
+  EDIT_HOME_TEXT_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -2007,5 +2008,12 @@ export class CompanyService {
     }
 
     return companyId;
+  }
+
+  saveHomeText(payload): Observable<any> {
+    return this._http.post(EDIT_HOME_TEXT_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

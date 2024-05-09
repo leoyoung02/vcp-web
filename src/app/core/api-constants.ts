@@ -141,6 +141,7 @@ export const HOME_DATA_URL = `${API_BASE}/v2/home`;
 export const HOME_COURSES_TUTORS_TESTIMONIALS_DATA_URL = `${API_BASE}/v2/home-courses-tutors-testimonials`;
 export const HOME_PLANS_COURSES_DATA_URL = `${API_BASE}/v2/home-plans-courses`;
 export const HOME_SECTIONS_DATA_URL = `${API_BASE}/v2/home/sections-data`;
+export const EDIT_HOME_TEXT_URL = `${API_BASE}/company/menu/home/edit`;
 
 // SETTINGS
 export const SETTINGS_CATEGORY_URL = `${API_BASE}/company/settings/category/list/all`;

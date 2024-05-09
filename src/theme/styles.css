@@ -981,3 +981,9 @@ app-sidebar > aside > div:nth-child(11) > div > svg.has-history {
 .event-description-div img {
     margin: auto;
 }
+
+.mobile-menu #navbar-default {
+    z-index: 50 !important;
+    position: relative;
+    background: white;
+}
