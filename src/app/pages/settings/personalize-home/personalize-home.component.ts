@@ -228,6 +228,7 @@ export class PersonalizeHomeComponent {
   isBasqueEnabled: boolean = false
   isCatalanEnabled: boolean = false
   isGermanEnabled: boolean = false
+  isUESchoolOfLife: boolean = false
   @ViewChild("modalbutton", { static: false }) modalbutton:
     | ElementRef
     | undefined
@@ -264,6 +265,7 @@ export class PersonalizeHomeComponent {
     }
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.company = company[0];
       this.companyId = company[0].id;
       this.domain = company[0].domain;
@@ -389,13 +391,27 @@ export class PersonalizeHomeComponent {
         id: 1,
         name: `${this._translateService.instant('leads.layout')} 1`,
         image: `${environment.api}/get-image-company/home_template_1.png`,
-        active: this.company?.predefined_template_id == 1 ? true : false,
+        active: 
+          (this.companyId != 32 && this.company?.predefined_template_id == 1) || 
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && this.company?.predefined_vida_template_id == 1) ||
+              (this.isUESchoolOfLife && this.company?.predefined_sol_template_id == 1)
+            )
+          ) ? true : false,
       },
       {
         id: 2,
         name: `${this._translateService.instant('leads.layout')} 2`,
         image: `${environment.api}/get-image-company/home_template_2.png`,
-        active: this.company?.predefined_template_id == 2 ? true : false
+        active: 
+          (this.companyId != 32 && this.company?.predefined_template_id == 2) || 
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && this.company?.predefined_vida_template_id == 2) ||
+              (this.isUESchoolOfLife && this.company?.predefined_sol_template_id == 2)
+            )
+          ) ? true : false,
       },
       {
         id: 3,
@@ -407,13 +423,36 @@ export class PersonalizeHomeComponent {
         id: 4,
         name: `${this._translateService.instant('leads.layout')} 4`,
         image: `${environment.api}/get-image-company/home_template_4.png`,
-        active: this.company?.predefined_template_id == 4 ? true : false,
+        active: 
+          (this.companyId != 32 && this.company?.predefined_template_id == 4) || 
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && this.company?.predefined_vida_template_id == 4) ||
+              (this.isUESchoolOfLife && this.company?.predefined_sol_template_id == 4)
+            )
+          ) ? true : false,
+      },
+      {
+        id: 5,
+        name: `${this._translateService.instant('leads.layout')} 5`,
+        image: `${environment.api}/get-image-company/home_template_5.png`,
+        active: 
+          (this.companyId != 32 && this.company?.predefined_template_id == 5) || 
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && this.company?.predefined_vida_template_id == 5) ||
+              (this.isUESchoolOfLife && this.company?.predefined_sol_template_id == 5)
+            )
+          ) ? true : false,
       }
     );
-    this.activeLayoutId = this.company?.predefined_template_id == 1 ? 1 : (
-      this.company?.predefined_template_id == 2 ? 2 : (
-        this.company?.predefined_template_id == 4 ? 4 : (
-          (!this.company?.predefined_template_id && !this.company?.predefined_template) ? 3 : 0
+    let template_id = this.isUESchoolOfLife ? this.company?.predefined_sol_template_id : (this.company?.predefined_vida_template_id || this.company?.predefined_template_id);
+    this.activeLayoutId = template_id == 1 ? 1 : (
+      template_id == 2 ? 2 : (
+        template_id == 4 ? 4 : (
+          template_id == 5 ? 5 : (
+            (!template_id && !this.company?.predefined_template) ? 3 : 0
+          )
         )
       )
     )
@@ -869,7 +908,7 @@ export class PersonalizeHomeComponent {
     this.isTemplateStep = false;
     this.isTemplateStepCompleted = true;
     
-    if(this.activeLayoutId == 1 || this.activeLayoutId == 4) {  
+    if(this.activeLayoutId == 1 || this.activeLayoutId == 4 || this.activeLayoutId == 5) {  
       this.goToSectionsStep();
     } else {
       this.isContentStep = true;
@@ -1024,6 +1063,8 @@ export class PersonalizeHomeComponent {
   handleActivate(id) {
     let params = {
       company_id: this.companyId,
+      school_of_life: this.isUESchoolOfLife,
+      sol_layout_id: this.isUESchoolOfLife ? id : null,
       layout_id: id,
     }
     this._companyService.activateHomeTemplate(params)
@@ -1069,7 +1110,7 @@ export class PersonalizeHomeComponent {
         this.isTemplateStep = true;
         this.isTemplateStepCompleted = false;
         
-        if(this.activeLayoutId == 1 || this.activeLayoutId == 4) {  
+        if(this.activeLayoutId == 1 || this.activeLayoutId == 4 || this.activeLayoutId == 5) {  
           this.goToSectionsStep();
         } else {
           this.isContentStep = false;
