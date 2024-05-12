@@ -429,6 +429,7 @@ export class MyLessonsComponent {
                         show_cancel: this.showCancelButton(booking),
                         transfer_date: booking?.completed == 1 ? this.getTransferDate(booking) : '',
                         transferred: transfer_date ? (moment(transfer_date).isBefore(moment().format('YYYY-MM-DD')) ? true : false) : false,
+                        show_delete: this.showDeleteButton(booking),
                         ...booking,
                     };
                 })
@@ -728,10 +729,22 @@ export class MyLessonsComponent {
     }
 
     showCancelButton(booking) {
-        return (this.superAdmin || booking?.tutor_user_id == this.userId || booking?.user_id == this.userId) 
+        return (
+            (this.superAdmin || booking?.tutor_user_id == this.userId || booking?.user_id == this.userId) 
             && booking?.cancelled != 1 && booking?.completed != 1 && booking?.tutor_complete != 1 && booking?.student_complete != 1 
             && !booking?.tutor_rating && this.statusFilter != 'Completed' 
             && moment(moment(booking.booking_date + ' ' + booking.booking_end_time).format('YYYY-MM-DD HH:mm:ss')).isSameOrAfter(moment().format('YYYY-MM-DD HH:mm:ss'))
+        ) || (
+            (this.superAdmin || booking?.tutor_user_id == this.userId) 
+            && booking?.cancelled != 1 && booking?.completed != 1
+            && moment(moment(booking.booking_date + ' ' + booking.booking_end_time).format('YYYY-MM-DD HH:mm:ss')).isBefore(moment().format('YYYY-MM-DD HH:mm:ss'))
+        )
+    }
+
+    showDeleteButton(booking) {
+        return (this.superAdmin || booking?.tutor_user_id == this.userId) 
+            && booking?.completed != 1
+            && moment(moment(booking.booking_date + ' ' + booking.booking_end_time).format('YYYY-MM-DD HH:mm:ss')).isBefore(moment().format('YYYY-MM-DD HH:mm:ss'))
     }
 
     showMarkCompleteButton(booking) { 
@@ -879,6 +892,22 @@ export class MyLessonsComponent {
         }
     }
 
+    handleDeleteBooking(row) {
+        if (row.id) {
+            this.showConfirmationModal = false;
+            this.selectedItem = row;
+            this.confirmMode = "delete";
+            this.confirmDeleteItemTitle = this._translateService.instant(
+              "dialog.confirmdelete"
+            );
+            this.confirmDeleteItemDescription = this._translateService.instant(
+              "dialog.confirmdeleteitem"
+            );
+            this.acceptText = "OK";
+            setTimeout(() => (this.showConfirmationModal = true));
+        }
+    }
+
     confirm() {
         if (this.confirmMode == "cancel") {
             this.cancelBooking(this.selectedItem.id, this.selectedItem.user_id, true);
@@ -886,8 +915,12 @@ export class MyLessonsComponent {
         } else if (this.confirmMode == "complete") {
             this.markComplete(this.selectedItem, true);
             this.showConfirmationModal = false;
-        }
-      }
+        } else if (this.confirmMode == "delete") {
+            this.deleteBooking(this.selectedItem.id, true);
+            this.showConfirmationModal = false;
+        } 
+    }
+
     cancelBooking(id, user_id, confirmed) {
         const tutor_id = this.bookings.find(booking=> {
             if(booking.id == id){
@@ -920,6 +953,35 @@ export class MyLessonsComponent {
         }
     }
 
+    deleteBooking(id, confirmed) {
+        if(confirmed) {
+            this._tutorsService.deleteBooking(id).subscribe(data => {
+                if(data?.message == "success"){
+                    let all_bookings = this.allBookings
+                    all_bookings?.forEach((b, index) => {
+                        if(b.id == this.selectedItem.id) {
+                            all_bookings.splice(index, 1);
+                        }
+                    })
+                    this.allBookings = all_bookings;
+
+                    let bookings = this.bookings
+                    bookings?.forEach((b, index) => {
+                        if(b.id == this.selectedItem.id) {
+                            bookings.splice(index, 1);
+                        }
+                    })
+                    this.bookings = bookings;
+
+                    this.populateBookingsTable();
+                    this.open(this._translateService.instant('dialog.deletedsuccessfully'), '');
+                }
+            }, err => {
+                console.log('err: ', err);
+            })
+        }
+    }
+
     confirmMarkComplete(row) {
         if (row.id) {
             this.showConfirmationModal = false;
@@ -935,6 +997,7 @@ export class MyLessonsComponent {
             setTimeout(() => (this.showConfirmationModal = true));
         }
     }
+
     markComplete(booking, confirmed) {
         if(confirmed) {
             let role = this.superTutor ? 'super_tutor' :  this.isTutorUser && !this.superAdmin ? 'tutor' : (this.superAdmin ? 'admin' : 'user')

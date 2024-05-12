@@ -586,6 +586,7 @@ export const SYNC_CALENDLY_EVENT_PLATFORM_URL = `${API_BASE}/v2/calendly/booking
 export const STRIPE_TRANSFERS_URL = `${API_BASE}/v2/stripe/transfers`;
 export const BULK_TRANSFER_COMMISSION_IMPROVED_URL = `${API_BASE}/v2/tutor/commissions/bulk-transfer`;
 export const UPDATE_TRANSFER_QUEUE_URL = `${API_BASE}/v2/transfers/queue`;
+export const DELETE_BOOKING_URL = `${API_BASE}/tutor/booking/delete`;
 
 // TESTIMONIALS
 export const TESTIMONIALS_DATA_URL = `${API_BASE}/guest/testimonials-data`;
