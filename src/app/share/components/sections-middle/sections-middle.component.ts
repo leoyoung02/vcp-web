@@ -20,10 +20,15 @@ import { StarRatingComponent } from "@lib/components";
 import { PlansCalendarComponent } from "@features/plans/calendar/calendar.component";
 import { PlanCardComponent } from "../card/plan/plan.component";
 import { PageTitleComponent } from "../page-title/page-title.component";
+import { SectionTitleComponent } from "../section-title/section-title.component";
+import { PlanImageTextCardComponent } from "../card/plan-image-text/plan-image-text.component";
+import { ClubImageTextCardComponent } from "../card/club-image-text/club-image-text.component";
+import { JobOfferCardComponent } from "../card/job-offer/job-offer.component";
+import { CityGuideCardComponent } from "../card/city-guide/city-guide.component";
 import moment from "moment";
 
 @Component({
-  selector: "app-sections",
+  selector: "app-sections-middle",
   standalone: true,
   imports: [
     CommonModule,
@@ -33,11 +38,16 @@ import moment from "moment";
     PlansCalendarComponent,
     PlanCardComponent,
     PageTitleComponent,
+    SectionTitleComponent,
+    PlanImageTextCardComponent,
+    ClubImageTextCardComponent,
+    JobOfferCardComponent,
+    CityGuideCardComponent,
   ],
-  templateUrl: "./sections.component.html",
+  templateUrl: "./sections-middle.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SectionsComponent {
+export class SectionsMiddleComponent {
   private destroy$ = new Subject<void>();
 
   @Input() userId: any;
@@ -64,10 +74,8 @@ export class SectionsComponent {
   languageChangeSubscription;
   language: any;
   buttonColor: any;
+  primaryColor: any;
   mode: any;
-  hasDateSelected: boolean = false;
-  calendarFilterMode: boolean = false;
-  joinedPlan: boolean = false;
   courses: any = [];
   groups: any = [];
   courseCategoriesAccessRoles: any = [];
@@ -77,9 +85,7 @@ export class SectionsComponent {
   admin2: boolean = false;
   canCreatePlan: boolean = false;
   selected: any;
-  filterDate: any;
   plansList: any = [];
-  childNotifier: Subject<boolean> = new Subject<boolean>();
   plans: any = [];
   plansSectionTitle: boolean = false;
   clubs: any = [];
@@ -97,6 +103,11 @@ export class SectionsComponent {
   membersSectionTitle: boolean = false;
   tutors: any = [];
   tutorsSectionTitle: boolean = false;
+  hasDateSelected: boolean = false;
+  calendarFilterMode: boolean = false;
+  joinedPlan: boolean = false;
+  filterDate: any;
+  childNotifier: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private _router: Router,
@@ -160,6 +171,7 @@ export class SectionsComponent {
     this.buttonColor = this.company.button_color
       ? this.company.button_color
       : this.company.primary_color;
+    this.primaryColor = this.company.primary_color;
 
     this.languageChangeSubscription =
       this._translateService.onLangChange.subscribe(
@@ -173,7 +185,7 @@ export class SectionsComponent {
   }
 
   fetchData() {
-    this.mode = this.homeCalendar ? 'home' : '';
+    this.mode = this.homeCalendar && !this.hasSectionsTemplate ? 'home' : '';
     this.list = this.allList;
     this.plansList = this.allList;
     this.separateByType(this.list);
@@ -217,6 +229,28 @@ export class SectionsComponent {
     })
   }
 
+  getMorePlansTitle() {
+    let title = this.plansSectionTitle ? this.plansSectionTitle : '';
+    return `${this._translateService.instant('search.viewmore')} ${title}`;
+  }
+
+  goToPlansList() {
+    this._router.navigate(["/plans"]);
+  }
+
+  goToJobOffersList() {
+    this._router.navigate(["/employmentchannel"]);
+  }
+
+  goToCityGuidesList() {
+    this._router.navigate(["/cityguide"]);
+  }
+
+  getMoreClubsTitle() {
+    let title = this.groupsSectionTitle || ''
+    return `${this._translateService.instant('search.viewmore')} ${title}`
+  }
+
   goToClubDetails(item) {
     if(this.userId > 0) {
       this._router.navigate([item.path]);
@@ -235,6 +269,28 @@ export class SectionsComponent {
         }
       });
     }
+  }
+
+  handleDetailsClickRoute(plan) {
+    if(plan) {
+      let planTypeId = plan?.plan_type_id;
+      if (plan?.privacy && !plan?.private_type) {
+      } else {
+        this._router.navigate([`/plans/details/${plan?.item_id}/${planTypeId}`]);
+      }
+    }
+  }
+
+  handleClubDetailsClickRoute(club) {
+    this._router.navigate([`/clubs/details/${club?.item_id}`]);
+  }
+
+  handleJobOfferDetailsClickRoute(joboffer) {
+    this._router.navigate([`/employmentchannel/details/${joboffer?.item_id}`]);
+  }
+
+  handleCityGuideDetailsClickRoute(guide) {
+    this._router.navigate([`/cityguide/details/${guide?.item_id}`]);
   }
 
   handleCalendarDateChanged(params) {
@@ -260,7 +316,7 @@ export class SectionsComponent {
     this.plans = this.allList?.filter(item => {
       return item?.object_type == 'plan'
     })
-    
+
     if (startDate != "" && endDate != "") {
       this.filterDate = this.selected;
       this.plans = this.plans?.filter((plan) => {
@@ -315,16 +371,6 @@ export class SectionsComponent {
 
   notifyChild(params) {
     this.childNotifier.next(params)
-  }
-
-  handleDetailsClickRoute(plan) {
-    if(plan) {
-      let planTypeId = plan?.plan_type_id;
-      if (plan?.privacy && !plan?.private_type) {
-      } else {
-        this._router.navigate([`/plans/details/${plan?.item_id}/${planTypeId}`]);
-      }
-    }
   }
 
   ngOnDestroy() {

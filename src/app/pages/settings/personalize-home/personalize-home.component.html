@@ -74,7 +74,7 @@
                 </span>
                 <h3 class="font-medium leading-tight pt-1.5" [ngClass]="{'text-black font-semibold': isTemplateStep}">{{'personalize-home.template' | translate}}</h3>
             </li>
-            <li class="mb-10 ms-6" *ngIf="activeLayoutId != 1 && activeLayoutId != 4">
+            <li class="mb-10 ms-6" *ngIf="activeLayoutId != 1 && activeLayoutId != 4 && activeLayoutId != 5">
                 <span *ngIf="isContentStepCompleted" class="absolute flex items-center justify-center w-8 h-8 bg-green-200 rounded-full -start-4 ring-4 ring-white dark:ring-gray-900 dark:bg-green-900">
                     <svg class="w-3.5 h-3.5 text-green-500 dark:text-green-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 12">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5.917 5.724 10.5 15 1.5"/>
@@ -169,7 +169,7 @@
                         </div>
                     </div>
                 </div>
-                <h2 id="accordion-collapse-heading-3" *ngIf="activeLayoutId != 1 && activeLayoutId != 4">
+                <h2 id="accordion-collapse-heading-3" *ngIf="activeLayoutId != 1 && activeLayoutId != 4 && activeLayoutId != 5">
                     <button type="button" class="flex items-center justify-between w-full p-5 py-3 rtl:text-right text-gray-500 border border-gray-200 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-800 dark:border-gray-700 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 gap-3" data-accordion-target="#accordion-collapse-body-3" aria-expanded="false" aria-controls="accordion-collapse-body-3"
                         [ngClass]="{'font-medium': isContentStep}">
                         <span class="flex items-center">
@@ -184,7 +184,7 @@
                         </svg>
                     </button>
                 </h2>
-                <div *ngIf="activeLayoutId != 1 && activeLayoutId != 4" id="accordion-collapse-body-3" [ngClass]="{'hidden': !isContentStep}" aria-labelledby="accordion-collapse-heading-3">
+                <div *ngIf="activeLayoutId != 1 && activeLayoutId != 4 && activeLayoutId != 5" id="accordion-collapse-body-3" [ngClass]="{'hidden': !isContentStep}" aria-labelledby="accordion-collapse-heading-3">
                     <div class="p-5 border border-t-0 border-gray-200 dark:border-gray-700">
                         <ng-container *ngIf="activeLayoutId == 2 && hasProfileHomeContent">
                             <div class="mb-2 relative">
@@ -391,7 +391,7 @@
                         <span class="flex items-center">
                             <span class="flex items-center justify-center w-5 h-5 me-2 text-xs text-slate-600 border border-slate-600 rounded-full shrink-0 dark:border-slate-500"
                                 [ngClass]="{'text-blue-600 border-blue-600': isSectionsStep, 'text-slate-600 border-slate-600': !isSectionsStep}">
-                                {{ activeLayoutId == 1 || activeLayoutId == 4 ? '3' : '4'}}
+                                {{ activeLayoutId == 1 || activeLayoutId == 4 || activeLayoutId == 5 ? '3' : '4'}}
                             </span>
                             <span>{{'personalize-home.sections' | translate}}</span>
                         </span>
@@ -406,98 +406,121 @@
                             <div class="w-full sm:w-full md:w-[250px] lg:w-[250px] relative">
                                 <h3 class="mb-4 font-semibold text-gray-900 dark:text-white">{{'company-settings.modules' | translate}}</h3>
                                 <ul class="w-52 text-sm font-medium text-gray-900 bg-white border border-gray-200 rounded-lg dark:bg-gray-700 dark:border-gray-600 dark:text-white">
-                                    <li *ngFor="let feature of features" 
-                                        class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
-                                        <div class="w-full max-w-full p-3">
-                                            <label>
-                                                <div class="flex items-center align-center">
-                                                    <input 
-                                                        id="feature-{{feature?.id}}" 
-                                                        type="checkbox"
-                                                        [(ngModel)]="feature.checked" 
-                                                        [ngModelOptions]="{standalone: true}"
-                                                        [ngStyle]="{'color': feature.checked ? 'text-blue-500' : 'text-gray-900'}"
-                                                        class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                                                        (change)="handleModuleChecked(feature)"
-                                                    >
-                                                    <label for="feature-{{feature?.id}}" 
-                                                        class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                                        {{feature?.title}}
+                                    <ng-container *ngFor="let feature of features">
+                                        <ng-container *ngIf="showFeatureInCheckboxList(feature)">
+                                            <li class="w-full border-b border-gray-200 rounded-t-lg dark:border-gray-600">
+                                                <div class="w-full max-w-full p-3">
+                                                    <label>
+                                                        <div class="flex items-center align-center">
+                                                            <input 
+                                                                id="feature-{{feature?.id}}" 
+                                                                type="checkbox"
+                                                                [(ngModel)]="feature.checked" 
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                [ngStyle]="{'color': feature.checked ? 'text-blue-500' : 'text-gray-900'}"
+                                                                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                                (change)="handleModuleChecked(feature)"
+                                                            >
+                                                            <label for="feature-{{feature?.id}}" 
+                                                                class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                                {{feature?.title}}
+                                                            </label>
+                                                        </div>
                                                     </label>
                                                 </div>
-                                            </label>
-                                        </div>
-                                    </li>
+                                            </li>
+                                        </ng-container>
+                                    </ng-container>
                                 </ul>
                             </div>
                             <div class="ml-0 sm:ml-0 md:ml-24 lg:ml-24 w-full max-w-full p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">
                                 <div class="w-full max-w-full">
                                     <ng-container *ngFor="let feature of includedFeatures; let i = index">
-                                        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mb-4">
-                                            <div>
-                                                <div class="flex items-center align-center justify-between mb-4">
-                                                    <h3 class="font-semibold text-gray-900 dark:text-white">
-                                                        {{feature?.title}}
-                                                    </h3>
-                                                    <div class="flex items-center">
-                                                        <input 
-                                                            type="number" 
-                                                            class="w-[160px] max-w-[160px] mr-4 text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                                            [(ngModel)]="feature.limit"
-                                                            [ngModelOptions]="{standalone: true}"
-                                                            placeholder="{{ 'company-settings.setlimit' | translate }}" 
-                                                            required>
-                                                        <select
-                                                            class="w-[300px] max-w-[300px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                                            [(ngModel)]="feature.order"
-                                                            [ngModelOptions]="{standalone: true}"
-                                                        >
-                                                            <option value="" selected>{{ 'company-settings.selectorder' | translate }}</option>
-                                                            <option
-                                                                *ngFor="let order of modulesOrder"
-                                                                [value]="order.value"
+                                        <ng-container *ngIf="showFeatureInCheckboxList(feature)">
+                                            <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 mb-4">
+                                                <div>
+                                                    <div class="flex items-center align-center justify-between mb-4">
+                                                        <h3 class="font-semibold text-gray-900 dark:text-white">
+                                                            {{feature?.title}}
+                                                        </h3>
+                                                        <div class="flex items-center">
+                                                            <div class="w-full max-w-full p-3" *ngIf="feature?.id == 1">
+                                                                <label>
+                                                                    <div class="flex items-center align-center">
+                                                                        <input 
+                                                                            id="plan-calendar-{{feature?.id}}" 
+                                                                            type="checkbox"
+                                                                            [(ngModel)]="feature.calendar" 
+                                                                            [ngModelOptions]="{standalone: true}"
+                                                                            [ngStyle]="{'color': feature.calendar ? 'text-blue-500' : 'text-gray-900'}"
+                                                                            class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                                                                        >
+                                                                        <label for="plan-calendar-{{feature?.id}}" 
+                                                                            class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                                                            {{'landing.showcalendar' | translate}}
+                                                                        </label>
+                                                                    </div>
+                                                                </label>
+                                                            </div>
+                                                            <input 
+                                                                type="number" 
+                                                                class="w-[160px] max-w-[160px] mr-4 text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                                [(ngModel)]="feature.limit"
+                                                                [ngModelOptions]="{standalone: true}"
+                                                                placeholder="{{ 'company-settings.setlimit' | translate }}" 
+                                                                required>
+                                                            <select
+                                                                class="w-[300px] max-w-[300px] bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                                [(ngModel)]="feature.order"
+                                                                [ngModelOptions]="{standalone: true}"
                                                             >
-                                                            {{ order.text }}
-                                                            </option>
-                                                        </select> 
+                                                                <option value="" selected>{{ 'company-settings.selectorder' | translate }}</option>
+                                                                <option
+                                                                    *ngFor="let order of modulesOrder"
+                                                                    [value]="order.value"
+                                                                >
+                                                                {{ order.text }}
+                                                                </option>
+                                                            </select>  
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="grid grid-cols-4 gap-4">
-                                                    <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">
-                                                        <p class="text-2xl text-gray-400 dark:text-gray-500">
-                                                            <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
-                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                            </svg>
-                                                        </p>
-                                                    </div>
-                                                    <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">
-                                                        <p class="text-2xl text-gray-400 dark:text-gray-500">
-                                                            <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
-                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                            </svg>
-                                                        </p>
-                                                    </div>
-                                                    <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">
-                                                        <p class="text-2xl text-gray-400 dark:text-gray-500">
-                                                            <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
-                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                            </svg>
-                                                        </p>
-                                                    </div>
-                                                    <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">
-                                                        <p class="text-2xl text-gray-400 dark:text-gray-500">
-                                                            <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
-                                                                <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                            </svg>
-                                                        </p>
+                                                    <div class="grid grid-cols-4 gap-4">
+                                                        <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">
+                                                            <p class="text-2xl text-gray-400 dark:text-gray-500">
+                                                                <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                                </svg>
+                                                            </p>
+                                                        </div>
+                                                        <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">
+                                                            <p class="text-2xl text-gray-400 dark:text-gray-500">
+                                                                <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                                </svg>
+                                                            </p>
+                                                        </div>
+                                                        <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">
+                                                            <p class="text-2xl text-gray-400 dark:text-gray-500">
+                                                                <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                                </svg>
+                                                            </p>
+                                                        </div>
+                                                        <div class="flex items-center justify-center h-24 rounded bg-gray-100 dark:bg-gray-800">
+                                                            <p class="text-2xl text-gray-400 dark:text-gray-500">
+                                                                <svg class="w-8 h-8 text-gray-600" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8c0-.6.4-1 1-1h1.5l1.7-1.7c.2-.2.4-.3.7-.3h6.2c.3 0 .5.1.7.3L17.5 7H19c.6 0 1 .4 1 1v10c0 .6-.4 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                                    <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                                </svg>
+                                                            </p>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </ng-container>
                                     </ng-container>
                                     <ng-container *ngIf="includedFeatures?.length == 0">
                                         <div class="flex items-center justify-center h-64 rounded bg-gray-100 dark:bg-gray-800">

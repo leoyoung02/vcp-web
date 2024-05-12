@@ -22,6 +22,7 @@ import {
   VideoSectionComponent, 
   SectionsMasonryComponent,
   SectionsComponent,
+  SectionsMiddleComponent,
 } from "@share/components";
 import moment from "moment";
 import get from 'lodash/get';
@@ -41,6 +42,7 @@ import get from 'lodash/get';
     VideoSectionComponent,
     SectionsMasonryComponent,
     SectionsComponent,
+    SectionsMiddleComponent,
   ],
   templateUrl: "./home.component.html",
 })
@@ -194,6 +196,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   tutorsFeature: any;
   hasTutors: boolean = false;
   tutorsTitle: any = "";
+  isMiddleSectionTemplate: boolean = false;
+  planCalendar: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -287,10 +291,36 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       if (company[0].predefined_template == 1) {
         this.hasPredefinedTemplate = true;
-        if (company[0].predefined_template_id == 1) {
+        if (
+          (this.company?.id != 32 && company[0].predefined_template_id == 1) ||
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && company[0].predefined_vida_template_id == 1) ||
+              (this.isUESchoolOfLife && company[0].predefined_sol_template_id == 1)
+            )
+          )
+        ) {
           this.hasDefaultPredefinedTemplate = true;
-        } else  if (company[0].predefined_template_id == 4) { 
+        } else  if (
+          (this.company?.id != 32 && company[0].predefined_template_id == 4) ||
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && company[0].predefined_vida_template_id == 4) ||
+              (this.isUESchoolOfLife && company[0].predefined_sol_template_id == 4)
+            )
+          )
+        ) { 
           this.hasSectionsTemplate = true;
+        } else  if (
+          (this.company?.id != 32 && company[0].predefined_template_id == 5) ||
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && company[0].predefined_vida_template_id == 5) ||
+              (this.isUESchoolOfLife && company[0].predefined_sol_template_id == 5)
+            )
+          )
+        ) { 
+          this.isMiddleSectionTemplate = true;
         } else {
           this._userService.getUserById(this.userId).subscribe(
             (response: any) => {
@@ -642,6 +672,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.types = response?.job_types;
         this.areas = response?.job_areas;
         this.jobOfferAreasMapping = response?.job_offer_areas;
+        this.planCalendar = response?.plan_calendar == 1 ? true : false;
         this.formatSectionsData(response?.results);
       },
       error => {
@@ -693,6 +724,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           area: this.getArea(item),
           created_by_name: this.getCreatedByName(item),
           created_by_image: this.getCreatedByImage(item),
+          description: this.getDescription(item),
         })
       })
     }
@@ -817,6 +849,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     return title;
+  }
+
+  getDescription(item) {
+    let object_type = item?.object_type;
+    let description = '';
+
+    switch(object_type) {
+      case 'cityguide':
+        description = this.getExcerpt(this.getCityGuideDescription(item));
+        break;
+      case 'joboffer':
+        description = this.getExcerpt(this.getJobOfferDescription(item));
+        break;
+    }
+
+    return description;
   }
 
   getDate(item) {
@@ -1050,6 +1098,33 @@ export class HomeComponent implements OnInit, OnDestroy {
         (this.language == 'de' ? (offer.title_de || offer.title) : offer.title)
       ))
     )
+  }
+
+  getJobOfferDescription(offer) {
+    return this.language == 'en' ? (offer.description_en || offer.description) : (this.language == 'fr' ? (offer.description_fr || offer.description) :
+      (this.language == 'eu' ? (offer.description_eu || offer.description) : (this.language == 'ca' ? (offer.description_ca || offer.description) :
+        (this.language == 'de' ? (offer.description_de || offer.description) : offer.description)
+      ))
+    )
+  }
+
+  getCityGuideDescription(offer) {
+    return this.language == 'en' ? (offer.description_EN || offer.description_ES) : (this.language == 'fr' ? (offer.description_FR || offer.description_ES) :
+      (this.language == 'eu' ? (offer.description_EU || offer.description_ES) : (this.language == 'ca' ? (offer.description_CA || offer.description_ES) :
+        (this.language == 'de' ? (offer.description_DE || offer.description_ES) : offer.description_ES)
+      ))
+    )
+  }
+
+  getExcerpt(description) {
+    let charlimit = 100;
+    if (!description || description.length <= charlimit) {
+      return description;
+    }
+
+    let without_html = description.replace(/<(?:.|\n)*?>/gm, "");
+    let shortened = without_html.substring(0, charlimit) + "...";
+    return shortened;
   }
 
   getType(item) {
