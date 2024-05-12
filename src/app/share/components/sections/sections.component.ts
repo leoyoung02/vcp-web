@@ -59,6 +59,7 @@ export class SectionsComponent {
   @Input() blogsTitle: any;
   @Input() membersTitle: any;
   @Input() tutorsTitle: any;
+  @Input() planCalendar: any;
 
   languageChangeSubscription;
   language: any;
@@ -172,7 +173,7 @@ export class SectionsComponent {
   }
 
   fetchData() {
-    this.mode = this.homeCalendar && !this.hasSectionsTemplate ? 'home' : '';
+    this.mode = this.homeCalendar ? 'home' : '';
     this.list = this.allList;
     this.plansList = this.allList;
     this.separateByType(this.list);
@@ -256,9 +257,13 @@ export class SectionsComponent {
     const startDate = this.selected && this.selected.start ? this.selected.start.format() : "";
     const endDate = this.selected && this.selected.end ? this.selected.end.format() : "";
 
+    this.plans = this.allList?.filter(item => {
+      return item?.object_type == 'plan'
+    })
+    
     if (startDate != "" && endDate != "") {
       this.filterDate = this.selected;
-      this.list = this.list?.filter((plan) => {
+      this.plans = this.plans?.filter((plan) => {
         let include = false
 
         const start = startDate.split("T")[0];

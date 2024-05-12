@@ -1,7 +1,7 @@
 <ng-container *ngIf="plans?.length > 0">
   <app-page-title [mode]="'section'" [title]="plansSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12" >
-    <ng-container *ngIf="homeCalendar">
+    <ng-container *ngIf="homeCalendar && planCalendar">
       <div>
         <app-plans-calendar
           [hasDateSelected]="hasDateSelected"
@@ -45,7 +45,7 @@
         [price]="item?.price"
         [buttonColor]="buttonColor"
         [page]="'list'"
-        [companyId]="company?.d"
+        [companyId]="company?.id"
         [bottomEventTitles]="bottomEventTitles"
         (handleDetailsClick)="handleDetailsClickRoute(item)"
       >

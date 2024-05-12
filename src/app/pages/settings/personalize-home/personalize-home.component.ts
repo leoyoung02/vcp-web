@@ -305,7 +305,6 @@ export class PersonalizeHomeComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         data => {
-          console.log(data)
           this.mapCategorySettings(data);
           this.initializeLanguages(data?.languages);
         },
@@ -850,13 +849,42 @@ export class PersonalizeHomeComponent {
   formatFeatures(features, settings) {
     features = features?.map((item) => {
       let activated_section = settings?.modules?.find(f => f.module_id == item?.id);
+
+      let module_order
+      if(this.companyId == 32) {
+        module_order = this.isUESchoolOfLife ? 
+          (activated_section?.module_sol_order || activated_section?.module_order || 'latest') :
+          (activated_section?.module_vida_order || activated_section?.module_order || 'latest')
+      } else {
+        module_order = activated_section?.module_order || 'latest'
+      }
+
+      let module_limit
+      if(this.companyId == 32) {
+        module_limit = this.isUESchoolOfLife ? 
+          (activated_section?.module_sol_limit || activated_section?.module_limit || 4) :
+          (activated_section?.module_vida_limit || activated_section?.module_limit || 4)
+      } else {
+        module_limit = activated_section?.module_limit || 4
+      }
+
+      let module_calendar
+      if(this.companyId == 32) {
+        module_calendar = this.isUESchoolOfLife ? 
+          (activated_section?.module_sol_calendar || activated_section?.module_calendar || 0) :
+          (activated_section?.module_vida_calendar || activated_section?.module_calendar || 0)
+      } else {
+        module_calendar = activated_section?.module_calendar || 0
+      }
+    
       return {
         ...item,
         checked: activated_section ? true : false,
         id: item?.id,
         title: this.getFeatureTitle(item),
-        order: activated_section ? activated_section?.module_order : 'latest',
-        limit: activated_section ? activated_section?.module_limit : 4,
+        order: module_order,
+        limit: module_limit,
+        calendar: module_calendar,
       };
     });
     if(features?.length > 0) {
@@ -878,7 +906,7 @@ export class PersonalizeHomeComponent {
   }
 
   getFeatureTitle(feature) {
-    return feature
+    let text = feature
       ? this.language == "en"
         ? feature.name_es ||
           feature.feature_name_es
@@ -896,6 +924,16 @@ export class PersonalizeHomeComponent {
           feature.name_es
         : feature.name_es
       : "";
+
+    if(this.isUESchoolOfLife && text?.indexOf('de Vida Universitaria') >= 0) {
+      text = text?.replace('de Vida Universitaria', 'de School of Life')
+    }
+
+    if(this.companyId == 32 && !this.isUESchoolOfLife) {
+      text = text?.replace("University Life Activities School of Life", "School of Life Activities")
+    }
+
+    return text;
   }
 
   goToTemplateStep() {
@@ -1130,6 +1168,7 @@ export class PersonalizeHomeComponent {
     })
     let params = {
       company_id: this.companyId,
+      school_of_life: this.isUESchoolOfLife,
       modules,
     }
     this._companyService.editHomeTemplateSections(params)
@@ -1311,6 +1350,12 @@ export class PersonalizeHomeComponent {
     this.companies = get(await this._companyService.getCompanies().toPromise(), 'companies')
     this._companyService.getCompany(this.companies)
     if(reload) { location.reload() }
+  }
+
+  showFeatureInCheckboxList(feature) {
+    return this.companyId != 32 || 
+      (this.companyId == 32 && !this.isUESchoolOfLife && feature?.id != 11) || 
+      (this.companyId == 32 && this.isUESchoolOfLife && (feature?.id == 1 || feature?.id == 11))
   }
 
   handleGoBack() {

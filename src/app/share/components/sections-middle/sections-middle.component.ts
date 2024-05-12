@@ -25,6 +25,7 @@ import { PlanImageTextCardComponent } from "../card/plan-image-text/plan-image-t
 import { ClubImageTextCardComponent } from "../card/club-image-text/club-image-text.component";
 import { JobOfferCardComponent } from "../card/job-offer/job-offer.component";
 import { CityGuideCardComponent } from "../card/city-guide/city-guide.component";
+import moment from "moment";
 
 @Component({
   selector: "app-sections-middle",
@@ -68,6 +69,7 @@ export class SectionsMiddleComponent {
   @Input() blogsTitle: any;
   @Input() membersTitle: any;
   @Input() tutorsTitle: any;
+  @Input() planCalendar: any;
 
   languageChangeSubscription;
   language: any;
@@ -101,6 +103,11 @@ export class SectionsMiddleComponent {
   membersSectionTitle: boolean = false;
   tutors: any = [];
   tutorsSectionTitle: boolean = false;
+  hasDateSelected: boolean = false;
+  calendarFilterMode: boolean = false;
+  joinedPlan: boolean = false;
+  filterDate: any;
+  childNotifier: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private _router: Router,
@@ -188,9 +195,6 @@ export class SectionsMiddleComponent {
     this.plans = list?.filter(item => {
       return item?.object_type == 'plan'
     })
-    if(this.plans?.length > 4) {
-        this.plans = this.plans?.slice(0, 4);
-    }
 
     this.clubs = list?.filter(item => {
       return item?.object_type == 'club'
@@ -287,6 +291,86 @@ export class SectionsMiddleComponent {
 
   handleCityGuideDetailsClickRoute(guide) {
     this._router.navigate([`/cityguide/details/${guide?.item_id}`]);
+  }
+
+  handleCalendarDateChanged(params) {
+    this.calendarFilterMode = true;
+    this.selected = params.selectedDate || "";
+    this.hasDateSelected = true;
+    this.handleDateChange("", params.joined, params.joinedPlans);
+  }
+
+  handleDateChanged(date) {
+    this.selected = date || "";
+    this.handleDateChange();
+  }
+
+  async handleDateChange(
+    mode: string = "",
+    join: boolean = false,
+    joinedPlans = []
+  ) {
+    const startDate = this.selected && this.selected.start ? this.selected.start.format() : "";
+    const endDate = this.selected && this.selected.end ? this.selected.end.format() : "";
+
+    this.plans = this.allList?.filter(item => {
+      return item?.object_type == 'plan'
+    })
+
+    if (startDate != "" && endDate != "") {
+      this.filterDate = this.selected;
+      this.plans = this.plans?.filter((plan) => {
+        let include = false
+
+        const start = startDate.split("T")[0];
+        const end = endDate.split("T")[0];
+
+        if(plan?.plan_date) {
+          if (
+            this.company?.id == 12 ||
+            this.company?.id == 14 ||
+            this.company?.id == 15
+          ) {
+            let plan_date = moment(plan.plan_date).format("YYYY-MM-DD");
+            include = plan_date >= start && plan_date <= end;
+          } else {
+            
+            include =  (
+              plan.plan_date.split("T")[0] >= start &&
+              plan.plan_date.split("T")[0] <= end
+            );
+          }
+        } else {
+          include = true;
+        }
+
+        return include;
+      });
+    }
+  }
+
+  handleJoinChanged(params) {
+    this.joinedPlan = params.joined;
+    this.calendarFilterMode = true;
+    this.selected = params.selectedDate || "";
+    this.handleDateChange("joined", params.joined, params.joinedPlans);
+  }
+
+  exitCalendarEventMode() {
+    this.selected = ''
+    this.calendarFilterMode = false
+    this.hasDateSelected = false
+    this.filterDate = ''
+    this.joinedPlan = false
+    this.fetchData()
+    this.notifyChild({
+        hasDateSelected: this.hasDateSelected,
+        joinedPlan: this.joinedPlan
+    })
+  }
+
+  notifyChild(params) {
+    this.childNotifier.next(params)
   }
 
   ngOnDestroy() {

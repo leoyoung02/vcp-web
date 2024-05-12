@@ -197,6 +197,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   hasTutors: boolean = false;
   tutorsTitle: any = "";
   isMiddleSectionTemplate: boolean = false;
+  planCalendar: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -671,6 +672,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.types = response?.job_types;
         this.areas = response?.job_areas;
         this.jobOfferAreasMapping = response?.job_offer_areas;
+        this.planCalendar = response?.plan_calendar == 1 ? true : false;
         this.formatSectionsData(response?.results);
       },
       error => {
