@@ -73,7 +73,8 @@
         "checkpasswordrequirements": "Please make sure you check the password requirements",
         "unabletovalidate": "Unable to submit your registration. Please check your info.",
         "sendmeamessage": "Send me a message",
-        "mailto": "If nothing happens on clicking, please make sure you either have a default mail client install or have your browser configured to open email links. You can refer to https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome on how to configure your browser."
+        "mailto": "If nothing happens on clicking, please make sure you either have a default mail client install or have your browser configured to open email links. You can refer to https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome on how to configure your browser.",
+        "showcalendar": "Show calendar"
     },
     "user-popup": {
         "myplans": "My Plans",

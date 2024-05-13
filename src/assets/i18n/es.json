@@ -73,7 +73,8 @@
         "checkpasswordrequirements": "Asegúrate de verificar los requisitos de contraseña",
         "unabletovalidate": "No se puede enviar su registro. Por favor verifique su información.",
         "sendmeamessage": "Mándame un mensaje",
-        "mailto": "Si no sucede nada al hacer clic, asegúrese de tener instalado un cliente de correo predeterminado o tener su navegador configurado para abrir enlaces de correo electrónico. Puede consultar https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome sobre cómo configurar su navegador."
+        "mailto": "Si no sucede nada al hacer clic, asegúrese de tener instalado un cliente de correo predeterminado o tener su navegador configurado para abrir enlaces de correo electrónico. Puede consultar https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome sobre cómo configurar su navegador.",
+        "showcalendar": "Mostrar calendario"
     },
     "user-popup": {
         "myplans": "Mis planes",

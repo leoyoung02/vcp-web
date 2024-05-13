@@ -197,11 +197,11 @@
                     <ng-container matColumnDef="action">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'wall.action' | translate }} </mat-header-cell>
                         <mat-cell *matCellDef="let row" data-label="action">
-                            <div class="flex flex-col">
+                            <div class="flex items-center">
                                 <ng-container *ngIf="!hasDifferentStripeAccounts">
                                     <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                         <button (click)="confirmMarkComplete(row)" 
-                                        class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white"
+                                        class="p-2 text-xs rounded-lg my-1 mr-2 text-white"
                                         [ngStyle]="{'background-color': buttonColor}"
                                         >
                                         {{ 'course-details.completebutton' | translate }}
@@ -210,28 +210,27 @@
                                 </ng-container>
                                 <ng-container *ngIf="row.show_cancel">
                                     <button (click)="handleCancelBooking(row)" 
-                                    class="px-4 py-2 text-xs rounded-lg my-1 mr-2 bg-white"
-                                    style="border:solid 1px #c24130;color:#c24130;"
-                                    >
-                                    {{ 'settings.cancel' | translate }}
-                                </button>
+                                        class="p-2 text-xs rounded-lg my-1 mr-2 bg-white"
+                                        style="border:solid 1px #c24130;color:#c24130;"
+                                        >
+                                        {{ 'settings.cancel' | translate }}
+                                    </button>
                                 </ng-container>
                                 <ng-container *ngIf="hasDifferentStripeAccounts">
                                     <ng-container *ngIf="(row?.stripe_connect || !isTutorUser) && !cityAdmin" >
                                         <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                             <button (click)="confirmMarkComplete(row)" 
-                                                class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white"
+                                                class="p-2 text-xs rounded-lg my-1 mr-2 text-white"
                                                 [ngStyle]="{'background-color': buttonColor}"
                                                 >
                                                 {{ 'course-details.completebutton' | translate }}
                                             </button>
                                         </ng-container>
                                     </ng-container>
-
                                     <ng-container *ngIf="!row?.stripe_connect && isTutorUser && row?.tutor_user_id == me?.id && (potTutor || potsuperTutor) && !cityAdmin" >
                                         <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                             <button (click)="confirmMarkComplete(row)" 
-                                                class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white"
+                                                class="p-2 text-xs rounded-lg my-1 mr-2 text-white"
                                                 [ngStyle]="{'background-color': buttonColor}"
                                                 >
                                                 {{ 'course-details.completebutton' | translate }}
@@ -241,7 +240,7 @@
                                     <ng-container *ngIf="cityAdmin && isTutorUser && row?.stripe_connect && row?.tutor_user_id == me?.id" >
                                         <ng-container *ngIf="(statusFilter == 'All' && row.booking_action_required && row.show_mark_complete) || (statusFilter == 'Action required' && row.show_mark_complete)" >
                                             <button (click)="confirmMarkComplete(row)" 
-                                                class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white"
+                                                class="p-2 text-xs rounded-lg my-1 mr-2 text-white"
                                                 [ngStyle]="{'background-color': buttonColor}"
                                                 >
                                                 {{ 'course-details.completebutton' | translate }}
@@ -253,7 +252,6 @@
                                             {{ 'course-details.stripeinactivetransfer' | translate}}
                                           </span>
                                     </ng-container>
-
                                     <ng-container *ngIf="!row?.stripe_connect && isTutorUser && tutorAccountId.length > 0 && cityAdmin && row?.tutor_user_id == me?.id">
                                         <span class="text-xs text-center font-medium inline-block py-2 px-3 capitalize rounded-full text-red-600 bg-red-200">
                                             {{ 'course-details.stripeinactivetransfer' | translate}}
@@ -288,6 +286,16 @@
                                         class="px-4 py-2 text-xs rounded-lg my-1 mr-2 text-white"
                                         [ngStyle]="{'background-color': buttonColor}">
                                         {{ 'company-settings.givefeedback' | translate }}
+                                    </button>
+                                </ng-container>
+                                <ng-container *ngIf="row.show_delete">
+                                    <button type="button" class="focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        (click)="handleDeleteBooking(row)"
+                                    >
+                                        <svg [ngStyle]="{'color': '#c24130'}" class="w-4 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                            <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
+                                        </svg>
+                                        <span class="sr-only">Icon description</span>
                                     </button>
                                 </ng-container>
                             </div>

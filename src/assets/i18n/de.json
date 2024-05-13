@@ -73,7 +73,8 @@
         "checkpasswordrequirements": "Bitte überprüfen Sie unbedingt die Passwortanforderungen.",
         "unabletovalidate": "Ihre Registrierung konnte nicht gesendet werden. Bitte überprüfen Sie Ihre Informationen.",
         "sendmeamessage": "Mandame eine Nachricht",
-        "mailto": "Wenn beim Klicken nichts passiert, stellen Sie bitte sicher, dass Sie entweder einen Standard-Mail-Client installiert haben oder Ihren Browser so konfiguriert haben, dass E-Mail-Links geöffnet werden. Weitere Informationen finden Sie unter https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome erfahren Sie, wie Sie Ihren Browser konfigurieren."
+        "mailto": "Wenn beim Klicken nichts passiert, stellen Sie bitte sicher, dass Sie entweder einen Standard-Mail-Client installiert haben oder Ihren Browser so konfiguriert haben, dass E-Mail-Links geöffnet werden. Weitere Informationen finden Sie unter https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome erfahren Sie, wie Sie Ihren Browser konfigurieren.",
+        "showcalendar": "Kalender anzeigen"
     },
     "user-popup": {
         "myplans": "Meine Pläne",

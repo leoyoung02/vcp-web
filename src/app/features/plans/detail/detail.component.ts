@@ -661,7 +661,7 @@ export class PlanDetailComponent {
 
     let canJoin = this.showJoinButton && this.userId && ((!this.joinedParticipant
       && !this.plan?.private
-      && (this.plan?.plan_date >= this.today || !this.isPastEvent)
+      && (this.plan?.plan_date >= this.today || this.plan?.end_date >= this.today || !this.isPastEvent)
       && !this.activateWaitingList) || (this.plan?.private && !this.joinedParticipant && this.speedMember)
       || (this.plan?.private && this.showOption && !this.joinedParticipant && (this.plan?.plan_date >= this.today || !this.isPastEvent)));
 
