@@ -1,5 +1,5 @@
 <div class="relative" (click)="handleDetailsRoute(id)">
-    <div *ngIf="companyId != 32 && !bottomEventTitles" class="relative plan-card-container hover:cursor-pointer">
+    <div *ngIf="(companyId != 32 || (companyId == 32 && bottomEventTitles))" class="relative plan-card-container hover:cursor-pointer">
         <img width="384" height="384" class="w-full rounded-md object-cover" [src]="image" loading="lazy">
         <div *ngIf="companyId != 12 && !bottomEventTitles" class="test__body absolute bottom-1 p-4 text-white flex flex-col">
             <div class="relative">
