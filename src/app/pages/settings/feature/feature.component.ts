@@ -2170,7 +2170,7 @@ export class FeatureComponent {
         })
       }
 
-      if(this.id == 1) {
+      if(this.id == 1 || this.id == 15) {
         if(this.ageGroupFilterActive) {
           this.filterSettings.push({
             id: 3,
@@ -2183,17 +2183,19 @@ export class FeatureComponent {
             select_text: '',
           })
         }
-        if(this.groupFilterActive) {
-          this.filterSettings.push({
-            id: 4,
-            company_id: this.companyId,
-            feature_id: this.id,
-            field: 'group',
-            text: this.clubTitle,
-            display: 'dropdown',
-            status: true,
-            select_text: '',
-          })
+        if(this.id == 1) {
+          if(this.groupFilterActive) {
+            this.filterSettings.push({
+              id: 4,
+              company_id: this.companyId,
+              feature_id: this.id,
+              field: 'group',
+              text: this.clubTitle,
+              display: 'dropdown',
+              status: true,
+              select_text: '',
+            })
+          }
         }
       }
     } else {
