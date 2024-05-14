@@ -45,7 +45,7 @@
         </span>
     </button>
 </div>
-<div class="py-12">
+<div class="py-12" *ngIf="!isGroupWallActive">
     <div class="grid grid-cols-1 md:grid-cols-5 lg:grid-cols-5 gap-0 sm:gap-0 md:gap-12 lg:gap-12 py-8 max-w-[1200px]">
         <div class="w-lg max-w-lg col-span-2">
             <img 
@@ -59,315 +59,13 @@
         </div>
         <div class="w-full max-w-full col-span-3">
             <div class="mt-4 w-full max-w-full">
-                <div class="flex flex-col" *ngIf="groupDescription">
-                    <div [innerHtml]="clubTruncatedDescription"></div>
-                    <ng-container *ngIf="groupDescription?.length > truncate">
-                        <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="clubExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
-                        <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="!clubExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="readMore()">{{ 'club-details.readmore' | translate }}</div>
-                    </ng-container>
-                </div>
-                <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between my-12">
-                    <div class="flex mr-8 mb-4 sm:mb-4 md:mb-0 lg:md-0" *ngIf="group?.city">
-                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
-                            <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-                              <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-                              <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
-                            </g>
-                        </svg>
-                        <div class="capitalize">{{ group?.city }}</div>
-                    </div>
-                    <div class="flex mb-4 sm:mb-4 md:mb-0 lg:mb-0" *ngIf="categoryLabel">
-                        <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 18">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.583 5.445h.01M8.86 16.71l-6.573-6.63a.993.993 0 0 1 0-1.4l7.329-7.394A.98.98 0 0 1 10.31 1l5.734.007A1.968 1.968 0 0 1 18 2.983v5.5a.994.994 0 0 1-.316.727l-7.439 7.5a.975.975 0 0 1-1.385.001Z"/>
-                        </svg>
-                        <div class="capitalize font-semibold">{{ categoryLabel }}</div>
-                    </div>
-                    <div class="flex mb-4 sm:mb-4 md:mb-0 lg:mb-0 w-full max-w-full sm:w-full sm:max-w-full md:w-5/12 md:max-w-5/12 lg:w-5/12 lg:max-w-4/12 break-words"
-                        [ngStyle]="{'word-break': 'break-word'}"
-                    >
-                        <ng-container *ngIf="hasContactDetails">
-                            <ng-container *ngFor="let field of contactDetailsFields;">
-                                <ng-container *ngIf="getContactDetailValue(field)">
-                                    <svg *ngIf="field?.field?.indexOf('email') >= 0" class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 2-8.4 7.05a1 1 0 0 1-1.2 0L1 2m18 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1m18 0v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2"/>
-                                    </svg>
-                                    <a class="capitalize font-semibold" *ngIf="field?.field?.indexOf('email') >= 0" [href]="getContactDetailValue(field)">{{ getContactDetailValue(field) }}</a>
-                                </ng-container>
-                            </ng-container>
-                        </ng-container>
-                    </div>
-                </div>
-                <div class="flex justify-between flex-col sm:flex-col md:flex-row lg:flex-row">
-                    <button
-                        *ngIf="user && (((companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16) && !groupOwner && !joinedMember && group.private && pendingRequest) || 
-                            ((companyId == 12 || companyId == 14) && isNotGroupArea && !groupOwner && !joinedMember && group.private && pendingRequest))"
-                        class="btn w-full max-w-full sm:w-full h-[52px] text-white text-base uppercase font-semibold" 
-                        [ngStyle]="{'background-color': buttonColor}"
-                        (click)="handleRequestJoin()" [disabled]="pendingRequest">
-                        {{ 'club-details.pending' | translate }}
-                    </button>
-                    <button
-                        *ngIf="user && !pendingRejected && (((companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16) && !groupOwner && !joinedMember && group.private) && !pendingRequest || 
-                            ((companyId == 12 || companyId == 14) && isNotGroupArea && !groupOwner && !joinedMember && group.private && !pendingRequest)) && !groupShow"
-                        class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold" 
-                        [ngStyle]="{'background-color': buttonColor}"
-                        (click)="showTerms('request')" [disabled]="pendingRequest">
-                        {{ 'club-details.asktojoin' | translate }}
-                    </button>
-                    <button
-                        *ngIf="user && !pendingRejected && (
-                            ((companyId != 12 && companyId != 15) && !groupOwner && !joinedMember && !group.private) || 
-                            (companyId == 12 && isNotGroupArea && !groupOwner && !joinedMember && !group.private)
-                        )"
-                        class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold" 
-                        [ngStyle]="{
-                            'background-color': buttonColor,
-                            'opacity': joinHover ? 1.5 : 1,
-                            'filter': joinHover ? 'brightness(0.8)' : 'brightness(1)'
-                        }"
-                        (mouseover)="toggleJoinHover(true)"
-                        (mouseleave)="toggleJoinHover(false)"
-                        (click)="showTerms('club')">
-                        {{ 'club-details.join' | translate }}
-                    </button>
-                    <div class="ml-4 w-full max-w-full flex flex-col sm:flex-col md:flex-row lg:flex-row justify-center sm:justify-center md:justify-between items-center mr-4"
-                        *ngIf="joinedMember || groupShow"
-                    >
-                        <div class="flex justify-center sm:justify-center md:justify-normal lg:justify-normal mr-4 bg-white rounded-lg w-full">
-                            <img class="w-6 h-6 object-fit mr-4" src="./assets/images/new-design/icons/check.png">
-                            <span class="text-base uppercase font-semibold">{{ 'club-details.youjoined' | translate }}</span>
-                        </div>
-                        <button
-                            class="btn w-2 text-base text-white p-0 h-[52px]"
-                            (click)="handleLeave()"
-                            [ngStyle]="{
-                                'background-color': buttonColor,
-                                'opacity': leaveHover ? 1.5 : 1,
-                                'filter': leaveHover ? 'brightness(0.8)' : 'brightness(1)'
-                            }"
-                            (mouseover)="toggleLeaveHover(true)"
-                            (mouseleave)="toggleLeaveHover(false)"
-                        >
-                            <svg class="w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"/>
-                            </svg>
-                        </button>
-                    </div>
-                    <ng-container *ngIf="!(!groupOwner && (!canCreate || !joinedMember))">
-                        <button
-                            *ngIf="user && mode != 'delete' && companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16"
-                            class="h-[52px] rounded-lg w-full max-w-full sm:w-full sm:max-w-full text-white text-base uppercase font-semibold mt-4 sm:mt-4 md:mt-0 lg:mt-0"
-                            [ngStyle]="{'background-color': buttonColor}"
-                            (click)="handleNavigate()"
-                        >
-                            <div class="flex items-center justify-center">
-                                <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                                </svg>
-                                <span class="text-white text-base font-semibold uppercase">{{ createNewTitle(pageName) }}</span>
-                            </div>
-                        </button>
-                    </ng-container>
-                </div>
-                <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row my-12 items-center" *ngIf="groupShow || group.private == 0">
-                    <div class="mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0">
-                        <div class="flex flex-wrap">
-                            <ng-container *ngFor="let member of limitMembers; let i = index">
-                                <div [attr.data-popover-target]="'popover-member-profile-' + member.user_id">
-                                    <img
-                                        *ngIf="member?.image"
-                                        (click)="goToMemberProfilePage(member)"
-                                        class="rounded-full max-w-[55px] max-h-[55px] object-cover object-top" 
-                                        [ngClass]="{'-ml-6': i > 0, 'hover:cursor-pointer': hasMembers}"
-                                        width="55"
-                                        height="55"
-                                        [ngSrc]="apiPath + '/' + member.image"
-                                    />
-                                </div>
-                                <div data-popover [attr.id]="'popover-member-profile-' + member.user_id" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
-                                    <div class="p-3">
-                                        <div class="flex items-center justify-between mb-3">
-                                            <a href="{{ hasMembers ? ('/members/details/' + member.user_id) : 'javascript:;'}}">
-                                                <img 
-                                                    class="max-w-[55px] max-h-[55px] rounded-full" 
-                                                    width="55"
-                                                    height="55"
-                                                    [ngSrc]="apiPath + '/' + (member.image || 'empty_avatar.png')" 
-                                                    alt="{{member?.name || (member?.first_name + ' ' + member?.last_name)}}">
-                                            </a>
-                                            <div>
-                                                <button type="button" class="bg-white text-blue-600 border-2 border-blue-600 font-medium rounded-lg text-xs px-3 py-1.5">
-                                                    {{companyId == 12 ? ('your-admin-area.member' | translate) : member?.type}}
-                                                </button>
-                                            </div>
-                                        </div>
-                                        <p class="text-base font-semibold leading-none text-gray-900 dark:text-white">
-                                            <a href="javascript:;">{{member?.name || (member?.first_name + ' ' + member?.last_name)}}</a>
-                                        </p>
-                                        <p class="mb-3 text-xs font-normal">
-                                            <a href="javascript:;" class="hover:underline">{{member?.email}}</a>
-                                        </p>
-                                    </div>
-                                    <div data-popper-arrow></div>
-                                </div>
-                            </ng-container>
-                        </div>
-                    </div>
-                    <div>{{ groupMemberCount }} {{ membersTitle || ('club-details.members' | translate) }}</div>
-                </div>
-                <div class="my-12 flex items-center">
-                    <div class="opacity-60 mr-4">{{ companyId == 12 ? ('club-details.manager' | translate) : ('plan-details.createdby' | translate) }}:</div>
-                    <div class="font-semibold">{{ createdBy }}</div>
-                </div>
-                <div class="flex items-center" *ngIf="hasContactDetails || (superAdmin || groupOwner || canCreate)">
-                    <ng-container *ngIf="superAdmin || groupOwner || canCreate">
-                        <div class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer" (click)="downloadMembers()">
-                            <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 1v4a1 1 0 0 1-1 1H1m8-2h3M9 7h3m-4 3v6m-4-3h8m3-11v16a.969.969 0 0 1-.932 1H1.934A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.829 1h8.239A.969.969 0 0 1 15 2ZM4 10h8v6H4v-6Z"/>
-                            </svg>     
-                            <span class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">{{'club-details.downloadmembers' | translate}}</span>
-                        </div>             
-                    </ng-container>
-                    <ng-container *ngIf="hasContactDetails">
-                        <ng-container *ngFor="let field of contactDetailsFields;">
-                            <ng-container *ngIf="getContactDetailValue(field) && field?.field?.indexOf('instagram') >= 0">
-                                <a [href]="getContactDetailValue(field)" target="_blank" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">
-                                    <img width="36" height="36" class="object-contain mr-6 ml-4" src="./assets/icons/instagram.png">
-                                    <a class="w-[80px] max-w-[80px] mt-4 text-center opacity-60" [href]="getContactDetailValue(field)" target="_blank">{{ 'landing.visitinstagram' | translate }}</a>
-                                </a>
-                            </ng-container>
-                        </ng-container>
-                    </ng-container>
-                </div>
+                <ng-container *ngIf="groupDescription" >
+                    <ng-container *ngTemplateOutlet="groupDescription"></ng-container>
+                </ng-container>
+                <ng-container *ngTemplateOutlet="groupDetails"></ng-container>
             </div>
         </div>
     </div>
-    <!-- <ng-container *ngIf="groupShow || group.private == 0">
-        <div class="py-4" *ngIf="group.show_comments && (groupShow || group.private == 0)">
-            <div class="container mb-4 flex items-center justify-between center w-screen-xl w-full max-w-screen-xl px-4 md:px-0 lg:px-0 mx-auto py-3 border border-b-2 border-l-0 border-r-0 border-t-0">
-                <h1 class="text-xl">{{ 'plan-details.comments' | translate }}</h1>
-            </div>
-            <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row py-12">
-                <div class="mr-0 sm:mr-0 md:mr-8 lg:mr-8">
-                    <div class="w-full sm:w-full md:w-[540px] lg:w-[540px] max-w-full md:max-w-full lg:max-w-[540px]">
-                        <div *ngFor="let comment of CompanyGroupComments" [ngClass]="{'ml-4 sm:ml-4 md:ml-20 lg:ml-20': comment?.parent_group_plan_comment_id > 0 || comment?.parent_plan_comment_id > 0}">
-                            <div>
-                                <div class="flex">
-                                    <img
-                                        src="{{apiPath + '/' + (comment?.image || comment?.CompanyUser?.image)}} "
-                                        [alt]="comment?.first_name"
-                                        class="rounded-full w-16 h-16 mr-4"
-                                        width="30"
-                                    >
-                                    <div class="w-full">
-                                        <div class="flex justify-between">
-                                            <div class="w-full">
-                                                <div class="font-bold">{{ comment?.first_name || comment?.CompanyUser?.first_name || 'anonymous' }}</div>
-                                                <div class="text-sm">{{ formatDate(comment?.createdAt) }}</div>
-                                            </div>
-                                            <div class="flex">
-                                                <div *ngIf="superAdmin || showOption" class="hover:cursor-pointer p-2 px-4 h-8 rounded-lg" (click)="confirmDeleteComment(comment)" [ngStyle]="{'background-color': buttonColor}">
-                                                    <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"></path>
-                                                    </svg>
-                                                </div>
-                                                <div class="flex items-center justify-center ml-4 bg-white rounded-lg p-2 px-6 h-8 hover:cursor-pointer">
-                                                    <img *ngIf="checkHeartReaction(comment) == false" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-unselected.png" (click)="toggleHeart(comment, true)">
-                                                    <img *ngIf="checkHeartReaction(comment) == true" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-selected.png" (click)="toggleHeart(comment, false)">
-                                                    <span>{{ comment?.Company_Group_Comment_Reactions?.length || 0 }}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="mt-4" [innerHTML]="comment?.comment">
-                                        </div>
-                                        <div 
-                                            *ngIf="!blockResponseToComments || (blockResponseToComments && (superAdmin || showOption))"
-                                            class="text-white flex items-center justify-center py-2 px-8 w-[130px] max-w-[130px] mt-4 mb-8 rounded-lg" 
-                                            [ngStyle]="{'background-color': buttonColor}"
-                                            (click)="toggleChildComment(comment?.id)"
-                                        >
-                                            <img class="w-4 h-4 mr-2" src="./assets/images/new-design/icons/Respond.png">
-                                            <span class="text-xs">{{ 'club-details.comment' | translate }}</span>
-                                        </div>
-                                        <div *ngIf="showChildComment && selectedCommentId == comment?.id" class="mb-16">
-                                            <textarea name="" id="" cols="30" rows="3"
-                                                class="w-full rounded-lg p-4"
-                                                placeholder="{{ 'club-details.addanewcomment' | translate }}"
-                                                [(ngModel)]="childComment" >
-                                            </textarea>
-                                            <button (click)="addChildComment(comment)" 
-                                                class="btn text-white mb-8 float-right hover:cursor-pointer"
-                                                [ngStyle]="{'background-color': buttonColor}"
-                                            >
-                                                {{ 'club-details.addcomment' | translate }}
-                                            </button>
-                                        </div>
-                                        <div>
-                                            <div *ngFor="let child of comment?.CommentChild" class="mb-8 max-w-full">
-                                                <div class="flex justify-between">
-                                                    <img
-                                                        src="{{apiPath + '/' + (child?.image || child?.CompanyUser?.image)}} "
-                                                        [alt]="child.first_name"
-                                                        class="rounded-full w-16 h-16 mr-4"
-                                                        width="30"
-                                                    >
-                                                    <div class="name-date full w-5/6">
-                                                        <div class="flex justify-between">
-                                                            <div class="w-full">
-                                                                <div class="font-bold">{{ child?.first_name || child?.CompanyUser?.first_name || 'anonymous' }}</div>
-                                                                <div class="text-sm">{{ formatDate(child?.createdAt) }}</div>
-                                                            </div>
-                                                            <div class="flex">
-                                                                <div *ngIf="superAdmin || showOption" class="hover:cursor-pointer p-2 px-4 h-8 rounded-lg" (click)="confirmDeleteComment(child)" [ngStyle]="{'background-color': buttonColor}">
-                                                                    <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 20">
-                                                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h16M7 8v8m4-8v8M7 1h4a1 1 0 0 1 1 1v3H6V2a1 1 0 0 1 1-1ZM3 5h12v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V5Z"></path>
-                                                                    </svg>
-                                                                </div>
-                                                                <div class="flex items-center justify-center ml-4 bg-white rounded-lg p-2 px-6 h-8 hover:cursor-pointer">
-                                                                    <img *ngIf="checkHeartReaction(child) == false" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-unselected.png" (click)="toggleHeart(child, true)">
-                                                                    <img *ngIf="checkHeartReaction(child) == true" class="w-5 h-5 mr-4" src="./assets/images/new-design/icons/heart-selected.png" (click)="toggleHeart(child, false)">
-                                                                    <span>{{ child?.Company_Group_Comment_Reactions?.length || 0 }}</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="mt-4" [innerHTML]="child?.comment">
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="w-full" *ngIf="userId">
-                    <textarea 
-                        name="comment" 
-                        id="comment" 
-                        cols="30" 
-                        rows="3"
-                        class="w-full p-4 rounded-lg"
-                        placeholder="{{ 'plan-details.addanewcomment' | translate }}"
-                        [(ngModel)]="comment" 
-                    >
-                    </textarea>
-                    <div>
-                        <button
-                            (click)="addComment()"
-                            class="btn text-white px-12 float-right hover:cursor-pointer"
-                            [ngStyle]="{
-                                'background-color': buttonColor
-                            }"
-                        >
-                            {{ 'plan-details.comment' | translate }}
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </ng-container> -->
     <ng-container *ngIf="showChat && hasGroupChat">
         <app-comments
             [private]="group?.private"
@@ -385,6 +83,288 @@
         </app-comments>
     </ng-container>
 </div>
+<ng-container *ngIf="isGroupWallActive">
+    <div class="flex items-center py-10 justify-evenly hidden">
+        <div class="flex items-center hover:cursor-pointer flex items-center hover:cursor-pointer pb-2"
+            [ngClass]="{'border border-b-4 border-t-0 border-l-0 border-r-0': activeMenu == 'General'}"
+            [ngStyle]="{'border-color': activeMenu == 'General' ? buttonColor : 'transparent'}"
+            (click)="setActiveMenu('General')">
+            <img class="w-6 object-contain mr-4" 
+                [src]="activeMenu == 'General' ? './assets/community-icons/general-active.png' : './assets/community-icons/general.png'" />
+            <div class="capitalize" [ngClass]="{'font-semibold': activeMenu == 'General'}"
+                [ngStyle]="{'color': activeMenu == 'General' ? buttonColor : '#1e1e1e'}">
+                {{ 'company-settings.general' | translate }}
+            </div>
+        </div>
+        <div class="flex items-center hover:cursor-pointer pb-2"
+            [ngClass]="{'border border-b-4 border-t-0 border-l-0 border-r-0': activeMenu == 'Q & A'}"
+            [ngStyle]="{'border-color': activeMenu == 'Q & A' ? buttonColor : 'transparent'}"
+            (click)="setActiveMenu('Q & A')">
+            <img class="w-6 object-contain mr-4" 
+                [src]="activeMenu == 'Q & A' ? './assets/community-icons/tutor-active.png' : './assets/community-icons/tutor.png'" />
+            <div class="capitalize" [ngClass]="{'font-semibold': activeMenu == 'Q & A'}"
+                [ngStyle]="{'color': activeMenu == 'Q & A' ? buttonColor : '#1e1e1e'}">
+                Q & A
+            </div>
+        </div>
+        <div class="flex items-center hover:cursor-pointer pb-2"
+            [ngClass]="{'border border-b-4 border-t-0 border-l-0 border-r-0': activeMenu == 'Resources'}"
+            [ngStyle]="{'border-color': activeMenu == 'Resources' ? buttonColor : 'transparent'}"
+            (click)="setActiveMenu('Resources')">
+            <img class="w-6 object-contain mr-4" 
+                [src]="activeMenu == 'Resources' ? './assets/community-icons/recursos-active.png' : './assets/community-icons/recursos.png'" />
+            <div class="capitalize" [ngClass]="{'font-semibold': activeMenu == 'Resources'}"
+                [ngStyle]="{'color': activeMenu == 'Resources' ? buttonColor : '#1e1e1e'}">
+                {{ 'wall.resources' | translate }}
+            </div>
+        </div>
+    </div>
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid:cols-3 my-10">
+        <div class="col-span-2">
+            <app-group-feed
+                [language]="language"
+                [buttonColor]="buttonColor"
+                [primaryColor]="primaryColor" 
+                [companyId]="companyId"
+                [motherComponent]="this"
+                [groupId]="group?.id"
+                [groupMembers]="limitMembers"
+                [activeMenu]="activeMenu"
+                [groupOwner]="groupOwner"
+                [superAdmin]="superAdmin"
+                [me]="user"
+                [userId]="userId"
+                [isGroupMember]="joinedMember"
+                [notifier]="childNotifier"
+                (handleMenuChange)="handleMenuChanged($event)" 
+                [company]="company"
+                [commentsList]="commentsList"
+                (handleDelete)="deletePost($event)"
+            ></app-group-feed>
+        </div>
+        <div>
+            <div class="bg-[#F8F4F4] relative mb-6 relative p-6 rounded-[16px]">
+                <div class="justify-between">
+                    <div class="flex justify-center mb-4">
+                        <img 
+                            *ngIf="group?.image"
+                            class="object-cover shadow-2xl rounded-lg w44 h-44" 
+                            [ngSrc]="group?.image?.indexOf('http') >= 0 ? group?.image : (apiPath + '/get-image-group/' + group?.image)" 
+                            [alt]="groupTitle" 
+                            width="240" 
+                            height="240"
+                        >
+                    </div>
+                    <ng-container *ngTemplateOutlet="groupDescription"></ng-container>
+                </div>
+                <div class="my-6">
+                    <ng-container *ngTemplateOutlet="groupDetails"></ng-container>
+                </div>
+            </div>
+            <div class="bg-[#F8F4F4] relative my-6 relative p-6 rounded-[16px]">
+                <div class="flex items-center">
+                    <div class="font-semibold text-lg">{{ 'club-details.members' | translate }}</div>
+                </div>
+                <div class="my-8">
+                    <ng-container *ngFor="let member of limitMembers">
+                        <ng-container *ngIf="getMemberName(member) != 'undefined undefined'">
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="flex items-center">
+                                    <img class="mr-6 rounded-full object-top object-cover w-[40px] h-[40px]" width="40" height="40"
+                                        [ngSrc]="getMemberImage(member)"
+                                    />
+                                    <div class="font-semibold text-sm">{{ getMemberName(member) }} {{ checkCurrent(member) }}</div>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+<ng-template #groupDescription>
+    <div class="flex flex-col" >
+        <div [innerHtml]="clubTruncatedDescription"></div>
+        <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="clubExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="showLess()">{{ 'club-details.seeless' | translate }}</div>
+        <div class="mt-2 uppercase text-xs underline cursor-pointer" *ngIf="!clubExpandedDescription" [ngStyle]="{'color': buttonColor}" (click)="readMore()">{{ 'club-details.readmore' | translate }}</div>
+    </div>
+</ng-template>
+<ng-template #groupDetails>
+    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between my-12">
+        <div class="flex mr-8 mb-4 sm:mb-4 md:mb-0 lg:md-0" *ngIf="group?.city">
+            <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 21">
+                <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                  <path d="M8 12a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                  <path d="M13.8 12.938h-.01a7 7 0 1 0-11.465.144h-.016l.141.17c.1.128.2.252.3.372L8 20l5.13-6.248c.193-.209.373-.429.54-.66l.13-.154Z"/>
+                </g>
+            </svg>
+            <div class="capitalize">{{ group?.city }}</div>
+        </div>
+        <div class="flex mb-4 sm:mb-4 md:mb-0 lg:mb-0" *ngIf="categoryLabel">
+            <svg class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 19 18">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.583 5.445h.01M8.86 16.71l-6.573-6.63a.993.993 0 0 1 0-1.4l7.329-7.394A.98.98 0 0 1 10.31 1l5.734.007A1.968 1.968 0 0 1 18 2.983v5.5a.994.994 0 0 1-.316.727l-7.439 7.5a.975.975 0 0 1-1.385.001Z"/>
+            </svg>
+            <div class="capitalize font-semibold">{{ categoryLabel }}</div>
+        </div>
+        <div class="flex mb-4 sm:mb-4 md:mb-0 lg:mb-0 w-full max-w-full sm:w-full sm:max-w-full md:w-5/12 md:max-w-5/12 lg:w-5/12 lg:max-w-4/12 break-words"
+            [ngStyle]="{'word-break': 'break-word'}"
+        >
+            <ng-container *ngIf="hasContactDetails">
+                <ng-container *ngFor="let field of contactDetailsFields;">
+                    <ng-container *ngIf="getContactDetailValue(field)">
+                        <svg *ngIf="field?.field?.indexOf('email') >= 0" class="w-6 h-6 mr-4 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 2-8.4 7.05a1 1 0 0 1-1.2 0L1 2m18 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1m18 0v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2"/>
+                        </svg>
+                        <a class="capitalize font-semibold" *ngIf="field?.field?.indexOf('email') >= 0" [href]="getContactDetailValue(field)">{{ getContactDetailValue(field) }}</a>
+                    </ng-container>
+                </ng-container>
+            </ng-container>
+        </div>
+    </div>
+    <div class="flex justify-between flex-col sm:flex-col md:flex-row lg:flex-row">
+        <button
+            *ngIf="user && (((companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16) && !groupOwner && !joinedMember && group.private && pendingRequest) || 
+                ((companyId == 12 || companyId == 14) && isNotGroupArea && !groupOwner && !joinedMember && group.private && pendingRequest))"
+            class="btn w-full max-w-full sm:w-full h-[52px] text-white text-base uppercase font-semibold" 
+            [ngStyle]="{'background-color': buttonColor}"
+            (click)="handleRequestJoin()" [disabled]="pendingRequest">
+            {{ 'club-details.pending' | translate }}
+        </button>
+        <button
+            *ngIf="user && !pendingRejected && (((companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16) && !groupOwner && !joinedMember && group.private) && !pendingRequest || 
+                ((companyId == 12 || companyId == 14) && isNotGroupArea && !groupOwner && !joinedMember && group.private && !pendingRequest)) && !groupShow"
+            class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold" 
+            [ngStyle]="{'background-color': buttonColor}"
+            (click)="showTerms('request')" [disabled]="pendingRequest">
+            {{ 'club-details.asktojoin' | translate }}
+        </button>
+        <button
+            *ngIf="user && !pendingRejected && (
+                ((companyId != 12 && companyId != 15) && !groupOwner && !joinedMember && !group.private) || 
+                (companyId == 12 && isNotGroupArea && !groupOwner && !joinedMember && !group.private)
+            )"
+            class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold" 
+            [ngStyle]="{
+                'background-color': buttonColor,
+                'opacity': joinHover ? 1.5 : 1,
+                'filter': joinHover ? 'brightness(0.8)' : 'brightness(1)'
+            }"
+            (mouseover)="toggleJoinHover(true)"
+            (mouseleave)="toggleJoinHover(false)"
+            (click)="showTerms('club')">
+            {{ 'club-details.join' | translate }}
+        </button>
+        <div class="ml-4 w-full max-w-full flex flex-col sm:flex-col md:flex-row lg:flex-row justify-center sm:justify-center md:justify-between items-center mr-4"
+            *ngIf="joinedMember || groupShow"
+        >
+            <div class="flex justify-center sm:justify-center md:justify-normal lg:justify-normal mr-4 bg-white rounded-lg w-full">
+                <img class="w-6 h-6 object-fit mr-4" src="./assets/images/new-design/icons/check.png">
+                <span class="text-base uppercase font-semibold">{{ 'club-details.youjoined' | translate }}</span>
+            </div>
+            <button
+                class="btn w-2 text-base text-white p-0 h-[52px]"
+                (click)="handleLeave()"
+                [ngStyle]="{
+                    'background-color': buttonColor,
+                    'opacity': leaveHover ? 1.5 : 1,
+                    'filter': leaveHover ? 'brightness(0.8)' : 'brightness(1)'
+                }"
+                (mouseover)="toggleLeaveHover(true)"
+                (mouseleave)="toggleLeaveHover(false)"
+            >
+                <svg class="w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"/>
+                </svg>
+            </button>
+        </div>
+        <ng-container *ngIf="!(!groupOwner && (!canCreate || !joinedMember))">
+            <button
+                *ngIf="user && mode != 'delete' && companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16"
+                class="h-[52px] rounded-lg w-full max-w-full sm:w-full sm:max-w-full text-white text-base uppercase font-semibold mt-4 sm:mt-4 md:mt-0 lg:mt-0"
+                [ngStyle]="{'background-color': buttonColor}"
+                (click)="handleNavigate()"
+            >
+                <div class="flex items-center justify-center">
+                    <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                    </svg>
+                    <span class="text-white text-base font-semibold uppercase">{{ createNewTitle(pageName) }}</span>
+                </div>
+            </button>
+        </ng-container>
+    </div>
+    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row my-12 items-center" *ngIf="!isGroupWallActive && (groupShow || group.private == 0)">
+        <div class="mr-4 mb-4 sm:mb-4 md:mb-0 lg:mb-0">
+            <div class="flex flex-wrap">
+                <ng-container *ngFor="let member of limitMembers; let i = index">
+                    <div [attr.data-popover-target]="'popover-member-profile-' + member.user_id">
+                        <img
+                            *ngIf="member?.image"
+                            (click)="goToMemberProfilePage(member)"
+                            class="rounded-full max-w-[55px] max-h-[55px] object-cover object-top" 
+                            [ngClass]="{'-ml-6': i > 0, 'hover:cursor-pointer': hasMembers}"
+                            width="55"
+                            height="55"
+                            [ngSrc]="apiPath + '/' + member.image"
+                        />
+                    </div>
+                    <div data-popover [attr.id]="'popover-member-profile-' + member.user_id" role="tooltip" class="absolute z-10 invisible inline-block w-64 text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+                        <div class="p-3">
+                            <div class="flex items-center justify-between mb-3">
+                                <a href="{{ hasMembers ? ('/members/details/' + member.user_id) : 'javascript:;'}}">
+                                    <img 
+                                        class="max-w-[55px] max-h-[55px] rounded-full" 
+                                        width="55"
+                                        height="55"
+                                        [ngSrc]="apiPath + '/' + (member.image || 'empty_avatar.png')" 
+                                        alt="{{member?.name || (member?.first_name + ' ' + member?.last_name)}}">
+                                </a>
+                                <div>
+                                    <button type="button" class="bg-white text-blue-600 border-2 border-blue-600 font-medium rounded-lg text-xs px-3 py-1.5">
+                                        {{companyId == 12 ? ('your-admin-area.member' | translate) : member?.type}}
+                                    </button>
+                                </div>
+                            </div>
+                            <p class="text-base font-semibold leading-none text-gray-900 dark:text-white">
+                                <a href="javascript:;">{{member?.name || (member?.first_name + ' ' + member?.last_name)}}</a>
+                            </p>
+                            <p class="mb-3 text-xs font-normal">
+                                <a href="javascript:;" class="hover:underline">{{member?.email}}</a>
+                            </p>
+                        </div>
+                        <div data-popper-arrow></div>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <div>{{ groupMemberCount }} {{ membersTitle || ('club-details.members' | translate) }}</div>
+    </div>
+    <div class="my-12 flex items-center">
+        <div class="opacity-60 mr-4">{{ companyId == 12 ? ('club-details.manager' | translate) : ('plan-details.createdby' | translate) }}:</div>
+        <div class="font-semibold">{{ createdBy }}</div>
+    </div>
+    <div class="flex items-center" *ngIf="hasContactDetails || (superAdmin || groupOwner || canCreate)">
+        <ng-container *ngIf="superAdmin || groupOwner || canCreate">
+            <div class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer" (click)="downloadMembers()">
+                <svg class="w-8 h-8 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 1v4a1 1 0 0 1-1 1H1m8-2h3M9 7h3m-4 3v6m-4-3h8m3-11v16a.969.969 0 0 1-.932 1H1.934A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.829 1h8.239A.969.969 0 0 1 15 2ZM4 10h8v6H4v-6Z"/>
+                </svg>     
+                <span class="w-[80px] max-w-[80px] mt-4 text-center opacity-60">{{'club-details.downloadmembers' | translate}}</span>
+            </div>             
+        </ng-container>
+        <ng-container *ngIf="hasContactDetails">
+            <ng-container *ngFor="let field of contactDetailsFields;">
+                <ng-container *ngIf="getContactDetailValue(field) && field?.field?.indexOf('instagram') >= 0">
+                    <a [href]="getContactDetailValue(field)" target="_blank" class="flex flex-col items-center justify-center mr-12 hover:cursor-pointer">
+                        <img width="36" height="36" class="object-contain mr-6 ml-4" src="./assets/icons/instagram.png">
+                        <a class="w-[80px] max-w-[80px] mt-4 text-center opacity-60" [href]="getContactDetailValue(field)" target="_blank">{{ 'landing.visitinstagram' | translate }}</a>
+                    </a>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+    </div>
+</ng-template>
 <button #modalbutton data-modal-target="item-modal" data-modal-toggle="item-modal" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
     &nbsp;
 </button>
