@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { FilterComponent, PageTitleComponent } from '@share/components';
+import { AgeGroupFilterComponent, FilterComponent, PageTitleComponent } from '@share/components';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { SearchComponent } from "@share/components/search/search.component";
@@ -14,6 +14,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErr
 import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { MemberSmallCardComponent } from '@share/components/card/member-small/member-small.component';
 import { initFlowbite } from 'flowbite';
+import moment from "moment";
 import get from 'lodash/get';
 
 @Component({
@@ -32,6 +33,7 @@ import get from 'lodash/get';
     MemberCardComponent,
     MemberSmallCardComponent,
     FilterComponent,
+    AgeGroupFilterComponent,
   ],
   templateUrl: './list.component.html'
 })
@@ -97,6 +99,10 @@ export class MembersListComponent {
   filterActive: boolean = false;
   filterSettings: any = [];
   showFilters: boolean = false;
+  ageGroupFilterActive: boolean = false;
+  ageGroupList: any = [];
+  allAgeGroups: any = [];
+  selectedAgeGroup: any = '';
 
   constructor(
     private _router: Router,
@@ -186,6 +192,8 @@ export class MembersListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          this.allAgeGroups = data?.age_groups;
+
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures );
 
@@ -193,6 +201,7 @@ export class MembersListComponent {
 
           this.mapUserPermissions(data?.user_permissions);
           this.members = data?.members;
+          
           if(this.members?.length > 0) {
             let current = this.members?.filter(member => {
               return member.id == this.userId
@@ -223,6 +232,61 @@ export class MembersListComponent {
     if(filter_settings_active?.length > 0 && this.filterActive) {
       this.showFilters = true;
       this.filterSettings = filter_settings;
+      if(this.ageGroupFilterActive) { this.initializeAgeGroupList(); }
+    }
+  }
+
+  initializeAgeGroupList() {
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let age_group_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'age_group'
+      })
+      if(age_group_filter?.length > 0) {
+        text = age_group_filter[0].select_text;
+      }
+    }
+    this.ageGroupList = [
+      {
+        id: "All",
+        value: "All",
+        text,
+        selected: true,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: "All",
+        name_CA: "All",
+        name_DE: "All",
+        name_EN: "All",
+        name_ES: "All",
+        name_EU: "All",
+        name_FR: "All",
+        sequence: 1,
+        status: 1,
+        min: 0,
+        max: 0,
+      },
+    ];
+    if(this.allAgeGroups?.length > 0) {
+      this.allAgeGroups?.forEach((ag, index) => {
+        this.ageGroupList?.push({
+          id: ag.id,
+          value: ag.id,
+          text: ag.age_group,
+          selected: false,
+          fk_company_id: this.companyId,
+          fk_supercategory_id: ag.id,
+          name_CA: ag.age_group,
+          name_DE: ag.age_group,
+          name_EN: ag.age_group,
+          name_ES: ag.age_group,
+          name_EU: ag.age_group,
+          name_FR: ag.age_group,
+          sequence: index + 2,
+          status: index + 2,
+          min: ag.min,
+          max: ag.max,
+        })
+      })
     }
   }
 
@@ -245,6 +309,9 @@ export class MembersListComponent {
       );
       this.filterActive = subfeatures.some(
         (a) => a.name_en == "Members filter" && a.active == 1 && a.feature_id == 15
+      );
+      this.ageGroupFilterActive = subfeatures.some(
+        (a) => a.name_en == "Age group filter" && a.active == 1
       );
     }
   }
@@ -565,6 +632,25 @@ export class MembersListComponent {
       }
     }
 
+    if(this.selectedAgeGroup && this.selectedAgeGroup != 'All') {
+      let age_group = this.ageGroupList.find(
+        (c) => c.value == this.selectedAgeGroup
+      );
+
+      members = members?.filter(m => {
+        let include = false
+
+        if(m.birthday && age_group?.min >= 0 && age_group?.max >= 0) {
+          var diff_year = moment().diff(moment(m.birthday), 'years', false);
+          if(diff_year >= age_group?.min && diff_year <= age_group?.max) {
+            include = true;
+          }
+        }
+        
+        return include
+      })
+    }
+
     this.formatMembers(members);
   }
 
@@ -647,6 +733,19 @@ export class MembersListComponent {
 
   filterViewChanged(event) {
     this.defaultActiveFilter = event;
+  }
+
+  filteredAgeGroupList(event) {
+    this.ageGroupList?.forEach((item) => {
+      if (item.id === event) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    this.selectedAgeGroup = event || "";
+    this.filterMembers();
   }
 
   ngOnDestroy() {

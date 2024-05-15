@@ -296,7 +296,7 @@ export class TutorsListComponent {
           tut_rating += tr.tutor_rating ? parseFloat(tr.tutor_rating) : 0
           no_of_rating++
       })
-      rating = (tut_rating/no_of_rating).toFixed(1);
+      rating = Math.round((tut_rating/no_of_rating)).toFixed(1);
     }
 
     return rating

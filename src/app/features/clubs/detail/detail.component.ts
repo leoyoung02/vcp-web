@@ -29,6 +29,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { SafeContentHtmlPipe } from "@lib/pipes";
 import { FormsModule } from "@angular/forms";
+import { GroupFeedComponent } from "@share/components/group/feed/feed.component";
 import { initFlowbite } from "flowbite";
 import moment from "moment";
 import get from "lodash/get";
@@ -48,6 +49,7 @@ import get from "lodash/get";
     ListShowcaseComponent,
     PageTitleComponent,
     CommentsComponent,
+    GroupFeedComponent,
   ],
   templateUrl: "./detail.component.html",
 })
@@ -228,6 +230,12 @@ export class ClubDetailComponent {
   commentsList: any = [];
   newComment: any = '';
   showComments: boolean = false;
+  
+  isGroupWallActive: boolean = false;
+  tabTitleText: any;
+  activeMenu: any = 'General';
+  imageSrc: string = environment.api +  '/';
+  childNotifier: Subject<boolean> = new Subject<boolean>();
 
   constructor(
     private _router: Router,
@@ -407,6 +415,9 @@ export class ClubDetailComponent {
       );
       this.hasGroupChat = subfeatures.some(
         (a) => a.name_en == 'Group chat' && a.active == 1
+      );
+      this.isGroupWallActive = subfeatures.some(
+        (a) => a.name_en == 'Group wall' && a.active == 1
       );
 
       if(this.hasGroupChat) {
@@ -1348,6 +1359,11 @@ export class ClubDetailComponent {
           return data;
         }
       );
+
+      if(this.isGroupWallActive) {
+        this.commentsList = this.CompanyGroupComments;
+        this.cd.detectChanges();
+      }
     });
   }
 
@@ -1678,6 +1694,70 @@ export class ClubDetailComponent {
         }
       )
     }
+  }
+
+  setActiveMenu(menu) {
+    this.activeMenu = menu
+    this.notifyChild(menu)
+  }
+
+  notifyChild(menu) {
+    this.childNotifier.next(menu)
+  }
+
+  getMemberImage(member) {
+    let image = ''
+    let memberImage = member.image
+    if(!memberImage && member.CompanyUser) {
+      memberImage = member.CompanyUser.image
+    } 
+    if(memberImage == 'default-avatar.jpg' || memberImage == 'empty_avatar.png') {
+      image = './assets/images/default-profile.png'
+    } else {
+      image = this.imageSrc + memberImage
+    }
+
+    return image
+  }
+
+  getMemberName(member) {
+    let memberName = `${member.first_name} ${member.last_name}`
+    if(member.CompanyUser && (!memberName || (memberName && memberName.indexOf('undefined') >= 0))) {
+      memberName = `${member.CompanyUser.first_name} ${member.CompanyUser.last_name}`
+    }
+
+    return memberName
+  }
+
+  checkCurrent(member) {
+    if(member.id == this.userId || member.user_id == this.userId) {
+      return `(${this._translateService.instant('wall.you')})`
+    }
+  }
+
+  handleMenuChanged(event: any) {
+    this.activeMenu = event || 'General'
+  }
+
+  deletePost(post) {
+    if (post) {
+      this.showConfirmationModal = false;
+      this.selectedItem = post;
+      this.confirmMode = 'comment';
+
+      this.confirmDeleteItemTitle = this._translateService.instant(
+          "dialog.confirmdelete"
+      );
+      this.confirmDeleteItemDescription = this._translateService.instant(
+          "dialog.confirmdeleteitem"
+      );
+      this.acceptText = "OK";
+      setTimeout(() => (this.showConfirmationModal = true));
+    }
+  }
+
+  isDescriptionLong() {
+    return this.groupDescription?.length > this.truncate ? true : false;
   }
 
   ngOnDestroy() {
