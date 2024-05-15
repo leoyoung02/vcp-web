@@ -146,10 +146,8 @@ export class GroupFeedComponent {
 
   ngOnChanges(changes: SimpleChange) {
     let commentsListChange = changes["commentsList"];
-    if (commentsListChange?.currentValue?.length > 0) {
-      let commentsList = commentsListChange.currentValue;
-      this.posts = commentsList; 
-    }
+    let commentsList = commentsListChange.currentValue;
+    this.posts = commentsList; 
   }
 
   async ngOnInit() {
@@ -318,7 +316,6 @@ export class GroupFeedComponent {
         }
       );
 
-      console.log(results)
       this.motherComponent.postsResults = results
       this.allposts = results
       this.posts = results

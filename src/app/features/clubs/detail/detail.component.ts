@@ -1756,6 +1756,10 @@ export class ClubDetailComponent {
     }
   }
 
+  isDescriptionLong() {
+    return this.groupDescription?.length > this.truncate ? true : false;
+  }
+
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
