@@ -6,7 +6,7 @@
     }"
 >
     <!-- wrapper -->
-    <div class="container w-screen-xl max-w-screen-xl px-0 py-4 justify-between">
+    <div class="container w-screen-3xl max-w-screen-3xl px-0 py-4 justify-between">
         <div class="flex grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full py-8">
             <div class="px-6 md:px-0 lg:px-0">
                 <app-logo [logoSrc]="logoSrc"></app-logo>
@@ -30,15 +30,22 @@
                     </ng-container>
                 </div>
             </div>
+            <div class="px-6 md:px-0 lg:px-0" *ngIf="companyId == 32">
+                <ng-container *ngFor="let link of additionalLinks">
+                    <div class="py-1">
+                        <a [ngStyle]="{'color': footerTextColor}" target="_blank" [href]="link.link">{{ getLinkText(link) }}</a>
+                    </div>
+                </ng-container>
+            </div>
             <div class="px-6 md:px-0 lg:px-0">
-                <div *ngIf="(canShowTermsAndConditions && termsAndConditions) || (!canShowTermsAndConditions || termsAndConditionsURL)" class="py-1 hover:underline" (click)="openTermsAndConditions()">
-                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;">{{ 'footer.terms_and_conditions' | translate }}</a>
+                <div *ngIf="(canShowTermsAndConditions && termsAndConditions) || (!canShowTermsAndConditions || termsAndConditionsURL)" class="py-1" (click)="openTermsAndConditions()">
+                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;" class="capitalize">{{ getTermsAndConditionsText() }}</a>
                 </div>
-                <div *ngIf="(canShowPrivacyPolicy && privacyPolicy) || (!canShowPrivacyPolicy || privacyPolicyURL)"  class="py-1 hover:underline" (click)="openPrivacyPolicy()">
-                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;">{{ 'footer.privacy_policy' | translate }}</a>
+                <div *ngIf="(canShowPrivacyPolicy && privacyPolicy) || (!canShowPrivacyPolicy || privacyPolicyURL)"  class="py-1" (click)="openPrivacyPolicy()">
+                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;" class="capitalize">{{ getPrivacyPolicyText() }}</a>
                 </div>
-                <div *ngIf="(canShowCookiePolicy && cookiePolicy) || (!canShowCookiePolicy || cookiePolicyURL)" class="py-1 hover:underline" (click)="openCookiePolicy()">
-                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;">{{ 'footer.cookies_policy' | translate }}</a>
+                <div *ngIf="(canShowCookiePolicy && cookiePolicy) || (!canShowCookiePolicy || cookiePolicyURL)" class="py-1" (click)="openCookiePolicy()">
+                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;" class="capitalize">{{ getCookiePolicyText() }}</a>
                 </div>
             </div>
             <div class="px-6 md:px-0 lg:px-0 grid grid-rows-3 grid-flow-col">

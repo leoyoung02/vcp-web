@@ -922,6 +922,9 @@ export class SettingComponent {
               case 'New URL button':
                 this.reloadMenu('add-new-url');
                 break;
+              case 'Footer':
+                location.reload();
+                break;
             }
           },
           error => {
@@ -947,6 +950,9 @@ export class SettingComponent {
               break;
             case 'New URL button':
               this.reloadMenu('remove-new-url');
+              break;
+            case 'Footer':
+              location.reload();
               break;
           }
         },

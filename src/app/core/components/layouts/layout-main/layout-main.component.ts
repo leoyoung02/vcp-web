@@ -185,6 +185,8 @@ export class LayoutMainComponent {
   canRegister: boolean = false;
   customMemberType: any;
   customMemberTypePermissions: any;
+  showFooter: boolean = false;
+  customLinks: any = [];
 
   constructor(
     private _router: Router,
@@ -1221,6 +1223,7 @@ export class LayoutMainComponent {
 
   getOtherSettings() {
     if (this.otherSettings) {
+      console.log(this.otherSettings)
       this.otherSettings.forEach((m) => {
         if (m.title_es == "General") {
           if (m.content) {
@@ -1251,6 +1254,16 @@ export class LayoutMainComponent {
             if (canRegisterSettings && canRegisterSettings[0]) {
               this.canRegister =
                 canRegisterSettings[0].active == 1 ? true : false;
+            }
+
+            let footerSettings = m.content.filter((c) => {
+              return c.title_en == "Footer";
+            });
+            if(footerSettings && footerSettings[0]) {
+              this.showFooter = footerSettings[0].active == 1 ? true : false;
+              if(this.showFooter && this.companyId == 32 && this.isUESchoolOfLife) {
+                this.getSchoolofLifeFooterLinks()
+              }
             }
           }
         }
@@ -1299,6 +1312,36 @@ export class LayoutMainComponent {
         }
       });
     }
+  }
+
+  getSchoolofLifeFooterLinks() {
+    this.customLinks = [
+      {
+        text_es: 'Biblioteca',
+        text_en:  'Library',
+        link: 'https://universidadeuropea.com/tu-experiencia/biblioteca/',
+      },
+      {
+        text_es: 'Empleabilidad y Emprendimiento',
+        text_en:  'Employability and Entrepreneurship',
+        link: 'https://universidadeuropea.com/tu-experiencia/empleabilidad/',
+      },
+      {
+        text_es: 'Idiomas y Movilidad Internacional',
+        text_en:  'Languages and International Mobility',
+        link: 'https://universidadeuropea.com/tu-experiencia/movilidad-internacional/',
+      },
+      {
+        text_es: 'Orientación Académica, Diversidad e Igualdad',
+        text_en:  'Academic Guidance, Diversity and Equality',
+        link: 'https://universidadeuropea.com/tu-experiencia/atencion-diversidad/',
+      },
+      {
+        text_es: 'Vida Universitaria',
+        text_en:  'College Life',
+        link: 'https://universidadeuropea.com/tu-experiencia/vida-universitaria/',
+      }
+    ]
   }
 
   getContactUsDetails() {
