@@ -1644,6 +1644,26 @@ export class LayoutMainComponent {
                   school_of_life_submenu: 0,
                 })
               }
+
+              if(tempData?.id == 11) {
+                this.menus.push({
+                  id: tempData?.id + 2,
+                  path: 'courses/list/nivelacion',
+                  new_url: 0,
+                  new_button: 0,
+                  return_url: '',
+                  name: 'Leveling courses',
+                  name_ES: 'Cursos de Nivelación',
+                  name_FR: 'Cours de mise à niveau',
+                  name_EU: 'Mailatzeko ikastaroak',
+                  name_CA: 'Cursos de Nivellació',
+                  name_DE: 'AktivitätsverlaufLeveling-Kurse',
+                  show: true,
+                  sequence: (this.features[i].sequence ? this.features[i].sequence : 3 + i) + 1,
+                  parent_path: '',
+                  school_of_life_submenu: 0,
+                })
+              }
             }
           } else {
             if(tempData?.id != 11) {

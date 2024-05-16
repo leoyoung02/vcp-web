@@ -38,6 +38,7 @@ export class CoursesListComponent {
 
   @Input() parentComponent: any;
   @Input() limit: any;
+  @Input() category: any;
 
   languageChangeSubscription;
   user: any;
@@ -206,7 +207,7 @@ export class CoursesListComponent {
 
   fetchCourses() {
     this._coursesService
-      .fetchCoursesCombined(this.companyId, this.userId, this.isUESchoolOfLife)
+      .fetchCoursesCombined(this.companyId, this.userId, this.isUESchoolOfLife, this.category)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
@@ -236,7 +237,8 @@ export class CoursesListComponent {
   mapFeatures(features) {
     this.coursesFeature = features?.find((f) => f.feature_id == 11);
     this.featureId = this.coursesFeature?.id;
-    this.pageName = this.getFeatureTitle(this.coursesFeature) + (this.isUESchoolOfLife ? ' de School of Life' : '');
+    this.pageName = this.isUESchoolOfLife && this.category == 'nivelacion' ? this._translateService.instant('landing.solcourses') : 
+      (this.getFeatureTitle(this.coursesFeature) + (this.isUESchoolOfLife ? ' de School of Life' : ''));
     this.pageDescription = this.getFeatureDescription(this.coursesFeature);
 
     let tutorsFeature = features?.find(

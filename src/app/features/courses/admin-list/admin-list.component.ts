@@ -21,10 +21,11 @@ import { MatTableDataSource, MatTableModule } from "@angular/material/table";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { ToastComponent } from "@share/components";
+import { ButtonGroupComponent, ToastComponent } from "@share/components";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { COURSE_IMAGE_URL } from "@lib/api-constants";
 import { searchSpecialCase } from "src/app/utils/search/helper";
+import { environment } from "@env/environment";
 
 @Component({
   selector: "app-courses-admin-list",
@@ -38,6 +39,7 @@ import { searchSpecialCase } from "src/app/utils/search/helper";
     MatSnackBarModule,
     SearchComponent,
     ToastComponent,
+    ButtonGroupComponent,
   ],
   templateUrl: "./admin-list.component.html",
 })
@@ -111,6 +113,11 @@ export class CoursesAdminListComponent {
   courseDurationUnits: any;
   otherStripeAccounts: any;
 
+  buttonList: any = [];
+  viewMode: any = 'courses';
+  isLoading: boolean = false;
+  category: any;
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -128,6 +135,10 @@ export class CoursesAdminListComponent {
 
   async ngOnInit() {
     this.onResize();
+    this.userId = this._localService.getLocalStorage(environment.lsuserId)
+    this.language = this._localService.getLocalStorage(environment.lslang)
+    this._translateService.use(this.language || 'es')
+    this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(this.company)
 
     this.languageChangeSubscription =
       this._translateService.onLangChange.subscribe(
@@ -137,12 +148,17 @@ export class CoursesAdminListComponent {
         }
       );
 
+    this._route.queryParams.subscribe((params) => {
+      this.category = params ? params["category"] : "";
+    });
+
     this.initializePage();
   }
 
   initializePage() {
-    this.fetchCoursesManagementData();
     this.initializeSearch();
+    if(this.isUESchoolOfLife) { this.initializeButtonGroup(); }
+    this.fetchCoursesManagementData();
   }
 
   fetchCoursesManagementData() {
@@ -354,6 +370,19 @@ export class CoursesAdminListComponent {
       })
     }
 
+    if(this.buttonList?.length > 0 && courses?.length > 0) {
+      let selected = this.buttonList?.find((c) => c.selected);
+      if(selected.type == 'courses') {
+        courses = courses?.filter(course => {
+          return course?.sol_nivelacion != 1
+        })
+      } else if(selected.type == 'courses-nivelacion') {
+        courses = courses?.filter(course => {
+          return course?.sol_nivelacion == 1
+        })
+      }
+    }
+
     if(this.allCoursesData?.length == 0) {
       this.allCoursesData = courses;
     }
@@ -508,7 +537,10 @@ export class CoursesAdminListComponent {
   }
 
   handleCreateRoute() {
-    this._router.navigate([`/courses/create/0`]);
+    let url = `/courses/create/0`;
+    url += this.isUESchoolOfLife && this.viewMode == 'courses-nivelacion' ? `/nivelacion` : '';
+
+    this._router.navigate([url]);
   }
 
   handleSearch(event) {
@@ -565,7 +597,10 @@ export class CoursesAdminListComponent {
   }
 
   editItem(id) {
-    this._router.navigate([`/courses/edit/${id}`]);
+    let url = `/courses/edit/${id}`;
+    url += this.isUESchoolOfLife && this.viewMode == 'courses-nivelacion' ? `/nivelacion` : '';
+
+    this._router.navigate([url]);
   }
 
   confirmDeleteItem(id) {
@@ -677,6 +712,38 @@ export class CoursesAdminListComponent {
         console.log(error);
       }
     )
+  }
+
+  initializeButtonGroup() {
+    this.buttonList = [
+      {
+        id: 1,
+        value: "courses",
+        text: this._translateService.instant('training.training'),
+        type: "courses",
+        selected: this.category == 'nivelacion' ? false : true,
+      },
+      {
+        id: 2,
+        value: "courses-nivelacion",
+        text: this._translateService.instant('landing.solcourses'),
+        type: "courses-nivelacion",
+        selected: this.category == 'nivelacion' ? true : false,
+      },
+    ];
+  }
+
+  handleChangeViewMode(event) {
+    this.buttonList?.forEach((item) => {
+      if (item.id === event.id) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    this.viewMode = event.type;
+    this.fetchCoursesManagementData();
   }
 
   async open(message: string, action: string) {

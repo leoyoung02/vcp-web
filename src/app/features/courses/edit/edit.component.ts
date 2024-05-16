@@ -80,6 +80,7 @@ export class CourseEditComponent {
   private destroy$ = new Subject<void>();
 
   @Input() id: any;
+  @Input() category: any;
 
   languageChangeSubscription: any;
   isMobile: boolean = false;
@@ -1866,7 +1867,8 @@ export class CourseEditComponent {
     params['cta_text'] = this.courseForm.get('ctatext').value;
     params['cta_link'] = this.courseForm.get('ctalink').value;
     params['hotmart_course_id'] = this.selectedHotmartCourse || '';
-    params['has_diff_stripe_account'] = this.hasDifferentStripeAccount ? true : false
+    params['has_diff_stripe_account'] = this.hasDifferentStripeAccount ? true : false;
+    params['sol_nivelacion'] = this.isUESchoolOfLife && this.category == 'nivelacion' ? 1 : 0;
     if(this.hasDifferentStripeAccount){
       params['selected_stripe_account_id'] = this.selectedStripeAccount
     }
@@ -1961,7 +1963,12 @@ export class CourseEditComponent {
     if(this.id > 0) {
       this.scrollToTop();
     } else {
-      this._location.back();
+      let url = `/settings/manage-list/courses`;
+      if(this.isUESchoolOfLife && this.category == 'nivelacion') {
+        location.href = `${url}?category=nivelacion`
+      } else {
+        this._location.back();
+      }
     }
   }
 

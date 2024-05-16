@@ -69,6 +69,7 @@ export class SectionsComponent {
   calendarFilterMode: boolean = false;
   joinedPlan: boolean = false;
   courses: any = [];
+  coursesNivelacion: any = [];
   groups: any = [];
   courseCategoriesAccessRoles: any = [];
   allCourseCategories: any = [];
@@ -89,6 +90,7 @@ export class SectionsComponent {
   jobOffers: any = [];
   jobOffersSectionTitle: boolean = false;
   coursesSectionTitle: boolean = false;
+  coursesNivelacionSectionTitle: boolean = false;
   discounts: any = [];
   discountsSectionTitle: boolean = false;
   blogs: any = [];
@@ -130,6 +132,7 @@ export class SectionsComponent {
     let coursesTitleChange = changes["coursesTitle"];
     if (coursesTitleChange.previousValue != coursesTitleChange.currentValue) {
       this.coursesSectionTitle = coursesTitleChange.currentValue;
+      this.coursesNivelacionSectionTitle = this._translateService.instant('landing.solcourses');
     }
 
     let discountsTitleChange = changes["discountsTitle"];
@@ -196,9 +199,18 @@ export class SectionsComponent {
       return item?.object_type == 'joboffer'
     })
 
-    this.courses = list?.filter(item => {
-      return item?.object_type == 'course'
-    })
+    if(this.isUESchoolOfLife) {
+      this.courses = list?.filter(item => {
+        return item?.object_type == 'course' && item?.sol_nivelacion != 1
+      })
+      this.coursesNivelacion = list?.filter(item => {
+        return item?.object_type == 'course' && item?.sol_nivelacion == 1
+      })
+    } else {
+      this.courses = list?.filter(item => {
+        return item?.object_type == 'course'
+      })
+    }
 
     this.discounts = list?.filter(item => {
       return item?.object_type == 'discount' || item?.object_type == 'service'
