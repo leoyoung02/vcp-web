@@ -264,10 +264,6 @@ export class SignupComponent {
   async ngOnInit() {
     this.signupMode = param.getParam("mode") ? param.getParam("mode") : "";
     this.language = this._localService.getLocalStorage(environment.lslang);
-    if (!this.language) {
-      this.language = "es";
-    }
-    this._translateService.use(this.language);
 
     this.companies = get(
       await this._companyService.getCompanies().toPromise(),
@@ -296,11 +292,14 @@ export class SignupComponent {
         this.privacyPolicyURLEu = company[0].privacy_policy_url_eu;
         this.privacyPolicyURLCa = company[0].privacy_policy_url_ca;
         this.privacyPolicyURLDe = company[0].privacy_policy_url_de;
-        this.canShowPrivacyPolicy =
-          company[0].show_privacy_policy == 1 ? true : false;
+        this.canShowPrivacyPolicy = company[0].show_privacy_policy == 1 ? true : false;
+        if(this.companyId == 65 && this.language == 'es') {
+          this.language = 'it';
+        }
       }
     }
 
+    this._translateService.use(this.language);
     this.dateAdapter.setLocale('es-ES');
     this.initData();
   }
@@ -457,6 +456,7 @@ export class SignupComponent {
               field_desc_es: null,
               field_display_en: "Confirm password",
               field_display_es: "Confirmar contraseña",
+              field_display_it: "Conferma password",
               field_group_en: null,
               field_group_es: null,
               field_type: "password",
@@ -487,6 +487,10 @@ export class SignupComponent {
           if (field.field_display_es && field.field_display_es != null) {
             field_display_es = field.field_display_es;
           }
+          let field_display_it = reg_field[0].field_display_it;
+          if (field.field_display_it && field.field_display_it != null) {
+            field_display_it = field.field_display_it;
+          }
           let field_desc_en = reg_field[0].field_desc_en;
           if (field.field_desc_en && field.field_desc_en != null) {
             field_desc_en = field.field_desc_en;
@@ -510,6 +514,7 @@ export class SignupComponent {
             field_type: reg_field[0].field_type,
             field_display_en: field_display_en,
             field_display_es: field_display_es,
+            field_display_it: field_display_it,
             field_group_en: field_group_en,
             field_group_es: field_group_es,
             field_desc_en: field_desc_en,
@@ -536,6 +541,7 @@ export class SignupComponent {
               field_type: "password",
               field_display_en: "Confirm password",
               field_display_es: "Confirmar contraseña",
+              field_display_it: "Conferma password",
               field_group_en: null,
               field_group_es: null,
               field_desc_en: "",
@@ -683,6 +689,30 @@ export class SignupComponent {
       this.showDefaultRegistrationFields = true;
       this.initializeDefaultForm();
     }
+  }
+
+  getFieldDisplay(field) {
+    return field
+    ? this.language == "en"
+      ? field.field_display_en ||
+        field.field_display_es
+      : this.language == "fr"
+      ? field.field_display_fr ||
+        field.field_display_es
+      : this.language == "eu"
+      ? field.field_display_eu ||
+        field.field_display_es
+      : this.language == "ca"
+      ? field.field_display_ca ||
+        field.field_display_es
+      : this.language == "de"
+      ? field.field_display_de ||
+        field.field_display_es
+      : this.language == "it"
+      ? field.field_display_it ||
+        field.field_display_es
+      : field.field_display_es
+    : "";
   }
 
   getStartupDataFields() {

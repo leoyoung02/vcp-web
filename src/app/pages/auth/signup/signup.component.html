@@ -38,7 +38,7 @@
                                                 [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': field?.required == 1 && getStartedForm.get(field?.field)?.errors }"
                                                 class="text-sm shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
                                                 [type]="field.field_type == 'number' ? 'number' : 'text'" 
-                                                placeholder="{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}" formControlName="{{ field?.field }}"
+                                                placeholder="{{ getFieldDisplay(field) }}" formControlName="{{ field?.field }}"
                                                 [ngStyle]="{'border-color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#c1c1c1' : 'transparent', 
                                                     'border-width': primaryColor == '#ffffff' || primaryColor == '#fff' ? '1px' : '0', 
                                                     'border-style': primaryColor == '#ffffff' || primaryColor == '#fff' ? 'solid' : 'none'
@@ -72,7 +72,7 @@
                                         }"
                                         >
                                             <option value="">
-                                                {{ language == 'en' ? field?.field_display_en : field?.field_display_es }}{{ field?.required == 1 ? ' *' : '' }}
+                                                {{ getFieldDisplay(field) }}{{ field?.required == 1 ? ' *' : '' }}
                                             </option>
                                             <option
                                                 *ngFor="let country of countries"                                
@@ -88,7 +88,7 @@
                                                     [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': field?.required == 1 && getStartedForm.get(field?.field)?.errors }"
                                                     class="text-sm shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
                                                     [type]="fieldTextType ? 'text' : 'password'"
-                                                    placeholder="{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}" 
+                                                    placeholder="{{ getFieldDisplay(field) }}" 
                                                     formControlName="{{ field?.field }}"
                                                     [ngStyle]="{'border-color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#c1c1c1' : 'transparent', 
                                                         'border-width': primaryColor == '#ffffff' || primaryColor == '#fff' ? '1px' : '0', 
@@ -107,7 +107,7 @@
                                                     [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': field?.required == 1 && getStartedForm.get(field?.field)?.errors }"
                                                     class="text-sm shadow appearance-none border rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
                                                     [type]="fieldConfirmTextType ? 'text' : 'password'"
-                                                    placeholder="{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}" 
+                                                    placeholder="{{ getFieldDisplay(field) }}" 
                                                     formControlName="{{ field?.field }}"
                                                     [ngStyle]="{'border-color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#c1c1c1' : 'transparent', 
                                                         'border-width': primaryColor == '#ffffff' || primaryColor == '#fff' ? '1px' : '0', 
