@@ -123,10 +123,13 @@ export class CoursesService {
     return this._http.post(COURSE_CATEGORY_ACCESS_EDIT_URL, payload);
   }
 
-  fetchCoursesCombined(id: number = 0, userId: number = 0, isUESchoolOfLife: boolean = false): Observable<any> {
+  fetchCoursesCombined(id: number = 0, userId: number = 0, isUESchoolOfLife: boolean = false, category: string = ''): Observable<any> {
     let url = `${COURSES_COMBINED_URL}/${id}/${userId}`
     if(isUESchoolOfLife) {
       url += `?schooloflife=1`
+      if(category) {
+        url += `&category=${category}`
+      }
     }
     return this._http.get(url, { 
       headers: this.headers 
@@ -339,6 +342,7 @@ export class CoursesService {
     formData.append( 'duration_unit', params.duration_unit ? params.duration_unit : 0 );
     formData.append( 'instructor', params.instructor ? params.instructor : 0 );
     formData.append( 'school_of_life', params.school_of_life );
+    formData.append( 'sol_nivelacion', params.sol_nivelacion );
 
     if(params.company_id == 32) {
       formData.append( 'additional_properties_course_access', params.additional_properties_course_access );
@@ -419,6 +423,7 @@ export class CoursesService {
     formData.append( 'buy_now_button_color', params.buy_now_button_color || '' );
     formData.append( 'school_of_life', params.school_of_life );
     formData.append( 'show_comments', params.show_comments );
+    formData.append( 'sol_nivelacion', params.sol_nivelacion );
 
     if(params.group_id > 0) {
       formData.append( 'group_id', params.group_id);

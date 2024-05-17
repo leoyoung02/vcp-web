@@ -133,6 +133,39 @@
         (click)="goToCourseDetails(item)">
         <div class="relative">
           <img class="rounded-t-lg w-full object-cover" [src]="item.image" [alt]="item.title" loading="lazy" />
+          <div *ngIf="item?.category" class="test__body absolute inset-0 p-4 text-white flex flex-col">
+            <div class="mt-auto">
+              <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black text-sm">
+                {{item?.category}}
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="p-5">
+          <a href="javascript:;">
+              <h5 class="mb-2 text-lg font-bold tracking-tight text-gray-900 dark:text-white">{{item?.title}}</h5>
+          </a>
+          <a href="javascript:;" class="inline-flex items-center px-6 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            [ngStyle]="{'background-color': buttonColor}">
+            {{item?.button_text}}
+            <svg class="w-3.5 h-3.5 ml-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</ng-container>
+<ng-container *ngIf="coursesNivelacion?.length > 0">
+  <app-page-title [mode]="'section'" [title]="coursesNivelacionSectionTitle"></app-page-title>
+  <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
+    <ng-container *ngFor="let item of coursesNivelacion; let even=even; let i = index;">
+      <div *ngIf="item?.object_type == 'course'" 
+        class="break-inside-avoid-column hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
+        (click)="goToCourseDetails(item)">
+        <div class="relative">
+          <img class="rounded-t-lg w-full object-cover" [src]="item.image" [alt]="item.title" loading="lazy" />
           <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
             <div class="mt-auto">
               <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black text-sm">

@@ -9,6 +9,12 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./list/list.component')).CoursesListComponent,
     },
     {
+        path: 'list/:category',
+        title: CustomTitleResolver,
+        data: { titleKey: 'courses.courses'},
+        loadComponent: async () => (await import('./list/list.component')).CoursesListComponent,
+    },
+    {
         path: 'details/:id',
         title: CustomTitleResolver,
         data: { titleKey: 'course-create.course'},
@@ -33,7 +39,19 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./edit/edit.component')).CourseEditComponent,
     },
     {
+        path: 'create/:id/:category',
+        title: CustomTitleResolver,
+        data: { titleKey: 'signup.create'},
+        loadComponent: async () => (await import('./edit/edit.component')).CourseEditComponent,
+    },
+    {
         path: 'edit/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'landing.edit'},
+        loadComponent: async () => (await import('./edit/edit.component')).CourseEditComponent,
+    },
+    {
+        path: 'edit/:id/:category',
         title: CustomTitleResolver,
         data: { titleKey: 'landing.edit'},
         loadComponent: async () => (await import('./edit/edit.component')).CourseEditComponent,

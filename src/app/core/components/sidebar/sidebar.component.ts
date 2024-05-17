@@ -195,6 +195,9 @@ export class SidebarComponent {
           if(splitRowObject[1] == 'plans' && splitRowObject[2] == 'list' && splitRowObject[3] == 'history') {
             route = 'plans/list/history';
           }
+          if(splitRowObject[1] == 'courses' && splitRowObject[2] == 'list' && splitRowObject[3] == 'nivelacion') {
+            route = 'courses/list/nivelacion';
+          }
         } 
         this.selectedTab = route || "home";
       }

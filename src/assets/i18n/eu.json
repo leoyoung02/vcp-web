@@ -74,7 +74,8 @@
         "unabletovalidate": "Ezin da zure erregistroa bidali. Egiaztatu zure informazioa.",
         "sendmeamessage": "Eman mezu bat",
         "mailto": "Klik egitean ezer gertatzen ez bada, ziurtatu posta-bezero lehenetsi bat instalatuta duzula edo zure arakatzailea posta elektronikoko estekak irekitzeko konfiguratuta duzula https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome zure arakatzailea nola konfiguratu jakiteko.",
-        "showcalendar": "Erakutsi egutegia"
+        "showcalendar": "Erakutsi egutegia",
+        "solcourses": "Mailatzeko ikastaroak"
     },
     "user-popup": {
         "myplans": "Nire planak",

@@ -287,15 +287,18 @@ export class FooterComponent {
   }
 
   getTermsAndConditionsText() {
-    return this._translateService.instant('footer.terms_and_conditions')?.toLowerCase();
+    let str = this._translateService.instant('footer.terms_and_conditions')?.toLowerCase();
+    return str ? str[0].toUpperCase() + str.slice(1) : '';
   }
 
   getPrivacyPolicyText() {
-    return this._translateService.instant('footer.privacy_policy')?.toLowerCase();
+    let str = this._translateService.instant('footer.privacy_policy')?.toLowerCase();
+    return str ? str[0].toUpperCase() + str.slice(1) : '';
   }
 
   getCookiePolicyText() {
-    return this._translateService.instant('footer.cookies_policy')?.toLowerCase();
+    let str = this._translateService.instant('footer.cookies_policy')?.toLowerCase();
+    return str ? str[0].toUpperCase() + str.slice(1) : '';
   }
 
   ngOnDestroy() {

@@ -74,7 +74,8 @@
         "unabletovalidate": "Impossible de soumettre votre inscription. Veuillez vérifier vos informations.",
         "sendmeamessage": "Demande un message",
         "mailto": "Si rien ne se passe en cliquant, assurez-vous davoir installé un client de messagerie par défaut ou davoir configuré votre navigateur pour ouvrir les liens de messagerie. Vous pouvez vous référer à https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome sur la façon de configurer votre navigateur.",
-        "showcalendar": "Afficher le calendrier"
+        "showcalendar": "Afficher le calendrier",
+        "solcourses": "Cours de mise à niveau"
     },
     "user-popup": {
         "myplans": "Mes projets",

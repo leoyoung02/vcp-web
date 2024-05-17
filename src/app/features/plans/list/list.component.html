@@ -119,30 +119,56 @@
         >
         </app-plans-calendar>
     </div>
-    <ng-container *ngFor="let plan of filteredPlan | paginate: {itemsPerPage: (userId && showEventsCalendar && !parentComponent ? 15 : 16), currentPage: p}">
-        <app-plan-card
-            [image]="apiPath + plan.path + plan.image"
-            [title]="getEventTitle(plan)"
-            [date]="getActivityDate(plan)"
-            [id]="plan?.id"
-            [planTypeId]="plan?.plan_type_id"
-            [privacy]="plan?.privacy"
-            [privateType]="plan?.private_type"
-            [featuredTitle]="getFeaturedTitle()"
-            [excerpt]="plan?.excerpt"
-            [address]="plan?.address"
-            [credits]="plan?.credits"
-            [price]="plan?.price"
-            [buttonColor]="buttonColor"
-            [page]="'list'"
-            [companyId]="companyId"
-            [bottomEventTitles]="bottomEventTitles"
-            (handleDetailsClick)="handleDetailsClickRoute($event)"
-        >
-        </app-plan-card>
+    <ng-container *ngIf="companyId != 32">
+        <ng-container *ngFor="let plan of filteredPlan | paginate: {itemsPerPage: (userId && showEventsCalendar && !parentComponent ? 15 : 16), currentPage: p}">
+            <app-plan-card
+                [image]="apiPath + plan.path + plan.image"
+                [title]="getEventTitle(plan)"
+                [date]="getActivityDate(plan)"
+                [id]="plan?.id"
+                [planTypeId]="plan?.plan_type_id"
+                [privacy]="plan?.privacy"
+                [privateType]="plan?.private_type"
+                [featuredTitle]="getFeaturedTitle()"
+                [excerpt]="plan?.excerpt"
+                [address]="plan?.address"
+                [credits]="plan?.credits"
+                [price]="plan?.price"
+                [buttonColor]="buttonColor"
+                [page]="'list'"
+                [companyId]="companyId"
+                [bottomEventTitles]="bottomEventTitles"
+                (handleDetailsClick)="handleDetailsClickRoute($event)"
+            >
+            </app-plan-card>
+        </ng-container>
+    </ng-container>
+    <ng-container *ngIf="companyId == 32">
+        <ng-container *ngFor="let plan of filteredPlan">
+            <app-plan-card
+                [image]="apiPath + plan.path + plan.image"
+                [title]="getEventTitle(plan)"
+                [date]="getActivityDate(plan)"
+                [id]="plan?.id"
+                [planTypeId]="plan?.plan_type_id"
+                [privacy]="plan?.privacy"
+                [privateType]="plan?.private_type"
+                [featuredTitle]="getFeaturedTitle()"
+                [excerpt]="plan?.excerpt"
+                [address]="plan?.address"
+                [credits]="plan?.credits"
+                [price]="plan?.price"
+                [buttonColor]="buttonColor"
+                [page]="'list'"
+                [companyId]="companyId"
+                [bottomEventTitles]="bottomEventTitles"
+                (handleDetailsClick)="handleDetailsClickRoute($event)"
+            >
+            </app-plan-card>
+        </ng-container>
     </ng-container>
 </div>
-<div *ngIf="filteredPlan?.length > 0" class="text-center">
+<div *ngIf="filteredPlan?.length > 0 && companyId != 32" class="text-center">
     <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
 </div>
 <div *ngIf="!isloading && filteredPlan?.length == 0 && !showEventsCalendar" class="text-center">

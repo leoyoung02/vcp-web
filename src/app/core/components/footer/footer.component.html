@@ -39,13 +39,13 @@
             </div>
             <div class="px-6 md:px-0 lg:px-0">
                 <div *ngIf="(canShowTermsAndConditions && termsAndConditions) || (!canShowTermsAndConditions || termsAndConditionsURL)" class="py-1" (click)="openTermsAndConditions()">
-                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;" class="capitalize">{{ getTermsAndConditionsText() }}</a>
+                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;">{{ getTermsAndConditionsText() }}</a>
                 </div>
                 <div *ngIf="(canShowPrivacyPolicy && privacyPolicy) || (!canShowPrivacyPolicy || privacyPolicyURL)"  class="py-1" (click)="openPrivacyPolicy()">
-                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;" class="capitalize">{{ getPrivacyPolicyText() }}</a>
+                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;">{{ getPrivacyPolicyText() }}</a>
                 </div>
                 <div *ngIf="(canShowCookiePolicy && cookiePolicy) || (!canShowCookiePolicy || cookiePolicyURL)" class="py-1" (click)="openCookiePolicy()">
-                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;" class="capitalize">{{ getCookiePolicyText() }}</a>
+                    <a [ngStyle]="{'color': footerTextColor}" href="javascript:;">{{ getCookiePolicyText() }}</a>
                 </div>
             </div>
             <div class="px-6 md:px-0 lg:px-0 grid grid-rows-3 grid-flow-col">

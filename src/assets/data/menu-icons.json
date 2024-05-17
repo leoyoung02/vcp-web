@@ -70,6 +70,13 @@
         "activeicon": "./assets/images/new-design/icons/menus/Courses-active.png"   
     },
     {  
+        "path": "courses/list/nivelacion",  
+        "icon": "./assets/menu-icons/menu-icon-courses.png",
+        "icondark": "./assets/menu-icons/menu-icon-courses-dark.png",
+        "facode": "fas fa-chalkboard-teacher",  
+        "activeicon": "./assets/images/new-design/icons/menus/Courses-active.png"   
+    },
+    {  
         "path": "dashboard",  
         "icon": "./assets/images/new-design/icons/menus/Courses.png",
         "icondark": "./assets/menu-icons/menu-icon-courses-dark.png",
