@@ -1223,7 +1223,6 @@ export class LayoutMainComponent {
 
   getOtherSettings() {
     if (this.otherSettings) {
-      console.log(this.otherSettings)
       this.otherSettings.forEach((m) => {
         if (m.title_es == "General") {
           if (m.content) {
@@ -2118,66 +2117,66 @@ export class LayoutMainComponent {
               parent_path: '',
               school_of_life_submenu: 0,
             };
-            if(tempData?.id == 1) {
-              if (this.newURLButton == 1) {
-                this.menus.push({
-                  id: 5 + tempData?.id,
-                  path: `${this.newURLButtonUrl}/${tempPath}`,
-                  new_url: 0,
-                  new_button: 0,
-                  return_url: tempPath,
-                  name: `${tempName?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueEn || this.newURLButtonTextValue)}`,
-                  name_ES: `${name_ES?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValue)}`,
-                  name_FR: `${name_FR?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueFr || this.newURLButtonTextValue)}`,
-                  name_EU: `${name_EU?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueEu || this.newURLButtonTextValue)}`,
-                  name_CA: `${name_CA?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueCa || this.newURLButtonTextValue)}`,
-                  name_DE: `${name_DE?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueDe || this.newURLButtonTextValue)}`,
-                  show: true,
-                  sequence: features[i].sequence ? features[i].sequence : 3 + i,
-                  parent_path: this.newURLButtonUrl,
-                  school_of_life_submenu: 1,
-                })
+            // if(tempData?.id == 1) {
+            //   if (this.newURLButton == 1) {
+            //     this.menus.push({
+            //       id: 5 + tempData?.id,
+            //       path: `${this.newURLButtonUrl}/${tempPath}`,
+            //       new_url: 0,
+            //       new_button: 0,
+            //       return_url: tempPath,
+            //       name: `${tempName?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueEn || this.newURLButtonTextValue)}`,
+            //       name_ES: `${name_ES?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValue)}`,
+            //       name_FR: `${name_FR?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueFr || this.newURLButtonTextValue)}`,
+            //       name_EU: `${name_EU?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueEu || this.newURLButtonTextValue)}`,
+            //       name_CA: `${name_CA?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueCa || this.newURLButtonTextValue)}`,
+            //       name_DE: `${name_DE?.replace('de Vida Universitaria', '')} ${(this.newURLButtonTextValueDe || this.newURLButtonTextValue)}`,
+            //       show: true,
+            //       sequence: features[i].sequence ? features[i].sequence : 3 + i,
+            //       parent_path: this.newURLButtonUrl,
+            //       school_of_life_submenu: 1,
+            //     })
 
-                if(this.hasHistoryOfActivities) {
-                  this.menus.push({
-                    id: 5 + tempData?.id + 1,
-                    path: `${this.newURLButtonUrl}/${tempPath}/list/history`,
-                    new_url: 0,
-                    new_button: 0,
-                    return_url: `${tempPath}/list/history`,
-                    name: 'History of Activities',
-                    name_ES: 'Historial de actividades',
-                    name_FR: 'Historique d\'activité',
-                    name_EU: 'Jardueren historia',
-                    name_CA: '"Historial d\'activitats',
-                    name_DE: 'Aktivitätsverlauf',
-                    show: true,
-                    sequence: features[i].sequence ? features[i].sequence : 3 + i,
-                    parent_path: this.newURLButtonUrl,
-                    school_of_life_submenu: 1,
-                  })
-                }
-              }
-            }
-            if(tempData?.id == 11) {
-              this.menus.push({
-                id: 5 + tempData?.id,
-                path: `${this.newURLButtonUrl}/${tempPath}`,
-                new_url: 0,
-                new_button: 0,
-                return_url: tempPath,
-                name: tempName,
-                name_ES: name_ES,
-                name_FR: name_FR,
-                name_EU: name_EU,
-                name_CA: name_CA,
-                name_DE: name_DE,
-                show: true,
-                sequence: features[i].sequence ? features[i].sequence : 3 + i,
-                parent_path: this.newURLButtonUrl,
-                school_of_life_submenu: 1,
-              })
-            }
+            //     if(this.hasHistoryOfActivities) {
+            //       this.menus.push({
+            //         id: 5 + tempData?.id + 1,
+            //         path: `${this.newURLButtonUrl}/${tempPath}/list/history`,
+            //         new_url: 0,
+            //         new_button: 0,
+            //         return_url: `${tempPath}/list/history`,
+            //         name: 'History of Activities',
+            //         name_ES: 'Historial de actividades',
+            //         name_FR: 'Historique d\'activité',
+            //         name_EU: 'Jardueren historia',
+            //         name_CA: '"Historial d\'activitats',
+            //         name_DE: 'Aktivitätsverlauf',
+            //         show: true,
+            //         sequence: features[i].sequence ? features[i].sequence : 3 + i,
+            //         parent_path: this.newURLButtonUrl,
+            //         school_of_life_submenu: 1,
+            //       })
+            //     }
+            //   }
+            // }
+            // if(tempData?.id == 11) {
+            //   this.menus.push({
+            //     id: 5 + tempData?.id,
+            //     path: `${this.newURLButtonUrl}/${tempPath}`,
+            //     new_url: 0,
+            //     new_button: 0,
+            //     return_url: tempPath,
+            //     name: tempName,
+            //     name_ES: name_ES,
+            //     name_FR: name_FR,
+            //     name_EU: name_EU,
+            //     name_CA: name_CA,
+            //     name_DE: name_DE,
+            //     show: true,
+            //     sequence: features[i].sequence ? features[i].sequence : 3 + i,
+            //     parent_path: this.newURLButtonUrl,
+            //     school_of_life_submenu: 1,
+            //   })
+            // }
           }
         }
       }

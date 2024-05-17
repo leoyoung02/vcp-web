@@ -133,7 +133,7 @@
         (click)="goToCourseDetails(item)">
         <div class="relative">
           <img class="rounded-t-lg w-full object-cover" [src]="item.image" [alt]="item.title" loading="lazy" />
-          <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
+          <div *ngIf="item?.category" class="test__body absolute inset-0 p-4 text-white flex flex-col">
             <div class="mt-auto">
               <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black text-sm">
                 {{item?.category}}

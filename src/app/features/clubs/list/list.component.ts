@@ -12,6 +12,7 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { ClubsService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
 import { ButtonGroupComponent, FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
+import { ClubCardComponent } from "@share/components/card/club/club.component";
 import { NgxPaginationModule } from "ngx-pagination";
 import get from "lodash/get";
 
@@ -29,6 +30,7 @@ import get from "lodash/get";
     NgOptimizedImage,
     RouterModule,
     NgxPaginationModule,
+    ClubCardComponent,
   ],
   templateUrl: "./list.component.html",
 })
@@ -101,6 +103,9 @@ export class ClubsListComponent {
   filterSettings: any = [];
   showFilters: boolean = false;
 
+  currentPage: number = 1;
+  pageSize: number = 8;
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -113,6 +118,26 @@ export class ClubsListComponent {
   @HostListener("window:resize", [])
   private onResize() {
     this.isMobile = window.innerWidth < 768;
+  }
+
+  @HostListener('window:scroll', ['$event'])
+  onScroll(event: Event) {
+    if(this.companyId == 32 && !this.isMobile) {
+      const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+      const documentHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+
+      if (scrollPosition + windowHeight >= documentHeight) {
+        this.onScrollDown();
+      }
+    }
+  }
+
+  onScrollDown() {
+    if(this.companyId == 32 && !this.isMobile) {
+      this.currentPage++;
+      this.fetchClubs();
+    }
   }
 
   async ngOnInit() {
@@ -595,7 +620,8 @@ export class ClubsListComponent {
           ...item,
           title: this.getGroupTitle(item),
           category: this.getCategory(item),
-          is_member: joined
+          is_member: joined,
+          mailto: item?.contact_email ? `mailto:${item.contact_email}` : ''
         }
       })
       this.groups = dt;
@@ -639,7 +665,11 @@ export class ClubsListComponent {
         return currDate - prevDate;
       });
     } else {
-      this.filteredGroup = this.groups;
+      if(this.companyId = 32) {
+        this.filteredGroup = this.getSlicedGroups(this.groups);
+      } else {
+        this.filteredGroup = this.groups;
+      }
     }
 
     this.filteredGroup = this.sortAlphabetically(this.filteredGroup);
@@ -657,6 +687,23 @@ export class ClubsListComponent {
       })
       this.searchGroups();
     }
+  }
+
+  getSlicedGroups(group) {
+    let clubs: any[] = [];
+    if(!this.search && !this.isMobile && this.companyId == 32) {
+      const prev = group
+      if(prev?.length != group?.length && group?.length > 0) {
+        clubs = group?.splice((this.currentPage - 1),this.pageSize);
+        clubs = [...prev, ...this.groups];
+      } else {
+        clubs = group?.splice(0,this.pageSize * this.currentPage);
+      }
+    } else {
+      clubs = group;
+    }
+
+    return clubs;
   }
 
   getCategory(club) {

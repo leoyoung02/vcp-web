@@ -1047,7 +1047,9 @@ export class CoursesListComponent {
   }
 
   handleCreateRoute() {
-    this._router.navigate([`/courses/create/0`]);
+    let url = `/courses/create/0`;
+    url += this.isUESchoolOfLife && this.category == 'nivelacion' ? `/nivelacion` : '';
+    this._router.navigate([url]);
   }
 
   toggleCreateHover(event) {

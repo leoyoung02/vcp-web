@@ -731,6 +731,9 @@ export class CoursesAdminListComponent {
         selected: this.category == 'nivelacion' ? true : false,
       },
     ];
+    if(this.category == 'nivelacion') {
+      this.viewMode = 'courses-nivelacion';
+    }
   }
 
   handleChangeViewMode(event) {

@@ -75,46 +75,52 @@
 </div>
 <div class="w-full max-w-full">
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 justify-evenly relative h-full max-h-full gap-8 py-8">
-        <ng-container *ngFor="let group of filteredGroup | paginate: {itemsPerPage: 8, currentPage: p}">
-            <div class="h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] lg:max-h-[267px] flex flex-col items-center bg-white rounded-lg shadow md:flex-row"
-                (click)="goToClubDetails(group)"
-            >
-                <img class="border object-cover rounded-t-lg h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px] w-full md:rounded-none md:rounded-l-lg" 
-                    *ngIf="group?.image" [ngSrc]="group?.image?.indexOf('http') >= 0 ? group?.image : (apiPath + '/get-image-group/' + group.image)" [alt]="group?.title" width="192" height="256"
-                    [ngStyle]="{'border-color': '#F8F4F4', 'max-width': '338px'}">
-                <div class="w-full flex flex-col justify-evenly px-8 py-4 leading-normal h-auto max-h-auto sm:h-auto sm:max-h-auto md:h-[267px] md:max-h-[267px] lg:h-[267px]"
-                    [ngStyle]="{'background-color': '#F8F4F4'}"
+        <ng-container *ngIf="companyId == 32">
+            <ng-container *ngFor="let group of filteredGroup">
+                <app-club-card
+                    [group]="group"
+                    [selectedClubId]="selectedClubId"
+                    [id]="group?.id"
+                    [title]="group?.title"
+                    [image]="group?.image"
+                    [buttonColor]="buttonColor"
+                    [companyId]="companyId"
+                    [parentComponent]="parentComponent"
+                    [isMember]="group?.is_member"
+                    [category]="group?.category"
+                    [city]="group?.city"
+                    [contactEmail]="group?.contact_email"
+                    [mailto]="group?.mailto"
+                    [contactInstagram]="group?.contact_instagram"
+                    (handleDetailsClick)="goToClubDetails($event)"
                 >
-                    <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ group?.title }}</h5>
-                    <div class="uppercase h-[52px] border rounded-[10px] cursor-pointer w-44 p-3 text-center text-base font-bold transition duration-700 ease-in-out"
-                        *ngIf="!parentComponent && !group?.is_member"
-                        [ngStyle]="{
-                            'border-color': hover && selectedClubId == group.id ? 'transparent' : buttonColor,
-                            'background-color': hover && selectedClubId == group.id ? buttonColor : 'transparent',
-                            'color': hover && selectedClubId == group.id ? '#fff' : buttonColor
-                        }"
-                        (mouseover)="toggleHover(true, group)"
-                        (mouseleave)="toggleHover(false, group)"
-                    >
-                        {{ 'club-details.join' | translate }}
-                    </div>
-                    <div class="flex text-sm">
-                        <span>{{ group?.category }}</span> <span *ngIf="group?.city" class="px-3">•</span> <span>{{ group?.city }}</span>
-                    </div>
-                    <div class="flex">
-                        <svg class="w-6 h-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m19 2-8.4 7.05a1 1 0 0 1-1.2 0L1 2m18 0a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1m18 0v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2"/>
-                        </svg>
-                        <svg class="w-6 h-4 ml-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 12.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7Z"/>
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 3h-2l-.447-.894A2 2 0 0 0 12.764 1H7.236a2 2 0 0 0-1.789 1.106L5 3H3a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1V5a2 2 0 0 0-2-2Z"/>
-                        </svg>
-                    </div>
-                </div>
-            </div>
+                </app-club-card>
+            </ng-container>  
+        </ng-container>
+        <ng-container *ngIf="companyId != 32">
+            <ng-container *ngFor="let group of filteredGroup | paginate: {itemsPerPage: 8, currentPage: p}">
+                <app-club-card
+                    [group]="group"
+                    [selectedClubId]="selectedClubId"
+                    [id]="group?.id"
+                    [title]="group?.title"
+                    [image]="group?.image"
+                    [buttonColor]="buttonColor"
+                    [companyId]="companyId"
+                    [parentComponent]="parentComponent"
+                    [isMember]="group?.is_member"
+                    [category]="group?.category"
+                    [city]="group?.city"
+                    [contactEmail]="group?.contact_email"
+                    [mailto]="group?.mailto"
+                    [contactInstagram]="group?.contact_instagram"
+                    (handleDetailsClick)="goToClubDetails($event)"
+                >
+                </app-club-card>
+            </ng-container>
         </ng-container>
     </div> 
-    <div *ngIf="filteredGroup?.length > 0" class="text-center">
+    <div *ngIf="filteredGroup?.length > 0 && companyId != 32" class="text-center">
         <pagination-controls previousLabel="" nextLabel="" (pageChange)="p = $event"></pagination-controls>
     </div>
 </div>
