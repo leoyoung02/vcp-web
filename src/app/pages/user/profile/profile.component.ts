@@ -53,6 +53,12 @@ import keys from "lodash/keys";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { TutorHourlyateBanner } from "@pages/general/banner/tutor-hourly-rate.component";
 import moment from "moment";
+import "moment/locale/es";
+import "moment/locale/fr";
+import "moment/locale/eu";
+import "moment/locale/ca";
+import "moment/locale/de";
+import "moment/locale/it";
 
 @Component({
   standalone: true,
@@ -1640,6 +1646,10 @@ export class ProfileComponent {
         ? type.type_de || type.type_es
         : type.type_es
       : type.type_es;
+  }
+
+  getMemberTypeDate(type) {
+    return  moment.utc(type.created_at).locale(this.language).format('D MMMM YYYY');
   }
 
   manageBilling() {

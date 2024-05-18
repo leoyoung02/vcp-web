@@ -349,7 +349,6 @@
                 </div>
             </div>
         </ng-container>
-        
         <div>
             <div class="font-bold">{{ 'profile-settings.changepassword' | translate }}</div>
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 my-4">
@@ -431,8 +430,8 @@
                     <th scope="row" class="text-xs px-2 py-1 max-w-[80px] font-medium text-gray-900 dark:text-white">
                         {{getMemberTypeTitle(item)}}
                     </th>
-                    <td class="text-xs px-2 py-1 max-w-[80px]">
-                        {{item?.created_at | date: 'dd MMM yyyy'}}
+                    <td class="text-xs px-2 py-1 max-w-[80px] capitalize">
+                        {{getMemberTypeDate(item)}}
                     </td>
                     <td>
                         <div class="flex my-2 align-center items-center">

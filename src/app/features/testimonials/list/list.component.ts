@@ -10,11 +10,17 @@ import { FilterComponent, PageTitleComponent } from '@share/components';
 import { SearchComponent } from "@share/components/search/search.component";
 import { NgxPaginationModule } from "ngx-pagination";
 import { TestimonialCardComponent } from '@share/components/card/testimonial/testimonial.component';
-import moment from "moment";
-import get from 'lodash/get';
-import * as he from 'he';
 import { searchSpecialCase, sortSerchedMembers } from 'src/app/utils/search/helper';
+import * as he from 'he';
 import Fuse from 'fuse.js';
+import get from 'lodash/get';
+import moment from "moment";
+import "moment/locale/es";
+import "moment/locale/fr";
+import "moment/locale/eu";
+import "moment/locale/ca";
+import "moment/locale/de";
+import "moment/locale/it";
 
 @Component({
   selector: 'app-testimonials-list',
@@ -346,8 +352,8 @@ export class TestimonialsListComponent {
           feature.name_es ||
           feature.feature_name_ES
         : this.language == "it"
-        ? feature.name_de ||
-          feature.feature_name_DE ||
+        ? feature.name_it ||
+          feature.feature_name_IT ||
           feature.name_es ||
           feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
