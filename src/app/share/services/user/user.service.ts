@@ -94,6 +94,8 @@ import {
     UPDATE_REGISTRATION_FIELDS_URL,
     REGISTRATION_FIELD_URL,
     UPDATE_REGISTRATION_FIELD_DETAILS_URL,
+    SUPER_TUTOR_STUDENTS_URL,
+    POT_SUPER_TUTOR_STUDENTS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -742,5 +744,17 @@ export class UserService {
         payload,
         { headers: this.headers }
     ).pipe(map(res => res));
+  }
+
+  getSuperTutorStudents(id): Observable<any> {
+    return this._http.get(`${SUPER_TUTOR_STUDENTS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  getPotSuperTutorStudents(id): Observable<any> {
+    return this._http.get(`${POT_SUPER_TUTOR_STUDENTS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
   }
 }
