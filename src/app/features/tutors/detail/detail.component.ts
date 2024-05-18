@@ -325,6 +325,11 @@ export class TutorDetailComponent {
           feature.feature_name_DE ||
           feature.name_es ||
           feature.feature_name_ES
+        : this.language == "it"
+        ? feature.name_it ||
+          feature.feature_name_IT ||
+          feature.name_es ||
+          feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
       : "";
   }

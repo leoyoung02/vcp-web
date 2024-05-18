@@ -744,13 +744,41 @@ export class PersonalizeHomeComponent {
     if(settings?.videos?.length > 0) {
       settings?.videos.forEach(video => {
         this.playlist.push({
-          title: video?.title,
+          title: this.getVideoTitle(video),
           src: `${environment.api}/get-course-unit-file/${video?.video}`,
           type: 'video/mp4',
           poster: `${environment.api}/get-image-company/${video?.poster}`
         })
       })
     }
+  }
+
+  getVideoTitle(video) {
+    return this.language == "en"
+      ? video.title_en
+        ? video.title_en || video.title
+        : video.title
+      : this.language == "fr"
+      ? video.title_fr
+        ? video.title_fr || video.title
+        : video.title
+      : this.language == "eu"
+      ? video.title_eu
+        ? video.title_eu || video.title
+        : video.title
+      : this.language == "ca"
+      ? video.title_ca
+        ? video.title_ca || video.title
+        : video.title
+      : this.language == "de"
+      ? video.title_de
+        ? video.title_de || video.title
+        : video.title
+      : this.language == "it"
+      ? video.title_it
+        ? video.title_it || video.title
+        : video.title
+      : video.title;
   }
 
   initializeHomeTemplate(template, home_template_mapping) {
@@ -908,21 +936,36 @@ export class PersonalizeHomeComponent {
   getFeatureTitle(feature) {
     let text = feature
       ? this.language == "en"
-        ? feature.name_es ||
+        ? feature.name_en ||
+          feature.feature_name ||
+          feature.name_es ||
           feature.feature_name_es
         : this.language == "fr"
         ? feature.name_fr ||
+          feature.feature_name_fr ||
+          feature.name_es ||
           feature.feature_name_es
         : this.language == "eu"
         ? feature.name_eu ||
+          feature.feature_name_eu ||
+          feature.name_es ||
           feature.feature_name_es
         : this.language == "ca"
         ? feature.name_ca ||
+          feature.feature_name_ca ||
+          feature.name_es ||
           feature.feature_name_es
         : this.language == "de"
-        ? feature.de ||
-          feature.name_es
-        : feature.name_es
+        ? feature.name_de ||
+          feature.feature_name_de ||
+          feature.name_es ||
+          feature.feature_name_es
+        : this.language == "it"
+        ? feature.name_it ||
+          feature.feature_name_it ||
+          feature.name_es ||
+          feature.feature_name_es
+        : feature.name_es || feature.feature_name_es
       : "";
 
     if(this.isUESchoolOfLife && text?.indexOf('de Vida Universitaria') >= 0) {

@@ -346,8 +346,8 @@ export class TestimonialsListComponent {
           feature.name_es ||
           feature.feature_name_ES
         : this.language == "it"
-        ? feature.name_de ||
-          feature.feature_name_DE ||
+        ? feature.name_it ||
+          feature.feature_name_IT ||
           feature.name_es ||
           feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES

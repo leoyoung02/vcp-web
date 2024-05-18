@@ -89,8 +89,7 @@ export class TestimonialDetailComponent {
 
   async ngOnInit() {
     initFlowbite();
-    this.language =
-      this._localService.getLocalStorage(environment.lslang) || "es";
+    this.language = this._localService.getLocalStorage(environment.lslang) || "es";
     this._translateService.use(this.language || "es");
 
     this.emailDomain = this._localService.getLocalStorage(environment.lsemail);
@@ -310,6 +309,11 @@ export class TestimonialDetailComponent {
         : this.language == "de"
         ? feature.name_de ||
           feature.feature_name_DE ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "it"
+        ? feature.name_it ||
+          feature.feature_name_IT ||
           feature.name_es ||
           feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
