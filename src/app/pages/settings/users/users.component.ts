@@ -3021,7 +3021,8 @@ export class ManageUsersComponent {
   
                 if (super_tutor?.length > 0) {
                   let assigned_student_ids: any[] = [];
-                  super_tutor[0].super_tutor_students?.forEach((student) => {
+                  let super_tutor_students = get(await this._userService.getSuperTutorStudents(user.id).toPromise(), 'super_tutor_students');
+                  super_tutor_students?.forEach((student) => {
                     let member = this.allMembers.filter((member) => {
                       return member.id == student.user_id;
                     });
@@ -3064,7 +3065,8 @@ export class ManageUsersComponent {
                     : "";
                 if (potsuper_tutor?.length > 0) {
                   let assigned_student_ids: any[] = [];
-                  potsuper_tutor[0].super_tutor_students?.forEach((student) => {
+                  let pot_super_tutor_students = get(await this._userService.getPotSuperTutorStudents(user.id).toPromise(), 'potsuper_tutor_students');
+                  pot_super_tutor_students?.forEach((student) => {
                     let member = this.allMembers.filter((member) => {
                       return member.id == student.user_id;
                     });
