@@ -100,7 +100,10 @@
         "cookies_policy":"INFORMATIVA SUI COOKIE",
         "cookies_policy_desc": "Fornisci agli utenti informazioni su come vengono trattati i loro dati personali quando visitano la tua piattaforma.",
         "iacceptthe": "Accetto espressamente il",
-        "policyintro": "Iscrivendoti devi accettare queste politiche:"
+        "policyintro": "Iscrivendoti devi accettare queste politiche:",
+        "i": "Sono",
+        "acceptthe": "accettare il",
+        "dateofacceptance": "Data di accettazione"
     },
     "settings": {
         "logo_banner": "Logo e banner",

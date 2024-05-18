@@ -15,6 +15,12 @@ import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { TestimonialCardComponent } from "@share/components/card/testimonial/testimonial.component";
 import { initFlowbite } from "flowbite";
 import moment from "moment";
+import "moment/locale/es";
+import "moment/locale/fr";
+import "moment/locale/eu";
+import "moment/locale/ca";
+import "moment/locale/de";
+import "moment/locale/it";
 import get from "lodash/get";
 
 @Component({
@@ -213,7 +219,7 @@ export class TestimonialDetailComponent {
       created_by: testimonial.created_by,
       created_at: testimonial.created_at,
       isCoverImage: testimonial.isCoverImage || !testimonial.video ? true :  false,
-      date_display: moment.utc(testimonial.created_at).locale(this.language).format('D MMMM'),
+      date_display: moment.utc(testimonial.created_at).locale(this.language).format('D MMMM YYYY'),
       video: `${environment.api}/get-testimonial-video/${testimonial.video}`
     }
     this.testimonial = t;
@@ -332,6 +338,8 @@ export class TestimonialDetailComponent {
         ? feature.description_ca || feature.description_es
         : this.language == "de"
         ? feature.description_de || feature.description_es
+        : this.language == "it"
+        ? feature.description_it || feature.description_es
         : feature.description_es
       : "";
   }

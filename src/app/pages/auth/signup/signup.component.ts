@@ -965,7 +965,8 @@ export class SignupComponent {
     if (this.getStartedForm) {
       // Set default to Spain
       if (this.getStartedForm.controls["country"]) {
-        this.getStartedForm.controls["country"].setValue("Spain");
+        let country = this.companyId == 65 ? "Italy" : "Spain";
+        this.getStartedForm.controls["country"].setValue(country);
       }
       if (this.getStartedForm.controls["company_country"]) {
         this.getStartedForm.controls["company_country"].setValue("Spain");
