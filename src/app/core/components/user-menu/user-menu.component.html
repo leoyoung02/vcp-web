@@ -82,7 +82,7 @@
                             <div>{{ myClubsTitle }}</div>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="hasAccess('plans') && (superAdmin || canViewCRM)">
+                    <ng-container *ngIf="companyId != 32 && hasAccess('plans') && (superAdmin || canViewCRM)">
                         <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('crm')">
                             <div>
                                 <svg class="w-5 h-5 mr-3 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -92,7 +92,7 @@
                             <div>CRM</div>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="hasAccess('plans') && hasInvitations && (customMemberType?.my_invitations || superAdmin)">
+                    <ng-container *ngIf="companyId != 32 && hasAccess('plans') && hasInvitations && (customMemberType?.my_invitations || superAdmin)">
                         <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('invites')">
                             <div>
                                 <svg class="w-5 h-5 mr-3 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -102,7 +102,7 @@
                             <div>{{ 'company-settings.myinvitations' | translate }}</div>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="hasAccess('plans') && (canViewGuests || superAdmin)">
+                    <ng-container *ngIf="companyId != 32 && hasAccess('plans') && (canViewGuests || superAdmin)">
                         <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('viewguests')">
                             <div>
                                 <svg class="w-5 h-5 mr-3 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
