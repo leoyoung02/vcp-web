@@ -82,6 +82,7 @@ export class TestimonialDetailComponent {
   canEdit: boolean = false;
   testimonialImages:any = [];
   testimonialVideos:any = []
+  isCursoGeniusTestimonials: boolean = false;
 
   constructor(
     private _router: Router,
@@ -124,6 +125,7 @@ export class TestimonialDetailComponent {
       this.hoverColor = company[0].hover_color
         ? company[0].hover_color
         : company[0].primary_color;
+      this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
     }
 
     this.languageChangeSubscription =

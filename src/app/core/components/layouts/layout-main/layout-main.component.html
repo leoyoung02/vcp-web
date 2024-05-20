@@ -1,5 +1,6 @@
 <div class="flex">
     <app-sidebar
+        *ngIf="!isCursoGeniusTestimonials"
         [menus]="menus" 
         [refreshedMenu]="refreshedMenu"
         [company]="company"
@@ -36,6 +37,7 @@
         [isUESchoolOfLife]="isUESchoolOfLife"
         [hasHistoryOfActivities]="hasHistoryOfActivities"
         [customMemberType]="customMemberType"
+        [isCursoGeniusTestimonials]="isCursoGeniusTestimonials"
         (changeLanguage)="changedLanguage($event)" 
     >
     </app-sidebar>
@@ -44,6 +46,7 @@
         <div class="min-h-[calc(100vh_-_330px)]  py-6 px-6 sm:px-6 md:px-6 md:px-16 lg:md:px-16">
             <div class="absolute top-10 left-7 md:hidden lg:hidden bg-white border-gray-200 dark:bg-gray-900">
                 <app-mobile-navbar 
+                    *ngIf="!isCursoGeniusTestimonials"
                     [menus]="menus" 
                     [company]="company"
                     [otherSettings]="otherSettings"
@@ -78,6 +81,7 @@
             </div>
             <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" *ngIf="userId">
                 <app-user-menu
+                    *ngIf="!isCursoGeniusTestimonials"
                     [menus]="menus"
                     [company]="company"
                     [otherSettings]="otherSettings"
@@ -125,7 +129,7 @@
                 >
                 </app-user-menu>
             </div>
-            <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" *ngIf="!userId">
+            <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" *ngIf="!userId && !isCursoGeniusTestimonials">
                 <app-guest-menu
                     [company]="company"
                     [language]="language"

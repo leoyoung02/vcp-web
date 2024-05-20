@@ -1,5 +1,5 @@
 <app-page-title [title]="pageName" [subtitle]="pageDescription"></app-page-title>
-<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4">
+<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row pt-4" *ngIf="userId && !isCursoGeniusTestimonials">
     <div>
         <button 
             class="h-[52px] flex items-center p-3.5 px-8 rounded-[15px] justify-evenly mt-4 transition duration-700 ease-in-out"

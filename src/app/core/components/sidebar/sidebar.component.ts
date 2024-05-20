@@ -90,6 +90,7 @@ export class SidebarComponent {
   @Input() superAdmin: any;
   @Input() hasHistoryOfActivities: any;
   @Input() customMemberType: any;
+  @Input() isCursoGeniusTestimonials: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;
@@ -653,7 +654,14 @@ export class SidebarComponent {
     } else {
       let link = menu?.path == 'home' ? '/' : menu?.path
 
-      this._router.navigate([link]);
+      if(menu?.path == 'testimonials' && this.company?.id == 52 && !this.isCursoGeniusTestimonials) {
+        link = 'https://testimonios.vistingo.com'
+        this._router.navigate([]).then((result) => {
+          window.open(link, '_blank');
+        });
+      } else {
+        this._router.navigate([link]);
+      }
     }
   }
 

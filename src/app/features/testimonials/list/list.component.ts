@@ -103,6 +103,7 @@ export class TestimonialsListComponent {
   defaultActiveFilter: boolean = false;
   filterSettings: any = [];
   showFilters: boolean = false;
+  isCursoGeniusTestimonials: boolean = false;
 
   constructor(
     private _router: Router,
@@ -152,6 +153,7 @@ export class TestimonialsListComponent {
         environment.lscompanyId,
         this.companyId
       );
+      this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
     }
 
     this.languageChangeSubscription =
