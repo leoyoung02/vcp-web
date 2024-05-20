@@ -82,6 +82,7 @@ export class LoginComponent {
   ueLoginMode: string = '';
   isUESchoolOfLife: boolean = false;
   formSubmitted: boolean = false;
+  isCursoGeniusTestimonials: boolean = false;
 
   constructor(
     private _router: Router,
@@ -140,6 +141,7 @@ export class LoginComponent {
       if(this.companyId == 65 && this.language == 'es') {
         this.language = 'it';
       }
+      this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
     }
 
     this._translateService.use(this.language || "es");

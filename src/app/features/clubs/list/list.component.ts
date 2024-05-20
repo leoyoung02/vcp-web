@@ -1102,11 +1102,7 @@ export class ClubsListComponent {
   }
 
   goToClubDetails(club) {
-    if(this.userId > 0) {
-      this._router.navigate([`/clubs/details/${club.id}`]);
-    } else {
-      this._router.navigate(["/auth/login"]);
-    }
+    this._router.navigate([`/clubs/details/${club.id}`]);
   }
 
   filterViewChanged(event) {

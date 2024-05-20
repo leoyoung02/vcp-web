@@ -659,7 +659,7 @@ export class PlanDetailComponent {
   getJoinStatus() {
     let result = false;
 
-    let canJoin = this.showJoinButton && this.userId && ((!this.joinedParticipant
+    let canJoin = this.showJoinButton && ((!this.joinedParticipant
       && !this.plan?.private
       && (this.plan?.plan_date >= this.today || this.plan?.end_date >= this.today || !this.isPastEvent)
       && !this.activateWaitingList) || (this.plan?.private && !this.joinedParticipant && this.speedMember)
@@ -684,7 +684,10 @@ export class PlanDetailComponent {
       }
     }
 
-    result = canJoin && (this.canRegisterAllEvents || canRegisterNetcultura || canRegisterGuestsOnly);
+    result = canJoin && (
+      (this.userId && (this.canRegisterAllEvents || canRegisterNetcultura || canRegisterGuestsOnly)) ||
+      !this.userId
+    );
 
     return result;
   }
@@ -1675,100 +1678,108 @@ export class PlanDetailComponent {
   }
 
   joinPlan() {
-    if (
-      this.activityFeeEnabled &&
-      this.plan.stripe_pay == 1 &&
-      this.plan.price > 0
-    ) {
-      let userId = this.userId || 0;
-      this._router.navigate([
-        `/plans/payment/${this.id}/${this.planTypeId}/${userId}`,
-      ]);
+    if(this.userId > 0) {
+      if (
+        this.activityFeeEnabled &&
+        this.plan.stripe_pay == 1 &&
+        this.plan.price > 0
+      ) {
+        let userId = this.userId || 0;
+        this._router.navigate([
+          `/plans/payment/${this.id}/${this.planTypeId}/${userId}`,
+        ]);
+      } else {
+        this.onSubmit = true;
+        this._plansService.addPlanParticipant(this.id, this.user.id).subscribe(
+          (response) => {
+            this.plan = response.CompanyPlan;
+            this.planParticipants = this.plan.CompanyPlanParticipants;
+            // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+            this.limitPlanParticipants = this.planParticipants;
+            this.planParticipantCount = this.plan.CompanyPlanParticipants.length;
+            this.joinedParticipant = this.isUserJoined(
+              this.plan.CompanyPlanParticipants
+            );
+            this.onSubmit = false;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
     } else {
-      this.onSubmit = true;
-      this._plansService.addPlanParticipant(this.id, this.user.id).subscribe(
-        (response) => {
-          this.plan = response.CompanyPlan;
-          this.planParticipants = this.plan.CompanyPlanParticipants;
-          // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
-          this.limitPlanParticipants = this.planParticipants;
-          this.planParticipantCount = this.plan.CompanyPlanParticipants.length;
-          this.joinedParticipant = this.isUserJoined(
-            this.plan.CompanyPlanParticipants
-          );
-          this.onSubmit = false;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      this._router.navigate(["/auth/login"]);
     }
   }
 
   async joinGroupPlan() {
-    if (
-      this.activityFeeEnabled &&
-      this.plan.stripe_pay == 1 &&
-      this.plan.price > 0
-    ) {
-      let userId = this.userId || 0;
-      this._router.navigate([
-        `/plans/payment/${this.id}/${this.planTypeId}/${userId}`,
-      ]);
-    } else {
-      const { id: user_id } = this.user;
+    if(this.userId > 0) {
+      if (
+        this.activityFeeEnabled &&
+        this.plan.stripe_pay == 1 &&
+        this.plan.price > 0
+      ) {
+        let userId = this.userId || 0;
+        this._router.navigate([
+          `/plans/payment/${this.id}/${this.planTypeId}/${userId}`,
+        ]);
+      } else {
+        const { id: user_id } = this.user;
 
-      const { id: group_plan_id, fk_company_id } = this.plan;
+        const { id: group_plan_id, fk_company_id } = this.plan;
 
-      let payload = {
-        group_plan_id,
-        fk_company_id: this.companyId,
-        user_id,
-        invited_by: 0,
-      };
+        let payload = {
+          group_plan_id,
+          fk_company_id: this.companyId,
+          user_id,
+          invited_by: 0,
+        };
 
-      if (this.invitationLinkActive) {
-        let invitedby = this._localService.getLocalStorage(
-          environment.lsinvitedby
-        );
-        let invited_by = 0;
-        let event_id = this._localService.getLocalStorage(
-          environment.lseventinvite
-        );
-
-        if (event_id == group_plan_id) {
-          let user = get(
-            await this._userService.getUserById(invitedby).toPromise(),
-            "CompanyUser"
+        if (this.invitationLinkActive) {
+          let invitedby = this._localService.getLocalStorage(
+            environment.lsinvitedby
           );
-          invited_by = user.id;
+          let invited_by = 0;
+          let event_id = this._localService.getLocalStorage(
+            environment.lseventinvite
+          );
+
+          if (event_id == group_plan_id) {
+            let user = get(
+              await this._userService.getUserById(invitedby).toPromise(),
+              "CompanyUser"
+            );
+            invited_by = user.id;
+          }
+
+          if (event_id == group_plan_id && invited_by > 0) {
+            payload = {
+              group_plan_id,
+              fk_company_id,
+              user_id,
+              invited_by: invited_by,
+            };
+          }
         }
 
-        if (event_id == group_plan_id && invited_by > 0) {
-          payload = {
-            group_plan_id,
-            fk_company_id,
-            user_id,
-            invited_by: invited_by,
-          };
-        }
+        this.onSubmit = true;
+        this._plansService.addGroupPlanParticipant(payload).subscribe(
+          (response) => {
+            this.plan = response.CompanyGroupPlan;
+            this.planParticipants = this.plan.Company_Group_Plan_Participants;
+            // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+            this.limitPlanParticipants = this.planParticipants;
+            this.planParticipantCount = this.plan.Company_Group_Plan_Participants.length;
+            this.joinedParticipant = this.isUserJoined(this.plan.Company_Group_Plan_Participants);
+            this.onSubmit = false;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       }
-
-      this.onSubmit = true;
-      this._plansService.addGroupPlanParticipant(payload).subscribe(
-        (response) => {
-          this.plan = response.CompanyGroupPlan;
-          this.planParticipants = this.plan.Company_Group_Plan_Participants;
-          // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
-          this.limitPlanParticipants = this.planParticipants;
-          this.planParticipantCount = this.plan.Company_Group_Plan_Participants.length;
-          this.joinedParticipant = this.isUserJoined(this.plan.Company_Group_Plan_Participants);
-          this.onSubmit = false;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    } else {
+      this._router.navigate(["/auth/login"]);
     }
   }
 

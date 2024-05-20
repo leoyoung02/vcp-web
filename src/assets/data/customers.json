@@ -430,5 +430,11 @@
         "name": "Klub Okio Genio",
         "url": "klubokio.vistingo.com",
         "domain": "klubokio.com"
+    },
+    {  
+        "id": 52,  
+        "name": "Testimonios",
+        "url": "testimonios.vistingo.com",
+        "domain": "cursogenius.com"
     }
 ]

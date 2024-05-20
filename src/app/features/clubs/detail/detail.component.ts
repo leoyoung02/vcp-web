@@ -1077,18 +1077,22 @@ export class ClubDetailComponent {
   }
 
   showTerms(type) {
-    this.joinType = type;
-    if (this.shouldAcceptTerms) {
-      setTimeout(() => {
-        initFlowbite();
-        this.modalbutton?.nativeElement.click();
-      }, 100);
-    } else {
-      if (this.joinType == "request") {
-        this.handleRequestJoin();
+    if(this.user?.id > 0) {
+      this.joinType = type;
+      if (this.shouldAcceptTerms) {
+        setTimeout(() => {
+          initFlowbite();
+          this.modalbutton?.nativeElement.click();
+        }, 100);
       } else {
-        this.joinPlan();
+        if (this.joinType == "request") {
+          this.handleRequestJoin();
+        } else {
+          this.joinPlan();
+        }
       }
+    } else {
+      this._router.navigate(["/auth/login"]);
     }
   }
 
@@ -1102,46 +1106,54 @@ export class ClubDetailComponent {
   }
 
   handleRequestJoin() {
-    let payload = {
-      user_id: this.user.id,
-      group_id: this.id,
-      company_id: this.user.fk_company_id,
-    };
+    if(this.user?.id > 0) {
+      let payload = {
+        user_id: this.user.id,
+        group_id: this.id,
+        company_id: this.user.fk_company_id,
+      };
 
-    this._clubsService.addJoinRequest(payload).subscribe(
-      (response) => {
-        if (response) {
-          this.pendingRequest = true;
-          location.reload();
+      this._clubsService.addJoinRequest(payload).subscribe(
+        (response) => {
+          if (response) {
+            this.pendingRequest = true;
+            location.reload();
+          }
+        },
+        (error) => {
+          console.log(error);
         }
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+      );
+    } else {
+      this._router.navigate(["/auth/login"]);
+    }
   }
 
   joinPlan() {
-    this._clubsService.addGroupMember(this.id, this.user.id).subscribe(
-      (response) => {
-        this.members.push({
-          first_name: this.user?.first_name,
-          last_name: this.user?.last_name,
-          id: this.user?.id,
-          image: this.user?.image,
-          name: this.user?.name,
-          user_id: this.user?.id,
-        });
-        this.acceptTermsAndConditions = false;
-        this.acceptCookiePolicy = false;
-        this.acceptPrivacyPolicy = false;
-        this.groupMemberCount = this.members.length;
-        this.joinedMember = true;
-      },
-      (error) => {
-        console.log(error);
-      }
-    );
+    if(this.user?.id > 0) {
+      this._clubsService.addGroupMember(this.id, this.user.id).subscribe(
+        (response) => {
+          this.members.push({
+            first_name: this.user?.first_name,
+            last_name: this.user?.last_name,
+            id: this.user?.id,
+            image: this.user?.image,
+            name: this.user?.name,
+            user_id: this.user?.id,
+          });
+          this.acceptTermsAndConditions = false;
+          this.acceptCookiePolicy = false;
+          this.acceptPrivacyPolicy = false;
+          this.groupMemberCount = this.members.length;
+          this.joinedMember = true;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else {
+      this._router.navigate(["/auth/login"]);
+    }
   }
 
   handleDelete() {

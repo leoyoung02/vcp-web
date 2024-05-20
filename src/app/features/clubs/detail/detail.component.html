@@ -226,7 +226,7 @@
     </div>
     <div class="flex justify-between flex-col sm:flex-col md:flex-row lg:flex-row">
         <button
-            *ngIf="user && (((companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16) && !groupOwner && !joinedMember && group.private && pendingRequest) || 
+            *ngIf="(((companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16) && !groupOwner && !joinedMember && group.private && pendingRequest) || 
                 ((companyId == 12 || companyId == 14) && isNotGroupArea && !groupOwner && !joinedMember && group.private && pendingRequest))"
             class="btn w-full max-w-full sm:w-full h-[52px] text-white text-base uppercase font-semibold" 
             [ngStyle]="{'background-color': buttonColor}"
@@ -234,7 +234,7 @@
             {{ 'club-details.pending' | translate }}
         </button>
         <button
-            *ngIf="user && !pendingRejected && (((companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16) && !groupOwner && !joinedMember && group.private) && !pendingRequest || 
+            *ngIf="!pendingRejected && (((companyId != 12 && companyId != 14 && companyId != 15 && companyId != 16) && !groupOwner && !joinedMember && group.private) && !pendingRequest || 
                 ((companyId == 12 || companyId == 14) && isNotGroupArea && !groupOwner && !joinedMember && group.private && !pendingRequest)) && !groupShow"
             class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold" 
             [ngStyle]="{'background-color': buttonColor}"
@@ -242,7 +242,7 @@
             {{ 'club-details.asktojoin' | translate }}
         </button>
         <button
-            *ngIf="user && !pendingRejected && (
+            *ngIf="!pendingRejected && (
                 ((companyId != 12 && companyId != 15) && !groupOwner && !joinedMember && !group.private) || 
                 (companyId == 12 && isNotGroupArea && !groupOwner && !joinedMember && !group.private)
             )"

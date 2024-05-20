@@ -198,6 +198,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   tutorsTitle: any = "";
   isMiddleSectionTemplate: boolean = false;
   planCalendar: boolean = false;
+  isCursoGeniusTestimonials: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -276,6 +277,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       if(this.returnUrl && this.returnUrl != 'undefined') {
         location.href = `/${this.returnUrl}` || '/';
+      }
+
+      this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
+      if(this.isCursoGeniusTestimonials) {
+        location.href = '/testimonials'
       }
 
       if (company[0].landing_template == 1) {
