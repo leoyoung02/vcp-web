@@ -94,7 +94,7 @@
     </div>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-4 gap-8 py-8">
-    <div *ngIf="userId && showEventsCalendar && !parentComponent" class="w-full max-w-full rounded-lg py-4 bg-transparent">
+    <div *ngIf="showEventsCalendar && !parentComponent" class="w-full max-w-full rounded-lg py-4 bg-transparent">
         <app-plans-calendar
             [hasDateSelected]="hasDateSelected"
             [showPastEvents]="mode == 'history' ? true : showPastEvents"

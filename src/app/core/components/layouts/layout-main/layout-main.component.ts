@@ -187,6 +187,7 @@ export class LayoutMainComponent {
   customMemberTypePermissions: any;
   showFooter: boolean = false;
   customLinks: any = [];
+  isCursoGeniusTestimonials: boolean = false;
 
   constructor(
     private _router: Router,
@@ -275,6 +276,7 @@ export class LayoutMainComponent {
       this.courseWallPrefixTextValueDe = company[0].course_wall_prefix_text_de;
       this.courseWallPrefixTextValueIt = company[0].course_wall_prefix_text_it;
       this.courseWallMenu = company[0].course_wall_menu;
+      this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
     }
 
     this.features = this._localService.getLocalStorage(environment.lsfeatures)
@@ -1670,7 +1672,13 @@ export class LayoutMainComponent {
             }
           }
         } else {
-          this.menus.push(tempData);
+          if(this.companyId == 52 && this.isCursoGeniusTestimonials) {
+            if(tempData?.id == 23) {
+              this.menus.push(tempData);
+            }
+          } else {
+            this.menus.push(tempData);
+          }
         }
       }
     }
@@ -1948,7 +1956,7 @@ export class LayoutMainComponent {
   }
 
   renderHomeMenu(mmatch, home_sequence) {
-    if (this.homeActive) {
+    if (this.homeActive && !this.isCursoGeniusTestimonials) {
       this.tempData = {
         id: 1,
         path: "home",

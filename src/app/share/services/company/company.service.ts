@@ -274,7 +274,7 @@ export class CompanyService {
       company =
         companies &&
         companies.filter((c) => {
-          return c.url == customer?.url || c.alternative_url == customer?.url || c.school_of_life_url == customer?.url;
+          return c.url == customer?.url || c.alternative_url == customer?.url || c.school_of_life_url == customer?.url || c.testimonials_url == customer?.url;
         });
       if (company && company.length > 0) {
         this._localService.setLocalStorage(
@@ -2015,5 +2015,15 @@ export class CompanyService {
         payload,
         { headers: this.headers }
     ).pipe(map(res => res));
+  }
+
+  isCursoGeniusTestimonials(customer): boolean {
+    let result = false;
+
+    if(customer.id == 52 && (customer.testimonials_url == window.location.host || customer.testimonials_url == environment.company)) {
+      result = true;
+    }
+
+    return result;
   }
 }
