@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { environment } from '@env/environment';
 import { Router } from '@angular/router';
 import { TestimonialsService } from '@features/services';
-import { FilterComponent, PageTitleComponent } from '@share/components';
+import { ButtonGroupComponent, FilterComponent, PageTitleComponent } from '@share/components';
 import { SearchComponent } from "@share/components/search/search.component";
 import { NgxPaginationModule } from "ngx-pagination";
 import { TestimonialCardComponent } from '@share/components/card/testimonial/testimonial.component';
@@ -33,6 +33,7 @@ import "moment/locale/it";
     SearchComponent,
     TestimonialCardComponent,
     FilterComponent,
+    ButtonGroupComponent,
     NgxPaginationModule,
   ],
   templateUrl: './list.component.html'
@@ -104,6 +105,7 @@ export class TestimonialsListComponent {
   filterSettings: any = [];
   showFilters: boolean = false;
   isCursoGeniusTestimonials: boolean = false;
+  filterTypeControl: any = '';
 
   constructor(
     private _router: Router,
@@ -197,6 +199,14 @@ export class TestimonialsListComponent {
           let testimonials = this.shuffleArray(data?.testimonials);
           this.allTestimonials = testimonials;
           this.formatTestimonials(testimonials);
+
+          this.filterTypeControl = 'dropdown';
+          if(data?.module_filter_settings?.length > 0) {
+            this.filterTypeControl = data?.module_filter_settings[0].filter_type || 'dropdown';
+          } else {
+            this.filterTypeControl = data?.filter_settings?.filter_type || 'dropdown';
+          }
+
           this.initializeButtonGroup();
         },
         (error) => {
@@ -387,7 +397,7 @@ export class TestimonialsListComponent {
       let category_filter = this.filterSettings?.filter(fs => {
         return fs.field == 'category'
       })
-      if(category_filter?.length > 0) {
+      if(category_filter?.length > 0 && category_filter[0].filter_type == 'dropdown') {
         text = category_filter[0].select_text;
       }
     }
