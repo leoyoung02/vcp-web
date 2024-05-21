@@ -1333,8 +1333,8 @@ export class LayoutMainComponent {
         link: 'https://universidadeuropea.com/tu-experiencia/movilidad-internacional/',
       },
       {
-        text_es: 'Orientación Académica, Diversidad e Igualdad',
-        text_en:  'Academic Guidance, Diversity and Equality',
+        text_es: 'Orientación Educativa, Diversidad e Inclusión',
+        text_en:  'Educational Guidance, Diversity and Inclusion',
         link: 'https://universidadeuropea.com/tu-experiencia/atencion-diversidad/',
       },
       {
