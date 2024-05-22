@@ -3161,7 +3161,11 @@
         "mentor": "Mentor",
         "asktobementor": "Demana ser mentor",
         "mentees": "Mentees",
-        "mentorname": "Mentorname"
+        "mentorname": "Mentorname",
+        "mentordesc": "Profil und zugehörige Mentees anzeigen",
+        "Mentee": "Mentee",
+        "menteedesc": "Wählen Sie einen Mentor mit den erforderlichen Filtern",
+        "wanttobementor": "Ich möchte Mentor sein"
     },
     "cities": {
         "cities": "Städte",

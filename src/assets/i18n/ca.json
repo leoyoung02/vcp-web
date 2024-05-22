@@ -3172,7 +3172,11 @@
         "mentor": "Mentor",
         "asktobementor": "Demana ser mentor",
         "mentees": "Mentees",
-        "mentorname": "Nom del mentor"
+        "mentorname": "Nom del mentor",
+        "mentordesc": "Veure perfil i els ments associats",
+        "mentee": "Mentee",
+        "menteedesc": "Trieu un mentor amb els filtres necessaris",
+        "wanttobementor": "Vull ser un mentor"
     },
     "cities": {
         "cities": "Ciutats",

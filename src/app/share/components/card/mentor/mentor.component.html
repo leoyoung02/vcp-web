@@ -1,0 +1,21 @@
+<div class="break-inside-avoid-column mb-8 hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
+      [routerLink]="[path]">
+      <img class="w-full rounded-md object-cover" [src]="image" [alt]="name" loading="lazy">
+      <div class="absolute inset-0 flex items-center justify-center">
+        <div class="absolute inset-0 flex items-end p-4">
+          <div class="flex flex-col w-full w-max-full">
+            <p class="text-white text-lg leading-6 pb-2 text-center font-bold">{{ name }}</p>
+            <div class="flex justify-center py-3 text-sm text-white font-semibold flex-wrap">
+              <span>{{ location }}</span>
+              <span class="px-2">{{ languages ? '•' : '' }}</span>
+              <span class="capitalize">{{ languages }}</span>
+            </div>
+            <div class="flex justify-center pb-8 flex-wrap">
+              <div class="types border border-white rounded-xl px-4 py-[3px] mr-2 mb-1">
+                <div class="text-white text-xs text-center" title="{{major}}">{{ major }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+</div>

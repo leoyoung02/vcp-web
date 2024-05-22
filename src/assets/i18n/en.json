@@ -3190,7 +3190,11 @@
         "mentor": "Mentor",
         "asktobementor": "Ask to be mentor",
         "mentees": "Mentees",
-        "mentorname": "Mentor name"
+        "mentorname": "Mentor name",
+        "mentordesc": "View profile and associated mentees",
+        "mentee": "Mentee",
+        "menteedesc": "Choose a mentor with necessary filters",
+        "wanttobementor": "I want to be a mentor"
     },
     "cities": {
         "cities": "Cities",

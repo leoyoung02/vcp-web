@@ -3162,7 +3162,11 @@
         "mentor": "Mentor",
         "asktobementor": "Eskatu tutore izateko",
         "mentees": "Mentees",
-        "mentorname": "Tutorearen izena"
+        "mentorname": "Tutorearen izena",
+        "mentordesc": "Ikusi profila eta lotutako tutoreak",
+        "mentee": "Mentee",
+        "menteedesc": "Aukeratu tutore bat beharrezko iragazkiak dituena",
+        "wanttobementor": "Tutore izan nahi dut"
     },
     "cities": {
         "cities": "Hiriak",

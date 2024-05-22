@@ -380,6 +380,7 @@ export class FeatureComponent {
       { id: 35, name_en: "Members filter" },
       { id: 36, name_en: "Tutors filter" },
       { id: 37, name_en: "Testimonials filter" },
+      { id: 38, name_en: "Buddies filter" },
     ];
   }
 
@@ -492,6 +493,7 @@ export class FeatureComponent {
       case "Members filter":
       case "Tutors filter":
       case "Testimonials filter":
+      case "Buddies filter":
       case "Candidates display":
         this.openSettingModal(row);
         break;
@@ -602,6 +604,7 @@ export class FeatureComponent {
       case "Members filter":
       case "Tutors filter":
       case "Testimonials filter":
+      case "Buddies filter":
       case "Categories filter":
         this.getSettingTitle(row);
         this.updateFilter();

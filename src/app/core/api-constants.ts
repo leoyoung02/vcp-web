@@ -754,3 +754,7 @@ export const STARTUPS_URL = `${API_BASE}/v2/startups`;
 export const STARTUP_DETAILS_URL = `${API_BASE}/v2/startup-details`;
 export const ADD_STARTUP_URL = `${API_BASE}/company/startup/add`;
 export const GET_STARTUPS_URL = `${API_BASE}/company/startups`;
+
+// BUDDIES
+export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;
+export const BUDDIES_URL = `${API_BASE}/v2/buddies`;

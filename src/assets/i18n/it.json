@@ -3159,7 +3159,11 @@
         "mentor": "Mentore",
         "asktobementor": "Richiedi un mentore",
         "mentees": "allievi",
-        "mentorname": "Nome del mentore"
+        "mentorname": "Nome del mentore",
+        "mentordesc": "Visualizza il profilo e gli allievi associati",
+        "mentee": "allievo",
+        "menteedesc": "Scegli un mentore con i filtri necessari",
+        "wanttobementor": "Voglio essere un mentore"
     },
     "cities": {
         "cities": "Città",
