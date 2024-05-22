@@ -6,7 +6,7 @@ import { Subject, takeUntil } from 'rxjs';
 import { environment } from '@env/environment';
 import { BuddyService } from '@features/services';
 import { initFlowbite } from "flowbite";
-import { FormsModule } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FilterComponent, PageTitleComponent } from '@share/components';
 import { SearchComponent } from '@share/components/search/search.component';
 import { MentorCardComponent } from '@share/components/card/mentor/mentor.component';
@@ -20,6 +20,7 @@ import get from 'lodash/get';
         TranslateModule,
         NgOptimizedImage,
         FormsModule,
+        ReactiveFormsModule,
         PageTitleComponent,
         SearchComponent,
         FilterComponent,
@@ -73,11 +74,16 @@ export class MentorProfileComponent {
     currentPage: number = 1;
     pageSize: number = 8;
 
+    profileForm: any;
+    hasImage: boolean = false;
+    myImage: any;
+
     constructor(
         private _translateService: TranslateService,
         private _localService: LocalService,
         private _companyService: CompanyService,
-        private _buddyService: BuddyService
+        private _buddyService: BuddyService,
+        private fb: FormBuilder,
     ) { }
 
     @HostListener("window:resize", [])
@@ -155,7 +161,19 @@ export class MentorProfileComponent {
     }
 
     initializePage() {
+        this.pageTitle = this._translateService.instant("sidebar.profilesettings");
         this.initializeSearch();
+
+        this.profileForm = this.fb.group({
+            major: new FormControl('', [Validators.required]),
+            year: new FormControl('', [Validators.required]),
+            introduction: new FormControl('', [Validators.required]),
+            interests: new FormControl('', [Validators.required]),
+            personality: new FormControl('', [Validators.required]),
+            location: new FormControl('', [Validators.required]),
+            language: new FormControl('', [Validators.required])
+        })
+
         this.fetchBuddies();
     }
 
@@ -507,6 +525,14 @@ export class MentorProfileComponent {
         }
     
         this.mentors = this.formatMentors(mentors);
+    }
+
+    uploadPhoto(event: any) {
+
+    }
+
+    save() {
+
     }
 
     ngOnDestroy() {

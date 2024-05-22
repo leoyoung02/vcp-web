@@ -1,1 +1,75 @@
-Mentor Profile
+<app-page-title [title]="pageTitle"></app-page-title>
+<div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid:cols-3 my-10">
+    <div class="col-span-2">
+        <form [formGroup]="profileForm" (ngSubmit)="save()" class="profile-form" autocomplete="off">
+            <div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 pt-12 pb-4">
+                    <div class="text-center col-span-2">
+                        <div>
+                            <div class="flex items-center mb-8 relative">
+                                <div class="max-w-xl mr-8">
+                                    <img width="160" height="192" src="./assets/images/640.png" />
+                                </div>
+                                <div class="relative">
+                                    <input 
+                                        #file
+                                        id="image"
+                                        name="image" 
+                                        type="file"
+                                        style="display:none;"
+                                        (change)="uploadPhoto($event)"
+                                    />
+                                    <div 
+                                        class="grid max-w-xl text-center shadow-2xl bg-neutral-50 rounded-xl place-items-center bg-opacity-5 backdrop-filter backdrop-blur"
+                                        [ngClass]="{'p-6': !hasImage}"
+                                    >
+                                        <div
+                                            class="grid mb-8 place-items-center"
+                                            [ngClass]="{'w-28 h-28 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300': !hasImage, 'w-40 h-40': hasImage}"
+                                        >
+                                            <img *ngIf="!hasImage" width="40" height="40" src="./assets/images/new-design/camera.png" />
+                                            <img *ngIf="hasImage" class="w-[112px] h-[112px] rounded-full object-cover" src="{{ myImage }}" />
+                                        </div>
+                                    </div>
+                                    <div class="text-center absolute bottom-2 left-0 right-0 m-auto">
+                                        <label
+                                            for="image"
+                                            [ngStyle]="{'background-color': buttonColor}"
+                                            class="btn text-white"
+                                        >
+                                            {{ 'club-create.uploadimage' | translate }}
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <label for="major" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            {{ 'buddy.major' | translate }}
+                                        </div>
+                                        <input 
+                                            id="major"
+                                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('major')?.errors }"
+                                            type="text" 
+                                            class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                            formControlName="major" 
+                                            placeholder="{{ 'buddy.major' | translate }}"
+                                            required>
+                                    </div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div>
+        <div class="bg-[#F8F4F4] relative mb-6 relative p-6 rounded-[16px]">
+            <div class="flex items-center">
+                <div class="font-semibold text-lg">{{ 'buddy.mentees' | translate }}</div>
+            </div>
+        </div>
+    </div>
+</div>
