@@ -665,7 +665,7 @@ export class ClubsListComponent {
         return currDate - prevDate;
       });
     } else {
-      if(this.companyId = 32) {
+      if(this.companyId == 32) {
         this.filteredGroup = this.getSlicedGroups(this.groups);
       } else {
         this.filteredGroup = this.groups;
