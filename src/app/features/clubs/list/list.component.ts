@@ -120,25 +120,25 @@ export class ClubsListComponent {
     this.isMobile = window.innerWidth < 768;
   }
 
-  @HostListener('window:scroll', ['$event'])
-  onScroll(event: Event) {
-    if(this.companyId == 32 && !this.isMobile) {
-      const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
-      const documentHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+  // @HostListener('window:scroll', ['$event'])
+  // onScroll(event: Event) {
+  //   if(this.companyId == 32 && !this.isMobile) {
+  //     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  //     const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+  //     const documentHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
 
-      if (scrollPosition + windowHeight >= documentHeight) {
-        this.onScrollDown();
-      }
-    }
-  }
+  //     if (scrollPosition + windowHeight >= documentHeight) {
+  //       this.onScrollDown();
+  //     }
+  //   }
+  // }
 
-  onScrollDown() {
-    if(this.companyId == 32 && !this.isMobile) {
-      this.currentPage++;
-      this.fetchClubs();
-    }
-  }
+  // onScrollDown() {
+  //   if(this.companyId == 32 && !this.isMobile) {
+  //     this.currentPage++;
+  //     this.fetchClubs();
+  //   }
+  // }
 
   async ngOnInit() {
     this.onResize();
@@ -665,11 +665,11 @@ export class ClubsListComponent {
         return currDate - prevDate;
       });
     } else {
-      if(this.companyId == 32) {
-        this.filteredGroup = this.getSlicedGroups(this.groups);
-      } else {
+      // if(this.companyId == 32) {
+      //   this.filteredGroup = this.getSlicedGroups(this.groups);
+      // } else {
         this.filteredGroup = this.groups;
-      }
+      // }
     }
 
     this.filteredGroup = this.sortAlphabetically(this.filteredGroup);
@@ -689,22 +689,22 @@ export class ClubsListComponent {
     }
   }
 
-  getSlicedGroups(group) {
-    let clubs: any[] = [];
-    if(!this.search && !this.isMobile && this.companyId == 32) {
-      const prev = group
-      if(prev?.length != group?.length && group?.length > 0) {
-        clubs = group?.splice((this.currentPage - 1),this.pageSize);
-        clubs = [...prev, ...this.groups];
-      } else {
-        clubs = group?.splice(0,this.pageSize * this.currentPage);
-      }
-    } else {
-      clubs = group;
-    }
+  // getSlicedGroups(group) {
+  //   let clubs: any[] = [];
+  //   if(!this.search && !this.isMobile && this.companyId == 32) {
+  //     const prev = group
+  //     if(prev?.length != group?.length && group?.length > 0) {
+  //       clubs = group?.splice((this.currentPage - 1),this.pageSize);
+  //       clubs = [...prev, ...this.groups];
+  //     } else {
+  //       clubs = group?.splice(0,this.pageSize * this.currentPage);
+  //     }
+  //   } else {
+  //     clubs = group;
+  //   }
 
-    return clubs;
-  }
+  //   return clubs;
+  // }
 
   getCategory(club) {
     let category = ''
