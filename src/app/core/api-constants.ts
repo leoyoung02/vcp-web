@@ -758,3 +758,6 @@ export const GET_STARTUPS_URL = `${API_BASE}/company/startups`;
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;
 export const BUDDIES_URL = `${API_BASE}/v2/buddies`;
+export const MENTOR_URL = `${API_BASE}/v2/mentor`;
+export const EDIT_MENTOR_URL = `${API_BASE}/mentor/edit`;
+export const EDIT_MENTOR_PHOTO_URL = `${API_BASE}/v2/mentor/profile/image/temp-upload`;

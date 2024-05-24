@@ -1,15 +1,31 @@
 import { CommonModule, NgOptimizedImage } from '@angular/common';
-import { Component, HostListener, Input } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CompanyService, LocalService } from '@share/services';
 import { Subject, takeUntil } from 'rxjs';
+import { EditorModule } from "@tinymce/tinymce-angular";
 import { environment } from '@env/environment';
 import { BuddyService } from '@features/services';
 import { initFlowbite } from "flowbite";
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
+import { MatSnackBarModule } from "@angular/material/snack-bar";
+import { MatSnackBar } from "@angular/material/snack-bar";
 import { FilterComponent, PageTitleComponent } from '@share/components';
 import { SearchComponent } from '@share/components/search/search.component';
 import { MentorCardComponent } from '@share/components/card/mentor/mentor.component';
+import {
+    ImageCropperModule,
+    ImageCroppedEvent,
+    ImageTransform,
+    base64ToFile,
+  } from "ngx-image-cropper";
+  import {
+    faRotateLeft,
+    faRotateRight,
+    faEye,
+    faEyeSlash,
+  } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import get from 'lodash/get';
 
 @Component({
@@ -21,6 +37,10 @@ import get from 'lodash/get';
         NgOptimizedImage,
         FormsModule,
         ReactiveFormsModule,
+        EditorModule,
+        MatSnackBarModule,
+        ImageCropperModule,
+        FontAwesomeModule,
         PageTitleComponent,
         SearchComponent,
         FilterComponent,
@@ -77,38 +97,36 @@ export class MentorProfileComponent {
     profileForm: any;
     hasImage: boolean = false;
     myImage: any;
+    me: any;
+    mentor: any;
+    
+    imageSrc: string = environment.api + "/";
+    rotateLeftIcon = faRotateLeft;
+    rotateRightIcon = faRotateRight;
+    @ViewChild("modalbutton", { static: false })
+    modalbutton: ElementRef<HTMLInputElement> = {} as ElementRef;
+    // Cropper
+    showImageCropper: boolean = false;
+    imageChangedEvent: any;
+    croppedImage: any;
+    canvasRotation = 0;
+    rotation = 0;
+    scale = 1;
+    transform: ImageTransform = {};
+    file: any;
 
     constructor(
         private _translateService: TranslateService,
         private _localService: LocalService,
         private _companyService: CompanyService,
         private _buddyService: BuddyService,
+        private _snackBar: MatSnackBar,
         private fb: FormBuilder,
     ) { }
 
     @HostListener("window:resize", [])
     private onResize() {
         this.isMobile = window.innerWidth < 768;
-    }
-
-    @HostListener('window:scroll', ['$event'])
-    onScroll(event: Event) {
-        if(!this.isMobile) {
-            const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-            const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
-            const documentHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
-
-            if (scrollPosition + windowHeight >= documentHeight) {
-                this.onScrollDown();
-            }
-        }
-    }
-
-    onScrollDown() {
-        if(!this.isMobile) {
-            this.currentPage++;
-            this.fetchBuddies();
-        }
     }
 
     async ngOnInit() {
@@ -162,11 +180,10 @@ export class MentorProfileComponent {
 
     initializePage() {
         this.pageTitle = this._translateService.instant("sidebar.profilesettings");
-        this.initializeSearch();
-
         this.profileForm = this.fb.group({
+            first_name: new FormControl('', [Validators.required]),
+            last_name: new FormControl('', [Validators.required]),
             major: new FormControl('', [Validators.required]),
-            year: new FormControl('', [Validators.required]),
             introduction: new FormControl('', [Validators.required]),
             interests: new FormControl('', [Validators.required]),
             personality: new FormControl('', [Validators.required]),
@@ -174,42 +191,17 @@ export class MentorProfileComponent {
             language: new FormControl('', [Validators.required])
         })
 
-        this.fetchBuddies();
+        this.loadProfileData();
     }
 
-    initializeSearch() {
-        this.searchText = this._translateService.instant("guests.search");
-        this.placeholderText = this._translateService.instant(
-          "news.searchbykeyword"
-        );
-    }
-
-    fetchBuddies() {
+    loadProfileData() {
         this._buddyService
-          .fetchBuddies(this.companyId, this.userId)
+          .fetchMentor(this.userId)
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {
                 console.log(data)
-                this.mapFeatures(data?.features_mapping);
-                this.mapSubfeatures(data?.settings?.subfeatures);
-
-                this.initializeFilterSettings(data?.module_filter_settings);
-
-                this.mapUserPermissions(data?.user_permissions);
-
-                this.cities = data?.cities;
-                this.initializeIconFilterList(this.cities);
-
-                this.allMentors = data?.mentors;
-                this.mentors = this.getSlicedMentors(this.formatMentors(data?.mentors));
-
-                this.majors = this.sortArray(this.majors);
-                this.years = this.sortArray(this.years);
-
-                this.initializeButtonGroup();
-
-                this.filterTypeControl = 'dropdown';
+                this.initializeProfile(data);
             },
             (error) => {
               console.log(error);
@@ -217,322 +209,199 @@ export class MentorProfileComponent {
         );
     }
 
-    getSlicedMentors(formattedMentors) {
-        let mentors: any[] = [];
+    initializeProfile(data) {
+        this.me = data?.user;
+        this.mentor = data?.mentor;
+        this.myImage =  `${environment.api}/${this.me.image}`;
+        this.hasImage = true
+
+        if(this.me) {
+            this.profileForm.get('first_name').setValue(this.me.first_name);
+            this.profileForm.get('last_name').setValue(this.me.last_name);
+        }
+
+        if(this.mentor) {
+            this.profileForm.get('major').setValue(this.mentor.major);
+            this.profileForm.get('introduction').setValue(this.mentor.introduction);
+            this.profileForm.get('interests').setValue(this.mentor.interests);
+            this.profileForm.get('personality').setValue(this.mentor.personality);
+            this.profileForm.get('location').setValue(this.mentor.location);
+            this.profileForm.get('language').setValue(this.mentor.language);
+        }
+    }
+
+    getMenteeName(mentee) {
+        return mentee.first_name ? `${mentee.first_name} ${mentee.last_name}` : mentee.name;
+    }
+
+    getMenteeImage(mentee) {
+        let image = '';
+        let menteeImage = mentee.image;
+        if(menteeImage == 'default-avatar.jpg' || menteeImage == 'empty_avatar.png') {
+            image = './assets/images/default-profile.png';
+        } else {
+            image = `${environment.api}/${menteeImage}`
+        }
     
-        if(!this.search && !this.isMobile && this.companyId == 32) {
-            const prev = formattedMentors
-            if(prev?.length != formattedMentors?.length && formattedMentors?.length > 0) {
-                mentors = formattedMentors?.splice((this.currentPage - 1),this.pageSize);
-                mentors = [...prev, ...this.mentors];
+        return image
+    }
+
+    async uploadPhoto(event: any) {
+        this.imageChangedEvent = event;
+        const file = event.target.files[0];
+        if (file.size > 2000000) {
+        } else {
+            initFlowbite();
+            setTimeout(() => {
+                this.modalbutton?.nativeElement.click();
+            }, 500);
+        }
+    }
+
+    imageCropped(event: ImageCroppedEvent) {
+        if (event.base64) {
+            this.imageSrc = this.croppedImage = event.base64;
+            this.file = {
+              name: "image",
+              image: base64ToFile(event.base64), //event.file
+            };
+            this.hasImage = true;
+            this.myImage = this.imageSrc;
+        }
+      }
+    
+    imageLoaded() {}
+    
+    cropperReady() {
+        // cropper ready
+    }
+    
+    loadImageFailed() {}
+    
+    imageCropperModalSave() {
+        this.showImageCropper = false;
+    }
+    
+    imageCropperModalClose() {
+        this.showImageCropper = false;
+    }
+    
+    rotateLeft() {
+        this.canvasRotation--;
+        this.flipAfterRotate();
+    }
+    
+    rotateRight() {
+        this.canvasRotation++;
+        this.flipAfterRotate();
+    }
+    
+    private flipAfterRotate() {
+        const flippedH = this.transform.flipH;
+        const flippedV = this.transform.flipV;
+        this.transform = {
+          ...this.transform,
+          flipH: flippedV,
+          flipV: flippedH,
+        };
+    }
+
+    public getTimestamp() {
+        const date = new Date();
+        const timestamp = date.getTime();
+    
+        return timestamp;
+    }
+
+    async save() {
+        if(this.isValidForm()) {
+            let image = '';
+            if(this.file) {
+                const mentorForm = new FormData();
+
+                let image_filename
+                const filename = 'profile_' + this.me.id + '_' + this.getTimestamp();
+                mentorForm.append('image_file', filename + '.jpg');
+                mentorForm.append('image', this.file.image, filename + '.jpg');
+                image_filename = filename + '.jpg'
+
+                this._buddyService.uploadMentorPhoto(mentorForm).subscribe(
+                    res => {
+                        image = image_filename;
+                        this.saveChanges(image);
+                    },
+                    error => {
+                        console.log(error)
+                        this.open(this._translateService.instant('dialog.error'), '')
+                })
             } else {
-                mentors = formattedMentors?.splice(0,this.pageSize * this.currentPage);
+                this.saveChanges(image);
             }
         } else {
-            mentors = formattedMentors;
-        }
-    
-        return mentors;
-    }
-
-    mapFeatures(features) {
-        this.buddyFeature = features?.find((f) => f.feature_id == 19);
-        this.featureId = this.buddyFeature?.id;
-        this.pageName = this.getFeatureTitle(this.buddyFeature);
-        this.pageDescription = this.getFeatureDescription(this.buddyFeature);
-    }
-
-    mapSubfeatures(subfeatures) {
-        if (subfeatures?.length > 0) {
-            this.filterActive = subfeatures.some(
-                (a) => a.name_en == "Buddies filter" && a.active == 1
-            );
+            this.open(this._translateService.instant('wall.requiredfields'), '')
         }
     }
 
-    initializeFilterSettings(filter_settings) {
-        let filter_settings_active = filter_settings?.filter(fs => {
-            return fs.active == 1
-        })
-        if(filter_settings_active?.length > 0 && this.filterActive) {
-            this.showFilters = true;
-            this.filterSettings = filter_settings;
-        }
-    }
-
-    mapUserPermissions(user_permissions) {
-        this.superAdmin = user_permissions?.super_admin_user ? true : false;
-    }
-
-    initializeIconFilterList(list) {
-        let text = this._translateService.instant("plans.all");
-        if(this.filterSettings?.length > 0) {
-          let city_filter = this.filterSettings?.filter(fs => {
-            return fs.field == 'city'
-          })
-          if(city_filter?.length > 0) {
-            text = city_filter[0].select_text;
-          }
-        }
-        this.list = [
-          {
-            id: "All",
-            value: "",
-            text,
-            selected: true,
-            company_id: this.companyId,
-            city: "",
-            province: "",
-            region: "",
-            country: "",
-            sequence: "",
-            campus: "",
-          },
-        ];
-    
-        list?.forEach((item) => {
-          this.list.push({
-            id: item.id,
-            value: item.id,
-            text: item.city,
-            selected: false,
-            company_id: item.company_id,
-            city: item.city,
-            province: item.province,
-            region: item.region,
-            country: item.country,
-            sequence: item.sequence,
-            campus: item.campus,
-          });
-        });
-    }
-
-    getFeatureTitle(feature) {
-        return feature
-            ? this.language == "en"
-                ? feature.name_en ||
-                feature.feature_name ||
-                feature.name_es ||
-                feature.feature_name_ES
-                : this.language == "fr"
-                    ? feature.name_fr ||
-                    feature.feature_name_FR ||
-                    feature.name_es ||
-                    feature.feature_name_ES
-                    : this.language == "eu"
-                        ? feature.name_eu ||
-                        feature.feature_name_EU ||
-                        feature.name_es ||
-                        feature.feature_name_ES
-                        : this.language == "ca"
-                            ? feature.name_ca ||
-                            feature.feature_name_CA ||
-                            feature.name_es ||
-                            feature.feature_name_ES
-                            : this.language == "de"
-                                ? feature.name_de ||
-                                feature.feature_name_DE ||
-                                feature.name_es ||
-                                feature.feature_name_ES
-                                : this.language == "it"
-                                    ? feature.name_it ||
-                                    feature.feature_name_IT ||
-                                    feature.name_es ||
-                                    feature.feature_name_ES
-                                    : feature.name_es || feature.feature_name_ES
-            : "";
-    }
-
-    getFeatureDescription(feature) {
-        return feature
-            ? this.language == "en"
-                ? feature.description_en || feature.description_es
-                : this.language == "fr"
-                    ? feature.description_fr || feature.description_es
-                    : this.language == "eu"
-                        ? feature.description_eu || feature.description_es
-                        : this.language == "ca"
-                            ? feature.description_ca || feature.description_es
-                            : this.language == "de"
-                                ? feature.description_de || feature.description_es
-                                : this.language == "it"
-                                    ? feature.description_it || feature.description_es
-                                    : feature.description_es
-            : "";
-    }
-
-    formatMentors(mentors) {
-        this.majors = [];
-        this.years = [];
-
-        mentors = mentors?.map((item, index) => {
-            let major_match = this.majors.some(a => a.title == item.major);    
-            if(!major_match) {
-                this.majors.push({
-                    id: index,
-                    title: item.major
-                })
-            }
-
-            let year_match = this.years.some(a => a.title == item.year);    
-            if(!year_match) {
-                this.years.push({
-                    id: index,
-                    title: item.year
-                })
-            }
-
-            return {
-                ...item,
-                path: `/buddy/details/${item.id}`,
-                buddy_image: `${environment.api}/${item.image}`,
-                languages: item?.language,
-            };
-        });
-    
-        return mentors;
-    }
-
-    sortArray(array) {
-        return array?.sort((a, b) => {
-            if (a.title < b.title) {
-                return -1
-            }
-        
-            if (a.title > b.title) {
-                return 1
-            }
-        
-            return 0
-        })
-    }
-
-    initializeButtonGroup() {
-        let categories = this.majors;
-        let text = this._translateService.instant("plans.all");
-        if(this.filterSettings?.length > 0) {
-            let category_filter = this.filterSettings?.filter(fs => {
-                return fs.field == 'category'
-            })
-            if(category_filter?.length > 0) {
-                text = category_filter[0].select_text;
-            }
-        }
-        this.buttonList = [
-            {
-                id: "All",
-                value: "All",
-                text,
-                selected: true,
-                fk_company_id: this.companyId,
-                fk_supercategory_id: "All",
-                name_CA: "All",
-                name_DE: "All",
-                name_EN: "All",
-                name_ES: "All",
-                name_EU: "All",
-                name_FR: "All",
-                sequence: 1,
-                status: 1,
-            },
-        ];
-    
-        categories?.forEach((category) => {
-            this.buttonList.push({
-                id: category.id,
-                value: category.id,
-                text: category.title,
-                selected: false,
-                fk_company_id: category.company_id,
-                fk_supercategory_id: category.id,
-                name_CA: category.title,
-                name_DE: category.title,
-                name_EN: category.title,
-                name_ES: category.title,
-                name_EU: category.title,
-                name_FR: category.title,
-                sequence: null,
-                status: 1,
-            });
-        });
-    }
-
-    handleSearchChanged(event) {
-        this.search = event || "";
-        this.filterBuddies();
-    }
-    
-    filteredList(event) {
-        this.list?.forEach((item) => {
-            if (item.city === event) {
-                item.selected = true;
-            } else {
-                item.selected = false;
-            }
-        });
-      
-        this.selectedCity = event || "";
-        this.filterBuddies();
-    }
-    
-    filteredType(category) {
-        this.buttonList?.forEach((item) => {
-            if (item.id === category.id) {
-                item.selected = true;
-            } else {
-                item.selected = false;
-            }
-        });
-    
-        this.selectedMajor = category || "";
-        this.filterBuddies();
-    }
-
-    filterViewChanged(event) {
-        this.defaultActiveFilter = event;
-    }
-
-    filterBuddies() {
-        let mentors = this.allMentors
-        if(this.search) {
-            mentors = mentors.filter(m => {
-                let include = false
-        
-                if(
-                (m.name && m.name.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-                || (m.introduction && m.introduction.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-                || (m.major && m.major.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-                || (m.year && m.year.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-                || (m.location && m.location.toLowerCase().indexOf(this.search.toLowerCase()) >= 0)
-                ) {
-                    include = true
+    saveChanges(image) {
+        const major: any = document.getElementById('major')
+            
+        let params
+        if(image) {
+            params = {
+                user_id: this.userId,
+                company_id: this.companyId,
+                major: this.profileForm.get('major').value ? this.profileForm.get('major').value : major.value,
+                introduction: this.profileForm.get('introduction').value,
+                interests: this.profileForm.get('interests').value,
+                personality: this.profileForm.get('personality').value,
+                location: this.profileForm.get('location').value,
+                language: this.profileForm.get('language').value,
+                image: image,
                 }
-        
-                return include
-            })
+        } else {
+            params = {
+                user_id: this.userId,
+                company_id: this.companyId,
+                major: this.profileForm.get('major').value ? this.profileForm.get('major').value : major.value,
+                introduction: this.profileForm.get('introduction').value,
+                interests: this.profileForm.get('interests').value,
+                personality: this.profileForm.get('personality').value,
+                location: this.profileForm.get('location').value,
+                language: this.profileForm.get('language').value,
+            }
         }
-    
-        if(this.selectedMajor?.value != 'All') {
-            mentors = mentors.filter(m => {
-                return m.major == this.selectedMajor?.text
-            })
-        }
-    
-        if(this.selectedCity) {
-            mentors = mentors.filter(m => {
-                return m.location == this.selectedCity
-            })
-        }
-    
-        this.mentors = this.formatMentors(mentors);
+
+        this._buddyService.updateMentorProfile(params).subscribe(
+            res => {
+                this.file = '';
+                this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+            },
+            error => {
+                console.log(error)
+                this.open(this._translateService.instant('dialog.error'), '')
+        })
     }
 
-    uploadPhoto(event: any) {
-
+    isValidForm() {
+        let valid = true;
+        Object.keys(this.profileForm.controls).forEach(key => {
+          const controlErrors: ValidationErrors = this.profileForm.get(key).errors;
+          if (controlErrors == null) {
+            valid = true;
+          } else {
+            if (controlErrors != null) {
+              valid = false;
+            }
+          }
+        });
+        return valid;
     }
 
-    save() {
-
+    async open(message: string, action: string) {
+        await this._snackBar.open(message, action, {
+          duration: 3000,
+          panelClass: ["info-snackbar"],
+        });
     }
 
     ngOnDestroy() {
