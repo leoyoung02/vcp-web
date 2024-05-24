@@ -238,25 +238,25 @@ export class PlansListComponent {
     this.isMobile = window.innerWidth < 768;
   }
 
-  @HostListener('window:scroll', ['$event'])
-  onScroll(event: Event) {
-    if(this.companyId == 32 && !this.isMobile) {
-      const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
-      const documentHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+  // @HostListener('window:scroll', ['$event'])
+  // onScroll(event: Event) {
+  //   if(this.companyId == 32 && !this.isMobile) {
+  //     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  //     const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+  //     const documentHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
 
-      if (scrollPosition + windowHeight >= documentHeight) {
-        this.onScrollDown();
-      }
-    }
-  }
+  //     if (scrollPosition + windowHeight >= documentHeight) {
+  //       this.onScrollDown();
+  //     }
+  //   }
+  // }
 
-  onScrollDown() {
-    if(this.companyId == 32 && !this.isMobile) {
-      this.currentPage++;
-      this.fetchPlans();
-    }
-  }
+  // onScrollDown() {
+  //   if(this.companyId == 32 && !this.isMobile) {
+  //     this.currentPage++;
+  //     this.fetchPlans();
+  //   }
+  // }
 
   async ngOnInit() {
     this.onResize();
@@ -1173,11 +1173,11 @@ export class PlansListComponent {
         }, 200)
       }
     } else {
-      if(this.companyId == 32) {
-        this.filteredPlan = this.getSlicedPlans(filteredPlan);
-      } else {
+      // if(this.companyId == 32) {
+      //   this.filteredPlan = this.getSlicedPlans(filteredPlan);
+      // } else {
         this.filteredPlan = filteredPlan;
-      }
+      // }
 
       let selected = localStorage.getItem('plan-filter-city');
       if(selected && this.list?.length > 0) {
@@ -1194,24 +1194,24 @@ export class PlansListComponent {
     }
   }
 
-  getSlicedPlans(filteredPlan) {
-    let plans: any[] = [];
-    this.pageSize = this.currentPage == 1 && this.showEventsCalendar ? 7 : 8;
+  // getSlicedPlans(filteredPlan) {
+  //   let plans: any[] = [];
+  //   this.pageSize = this.currentPage == 1 && this.showEventsCalendar ? 7 : 8;
 
-    if(!this.search && !this.isMobile && this.companyId == 32) {
-      const prev = filteredPlan
-      if(prev?.length != filteredPlan?.length && filteredPlan?.length > 0) {
-        plans = filteredPlan?.splice((this.currentPage - 1),this.pageSize);
-        plans = [...prev, ...this.filteredPlan];
-      } else {
-        plans = filteredPlan?.splice(0,this.pageSize * this.currentPage);
-      }
-    } else {
-      plans = filteredPlan;
-    }
+  //   if(!this.search && !this.isMobile && this.companyId == 32) {
+  //     const prev = filteredPlan
+  //     if(prev?.length != filteredPlan?.length && filteredPlan?.length > 0) {
+  //       plans = filteredPlan?.splice((this.currentPage - 1),this.pageSize);
+  //       plans = [...prev, ...this.filteredPlan];
+  //     } else {
+  //       plans = filteredPlan?.splice(0,this.pageSize * this.currentPage);
+  //     }
+  //   } else {
+  //     plans = filteredPlan;
+  //   }
 
-    return plans;
-  }
+  //   return plans;
+  // }
 
   getPlanDescription(plan) {
     return plan

@@ -79,6 +79,23 @@ export class CreditsDisplayComponent {
 
     buyCredits() {
         this.modalbutton?.nativeElement.click();
+
+        let existingSubscriptions = this.courseSubscriptions;
+        this.courseSubscriptions = [];
+        let course_subscriptions: any[] = [];
+        if(existingSubscriptions?.length > 0) {
+            existingSubscriptions?.forEach(cs => {
+                let match = course_subscriptions?.some(
+                    (a) => a.id == cs.id
+                );
+
+                if(!match && cs.course?.course_credits > 0) {
+                    course_subscriptions.push(cs);
+                }
+            })
+        }
+
+        this.courseSubscriptions = course_subscriptions;
     }
 
     getCourseImageByCredit(item) {
@@ -128,9 +145,13 @@ export class CreditsDisplayComponent {
     }
 
     loadCourseCredits() {
-        this.courseCreditPackages = this.creditPackages?.filter(c => {
+        let courseCreditPackages = this.creditPackages?.filter(c => {
             return c.course_id == this.selectedCourse?.id
         })
+        
+        this.courseCreditPackages = courseCreditPackages?.sort((a, b) => {
+            return a.credits - b.credits;
+        });
     }
 
     getSelectedCourse() {

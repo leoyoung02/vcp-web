@@ -133,6 +133,11 @@ export class UserMenuComponent {
       this._userService.updateUserCourseCredits(this.userCourseCredits);
     }
 
+    let courseSubscriptionsChange = changes["courseSubscriptions"];
+    if (courseSubscriptionsChange?.currentValue?.length > 0) {
+      this.courseSubscriptions = courseSubscriptionsChange.currentValue;
+    }
+
     let customMemberTypeChange = changes["customMemberType"];
     if (customMemberTypeChange?.currentValue?.id > 0) {
       this.customMemberType = customMemberTypeChange.currentValue;
