@@ -3280,7 +3280,8 @@
         "moneyonthewaystatus": "Geld unterwegs ⏳",
         "tiktokstats": "TikTok-Statistiken",
         "daterangedesc": "Datumsbereich auswählen (maximal 1 Monat). Klicken Sie auf „Zurücksetzen“, um den Standardmonat festzulegen.",
-        "noratingsyet": "Noch keine Bewertungen"
+        "noratingsyet": "Noch keine Bewertungen",
+        "edittutor": "Tutor bearbeiten"
     },
     "general-details": {
         "name" : "Name",

@@ -3275,7 +3275,8 @@
         "moneyonthewaystatus": "Argent en route ⏳",
         "tiktokstats": "Statistiques TikTok",
         "daterangedesc": "Sélectionnez une plage de dates (maximum de 1 mois). Cliquez sur réinitialiser pour définir le mois par défaut",
-        "noratingsyet": "Aucune note pour l'instant"
+        "noratingsyet": "Aucune note pour l'instant",
+        "edittutor": "Modifier le tuteur"
     },
     "general-details": {
         "name" : "Nom",

@@ -37,6 +37,7 @@ import {
   DELETE_TUTOR_PACKAGE_URL,
   DELETE_TUTOR_TYPE_URL,
   DURATION_UNITS_URL,
+  EDIT_ASSIGNED_TUTOR_URL,
   EDIT_BOOKING_STATUS_URL,
   EDIT_CREDIT_PACKAGE_STATUS_URL,
   EDIT_CREDIT_PACKAGE_URL,
@@ -565,6 +566,12 @@ export class TutorsService {
   deleteBooking(id): Observable<any> {
     return this._http.delete(`${DELETE_BOOKING_URL}/${id}`,
         {},
+    ).pipe(map(res => res));
+  }
+
+  editAssignedTutor(params): Observable<any> {
+    return this._http.post(EDIT_ASSIGNED_TUTOR_URL,
+        params
     ).pipe(map(res => res));
   }
 }
