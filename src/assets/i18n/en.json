@@ -1516,7 +1516,8 @@
         "plandetailschanged": "Details have changed. Do you want to send these updates to the participants?",
         "yes": "Yes",
         "no": "No",
-        "eventregistrationimage": "Event's Guest Registration Page Image"
+        "eventregistrationimage": "Event's Guest Registration Page Image",
+        "insertvideo": "Insert video"
     },
     "edit-club": {
         "uploadimage": "Upload image",

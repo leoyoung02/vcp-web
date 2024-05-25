@@ -1515,7 +1515,8 @@
         "plandetailschanged": "Els detalls han canviat. Vols enviar aquestes actualitzacions als participants?",
         "yes": "Sí",
         "no": "No",
-        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia"
+        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia",
+        "insertvideo": "Insereix vídeo"
     },
     "edit-club": {
         "uploadimage": "Carregar imatge",

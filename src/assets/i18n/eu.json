@@ -1512,7 +1512,8 @@
         "plandetailschanged": "Xehetasunak aldatu dira. Parte-hartzaileei eguneraketa hauek bidali nahi dizkiezu?",
         "yes": "Bai",
         "no": "Ez",
-        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia"
+        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia",
+        "insertvideo": "Txertatu bideoa"
     },
     "edit-club": {
         "uploadimage": "Igo irudia",

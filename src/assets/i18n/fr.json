@@ -1510,7 +1510,8 @@
         "plandetailschanged": "Les détails ont changé. Voulez-vous envoyer ces mises à jour aux participants ?",
         "yes": "Oui",
         "no": "Non",
-        "eventregistrationimage": "Image de la page d'inscription des invités à l'événement"
+        "eventregistrationimage": "Image de la page d'inscription des invités à l'événement",
+        "insertvideo": "Insérer une vidéo"
     },
     "edit-club": {
         "uploadimage": "Télécharger une image",
