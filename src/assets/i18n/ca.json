@@ -762,7 +762,8 @@
         "noevents": "No hi ha esdeveniments",
         "noclubs": "No es van trobar clubs",
         "joinedby": "unit per",
-        "groups": "Grups"
+        "groups": "Grups",
+        "profileimage": "Imatge de perfil"
     },
     "profile-settings": {
         "firstname": "Nom de pila",
@@ -1518,7 +1519,8 @@
         "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia",
         "bizumpayment": "Activeu Bizum com a opció de pagament?",
         "reserve": "Reserva",
-        "signup": "Apunta't"
+        "signup": "Apunta't",
+        "insertvideo": "Insereix vídeo"
     },
     "edit-club": {
         "uploadimage": "Carregar imatge",
@@ -3294,7 +3296,8 @@
         "moneyonthewaystatus": "Diners en camí ⏳",
         "tiktokstats": "Estadístiques de TikTok",
         "daterangedesc": "Seleccioneu l'interval de dates (màxim d'1 mes). Feu clic a Restableix per establir el mes predeterminat",
-        "noratingsyet": "Encara no hi ha cap valoració"
+        "noratingsyet": "Encara no hi ha cap valoració",
+        "edittutor": "Edita el tutor"
     },
     "general-details": {
         "name" : "Nom",

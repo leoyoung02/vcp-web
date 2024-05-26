@@ -513,6 +513,56 @@ export class PlanEditComponent {
 
   isBizumActive: boolean = false;
   isBizumPayment: boolean = false;
+  showVideoSection: boolean = false;
+  eventVideoFileName: any = '';
+  @ViewChild('myPondVideo', {static: false}) myPondVideo: any;
+  pondVideoOptions = {
+    class: 'my-filepond-video',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+          const formData = new FormData();
+          let fileExtension = file ? file.name.split('.').pop() : '';
+          this.eventVideoFileName = 'p_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+          formData.append('file', file, this.eventVideoFileName);
+          localStorage.setItem('event_video_file', 'uploading');
+
+          const request = new XMLHttpRequest();
+          request.open('POST', environment.api + '/company/course/temp-upload');
+
+          request.upload.onprogress = (e) => {
+            progress(e.lengthComputable, e.loaded, e.total);
+          };
+
+          request.onload = function () {
+              if (request.status >= 200 && request.status < 300) {
+                load(request.responseText);
+                localStorage.setItem('event_video_file', 'complete');
+              } else {
+                error('oh no');
+              }
+          };
+
+          request.send(formData);
+
+          return {
+            abort: () => {
+              request.abort();
+              abort();
+            },
+          };
+      },
+    },
+  };
+  pondVideoFiles = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -3227,12 +3277,15 @@ export class PlanEditComponent {
       'link',
       'lists',
       'media',
-      'image'
+      'image',
+      'mediauploader'
       ],
       toolbar:
       'undo redo | formatselect | bold italic | fontsize \
       alignleft aligncenter alignright alignjustify | \
       link | \
+      media | \
+      mediauploader | \
       image | \
       forecolor backcolor | \
       bullist numlist outdent indent | help | \
@@ -3273,6 +3326,41 @@ export class PlanEditComponent {
   removeSpecialCharacters(event): boolean {
     let regexStr = '^[a-zA-Z0-9-]*$';
     return new RegExp(regexStr).test(event.key);
+  }
+
+  insertVideo() {
+    this.showVideoSection = true;
+  }
+
+  pondHandleVideoInit() {
+    console.log('FilePond has initialised', this.myPondVideo);
+  }
+
+  pondHandleAddVideoFile(event: any) {
+    console.log('A file was added', event);
+    let event_video_file_status = localStorage.getItem('event_video_file');
+    let event_video_file = event_video_file_status == 'complete' ? this.eventVideoFileName : '';
+  }
+
+  pondHandleActivateVideoFile(event: any) {
+    console.log('A file was activated', event);
+  }
+
+  pondHandleProcessFiles() {
+    console.log('FilePond has processed files', this.myPondVideo);
+    let new_description = this.planForm.get("descriptionEs")?.value;
+    new_description += `<video style="width: 570px; height: 285px;" controls="controls" width="570" height="285"> <source src="${environment.api}/get-course-unit-file/${this.eventVideoFileName}"></video>
+    </p>`;
+    this.planForm.controls["descriptionEs"].setValue(new_description);
+    this.planForm.controls["descriptionEn"].setValue(new_description);
+    this.planForm.controls["descriptionFr"].setValue(new_description);
+    this.planForm.controls["descriptionEu"].setValue(new_description);
+    this.planForm.controls["descriptionCa"].setValue(new_description);
+    this.planForm.controls["descriptionDe"].setValue(new_description);
+    this.eventVideoFileName = '';
+    this.showVideoSection = false;
+    localStorage.setItem('event_reg_file', '');
+
   }
 
   async open(message: string, action: string) {

@@ -763,7 +763,8 @@
         "noevents": "No hay eventos",
         "noclubs": "No se encontraron clubes",
         "joinedby": "unido por",
-        "groups": "Grupos"
+        "groups": "Grupos",
+        "profileimage": "Imagen de perfil"
     },
     "profile-settings": {
         "firstname": "Nombre de pila",
@@ -1520,7 +1521,8 @@
         "stripedesc": "Acepta pagos con tarjeta de crédito y débito",
         "bizumdesc": "Envía pago a través de tu teléfono inteligente",
         "reserve": "Reserva",
-        "signup": "Apuntate"
+        "signup": "Apuntate",
+        "insertvideo": "Insertar vídeo"
     },
     "edit-club": {
         "uploadimage": "Cargar imagen",
@@ -3306,7 +3308,8 @@
         "moneyonthewaystatus": "Dinero en camino ⏳",
         "tiktokstats": "Estadísticas de TikTok",
         "daterangedesc": "Seleccione el rango de fechas (máximo 1 mes). Haga clic en restablecer para establecer el mes predeterminado",
-        "noratingsyet": "Aún no hay calificaciones"
+        "noratingsyet": "Aún no hay calificaciones",
+        "edittutor": "Editar tutor"
     },
     "general-details": {
         "name" : "Nombre",

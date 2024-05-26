@@ -762,7 +762,8 @@
         "noevents": "Keine Veranstaltungen",
         "noclubs": "Keine Vereine gefunden",
         "joinedby": "beigetreten von",
-        "groups": "Gruppen"
+        "groups": "Gruppen",
+        "profileimage": "Profilbild"
     },
     "profile-settings": {
         "firstname": "Vorname",
@@ -1516,7 +1517,8 @@
         "stripedesc": "Akzeptiert Kredit- und Debitkartenzahlungen",
         "bizumdesc": "Zahlung über Ihr Smartphone senden",
         "reserve": "Reservieren",
-        "signup": "Anmelden"
+        "signup": "Anmelden",
+        "insertvideo": "Video einfügen"
     },
     "edit-club": {
         "uploadimage": "Bild hochladen",
@@ -3285,7 +3287,8 @@
         "moneyonthewaystatus": "Geld unterwegs ⏳",
         "tiktokstats": "TikTok-Statistiken",
         "daterangedesc": "Datumsbereich auswählen (maximal 1 Monat). Klicken Sie auf „Zurücksetzen“, um den Standardmonat festzulegen.",
-        "noratingsyet": "Noch keine Bewertungen"
+        "noratingsyet": "Noch keine Bewertungen",
+        "edittutor": "Tutor bearbeiten"
     },
     "general-details": {
         "name" : "Name",

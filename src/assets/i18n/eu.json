@@ -762,7 +762,8 @@
         "noevents": "Ez dago gertaerarik",
         "noclubs": "Ez da klubik aurkitu",
         "joinedby": "batzuk",
-        "groups": "Taldeak"
+        "groups": "Taldeak",
+        "profileimage": "Profilaren irudia"
     },
     "profile-settings": {
         "firstname": "Izena",
@@ -1517,7 +1518,8 @@
         "stripedesc": "Kreditu- eta zordunketa-txartelen ordainketak onartzen ditu",
         "bizumdesc": "Bidali ordainketa zure telefonoaren bidez",
         "reserve": "Erreserba",
-        "signup": "Eman izena"
+        "signup": "Eman izena",
+        "insertvideo": "Txertatu bideoa"
     },
     "edit-club": {
         "uploadimage": "Igo irudia",
@@ -3286,7 +3288,8 @@
         "moneyonthewaystatus": "Dirua bidean ⏳",
         "tiktokstats": "TikTok Estatistikak",
         "daterangedesc": "Hautatu data-tartea (gehienez hilabetekoa). Egin klik berrezarri hilabete lehenetsi gisa ezartzeko",
-        "noratingsyet": "Oraindik ez dago baloraziorik"
+        "noratingsyet": "Oraindik ez dago baloraziorik",
+        "edittutor": "Editatu tutorea"
     },
     "general-details": {
         "name" : "Izena",
