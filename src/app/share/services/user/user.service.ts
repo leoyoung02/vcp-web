@@ -96,6 +96,7 @@ import {
     UPDATE_REGISTRATION_FIELD_DETAILS_URL,
     SUPER_TUTOR_STUDENTS_URL,
     POT_SUPER_TUTOR_STUDENTS_URL,
+    EDIT_USER_BIRTHDAY_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -756,5 +757,12 @@ export class UserService {
     return this._http.get(`${POT_SUPER_TUTOR_STUDENTS_URL}/${id}`,
       { headers: this.headers }
     ).pipe(map(res => res))
+  }
+
+  updateUserBirthday(payload): Observable<any> {
+    return this._http.put(EDIT_USER_BIRTHDAY_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

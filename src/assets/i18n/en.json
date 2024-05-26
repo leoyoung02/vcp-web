@@ -763,7 +763,8 @@
         "noevents": "No events found",
         "noclubs": "No clubs found",
         "joinedby": "joined by",
-        "groups": "Groups"
+        "groups": "Groups",
+        "profileimage": "Profile image"
     },
     "profile-settings": {
         "firstname": "First Name",

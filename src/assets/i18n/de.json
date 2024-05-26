@@ -762,7 +762,8 @@
         "noevents": "Keine Veranstaltungen",
         "noclubs": "Keine Vereine gefunden",
         "joinedby": "beigetreten von",
-        "groups": "Gruppen"
+        "groups": "Gruppen",
+        "profileimage": "Profilbild"
     },
     "profile-settings": {
         "firstname": "Vorname",

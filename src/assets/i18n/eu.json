@@ -762,7 +762,8 @@
         "noevents": "Ez dago gertaerarik",
         "noclubs": "Ez da klubik aurkitu",
         "joinedby": "batzuk",
-        "groups": "Taldeak"
+        "groups": "Taldeak",
+        "profileimage": "Profilaren irudia"
     },
     "profile-settings": {
         "firstname": "Izena",
