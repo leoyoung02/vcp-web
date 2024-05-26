@@ -1128,22 +1128,22 @@ export class SignupComponent {
         .subscribe(
           async (response) => {
             if (response["user"]) {
-              this._localService.setLocalStorage(
-                environment.lsuserId,
-                response["user"]["id"]
-              );
-              this._localService.setLocalStorage(
-                environment.lsemail,
-                response["user"]["email"]
-              );
-              this._localService.setLocalStorage(
-                environment.lscompanyId,
-                response["user"]["fk_company_id"]
-              );
-              this._localService.setLocalStorage(
-                environment.lsdomain,
-                response["user"]["domain"]
-              );
+              // this._localService.setLocalStorage(
+              //   environment.lsuserId,
+              //   response["user"]["id"]
+              // );
+              // this._localService.setLocalStorage(
+              //   environment.lsemail,
+              //   response["user"]["email"]
+              // );
+              // this._localService.setLocalStorage(
+              //   environment.lscompanyId,
+              //   response["user"]["fk_company_id"]
+              // );
+              // this._localService.setLocalStorage(
+              //   environment.lsdomain,
+              //   response["user"]["domain"]
+              // );
               if (!this._localService.getLocalStorage(environment.lslang)) {
                 this._localService.setLocalStorage(environment.lslang, "es");
               }

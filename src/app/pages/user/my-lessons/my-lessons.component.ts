@@ -252,6 +252,17 @@ export class MyLessonsComponent {
             this.superAdmin = roles && roles.some(a => a.role == 'Super Admin')
 
             this.tutorUsers = data[5] ? data[5]['tutors'] : []
+            if(this.tutorUsers?.length > 0) {
+                this.tutorUsers.sort(function (a, b) {
+                    if (a.name < b.name) {
+                      return -1;
+                    }
+                    if (a.name > b.name) {
+                      return 1;
+                    }
+                    return 0;
+                });
+            }
             
             if(this.tutorUsers?.length > 0) {
                 this.isTutorUser = this.tutorUsers?.some(a => a.user_id == this.userId)

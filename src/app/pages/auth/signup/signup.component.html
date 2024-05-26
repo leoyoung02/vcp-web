@@ -318,7 +318,7 @@
                         [ngClass]="{'disabled:opacity-75': getStartedForm.get('birthday')?.errors || !file }"
                         [disabled]="getStartedForm.get('birthday')?.errors || !file"
                         (click)="updateBirthdayProfileImage()"
-                        *ngIf="!isKlubOkio || (isKlubOkio && isStep2)"
+                        *ngIf="isKlubOkio && isStep2"
                     >
                         {{ "courses.continue" | translate }}
                     </button>
