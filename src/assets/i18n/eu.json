@@ -3282,7 +3282,8 @@
         "moneyonthewaystatus": "Dirua bidean ⏳",
         "tiktokstats": "TikTok Estatistikak",
         "daterangedesc": "Hautatu data-tartea (gehienez hilabetekoa). Egin klik berrezarri hilabete lehenetsi gisa ezartzeko",
-        "noratingsyet": "Oraindik ez dago baloraziorik"
+        "noratingsyet": "Oraindik ez dago baloraziorik",
+        "edittutor": "Editatu tutorea"
     },
     "general-details": {
         "name" : "Izena",
