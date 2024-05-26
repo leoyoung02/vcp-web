@@ -762,7 +762,8 @@
         "noevents": "No hi ha esdeveniments",
         "noclubs": "No es van trobar clubs",
         "joinedby": "unit per",
-        "groups": "Grups"
+        "groups": "Grups",
+        "profileimage": "Imatge de perfil"
     },
     "profile-settings": {
         "firstname": "Nom de pila",

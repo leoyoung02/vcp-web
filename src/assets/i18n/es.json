@@ -763,7 +763,8 @@
         "noevents": "No hay eventos",
         "noclubs": "No se encontraron clubes",
         "joinedby": "unido por",
-        "groups": "Grupos"
+        "groups": "Grupos",
+        "profileimage": "Imagen de perfil"
     },
     "profile-settings": {
         "firstname": "Nombre de pila",
