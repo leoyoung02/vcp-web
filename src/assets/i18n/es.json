@@ -1515,7 +1515,12 @@
         "plandetailschanged": "Los detalles han cambiado. ¿Quieres enviar estas actualizaciones a los participantes?",
         "yes": "Sí",
         "no": "No",
-        "eventregistrationimage": "Imagen de la página de registro de invitados al evento"
+        "eventregistrationimage": "Imagen de la página de registro de invitados al evento",
+        "bizumpayment": "¿Activar Bizum como opción de pago?",
+        "stripedesc": "Acepta pagos con tarjeta de crédito y débito",
+        "bizumdesc": "Envía pago a través de tu teléfono inteligente",
+        "reserve": "Reserva",
+        "signup": "Apuntate"
     },
     "edit-club": {
         "uploadimage": "Cargar imagen",

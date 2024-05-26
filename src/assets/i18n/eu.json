@@ -1512,7 +1512,12 @@
         "plandetailschanged": "Xehetasunak aldatu dira. Parte-hartzaileei eguneraketa hauek bidali nahi dizkiezu?",
         "yes": "Bai",
         "no": "Ez",
-        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia"
+        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia",
+        "bizumpayment": "Aktibatu Bizum ordainketa-aukera gisa?",
+        "stripedesc": "Kreditu- eta zordunketa-txartelen ordainketak onartzen ditu",
+        "bizumdesc": "Bidali ordainketa zure telefonoaren bidez",
+        "reserve": "Erreserba",
+        "signup": "Eman izena"
     },
     "edit-club": {
         "uploadimage": "Igo irudia",

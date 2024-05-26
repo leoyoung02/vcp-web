@@ -1515,7 +1515,10 @@
         "plandetailschanged": "Els detalls han canviat. Vols enviar aquestes actualitzacions als participants?",
         "yes": "Sí",
         "no": "No",
-        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia"
+        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia",
+        "bizumpayment": "Activeu Bizum com a opció de pagament?",
+        "reserve": "Reserva",
+        "signup": "Apunta't"
     },
     "edit-club": {
         "uploadimage": "Carregar imatge",

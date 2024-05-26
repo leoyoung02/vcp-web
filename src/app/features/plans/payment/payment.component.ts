@@ -210,8 +210,10 @@ export class PlanPaymentComponent {
     | undefined;
   package: any;
   showConfirmed: boolean = false;
-
   event: any;
+  showMultipleOptions: boolean = false;
+  loadedPaymentMethods: boolean = false;
+  selectedPaymentMethod: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -243,7 +245,7 @@ export class PlanPaymentComponent {
         personal_address: ['', [Validators.required]],
         city: ['', [Validators.required]],
         zip_code: ['', [Validators.required]],
-        nif: ['', [Validators.required]],
+        nif: [''],
         cif: [''],
         direccion: [''],
         province: ['', [Validators.required]],
@@ -258,7 +260,7 @@ export class PlanPaymentComponent {
         personal_address: ['', [Validators.required]],
         city: ['', [Validators.required]],
         zip_code: ['', [Validators.required]],
-        nif: ['', [Validators.required]],
+        nif: [''],
         cif: [''],
         direccion: [''],
         province: ['', [Validators.required]],
@@ -289,6 +291,7 @@ export class PlanPaymentComponent {
     }
 
     this.initializeForm();
+    this.getPaymentOptions();
     this.getUserDetails();
   }
 
@@ -302,6 +305,22 @@ export class PlanPaymentComponent {
         this.pageTitle = this.event?.title;
       }
     )
+  }
+
+  getPaymentOptions() {
+    this._plansService
+      .getActivityPaymentOptions(this.id, this.typeId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response) => {
+          let payment_options = response.payment_options;
+          this.showMultipleOptions = payment_options?.stripe_pay == 1 && payment_options?.bizum_pay == 1 ? true : false;
+          this.loadedPaymentMethods = true;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   getUserDetails() {
@@ -555,19 +574,29 @@ export class PlanPaymentComponent {
     this.missingCity = false
     this.missingZipcode = false
 
-    if (this.isValidForm()) {
-      this.continuePaymentProcess(null);
-    } else {
-      this.scrollToTop();
-      this.submitted = false;
-      this.isInvalidForm = true;
-      this.open(this._translateService.instant("wall.requiredfields"), "");
-    }
+    setTimeout(() => {
+      if (this.isValidForm()) {
+        this.continuePaymentProcess(null);
+      } else {
+        this.scrollToTop();
+        this.submitted = false;
+        this.isInvalidForm = true;
+        this.open(this._translateService.instant("wall.requiredfields"), "");
+      }
+    }, 500)
   }
 
   continuePaymentProcess(content) {
-    this.stripeData = this.stripeForm.value;
-    this.processPayment(content);
+    if(this.showMultipleOptions && this.selectedPaymentMethod == 'Bizum') {
+      this.processPaymentByBizum();
+    } else {
+      this.stripeData = this.stripeForm.value;
+      this.processPayment(content);
+    }
+  }
+
+  processPaymentByBizum() {
+    
   }
 
   scrollToTop() {
@@ -717,22 +746,21 @@ export class PlanPaymentComponent {
   isValidForm() {
     let valid = true;
     Object.keys(this.stripeForm.controls).forEach((key) => {
-      const controlErrors: ValidationErrors =
-        this.stripeForm.controls[key].errors!;
-      if (controlErrors == null) {
-        valid = true;
-      } else {
+      const controlErrors: ValidationErrors = this.stripeForm.controls[key].errors!;
+      // if (controlErrors == null) {
+      //   valid = true;
+      // } else {
         if (controlErrors != null) {
           valid = false;
         } else {
-          if (key == "email") {
+          if (controlErrors != null && key == "email") {
             valid = false;
             this.invalidEmail = true;
           }
         }
-      }
+      // }
     });
-
+    
     return valid;
   }
 
@@ -754,6 +782,14 @@ export class PlanPaymentComponent {
     setTimeout(() => {
       this._router.navigate([`/plans/details/${this.id}/${this.typeId}`])
     }, 1000)
+  }
+
+  handleChangePaymentMethod(event) {
+    this.selectedPaymentMethod = event?.target?.value;
+  }
+
+  bizumSignup() {
+
   }
 
   async open(message: string, action: string) {

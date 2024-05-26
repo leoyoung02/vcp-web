@@ -5,6 +5,7 @@ import {
   ACTIVITY_CITIES_URL,
   ACTIVITY_CODE_DATA_URL,
   ACTIVITY_CREDITS_URL,
+  ACTIVITY_PAYMENT_OPTIONS_URL,
   ADD_AGE_GROUP_URL,
   ADD_ALIAS_URL,
   ADD_EVENT_CATEGORY_URL,
@@ -805,6 +806,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'invite_link', planForm.invite_link );
     formData.append( 'waiting_list', planForm.waiting_list );
     formData.append( 'stripe_pay', planForm.stripe_pay ? planForm.stripe_pay : 0 );
+    formData.append( 'bizum_pay', planForm.bizum_pay ? planForm.bizum_pay : 0 );
     formData.append( 'credits', planForm.credits );
     formData.append( 'credits_value', planForm.credits_value );
     formData.append( 'featured', planForm.featured );
@@ -1018,6 +1020,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'invite_link', planForm.invite_link );
     formData.append( 'waiting_list', planForm.waiting_list );
     formData.append( 'stripe_pay', planForm.stripe_pay ? planForm.stripe_pay : 0 );
+    formData.append( 'bizum_pay', planForm.bizum_pay ? planForm.bizum_pay : 0 );
     formData.append( 'credits', planForm.credits );
     formData.append( 'credits_value', planForm.credits_value );
     formData.append( 'featured', planForm.featured );
@@ -1309,6 +1312,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
   deleteAgeGroup(id, companyId): Observable<any> {
     return this._http.delete(`${DELETE_AGE_GROUP_URL}/${id}/${companyId}`,
       {},
+    ).pipe(map(res => res));
+  }
+
+  getActivityPaymentOptions(id, typeId): Observable<any> {
+    return this._http.get(`${ACTIVITY_PAYMENT_OPTIONS_URL}/${id}/${typeId}`,
+      { headers: this.headers }
     ).pipe(map(res => res));
   }
 }

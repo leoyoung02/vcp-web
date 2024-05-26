@@ -494,6 +494,25 @@
                         </option>
                     </select>
                 </div>
+                <div class="flex items-center mt-4 w-full mx-auto" *ngIf="isBizumActive && activityFeeEnabled && withFee">
+                    <label class="checkbox-container">
+                        <div class="flex mb-4">
+                            <input 
+                                id="bizumpayment" 
+                                type="checkbox"
+                                [(ngModel)]="isBizumPayment" 
+                                [ngModelOptions]="{standalone: true}"
+                                [ngStyle]="{'color': isBizumPayment ? 'text-blue-500' : 'text-gray-900'}"
+                                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            >
+                            <label for="bizumpayment" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                <span>
+                                    {{ 'edit-plan.bizumpayment' | translate }}
+                                </span>
+                            </label>
+                        </div>
+                    </label>
+                </div>
                 <ng-container *ngIf="showZoomLink && showMeetingLinks">
                     <div class="flex items-center justify-center relative">
                         <input
