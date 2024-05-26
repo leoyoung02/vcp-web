@@ -27,7 +27,15 @@ import {
   faEyeSlash,
   faCheckCircle,
   faTimesCircle,
+  faRotateLeft,
+  faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  ImageCropperModule,
+  ImageCroppedEvent,
+  ImageTransform,
+  base64ToFile,
+} from "ngx-image-cropper";
 import {
   NgxMatDatetimePickerModule,
   NgxMatNativeDateModule,
@@ -74,6 +82,7 @@ registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPlug
     MatDatepickerModule,
     MatFormFieldModule,
     NgxMaterialTimepickerModule,
+    ImageCropperModule,
     CompanyLogoComponent,
   ],
   templateUrl: "./signup.component.html",
@@ -250,6 +259,25 @@ export class SignupComponent {
   pondFiles = [];
   passwordRequirementsNotSatisfied: boolean = true;
 
+  isKlubOkio: boolean = false;
+  isStep1: boolean = false;
+  isStep2: boolean = false;
+  createdUserId: any;
+  modalMode: string = '';
+  showImageCropper: boolean = false;
+  imageChangedEvent: any;
+  rotateLeftIcon = faRotateLeft;
+  rotateRightIcon = faRotateRight;
+  croppedImage: any;
+  canvasRotation = 0;
+  rotation = 0;
+  scale = 1;
+  transform: ImageTransform = {};
+  file: any;
+  imageSrc: string = environment.api + "/";
+  myImage: any;
+  hasImage: boolean = false;
+
   constructor(
     private _router: Router,
     private _authService: AuthService,
@@ -323,7 +351,15 @@ export class SignupComponent {
       searchPlaceholderText: this._translateService.instant('guests.search'),
     }
     
+    this.initiateKlubOkio();
     this.fetchSignupData();
+  }
+
+  initiateKlubOkio() {
+    if(this.companyId == 66) {
+      this.isKlubOkio = true;
+      this.isStep1 = true;
+    }
   }
 
   fetchSignupData() {
@@ -1092,22 +1128,22 @@ export class SignupComponent {
         .subscribe(
           async (response) => {
             if (response["user"]) {
-              this._localService.setLocalStorage(
-                environment.lsuserId,
-                response["user"]["id"]
-              );
-              this._localService.setLocalStorage(
-                environment.lsemail,
-                response["user"]["email"]
-              );
-              this._localService.setLocalStorage(
-                environment.lscompanyId,
-                response["user"]["fk_company_id"]
-              );
-              this._localService.setLocalStorage(
-                environment.lsdomain,
-                response["user"]["domain"]
-              );
+              // this._localService.setLocalStorage(
+              //   environment.lsuserId,
+              //   response["user"]["id"]
+              // );
+              // this._localService.setLocalStorage(
+              //   environment.lsemail,
+              //   response["user"]["email"]
+              // );
+              // this._localService.setLocalStorage(
+              //   environment.lscompanyId,
+              //   response["user"]["fk_company_id"]
+              // );
+              // this._localService.setLocalStorage(
+              //   environment.lsdomain,
+              //   response["user"]["domain"]
+              // );
               if (!this._localService.getLocalStorage(environment.lslang)) {
                 this._localService.setLocalStorage(environment.lslang, "es");
               }
@@ -1117,20 +1153,32 @@ export class SignupComponent {
                 this.memberTypes &&
                 this.memberTypes.length > 0
               ) {
-                this._router.navigate([
-                  `/payment/select-plan/${response["user"]["id"]}`,
-                ]);
-              } else {
-                if (this.confirm_email) {
-                  await this._authService
-                    .sendConfirmationEmail({
-                      companyId: this.companyId,
-                      userId: response["user"]["id"],
-                    })
-                    .toPromise();
+                if(this.isKlubOkio) {
+                  this.createdUserId = response["user"]["id"];
+                  this.isStep1 = false;
+                  this.isStep2 = true;
+                } else {
+                  this._router.navigate([
+                    `/payment/select-plan/${response["user"]["id"]}`,
+                  ]);
                 }
+              } else {
+                if(this.isKlubOkio) {
+                  this.createdUserId = response["user"]["id"];
+                  this.isStep1 = false;
+                  this.isStep2 = true;
+                } else {
+                  if (this.confirm_email) {
+                    await this._authService
+                      .sendConfirmationEmail({
+                        companyId: this.companyId,
+                        userId: response["user"]["id"],
+                      })
+                      .toPromise();
+                  }
 
-                this._router.navigate([`/auth/login`]);
+                  this._router.navigate([`/auth/login`]);
+                }
               }
             } else if (response["code"] == "user_exists") {
               let error = true;
@@ -1143,9 +1191,15 @@ export class SignupComponent {
                   response["existing_user"]["status"] == 0
                 ) {
                   error = false;
-                  this._router.navigate([
-                    `/payment/select-plan/${response["existing_user"]["id"]}`,
-                  ]);
+                  if(this.isKlubOkio) {
+                    this.createdUserId = response["existing_user"]["id"];
+                    this.isStep1 = false;
+                    this.isStep2 = true;
+                  } else {
+                    this._router.navigate([
+                      `/payment/select-plan/${response["existing_user"]["id"]}`,
+                    ]);
+                  }
                 }
               }
 
@@ -1174,6 +1228,37 @@ export class SignupComponent {
       } else {
         this.open(this._translateService.instant('landing.unabletovalidate'), '');
       }
+    }
+  }
+
+  updateBirthdayProfileImage() {
+    if(this.file && this.getStartedForm.value["birthday"]) {
+      this._userService.updateProfileImage(this.createdUserId, this.file).subscribe(
+        (response) => {
+          if (response) {
+            let params = {
+              id: this.createdUserId,
+              birthday: this.getStartedForm.value["birthday"],
+            }
+            this._userService.updateUserBirthday(params).subscribe(
+              (resp) => {
+                this._router.navigate([
+                  `/payment/select-plan/${this.createdUserId}`,
+                ]);
+              },
+              (err) => {
+                console.log(err);
+                this.open(this._translateService.instant("dialog.error"), "");
+              });
+          } else {
+            this.open(this._translateService.instant("dialog.error"), "");
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.open(this._translateService.instant("dialog.error"), "");
+        }
+      );
     }
   }
 
@@ -1297,7 +1382,10 @@ export class SignupComponent {
         const controlErrors: ValidationErrors =
           this.getStartedForm.controls[key].errors! || null;
         if (controlErrors != null) {
-          valid = false;
+          if(this.isKlubOkio && this.isStep1 && key == 'birthday') {
+          } else {
+            valid = false;
+          }
 
           if (controlErrors["email"]) {
             this.errors[key] = this._translateService.instant(
@@ -1414,10 +1502,11 @@ export class SignupComponent {
   }
 
   openCreateNewStartup() {
-    this.startupDataSubmitted = false
-    this.startupError = ''
+    this.startupDataSubmitted = false;
+    this.startupError = '';
+    this.modalMode = 'startup';
     if(this.startupSelectedFields) {
-      this.initializeStartupDataForm()
+      this.initializeStartupDataForm();
     }
     this.modalbutton?.nativeElement.click();
   }
@@ -1569,6 +1658,69 @@ export class SignupComponent {
     const timestamp = date.getTime();
 
     return timestamp;
+  }
+
+  async uploadPhoto(event: any) {
+    this.modalMode = 'profile';
+    this.imageChangedEvent = event;
+    const file = event.target.files[0];
+    if (file.size > 2000000) {
+    } else {
+      initFlowbite();
+      setTimeout(() => {
+        this.modalbutton?.nativeElement.click();
+      }, 500);
+    }
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    if (event.base64) {
+      this.imageSrc = this.croppedImage = event.base64;
+      this.file = {
+        name: "image",
+        image: base64ToFile(event.base64), //event.file
+      };
+      this.hasImage = true;
+      this.myImage = this.imageSrc;
+    }
+  }
+
+  imageLoaded() {}
+
+  cropperReady() {
+    // cropper ready
+  }
+
+  loadImageFailed() {}
+
+  imageCropperModalSave() {
+    this.modalMode = '';
+    this.showImageCropper = false;
+    this.closemodalbutton?.nativeElement?.click();
+  }
+
+  imageCropperModalClose() {
+    this.showImageCropper = false;
+  }
+
+  rotateLeft() {
+    this.canvasRotation--;
+    this.flipAfterRotate();
+  }
+
+  rotateRight() {
+    this.canvasRotation++;
+    this.flipAfterRotate();
+  }
+
+  private flipAfterRotate() {
+    const flippedH = this.transform.flipH;
+    const flippedV = this.transform.flipV;
+    this.transform = {
+      ...this.transform,
+      flipH: flippedV,
+      flipV: flippedH,
+    };
   }
 
   ngOnDestroy() {

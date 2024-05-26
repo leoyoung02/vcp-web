@@ -1003,3 +1003,8 @@ app-sidebar > aside > div:nth-child(11) > div > svg.has-history {
     right: 6px;
     text-transform: capitalize;
 }
+
+.signup-date,
+.signup-date .mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
+    border-radius: 10px;
+}

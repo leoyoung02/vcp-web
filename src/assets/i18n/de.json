@@ -762,7 +762,8 @@
         "noevents": "Keine Veranstaltungen",
         "noclubs": "Keine Vereine gefunden",
         "joinedby": "beigetreten von",
-        "groups": "Gruppen"
+        "groups": "Gruppen",
+        "profileimage": "Profilbild"
     },
     "profile-settings": {
         "firstname": "Vorname",
@@ -1511,7 +1512,8 @@
         "plandetailschanged": "Details haben sich geändert. Möchten Sie diese Aktualisierungen an die Teilnehmer senden?",
         "yes": "Ja",
         "no": "Nein",
-        "eventregistrationimage": "Bild der Event-Gäste-Registrierungsseite"
+        "eventregistrationimage": "Bild der Event-Gäste-Registrierungsseite",
+        "insertvideo": "Video einfügen"
     },
     "edit-club": {
         "uploadimage": "Bild hochladen",
@@ -3280,7 +3282,8 @@
         "moneyonthewaystatus": "Geld unterwegs ⏳",
         "tiktokstats": "TikTok-Statistiken",
         "daterangedesc": "Datumsbereich auswählen (maximal 1 Monat). Klicken Sie auf „Zurücksetzen“, um den Standardmonat festzulegen.",
-        "noratingsyet": "Noch keine Bewertungen"
+        "noratingsyet": "Noch keine Bewertungen",
+        "edittutor": "Tutor bearbeiten"
     },
     "general-details": {
         "name" : "Name",
