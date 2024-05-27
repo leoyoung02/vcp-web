@@ -762,7 +762,8 @@
         "noevents": "Non ci sono eventi",
         "noclubs": "Nessun club trovato",
         "joinedby": "unito da",
-        "groups": "Gruppi"
+        "groups": "Gruppi",
+        "profileimage": "Immagine del profilo"
     },
     "profile-settings": {
         "firstname": "Nome",
@@ -3286,7 +3287,8 @@
         "moneyonthewaystatus": "Soldi in arrivo ⏳",
         "tiktokstats": "Statistiche TikTok",
         "daterangedesc": "Seleziona l'intervallo di date (massimo 1 mese). Fai clic su Ripristina per impostare il mese predefinito",
-        "noratingsyet": "Ancora nessuna valutazione"
+        "noratingsyet": "Ancora nessuna valutazione",
+        "edittutor": "Modifica tutor"
     },
     "general-details": {
         "name": "Nome",

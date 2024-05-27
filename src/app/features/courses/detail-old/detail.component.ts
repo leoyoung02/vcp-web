@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage, Location } from "@angular/common";
-import { Component, ElementRef, Input, ViewChild, Renderer2, ChangeDetectorRef } from "@angular/core";
+import { Component, ElementRef, Input, ViewChild, Renderer2, ChangeDetectorRef, HostListener } from "@angular/core";
 import { Router } from "@angular/router";
 import { environment } from "@env/environment";
 import { CoursesService } from "@features/services";
@@ -28,6 +28,8 @@ import {
   RatingChangeEvent
 } from 'angular-star-rating';
 import { AssessmentComponent } from "../assessment/assessment.component";
+import { MaximizeModule } from "src/app/directives/maximize/maximize.module";
+import { MaximizeDirective } from "src/app/directives/maximize/maximize.directive";
 import moment from 'moment';
 import get from "lodash/get";
 
@@ -48,6 +50,7 @@ import get from "lodash/get";
     NgxDocViewerModule,
     EditorModule,
     StarRatingModule,
+    MaximizeModule,
     SafeContentHtmlPipe,
     AssessmentComponent,
     CommentsComponent,
@@ -61,6 +64,7 @@ export class CourseDetailComponent {
   @Input() id!: number;
 
   languageChangeSubscription;
+  isMobile: boolean = false;
   emailDomain: any;
   canCreate: boolean = false;
   pageName: any;
@@ -238,6 +242,9 @@ export class CourseDetailComponent {
   commentsList: any = [];
   newComment: any = '';
   showComments: boolean = false;
+
+  isExpanded: boolean = false;
+  @ViewChild(MaximizeDirective, { static: true }) maximize!: MaximizeDirective;
   
   constructor(
     private _router: Router,
@@ -252,8 +259,14 @@ export class CourseDetailComponent {
     private cd: ChangeDetectorRef
   ) {}
 
+  @HostListener("window:resize", [])
+  private onResize() {
+    this.isMobile = window.innerWidth < 768;
+  }
+
   async ngOnInit() {
     initFlowbite();
+    this.onResize();
     this.language =
       this._localService.getLocalStorage(environment.lslang) || "es";
     this._translateService.use(this.language || "es");
@@ -2012,6 +2025,14 @@ export class CourseDetailComponent {
         }
       )
     }
+  }
+
+  maximizeWindow() {
+    this.isExpanded = true;
+  }
+
+  minimizeWindow() {
+    this.isExpanded = false;
   }
 
   handleGoBack() {

@@ -203,6 +203,9 @@ dependencies:
   rxjs:
     specifier: ~7.8.0
     version: 7.8.0
+  screenfull:
+    specifier: ^6.0.2
+    version: 6.0.2
   secure-web-storage:
     specifier: ^1.0.2
     version: 1.0.2
@@ -9649,6 +9652,11 @@ packages:
       ajv-formats: 2.1.1(ajv@8.12.0)
       ajv-keywords: 5.1.0(ajv@8.12.0)
     dev: true
+
+  /screenfull@6.0.2:
+    resolution: {integrity: sha512-AQdy8s4WhNvUZ6P8F6PB21tSPIYKniic+Ogx0AacBMjKP1GUHN2E9URxQHtCusiwxudnCKkdy4GrHXPPJSkCCw==}
+    engines: {node: ^14.13.1 || >=16.0.0}
+    dev: false
 
   /secure-web-storage@1.0.2:
     resolution: {integrity: sha512-Jxlit0lkdspgrcyzYjgJ59MNUuK2t1T6berjU1ttJc0Uht1u8l031aczsp8R4KW+rt4WdKrt3zAopwhqaodCHQ==}

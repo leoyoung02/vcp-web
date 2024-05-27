@@ -130,7 +130,17 @@
                     </ng-container> -->
                     <ng-container matColumnDef="tutor_name">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'tutors.tutor' | translate }} </mat-header-cell>
-                        <mat-cell *matCellDef="let row" data-label="tutor_name"> {{ row.tutor_name }} </mat-cell>
+                        <mat-cell *matCellDef="let row" data-label="tutor_name">
+                            <div class="flex items-center">
+                                <span>{{ row.tutor_name }}</span>
+                                <ng-container *ngIf="row?.show_tutor_edit">
+                                    <svg (click)="handleEditTutor(row)" class="cursor-pointer ml-4 w-5 h-5 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="square" stroke-linejoin="round" stroke-width="2" d="M7 19H5a1 1 0 0 1-1-1v-1a3 3 0 0 1 3-3h1m4-6a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm7.441 1.559a1.907 1.907 0 0 1 0 2.698l-6.069 6.069L10 19l.674-3.372 6.07-6.07a1.907 1.907 0 0 1 2.697 0Z"/>
+                                    </svg>
+                                    <span class="sr-only">Icon description</span>
+                                </ng-container>
+                            </div>
+                        </mat-cell>
                     </ng-container>
                     <ng-container matColumnDef="student_name">
                         <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'plans.student' | translate }} </mat-header-cell>
@@ -415,14 +425,40 @@
                         [isTutorUser]="isTutorUser"
                     ></app-tutors-history-list>
                 </ng-container>
+                <ng-container *ngIf="dialogMode == 'edit-tutor'">
+                    <div>
+                        <select
+                        id="assigned-tutors"
+                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedBookingTutor"
+                        [ngModelOptions]="{standalone: true}"
+                    >
+                        <option value="">{{ 'company-settings.selecttutor' | translate }}</option>
+                        <option
+                            *ngFor="let tutor of tutorUsers"                                
+                            [value]="tutor.id"
+                        >
+                            {{ tutor?.first_name ? (tutor?.first_name + ' ' + tutor?.last_name) : tutor?.name }}
+                        </option>
+                    </select>
+                    </div>
+                    <div class="mt-8">
+                        <button class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                            (click)="editAssignedTutor()"
+                            [disabled]="!selectedBookingTutor"
+                            data-modal-hide="item-modal" 
+                            [ngClass]="{'cursor-not-allowed': !selectedBookingTutor}"
+                            [ngStyle]="{'background-color': buttonColor}"
+                        >
+                            {{ 'plan-details.save' | translate }}
+                        </button>
+                    </div>
+                </ng-container>
             </div>
         </div>
     </div>
 </div>
-
-
-<div *ngIf="showPendingLessonAlert" 
-id="bottom-banner" tabindex="-1" class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-6  dark:bg-gray-700 bg-black" >
+<div *ngIf="showPendingLessonAlert" id="bottom-banner" tabindex="-1" class="fixed bottom-0 start-0 z-50 flex justify-between w-full p-6  dark:bg-gray-700 bg-black" >
     <div class="flex items-center mx-auto">
         <p class="flex items-center text-xs sm:text-sm font-medium text-white">
             <span class="inline-flex p-1 me-3 bg-gray-200 rounded-full dark:bg-gray-600 w-6 h-6 items-center justify-center">
@@ -443,7 +479,6 @@ id="bottom-banner" tabindex="-1" class="fixed bottom-0 start-0 z-50 flex justify
         </button>
     </div>
 </div>
-
 <app-toast 
     *ngIf="showConfirmationModal" 
     [company]="company" 

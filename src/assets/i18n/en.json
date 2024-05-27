@@ -763,7 +763,8 @@
         "noevents": "No events found",
         "noclubs": "No clubs found",
         "joinedby": "joined by",
-        "groups": "Groups"
+        "groups": "Groups",
+        "profileimage": "Profile image"
     },
     "profile-settings": {
         "firstname": "First Name",
@@ -1516,7 +1517,8 @@
         "plandetailschanged": "Details have changed. Do you want to send these updates to the participants?",
         "yes": "Yes",
         "no": "No",
-        "eventregistrationimage": "Event's Guest Registration Page Image"
+        "eventregistrationimage": "Event's Guest Registration Page Image",
+        "insertvideo": "Insert video"
     },
     "edit-club": {
         "uploadimage": "Upload image",
@@ -3321,7 +3323,8 @@
         "moneyonthewaystatus": "Money on the way ⏳",
         "tiktokstats": "TikTok Statistics",
         "daterangedesc": "Select date range (maximum of 1 month). Click reset to set to default month",
-        "noratingsyet": "No ratings yet"
+        "noratingsyet": "No ratings yet",
+        "edittutor": "Edit tutor"
     },
     "general-details": {
         "name" : "Name",

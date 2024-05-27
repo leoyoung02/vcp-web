@@ -271,6 +271,7 @@ export const REGISTRATION_FIELD_URL = `${API_BASE}/company/registration-field`;
 export const UPDATE_REGISTRATION_FIELD_DETAILS_URL = `${API_BASE}/company/registration-field/details/update`;
 export const SUPER_TUTOR_STUDENTS_URL = `${API_BASE}/v2/super-tutor/students`;
 export const POT_SUPER_TUTOR_STUDENTS_URL = `${API_BASE}/v2/potsuper-tutor/students`;
+export const EDIT_USER_BIRTHDAY_URL = `${API_BASE}/v2/user/birthday/edit`;
 
 // NOTIFICATIONS
 export const ACCEPT_CLUB_NOTIFICATION_URL = `${API_BASE}/company-approve-join-group`;
@@ -589,6 +590,7 @@ export const STRIPE_TRANSFERS_URL = `${API_BASE}/v2/stripe/transfers`;
 export const BULK_TRANSFER_COMMISSION_IMPROVED_URL = `${API_BASE}/v2/tutor/commissions/bulk-transfer`;
 export const UPDATE_TRANSFER_QUEUE_URL = `${API_BASE}/v2/transfers/queue`;
 export const DELETE_BOOKING_URL = `${API_BASE}/tutor/booking/delete`;
+export const EDIT_ASSIGNED_TUTOR_URL = `${API_BASE}/v2/tutor/assign`;
 
 // TESTIMONIALS
 export const TESTIMONIALS_DATA_URL = `${API_BASE}/guest/testimonials-data`;

@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
-import { TranslateModule, TranslateService } from "@ngx-translate/core";
+import { LangChangeEvent, TranslateModule, TranslateService } from "@ngx-translate/core";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { Subject, takeUntil } from 'rxjs';
 import { PageTitleComponent, ToastComponent } from '@share/components';
 import { CompanyService, LocalService, UserService } from '@share/services';
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
@@ -41,6 +42,9 @@ import { searchSpecialCase, sortSerchedMembers } from 'src/app/utils/search/help
     styleUrls: ["./my-lessons.component.scss"],
 })
 export class MyLessonsComponent {
+    private destroy$ = new Subject<void>();
+
+    languageChangeSubscription;
     language: any
     emailDomain: any
     id: any
@@ -154,6 +158,7 @@ export class MyLessonsComponent {
     selectedStudent: any = '';
     tutors: any = [];
     selectedTutor: any = '';
+    selectedBookingTutor: any = '';
 
     constructor(
         private _route: ActivatedRoute,
@@ -190,6 +195,15 @@ export class MyLessonsComponent {
         }
 
         this.initializeSearch();
+
+        this.languageChangeSubscription =
+        this._translateService.onLangChange.subscribe(
+          (event: LangChangeEvent) => {
+            this.language = event.lang;
+            this.initializePage();
+          }
+        );
+
         this.initializePage();
     }
 
@@ -238,6 +252,17 @@ export class MyLessonsComponent {
             this.superAdmin = roles && roles.some(a => a.role == 'Super Admin')
 
             this.tutorUsers = data[5] ? data[5]['tutors'] : []
+            if(this.tutorUsers?.length > 0) {
+                this.tutorUsers.sort(function (a, b) {
+                    if (a.name < b.name) {
+                      return -1;
+                    }
+                    if (a.name > b.name) {
+                      return 1;
+                    }
+                    return 0;
+                });
+            }
             
             if(this.tutorUsers?.length > 0) {
                 this.isTutorUser = this.tutorUsers?.some(a => a.user_id == this.userId)
@@ -395,13 +420,15 @@ export class MyLessonsComponent {
                         })
                     }
 
+                    let tutor_id = booking?.tutor_id
                     let tutor_name = booking?.tutor_name
                     let tutor_match = this.tutors?.some(
                         (a) => a.tutor_name == tutor_name
                     );
                     if(!tutor_match && tutor_name) {
                         this.tutors.push({
-                            tutor_name: tutor_name,
+                            id: tutor_id,
+                            tutor_name,
                         })
                     }
 
@@ -430,6 +457,7 @@ export class MyLessonsComponent {
                         transfer_date: booking?.completed == 1 ? this.getTransferDate(booking) : '',
                         transferred: transfer_date ? (moment(transfer_date).isBefore(moment().format('YYYY-MM-DD')) ? true : false) : false,
                         show_delete: this.showDeleteButton(booking),
+                        show_tutor_edit: (this.superAdmin || (this.companyId == 52 && this.me.custom_member_type_id == 243)) && booking?.cancelled != 1 && booking?.completed != 1,
                         ...booking,
                     };
                 })
@@ -1168,5 +1196,51 @@ export class MyLessonsComponent {
 
     changeTutorFilter(event) {
         this.filterBookings();
+    }
+
+    handleEditTutor(row) {
+        console.log('edit tutor')
+        console.log(row)
+        this.selectedTutor = '';
+        this.selectedBooking = '';
+        this.selectedBookingTutor = row.tutor_id;
+        this.dialogMode = 'edit-tutor';
+        this.dialogTitle = this._translateService.instant('tutors.edittutor');
+        this.selectedBooking = row;
+        this.modalbutton1?.nativeElement.click();
+    }
+
+    editAssignedTutor() {
+        let params = {
+            booking_id: this.selectedBooking?.id,
+            tutor_id: this.selectedBookingTutor,
+            company_id: this.companyId,
+            user_id: this.userId,
+        }
+        this._tutorsService.editAssignedTutor(params).subscribe(
+            async response => {
+                let bookings = this.bookings;
+                bookings?.forEach(b => {
+                    if(b.id == this.selectedBooking.id) {
+                        let selected_tutor = this.tutorUsers?.filter(t => {
+                            return t.id == this.selectedBookingTutor
+                        })
+                        b.tutor_id = this.selectedBookingTutor;
+                        b.tutor_name = selected_tutor?.length > 0 ? 
+                            (selected_tutor[0].first_name ? (selected_tutor[0].first_name + ' ' + selected_tutor[0].last_name) : selected_tutor[0].name)
+                            : '';
+                    }
+                })
+                this.bookings = bookings;
+                this.populateBookingsTable();
+                this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+                this.closemodalbutton1?.nativeElement.click();
+            });
+    }
+
+    ngOnDestroy() {
+        this.languageChangeSubscription?.unsubscribe();
+        this.destroy$.next();
+        this.destroy$.complete();
     }
 }
