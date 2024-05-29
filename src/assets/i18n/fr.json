@@ -3163,7 +3163,11 @@
         "mentee": "mentoré",
         "menteedesc": "Choisissez un mentor avec les filtres nécessaires",
         "wanttobementor": "Je veux être un mentor",
-        "applyasmentor": "Postuler en tant que mentor"
+        "applyasmentor": "Postuler en tant que mentor",
+        "mysessions": "Mes séances de mentorat",
+        "selectmentor": "Sélectionner un mentor",
+        "selectmentee": "Sélectionner le mentoré", 
+        "pendingcompletion": "En attente d'achèvement"
     },
     "cities": {
         "cities": "Villes",
@@ -3293,6 +3297,7 @@
         "status" : "statut",
         "current_module" : "Module actuel",
         "no_of_interaction" : "Non d'interaction",
+        "no_of_session" : "Numéro de session (Calendly)",
         "phonenumber" : "Téléphone",
         "allowaccestocourse": "Autoriser l'accès personnalisé au cours",
         "unitdetails": "Détails de l'unité",

@@ -1,6 +1,7 @@
 import { CommonModule } from "@angular/common";
 import {
   Component,
+  ElementRef,
   HostListener,
   Input,
   SimpleChange,
@@ -23,6 +24,7 @@ import { MatSnackBar } from "@angular/material/snack-bar";
 import { ToastComponent } from "@share/components";
 import { searchSpecialCase, sortSerchedMembers } from "src/app/utils/search/helper";
 import { environment } from "@env/environment";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import Fuse from 'fuse.js';
 import moment from "moment";
 import * as he from 'he';
@@ -36,6 +38,8 @@ import * as he from 'he';
     MatTableModule,
     MatSortModule,
     MatSnackBarModule,
+    FormsModule,
+    ReactiveFormsModule,
     SearchComponent,
     ToastComponent,
   ],
@@ -99,6 +103,16 @@ export class BuddyAdminListComponent {
       weight: 0.2
     }]
   };
+  searchUser: any = '';
+  results: any = [];
+  dialogMode: string = "";
+  dialogTitle: any;
+  @ViewChild("modalbutton", { static: false }) modalbutton:
+    | ElementRef
+    | undefined;
+  @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+    | ElementRef
+    | undefined;
 
   constructor(
     private _route: ActivatedRoute,
@@ -359,11 +373,27 @@ export class BuddyAdminListComponent {
     this._router.navigate([`/buddy/profile/mentor/${id}`]);
   }
 
+  confirmDeleteItem(id) {
+    this.showConfirmationModal = false;
+    this.selectedItem = id;
+    this.confirmMode = 'delete-mentor';
+    this.confirmItemTitle = this._translateService.instant(
+      "dialog.confirmdelete"
+    );
+    this.confirmItemDescription = this._translateService.instant(
+      "dialog.confirmdeleteitem"
+    );
+    this.acceptText = "OK";
+    setTimeout(() => (this.showConfirmationModal = true));
+  }
+
   confirm() {
     if(this.confirmMode == 'approve') {
       this.approveRequest(this.selectedItem, true);
     } else if(this.confirmMode == 'reject') {
       this.rejectRequest(this.selectedItem, true);
+    } else if(this.confirmMode == 'delete-mentor') {
+      this.deleteMentor(this.selectedItem, true);
     }
     this.showConfirmationModal = false;
   }
@@ -442,6 +472,72 @@ export class BuddyAdminListComponent {
         }
       );
     }
+  }
+
+  deleteMentor(row, confirmed) {
+    if(confirmed) {
+      this._buddyService.deleteMentor(row).subscribe(
+        (response) => {
+          this.fetchBuddyManagementData();
+          this.open(
+            this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  handleCreateRoute() {
+    this.dialogMode = "new-mentor";
+    this.dialogTitle =  `${this._translateService.instant('dashboard.new')} ${this._translateService.instant('buddy.mentor')}`;
+    this.modalbutton?.nativeElement.click();
+  }
+
+  findUser() {
+    this._buddyService
+    .searchUser(this.company?.id, this.searchUser)
+    .pipe(takeUntil(this.destroy$))
+    .subscribe(
+      (data) => {
+        let results = data.results;
+        if(results?.length > 0) {
+          results = results?.map((item) => {
+            return {
+              ...item,
+              name: item.first_name ? `${item.first_name} ${item.last_name}` : item.name,
+              email: item.email,
+            };
+          });
+          this.results = results;
+        }
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  }
+
+  addMentor(id) {
+    let params = {
+      company_id: this.company?.id,
+      user_id: id
+    }
+    this._buddyService.addMentor(params).subscribe(
+      (response) => {
+        this.fetchBuddyManagementData();
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   async open(message: string, action: string) {

@@ -23,6 +23,7 @@ import { initFlowbite } from "flowbite";
 import { PlansStatisticsListComponent } from "@features/plans/statistics-list/statistics-list.component";
 import { CoursesStatisticsListComponent } from "@features/courses/statistics-list/statistics-list.component";
 import get from "lodash/get";
+import { BuddyStatisticsListComponent } from "@features/buddy/statistics-list/statistics-list.component";
 
 @Component({
   selector: "app-statistics",
@@ -37,6 +38,7 @@ import get from "lodash/get";
     PageTitleComponent,
     PlansStatisticsListComponent,
     CoursesStatisticsListComponent,
+    BuddyStatisticsListComponent,
   ],
   templateUrl: "./statistics.component.html",
 })
@@ -77,6 +79,9 @@ export class StatisticsComponent {
   superAdmin: boolean = false;
   company: any;
   isUESchoolOfLife: boolean = false;
+  buddyFeature: any;
+  buddyFeatureId: any;
+  buddyTitle: any;
 
   constructor(
     private _router: Router,
@@ -181,6 +186,12 @@ export class StatisticsComponent {
     this.coursesFeatureId = this.coursesFeature?.feature_id;
     this.coursesTitle = this.coursesFeature
       ? this.getFeatureTitle(this.coursesFeature)
+      : "";
+
+    this.buddyFeature = features?.find((f) => f.feature_id == 19 && f.status == 1);
+    this.buddyFeatureId = this.buddyFeature?.feature_id;
+    this.buddyTitle = this.buddyFeature
+      ? this.getFeatureTitle(this.buddyFeature)
       : "";
   }
 

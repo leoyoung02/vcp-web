@@ -3197,7 +3197,11 @@
         "mentee": "Mentee",
         "menteedesc": "Choose a mentor with necessary filters",
         "wanttobementor": "I want to be a mentor",
-        "applyasmentor": "Apply as mentor"
+        "applyasmentor": "Apply as mentor",
+        "mysessions": "My mentoring sessions",
+        "selectmentor": "Select mentor",
+        "selectmentee": "Select mentee",
+        "pendingcompletion": "Pending completion"
     },
     "cities": {
         "cities": "Cities",
@@ -3335,6 +3339,7 @@
         "status" : "Status",
         "current_module" : "Current Module",
         "no_of_interaction" : "No of Interaction",
+        "no_of_session" : "No of Session (Calendly)",
         "phonenumber" : "Phone Number",
         "allowaccestocourse": "Allow custom access to course",
         "unitdetails": "Unit details",

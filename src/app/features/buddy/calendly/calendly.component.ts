@@ -55,7 +55,7 @@ export class MentorCalendlyComponent {
   confirmItemDescription: any;
   acceptText: string = '';
   bookingSuccessful: boolean = false;
-  hasSyncError: boolean = false;
+  hasError: boolean = false;
 
   processingProgress: number = 0;
   @ViewChild("modalbutton", { static: false }) modalbutton:
@@ -122,7 +122,7 @@ export class MentorCalendlyComponent {
         invitee_guid = invitee_guid.replace(event_guid + '/', '')
         invitee_guid = invitee_guid.replace('invitees/', '')
       }
-      this.syncCalendlyBookingWithPlatform(event_guid, invitee_guid)
+      this.addCalendlySession(event_guid, invitee_guid)
     }
 
     if(evt.data.event && evt.data.event.indexOf('calendly.date_and_time_selected') === 0) {
@@ -131,162 +131,38 @@ export class MentorCalendlyComponent {
     }
   }
 
-  syncCalendlyBookingWithPlatform(event_guid, invitee_guid) {
-    // this.processingProgress = 65;
-    // this.packageId = this._localService.getLocalStorage("selectedWorkingPackage") ? this._localService.getLocalStorage("selectedWorkingPackage") : 0;
+  addCalendlySession(event_guid, invitee_guid) {
+    this.processingProgress = 65;
 
-    // if(this.userCourseCredits?.length == 1 && this.userCourseCredits[0].course_id != this.courseId) {
-    //   let message = `Course ID corrected to ${this.userCourseCredits[0].course_id} from ${this.courseId}.`
-    //   this.courseId = this.userCourseCredits[0].course_id;
-    //   this._companyService.logMessage(this.companyId, this.userId, message, 'warn')
-    // }
-
-    // let timezoneOffset = new Date().getTimezoneOffset()
-    // let offset = moment().format('Z')
-    // let params = {
-    //   company_id: this.companyId,
-    //   user_id: this.userId,
-    //   tutor_id: this.tutorId,
-    //   tutor_user_id: this.tutorUserId,
-    //   package_id: this.packageId,
-    //   course_id: this.courseId,
-    //   tutor_types: this.tutorTypes && this.tutorTypes.map( (data) => { return data.id }).join(),
-    //   event_guid, 
-    //   invitee_guid,
-    //   timezone: timezoneOffset,
-    //   offset,
-    // }
-    // if(this.courseCreditSetting) {
-    //   if(!this.separateCourseCredits && this.remainingCredits > 0) {
-    //     params['remaining_course_credits'] = this.remainingCredits - 1
-    //   }
-    //   if(this.separateCourseCredits && this.separateRemainingCourseCredits > 0) {
-    //     params['separate_course_credits'] = this.separateCourseCredits ? 1 : 0
-    //     params['remaining_credits'] = this.separateRemainingCourseCredits - 1
-    //   }
-    // }
-
-    // let message = 'calendly.event_scheduled ' + JSON.stringify(params)
-    // this._companyService.logMessage(this.companyId, this.userId, message, 'log')
-
-    // this._tutorsService.syncCalendlyBookingWithPlatform(params).subscribe(data => {
-    //   this.processingProgress = 75;
-    //   let bookingId = data?.booking?.id
-    //   let bookingPaid = data?.booking?.paid
-    //   if(this.hasFreeBooking && !this.courseCreditSetting){
-    //     bookingPaid = 1
-    //   }
-    //   if((this.courseCreditSetting && this.remainingCredits > 0) || this.canBook){
-    //     bookingPaid = 1
-    //   }
-    //   if (bookingPaid == 1) {
-    //     let userCourseCredits = data?.user_course_credits;
-    //     this._userService.updateUserCourseCredits(userCourseCredits);
-
-    //     this.processingProgress = 100;
-        
-    //     setTimeout(() => {
-    //       this.closemodalbutton?.nativeElement.click();
-    //     }, 500)
-    //   } else if(this.userId > 0) {
-    //     location.href = `/signup/tutor/pay/${bookingId}/${this.userId}`
-    //   } else {
-    //     location.href = `/login?redirect=signup/tutor/pay/${bookingId}/`
-    //   }
-    // }, err => {
-    //   this.hasSyncError = true;
-    //   console.log('err: ', err);
-    //   let message = 'syncCalendlyBookingWithPlatform ' + JSON.stringify(err)
-    //   this._companyService.logMessage(this.companyId, this.userId, message, 'error')
-    // })
-  }
-
-  bookLesson(event_guid, invitee_guid) {
-    // this.packageId = this._localService.getLocalStorage("selectedWorkingPackage") ? this._localService.getLocalStorage("selectedWorkingPackage") : 0;
-
-    // let params = {
-    //   company_id: this.companyId,
-    //   user_id: this.userId,
-    //   tutor_id: this.tutorId,
-    //   package_id: this.packageId,
-    //   course_id: this.courseId,
-    //   booking_date: moment(this.calendlyEvent.start_time).format('YYYY-MM-DD'),
-    //   booking_start_time: moment(this.calendlyEvent.start_time).format('HH:mm'),
-    //   booking_end_time: moment(this.calendlyEvent.end_time).format('HH:mm'),
-    //   tutor_types: this.tutorTypes && this.tutorTypes.map( (data) => { return data.id }).join(),
-    //   calendly_event_id: event_guid, 
-    //   calendly_invitee_id: invitee_guid,
-    // }
-    // if(this.courseCreditSetting) {
-    //   if(!this.separateCourseCredits && this.remainingCredits > 0) {
-    //     params['remaining_course_credits'] = this.remainingCredits - 1
-    //   }
-    //   if(this.separateCourseCredits && this.separateRemainingCourseCredits > 0) {
-    //     params['separate_course_credits'] = this.separateCourseCredits ? 1 : 0
-    //     params['remaining_credits'] = this.separateRemainingCourseCredits - 1
-    //   }
-    // }
-    // this._tutorsService.addTutorBooking(params).subscribe(data => {
-    //   let bookingId = data.id
-    //   let bookingPaid = data.paid
-    //   if(this.hasFreeBooking && !this.courseCreditSetting){
-    //     bookingPaid = 1
-    //   }
-    //   if((this.courseCreditSetting && this.remainingCredits > 0) || this.canBook){
-    //     bookingPaid = 1
-    //   }
-    //   if (bookingPaid == 1) {
-    //     this.confirmBooked(params);
-    //   } else if(this.userId > 0) {
-    //     location.href = `/signup/tutor/pay/${bookingId}/${this.userId}`
-    //   } else {
-    //     location.href = `/login?redirect=signup/tutor/pay/${bookingId}/`
-    //   }
-    // }, err => {
-    //   console.log('err: ', err);
-    // })
-  }
-
-  confirmBooked(params) {
-    this.language = this._localService.getLocalStorage(environment.lslang)
-    this._translateService.use(this.language || 'es')
-    this.bookingSuccessful = true;
-    this.confirmModal(params);
-  }
-
-  confirmModal(params) {
-    this.showConfirmationModal = false;
-    if(this.bookingSuccessful) {
-      this.params = params;
-      this.confirmItemTitle = this._translateService.instant(
-        "campaign-details.confirmation"
-      );
-      this.confirmItemDescription = this._translateService.instant(
-        "tutors.bookingconfirmed"
-      ) + '                                                                                  ';
-
-      // this._tutorsService.sendBookingConfirmationEmail(params).subscribe(data => {
-      //   location.reload()
-      // }, err => {
-      //   console.log('err: ', err);
-      // })
-    } else {
-      this.confirmItemTitle = this._translateService.instant(
-        "calendly-course.bookingheadertext"
-      );
-      this.confirmItemDescription = this._translateService.instant(
-        "calendly-course.bookingbodytext"
-      )  + '                                                                                  ';
-      setTimeout(() => (this.showConfirmationModal = true));;
+    let timezoneOffset = new Date().getTimezoneOffset()
+    let offset = moment().format('Z')
+    let params = {
+      company_id: this.companyId,
+      user_id: this.userId,
+      mentor_id: this.mentorId,
+      mentor_user_id: this.mentorUserId,
+      event_guid, 
+      invitee_guid,
+      timezone: timezoneOffset,
+      offset,
     }
-    this.acceptText = "OK";
+
+    this._buddyService.addCalendlySession(params).subscribe(data => {
+      this.processingProgress = 75;
+      let sessionId = data?.session?.id
+      this.processingProgress = 100;
+        
+      setTimeout(() => {
+        this.closemodalbutton?.nativeElement.click();
+      }, 500)
+    }, err => {
+      this.hasError = true;
+      console.log('err: ', err);
+    })
   }
 
-  async confirm() {
-  }
+  confirm() {
 
-  continue() {
-    
   }
 
   closeProcessingModal() {

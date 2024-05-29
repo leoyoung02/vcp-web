@@ -3179,7 +3179,11 @@
         "mentee": "Mentee",
         "menteedesc": "Trieu un mentor amb els filtres necessaris",
         "wanttobementor": "Vull ser un mentor",
-        "applyasmentor": "Aplica com a mentor"
+        "applyasmentor": "Aplica com a mentor",
+        "mysessions": "Les meves sessions de tutoria",
+        "selectmentor": "Selecciona el mentor",
+        "selectmentee": "Selecciona l'alumnat", 
+        "pendingcompletion": "Pendent de finalització"
     },
     "cities": {
         "cities": "Ciutats",
@@ -3309,6 +3313,7 @@
         "status" : "Estat",
         "current_module" : "Mòdul actual",
         "no_of_interaction" : "No d'interacció",
+        "no_of_session": "Nombre de sessió (Calendly)",
         "phonenumber" : "Telèfon",
         "allowaccestocourse": "Permet l'accés personalitzat al curs",
         "unitdetails": "Detalls de la unitat",
