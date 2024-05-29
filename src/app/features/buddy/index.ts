@@ -4,8 +4,7 @@ import { CustomTitleResolver } from '@lib/resolvers';
 export const routes: Routes = [
     {
         path: '',
-        title: CustomTitleResolver,
-        data: { titleKey: 'company-reports.buddy'},
+        title: 'IntroduceU',
         loadComponent: async () => (await import('./home/home.component')).BuddyHomeComponent,
     },
     {
@@ -15,9 +14,21 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./list/list.component')).BuddyListComponent,
     },
     {
-        path: 'profile/mentor',
+        path: 'profile/mentor/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'buddy.mentorprofile'},
+        loadComponent: async () => (await import('./mentor-profile/mentor-profile.component')).MentorProfileComponent,
+    },
+    {
+        path: 'mentor/request',
+        title: CustomTitleResolver,
+        data: { titleKey: 'buddy.applyasmentor'},
+        loadComponent: async () => (await import('./mentor-request/mentor-request.component')).MentorRequestComponent,
+    },
+    {
+        path: 'mentor/:id',
         title: CustomTitleResolver,
         data: { titleKey: 'buddy.mentor'},
-        loadComponent: async () => (await import('./mentor-profile/mentor-profile.component')).MentorProfileComponent,
+        loadComponent: async () => (await import('./mentor/mentor.component')).MentorComponent,
     },
 ];

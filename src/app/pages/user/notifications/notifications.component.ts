@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, HostListener, Input, ViewChild } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '@env/environment';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
@@ -8,10 +8,12 @@ import { CompanyService, LocalService, UserService } from '@share/services';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { Subject } from 'rxjs';
 import { NotificationsService } from '@lib/services';
+import { BuddyService } from '@features/services';
+import { Subject } from 'rxjs';
 import { initFlowbite } from "flowbite";
 import get from "lodash/get";
 
@@ -24,6 +26,8 @@ import get from "lodash/get";
         MatPaginatorModule,
         MatSortModule,
         MatSnackBarModule,
+        FormsModule,
+        ReactiveFormsModule,
         ButtonGroupComponent,
         ToastComponent
     ],
@@ -73,6 +77,20 @@ export class NotificationsComponent {
     @ViewChild(MatSort, { static: false }) sort: MatSort | undefined
     approveBlogParams: any;
     rejectBlogParams: any;
+    mentorRequests: any = [];
+    dialogMode: string = "";
+    dialogTitle: any;
+    selectedNotification: any;
+    buddy: any;
+    message: any;
+    canAccept: boolean = false;
+    contactFormSubmitted: boolean = false;
+    @ViewChild("modalbutton", { static: false }) modalbutton:
+    | ElementRef
+    | undefined;
+    @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+    | ElementRef
+    | undefined;
 
     constructor(
         private _route: ActivatedRoute,
@@ -82,7 +100,8 @@ export class NotificationsComponent {
         private _localService: LocalService,
         private _companyService: CompanyService,
         private _userService: UserService,
-        private _notificationsService: NotificationsService
+        private _notificationsService: NotificationsService,
+        private _buddyService: BuddyService
     ) { }
 
     @HostListener("window:resize", [])
@@ -175,6 +194,18 @@ export class NotificationsComponent {
                   object_type = 'Actividad'
                 } else if(notification.type.indexOf('VS_COMPANY_CITY_AGENDA') >= 0) {
                   object_type = 'City Agenda'
+                } else if(notification.type.indexOf('VS_COMPANY_BUDDY') >= 0) {
+                  object_type = this.companyId == 32 ? 'IntroduceU' : 'Buddy'
+                }
+
+                if(object_type == 'IntroduceU') {
+                  if(notification.read_status == -1 || !notification.read_status) {
+                    status = this._translateService.instant('plan-details.pending')
+                    pending = true
+                  } else if (notification.read_status == 1) {
+                    status = notification.read_status == 1 ? this._translateService.instant('notification-popup.accepted') : this._translateService.instant('notification-popup.declined')
+                    accepted = notification.read_status == 1 ? true : false
+                  }
                 }
                 
                 return {
@@ -232,6 +263,17 @@ export class NotificationsComponent {
             type: 'APPROVALS',
             text: this._translateService.instant('notification-popup.forapproval')
           })
+
+          let mentor_requests = notifications && notifications.filter(notification => {
+            return notification.type == 'VS_COMPANY_BUDDY'
+          })
+
+          this.mentorRequests = mentor_requests;
+          this.notificationTypes.push({
+            id: 4,
+            type: 'MENTOR_REQUESTS',
+            text: this._translateService.instant('notification-popup.mentorrequests')
+          })
     
           let club_activities = notifications && notifications.filter(notification => {
             return notification.type == 'VS_COMPANY_GROUP_PLANS'
@@ -286,7 +328,10 @@ export class NotificationsComponent {
           case 'APPROVALS':
             this.notifications = this.approvalNotifications
             break
-           case 'GROUP_PLANS':
+          case 'MENTOR_REQUESTS':
+            this.notifications = this.mentorRequests
+            break
+          case 'GROUP_PLANS':
             this.notifications = this.clubActivityNotifications
             break
           case 'COMMENTS':
@@ -883,7 +928,10 @@ export class NotificationsComponent {
         } else if(this.confirmMode == 'delete') {
             this.deleteSelectedNotification(true, this.selectedItem);
             this.showConfirmationModal = false;
-        }
+        } else if(this.confirmMode == 'reject-buddy') {
+          this.rejectBuddy(true, this.selectedNotification);
+          this.showConfirmationModal = false;
+      }
     }
 
     async open(message: string, action: string) {
@@ -903,6 +951,94 @@ export class NotificationsComponent {
         });
 
         this.filterNotifications(event.type)
+    }
+
+    viewBuddyDetails(notification) {
+      this.dialogMode = "accept";
+      this.dialogTitle =  this._translateService.instant('notification-popup.mentorrequests');
+      this.selectedNotification = notification
+      this._buddyService.getBuddyContactLog(notification.object_id)
+      .subscribe(
+          response => {
+            this.buddy = response.buddy
+            this.message = this.buddy ? this.buddy.message : ''
+            if(this.buddy && this.buddy.limit_settings) {
+              if(this.buddy.buddy_mentors.length < this.buddy.limit_settings) {
+                this.canAccept = true
+              }
+            }
+            this.modalbutton?.nativeElement.click();
+          },
+          error => {
+            
+          }
+      )
+    }
+
+    acceptBuddy() {
+      let params = {
+        company_id: this.companyId,
+        buddy_id: this.buddy.from_user_id,
+        mentor_id: this.userId,
+        notification_id: this.selectedNotification.id
+      }
+      this._buddyService.acceptBuddy(params)
+        .subscribe(
+          response => {
+            this.open(this._translateService.instant('dialog.acceptedsuccessfully'), '');
+            location.reload()
+          },
+          error => {
+            let errorMessage = <any>error
+            if (errorMessage != null) {
+                let body = JSON.parse(error._body);
+            }
+          }
+        )
+    }
+
+    denyBuddyRequest(notification) {
+      this.selectedNotification = notification;
+      this._buddyService.getBuddyContactLog(notification.object_id)
+      .subscribe(
+        response => {
+          this.buddy = response.buddy;
+          this.showConfirmationModal = false;
+          this.confirmMode == 'reject-buddy';
+          this.confirmDeleteItemTitle = this._translateService.instant(
+            "dialog.confirmreject"
+          );
+          this.confirmDeleteItemDescription = this._translateService.instant(
+            "dialog.confirmrejectitem"
+          );
+          this.acceptText = "OK";
+          setTimeout(() => (this.showConfirmationModal = true));
+        },
+        error => {
+          
+        }
+      )
+    }
+
+    rejectBuddy(confirmed, notification) {
+      if(confirmed) {
+        let params = {
+          company_id: this.companyId,
+          buddy_id: this.buddy.from_user_id,
+          mentor_id: this.userId,
+          notification_id: notification.id
+        }
+    
+        this._buddyService.rejectBuddy(params)
+        .subscribe(
+          response => {
+            this.selectedNotification.read_status = 1;
+          },
+          error => {
+            
+          }
+        )
+      }
     }
 
     ngOnDestroy() {

@@ -3180,7 +3180,8 @@
         "mentordesc": "Ver perfil y los mentees asociados",
         "mentee": "Mentee",
         "menteedesc": "Elige un mentor con los filtros necesarios",
-        "wanttobementor": "Quiero ser mentor"
+        "wanttobementor": "Quiero ser mentor",
+        "applyasmentor": "Solicitar como mentor"
     },
     "cities": {
         "cities": "Ciudades",

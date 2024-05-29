@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { LocalService } from "@share/services/storage/local.service";
-import { BUDDIES_DATA_URL, BUDDIES_URL, EDIT_MENTOR_PHOTO_URL, EDIT_MENTOR_URL, MENTOR_URL } from "@lib/api-constants";
+import { APPLY_MENTOR_URL, APPROVE_MENTOR_REQUEST_URL, ASK_AS_MENTOR_URL, BUDDIES_DATA_URL, BUDDIES_URL, COLLEAGUE_ASKED_URL, CONTACT_LOG_URL, CONTACT_MENTOR_REPLY_URL, CONTACT_MENTOR_URL, DELETE_MENTOR_MESSAGE_URL, EDIT_MENTOR_PHOTO_URL, EDIT_MENTOR_URL, MENTEE_ACCEPT_URL, MENTEE_REJECT_URL, MENTOR_MENTEE_MESSAGES_URL, MENTOR_REQUESTS_URL, MENTOR_REQUEST_DATA_URL, MENTOR_URL, REJECT_MENTOR_REQUEST_URL, UPDATE_MENTOR_CALENDLY_URL } from "@lib/api-constants";
 
 @Injectable({
   providedIn: "root",
@@ -28,8 +28,8 @@ export class BuddyService {
     }).pipe(map(res => res));
   }
 
-  fetchMentor(id: number = 0): Observable<any> {
-    return this._http.get(`${MENTOR_URL}/${id}`, { 
+  fetchMentor(id: number = 0, userId: number = 0): Observable<any> {
+    return this._http.get(`${MENTOR_URL}/${id}/${userId}`, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }
@@ -44,5 +44,108 @@ export class BuddyService {
     return this._http.post<any>(EDIT_MENTOR_PHOTO_URL, 
       payload)
     ;
+  }
+
+  fetchMentorRequestData(id: number = 0): Observable<any> {
+    return this._http.get(`${MENTOR_REQUEST_DATA_URL}/${id}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  applyMentor(payload) {
+    return this._http.post<any>(APPLY_MENTOR_URL, 
+      payload)
+    ;
+  }
+
+  fetchMentorRequests(id: number = 0): Observable<any> {
+    return this._http.get(`${MENTOR_REQUESTS_URL}/${id}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  approveMentorRequest(payload) {
+    return this._http.post<any>(APPROVE_MENTOR_REQUEST_URL, 
+      payload)
+    ;
+  }
+
+  rejectMentorRequest(payload) {
+    return this._http.post<any>(REJECT_MENTOR_REQUEST_URL, 
+      payload)
+    ;
+  }
+
+  updateMentorCalendly(payload): Observable<any> {
+    return this._http.post(
+        `${UPDATE_MENTOR_CALENDLY_URL}`,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  askToBeMentor(payload): Observable<any> {
+    return this._http.post(ASK_AS_MENTOR_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  contactMentor(payload): Observable<any> {
+    return this._http.post(CONTACT_MENTOR_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getColleagueAsked(id, userId): Observable<any> {
+    return this._http.get(`${COLLEAGUE_ASKED_URL}/${id}/${userId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getBuddyContactLog(id): Observable<any> {
+    return this._http.get(`${CONTACT_LOG_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  acceptBuddy(payload): Observable<any> {
+    return this._http.post(MENTEE_ACCEPT_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  rejectBuddy(payload): Observable<any> {
+    return this._http.post(MENTEE_REJECT_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getMentorMenteeMessages(id, userId, superAdmin): Observable<any> {
+    let url = `${MENTOR_MENTEE_MESSAGES_URL}/${id}/${userId}`;
+    if(superAdmin) {
+      url += `?role=admin`;
+    }
+
+    return this._http.get(url,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  contactMentorReply(payload): Observable<any> {
+    return this._http.post(CONTACT_MENTOR_REPLY_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+  
+  deleteMentorMessage(id): Observable<any> {
+    return this._http.delete(
+      `${DELETE_MENTOR_MESSAGE_URL}/${id}`,
+      {},
+    ).pipe(map(res => res));
   }
 }

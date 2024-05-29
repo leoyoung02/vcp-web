@@ -3162,7 +3162,8 @@
         "mentordesc": "Afficher le profil et les mentorés associés",
         "mentee": "mentoré",
         "menteedesc": "Choisissez un mentor avec les filtres nécessaires",
-        "wanttobementor": "Je veux être un mentor"
+        "wanttobementor": "Je veux être un mentor",
+        "applyasmentor": "Postuler en tant que mentor"
     },
     "cities": {
         "cities": "Villes",

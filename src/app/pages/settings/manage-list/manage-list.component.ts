@@ -24,6 +24,7 @@ import { ServicesAdminListComponent } from "@features/servicios/admin-list/admin
 import { BlogsAdminListComponent } from "@features/blogs/admin-list/admin-list.component";
 import { CreditsAdminListComponent } from "@features/plans/credits-admin-list/credits-admin-list.component";
 import { ReferencesAdminListComponent } from "@features/members/references-admin-list/references-admin-list.component";
+import { BuddyAdminListComponent } from "@features/buddy/admin-list/admin-list.component";
 import { environment } from "@env/environment";
 import get from "lodash/get";
 
@@ -51,6 +52,7 @@ import get from "lodash/get";
     BlogsAdminListComponent,
     CreditsAdminListComponent,
     ReferencesAdminListComponent,
+    BuddyAdminListComponent,
     PageTitleComponent,
   ],
   templateUrl: "./manage-list.component.html",
@@ -101,6 +103,9 @@ export class ManageListComponent {
   blogsFeature: any;
   blogsFeatureId: any;
   blogsTitle: any;
+  buddyFeature: any;
+  buddyFeatureId: any;
+  buddyTitle: any;
   superAdmin: boolean = false;
   canCreatePlan: boolean = false;
   canCreateClub: boolean = false;
@@ -111,6 +116,7 @@ export class ManageListComponent {
   canCreateDiscount: boolean = false;
   canCreateService: boolean = false;
   canCreateBlog: boolean = false;
+  canCreateBuddy: boolean = false;
   buttonList: any[] = [];
   filter: any;
   company: any;
@@ -189,7 +195,8 @@ export class ManageListComponent {
       this.list == "services" ||
       this.list == "blogs" ||
       this.list == "credits" ||
-      this.list == "references"
+      this.list == "references" ||
+      this.list == "buddy"
     ) {
       if(this.list == 'commissions') {
         this.buttonList = [
@@ -208,6 +215,25 @@ export class ManageListComponent {
             selected: false,
             fk_company_id: this.companyId,
             filter: "Completed",
+          }
+        ];
+      } else if(this.list == 'buddy') {
+        this.buttonList = [
+          {
+            id: 1,
+            value: "Mentors",
+            text: this._translateService.instant('ambassadors.mentors'),
+            selected: true,
+            fk_company_id: this.companyId,
+            filter: "Mentors",
+          },
+          {
+            id: 2,
+            value: "MentorRequests",
+            text: this._translateService.instant('notification-popup.mentorrequests'),
+            selected: false,
+            fk_company_id: this.companyId,
+            filter: "MentorRequests",
           }
         ];
       } else if(this.list == 'testimonials' || this.list == 'tutors' || this.list == 'courses' || this.list == 'discounts' || this.list == 'services' || this.list == 'credits' || this.list == 'references') {
@@ -246,7 +272,7 @@ export class ManageListComponent {
           this.initializeBreadcrumb();
           this.initializeIconFilterList(this.cities);
 
-          if(this.list != 'commissions' && this.list != 'testimonials' && this.list != 'tutors' && this.list != 'courses' && this.list != 'discounts' && this.list != 'services') {
+          if(this.list != 'commissions' && this.list != 'testimonials' && this.list != 'tutors' && this.list != 'courses' && this.list != 'discounts' && this.list != 'services' && this.list != 'buddy') {
             this.initializeButtonGroup();
           }
           this.isLoading = false;
@@ -305,6 +331,9 @@ export class ManageListComponent {
         break;
       case "references":
         this.listTitle = this._translateService.instant('members.references');
+        break;
+      case "buddy":
+        this.listTitle = this.buddyTitle;
         break;
     }
   }
@@ -400,6 +429,14 @@ export class ManageListComponent {
     this.blogsTitle = this.blogsFeature
       ? this.getFeatureTitle(this.blogsFeature)
       : "";
+
+    this.buddyFeature = features?.find(
+      (f) => f.feature_id == 19 && f.status == 1
+    );
+    this.buddyFeatureId = this.buddyFeature?.feature_id;
+    this.buddyTitle = this.buddyFeature
+      ? this.getFeatureTitle(this.buddyFeature)
+      : "";
   }
 
   mapUserPermissions(user_permissions) {
@@ -450,6 +487,12 @@ export class ManageListComponent {
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find(
         (f) => f.create == 1 && f.feature_id == 21
+      );
+
+    this.canCreateBuddy =
+      user_permissions?.create_plan_roles?.length > 0 ||
+      user_permissions?.member_type_permissions?.find(
+        (f) => f.create == 1 && f.feature_id == 19
       );
   }
 
@@ -578,6 +621,25 @@ export class ManageListComponent {
       });
     }
 
+    if(this.list == 'buddy') {
+      list.push({
+        id: 1,
+        value: "Mentors",
+        text: this._translateService.instant('ambassadors.mentors'),
+        selected: true,
+        fk_company_id: this.companyId,
+        filter: "Mentors",
+      });
+      list.push({
+        id: 2,
+        value: "MentorRequests",
+        text: this._translateService.instant('notification-popup.mentorrequests'),
+        selected: false,
+        fk_company_id: this.companyId,
+        filter: "MentorRequests",
+      });
+    }
+
     this.buttonList = list;
     
     let filter = this.buttonList?.find((f) => f.selected);
@@ -585,7 +647,7 @@ export class ManageListComponent {
       this.filter = filter.filter;
     }
 
-    if(this.list != 'commissions' && this.list != 'credits' && this.list != 'references') {
+    if(this.list != 'commissions' && this.list != 'credits' && this.list != 'references' && this.list != 'buddy') {
       this.initializeSubButtonGroup();
     }
   }
@@ -671,7 +733,7 @@ export class ManageListComponent {
     });
 
     this.filter = event.filter;
-    if(this.list != 'commissions' && this.list != 'testimonials' && this.list != 'courses') {
+    if(this.list != 'commissions' && this.list != 'testimonials' && this.list != 'courses' && this.list != 'buddy') {
       this.initializeSubButtonGroup();
     } else {
       this.status = event;

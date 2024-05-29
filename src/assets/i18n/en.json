@@ -3196,7 +3196,8 @@
         "mentordesc": "View profile and associated mentees",
         "mentee": "Mentee",
         "menteedesc": "Choose a mentor with necessary filters",
-        "wanttobementor": "I want to be a mentor"
+        "wanttobementor": "I want to be a mentor",
+        "applyasmentor": "Apply as mentor"
     },
     "cities": {
         "cities": "Cities",

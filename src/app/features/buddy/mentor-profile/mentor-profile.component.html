@@ -56,7 +56,7 @@
                             <input 
                                 readonly
                                 id="firstname"
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('major')?.errors }"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('first_name')?.errors }"
                                 type="text" 
                                 class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 formControlName="first_name" 
@@ -76,7 +76,7 @@
                             <input 
                                 readonly
                                 id="lastname"
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('major')?.errors }"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('last_name')?.errors }"
                                 type="text" 
                                 class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 formControlName="last_name" 
@@ -95,7 +95,7 @@
                             </label>
                             <input 
                                 id="location"
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('major')?.errors }"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('location')?.errors }"
                                 type="text" 
                                 class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 formControlName="location" 
@@ -133,7 +133,7 @@
                             </label>
                             <input 
                                 id="major"
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('location')?.errors }"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('major')?.errors }"
                                 type="text" 
                                 class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 formControlName="major" 
@@ -141,7 +141,7 @@
                                 required>
                         </div>
                     </div>
-                    <!-- <div class="text-center col-span-2">
+                    <div class="text-center col-span-2">
                         <div>
                             <label for="introduction" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 <div class="flex items-center justify-between">
@@ -245,7 +245,7 @@
                                 formControlName="personality"
                             ></editor>
                         </div>
-                    </div> -->
+                    </div>
                 </div>
             </div>
             <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">

@@ -124,7 +124,6 @@ export class MyCreditsComponent {
     getSettings() {
         if(this.mode == 'activities') {
             this._userService.getUserCreditLogs(this.userId).subscribe(data => {
-                console.log(data)
                 this.formatUserCreditLogs(data?.user_credit_logs);
                 this.populateUserCreditsTable()
             }, error => {

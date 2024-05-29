@@ -172,7 +172,6 @@ export class BuddyListComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {
-                console.log(data)
                 this.mapFeatures(data?.features_mapping);
                 this.mapSubfeatures(data?.settings?.subfeatures);
 
@@ -366,7 +365,7 @@ export class BuddyListComponent {
 
             return {
                 ...item,
-                path: `/buddy/details/${item.id}`,
+                path: `/buddy/mentor/${item.user_id}`,
                 buddy_image: `${environment.api}/${item.image}`,
                 languages: item?.language,
             };

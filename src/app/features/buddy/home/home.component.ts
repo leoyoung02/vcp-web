@@ -63,6 +63,7 @@ export class BuddyHomeComponent {
     buddyRole: any;
     proceedHover: boolean = false;
     mentorHover: boolean = false;
+    isMentor: boolean = false;
 
     constructor(
         private _route: ActivatedRoute,
@@ -139,6 +140,7 @@ export class BuddyHomeComponent {
                 (data) => {
                     this.mapFeatures(data?.features_mapping);
                     this.mapUserPermissions(data?.user_permissions);
+                    this.isMentor = data?.mentor?.id > 0 ? true : false;
                 },
                 (error) => {
                     console.log(error);
@@ -220,14 +222,22 @@ export class BuddyHomeComponent {
     }
 
     requestToBeMentor() {
-
+        if(this.userId > 0) {
+            this._router.navigate([`/buddy/mentor/request`]);
+        } else {
+            this._router.navigate(['/auth/login']);
+        }
     }
 
     continue() {
-        if (this.buddyRole == 'mentee') {
-            this._router.navigate([`/buddy/list`])
-        } else if (this.buddyRole == 'mentor') {
-            this._router.navigate([`/buddy/profile/mentor`])
+        if(this.userId > 0) {
+           if (this.buddyRole == 'mentee') {
+                this._router.navigate([`/buddy/list`])
+            } else if (this.buddyRole == 'mentor') {
+                this._router.navigate([`/buddy/profile/mentor/${this.userId}`]);
+            } 
+        } else {
+            this._router.navigate(['/auth/login']);
         }
     }
 

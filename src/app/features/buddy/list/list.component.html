@@ -31,7 +31,7 @@
     </div>
 </div>
 <div class="pt-6">
-    <div class="columns-1 sm:columns-1 md:columns-3 lg:columns-4 gap-4 space-y-4">
+    <div class="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-4 py-2 pb-20 gap-4">
         <ng-container *ngFor="let item of mentors; let even=even; let i = index;">
             <app-mentor-card
                 [id]="item.id"

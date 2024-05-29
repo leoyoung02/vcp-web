@@ -1,21 +1,27 @@
-<div class="break-inside-avoid-column mb-8 hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 before:bg-black before:bg-opacity-20"
-      [routerLink]="[path]">
-      <img class="w-full rounded-md object-cover" [src]="image" [alt]="name" loading="lazy">
-      <div class="absolute inset-0 flex items-center justify-center">
-        <div class="absolute inset-0 flex items-end p-4">
-          <div class="flex flex-col w-full w-max-full">
-            <p class="text-white text-lg leading-6 pb-2 text-center font-bold">{{ name }}</p>
-            <div class="flex justify-center py-3 text-sm text-white font-semibold flex-wrap">
-              <span>{{ location }}</span>
-              <span class="px-2">{{ languages ? '•' : '' }}</span>
-              <span class="capitalize">{{ languages }}</span>
-            </div>
-            <div class="flex justify-center pb-8 flex-wrap">
-              <div class="types border border-white rounded-xl px-4 py-[3px] mr-2 mb-1">
-                <div class="text-white text-xs text-center" title="{{major}}">{{ major }}</div>
+<div [routerLink]="path" class="hover:cursor-pointer w-full max-w-md bg-white border border-gray-200 rounded-lg shadow p-6 dark:bg-gray-800 dark:border-gray-700">
+  <div class="flow-root">
+      <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+          <li>
+              <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                      <img class="w-20 h-20 rounded-full object-cover" width="75" height="75" [ngSrc]="image" alt="{{ name }}">
+                  </div>
+                  <div class="flex-1 min-w-0 ms-4">
+                      <p class="text-base text-gray2 font-bold text-gray-900 truncate dark:text-white">
+                          {{ name }}
+                      </p>
+                      <p class="font-medium text-gray3 truncate dark:text-gray-400">
+                          <span class="text-sm">{{location}}</span>
+                      </p>
+                      <p class="leading-4 truncate">
+                          <span class="text-xs uppercase">{{languages || ('tutors.spanish' | translate)}}</span>
+                      </p>
+                      <p class="leading-4 text-gray3 truncate dark:text-gray-400">
+                          <span class="font-medium text-xs">{{ major }}</span>
+                      </p>
+                  </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
+          </li>
+      </ul>
+ </div>
 </div>

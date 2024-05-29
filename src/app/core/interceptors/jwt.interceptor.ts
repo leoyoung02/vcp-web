@@ -58,6 +58,8 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
         isRequestAuthorized = authService.isAuthenticated && request.url.startsWith(environment.api);
     }
 
+    console.log('jwtInterceptor isRequestAuthorized: ' + isRequestAuthorized + ', token: <token>');
+
     if (isRequestAuthorized) {
         if (token) {
             const payload = parseJwt(token); // decode JWT payload part.
@@ -67,6 +69,7 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
                 _localService.removeLocalStorage(environment.lstoken);
                 _localService.removeLocalStorage(environment.lsrefreshtoken);
                 _localService.removeLocalStorage(environment.lsuser);
+                console.log('jwtInterceptor location.href: /');
                 location.href =  `/`
             }
       
@@ -79,6 +82,7 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
             _localService.removeLocalStorage(environment.lstoken);
             _localService.removeLocalStorage(environment.lsrefreshtoken);
             _localService.removeLocalStorage(environment.lsuser);
+            console.log('jwtInterceptor removeSession & localStorage: /');
             location.href =  `/`
         } 
 

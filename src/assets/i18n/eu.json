@@ -3168,7 +3168,8 @@
         "mentordesc": "Ikusi profila eta lotutako tutoreak",
         "mentee": "Mentee",
         "menteedesc": "Aukeratu tutore bat beharrezko iragazkiak dituena",
-        "wanttobementor": "Tutore izan nahi dut"
+        "wanttobementor": "Tutore izan nahi dut",
+        "applyasmentor": "Eskatu tutore gisa"
     },
     "cities": {
         "cities": "Hiriak",

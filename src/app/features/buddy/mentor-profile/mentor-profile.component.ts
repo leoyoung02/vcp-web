@@ -51,6 +51,8 @@ import get from 'lodash/get';
 export class MentorProfileComponent {
     private destroy$ = new Subject<void>();
 
+    @Input() id: any;
+
     languageChangeSubscription;
     user: any;
     email: any;
@@ -196,11 +198,10 @@ export class MentorProfileComponent {
 
     loadProfileData() {
         this._buddyService
-          .fetchMentor(this.userId)
+          .fetchMentor(this.id, this.userId)
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {
-                console.log(data)
                 this.initializeProfile(data);
             },
             (error) => {
@@ -348,7 +349,7 @@ export class MentorProfileComponent {
         let params
         if(image) {
             params = {
-                user_id: this.userId,
+                user_id: this.id,
                 company_id: this.companyId,
                 major: this.profileForm.get('major').value ? this.profileForm.get('major').value : major.value,
                 introduction: this.profileForm.get('introduction').value,
@@ -360,7 +361,7 @@ export class MentorProfileComponent {
                 }
         } else {
             params = {
-                user_id: this.userId,
+                user_id: this.id,
                 company_id: this.companyId,
                 major: this.profileForm.get('major').value ? this.profileForm.get('major').value : major.value,
                 introduction: this.profileForm.get('introduction').value,

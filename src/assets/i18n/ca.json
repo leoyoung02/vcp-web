@@ -3178,7 +3178,8 @@
         "mentordesc": "Veure perfil i els ments associats",
         "mentee": "Mentee",
         "menteedesc": "Trieu un mentor amb els filtres necessaris",
-        "wanttobementor": "Vull ser un mentor"
+        "wanttobementor": "Vull ser un mentor",
+        "applyasmentor": "Aplica com a mentor"
     },
     "cities": {
         "cities": "Ciutats",

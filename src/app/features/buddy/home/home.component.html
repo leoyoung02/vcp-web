@@ -37,7 +37,7 @@
     </ul>
     <div>
         <button 
-            *ngIf="buddyRole == 'mentor'"
+            *ngIf="buddyRole == 'mentor' && !isMentor"
             [disabled]="!buddyRole" 
             class="mt-16 mr-4 inline-flex bg-[#1e1e1e] items-center justify-center px-5 py-3 text-base font-medium text-center text-white rounded-lg focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
             [ngStyle]="{
@@ -52,7 +52,7 @@
                 <path fill-rule="evenodd" d="M9 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm-2 9a4 4 0 0 0-4 4v1a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-1a4 4 0 0 0-4-4H7Zm8-1a1 1 0 0 1 1-1h1v-1a1 1 0 1 1 2 0v1h1a1 1 0 1 1 0 2h-1v1a1 1 0 1 1-2 0v-1h-1a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
             </svg>
         </button>
-        <button [disabled]="!buddyRole" 
+        <button *ngIf="(buddyRole == 'mentor' && isMentor) || (buddyRole && buddyRole != 'mentor')" [disabled]="!buddyRole" 
             class="mt-16 inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-white rounded-lg focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900"
             [ngStyle]="{
                 'background-color': buddyRole ? buttonColor : '#c7c7c7',
