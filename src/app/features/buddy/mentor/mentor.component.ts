@@ -350,7 +350,7 @@ export class MentorComponent {
             this.isMyMentor = true;
         }
 
-        if(this.superAdmin || this.isMyMentor) {
+        if(this.superAdmin || this.isMyMentor || this.id == this.userId) {
             this.getMessages();
         }
 

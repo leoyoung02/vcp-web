@@ -3,6 +3,7 @@ import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CompanyService, LocalService } from '@share/services';
 import { Subject, takeUntil } from 'rxjs';
+import { ActivatedRoute, Router } from "@angular/router";
 import { EditorModule } from "@tinymce/tinymce-angular";
 import { environment } from '@env/environment';
 import { BuddyService } from '@features/services';
@@ -118,6 +119,8 @@ export class MentorProfileComponent {
     file: any;
 
     constructor(
+        private _route: ActivatedRoute,
+        private _router: Router,
         private _translateService: TranslateService,
         private _localService: LocalService,
         private _companyService: CompanyService,
@@ -396,6 +399,10 @@ export class MentorProfileComponent {
           }
         });
         return valid;
+    }
+
+    viewPublicProfile() {
+        this._router.navigate([`/buddy/mentor/${this.id}`]);
     }
 
     async open(message: string, action: string) {

@@ -1,4 +1,15 @@
-<app-page-title [title]="pageTitle"></app-page-title>
+<div class="flex items-center">
+    <app-page-title [title]="pageTitle"></app-page-title>
+    <div>
+        <button
+            (click)="viewPublicProfile()"
+            class="ml-4 w-full inline-block h-[40px] text-sm px-6 py-2 my-6 font-semibold text-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
+            [ngStyle]="{'background-color': buttonColor}"
+        >
+            {{ 'notification-popup.view' | translate }} {{ 'sidebar.publicprofile' | translate }}
+        </button>
+    </div>
+</div>
 <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-3 lg:grid:cols-3 my-10">
     <div class="col-span-2">
         <form [formGroup]="profileForm" (ngSubmit)="save()" class="profile-form" autocomplete="off">

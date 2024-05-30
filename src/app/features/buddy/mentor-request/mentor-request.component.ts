@@ -158,11 +158,11 @@ export class MentorRequestComponent {
 
     initializeProfile(data) {
         this.me = data?.mentor;
-        this.form.get('first_name').setValue(this.me?.first_name);
-        this.form.get('last_name').setValue(this.me?.last_name);
-        this.form.get('location').setValue(this.me?.location);
-        this.form.get('major').setValue(this.me?.major);
-        this.form.get('language').setValue(this.me?.language);
+        this.form.get('first_name').setValue(this.me?.first_name || data?.current_user?.first_name);
+        this.form.get('last_name').setValue(this.me?.last_name || data?.current_user?.last_name);
+        this.form.get('location').setValue(this.me?.location || data?.current_user?.city);
+        this.form.get('major').setValue(this.me?.major || data?.current_user?.major);
+        this.form.get('language').setValue(this.me?.language || data?.current_user?.language);
         this.form.get('message').setValue(this.me?.message);
 
         this.hasRequest = this.me?.created_at ? true : false;

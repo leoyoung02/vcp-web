@@ -210,7 +210,7 @@ export class BuddyStatisticsListComponent {
     }
 
     viewItem(id) {
-        this._router.navigate([]).then(result => {  window.open(`courses/details/${id}`, 'self'); });
+        this._router.navigate([]).then(result => {  window.open(`buddy/mentor/${id}`, 'self'); });
     }
 
     async open(message: string, action: string) {
@@ -236,8 +236,8 @@ export class BuddyStatisticsListComponent {
                             'Mentor': mentor.mentor_name,
                             'Mentee': p.name,
                             'Correo electrónico': p.email,
-                            'No de Interacción': p.no_of_interactions,
-                            'Nº de sesión (calendly)': p.no_of_schedules,
+                            'Nº de Interacción': p.no_of_interactions,
+                            'Nº de sesión (Calendly)': p.no_of_schedules,
                         })
                     }
                 })
