@@ -3418,6 +3418,7 @@
         "failed":"échoué",
         "selectcredits": "Sélectionnez les crédits à acheter", 
         "paymentconfirmed": "Merci pour votre achat. Cela confirme que votre paiement a été effectué.",
+        "bizumconfirmed": "Merci pour votre inscription !",
         "totalcredits":"Crédits totaux",
         "creditadditon":"Ajout de crédit",
         "creditdeduction":"Credit Deduction",

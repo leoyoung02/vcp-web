@@ -587,16 +587,31 @@ export class PlanPaymentComponent {
   }
 
   continuePaymentProcess(content) {
+    this.stripeData = this.stripeForm.value;
     if(this.showMultipleOptions && this.selectedPaymentMethod == 'Bizum') {
       this.processPaymentByBizum();
     } else {
-      this.stripeData = this.stripeForm.value;
       this.processPayment(content);
     }
   }
 
   processPaymentByBizum() {
-    
+    if(this.userId > 0) {
+      this.proceedConfirmBizum();
+    } else {
+      this.signupUser();
+    }
+  }
+
+  proceedConfirmBizum() {
+    this._plansService.subscribeEventBizum(this.id, this.typeId, this.userId, this.companyId, this.stripeData)
+    .subscribe(
+      (res) => {
+        this.showModal();
+      },
+      error => {
+        this.showError();
+      })
   }
 
   scrollToTop() {
@@ -621,7 +636,11 @@ export class PlanPaymentComponent {
           if (result.token) {
             this.stripeData["token"] = result.token;
             if(this.userId > 0) {
-              this.proceedPay();
+              if(this.showMultipleOptions && this.selectedPaymentMethod == 'Bizum') {
+                this.proceedConfirmBizum();
+              } else {
+                this.proceedPay();
+              }
             } else {
               this.signupUser();
             }
@@ -684,7 +703,11 @@ export class PlanPaymentComponent {
               this.isUserExists = true;
             }
             this.userId = this.newUserId;
-            this.proceedPay();
+            if(this.showMultipleOptions && this.selectedPaymentMethod == 'Bizum') {
+              this.proceedConfirmBizum();
+            } else {
+              this.proceedPay();
+            }
           } else {
             this.showError();
           }
@@ -718,7 +741,9 @@ export class PlanPaymentComponent {
   getPopupMessage() {
     let message = ''
     if(this.showAccept) {
-      message = this._translateService.instant('credit-package.paymentconfirmed')
+      message = this.showMultipleOptions && this.selectedPaymentMethod == 'Bizum' ?
+        this._translateService.instant('credit-package.bizumconfirmed') : 
+        this._translateService.instant('credit-package.paymentconfirmed');
     }
     if(this.showContinue) {
       message = this._translateService.instant('plan-details.pleasewait')

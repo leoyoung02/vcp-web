@@ -3460,6 +3460,7 @@
         "failed":"failed",
         "selectcredits": "Select credits to purchase",
         "paymentconfirmed": "Thank you for your purchase. This confirms that your payment has been completed.",
+        "bizumconfirmed": "Thank you for signing up!",
         "totalcredits":"Total Credits",
         "creditadditon":"Credit Addition",
         "creditdeduction":"Credit Deduction",

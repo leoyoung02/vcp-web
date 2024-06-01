@@ -3423,6 +3423,7 @@
         "failed":"fehlgeschlagen",
         "selectcredits": "Wählen Sie Credits zum Kauf aus", 
         "paymentconfirmed": "Vielen Dank für Ihren Kauf. Hiermit wird bestätigt, dass Ihre Zahlung abgeschlossen wurde.",
+        "bizumconfirmed": "Vielen Dank für deine Anmeldung!",
         "totalcredits":"Gesamt Credits",
         "creditadditon":"Kreditzusatz",
         "creditdeduction":"Kreditabzug",

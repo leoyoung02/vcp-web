@@ -116,6 +116,9 @@ export class PlansAdminListComponent {
     customMemberType: any;
     customMemberTypePermissions: any;
 
+    bizumPlanParticipants: any = [];
+    bizumGroupPlanParticipants: any = [];
+
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
@@ -267,6 +270,8 @@ export class PlansAdminListComponent {
         .subscribe(
           (data) => {
             this.planParticipants = data?.plan_participants || [];
+            this.bizumPlanParticipants = data?.bizum_plan_participants || [];
+            this.bizumGroupPlanParticipants = data?.bizum_group_plan_participants || [];
             this.allPlanDrafts = data?.plan_drafts || [];
             this.paidPlanSubscriptions = data?.paid_plan_subscriptions || [];
             this.categories = data?.plan_categories;
@@ -390,10 +395,20 @@ export class PlansAdminListComponent {
               }
             })
 
+            let filtered_bizum_plan_participants = this.bizumPlanParticipants?.filter(pp => {
+              return pp.plan_id == plan.id && pp.confirmed != 1
+            })
+
+            let filtered_bizum_group_plan_participants = this.bizumGroupPlanParticipants?.filter(pp => {
+              return pp.plan_id == plan.id && pp.confirmed != 1
+            })
+
             return {
               ...plan,
               paid_activity,
               participants,
+              bizum_plan_participants: filtered_bizum_plan_participants,
+              bizum_group_plan_participants: filtered_bizum_group_plan_participants,
             }
           })
         }
@@ -979,6 +994,124 @@ export class PlansAdminListComponent {
           })
         }
       }
+    }
+
+    confirmBizumPayment(id, type, actionUserId, eventId, plan_type) {
+      if(this.superAdmin || this.customMemberTypePermissions?.admin_attendance == 1) {
+        let param = {
+          user_id: this.userId,
+          action_user_id: actionUserId,
+          event_id: eventId,
+          company_id: this.company?.id,
+        }
+        if(plan_type == 'company_plan') {
+          this._plansService.confirmBizumPlanParticipant(id, param)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(data => {
+            let plan_participant
+            if(this.plansData?.length > 0) {
+              this.plansData?.forEach(p => {
+                if(p.id == eventId) {
+                  if(p.bizum_plan_participants?.length > 0) {
+                    p.bizum_plan_participants?.forEach((par, index) => {
+                      if(par.participant_id == id) {
+                        plan_participant = par;
+                        p.bizum_plan_participants.splice(index, 1);
+                      }
+                    })
+                  }
+                }
+              })
+            }
+
+            if(plan_participant) {
+              let pt = {
+                id: plan_participant.plan_id,
+                user_id: plan_participant.user_id,
+                participant_id: plan_participant.participant_id,
+                name: plan_participant.name,
+                role: plan_participant.role,
+                email: plan_participant.email,
+                phone: plan_participant.phone,
+                invited_by: plan_participant.invited_by,
+                plan_type: 'company_plan',
+                confirmed: 1,
+                clear_confirmed: 0,
+                invoice: 'Bizum',
+              }
+              this.planParticipants.push(pt)
+
+              if(this.plansData?.length > 0) {
+                this.plansData?.forEach(p => {
+                  if(p.id == eventId) {
+                    p.participants?.push(pt);
+                  }
+                })
+              }
+            }
+            
+            this.refreshTable(this.plansData, 'refresh');
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+          }, err => {
+            console.log('err: ', err);
+          })
+        } else {
+          this._plansService.confirmBizumGroupPlanParticipant(id, param)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(data => {
+            let plan_participant
+            if(this.plansData?.length > 0) {
+              this.plansData?.forEach(p => {
+                if(p.id == eventId) {
+                  if(p.bizum_group_plan_participants?.length > 0) {
+                    p.bizum_group_plan_participants?.forEach((par, index) => {
+                      if(par.participant_id == id) {
+                        plan_participant = par;
+                        p.bizum_group_plan_participants.splice(index, 1);
+                      }
+                    })
+                  }
+                }
+              })
+            }
+
+            if(plan_participant) {
+              let pt = {
+                id: plan_participant.plan_id,
+                user_id: plan_participant.user_id,
+                participant_id: plan_participant.participant_id,
+                name: plan_participant.name,
+                role: plan_participant.role,
+                email: plan_participant.email,
+                phone: plan_participant.phone,
+                invited_by: plan_participant.invited_by,
+                plan_type: 'group_plan',
+                confirmed: 1,
+                clear_confirmed: 0,
+                invoice: 'Bizum',
+              }
+              this.planParticipants.push(pt)
+
+              if(this.plansData?.length > 0) {
+                this.plansData?.forEach(p => {
+                  if(p.id == eventId) {
+                    p.participants?.push(pt);
+                  }
+                })
+              }
+            }
+
+            this.refreshTable(this.plansData, 'refresh');
+            this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+          }, err => {
+            console.log('err: ', err);
+          })
+        }
+      }
+    }
+
+    clearConfirmBizumPayment(id, type, actionUserId, eventId, plan_type) {
+
     }
 
     async open(message: string, action: string) {

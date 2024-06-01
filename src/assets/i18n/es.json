@@ -3445,6 +3445,7 @@
         "failed":"fallido",
         "selectcredits": "Seleccionar créditos para comprar", 
         "paymentconfirmed": "Gracias por su compra. Esto confirma que su pago se ha completado.",
+        "bizumconfirmed": "¡Gracias por registrarte!",
         "totalcredits":"Creditos totales",
         "creditadditon":"Adición de crédito",
         "creditdeduction":"Deducción de crédito",

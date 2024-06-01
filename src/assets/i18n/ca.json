@@ -3432,6 +3432,7 @@
         "failed":"fracassat",
         "selectcredits": "Seleccioneu els crèdits per comprar", 
         "paymentconfirmed": "Gràcies per la teva compra. Això confirma que el teu pagament s'ha completat.",
+        "bizumconfirmed": "Gràcies per registrar-te!",
         "totalcredits":"Crèdits totals",
         "creditadditon":"Addició de crèdit",
         "creditdeduction":"Deducció de crèdit",
