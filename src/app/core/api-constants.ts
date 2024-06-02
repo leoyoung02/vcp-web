@@ -401,6 +401,7 @@ export const AGE_GROUPS_URL = `${API_BASE}/company/age-groups`;
 export const ADD_AGE_GROUP_URL = `${API_BASE}/company/age-groups/add`;
 export const EDIT_AGE_GROUP_URL = `${API_BASE}/company/age-groups/edit`;
 export const DELETE_AGE_GROUP_URL = `${API_BASE}/company/age-groups/delete`;
+export const PLAN_VIDEO_UPLOAD_URL = `${API_BASE}/v2/plan-video/upload`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;
