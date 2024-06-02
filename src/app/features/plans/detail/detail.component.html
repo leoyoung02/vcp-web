@@ -147,7 +147,7 @@
                                     {{ 'plan-details.pending' | translate }}
                                 </button>
                                 <button
-                                    *ngIf="getJoinStatus() && plan?.pending_bizum_confirmation"
+                                    *ngIf="getJoinStatus() && !pendingBizumConfirmation"
                                     class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold transition duration-700 ease-in-out"
                                     [ngStyle]="{
                                         'background-color': buttonColor,

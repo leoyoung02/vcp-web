@@ -1181,7 +1181,7 @@ export class PlansAdminListComponent {
             let plan_date_display = moment.utc(plan_data[0].plan_date).locale(this.language).format('DD-MM-YYYY HH:mm')
             let date_display = moment.utc(plan_data[0].plan_date).locale(this.language).format('M/D/YYYY')
             let time_display = moment.utc(plan_data[0].plan_date).locale(this.language).format('HH') + 'h'
-            let user_name = (p.first_name ? (p.first_name + ' ') : '') + (p.last_name ? (p.last_name + ' ') : '')
+            let user_name = p.first_name ? `${p.first_name?.trim()} ${p.last_name?.trim()}` : p.name
             
             let dt = {}
             if(event?.paid_activity) {
