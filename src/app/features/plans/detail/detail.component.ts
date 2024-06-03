@@ -306,6 +306,7 @@ export class PlanDetailComponent {
   canRegisterNetculturaEvents: boolean = false;
   canRegisterGuestsOnly: boolean = false;
   canInviteEvents: boolean = false;
+  pendingBizumConfirmation: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -962,6 +963,7 @@ export class PlanDetailComponent {
   formatPlan(plan, user, ue_user) {
     this.user = user;
     this.plan = plan?.details;
+    this.pendingBizumConfirmation = plan?.pending_bizum_confirmation;
     this.featuredTitle = this.getFeaturedTitle();
     this.planCreator = plan?.created_by_user;
     if (this.userId) {

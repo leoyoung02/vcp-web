@@ -125,6 +125,7 @@
                     <div *ngIf="planTitle" class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
                         <div *ngIf="showJoinButton && joinStatusChecked && !isExternalRegistration &&
                             (
+                                pendingBizumConfirmation ||
                                 getRequestJoinStatus() ||
                                 getJoinStatus() ||
                                 (waitingListActive && plan?.waiting_list == 1 && activateWaitingList && !joinedParticipant)
@@ -144,7 +145,17 @@
                                     {{ 'plan-details.pending' | translate }}
                                 </button>
                                 <button
-                                    *ngIf="getJoinStatus()"
+                                    *ngIf="pendingBizumConfirmation"
+                                    class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                    disabled
+                                >
+                                    {{ 'plan-details.pending' | translate }}
+                                </button>
+                                <button
+                                    *ngIf="getJoinStatus() && !pendingBizumConfirmation"
                                     class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold transition duration-700 ease-in-out"
                                     [ngStyle]="{
                                         'background-color': buttonColor,

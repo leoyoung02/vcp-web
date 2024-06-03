@@ -1517,6 +1517,11 @@
         "yes": "Sí",
         "no": "No",
         "eventregistrationimage": "Imagen de la página de registro de invitados al evento",
+        "bizumpayment": "¿Activar Bizum como opción de pago?",
+        "stripedesc": "Acepta pagos con tarjeta de crédito y débito",
+        "bizumdesc": "Envía pago a través de tu teléfono inteligente",
+        "reserve": "Reserva",
+        "signup": "Apuntate",
         "insertvideo": "Insertar vídeo"
     },
     "edit-club": {
@@ -3440,6 +3445,7 @@
         "failed":"fallido",
         "selectcredits": "Seleccionar créditos para comprar", 
         "paymentconfirmed": "Gracias por su compra. Esto confirma que su pago se ha completado.",
+        "bizumconfirmed": "¡Gracias por registrarte!",
         "totalcredits":"Creditos totales",
         "creditadditon":"Adición de crédito",
         "creditdeduction":"Deducción de crédito",

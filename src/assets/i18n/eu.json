@@ -1514,6 +1514,11 @@
         "yes": "Bai",
         "no": "Ez",
         "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia",
+        "bizumpayment": "Aktibatu Bizum ordainketa-aukera gisa?",
+        "stripedesc": "Kreditu- eta zordunketa-txartelen ordainketak onartzen ditu",
+        "bizumdesc": "Bidali ordainketa zure telefonoaren bidez",
+        "reserve": "Erreserba",
+        "signup": "Eman izena",
         "insertvideo": "Txertatu bideoa"
     },
     "edit-club": {
@@ -3419,6 +3424,7 @@
         "failed":"huts egin zuen",
         "selectcredits": "Hautatu erosteko kredituak", 
         "paymentconfirmed": "Eskerrik asko erosketagatik. Honek zure ordainketa amaitu dela berresten du.",
+        "bizumconfirmed": "Vielen Dank für deine Anmeldung!",
         "totalcredits":"Kredituak guztira",
         "creditadditon":"Kreditu gehikuntza",
         "creditdeduction":"Kreditu kenkaria",

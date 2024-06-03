@@ -518,6 +518,8 @@ export class PlanEditComponent {
   groupFilterActive: boolean = false;
   selectedAgeGroup: any = '';
 
+  isBizumActive: boolean = false;
+  isBizumPayment: boolean = false;
   showVideoSection: boolean = false;
   eventVideoFileName: any = '';
   @ViewChild('myPondVideo', {static: false}) myPondVideo: any;
@@ -966,6 +968,9 @@ export class PlanEditComponent {
       );
       this.isImageCenterButton = subfeatures.some(
         (a) => a.name_en == "Event registration with image and center button" && a.active == 1
+      );
+      this.isBizumActive = subfeatures.some(
+        (a) => a.name_en == "Bizum" && a.active == 1
       );
     }
 
@@ -1455,6 +1460,7 @@ export class PlanEditComponent {
       netcultura,
       slug,
       age_group_id,
+      bizum_pay,
     } = this.plan;
 
     if(this.types && this.types.length > 0) {
@@ -1698,18 +1704,13 @@ export class PlanEditComponent {
     if (this.planForm.controls["zoom_link"]) {
       this.planForm.controls["zoom_link"].setValue(zoom_link);
     }
-    this.showInvitationLink =
-      this.invitationLinkActive && invite_link == 1 ? true : false;
-    this.showGuestMemberSeat =
-      this.guestMemberSeatActive && guest_member_seats == 1 ? true : false;
-    this.showSeats =
-      this.guestMemberSeatActive && show_seats == 1 ? true : false;
-    this.displayCanaryTime =
-      this.showCanaryTime && hour_canary == 1 ? true : false;
-    this.waitingListEnabled =
-      this.waitingListActive && waiting_list == 1 ? true : false;
-    this.isStripePayment =
-      this.activityFeeEnabled && stripe_pay == 1 ? true : false;
+    this.showInvitationLink = this.invitationLinkActive && invite_link == 1 ? true : false;
+    this.showGuestMemberSeat = this.guestMemberSeatActive && guest_member_seats == 1 ? true : false;
+    this.showSeats = this.guestMemberSeatActive && show_seats == 1 ? true : false;
+    this.displayCanaryTime = this.showCanaryTime && hour_canary == 1 ? true : false;
+    this.waitingListEnabled = this.waitingListActive && waiting_list == 1 ? true : false;
+    this.isStripePayment = this.activityFeeEnabled && stripe_pay == 1 ? true : false;
+    this.isBizumPayment = this.activityFeeEnabled && bizum_pay == 1 ? true : false;
     this.credits = credits == 1 ? true : false;
     this.creditsValue = credits_value?.replace(',', '.');
     this.featured = featured == 1 ? true : false;
@@ -2460,6 +2461,7 @@ export class PlanEditComponent {
     this.plan['age_group_id'] = this.ageGroupFilterActive && this.selectedAgeGroup ? this.selectedAgeGroup : null;
     this.plan['default_cover'] = this.setDefaultVideo && (this.videoFile || this.existingVideoFile) ? 'video' : 'photo'; 
     this.plan['video'] = this.setDefaultVideo && this.videoFile && this.coverVideo ? this.coverVideo : this.existingVideoFile;
+    this.plan["bizum_pay"] = this.isBizumActive && this.isBizumPayment ? 1 : 0;
 
     let event_reg_file_status = localStorage.getItem('event_reg_file')
     let event_reg_file = event_reg_file_status == 'complete' ? this.eventGuestRegFileName : ''
