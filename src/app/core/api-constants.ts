@@ -401,6 +401,10 @@ export const AGE_GROUPS_URL = `${API_BASE}/company/age-groups`;
 export const ADD_AGE_GROUP_URL = `${API_BASE}/company/age-groups/add`;
 export const EDIT_AGE_GROUP_URL = `${API_BASE}/company/age-groups/edit`;
 export const DELETE_AGE_GROUP_URL = `${API_BASE}/company/age-groups/delete`;
+export const ACTIVITY_PAYMENT_OPTIONS_URL = `${API_BASE}/v2/activity/payment-options`;
+export const PLAN_PAYMENT_BIZUM_URL = `${API_BASE}/v2/activity/pay/bizum`;
+export const CONFIRM_BIZUM_PLAN_PARTICIPANT_URL = `${API_BASE}/v2/bizum/plan/participant/confirm`;
+export const CONFIRM_BIZUM_GROUP_PLAN_PARTICIPANT_URL = `${API_BASE}/v2/bizum/group-plan/participant/confirm`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;

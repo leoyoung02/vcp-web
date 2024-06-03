@@ -1512,7 +1512,12 @@
         "renewal": "Data di rinnovo",
         "activitycode": "Codice attività",
         "numberofcredits": "Numero di crediti", 
-        "eventregistrationimage": "Immagine della pagina di registrazione dell'ospite dell'evento"
+        "eventregistrationimage": "Immagine della pagina di registrazione dell'ospite dell'evento",
+        "bizumpayment": "Attivare Bizum come opzione di pagamento?",
+        "stripedesc": "Accetta pagamenti con carte di credito e debito",
+        "bizumdesc": "Invia pagamento tramite il tuo smartphone",
+        "reserve": "Riserva",
+        "signup": "Iscriviti"
     },
     "edit-club": {
         "uploadimage": "Carica immagine",
@@ -3419,6 +3424,7 @@
         "failed": "fallito",
         "selectcredits": "Seleziona crediti da acquistare",
         "paymentconfirmed": "Grazie per il tuo acquisto. Questo conferma che il tuo pagamento è stato completato.",
+        "bizumconfirmed": "Grazie per esserti iscritto!",
         "totalcredits":"Crediti totali",
         "creditadditon":"Aggiunta di credito",
         "creditdeduction": "Detrazione del credito",
