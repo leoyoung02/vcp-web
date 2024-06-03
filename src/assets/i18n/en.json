@@ -75,7 +75,11 @@
         "sendmeamessage": "Send me a message",
         "mailto": "If nothing happens on clicking, please make sure you either have a default mail client install or have your browser configured to open email links. You can refer to https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome on how to configure your browser.",
         "showcalendar": "Show calendar",
-        "solcourses": "Leveling courses"
+        "solcourses": "Leveling courses",
+        "navigation": "Navigation",
+        "navigationdesc": "Navigation menu allowing quick access to pages",
+        "topmenu": "Top menu",
+        "sidemenu": "Side menu"
     },
     "user-popup": {
         "myplans": "My Plans",

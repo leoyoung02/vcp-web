@@ -144,6 +144,21 @@
         <ng-container *ngIf="setting?.category_en == 'Customize design'">
             <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4">
                 <div>
+                    <div>{{'landing.navigation' | translate}}</div>
+                    <div class="opacity-30 text-sm">{{ 'landing.navigationdesc' | translate }}</div>
+                </div>
+                <div class="flex">
+                    <button
+                        class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        (click)="showNavigationModal()"
+                        [ngStyle]="{'background-color': buttonColor }"
+                    >
+                        {{ 'company-settings.edit' | translate }}
+                    </button>
+                </div>
+            </div>
+            <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4">
+                <div>
                     <div>Favicon</div>
                     <div class="opacity-30 text-sm">{{ 'landing.favicondesc' | translate }}</div>
                 </div>
@@ -165,29 +180,6 @@
                     </label>
                 </div>
             </div>
-            <!-- <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4">
-                <div>
-                    <div>{{ 'settings.company_logo' | translate }}</div>
-                    <div class="opacity-30 text-sm">{{ 'company-settings.recommendedsize' | translate }}: 200 x 60 px</div>
-                </div>
-                <div class="flex items-center">
-                    <div class="flex mr-4">
-                        <img 
-                            class="object-contain"
-                            width="200"
-                            height="60"
-                            [src]="uploadedLogoSrc && !cancelledLogoUpload ? uploadedLogoSrc : (logoImageSrc + companyImage)" 
-                        />
-                    </div>
-                    <input #logoFileInput required type="file" class="form-control" id="logo" style="display: none;" (change)="logoFileChangeEvent($event)" />
-                    <label for="logo" class="p-2 px-4 rounded-lg hover:cursor-pointer" [ngStyle]="{'background-color': buttonColor}">
-                        <svg class="w-4 h-4 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="m14.707 4.793-4-4a1 1 0 0 0-1.416 0l-4 4a1 1 0 1 0 1.416 1.414L9 3.914V12.5a1 1 0 0 0 2 0V3.914l2.293 2.293a1 1 0 0 0 1.414-1.414Z"></path>
-                            <path d="M18 12h-5v.5a3 3 0 0 1-6 0V12H2a2 2 0 0 0-2 2v4a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-4a2 2 0 0 0-2-2Zm-3 5a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path>
-                        </svg>
-                    </label>
-                </div>
-            </div> -->
             <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4">
                 <div>
                     <div>{{ 'customer.changelogo' | translate }}</div>
@@ -1690,6 +1682,33 @@
                             {{ 'company-settings.save' | translate }}
                         </button>
                     </div>
+                </ng-container>
+                <ng-container *ngIf="dialogMode == 'navigation'">
+                    <form class="space-y-6">
+                        <div class="flex items-center">
+                            <select 
+                                id="navigation-option" 
+                                [(ngModel)]="selectedNavigation"
+                                [ngModelOptions]="{standalone: true}"
+                                class="bg-white border border-1 border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                [ngStyle]="{'border-color': buttonColor}"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedNavigation }"
+                            >
+                                <option value="top-menu">{{ 'landing.topmenu' | translate }}</option>
+                                <option value="side-menu">{{ 'landing.sidemenu' | translate }}</option>
+                            </select>
+                        </div>
+                        <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                            <button type="button" class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                (click)="saveNavigation()"
+                                [ngStyle]="{
+                                    'background-color': buttonColor
+                                }"
+                            >
+                                {{ 'company-settings.save' | translate }}
+                            </button>
+                        </div>
+                    </form>
                 </ng-container>
             </div>
         </div>

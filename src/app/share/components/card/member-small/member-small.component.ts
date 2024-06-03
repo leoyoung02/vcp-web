@@ -52,6 +52,10 @@ export class MemberSmallCardComponent {
   @Input() logo: any;
   @Input() buttonColor: any;
   @Input() page: any;
+  @Input() hasCallFeature: any;
+  @Input() hasChatFeature: any;
+  @Output() audioCall = new EventEmitter();
+  @Output() chat = new EventEmitter();
   @Output() sendReference = new EventEmitter();
 
   languageChangeSubscription;
@@ -92,12 +96,15 @@ export class MemberSmallCardComponent {
   }
 
   handleSendReference() {
-    console.log('handleSendReference emit')
     this.sendReference.emit(this.id);
   }
 
-  audioCall() {
-    
+  handleAudioCall() {
+    this.audioCall.emit(this.id);
+  }
+
+  handleChat() {
+    this.chat.emit(this.id);
   }
 
   ngOnDestroy() {

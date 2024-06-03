@@ -75,7 +75,11 @@
         "sendmeamessage": "Mandame eine Nachricht",
         "mailto": "Wenn beim Klicken nichts passiert, stellen Sie bitte sicher, dass Sie entweder einen Standard-Mail-Client installiert haben oder Ihren Browser so konfiguriert haben, dass E-Mail-Links geöffnet werden. Weitere Informationen finden Sie unter https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome erfahren Sie, wie Sie Ihren Browser konfigurieren.",
         "showcalendar": "Kalender anzeigen",
-        "solcourses": "AktivitätsverlaufLeveling-Kurse"
+        "solcourses": "AktivitätsverlaufLeveling-Kurse",
+        "navigation": "Navegació",
+        "navigationdesc": "Menú de navegació que permet un accés ràpid a les pàgines",
+        "topmenu": "Menú superior",
+        "sidemenu": "Menú lateral"
     },
     "user-popup": {
         "myplans": "Meine Pläne",

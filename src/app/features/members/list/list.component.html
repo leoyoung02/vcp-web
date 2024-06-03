@@ -79,6 +79,10 @@
                     [logo]="member?.company_image"
                     [buttonColor]="buttonColor"
                     [page]="'list'"
+                    [hasCallFeature]="hasCallFeature"
+                    [hasChatFeature]="hasChatFeature"
+                    (audioCall)="handleAudioCall($event)"
+                    (chat)="handleChat($event)"
                     (sendReference)="handleSendReference($event)"
                 >
                 </app-member-small-card>

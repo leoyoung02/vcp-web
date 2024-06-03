@@ -350,6 +350,8 @@ export class SettingComponent {
   cookiePolicyOption: any;
   privacyPolicyOption: any;
 
+  selectedNavigation: any = 'side-menu';
+
   constructor(
     private _router: Router,
     private _companyService: CompanyService,
@@ -2019,6 +2021,16 @@ export class SettingComponent {
 
   manageRegistrationFields() {
     this._router.navigate([`/settings/registration-fields`])
+  }
+
+  showNavigationModal() {
+    this.dialogTitle =  this._translateService.instant('landing.navigation');
+    this.dialogMode = 'navigation';
+    this.modalbutton?.nativeElement.click();
+  }
+
+  saveNavigation() {
+    this.closemodalbutton?.nativeElement.click();
   }
 
   handleGoBack() {

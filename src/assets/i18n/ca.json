@@ -75,7 +75,11 @@
         "sendmeamessage": "Envia un missatge",
         "mailto": "Si no passa res en fer clic, assegureu-vos que teniu instal·lat un client de correu predeterminat o que teniu el navegador configurat per obrir enllaços de correu electrònic. Podeu consultar https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome sobre com configurar el vostre navegador.",
         "showcalendar": "Mostra el calendari",
-        "solcourses": "Cursos de Nivellació"
+        "solcourses": "Cursos de Nivellació",
+        "navigation": "Navegació",
+        "navigationdesc": "Menú de navegació que permet un accés ràpid a les pàgines",
+        "topmenu": "Menú superior",
+        "sidemenu": "Menú lateral"
     },
     "user-popup": {
         "myplans": "Els meus plans",
