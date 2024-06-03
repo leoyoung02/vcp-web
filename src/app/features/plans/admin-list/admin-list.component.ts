@@ -118,6 +118,8 @@ export class PlansAdminListComponent {
 
     bizumPlanParticipants: any = [];
     bizumGroupPlanParticipants: any = [];
+    confirmedBizumPlanParticipants: any = [];
+    confirmedBizumGroupPlanParticipants: any = [];
 
     constructor(
         private _route: ActivatedRoute,
@@ -271,7 +273,8 @@ export class PlansAdminListComponent {
           (data) => {
             this.planParticipants = data?.plan_participants || [];
             this.bizumPlanParticipants = data?.bizum_plan_participants || [];
-            this.bizumGroupPlanParticipants = data?.bizum_group_plan_participants || [];
+            this.confirmedBizumPlanParticipants = data?.confirmed_bizum_plan_participants || [];
+            this.confirmedBizumGroupPlanParticipants = data?.confirmed_bizum_group_plan_participants || [];
             this.allPlanDrafts = data?.plan_drafts || [];
             this.paidPlanSubscriptions = data?.paid_plan_subscriptions || [];
             this.categories = data?.plan_categories;
@@ -384,6 +387,25 @@ export class PlansAdminListComponent {
                 let paid_activity_subscription = this.paidPlanSubscriptions?.find((f) => f.activity_id == plan.id && f.user_id == participant?.fk_user_id);
                 if(paid_activity_subscription) {
                   invoice = paid_activity_subscription.subscription_id;
+                }
+
+                if(!invoice) {
+                  if(participant?.type == 'company_plan' && this.confirmedBizumPlanParticipants?.length > 0) {
+                    let match = this.confirmedBizumPlanParticipants.some(
+                      (a) => a.user_id == participant.fk_user_id && a.plan_id == participant.id
+                    );
+                    if(match) {
+                      invoice = 'Bizum';
+                    }
+                  }
+                  if(participant?.type == 'plan' && this.confirmedBizumGroupPlanParticipants?.length > 0) {
+                    let match = this.confirmedBizumGroupPlanParticipants.some(
+                      (a) => a.user_id == participant.fk_user_id && a.plan_id == participant.id
+                    );
+                    if(match) {
+                      invoice = 'Bizum';
+                    }
+                  }
                 }
               }
 
