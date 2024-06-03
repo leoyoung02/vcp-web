@@ -1,5 +1,6 @@
 <div class="flex">
     <app-sidebar
+        *ngIf="!isCursoGeniusTestimonials"
         [menus]="menus" 
         [refreshedMenu]="refreshedMenu"
         [company]="company"
@@ -35,107 +36,115 @@
         [superAdmin]="superAdmin"
         [isUESchoolOfLife]="isUESchoolOfLife"
         [hasHistoryOfActivities]="hasHistoryOfActivities"
+        [customMemberType]="customMemberType"
+        [isCursoGeniusTestimonials]="isCursoGeniusTestimonials"
         (changeLanguage)="changedLanguage($event)" 
     >
     </app-sidebar>
-    <main class="container w-full max-w-full py-6 md:px-6 sm:md:px-6 md:px-16 lg:md:px-16 relative"
+    <main class="w-full max-w-full relative"
         [ngStyle]="{'background': isWall ? '#f8f4f4' : 'initial'}">
-        <div class="absolute top-10 left-7 md:hidden lg:hidden bg-white border-gray-200 dark:bg-gray-900">
-            <app-mobile-navbar 
-                [menus]="menus" 
-                [company]="company"
-                [otherSettings]="otherSettings"
-                [language]="language"
-                [languages]="languages"
-                [userid]="userId"
-                [username]="username" 
-                [isAdmin]="isAdmin" 
-                [currentUser]="currentUser"
-                [imageSrc]="imageSrc"
-                [notifications]="notifications"
-                [popupNotifications]="popupNotifications"
-                [canManageEvents]="canManageEvents"
-                [customMemberTypeName]="customMemberTypeName"
-                [expireDays]="expireDays"
-                [expireDaysDiff]="expireDaysDiff"
-                [cancelDays]="cancelDays"
-                [memberTypeExpirations]="memberTypeExpirations"
-                [hasEventCalendar]="hasEventCalendar"
-                [isTutorUser]="isTutorUser"
-                [hasTutors]="hasTutors"
-                [canCreateCourse]="canCreateCourse"
-                [coursesTitle]="coursesTitle"
-                [tutorManageStudentAccess]="tutorManageStudentAccess"
-                [hasCreditSetting]="hasCreditSetting"
-                [hasCreditPackageSetting]="hasCreditPackageSetting"
-                [myClubsTitle]="myClubsTitle"
-                [myActivitiesTitle]="myActivitiesTitle"
-                (changeLanguage)="changedLanguage($event)" 
-            ></app-mobile-navbar>
+        <div class="min-h-[calc(100vh_-_330px)] py-6 px-6 sm:px-6 md:px-6 md:px-16 lg:md:px-16">
+            <div class="absolute top-10 left-7 md:hidden lg:hidden bg-white border-gray-200 dark:bg-gray-900">
+                <app-mobile-navbar 
+                    *ngIf="!isCursoGeniusTestimonials"
+                    [menus]="menus" 
+                    [company]="company"
+                    [otherSettings]="otherSettings"
+                    [language]="language"
+                    [languages]="languages"
+                    [userid]="userId"
+                    [username]="username" 
+                    [isAdmin]="isAdmin" 
+                    [currentUser]="currentUser"
+                    [imageSrc]="imageSrc"
+                    [notifications]="notifications"
+                    [popupNotifications]="popupNotifications"
+                    [canManageEvents]="canManageEvents"
+                    [customMemberTypeName]="customMemberTypeName"
+                    [expireDays]="expireDays"
+                    [expireDaysDiff]="expireDaysDiff"
+                    [cancelDays]="cancelDays"
+                    [memberTypeExpirations]="memberTypeExpirations"
+                    [hasEventCalendar]="hasEventCalendar"
+                    [isTutorUser]="isTutorUser"
+                    [hasTutors]="hasTutors"
+                    [canCreateCourse]="canCreateCourse"
+                    [coursesTitle]="coursesTitle"
+                    [tutorManageStudentAccess]="tutorManageStudentAccess"
+                    [hasCreditSetting]="hasCreditSetting"
+                    [hasCreditPackageSetting]="hasCreditPackageSetting"
+                    [myClubsTitle]="myClubsTitle"
+                    [myActivitiesTitle]="myActivitiesTitle"
+                    [isUESchoolOfLife]="isUESchoolOfLife"
+                    (changeLanguage)="changedLanguage($event)" 
+                ></app-mobile-navbar>
+            </div>
+            <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" *ngIf="userId">
+                <app-user-menu
+                    *ngIf="!isCursoGeniusTestimonials"
+                    [menus]="menus"
+                    [company]="company"
+                    [otherSettings]="otherSettings"
+                    [language]="language"
+                    [languages]="languages"
+                    [userid]="userId"
+                    [username]="username" 
+                    [isAdmin]="isAdmin" 
+                    [currentUser]="currentUser"
+                    [imageSrc]="imageSrc"
+                    [notifications]="notifications"
+                    [popupNotifications]="popupNotifications"
+                    [canManageEvents]="canManageEvents"
+                    [customMemberTypeName]="customMemberTypeName"
+                    [myClubsTitle]="myClubsTitle"
+                    [myActivitiesTitle]="myActivitiesTitle"
+                    [buttonColor]="buttonColor"
+                    [isTutorMenuVisible]="isTutorMenuVisible"
+                    [manageMembers]="manageMembers"
+                    [userTypeName]="userTypeName"
+                    [superTutor]="superTutor"
+                    [cityAdmin]="cityAdmin"
+                    [hasCreditSetting]="hasCreditSetting"
+                    [hasCreditPackageSetting]="hasCreditPackageSetting"
+                    [isTutorUser]="isTutorUser"
+                    [showProfileButton]="showProfileButton"
+                    [perHourCommission]="perHourCommission"
+                    [tutorManageStudentAccess]="tutorManageStudentAccess"
+                    [separateCourseCredits]="separateCourseCredits"
+                    [courseSubscriptions]="courseSubscriptions"
+                    [userCourseCredits]="userCourseCredits"
+                    [courses]="courses"
+                    [creditPackages]="creditPackages"
+                    [hasCredits]="hasCredits"
+                    [campus]="user?.campus"
+                    [isNetculturaUser]="isNetculturaUser"
+                    (changeLanguage)="changedLanguage($event)" 
+                    [potSuperTutor]="potSuperTutor"
+                    [potTutor]="potTutor"
+                    [hasInvitations]="hasInvitations"
+                    [companyId]="companyId"
+                    [customMemberType]="customMemberType"
+                    [customMemberTypePermissions]="customMemberTypePermissions"
+                    [superAdmin]="superAdmin"
+                >
+                </app-user-menu>
+            </div>
+            <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" *ngIf="!userId && !isCursoGeniusTestimonials">
+                <app-guest-menu
+                    [company]="company"
+                    [language]="language"
+                    [buttonColor]="buttonColor"
+                    [canRegister]="canRegister">
+                </app-guest-menu>
+            </div>
+            <ng-content></ng-content>
         </div>
-        <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" *ngIf="userId">
-            <app-user-menu
-                [menus]="menus"
-                [company]="company"
-                [otherSettings]="otherSettings"
-                [language]="language"
-                [languages]="languages"
-                [userid]="userId"
-                [username]="username" 
-                [isAdmin]="isAdmin" 
-                [currentUser]="currentUser"
-                [imageSrc]="imageSrc"
-                [notifications]="notifications"
-                [popupNotifications]="popupNotifications"
-                [canManageEvents]="canManageEvents"
-                [customMemberTypeName]="customMemberTypeName"
-                [myClubsTitle]="myClubsTitle"
-                [myActivitiesTitle]="myActivitiesTitle"
-                [buttonColor]="buttonColor"
-                [isTutorMenuVisible]="isTutorMenuVisible"
-                [manageMembers]="manageMembers"
-                [userTypeName]="userTypeName"
-                [superTutor]="superTutor"
-                [cityAdmin]="cityAdmin"
-                [hasCreditSetting]="hasCreditSetting"
-                [hasCreditPackageSetting]="hasCreditPackageSetting"
-                [isTutorUser]="isTutorUser"
-                [showProfileButton]="showProfileButton"
-                [perHourCommission]="perHourCommission"
-                [tutorManageStudentAccess]="tutorManageStudentAccess"
-                [separateCourseCredits]="separateCourseCredits"
-                [courseSubscriptions]="courseSubscriptions"
-                [userCourseCredits]="userCourseCredits"
-                [courses]="courses"
-                [creditPackages]="creditPackages"
-                [hasCredits]="hasCredits"
-                [campus]="user?.campus"
-                [isNetculturaUser]="isNetculturaUser"
-                (changeLanguage)="changedLanguage($event)" 
-                [potSuperTutor]="potSuperTutor"
-                [potTutor]="potTutor"
-                [hasInvitations]="hasInvitations"
-                [companyId]="companyId"
-            >
-            </app-user-menu>
-        </div>
-        <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" *ngIf="!userId">
-            <app-guest-menu
-                [company]="company"
-                [language]="language"
-                [buttonColor]="buttonColor"
-                [canRegister]="canRegister">
-            </app-guest-menu>
-        </div>
-        <ng-content></ng-content>
+        <app-footer 
+            class="-pl-6 -pr-6" 
+            *ngIf="showFooter && (companyId != 32 || (companyId == 32 && isUESchoolOfLife))" 
+            [company]="company"
+            [customLinks]="customLinks"
+            [contactUsDetails]="contactUsDetails">
+        </app-footer>
     </main>
 </div>
-<!-- <app-toast 
-    *ngIf="newUpdatesAvailable && companyId !== 52 && companyId !== 65 && companyId !== 32" 
-    [company]="company" 
-    [update]="true" 
-    [confirm]="false"
-    [title]="title"
-    [description]="description"
-    [acceptText]="acceptText"
-></app-toast> -->

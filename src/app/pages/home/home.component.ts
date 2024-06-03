@@ -20,7 +20,9 @@ import { JobOffersListComponent } from "@features/job-offers/list/list.component
 import { 
   MasonryComponent, 
   VideoSectionComponent, 
-  SectionsMasonryComponent 
+  SectionsMasonryComponent,
+  SectionsComponent,
+  SectionsMiddleComponent,
 } from "@share/components";
 import moment from "moment";
 import get from 'lodash/get';
@@ -39,6 +41,8 @@ import get from 'lodash/get';
     MasonryComponent,
     VideoSectionComponent,
     SectionsMasonryComponent,
+    SectionsComponent,
+    SectionsMiddleComponent,
   ],
   templateUrl: "./home.component.html",
 })
@@ -171,6 +175,30 @@ export class HomeComponent implements OnInit, OnDestroy {
   jobOfferAreasMapping: any = [];
   bottomEventTitles: boolean = false;
   homeCalendar: boolean = false;
+  hasSectionsTemplate: boolean = false;
+  plansTitle: any = "";
+  cityGuideFeature: any;
+  hasCityGuide: boolean = false;
+  cityGuidesTitle: any = "";
+  jobOffersFeature: any;
+  hasJobOffers: boolean = false;
+  jobOffersTitle: any = "";
+  coursesTitle: any = "";
+  discountsFeature: any;
+  hasDiscounts: boolean = false;
+  discountsTitle: any = "";
+  blogsFeature: any;
+  hasBlogs: boolean = false;
+  blogsTitle: any = "";
+  membersFeature: any;
+  hasMembers: boolean = false;
+  membersTitle: any = "";
+  tutorsFeature: any;
+  hasTutors: boolean = false;
+  tutorsTitle: any = "";
+  isMiddleSectionTemplate: boolean = false;
+  planCalendar: boolean = false;
+  isCursoGeniusTestimonials: boolean = false;
 
   constructor(
     private _translateService: TranslateService,
@@ -251,6 +279,11 @@ export class HomeComponent implements OnInit, OnDestroy {
         location.href = `/${this.returnUrl}` || '/';
       }
 
+      this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
+      if(this.isCursoGeniusTestimonials) {
+        location.href = '/testimonials'
+      }
+
       if (company[0].landing_template == 1) {
         this.companySlug = company[0].slug;
         this.hasLandingTemplate = true;
@@ -264,8 +297,36 @@ export class HomeComponent implements OnInit, OnDestroy {
 
       if (company[0].predefined_template == 1) {
         this.hasPredefinedTemplate = true;
-        if (company[0].predefined_template_id == 1) {
+        if (
+          (this.company?.id != 32 && company[0].predefined_template_id == 1) ||
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && company[0].predefined_vida_template_id == 1) ||
+              (this.isUESchoolOfLife && company[0].predefined_sol_template_id == 1)
+            )
+          )
+        ) {
           this.hasDefaultPredefinedTemplate = true;
+        } else  if (
+          (this.company?.id != 32 && company[0].predefined_template_id == 4) ||
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && company[0].predefined_vida_template_id == 4) ||
+              (this.isUESchoolOfLife && company[0].predefined_sol_template_id == 4)
+            )
+          )
+        ) { 
+          this.hasSectionsTemplate = true;
+        } else  if (
+          (this.company?.id != 32 && company[0].predefined_template_id == 5) ||
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && company[0].predefined_vida_template_id == 5) ||
+              (this.isUESchoolOfLife && company[0].predefined_sol_template_id == 5)
+            )
+          )
+        ) { 
+          this.isMiddleSectionTemplate = true;
         } else {
           this._userService.getUserById(this.userId).subscribe(
             (response: any) => {
@@ -310,6 +371,54 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (coursesFeature?.length > 0) {
       this.hasCourses = true;
       this.coursesFeature = coursesFeature[0];
+    }
+
+    let cityGuideFeature = this.features.filter((f) => {
+      return f.feature_name == "City Agenda";
+    });
+    if (cityGuideFeature?.length > 0) {
+      this.hasCityGuide = true;
+      this.cityGuideFeature = cityGuideFeature[0];
+    }
+
+    let jobOffersFeature = this.features.filter((f) => {
+      return f.feature_name == "Employment Channel";
+    });
+    if (jobOffersFeature?.length > 0) {
+      this.hasJobOffers = true;
+      this.jobOffersFeature = jobOffersFeature[0];
+    }
+
+    let discountsFeature = this.features.filter((f) => {
+      return f.feature_name == "Discounts";
+    });
+    if (discountsFeature?.length > 0) {
+      this.hasDiscounts = true;
+      this.discountsFeature = discountsFeature[0];
+    }
+
+    let blogsFeature = this.features.filter((f) => {
+      return f.feature_name == "Blog";
+    });
+    if (blogsFeature?.length > 0) {
+      this.hasBlogs = true;
+      this.blogsFeature = blogsFeature[0];
+    }
+
+    let membersFeature = this.features.filter((f) => {
+      return f.feature_name == "Members";
+    });
+    if (membersFeature?.length > 0) {
+      this.hasMembers = true;
+      this.membersFeature = membersFeature[0];
+    }
+
+    let tutorsFeature = this.features.filter((f) => {
+      return f.feature_name == "Tutors";
+    });
+    if (tutorsFeature?.length > 0) {
+      this.hasTutors = true;
+      this.tutorsFeature = tutorsFeature[0];
     }
 
     this.getTitles();
@@ -379,8 +488,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             }
           );
         }
-        this.predefinedTemplate =
-          this.predefinedTemplate?.length > 0 ? this.predefinedTemplate[0] : "";
+        this.predefinedTemplate = this.predefinedTemplate?.length > 0 ? this.predefinedTemplate[0] : "";
       },
       (error) => {
         console.log(error);
@@ -407,36 +515,51 @@ export class HomeComponent implements OnInit, OnDestroy {
     : this.newURLButtonTextValue;
   }
 
+  getFeatureTitle(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.name_en ||
+          feature.feature_name ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "fr"
+        ? feature.name_fr ||
+          feature.feature_name_FR ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "eu"
+        ? feature.name_eu ||
+          feature.feature_name_EU ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "ca"
+        ? feature.name_ca ||
+          feature.feature_name_CA ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "de"
+        ? feature.name_de ||
+          feature.feature_name_DE ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : feature.name_es || feature.feature_name_ES
+      : "";
+  }
+
   getTitles() {
-    if (this.clubsFeature) {
-      this.groupsTitle =
-        this.language == "en"
-          ? this.clubsFeature.name_en ||
-            this.clubsFeature.feature_name ||
-            this.clubsFeature.name_es ||
-            this.clubsFeature.feature_name_ES
-          : this.language == "fr"
-          ? this.clubsFeature.name_fr ||
-            this.clubsFeature.feature_name_FR ||
-            this.clubsFeature.name_es ||
-            this.clubsFeature.feature_name_ES
-          : this.language == "eu"
-          ? this.clubsFeature.name_eu ||
-            this.clubsFeature.feature_name_EU ||
-            this.clubsFeature.name_es ||
-            this.clubsFeature.feature_name_ES
-          : this.language == "ca"
-          ? this.clubsFeature.name_ca ||
-            this.clubsFeature.feature_name_CA ||
-            this.clubsFeature.name_es ||
-            this.clubsFeature.feature_name_ES
-          : this.language == "de"
-          ? this.clubsFeature.name_de ||
-            this.clubsFeature.feature_name_DE ||
-            this.clubsFeature.name_es ||
-            this.clubsFeature.feature_name_ES
-          : this.clubsFeature.name_es || this.clubsFeature.feature_name_ES;
+    this.plansTitle = this.plansFeature ? this.getFeatureTitle(this.plansFeature) : '';
+    if(this.isUESchoolOfLife && this.companyId == 32) {
+      this.plansTitle = this.plansTitle?.replace('de Vida Universitaria', 'de School of Life');
+      this.plansTitle = this.plansTitle?.replace('University Life', 'School of Life');
     }
+    this.groupsTitle = this.clubsFeature ? this.getFeatureTitle(this.clubsFeature) : '';
+    this.cityGuidesTitle = this.cityGuideFeature ? this.getFeatureTitle(this.cityGuideFeature) : '';
+    this.jobOffersTitle = this.jobOffersFeature ? this.getFeatureTitle(this.jobOffersFeature) : '';
+    this.coursesTitle = this.coursesFeature ? this.getFeatureTitle(this.coursesFeature) : '';
+    this.discountsTitle = this.discountsFeature ? this.getFeatureTitle(this.discountsFeature) : '';
+    this.blogsTitle = this.blogsFeature ? this.getFeatureTitle(this.blogsFeature) : '';
+    this.membersTitle = this.membersFeature ? this.getFeatureTitle(this.membersFeature) : '';
+    this.tutorsTitle = this.tutorsFeature ? this.getFeatureTitle(this.tutorsFeature) : '';
   }
 
   getSafeVideoUrl(video) {
@@ -555,6 +678,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.types = response?.job_types;
         this.areas = response?.job_areas;
         this.jobOfferAreasMapping = response?.job_offer_areas;
+        this.planCalendar = response?.plan_calendar == 1 ? true : false;
         this.formatSectionsData(response?.results);
       },
       error => {
@@ -589,7 +713,10 @@ export class HomeComponent implements OnInit, OnDestroy {
           title: this.getTitle(item),
           date: this.getDate(item),
           plan_date: item?.plan_date,
+          plan_type_id: item?.plan_type_id,
           address: item?.address,
+          privacy: item?.private,
+          credits: item?.credits,
           price: item?.price,
           object_type: item?.object_type,
           category: this.getCategory(item),
@@ -603,6 +730,8 @@ export class HomeComponent implements OnInit, OnDestroy {
           area: this.getArea(item),
           created_by_name: this.getCreatedByName(item),
           created_by_image: this.getCreatedByImage(item),
+          description: this.getDescription(item),
+          sol_nivelacion: item?.sol_nivelacion,
         })
       })
     }
@@ -727,6 +856,22 @@ export class HomeComponent implements OnInit, OnDestroy {
     }
 
     return title;
+  }
+
+  getDescription(item) {
+    let object_type = item?.object_type;
+    let description = '';
+
+    switch(object_type) {
+      case 'cityguide':
+        description = this.getExcerpt(this.getCityGuideDescription(item));
+        break;
+      case 'joboffer':
+        description = this.getExcerpt(this.getJobOfferDescription(item));
+        break;
+    }
+
+    return description;
   }
 
   getDate(item) {
@@ -960,6 +1105,33 @@ export class HomeComponent implements OnInit, OnDestroy {
         (this.language == 'de' ? (offer.title_de || offer.title) : offer.title)
       ))
     )
+  }
+
+  getJobOfferDescription(offer) {
+    return this.language == 'en' ? (offer.description_en || offer.description) : (this.language == 'fr' ? (offer.description_fr || offer.description) :
+      (this.language == 'eu' ? (offer.description_eu || offer.description) : (this.language == 'ca' ? (offer.description_ca || offer.description) :
+        (this.language == 'de' ? (offer.description_de || offer.description) : offer.description)
+      ))
+    )
+  }
+
+  getCityGuideDescription(offer) {
+    return this.language == 'en' ? (offer.description_EN || offer.description_ES) : (this.language == 'fr' ? (offer.description_FR || offer.description_ES) :
+      (this.language == 'eu' ? (offer.description_EU || offer.description_ES) : (this.language == 'ca' ? (offer.description_CA || offer.description_ES) :
+        (this.language == 'de' ? (offer.description_DE || offer.description_ES) : offer.description_ES)
+      ))
+    )
+  }
+
+  getExcerpt(description) {
+    let charlimit = 100;
+    if (!description || description.length <= charlimit) {
+      return description;
+    }
+
+    let without_html = description.replace(/<(?:.|\n)*?>/gm, "");
+    let shortened = without_html.substring(0, charlimit) + "...";
+    return shortened;
   }
 
   getType(item) {

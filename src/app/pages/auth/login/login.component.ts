@@ -81,6 +81,8 @@ export class LoginComponent {
   alreadyLoggedIn: boolean = false;
   ueLoginMode: string = '';
   isUESchoolOfLife: boolean = false;
+  formSubmitted: boolean = false;
+  isCursoGeniusTestimonials: boolean = false;
 
   constructor(
     private _router: Router,
@@ -100,7 +102,6 @@ export class LoginComponent {
   async ngOnInit() {
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.language = this._localService.getLocalStorage(environment.lslang);
-    this._translateService.use(this.language || "es");
     this._localService.removeLocalStorage(environment.lsmenus);
 
     this.companies = get(
@@ -137,8 +138,13 @@ export class LoginComponent {
         (company[0].photo || company[0].image);
       this.homeActive = company[0].show_home_menu == 1 ? true : false;
       this.startPage = company[0].start_page;
+      if(this.companyId == 65 && this.language == 'es') {
+        this.language = 'it';
+      }
+      this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
     }
 
+    this._translateService.use(this.language || "es");
     this.getOtherSettings();
   }
 
@@ -301,6 +307,7 @@ export class LoginComponent {
   }
 
   async login() {
+    this.formSubmitted = true;
     this._localService.removeLocalStorage(environment.lsmenus);
     this._localService.removeLocalStorage(environment.lsusercoursecredits);
     this._userService.updateUserCourseCredits([]);
@@ -357,7 +364,7 @@ export class LoginComponent {
         }
       } else {
         this.open(
-          this._translateService.instant("dialog.invalidcredentials"),
+          this._translateService.instant("login.emailpasswordrequired"),
           ""
         );
       }
@@ -365,6 +372,11 @@ export class LoginComponent {
   }
 
   async validateLogin(email, password) {
+    if(this.companyId > 0) {
+    } else {
+      this.companyId = this._companyService.getCompanyByHost();
+    }
+    
     await this._authService
       .login(email, password, this.companyId)
       .pipe(takeUntil(this.destroy$))
@@ -456,13 +468,13 @@ export class LoginComponent {
   loginUEStudent() {
     // this.ueLoginMode == '';
     // this.ueLoginMode = 'Estudiante';
-    location.href = this.isUESchoolOfLife ? `https://sso.vistingo.com/api/login/sol-student` : `https://sso.vistingo.com/api/login/student`;
+    location.href = this.isUESchoolOfLife ? `https://sso.vistingo.com/api/login/oauth-sol-student` : `https://sso.vistingo.com/api/login/student`;
   }
 
   loginUEEmployee() {
     // this.ueLoginMode == '';
     // this.ueLoginMode = 'Empleado';
-    location.href = this.isUESchoolOfLife ? `https://sso.vistingo.com/api/login/sol-employee` : `https://sso.vistingo.com/api/login/employee`;
+    location.href = this.isUESchoolOfLife ? `https://sso.vistingo.com/api/login/oauth-sol-employee` : `https://sso.vistingo.com/api/login/employee`;
   }
 
   toggleAdminLogin(event): void {

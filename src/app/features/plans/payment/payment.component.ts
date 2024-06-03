@@ -210,8 +210,10 @@ export class PlanPaymentComponent {
     | undefined;
   package: any;
   showConfirmed: boolean = false;
-
   event: any;
+  showMultipleOptions: boolean = false;
+  loadedPaymentMethods: boolean = false;
+  selectedPaymentMethod: any = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -243,7 +245,7 @@ export class PlanPaymentComponent {
         personal_address: ['', [Validators.required]],
         city: ['', [Validators.required]],
         zip_code: ['', [Validators.required]],
-        nif: ['', [Validators.required]],
+        nif: [''],
         cif: [''],
         direccion: [''],
         province: ['', [Validators.required]],
@@ -258,7 +260,7 @@ export class PlanPaymentComponent {
         personal_address: ['', [Validators.required]],
         city: ['', [Validators.required]],
         zip_code: ['', [Validators.required]],
-        nif: ['', [Validators.required]],
+        nif: [''],
         cif: [''],
         direccion: [''],
         province: ['', [Validators.required]],
@@ -289,6 +291,7 @@ export class PlanPaymentComponent {
     }
 
     this.initializeForm();
+    this.getPaymentOptions();
     this.getUserDetails();
   }
 
@@ -302,6 +305,22 @@ export class PlanPaymentComponent {
         this.pageTitle = this.event?.title;
       }
     )
+  }
+
+  getPaymentOptions() {
+    this._plansService
+      .getActivityPaymentOptions(this.id, this.typeId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response) => {
+          let payment_options = response.payment_options;
+          this.showMultipleOptions = payment_options?.stripe_pay == 1 && payment_options?.bizum_pay == 1 ? true : false;
+          this.loadedPaymentMethods = true;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   getUserDetails() {
@@ -555,19 +574,44 @@ export class PlanPaymentComponent {
     this.missingCity = false
     this.missingZipcode = false
 
-    if (this.isValidForm()) {
-      this.continuePaymentProcess(null);
-    } else {
-      this.scrollToTop();
-      this.submitted = false;
-      this.isInvalidForm = true;
-      this.open(this._translateService.instant("wall.requiredfields"), "");
-    }
+    setTimeout(() => {
+      if (this.isValidForm()) {
+        this.continuePaymentProcess(null);
+      } else {
+        this.scrollToTop();
+        this.submitted = false;
+        this.isInvalidForm = true;
+        this.open(this._translateService.instant("wall.requiredfields"), "");
+      }
+    }, 500)
   }
 
   continuePaymentProcess(content) {
     this.stripeData = this.stripeForm.value;
-    this.processPayment(content);
+    if(this.showMultipleOptions && this.selectedPaymentMethod == 'Bizum') {
+      this.processPaymentByBizum();
+    } else {
+      this.processPayment(content);
+    }
+  }
+
+  processPaymentByBizum() {
+    if(this.userId > 0) {
+      this.proceedConfirmBizum();
+    } else {
+      this.signupUser();
+    }
+  }
+
+  proceedConfirmBizum() {
+    this._plansService.subscribeEventBizum(this.id, this.typeId, this.userId, this.companyId, this.stripeData)
+    .subscribe(
+      (res) => {
+        this.showModal();
+      },
+      error => {
+        this.showError();
+      })
   }
 
   scrollToTop() {
@@ -592,7 +636,11 @@ export class PlanPaymentComponent {
           if (result.token) {
             this.stripeData["token"] = result.token;
             if(this.userId > 0) {
-              this.proceedPay();
+              if(this.showMultipleOptions && this.selectedPaymentMethod == 'Bizum') {
+                this.proceedConfirmBizum();
+              } else {
+                this.proceedPay();
+              }
             } else {
               this.signupUser();
             }
@@ -655,7 +703,11 @@ export class PlanPaymentComponent {
               this.isUserExists = true;
             }
             this.userId = this.newUserId;
-            this.proceedPay();
+            if(this.showMultipleOptions && this.selectedPaymentMethod == 'Bizum') {
+              this.proceedConfirmBizum();
+            } else {
+              this.proceedPay();
+            }
           } else {
             this.showError();
           }
@@ -689,7 +741,9 @@ export class PlanPaymentComponent {
   getPopupMessage() {
     let message = ''
     if(this.showAccept) {
-      message = this._translateService.instant('credit-package.paymentconfirmed')
+      message = this.showMultipleOptions && this.selectedPaymentMethod == 'Bizum' ?
+        this._translateService.instant('credit-package.bizumconfirmed') : 
+        this._translateService.instant('credit-package.paymentconfirmed');
     }
     if(this.showContinue) {
       message = this._translateService.instant('plan-details.pleasewait')
@@ -717,22 +771,21 @@ export class PlanPaymentComponent {
   isValidForm() {
     let valid = true;
     Object.keys(this.stripeForm.controls).forEach((key) => {
-      const controlErrors: ValidationErrors =
-        this.stripeForm.controls[key].errors!;
-      if (controlErrors == null) {
-        valid = true;
-      } else {
+      const controlErrors: ValidationErrors = this.stripeForm.controls[key].errors!;
+      // if (controlErrors == null) {
+      //   valid = true;
+      // } else {
         if (controlErrors != null) {
           valid = false;
         } else {
-          if (key == "email") {
+          if (controlErrors != null && key == "email") {
             valid = false;
             this.invalidEmail = true;
           }
         }
-      }
+      // }
     });
-
+    
     return valid;
   }
 
@@ -754,6 +807,14 @@ export class PlanPaymentComponent {
     setTimeout(() => {
       this._router.navigate([`/plans/details/${this.id}/${this.typeId}`])
     }, 1000)
+  }
+
+  handleChangePaymentMethod(event) {
+    this.selectedPaymentMethod = event?.target?.value;
+  }
+
+  bizumSignup() {
+
   }
 
   async open(message: string, action: string) {

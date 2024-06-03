@@ -216,6 +216,14 @@ import {
   EXPORT_ALL_SUBMISSIONS_URL,
   DATA_SOURCE_FIELDS_URL,
   QUERY_DATABASE_URL,
+  MODULE_COMMENTS_URL,
+  ADD_MODULE_COMMENT_URL,
+  EDIT_MODULE_COMMENT_URL,
+  REACT_MODULE_COMMENT_URL,
+  DELETE_MODULE_COMMENT_URL,
+  EDIT_MODULE_FILTER_SETTINGS_URL,
+  MODULE_FILTER_SETTINGS_URL,
+  EDIT_HOME_TEXT_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -266,7 +274,7 @@ export class CompanyService {
       company =
         companies &&
         companies.filter((c) => {
-          return c.url == customer?.url || c.alternative_url == customer?.url || c.school_of_life_url == customer?.url;
+          return c.url == customer?.url || c.alternative_url == customer?.url || c.school_of_life_url == customer?.url || c.testimonials_url == customer?.url;
         });
       if (company && company.length > 0) {
         this._localService.setLocalStorage(
@@ -1939,5 +1947,83 @@ export class CompanyService {
         payload,
         { headers: this.headers }
     ).pipe(map(res => res));
+  }
+
+  fetchComments(id, userId, mode, objectId): Observable<any> {
+    return this._http.get(
+      `${MODULE_COMMENTS_URL}/${id}/${userId}/${mode}/${objectId}`,
+      { headers: this.headers }
+    )
+    .pipe(map(res => res));
+  }
+
+  addModuleComment(payload): Observable<any> {
+    return this._http.post(ADD_MODULE_COMMENT_URL, payload, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  editModuleComment(payload): Observable<any> {
+    return this._http.put(EDIT_MODULE_COMMENT_URL, payload, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  deleteModuleComment(id): Observable<any> {
+    return this._http.delete(
+        `${DELETE_MODULE_COMMENT_URL}/${id}`,
+        {},
+    ).pipe(map(res => res));
+  }
+
+  reactToModuleComment(payload): Observable<any> {
+    return this._http.post(REACT_MODULE_COMMENT_URL, payload, { 
+      headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editModuleFilterSettings(params): Observable<any> {
+    return this._http.post(`${EDIT_MODULE_FILTER_SETTINGS_URL}`,
+        params
+    ).pipe(map(res => res));
+  }
+
+  getModuleFilterSettings(id, featureId): Observable<any> {
+    return this._http
+      .get(`${MODULE_FILTER_SETTINGS_URL}/${id}/${featureId}`, { headers: this.headers })
+      .pipe(map((res) => res));
+  }
+
+  getCompanyByHost(): any {
+    let companyId = 0;
+    let host = window.location.host;
+
+    let customer =
+      this.customers &&
+      this.customers.find(
+        (c) => c.url == host || c.url == environment.company
+      );
+    if (customer) {
+      companyId = customer.id
+    }
+
+    return companyId;
+  }
+
+  saveHomeText(payload): Observable<any> {
+    return this._http.post(EDIT_HOME_TEXT_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  isCursoGeniusTestimonials(customer): boolean {
+    let result = false;
+
+    if(customer.id == 52 && (customer.testimonials_url == window.location.host || customer.testimonials_url == environment.company)) {
+      result = true;
+    }
+
+    return result;
   }
 }

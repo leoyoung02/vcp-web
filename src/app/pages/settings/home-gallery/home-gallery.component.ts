@@ -111,7 +111,7 @@ export class HomeGalleryComponent {
         this.pageName = `${this._translateService.instant('leads.layout')} ${this.id}`;
     }
 
-    if(this.id == 1) {
+    if(this.id == 1 || this.id == 4 || this.id == 5) {
         this.images = [
             {
                 id: 1,

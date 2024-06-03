@@ -14,6 +14,7 @@ import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { MembersService } from "@features/services/members/members.service";
 import { initFlowbite } from "flowbite";
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErrors, Validators } from "@angular/forms";
+import moment from "moment";
 import get from "lodash/get";
 
 @Component({
@@ -747,7 +748,9 @@ export class MemberDetailComponent {
         ) {
           let value
           if(this.member[f.field] && this.member[f.field] != 'null') {
-            if(f.field != 'birthday') {
+            if(f.field == 'birthday') {
+              value = this.member[f.field] ? moment(this.member[f.field]).format('DD/M/YYYY') : this.member[f.field]
+            } else {
               value = this.member[f.field]
             }
           }
@@ -848,7 +851,7 @@ export class MemberDetailComponent {
   handleCreateQuestion() {
     this.questionFormSubmitted = false;
     this.dialogMode = "question";
-    this.dialogTitle =  this._translateService.instant('members.askaquestion');
+    this.dialogTitle =  this.companyId == 66 ? this._translateService.instant('landing.sendmeamessage') : this._translateService.instant('members.askaquestion');
     this.modalbutton?.nativeElement.click();
   }
 

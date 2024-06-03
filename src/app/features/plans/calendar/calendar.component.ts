@@ -219,10 +219,10 @@ export class PlansCalendarComponent {
           .subscribe(
             response => {
               this.user = response['CompanyUser']
-              this.emailDomain = this.user.Company_Entity.domain
+              this.emailDomain = this.user?.Company_Entity.domain
               let filter = this.showPastEvents || localStorage.getItem('show_past_events') == '1' ? '' : 'active'
               this._plansService.getCalendarPlans(
-                this.user.fk_company_id, 
+                this.companyId, 
                 0, 
                 1, 
                 20, 

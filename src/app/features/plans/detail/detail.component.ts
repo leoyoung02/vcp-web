@@ -302,6 +302,11 @@ export class PlanDetailComponent {
   hasMembers: boolean = false;
   whatsAppTemplate: string = '';
   telegramTemplate: string = '';
+  canRegisterAllEvents: boolean = false;
+  canRegisterNetculturaEvents: boolean = false;
+  canRegisterGuestsOnly: boolean = false;
+  canInviteEvents: boolean = false;
+  pendingBizumConfirmation: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -644,6 +649,66 @@ export class PlanDetailComponent {
     this.showOption =
       user_permissions?.create_plan_roles?.length > 0 ||
       user_permissions?.member_type_permissions?.find((f) => f.create == 1 && f.feature_id == 1);
+
+    this.canRegisterAllEvents = user_permissions?.member_type_permissions?.find((f) => f.register_events_all == 1 && f.feature_id == 1) ? true : false;
+    this.canRegisterNetculturaEvents = user_permissions?.member_type_permissions?.find((f) => f.register_events_netcultura == 1 && f.feature_id == 1) ? true : false;
+    this.canRegisterGuestsOnly = user_permissions?.member_type_permissions?.find((f) => f.register_events_guests == 1 && f.feature_id == 1) ? true : false;
+
+    this.canInviteEvents = user_permissions?.member_type?.invite_all_events == 1 ? true : false;
+  }
+
+  getJoinStatus() {
+    let result = false;
+
+    let canJoin = this.showJoinButton && ((!this.joinedParticipant
+      && !this.plan?.private
+      && (this.plan?.plan_date >= this.today || this.plan?.end_date >= this.today || !this.isPastEvent)
+      && !this.activateWaitingList) || (this.plan?.private && !this.joinedParticipant && this.speedMember)
+      || (this.plan?.private && this.showOption && !this.joinedParticipant && (this.plan?.plan_date >= this.today || !this.isPastEvent)));
+
+    let canRegisterNetcultura = false;
+    if(!this.canRegisterAllEvents && this.canRegisterNetculturaEvents) {
+      if(this.getCategoryLabel()?.indexOf('Netcultura') >= 0) {
+        canRegisterNetcultura = true;
+      }
+    }
+
+    let canRegisterGuestsOnly = false;
+    if(!this.canRegisterAllEvents && this.canRegisterGuestsOnly) {
+      if(this.limitPlanParticipants?.length > 0) {
+        let invited_guests = this.limitPlanParticipants?.filter(participant => {
+          return participant.invited_by == this.userId
+        })
+        if(invited_guests?.length > 0) {
+          canRegisterGuestsOnly = true;
+        }
+      }
+    }
+
+    result = canJoin && (
+      (this.userId && (this.canRegisterAllEvents || canRegisterNetcultura || canRegisterGuestsOnly)) ||
+      !this.userId
+    );
+
+    return result;
+  }
+
+  getRequestJoinStatus() {
+    return !this.joinedParticipant
+      && this.plan?.private
+      && this.pendingRequest
+      && !this.showOption
+      && this.plan?.plan_date >= this.today;
+  }
+
+  getShareStatus() {
+    let result = false;
+
+    let canShare = this.userId && this.invitationLinkActive && (this.superAdmin || this.showOption || !this.plan?.private || (this.plan?.private && this.joinedParticipant));
+
+    result = canShare && this.canInviteEvents;
+
+    return result;
   }
 
   getFeatureTitle(feature) {
@@ -898,6 +963,7 @@ export class PlanDetailComponent {
   formatPlan(plan, user, ue_user) {
     this.user = user;
     this.plan = plan?.details;
+    this.pendingBizumConfirmation = plan?.pending_bizum_confirmation;
     this.featuredTitle = this.getFeaturedTitle();
     this.planCreator = plan?.created_by_user;
     if (this.userId) {
@@ -1337,7 +1403,7 @@ export class PlanDetailComponent {
               txt && txt?.textContent
                 ? encodeURIComponent(txt?.textContent)
                 : "";
-            this.emailTo = `mailto:?Subject=${template.subject}&ISO-8859-1&Body=${email_body}`;
+            this.emailTo = `mailto:recipient@email.com?Subject=${template.subject}&ISO-8859-1&Body=${email_body}`;
             this.whatsAppTemplate = `https://wa.me?text=${email_body}` // `whatsapp://send?text=${email_body}`;
             this.telegramTemplate = `https://telegram.me/share/url?url=${window.location.href}&text=${email_body}`;
           } else {
@@ -1364,6 +1430,9 @@ export class PlanDetailComponent {
               this.telegramTemplate = `https://telegram.me/share/url?url=${window.location.href}&text=` + window.location.href;
             }
           }
+          setTimeout(() => {
+            initFlowbite();
+          }, 500);
         },
         (error) => {
           console.log(error);
@@ -1587,19 +1656,19 @@ export class PlanDetailComponent {
   }
 
   async handleJoin() {
-    if (this.requestDNI) {
-      let user = this.currentUser;
-      if (!user) {
-        user = this.user;
-      }
-      if (user && !user.dni) {
-        this.showUpdateDNIModal = true;
-      } else {
-        this.proceedJoin();
-      }
-    } else {
+    // if (this.requestDNI) {
+    //   let user = this.currentUser;
+    //   if (!user) {
+    //     user = this.user;
+    //   }
+    //   if (user && !user.dni) {
+    //     this.showUpdateDNIModal = true;
+    //   } else {
+    //     this.proceedJoin();
+    //   }
+    // } else {
       this.proceedJoin();
-    }
+    // }
   }
 
   proceedJoin() {
@@ -1611,100 +1680,108 @@ export class PlanDetailComponent {
   }
 
   joinPlan() {
-    if (
-      this.activityFeeEnabled &&
-      this.plan.stripe_pay == 1 &&
-      this.plan.price > 0
-    ) {
-      let userId = this.userId || 0;
-      this._router.navigate([
-        `/plans/payment/${this.id}/${this.planTypeId}/${userId}`,
-      ]);
+    if(this.userId > 0) {
+      if (
+        this.activityFeeEnabled &&
+        this.plan.stripe_pay == 1 &&
+        this.plan.price > 0
+      ) {
+        let userId = this.userId || 0;
+        this._router.navigate([
+          `/plans/payment/${this.id}/${this.planTypeId}/${userId}`,
+        ]);
+      } else {
+        this.onSubmit = true;
+        this._plansService.addPlanParticipant(this.id, this.user.id).subscribe(
+          (response) => {
+            this.plan = response.CompanyPlan;
+            this.planParticipants = this.plan.CompanyPlanParticipants;
+            // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+            this.limitPlanParticipants = this.planParticipants;
+            this.planParticipantCount = this.plan.CompanyPlanParticipants.length;
+            this.joinedParticipant = this.isUserJoined(
+              this.plan.CompanyPlanParticipants
+            );
+            this.onSubmit = false;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
+      }
     } else {
-      this.onSubmit = true;
-      this._plansService.addPlanParticipant(this.id, this.user.id).subscribe(
-        (response) => {
-          this.plan = response.CompanyPlan;
-          this.planParticipants = this.plan.CompanyPlanParticipants;
-          // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
-          this.limitPlanParticipants = this.planParticipants;
-          this.planParticipantCount = this.plan.CompanyPlanParticipants.length;
-          this.joinedParticipant = this.isUserJoined(
-            this.plan.CompanyPlanParticipants
-          );
-          this.onSubmit = false;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+      this._router.navigate(["/auth/login"]);
     }
   }
 
   async joinGroupPlan() {
-    if (
-      this.activityFeeEnabled &&
-      this.plan.stripe_pay == 1 &&
-      this.plan.price > 0
-    ) {
-      let userId = this.userId || 0;
-      this._router.navigate([
-        `/plans/payment/${this.id}/${this.planTypeId}/${userId}`,
-      ]);
-    } else {
-      const { id: user_id } = this.user;
+    if(this.userId > 0) {
+      if (
+        this.activityFeeEnabled &&
+        this.plan.stripe_pay == 1 &&
+        this.plan.price > 0
+      ) {
+        let userId = this.userId || 0;
+        this._router.navigate([
+          `/plans/payment/${this.id}/${this.planTypeId}/${userId}`,
+        ]);
+      } else {
+        const { id: user_id } = this.user;
 
-      const { id: group_plan_id, fk_company_id } = this.plan;
+        const { id: group_plan_id, fk_company_id } = this.plan;
 
-      let payload = {
-        group_plan_id,
-        fk_company_id: this.companyId,
-        user_id,
-        invited_by: 0,
-      };
+        let payload = {
+          group_plan_id,
+          fk_company_id: this.companyId,
+          user_id,
+          invited_by: 0,
+        };
 
-      if (this.invitationLinkActive) {
-        let invitedby = this._localService.getLocalStorage(
-          environment.lsinvitedby
-        );
-        let invited_by = 0;
-        let event_id = this._localService.getLocalStorage(
-          environment.lseventinvite
-        );
-
-        if (event_id == group_plan_id) {
-          let user = get(
-            await this._userService.getUserById(invitedby).toPromise(),
-            "CompanyUser"
+        if (this.invitationLinkActive) {
+          let invitedby = this._localService.getLocalStorage(
+            environment.lsinvitedby
           );
-          invited_by = user.id;
+          let invited_by = 0;
+          let event_id = this._localService.getLocalStorage(
+            environment.lseventinvite
+          );
+
+          if (event_id == group_plan_id) {
+            let user = get(
+              await this._userService.getUserById(invitedby).toPromise(),
+              "CompanyUser"
+            );
+            invited_by = user.id;
+          }
+
+          if (event_id == group_plan_id && invited_by > 0) {
+            payload = {
+              group_plan_id,
+              fk_company_id,
+              user_id,
+              invited_by: invited_by,
+            };
+          }
         }
 
-        if (event_id == group_plan_id && invited_by > 0) {
-          payload = {
-            group_plan_id,
-            fk_company_id,
-            user_id,
-            invited_by: invited_by,
-          };
-        }
+        this.onSubmit = true;
+        this._plansService.addGroupPlanParticipant(payload).subscribe(
+          (response) => {
+            this.plan = response.CompanyGroupPlan;
+            this.planParticipants = this.plan.Company_Group_Plan_Participants;
+            // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
+            this.limitPlanParticipants = this.planParticipants;
+            this.planParticipantCount = this.plan.Company_Group_Plan_Participants.length;
+            this.joinedParticipant = this.isUserJoined(this.plan.Company_Group_Plan_Participants);
+            this.onSubmit = false;
+          },
+          (error) => {
+            console.log(error);
+          }
+        );
       }
-
-      this.onSubmit = true;
-      this._plansService.addGroupPlanParticipant(payload).subscribe(
-        (response) => {
-          this.plan = response.CompanyGroupPlan;
-          this.planParticipants = this.plan.Company_Group_Plan_Participants;
-          // this.limitPlanParticipants = this.planParticipants?.length > 9 ? this.planParticipants?.slice(0, 9) : this.planParticipants;
-          this.limitPlanParticipants = this.planParticipants;
-          this.planParticipantCount = this.plan.Company_Group_Plan_Participants.length;
-          this.joinedParticipant = this.isUserJoined(this.plan.Company_Group_Plan_Participants);
-          this.onSubmit = false;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
+    } else {
+      this._router.navigate(["/auth/login"]);
     }
   }
 
@@ -2891,6 +2968,10 @@ export class PlanDetailComponent {
         this.iframeEventDescription.nativeElement.style.display = 'block'
       }
     }, 500)
+  }
+
+  openInstructionReference() {
+    window.open("https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome", "_blank");
   }
 
   ngOnDestroy() {

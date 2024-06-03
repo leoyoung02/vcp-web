@@ -65,7 +65,17 @@
         "visitinstagram": "Visita nuestro instagram", 
         "privacysettings": "Configuración de privacidad",
         "menusettings": "Configuración del menú",
-        "thismonth": "Este mes"
+        "thismonth": "Este mes",
+        "filtersettings": "Configuración de filtro",
+        "display": "Pantalla",
+        "selecttext": "Seleccionar texto",
+        "agegroup": "Grupo de edad",
+        "checkpasswordrequirements": "Asegúrate de verificar los requisitos de contraseña",
+        "unabletovalidate": "No se puede enviar su registro. Por favor verifique su información.",
+        "sendmeamessage": "Mándame un mensaje",
+        "mailto": "Si no sucede nada al hacer clic, asegúrese de tener instalado un cliente de correo predeterminado o tener su navegador configurado para abrir enlaces de correo electrónico. Puede consultar https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome sobre cómo configurar su navegador.",
+        "showcalendar": "Mostrar calendario",
+        "solcourses": "Cursos de Nivelación"
     },
     "user-popup": {
         "myplans": "Mis planes",
@@ -450,7 +460,9 @@
         "selectincharge": "Seleccione el delegado",
         "incharge": "Persona a carga",
         "selectmodality": "Seleccionar modalidad",
-        "showpastevent": "Mostrar evento pasado"
+        "showpastevent": "Mostrar evento pasado",
+        "selectagegroup": "Seleccione grupo de edad",
+        "agegroups": "Grupos de edad"
     },
     "plan-recommendations": {
         "applauses": "Aplauso",
@@ -618,7 +630,8 @@
         "canvadesc1": "Para insertar un video de Canva en la descripción, use",
         "canvadesc2": "donde link es el Smartlink cuando haces clic en Compartir > Insertar en Canva.",
         "vidalyticsdesc1": "Para insertar video de Vidalytics en la descripción, usa",
-        "vidalyticsdesc2": "donde el enlace es la identificación del video."
+        "vidalyticsdesc2": "donde el enlace es la identificación del video.",
+        "chat": "Chat"
     },
     "ranking": {
         "pointsyouhave": "Puntos que tienes",
@@ -750,7 +763,8 @@
         "noevents": "No hay eventos",
         "noclubs": "No se encontraron clubes",
         "joinedby": "unido por",
-        "groups": "Grupos"
+        "groups": "Grupos",
+        "profileimage": "Imagen de perfil"
     },
     "profile-settings": {
         "firstname": "Nombre de pila",
@@ -1098,7 +1112,8 @@
         "changepasswordtitle": "Cambia la contraseña",
         "changepassworddesc": "Ingresa y confirma tu nueva contraseña",
         "adminlogin": "Inicio de sesión de administrador",
-        "username": "Nombre de usuario"
+        "username": "Nombre de usuario",
+        "emailpasswordrequired": "Se requiere correo electrónico y contraseña para iniciar sesión"
     },
     "signup": {
         "firsttitle": "Inscribirse a",
@@ -1501,7 +1516,13 @@
         "plandetailschanged": "Los detalles han cambiado. ¿Quieres enviar estas actualizaciones a los participantes?",
         "yes": "Sí",
         "no": "No",
-        "eventregistrationimage": "Imagen de la página de registro de invitados al evento"
+        "eventregistrationimage": "Imagen de la página de registro de invitados al evento",
+        "bizumpayment": "¿Activar Bizum como opción de pago?",
+        "stripedesc": "Acepta pagos con tarjeta de crédito y débito",
+        "bizumdesc": "Envía pago a través de tu teléfono inteligente",
+        "reserve": "Reserva",
+        "signup": "Apuntate",
+        "insertvideo": "Insertar vídeo"
     },
     "edit-club": {
         "uploadimage": "Cargar imagen",
@@ -1778,7 +1799,8 @@
     },
     "service": {
         "subscribe": "Suscribir",
-        "pay": "Pagar"
+        "pay": "Pagar",
+        "reserve": "Reservar"
     },
     "ambassadors": {
         "ambassadors": "Embajadores",
@@ -2679,7 +2701,16 @@
         "selecttutoraccess": "Seleccionar miembro acceso a tutores",
         "access": "Acceso",
         "info": "Información",
-        "sameprice": "Aplicar el mismo precio a todos"
+        "sameprice": "Aplicar el mismo precio a todos", 
+        "createupdatedelete": "Crear, actualizar, eliminar",
+        "platformsettings": "Acceder a la configuración de la plataforma",
+        "registereventsall": "Inscribirse en eventos (Todos)",
+        "registereventsnetcultura": "Inscribirse en eventos (Netcultura)",
+        "registereventsguests": "Inscribirse en eventos (Sus invitados)",
+        "accessprofile": "Accede a perfil",
+        "accessmyinvitations": "Accede a mis invitaciones",
+        "inviteallevents": "Puede invitar a todos los eventos",
+        "viewguests": "Ver invitados"
     },
     "member-type": {
         "welcometo": "Bienvenido a",
@@ -3277,7 +3308,8 @@
         "moneyonthewaystatus": "Dinero en camino ⏳",
         "tiktokstats": "Estadísticas de TikTok",
         "daterangedesc": "Seleccione el rango de fechas (máximo 1 mes). Haga clic en restablecer para establecer el mes predeterminado",
-        "noratingsyet": "Aún no hay calificaciones"
+        "noratingsyet": "Aún no hay calificaciones",
+        "edittutor": "Editar tutor"
     },
     "general-details": {
         "name" : "Nombre",
@@ -3413,6 +3445,7 @@
         "failed":"fallido",
         "selectcredits": "Seleccionar créditos para comprar", 
         "paymentconfirmed": "Gracias por su compra. Esto confirma que su pago se ha completado.",
+        "bizumconfirmed": "¡Gracias por registrarte!",
         "totalcredits":"Creditos totales",
         "creditadditon":"Adición de crédito",
         "creditdeduction":"Deducción de crédito",

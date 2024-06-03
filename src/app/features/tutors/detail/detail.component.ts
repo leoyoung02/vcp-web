@@ -325,6 +325,11 @@ export class TutorDetailComponent {
           feature.feature_name_DE ||
           feature.name_es ||
           feature.feature_name_ES
+        : this.language == "it"
+        ? feature.name_it ||
+          feature.feature_name_IT ||
+          feature.name_es ||
+          feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
       : "";
   }
@@ -860,7 +865,7 @@ export class TutorDetailComponent {
           tut_rating += tr.tutor_rating ? parseFloat(tr.tutor_rating) : 0
           no_of_rating++
       })
-      rating = (tut_rating/no_of_rating).toFixed(1);
+      rating = Math.round((tut_rating/no_of_rating)).toFixed(1);
     }
 
     return rating

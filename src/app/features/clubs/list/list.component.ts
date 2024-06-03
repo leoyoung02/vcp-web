@@ -12,6 +12,7 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { ClubsService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
 import { ButtonGroupComponent, FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
+import { ClubCardComponent } from "@share/components/card/club/club.component";
 import { NgxPaginationModule } from "ngx-pagination";
 import get from "lodash/get";
 
@@ -29,6 +30,7 @@ import get from "lodash/get";
     NgOptimizedImage,
     RouterModule,
     NgxPaginationModule,
+    ClubCardComponent,
   ],
   templateUrl: "./list.component.html",
 })
@@ -97,6 +99,12 @@ export class ClubsListComponent {
   userInfo: any;
   campus: any = '';
   filterTypeControl: any = '';
+  defaultActiveFilter: boolean = false;
+  filterSettings: any = [];
+  showFilters: boolean = false;
+
+  currentPage: number = 1;
+  pageSize: number = 8;
 
   constructor(
     private _route: ActivatedRoute,
@@ -111,6 +119,26 @@ export class ClubsListComponent {
   private onResize() {
     this.isMobile = window.innerWidth < 768;
   }
+
+  // @HostListener('window:scroll', ['$event'])
+  // onScroll(event: Event) {
+  //   if(this.companyId == 32 && !this.isMobile) {
+  //     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  //     const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+  //     const documentHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+
+  //     if (scrollPosition + windowHeight >= documentHeight) {
+  //       this.onScrollDown();
+  //     }
+  //   }
+  // }
+
+  // onScrollDown() {
+  //   if(this.companyId == 32 && !this.isMobile) {
+  //     this.currentPage++;
+  //     this.fetchClubs();
+  //   }
+  // }
 
   async ngOnInit() {
     this.onResize();
@@ -178,6 +206,8 @@ export class ClubsListComponent {
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
 
+          this.initializeFilterSettings(data?.module_filter_settings);
+
           this.mapUserPermissions(data?.user_permissions);
 
           this.mapDashboard(data?.settings?.dashboard);
@@ -199,6 +229,16 @@ export class ClubsListComponent {
           console.log(error);
         }
       );
+  }
+
+  initializeFilterSettings(filter_settings) {
+    let filter_settings_active = filter_settings?.filter(fs => {
+      return fs.active == 1
+    })
+    if(filter_settings_active?.length > 0 && this.categoryFilterActive) {
+      this.showFilters = true;
+      this.filterSettings = filter_settings;
+    }
   }
 
   mapCities(cities) {
@@ -314,11 +354,20 @@ export class ClubsListComponent {
 
   initializeButtonGroup() {
     let categories = this.supercategoriesList;
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let category_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'category'
+      })
+      if(category_filter?.length > 0 && category_filter[0].filter_type == 'dropdown') {
+        text = category_filter[0].select_text;
+      }
+    }
     this.buttonList = [
       {
         id: "All",
         value: "All",
-        text: this._translateService.instant("plans.all"),
+        text,
         selected: true,
         fk_company_id: this.companyId,
         fk_supercategory_id: "All",
@@ -395,11 +444,20 @@ export class ClubsListComponent {
 
   initializeIconFilterList(list) {
     if(list?.length > 0) {
+      let text = this._translateService.instant("plans.all");
+      if(this.filterSettings?.length > 0) {
+        let city_filter = this.filterSettings?.filter(fs => {
+          return fs.field == 'city'
+        })
+        if(city_filter?.length > 0) {
+          text = city_filter[0].select_text;
+        }
+      }
       this.list = [
         {
           id: "All",
           value: "",
-          text: this._translateService.instant("plans.all"),
+          text,
           selected: true,
           company_id: this.companyId,
           city: "",
@@ -562,7 +620,8 @@ export class ClubsListComponent {
           ...item,
           title: this.getGroupTitle(item),
           category: this.getCategory(item),
-          is_member: joined
+          is_member: joined,
+          mailto: item?.contact_email ? `mailto:${item.contact_email}` : ''
         }
       })
       this.groups = dt;
@@ -606,7 +665,11 @@ export class ClubsListComponent {
         return currDate - prevDate;
       });
     } else {
-      this.filteredGroup = this.groups;
+      // if(this.companyId == 32) {
+      //   this.filteredGroup = this.getSlicedGroups(this.groups);
+      // } else {
+        this.filteredGroup = this.groups;
+      // }
     }
 
     this.filteredGroup = this.sortAlphabetically(this.filteredGroup);
@@ -625,6 +688,23 @@ export class ClubsListComponent {
       this.searchGroups();
     }
   }
+
+  // getSlicedGroups(group) {
+  //   let clubs: any[] = [];
+  //   if(!this.search && !this.isMobile && this.companyId == 32) {
+  //     const prev = group
+  //     if(prev?.length != group?.length && group?.length > 0) {
+  //       clubs = group?.splice((this.currentPage - 1),this.pageSize);
+  //       clubs = [...prev, ...this.groups];
+  //     } else {
+  //       clubs = group?.splice(0,this.pageSize * this.currentPage);
+  //     }
+  //   } else {
+  //     clubs = group;
+  //   }
+
+  //   return clubs;
+  // }
 
   getCategory(club) {
     let category = ''
@@ -1022,11 +1102,11 @@ export class ClubsListComponent {
   }
 
   goToClubDetails(club) {
-    if(this.userId > 0) {
-      this._router.navigate([`/clubs/details/${club.id}`]);
-    } else {
-      this._router.navigate(["/auth/login"]);
-    }
+    this._router.navigate([`/clubs/details/${club.id}`]);
+  }
+
+  filterViewChanged(event) {
+    this.defaultActiveFilter = event;
   }
 
   ngOnDestroy() {

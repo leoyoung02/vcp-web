@@ -27,7 +27,26 @@ import {
   faEyeSlash,
   faCheckCircle,
   faTimesCircle,
+  faRotateLeft,
+  faRotateRight,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  ImageCropperModule,
+  ImageCroppedEvent,
+  ImageTransform,
+  base64ToFile,
+} from "ngx-image-cropper";
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from "@angular-material-components/datetime-picker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { DateAdapter } from '@angular/material/core';
 import { initFlowbite } from "flowbite";
 import { COMPANY_IMAGE_URL } from "@lib/api-constants";
 import { Subject, takeUntil } from "rxjs";
@@ -54,6 +73,16 @@ registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPlug
     RouterModule,
     NgMultiSelectDropDownModule,
     FilePondModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    NgxMaterialTimepickerModule,
+    ImageCropperModule,
     CompanyLogoComponent,
   ],
   templateUrl: "./signup.component.html",
@@ -228,6 +257,26 @@ export class SignupComponent {
   };
 
   pondFiles = [];
+  passwordRequirementsNotSatisfied: boolean = true;
+
+  isKlubOkio: boolean = false;
+  isStep1: boolean = false;
+  isStep2: boolean = false;
+  createdUserId: any;
+  modalMode: string = '';
+  showImageCropper: boolean = false;
+  imageChangedEvent: any;
+  rotateLeftIcon = faRotateLeft;
+  rotateRightIcon = faRotateRight;
+  croppedImage: any;
+  canvasRotation = 0;
+  rotation = 0;
+  scale = 1;
+  transform: ImageTransform = {};
+  file: any;
+  imageSrc: string = environment.api + "/";
+  myImage: any;
+  hasImage: boolean = false;
 
   constructor(
     private _router: Router,
@@ -236,16 +285,13 @@ export class SignupComponent {
     private _snackBar: MatSnackBar,
     private _localService: LocalService,
     private _companyService: CompanyService,
-    private _userService: UserService
+    private _userService: UserService,
+    private dateAdapter: DateAdapter<Date>,
   ) {}
 
   async ngOnInit() {
     this.signupMode = param.getParam("mode") ? param.getParam("mode") : "";
     this.language = this._localService.getLocalStorage(environment.lslang);
-    if (!this.language) {
-      this.language = "es";
-    }
-    this._translateService.use(this.language);
 
     this.companies = get(
       await this._companyService.getCompanies().toPromise(),
@@ -274,11 +320,15 @@ export class SignupComponent {
         this.privacyPolicyURLEu = company[0].privacy_policy_url_eu;
         this.privacyPolicyURLCa = company[0].privacy_policy_url_ca;
         this.privacyPolicyURLDe = company[0].privacy_policy_url_de;
-        this.canShowPrivacyPolicy =
-          company[0].show_privacy_policy == 1 ? true : false;
+        this.canShowPrivacyPolicy = company[0].show_privacy_policy == 1 ? true : false;
+        if(this.companyId == 65 && this.language == 'es') {
+          this.language = 'it';
+        }
       }
     }
 
+    this._translateService.use(this.language);
+    this.dateAdapter.setLocale('es-ES');
     this.initData();
   }
 
@@ -301,7 +351,15 @@ export class SignupComponent {
       searchPlaceholderText: this._translateService.instant('guests.search'),
     }
     
+    this.initiateKlubOkio();
     this.fetchSignupData();
+  }
+
+  initiateKlubOkio() {
+    if(this.companyId == 66) {
+      this.isKlubOkio = true;
+      this.isStep1 = true;
+    }
   }
 
   fetchSignupData() {
@@ -434,6 +492,7 @@ export class SignupComponent {
               field_desc_es: null,
               field_display_en: "Confirm password",
               field_display_es: "Confirmar contraseña",
+              field_display_it: "Conferma password",
               field_group_en: null,
               field_group_es: null,
               field_type: "password",
@@ -464,6 +523,10 @@ export class SignupComponent {
           if (field.field_display_es && field.field_display_es != null) {
             field_display_es = field.field_display_es;
           }
+          let field_display_it = reg_field[0].field_display_it;
+          if (field.field_display_it && field.field_display_it != null) {
+            field_display_it = field.field_display_it;
+          }
           let field_desc_en = reg_field[0].field_desc_en;
           if (field.field_desc_en && field.field_desc_en != null) {
             field_desc_en = field.field_desc_en;
@@ -487,6 +550,7 @@ export class SignupComponent {
             field_type: reg_field[0].field_type,
             field_display_en: field_display_en,
             field_display_es: field_display_es,
+            field_display_it: field_display_it,
             field_group_en: field_group_en,
             field_group_es: field_group_es,
             field_desc_en: field_desc_en,
@@ -513,6 +577,7 @@ export class SignupComponent {
               field_type: "password",
               field_display_en: "Confirm password",
               field_display_es: "Confirmar contraseña",
+              field_display_it: "Conferma password",
               field_group_en: null,
               field_group_es: null,
               field_desc_en: "",
@@ -660,6 +725,30 @@ export class SignupComponent {
       this.showDefaultRegistrationFields = true;
       this.initializeDefaultForm();
     }
+  }
+
+  getFieldDisplay(field) {
+    return field
+    ? this.language == "en"
+      ? field.field_display_en ||
+        field.field_display_es
+      : this.language == "fr"
+      ? field.field_display_fr ||
+        field.field_display_es
+      : this.language == "eu"
+      ? field.field_display_eu ||
+        field.field_display_es
+      : this.language == "ca"
+      ? field.field_display_ca ||
+        field.field_display_es
+      : this.language == "de"
+      ? field.field_display_de ||
+        field.field_display_es
+      : this.language == "it"
+      ? field.field_display_it ||
+        field.field_display_es
+      : field.field_display_es
+    : "";
   }
 
   getStartupDataFields() {
@@ -912,7 +1001,8 @@ export class SignupComponent {
     if (this.getStartedForm) {
       // Set default to Spain
       if (this.getStartedForm.controls["country"]) {
-        this.getStartedForm.controls["country"].setValue("Spain");
+        let country = this.companyId == 65 ? "Italy" : "Spain";
+        this.getStartedForm.controls["country"].setValue(country);
       }
       if (this.getStartedForm.controls["company_country"]) {
         this.getStartedForm.controls["company_country"].setValue("Spain");
@@ -955,6 +1045,7 @@ export class SignupComponent {
 
     this.hasError = false;
     this.formSubmitted = true;
+    this.passwordRequirementsNotSatisfied = true;
 
     if (
       this.hasConfirmPassword &&
@@ -1037,22 +1128,22 @@ export class SignupComponent {
         .subscribe(
           async (response) => {
             if (response["user"]) {
-              this._localService.setLocalStorage(
-                environment.lsuserId,
-                response["user"]["id"]
-              );
-              this._localService.setLocalStorage(
-                environment.lsemail,
-                response["user"]["email"]
-              );
-              this._localService.setLocalStorage(
-                environment.lscompanyId,
-                response["user"]["fk_company_id"]
-              );
-              this._localService.setLocalStorage(
-                environment.lsdomain,
-                response["user"]["domain"]
-              );
+              // this._localService.setLocalStorage(
+              //   environment.lsuserId,
+              //   response["user"]["id"]
+              // );
+              // this._localService.setLocalStorage(
+              //   environment.lsemail,
+              //   response["user"]["email"]
+              // );
+              // this._localService.setLocalStorage(
+              //   environment.lscompanyId,
+              //   response["user"]["fk_company_id"]
+              // );
+              // this._localService.setLocalStorage(
+              //   environment.lsdomain,
+              //   response["user"]["domain"]
+              // );
               if (!this._localService.getLocalStorage(environment.lslang)) {
                 this._localService.setLocalStorage(environment.lslang, "es");
               }
@@ -1062,20 +1153,32 @@ export class SignupComponent {
                 this.memberTypes &&
                 this.memberTypes.length > 0
               ) {
-                this._router.navigate([
-                  `/payment/select-plan/${response["user"]["id"]}`,
-                ]);
-              } else {
-                if (this.confirm_email) {
-                  await this._authService
-                    .sendConfirmationEmail({
-                      companyId: this.companyId,
-                      userId: response["user"]["id"],
-                    })
-                    .toPromise();
+                if(this.isKlubOkio) {
+                  this.createdUserId = response["user"]["id"];
+                  this.isStep1 = false;
+                  this.isStep2 = true;
+                } else {
+                  this._router.navigate([
+                    `/payment/select-plan/${response["user"]["id"]}`,
+                  ]);
                 }
+              } else {
+                if(this.isKlubOkio) {
+                  this.createdUserId = response["user"]["id"];
+                  this.isStep1 = false;
+                  this.isStep2 = true;
+                } else {
+                  if (this.confirm_email) {
+                    await this._authService
+                      .sendConfirmationEmail({
+                        companyId: this.companyId,
+                        userId: response["user"]["id"],
+                      })
+                      .toPromise();
+                  }
 
-                this._router.navigate([`/auth/login`]);
+                  this._router.navigate([`/auth/login`]);
+                }
               }
             } else if (response["code"] == "user_exists") {
               let error = true;
@@ -1088,9 +1191,15 @@ export class SignupComponent {
                   response["existing_user"]["status"] == 0
                 ) {
                   error = false;
-                  this._router.navigate([
-                    `/payment/select-plan/${response["existing_user"]["id"]}`,
-                  ]);
+                  if(this.isKlubOkio) {
+                    this.createdUserId = response["existing_user"]["id"];
+                    this.isStep1 = false;
+                    this.isStep2 = true;
+                  } else {
+                    this._router.navigate([
+                      `/payment/select-plan/${response["existing_user"]["id"]}`,
+                    ]);
+                  }
                 }
               }
 
@@ -1114,6 +1223,42 @@ export class SignupComponent {
     } else {
       this.hasError = true;
       this.formSubmitted = false;
+      if(!this.passwordRequirementsNotSatisfied) {
+        this.open(this._translateService.instant('landing.checkpasswordrequirements'), '');
+      } else {
+        this.open(this._translateService.instant('landing.unabletovalidate'), '');
+      }
+    }
+  }
+
+  updateBirthdayProfileImage() {
+    if(this.file && this.getStartedForm.value["birthday"]) {
+      this._userService.updateProfileImage(this.createdUserId, this.file).subscribe(
+        (response) => {
+          if (response) {
+            let params = {
+              id: this.createdUserId,
+              birthday: this.getStartedForm.value["birthday"],
+            }
+            this._userService.updateUserBirthday(params).subscribe(
+              (resp) => {
+                this._router.navigate([
+                  `/payment/select-plan/${this.createdUserId}`,
+                ]);
+              },
+              (err) => {
+                console.log(err);
+                this.open(this._translateService.instant("dialog.error"), "");
+              });
+          } else {
+            this.open(this._translateService.instant("dialog.error"), "");
+          }
+        },
+        (error) => {
+          console.log(error);
+          this.open(this._translateService.instant("dialog.error"), "");
+        }
+      );
     }
   }
 
@@ -1237,7 +1382,10 @@ export class SignupComponent {
         const controlErrors: ValidationErrors =
           this.getStartedForm.controls[key].errors! || null;
         if (controlErrors != null) {
-          valid = false;
+          if(this.isKlubOkio && this.isStep1 && key == 'birthday') {
+          } else {
+            valid = false;
+          }
 
           if (controlErrors["email"]) {
             this.errors[key] = this._translateService.instant(
@@ -1263,6 +1411,10 @@ export class SignupComponent {
             )} ${
               controlErrors["maxlength"].requiredLength
             } ${this._translateService.instant("dialog.characters")}`;
+          }
+
+          if(key == 'password') {
+            this.passwordRequirementsNotSatisfied = false;
           }
         }
       }
@@ -1350,10 +1502,11 @@ export class SignupComponent {
   }
 
   openCreateNewStartup() {
-    this.startupDataSubmitted = false
-    this.startupError = ''
+    this.startupDataSubmitted = false;
+    this.startupError = '';
+    this.modalMode = 'startup';
     if(this.startupSelectedFields) {
-      this.initializeStartupDataForm()
+      this.initializeStartupDataForm();
     }
     this.modalbutton?.nativeElement.click();
   }
@@ -1381,7 +1534,6 @@ export class SignupComponent {
         }
       }
     })
-    console.log(group)
     this.startupDataForm = new FormGroup(group)
   }
 
@@ -1506,6 +1658,69 @@ export class SignupComponent {
     const timestamp = date.getTime();
 
     return timestamp;
+  }
+
+  async uploadPhoto(event: any) {
+    this.modalMode = 'profile';
+    this.imageChangedEvent = event;
+    const file = event.target.files[0];
+    if (file.size > 2000000) {
+    } else {
+      initFlowbite();
+      setTimeout(() => {
+        this.modalbutton?.nativeElement.click();
+      }, 500);
+    }
+  }
+
+  imageCropped(event: ImageCroppedEvent) {
+    if (event.base64) {
+      this.imageSrc = this.croppedImage = event.base64;
+      this.file = {
+        name: "image",
+        image: base64ToFile(event.base64), //event.file
+      };
+      this.hasImage = true;
+      this.myImage = this.imageSrc;
+    }
+  }
+
+  imageLoaded() {}
+
+  cropperReady() {
+    // cropper ready
+  }
+
+  loadImageFailed() {}
+
+  imageCropperModalSave() {
+    this.modalMode = '';
+    this.showImageCropper = false;
+    this.closemodalbutton?.nativeElement?.click();
+  }
+
+  imageCropperModalClose() {
+    this.showImageCropper = false;
+  }
+
+  rotateLeft() {
+    this.canvasRotation--;
+    this.flipAfterRotate();
+  }
+
+  rotateRight() {
+    this.canvasRotation++;
+    this.flipAfterRotate();
+  }
+
+  private flipAfterRotate() {
+    const flippedH = this.transform.flipH;
+    const flippedV = this.transform.flipV;
+    this.transform = {
+      ...this.transform,
+      flipH: flippedV,
+      flipV: flippedH,
+    };
   }
 
   ngOnDestroy() {

@@ -654,6 +654,22 @@
                                                     </div>
                                                 </div>
                                             </ng-container>
+                                            <ng-container *ngIf="field.field_type == 'date'">
+                                                <div class="-mb-5 signup-date">
+                                                    <mat-form-field class="w-full">
+                                                        <mat-label>{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}</mat-label>
+                                                        <input matInput [matDatepicker]="pickerdate" placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}}" formControlName="{{ field?.field }}">
+                                                        <mat-datepicker-toggle matIconSuffix [for]="pickerdate"></mat-datepicker-toggle>
+                                                        <mat-datepicker #pickerdate>
+                                                            <mat-datepicker-actions>
+                                                                <button mat-button matDatepickerCancel class="uppercase mr-8 text-cyan-400 mb-6 font-semibold">{{ 'settings.cancel' | translate }}</button>
+                                                                <button mat-raised-button color="primary" matDatepickerApply class="uppercase mr-8 text-cyan-400 mb-6 font-semibold">{{ 'company-settings.apply' | translate }}</button>
+                                                            </mat-datepicker-actions>
+                                                        </mat-datepicker>
+                                                    </mat-form-field>
+                                                </div>
+                                            </ng-container>
+                                            
                                         </ng-container>
                                     </div>
                                     <div class="flex items-center justify-center relative">

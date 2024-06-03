@@ -10,8 +10,9 @@
 </div>
 <div class="pt-20 sm:pt-20 md:pt-14 lg:pt-14 pb-8 course-container">
     <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 relative" *ngIf="course">
-        <div class="col-span-1 h-full overflow-auto md:absolute lg:absolute md:top-0 lg:top-0 w-full max-w-full sm:w-full sm:max-w-full md:w-[350px] md:max-w-[350px] lg:w-[350px] lg:max-w-[350px]" 
-            [ngClass]="{'h-full': canAccessLesson() && course?.course_modules?.length > 0 && !(hasCourseStarted(course) && course?.locked == 1 && !superAdmin) && !(hasCourseStarted(course) && (!course?.locked && showBuyNow) && !superAdmin)}">
+        <div class="transition duration-700 ease-in-out z-10 col-span-1 h-full overflow-auto md:absolute lg:absolute md:top-0 lg:top-0 w-full max-w-full sm:w-full sm:max-w-full md:w-[350px] md:max-w-[350px] lg:w-[350px] lg:max-w-[350px]" 
+            [ngClass]="{'h-full': canAccessLesson() && course?.course_modules?.length > 0 && !(hasCourseStarted(course) && course?.locked == 1 && !superAdmin) && !(hasCourseStarted(course) && (!course?.locked && showBuyNow) && !superAdmin)}"
+            *ngIf="!isExpanded">
             <div class="text-4xl font-semibold" [ngClass]="{'pb-4': !courseProgress}">{{ courseTitle }}</div>
             <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
                 <div *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title && courseProgress > 0" 
@@ -84,7 +85,7 @@
                         <ng-container *ngIf="expandedModuleId == module.id">
                             <ng-container *ngFor="let unit of module.units; let i = index;">
                                 <div class="module-units" (mouseover)="hovered = i" (mouseout)="hovered = -1" 
-                                    [ngStyle] ="{'background-color' : hovered == i ? (companyId == 52 ? '#fcf352' : hoverColor) : 'transparent'}">
+                                    [ngStyle] ="{'background-color' : hovered == i ? (companyId == 52 || companyId == 65 ? '#fcf352' : hoverColor) : 'transparent'}">
                                     <div *ngIf="getModuleCategoryTitle(module.units, unit, i)" class="px-[12px]">
                                         {{ getModuleCategoryTitle(module.units, unit, i) }}
                                     </div>
@@ -161,11 +162,54 @@
             </ng-container>
         </div>
         <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
-            <div class="ml-0 sm:ml-0 md:ml-[416px] lg:ml-[416px] col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 w-full max-w-full" 
-                *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title && !showAssessment">
+            <div maximize #maximize="maximize" class="z-10 w-full max-w-full transition duration-700 ease-in-out" 
+                *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title && !showAssessment"
+                [ngClass]="{
+                    'ml-0 sm:ml-0 md:ml-[416px] lg:ml-[416px] col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2': !isExpanded,
+                    'col-span-3': isExpanded,
+                }"
+                >
                 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between" [ngClass]="{'vidalytics-div1': selectedUnit?.option == 'Vidalytics'}">
-                    <div class="text-4xl font-semibold text-4xl font-semibold">{{ isModuleLocked ? selectedModuleTitle : getCourseUnitTitle(selectedUnit) }}</div>
-                    <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row items-center">
+                    <div class="flex items-center mb-4 sm:mb-4 md:mb-0 lg:mb-0 font-semibold text-4xl font-semibold">
+                        {{ isModuleLocked ? selectedModuleTitle : getCourseUnitTitle(selectedUnit) }}
+                        <div class="flex justify-en ml-4" *ngIf="!isMobile">
+                            <div class="grid grid-cols-2 gap-2">
+                                <!-- <button
+                                    class="w-6 h-6 p-1 cursor-pointer"
+                                    (click)="maximize.minimize()"
+                                >
+                                    <svg [ngStyle]="{'color': buttonColor}" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9h4m0 0V5m0 4L4 4m15 5h-4m0 0V5m0 4 5-5M5 15h4m0 0v4m0-4-5 5m15-5h-4m0 0v4m0-4 5 5"/>
+                                    </svg>                                
+                                </button>
+                                <button
+                                    class="w-6 h-6 p-1 cursor-pointer"
+                                    (click)="maximize.maximize()"
+                                >
+                                    <svg [ngStyle]="{'color': buttonColor}" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4H4m0 0v4m0-4 5 5m7-5h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5m7 5h4m0 0v-4m0 4-5-5"/>
+                                    </svg>
+                                </button> -->
+                                <button
+                                    class="w-6 h-6 p-1 cursor-pointer"
+                                    (click)="minimizeWindow()"
+                                >
+                                    <svg [ngStyle]="{'color': buttonColor}" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9h4m0 0V5m0 4L4 4m15 5h-4m0 0V5m0 4 5-5M5 15h4m0 0v4m0-4-5 5m15-5h-4m0 0v4m0-4 5 5"/>
+                                    </svg>                                
+                                </button>
+                                <button
+                                    class="w-6 h-6 p-1 cursor-pointer"
+                                    (click)="maximizeWindow()"
+                                >
+                                    <svg [ngStyle]="{'color': buttonColor}" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4H4m0 0v4m0-4 5 5m7-5h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5m7 5h4m0 0v-4m0 4-5-5"/>
+                                    </svg>
+                                </button>
+                            </div> 
+                        </div>
+                    </div>
+                    <div class="mb-4 sm:mb-4 md:mb-0 lg:mb-0 flex items-center">
                         <div class="flex items-center align-center uppercase mr-4" *ngIf="selectedUnit?.Company_Course_Unit_Users[0]?.progress == 100">
                             <img class="w-4 h-4 mr-2" src="./assets/images/new-design/icons/Progress-completed.png" />
                             {{ 'courses.completed' | translate }}
@@ -317,19 +361,31 @@
                                         <ng-container *ngIf="selectedUnit?.option == 'Self-hosted'">
                                             <ng-container *ngIf="course?.video_cover && !selectedUnit?.video_cover">
                                                 <video controls controlsList="nodownload" width="100%" height="195px" id="video-{{ selectedUnit.id }}" poster="{{ courseSrc + course?.video_cover }}" #selfHostedVideo
-                                                    class="max-h-[546px] object-cover rounded-lg">
+                                                    class="object-cover rounded-lg"
+                                                    [ngClass]="{
+                                                        'h-[calc(100vh_-_200px)]': isExpanded,
+                                                        'max-h-[546px]': !isExpanded
+                                                    }">
                                                     <source src="{{selfHostedVideoSrc}}" type="video/mp4" />
                                                 </video>
                                             </ng-container>
                                             <ng-container *ngIf="selectedUnit?.video_cover">
                                                 <video controls controlsList="nodownload" width="100%" height="195px" id="video-{{ selectedUnit.id }}" poster="{{ courseSrc + selectedUnit?.video_cover }}" #selfHostedVideo
-                                                    class="max-h-[546px] object-cover rounded-lg">
+                                                    class="object-cover rounded-lg"
+                                                    [ngClass]="{
+                                                        'h-[calc(100vh_-_200px)]': isExpanded,
+                                                        'max-h-[546px]': !isExpanded
+                                                    }">
                                                     <source src="{{selfHostedVideoSrc}}" type="video/mp4" />
                                                 </video>
                                             </ng-container>
                                             <ng-container *ngIf="(!course?.video_cover && !selectedUnit?.video_cover)">
                                                 <video controls controlsList="nodownload" width="100%" height="195px" id="video-{{ selectedUnit.id }}" #selfHostedVideo
-                                                    class="max-h-[546px] object-cover rounded-lg">
+                                                    class="object-cover rounded-lg"
+                                                    [ngClass]="{
+                                                        'h-[calc(100vh_-_200px)]': isExpanded,
+                                                        'max-h-[546px]': !isExpanded
+                                                    }">
                                                     <source src="{{selfHostedVideoSrc}}" type="video/mp4" />
                                                 </video>
                                             </ng-container>
@@ -369,7 +425,10 @@
                                     </iframe>
                                 </ng-container>
                                 <ng-container *ngIf="selectedUnit?.Company_Course_Unit_Type?.type == 'text'">
-                                    <div class="min-h-[300px]">
+                                    <div [ngClass]="{
+                                        'h-[calc(100vh_-_200px)]': isExpanded,
+                                        'min-h-[300px]': !isExpanded
+                                    }">
                                         <iframe scrolling="no" style="display:none;width:100%;border:none;height:100%;" #iframeText></iframe>
                                         <div style="display:none;" #editor>
                                             <editor
@@ -382,13 +441,23 @@
                                 </ng-container>
                                 <ng-container *ngIf="selectedUnit?.Company_Course_Unit_Type?.type == 'script' && selectedUnit?.script">
                                    <ng-container *ngIf="selectedUnit?.script?.indexOf('</iframe>') >= 0 || (selectedUnit?.script?.indexOf('<iframe') >= 0 && selectedUnit?.script?.indexOf('/>') >= 0)">
-                                        <div class="min-h-[300px] script-container"
-                                            [ngClass]="{'script-full-height': isiFrameHeight100Percent()}"
+                                        <div class="script-container"
+                                            [ngClass]="{
+                                                'script-full-height': isiFrameHeight100Percent(),
+                                                'h-[calc(100vh_-_200px)]': isExpanded,
+                                                'min-h-[300px]': !isExpanded
+                                            }"
                                             [innerHtml]="selectedUnit?.script | safeContentHtml: 'html'">
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="selectedUnit?.script?.indexOf('</script>') >= 0">
-                                        <div class="min-h-[300px] script-container" [innerHtml]="getScript() | safeContentHtml: 'html'"></div>
+                                        <div class="script-container" 
+                                            [innerHtml]="getScript() | safeContentHtml: 'html'"
+                                            [ngClass]="{
+                                                'h-[calc(100vh_-_200px)]': isExpanded,
+                                                'min-h-[300px]': !isExpanded
+                                            }">
+                                        </div>
                                     </ng-container>
                                 </ng-container>
                             </ng-container>
@@ -465,6 +534,22 @@
                                     </a>
                                 </div>
                             </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="showComments && hasCourseVideoComments && (selectedUnit?.Company_Course_Unit_Type?.type == 'video' && (canAccessLesson() || superAdmin))">
+                        <div class="my-4">
+                            <app-comments
+                                [newComment]="newComment"
+                                [list]="commentsList"
+                                [superAdmin]="superAdmin"
+                                [primaryColor]="primaryColor"
+                                [buttonColor]="buttonColor"
+                                (addComment)="handleAddComment($event)"
+                                (addChildComment)="handleAddChildComment($event)"
+                                (deleteComment)="handleDeleteComment($event)"
+                                (deleteChildComment)="handleDeleteChildComment($event)"
+                                (reactToComment)="handleReactToComment($event)">
+                            </app-comments>
                         </div>
                     </ng-container>
                 </div>
@@ -565,3 +650,14 @@
         </div>
     </div>
 </div> 
+<app-toast 
+    *ngIf="showConfirmationModal" 
+    [company]="company" 
+    [update]="false" 
+    [confirm]="true"
+    [title]="confirmDeleteItemTitle"
+    [description]="confirmDeleteItemDescription"
+    [acceptText]="acceptText"
+    [cancelText]="cancelText"
+    (onAccept)="confirm()"
+></app-toast>

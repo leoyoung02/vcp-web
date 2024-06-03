@@ -260,6 +260,15 @@ export class ManageMemberTypesComponent {
   activeContract: boolean = false;
   contractDescription: any;
   samePrice: boolean = false;
+  plansFeature: any;
+  plansFeatureId: any;
+  hasPlans: boolean = false;
+  plansTitle: any;
+  accessPlatformSettings: boolean = false;
+  accessProfile: boolean = false;
+  accessMyInvitations: boolean = false;
+  inviteAllEvents: boolean = false;
+  viewGuests: boolean = false;
 
   constructor(
     private _router: Router,
@@ -326,12 +335,12 @@ export class ManageMemberTypesComponent {
   }
 
   initData() {
-    if(this.companyId == 12) {
-      this.displayedColumns = [
-        "title",
-        "action",
-      ];
-    } else {
+    // if(this.companyId == 12) {
+    //   this.displayedColumns = [
+    //     "title",
+    //     "action",
+    //   ];
+    // } else {
       this.displayedColumns = [
         "move",
         "sequence",
@@ -341,7 +350,7 @@ export class ManageMemberTypesComponent {
         "members_visible",
         "action",
       ];
-    }
+    // }
     this.paymentTypes = [
       {
         id: 1,
@@ -553,6 +562,15 @@ export class ManageMemberTypesComponent {
     );
     this.membersFeatureId = this.membersFeature?.feature_id;
     this.hasMembers = this.membersFeatureId > 0 ? true : false;
+
+    this.plansFeature = features?.find(
+      (f) => f.feature_id == 1 && f.status == 1
+    );
+    this.plansFeatureId = this.plansFeature?.feature_id;
+    this.hasPlans = this.plansFeatureId > 0 ? true : false;
+    if(this.hasPlans) {
+      this.plansTitle = this.getFeatureTitle(this.plansFeature);
+    }
 
     features.forEach((feature) => {
       if (feature.status == 1) {
@@ -789,6 +807,11 @@ export class ManageMemberTypesComponent {
     this.activateTrialPeriod = item.trial_period == 1 ? true : false;
     this.contractDescription = item?.contract ? item?.contract?.contract : '';
     this.activeContract = item?.contract?.contract ? true : false;
+    this.accessPlatformSettings = item.access_platform_settings ? true : false;
+    this.accessProfile = item.access_profile ? true : false;
+    this.accessMyInvitations = item.my_invitations ? true : false;
+    this.inviteAllEvents = item.invite_all_events ? true : false;
+    this.viewGuests = item.view_guests ? true : false;
     if (this.requirePayment) {
       if (this.memberTypeForm.controls["price"]) {
         this.memberTypeForm.controls["price"].setValue(item.price);
@@ -877,6 +900,11 @@ export class ManageMemberTypesComponent {
           create: perm && perm[0] ? perm[0].create : 0,
           view: perm && perm[0] ? perm[0].view : 0,
           manage: perm && perm[0] ? perm[0].manage : 0,
+          admin_attendance: perm && perm[0] ? perm[0].admin_attendance : 0,
+          admin_assign: perm && perm[0] ? perm[0].admin_assign : 0,
+          register_events_all: perm && perm[0] ? perm[0].register_events_all : 0,
+          register_events_netcultura: perm && perm[0] ? perm[0].register_events_netcultura : 0,
+          register_events_guests: perm && perm[0] ? perm[0].register_events_guests : 0,
           calendy: perm && perm[0] ? perm[0].calendy : 0,
         });
       });
@@ -1030,6 +1058,11 @@ export class ManageMemberTypesComponent {
     this.clubPresident = false;
     this.manageMembers = false;
     this.requirePayment = false;
+    this.accessPlatformSettings = false;
+    this.accessProfile = false;
+    this.accessMyInvitations = false;
+    this.inviteAllEvents = false;
+    this.viewGuests = false;
     this.selectedPaymentType = "";
     this.taxIncludeStatus = "";
     if (this.memberTypeForm.controls["price"]) {
@@ -1078,6 +1111,11 @@ export class ManageMemberTypesComponent {
     this.selectedPaymentType = "";
     this.selectedId = "";
     this.samePrice = false;
+    this.accessPlatformSettings = false;
+    this.accessProfile = false;
+    this.accessMyInvitations = false;
+    this.inviteAllEvents = false;
+    this.viewGuests = false;
   }
 
   handleSearch(event) {
@@ -1376,6 +1414,11 @@ export class ManageMemberTypesComponent {
         trial_start_date: this.activateTrialPeriod ? trial_start_date : null,
         acknowledgement_page_url: this.acknowledgementPageURL || "",
         same_price: this.samePrice || 0,
+        access_platform_settings: this.accessPlatformSettings || 0,
+        access_profile: this.accessProfile || 0,
+        my_invitations: this.accessMyInvitations || 0,
+        invite_all_events: this.inviteAllEvents || 0,
+        view_guests: this.viewGuests || 0,
       };
       this._companyService.addCustomMemberType(params).subscribe(
         (data) => {
@@ -1434,6 +1477,11 @@ export class ManageMemberTypesComponent {
           : null,
         acknowledgement_page_url: this.acknowledgementPageURL || "",
         same_price: this.samePrice || 0,
+        access_platform_settings: this.accessPlatformSettings || 0,
+        access_profile: this.accessProfile || 0,
+        my_invitations: this.accessMyInvitations || 0,
+        invite_all_events: this.inviteAllEvents || 0,
+        view_guests: this.viewGuests || 0,
       };
       this._companyService
         .editCustomMemberType(this.selectedId, params)
@@ -1792,24 +1840,24 @@ export class ManageMemberTypesComponent {
   getFeatureTitle(feature) {
     return feature
       ? this.language == "en"
-        ? feature.feature_name ||
-          feature.feature_name_es
+        ? (feature.feature_name || feature.name_en) ||
+          (feature.feature_name_es || feature.name_es)
         : this.language == "fr"
-        ? feature.feature_name_fr ||
-          feature.feature_name_es
+        ? (feature.feature_name_fr || feature.name_fr) ||
+          (feature.feature_name_es || feature.name_es)
         : this.language == "eu"
-        ? feature.feature_name_eu ||
-          feature.feature_name_es
+        ? (feature.feature_name_eu || feature.name_eu) ||
+          (feature.feature_name_es || feature.name_es)
         : this.language == "ca"
-        ? feature.feature_name_ca ||
-          feature.feature_name_es
+        ? (feature.feature_name_ca || feature.name_ca) ||
+          (feature.feature_name_es || feature.name_es)
         : this.language == "de"
-        ? feature.feature_name_de ||
-          feature.feature_name_es
+        ? (feature.feature_name_de || feature.name_de) ||
+          (feature.feature_name_es || feature.name_es)
         : this.language == "it"
-        ? feature.feature_name_it ||
-          feature.feature_name_es
-        : feature.feature_name_es
+        ? (feature.feature_name_it || feature.name_it) ||
+          (feature.feature_name_es || feature.name_es)
+        : (feature.feature_name_es || feature.name_es)
       : "";
   }
 

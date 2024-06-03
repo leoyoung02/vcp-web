@@ -66,41 +66,43 @@
                     </table>
                 </div>
             </div>
-            <h2 id="accordion-flush-heading-2">
-                <button type="button" class="flex items-center justify-between w-full py-5 font-bold rtl:text-right text-gray-900 dark:text-gray-400 gap-3" 
-                    data-accordion-target="#accordion-flush-body-2" 
-                    aria-expanded="false" aria-controls="accordion-flush-body-2">
-                    <span class="text-black">{{member?.references?.length}} <span class="lowercase">{{'members.references' | translate}}</span></span>
-                    <svg data-accordion-icon [ngStyle]="{'color': buttonColor}" class="font-bold w-3 h-3 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
-                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
-                    </svg>
-                </button>
-            </h2>
-            <div id="accordion-flush-body-2" class="hidden" aria-labelledby="accordion-flush-heading-2">
-                <div class="py-5 border-b border-gray-200 dark:border-gray-700">
-                    <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" class="px-2 py-1">
-                                    {{ 'plan-details.name' | translate }}
-                                </th>
-                                <th scope="col" class="px-2 py-1">
-                                    {{ 'members.description' | translate }}
-                                </th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let item of member?.references;" class="bg-white border-t dark:bg-gray-800 dark:border-gray-700">
-                                <td class="text-xs px-2 py-1">
-                                    {{item?.name}}</td>
-                                <td class="text-xs px-2 py-1 py-4">
-                                    {{item?.description}}
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+            <ng-container *ngIf="companyId != 66">
+                <h2 id="accordion-flush-heading-2">
+                    <button type="button" class="flex items-center justify-between w-full py-5 font-bold rtl:text-right text-gray-900 dark:text-gray-400 gap-3" 
+                        data-accordion-target="#accordion-flush-body-2" 
+                        aria-expanded="false" aria-controls="accordion-flush-body-2">
+                        <span class="text-black">{{member?.references?.length}} <span class="lowercase">{{'members.references' | translate}}</span></span>
+                        <svg data-accordion-icon [ngStyle]="{'color': buttonColor}" class="font-bold w-3 h-3 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
+                        </svg>
+                    </button>
+                </h2>
+                <div id="accordion-flush-body-2" class="hidden" aria-labelledby="accordion-flush-heading-2">
+                    <div class="py-5 border-b border-gray-200 dark:border-gray-700">
+                        <table class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                <tr>
+                                    <th scope="col" class="px-2 py-1">
+                                        {{ 'plan-details.name' | translate }}
+                                    </th>
+                                    <th scope="col" class="px-2 py-1">
+                                        {{ 'members.description' | translate }}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let item of member?.references;" class="bg-white border-t dark:bg-gray-800 dark:border-gray-700">
+                                    <td class="text-xs px-2 py-1">
+                                        {{item?.name}}</td>
+                                    <td class="text-xs px-2 py-1 py-4">
+                                        {{item?.description}}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+            </ng-container>
         </div>
         <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
             <button 
@@ -117,9 +119,11 @@
                 <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 1v16M1 9h16"/>
                 </svg>
-                <span class="text-white text-base font-semibold uppercase">{{ 'members.newquestion' | translate }}</span>
+                <span class="text-white font-semibold uppercase"
+                    [ngClass]="{'text-base': companyId != 66, 'text-sm': companyId == 66}">{{ companyId == 66 ? ('landing.sendmeamessage' | translate) : ('members.newquestion' | translate) }}</span>
             </button>
-            <button 
+            <button
+                *ngIf="companyId != 66" 
                 class="h-[52px] flex items-center p-3.5 px-6 rounded-[15px] justify-evenly mt-4 transition duration-700 ease-in-out"
                 [ngStyle]="{
                     'background-color': buttonColor,
@@ -241,7 +245,7 @@
                         <div class="flex items-center justify-center my-4">
                             <textarea name="" id="" cols="30" rows="3"
                                 class="w-full rounded-lg p-4 border border-gray-300"
-                                placeholder="{{ 'members.askaquestion' | translate }}"
+                                placeholder="{{ companyId == 66 ? ('landing.sendmeamessage' | translate) : ('members.askaquestion' | translate) }}"
                                 [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': questionFormSubmitted && !message }"
                                 [(ngModel)]="message"
                                 [ngModelOptions]="{standalone: true}">

@@ -9,11 +9,18 @@ import {
 import { FormsModule } from "@angular/forms";
 import { IconFilterComponent } from "../icon-filter/icon-filter.component";
 import { TypeFilterComponent } from "../type-filter/type-filter.component";
+import { AgeGroupFilterComponent } from "../age-group-filter/age-group-filter.component";
 
 @Component({
   selector: "app-filter",
   standalone: true,
-  imports: [CommonModule, FormsModule, IconFilterComponent, TypeFilterComponent],
+  imports: [
+    CommonModule, 
+    FormsModule, 
+    IconFilterComponent, 
+    TypeFilterComponent,
+    AgeGroupFilterComponent,
+  ],
   templateUrl: "./filter.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -24,10 +31,14 @@ export class FilterComponent {
     @Input() icon: any;
     @Input() buttonList: any;
     @Input() defaultActiveFilter: any;
+    @Input() filterSettings: any;
     @Output() filterList = new EventEmitter();
     @Output() onButtonClick = new EventEmitter();
+    @Output() onFilterClick = new EventEmitter();
 
     isActiveFilter: boolean = false;
+    showButton: boolean = false;
+    showIcon: boolean = false;
 
     async ngOnInit() {
       let selected = this.mode == 'clubs' ? 
@@ -84,11 +95,27 @@ export class FilterComponent {
           }
         }
       }
+
+      if(this.filterSettings?.length > 0) {
+        this.checkFilterSettings();
+      }
+    }
+
+    checkFilterSettings() {
+      this.filterSettings?.forEach(filter => {
+        if(filter.field == 'category' && filter.active == 1) {
+          this.showButton = true;
+        }
+        if(filter.field == 'city' && filter.active == 1) {
+          this.showIcon = true;
+        }
+      })
     }
 
     showFilter() {
       this.isActiveFilter = !this.isActiveFilter;
       this.defaultActiveFilter = !this.isActiveFilter;
+      this.onFilterClick.emit(this.isActiveFilter);
     }
 
     filteredCity(event) {

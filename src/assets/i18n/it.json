@@ -65,7 +65,17 @@
         "visitinstagram": "Visita il nostro Instagram",
         "privacysettings": "Impostazioni sulla privacy",
         "menusettings": "Impostazioni del menu",
-        "thismonth": "Questo mese"
+        "thismonth": "Questo mese",
+        "filtersettings": "Impostazioni filtro",
+        "display": "Visualizzazione",
+        "selecttext": "Seleziona testo",
+        "agegroup": "Gruppo di età",
+        "checkpasswordrequirements": "Assicurati di controllare i requisiti della password",
+        "unabletovalidate": "Impossibile inviare la registrazione. Controlla le tue informazioni.",
+        "sendmeamessage": "Inviami un messaggio",
+        "mailto": "Se non succede nulla dopo aver fatto clic, assicurati di avere un client di posta predefinito installato o di aver configurato il browser per aprire i collegamenti e-mail. Puoi fare riferimento a https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome su come configurare il browser.",
+        "showcalendar": "Mostra calendario",
+        "solcourses": "Corsi di livellamento"
     },
     "user-popup": {
         "myplans": "I miei piani",
@@ -90,7 +100,10 @@
         "cookies_policy":"INFORMATIVA SUI COOKIE",
         "cookies_policy_desc": "Fornisci agli utenti informazioni su come vengono trattati i loro dati personali quando visitano la tua piattaforma.",
         "iacceptthe": "Accetto espressamente il",
-        "policyintro": "Iscrivendoti devi accettare queste politiche:"
+        "policyintro": "Iscrivendoti devi accettare queste politiche:",
+        "i": "Sono",
+        "acceptthe": "accettare il",
+        "dateofacceptance": "Data di accettazione"
     },
     "settings": {
         "logo_banner": "Logo e banner",
@@ -241,7 +254,7 @@
         "allowdifferentcontent": "Consenti contenuti diversi a seconda del profilo"
     },
     "plan-details": {
-        "editt": "Modifica",
+        "edit": "Modifica",
         "delete": "Elimina",
         "join": "Unisciti",
         "book": "Obiettivo",
@@ -446,7 +459,9 @@
         "selectincharge": "Seleziona il delegato",
         "incharge": "Responsabile",
         "selectmodality": "Seleziona modalità",
-        "showpastevent": "Mostra evento passato"
+        "showpastevent": "Mostra evento passato",
+        "selectagegroup": "Seleziona fascia di età",
+        "agegroups": "Gruppi di età"
     },
     "plan-recommendations": {
         "applauses": "Applausi",
@@ -614,7 +629,8 @@
         "canvadesc1": "Per inserire un video Canva nella descrizione, usa",
         "canvadesc2": "dove link è lo Smartlink quando fai clic su Condividi > Incorpora in Canva.",
         "vidalyticsdesc1": "Per incorporare il video Vidalytics nella descrizione, usa",
-        "vidalyticsdesc2": "dove il collegamento è l'ID del video."
+        "vidalyticsdesc2": "dove il collegamento è l'ID del video.",
+        "chat": "Chiacchierata"
     },
     "ranking": {
         "pointsyouhave": "Punti che hai",
@@ -746,7 +762,8 @@
         "noevents": "Non ci sono eventi",
         "noclubs": "Nessun club trovato",
         "joinedby": "unito da",
-        "groups": "Gruppi"
+        "groups": "Gruppi",
+        "profileimage": "Immagine del profilo"
     },
     "profile-settings": {
         "firstname": "Nome",
@@ -757,16 +774,16 @@
         "profession": "Professione",
         "birthday": "Compleanno",
         "preferences": "Preferenze",
-        "saveandcontinue": "Salva Continua",
+        "saveandcontinue": "Salva e continua",
         "city": "Città",
         "all": "Tutto",
-        "website": "sito web",
+        "website": "Sito web",
         "sector": "Settore",
         "position": "Posizione",
         "shortdescription": "Descrizione dell'azienda",
         "description": "Inserisci una breve descrizione della tua azienda",
-        "password": "Password",
-        "changepassword": "Cambia password",
+        "password": "Parola d'ordine",
+        "changepassword": "Cambiare la password",
         "newpassword": "Nuova password",
         "confirmpassword": "Conferma password",
         "update": "Aggiorna",
@@ -1094,9 +1111,10 @@
         "changepasswordtitle": "Cambia password",
         "changepassworddesc": "Inserisci e conferma la tua nuova password",
         "adminlogin": "Accesso amministratore",
-        "username": "Nome utente"
+        "username": "Nome utente",
+        "emailpasswordrequired": "Per accedere sono necessari email e password"
     },
-    "iscrizione": {
+    "signup": {
         "firsttitle": "Iscriviti",
         "secondtitle": "Piattaforma di prodotti dell'azienda Vistingo",
         "emailaddress": "E-mail",
@@ -1151,8 +1169,8 @@
         "foundername": "Nome e cognome",
         "nombredelasociedad": "Nome dell'azienda",
         "direccion": "Direzione",
-        "cif": "cif",
-        "coupon": "coupon",
+        "cif": "CIF",
+        "coupon": "Coupon",
         "back": "Indietro",
         "registrationtext": "Testi di registrazione",
         "passwordmatch": "Le password non corrispondono",
@@ -1494,7 +1512,12 @@
         "renewal": "Data di rinnovo",
         "activitycode": "Codice attività",
         "numberofcredits": "Numero di crediti", 
-        "eventregistrationimage": "Immagine della pagina di registrazione dell'ospite dell'evento"
+        "eventregistrationimage": "Immagine della pagina di registrazione dell'ospite dell'evento",
+        "bizumpayment": "Attivare Bizum come opzione di pagamento?",
+        "stripedesc": "Accetta pagamenti con carte di credito e debito",
+        "bizumdesc": "Invia pagamento tramite il tuo smartphone",
+        "reserve": "Riserva",
+        "signup": "Iscriviti"
     },
     "edit-club": {
         "uploadimage": "Carica immagine",
@@ -1771,7 +1794,8 @@
     },
     "service": {
         "subscribe": "Iscriviti",
-        "pay": "Paga"
+        "pay": "Paga",
+        "riserva": "Riserva"
     },
     "ambassadors": {
         "ambassadors": "Ambasciatori",
@@ -2063,7 +2087,7 @@
         "settype": "Imposta il tipo di membro",
         "statistiche": "Statistiche",
         "tiktokstatistics": "Analisi dei dati su pagine di destinazione, questionari, ecc.",
-        "potsupertutor": "Tutore Potsuper",
+        "potsupertutor": "Tutor Potsuper",
         "pagetitletext": "Titolo della pagina",
         "backgroundimage": "Immagine di sfondo",
         "questionanssection": "Sezione domande",
@@ -2661,12 +2685,21 @@
         "selecttutoraccess": "Seleziona l'accesso dei membri ai tutor",
         "access": "Accesso",
         "info": "Informazioni",
-        "sameprice": "Applica lo stesso prezzo a tutti"
+        "sameprice": "Applica lo stesso prezzo a tutti", 
+        "createupdatedelete": "Crea, aggiorna, elimina",
+        "platformsettings": "Accedi alle impostazioni della piattaforma",
+        "registereventsall": "Registrati agli eventi (tutti)",
+        "registereventsnetcultura": "Registrati agli eventi (Netcultura)",
+        "registereventsguests": "Registrati agli eventi (i tuoi ospiti)",
+        "accessprofile": "Profilo di accesso",
+        "accessmyinvitations": "Accedi ai miei inviti",
+        "inviteallevents": "Puoi invitare a tutti gli eventi",
+        "viewguests": "Visualizza gli ospiti"
     },
     "member-type": {
         "welcometo": "Benvenuto a",
         "chooseplan": "Scegli il tipo di account",
-        "free": "Gratis",
+        "free": "Gratuito",
         "select": "Seleziona",
         "try": "prova",
         "for": "da",
@@ -3201,7 +3234,7 @@
         "newquestion": "Nuova domanda",
         "classesconducted": "Lezioni svolte",
         "tutorsince": "Tutor dal",
-        "tutor": "Tutore",
+        "tutor": "Tutor",
         "tutorprofile": "Profilo tutor",
         "hourpackages": "Pacchetti",
         "createnewpackage": "Crea un nuovo pacchetto",
@@ -3255,7 +3288,8 @@
         "moneyonthewaystatus": "Soldi in arrivo ⏳",
         "tiktokstats": "Statistiche TikTok",
         "daterangedesc": "Seleziona l'intervallo di date (massimo 1 mese). Fai clic su Ripristina per impostare il mese predefinito",
-        "noratingsyet": "Ancora nessuna valutazione"
+        "noratingsyet": "Ancora nessuna valutazione",
+        "edittutor": "Modifica tutor"
     },
     "general-details": {
         "name": "Nome",
@@ -3390,6 +3424,7 @@
         "failed": "fallito",
         "selectcredits": "Seleziona crediti da acquistare",
         "paymentconfirmed": "Grazie per il tuo acquisto. Questo conferma che il tuo pagamento è stato completato.",
+        "bizumconfirmed": "Grazie per esserti iscritto!",
         "totalcredits":"Crediti totali",
         "creditadditon":"Aggiunta di credito",
         "creditdeduction": "Detrazione del credito",
@@ -3557,7 +3592,7 @@
         "pendingstatus": "Verrà inviata un'e-mail all'amministratore per apportare le modifiche necessarie al server del dominio."
     },
     "personalize-home": {
-        "tutorialvideos": "Video tutorial",
+        "tutorialvideos": "Esercitazione video",
         "template": "Modello",
         "content": "Contenuto",
         "sections": "Sezioni",

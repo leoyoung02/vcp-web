@@ -184,7 +184,8 @@
 <div id="setting-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-w-md max-h-full"
         [ngClass]="{'max-w-2xl': showGuestRegistrationFieldsModal,
-            'max-w-md': !showGuestRegistrationFieldsModal
+            'max-w-md': !showGuestRegistrationFieldsModal && !showFilterModal,
+            'max-w-4xl': showFilterModal,
         }">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <button #closesettingmodalbutton type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="setting-modal">
@@ -195,7 +196,7 @@
             </button>
             <div class="px-6 py-6 pt-4 lg:px-8">
                 <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-                    {{selectedSettingTitle ||  popupTitle || ('company-settings.settings' | translate) }}
+                    {{ (showFilterModal ? ('landing.filtersettings' | translate) : selectedSettingTitle)  ||  popupTitle || ('company-settings.settings' | translate) }}
                 </h3>
                 <form class="space-y-6" action="#">
                     <ng-container *ngIf="showTutorBookingsCommissionPerHourModal">
@@ -545,23 +546,68 @@
                         </div>
                     </ng-container>
                     <ng-container *ngIf="showFilterModal">
-                        <div class="flex items-center justify-center relative w-full max-w-full">
-                            <div class="mb-2 relative w-full max-w-full">
-                                <label for="filter" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'member-type-registration.selecttype' | translate }}</label>
-                                <select
-                                    id="filter"
-                                    class="rounded-lg bg-white border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                                    [(ngModel)]="selectedFilter"
-                                    [ngModelOptions]="{standalone: true}"
-                                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedFilter }"
-                                    (change)="handleFilterChange($event)"
-                                >
-                                    <option value="" disabled selected>{{ 'member-type-registration.selecttype' | translate }}</option>
-                                    <option value="dropdown">{{ 'member-type-registration.selectfield' | translate }}</option>
-                                    <option value="button">{{ 'services.link' | translate }}</option>
-                                </select>
-                            </div>
-                        </div>
+                        <table class="w-full my-4">
+                            <tr>
+                                <th class="text-left font-semibold text-sm">{{ 'member-type-registration.field' | translate }}</th>
+                                <th class="text-left font-semibold text-sm">{{ 'guest-landing.activate' | translate }}</th>
+                                <th class="text-left font-semibold text-sm">{{ 'landing.selecttext' | translate }}</th>
+                                <th class="text-left font-semibold text-sm" *ngIf="id == 1 || id == 4 || id == 5 || id == 23">{{ 'landing.display' | translate }}</th>
+                            </tr>
+                            <tr *ngFor="let setting of filterSettings" class="table-row">
+                                <td class="py-2">{{ setting?.text }}</td>
+                                <td class="text-center">
+                                    <div class="flex items-center justify-between w-full">
+                                        <div class="flex items-center justify-between w-full relative">
+                                            <label
+                                                for="category-status-{{setting?.id}}"
+                                                class="flex items-center w-full justify-between cursor-pointer"
+                                            >
+                                                <div class="relative mr-1">
+                                                    <input
+                                                        id="category-status-{{setting?.id}}"
+                                                        type="checkbox"
+                                                        class="sr-only"
+                                                        [(ngModel)]="setting.status"
+                                                        [ngModelOptions]="{standalone: true}"
+                                                    />
+                                                    <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                    <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="py-2">
+                                    <div class="flex items-center justify-center mb-4 pr-4">
+                                        <input
+                                            class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full mt-2 h-[42px] py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                                            placeholder="{{ 'landing.selecttext' | translate }}"
+                                            [(ngModel)]="setting.select_text"
+                                            [ngModelOptions]="{standalone: true}"
+                                        />
+                                    </div>
+                                </td>
+                                <td class="py-2" *ngIf="id == 1 || id == 4 || id == 5 || id == 23">
+                                    <div *ngIf="setting?.field == 'category'" 
+                                        class="flex items-center justify-center relative w-full max-w-full">
+                                        <div class="mb-2 relative w-full max-w-full">
+                                            <select
+                                                id="filter"
+                                                class="rounded-lg bg-white border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                [(ngModel)]="selectedFilter"
+                                                [ngModelOptions]="{standalone: true}"
+                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !selectedFilter }"
+                                                (change)="handleFilterChange($event)"
+                                            >
+                                                <option value="" selected>{{ 'member-type-registration.selecttype' | translate }}</option>
+                                                <option value="dropdown">{{ 'member-type-registration.selectfield' | translate }}</option>
+                                                <option value="button">{{ 'services.link' | translate }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
                         <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                             <button
                                 class="w-full inline-block h-[40px] text-sm px-6 py-2 mt-6 font-semibold text-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"

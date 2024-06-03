@@ -65,7 +65,17 @@
         "visitinstagram": "Visita el nostre instagram", 
         "privacysettings": "Configuració de privadesa",
         "menusettings": "Configuració del menú",
-        "thismonth": "Aquest mes"
+        "thismonth": "Aquest mes",
+        "filtersettings": "Configuració del filtre",
+        "display": "Mostra",
+        "selecttext": "Selecciona text",
+        "agegroup": "Grup d'edat",
+        "checkpasswordrequirements": "Assegureu-vos de comprovar els requisits de la contrasenya",
+        "unabletovalidate": "No es pot enviar el vostre registre. Comproveu la vostra informació.",
+        "sendmeamessage": "Envia un missatge",
+        "mailto": "Si no passa res en fer clic, assegureu-vos que teniu instal·lat un client de correu predeterminat o que teniu el navegador configurat per obrir enllaços de correu electrònic. Podeu consultar https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome sobre com configurar el vostre navegador.",
+        "showcalendar": "Mostra el calendari",
+        "solcourses": "Cursos de Nivellació"
     },
     "user-popup": {
         "myplans": "Els meus plans",
@@ -450,7 +460,9 @@
         "selectincharge": "Seleccioneu el delegat",
         "incharge": "Responsable",
         "selectmodality": "Seleccionar modalitat",
-        "showpastevent": "Erakutsi iraganeko gertaera"
+        "showpastevent": "Erakutsi iraganeko gertaera",
+        "selectagegroup": "Selecciona el grup d'edat",
+        "agegroups": "Grups d'edat"
     },
     "plan-recommendations": {
         "applauses": "Aplaudiment",
@@ -617,7 +629,8 @@
         "canvadesc1": "Per inserir el vídeo de Canva a la descripció, utilitzeu",
         "canvadesc2": "on l'enllaç és l'Smartlink quan feu clic a Compartir > Incrustar a Canva.",
         "vidalyticsdesc1": "Per inserir el vídeo de Vidalytics a la descripció, utilitzeu",
-        "vidalyticsdesc2": "on l'enllaç és l'identificador del vídeo."
+        "vidalyticsdesc2": "on l'enllaç és l'identificador del vídeo.",
+        "chat": "Xatejar"
     },
     "ranking": {
         "pointsyouhave": "Punts que tens",
@@ -749,7 +762,8 @@
         "noevents": "No hi ha esdeveniments",
         "noclubs": "No es van trobar clubs",
         "joinedby": "unit per",
-        "groups": "Grups"
+        "groups": "Grups",
+        "profileimage": "Imatge de perfil"
     },
     "profile-settings": {
         "firstname": "Nom de pila",
@@ -1096,7 +1110,8 @@
         "changepasswordtitle": "Canvia la contrasenya",
         "changepassworddesc": "Ingressa i confirma la teva nova contrasenya",
         "adminlogin": "Inici de sessió d'administrador",
-        "username": "Nom d'usuari"
+        "username": "Nom d'usuari",
+        "emailpasswordrequired": "Es requereix un correu electrònic i una contrasenya per iniciar la sessió"
     },
     "signup": {
         "firsttitle": "Inscriure's a",
@@ -1501,7 +1516,11 @@
         "plandetailschanged": "Els detalls han canviat. Vols enviar aquestes actualitzacions als participants?",
         "yes": "Sí",
         "no": "No",
-        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia"
+        "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia",
+        "bizumpayment": "Activeu Bizum com a opció de pagament?",
+        "reserve": "Reserva",
+        "signup": "Apunta't",
+        "insertvideo": "Insereix vídeo"
     },
     "edit-club": {
         "uploadimage": "Carregar imatge",
@@ -1778,7 +1797,8 @@
     },
     "service": {
         "subscribe": "Subscriure",
-        "pay": "Pagar"
+        "pay": "Pagar",
+        "reserva": "Reserva"
     },
     "ambassadors": {
         "ambassadors": "Ambaixadors",
@@ -2679,7 +2699,16 @@
         "selecttutoraccess": "Seleccioneu l'accés dels membres als tutors",
         "access": "Accés",
         "info": "Informació",
-        "sameprice": "Aplica el mateix preu a tots"
+        "sameprice": "Aplica el mateix preu a tots", 
+        "createupdatedelete": "Crea, actualitza, elimina",
+        "platformsettings": "Accés a la configuració de la plataforma",
+        "registereventsall": "Inscriure's a esdeveniments (Tots)",
+        "registereventsnetcultura": "Inscriure's a esdeveniments (Netcultura)",
+        "registereventsguests": "Inscriure's a esdeveniments (Els seus convidats)",
+        "accessprofile": "Accedeix a perfil",
+        "accessmyinvitations": "Accedeix a les meves invitacions",
+        "inviteallevents": "Pot convidar tots els esdeveniments",
+        "viewguests": "Mostra els convidats"
     },
     "member-type": {
         "welcometo": "Benvingut a",
@@ -3267,7 +3296,8 @@
         "moneyonthewaystatus": "Diners en camí ⏳",
         "tiktokstats": "Estadístiques de TikTok",
         "daterangedesc": "Seleccioneu l'interval de dates (màxim d'1 mes). Feu clic a Restableix per establir el mes predeterminat",
-        "noratingsyet": "Encara no hi ha cap valoració"
+        "noratingsyet": "Encara no hi ha cap valoració",
+        "edittutor": "Edita el tutor"
     },
     "general-details": {
         "name" : "Nom",
@@ -3402,6 +3432,7 @@
         "failed":"fracassat",
         "selectcredits": "Seleccioneu els crèdits per comprar", 
         "paymentconfirmed": "Gràcies per la teva compra. Això confirma que el teu pagament s'ha completat.",
+        "bizumconfirmed": "Gràcies per registrar-te!",
         "totalcredits":"Crèdits totals",
         "creditadditon":"Addició de crèdit",
         "creditdeduction":"Deducció de crèdit",

@@ -15,6 +15,12 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./detail/detail.component')).JobOfferDetailComponent,
     },
     {
+        path: 'job/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'job-offers.description'},
+        loadComponent: async () => (await import('./detail/detail.component')).JobOfferDetailComponent,
+    },
+    {
         path: 'register/:id',
         title: CustomTitleResolver,
         data: { titleKey: 'job-offers.register'},

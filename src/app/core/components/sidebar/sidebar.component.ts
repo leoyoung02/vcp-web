@@ -89,6 +89,8 @@ export class SidebarComponent {
   @Input() refreshedMenu: any;
   @Input() superAdmin: any;
   @Input() hasHistoryOfActivities: any;
+  @Input() customMemberType: any;
+  @Input() isCursoGeniusTestimonials: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;
@@ -161,6 +163,7 @@ export class SidebarComponent {
   customerOnboardingHover: boolean = false;
   hoveredLanguage: any;
   courseWallPrefixTextValueIt: any;
+  canAccessPlatformSettings: boolean = false;
 
   constructor(
     private _router: Router, 
@@ -192,6 +195,9 @@ export class SidebarComponent {
         if(splitRowObject?.length == 4) {
           if(splitRowObject[1] == 'plans' && splitRowObject[2] == 'list' && splitRowObject[3] == 'history') {
             route = 'plans/list/history';
+          }
+          if(splitRowObject[1] == 'courses' && splitRowObject[2] == 'list' && splitRowObject[3] == 'nivelacion') {
+            route = 'courses/list/nivelacion';
           }
         } 
         this.selectedTab = route || "home";
@@ -271,6 +277,14 @@ export class SidebarComponent {
       let company = companyChange.currentValue;
       this.company = company;
       this.initializePage();
+    }
+
+    let customMemberTypeChange = changes["customMemberType"];
+    if (customMemberTypeChange?.currentValue?.id > 0) {
+      this.customMemberType = customMemberTypeChange.currentValue;
+      if(this.customMemberType) {
+        this.canAccessPlatformSettings = this.customMemberType?.access_platform_settings == 1 ? true : false;
+      }
     }
   }
 
@@ -640,7 +654,14 @@ export class SidebarComponent {
     } else {
       let link = menu?.path == 'home' ? '/' : menu?.path
 
-      this._router.navigate([link]);
+      if(menu?.path == 'testimonials' && this.company?.id == 52 && !this.isCursoGeniusTestimonials) {
+        link = 'https://testimonios.vistingo.com'
+        this._router.navigate([]).then((result) => {
+          window.open(link, '_blank');
+        });
+      } else {
+        this._router.navigate([link]);
+      }
     }
   }
 

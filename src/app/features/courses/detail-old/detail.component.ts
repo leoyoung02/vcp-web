@@ -1,5 +1,5 @@
 import { CommonModule, NgOptimizedImage, Location } from "@angular/common";
-import { Component, ElementRef, Input, ViewChild, Renderer2, ChangeDetectorRef } from "@angular/core";
+import { Component, ElementRef, Input, ViewChild, Renderer2, ChangeDetectorRef, HostListener } from "@angular/core";
 import { Router } from "@angular/router";
 import { environment } from "@env/environment";
 import { CoursesService } from "@features/services";
@@ -8,7 +8,7 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import { BreadcrumbComponent, NoAccessComponent, ToastComponent } from "@share/components";
+import { BreadcrumbComponent, CommentsComponent, NoAccessComponent, ToastComponent } from "@share/components";
 import { LocalService, CompanyService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule, MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
@@ -28,6 +28,8 @@ import {
   RatingChangeEvent
 } from 'angular-star-rating';
 import { AssessmentComponent } from "../assessment/assessment.component";
+import { MaximizeModule } from "src/app/directives/maximize/maximize.module";
+import { MaximizeDirective } from "src/app/directives/maximize/maximize.directive";
 import moment from 'moment';
 import get from "lodash/get";
 
@@ -48,8 +50,11 @@ import get from "lodash/get";
     NgxDocViewerModule,
     EditorModule,
     StarRatingModule,
+    MaximizeModule,
     SafeContentHtmlPipe,
     AssessmentComponent,
+    CommentsComponent,
+    ToastComponent,
   ],
   templateUrl: './detail.component.html'
 })
@@ -59,6 +64,7 @@ export class CourseDetailComponent {
   @Input() id!: number;
 
   languageChangeSubscription;
+  isMobile: boolean = false;
   emailDomain: any;
   canCreate: boolean = false;
   pageName: any;
@@ -231,7 +237,15 @@ export class CourseDetailComponent {
   currentAssessment: any;
   showAssessment: boolean = false;
   afterModuleAssessments: any = [];
+  hasCourseVideoComments: boolean = false;
 
+  commentsList: any = [];
+  newComment: any = '';
+  showComments: boolean = false;
+
+  isExpanded: boolean = false;
+  @ViewChild(MaximizeDirective, { static: true }) maximize!: MaximizeDirective;
+  
   constructor(
     private _router: Router,
     private _coursesService: CoursesService,
@@ -245,8 +259,14 @@ export class CourseDetailComponent {
     private cd: ChangeDetectorRef
   ) {}
 
+  @HostListener("window:resize", [])
+  private onResize() {
+    this.isMobile = window.innerWidth < 768;
+  }
+
   async ngOnInit() {
     initFlowbite();
+    this.onResize();
     this.language =
       this._localService.getLocalStorage(environment.lslang) || "es";
     this._translateService.use(this.language || "es");
@@ -444,6 +464,7 @@ export class CourseDetailComponent {
       this.showTitle = subfeatures.some(a => a.name_en == 'Cover Title' && a.active == 1);
       this.onlyAssignedTutorAccess = subfeatures.some(a => a.name_en == 'Tutors assigned to courses' && a.active == 1);
       this.hasCourseCreditSetting = subfeatures.some(a => a.name_en == 'Credits' && a.active == 1 && a.feature_id == 11);
+      this.hasCourseVideoComments = subfeatures.some(a => a.name_en == 'Course video comments' && a.active == 1 && a.feature_id == 11);
     }
   }
 
@@ -463,6 +484,7 @@ export class CourseDetailComponent {
     this.courseTitle =this.getCourseTitle(this.course);
     this.courseDescription = this.getCourseDescription(this.course);
     this.courseImage = `${COURSE_IMAGE_URL}/${this.course?.image}`;
+    this.showComments = this.course?.show_comments == 1 ? true : false;
 
     if(this.course) {
       this.coursePoints = this.course.course_users && this.course.course_users[0] ? ((parseInt(this.course.course_users[0].progress) * parseInt(this.course.points)) / 100) : 0;
@@ -602,6 +624,10 @@ export class CourseDetailComponent {
     }
 
     if(this.selectedUnit) {
+      if(this.hasCourseVideoComments) {
+        this.initializeCommentsList();
+      }
+
       this.isSelectedUnitCompleted = this.selectedUnit && this.selectedUnit.Company_Course_Unit_Users 
         && this.selectedUnit.Company_Course_Unit_Users[0] && this.selectedUnit.Company_Course_Unit_Users[0].progress == 100 ? true : false
 
@@ -719,6 +745,11 @@ export class CourseDetailComponent {
         : this.language == "de"
         ? feature.name_de ||
           feature.feature_name_DE ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "it"
+        ? feature.name_it ||
+          feature.feature_name_IT ||
           feature.name_es ||
           feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
@@ -1063,6 +1094,10 @@ export class CourseDetailComponent {
       this.selectedModulePackageId = this.selectedModule[0].package_id;
       this.selectedModulePackageText = this.selectedModule[0].package_text;
     }
+
+    if(this.hasCourseVideoComments) {
+      this.initializeCommentsList();
+    }
   }
 
   selectBlockModule(module){
@@ -1086,6 +1121,7 @@ export class CourseDetailComponent {
       this.selectUnit(previous_unit)
     }
   }
+
   goToNextLesson() {
     let current_unit_index = 0
     if(this.course.course_units) {
@@ -1666,7 +1702,13 @@ export class CourseDetailComponent {
   }
 
   confirm() {
-    this.deleteCourse(this.id, true);
+    if(this.confirmMode == 'deletecomment') {
+      this.deleteComment(this.selectedItem, true);
+    } else if(this.confirmMode == 'deletechildcomment') {
+      this.deleteChildComment(this.selectedItem, true);
+    } else {
+      this.deleteCourse(this.id, true);
+    }
   }
 
   deleteCourse(id, confirmed) {
@@ -1755,6 +1797,242 @@ export class CourseDetailComponent {
     }
 
     return result;
+  }
+
+  initializeCommentsList() {
+    this._companyService
+      .fetchComments(this.companyId, this.userId, 'course', this.selectedUnit?.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          this.commentsList = this.formatComments(data.comments, data.user);
+          this.cd.detectChanges();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  formatComments(comments, user) {
+    let data;
+    data = comments.map((comment, index) => {
+      return {
+        author_name: comment.name,
+        display_date: moment(comment.created_at).locale(this.language).format('DD MMMM, YYYY HH:mm A'),
+        date: moment(comment.created_at).format('YYYY-MM-DD'),
+        author_image: `${this.apiPath}/${comment.image}`,
+        likes: comment?.reactions?.length,
+        show_reply: false,
+        current_user_image: `${this.apiPath}/${user.image}`,
+        current_user_name: user.first_name ? `${user.first_name} ${user.last_name}` : user.name,
+        ...comment
+      }
+    })
+
+    return data;
+  }
+
+  handleAddComment(event) {
+    this.newComment = event;
+    this._companyService.addModuleComment({ 
+      company_id: this.companyId, 
+      user_id: this.userId, 
+      object: 'course', 
+      object_id: this.selectedUnit?.id,
+      parent_comment_id: null,
+      comment: this.newComment,
+    }).subscribe(
+      (response) => {
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+        this.newComment = '';
+        this.initializeCommentsList();
+      }
+    )
+  } 
+
+  handleDeleteComment(event) {
+    if(event) {
+      this.showConfirmationModal = false;
+      this.selectedItem = event;
+      this.confirmMode = 'deletecomment';
+      this.confirmDeleteItemTitle = this._translateService.instant(
+          "dialog.confirmdelete"
+      );
+      this.confirmDeleteItemDescription = this._translateService.instant(
+          "dialog.confirmdeleteitem"
+      );
+      this.acceptText = "OK";
+      setTimeout(() => (this.showConfirmationModal = true));
+    }
+  }
+
+  deleteComment(id, confirmed) {
+    if(confirmed) {
+      this._companyService.deleteModuleComment(id).subscribe(
+        response => {
+          this.showConfirmationModal = false;
+          let all_comments = this.commentsList;
+            if (all_comments?.length > 0) {
+              all_comments.forEach((comment, index) => {
+                if (comment.id == this.selectedItem) {
+                  all_comments.splice(index, 1);
+                }
+            });
+          }
+          
+          this.open(this._translateService.instant('dialog.deletedsuccessfully'), '');
+          this.commentsList = [];
+          setTimeout(() => {
+            this.commentsList = all_comments;
+            this.cd.detectChanges();
+          }, 100)
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
+  }
+
+  handleReactToComment(event) {
+    let current_user_reaction = event?.reactions?.filter(react => {
+      return react.user_id == this.userId
+    })
+
+    let mode = current_user_reaction?.length > 0 ? 'unlike' : 'like'
+    let params = {
+      company_id: this.companyId, 
+      user_id: this.userId, 
+      comment_id: event.id,
+      heart: current_user_reaction?.length > 0 ? null : 1,
+      mode,
+    }
+    this._companyService.reactToModuleComment(params).subscribe(
+      response => {
+        this.showConfirmationModal = false;
+        let all_comments = this.commentsList;
+          if (all_comments?.length > 0) {
+            all_comments.forEach((comment, index) => {
+              if (comment.id == event.id) {
+                if(mode == 'like') {
+                  let reactions = comment.reactions || [];
+                  reactions.push({
+                    comment_id: comment.id,
+                    company_id: comment.company_id,
+                    created_at: moment().format('YYYY-MM-DD HH:mm:ss'),
+                    heart: 1,
+                    id: 100,
+                    updated_at: null,
+                    user_id: this.userId,
+                  })
+                  comment.reactions = reactions;
+                  comment.likes = reactions?.length;
+                } else if(mode == 'unlike') {
+                  if(comment.reactions?.length > 0) {
+                    comment.reactions.forEach((rxn, idx) => {
+                      if(rxn.user_id == this.userId && rxn.comment_id == comment.id) {
+                        comment.reactions.splice(idx, 1);
+                      }
+                    })
+                  }
+                  comment.likes = comment.reactions?.length
+                }
+              }
+          });
+        }
+        
+        this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+        this.commentsList = [];
+        setTimeout(() => {
+          this.commentsList = all_comments;
+          this.cd.detectChanges();
+        }, 100)
+      },
+      error => {
+        console.log(error);
+      }
+    )
+  }
+
+  handleAddChildComment(event) {
+    this.newComment = event?.child_comment;
+    this._companyService.addModuleComment({ 
+      company_id: this.companyId, 
+      user_id: this.userId, 
+      object: 'course', 
+      object_id: this.id,
+      parent_comment_id: event.item.id,
+      comment: this.newComment,
+    }).subscribe(
+      (response) => {
+        this.open(
+          this._translateService.instant("dialog.savedsuccessfully"),
+          ""
+        );
+        this.newComment = '';
+        this.initializeCommentsList();
+      }
+    )
+  } 
+
+  handleDeleteChildComment(event) {
+    if(event) {
+      this.showConfirmationModal = false;
+      this.selectedItem = event;
+      this.confirmMode = 'deletechildcomment';
+      this.confirmDeleteItemTitle = this._translateService.instant(
+          "dialog.confirmdelete"
+      );
+      this.confirmDeleteItemDescription = this._translateService.instant(
+          "dialog.confirmdeleteitem"
+      );
+      this.acceptText = "OK";
+      setTimeout(() => (this.showConfirmationModal = true));
+    }
+  }
+
+  deleteChildComment(id, confirmed) {
+    if(confirmed) {
+      this._companyService.deleteModuleComment(id.child_comment_id).subscribe(
+        response => {
+          this.showConfirmationModal = false;
+          let all_comments = this.commentsList;
+            if (all_comments?.length > 0) {
+              all_comments.forEach((comment, index) => {
+                if (comment.replies?.length > 0) {
+                  comment?.replies?.forEach((reply, idx) => {
+                    if(reply.id == id.child_comment_id) {
+                      comment?.replies.splice(idx, 1);
+                    }
+                  })
+                }
+            });
+          }
+          
+          this.open(this._translateService.instant('dialog.deletedsuccessfully'), '');
+          this.commentsList = [];
+          setTimeout(() => {
+            this.commentsList = all_comments;
+            this.cd.detectChanges();
+          }, 100)
+        },
+        error => {
+          console.log(error);
+        }
+      )
+    }
+  }
+
+  maximizeWindow() {
+    this.isExpanded = true;
+  }
+
+  minimizeWindow() {
+    this.isExpanded = false;
   }
 
   handleGoBack() {

@@ -71,7 +71,6 @@ export class SelectPlanComponent {
 
   async ngOnInit() {
     this.language = this._localService.getLocalStorage(environment.lslang);
-    this._translateService.use(this.language || "es");
 
     this._route.params.pipe(takeUntil(this.destroy$)).subscribe((param) => {
       this.id = param["id"];
@@ -102,9 +101,13 @@ export class SelectPlanComponent {
           environment.lscompanyId,
           this.companyId
         );
+        if(this.companyId == 65 && this.language == 'es') {
+          this.language = 'it';
+        }
       }
     }
 
+    this._translateService.use(this.language || "es");
     this.getUserDetails();
     this.checkConfirmEmail();
     this.getPricingDetails();
@@ -301,10 +304,12 @@ export class SelectPlanComponent {
 
   redirectToLogin(type) {
     if (type.require_approval == 1) {
-      this._router.navigate([`/auth/login?type=${type.id}`]);
+      // this._router.navigate([`/auth/login?type=${type.id}`]);
+      this._router.navigate([`/auth/login`]);
     } else {
       if (this.confirm_email) {
-        this._router.navigate([`/auth/login?type=${type.id}`]);
+        // this._router.navigate([`/auth/login?type=${type.id}`]);
+        this._router.navigate([`/auth/login`]);
       } else {
         this._router.navigate([`/auth/login`]);
       }
@@ -382,5 +387,26 @@ export class SelectPlanComponent {
       : this.language == "de"
       ? detail.details_de || detail.details
       : detail.details;
+  }
+
+  getPermissionText(permission) {
+    return this.language == "en"
+        ? permission.permission_en ||
+          permission.permission_es
+        : this.language == "fr"
+        ? permission.permission_fr ||
+          permission.permission_es
+        : this.language == "eu"
+        ? permission.permission_eu ||
+          permission.permission_es
+        : this.language == "ca"
+        ? permission.permission_ca ||
+          permission.permission_es
+        : this.language == "de"
+        ? permission.permission_de ||
+          permission.permission_es
+        : this.language == "it"
+        ? permission.permission_it ||
+          permission.permission_es : permission.permission_es;
   }
 }

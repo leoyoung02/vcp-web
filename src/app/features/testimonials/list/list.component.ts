@@ -6,15 +6,21 @@ import { Subject, takeUntil } from 'rxjs';
 import { environment } from '@env/environment';
 import { Router } from '@angular/router';
 import { TestimonialsService } from '@features/services';
-import { FilterComponent, PageTitleComponent } from '@share/components';
+import { ButtonGroupComponent, FilterComponent, PageTitleComponent } from '@share/components';
 import { SearchComponent } from "@share/components/search/search.component";
 import { NgxPaginationModule } from "ngx-pagination";
 import { TestimonialCardComponent } from '@share/components/card/testimonial/testimonial.component';
-import moment from "moment";
-import get from 'lodash/get';
-import * as he from 'he';
 import { searchSpecialCase, sortSerchedMembers } from 'src/app/utils/search/helper';
+import * as he from 'he';
 import Fuse from 'fuse.js';
+import get from 'lodash/get';
+import moment from "moment";
+import "moment/locale/es";
+import "moment/locale/fr";
+import "moment/locale/eu";
+import "moment/locale/ca";
+import "moment/locale/de";
+import "moment/locale/it";
 
 @Component({
   selector: 'app-testimonials-list',
@@ -27,6 +33,7 @@ import Fuse from 'fuse.js';
     SearchComponent,
     TestimonialCardComponent,
     FilterComponent,
+    ButtonGroupComponent,
     NgxPaginationModule,
   ],
   templateUrl: './list.component.html'
@@ -93,6 +100,12 @@ export class TestimonialsListComponent {
       weight: 0.25
     }]
   };
+  filterActive: boolean = false;
+  defaultActiveFilter: boolean = false;
+  filterSettings: any = [];
+  showFilters: boolean = false;
+  isCursoGeniusTestimonials: boolean = false;
+  filterTypeControl: any = '';
 
   constructor(
     private _router: Router,
@@ -142,6 +155,7 @@ export class TestimonialsListComponent {
         environment.lscompanyId,
         this.companyId
       );
+      this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
     }
 
     this.languageChangeSubscription =
@@ -174,7 +188,10 @@ export class TestimonialsListComponent {
       .subscribe(
         (data) => {
           this.mapFeatures(data?.features_mapping);
-          this.mapSubfeatures(data?.settings?.subfeatures );
+          this.mapSubfeatures(data?.settings?.subfeatures);
+
+          this.initializeFilterSettings(data?.module_filter_settings);
+
           this.mapUserPermissions(data?.user_permissions);
           this.courses = data?.courses;
           this.tags = data?.tags;
@@ -182,12 +199,30 @@ export class TestimonialsListComponent {
           let testimonials = this.shuffleArray(data?.testimonials);
           this.allTestimonials = testimonials;
           this.formatTestimonials(testimonials);
+
+          this.filterTypeControl = 'dropdown';
+          if(data?.module_filter_settings?.length > 0) {
+            this.filterTypeControl = data?.module_filter_settings[0].filter_type || 'dropdown';
+          } else {
+            this.filterTypeControl = data?.filter_settings?.filter_type || 'dropdown';
+          }
+
           this.initializeButtonGroup();
         },
         (error) => {
           console.log(error);
         }
       );
+  }
+
+  initializeFilterSettings(filter_settings) {
+    let filter_settings_active = filter_settings?.filter(fs => {
+      return fs.active == 1
+    })
+    if(filter_settings_active?.length > 0 && this.filterActive) {
+      this.showFilters = true;
+      this.filterSettings = filter_settings;
+    }
   }
 
   shuffleArray(array) {
@@ -212,7 +247,9 @@ export class TestimonialsListComponent {
 
   mapSubfeatures(subfeatures) {
     if (subfeatures?.length > 0) {
-      
+      this.filterActive = subfeatures.some(
+        (a) => a.name_en == "Testimonials filter" && a.active == 1
+      );
     }
   }
 
@@ -327,8 +364,8 @@ export class TestimonialsListComponent {
           feature.name_es ||
           feature.feature_name_ES
         : this.language == "it"
-        ? feature.name_de ||
-          feature.feature_name_DE ||
+        ? feature.name_it ||
+          feature.feature_name_IT ||
           feature.name_es ||
           feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
@@ -355,11 +392,20 @@ export class TestimonialsListComponent {
 
   initializeButtonGroup() {
     let categories = this.courses;
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let category_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'category'
+      })
+      if(category_filter?.length > 0 && category_filter[0].filter_type == 'dropdown') {
+        text = category_filter[0].select_text;
+      }
+    }
     this.buttonList = [
       {
         id: "All",
         value: "All",
-        text: this._translateService.instant("plans.all"),
+        text,
         selected: true,
         fk_company_id: this.companyId,
         fk_supercategory_id: "All",
@@ -536,6 +582,10 @@ export class TestimonialsListComponent {
         .replace(/\p{Diacritic}/gu, "")
         .trim();
     }
+  }
+
+  filterViewChanged(event) {
+    this.defaultActiveFilter = event;
   }
 
   ngOnDestroy() {

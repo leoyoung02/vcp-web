@@ -1,7 +1,7 @@
 import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
-import { FilterComponent, PageTitleComponent } from '@share/components';
+import { AgeGroupFilterComponent, FilterComponent, PageTitleComponent } from '@share/components';
 import { Subject, takeUntil } from 'rxjs';
 import { Router } from '@angular/router';
 import { SearchComponent } from "@share/components/search/search.component";
@@ -14,6 +14,7 @@ import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, ValidationErr
 import { MatSnackBarModule, MatSnackBar } from "@angular/material/snack-bar";
 import { MemberSmallCardComponent } from '@share/components/card/member-small/member-small.component';
 import { initFlowbite } from 'flowbite';
+import moment from "moment";
 import get from 'lodash/get';
 
 @Component({
@@ -32,6 +33,7 @@ import get from 'lodash/get';
     MemberCardComponent,
     MemberSmallCardComponent,
     FilterComponent,
+    AgeGroupFilterComponent,
   ],
   templateUrl: './list.component.html'
 })
@@ -93,6 +95,14 @@ export class MembersListComponent {
   featureTitle: string = '';
   postalCodes: any = [];
   alternativeCardDesign: boolean = false;
+  defaultActiveFilter: boolean = false;
+  filterActive: boolean = false;
+  filterSettings: any = [];
+  showFilters: boolean = false;
+  ageGroupFilterActive: boolean = false;
+  ageGroupList: any = [];
+  allAgeGroups: any = [];
+  selectedAgeGroup: any = '';
 
   constructor(
     private _router: Router,
@@ -182,10 +192,16 @@ export class MembersListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          this.allAgeGroups = data?.age_groups;
+
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures );
+
+          this.initializeFilterSettings(data?.module_filter_settings);
+
           this.mapUserPermissions(data?.user_permissions);
           this.members = data?.members;
+          
           if(this.members?.length > 0) {
             let current = this.members?.filter(member => {
               return member.id == this.userId
@@ -209,6 +225,71 @@ export class MembersListComponent {
       );
   }
 
+  initializeFilterSettings(filter_settings) {
+    let filter_settings_active = filter_settings?.filter(fs => {
+      return fs.active == 1
+    })
+    if(filter_settings_active?.length > 0 && this.filterActive) {
+      this.showFilters = true;
+      this.filterSettings = filter_settings;
+      if(this.ageGroupFilterActive) { this.initializeAgeGroupList(); }
+    }
+  }
+
+  initializeAgeGroupList() {
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let age_group_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'age_group'
+      })
+      if(age_group_filter?.length > 0) {
+        text = age_group_filter[0].select_text;
+      }
+    }
+    this.ageGroupList = [
+      {
+        id: "All",
+        value: "All",
+        text,
+        selected: true,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: "All",
+        name_CA: "All",
+        name_DE: "All",
+        name_EN: "All",
+        name_ES: "All",
+        name_EU: "All",
+        name_FR: "All",
+        sequence: 1,
+        status: 1,
+        min: 0,
+        max: 0,
+      },
+    ];
+    if(this.allAgeGroups?.length > 0) {
+      this.allAgeGroups?.forEach((ag, index) => {
+        this.ageGroupList?.push({
+          id: ag.id,
+          value: ag.id,
+          text: ag.age_group,
+          selected: false,
+          fk_company_id: this.companyId,
+          fk_supercategory_id: ag.id,
+          name_CA: ag.age_group,
+          name_DE: ag.age_group,
+          name_EN: ag.age_group,
+          name_ES: ag.age_group,
+          name_EU: ag.age_group,
+          name_FR: ag.age_group,
+          sequence: index + 2,
+          status: index + 2,
+          min: ag.min,
+          max: ag.max,
+        })
+      })
+    }
+  }
+
   mapFeatures(features) {
     this.membersFeature = features?.find((f) => f.feature_id == 15);
     this.featureId = this.membersFeature?.id;
@@ -225,6 +306,12 @@ export class MembersListComponent {
       );
       this.alternativeCardDesign = subfeatures.some(
         (a) => a.name_en == "Alternative card design" && a.active == 1 && a.feature_id == 15
+      );
+      this.filterActive = subfeatures.some(
+        (a) => a.name_en == "Members filter" && a.active == 1 && a.feature_id == 15
+      );
+      this.ageGroupFilterActive = subfeatures.some(
+        (a) => a.name_en == "Age group filter" && a.active == 1
       );
     }
   }
@@ -361,11 +448,20 @@ export class MembersListComponent {
   }
 
   initializeIconFilterList(list) {
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let city_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'city'
+      })
+      if(city_filter?.length > 0) {
+        text = city_filter[0].select_text;
+      }
+    }
     this.list = [
       {
         id: "All",
         value: "",
-        text: this._translateService.instant("plans.all"),
+        text,
         selected: true,
         company_id: this.companyId,
         city: "",
@@ -396,11 +492,20 @@ export class MembersListComponent {
 
   initializeButtonGroup() {
     let categories = this.sectors;
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let category_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'category'
+      })
+      if(category_filter?.length > 0 && category_filter[0].filter_type == 'dropdown') {
+        text = category_filter[0].select_text;
+      }
+    }
     this.buttonList = [
       {
         id: "All",
         value: "All",
-        text: this._translateService.instant("plans.all"),
+        text,
         selected: true,
         fk_company_id: this.companyId,
         fk_supercategory_id: "All",
@@ -510,9 +615,39 @@ export class MembersListComponent {
       
     }
 
-    if(this.selectedSector && !(this.selectedSector == 'Todas' || this.selectedSector == 'All')) {
+    if(this.selectedSector) {
+      let text = this._translateService.instant("plans.all");
+      if(this.filterSettings?.length > 0) {
+        let category_filter = this.filterSettings?.filter(fs => {
+          return fs.field == 'category'
+        })
+        if(category_filter?.length > 0 && category_filter[0].filter_type == 'dropdown') {
+          text = category_filter[0].select_text;
+        }
+      }
+      if(!(this.selectedSector == text || this.selectedSector == 'Todas' || this.selectedSector == 'All')) {
+        members = members?.filter(m => {
+          return m?.sector == this.selectedSector
+        })
+      }
+    }
+
+    if(this.selectedAgeGroup && this.selectedAgeGroup != 'All') {
+      let age_group = this.ageGroupList.find(
+        (c) => c.value == this.selectedAgeGroup
+      );
+
       members = members?.filter(m => {
-        return m?.sector == this.selectedSector
+        let include = false
+
+        if(m.birthday && age_group?.min >= 0 && age_group?.max >= 0) {
+          var diff_year = moment().diff(moment(m.birthday), 'years', false);
+          if(diff_year >= age_group?.min && diff_year <= age_group?.max) {
+            include = true;
+          }
+        }
+        
+        return include
       })
     }
 
@@ -594,6 +729,23 @@ export class MembersListComponent {
       }
     });
     return valid;
+  }
+
+  filterViewChanged(event) {
+    this.defaultActiveFilter = event;
+  }
+
+  filteredAgeGroupList(event) {
+    this.ageGroupList?.forEach((item) => {
+      if (item.id === event) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    this.selectedAgeGroup = event || "";
+    this.filterMembers();
   }
 
   ngOnDestroy() {

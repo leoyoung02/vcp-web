@@ -12,7 +12,14 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { PlansService } from "@features/services";
 import { PlansCalendarComponent } from "../calendar/calendar.component";
 import { SearchComponent } from "@share/components/search/search.component";
-import { ButtonGroupComponent, FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
+import { 
+  ButtonGroupComponent, 
+  FilterComponent, 
+  IconFilterComponent, 
+  PageTitleComponent, 
+  AgeGroupFilterComponent, 
+  GroupFilterComponent 
+} from "@share/components";
 import { NgxPaginationModule } from "ngx-pagination";
 import { PlanCardComponent } from "@share/components/card/plan/plan.component";
 import moment from "moment";
@@ -33,6 +40,8 @@ import get from "lodash/get";
     ButtonGroupComponent,
     NgOptimizedImage,
     NgxPaginationModule,
+    AgeGroupFilterComponent,
+    GroupFilterComponent,
   ],
   templateUrl: "./list.component.html",
 })
@@ -195,6 +204,21 @@ export class PlansListComponent {
   filterTypeControl: any = '';
   bottomEventTitles: boolean = false;
   activityCities: any = [];
+  ageGroupFilterActive: boolean = false;
+  groupFilterActive: boolean = false;
+  allAgeGroups: any = [];
+  ageGroupList: any = [];
+  allGroups: any = [];
+  groupList: any = [];
+  selectedAgeGroup: any = '';
+  selectedGroup: any = '';
+  defaultActiveFilter: boolean = false;
+  filterSettings: any = [];
+  showFilters: boolean = false;
+  noCategoryFilter: boolean = false;
+
+  currentPage: number = 1;
+  pageSize: number = 8;
 
   constructor(
     private _route: ActivatedRoute,
@@ -213,6 +237,26 @@ export class PlansListComponent {
   private onResize() {
     this.isMobile = window.innerWidth < 768;
   }
+
+  // @HostListener('window:scroll', ['$event'])
+  // onScroll(event: Event) {
+  //   if(this.companyId == 32 && !this.isMobile) {
+  //     const scrollPosition = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+  //     const windowHeight = window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight || 0;
+  //     const documentHeight = document.documentElement.scrollHeight || document.body.scrollHeight || 0;
+
+  //     if (scrollPosition + windowHeight >= documentHeight) {
+  //       this.onScrollDown();
+  //     }
+  //   }
+  // }
+
+  // onScrollDown() {
+  //   if(this.companyId == 32 && !this.isMobile) {
+  //     this.currentPage++;
+  //     this.fetchPlans();
+  //   }
+  // }
 
   async ngOnInit() {
     this.onResize();
@@ -347,11 +391,20 @@ export class PlansListComponent {
     if(this.companyId == 12) {
       this.buttonList = [];
     } else {
-       this.buttonList = [
+      let text = this._translateService.instant("plans.all");
+      if(this.filterSettings?.length > 0) {
+        let category_filter = this.filterSettings?.filter(fs => {
+          return fs.field == 'category'
+        })
+        if(category_filter?.length > 0 && category_filter[0].filter_type == 'dropdown') {
+          text = category_filter[0].select_text;
+        }
+      }
+      this.buttonList = [
         {
           id: "All",
           value: "All",
-          text: this._translateService.instant("plans.all"),
+          text,
           selected: true,
           fk_company_id: this.companyId,
           fk_supercategory_id: "All",
@@ -429,11 +482,20 @@ export class PlansListComponent {
 
   initializeIconFilterList(list) {
     if(list?.length > 0) {
+      let text = this._translateService.instant("plans.all");
+      if(this.filterSettings?.length > 0) {
+        let city_filter = this.filterSettings?.filter(fs => {
+          return fs.field == 'city'
+        })
+        if(city_filter?.length > 0) {
+          text = city_filter[0].select_text;
+        }
+      }
       this.list = [
         {
           id: "All",
           value: "",
-          text: this._translateService.instant("plans.all"),
+          text,
           selected: true,
           company_id: this.companyId,
           city: "",
@@ -516,9 +578,14 @@ export class PlansListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          this.allGroups = data?.clubs;
+          this.allAgeGroups = data?.age_groups;
+
           this.mapCities(data?.cities);
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
+
+          this.initializeFilterSettings(data?.module_filter_settings);
 
           this.user = data?.user;
           this.mapUserPermissions(data?.user_permissions);
@@ -547,6 +614,19 @@ export class PlansListComponent {
           console.log(error);
         }
       );
+  }
+
+  initializeFilterSettings(filter_settings) {
+    let filter_settings_active = filter_settings?.filter(fs => {
+      return fs.active == 1
+    })
+    
+    if(filter_settings_active?.length > 0 && this.categoriesFilterActive) {
+      this.showFilters = true;
+      this.filterSettings = filter_settings;
+      if(this.ageGroupFilterActive) { this.initializeAgeGroupList(); }
+      if(this.groupFilterActive) { this.initializeGroupList(); }
+    }
   }
 
   mapCities(cities) {
@@ -623,6 +703,12 @@ export class PlansListComponent {
       );
       this.bottomEventTitles = subfeatures.some(
         (a) => a.name_en == "Event titles (Bottom)" && a.active == 1
+      );
+      this.ageGroupFilterActive = subfeatures.some(
+        (a) => a.name_en == "Age group filter" && a.active == 1
+      );
+      this.groupFilterActive = subfeatures.some(
+        (a) => a.name_en == "Group filter" && a.active == 1
       );
     }
 
@@ -741,6 +827,106 @@ export class PlansListComponent {
         : this.companyId == 12
         ? "Networking"
         : "All";
+  }
+
+  initializeAgeGroupList() {
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let age_group_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'age_group'
+      })
+      if(age_group_filter?.length > 0) {
+        text = age_group_filter[0].select_text;
+      }
+    }
+    this.ageGroupList = [
+      {
+        id: "All",
+        value: "All",
+        text,
+        selected: true,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: "All",
+        name_CA: "All",
+        name_DE: "All",
+        name_EN: "All",
+        name_ES: "All",
+        name_EU: "All",
+        name_FR: "All",
+        sequence: 1,
+        status: 1,
+      },
+    ];
+    if(this.allAgeGroups?.length > 0) {
+      this.allAgeGroups?.forEach((ag, index) => {
+        this.ageGroupList?.push({
+          id: ag.id,
+          value: ag.id,
+          text: ag.age_group,
+          selected: false,
+          fk_company_id: this.companyId,
+          fk_supercategory_id: ag.id,
+          name_CA: ag.age_group,
+          name_DE: ag.age_group,
+          name_EN: ag.age_group,
+          name_ES: ag.age_group,
+          name_EU: ag.age_group,
+          name_FR: ag.age_group,
+          sequence: index + 2,
+          status: index + 2,
+        })
+      })
+    }
+  }
+
+  initializeGroupList() {
+    let text = this._translateService.instant("plans.all");
+    if(this.filterSettings?.length > 0) {
+      let group_filter = this.filterSettings?.filter(fs => {
+        return fs.field == 'group'
+      })
+      if(group_filter?.length > 0) {
+        text = group_filter[0].select_text;
+      }
+    }
+    this.groupList = [
+      {
+        id: "All",
+        value: "All",
+        text,
+        selected: true,
+        fk_company_id: this.companyId,
+        fk_supercategory_id: "All",
+        name_CA: "All",
+        name_DE: "All",
+        name_EN: "All",
+        name_ES: "All",
+        name_EU: "All",
+        name_FR: "All",
+        sequence: 1,
+        status: 1,
+      },
+    ];
+    if(this.allGroups?.length > 0) {
+      this.allGroups?.forEach((ag, index) => {
+        this.groupList?.push({
+          id: ag.id,
+          value: ag.id,
+          text: ag.title,
+          selected: false,
+          fk_company_id: this.companyId,
+          fk_supercategory_id: ag.id,
+          name_CA: ag.title_ca,
+          name_DE: ag.title_de,
+          name_EN: ag.title_en,
+          name_ES: ag.title,
+          name_EU: ag.title_eu,
+          name_FR: ag.title_fr,
+          sequence: index + 2,
+          status: index + 2,
+        })
+      })
+    }
   }
 
   fetchPlans() {
@@ -918,10 +1104,6 @@ export class PlansListComponent {
         include = true;
       }
 
-      // if (!this.userId && !plan.private) {
-      //   include = false;
-      // }
-
       return include;
     });
 
@@ -991,7 +1173,12 @@ export class PlansListComponent {
         }, 200)
       }
     } else {
-      this.filteredPlan = filteredPlan;
+      // if(this.companyId == 32) {
+      //   this.filteredPlan = this.getSlicedPlans(filteredPlan);
+      // } else {
+        this.filteredPlan = filteredPlan;
+      // }
+
       let selected = localStorage.getItem('plan-filter-city');
       if(selected && this.list?.length > 0) {
         this.list.forEach(item => {
@@ -1006,6 +1193,25 @@ export class PlansListComponent {
       }
     }
   }
+
+  // getSlicedPlans(filteredPlan) {
+  //   let plans: any[] = [];
+  //   this.pageSize = this.currentPage == 1 && this.showEventsCalendar ? 7 : 8;
+
+  //   if(!this.search && !this.isMobile && this.companyId == 32) {
+  //     const prev = filteredPlan
+  //     if(prev?.length != filteredPlan?.length && filteredPlan?.length > 0) {
+  //       plans = filteredPlan?.splice((this.currentPage - 1),this.pageSize);
+  //       plans = [...prev, ...this.filteredPlan];
+  //     } else {
+  //       plans = filteredPlan?.splice(0,this.pageSize * this.currentPage);
+  //     }
+  //   } else {
+  //     plans = filteredPlan;
+  //   }
+
+  //   return plans;
+  // }
 
   getPlanDescription(plan) {
     return plan
@@ -1670,6 +1876,18 @@ export class PlansListComponent {
         }
       }
 
+      if(this.selectedAgeGroup && this.selectedAgeGroup != 'All') {
+        this.filteredPlan = this.filteredPlan.filter((event) => {
+          return event.age_group_id == this.selectedAgeGroup;
+        });
+      }
+
+      if(this.selectedGroup && this.selectedGroup != 'All') {
+        this.filteredPlan = this.filteredPlan.filter((event) => {
+          return event.fk_group_id == this.selectedGroup;
+        });
+      }
+
       if (mode == "joined" || this.joinedPlan) {
         if (join || this.joinedPlan) {
           this.filteredPlan =
@@ -2237,6 +2455,36 @@ export class PlansListComponent {
     this.searchPlans("new");
   }
 
+  filterViewChanged(event) {
+    this.defaultActiveFilter = event;
+  }
+
+  filteredAgeGroupList(event) {
+    this.ageGroupList?.forEach((item) => {
+      if (item.id === event) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    this.selectedAgeGroup = event || "";
+    this.searchPlans("new");
+  }
+
+  filteredGroupList(event) {
+    this.groupList?.forEach((item) => {
+      if (item.id === event) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    this.selectedGroup = event || "";
+    this.searchPlans("new");
+  }
+
   async searchPlans(mode: string = "") {
     if (
       (mode =
@@ -2611,6 +2859,10 @@ export class PlansListComponent {
 
   toggleMyActivitiesHover(event) {
     this.myActivitiesHover = event;
+  }
+
+  showAdditionalFilter() {
+    this.defaultActiveFilter = !this.defaultActiveFilter;
   }
 
   ngOnDestroy() {

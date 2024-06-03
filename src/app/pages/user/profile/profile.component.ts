@@ -33,6 +33,17 @@ import {
   faEye,
   faEyeSlash,
 } from "@fortawesome/free-solid-svg-icons";
+import {
+  NgxMatDatetimePickerModule,
+  NgxMatNativeDateModule,
+  NgxMatTimepickerModule,
+} from "@angular-material-components/datetime-picker";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { DateAdapter } from '@angular/material/core';
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { EditorModule } from "@tinymce/tinymce-angular";
@@ -42,6 +53,12 @@ import keys from "lodash/keys";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { TutorHourlyateBanner } from "@pages/general/banner/tutor-hourly-rate.component";
 import moment from "moment";
+import "moment/locale/es";
+import "moment/locale/fr";
+import "moment/locale/eu";
+import "moment/locale/ca";
+import "moment/locale/de";
+import "moment/locale/it";
 
 @Component({
   standalone: true,
@@ -58,6 +75,15 @@ import moment from "moment";
     PageTitleComponent,
     ToastComponent,
     NgMultiSelectDropDownModule,
+    NgxMatDatetimePickerModule,
+    NgxMatTimepickerModule,
+    NgxMatNativeDateModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    MatFormFieldModule,
+    NgxMaterialTimepickerModule,
     TutorHourlyateBanner
   ],
   templateUrl: "./profile.component.html"
@@ -194,7 +220,8 @@ export class ProfileComponent {
     private _userService: UserService,
     private _tutorsService: TutorsService,
     private _snackBar: MatSnackBar,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private dateAdapter: DateAdapter<Date>,
     ) {}
     
   async ngOnInit() {
@@ -239,31 +266,30 @@ export class ProfileComponent {
         this.initializePage();
   }
 
-
-      
   async initializePage() {
-        this.pageTitle = this._translateService.instant("sidebar.profilesettings");
-        this.getUserMemberTypes();
-        
-        this.categoryDropdownSettings = {
-          singleSelection: this.companyId == 15 ? false : true,
-          idField: "id",
-          textField: "name",
-          selectAllText: this._translateService.instant("dialog.selectall"),
-          unSelectAllText: this._translateService.instant("dialog.clearall"),
-          itemsShowLimit: 1,
-          allowSearchFilter: true,
-          searchPlaceholderText: this._translateService.instant("guests.search"),
-        };
-        
-        this.customMemberTypes = get(
-          await this._userService.getCustomMemberTypes(this.companyId).toPromise(),
-          "member_types"
-          );
-          
-          this.features = this._localService.getLocalStorage(environment.lsfeatures)
-          ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
-          : "";
+    this.dateAdapter.setLocale('es-ES');
+    this.pageTitle = this._translateService.instant("sidebar.profilesettings");
+    this.getUserMemberTypes();
+    
+    this.categoryDropdownSettings = {
+      singleSelection: this.companyId == 15 ? false : true,
+      idField: "id",
+      textField: "name",
+      selectAllText: this._translateService.instant("dialog.selectall"),
+      unSelectAllText: this._translateService.instant("dialog.clearall"),
+      itemsShowLimit: 1,
+      allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant("guests.search"),
+    };
+    
+    this.customMemberTypes = get(
+      await this._userService.getCustomMemberTypes(this.companyId).toPromise(),
+      "member_types"
+      );
+      
+      this.features = this._localService.getLocalStorage(environment.lsfeatures)
+      ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
+      : "";
     if (!this.features) {
       this.features = await this._companyService
       .getFeatures(this.domain)
@@ -367,7 +393,6 @@ export class ProfileComponent {
       searchPlaceholderText: this._translateService.instant('guests.search')
     }
   }
-
 
   getContract() {
     this._companyService
@@ -1621,6 +1646,10 @@ export class ProfileComponent {
         ? type.type_de || type.type_es
         : type.type_es
       : type.type_es;
+  }
+
+  getMemberTypeDate(type) {
+    return  moment.utc(type.created_at).locale(this.language).format('D MMMM YYYY');
   }
 
   manageBilling() {

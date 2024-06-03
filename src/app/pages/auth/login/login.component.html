@@ -84,6 +84,7 @@
                 type="text"
                 placeholder="{{ ueLoginMode ? ('login.username' | translate) : ('login.emailaddress' | translate) }}"
                 formControlName="email"
+                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': loginForm.get('email')?.errors && formSubmitted}"
                 (input)="onInputChange()"
               />
             </div>
@@ -94,6 +95,7 @@
                 [type]="fieldTextType ? 'text' : 'password'"
                 placeholder="{{ 'login.password' | translate }}"
                 formControlName="password"
+                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': loginForm.get('email')?.errors && formSubmitted}"
               />
               <fa-icon
                 class="fa absolute inset-y-0 right-0 flex items-center px-4 text-gray-600"

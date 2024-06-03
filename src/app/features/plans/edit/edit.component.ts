@@ -506,6 +506,63 @@ export class PlanEditComponent {
   eventGuestRegFileName: any = '';
   planSubcategoryMapping: any = [];
   companyUrl: any = '';
+  ageGroupsList: any = [];
+  ageGroupFilterActive: boolean = false;
+  groupFilterActive: boolean = false;
+  selectedAgeGroup: any = '';
+
+  isBizumActive: boolean = false;
+  isBizumPayment: boolean = false;
+  showVideoSection: boolean = false;
+  eventVideoFileName: any = '';
+  @ViewChild('myPondVideo', {static: false}) myPondVideo: any;
+  pondVideoOptions = {
+    class: 'my-filepond-video',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+          const formData = new FormData();
+          let fileExtension = file ? file.name.split('.').pop() : '';
+          this.eventVideoFileName = 'p_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+          formData.append('file', file, this.eventVideoFileName);
+          localStorage.setItem('event_video_file', 'uploading');
+
+          const request = new XMLHttpRequest();
+          request.open('POST', environment.api + '/company/course/temp-upload');
+
+          request.upload.onprogress = (e) => {
+            progress(e.lengthComputable, e.loaded, e.total);
+          };
+
+          request.onload = function () {
+              if (request.status >= 200 && request.status < 300) {
+                load(request.responseText);
+                localStorage.setItem('event_video_file', 'complete');
+              } else {
+                error('oh no');
+              }
+          };
+
+          request.send(formData);
+
+          return {
+            abort: () => {
+              request.abort();
+              abort();
+            },
+          };
+      },
+    },
+  };
+  pondVideoFiles = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -748,6 +805,8 @@ export class PlanEditComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          this.ageGroupsList = data?.age_groups;
+
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data);
           this.mapUserPermissions(data?.user_permissions);
@@ -903,6 +962,9 @@ export class PlanEditComponent {
       this.isImageCenterButton = subfeatures.some(
         (a) => a.name_en == "Event registration with image and center button" && a.active == 1
       );
+      this.isBizumActive = subfeatures.some(
+        (a) => a.name_en == "Bizum" && a.active == 1
+      );
     }
 
     let languages = data?.languages;
@@ -976,6 +1038,13 @@ export class PlanEditComponent {
       //this.loadUsers()
     }
     this.showCategorySelect = true;
+
+    this.ageGroupFilterActive = subfeatures.some(
+      (a) => a.name_en == "Age group filter" && a.active == 1
+    );
+    this.groupFilterActive = subfeatures.some(
+      (a) => a.name_en == "Group filter" && a.active == 1
+    );
   }
 
   getFeatureTitle(feature) {
@@ -1383,6 +1452,8 @@ export class PlanEditComponent {
       guest_seats,
       netcultura,
       slug,
+      age_group_id,
+      bizum_pay,
     } = this.plan;
 
     if(this.types && this.types.length > 0) {
@@ -1626,18 +1697,13 @@ export class PlanEditComponent {
     if (this.planForm.controls["zoom_link"]) {
       this.planForm.controls["zoom_link"].setValue(zoom_link);
     }
-    this.showInvitationLink =
-      this.invitationLinkActive && invite_link == 1 ? true : false;
-    this.showGuestMemberSeat =
-      this.guestMemberSeatActive && guest_member_seats == 1 ? true : false;
-    this.showSeats =
-      this.guestMemberSeatActive && show_seats == 1 ? true : false;
-    this.displayCanaryTime =
-      this.showCanaryTime && hour_canary == 1 ? true : false;
-    this.waitingListEnabled =
-      this.waitingListActive && waiting_list == 1 ? true : false;
-    this.isStripePayment =
-      this.activityFeeEnabled && stripe_pay == 1 ? true : false;
+    this.showInvitationLink = this.invitationLinkActive && invite_link == 1 ? true : false;
+    this.showGuestMemberSeat = this.guestMemberSeatActive && guest_member_seats == 1 ? true : false;
+    this.showSeats = this.guestMemberSeatActive && show_seats == 1 ? true : false;
+    this.displayCanaryTime = this.showCanaryTime && hour_canary == 1 ? true : false;
+    this.waitingListEnabled = this.waitingListActive && waiting_list == 1 ? true : false;
+    this.isStripePayment = this.activityFeeEnabled && stripe_pay == 1 ? true : false;
+    this.isBizumPayment = this.activityFeeEnabled && bizum_pay == 1 ? true : false;
     this.credits = credits == 1 ? true : false;
     this.creditsValue = credits_value?.replace(',', '.');
     this.featured = featured == 1 ? true : false;
@@ -1689,6 +1755,7 @@ export class PlanEditComponent {
     this.status = this.plan.status == 1 ? true : false;
     this.createdByUser = this.plan?.fk_user_id || this.userId;
     this.netcultura = netcultura;
+    this.selectedAgeGroup = age_group_id || '';
   }
 
   mapCategories(category_mapping) {
@@ -2368,7 +2435,9 @@ export class PlanEditComponent {
     this.plan["member_seats"] = this.guestMemberSeatActive && this.planForm.get("member_seats")?.value ? this.planForm.get("member_seats")?.value : null;
     this.plan["guest_seats"] = this.guestMemberSeatActive && this.planForm.get("guest_seats")?.value ? this.planForm.get("guest_seats")?.value : null;
     this.plan["show"] = this.isShowPastEvent ? 1 : 0;
-    
+    this.plan['age_group_id'] = this.ageGroupFilterActive && this.selectedAgeGroup ? this.selectedAgeGroup : null;
+    this.plan["bizum_pay"] = this.isBizumActive && this.isBizumPayment ? 1 : 0;
+
     let event_reg_file_status = localStorage.getItem('event_reg_file')
     let event_reg_file = event_reg_file_status == 'complete' ? this.eventGuestRegFileName : ''
     this.plan["orig_image"] = this.isImageCenterButton ? event_reg_file : null
@@ -3208,12 +3277,15 @@ export class PlanEditComponent {
       'link',
       'lists',
       'media',
-      'image'
+      'image',
+      'mediauploader'
       ],
       toolbar:
       'undo redo | formatselect | bold italic | fontsize \
       alignleft aligncenter alignright alignjustify | \
       link | \
+      media | \
+      mediauploader | \
       image | \
       forecolor backcolor | \
       bullist numlist outdent indent | help | \
@@ -3254,6 +3326,41 @@ export class PlanEditComponent {
   removeSpecialCharacters(event): boolean {
     let regexStr = '^[a-zA-Z0-9-]*$';
     return new RegExp(regexStr).test(event.key);
+  }
+
+  insertVideo() {
+    this.showVideoSection = true;
+  }
+
+  pondHandleVideoInit() {
+    console.log('FilePond has initialised', this.myPondVideo);
+  }
+
+  pondHandleAddVideoFile(event: any) {
+    console.log('A file was added', event);
+    let event_video_file_status = localStorage.getItem('event_video_file');
+    let event_video_file = event_video_file_status == 'complete' ? this.eventVideoFileName : '';
+  }
+
+  pondHandleActivateVideoFile(event: any) {
+    console.log('A file was activated', event);
+  }
+
+  pondHandleProcessFiles() {
+    console.log('FilePond has processed files', this.myPondVideo);
+    let new_description = this.planForm.get("descriptionEs")?.value;
+    new_description += `<video style="width: 570px; height: 285px;" controls="controls" width="570" height="285"> <source src="${environment.api}/get-course-unit-file/${this.eventVideoFileName}"></video>
+    </p>`;
+    this.planForm.controls["descriptionEs"].setValue(new_description);
+    this.planForm.controls["descriptionEn"].setValue(new_description);
+    this.planForm.controls["descriptionFr"].setValue(new_description);
+    this.planForm.controls["descriptionEu"].setValue(new_description);
+    this.planForm.controls["descriptionCa"].setValue(new_description);
+    this.planForm.controls["descriptionDe"].setValue(new_description);
+    this.eventVideoFileName = '';
+    this.showVideoSection = false;
+    localStorage.setItem('event_reg_file', '');
+
   }
 
   async open(message: string, action: string) {

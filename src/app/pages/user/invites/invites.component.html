@@ -1,6 +1,6 @@
-<app-page-title title="{{ 'company-settings.myinvitations' | translate }}"></app-page-title>
+<app-page-title title="{{ mode == 'view' ? ('member-type-registration.viewguests' | translate) : ('company-settings.myinvitations' | translate) }}"></app-page-title>
 <div class="pt-6">
-    <div *ngIf="categories?.length > 0" class="p-6" [ngStyle]="{'background-color': '#F8F4F4', 'box-shadow': '0px 40px 54px -45px #00000099'}">
+    <div *ngIf="categories?.length > 0 && mode != 'view'" class="p-6" [ngStyle]="{'background-color': '#F8F4F4', 'box-shadow': '0px 40px 54px -45px #00000099'}">
         <div class="flex row flex-wrap justify-center">
             <ng-container *ngFor="let category of categories;let i = index;">
                 <div class="mb-4 px-4">

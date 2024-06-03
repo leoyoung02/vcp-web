@@ -18,6 +18,9 @@ import {
 } from "@angular-material-components/datetime-picker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { MatNativeDateModule } from "@angular/material/core";
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import {
   BreadcrumbComponent,
   ButtonGroupComponent,
@@ -70,6 +73,10 @@ import Fuse from 'fuse.js';
     MatFormFieldModule,
     MatInputModule,
     NgMultiSelectDropDownModule,
+    MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
+    NgxMaterialTimepickerModule,
     SearchComponent,
     BreadcrumbComponent,
     IconFilterComponent,
@@ -659,6 +666,9 @@ export class ManageUsersComponent {
         }
       }
 
+      if(this.companyId == 12) {
+        this.hasCustomMemberTypeSettings = true;
+      }
       if (this.hasCustomMemberTypeSettings) {
         this.getCustomMemberTypes(data?.member_types);
       }
@@ -766,6 +776,7 @@ export class ManageUsersComponent {
     this.members = [];
     this._userService.getCombinedMiembrosListPrefetch(this.companyId).subscribe(
       async (response) => {
+        console.log(response)
         this.members = response[0] ? response[0]["all_members"] : [];
         if(this.members?.length > 0 && !this.currentUser && this.userId) {
           let current_user = this.members?.filter(member => {
@@ -3010,7 +3021,8 @@ export class ManageUsersComponent {
   
                 if (super_tutor?.length > 0) {
                   let assigned_student_ids: any[] = [];
-                  super_tutor[0].super_tutor_students?.forEach((student) => {
+                  let super_tutor_students = get(await this._userService.getSuperTutorStudents(user.id).toPromise(), 'super_tutor_students');
+                  super_tutor_students?.forEach((student) => {
                     let member = this.allMembers.filter((member) => {
                       return member.id == student.user_id;
                     });
@@ -3053,7 +3065,8 @@ export class ManageUsersComponent {
                     : "";
                 if (potsuper_tutor?.length > 0) {
                   let assigned_student_ids: any[] = [];
-                  potsuper_tutor[0].super_tutor_students?.forEach((student) => {
+                  let pot_super_tutor_students = get(await this._userService.getPotSuperTutorStudents(user.id).toPromise(), 'potsuper_tutor_students');
+                  pot_super_tutor_students?.forEach((student) => {
                     let member = this.allMembers.filter((member) => {
                       return member.id == student.user_id;
                     });
@@ -3848,6 +3861,9 @@ export class ManageUsersComponent {
 
       let formData = [];
       formData = this.userForm?.value;
+      if(formData['city'] == '' && this.userRoleType == 'Admin SEDE' && this.adminSedeCity) {
+        formData['city'] = this.adminSedeCity
+      }
       formData["user_role"] = user_role;
       (formData["gar_thematic_group"] = 0), (formData["user_id"] = this.userId);
       formData["custom_member_type_id"] = this.hasCustomMemberTypeSettings

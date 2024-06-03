@@ -27,11 +27,14 @@
           <img
             [src]="menu?.new_button == 1 || (menu?.new_url == 1 && !menu?.original_path) ? 
               (menuColor == '#000000' ? 
-                (menu?.new_button == 1 ? './assets/menu-icons/menu-icon-colleague-dark.png' : './assets/menu-icons/menu-icon-mmbers-dark.png') : 
-                (menu?.new_button == 1 ? './assets/menu-icons/menu-icon-colleague.png' : './assets/menu-icons/menu-icon-members.png')
+                (menu?.new_button == 1 ? './assets/menu-icons/menu-icon-volunteering.png' : './assets/menu-icons/menu-icon-members-dark.png') : 
+                (menu?.new_button == 1 ? './assets/menu-icons/menu-icon-volunteering.png' : './assets/menu-icons/menu-icon-members.png')
               ) : getMenuIcon(menu)"
-            class="cursor-pointer w-[22px] max-w-[22px] h-[22px] max-h-[22px]"
-            [ngClass]="{'invisible': menu?.school_of_life_submenu == 1}"
+            class="cursor-pointer"
+            [ngClass]="{'invisible': menu?.school_of_life_submenu == 1, 
+              'w-[22px] max-w-[22px] h-[22px] max-h-[22px]': menu?.new_button != 1,
+              'w-[28px] max-w-[28px] h-[25px] max-h-[25px]': menu?.new_button == 1,
+            }"
             alt=""
           />
           <svg [ngClass]="{'has-history': hasHistoryOfActivities, 'no-history': !hasHistoryOfActivities}" style="width:45px;color:#fff;position:absolute;" 
@@ -43,15 +46,18 @@
           </svg>
           <span
             *ngIf="menuOpened"
-            class="text-sm ml-[36px]" 
-            [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}">
+            class="text-sm" 
+            [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}"
+            [ngClass]="{'ml-[36px]': menu?.new_button != 1,
+              'ml-[30px]': menu?.new_button == 1
+            }">
             {{ getMenuTitle(menu) }}
           </span>
         </div>
       </div>
     </ng-container>
   </ng-container>
-  <ng-container *ngIf="username && isAdmin">
+  <ng-container *ngIf="username && (isAdmin || canAccessPlatformSettings)">
     <div class="px-4 py-2 hover:cursor-pointer" [routerLink]="['/settings']">
       <div class="p-2 flex items-center hover:rounded-lg"
         [ngStyle]="{'background-color': settingsHover ? hoverColor : 'transparent'}"

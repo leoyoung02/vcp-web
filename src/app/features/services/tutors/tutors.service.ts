@@ -31,11 +31,13 @@ import {
   COURSE_SUBSCRIPTIONS_URL,
   COURSE_TUTOR_TYPES_URL,
   CREDIT_PACKAGES_URL,
+  DELETE_BOOKING_URL,
   DELETE_COMMISSION_URL,
   DELETE_CREDIT_PACKAGE_URL,
   DELETE_TUTOR_PACKAGE_URL,
   DELETE_TUTOR_TYPE_URL,
   DURATION_UNITS_URL,
+  EDIT_ASSIGNED_TUTOR_URL,
   EDIT_BOOKING_STATUS_URL,
   EDIT_CREDIT_PACKAGE_STATUS_URL,
   EDIT_CREDIT_PACKAGE_URL,
@@ -558,6 +560,18 @@ export class TutorsService {
   updateTransferProcessingStatus(payload): Observable<any> {
     return this._http.post(`${UPDATE_TRANSFER_QUEUE_URL}`,
       payload
+    ).pipe(map(res => res));
+  }
+
+  deleteBooking(id): Observable<any> {
+    return this._http.delete(`${DELETE_BOOKING_URL}/${id}`,
+        {},
+    ).pipe(map(res => res));
+  }
+
+  editAssignedTutor(params): Observable<any> {
+    return this._http.post(EDIT_ASSIGNED_TUTOR_URL,
+        params
     ).pipe(map(res => res));
   }
 }

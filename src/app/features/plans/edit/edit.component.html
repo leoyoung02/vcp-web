@@ -390,6 +390,22 @@
                     >
                     </ng-multiselect-dropdown>
                 </div>
+                <div class="flex items-center justify-center relative" *ngIf="ageGroupFilterActive">
+                    <select
+                        id="age-group"
+                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                        [(ngModel)]="selectedAgeGroup"
+                        [ngModelOptions]="{standalone: true}"
+                    >
+                        <option value="" disabled selected>{{ 'plan-create.selectagegroup' | translate }}</option>
+                        <option
+                            *ngFor="let item of ageGroupsList"
+                            [value]="item.id"
+                        >
+                            {{ item.age_group }}
+                        </option>
+                    </select>
+                </div>
                 <div class="flex items-center justify-center relative">
                     <input
                         type="number"
@@ -477,6 +493,25 @@
                             {{ language == 'en' ? type.type_en : (language == 'fr' ? type.type_fr : type.type_es) }}
                         </option>
                     </select>
+                </div>
+                <div class="flex items-center mt-4 w-full mx-auto" *ngIf="isBizumActive && activityFeeEnabled && withFee">
+                    <label class="checkbox-container">
+                        <div class="flex mb-4">
+                            <input 
+                                id="bizumpayment" 
+                                type="checkbox"
+                                [(ngModel)]="isBizumPayment" 
+                                [ngModelOptions]="{standalone: true}"
+                                [ngStyle]="{'color': isBizumPayment ? 'text-blue-500' : 'text-gray-900'}"
+                                class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                            >
+                            <label for="bizumpayment" class="-mt-1 ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
+                                <span>
+                                    {{ 'edit-plan.bizumpayment' | translate }}
+                                </span>
+                            </label>
+                        </div>
+                    </label>
                 </div>
                 <ng-container *ngIf="showZoomLink && showMeetingLinks">
                     <div class="flex items-center justify-center relative">
@@ -1002,9 +1037,33 @@
                     </div>
                 </div>
             </ng-container>
-            <div class="flex items-center border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 my-8">
+            <div class="flex items-center border border-b-2 border-l-0 border-r-0 border-t-0 mt-8">
                 <img class="w-6 object-contain mr-4" src="./assets/images/new-design/icons/Write.png" />
                 <div class="font-light text-xl">{{ 'job-offers.description' | translate }}</div>
+            </div>
+            <div class="flex items-center justify-center mb-2 w-full sm:w-full md:w-2/12 lg:w-2/12">
+                <button
+                    type="button"
+                    class="w-full inline-block h-[40px] text-sm px-6 py-2 mt-4 font-semibold text-white rounded-[10px] hover:bg-black hover:text-white focus:ring-4 focus:ring-offset-black focus:outline-none"
+                    [ngStyle]="{'background-color': buttonColor}"
+                    (click)="insertVideo()"
+                >
+                    {{ 'edit-plan.insertvideo' | translate }}
+                </button>
+            </div>
+            <div class="flex items-center justify-center mb-4 relative" *ngIf="showVideoSection">
+                <div class="w-full max-w-full">
+                    <file-pond
+                        #myPondVideo
+                        [options]="pondVideoOptions"
+                        [files]="pondVideoFiles"
+                        (oninit)="pondHandleVideoInit()"
+                        (onaddfile)="pondHandleAddVideoFile($event)"
+                        (onactivatefile)="pondHandleActivateVideoFile($event)"
+                        (onprocessfiles)="pondHandleProcessFiles()"
+                    >
+                    </file-pond>
+                </div>
             </div>
             <div class="flex items-center justify-center mb-4 relative">
                 <editor

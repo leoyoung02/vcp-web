@@ -199,6 +199,43 @@ export class PersonalizeHomeComponent {
   showCourses: boolean = false
   showEvents: boolean = false
 
+  selectedSetting: any
+  selectedSettingTitle: any = ''
+  modalTextNumber: any = 1
+  modalTextValues: any = []
+  showValueModal: boolean = false
+  selectedSettingId: any
+  selectedSettingValue: any
+  newValue: any
+  fieldType: any = ''
+  selectedReferralRateType: any = ''
+  dialogMode: string = ""
+  dialogTitle: any
+  selectedSettingItem: any
+  setting: any
+  settings: any
+  settings2: any
+  showEditHomeTextModal: boolean = false
+  homeTextValue: any
+  homeTextValueEn: any
+  homeTextValueFr: any
+  homeTextValueEu: any
+  homeTextValueCa: any
+  homeTextValueDe: any
+  languages: any = []
+  isFrenchEnabled: boolean = false
+  isEnglishEnabled: boolean = false
+  isBasqueEnabled: boolean = false
+  isCatalanEnabled: boolean = false
+  isGermanEnabled: boolean = false
+  isUESchoolOfLife: boolean = false
+  @ViewChild("modalbutton", { static: false }) modalbutton:
+    | ElementRef
+    | undefined
+  @ViewChild("closemodalbutton", { static: false }) closemodalbutton:
+    | ElementRef
+    | undefined
+
   constructor(
     private _router: Router,
     private _companyService: CompanyService,
@@ -228,6 +265,7 @@ export class PersonalizeHomeComponent {
     }
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
+      this.isUESchoolOfLife = this._companyService.isUESchoolOfLife(company[0]);
       this.company = company[0];
       this.companyId = company[0].id;
       this.domain = company[0].domain;
@@ -235,6 +273,12 @@ export class PersonalizeHomeComponent {
       this.buttonColor = company[0].button_color
         ? company[0].button_color
         : company[0].primary_color;
+      this.homeTextValue = company[0].home_text || 'Inicio';
+      this.homeTextValueEn = company[0].home_text_en || 'Home';
+      this.homeTextValueFr = company[0].home_text_fr || 'Maison';
+      this.homeTextValueEu = company[0].home_text_eu || 'Hasi';
+      this.homeTextValueCa = company[0].home_text_ca || 'Inici';
+      this.homeTextValueDe = company[0].home_text_de || 'Anfang';
     }
 
     this.languageChangeSubscription =
@@ -253,6 +297,75 @@ export class PersonalizeHomeComponent {
     this.initializeBreadcrumb();
     this.initializeHomeTemplates();
     this.getCompanyFeatures();
+    this.fetchSettingsData();
+  }
+
+  fetchSettingsData() {
+    this._companyService.fetchManageSettingsData(4, this.companyId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        data => {
+          this.mapCategorySettings(data);
+          this.initializeLanguages(data?.languages);
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  initializeLanguages(languages) {
+    this.languages = languages ? languages.filter(lang => { return lang.status == 1 }) : []
+
+    if(this.languages) {
+        let french = this.languages.filter(lang => { return lang.code == 'fr' && lang.status == 1 })
+        this.isFrenchEnabled = french && french[0] ? true : false
+
+        let english = this.languages.filter(lang => { return lang.code == 'en' && lang.status == 1 })
+        this.isEnglishEnabled = english && english[0] ? true : false
+
+        let basque = this.languages.filter(lang => { return lang.code == 'eu' && lang.status == 1 })
+        this.isBasqueEnabled = basque && basque[0] ? true : false
+
+        let catalan = this.languages.filter(lang => { return lang.code == 'ca' && lang.status == 1 })
+        this.isCatalanEnabled = catalan && catalan[0] ? true : false
+
+        let german = this.languages.filter(lang => { return lang.code == 'de' && lang.status == 1 })
+        this.isGermanEnabled = german && german[0] ? true : false
+    }
+  }
+
+  mapCategorySettings(data) {
+    this.setting = data?.setting ? (data?.setting?.setting?.length > 0 ? data?.setting?.setting[0] : '') : {}
+
+    let other_settings = data?.other_settings
+    if(other_settings) {
+        other_settings.content = other_settings?.content.filter(ots => {
+            return ots.title_en != 'Different welcome email template for members'
+        })
+        this.settings = other_settings.content
+        this.settings = this.removeUnusedSettings(this.settings);
+        this.settings2 = other_settings.content
+
+        let multipleStripeAccountSeeting = this.settings.some(a => a.title_en == 'Multiple Stripe Accounts' && a.active == 1)
+        if(multipleStripeAccountSeeting){
+            this.settings = this.settings.filter((setting) => {
+                return setting.title_en == 'Multiple Stripe Accounts'
+            })
+        }
+    }
+  }
+
+  removeUnusedSettings(settings) {
+    return settings?.filter(setting => {
+      return setting.title_en != 'Quizzes' && 
+      setting.title_en != 'Banner image link' &&
+      setting.title_en != 'Monday as calendar start day' &&
+      setting.title_en != 'Links access to terms and policies' && 
+      setting.title_en != 'Contact Us' &&
+      setting.title_en != 'Supported languages' &&
+      setting.title_en != 'Section title and dividing line'
+    })
   }
 
   initializeBreadcrumb() {
@@ -277,24 +390,69 @@ export class PersonalizeHomeComponent {
         id: 1,
         name: `${this._translateService.instant('leads.layout')} 1`,
         image: `${environment.api}/get-image-company/home_template_1.png`,
-        active: this.company?.predefined_template_id == 1 ? true : false,
+        active: 
+          (this.companyId != 32 && this.company?.predefined_template_id == 1) || 
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && this.company?.predefined_vida_template_id == 1) ||
+              (this.isUESchoolOfLife && this.company?.predefined_sol_template_id == 1)
+            )
+          ) ? true : false,
       },
       {
         id: 2,
         name: `${this._translateService.instant('leads.layout')} 2`,
         image: `${environment.api}/get-image-company/home_template_2.png`,
-        active: this.company?.predefined_template_id == 2 ? true : false
+        active: 
+          (this.companyId != 32 && this.company?.predefined_template_id == 2) || 
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && this.company?.predefined_vida_template_id == 2) ||
+              (this.isUESchoolOfLife && this.company?.predefined_sol_template_id == 2)
+            )
+          ) ? true : false,
       },
       {
         id: 3,
         name: `${this._translateService.instant('leads.layout')} 3`,
         image: `${environment.api}/get-image-company/home_template_3.png`,
         active: !this.company?.predefined_template_id && !this.company?.predefined_template ? true : false
+      },
+      {
+        id: 4,
+        name: `${this._translateService.instant('leads.layout')} 4`,
+        image: `${environment.api}/get-image-company/home_template_4.png`,
+        active: 
+          (this.companyId != 32 && this.company?.predefined_template_id == 4) || 
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && this.company?.predefined_vida_template_id == 4) ||
+              (this.isUESchoolOfLife && this.company?.predefined_sol_template_id == 4)
+            )
+          ) ? true : false,
+      },
+      {
+        id: 5,
+        name: `${this._translateService.instant('leads.layout')} 5`,
+        image: `${environment.api}/get-image-company/home_template_5.png`,
+        active: 
+          (this.companyId != 32 && this.company?.predefined_template_id == 5) || 
+          (this.companyId == 32 && 
+            (
+              (!this.isUESchoolOfLife && this.company?.predefined_vida_template_id == 5) ||
+              (this.isUESchoolOfLife && this.company?.predefined_sol_template_id == 5)
+            )
+          ) ? true : false,
       }
     );
-    this.activeLayoutId = this.company?.predefined_template_id == 1 ? 1 : (
-      this.company?.predefined_template_id == 2 ? 2 : (
-        (!this.company?.predefined_template_id && !this.company?.predefined_template) ? 3 : 0
+    let template_id = this.isUESchoolOfLife ? this.company?.predefined_sol_template_id : (this.company?.predefined_vida_template_id || this.company?.predefined_template_id);
+    this.activeLayoutId = template_id == 1 ? 1 : (
+      template_id == 2 ? 2 : (
+        template_id == 4 ? 4 : (
+          template_id == 5 ? 5 : (
+            (!template_id && !this.company?.predefined_template) ? 3 : 0
+          )
+        )
       )
     )
   }
@@ -586,13 +744,41 @@ export class PersonalizeHomeComponent {
     if(settings?.videos?.length > 0) {
       settings?.videos.forEach(video => {
         this.playlist.push({
-          title: video?.title,
+          title: this.getVideoTitle(video),
           src: `${environment.api}/get-course-unit-file/${video?.video}`,
           type: 'video/mp4',
           poster: `${environment.api}/get-image-company/${video?.poster}`
         })
       })
     }
+  }
+
+  getVideoTitle(video) {
+    return this.language == "en"
+      ? video.title_en
+        ? video.title_en || video.title
+        : video.title
+      : this.language == "fr"
+      ? video.title_fr
+        ? video.title_fr || video.title
+        : video.title
+      : this.language == "eu"
+      ? video.title_eu
+        ? video.title_eu || video.title
+        : video.title
+      : this.language == "ca"
+      ? video.title_ca
+        ? video.title_ca || video.title
+        : video.title
+      : this.language == "de"
+      ? video.title_de
+        ? video.title_de || video.title
+        : video.title
+      : this.language == "it"
+      ? video.title_it
+        ? video.title_it || video.title
+        : video.title
+      : video.title;
   }
 
   initializeHomeTemplate(template, home_template_mapping) {
@@ -691,13 +877,42 @@ export class PersonalizeHomeComponent {
   formatFeatures(features, settings) {
     features = features?.map((item) => {
       let activated_section = settings?.modules?.find(f => f.module_id == item?.id);
+
+      let module_order
+      if(this.companyId == 32) {
+        module_order = this.isUESchoolOfLife ? 
+          (activated_section?.module_sol_order || activated_section?.module_order || 'latest') :
+          (activated_section?.module_vida_order || activated_section?.module_order || 'latest')
+      } else {
+        module_order = activated_section?.module_order || 'latest'
+      }
+
+      let module_limit
+      if(this.companyId == 32) {
+        module_limit = this.isUESchoolOfLife ? 
+          (activated_section?.module_sol_limit || activated_section?.module_limit || 4) :
+          (activated_section?.module_vida_limit || activated_section?.module_limit || 4)
+      } else {
+        module_limit = activated_section?.module_limit || 4
+      }
+
+      let module_calendar
+      if(this.companyId == 32) {
+        module_calendar = this.isUESchoolOfLife ? 
+          (activated_section?.module_sol_calendar || activated_section?.module_calendar || 0) :
+          (activated_section?.module_vida_calendar || activated_section?.module_calendar || 0)
+      } else {
+        module_calendar = activated_section?.module_calendar || 0
+      }
+    
       return {
         ...item,
         checked: activated_section ? true : false,
         id: item?.id,
         title: this.getFeatureTitle(item),
-        order: activated_section ? activated_section?.module_order : 'latest',
-        limit: activated_section ? activated_section?.module_limit : 4,
+        order: module_order,
+        limit: module_limit,
+        calendar: module_calendar,
       };
     });
     if(features?.length > 0) {
@@ -719,24 +934,49 @@ export class PersonalizeHomeComponent {
   }
 
   getFeatureTitle(feature) {
-    return feature
+    let text = feature
       ? this.language == "en"
-        ? feature.name_es ||
+        ? feature.name_en ||
+          feature.feature_name ||
+          feature.name_es ||
           feature.feature_name_es
         : this.language == "fr"
         ? feature.name_fr ||
+          feature.feature_name_fr ||
+          feature.name_es ||
           feature.feature_name_es
         : this.language == "eu"
         ? feature.name_eu ||
+          feature.feature_name_eu ||
+          feature.name_es ||
           feature.feature_name_es
         : this.language == "ca"
         ? feature.name_ca ||
+          feature.feature_name_ca ||
+          feature.name_es ||
           feature.feature_name_es
         : this.language == "de"
-        ? feature.de ||
-          feature.name_es
-        : feature.name_es
+        ? feature.name_de ||
+          feature.feature_name_de ||
+          feature.name_es ||
+          feature.feature_name_es
+        : this.language == "it"
+        ? feature.name_it ||
+          feature.feature_name_it ||
+          feature.name_es ||
+          feature.feature_name_es
+        : feature.name_es || feature.feature_name_es
       : "";
+
+    if(this.isUESchoolOfLife && text?.indexOf('de Vida Universitaria') >= 0) {
+      text = text?.replace('de Vida Universitaria', 'de School of Life')
+    }
+
+    if(this.companyId == 32 && !this.isUESchoolOfLife) {
+      text = text?.replace("University Life Activities School of Life", "School of Life Activities")
+    }
+
+    return text;
   }
 
   goToTemplateStep() {
@@ -749,10 +989,10 @@ export class PersonalizeHomeComponent {
     this.isTemplateStep = false;
     this.isTemplateStepCompleted = true;
     
-    if(this.activeLayoutId != 1) {  
-      this.isContentStep = true;
-    } else {
+    if(this.activeLayoutId == 1 || this.activeLayoutId == 4 || this.activeLayoutId == 5) {  
       this.goToSectionsStep();
+    } else {
+      this.isContentStep = true;
     }
   }
 
@@ -904,6 +1144,8 @@ export class PersonalizeHomeComponent {
   handleActivate(id) {
     let params = {
       company_id: this.companyId,
+      school_of_life: this.isUESchoolOfLife,
+      sol_layout_id: this.isUESchoolOfLife ? id : null,
       layout_id: id,
     }
     this._companyService.activateHomeTemplate(params)
@@ -949,10 +1191,10 @@ export class PersonalizeHomeComponent {
         this.isTemplateStep = true;
         this.isTemplateStepCompleted = false;
         
-        if(this.activeLayoutId != 1) {  
-          this.isContentStep = false;
-        } else {
+        if(this.activeLayoutId == 1 || this.activeLayoutId == 4 || this.activeLayoutId == 5) {  
           this.goToSectionsStep();
+        } else {
+          this.isContentStep = false;
         }
 
         setTimeout(() => {
@@ -969,6 +1211,7 @@ export class PersonalizeHomeComponent {
     })
     let params = {
       company_id: this.companyId,
+      school_of_life: this.isUESchoolOfLife,
       modules,
     }
     this._companyService.editHomeTemplateSections(params)
@@ -983,6 +1226,179 @@ export class PersonalizeHomeComponent {
   }
 
   handleProfileContent(event) {
+  }
+
+  getSettingItemTitle(item) {
+    return this.language == 'en' ? item.title_en : (this.language == 'fr' ? item.title_fr : 
+      (this.language == 'eu' ? item.title_eu : (this.language == 'ca' ? item.title_ca : 
+      (this.language == 'de' ? item.title_de : (this.language == 'it' ? item.title_it : item.title_es)
+      )))
+    )
+  }
+
+  getSettingItemDescription(item) {
+    return this.language == 'en' ? item.description_en : (this.language == 'fr' ? item.description_fr : 
+      (this.language == 'eu' ? item.description_eu : (this.language == 'ca' ? item.description_ca : 
+      (this.language == 'de' ? item.description_de : (this.language == 'it' ? item.description_it : item.description_es)
+      )))
+    )
+  }
+
+  getSettingTitle(setting) {
+    this.selectedSetting = setting
+    if(this.selectedSetting) {
+      this.selectedSettingTitle = this.language == 'en' ? (this.selectedSetting.title_en ? (this.selectedSetting.title_en || this.selectedSetting.title_es) : this.selectedSetting.title_es) :
+        (this.language == 'fr' ? (this.selectedSetting.title_fr ? (this.selectedSetting.title_fr || this.selectedSetting.title_es) : this.selectedSetting.title_es) : 
+          (this.language == 'eu' ? (this.selectedSetting.title_eu ? (this.selectedSetting.title_eu || this.selectedSetting.title_es) : this.selectedSetting.title_es) : 
+              (this.language == 'ca' ? (this.selectedSetting.title_ca ? (this.selectedSetting.title_ca || this.selectedSetting.title_es) : this.selectedSetting.title_es) : 
+                  (this.language == 'de' ? (this.selectedSetting.title_de ? (this.selectedSetting.title_de || this.selectedSetting.title_es) : this.selectedSetting.title_es) : 
+                    (this.language == 'it' ? (this.selectedSetting.title_it ? (this.selectedSetting.title_it || this.selectedSetting.title_es) : this.selectedSetting.title_es) : this.selectedSetting.title_es)
+              ))
+          )
+        )
+    }
+  }
+
+  multiInputEvent(event: any, i: number): void {
+    if(event && event.target.value){
+      this.modalTextValues[i] = event.target.value
+    }
+  }
+
+  changeValue(id, value, type = '') {
+    if(type.indexOf('text') >= 0 && type.length > 4){
+      this.modalTextNumber = type.substring(4);
+      this.modalTextValues = value.split(',');
+    }else {
+      this.modalTextNumber = 1
+      this.modalTextValues = []
+    }
+    this.showValueModal = true
+    this.selectedSettingId = id
+    this.selectedSettingValue = value
+    this.newValue = value
+    this.fieldType = type
+    this.selectedReferralRateType = type == 'select' ? value : ''
+
+    this.dialogMode = "update-value";
+    let setting_row = this.settings?.filter(setting => {
+      return setting.id == this.selectedSettingId
+    })
+    this.selectedSettingItem = {};
+    if(setting_row?.length > 0) {
+      this.selectedSettingItem = setting_row[0];
+      this.getSettingTitle(setting_row[0]); 
+    }
+    this.dialogTitle =  this.selectedSettingTitle
+    this.dialogTitle = this.selectedSettingTitle || this._translateService.instant('company-settings.updatevalue');
+    this.modalbutton?.nativeElement.click();
+  }
+
+  saveDialog() {
+    if(this.dialogMode == 'update-value') {
+      this.saveValue();
+    } else if(this.dialogMode == 'update-home-text') {
+      this.saveHomeTextValue();
+    }
+  }
+
+  saveValue() {
+    let updatedStripeKeys = false
+    if(this.selectedSettingValue && this.newValue && this.newValue != this.selectedSettingValue && this.selectedSettingValue.indexOf('sk_') >= 0) {
+      updatedStripeKeys = true
+    }
+
+    let params;
+    if(this.modalTextNumber > 1){
+      params = {
+        value: this.modalTextValues.toString(),
+        company_id: this.companyId,
+        updated_stripe_keys: updatedStripeKeys ? 1 : 0
+      }
+    } else {
+      params = {
+        value: this.newValue,
+        company_id: this.companyId,
+        updated_stripe_keys: updatedStripeKeys ? 1 : 0
+      }
+    }
+    this._companyService.updateOtherSettingValue(this.selectedSettingId, params)
+      .subscribe(
+        response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          const item = this.settings.find((i) => i.id == this.selectedSettingId);
+          
+          if (item){
+            if(this.modalTextNumber > 1){
+              item.value = this.modalTextValues.toString();
+            }else {
+              item.value = this.newValue;
+            }
+          }
+
+          if(updatedStripeKeys) {
+            this._translateService.instant('dialog.stripekeyupdated')
+          }
+
+          this.closemodalbutton?.nativeElement.click();
+          this.dialogMode = '';
+
+          if(this.selectedSettingId == 291) {
+            location.reload()
+          }
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  openEditHomeTextModal(setting) {
+    this.showEditHomeTextModal = true;
+    this.dialogMode = "update-home-text";
+    this.getSettingTitle(setting);
+    this.dialogTitle =  this.selectedSettingTitle
+    this.dialogTitle = this.selectedSettingTitle || this._translateService.instant('company-settings.updatevalue');
+    this.modalbutton?.nativeElement.click();
+  }
+
+  saveHomeTextValue() {
+    if(!this.homeTextValue) {
+      return false
+    }
+
+    let params = {
+      company_id: this.companyId,
+      home_text: this.homeTextValue,
+      home_text_en: this.homeTextValueEn || this.homeTextValue,
+      home_text_fr: this.homeTextValueFr || this.homeTextValue,
+      home_text_eu: this.homeTextValueEu || this.homeTextValue,
+      home_text_ca: this.homeTextValueCa || this.homeTextValue,
+      home_text_de: this.homeTextValueDe || this.homeTextValue,
+    }
+    this._companyService.saveHomeText(params)
+      .subscribe(
+        async (response) => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          this.showEditHomeTextModal = false
+          this.setMainService(true);
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  async setMainService(reload: boolean = true) {
+    this.companies = get(await this._companyService.getCompanies().toPromise(), 'companies')
+    this._companyService.getCompany(this.companies)
+    if(reload) { location.reload() }
+  }
+
+  showFeatureInCheckboxList(feature) {
+    return this.companyId != 32 || 
+      (this.companyId == 32 && !this.isUESchoolOfLife && feature?.id != 11) || 
+      (this.companyId == 32 && this.isUESchoolOfLife && (feature?.id == 1 || feature?.id == 11))
   }
 
   handleGoBack() {

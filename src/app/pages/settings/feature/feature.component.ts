@@ -147,6 +147,13 @@ export class FeatureComponent {
   selectedFilter: any = '';
   featuredTextValueIt: any;
 
+  filterSettings: any = [];
+  categoryStatus: boolean = false;
+  ageGroupFilterActive: boolean = false;
+  groupFilterActive: boolean = false;
+  hasClubsFeature: boolean = false;
+  clubTitle: any = '';
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -216,12 +223,11 @@ export class FeatureComponent {
   }
 
   initializeFeature() {
-    let companyFeatures = this._localService.getLocalStorage(
-      environment.lsfeatures
-    )
+    let companyFeatures = this._localService.getLocalStorage(environment.lsfeatures)
       ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
       : "";
     if (companyFeatures?.length > 0) {
+      this.mapFeatures(companyFeatures);
       let feature_row = companyFeatures.filter((f) => {
         return f.id == this.id;
       });
@@ -247,10 +253,7 @@ export class FeatureComponent {
       this.featureNameCa = feature ? feature.name_ca || feature.name_es : "";
       this.featureNameDe = feature ? feature.name_de || feature.name_es : "";
       this.featureNameIt = feature ? feature.name_it || feature.name_es : "";
-      this.isEmploymentChannelFeature =
-        this.featureNameEn == "Employment Channel" || feature.feature_id == 18
-          ? true
-          : false;
+      this.isEmploymentChannelFeature = this.featureNameEn == "Employment Channel" || feature.feature_id == 18 ? true : false;
       if (this.isEmploymentChannelFeature) {
         this.loadLists();
       }
@@ -260,11 +263,26 @@ export class FeatureComponent {
       }
       this.getSubfeatures();
     }
+    this.initializeFilterSettings(this.id);
     this.initializeLanguage();
     this.initializeActionButtons();
     this.initializeBreadcrumb();
     this.initializeSearch();
     this.initializePage();
+  }
+
+  initializeFilterSettings(id) {
+    this._companyService
+      .getModuleFilterSettings(this.companyId, id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response) => {
+          this.filterSettings = response.filter_settings;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   initializeLanguage() {
@@ -357,7 +375,11 @@ export class FeatureComponent {
       { id: 30, name_en: "Candidates display" },
       { id: 31, name_en: "Tags" },
       { id: 32, name_en: "Filter" },
-      { id: 32, name_en: "Categories filter" },
+      { id: 33, name_en: "Categories filter" },
+      { id: 34, name_en: "Age group filter" },
+      { id: 35, name_en: "Members filter" },
+      { id: 36, name_en: "Tutors filter" },
+      { id: 37, name_en: "Testimonials filter" },
     ];
   }
 
@@ -467,6 +489,9 @@ export class FeatureComponent {
       case "Vimeo":
       case "Filter":
       case "Categories filter":
+      case "Members filter":
+      case "Tutors filter":
+      case "Testimonials filter":
       case "Candidates display":
         this.openSettingModal(row);
         break;
@@ -497,7 +522,14 @@ export class FeatureComponent {
       case "Tags":
         this.goToTestimonialTags(row);
         break;
+      case "Age group filter":
+        this.goToAgeGroups(row);
+        break;
     }
+  }
+
+  goToAgeGroups(row) {
+    this._router.navigate(["/settings/age-groups"]);
   }
 
   openSettingModal(row) {
@@ -567,6 +599,9 @@ export class FeatureComponent {
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Filter":
+      case "Members filter":
+      case "Tutors filter":
+      case "Testimonials filter":
       case "Categories filter":
         this.getSettingTitle(row);
         this.updateFilter();
@@ -851,6 +886,11 @@ export class FeatureComponent {
     return subfeatures
   }
 
+  mapFeatures(features) {
+    let clubFeature = features?.find((f) => f.id == 5);
+    this.clubTitle = clubFeature ? this.getOtherFeatureTitle(clubFeature) : "";
+  }
+
   getSubfeatures() {
     this._companyService
       .getSubFeaturesCombined(this.id, this.companyId)
@@ -875,6 +915,7 @@ export class FeatureComponent {
           });
           this.companySubfeatures = subfeatures;
           this.allCompanySubfeatures = subfeatures;
+          this.mapSubfeatures(subfeatures);
           setTimeout(() => {
             this.refreshDataSource(this.companySubfeatures);
           }, 500);
@@ -884,6 +925,17 @@ export class FeatureComponent {
           console.log(error);
         }
       );
+  }
+
+  mapSubfeatures(subfeatures) {
+    if (subfeatures?.length > 0) {
+      this.ageGroupFilterActive = subfeatures.some(
+        (a) => a.name_en == "Age group filter" && a.active == 1
+      );
+      this.groupFilterActive = subfeatures.some(
+        (a) => a.name_en == "Group filter" && a.active == 1
+      );
+    }
   }
 
   refreshDataSource(list) {
@@ -2080,6 +2132,7 @@ export class FeatureComponent {
             this.selectedFilter = filter_settings?.filter_type;
           }
           this.showFilterModal = true;
+          this.loadFilterSettings();
         },
         error => {
           console.log(error)
@@ -2087,27 +2140,132 @@ export class FeatureComponent {
       )
   }
 
-  saveFilter() {
-      let params = {
-        company_id: this.companyId,
-        feature_id: this.id,
-        filter_type: this.selectedFilter
+  loadFilterSettings() {
+    if(this.filterSettings?.length == 0) {
+      if(this.id != 3) {
+        this.filterSettings.push({
+          id: 1,
+          company_id: this.companyId,
+          feature_id: this.id,
+          field: 'category',
+          text: this._translateService.instant('plan-details.category'),
+          display: this.selectedFilter || 'dropdown',
+          status: true,
+          select_text: '',
+        })
       }
-      this._companyService.editFilterSettings(params)
-      .subscribe(
-        response => {
-          this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
-          this.closesettingmodalbutton?.nativeElement?.click();
-        },
-        error => {
-          console.log(error)
+      if(
+        (this.companyId != 12 && (this.id == 1 || this.id == 3 || this.id == 5 || this.id == 15 || this.id == 18 || this.id == 20)) ||
+        (this.companyId == 12 && this.id == 15)
+      ) {
+        this.filterSettings.push({
+          id: 2,
+          company_id: this.companyId,
+          feature_id: this.id,
+          field: 'city',
+          text: this.id == 15 && this.companyId == 12 ? this._translateService.instant('company-settings.postalcode') : this._translateService.instant('profile-settings.city'),
+          display: 'dropdown',
+          status: true,
+          select_text: '',
+        })
+      }
+
+      if(this.id == 1 || this.id == 15) {
+        if(this.ageGroupFilterActive) {
+          this.filterSettings.push({
+            id: 3,
+            company_id: this.companyId,
+            feature_id: this.id,
+            field: 'age_group',
+            text: this._translateService.instant('landing.agegroup'),
+            display: 'dropdown',
+            status: true,
+            select_text: '',
+          })
         }
-      )
+        if(this.id == 1) {
+          if(this.groupFilterActive) {
+            this.filterSettings.push({
+              id: 4,
+              company_id: this.companyId,
+              feature_id: this.id,
+              field: 'group',
+              text: this.clubTitle,
+              display: 'dropdown',
+              status: true,
+              select_text: '',
+            })
+          }
+        }
+      }
+    } else {
+      let filterSettings = this.filterSettings;
+      this.filterSettings = [];
+      filterSettings?.forEach(fs => {
+        let text = ''
+        switch(fs.field) {
+          case 'category':
+            text = this._translateService.instant('plan-details.category');
+            break;
+          case 'city':
+            text = this._translateService.instant('profile-settings.city');
+            break;
+          case 'age_group':
+            text = this._translateService.instant('landing.agegroup');
+            break;
+          case 'group':
+            text = this.clubTitle;
+            break;
+        }
+        let filter = {
+          id: fs.id,
+          company_id: fs.company_id,
+          feature_id: fs.feature_id,
+          field: fs.field,
+          text,
+          display: fs.feature_id == 1 ? fs.filter_type : 'dropdown',
+          status: fs.status == 1 || fs.active == 1 ? true : false,
+          select_text: fs.select_text,
+        }
+
+        if(fs.field == 'category') {
+          this.selectedFilter = fs.filter_type;
+        }
+        
+        this.filterSettings.push(filter)
+      })
+    }
+  }
+
+  saveFilter() {
+    this._companyService.editModuleFilterSettings({
+      company_id: this.companyId,
+      feature_id: this.id,
+      filter_settings: this.filterSettings
+    })
+    .subscribe(
+      response => {
+        this.initializeFilterSettings(this.id);
+        this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+        this.closesettingmodalbutton?.nativeElement?.click();
+      },
+      error => {
+        console.log(error)
+      }
+    )
   }
 
   handleFilterChange(event) {
     if(event.target.value) {
-      
+      this.selectedFilter = event?.target?.value;
+      if(this.filterSettings?.length > 0) {
+        this.filterSettings?.forEach(setting => {
+          if(setting.field == 'category') {
+            setting.display = this.selectedFilter;
+            setting.filter_type = this.selectedFilter;
+          }
+        })
+      }
     }
   }
 
@@ -2120,6 +2278,37 @@ export class FeatureComponent {
       (this.language == 'it' ? (this.featureNameIt || this.featureNameEs) : 
       this.featureNameEs
     )))))
+  }
+
+  getOtherFeatureTitle(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.name_en ||
+          feature.feature_name ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "fr"
+        ? feature.name_fr ||
+          feature.feature_name_FR ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "eu"
+        ? feature.name_eu ||
+          feature.feature_name_EU ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "ca"
+        ? feature.name_ca ||
+          feature.feature_name_CA ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "de"
+        ? feature.name_de ||
+          feature.feature_name_DE ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : feature.name_es || feature.feature_name_ES
+      : "";
   }
 
   handleGoBack() {

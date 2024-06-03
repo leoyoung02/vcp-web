@@ -121,9 +121,16 @@ export const DEACTIVATE_CUSTOMER_URL = `${API_BASE}/v2/customer/deactivate`;
 export const EDIT_CUSTOMER_SITE_DETAILS_URL = `${API_BASE}/v2/customer/site-details/edit`;
 export const FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings`;
 export const EDIT_FILTER_SETTINGS_URL = `${API_BASE}/v2/filter-settings/edit`;
+export const EDIT_MODULE_FILTER_SETTINGS_URL = `${API_BASE}/v2/module/filter-settings/edit`;
 export const HOME_PERSONALIZE_SETTINGS_URL = `${API_BASE}/v2/home/personalize/settings`;
 export const ACTIVATE_HOME_TEMPLATE_URL = `${API_BASE}/v2/home/personalize/template/edit`;
 export const EDIT_HOME_TEMPLATE_SECTIONS_URL = `${API_BASE}/v2/home/personalize/sections/edit`;
+export const MODULE_COMMENTS_URL = `${API_BASE}/v2/comments`;
+export const ADD_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/add`;
+export const EDIT_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/edit`;
+export const DELETE_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/delete`;
+export const REACT_MODULE_COMMENT_URL = `${API_BASE}/v2/comments/react`;
+export const MODULE_FILTER_SETTINGS_URL = `${API_BASE}/v2/module/filters`;
 
 // HOME
 export const LANDING_TEMPLATE_URL = `${API_BASE}/guest/landing/template-by-slug`;
@@ -134,6 +141,7 @@ export const HOME_DATA_URL = `${API_BASE}/v2/home`;
 export const HOME_COURSES_TUTORS_TESTIMONIALS_DATA_URL = `${API_BASE}/v2/home-courses-tutors-testimonials`;
 export const HOME_PLANS_COURSES_DATA_URL = `${API_BASE}/v2/home-plans-courses`;
 export const HOME_SECTIONS_DATA_URL = `${API_BASE}/v2/home/sections-data`;
+export const EDIT_HOME_TEXT_URL = `${API_BASE}/company/menu/home/edit`;
 
 // SETTINGS
 export const SETTINGS_CATEGORY_URL = `${API_BASE}/company/settings/category/list/all`;
@@ -258,6 +266,12 @@ export const INVOICES_DATA_URL = `${API_BASE}/v2/invoices-data`;
 export const INVITATIONS_DATA_URL = `${API_BASE}/v2/invitations-data`;
 export const CRM_DATA_URL = `${API_BASE}/v2/crm-data`;
 export const CRM_ASSIGNED_GUESTS_DATA_URL = `${API_BASE}/v2/crm-assigned-guests-data`;
+export const UPDATE_REGISTRATION_FIELDS_URL = `${API_BASE}/company/registration-fields/update`;
+export const REGISTRATION_FIELD_URL = `${API_BASE}/company/registration-field`;
+export const UPDATE_REGISTRATION_FIELD_DETAILS_URL = `${API_BASE}/company/registration-field/details/update`;
+export const SUPER_TUTOR_STUDENTS_URL = `${API_BASE}/v2/super-tutor/students`;
+export const POT_SUPER_TUTOR_STUDENTS_URL = `${API_BASE}/v2/potsuper-tutor/students`;
+export const EDIT_USER_BIRTHDAY_URL = `${API_BASE}/v2/user/birthday/edit`;
 
 // NOTIFICATIONS
 export const ACCEPT_CLUB_NOTIFICATION_URL = `${API_BASE}/company-approve-join-group`;
@@ -383,6 +397,14 @@ export const SEND_CONFIRM_ATTENDANCE_EMAIL_URL = `${API_BASE}/v2/confirm-attenda
 export const PLAN_DETAILS_UPDATED_EMAIL_URL = `${API_BASE}/v2/plan-updated/send-email`;
 export const PAST_PLANS_LIST_URL = `${API_BASE}/v2/past-plans`;
 export const EDIT_PLAN_STATUS_URL = `${API_BASE}/v2/plans/edit-status`;
+export const AGE_GROUPS_URL = `${API_BASE}/company/age-groups`;
+export const ADD_AGE_GROUP_URL = `${API_BASE}/company/age-groups/add`;
+export const EDIT_AGE_GROUP_URL = `${API_BASE}/company/age-groups/edit`;
+export const DELETE_AGE_GROUP_URL = `${API_BASE}/company/age-groups/delete`;
+export const ACTIVITY_PAYMENT_OPTIONS_URL = `${API_BASE}/v2/activity/payment-options`;
+export const PLAN_PAYMENT_BIZUM_URL = `${API_BASE}/v2/activity/pay/bizum`;
+export const CONFIRM_BIZUM_PLAN_PARTICIPANT_URL = `${API_BASE}/v2/bizum/plan/participant/confirm`;
+export const CONFIRM_BIZUM_GROUP_PLAN_PARTICIPANT_URL = `${API_BASE}/v2/bizum/group-plan/participant/confirm`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;
@@ -571,6 +593,8 @@ export const SYNC_CALENDLY_EVENT_PLATFORM_URL = `${API_BASE}/v2/calendly/booking
 export const STRIPE_TRANSFERS_URL = `${API_BASE}/v2/stripe/transfers`;
 export const BULK_TRANSFER_COMMISSION_IMPROVED_URL = `${API_BASE}/v2/tutor/commissions/bulk-transfer`;
 export const UPDATE_TRANSFER_QUEUE_URL = `${API_BASE}/v2/transfers/queue`;
+export const DELETE_BOOKING_URL = `${API_BASE}/tutor/booking/delete`;
+export const EDIT_ASSIGNED_TUTOR_URL = `${API_BASE}/v2/tutor/assign`;
 
 // TESTIMONIALS
 export const TESTIMONIALS_DATA_URL = `${API_BASE}/guest/testimonials-data`;

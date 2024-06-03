@@ -15,7 +15,7 @@
                     <ng-container *ngFor="let field of section?.fields; let i = index;">
                         <div class="text-center" 
                             [ngClass]="{'col-span-2': field.field == 'image' && !hasCompanyImageField}"
-                            *ngIf="field.field != 'password' && field.field != 'birthday'">
+                            *ngIf="field.field != 'password'">
                             <div *ngIf="field.field_type == 'image' && field.field == 'image'">
                                 <div class="container upload-btn-wrapper profile-image">
                                     <div>
@@ -281,6 +281,47 @@
                                     formControlName="{{field?.field}}"
                                 ></editor>
                             </div>
+                            <div *ngIf="field.field_type == 'date'" class="-mb-5 signup-date">
+                                <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    <div class="flex items-center justify-between">
+                                        <div>
+                                            {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                        </div>
+                                        <ng-container *ngIf="showProfileFieldsInMembers && field?.field != 'first_name' && field?.field != 'last_name'">
+                                            <div class="flex items-center justify-between relative ml-4">
+                                                <label
+                                                    for="setting-status-{{i + 1}}"
+                                                    class="flex items-center w-full justify-between cursor-pointer"
+                                                >
+                                                    <div class="relative mr-1">
+                                                        <input
+                                                            id="setting-status-{{i + 1}}"
+                                                            name="setting-status"
+                                                            type="checkbox"
+                                                            class="sr-only"
+                                                            [checked]="field?.show"
+                                                            (change)="updateFieldShow($event, field)"
+                                                        />
+                                                        <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                        <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                    </div>
+                                                </label>
+                                            </div>
+                                        </ng-container>
+                                    </div>
+                                </label>
+                                <mat-form-field class="w-full">
+                                    <mat-label>{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}</mat-label>
+                                    <input matInput [matDatepicker]="pickerdate" placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}}" formControlName="{{ field?.field }}">
+                                    <mat-datepicker-toggle matIconSuffix [for]="pickerdate"></mat-datepicker-toggle>
+                                    <mat-datepicker #pickerdate>
+                                        <mat-datepicker-actions>
+                                            <button mat-button matDatepickerCancel class="uppercase mr-8 text-cyan-400 mb-6 font-semibold">{{ 'settings.cancel' | translate }}</button>
+                                            <button mat-raised-button color="primary" matDatepickerApply class="uppercase mr-8 text-cyan-400 mb-6 font-semibold">{{ 'company-settings.apply' | translate }}</button>
+                                        </mat-datepicker-actions>
+                                    </mat-datepicker>
+                                </mat-form-field>
+                            </div>
                         </div>
                     </ng-container>
                     <div class="mt-[6px]" *ngIf="me?.custom_member_type_id !== 144 && me?.custom_member_type_id !== 321 &&  me?.custom_member_type_id !== 243 && isTermsAccepted">
@@ -308,7 +349,6 @@
                 </div>
             </div>
         </ng-container>
-        
         <div>
             <div class="font-bold">{{ 'profile-settings.changepassword' | translate }}</div>
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 my-4">
@@ -390,8 +430,8 @@
                     <th scope="row" class="text-xs px-2 py-1 max-w-[80px] font-medium text-gray-900 dark:text-white">
                         {{getMemberTypeTitle(item)}}
                     </th>
-                    <td class="text-xs px-2 py-1 max-w-[80px]">
-                        {{item?.created_at | date: 'dd MMM yyyy'}}
+                    <td class="text-xs px-2 py-1 max-w-[80px] capitalize">
+                        {{getMemberTypeDate(item)}}
                     </td>
                     <td>
                         <div class="flex my-2 align-center items-center">

@@ -276,6 +276,8 @@ export class CheckoutComponent {
       environment.lsplanFrequency
     );
 
+    this.language = this._localService.getLocalStorage(environment.lslang);
+    
     if (this.companies) {
       let company = this._companyService.getCompany(this.companies);
       if (company && company[0]) {
@@ -291,8 +293,13 @@ export class CheckoutComponent {
         this.privacyPolicy = company[0].policy;
         this.customInvoice = company[0].custom_invoice == 1 ? true : false;
         this.showCoupon = company[0].show_coupon == 1 ? true : false;
+        if(this.companyId == 65 && this.language == 'es') {
+          this.language = 'it';
+        }
       }
     }
+
+    this._translateService.use(this.language || "es");
 
     this.initializeForm();
     this.getUserDetails();

@@ -86,6 +86,9 @@ export class UserMenuComponent {
   @Input() potTutor: any;
   @Input() hasInvitations: any;
   @Input() companyId: any;
+  @Input() customMemberType: any;
+  @Input() customMemberTypePermissions: any;
+  @Input() superAdmin: any;
 
   @Output() changeLanguage = new EventEmitter();
 
@@ -99,7 +102,9 @@ export class UserMenuComponent {
   isMyClubsActive: boolean = false;
   isMyActivitiesActive: boolean = false;
   myClubs: any;
-
+  canViewCRM: boolean = false;
+  canViewGuests: boolean = false;
+  canViewAdministrar: boolean = false;
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
@@ -127,6 +132,52 @@ export class UserMenuComponent {
       this.userCourseCredits = userCourseCreditsChange.currentValue;
       this._userService.updateUserCourseCredits(this.userCourseCredits);
     }
+
+    let courseSubscriptionsChange = changes["courseSubscriptions"];
+    if (courseSubscriptionsChange?.currentValue?.length > 0) {
+      this.courseSubscriptions = courseSubscriptionsChange.currentValue;
+    }
+
+    let customMemberTypeChange = changes["customMemberType"];
+    if (customMemberTypeChange?.currentValue?.id > 0) {
+      this.customMemberType = customMemberTypeChange.currentValue;
+      if(this.customMemberType) {
+        this.canViewGuests = this.customMemberType?.view_guests == 1 ? true : false;
+      }
+    }
+
+    let customMemberTypePermissionsChange = changes["customMemberTypePermissions"];
+    if (customMemberTypePermissionsChange?.currentValue?.length > 0) {
+      this.customMemberTypePermissions = customMemberTypePermissionsChange.currentValue;
+      if(this.customMemberTypePermissions?.length > 0) {
+        this.canViewCRM = this.getCRMPermissions(this.customMemberTypePermissions);
+        this.canViewAdministrar = this.getAdministrarPermissions(this.customMemberTypePermissions);
+      }
+    }
+  }
+
+  getCRMPermissions(permissions) {
+    let result = false;
+    if(permissions?.length > 0) {
+      let crm_permissions = permissions.find(f => f.feature_id == 22);
+      if(crm_permissions?.view == 1) {
+        result = true;
+      }
+    }
+
+    return result;
+  }
+
+  getAdministrarPermissions(permissions) {
+    let result = false;
+    if(permissions?.length > 0) {
+      let admin_permissions = permissions.find(f => f.feature_id == 1);
+      if(admin_permissions?.admin_assign == 1 || admin_permissions?.admin_attendance == 1) {
+        result = true;
+      }
+    }
+
+    return result;
   }
 
   hasAccess(path) {
@@ -195,7 +246,10 @@ export class UserMenuComponent {
           path = `/users/crm`;
           break;
         case 'invites':
-          path = `/users/invites`;
+          path = `/users/invites/me`;
+          break;
+        case 'viewguests':
+          path = `/users/invites/view`;
           break;
         case 'myactivities':
           path = '/dashboard/1';

@@ -181,6 +181,9 @@ export class ClubEditComponent {
   selectedAdminId: any;
   clubPresidentsMapping: any;
   pageTitle: string = "";
+  
+  hasGroupChat: boolean = false;
+  showChat: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -363,6 +366,9 @@ export class ClubEditComponent {
       this.show_comments_field = subfeatures.some(
         (a) => a.name_en == "Comments" && a.active == 1
       );
+      this.hasGroupChat = subfeatures.some(
+        (a) => a.name_en == "Group chat" && a.active == 1
+      );
     }
 
     if (this.hasSubgroups) {
@@ -468,11 +474,13 @@ export class ClubEditComponent {
       show_attendee,
       show_comments,
       show_description,
+      show_chat,
     } = this.club;
 
     this.isShowAttendee = show_attendee == 1 ? true : false;
     this.isShowComments = show_comments == 1 ? true : false;
     this.isShowDescription = show_description == 1 ? true : false;
+    this.showChat = show_chat == 1 ? true : false;
     this.parentGroup = parent_group_id > 0 ? parent_group_id : "";
     this.category_id = categories.map((category) => {
       const { id, name_EN, name_ES, name_FR, name_EU, name_CA, name_DE } =
@@ -679,26 +687,26 @@ export class ClubEditComponent {
     return this.language == "en"
       ? (setting.name_en ? setting.name_en || setting.name : setting.name) +
           " " +
-          this.planName
+          (this.planName || this._translateService.instant('plans.plan'))
       : this.language == "fr"
       ? (setting.name_fr ? setting.name_fr || setting.name : setting.name) +
         " " +
-        this.planName
+        (this.planName || this._translateService.instant('plans.plan'))
       : this.language == "eu"
       ? (setting.name_eu ? setting.name_eu || setting.name : setting.name) +
         " " +
-        this.planName
+        (this.planName || this._translateService.instant('plans.plan'))
       : this.language == "ca"
       ? (setting.name_ca ? setting.name_ca || setting.name : setting.name) +
         " " +
-        this.planName
+        (this.planName || this._translateService.instant('plans.plan'))
       : (this.language == "de"
           ? setting.name_de
             ? setting.name_de || setting.name
             : setting.name
           : setting.name) +
         " " +
-        this.planName;
+        (this.planName || this._translateService.instant('plans.plan'));
   }
 
   closeLanguageNote() {
@@ -972,8 +980,7 @@ export class ClubEditComponent {
       hasSetting = true;
     }
 
-    let code =
-      this.defaultLanguage?.length > 0 ? this.defaultLanguage[0].code : "es";
+    let code = this.defaultLanguage?.length > 0 ? this.defaultLanguage[0].code : "es";
     this.title = this.clubForm.get("title_" + code)?.value || "";
     this.description = this.clubForm.get("description_" + code)?.value || "";
 
@@ -1051,6 +1058,7 @@ export class ClubEditComponent {
     formData.append("isShowDescription", this.isShowAttendee ? "1" : "0");
     formData.append("isShowComments", this.isShowComments ? "1" : "0");
     formData.append("isShowAttendee", this.isShowDescription ? "1" : "0");
+    formData.append("show_chat", this.showChat ? "1" : "0");
 
     let group_admins = this.companyId == 32 ? this.selectedAdmin : "";
     if (group_admins && group_admins.length > 0) {

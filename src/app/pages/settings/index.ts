@@ -186,5 +186,17 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'testimonials.gallery'},
         loadComponent: async () => (await import('./home-gallery/home-gallery.component')).HomeGalleryComponent,
-    }
+    },
+    {
+        path: 'registration-fields',
+        title: CustomTitleResolver,
+        data: { titleKey: 'registration-fields.registrationfields'},
+        loadComponent: async () => (await import('./registration-fields/registration-fields.component')).RegistrationFieldsComponent,
+    },
+    {
+        path: 'age-groups',
+        title: CustomTitleResolver,
+        data: { titleKey: 'plan-create.agegroups'},
+        loadComponent: async () => (await import('./age-groups/age-groups.component')).ManageAgeGroupsComponent,
+    },
 ];

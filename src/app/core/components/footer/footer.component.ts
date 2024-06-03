@@ -3,6 +3,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   Input,
+  SimpleChange,
   inject,
 } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
@@ -33,6 +34,7 @@ export class FooterComponent {
   @Input() menus: any;
   @Input() company: any;
   @Input() contactUsDetails: any;
+  @Input() customLinks: any;
 
   readonly packageJson = inject(PACKAGE_JSON);
   readonly currentYear = new Date().getFullYear();
@@ -92,12 +94,21 @@ export class FooterComponent {
   canShowCookiePolicy: boolean = false;
   isLoading: boolean = true;
   languageChangeSubscription;
+  additionalLinks: any = [];
 
   constructor(
     private _router: Router,
     private _localService: LocalService,
     private _translateService: TranslateService
   ) {}
+
+  ngOnChanges(changes: SimpleChange) {
+    let customLinksChange = changes["customLinks"];
+    if (customLinksChange?.currentValue?.length > 0) {
+      let links = customLinksChange.currentValue;
+      this.additionalLinks = links;
+    }
+  }
 
   async ngOnInit() {
     this.language = this._localService.getLocalStorage(environment.lslang) || "es";
@@ -267,6 +278,27 @@ export class FooterComponent {
       : this.language == "de"
       ? contact_us.text_de || contact_us.text
       : contact_us.text;
+  }
+
+  getLinkText(link) {
+    return this.language == "en"
+      ? link.text_en 
+      : link.text_es
+  }
+
+  getTermsAndConditionsText() {
+    let str = this._translateService.instant('footer.terms_and_conditions')?.toLowerCase();
+    return str ? str[0].toUpperCase() + str.slice(1) : '';
+  }
+
+  getPrivacyPolicyText() {
+    let str = this._translateService.instant('footer.privacy_policy')?.toLowerCase();
+    return str ? str[0].toUpperCase() + str.slice(1) : '';
+  }
+
+  getCookiePolicyText() {
+    let str = this._translateService.instant('footer.cookies_policy')?.toLowerCase();
+    return str ? str[0].toUpperCase() + str.slice(1) : '';
   }
 
   ngOnDestroy() {

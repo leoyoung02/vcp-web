@@ -5,6 +5,8 @@ import {
   ACTIVITY_CITIES_URL,
   ACTIVITY_CODE_DATA_URL,
   ACTIVITY_CREDITS_URL,
+  ACTIVITY_PAYMENT_OPTIONS_URL,
+  ADD_AGE_GROUP_URL,
   ADD_ALIAS_URL,
   ADD_EVENT_CATEGORY_URL,
   ADD_EVENT_SUBCATEGORY_URL,
@@ -14,6 +16,7 @@ import {
   ADD_GUEST_REGISTRATION_FIELDS_URL,
   ADD_PLAN_COMMENT_URL,
   ADD_TO_WAITING_LIST_URL,
+  AGE_GROUPS_URL,
   ALL_GUEST_REGISTRATION_FIELDS_URL,
   ANSWER_EMAIL_INVITE_QUESTIONS_URL,
   APPROVE_GROUP_PLAN_COMMENT_URL,
@@ -29,6 +32,8 @@ import {
   CLEAR_PLAN_PARTICIPANT_ATTENDANCE_URL,
   CLUB_PLAN_DELETE_URL,
   CONFIRM_ATTENDANCE_URL,
+  CONFIRM_BIZUM_GROUP_PLAN_PARTICIPANT_URL,
+  CONFIRM_BIZUM_PLAN_PARTICIPANT_URL,
   CONFIRM_PARTICIPANT_ATTENDANCE_URL,
   CONFIRM_PARTICIPANT_URL,
   CONFIRM_PLAN_PARTICIPANT_ATTENDANCE_URL,
@@ -41,6 +46,7 @@ import {
   CREATE_PLAN_ROLES_URL,
   CREATE_PLAN_URL,
   DASHBOARD_DETAILS_URL,
+  DELETE_AGE_GROUP_URL,
   DELETE_ALIAS_URL,
   DELETE_COMMENT_URL,
   DELETE_EVENT_CATEGORY_URL,
@@ -48,6 +54,7 @@ import {
   DELETE_GROUP_PLAN_COMMENT_REACTION_URL,
   DELETE_GUEST_REGISTRATION_FIELDS_URL,
   DELETE_RECURRING_SERIES_URL,
+  EDIT_AGE_GROUP_URL,
   EDIT_ALIAS_URL,
   EDIT_CLUB_PLAN_URL,
   EDIT_EVENT_CATEGORY_URL,
@@ -82,7 +89,7 @@ import {
   PLANS_MANAGEMENT_DATA_URL,
   PLANS_OTHER_DATA_URL,
   PLANS_URL,
-  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_UPDATED_EMAIL_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_PAYMENT_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, SALES_PEOPLE_URL, SEND_CONFIRM_ATTENDANCE_EMAIL_URL, SEND_CREDITS_DATA_URL, SUBMIT_ACTIVITY_RATING_URL, UPLOAD_PLAN_IMAGE_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
+  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_UPDATED_EMAIL_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_PAYMENT_BIZUM_URL, PLAN_PAYMENT_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, SALES_PEOPLE_URL, SEND_CONFIRM_ATTENDANCE_EMAIL_URL, SEND_CREDITS_DATA_URL, SUBMIT_ACTIVITY_RATING_URL, UPLOAD_PLAN_IMAGE_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -630,6 +637,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_description', isShowDescription );
     formData.append( 'show_price', isShowPrice );
     formData.append( 'school_of_life', planForm.school_of_life );
+    formData.append( 'age_group_id', planForm.age_group_id );
 
     if(entityId == 32) {
       formData.append( 'additional_properties_course_access', allowCourseAccess == true ? '1' : '0' );
@@ -800,6 +808,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'invite_link', planForm.invite_link );
     formData.append( 'waiting_list', planForm.waiting_list );
     formData.append( 'stripe_pay', planForm.stripe_pay ? planForm.stripe_pay : 0 );
+    formData.append( 'bizum_pay', planForm.bizum_pay ? planForm.bizum_pay : 0 );
     formData.append( 'credits', planForm.credits );
     formData.append( 'credits_value', planForm.credits_value );
     formData.append( 'featured', planForm.featured );
@@ -875,6 +884,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'school_of_life', planForm.school_of_life );
     formData.append( 'show', planForm.show );
     formData.append( 'orig_image', planForm.orig_image );
+    formData.append( 'age_group_id', planForm.age_group_id );
 
     if(entityId == 32) {
       formData.append( 'additional_properties_course_access', planForm.additional_properties_course_access );
@@ -1012,6 +1022,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'invite_link', planForm.invite_link );
     formData.append( 'waiting_list', planForm.waiting_list );
     formData.append( 'stripe_pay', planForm.stripe_pay ? planForm.stripe_pay : 0 );
+    formData.append( 'bizum_pay', planForm.bizum_pay ? planForm.bizum_pay : 0 );
     formData.append( 'credits', planForm.credits );
     formData.append( 'credits_value', planForm.credits_value );
     formData.append( 'featured', planForm.featured );
@@ -1277,6 +1288,64 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
   editPlanStatus(params): Observable<any> {
     return this._http.post(EDIT_PLAN_STATUS_URL,
         params
+    ).pipe(map(res => res));
+  }
+
+  getAgeGroups(id): Observable<any> {
+    return this._http.get(`${AGE_GROUPS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addAgeGroup(payload): Observable<any> {
+    return this._http.post(ADD_AGE_GROUP_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editAgeGroup(id, payload): Observable<any> {
+    return this._http.put(`${EDIT_AGE_GROUP_URL}/${id}`,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteAgeGroup(id, companyId): Observable<any> {
+    return this._http.delete(`${DELETE_AGE_GROUP_URL}/${id}/${companyId}`,
+      {},
+    ).pipe(map(res => res));
+  }
+
+  getActivityPaymentOptions(id, typeId): Observable<any> {
+    return this._http.get(`${ACTIVITY_PAYMENT_OPTIONS_URL}/${id}/${typeId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  subscribeEventBizum(eventId, typeId, userId, companyId, payload): Observable<any> {
+    return this._http.post(
+      `${PLAN_PAYMENT_BIZUM_URL}/${eventId}/${typeId}/${userId}/${companyId}`,
+      payload
+    ).pipe(
+      map(res => {
+        const result = res
+        return result;
+      })
+    );
+  }
+
+  confirmBizumPlanParticipant(id, param): Observable<any> {
+    return this._http.post(
+      `${CONFIRM_BIZUM_PLAN_PARTICIPANT_URL}/${id}`, 
+      param
+    ).pipe(map(res => res));
+  }
+
+  confirmBizumGroupPlanParticipant(id, param): Observable<any> {
+    return this._http.post(
+      `${CONFIRM_BIZUM_GROUP_PLAN_PARTICIPANT_URL}/${id}`, 
+      param
     ).pipe(map(res => res));
   }
 }
