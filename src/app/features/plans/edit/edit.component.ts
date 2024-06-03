@@ -835,6 +835,10 @@ export class PlanEditComponent {
           if (this.id > 0) {
             this.fetchPlan();
           } else {
+            if(this.isUESchoolOfLife) {
+              this.isDefaultPhoto = true;
+              this.setDefaultPhoto = true;
+            }
             this.createdByUser = this.userId;
           }
         },
