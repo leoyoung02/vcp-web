@@ -95,8 +95,6 @@ export const authGuard = (options: AuthGuardOptions = defaultAuthGuardOptions())
             }
         }
 
-        console.log('auth.guard options.requiresAuthentication: ' + options.requiresAuthentication + ', isAuthenticated: ' + authService.isAuthenticated);
-
         if (options.requiresAuthentication === authService.isAuthenticated) {
             return true;
         }

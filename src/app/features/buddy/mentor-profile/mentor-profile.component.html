@@ -100,18 +100,23 @@
                             <label for="location" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 <div class="flex items-center justify-between">
                                     <div>
-                                        {{ 'buddy.location' | translate }}
+                                        {{ companyId == 32 ? 'Campus' : ('buddy.location' | translate) }}
                                     </div>
                                 </div>
                             </label>
-                            <input 
+                            <select
                                 id="location"
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('location')?.errors }"
-                                type="text" 
-                                class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                 formControlName="location" 
-                                placeholder="{{ 'buddy.location' | translate }}"
-                                required>
+                            >
+                                <option value="" disabled selected>{{ 'courses.selectcampus' | translate }}</option>
+                                <option
+                                    *ngFor="let city of cities"
+                                    [value]="city.city"
+                                >
+                                    {{ city?.city }}
+                                </option>
+                            </select>
                         </div>
                     </div>
                     <div class="text-center">
@@ -123,14 +128,14 @@
                                     </div>
                                 </div>
                             </label>
-                            <input 
-                                id="language"
-                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('language')?.errors }"
-                                type="text" 
-                                class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
-                                formControlName="language" 
-                                placeholder="{{ 'job-offers.language' | translate }}"
-                                required>
+                            <ng-multiselect-dropdown
+                                placeholder="{{ 'dialog.selectlanguage' | translate }}*"
+                                [settings]="languageSettings"
+                                [data]="languages"
+                                [(ngModel)]="selectedLanguage"
+                                [ngModelOptions]="{standalone: true}"
+                            >
+                            </ng-multiselect-dropdown> 
                         </div>
                     </div>
                     <div class="text-center col-span-2">
@@ -157,7 +162,7 @@
                             <label for="introduction" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 <div class="flex items-center justify-between">
                                     <div>
-                                        {{ 'buddy.introduction' | translate }}
+                                        {{ 'buddy.introductionlabel' | translate }}
                                     </div>
                                 </div>
                             </label>
@@ -192,7 +197,7 @@
                             <label for="interests" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 <div class="flex items-center justify-between">
                                     <div>
-                                        {{ 'buddy.interests' | translate }}
+                                        {{ 'buddy.interestslabel' | translate }}
                                     </div>
                                 </div>
                             </label>
@@ -227,7 +232,7 @@
                             <label for="personality" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 <div class="flex items-center justify-between">
                                     <div>
-                                        {{ 'buddy.personality' | translate }}
+                                        {{ 'buddy.personalitylabel' | translate }}
                                     </div>
                                 </div>
                             </label>

@@ -3207,7 +3207,10 @@
         "mysessions": "My mentoring sessions",
         "selectmentor": "Select mentor",
         "selectmentee": "Select mentee",
-        "pendingcompletion": "Pending completion"
+        "pendingcompletion": "Pending completion", 
+        "introductionlabel": "About me: why I want to be a mentor, why I have chosen my degree...",
+        "interestslabel": "Interests: to participate in University Life (clubs, associations, delegates, sports team...)",
+        "personalitylabel": "Personality, Interests"
     },
     "cities": {
         "cities": "Cities",

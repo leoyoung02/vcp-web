@@ -3191,7 +3191,10 @@
         "mysessions": "Mis sesiones de mentoría",
         "selectmentor": "Seleccionar mentor",
         "selectmentee": "Seleccionar aprendiz", 
-        "pendingcompletion": "Pendiente de finalización"
+        "pendingcompletion": "Pendiente de finalización",
+        "introductionlabel": "Sobre mí: por qué quiero ser mentor, por qué he elegido mi grado...",
+        "interestslabel": "Intereses: poner participación en la Vida Universitaria (clubes, asociaciones, delegados, equipo deportivo….)",
+        "personalitylabel": "Personalidad, Intereses"
     },
     "cities": {
         "cities": "Ciudades",

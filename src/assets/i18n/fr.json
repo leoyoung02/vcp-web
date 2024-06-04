@@ -3173,7 +3173,10 @@
         "mysessions": "Mes séances de mentorat",
         "selectmentor": "Sélectionner un mentor",
         "selectmentee": "Sélectionner le mentoré", 
-        "pendingcompletion": "En attente d'achèvement"
+        "pendingcompletion": "En attente d'achèvement",
+        "introductionlabel": "À propos de moi : pourquoi je veux être mentor, pourquoi j'ai choisi mon diplôme...",
+        "interestslabel": "Intérêts : participer à la vie universitaire (clubs, associations, délégués, équipe sportive...)",
+        "personalitylabel": "Personnalité, Intérêts"
     },
     "cities": {
         "cities": "Villes",

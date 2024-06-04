@@ -12,6 +12,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { PageTitleComponent } from '@share/components';
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import get from 'lodash/get';
 
 @Component({
@@ -26,6 +27,7 @@ import get from 'lodash/get';
         EditorModule,
         MatSnackBarModule,
         FontAwesomeModule,
+        NgMultiSelectDropDownModule,
         PageTitleComponent,
     ],
     templateUrl: './mentor-request.component.html'
@@ -60,6 +62,11 @@ export class MentorRequestComponent {
     me: any;
     hasRequest: boolean = false;
     approvedRequest: boolean = false;
+
+    cities: any = [];
+    languages: any = [];
+    languageSettings: any;
+    selectedLanguage: any = '';
 
     constructor(
         private _translateService: TranslateService,
@@ -135,7 +142,6 @@ export class MentorRequestComponent {
             last_name: ["", Validators.required],
             major: new FormControl('', [Validators.required]),
             location: new FormControl('', [Validators.required]),
-            language: new FormControl('', [Validators.required]),
             message: new FormControl('', [Validators.required]),
         });
 
@@ -148,6 +154,9 @@ export class MentorRequestComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {
+                this.cities = data?.cities;
+                this.languages = data?.languages;
+                this.initializeDropdowns();
                 this.initializeProfile(data);
             },
             (error) => {
@@ -156,13 +165,38 @@ export class MentorRequestComponent {
         );
     }
 
+    initializeDropdowns() {
+        this.languageSettings = {
+            singleSelection: false,
+            idField: "id",
+            textField: "name_ES",
+            selectAllText: this._translateService.instant("dialog.selectall"),
+            unSelectAllText: this._translateService.instant("dialog.clearall"),
+            itemsShowLimit: 6,
+            allowSearchFilter: true,
+            searchPlaceholderText: this._translateService.instant('guests.search'),
+        };
+    }
+
     initializeProfile(data) {
         this.me = data?.mentor;
         this.form.get('first_name').setValue(this.me?.first_name || data?.current_user?.first_name);
         this.form.get('last_name').setValue(this.me?.last_name || data?.current_user?.last_name);
         this.form.get('location').setValue(this.me?.location || data?.current_user?.city);
         this.form.get('major').setValue(this.me?.major || data?.current_user?.major);
-        this.form.get('language').setValue(this.me?.language || data?.current_user?.language);
+        
+        let mentor_language = this.me?.language || data?.current_user?.language;
+        let selected_languages = this.languages.filter((language) => {
+            return mentor_language?.indexOf(language.name_ES) >= 0
+        })
+        this.selectedLanguage = selected_languages.map((language) => {
+            const { id, name_ES } = language;
+            return {
+                id,
+                name_ES,
+            }
+        });
+        
         this.form.get('message').setValue(this.me?.message);
 
         this.hasRequest = this.me?.created_at ? true : false;
@@ -170,6 +204,10 @@ export class MentorRequestComponent {
     }
 
     submit() {
+        let language = this.selectedLanguage;
+        if(language) {
+            language = language?.map((data) => { return data.name_ES }).join(',');
+        }
         let params = {
             company_id: this.companyId,
             user_id: this.userId,
@@ -177,7 +215,7 @@ export class MentorRequestComponent {
             last_name: this.form.get('last_name').value,
             major: this.form.get('major').value,
             location: this.form.get('location').value,
-            language: this.form.get('language').value,
+            language,
             message: this.form.get('message').value,
         }
         this._buddyService.applyMentor(params).subscribe(

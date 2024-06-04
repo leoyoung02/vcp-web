@@ -3179,7 +3179,10 @@
         "mysessions": "Nire tutoretza saioak",
         "selectmentor": "Hautatu tutorea",
         "selectmentee": "Hautatu tutorea", 
-        "pendingcompletion": "Bukatzeko zain"
+        "pendingcompletion": "Bukatzeko zain",
+        "introductionlabel": "Niri buruz: zergatik izan nahi dudan tutore, zergatik aukeratu dudan gradua...",
+        "interestslabel": "Interesak: Unibertsitate Bizitzan parte hartzeko (klubak, elkarteak, ordezkariak, kirol taldea...)",
+        "personalitylabel": "Nortasuna, interesak"
     },
     "cities": {
         "cities": "Hiriak",

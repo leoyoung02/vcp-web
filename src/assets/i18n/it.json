@@ -3175,7 +3175,10 @@
         "mysessions": "Le mie sessioni di mentoring",
         "selecttorer": "Seleziona mentore",
         "selectmentee": "Seleziona allievo", 
-        "pendingcompletion": "Completamento in attesa"
+        "pendingcompletion": "Completamento in attesa",
+        "introductionlabel": "Chi sono: perché voglio essere un mentore, perché ho scelto la mia laurea...",
+        "interestslabel": "Interessi: partecipare alla vita universitaria (club, associazioni, delegati, squadre sportive...)",
+        "personalitylabel": "Personalità, interessi"
     },
     "cities": {
         "cities": "Città",

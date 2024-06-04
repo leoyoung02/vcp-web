@@ -58,8 +58,6 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
         isRequestAuthorized = authService.isAuthenticated && request.url.startsWith(environment.api);
     }
 
-    console.log('jwtInterceptor isRequestAuthorized: ' + isRequestAuthorized + ', token: <token>');
-
     if (isRequestAuthorized) {
         if (token) {
             const payload = parseJwt(token); // decode JWT payload part.
