@@ -639,6 +639,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'school_of_life', planForm.school_of_life );
     formData.append( 'age_group_id', planForm.age_group_id );
     formData.append( 'default_cover', planForm.default_cover );
+    formData.append( 'video', planForm.video );
 
     if(entityId == 32) {
       formData.append( 'additional_properties_course_access', allowCourseAccess == true ? '1' : '0' );

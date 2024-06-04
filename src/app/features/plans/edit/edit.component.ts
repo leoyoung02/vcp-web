@@ -450,6 +450,7 @@ export class PlanEditComponent {
   hasExistingVideo: boolean = false;
   existingVideoURL: string = '';
   existingVideoFile: string = '';
+  uploadingVideoComplete: boolean = false;
 
   initialPlan: any = {};
   currentPlan: any = {};
@@ -2469,7 +2470,7 @@ export class PlanEditComponent {
 
     let event_reg_file_status = localStorage.getItem('event_reg_file')
     let event_reg_file = event_reg_file_status == 'complete' ? this.eventGuestRegFileName : ''
-    this.plan["orig_image"] = this.isImageCenterButton ? event_reg_file : null
+    this.plan["orig_image"] = this.isImageCenterButton ? event_reg_file : ''
 
     if(this.companyId == 32) {
       this.plan['additional_properties_course_access'] = this.allowCourseAccess == true ? '1' : '0',
@@ -2501,7 +2502,7 @@ export class PlanEditComponent {
       this.hasSpeaker && this.selectedSpeaker && this.selectedSpeaker.length > 0
         ? this.selectedSpeaker[0].id
         : null;
-    this.plan["guest_speaker"] = this.guestSpeaker ? this.guestSpeaker : null;
+    this.plan["guest_speaker"] = this.guestSpeaker ? this.guestSpeaker : '';
     if (this.activityFeeEnabled) {
       this.plan["stripe_pay"] = this.isStripePayment ? 1 : 0;
     }
@@ -3421,7 +3422,8 @@ export class PlanEditComponent {
     this.coverVideo = 'companyVideo_' + this.userId + '_' + timestamp + '.' + this.fileExtension;
     this.videoSrc = URL.createObjectURL(this.videoFile);
 
-    if(this.coverVideo){
+    if(this.coverVideo) {
+      this.uploadingVideoComplete = true;
       const formData = new FormData();
       formData.append('file', this.videoFile, this.coverVideo);
 
@@ -3430,6 +3432,7 @@ export class PlanEditComponent {
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           (data) => {
+            this.uploadingVideoComplete = false;
           }, 
           (error) => {
             console.log(error);

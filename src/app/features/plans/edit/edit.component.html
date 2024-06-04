@@ -190,6 +190,10 @@
                                 </label>
 
                             </div>
+                            <div class="center my-2 text-sm text-center text-blue-600" 
+                                *ngIf="uploadingVideoComplete">
+                                {{'plan-details.uploadingvideo' | translate}}
+                            </div>
                             <div class="flex items-center justify-center max-w-xs mx-auto my-8">
                                 <div class="flex items-center justify-center w-full relative">
                                     <label
