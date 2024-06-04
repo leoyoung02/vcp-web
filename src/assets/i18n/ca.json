@@ -344,7 +344,8 @@
         "invalidcode": "Codi no vàlid",
         "youearned": "Enhorabona, t'has guanyat",
         "sendconfirmaattendanceemail": "Envia un correu electrònic de confirmació d'assistència",
-        "expiredconfirm": "Ho sentim, l'enllaç de confirmació d'assistència ha caducat."
+        "expiredconfirm": "Ho sentim, l'enllaç de confirmació d'assistència ha caducat.",
+        "uploadingvideo": "S'està penjant el vídeo, espereu..."
     },
     "plan-create": {
         "fillup": "Omple aquest formulari per crear el teu pla",

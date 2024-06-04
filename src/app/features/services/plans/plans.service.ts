@@ -89,7 +89,7 @@ import {
   PLANS_MANAGEMENT_DATA_URL,
   PLANS_OTHER_DATA_URL,
   PLANS_URL,
-  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_UPDATED_EMAIL_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_PAYMENT_BIZUM_URL, PLAN_PAYMENT_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, REMOVE_FROM_WAITING_LIST_URL, SALES_PEOPLE_URL, SEND_CONFIRM_ATTENDANCE_EMAIL_URL, SEND_CREDITS_DATA_URL, SUBMIT_ACTIVITY_RATING_URL, UPLOAD_PLAN_IMAGE_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
+  PLAN_CATEGORIES_URL, PLAN_CATEGORY_ADD_URL, PLAN_CATEGORY_DELETE_URL, PLAN_CATEGORY_EDIT_URL, PLAN_DETAILS_UPDATED_EMAIL_URL, PLAN_DETAILS_URL, PLAN_EMAIL_TO_URL, PLAN_GUEST_REGISTRATION_URL, PLAN_INVITE_LINK_URL, PLAN_PAYMENT_BIZUM_URL, PLAN_PAYMENT_URL, PLAN_REGISTRATION_DATA_URL, PLAN_REGISTRATION_URL, PLAN_SUBCATEGORIES_ADD_URL, PLAN_SUBCATEGORIES_EDIT_URL, PLAN_SUBCATEGORIES_MAPPING_URL, PLAN_SUBCATEGORIES_URL, PLAN_SUBCATEGORY_DELETE_URL, PLAN_SUPERCATEGORIES_URL, PLAN_UPDATE_ALIAS_URL, PLAN_UPDATE_SLUG_URL, PLAN_VIDEO_UPLOAD_URL, REMOVE_FROM_WAITING_LIST_URL, SALES_PEOPLE_URL, SEND_CONFIRM_ATTENDANCE_EMAIL_URL, SEND_CREDITS_DATA_URL, SUBMIT_ACTIVITY_RATING_URL, UPLOAD_PLAN_IMAGE_URL, USER_COURSES_URL, USER_ROLE_URL, USER_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -638,6 +638,8 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show_price', isShowPrice );
     formData.append( 'school_of_life', planForm.school_of_life );
     formData.append( 'age_group_id', planForm.age_group_id );
+    formData.append( 'default_cover', planForm.default_cover );
+    formData.append( 'video', planForm.video );
 
     if(entityId == 32) {
       formData.append( 'additional_properties_course_access', allowCourseAccess == true ? '1' : '0' );
@@ -885,6 +887,8 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'show', planForm.show );
     formData.append( 'orig_image', planForm.orig_image );
     formData.append( 'age_group_id', planForm.age_group_id );
+    formData.append( 'default_cover', planForm.default_cover );
+    formData.append( 'video', planForm.video );
 
     if(entityId == 32) {
       formData.append( 'additional_properties_course_access', planForm.additional_properties_course_access );
@@ -1317,6 +1321,10 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     ).pipe(map(res => res));
   }
 
+  uploadPlanCoverVideo(payload): Observable<any> {
+    return this._http.post(`${PLAN_VIDEO_UPLOAD_URL}`, payload).pipe(map(res => res));
+  }
+  
   getActivityPaymentOptions(id, typeId): Observable<any> {
     return this._http.get(`${ACTIVITY_PAYMENT_OPTIONS_URL}/${id}/${typeId}`,
       { headers: this.headers }

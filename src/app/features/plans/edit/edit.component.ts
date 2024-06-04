@@ -179,8 +179,7 @@ export class PlanEditComponent {
   group_id: any;
   selectedClub: any = "";
   selectedCompany: any = "";
-  errorMessage =
-    "Something went wrong. Please check network or provided data for any errors.";
+  errorMessage = "Something went wrong. Please check network or provided data for any errors.";
   showError = false;
   category_id = [];
   localStorageEvent: any = {};
@@ -443,6 +442,15 @@ export class PlanEditComponent {
   showMeetingLinks: boolean = true;
   createdByUser: any = '';
   users: any = [];
+  isDefaultPhoto: boolean = false;
+  isDefaultVideo: boolean = false;
+  setDefaultPhoto: boolean = false;
+  setDefaultVideo: boolean = false;
+  coverVideo: string = '';
+  hasExistingVideo: boolean = false;
+  existingVideoURL: string = '';
+  existingVideoFile: string = '';
+  uploadingVideoComplete: boolean = false;
 
   initialPlan: any = {};
   currentPlan: any = {};
@@ -828,6 +836,10 @@ export class PlanEditComponent {
           if (this.id > 0) {
             this.fetchPlan();
           } else {
+            if(this.isUESchoolOfLife) {
+              this.isDefaultPhoto = true;
+              this.setDefaultPhoto = true;
+            }
             this.createdByUser = this.userId;
           }
         },
@@ -1756,6 +1768,22 @@ export class PlanEditComponent {
     this.createdByUser = this.plan?.fk_user_id || this.userId;
     this.netcultura = netcultura;
     this.selectedAgeGroup = age_group_id || '';
+    this.coverVideo = this.plan?.video;
+    if(this.coverVideo) {
+      this.hasExistingVideo = true;
+      this.existingVideoFile = this.plan?.video;
+      this.existingVideoURL = `${this.apiPath}/get-ie-image-plan/${this.plan?.video}`;
+    }
+    if(this.plan?.default_cover == 'video') {
+      this.isDefaultVideo = true;
+      this.setDefaultVideo = true;
+      this.setDefaultPhoto = false;
+    } else {
+      this.setDefaultPhoto = true;
+      this.isDefaultPhoto = true;
+      this.setDefaultVideo = false;
+      this.setDefaultPhoto = true;
+    }
   }
 
   mapCategories(category_mapping) {
@@ -2436,11 +2464,13 @@ export class PlanEditComponent {
     this.plan["guest_seats"] = this.guestMemberSeatActive && this.planForm.get("guest_seats")?.value ? this.planForm.get("guest_seats")?.value : null;
     this.plan["show"] = this.isShowPastEvent ? 1 : 0;
     this.plan['age_group_id'] = this.ageGroupFilterActive && this.selectedAgeGroup ? this.selectedAgeGroup : null;
+    this.plan['default_cover'] = this.setDefaultVideo && (this.videoFile || this.existingVideoFile) ? 'video' : 'photo'; 
+    this.plan['video'] = this.setDefaultVideo && this.videoFile && this.coverVideo ? this.coverVideo : this.existingVideoFile;
     this.plan["bizum_pay"] = this.isBizumActive && this.isBizumPayment ? 1 : 0;
 
     let event_reg_file_status = localStorage.getItem('event_reg_file')
     let event_reg_file = event_reg_file_status == 'complete' ? this.eventGuestRegFileName : ''
-    this.plan["orig_image"] = this.isImageCenterButton ? event_reg_file : null
+    this.plan["orig_image"] = this.isImageCenterButton ? event_reg_file : ''
 
     if(this.companyId == 32) {
       this.plan['additional_properties_course_access'] = this.allowCourseAccess == true ? '1' : '0',
@@ -2472,7 +2502,7 @@ export class PlanEditComponent {
       this.hasSpeaker && this.selectedSpeaker && this.selectedSpeaker.length > 0
         ? this.selectedSpeaker[0].id
         : null;
-    this.plan["guest_speaker"] = this.guestSpeaker ? this.guestSpeaker : null;
+    this.plan["guest_speaker"] = this.guestSpeaker ? this.guestSpeaker : '';
     if (this.activityFeeEnabled) {
       this.plan["stripe_pay"] = this.isStripePayment ? 1 : 0;
     }
@@ -3361,6 +3391,54 @@ export class PlanEditComponent {
     this.showVideoSection = false;
     localStorage.setItem('event_reg_file', '');
 
+  }
+
+  selectPlanCover(mode) {
+    if(mode == 'video') {
+      this.isDefaultVideo = true;
+      this.isDefaultPhoto = false;
+    } else {
+      this.isDefaultVideo = false;
+      this.isDefaultPhoto = true;
+    }
+  }
+
+  editCoverStatus(event, mode) {
+    if(event?.target?.checked) {
+      if(mode == 'photo') {
+        this.setDefaultPhoto = true;
+        this.setDefaultVideo = false;
+      } else if(mode == 'video') {
+        this.setDefaultPhoto = false;
+        this.setDefaultVideo = true;
+      }
+    }
+  }
+
+  videoChangeEvent(event: any):void {
+    this.videoFile = event?.target?.files[0];
+    this.fileExtension = this.videoFile ? this.videoFile.name.split('.').pop() : '';
+    let timestamp = this.getTimestamp();
+    this.coverVideo = 'companyVideo_' + this.userId + '_' + timestamp + '.' + this.fileExtension;
+    this.videoSrc = URL.createObjectURL(this.videoFile);
+
+    if(this.coverVideo) {
+      this.uploadingVideoComplete = true;
+      const formData = new FormData();
+      formData.append('file', this.videoFile, this.coverVideo);
+
+      this._plansService
+        .uploadPlanCoverVideo(formData)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (data) => {
+            this.uploadingVideoComplete = false;
+          }, 
+          (error) => {
+            console.log(error);
+          }
+        );
+    }
   }
 
   async open(message: string, action: string) {

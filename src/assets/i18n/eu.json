@@ -344,7 +344,8 @@
         "invalidcode": "Kode baliogabea",
         "youearned": "Zorionak, irabazi duzu",
         "sendconfirmaattendanceemail": "Bidali berresteko asistentzia-mezu elektronikoa",
-        "expiredconfirm": "Barkatu, berresteko asistentzia esteka iraungi egin da."
+        "expiredconfirm": "Barkatu, berresteko asistentzia esteka iraungi egin da.",
+        "uploadingvideo": "Bideoa kargatzen, itxaron mesedez..."
     },
     "plan-create": {
         "fillup": "Bete formulario hau zure plana sortzeko",

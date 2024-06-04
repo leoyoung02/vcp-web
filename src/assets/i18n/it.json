@@ -343,7 +343,8 @@
         "confirmedattendance": "Hai confermato con successo la tua presenza",
         "invalidcode": "Codice non valido",
         "youearned": "Congratulazioni, te lo sei guadagnato",
-        "expiredconfirm": "Siamo spiacenti, il link per confermare la partecipazione è scaduto."
+        "expiredconfirm": "Siamo spiacenti, il link per confermare la partecipazione è scaduto.",
+        "uploadingvideo": "Caricamento video, attendi prego..."
     },
     "plan-create": {
         "fillup": "Compila questo modulo per creare il tuo piano",

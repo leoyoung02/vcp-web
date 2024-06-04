@@ -344,7 +344,8 @@
         "invalidcode": "Invalid code",
         "youearned": "Congratulations, you earned",
         "sendconfirmattendanceemail": "Send confirm attendance email",
-        "expiredconfirm": "Sorry, the confirm attendance link has expired."
+        "expiredconfirm": "Sorry, the confirm attendance link has expired.",
+        "uploadingvideo": "Uploading video, please wait..."
     },
     "plan-create": {
         "fillup": "Fill out this form to create your plan",

@@ -344,7 +344,8 @@
         "invalidcode": "Code invalide",
         "youearned": "Félicitations, vous avez gagné",
         "sendconfirmattendanceemail": "Envoyer un e-mail de confirmation de présence",
-        "expiredconfirm": "Désolé, le lien de confirmation de participation a expiré."
+        "expiredconfirm": "Désolé, le lien de confirmation de participation a expiré.",
+        "uploadingvideo": "Téléchargement de la vidéo, veuillez patienter..."
     },
     "plan-create": {
         "fillup": "Remplissez ce formulaire pour créer votre plan",
