@@ -348,7 +348,8 @@
         "invalidcode": "Ungültiger Code",
         "youearned": "Herzlichen Glückwunsch, Sie haben es verdient",
         "sendconfirmattendanceemail": "E-Mail zur Bestätigung der Teilnahme senden",
-        "expiredconfirm": "Leider ist der Link zur Teilnahmebestätigung abgelaufen."
+        "expiredconfirm": "Leider ist der Link zur Teilnahmebestätigung abgelaufen.",
+        "uploadingvideo": "Video wird hochgeladen, bitte warten..."
     },
     "plan-create": {
         "fillup": "Füllen Sie dieses Formular aus, um Ihren Plan zu erstellen",
