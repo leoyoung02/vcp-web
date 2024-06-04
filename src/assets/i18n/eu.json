@@ -344,7 +344,8 @@
         "invalidcode": "Kode baliogabea",
         "youearned": "Zorionak, irabazi duzu",
         "sendconfirmaattendanceemail": "Bidali berresteko asistentzia-mezu elektronikoa",
-        "expiredconfirm": "Barkatu, berresteko asistentzia esteka iraungi egin da."
+        "expiredconfirm": "Barkatu, berresteko asistentzia esteka iraungi egin da.",
+        "uploadingvideo": "Bideoa kargatzen, itxaron mesedez..."
     },
     "plan-create": {
         "fillup": "Bete formulario hau zure plana sortzeko",
@@ -1514,6 +1515,11 @@
         "yes": "Bai",
         "no": "Ez",
         "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia",
+        "bizumpayment": "Aktibatu Bizum ordainketa-aukera gisa?",
+        "stripedesc": "Kreditu- eta zordunketa-txartelen ordainketak onartzen ditu",
+        "bizumdesc": "Bidali ordainketa zure telefonoaren bidez",
+        "reserve": "Erreserba",
+        "signup": "Eman izena",
         "insertvideo": "Txertatu bideoa"
     },
     "edit-club": {
@@ -3429,6 +3435,7 @@
         "failed":"huts egin zuen",
         "selectcredits": "Hautatu erosteko kredituak", 
         "paymentconfirmed": "Eskerrik asko erosketagatik. Honek zure ordainketa amaitu dela berresten du.",
+        "bizumconfirmed": "Vielen Dank für deine Anmeldung!",
         "totalcredits":"Kredituak guztira",
         "creditadditon":"Kreditu gehikuntza",
         "creditdeduction":"Kreditu kenkaria",

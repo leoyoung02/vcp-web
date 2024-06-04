@@ -344,7 +344,8 @@
         "invalidcode": "Code invalide",
         "youearned": "Félicitations, vous avez gagné",
         "sendconfirmattendanceemail": "Envoyer un e-mail de confirmation de présence",
-        "expiredconfirm": "Désolé, le lien de confirmation de participation a expiré."
+        "expiredconfirm": "Désolé, le lien de confirmation de participation a expiré.",
+        "uploadingvideo": "Téléchargement de la vidéo, veuillez patienter..."
     },
     "plan-create": {
         "fillup": "Remplissez ce formulaire pour créer votre plan",
@@ -1512,6 +1513,11 @@
         "yes": "Oui",
         "no": "Non",
         "eventregistrationimage": "Image de la page d'inscription des invités à l'événement",
+        "bizumpayment": "Activer Bizum comme option de paiement?",
+        "stripedesc": "Accepte les paiements par carte de crédit et de débit",
+        "bizumdesc": "Envoyez le paiement via votre smartphone",
+        "reserve": "Réserve",
+        "signup": "Inscrivez-vous",
         "insertvideo": "Insérer une vidéo"
     },
     "edit-club": {
@@ -3423,6 +3429,7 @@
         "failed":"échoué",
         "selectcredits": "Sélectionnez les crédits à acheter", 
         "paymentconfirmed": "Merci pour votre achat. Cela confirme que votre paiement a été effectué.",
+        "bizumconfirmed": "Merci pour votre inscription !",
         "totalcredits":"Crédits totaux",
         "creditadditon":"Ajout de crédit",
         "creditdeduction":"Credit Deduction",

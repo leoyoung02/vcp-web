@@ -74,14 +74,22 @@
                         </svg>
                     </div>
                 </div>
-                <img 
-                    *ngIf="plan?.image"
-                    class="rounded-[30px] object-cover object-top w-full max-w-full sm:w-full sm:max-w-full md:w-[540px] md:max-w-[540px] lg:w-[540px] lg:max-w-[540px] sm:h-auto md:h-[510px] lg:h-[510px] max-h-auto md:max-h-[510px] lg:max-h-[510px]"
-                    [ngSrc]="apiPath + plan?.path + plan?.image" 
-                    [alt]="getEventTitle(plan)" 
-                    width="540" 
-                    height="510"
-                >
+                <ng-container *ngIf="plan?.default_cover != 'video'">
+                    <img 
+                        *ngIf="plan?.image"
+                        class="rounded-[30px] object-cover object-top w-full max-w-full sm:w-full sm:max-w-full md:w-[540px] md:max-w-[540px] lg:w-[540px] lg:max-w-[540px] sm:h-auto md:h-[510px] lg:h-[510px] max-h-auto md:max-h-[510px] lg:max-h-[510px]"
+                        [ngSrc]="apiPath + plan?.path + plan?.image" 
+                        [alt]="getEventTitle(plan)" 
+                        width="540" 
+                        height="510"
+                    >
+                </ng-container>
+                <ng-container *ngIf="plan?.video && plan?.default_cover == 'video'">
+                    <video class="object-fill w-full h-auto max-w-full border border-gray-200 rounded-lg dark:border-gray-700" controls>
+                        <source [src]="apiPath + '/get-ie-image-plan/' + plan?.video" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video> 
+                </ng-container>
             </div>
             <div class="w-full mr-0 sm:mr-0 md:mr-[80px] lg:mr-[80px]">
                 <div class="w-full max-w-full">
@@ -117,6 +125,7 @@
                     <div *ngIf="planTitle" class="flex justify-between flex-gap-row flex-col sm:flex-col md:flex-row lg:flex-row">
                         <div *ngIf="showJoinButton && joinStatusChecked && !isExternalRegistration &&
                             (
+                                pendingBizumConfirmation ||
                                 getRequestJoinStatus() ||
                                 getJoinStatus() ||
                                 (waitingListActive && plan?.waiting_list == 1 && activateWaitingList && !joinedParticipant)
@@ -136,7 +145,17 @@
                                     {{ 'plan-details.pending' | translate }}
                                 </button>
                                 <button
-                                    *ngIf="getJoinStatus()"
+                                    *ngIf="pendingBizumConfirmation"
+                                    class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold"
+                                    [ngStyle]="{
+                                        'background-color': buttonColor
+                                    }"
+                                    disabled
+                                >
+                                    {{ 'plan-details.pending' | translate }}
+                                </button>
+                                <button
+                                    *ngIf="getJoinStatus() && !pendingBizumConfirmation"
                                     class="btn w-full max-w-full h-[52px] text-white text-base uppercase font-semibold transition duration-700 ease-in-out"
                                     [ngStyle]="{
                                         'background-color': buttonColor,

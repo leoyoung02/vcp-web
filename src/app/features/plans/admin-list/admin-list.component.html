@@ -115,167 +115,338 @@
             <ng-container matColumnDef="attendees">
                 <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'plan-details.confirmedattendees' | translate }} </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="attendees">
-                    <table *ngIf="row?.participants?.length > 0" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                            <tr>
-                                <th scope="col" class="px-2 py-1">
-                                    {{ 'your-admin-area.name' | translate }}
-                                </th>
-                                <th scope="col" class="px-2 py-1">
-                                    {{ 'your-admin-area.role' | translate }}
-                                </th>
-                                <th scope="col" class="px-2 py-1">
-                                    {{ 'your-admin-area.phone' | translate }}
-                                </th>
-                                <th scope="col" class="px-2 py-1">
-                                    {{ 'your-admin-area.email' | translate }}
-                                </th>
-                                <th scope="col" class="px-2 py-1">
-                                    {{ 'your-admin-area.invitedby' | translate }}
-                                </th>
-                                <th scope="col" class="px-2 py-1" *ngIf="status != 'salesprocess'">
-                                    {{ 'your-admin-area.attendance' | translate }}
-                                </th>
-                                <th scope="col" class="px-2 py-1" *ngIf="row?.paid_activity">
-                                    {{ 'members.paid' | translate }}
-                                </th>
-                                <ng-container *ngIf="status == 'salesprocess' || (company?.id == 12 && status == 'active')">
-                                    <th scope="col" class="px-2 py-1" *ngIf="status == 'salesprocess'">
-                                        ADMIN 1
-                                    </th>
-                                    <th scope="col" class="px-2 py-1">
-                                        {{ status == 'active' ? ('crm.salesperson' | translate) : ('your-admin-area.assign' | translate) }}
-                                    </th>
-                                </ng-container>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <ng-container *ngFor="let participant of row?.participants; let i = index;">
-                                <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                                    <th scope="row" class="text-xs px-2 py-1 font-medium text-gray-900 dark:text-white max-w-[80px]">
-                                        <div>
-                                            <ng-container *ngIf="company?.id == 12 && (getGuestHistory(participant?.fk_user_id).length > 1 && (participant?.role == 'Guest' || participant?.role == 'Invitado'))">
-                                                <svg (click)="showGuestHistory(participant?.fk_user_id)" class="inline hover:cursor-pointer w-4 h-4 mr-2 text-red-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-                                                </svg>
-                                            </ng-container>
-                                            <span>
-                                                {{participant?.name}}
-                                            </span>
-                                        </div>
-                                    </th>
-                                    <td class="text-xs px-2 py-1 max-w-[60px]">
-                                        {{ participant?.role == 'Guest' ? ('plan-details.guest' | translate) : participant?.role }}
-                                    </td>
-                                    <td class="text-xs px-2 py-1 max-w-[50px]">
-                                        {{ participant?.phone }}
-                                    </td>
-                                    <td class="text-xs px-2 py-1 max-w-[80px]">
-                                        {{ participant?.email }}
-                                    </td>
-                                    <td class="text-xs px-2 py-1 max-w-[80px]">
-                                        {{ participant?.invited_by }}
-                                    </td>
-                                    <td class="text-xs px-2 py-1 flex items-center max-w-[80px]" *ngIf="status != 'salesprocess'">
-                                        <ng-container>
-                                            <svg
-                                                *ngIf="status == 'active' && ((participant?.confirmed == 0 && participant?.clear_confirmed == 0) || (participant?.confirmed == 0 && participant?.clear_confirmed == 1))" 
-                                                [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
-                                                (click)="confirmation(participant?.participant_id, participant?.role, participant?.fk_user_id, row?.id, participant?.type)" 
-                                                class="mr-2 w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                                            </svg>
-                                            <svg
-                                                *ngIf="participant?.confirmed == 1 && participant?.clear_confirmed == 0 && status == 'active'"
-                                                [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
-                                                [ngStyle]="{'color': '#5cb85c'}" class="mr-2 w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                                            </svg>
-                                            <svg 
-                                                *ngIf="status == 'active' && ((participant?.confirmed == 0 && participant?.clear_confirmed == 0) || (participant?.confirmed == 1 && participant?.clear_confirmed == 0))"
-                                                [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
-                                                (click)="clearConfirmation(participant?.participant_id, participant?.role, participant?.fk_user_id, row?.id, participant?.type)" 
-                                                class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
-                                            </svg>
-                                            <svg 
-                                                *ngIf="participant?.confirmed == 0 && participant?.clear_confirmed == 1 && status == 'active'"
-                                                [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
-                                                (click)="clearConfirmation(participant?.participant_id, participant?.role, participant?.fk_user_id, row?.id, participant?.type)"
-                                                [ngStyle]="{'color': '#d9534f'}" class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
-                                            </svg>
+                    <div class="flex flex-col">
+                        <div>
+                            <table *ngIf="row?.participants?.length > 0" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                    <tr>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.name' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.role' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.phone' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.email' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.invitedby' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1" *ngIf="status != 'salesprocess'">
+                                            {{ 'your-admin-area.attendance' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1" *ngIf="row?.paid_activity">
+                                            {{ 'members.paid' | translate }}
+                                        </th>
+                                        <ng-container *ngIf="status == 'salesprocess' || (company?.id == 12 && status == 'active')">
+                                            <th scope="col" class="px-2 py-1" *ngIf="status == 'salesprocess'">
+                                                ADMIN 1
+                                            </th>
+                                            <th scope="col" class="px-2 py-1">
+                                                {{ status == 'active' ? ('crm.salesperson' | translate) : ('your-admin-area.assign' | translate) }}
+                                            </th>
                                         </ng-container>
-                                        <ng-container>
-                                        <svg
-                                            *ngIf="status == 'past' && ((participant?.attended == 0 && participant?.clear_attended == 0) || (participant?.attended == 0 && participant?.clear_attended == 1))"
-                                            (click)="confirmAttendance(participant?.participant_id, participant?.role, participant?.fk_user_id, row?.id, participant?.type)"
-                                            [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
-                                            class="mr-2 w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                                        </svg>
-                                        <svg
-                                            *ngIf="participant?.attended == 1 && participant?.clear_attended == 0 && status == 'past'"
-                                            [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
-                                            [ngStyle]="{'color': '#5cb85c'}" class="mr-2 w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
-                                        </svg>
-                                        <svg 
-                                            *ngIf="status == 'past' && ((participant?.attended == 0 && participant?.clear_attended == 0) || (participant?.attended == 1 && participant?.clear_attended == 0))"
-                                            (click)="clearAttendance(participant?.participant_id, participant?.role, participant?.fk_user_id, row?.id, participant?.type)"
-                                            [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
-                                            class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
-                                        </svg>
-                                        <svg 
-                                            *ngIf="participant?.attended == 0 && participant?.clear_attended == 1 && status == 'past'"
-                                            (click)="clearAttendance(participant?.participant_id, participant?.role, participant?.fk_user_id, row?.id, participant?.type)"
-                                            [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
-                                            [ngStyle]="{'color': '#d9534f'}" class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
-                                        </svg>
-                                        </ng-container>
-                                    </td>
-                                    <td class="text-xs px-2 py-1 max-w-[80px]" *ngIf="row?.paid_activity">
-                                        <a href="javascript:;" class="text-blue-600 hover:cursor-pointer" (click)="goToInvoice(participant?.invoice)">{{ participant?.invoice }}</a>
-                                    </td>
-                                    <ng-container *ngIf="(superAdmin || customMemberTypePermissions?.admin_assign == 1) && (status == 'salesprocess' || status == 'active')">
-                                        <td class="text-xs px-2 py-1 max-w-[80px]" *ngIf="status == 'salesprocess'">
-                                            {{participant?.admin1 ? participant?.admin1 : ('your-admin-area.freearea' | translate)}}
-                                        </td>
-                                        <td class="text-xs px-2 py-1 max-w-[80px]">
-                                            <div class="flex">
-                                                <svg *ngIf="status == 'salesprocess'" (click)="assignSalesPerson(participant)" class="hover:cursor-pointer w-6 h-6 mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
-                                                    <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-2V5a1 1 0 0 0-2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 0 0 2 0V9h2a1 1 0 1 0 0-2Z"/>
-                                                </svg>
-                                                <span *ngIf="participant?.assigned_sales_person">{{participant?.assigned_sales_person}}</span>
-                                            </div>
-                                        </td>
-                                    </ng-container>
-                                </tr>
-                                <ng-container *ngIf="showHistory && selectedGuestId == participant?.fk_user_id">
-                                    <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                                        <th scope="col" class="px-2 py-1 col-span-2">{{'your-admin-area.event' | translate}}</th>
-                                        <th scope="col" class="px-2 py-1 col-span-2">{{ 'company-settings.date' | translate }}</th>
-                                        <th scope="col" class="px-2 py-1">{{ 'crm.invitedby' | translate }}</th>
-                                        <th scope="col" class="px-2 py-1  col-span-2">{{ 'audit-trail.updated' | translate }}</th>
-                                        <th scope="col" class="px-2 py-1">{{ 'crm.status' | translate }}</th>
-                                        <th scope="col" class="px-2 py-1"></th>
                                     </tr>
-                                    <ng-container *ngFor="let history of getGuestHistory(participant?.fk_user_id); let x = index;">
-                                        <tr>
-                                            <td class="text-red-600 text-xs px-2 py-1 max-w-[50px] col-span-2">{{ history.event }}</td>
-                                            <td class="text-red-600 text-xs px-2 py-1 col-span-2">{{ history.event_date }}</td>
-                                            <td class="text-red-600 text-xs px-2 py-1">{{ history.invited_by }}</td>
-                                            <td class="text-red-600 text-xs px-2 py-1 col-span-2">{{ history.changed_by }}</td>
-                                            <td class="text-red-600 text-xs px-2 py-1">{{ history?.status_es }}</td>
-                                            <td class="text-red-600 text-xs px-2 py-1"></td>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let participant of row?.participants; let i = index;">
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row" class="text-xs px-2 py-1 font-medium text-gray-900 dark:text-white max-w-[80px]">
+                                                <div>
+                                                    <ng-container *ngIf="company?.id == 12 && (getGuestHistory(participant?.fk_user_id).length > 1 && (participant?.role == 'Guest' || participant?.role == 'Invitado'))">
+                                                        <svg (click)="showGuestHistory(participant?.fk_user_id)" class="inline hover:cursor-pointer w-4 h-4 mr-2 text-red-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                                        </svg>
+                                                    </ng-container>
+                                                    <span>
+                                                        {{participant?.name}}
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <td class="text-xs px-2 py-1 max-w-[60px]">
+                                                {{ participant?.role == 'Guest' ? ('plan-details.guest' | translate) : participant?.role }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 max-w-[50px]">
+                                                {{ participant?.phone }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 max-w-[80px]">
+                                                {{ participant?.email }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 max-w-[80px]">
+                                                {{ participant?.invited_by }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 flex items-center max-w-[80px]" *ngIf="status != 'salesprocess'">
+                                                <ng-container>
+                                                    <svg
+                                                        *ngIf="status == 'active' && ((participant?.confirmed == 0 && participant?.clear_confirmed == 0) || (participant?.confirmed == 0 && participant?.clear_confirmed == 1))" 
+                                                        [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                        (click)="confirmation(participant?.participant_id, participant?.role, participant?.fk_user_id, row?.id, participant?.type)" 
+                                                        class="mr-2 w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                                    </svg>
+                                                    <svg
+                                                        *ngIf="participant?.confirmed == 1 && participant?.clear_confirmed == 0 && status == 'active'"
+                                                        [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                        [ngStyle]="{'color': '#5cb85c'}" class="mr-2 w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                                    </svg>
+                                                    <svg 
+                                                        *ngIf="status == 'active' && ((participant?.confirmed == 0 && participant?.clear_confirmed == 0) || (participant?.confirmed == 1 && participant?.clear_confirmed == 0))"
+                                                        [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                        (click)="clearConfirmation(participant?.participant_id, participant?.role, participant?.fk_user_id, row?.id, participant?.type)" 
+                                                        class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+                                                    </svg>
+                                                    <svg 
+                                                        *ngIf="participant?.confirmed == 0 && participant?.clear_confirmed == 1 && status == 'active'"
+                                                        [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                        (click)="clearConfirmation(participant?.participant_id, participant?.role, participant?.fk_user_id, row?.id, participant?.type)"
+                                                        [ngStyle]="{'color': '#d9534f'}" class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+                                                    </svg>
+                                                </ng-container>
+                                                <ng-container>
+                                                <svg
+                                                    *ngIf="status == 'past' && ((participant?.attended == 0 && participant?.clear_attended == 0) || (participant?.attended == 0 && participant?.clear_attended == 1))"
+                                                    (click)="confirmAttendance(participant?.participant_id, participant?.role, participant?.fk_user_id, row?.id, participant?.type)"
+                                                    [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                    class="mr-2 w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                                </svg>
+                                                <svg
+                                                    *ngIf="participant?.attended == 1 && participant?.clear_attended == 0 && status == 'past'"
+                                                    [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                    [ngStyle]="{'color': '#5cb85c'}" class="mr-2 w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                                </svg>
+                                                <svg 
+                                                    *ngIf="status == 'past' && ((participant?.attended == 0 && participant?.clear_attended == 0) || (participant?.attended == 1 && participant?.clear_attended == 0))"
+                                                    (click)="clearAttendance(participant?.participant_id, participant?.role, participant?.fk_user_id, row?.id, participant?.type)"
+                                                    [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                    class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+                                                </svg>
+                                                <svg 
+                                                    *ngIf="participant?.attended == 0 && participant?.clear_attended == 1 && status == 'past'"
+                                                    (click)="clearAttendance(participant?.participant_id, participant?.role, participant?.fk_user_id, row?.id, participant?.type)"
+                                                    [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                    [ngStyle]="{'color': '#d9534f'}" class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+                                                </svg>
+                                                </ng-container>
+                                            </td>
+                                            <td class="text-xs px-2 py-1 max-w-[80px]" *ngIf="row?.paid_activity">
+                                                <ng-container *ngIf="participant?.invoice == 'Bizum'">
+                                                    <span>{{participant?.invoice}}</span>
+                                                </ng-container>
+                                                <ng-container *ngIf="participant?.invoice != 'Bizum'">
+                                                    <a href="javascript:;" class="text-blue-600 hover:cursor-pointer" (click)="goToInvoice(participant?.invoice)">{{ participant?.invoice }}</a>
+                                                </ng-container>
+                                            </td>
+                                            <ng-container *ngIf="(superAdmin || customMemberTypePermissions?.admin_assign == 1) && (status == 'salesprocess' || status == 'active')">
+                                                <td class="text-xs px-2 py-1 max-w-[80px]" *ngIf="status == 'salesprocess'">
+                                                    {{participant?.admin1 ? participant?.admin1 : ('your-admin-area.freearea' | translate)}}
+                                                </td>
+                                                <td class="text-xs px-2 py-1 max-w-[80px]">
+                                                    <div class="flex">
+                                                        <svg *ngIf="status == 'salesprocess'" (click)="assignSalesPerson(participant)" class="hover:cursor-pointer w-6 h-6 mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
+                                                            <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-2V5a1 1 0 0 0-2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 0 0 2 0V9h2a1 1 0 1 0 0-2Z"/>
+                                                        </svg>
+                                                        <span *ngIf="participant?.assigned_sales_person">{{participant?.assigned_sales_person}}</span>
+                                                    </div>
+                                                </td>
+                                            </ng-container>
+                                        </tr>
+                                        <ng-container *ngIf="showHistory && selectedGuestId == participant?.fk_user_id">
+                                            <tr class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                                                <th scope="col" class="px-2 py-1 col-span-2">{{'your-admin-area.event' | translate}}</th>
+                                                <th scope="col" class="px-2 py-1 col-span-2">{{ 'company-settings.date' | translate }}</th>
+                                                <th scope="col" class="px-2 py-1">{{ 'crm.invitedby' | translate }}</th>
+                                                <th scope="col" class="px-2 py-1  col-span-2">{{ 'audit-trail.updated' | translate }}</th>
+                                                <th scope="col" class="px-2 py-1">{{ 'crm.status' | translate }}</th>
+                                                <th scope="col" class="px-2 py-1"></th>
+                                            </tr>
+                                            <ng-container *ngFor="let history of getGuestHistory(participant?.fk_user_id); let x = index;">
+                                                <tr>
+                                                    <td class="text-red-600 text-xs px-2 py-1 max-w-[50px] col-span-2">{{ history.event }}</td>
+                                                    <td class="text-red-600 text-xs px-2 py-1 col-span-2">{{ history.event_date }}</td>
+                                                    <td class="text-red-600 text-xs px-2 py-1">{{ history.invited_by }}</td>
+                                                    <td class="text-red-600 text-xs px-2 py-1 col-span-2">{{ history.changed_by }}</td>
+                                                    <td class="text-red-600 text-xs px-2 py-1">{{ history?.status_es }}</td>
+                                                    <td class="text-red-600 text-xs px-2 py-1"></td>
+                                                </tr>
+                                            </ng-container>
+                                        </ng-container>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <div *ngIf="row?.bizum_plan_participants?.length > 0" class="font-semibold ml-2 text-[#05C0C7]">BIZUM</div>
+                            <table *ngIf="row?.bizum_plan_participants?.length > 0" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-white uppercase bg-[#05C0C7]">
+                                    <tr>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.name' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.role' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.phone' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.email' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.invitedby' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1" *ngIf="row?.paid_activity">
+                                            {{ 'guests.confirmed' | translate }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let participant of row?.bizum_plan_participants; let i = index;">
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row" class="text-xs px-2 py-1 font-medium text-gray-900 dark:text-white max-w-[80px]">
+                                                <div>
+                                                    <span>
+                                                        {{participant?.name}}
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <td class="text-xs px-2 py-1 max-w-[60px]">
+                                                {{ participant?.role }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 max-w-[50px]">
+                                                {{ participant?.phone }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 max-w-[80px]">
+                                                {{ participant?.email }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 max-w-[80px]">
+                                                {{ participant?.invited_by }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 flex items-center max-w-[80px]">
+                                                <svg
+                                                    *ngIf="(participant?.confirmed != 1 && participant?.clear_confirmed == 0) || (participant?.confirmed == 0 && participant?.clear_confirmed == 1)" 
+                                                    [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                    (click)="confirmBizumPayment(participant?.participant_id, participant?.role, participant?.user_id, participant?.plan_id, participant?.plan_type)" 
+                                                    class="mr-2 w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                                </svg>
+                                                <svg
+                                                    *ngIf="participant?.confirmed == 1 && participant?.clear_confirmed == 0"
+                                                    [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                    [ngStyle]="{'color': '#5cb85c'}" class="mr-2 w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                                </svg>
+                                                <!-- <svg 
+                                                    *ngIf="(participant?.confirmed != 1 && participant?.clear_confirmed == 0) || (participant?.confirmed == 1 && participant?.clear_confirmed == 0)"
+                                                    [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                    (click)="clearConfirmBizumPayment(participant?.participant_id, participant?.role, participant?.user_id, participant?.plan_id, participant?.plan_type)" 
+                                                    class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+                                                </svg>
+                                                <svg 
+                                                    *ngIf="participant?.confirmed != 1 && participant?.clear_confirmed == 1"
+                                                    [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                    (click)="clearConfirmBizumPayment(participant?.participant_id, participant?.role, participant?.user_id, row?.id, participant?.plan_type)"
+                                                    [ngStyle]="{'color': '#d9534f'}" class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+                                                </svg> -->
+                                            </td>
                                         </tr>
                                     </ng-container>
-                                </ng-container>
-                            </ng-container>
-                        </tbody>
-                    </table>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div>
+                            <div *ngIf="row?.bizum_group_plan_participants?.length > 0" class="font-semibold ml-2 text-[#05C0C7]">BIZUM</div>
+                            <table *ngIf="row?.bizum_group_plan_participants?.length > 0" class="w-full text-sm text-left text-gray-500 dark:text-gray-400">
+                                <thead class="text-xs text-white uppercase bg-[#05C0C7]">
+                                    <tr>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.name' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.role' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.phone' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.email' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1">
+                                            {{ 'your-admin-area.invitedby' | translate }}
+                                        </th>
+                                        <th scope="col" class="px-2 py-1" *ngIf="row?.paid_activity">
+                                            {{ 'guests.confirmed' | translate }}
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <ng-container *ngFor="let participant of row?.bizum_group_plan_participants; let i = index;">
+                                        <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                                            <th scope="row" class="text-xs px-2 py-1 font-medium text-gray-900 dark:text-white max-w-[80px]">
+                                                <div>
+                                                    <span>
+                                                        {{participant?.name}}
+                                                    </span>
+                                                </div>
+                                            </th>
+                                            <td class="text-xs px-2 py-1 max-w-[60px]">
+                                                {{ participant?.role }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 max-w-[50px]">
+                                                {{ participant?.phone }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 max-w-[80px]">
+                                                {{ participant?.email }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 max-w-[80px]">
+                                                {{ participant?.invited_by }}
+                                            </td>
+                                            <td class="text-xs px-2 py-1 flex items-center max-w-[80px]">
+                                                <svg
+                                                    *ngIf="(participant?.confirmed != 1 && participant?.clear_confirmed == 0) || (participant?.confirmed == 0 && participant?.clear_confirmed == 1)" 
+                                                    [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                    (click)="confirmBizumPayment(participant?.participant_id, participant?.role, participant?.user_id, participant?.plan_id, participant?.plan_type)" 
+                                                    class="mr-2 w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                                </svg>
+                                                <svg
+                                                    *ngIf="participant?.confirmed == 1 && participant?.clear_confirmed == 0"
+                                                    [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                    [ngStyle]="{'color': '#5cb85c'}" class="mr-2 w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                                                </svg>
+                                                <!-- <svg 
+                                                    *ngIf="(participant?.confirmed != 1 && participant?.clear_confirmed == 0) || (participant?.confirmed == 1 && participant?.clear_confirmed == 0)"
+                                                    [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                    (click)="clearConfirmBizumPayment(participant?.participant_id, participant?.role, participant?.user_id, participant?.plan_id, participant?.plan_type)" 
+                                                    class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+                                                </svg>
+                                                <svg 
+                                                    *ngIf="participant?.confirmed != 1 && participant?.clear_confirmed == 1"
+                                                    [ngClass]="{'hover:cursor-pointer': superAdmin || customMemberTypePermissions?.admin_attendance == 1}"
+                                                    (click)="clearConfirmBizumPayment(participant?.participant_id, participant?.role, participant?.user_id, row?.id, participant?.plan_type)"
+                                                    [ngStyle]="{'color': '#d9534f'}" class="w-6 h-6 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                                    <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
+                                                </svg> -->
+                                            </td>
+                                        </tr>
+                                    </ng-container>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="action">
