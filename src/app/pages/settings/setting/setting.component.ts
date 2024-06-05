@@ -2030,7 +2030,22 @@ export class SettingComponent {
   }
 
   saveNavigation() {
-    this.closemodalbutton?.nativeElement.click();
+    let params = {
+      id: this.companyId,
+      navigation: this.selectedNavigation,
+    }
+    this._companyService.editNavigationSettings(params)
+      .subscribe(
+        async response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+          await this.setCompanyInit();
+          this.closemodalbutton?.nativeElement.click();
+          location.reload();
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
   handleGoBack() {

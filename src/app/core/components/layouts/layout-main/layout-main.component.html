@@ -1,5 +1,5 @@
-<div class="flex">
-    <app-sidebar
+<ng-container *ngIf="navigation == 'top-menu'">
+    <app-top-menu
         *ngIf="!isCursoGeniusTestimonials"
         [menus]="menus" 
         [refreshedMenu]="refreshedMenu"
@@ -40,7 +40,53 @@
         [isCursoGeniusTestimonials]="isCursoGeniusTestimonials"
         (changeLanguage)="changedLanguage($event)" 
     >
-    </app-sidebar>
+    </app-top-menu>
+</ng-container>
+<div class="flex">
+    <ng-container *ngIf="navigation == 'side-menu'">
+        <app-sidebar
+            *ngIf="!isCursoGeniusTestimonials"
+            [menus]="menus" 
+            [refreshedMenu]="refreshedMenu"
+            [company]="company"
+            [otherSettings]="otherSettings"
+            [language]="language"
+            [languages]="languages"
+            [userid]="userId"
+            [username]="username" 
+            [isAdmin]="isAdmin" 
+            [currentUser]="currentUser"
+            [imageSrc]="imageSrc"
+            [notifications]="notifications"
+            [popupNotifications]="popupNotifications"
+            [canManageEvents]="canManageEvents"
+            [customMemberTypeName]="customMemberTypeName"
+            [expireDays]="expireDays"
+            [expireDaysDiff]="expireDaysDiff"
+            [cancelDays]="cancelDays"
+            [memberTypeExpirations]="memberTypeExpirations"
+            [hasEventCalendar]="hasEventCalendar"
+            [isTutorUser]="isTutorUser"
+            [hasTutors]="hasTutors"
+            [canCreateCourse]="canCreateCourse"
+            [coursesTitle]="coursesTitle"
+            [tutorManageStudentAccess]="tutorManageStudentAccess"
+            [hasCreditSetting]="hasCreditSetting"
+            [hasCreditPackageSetting]="hasCreditPackageSetting"
+            [myClubsTitle]="myClubsTitle"
+            [myActivitiesTitle]="myActivitiesTitle"
+            [buttonColor]="buttonColor"
+            [hoverColor]="hoverColor"
+            [logoSource]="logoSource"
+            [superAdmin]="superAdmin"
+            [isUESchoolOfLife]="isUESchoolOfLife"
+            [hasHistoryOfActivities]="hasHistoryOfActivities"
+            [customMemberType]="customMemberType"
+            [isCursoGeniusTestimonials]="isCursoGeniusTestimonials"
+            (changeLanguage)="changedLanguage($event)" 
+        >
+        </app-sidebar>
+    </ng-container>
     <main class="w-full max-w-full relative"
         [ngStyle]="{'background': isWall ? '#f8f4f4' : 'initial'}">
         <div class="min-h-[calc(100vh_-_330px)] py-6 px-6 sm:px-6 md:px-6 md:px-16 lg:md:px-16">

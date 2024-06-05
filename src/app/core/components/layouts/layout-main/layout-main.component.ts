@@ -20,6 +20,7 @@ import { UserMenuComponent } from "@lib/components/user-menu/user-menu.component
 import { GuestMenuComponent } from "@lib/components/guest-menu/guest-menu.component";
 import moment from "moment";
 import get from "lodash/get";
+import { TopMenuComponent } from "@lib/components/top-menu/top-menu.component";
 
 @Component({
   selector: "app-layout-main",
@@ -34,6 +35,7 @@ import get from "lodash/get";
     UserMenuComponent,
     MobileNavbarComponent,
     GuestMenuComponent,
+    TopMenuComponent,
   ],
   templateUrl: "./layout-main.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -188,6 +190,7 @@ export class LayoutMainComponent {
   showFooter: boolean = false;
   customLinks: any = [];
   isCursoGeniusTestimonials: boolean = false;
+  navigation: any = 'side-menu';
 
   constructor(
     private _router: Router,
@@ -276,6 +279,7 @@ export class LayoutMainComponent {
       this.courseWallPrefixTextValueDe = company[0].course_wall_prefix_text_de;
       this.courseWallPrefixTextValueIt = company[0].course_wall_prefix_text_it;
       this.courseWallMenu = company[0].course_wall_menu;
+      this.navigation = company[0].navigation || 'side-menu';
       this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
     }
 
