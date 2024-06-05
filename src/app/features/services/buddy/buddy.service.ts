@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { LocalService } from "@share/services/storage/local.service";
-import { ADD_CALENDLY_SESSION_URL, ADD_MENTOR_URL, APPLY_MENTOR_URL, APPROVE_MENTOR_REQUEST_URL, ASK_AS_MENTOR_URL, BUDDIES_DATA_URL, BUDDIES_URL, CANCEL_SESSION_URL, COLLEAGUE_ASKED_URL, CONTACT_LOG_URL, CONTACT_MENTOR_REPLY_URL, CONTACT_MENTOR_URL, DELETE_MENTOR_MESSAGE_URL, DELETE_MENTOR_URL, DELETE_SESSION_URL, EDIT_MENTOR_PHOTO_URL, EDIT_MENTOR_URL, EDIT_SESSION_STATUS_URL, MENTEE_ACCEPT_URL, MENTEE_REJECT_URL, MENTOR_MENTEE_MESSAGES_URL, MENTOR_REQUESTS_URL, MENTOR_REQUEST_DATA_URL, MENTOR_URL, REJECT_MENTOR_REQUEST_URL, SEARCH_MENTOR_URL, UPDATE_MENTOR_CALENDLY_URL } from "@lib/api-constants";
+import { ADD_CALENDLY_SESSION_URL, ADD_MENTOR_URL, APPLY_MENTOR_URL, APPROVE_MENTOR_REQUEST_URL, ASK_AS_MENTOR_URL, BUDDIES_DATA_URL, BUDDIES_URL, BUDDY_LIMIT_SETTINGS_URL, CANCEL_SESSION_URL, COLLEAGUE_ASKED_URL, CONTACT_LOG_URL, CONTACT_MENTOR_REPLY_URL, CONTACT_MENTOR_URL, DELETE_MENTOR_MESSAGE_URL, DELETE_MENTOR_URL, DELETE_SESSION_URL, EDIT_BUDDY_LIMIT_SETTINGS_URL, EDIT_MENTOR_PHOTO_URL, EDIT_MENTOR_URL, EDIT_SESSION_STATUS_URL, MENTEE_ACCEPT_URL, MENTEE_REJECT_URL, MENTOR_MENTEE_MESSAGES_URL, MENTOR_REQUESTS_URL, MENTOR_REQUEST_DATA_URL, MENTOR_URL, REJECT_MENTOR_REQUEST_URL, SEARCH_MENTOR_URL, UPDATE_MENTOR_CALENDLY_URL } from "@lib/api-constants";
 
 @Injectable({
   providedIn: "root",
@@ -196,6 +196,19 @@ export class BuddyService {
     return this._http.delete(
       `${DELETE_MENTOR_URL}/${id}`,
       {},
+    ).pipe(map(res => res));
+  }
+
+  getMenteeLimitSettings(id): Observable<any> {
+    return this._http.get(`${BUDDY_LIMIT_SETTINGS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  updateMenteeLimitSettings(params): Observable<any> {
+    return this._http.post(EDIT_BUDDY_LIMIT_SETTINGS_URL,
+        params,
+        { headers: this.headers }
     ).pipe(map(res => res));
   }
 }
