@@ -2269,6 +2269,9 @@ export class FeatureComponent {
           case 'group':
             text = this.clubTitle;
             break;
+          case 'language':
+            text = this._translateService.instant('job-offers.language');
+            break;
         }
         let filter = {
           id: fs.id,
