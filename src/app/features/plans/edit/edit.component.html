@@ -164,37 +164,45 @@
                             </div>
                         </ng-container>
                         <ng-container *ngIf="isDefaultVideo">
-                            <h3 class="text-center text-lg font-bold text-gray-900 dark:text-white mb-2">
-                                {{ 'plan-details.video' | translate }}
-                            </h3>
-                            <div class="flex items-center justify-center w-full">
-                                <label for="video" class="flex flex-col items-center justify-center w-full h-64 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
-                                    <div *ngIf="!videoFile && !existingVideoURL" class="flex flex-col items-center justify-center pt-5 pb-6">
-                                        <svg class="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
-                                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"/>
-                                        </svg>
-                                        <p class="mb-2 text-sm text-gray-500 dark:text-gray-400">{{ 'plan-create.uploadvideo' | translate }}</p>
-                                        <p class="text-xs text-gray-500 dark:text-gray-400">MP4, MOV</p>
-                                    </div>
-                                    <div *ngIf="videoFile && !existingVideoURL">
-                                        <video *ngIf="videoSrc" controls width="100%" height="200px" class="h-64">
-                                            <source src="{{ videoSrc }}" type="video/mp4" />
-                                        </video>
-                                    </div>
-                                    <div *ngIf="existingVideoURL && !videoFile">
-                                        <video *ngIf="existingVideoURL" controls width="100%" height="200px" class="h-64">
-                                            <source src="{{ existingVideoURL }}" type="video/mp4" />
-                                        </video>
-                                    </div>
-                                    <input id="video" type="file" class="hidden" (change)="videoChangeEvent($event)" />
-                                </label>
-
+                            <div class="flex items-center"
+                                [ngClass]="{
+                                    'justify-between mb-4': existingVideoURL,
+                                    'justify-center': !existingVideoURL
+                                }">
+                                <h3 class="text-center text-lg font-bold text-gray-900 dark:text-white mb-2">
+                                    {{ 'plan-details.video' | translate }}
+                                </h3>
+                                <div *ngIf="existingVideoURL" 
+                                    class="p-2 px-4 rounded-lg flex items-center justify-center hover:cursor-pointer" 
+                                    [ngStyle]="{'background-color': buttonColor}"
+                                    (click)="clearVideo()">
+                                    <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"
+                                        [ngStyle]="{'color': '#c24130'}">
+                                        <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z" clip-rule="evenodd"/>
+                                    </svg>
+                                    <span class="text-white text-xs ml-1">{{ 'profile-fields.remove' | translate }}</span>
+                                </div>
                             </div>
-                            <div class="center my-2 text-sm text-center text-blue-600" 
-                                *ngIf="uploadingVideoComplete">
-                                {{'plan-details.uploadingvideo' | translate}}
+                            <div *ngIf="!existingVideoURL"
+                                class="flex flex-col items-center justify-center plan-video-preview h-64 max-w-full w-full border-2 border-gray-300 border-dashed rounded-lg bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                <file-pond
+                                    class="w-full max-w-full"
+                                    #eventPondVideo
+                                    [options]="eventPondVideoOptions"
+                                    [files]="eventPondVideoFiles"
+                                    (oninit)="eventPondHandleVideoInit()"
+                                    (onaddfile)="eventPondHandleAddVideoFile($event)"
+                                    (onactivatefile)="eventPondHandleActivateVideoFile($event)"
+                                    (onprocessfiles)="eventPondHandleProcessFiles()"
+                                >
+                                </file-pond>
                             </div>
-                            <div class="flex items-center justify-center max-w-xs mx-auto my-8">
+                            <div *ngIf="existingVideoURL" class="relative">             
+                                <video *ngIf="existingVideoURL" controls width="100%" height="200px" class="h-64">
+                                    <source src="{{ existingVideoURL }}" type="video/mp4" />
+                                </video>
+                            </div>
+                            <div class="flex items-center justify-center max-w-xs mx-auto my-8" [ngClass]="{'mt-16 mb-0': eventVideoCoverUploaded}">
                                 <div class="flex items-center justify-center w-full relative">
                                     <label
                                         for="default-video"
