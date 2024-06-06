@@ -2519,8 +2519,8 @@ export class PlanEditComponent {
     this.plan["guest_seats"] = this.guestMemberSeatActive && this.planForm.get("guest_seats")?.value ? this.planForm.get("guest_seats")?.value : null;
     this.plan["show"] = this.isShowPastEvent ? 1 : 0;
     this.plan['age_group_id'] = this.ageGroupFilterActive && this.selectedAgeGroup ? this.selectedAgeGroup : null;
-    this.plan['default_cover'] = this.setDefaultVideo && (this.videoFile || this.existingVideoFile) ? 'video' : 'photo'; 
-    this.plan['video'] = this.setDefaultVideo && this.eventVideoCoverUploaded && this.eventVideoCoverUploaded ? this.eventCoverVideoFileName : (this.clearedVideo ? '' : this.existingVideoFile);
+    this.plan['default_cover'] = this.setDefaultVideo && ((this.eventVideoCoverUploaded && this.eventCoverVideoFileName) || this.existingVideoFile) ? 'video' : 'photo'; 
+    this.plan['video'] = this.setDefaultVideo && this.eventVideoCoverUploaded && this.eventCoverVideoFileName ? this.eventCoverVideoFileName : (this.clearedVideo ? '' : this.existingVideoFile);
     this.plan["bizum_pay"] = this.isBizumActive && this.isBizumPayment ? 1 : 0;
 
     let event_reg_file_status = localStorage.getItem('event_reg_file')
