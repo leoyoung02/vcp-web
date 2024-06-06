@@ -58,10 +58,12 @@ import moment from "moment";
 import get from "lodash/get";
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginMediaPreview from 'filepond-plugin-media-preview';
 import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
-registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
+import 'filepond-plugin-media-preview/dist/filepond-plugin-media-preview.css';
+registerPlugin(FilepondPluginImagePreview, FilePondPluginMediaPreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
 
 @Component({
   selector: "app-clubs-edit",
@@ -571,6 +573,59 @@ export class PlanEditComponent {
     },
   };
   pondVideoFiles = [];
+
+  eventVideoCoverUploaded: boolean = false;
+  clearedVideo: boolean = false;
+  eventCoverVideoFileName: any = '';
+  @ViewChild('eventPondVideo', {static: false}) eventPondVideo: any;
+  eventPondVideoOptions = {
+    class: 'event-filepond-video',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+          const formData = new FormData();
+          let fileExtension = file ? file.name.split('.').pop() : '';
+          this.eventCoverVideoFileName = 'p_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+          formData.append('file', file, this.eventCoverVideoFileName);
+          console.log('event video: ' + this.eventCoverVideoFileName)
+          localStorage.setItem('event_cover_video_file', 'uploading');
+
+          const request = new XMLHttpRequest();
+          request.open('POST', environment.api + '/v2/plan-video/upload');
+
+          request.upload.onprogress = (e) => {
+            progress(e.lengthComputable, e.loaded, e.total);
+          };
+
+          request.onload = function () {
+              if (request.status >= 200 && request.status < 300) {
+                load(request.responseText);
+                localStorage.setItem('event_cover_video_file', 'complete');
+              } else {
+                error('oh no');
+              }
+          };
+
+          request.send(formData);
+
+          return {
+            abort: () => {
+              request.abort();
+              abort();
+            },
+          };
+      },
+    },
+  };
+  eventPondVideoFiles = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -2464,8 +2519,8 @@ export class PlanEditComponent {
     this.plan["guest_seats"] = this.guestMemberSeatActive && this.planForm.get("guest_seats")?.value ? this.planForm.get("guest_seats")?.value : null;
     this.plan["show"] = this.isShowPastEvent ? 1 : 0;
     this.plan['age_group_id'] = this.ageGroupFilterActive && this.selectedAgeGroup ? this.selectedAgeGroup : null;
-    this.plan['default_cover'] = this.setDefaultVideo && (this.videoFile || this.existingVideoFile) ? 'video' : 'photo'; 
-    this.plan['video'] = this.setDefaultVideo && this.videoFile && this.coverVideo ? this.coverVideo : this.existingVideoFile;
+    this.plan['default_cover'] = this.setDefaultVideo && ((this.eventVideoCoverUploaded && this.eventCoverVideoFileName) || this.existingVideoFile) ? 'video' : 'photo'; 
+    this.plan['video'] = this.setDefaultVideo && this.eventVideoCoverUploaded && this.eventCoverVideoFileName ? this.eventCoverVideoFileName : (this.clearedVideo ? '' : this.existingVideoFile);
     this.plan["bizum_pay"] = this.isBizumActive && this.isBizumPayment ? 1 : 0;
 
     let event_reg_file_status = localStorage.getItem('event_reg_file')
@@ -3439,6 +3494,32 @@ export class PlanEditComponent {
           }
         );
     }
+  }
+
+  eventPondHandleVideoInit() {
+    console.log('FilePond has initialised', this.myPondVideo);
+  }
+
+  eventPondHandleAddVideoFile(event: any) {
+    console.log('A file was added', event);
+    let event_cover_video_file_status = localStorage.getItem('event_cover_video_file');
+    let event_cover_video_file = event_cover_video_file_status == 'complete' ? this.eventCoverVideoFileName : '';
+  }
+
+  eventPondHandleActivateVideoFile(event: any) {
+    console.log('A file was activated', event);
+  }
+
+  eventPondHandleProcessFiles() {
+    console.log('FilePond has processed files', this.eventPondVideo);
+    this.eventVideoCoverUploaded = true;
+  }
+
+  clearVideo() {
+    this.clearedVideo = true;
+    this.existingVideoURL = '';
+    this.setDefaultPhoto = true;
+    this.setDefaultVideo = false;
   }
 
   async open(message: string, action: string) {
