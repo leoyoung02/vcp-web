@@ -35,6 +35,7 @@ import {
 import { FormsModule } from "@angular/forms";
 import menuIconsData from "src/assets/data/menu-icons.json";
 import { environment } from "@env/environment";
+import { GuestMenuComponent } from "../guest-menu/guest-menu.component";
 
 @Component({
   selector: "app-top-menu",
@@ -46,6 +47,7 @@ import { environment } from "@env/environment";
     TranslateModule,
     FontAwesomeModule,
     LogoComponent,
+    GuestMenuComponent,
   ],
   templateUrl: "./top-menu.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -82,6 +84,7 @@ export class TopMenuComponent {
   @Input() hasCreditPackageSetting: any;
   @Input() myActivitiesTitle: any;
   @Input() myClubsTitle: any;
+  @Input() primaryColor: any;
   @Input() buttonColor: any;
   @Input() hoverColor: any;
   @Input() logoSource: any;
@@ -91,11 +94,12 @@ export class TopMenuComponent {
   @Input() hasHistoryOfActivities: any;
   @Input() customMemberType: any;
   @Input() isCursoGeniusTestimonials: any;
+  @Input() canRegister: any;
+  @Input() navigation: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;
   companyName: any;
-  primaryColor: any;
   menuColor: any;
   courseWallButton: any;
   navMenus: any = [];

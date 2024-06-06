@@ -145,6 +145,7 @@ export class LayoutMainComponent {
   myActivities: any;
   myClubsTitle: string = '';
   myActivitiesTitle: string = '';
+  primaryColor: any;
   buttonColor: any;
   hoverColor: any;
   logoSource: any;
@@ -242,6 +243,7 @@ export class LayoutMainComponent {
       this.companyId = company[0].id;
       this.domain = company[0].domain;
       this.logoSource = environment.api +  "/get-image-company/" +  (company[0].photo || company[0].image);
+      this.primaryColor = company[0].primary_color ? company[0].primary_color : company[0].button_color;
       this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color;
       this.hoverColor = company[0].hover_color ? company[0].hover_color : company[0].primary_color;
       this.homeTextValue = company[0].home_text || "Inicio";

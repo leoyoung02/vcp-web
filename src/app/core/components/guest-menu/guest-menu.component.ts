@@ -35,8 +35,10 @@ export class GuestMenuComponent {
 
     @Input() company: any;
     @Input() language: any;
+    @Input() primaryColor: any;
     @Input() buttonColor: any;
     @Input() canRegister: any;
+    @Input() navigation: any;
 
     languageChangeSubscription;
     signupHover: boolean = false;
