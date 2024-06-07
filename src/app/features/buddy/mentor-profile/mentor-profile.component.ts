@@ -27,6 +27,7 @@ import {
     faEyeSlash,
   } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import get from 'lodash/get';
 
 @Component({
@@ -42,6 +43,7 @@ import get from 'lodash/get';
         MatSnackBarModule,
         ImageCropperModule,
         FontAwesomeModule,
+        NgMultiSelectDropDownModule,
         PageTitleComponent,
         SearchComponent,
         FilterComponent,
@@ -118,6 +120,10 @@ export class MentorProfileComponent {
     transform: ImageTransform = {};
     file: any;
 
+    languages: any = [];
+    languageSettings: any;
+    selectedLanguage: any = '';
+
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
@@ -193,7 +199,6 @@ export class MentorProfileComponent {
             interests: new FormControl('', [Validators.required]),
             personality: new FormControl('', [Validators.required]),
             location: new FormControl('', [Validators.required]),
-            language: new FormControl('', [Validators.required])
         })
 
         this.loadProfileData();
@@ -205,12 +210,28 @@ export class MentorProfileComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {
+                this.cities = data?.cities;
+                this.languages = data?.languages;
+                this.initializeDropdowns();
                 this.initializeProfile(data);
             },
             (error) => {
               console.log(error);
             }
         );
+    }
+
+    initializeDropdowns() {
+        this.languageSettings = {
+            singleSelection: false,
+            idField: "id",
+            textField: "name_ES",
+            selectAllText: this._translateService.instant("dialog.selectall"),
+            unSelectAllText: this._translateService.instant("dialog.clearall"),
+            itemsShowLimit: 6,
+            allowSearchFilter: true,
+            searchPlaceholderText: this._translateService.instant('guests.search'),
+        };
     }
 
     initializeProfile(data) {
@@ -230,7 +251,18 @@ export class MentorProfileComponent {
             this.profileForm.get('interests').setValue(this.mentor.interests);
             this.profileForm.get('personality').setValue(this.mentor.personality);
             this.profileForm.get('location').setValue(this.mentor.location);
-            this.profileForm.get('language').setValue(this.mentor.language);
+
+            let mentor_language = this.me?.language || data?.current_user?.language;
+            let selected_languages = this.languages.filter((language) => {
+                return mentor_language?.indexOf(language.name_ES) >= 0
+            })
+            this.selectedLanguage = selected_languages.map((language) => {
+                const { id, name_ES } = language;
+                return {
+                    id,
+                    name_ES,
+                }
+            });
         }
     }
 
@@ -348,7 +380,11 @@ export class MentorProfileComponent {
 
     saveChanges(image) {
         const major: any = document.getElementById('major')
-            
+        let language = this.selectedLanguage;
+        if(language) {
+            language = language?.map((data) => { return data.name_ES }).join(',');
+        }
+
         let params
         if(image) {
             params = {
@@ -359,7 +395,7 @@ export class MentorProfileComponent {
                 interests: this.profileForm.get('interests').value,
                 personality: this.profileForm.get('personality').value,
                 location: this.profileForm.get('location').value,
-                language: this.profileForm.get('language').value,
+                language,
                 image: image,
                 }
         } else {
@@ -371,7 +407,7 @@ export class MentorProfileComponent {
                 interests: this.profileForm.get('interests').value,
                 personality: this.profileForm.get('personality').value,
                 location: this.profileForm.get('location').value,
-                language: this.profileForm.get('language').value,
+                language,
             }
         }
 

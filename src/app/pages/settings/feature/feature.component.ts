@@ -23,7 +23,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { initFlowbite } from "flowbite";
 import { Subject, takeUntil } from "rxjs";
-import { ClubsService, PlansService, TutorsService } from "@features/services";
+import { ClubsService, PlansService, TutorsService, BuddyService } from "@features/services";
 import get from "lodash/get";
 @Component({
   standalone: true,
@@ -154,6 +154,11 @@ export class FeatureComponent {
   hasClubsFeature: boolean = false;
   clubTitle: any = '';
 
+  showMenteeLimitModal: boolean = false;
+  limitMessage: any
+  createMenteeLimit: any;
+  menteeLimitSettings: any = [];
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -163,6 +168,7 @@ export class FeatureComponent {
     private _tutorsService: TutorsService,
     private _plansService: PlansService,
     private _clubsService: ClubsService,
+    private _buddyService: BuddyService,
     private _userService: UserService,
     private _menuService: MenuService,
     private _location: Location,
@@ -381,6 +387,7 @@ export class FeatureComponent {
       { id: 36, name_en: "Tutors filter" },
       { id: 37, name_en: "Testimonials filter" },
       { id: 38, name_en: "Buddies filter" },
+      { id: 39, name_en: "Mentee Limit" },
     ];
   }
 
@@ -494,6 +501,7 @@ export class FeatureComponent {
       case "Tutors filter":
       case "Testimonials filter":
       case "Buddies filter":
+      case "Mentee Limit":
       case "Candidates display":
         this.openSettingModal(row);
         break;
@@ -598,6 +606,10 @@ export class FeatureComponent {
         break;
       case "Candidates display":
         this.getCandidatesDisplay();
+        this.settingmodalbutton?.nativeElement.click();
+        break;
+      case "Mentee Limit":
+        this.getMenteeLimitSettings();
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Filter":
@@ -2101,6 +2113,44 @@ export class FeatureComponent {
     //   )
   }
 
+  getMenteeLimitSettings() {
+    this._buddyService.getMenteeLimitSettings(this.companyId)
+      .subscribe(
+        async (response) => {
+          this.menteeLimitSettings = response.buddy_limit_settings
+          if(this.menteeLimitSettings && this.menteeLimitSettings.id) {
+            this.createMenteeLimit = this.menteeLimitSettings.limit ? this.menteeLimitSettings.limit : ''
+            this.limitMessage = this.menteeLimitSettings.limit_message || ''
+          }
+          this.showMenteeLimitModal = true
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  saveMenteeLimitSettings() {
+    if(this.createMenteeLimit) {
+      let params = {
+        company_id: this.companyId,
+        limit: this.createMenteeLimit,
+        limit_message: this.limitMessage
+      }
+      this._buddyService.updateMenteeLimitSettings(params)
+      .subscribe(
+        response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          this.showMenteeLimitModal = false;
+          this.closesettingmodalbutton?.nativeElement.click();
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    }
+  }
+
   saveCandidatesDisplay() {
     // if(this.candidatesDisplay) {
     //   let params = {
@@ -2218,6 +2268,9 @@ export class FeatureComponent {
             break;
           case 'group':
             text = this.clubTitle;
+            break;
+          case 'language':
+            text = this._translateService.instant('job-offers.language');
             break;
         }
         let filter = {

@@ -344,7 +344,8 @@
         "invalidcode": "Código no válido",
         "youearned": "Felicitaciones, te lo ganaste",
         "sendconfirmattendanceemail": "Enviar correo electrónico de confirmación de asistencia",
-        "expiredconfirm": "Lo sentimos, el enlace para confirmar asistencia ha caducado."
+        "expiredconfirm": "Lo sentimos, el enlace para confirmar asistencia ha caducado.",
+        "uploadingvideo": "Subiendo video, por favor espera..."
     },
     "plan-create": {
         "fillup": "Rellena este formulario para crear tu plan",
@@ -1517,6 +1518,11 @@
         "yes": "Sí",
         "no": "No",
         "eventregistrationimage": "Imagen de la página de registro de invitados al evento",
+        "bizumpayment": "¿Activar Bizum como opción de pago?",
+        "stripedesc": "Acepta pagos con tarjeta de crédito y débito",
+        "bizumdesc": "Envía pago a través de tu teléfono inteligente",
+        "reserve": "Reserva",
+        "signup": "Apuntate",
         "insertvideo": "Insertar vídeo"
     },
     "edit-club": {
@@ -3185,7 +3191,10 @@
         "mysessions": "Mis sesiones de mentoría",
         "selectmentor": "Seleccionar mentor",
         "selectmentee": "Seleccionar aprendiz", 
-        "pendingcompletion": "Pendiente de finalización"
+        "pendingcompletion": "Pendiente de finalización",
+        "introductionlabel": "Sobre mí: por qué quiero ser mentor, por qué he elegido mi grado...",
+        "interestslabel": "Intereses: poner participación en la Vida Universitaria (clubes, asociaciones, delegados, equipo deportivo….)",
+        "personalitylabel": "Personalidad, Intereses"
     },
     "cities": {
         "cities": "Ciudades",
@@ -3450,6 +3459,7 @@
         "failed":"fallido",
         "selectcredits": "Seleccionar créditos para comprar", 
         "paymentconfirmed": "Gracias por su compra. Esto confirma que su pago se ha completado.",
+        "bizumconfirmed": "¡Gracias por tu interés! Por favor toma nota de este número de teléfono +34 605 05 15 80 para el pago Bizum.",
         "totalcredits":"Creditos totales",
         "creditadditon":"Adición de crédito",
         "creditdeduction":"Deducción de crédito",

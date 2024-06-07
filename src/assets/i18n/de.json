@@ -344,7 +344,8 @@
         "invalidcode": "Ungültiger Code",
         "youearned": "Herzlichen Glückwunsch, Sie haben es verdient",
         "sendconfirmattendanceemail": "E-Mail zur Bestätigung der Teilnahme senden",
-        "expiredconfirm": "Leider ist der Link zur Teilnahmebestätigung abgelaufen."
+        "expiredconfirm": "Leider ist der Link zur Teilnahmebestätigung abgelaufen.",
+        "uploadingvideo": "Video wird hochgeladen, bitte warten..."
     },
     "plan-create": {
         "fillup": "Füllen Sie dieses Formular aus, um Ihren Plan zu erstellen",
@@ -1513,6 +1514,11 @@
         "yes": "Ja",
         "no": "Nein",
         "eventregistrationimage": "Bild der Event-Gäste-Registrierungsseite",
+        "bizumpayment": "Bizum als Zahlungsoption aktivieren?",
+        "stripedesc": "Akzeptiert Kredit- und Debitkartenzahlungen",
+        "bizumdesc": "Zahlung über Ihr Smartphone senden",
+        "reserve": "Reservieren",
+        "signup": "Anmelden",
         "insertvideo": "Video einfügen"
     },
     "edit-club": {
@@ -3172,7 +3178,10 @@
         "mysessions": "Meine Mentoring-Sitzungen",
         "selectmentor": "Mentor auswählen",
         "selectmentee": "Mentee auswählen", 
-        "pendingcompletion": "Ausstehender Abschluss"
+        "pendingcompletion": "Ausstehender Abschluss",
+        "introductionlabel": "Über mich: Warum ich Mentorin werden möchte, warum ich meinen Abschluss gewählt habe...",
+        "interestslabel": "Interessen: Teilnahme am Universitätsleben (Vereine, Vereine, Delegierte, Sportmannschaft...)",
+        "personalitylabel": "Persönlichkeit, Interessen"
     },
     "cities": {
         "cities": "Städte",
@@ -3428,6 +3437,7 @@
         "failed":"fehlgeschlagen",
         "selectcredits": "Wählen Sie Credits zum Kauf aus", 
         "paymentconfirmed": "Vielen Dank für Ihren Kauf. Hiermit wird bestätigt, dass Ihre Zahlung abgeschlossen wurde.",
+        "bizumconfirmed": "Vielen Dank für Ihr Interesse! Bitte notieren Sie sich für die Bizum-Zahlung diese Telefonnummer +34 605 05 15 80.",
         "totalcredits":"Gesamt Credits",
         "creditadditon":"Kreditzusatz",
         "creditdeduction":"Kreditabzug",

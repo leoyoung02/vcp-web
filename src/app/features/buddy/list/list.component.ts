@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
 import { FilterComponent, PageTitleComponent } from '@share/components';
 import { SearchComponent } from '@share/components/search/search.component';
 import { MentorCardComponent } from '@share/components/card/mentor/mentor.component';
+import { LanguageFilterComponent } from '@share/components/language-filter/language-filter.component';
 import get from 'lodash/get';
 
 @Component({
@@ -24,6 +25,7 @@ import get from 'lodash/get';
         SearchComponent,
         FilterComponent,
         MentorCardComponent,
+        LanguageFilterComponent,
     ],
     templateUrl: './list.component.html'
 })
@@ -72,6 +74,9 @@ export class BuddyListComponent {
     selectedMajor: any = '';
     currentPage: number = 1;
     pageSize: number = 8;
+    languages: any = [];
+    languageList: any = [];
+    selectedLanguage: any = '';
 
     constructor(
         private _translateService: TranslateService,
@@ -172,6 +177,8 @@ export class BuddyListComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {
+                this.languages = this.formatLanguages(data?.languages);
+
                 this.mapFeatures(data?.features_mapping);
                 this.mapSubfeatures(data?.settings?.subfeatures);
 
@@ -196,6 +203,65 @@ export class BuddyListComponent {
               console.log(error);
             }
         );
+    }
+
+    formatLanguages(languages) {
+        let lang = languages?.map((item, index) => {
+            return {
+                ...item,
+                selected: false,
+                name: this.getLanguageName(item),
+            };
+        });
+    
+        return lang;
+    }
+
+    initializeLanguageList(list) {
+        let text = this._translateService.instant("plans.all");
+        if(this.filterSettings?.length > 0) {
+          let language_filter = this.filterSettings?.filter(fs => {
+            return fs.field == 'language'
+          })
+          if(language_filter?.length > 0) {
+            text = language_filter[0].select_text;
+          }
+        }
+        this.languageList = [
+          {
+            id: "All",
+            value: "All",
+            text,
+            selected: true,
+            company_id: this.companyId,
+            name: "All",
+          },
+        ];
+    
+        list?.forEach((item) => {
+          this.languageList.push({
+            id: item.id,
+            value: item.name,
+            text: item.name,
+            selected: false,
+            company_id: this.companyId,
+            name: item.name,
+          });
+        });
+    }
+
+    getLanguageName(language) {
+        return this.language == "en"
+          ? language.name_EN
+          : this.language == "fr"
+          ? language.name_FR
+          : this.language == "eu"
+          ? language.name_EU
+          : this.language == "ca"
+          ? language.name_CA
+          : this.language == "de"
+          ? language.name_DE
+          : language.name_ES;
     }
 
     getSlicedMentors(formattedMentors) {
@@ -238,6 +304,7 @@ export class BuddyListComponent {
         if(filter_settings_active?.length > 0 && this.filterActive) {
             this.showFilters = true;
             this.filterSettings = filter_settings;
+            this.initializeLanguageList(this.languages);
         }
     }
 
@@ -469,6 +536,19 @@ export class BuddyListComponent {
         this.filterBuddies();
     }
 
+    filteredLanguageList(event) {
+        this.languageList?.forEach((item) => {
+        if (item.name == event) {
+            item.selected = true;
+        } else {
+            item.selected = false;
+        }
+        });
+    
+        this.selectedLanguage = event || "";
+        this.filterBuddies();
+    }
+
     filterViewChanged(event) {
         this.defaultActiveFilter = event;
     }
@@ -493,7 +573,7 @@ export class BuddyListComponent {
             })
         }
     
-        if(this.selectedMajor?.value != 'All') {
+        if(this.selectedMajor && this.selectedMajor?.value != 'All') {
             mentors = mentors.filter(m => {
                 return m.major == this.selectedMajor?.text
             })
@@ -502,6 +582,12 @@ export class BuddyListComponent {
         if(this.selectedCity) {
             mentors = mentors.filter(m => {
                 return m.location == this.selectedCity
+            })
+        }
+
+        if(this.selectedLanguage && this.selectedLanguage != 'All') {
+            mentors = mentors.filter(m => {
+                return m.language?.indexOf(this.selectedLanguage) >= 0
             })
         }
     

@@ -113,6 +113,10 @@ export class MentorComponent {
     postHover: boolean = false;
     allmessages: any = [];
     messages: any = [];
+    canAcceptMentee: boolean = false;
+    showRequestMentor: boolean = false;
+    hasLimitReached: boolean = false;
+    limitSettings: any;
     @ViewChild("modalbutton", { static: false }) modalbutton:
     | ElementRef
     | undefined;
@@ -326,6 +330,7 @@ export class MentorComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {
+                console.log(data)
                 this.initializeMentorProfile(data);
             },
             (error) => {
@@ -342,6 +347,7 @@ export class MentorComponent {
         this.location = this.mentor?.location || this.user?.city;
         this.languages = this.mentor?.languages || this.user?.language;
         this.contactBuddyLog = data.buddy_contact_log;
+        this.limitSettings = data?.limit_settings;
 
         let buddy_mentors = data?.buddy_mentors?.filter(bm => {
             return bm.mentor_id == this.id && bm.buddy_id == this.userId
@@ -354,8 +360,19 @@ export class MentorComponent {
             this.getMessages();
         }
 
+        this.getRequestMentorStatus();
         this.initializeCalendar();
-        
+    }
+
+    getRequestMentorStatus() {
+        this.hasLimitReached = this.limitSettings?.limit > 0 && this.mentor?.buddies?.length == this.limitSettings?.limit ? true : false;
+        this.canAcceptMentee = this.hasLimitReached ? false : true;
+        this.showRequestMentor = this.userId != this.mentor?.user_id 
+            && !this.isMyMentor 
+            && (
+                (this.contactBuddyLog?.id > 0) ||
+                (!(this.contactBuddyLog?.id > 0) && this.canAcceptMentee)
+            ) ? true : false;
     }
 
     async initializeCalendar() {

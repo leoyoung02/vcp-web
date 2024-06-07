@@ -1008,3 +1008,16 @@ app-sidebar > aside > div:nth-child(11) > div > svg.has-history {
 .signup-date .mat-mdc-form-field-has-icon-suffix .mat-mdc-text-field-wrapper {
     border-radius: 10px;
 }
+
+.plan-video-preview .filepond--media-preview-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 100%;
+    margin: 0;
+    border-radius: 0.45em;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.01);
+    pointer-events: auto;
+}  

@@ -402,6 +402,10 @@ export const ADD_AGE_GROUP_URL = `${API_BASE}/company/age-groups/add`;
 export const EDIT_AGE_GROUP_URL = `${API_BASE}/company/age-groups/edit`;
 export const DELETE_AGE_GROUP_URL = `${API_BASE}/company/age-groups/delete`;
 export const PLAN_VIDEO_UPLOAD_URL = `${API_BASE}/v2/plan-video/upload`;
+export const ACTIVITY_PAYMENT_OPTIONS_URL = `${API_BASE}/v2/activity/payment-options`;
+export const PLAN_PAYMENT_BIZUM_URL = `${API_BASE}/v2/activity/pay/bizum`;
+export const CONFIRM_BIZUM_PLAN_PARTICIPANT_URL = `${API_BASE}/v2/bizum/plan/participant/confirm`;
+export const CONFIRM_BIZUM_GROUP_PLAN_PARTICIPANT_URL = `${API_BASE}/v2/bizum/group-plan/participant/confirm`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;
@@ -762,7 +766,7 @@ export const GET_STARTUPS_URL = `${API_BASE}/company/startups`;
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;
 export const BUDDIES_URL = `${API_BASE}/v2/buddies`;
 export const MENTOR_URL = `${API_BASE}/v2/mentor`;
-export const MENTOR_REQUEST_DATA_URL = `${API_BASE}/v2/mentor/request-data`;
+export const MENTOR_REQUEST_DATA_URL = `${API_BASE}/v2/mentor-request-data`;
 export const EDIT_MENTOR_URL = `${API_BASE}/mentor/edit`;
 export const EDIT_MENTOR_PHOTO_URL = `${API_BASE}/v2/mentor/profile/image/temp-upload`;
 export const APPLY_MENTOR_URL = `${API_BASE}/v2/mentor/apply`;
@@ -787,3 +791,5 @@ export const CANCEL_SESSION_URL = `${API_BASE}/v2/mentor/session/cancel`;
 export const SEARCH_MENTOR_URL = `${API_BASE}/v2/mentor/user/search`;
 export const ADD_MENTOR_URL = `${API_BASE}/v2/mentor/add`;
 export const DELETE_MENTOR_URL = `${API_BASE}/v2/mentor/delete`;
+export const BUDDY_LIMIT_SETTINGS_URL = `${API_BASE}/buddy/settings/limit`;
+export const EDIT_BUDDY_LIMIT_SETTINGS_URL = `${API_BASE}/buddy/settings/limit/edit`;

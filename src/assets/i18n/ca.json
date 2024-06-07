@@ -344,7 +344,8 @@
         "invalidcode": "Codi no vàlid",
         "youearned": "Enhorabona, t'has guanyat",
         "sendconfirmaattendanceemail": "Envia un correu electrònic de confirmació d'assistència",
-        "expiredconfirm": "Ho sentim, l'enllaç de confirmació d'assistència ha caducat."
+        "expiredconfirm": "Ho sentim, l'enllaç de confirmació d'assistència ha caducat.",
+        "uploadingvideo": "S'està penjant el vídeo, espereu..."
     },
     "plan-create": {
         "fillup": "Omple aquest formulari per crear el teu pla",
@@ -1517,6 +1518,9 @@
         "yes": "Sí",
         "no": "No",
         "eventregistrationimage": "Gertaera gonbidatuak erregistratzeko orriaren irudia",
+        "bizumpayment": "Activeu Bizum com a opció de pagament?",
+        "reserve": "Reserva",
+        "signup": "Apunta't",
         "insertvideo": "Insereix vídeo"
     },
     "edit-club": {
@@ -3183,7 +3187,10 @@
         "mysessions": "Les meves sessions de tutoria",
         "selectmentor": "Selecciona el mentor",
         "selectmentee": "Selecciona l'alumnat", 
-        "pendingcompletion": "Pendent de finalització"
+        "pendingcompletion": "Pendent de finalització",
+        "introductionlabel": "Sobre mi: per què vull ser mentor, per què he triat el meu grau...",
+        "interestslabel": "Interessos: posar participació a la Vida Universitària (clubs, associacions, delegats, equip esportiu….)",
+        "personalitylabel": "Personalitat, Interessos"
     },
     "cities": {
         "cities": "Ciutats",
@@ -3439,6 +3446,7 @@
         "failed":"fracassat",
         "selectcredits": "Seleccioneu els crèdits per comprar", 
         "paymentconfirmed": "Gràcies per la teva compra. Això confirma que el teu pagament s'ha completat.",
+        "bizumconfirmed": "Gràcies pel vostre interès! Preneu nota d'aquest número de telèfon +34 605 05 15 80 per al pagament de Bizum.",
         "totalcredits":"Crèdits totals",
         "creditadditon":"Addició de crèdit",
         "creditdeduction":"Deducció de crèdit",

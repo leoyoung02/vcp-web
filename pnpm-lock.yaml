@@ -122,6 +122,9 @@ dependencies:
   filepond-plugin-image-preview:
     specifier: ^4.6.11
     version: 4.6.11(filepond@4.30.4)
+  filepond-plugin-media-preview:
+    specifier: ^1.0.11
+    version: 1.0.11(filepond@4.30.4)
   flowbite:
     specifier: ^1.8.1
     version: 1.8.1
@@ -6138,6 +6141,14 @@ packages:
 
   /filepond-plugin-image-preview@4.6.11(filepond@4.30.4):
     resolution: {integrity: sha512-0EmQ9HnOb/X0xc5rLcNRhhmdUbp7oiicRwQrcr90ZfVmPJOOZoX3ZGUEsEPj7luMI55huguhcVozdESxtqnuRw==}
+    peerDependencies:
+      filepond: '>=4.x <5.x'
+    dependencies:
+      filepond: 4.30.4
+    dev: false
+
+  /filepond-plugin-media-preview@1.0.11(filepond@4.30.4):
+    resolution: {integrity: sha512-6rzt8ZpNCIzgG/dvkgAb7gd2trxwr3x/6Za9/HfTRfqUgmWkye7hlPaPxzLLIfM3nDfdKwt6s+GYb9A5J6cH5A==}
     peerDependencies:
       filepond: '>=4.x <5.x'
     dependencies:

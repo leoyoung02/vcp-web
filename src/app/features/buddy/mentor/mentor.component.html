@@ -86,7 +86,10 @@
                         </div>
                     </div>
                 </div>
-                <div class="my-2" *ngIf="userId != mentor?.user_id && !isMyMentor">
+                <div class="mt-6 font-semibold italic text-sm" *ngIf="hasLimitReached && limitSettings?.limit_message" [ngStyle]="{'color': buttonColor}">
+                    {{ limitSettings?.limit_message }}
+                </div>
+                <div class="my-2" *ngIf="showRequestMentor">
                     <button 
                         class="h-[52px] flex items-center p-3.5 px-8 sm:px-8 md:px-12 lg:px-12 rounded-[15px] justify-evenly mt-4 mr-4"
                         [ngClass]="{'opacity-75': contactBuddyLog?.id > 0}"

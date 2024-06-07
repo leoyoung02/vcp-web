@@ -344,7 +344,8 @@
         "invalidcode": "Code invalide",
         "youearned": "Félicitations, vous avez gagné",
         "sendconfirmattendanceemail": "Envoyer un e-mail de confirmation de présence",
-        "expiredconfirm": "Désolé, le lien de confirmation de participation a expiré."
+        "expiredconfirm": "Désolé, le lien de confirmation de participation a expiré.",
+        "uploadingvideo": "Téléchargement de la vidéo, veuillez patienter..."
     },
     "plan-create": {
         "fillup": "Remplissez ce formulaire pour créer votre plan",
@@ -1512,6 +1513,11 @@
         "yes": "Oui",
         "no": "Non",
         "eventregistrationimage": "Image de la page d'inscription des invités à l'événement",
+        "bizumpayment": "Activer Bizum comme option de paiement?",
+        "stripedesc": "Accepte les paiements par carte de crédit et de débit",
+        "bizumdesc": "Envoyez le paiement via votre smartphone",
+        "reserve": "Réserve",
+        "signup": "Inscrivez-vous",
         "insertvideo": "Insérer une vidéo"
     },
     "edit-club": {
@@ -3167,7 +3173,10 @@
         "mysessions": "Mes séances de mentorat",
         "selectmentor": "Sélectionner un mentor",
         "selectmentee": "Sélectionner le mentoré", 
-        "pendingcompletion": "En attente d'achèvement"
+        "pendingcompletion": "En attente d'achèvement",
+        "introductionlabel": "À propos de moi : pourquoi je veux être mentor, pourquoi j'ai choisi mon diplôme...",
+        "interestslabel": "Intérêts : participer à la vie universitaire (clubs, associations, délégués, équipe sportive...)",
+        "personalitylabel": "Personnalité, Intérêts"
     },
     "cities": {
         "cities": "Villes",
@@ -3423,6 +3432,7 @@
         "failed":"échoué",
         "selectcredits": "Sélectionnez les crédits à acheter", 
         "paymentconfirmed": "Merci pour votre achat. Cela confirme que votre paiement a été effectué.",
+        "bizumconfirmed": "Merci de votre intérêt ! Veuillez noter ce numéro de téléphone +34 605 05 15 80 pour le paiement Bizum.",
         "totalcredits":"Crédits totaux",
         "creditadditon":"Ajout de crédit",
         "creditdeduction":"Credit Deduction",

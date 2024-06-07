@@ -58,10 +58,12 @@ import moment from "moment";
 import get from "lodash/get";
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
 import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilePondPluginMediaPreview from 'filepond-plugin-media-preview';
 import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
-registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
+import 'filepond-plugin-media-preview/dist/filepond-plugin-media-preview.css';
+registerPlugin(FilepondPluginImagePreview, FilePondPluginMediaPreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
 
 @Component({
   selector: "app-clubs-edit",
@@ -450,6 +452,7 @@ export class PlanEditComponent {
   hasExistingVideo: boolean = false;
   existingVideoURL: string = '';
   existingVideoFile: string = '';
+  uploadingVideoComplete: boolean = false;
 
   initialPlan: any = {};
   currentPlan: any = {};
@@ -518,6 +521,8 @@ export class PlanEditComponent {
   groupFilterActive: boolean = false;
   selectedAgeGroup: any = '';
 
+  isBizumActive: boolean = false;
+  isBizumPayment: boolean = false;
   showVideoSection: boolean = false;
   eventVideoFileName: any = '';
   @ViewChild('myPondVideo', {static: false}) myPondVideo: any;
@@ -568,6 +573,59 @@ export class PlanEditComponent {
     },
   };
   pondVideoFiles = [];
+
+  eventVideoCoverUploaded: boolean = false;
+  clearedVideo: boolean = false;
+  eventCoverVideoFileName: any = '';
+  @ViewChild('eventPondVideo', {static: false}) eventPondVideo: any;
+  eventPondVideoOptions = {
+    class: 'event-filepond-video',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+          const formData = new FormData();
+          let fileExtension = file ? file.name.split('.').pop() : '';
+          this.eventCoverVideoFileName = 'p_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+          formData.append('file', file, this.eventCoverVideoFileName);
+          console.log('event video: ' + this.eventCoverVideoFileName)
+          localStorage.setItem('event_cover_video_file', 'uploading');
+
+          const request = new XMLHttpRequest();
+          request.open('POST', environment.api + '/v2/plan-video/upload');
+
+          request.upload.onprogress = (e) => {
+            progress(e.lengthComputable, e.loaded, e.total);
+          };
+
+          request.onload = function () {
+              if (request.status >= 200 && request.status < 300) {
+                load(request.responseText);
+                localStorage.setItem('event_cover_video_file', 'complete');
+              } else {
+                error('oh no');
+              }
+          };
+
+          request.send(formData);
+
+          return {
+            abort: () => {
+              request.abort();
+              abort();
+            },
+          };
+      },
+    },
+  };
+  eventPondVideoFiles = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -833,6 +891,10 @@ export class PlanEditComponent {
           if (this.id > 0) {
             this.fetchPlan();
           } else {
+            if(this.isUESchoolOfLife) {
+              this.isDefaultPhoto = true;
+              this.setDefaultPhoto = true;
+            }
             this.createdByUser = this.userId;
           }
         },
@@ -966,6 +1028,9 @@ export class PlanEditComponent {
       );
       this.isImageCenterButton = subfeatures.some(
         (a) => a.name_en == "Event registration with image and center button" && a.active == 1
+      );
+      this.isBizumActive = subfeatures.some(
+        (a) => a.name_en == "Bizum" && a.active == 1
       );
     }
 
@@ -1455,6 +1520,7 @@ export class PlanEditComponent {
       netcultura,
       slug,
       age_group_id,
+      bizum_pay,
     } = this.plan;
 
     if(this.types && this.types.length > 0) {
@@ -1698,18 +1764,13 @@ export class PlanEditComponent {
     if (this.planForm.controls["zoom_link"]) {
       this.planForm.controls["zoom_link"].setValue(zoom_link);
     }
-    this.showInvitationLink =
-      this.invitationLinkActive && invite_link == 1 ? true : false;
-    this.showGuestMemberSeat =
-      this.guestMemberSeatActive && guest_member_seats == 1 ? true : false;
-    this.showSeats =
-      this.guestMemberSeatActive && show_seats == 1 ? true : false;
-    this.displayCanaryTime =
-      this.showCanaryTime && hour_canary == 1 ? true : false;
-    this.waitingListEnabled =
-      this.waitingListActive && waiting_list == 1 ? true : false;
-    this.isStripePayment =
-      this.activityFeeEnabled && stripe_pay == 1 ? true : false;
+    this.showInvitationLink = this.invitationLinkActive && invite_link == 1 ? true : false;
+    this.showGuestMemberSeat = this.guestMemberSeatActive && guest_member_seats == 1 ? true : false;
+    this.showSeats = this.guestMemberSeatActive && show_seats == 1 ? true : false;
+    this.displayCanaryTime = this.showCanaryTime && hour_canary == 1 ? true : false;
+    this.waitingListEnabled = this.waitingListActive && waiting_list == 1 ? true : false;
+    this.isStripePayment = this.activityFeeEnabled && stripe_pay == 1 ? true : false;
+    this.isBizumPayment = this.activityFeeEnabled && bizum_pay == 1 ? true : false;
     this.credits = credits == 1 ? true : false;
     this.creditsValue = credits_value?.replace(',', '.');
     this.featured = featured == 1 ? true : false;
@@ -2458,12 +2519,13 @@ export class PlanEditComponent {
     this.plan["guest_seats"] = this.guestMemberSeatActive && this.planForm.get("guest_seats")?.value ? this.planForm.get("guest_seats")?.value : null;
     this.plan["show"] = this.isShowPastEvent ? 1 : 0;
     this.plan['age_group_id'] = this.ageGroupFilterActive && this.selectedAgeGroup ? this.selectedAgeGroup : null;
-    this.plan['default_cover'] = this.setDefaultVideo && (this.videoFile || this.existingVideoFile) ? 'video' : 'photo'; 
-    this.plan['video'] = this.setDefaultVideo && this.videoFile && this.coverVideo ? this.coverVideo : this.existingVideoFile;
+    this.plan['default_cover'] = this.setDefaultVideo && ((this.eventVideoCoverUploaded && this.eventCoverVideoFileName) || this.existingVideoFile) ? 'video' : 'photo'; 
+    this.plan['video'] = this.setDefaultVideo && this.eventVideoCoverUploaded && this.eventCoverVideoFileName ? this.eventCoverVideoFileName : (this.clearedVideo ? '' : this.existingVideoFile);
+    this.plan["bizum_pay"] = this.isBizumActive && this.isBizumPayment ? 1 : 0;
 
     let event_reg_file_status = localStorage.getItem('event_reg_file')
     let event_reg_file = event_reg_file_status == 'complete' ? this.eventGuestRegFileName : ''
-    this.plan["orig_image"] = this.isImageCenterButton ? event_reg_file : null
+    this.plan["orig_image"] = this.isImageCenterButton ? event_reg_file : ''
 
     if(this.companyId == 32) {
       this.plan['additional_properties_course_access'] = this.allowCourseAccess == true ? '1' : '0',
@@ -2495,7 +2557,7 @@ export class PlanEditComponent {
       this.hasSpeaker && this.selectedSpeaker && this.selectedSpeaker.length > 0
         ? this.selectedSpeaker[0].id
         : null;
-    this.plan["guest_speaker"] = this.guestSpeaker ? this.guestSpeaker : null;
+    this.plan["guest_speaker"] = this.guestSpeaker ? this.guestSpeaker : '';
     if (this.activityFeeEnabled) {
       this.plan["stripe_pay"] = this.isStripePayment ? 1 : 0;
     }
@@ -3415,7 +3477,8 @@ export class PlanEditComponent {
     this.coverVideo = 'companyVideo_' + this.userId + '_' + timestamp + '.' + this.fileExtension;
     this.videoSrc = URL.createObjectURL(this.videoFile);
 
-    if(this.coverVideo){
+    if(this.coverVideo) {
+      this.uploadingVideoComplete = true;
       const formData = new FormData();
       formData.append('file', this.videoFile, this.coverVideo);
 
@@ -3424,12 +3487,39 @@ export class PlanEditComponent {
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           (data) => {
+            this.uploadingVideoComplete = false;
           }, 
           (error) => {
             console.log(error);
           }
         );
     }
+  }
+
+  eventPondHandleVideoInit() {
+    console.log('FilePond has initialised', this.myPondVideo);
+  }
+
+  eventPondHandleAddVideoFile(event: any) {
+    console.log('A file was added', event);
+    let event_cover_video_file_status = localStorage.getItem('event_cover_video_file');
+    let event_cover_video_file = event_cover_video_file_status == 'complete' ? this.eventCoverVideoFileName : '';
+  }
+
+  eventPondHandleActivateVideoFile(event: any) {
+    console.log('A file was activated', event);
+  }
+
+  eventPondHandleProcessFiles() {
+    console.log('FilePond has processed files', this.eventPondVideo);
+    this.eventVideoCoverUploaded = true;
+  }
+
+  clearVideo() {
+    this.clearedVideo = true;
+    this.existingVideoURL = '';
+    this.setDefaultPhoto = true;
+    this.setDefaultVideo = false;
   }
 
   async open(message: string, action: string) {

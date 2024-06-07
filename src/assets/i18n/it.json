@@ -343,7 +343,8 @@
         "confirmedattendance": "Hai confermato con successo la tua presenza",
         "invalidcode": "Codice non valido",
         "youearned": "Congratulazioni, te lo sei guadagnato",
-        "expiredconfirm": "Siamo spiacenti, il link per confermare la partecipazione è scaduto."
+        "expiredconfirm": "Siamo spiacenti, il link per confermare la partecipazione è scaduto.",
+        "uploadingvideo": "Caricamento video, attendi prego..."
     },
     "plan-create": {
         "fillup": "Compila questo modulo per creare il tuo piano",
@@ -1512,7 +1513,12 @@
         "renewal": "Data di rinnovo",
         "activitycode": "Codice attività",
         "numberofcredits": "Numero di crediti", 
-        "eventregistrationimage": "Immagine della pagina di registrazione dell'ospite dell'evento"
+        "eventregistrationimage": "Immagine della pagina di registrazione dell'ospite dell'evento",
+        "bizumpayment": "Attivare Bizum come opzione di pagamento?",
+        "stripedesc": "Accetta pagamenti con carte di credito e debito",
+        "bizumdesc": "Invia pagamento tramite il tuo smartphone",
+        "reserve": "Riserva",
+        "signup": "Iscriviti"
     },
     "edit-club": {
         "uploadimage": "Carica immagine",
@@ -3169,7 +3175,10 @@
         "mysessions": "Le mie sessioni di mentoring",
         "selecttorer": "Seleziona mentore",
         "selectmentee": "Seleziona allievo", 
-        "pendingcompletion": "Completamento in attesa"
+        "pendingcompletion": "Completamento in attesa",
+        "introductionlabel": "Chi sono: perché voglio essere un mentore, perché ho scelto la mia laurea...",
+        "interestslabel": "Interessi: partecipare alla vita universitaria (club, associazioni, delegati, squadre sportive...)",
+        "personalitylabel": "Personalità, interessi"
     },
     "cities": {
         "cities": "Città",
@@ -3429,6 +3438,7 @@
         "failed": "fallito",
         "selectcredits": "Seleziona crediti da acquistare",
         "paymentconfirmed": "Grazie per il tuo acquisto. Questo conferma che il tuo pagamento è stato completato.",
+        "bizumconfirmed": "Grazie per il tuo interesse! Prendi nota di questo numero di telefono +34 605 05 15 80 per il pagamento Bizum.",
         "totalcredits":"Crediti totali",
         "creditadditon":"Aggiunta di credito",
         "creditdeduction": "Detrazione del credito",
