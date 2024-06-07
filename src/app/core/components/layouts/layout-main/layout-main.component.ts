@@ -18,9 +18,9 @@ import { FormsModule } from "@angular/forms";
 import { SidebarComponent } from "@lib/components/sidebar/sidebar.component";
 import { UserMenuComponent } from "@lib/components/user-menu/user-menu.component";
 import { GuestMenuComponent } from "@lib/components/guest-menu/guest-menu.component";
+import { TopMenuComponent } from "@lib/components/top-menu/top-menu.component";
 import moment from "moment";
 import get from "lodash/get";
-import { TopMenuComponent } from "@lib/components/top-menu/top-menu.component";
 
 @Component({
   selector: "app-layout-main",

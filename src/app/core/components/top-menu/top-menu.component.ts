@@ -2,10 +2,12 @@ import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
   Component,
+  ElementRef,
   EventEmitter,
   Input,
   Output,
   SimpleChange,
+  ViewChild,
   inject,
 } from "@angular/core";
 import { Router, RouterModule, NavigationEnd } from "@angular/router";
@@ -34,8 +36,9 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FormsModule } from "@angular/forms";
 import menuIconsData from "src/assets/data/menu-icons.json";
-import { environment } from "@env/environment";
 import { GuestMenuComponent } from "../guest-menu/guest-menu.component";
+import { DateAgoPipe } from "@lib/pipes";
+import { environment } from "@env/environment";
 
 @Component({
   selector: "app-top-menu",
@@ -46,6 +49,7 @@ import { GuestMenuComponent } from "../guest-menu/guest-menu.component";
     RouterModule,
     TranslateModule,
     FontAwesomeModule,
+    DateAgoPipe,
     LogoComponent,
     GuestMenuComponent,
   ],
@@ -96,6 +100,15 @@ export class TopMenuComponent {
   @Input() isCursoGeniusTestimonials: any;
   @Input() canRegister: any;
   @Input() navigation: any;
+  @Input() manageMembers: any;
+  @Input() userTypeName: any;
+  @Input() potSuperTutor: any;
+  @Input() potTutor: any;
+  @Input() superTutor: any;
+  @Input() isTutorMenuVisible: any;
+  @Input() hasCredits: any;
+  @Input() customMemberTypePermissions: any;
+  @Input() campus: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;
@@ -168,6 +181,13 @@ export class TopMenuComponent {
   hoveredLanguage: any;
   courseWallPrefixTextValueIt: any;
   canAccessPlatformSettings: boolean = false;
+  canViewCRM: boolean = false;
+  canViewGuests: boolean = false;
+  canViewAdministrar: boolean = false;
+  companyId: any;
+  @ViewChild("outsidebutton", { static: false }) outsidebutton:
+    | ElementRef
+    | undefined;
 
   constructor(
     private _router: Router, 
@@ -215,6 +235,7 @@ export class TopMenuComponent {
 
     setTimeout(() => {
       initFlowbite();
+      this.companyId = this.company.id;
     }, 1000)
   }
 
@@ -290,6 +311,39 @@ export class TopMenuComponent {
         this.canAccessPlatformSettings = this.customMemberType?.access_platform_settings == 1 ? true : false;
       }
     }
+
+    let customMemberTypePermissionsChange = changes["customMemberTypePermissions"];
+    if (customMemberTypePermissionsChange?.currentValue?.length > 0) {
+      this.customMemberTypePermissions = customMemberTypePermissionsChange.currentValue;
+      if(this.customMemberTypePermissions?.length > 0) {
+        this.canViewCRM = this.getCRMPermissions(this.customMemberTypePermissions);
+        this.canViewAdministrar = this.getAdministrarPermissions(this.customMemberTypePermissions);
+      }
+    }
+  }
+
+  getCRMPermissions(permissions) {
+    let result = false;
+    if(permissions?.length > 0) {
+      let crm_permissions = permissions.find(f => f.feature_id == 22);
+      if(crm_permissions?.view == 1) {
+        result = true;
+      }
+    }
+
+    return result;
+  }
+
+  getAdministrarPermissions(permissions) {
+    let result = false;
+    if(permissions?.length > 0) {
+      let admin_permissions = permissions.find(f => f.feature_id == 1);
+      if(admin_permissions?.admin_assign == 1 || admin_permissions?.admin_attendance == 1) {
+        result = true;
+      }
+    }
+
+    return result;
   }
 
   refreshWallMenus(menus) {
@@ -795,5 +849,58 @@ export class TopMenuComponent {
 
   getLanguage(language) {
     return language[`name_${this.language.toUpperCase()}`];
+  }
+
+  redirectPath(mode) {
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      let path = '';
+      switch(mode) {
+        case 'userprofile':
+          path = `/users/profile/${this.userid}`;
+          break;
+        case 'myclubs':
+          path = '/dashboard/5';
+          break;
+        case 'crm':
+          path = `/users/crm`;
+          break;
+        case 'invites':
+          path = `/users/invites/me`;
+          break;
+        case 'viewguests':
+          path = `/users/invites/view`;
+          break;
+        case 'myactivities':
+          path = '/dashboard/1';
+          break;
+        case 'adminlists':
+          path = '/users/admin-lists';
+          break;
+        case 'mylessons':
+          path = '/users/my-lessons';
+          break;
+        case 'bookingshistory':
+          path = '/tutors/bookings/history';
+          break;
+        case 'mycreditstutors':
+          path = '/users/my-credits/tutors';
+          break;
+        case 'mycreditsactivities':
+          path = '/users/my-credits/activities';
+          break;
+        case 'tutorsstripeconnect':
+          path = '/tutors/stripe-connect';
+          break;
+        case 'studentsmanagement':
+          path = '/settings/students-management';
+          break;
+        case 'manageusers':
+          path = '/settings/manage-list/users';
+          break;
+      }
+
+      this._router.navigate([path]);
+    }, 500)
   }
 }
