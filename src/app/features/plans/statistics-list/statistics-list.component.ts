@@ -129,7 +129,7 @@ export class PlansStatisticsListComponent {
                 text: this._translateService.instant('guests.notattended'),
                 value: 'not-attended'
             }
-          ]
+        ]
 
         this.fetchPlansManagementData();
         this.initializeSearch();
@@ -471,34 +471,64 @@ export class PlansStatisticsListComponent {
     downloadExcel() {
         let event_data: any[] = [];
         if(this.plansData) {
-        this.plansData.forEach(plan => {
-            if(plan?.participants?.length > 0) {
-                plan?.participants?.forEach(p => {
-                    let match = event_data.some(a => a.participant_id === p.participant_id && a.title == p.title);
-                    if(!match) {
-                        let status = this._translateService.instant('guests.notattended');
-                        if(p.attended == 1) {
-                            status = this._translateService.instant('guests.attended');
+            this.plansData.forEach(plan => {
+                if(plan?.participants?.length > 0) {
+                    plan?.participants?.forEach(p => {
+                        let match = event_data.some(a => a.participant_id === p.participant_id && a.title == p.title);
+                        if(!match) {
+                            let status = this._translateService.instant('guests.notattended');
+                            if(p.attended == 1) {
+                                status = this._translateService.instant('guests.attended');
+                            }
+                
+                            let plan_date_display = moment.utc(plan.plan_date).locale(this.language).format('DD-MM-YYYY HH:mm')
+                            let user_name = (p.first_name ? (p.first_name + ' ') : '') + (p.last_name ? (p.last_name + ' ') : '')
+                            let name = p?.first_name ? `${p?.last_name}, ${p?.first_name}` : (p?.name || p?.email)
+                            if(this.company?.id == 32 && this.isUESchoolOfLife) {
+                                let active_enrollment_array = p?.num_matricula?.indexOf(',') >= 0 ? p?.num_matricula?.split(',') : [];
+                                if(active_enrollment_array?.length > 1) {
+                                    active_enrollment_array?.forEach(ae => {
+                                        event_data.push({
+                                            'Num. Matrícula activa': ae,
+                                            'Expediente': p.employee_id,
+                                            'Código actividad SIGECA': p.activity_code_sigeca,
+                                            'Apellidos y nombre': name,
+                                            'Actividad': plan.title,
+                                            'Fecha': p.participant_created ? moment(p.participant_created).format('DD-MM-YYYY HH:mm') : '',
+                                            'Créditos': p.credits,
+                                            'Campus': p.city,
+                                        })
+                                    })
+                                } else {
+                                    event_data.push({
+                                        'Num. Matrícula activa': p.num_matricula,
+                                        'Expediente': p.employee_id,
+                                        'Código actividad SIGECA': p.activity_code_sigeca,
+                                        'Apellidos y nombre': name,
+                                        'Actividad': plan.title,
+                                        'Fecha': p.participant_created ? moment(p.participant_created).format('DD-MM-YYYY HH:mm') : '',
+                                        'Créditos': p.credits,
+                                        'Campus': p.city,
+                                    })
+                                }
+                            } else {
+                                event_data.push({
+                                    'Título': plan.title,
+                                    'Fecha': plan_date_display,
+                                    'Nombre': user_name,
+                                    'Papel': p.role,
+                                    'Teléfono': p.phone,
+                                    'Correo electrónico': p.email,
+                                    'Asistió': status,
+                                    'Registrado': p.participant_created ? moment(p.participant_created).format('DD-MM-YYYY HH:mm') : '',
+                                    'Créditos': p.credits,
+                                    'Clasificación': p.ratings,
+                                })
+                            }
                         }
-            
-                        let plan_date_display = moment.utc(plan.plan_date).locale(this.language).format('DD-MM-YYYY HH:mm')
-                        let user_name = (p.first_name ? (p.first_name + ' ') : '') + (p.last_name ? (p.last_name + ' ') : '')
-                        event_data.push({
-                            'Título': plan.title,
-                            'Fecha': plan_date_display,
-                            'Nombre': user_name,
-                            'Papel': p.role,
-                            'Teléfono': p.phone,
-                            'Correo electrónico': p.email,
-                            'Asistió': status,
-                            'Registrado': p.participant_created ? moment(p.participant_created).format('DD-MM-YYYY HH:mm') : '',
-                            'Créditos': p.credits,
-                            'Clasificación': p.ratings,
-                        })
-                    }
-                })
-            }
-        });
+                    })
+                }
+            });
         }
     
         this._excelService.exportAsExcelFile(event_data, 'actividades_' + this.getTimestamp());
