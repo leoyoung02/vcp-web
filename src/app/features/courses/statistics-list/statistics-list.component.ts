@@ -195,6 +195,7 @@ export class CoursesStatisticsListComponent {
                     return {
                       ...student,
                       credits: this.getUserCourseCredits(student),
+                      course_credits: student.credits,
                       ratings: this.getUserCourseRatings(course, student)
                     };
                 });
@@ -371,14 +372,45 @@ export class CoursesStatisticsListComponent {
                 course?.students?.forEach(p => {
                     let match = course_data.some(a => a.user_id === p.user_id && p.title == course.title);
                     if(!match) {
-                        course_data.push({
-                            'Título': course.title,
-                            'Nombre': p.name,
-                            'Correo electrónico': p.email,
-                            'Progreso': p.progress,
-                            'Créditos': p.credits,
-                            'Clasificación': p.ratings,
-                        })
+                        let name = p?.first_name ? `${p?.last_name}, ${p?.first_name}` : (p?.name || p?.email);
+
+                        if(this.company?.id == 32 && this.isUESchoolOfLife) {
+                            let active_enrollment_array = p?.num_matricula?.indexOf(',') >= 0 ? p?.num_matricula?.split(',') : [];
+                                if(active_enrollment_array?.length > 1) {
+                                    active_enrollment_array?.forEach(ae => {
+                                        course_data.push({
+                                            'Num. Matrícula activa': ae,
+                                            'Expediente': p.employee_id,
+                                            'Código actividad SIGECA': p.activity_code_sigeca,
+                                            'Apellidos y nombre': name,
+                                            'Actividad': course.title,
+                                            'Fecha': p.created_at ? moment(p.created_at).format('DD-MM-YYYY HH:mm') : '',
+                                            'Créditos': p.course_credits,
+                                            'Campus': p.city,
+                                        })
+                                    })
+                                } else {
+                                    course_data.push({
+                                        'Num. Matrícula activa': p.num_matricula,
+                                        'Expediente': p.employee_id,
+                                        'Código actividad SIGECA': p.activity_code_sigeca,
+                                        'Apellidos y nombre': name,
+                                        'Actividad': course.title,
+                                        'Fecha': p.created_at ? moment(p.created_at).format('DD-MM-YYYY HH:mm') : '',
+                                        'Créditos': p.course_credits,
+                                        'Campus': p.city,
+                                    })
+                                }
+                        } else {
+                            course_data.push({
+                                'Título': course.title,
+                                'Nombre': p.name,
+                                'Correo electrónico': p.email,
+                                'Progreso': p.progress,
+                                'Créditos': p.credits,
+                                'Clasificación': p.ratings,
+                            })
+                        }
                     }
                 })
             }
