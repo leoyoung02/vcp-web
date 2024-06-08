@@ -26,6 +26,7 @@ import {
   COURSE_CTA_URL,
   COURSE_DETAILS_ADMIN_URL,
   COURSE_DETAILS_URL,
+  COURSE_DETAIL_URL,
   COURSE_DOWNLOADS_URL,
   COURSE_EXCEPION_USERS_URL,
   COURSE_SECTIONS_URL,
@@ -343,6 +344,7 @@ export class CoursesService {
     formData.append( 'instructor', params.instructor ? params.instructor : 0 );
     formData.append( 'school_of_life', params.school_of_life );
     formData.append( 'sol_nivelacion', params.sol_nivelacion );
+    formData.append( 'course_intro', params.course_intro );
 
     if(params.company_id == 32) {
       formData.append( 'additional_properties_course_access', params.additional_properties_course_access );
@@ -424,6 +426,7 @@ export class CoursesService {
     formData.append( 'school_of_life', params.school_of_life );
     formData.append( 'show_comments', params.show_comments );
     formData.append( 'sol_nivelacion', params.sol_nivelacion );
+    formData.append( 'course_intro', params.course_intro );
 
     if(params.group_id > 0) {
       formData.append( 'group_id', params.group_id);
@@ -708,5 +711,13 @@ export class CoursesService {
       SUBMIT_COURSE_ASSESSMENT_URL,
       payload,
     ).pipe(map(res => res));
+  }
+
+  fetchCourseDetail(id): Observable<any> {
+    return this._http.get(
+      `${COURSE_DETAIL_URL}/${id}`,
+      { headers: this.headers }
+    )
+    .pipe(map(res => res));
   }
 }

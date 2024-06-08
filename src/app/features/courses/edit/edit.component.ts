@@ -456,6 +456,7 @@ export class CourseEditComponent {
   isUESchoolOfLife: boolean = false;
   hasCourseVideoComments: boolean = false;
   showComments: boolean = false;
+  courseIntro: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -1160,6 +1161,7 @@ export class CourseEditComponent {
     this.startButtonColor = this.course.button_color || this.buttonColor;
     this.buyNowButtonColor = this.course.buy_now_button_color || this.buttonColor;
     this.showComments = this.course.show_comments == 1 ? true : false;
+    this.courseIntro = this.course.course_intro == 1 ? true : false;
 
     if(this.course.price > 0 
       && (this.course.payment_type > 0 || data?.recurring_payments)) {
@@ -1880,6 +1882,7 @@ export class CourseEditComponent {
       params['course_credits'] = this.courseCredits || 0
     }
     params['school_of_life'] = this.isUESchoolOfLife ? 1 : 0;
+    params['course_intro'] = this.courseIntro ? 1 : 0;
 
     if(this.companyId == 32) {
       params['additional_properties_course_access'] = this.allowCourseAccess ? 1 : 0,

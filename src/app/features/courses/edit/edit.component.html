@@ -549,6 +549,34 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="flex items-center justify-center relative">
+                            <div class="w-full max-w-full">
+                                <label for="setting-30" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{ 'buddy.introduction' | translate }}
+                                </label>
+                                <div class="flex items-center w-full max-w-full">
+                                    <div class="flex items-center justify-between relative mr-4">
+                                        <label
+                                            for="setting-30"
+                                            class="flex items-center w-full justify-between cursor-pointer"
+                                        >
+                                            <div class="relative mr-1">
+                                                <input
+                                                    id="setting-30"
+                                                    name="setting-30"
+                                                    type="checkbox"
+                                                    class="sr-only"
+                                                    [(ngModel)]="courseIntro" 
+                                                    [ngModelOptions]="{standalone: true}"
+                                                />
+                                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <ng-container *ngIf="companyId === 32">
                         <div class="flex items-center justify-center relative">
@@ -685,7 +713,7 @@
                         <div class="font-light text-xl">{{ 'course-create.description' | translate }}</div>
                     </div>
                     <div class="flex items-center justify-center relative">
-                        <editor
+                        <!-- <editor
                             *ngIf="selectedLanguage == 'es'"
                             class="w-full"
                             [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': courseForm.get('description')?.errors }"
@@ -844,7 +872,7 @@
                             }"
                             id="description"
                             formControlName="description_it" 
-                        ></editor>
+                        ></editor> -->
                     </div>
                     <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                         <button

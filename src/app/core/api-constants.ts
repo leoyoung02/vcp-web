@@ -530,6 +530,7 @@ export const COURSES_ADMIN_LIST_URL = `${API_BASE}/v2/courses-list`;
 export const COURSE_COMPLETE_EVALUATE_URL = `${API_BASE}/v2/course/completed/evaluate`;
 export const COURSES_MANAGEMENT_DATA_URL = `${API_BASE}/v2/courses-management-data`;
 export const ADDITIONAL_PROPERTIES_DATA = `${API_BASE}/company/user/get-additional-properties`;
+export const COURSE_DETAIL_URL = `${API_BASE}/course`;
 
 // TUTORS
 export const TUTORS_URL = `${API_BASE}/company/tutors`;

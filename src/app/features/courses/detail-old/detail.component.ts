@@ -242,7 +242,7 @@ export class CourseDetailComponent {
   commentsList: any = [];
   newComment: any = '';
   showComments: boolean = false;
-
+  autoCompleteLesson: boolean = false;
   isExpanded: boolean = false;
   @ViewChild(MaximizeDirective, { static: true }) maximize!: MaximizeDirective;
   
@@ -312,7 +312,6 @@ export class CourseDetailComponent {
   getCourse() {
     this._coursesService
       .fetchCourseCombined(this.id, this.companyId, this.userId)
-      // .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
           let course_data =  data[0] ? data[0] : [];
@@ -465,6 +464,7 @@ export class CourseDetailComponent {
       this.onlyAssignedTutorAccess = subfeatures.some(a => a.name_en == 'Tutors assigned to courses' && a.active == 1);
       this.hasCourseCreditSetting = subfeatures.some(a => a.name_en == 'Credits' && a.active == 1 && a.feature_id == 11);
       this.hasCourseVideoComments = subfeatures.some(a => a.name_en == 'Course video comments' && a.active == 1 && a.feature_id == 11);
+      this.autoCompleteLesson = subfeatures.some(a => a.name_en == 'Autocomplete lesson' && a.active == 1 && a.feature_id == 11);
     }
   }
 
@@ -1123,6 +1123,14 @@ export class CourseDetailComponent {
   }
 
   goToNextLesson() {
+    if(this.autoCompleteLesson) {
+      this.markComplete(this.selectedUnit?.id, true);
+    } else {
+      this.selectNextUnit();
+    }
+  }
+
+  selectNextUnit() {
     let current_unit_index = 0
     if(this.course.course_units) {
       this.course.course_units.forEach((cu, index) => {
@@ -1512,9 +1520,13 @@ export class CourseDetailComponent {
           if(response['total_progress'] == 100 && this.hasCourseCreditSetting) {
             this.completemodalbutton?.nativeElement.click();
           } else {
-            this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
-            if(response['total_progress'] != 100) {
-              this.goToNextLesson()
+            if(this.autoCompleteLesson) {
+              this.selectNextUnit();
+            } else {
+              this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+              if(response['total_progress'] != 100) {
+                this.goToNextLesson()
+              }
             }
           }
       },

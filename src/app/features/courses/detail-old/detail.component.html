@@ -219,7 +219,7 @@
                             class="text-sm rounded-[15px] text-white py-3 uppercase px-4 hover:cursor-pointer h-[42px] ml-[10px] text-center"
                             [ngClass]="{'w-[220px]': companyId == 65, 'w-[175px]': companyId != 65}"
                             (click)="markComplete(selectedUnit.id, true)" 
-                            *ngIf="selectedUnit?.Company_Course_Unit_Users[0]?.progress != 100 && (selectedUnit?.module_id == selectedModuleId && !isModuleLocked) && canAccessLesson()"
+                            *ngIf="!autoCompleteLesson && selectedUnit?.Company_Course_Unit_Users[0]?.progress != 100 && (selectedUnit?.module_id == selectedModuleId && !isModuleLocked) && canAccessLesson()"
                         >
                             {{ 'course-details.markascomplete' | translate }}
                         </div>
