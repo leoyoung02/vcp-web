@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { DELETE_JOB_OFFER_URL, JOB_OFFERS_URL, JOB_OFFER_MIN_URL, JOB_OFFER_URL, REGISTER_JOB_OFFER_URL, JOB_OFFERS_DATA_URL, CREATE_JOB_OFFER_URL, EDIT_JOB_OFFER_URL } from "@lib/api-constants";
+import { DELETE_JOB_OFFER_URL, JOB_OFFERS_URL, JOB_OFFER_MIN_URL, JOB_OFFER_URL, REGISTER_JOB_OFFER_URL, JOB_OFFERS_DATA_URL, CREATE_JOB_OFFER_URL, EDIT_JOB_OFFER_URL, JOB_OFFER_SETTINGS_URL, JOB_OFFER_SETTINGS_EDIT_URL } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 
 @Injectable({
@@ -70,6 +70,19 @@ export class JobOffersService {
     return this._http.post(
       `${EDIT_JOB_OFFER_URL}/${id}`,
       payload,
+    ).pipe(map(res => res));
+  }
+
+  getOfferHideDaysSettings(id): Observable<any> {
+    return this._http.get(`${JOB_OFFER_SETTINGS_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  updateOfferHideDaysSettings(params): Observable<any> {
+    return this._http.post(JOB_OFFER_SETTINGS_EDIT_URL,
+        params,
+        { headers: this.headers }
     ).pipe(map(res => res));
   }
 }
