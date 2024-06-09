@@ -1,11 +1,11 @@
 <div class="flex items-center justify-center h-screen">
     <section class="bg-white dark:bg-gray-900">
         <div class="gap-8 items-center py-8 px-4 mx-auto max-w-screen-xl xl:gap-16 md:grid md:grid-cols-2 sm:py-16 lg:px-6">
-            <img class="w-[460px] object-cover dark:hidden" [src]="courseImage" [alt]="courseTitle">
+            <img *ngIf="courseImage" class="w-[460px] object-cover dark:hidden" [src]="courseImage" [alt]="courseTitle">
             <div class="mt-4 md:mt-0">
                 <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">{{ courseTitle }}</h2>
                 <div class="space-y-2 border-t border-gray-200">&nbsp;</div>
-                <div class="flex items-center mb-2">
+                <div class="flex items-center mb-2" *ngIf="course?.duration > 0">
                     <svg class="w-5 h-5 text-slate-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
                     </svg>  

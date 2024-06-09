@@ -239,7 +239,11 @@ export class SectionsComponent {
 
   goToCourseDetails(item) {
     if(this.userId > 0) {
-      this._router.navigate([item.path]);
+      if(item?.course_intro == 1) {
+        this._router.navigate([`/courses/intro/${item.item_id}`]);
+      } else {
+        this._router.navigate([item.path]);
+      }
     } else {
       this._router.navigate(["/auth/login"], {
         queryParams: {
