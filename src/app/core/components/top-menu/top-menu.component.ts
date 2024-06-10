@@ -492,9 +492,12 @@ export class TopMenuComponent {
     let id = menu.path.replace("activity-feed-", "");
     this.selectedTab = id;
     this.showCourseWallOptions = false;
-    this._router
-      .navigateByUrl("/", { skipLocationChange: true })
-      .then(() => this._router.navigate([`/activity-feed/wall/${id}`]));
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      this._router
+        .navigateByUrl("/", { skipLocationChange: true })
+        .then(() => this._router.navigate([`/activity-feed/wall/${id}`]));
+    }, 500)
   }
 
   getCourseWallName(wall) {

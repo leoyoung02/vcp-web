@@ -141,8 +141,10 @@
                     (changeLanguage)="changedLanguage($event)" 
                 ></app-mobile-navbar>
             </div>
-            <ng-container *ngIf="navigation != 'top-menu'">
-                <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" *ngIf="userId">
+            <ng-container>
+                <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50"
+                    *ngIf="userId"
+                    [ngClass]="{'md:hidden lg:hidden': navigation == 'top-menu'}">
                     <app-user-menu
                         *ngIf="!isCursoGeniusTestimonials"
                         [menus]="menus"
@@ -192,7 +194,8 @@
                     >
                     </app-user-menu>
                 </div>
-                <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" *ngIf="!userId && !isCursoGeniusTestimonials">
+                <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" 
+                    *ngIf="!userId && !isCursoGeniusTestimonials && navigation != 'top-menu'">
                     <app-guest-menu
                         [company]="company"
                         [language]="language"
