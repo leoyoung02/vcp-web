@@ -872,6 +872,10 @@ export class MentorProfileComponent {
         }
     }
 
+    viewMenteeProfile(notification) {
+        this._router.navigate([`/buddy/mentee/${notification.requestor_id}`]);
+    }
+
     async open(message: string, action: string) {
         await this._snackBar.open(message, action, {
           duration: 3000,

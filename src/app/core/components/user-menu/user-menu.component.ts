@@ -89,6 +89,7 @@ export class UserMenuComponent {
   @Input() customMemberType: any;
   @Input() customMemberTypePermissions: any;
   @Input() superAdmin: any;
+  @Input() isMentor: any;
 
   @Output() changeLanguage = new EventEmitter();
 
@@ -280,6 +281,9 @@ export class UserMenuComponent {
           break;
         case 'mysessions':
           path = '/users/my-sessions';
+          break;
+        case 'mentorprofile':
+          path = `/buddy/profile/mentor/${this.userid}`;
           break;
       }
 
