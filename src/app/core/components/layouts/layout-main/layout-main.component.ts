@@ -190,6 +190,7 @@ export class LayoutMainComponent {
   isCursoGeniusTestimonials: boolean = false;
   hasBuddy: boolean = false;
   isMentor: boolean = false;
+  userMentor: any;
 
   constructor(
     private _router: Router,
@@ -2450,6 +2451,21 @@ export class LayoutMainComponent {
           let current_user_mentor = mentors?.filter(mentor => {
             return mentor.user_id == this.userId
           })
+          let user_mentor = mentors?.filter(m => {
+            let include = false;
+            if(m.buddies?.length > 0) {
+              let match = m.buddies?.some(
+                (a) => a.id == this.userId
+              );
+
+              if(match) {
+                include = true;
+              }
+            }
+
+            return include;
+          })
+          this.userMentor = user_mentor;
           this.isMentor = current_user_mentor?.length > 0 ? true : false;
         },
         (error) => {

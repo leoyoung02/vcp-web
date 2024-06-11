@@ -3194,7 +3194,8 @@
         "pendingcompletion": "Pendiente de finalización",
         "introductionlabel": "Sobre mí: por qué quiero ser mentor, por qué he elegido mi grado...",
         "interestslabel": "Intereses: poner participación en la Vida Universitaria (clubes, asociaciones, delegados, equipo deportivo….)",
-        "personalitylabel": "Personalidad, Intereses"
+        "personalitylabel": "Personalidad, Intereses",
+        "mymentor": "Mi mentor"
     },
     "cities": {
         "cities": "Ciudades",

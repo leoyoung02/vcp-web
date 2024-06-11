@@ -90,6 +90,7 @@ export class UserMenuComponent {
   @Input() customMemberTypePermissions: any;
   @Input() superAdmin: any;
   @Input() isMentor: any;
+  @Input() userMentor: any;
 
   @Output() changeLanguage = new EventEmitter();
 
@@ -233,6 +234,13 @@ export class UserMenuComponent {
   }
 
   redirectPath(mode) {
+    let mentorId = 0;
+    if(mode == 'mymentor') {
+      if(this.userMentor?.length > 0) {
+        mentorId = this.userMentor[0].user_id;
+      }
+    }
+
     setTimeout(() => {
       this.outsidebutton?.nativeElement.click();
       let path = '';
@@ -284,6 +292,9 @@ export class UserMenuComponent {
           break;
         case 'mentorprofile':
           path = `/buddy/profile/mentor/${this.userid}`;
+          break;
+        case 'mymentor':
+          path = `/buddy/mentor/${mentorId}`;
           break;
       }
 

@@ -3181,7 +3181,8 @@
         "pendingcompletion": "Ausstehender Abschluss",
         "introductionlabel": "Über mich: Warum ich Mentorin werden möchte, warum ich meinen Abschluss gewählt habe...",
         "interestslabel": "Interessen: Teilnahme am Universitätsleben (Vereine, Vereine, Delegierte, Sportmannschaft...)",
-        "personalitylabel": "Persönlichkeit, Interessen"
+        "personalitylabel": "Persönlichkeit, Interessen",
+        "mymentor": "Mein Mentor"
     },
     "cities": {
         "cities": "Städte",
