@@ -76,11 +76,12 @@
             type="button"
             class="inline-block h-[52px] mt-4 text-sm px-12 py-2 font-semibold rounded-[10px] text-white focus:ring-4 focus:ring-offset-black focus:outline-none mb-3 sm:mb-3 md:mb-0 lg:mb-0"
             [ngStyle]="{
-                'background-color': buttonColor,
+                'background-color': jobActiveStatus == 'closed' ? '#c7c7c7' : buttonColor,
                 'opacity': sendHover ? 1.5 : 1,
                 'filter': sendHover ? 'brightness(0.8)' : 'brightness(1)'
             }"
             (click)="register()"
+            [disabled]="jobActiveStatus"
             *ngIf="!isRegistered"
             (mouseover)="toggleSendHover(true)"
             (mouseleave)="toggleSendHover(false)"
