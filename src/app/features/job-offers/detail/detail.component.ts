@@ -26,6 +26,7 @@ import { SafeContentHtmlPipe } from "@lib/pipes";
 import { FormsModule } from "@angular/forms";
 import { EditorModule } from "@tinymce/tinymce-angular";
 import { initFlowbite } from "flowbite";
+import moment from "moment";
 import get from "lodash/get";
 
 @Component({
@@ -130,6 +131,8 @@ export class JobOfferDetailComponent {
   editHover: boolean = false;
   deleteHover: boolean = false;
   sendHover: boolean = false;
+  closeDays: any;
+  jobActiveStatus: any;
 
   constructor(
     private _router: Router,
@@ -200,6 +203,7 @@ export class JobOfferDetailComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          this.closeDays = data?.settings?.offer_hide_days_settings?.hide_days || 0;
           this.jobOfferData = data;
           this.initializePage();
         },
@@ -295,6 +299,16 @@ export class JobOfferDetailComponent {
     this.jobRequirements = requirements ? this.sanitizer.bypassSecurityTrustHtml(requirements) : ''
     let experience = this.getJobExperienceTitle()
     this.jobExperience = experience ? this.sanitizer.bypassSecurityTrustHtml(experience) : ''
+    this.jobActiveStatus = this.getStatus(offer);
+  }
+
+  getStatus(offer) {
+    var a = moment(offer.created_at);
+    var b = moment(new Date());
+    let diff = b.diff(a, "days");
+
+    let status = diff > this.closeDays ? 'closed' : '';
+    return status;
   }
 
   getJobDescriptionTitle() {

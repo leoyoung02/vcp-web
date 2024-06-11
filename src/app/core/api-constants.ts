@@ -453,6 +453,8 @@ export const DELETE_JOB_OFFER_URL = `${API_BASE}/company/job/offer/delete`;
 export const REGISTER_JOB_OFFER_URL = `${API_BASE}/company/job/register/create`;
 export const CREATE_JOB_OFFER_URL = `${API_BASE}/company/job/offer/create-new`;
 export const EDIT_JOB_OFFER_URL = `${API_BASE}/company/job/offer/edit-new`;
+export const JOB_OFFER_SETTINGS_URL = `${API_BASE}/offer/settings/hide-days`;
+export const JOB_OFFER_SETTINGS_EDIT_URL = `${API_BASE}/offer/settings/hide-days/edit`;
 
 // CITY GUIDES
 export const CITY_GUIDES_URL = `${API_BASE}/v2/city-guides`;

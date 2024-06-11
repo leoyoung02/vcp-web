@@ -23,7 +23,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { initFlowbite } from "flowbite";
 import { Subject, takeUntil } from "rxjs";
-import { ClubsService, PlansService, TutorsService } from "@features/services";
+import { ClubsService, PlansService, TutorsService, JobOffersService } from "@features/services";
 import get from "lodash/get";
 @Component({
   standalone: true,
@@ -153,6 +153,9 @@ export class FeatureComponent {
   groupFilterActive: boolean = false;
   hasClubsFeature: boolean = false;
   clubTitle: any = '';
+  offerHideDays: any;
+  hideOffersDays: any;
+  showHideOffersModal: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -165,6 +168,7 @@ export class FeatureComponent {
     private _clubsService: ClubsService,
     private _userService: UserService,
     private _menuService: MenuService,
+    private _jobOfferService: JobOffersService,
     private _location: Location,
     private _snackBar: MatSnackBar
   ) {}
@@ -353,9 +357,8 @@ export class FeatureComponent {
       { id: 8, name_en: "Type of activity" },
       { id: 9, name_en: "Keap integration" },
       { id: 10, name_en: "Commissions" },
-      { id: 11, name_en: "Hide offers" },
-      { id: 12, name_en: "View more" },
-      { id: 13, name_en: "Leads/References list" },
+      { id: 11, name_en: "View more" },
+      { id: 12, name_en: "Leads/References list" },
       { id: 14, name_en: "Subgroups" },
       { id: 15, name_en: "Created activities authorization" },
       { id: 16, name_en: "Featured" },
@@ -533,6 +536,8 @@ export class FeatureComponent {
   }
 
   openSettingModal(row) {
+    this.resetModals();
+
     this.popupTitle =
       this.language == "en"
         ? row.description_en
@@ -616,6 +621,13 @@ export class FeatureComponent {
     this.showFeaturedTextModal = false;
     this.showGuestRegistrationFieldsModal = false;
     this.showApproveClubActivitiesModal = false;
+    this.showTutorBookingsCommissionPerHourModal = false;
+    this.showTutorBookingsCommissionModal = false;
+    this.showFeaturedTextModal = false;
+    this.showGuestRegistrationFieldsModal = false;
+    this.showApproveClubActivitiesModal = false;
+    this.showFilterModal = false;
+    this.showHideOffersModal = false;
   }
 
   goToAdminList(row) {
@@ -1214,42 +1226,43 @@ export class FeatureComponent {
   }
 
   closeHideOffersModal() {
-    // this.showHideOffersModal = false
+    this.showHideOffersModal = false
   }
 
   getOfferHideDays() {
-    // this.mainService.getOfferHideDaysSettings(this.companyId)
-    //   .subscribe(
-    //       response => {
-    //         this.offerHideDays = response.offer_hide_days_settings
-    //         if(this.offerHideDays && this.offerHideDays.id) {
-    //           this.hideOffersDays = this.offerHideDays.hide_days ? this.offerHideDays.hide_days : ''
-    //         }
-    //         this.showHideOffersModal = true
-    //       },
-    //       error => {
-    //           console.log(error)
-    //       }
-    //   )
+    this._jobOfferService.getOfferHideDaysSettings(this.companyId)
+      .subscribe(
+        response => {
+          this.offerHideDays = response.offer_hide_days_settings
+          if(this.offerHideDays && this.offerHideDays.id) {
+            this.hideOffersDays = this.offerHideDays.hide_days ? this.offerHideDays.hide_days : '';
+          }
+          this.showHideOffersModal = true;
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
   saveHideOffersDays() {
-    // if(this.hideOffersDays) {
-    //   let params = {
-    //     company_id: this.companyId,
-    //     hide_days: this.hideOffersDays
-    //   }
-    //   this.mainService.updateOfferHideDaysSettings(params)
-    //   .subscribe(
-    //     response => {
-    //       this.open(this._translateService.instant('dialog.savedsuccessfully'), null)
-    //       location.reload()
-    //     },
-    //     error => {
-    //       console.log(error)
-    //     }
-    //   )
-    // }
+    if(this.hideOffersDays) {
+      let params = {
+        company_id: this.companyId,
+        hide_days: this.hideOffersDays
+      }
+      this._jobOfferService.updateOfferHideDaysSettings(params)
+      .subscribe(
+        response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          this.showHideOffersModal = false;
+          this.closesettingmodalbutton?.nativeElement.click();
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    }
   }
 
   async manageApproveClubActivities(type: any = "club") {
