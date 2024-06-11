@@ -289,8 +289,13 @@ export class MentorProfileComponent {
 
             if(object_type == 'IntroduceU') {
               if(notification.read_status == -1 || !notification.read_status) {
-                status = this._translateService.instant('plan-details.pending')
-                pending = true
+                if(notification?.declined == 1) {
+                    status = this._translateService.instant('notification-popup.declined')
+                    declined = true
+                } else {
+                    status = this._translateService.instant('plan-details.pending')
+                    pending = true
+                }
               } else if (notification.read_status == 1) {
                 status = notification.read_status == 1 ? this._translateService.instant('notification-popup.accepted') : this._translateService.instant('notification-popup.declined')
                 accepted = notification.read_status == 1 ? true : false
