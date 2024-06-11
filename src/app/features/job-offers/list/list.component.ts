@@ -13,8 +13,9 @@ import { JobOffersService } from "@features/services";
 import { SearchComponent } from "@share/components/search/search.component";
 import { DateAgoPipe } from "@lib/pipes";
 import { FilterComponent, IconFilterComponent, PageTitleComponent } from "@share/components";
-import get from "lodash/get";
 import { NgxPaginationModule } from "ngx-pagination";
+import moment from "moment";
+import get from "lodash/get";
 
 @Component({
   selector: "app-job-offers-list",
@@ -120,6 +121,8 @@ export class JobOffersListComponent {
   defaultActiveFilter: boolean = false;
   filterSettings: any = [];
   showFilters: boolean = false;
+  truncate: number = 120;
+  closeDays: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -188,6 +191,7 @@ export class JobOffersListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          this.closeDays = data?.settings?.offer_hide_days_settings?.hide_days || 0;
           this.mapCities(data?.cities);
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings?.subfeatures);
@@ -408,10 +412,21 @@ export class JobOffersListComponent {
         ...offer,
         title_display: this.getOfferTitle(offer),
         type_display: type_row?.length > 0 ? this.getTypeTitle(type_row[0]) : '',
-        area_display: this.getAreaDisplay(offer)
+        area_display: this.getAreaDisplay(offer),
+        description_display: this.getDescription(offer),
+        excerpt: this.getExcerpt(this.getDescription(offer)),
+        active_status: this.getStatus(offer),
       }
     })
 
+    if(jobOffers?.length > 0) {
+      jobOffers = jobOffers.sort((a, b) => {
+        const oldDate: any = new Date(a.created_at);
+        const newDate: any = new Date(b.created_at);
+        return newDate - oldDate;
+      });
+    }
+    
     this.allJobOffers = jobOffers;
 
     let selected = localStorage.getItem('job-offers-filter-city');
@@ -426,6 +441,41 @@ export class JobOffersListComponent {
       })
     }
     this.filterJobOffers();
+  }
+
+  getStatus(offer) {
+    var a = moment(offer.created_at);
+    var b = moment(new Date());
+    let diff = b.diff(a, "days");
+
+    let status = diff > this.closeDays ? 'closed' : '';
+    return status;
+  }
+
+  getExcerpt(description) {
+    let charlimit = this.truncate;
+    if (!description || description.length <= charlimit) {
+      return description;
+    }
+
+    let without_html = description.replace(/<(?:.|\n)*?>/gm, "");
+    without_html = description.replace(/[\u{0080}-\u{FFFF}]/gu, "");
+    let shortened = without_html.substring(0, charlimit) + "...";
+    return shortened;
+  }
+
+  getDescription(offer) {
+    return this.language == "en"
+      ? offer.description_en || offer.description
+      : this.language == "fr"
+      ? offer.description_fr || offer.description
+      : this.language == "eu"
+      ? offer.description_eu || offer.description
+      : this.language == "ca"
+      ? offer.description_ca || offer.description
+      : this.language == "de"
+      ? offer.description_de || offer.description
+      : offer.description;
   }
 
   sortOffers(offers) {
