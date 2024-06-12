@@ -3661,5 +3661,8 @@
         "percent": "Ehuneko",
         "validfrom": "Balioa hemendik",
         "validuntil": "Balioa arte"
+    },
+    "shop": {
+        "shop": "Denda"
     }
 }

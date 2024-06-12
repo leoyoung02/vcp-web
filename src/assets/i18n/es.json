@@ -3682,5 +3682,8 @@
         "percent": "Porcentaje",
         "validfrom": "Válido desde",
         "validuntil": "Válido hasta"
+    },
+    "shop": {
+        "shop": "Comercio"
     }
 }

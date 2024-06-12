@@ -3653,5 +3653,8 @@
         "percentuale": "Percentuale",
         "validfrom": "Valido dal",
         "validuntil": "Valido fino al"
+    },
+    "shop": {
+        "shop": "Negozio"
     }
 }

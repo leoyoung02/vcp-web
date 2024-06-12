@@ -117,5 +117,12 @@
         "icondark": "./assets/menu-icons/menu-icon-plans-dark.png",  
         "facode": "fas fa-calendar-alt",
         "activeicon": "./assets/images/new-design/icons/menus/Plans-active.png"     
+    },
+    {  
+        "path": "shop",  
+        "icon": "./assets/menu-icons/menu-icon-shop.png",
+        "icondark": "./assets/menu-icons/menu-icon-shop-dark.png", 
+        "facode": "fas fa-user-friends", 
+        "activeicon": "./assets/images/new-design/icons/menus/Buddy-active.png"   
     }
 ]  
