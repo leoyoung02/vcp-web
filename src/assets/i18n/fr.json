@@ -3657,6 +3657,8 @@
         "validuntil": "Valide jusqu'à"
     },
     "shop": {
-        "shop": "Boutique"
+        "shop": "Boutique",
+        "addtocart": "Ajouter au panier",
+        "product": "Produit"
     }
 }

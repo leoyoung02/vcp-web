@@ -7,5 +7,11 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'shop.shop'},
         loadComponent: async () => (await import('./home/home.component')).ShopHomeComponent,
+    },
+    {
+        path: 'detail/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'shop.product'},
+        loadComponent: async () => (await import('./detail/detail.component')).ProductDetailComponent,
     }
 ];

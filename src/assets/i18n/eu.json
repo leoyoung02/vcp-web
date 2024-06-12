@@ -3663,6 +3663,8 @@
         "validuntil": "Balioa arte"
     },
     "shop": {
-        "shop": "Denda"
+        "shop": "Denda",
+        "addtocart": "Gehitu saskira",
+        "product": "Produktua"
     }
 }

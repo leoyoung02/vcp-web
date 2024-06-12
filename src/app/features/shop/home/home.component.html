@@ -1,1 +1,21 @@
-SHOP
+<app-page-title [title]="pageName" [subtitle]="pageDescription"></app-page-title>
+<div class="py-8">
+    <div class="font-[sans-serif] pb-8 mx-auto max-w-full">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <ng-container *ngFor="let product of products">
+                <app-product-card
+                    [id]="product?.id"
+                    [title]="product?.title"
+                    [image]="product?.image"
+                    [price]="product?.price"
+                    [ratings]="product?.ratings"
+                    [buttonColor]="buttonColor"
+                    [companyId]="companyId"
+                    (handleDetailsClick)="handleDetailsClickRoute($event)"
+                    (handleAddToCartClick)="handleAddToCartClickRoute($event)"
+                >
+                </app-product-card>
+            </ng-container>
+        </div>
+    </div>
+</div>

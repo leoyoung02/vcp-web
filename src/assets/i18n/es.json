@@ -3684,6 +3684,8 @@
         "validuntil": "Válido hasta"
     },
     "shop": {
-        "shop": "Comercio"
+        "shop": "Comercio",
+        "addtocart": "Añadir al carrito",
+        "product": "Producto"
     }
 }

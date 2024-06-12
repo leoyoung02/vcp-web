@@ -3655,6 +3655,8 @@
         "validuntil": "Valido fino al"
     },
     "shop": {
-        "shop": "Negozio"
+        "shop": "Negozio",
+        "addtocart": "Aggiungi al carrello",
+        "product": "Prodotto"
     }
 }

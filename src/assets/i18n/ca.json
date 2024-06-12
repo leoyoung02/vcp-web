@@ -3400,7 +3400,6 @@
         "years": "anys",
         "timeavailable": "Temps disponible"
     },
-
     "stripe-account": {
         "secretkey": "Clau secreta",
         "publishablekey": "Clau publicable",
@@ -3671,6 +3670,8 @@
         "validuntil": "Vàlid fins a"
     },
     "shop": {
-        "shop": "Botiga"
+        "shop": "Botiga",
+        "addtocart": "Afegeix al carret",
+        "product": "Producte"
     }
 }

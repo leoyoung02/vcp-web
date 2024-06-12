@@ -3699,6 +3699,8 @@
         "validuntil": "Valid until"
     },
     "shop": {
-        "shop": "Shop"
+        "shop": "Shop",
+        "addtocart": "Add to cart",
+        "product": "Product"
     }
 }

@@ -3662,6 +3662,8 @@
         "validuntil": "Gültig bis"
     },
     "shop": {
-        "shop": "Geschäft"
+        "shop": "Geschäft",
+        "addtocart": "Add des Warenkorb",
+        "product": "Produkt"
     }
 }
