@@ -387,6 +387,7 @@ export class MentorComponent {
     }
 
     handleSettingsClick() {
+        initFlowbite();
         this.setupCalendlyFormSubmitted = false;
         this.setupCalendlyForm.controls['link'].setValue(this.user?.calendly_url || '');
         this.setupCalendlyForm.controls['personal_access_token'].setValue(this.user?.calendly_personal_access_token);
