@@ -313,6 +313,7 @@ export class CourseEditComponent {
 
   @ViewChild('myPond', {static: false}) myPond: any;
   @ViewChild('downloadPond', {static: false}) downloadPond: any;
+  @ViewChild('courseIntroPond', {static: false}) courseIntroPond: any;
   pondOptions = {
     class: 'my-filepond',
     multiple: false,
@@ -416,6 +417,59 @@ export class CourseEditComponent {
       },
   };
   downloadPondFiles = [];
+  courseIntroPondOptions = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    // maxFileSize: 200000000,
+    // labelMaxFileSizeExceeded: "El archivo es demasiado grande",
+    // labelMaxFileSize: "El tamaño máximo de archivo es {filesize}",
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+          let course_download_unit_id = localStorage.getItem('course_download_unit_id') || '';
+
+          const formData = new FormData();
+          let fileExtension = file ? file.name.split('.').pop() : '';
+          this.courseDownloadFileName = 'courseLessonDownloadFile_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+          formData.append('file', file, this.courseDownloadFileName);
+          formData.append('course_unit_id', course_download_unit_id);
+          localStorage.setItem('course_download_file', 'uploading');
+
+          const request = new XMLHttpRequest();
+          request.open('POST', environment.api + '/company/course/download-temp-upload');
+
+          request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+          };
+
+          request.onload = function () {
+              if (request.status >= 200 && request.status < 300) {
+              load(request.responseText);
+              localStorage.setItem('course_download_file', 'complete');
+              } else {
+              error('oh no');
+              }
+          };
+
+          request.send(formData);
+
+          return {
+          abort: () => {
+              request.abort();
+              abort();
+          },
+          };
+      },
+    },
+  };
+  courseIntroPondFiles = [];
   allTutors: any;
   filteredTutors: any;
   unitAvailability: boolean = false;
