@@ -245,6 +245,7 @@ export class CourseDetailComponent {
   autoCompleteLesson: boolean = false;
   isExpanded: boolean = false;
   @ViewChild(MaximizeDirective, { static: true }) maximize!: MaximizeDirective;
+  courseIntroPDFURL: any;
   
   constructor(
     private _router: Router,
@@ -485,6 +486,7 @@ export class CourseDetailComponent {
     this.courseDescription = this.getCourseDescription(this.course);
     this.courseImage = `${COURSE_IMAGE_URL}/${this.course?.image}`;
     this.showComments = this.course?.show_comments == 1 ? true : false;
+    this.courseIntroPDFURL = this.course.intro_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_pdf}` : '';
 
     if(this.course) {
       this.coursePoints = this.course.course_users && this.course.course_users[0] ? ((parseInt(this.course.course_users[0].progress) * parseInt(this.course.points)) / 100) : 0;
@@ -656,7 +658,9 @@ export class CourseDetailComponent {
         countCompleted = countCompleted + 1;
       }
     });
-    this.selectedModuleUnitsCompleted = (countCompleted == units.length)  && (this.selectedModule[0].reward_tutor_package);
+    if(this.selectedModule?.length > 0) {
+      this.selectedModuleUnitsCompleted = (countCompleted == units.length) && (this.selectedModule[0].reward_tutor_package);
+    }
 
     if (this.selectedModuleUnitsCompleted) {
       this.selectedModulePackageId = this.selectedModule[0].package_id;

@@ -82,7 +82,7 @@ export class CourseCardComponent {
 
   goToDetails() {
     if(this.showDetails) {
-      if(this.courseIntro == 1 && !(this.progress > 0)) {
+      if(this.courseIntro == 1) {
         this._router.navigate([`/courses/intro/${this.id}`]);
       } else {
         this._router.navigate([this.path]);

@@ -346,6 +346,13 @@ export class CoursesService {
     formData.append( 'sol_nivelacion', params.sol_nivelacion );
     formData.append( 'course_intro', params.course_intro );
 
+    if(params['intro_pdf']) {
+      formData.append( 'intro_pdf', params.intro_pdf );
+    }
+    if(params.course_intro && params.intro_pdf_removed == 1 && !params['intro_pdf']) {
+      formData.append( 'intro_pdf', '' );
+    }
+
     if(params.company_id == 32) {
       formData.append( 'additional_properties_course_access', params.additional_properties_course_access );
       formData.append( 'additional_properties_campus_ids', params.additional_properties_campus_ids );
@@ -427,6 +434,12 @@ export class CoursesService {
     formData.append( 'show_comments', params.show_comments );
     formData.append( 'sol_nivelacion', params.sol_nivelacion );
     formData.append( 'course_intro', params.course_intro );
+    if(params['intro_pdf']) {
+      formData.append( 'intro_pdf', params.intro_pdf );
+    }
+    if(params.course_intro && params.intro_pdf_removed == 1 && !params['intro_pdf']) {
+      formData.append( 'intro_pdf', '' );
+    }
 
     if(params.group_id > 0) {
       formData.append( 'group_id', params.group_id);

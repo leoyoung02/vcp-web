@@ -46,6 +46,7 @@ export class CourseIntroComponent {
     courseImage: any;
     courseDurationUnitTitle: any;
     courseDifficulty: any;
+    courseIntroPDFURL: any;
 
     constructor(
         private _router: Router,
@@ -122,6 +123,7 @@ export class CourseIntroComponent {
         this.courseImage = `${COURSE_IMAGE_URL}/${this.course?.image}`;
         this.courseDurationUnitTitle = this.getCourseDurationUnitTitle(this.course);
         this.courseDifficulty = this.getDifficultyLevelTitle(this.course);
+        this.courseIntroPDFURL = this.course.intro_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_pdf}` : '';
     }
 
     getCourseTitle(course) {
