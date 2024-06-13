@@ -81,7 +81,7 @@
                     <span class="opacity-50">{{ offer?.location }}</span>
                 </div>
                 <div class="flex flex-wrap">
-                    <div class="text-sm pt-0 pb-3 h-[40px] overflow-hidden" [innerHtml]="offer?.description_display"></div>
+                    <!-- <div class="text-sm pt-0 pb-3 h-[40px] overflow-hidden" [innerHtml]="offer?.description_display"></div> -->
                     <div class="underline text-sm pb-3 transition duration-700 ease-in-out" 
                         [ngStyle]="{'color': hover && selectedOfferId == offer.id ? '#fff' : (offer.active_status == 'closed' ? '#5f5f5f' : buttonColor)}">
                         {{'landing.learnmore' | translate }}

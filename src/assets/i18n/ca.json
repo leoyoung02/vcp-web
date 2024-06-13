@@ -103,7 +103,8 @@
         "policyintro": "En inscriure's, ha d'acceptar aquestes polítiques:",
         "i":"jo",
         "acceptthe":"acceptar el",
-        "dateofacceptance":"Data d'acceptació"
+        "dateofacceptance":"Data d'acceptació",
+        "linkstitle": "El Vicerectorat d'Estudiants i Vida Universitària està format per:"
     },
     "settings": {
         "logo_banner": "Logo i Banner",

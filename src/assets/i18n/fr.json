@@ -103,7 +103,8 @@
         "policyintro": "En vous inscrivant, vous devez accepter ces politiques :",
         "i":"je",
         "acceptthe":"accepte le",
-        "dateofacceptance":"Date d'acceptation"
+        "dateofacceptance":"Date d'acceptation",
+        "linkstitle": "Le Vice-Rectorat chargé des Etudiants et de la Vie Universitaire est composé de :"
     },
     "settings": {
         "logo_banner": "Logo et bannière",
