@@ -26,7 +26,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { MenuService } from "@lib/services";
-import { EditorModule } from "@tinymce/tinymce-angular";
+import { QuillModule } from "ngx-quill";
 import { ColorPickerModule } from 'ngx-color-picker';
 import { initFlowbite } from "flowbite";
 import {
@@ -49,7 +49,7 @@ import { LeftImage } from "@lib/interfaces";
     TranslateModule,
     FormsModule,
     ReactiveFormsModule,
-    EditorModule,
+    QuillModule,
     ImageCropperModule,
     MatSnackBarModule,
     ColorPickerModule,

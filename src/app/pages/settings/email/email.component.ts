@@ -8,11 +8,11 @@ import {
 } from "@ngx-translate/core";
 import { Router } from "@angular/router";
 import { Subject, takeUntil } from "rxjs";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BreadcrumbComponent, PageTitleComponent } from "@share/components";
 import { CompanyService, LocalService } from "@share/services";
-import { EditorModule } from "@tinymce/tinymce-angular";
 import { NgxPaginationModule } from "ngx-pagination";
+import { QuillModule } from 'ngx-quill';
 import { environment } from "@env/environment";
 import get from "lodash/get";
 
@@ -22,10 +22,11 @@ import get from "lodash/get";
   imports: [
     CommonModule,
     TranslateModule,
+    ReactiveFormsModule,
     FormsModule,
     MatSnackBarModule,
-    EditorModule,
     NgxPaginationModule,
+    QuillModule,
     BreadcrumbComponent,
     PageTitleComponent,
   ],
@@ -552,7 +553,6 @@ export class EmailComponent {
     if (this.email) {
       this.subject = this.email.subject;
       this.body = this.email.body;
-      this.setTinymceValue("");
     }
   }
 
@@ -597,55 +597,6 @@ export class EmailComponent {
     this.level6Title = "";
   }
 
-  tinymceInitialize() {
-    return {
-      height: 400,
-      menubar: false,
-      plugins: [
-        "advlist autolink lists link image imagetools charmap print",
-        "preview anchor searchreplace visualblocks code",
-        "fullscreen insertdatetime media table paste",
-        "help wordcount",
-      ],
-      toolbar:
-        "undo redo | formatselect | bold italic | forecolor backcolor | \
-      alignleft aligncenter alignright alignjustify | \
-      paste pastetext | \
-      link image imagetools | \
-      bullist numlist outdent indent | help",
-      paste_data_images: true,
-      // images_upload_handler: (blobInfo, success, failure, progress) => {
-      //   this._companyService.uploadNotificationImage(blobInfo.blob(), blobInfo.filename())
-      //   .pipe(takeUntil(this.destroy$))
-      //   .subscribe(
-      //     (response) => {
-      //       success(`${environment.api}/get-notification-image/${response.filename}`);
-      //     },
-      //     (error) => {
-      //       const msg1 = this._translateService.instant('dialog.fileuploadlimit');
-      //       const msg2 = this._translateService.instant('dialog.fileuploadlimitdesc');
-      //       failure(`${msg1}<br>${msg2}`);
-      //     }
-      //   );
-      // }
-    };
-  }
-
-  handleEditorInit(e, type = "") {
-    this.editor = e.editor;
-    this.setTinymceValue(type);
-  }
-
-  setTinymceValue(type) {
-    if (this.body && !this.hasDifferentTemplate) {
-      this.editor?.setContent(this.body);
-    }
-
-    if (this.hasDifferentTemplate && type) {
-      this.editor?.setContent(type.body);
-    }
-  }
-
   getEmailType(type) {
     let title = "";
     if (this.settings) {
@@ -679,21 +630,6 @@ export class EmailComponent {
 
   save() {
     if (!this.hasDifferentTemplate) {
-      if (this.editorToUse == "tinymce") {
-        this.body = this.editor?.getContent();
-      }
-
-      if (this.body) {
-        this.body = this.body
-          .replace("*|MC:SUBJECT|*", "")
-          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
-          .replace(
-            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
-            ""
-          )
-          .replace("<!--*|END:IF|*-->", "");
-      }
-
       if (!this.subject || !this.body) {
         return false;
       }
@@ -742,10 +678,6 @@ export class EmailComponent {
           }
         );
     }
-  }
-
-  setEditor(editor) {
-    this.editorToUse = editor;
   }
 
   getSettingItemTitle(item) {

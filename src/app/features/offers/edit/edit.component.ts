@@ -25,7 +25,7 @@ import {
   ImageTransform,
   base64ToFile,
 } from "ngx-image-cropper";
-import { EditorModule } from "@tinymce/tinymce-angular";
+import { QuillModule } from 'ngx-quill';
 import { faRotateLeft, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
@@ -49,7 +49,7 @@ import get from "lodash/get";
     FormsModule,
     ReactiveFormsModule,
     MatSnackBarModule,
-    EditorModule,
+    QuillModule,
     ImageCropperModule,
     FontAwesomeModule,
     NgxMatDatetimePickerModule,

@@ -1404,25 +1404,10 @@
                         <ng-container *ngIf="selectedPrivacySettingOption == 'custom'">
                             <div *ngIf="policyURLMode == 'terms-and-conditions'">
                                 <div>
-                                    <editor
-                                        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                        [init]="{
-                                            height: 400,
-                                            menubar: false,
-                                            plugins: [
-                                            'link'
-                                            ],
-                                            toolbar:
-                                            'undo redo | formatselect | bold italic | \
-                                            alignleft aligncenter alignright alignjustify | \
-                                            link | \
-                                            forecolor backcolor \ \
-                                            paste pastetext | \
-                                            bullist numlist outdent indent | help'
-                                        }"
+                                    <quill-editor class="w-full max-w-full content-editor" 
                                         [(ngModel)]="termsAndConditions"
-                                        [ngModelOptions]="{standalone: true}"
-                                    ></editor>
+                                        [ngModelOptions]="{standalone: true}">
+                                    </quill-editor>
                                 </div>
                                 <div class="flex justify-center mb-10">
                                     <button 
@@ -1439,25 +1424,10 @@
                             </div>
                             <div *ngIf="policyURLMode == 'privacy-policy'">
                                 <div>
-                                    <editor
-                                        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                        [init]="{
-                                            height: 400,
-                                            menubar: false,
-                                            plugins: [
-                                            'link'
-                                            ],
-                                            toolbar:
-                                            'undo redo | formatselect | bold italic | \
-                                            alignleft aligncenter alignright alignjustify | \
-                                            link | \
-                                            forecolor backcolor \ \
-                                            paste pastetext | \
-                                            bullist numlist outdent indent | help'
-                                        }"
+                                    <quill-editor class="w-full max-w-full content-editor" 
                                         [(ngModel)]="privacyPolicy"
-                                        [ngModelOptions]="{standalone: true}"
-                                    ></editor>
+                                        [ngModelOptions]="{standalone: true}">
+                                    </quill-editor>
                                 </div>
                                 <div class="flex justify-center mb-10">
                                     <button 
@@ -1474,25 +1444,10 @@
                             </div>
                             <div *ngIf="policyURLMode == 'cookie-policy'">
                                 <div>
-                                    <editor
-                                        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                        [init]="{
-                                            height: 400,
-                                            menubar: false,
-                                            plugins: [
-                                            'link'
-                                            ],
-                                            toolbar:
-                                            'undo redo | formatselect | bold italic | \
-                                            alignleft aligncenter alignright alignjustify | \
-                                            link | \
-                                            forecolor backcolor \ \
-                                            paste pastetext | \
-                                            bullist numlist outdent indent | help'
-                                        }"
+                                    <quill-editor class="w-full max-w-full content-editor" 
                                         [(ngModel)]="cookiePolicy"
-                                        [ngModelOptions]="{standalone: true}"
-                                    ></editor>
+                                        [ngModelOptions]="{standalone: true}">
+                                    </quill-editor>
                                 </div>
                                 <div class="flex justify-center mb-10">
                                     <button 

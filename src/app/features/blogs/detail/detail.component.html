@@ -62,14 +62,7 @@
                     </div>
                 </div>
                 <div *ngIf="showBlogDescription" class="whitespace-pre-wrap text-base w-full">
-                    <iframe scrolling="no" style="display:none;width:100%;border:none;height:100%;" #iframeBlogDescription></iframe>
-                    <div style="display:none;" #editor>
-                        <editor
-                            apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                            [init]="{ plugins: ['autoresize'] }"
-                            (onInit)="handleEditorInit($event)"
-                        ></editor>
-                    </div>
+                    <div [innerHtml]="blogDesc"></div>
                 </div>
             </div>
         </div>

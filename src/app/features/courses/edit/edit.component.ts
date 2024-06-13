@@ -26,7 +26,6 @@ import {
   base64ToFile,
 } from "ngx-image-cropper";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
-import { EditorModule } from "@tinymce/tinymce-angular";
 import { faRotateLeft, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
@@ -40,6 +39,7 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatTabsModule } from "@angular/material/tabs";
 import { ColorPickerModule } from 'ngx-color-picker';
+import { QuillModule } from 'ngx-quill';
 import moment from "moment";
 import get from "lodash/get";
 import { FilePondModule, registerPlugin } from 'ngx-filepond';
@@ -69,7 +69,7 @@ registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPlug
     MatTabsModule,
     ColorPickerModule,
     FilePondModule,
-    EditorModule,
+    QuillModule,
     ButtonGroupComponent,
     PageTitleComponent,
     NoAccessComponent,

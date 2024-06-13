@@ -128,206 +128,36 @@
                 <div class="font-light text-xl">{{ 'job-offers.description' | translate }}</div>
             </div>
             <div class="flex items-center justify-center mb-4 relative">
-                <editor
-                    *ngIf="selectedLanguage == 'es'"
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
-                    id="description"
-                    formControlName="description" 
-                ></editor>
-                <editor
-                    *ngIf="selectedLanguage == 'en'"
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
-                    id="description"
-                    formControlName="description_en" 
-                ></editor>
-                <editor
-                    *ngIf="selectedLanguage == 'fr'"
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
-                    id="description"
-                    formControlName="description_fr" 
-                ></editor>
-                <editor
-                    *ngIf="selectedLanguage == 'eu'"
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
-                    id="description"
-                    formControlName="description_eu" 
-                ></editor>
-                <editor
-                    *ngIf="selectedLanguage == 'ca'"
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
-                    id="description"
-                    formControlName="description_ca" 
-                ></editor>
-                <editor
-                    *ngIf="selectedLanguage == 'de'"
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
-                    id="description"
-                    formControlName="description_de" 
-                ></editor>
+                <quill-editor [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': jobOfferForm.get('description')?.errors }" *ngIf="selectedLanguage == 'es'" class="w-full max-w-full content-editor" formControlName="description"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'en'" class="w-full max-w-full content-editor" formControlName="description_en"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'fr'" class="w-full max-w-full content-editor" formControlName="description_fr"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'eu'" class="w-full max-w-full content-editor" formControlName="description_eu"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'ca'" class="w-full max-w-full content-editor" formControlName="description_ca"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'de'" class="w-full max-w-full content-editor" formControlName="description_de"></quill-editor>
             </div>
             <div class="flex items-center border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 my-8">
                 <img class="w-6 object-contain mr-4" src="./assets/images/new-design/icons/Write.png" />
                 <div class="font-light text-xl">{{ 'job-offers.requirements' | translate }}</div>
             </div>
             <div class="flex items-center justify-center mb-4 relative">
-                <editor
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
-                    id="requirements"
-                    [formControlName]="selectedLanguage == 'en' ? 'requirements_en' : 
-                        (selectedLanguage == 'fr' ? 'requirements_fr' : (
-                            selectedLanguage == 'eu' ? 'requirements_eu' : 
-                                (selectedLanguage == 'ca' ? 'requirements_ca' : 
-                                    (selectedLanguage == 'de' ? 'requirements_de' : 'requirements')
-                                )
-                            )
-                        )" 
-                ></editor>
+                <quill-editor *ngIf="selectedLanguage == 'es'" class="w-full max-w-full content-editor" formControlName="requirements"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'en'" class="w-full max-w-full content-editor" formControlName="requirements_en"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'fr'" class="w-full max-w-full content-editor" formControlName="requirements_fr"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'eu'" class="w-full max-w-full content-editor" formControlName="requirements_eu"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'ca'" class="w-full max-w-full content-editor" formControlName="requirements_ca"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'de'" class="w-full max-w-full content-editor" formControlName="requirements_de"></quill-editor>
             </div>
             <div class="flex items-center border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 my-8">
                 <img class="w-6 object-contain mr-4" src="./assets/images/new-design/icons/Write.png" />
                 <div class="font-light text-xl">{{ 'job-offers.experience' | translate }}</div>
             </div>
             <div class="flex items-center justify-center mb-4 relative">
-                <editor
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'link'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | fontsize | \
-                        alignleft aligncenter alignright alignjustify | \
-                        link | \
-                        forecolor backcolor \ \
-                        paste pastetext | \
-                        bullist numlist outdent indent | help',
-                        fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                    }"
-                    id="experience"
-                    [formControlName]="selectedLanguage == 'en' ? 'experience_en' : 
-                        (selectedLanguage == 'fr' ? 'experience_fr' : (
-                            selectedLanguage == 'eu' ? 'experience_eu' : 
-                                (selectedLanguage == 'ca' ? 'experience_ca' : 
-                                    (selectedLanguage == 'de' ? 'experience_de' : 'experience')
-                                )
-                            )
-                        )" 
-                ></editor>
+                <quill-editor *ngIf="selectedLanguage == 'es'" class="w-full max-w-full content-editor" formControlName="experience"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'en'" class="w-full max-w-full content-editor" formControlName="experience_en"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'fr'" class="w-full max-w-full content-editor" formControlName="experience_fr"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'eu'" class="w-full max-w-full content-editor" formControlName="experience_eu"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'ca'" class="w-full max-w-full content-editor" formControlName="experience_ca"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'de'" class="w-full max-w-full content-editor" formControlName="experience_de"></quill-editor>
             </div>
             <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                 <button

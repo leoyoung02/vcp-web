@@ -1227,56 +1227,13 @@
                     </file-pond>
                 </div>
             </div>
-            <div class="flex items-center justify-center mb-4 relative">
-                <editor
-                    *ngIf="selectedLanguage == 'es'"
-                    class="w-full"
-                    [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': planForm.get('descriptionEs')?.errors }"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="tinymceInitialize()"
-                    id="description"
-                    formControlName="descriptionEs" 
-                ></editor>
-                <editor
-                    *ngIf="selectedLanguage == 'en'"
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="tinymceInitialize()"
-                    id="description"
-                    formControlName="descriptionEn" 
-                ></editor>
-                <editor
-                    *ngIf="selectedLanguage == 'fr'"
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="tinymceInitialize()"
-                    id="description"
-                    formControlName="descriptionFr" 
-                ></editor>
-                <editor
-                    *ngIf="selectedLanguage == 'eu'"
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="tinymceInitialize()"
-                    id="description"
-                    formControlName="descriptionEu" 
-                ></editor>
-                <editor
-                    *ngIf="selectedLanguage == 'ca'"
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="tinymceInitialize()"
-                    id="description"
-                    formControlName="descriptionCa" 
-                ></editor>
-                <editor
-                    *ngIf="selectedLanguage == 'de'"
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="tinymceInitialize()"
-                    id="description"
-                    formControlName="descriptionDe" 
-                ></editor>
+            <div class="flex items-center justify-center mb-4 relative w-full max-w-full">
+                <quill-editor [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': planForm.get('descriptionEs')?.errors }" *ngIf="selectedLanguage == 'es'" class="w-full max-w-full content-editor" formControlName="descriptionEs"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'en'" class="w-full max-w-full content-editor" formControlName="descriptionEn"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'fr'" class="w-full max-w-full content-editor" formControlName="descriptionFr"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'eu'" class="w-full max-w-full content-editor" formControlName="descriptionEu"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'ca'" class="w-full max-w-full content-editor" formControlName="descriptionCa"></quill-editor>
+                <quill-editor *ngIf="selectedLanguage == 'de'" class="w-full max-w-full content-editor" formControlName="descriptionDe"></quill-editor>
             </div>
             <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                 <button
