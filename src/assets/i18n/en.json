@@ -103,7 +103,8 @@
         "policyintro": "To join, you must agree to these policies:",
         "i":"I",
         "acceptthe":"accept the",
-        "dateofacceptance":"Date of Acceptance"
+        "dateofacceptance":"Date of Acceptance",
+        "linkstitle": "The Vice-Rectorate for Students and University Life is made up of:"
     },
     "settings": {
         "logo_banner": "Logo & Banner",

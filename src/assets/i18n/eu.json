@@ -103,7 +103,8 @@
         "policyintro": "Izena emanez gero, politika hauek onartu behar dituzu:",
         "i":"I",
         "acceptthe":"onartu",
-        "dateofacceptance":"Onarpen-data"
+        "dateofacceptance":"Onarpen-data",
+        "linkstitle": "Ikasleen eta Unibertsitate Bizitzaren Errektoreordetza hauek osatzen dute:"
     },
     "settings": {
         "logo_banner": "Logoa eta pankarta",
