@@ -1519,7 +1519,10 @@
         "stripedesc": "Accetta pagamenti con carte di credito e debito",
         "bizumdesc": "Invia pagamento tramite il tuo smartphone",
         "reserve": "Riserva",
-        "signup": "Iscriviti"
+        "signup": "Iscriviti",
+        "insertvideo": "Inserisci video",
+        "assignteacher": "Assegna insegnante?", 
+        "separatebycomma": "(Separati da virgola)"
     },
     "edit-club": {
         "uploadimage": "Carica immagine",

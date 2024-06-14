@@ -277,6 +277,11 @@ export class EmailComponent {
         type: "admin_confirmed_attendance",
         title_en: "Admin confirmed attendance email",
       },
+      {
+        id: 160,
+        type: "reminder_teacher",
+        title_en: "Event reminder email (teacher)",
+      },
     ];
     this.shortcodes = [
       {
