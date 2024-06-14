@@ -107,7 +107,8 @@
         "policyintro": "Durch die Anmeldung müssen Sie diesen Richtlinien zustimmen:",
         "i":"ICH",
         "acceptthe":"akzeptieren",
-        "dateofacceptance":"Datum der Annahme"
+        "dateofacceptance":"Datum der Annahme",
+        "linkstitle": "Das Vizerektorat für Studierende und Universitätsleben setzt sich zusammen aus:"
     },
     "settings": {
         "logo_banner": "Logo und Banner",

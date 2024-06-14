@@ -1334,14 +1334,19 @@ export class LayoutMainComponent {
         link: 'https://universidadeuropea.com/tu-experiencia/empleabilidad/',
       },
       {
-        text_es: 'Idiomas y Movilidad Internacional',
-        text_en:  'Languages and International Mobility',
+        text_es: 'Movilidad Internacional',
+        text_en:  'International Mobility',
         link: 'https://universidadeuropea.com/tu-experiencia/movilidad-internacional/',
       },
       {
         text_es: 'Orientación Educativa, Diversidad e Inclusión',
         text_en:  'Educational Guidance, Diversity and Inclusion',
         link: 'https://universidadeuropea.com/tu-experiencia/atencion-diversidad/',
+      },
+      {
+        text_es: 'Prácticas',
+        text_en:  'Practices',
+        link: 'https://universidadeuropea.com/tu-experiencia/practicas/',
       },
       {
         text_es: 'Vida Universitaria',

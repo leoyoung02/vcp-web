@@ -107,7 +107,8 @@
         "policyintro": "Al inscribirse, debe aceptar estas políticas:",
         "i":"I",
         "acceptthe":"aceptar el",
-        "dateofacceptance":"Fecha de Aceptación"
+        "dateofacceptance":"Fecha de Aceptación",
+        "linkstitle": "El Vicerrectorado de Estudiantes y Vida Universitaria está formado por:"
     },
     "settings": {
         "logo_banner": "Logo y Banner",
