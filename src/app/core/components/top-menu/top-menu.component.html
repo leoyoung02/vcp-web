@@ -19,6 +19,15 @@
             </div>
           </ng-container>
           <ng-container *ngIf="userid">
+            <button [routerLink]="['/shop/cart']" id="myCartDropdownButton1" type="button" class="inline-flex items-center rounded-lg justify-center text-sm font-medium leading-none text-gray-900 dark:text-white">
+              <span class="sr-only">
+                Cart
+              </span>
+              <svg class="w-7 h-7 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
+              </svg>            
+            </button>
+            <span class="w-px h-5 bg-gray-300 ml-4 mr-3" *ngIf="hasShop">&nbsp;</span>
             <img 
               class="h-8 object-cover rounded-full mr-1.5 hover:cursor-pointer object-top" 
               *ngIf="imageSrc" 
@@ -30,7 +39,7 @@
             />
             <button *ngIf="userid" [routerLink]="['/users/notifications/', userid]" 
               class="inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button"> 
-              <svg class="ml-2 w-6 h-6 text-slate-600 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 21">
+              <svg class="ml-2 w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 21">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C15 15.4 15 16 14.462 16H1.538C1 16 1 15.4 1 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 8 3.464ZM4.54 16a3.48 3.48 0 0 0 6.92 0H4.54Z"/>
               </svg>
               <div class="relative flex" *ngIf="notifications?.length > 0">
@@ -38,12 +47,16 @@
               </div>
             </button>
             <ng-container *ngIf="username && (isAdmin || canAccessPlatformSettings)">
-              <img
+              <!-- <img
                 src="./assets/menu-icons/menu-icon-settings-dark.png"
                 class="cursor-pointer h-5 object-cover"
                 alt="{{ 'company-settings.settings' | translate }}"
                 [routerLink]="['/settings']"
-              />
+              /> -->
+              <svg [routerLink]="['/settings']" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13v-2a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L14 4.757V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L4.929 6.343a1 1 0 0 0 0 1.414l.536.536L4.757 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535 1.707.707V20a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H20a1 1 0 0 0 1-1Z"/>
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+              </svg>
             </ng-container>
           </ng-container>
           <span class="w-px h-5 bg-gray-300 ml-4 mr-3" *ngIf="languages?.length > 0">&nbsp;</span>

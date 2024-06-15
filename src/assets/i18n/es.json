@@ -3687,6 +3687,9 @@
     "shop": {
         "shop": "Comercio",
         "addtocart": "Añadir al carrito",
-        "product": "Producto"
+        "product": "Producto",
+        "products": "Productos",
+        "shopnow": "Comprar ahora",
+        "shopbycategory": "Acquista per categoria"
     }
 }

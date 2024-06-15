@@ -192,6 +192,8 @@ export class LayoutMainComponent {
   customLinks: any = [];
   isCursoGeniusTestimonials: boolean = false;
   navigation: any = 'side-menu';
+  shopFeatureId: any;
+  hasShop: boolean = false;
 
   constructor(
     private _router: Router,
@@ -320,6 +322,14 @@ export class LayoutMainComponent {
         this.coursesFeatureId = coursesFeature[0].id;
         this.hasCourses = true;
         this.getCourseFeature(coursesFeature[0]);
+      }
+
+      let shopFeature = this.features.filter((f) => {
+        return f.feature_name == "Shop";
+      });
+      if (shopFeature && shopFeature[0]) {
+        this.shopFeatureId = shopFeature[0].id;
+        this.hasShop = true;
       }
     }
 

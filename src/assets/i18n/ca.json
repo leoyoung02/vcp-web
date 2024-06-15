@@ -3673,6 +3673,9 @@
     "shop": {
         "shop": "Botiga",
         "addtocart": "Afegeix al carret",
-        "product": "Producte"
+        "product": "Producte",
+        "products": "Productes",
+        "shopnow": "Compra ara",
+        "shopbycategory": "Compra per categoria"
     }
 }

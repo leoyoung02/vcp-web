@@ -3665,6 +3665,9 @@
     "shop": {
         "shop": "Geschäft",
         "addtocart": "Add des Warenkorb",
-        "product": "Produkt"
+        "product": "Produkt",
+        "products": "Produkte",
+        "shopnow": "Jetzt einkaufen",
+        "shopbycategory": "Nach Kategorie einkaufen"
     }
 }

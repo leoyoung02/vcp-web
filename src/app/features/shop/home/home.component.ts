@@ -36,31 +36,18 @@ export class ShopHomeComponent {
   languageChangeSubscription;
   searchText: any;
   placeholderText: any;
-  language: any
-  isloading: boolean = true
-  apiPath: string = environment.api
-  email = ''
+  language: any;
+  apiPath: string = environment.api;
+  user: any;
+  email: any;
   userId: any = 0
   userEmailDomain: any
-  userRole: any
   companyId: any = 0
   companies: any
   primaryColor: any
   buttonColor: any
   isMobile: boolean = false
-  user: any
-  shopFeature: any;
-  featureId: any;
-  pageName: any;
-  pageDescription: any;
-  showFilters: boolean = false;
-  filterSettings: any;
-  superAdmin: boolean = false;
-  canViewShop: boolean = false;
-  canCreateShop: any;
-  canManageShop: boolean = false;
-  filterTypeControl: any;
-  products: any = [];
+  categories: any = []
 
   constructor(
     private _route: ActivatedRoute,
@@ -86,7 +73,6 @@ export class ShopHomeComponent {
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     this.userEmailDomain = this._localService.getLocalStorage(environment.lsdomain);
-    this.userRole = this._localService.getLocalStorage(environment.lsuserRole);
     this.companies = this._localService.getLocalStorage(environment.lscompanies) ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies)) : '';
     if (!this.companies) { this.companies = get(await this._companyService.getCompanies().toPromise(), 'companies') }
     let company = this._companyService.getCompany(this.companies);
@@ -109,26 +95,16 @@ export class ShopHomeComponent {
   }
 
   initializePage() {
-    this.fetchShopsData();
+    this.fetchShopCategories();
   }
 
-  fetchShopsData() {
+  fetchShopCategories() {
     this._shopService
-      .fetchShopsData(this.companyId, this.userId)
+      .fetchShopCategories(this.companyId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          this.mapFeatures(data?.features_mapping);
-          this.mapSubfeatures(data?.settings?.subfeatures);
-
-          this.initializeFilterSettings(data?.module_filter_settings);
-
-          this.user = data?.user;
-          this.mapUserPermissions(data?.user_permissions);
-
-          this.initializeProducts(data?.products || []); 
-
-          this.filterTypeControl = data?.filter_settings?.filter_type || 'dropdown';
+          this.formatCategories(data?.categories, data?.shop_products);
         },
         (error) => {
           console.log(error);
@@ -136,193 +112,88 @@ export class ShopHomeComponent {
     );
   }
 
-  mapFeatures(features) {
-    this.shopFeature = features?.find((f) => f.feature_id == 24);
-    this.featureId = this.shopFeature?.feature_id;
-    this.pageName = this.getFeatureTitle(this.shopFeature);
-    this.pageDescription = this.getFeatureDescription(this.shopFeature);
-  }
-
-  mapSubfeatures(subfeatures) {
-    if (subfeatures?.length > 0) {
-      // this.categoriesFilterActive = subfeatures.some(
-      //   (a) => a.name_en == "Filter" && a.active == 1
-      // );
+  formatCategories(categories, products) {
+    let data;
+    if (categories?.length > 0) {
+      data = categories?.map((item) => {
+        return {
+          ...item,
+          name: this.getCategoryName(item),
+          description: this.getCategoryDescription(item),
+          no_items: this.getCategoryItems(item, products)?.length || 0,
+          label: item?.type == 'services' ? this._translateService.instant('news.services')?.toLowerCase() : this._translateService.instant('shop.products')?.toLowerCase(),
+          image: `${this.apiPath}/v2/image/shop-category/${item.image}`
+        };
+      });
     }
+
+    this.categories = data;
   }
 
-  initializeFilterSettings(filter_settings) {
-    let filter_settings_active = filter_settings?.filter(fs => {
-      return fs.active == 1
-    })
-    
-    // if(filter_settings_active?.length > 0 && this.categoriesFilterActive) {
-    //   this.showFilters = true;
-    //   this.filterSettings = filter_settings;
-    // }
-  }
-
-  mapUserPermissions(user_permissions) {
-    this.superAdmin = user_permissions?.super_admin_user ? true : false;
-    this.canViewShop = user_permissions?.member_type_permissions?.find(
-      (f) => f.view == 1 && f.feature_id == 1
-    )
-      ? true
-      : false;
-    this.canCreateShop =
-      user_permissions?.create_plan_roles?.length > 0 ||
-      user_permissions?.member_type_permissions?.find((f) => f.create == 1 && f.feature_id == 1);
-    this.canManageShop = user_permissions?.member_type_permissions?.find(
-      (f) => f.manage == 1 && f.feature_id == 1
-    )
-      ? true
-      : false;
-  }
-
-  getFeatureTitle(feature) {
-    return feature
-      ? this.language == "en"
-        ? feature.name_en ||
-          feature.feature_name ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : this.language == "fr"
-        ? feature.name_fr ||
-          feature.feature_name_FR ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : this.language == "eu"
-        ? feature.name_eu ||
-          feature.feature_name_EU ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : this.language == "ca"
-        ? feature.name_ca ||
-          feature.feature_name_CA ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : this.language == "de"
-        ? feature.name_de ||
-          feature.feature_name_DE ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : feature.name_es || feature.feature_name_ES
-      : "";
-  }
-
-  getFeatureDescription(feature) {
-    return feature
-      ? this.language == "en"
-        ? feature.description_en || feature.description_es
-        : this.language == "fr"
-        ? feature.description_fr || feature.description_es
-        : this.language == "eu"
-        ? feature.description_eu || feature.description_es
-        : this.language == "ca"
-        ? feature.description_ca || feature.description_es
-        : this.language == "de"
-        ? feature.description_de || feature.description_es
-        : feature.description_es
-      : "";
-  }
-
-  initializeProducts(data) {
-    if(data?.length == 0) {
-      this.products = [
-        {
-          id: 1,
-          title: 'Espresso Elegante',
-          image: 'https://readymadeui.com/images/coffee1.webp',
-          price: '€10',
-          ratings: 5,
-        },
-        {
-          id: 2,
-          title: 'Mocha Madness',
-          image: 'https://readymadeui.com/images/coffee8.webp',
-          price: '€12',
-          ratings: 3,
-        },
-        {
-          id: 3,
-          title: 'Caramel Cream Delight',
-          image: 'https://readymadeui.com/images/coffee3.webp',
-          price: '€14',
-          ratings: 4,
-        },
-        {
-          id: 4,
-          title: 'Hazelnut Heaven Blend',
-          image: 'https://readymadeui.com/images/coffee4.webp',
-          price: '€12',
-          ratings: 5,
-        },
-        {
-          id: 5,
-          title: 'Vanilla Velvet Brew',
-          image: 'https://readymadeui.com/images/coffee5.webp',
-          price: '€15',
-          ratings: 5,
-        },
-        {
-          id: 6,
-          title: 'Double Shot Symphony',
-          image: 'https://readymadeui.com/images/coffee6.webp',
-          price: '€14',
-          ratings: 3,
-        },
-        {
-          id: 7,
-          title: 'Irish Cream Dream',
-          image: 'https://readymadeui.com/images/coffee7.webp',
-          price: '€11',
-          ratings: 5,
-        },
-        {
-          id: 8,
-          title: 'Coconut Bliss Coffee',
-          image: 'https://readymadeui.com/images/coffee8.webp',
-          price: '€13',
-          ratings: 5,
-        }
-      ]
-    }
-  }
-
-  getProductTitle(product) {
+  getCategoryName(category) {
     return this.language == "en"
-      ? (product.title_en && product.title_en != 'undefined')
-        ? product.title_en || product.title
-        : product.title
+      ? category.name_en
+        ? category.name_en || category.name_es
+        : category.name_es
       : this.language == "fr"
-      ? product.title_fr
-        ? product.title_fr || product.title
-        : product.title
+      ? category.name_fr
+        ? category.name_fr || category.name_es
+        : category.name_es
       : this.language == "eu"
-      ? product.title_eu
-        ? product.title_eu || product.title
-        : product.title
+      ? category.name_eu
+        ? category.name_eu || category.name_es
+        : category.name_es
       : this.language == "ca"
-      ? product.title_ca
-        ? product.title_ca || product.title
-        : product.title
+      ? category.name_ca
+        ? category.name_ca || category.name_es
+        : category.name_es
       : this.language == "de"
-      ? product.title_de
-        ? product.title_de || product.title
-        : product.title
+      ? category.name_de
+        ? category.name_de || category.name_es
+        : category.name_es
       : this.language == "it"
-      ? product.title_it
-        ? product.title_it || product.title
-        : product.title
-      : product.title;
+      ? category.name_it
+        ? category.name_it || category.name_es
+        : category.name_es
+      : category.name_es;
   }
 
-  handleDetailsClickRoute(id) {
-    this._router.navigate([`/shop/detail/${id}`]);
+  getCategoryDescription(category) {
+    return this.language == "en"
+      ? category.description_en
+        ? category.description_en || category.description_es
+        : category.description_es
+      : this.language == "fr"
+      ? category.description_fr
+        ? category.description_fr || category.description_es
+        : category.description_es
+      : this.language == "eu"
+      ? category.description_eu
+        ? category.description_eu || category.description_es
+        : category.description_es
+      : this.language == "ca"
+      ? category.description_ca
+        ? category.description_ca || category.description_es
+        : category.description_es
+      : this.language == "de"
+      ? category.description_de
+        ? category.description_de || category.description_es
+        : category.description_es
+      : this.language == "it"
+      ? category.description_it
+        ? category.description_it || category.description_es
+        : category.description_es
+      : category.description_es;
   }
 
-  handleAddToCartClickRoute(id) {
-  
+  getCategoryItems(category, products) {
+    return products?.filter(product => {
+      return product?.category_id == category.id
+    })
+  }
+
+  goToCategoryPage(category) {
+    this._router.navigate([`/shop/list/${category.id}`]);
   }
 
   ngOnDestroy() {

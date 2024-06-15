@@ -109,6 +109,7 @@ export class TopMenuComponent {
   @Input() hasCredits: any;
   @Input() customMemberTypePermissions: any;
   @Input() campus: any;
+  @Input() hasShop: any;
   @Output() changeLanguage = new EventEmitter();
 
   logoSrc: string = COMPANY_IMAGE_URL;

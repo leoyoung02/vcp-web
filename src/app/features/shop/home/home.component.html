@@ -1,21 +1,29 @@
-<app-page-title [title]="pageName" [subtitle]="pageDescription"></app-page-title>
-<div class="py-8">
-    <div class="font-[sans-serif] pb-8 mx-auto max-w-full">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <ng-container *ngFor="let product of products">
-                <app-product-card
-                    [id]="product?.id"
-                    [title]="product?.title"
-                    [image]="product?.image"
-                    [price]="product?.price"
-                    [ratings]="product?.ratings"
-                    [buttonColor]="buttonColor"
-                    [companyId]="companyId"
-                    (handleDetailsClick)="handleDetailsClickRoute($event)"
-                    (handleAddToCartClick)="handleAddToCartClickRoute($event)"
-                >
-                </app-product-card>
-            </ng-container>
+<div class="bg-white font-[sans-serif] p-4">
+    <div class="max-w-5xl mx-auto">
+      <div class="text-center max-w-xl mx-auto">
+        <h2 class="text-3xl font-extrabold text-[#333] mb-6 inline-block">{{ 'shop.shopbycategory' | translate }}</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-12 max-md:max-w-lg mx-auto">
+        <div *ngFor="let category of categories" class="bg-white cursor-pointer rounded-lg overflow-hidden group relative before:absolute before:inset-0 before:z-10 before:bg-black before:opacity-50">
+          <img [src]="category.image" [alt]="category.name" class="w-full h-96 object-cover group-hover:scale-110 transition-all duration-300" />
+          <div class="p-6 absolute bottom-0 left-0 right-0 z-20">
+            <span class="text-sm block mb-2 text-yellow-400 font-semibold">{{ category?.no_items }} {{ category?.label }}</span>
+            <h3 class="text-xl font-bold text-white">{{ category?.name }}</h3>
+            <div class="mt-4">
+              <p class="text-gray-200 text-sm ">{{ category?.description }}</p>
+            </div>
+            <div class="my-8">
+                <a href="javascript:;" class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300"
+                    [ngStyle]="{'background-color': buttonColor}"
+                    (click)="goToCategoryPage(category)">
+                    {{ 'shop.shopnow' | translate }}
+                    <svg class="rtl:rotate-180 w-3.5 h-3.5 ms-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 10">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 5h12m0 0L9 1m4 4L9 9"/>
+                    </svg>
+                </a> 
+            </div>
+          </div>
         </div>
+      </div>
     </div>
 </div>

@@ -767,3 +767,4 @@ export const GET_STARTUPS_URL = `${API_BASE}/company/startups`;
 
 // SHOP
 export const SHOPS_DATA_URL = `${API_BASE}/v2/shops-data`;
+export const SHOP_CATEGORIES_URL = `${API_BASE}/v2/shop-categories`;

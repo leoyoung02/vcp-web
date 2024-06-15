@@ -3658,6 +3658,9 @@
     "shop": {
         "shop": "Negozio",
         "addtocart": "Aggiungi al carrello",
-        "product": "Prodotto"
+        "product": "Prodotto",
+        "products": "Prodotti",
+        "shopnow": "Acquista ora",
+        "shopbycategory": "Acquista per categoria"
     }
 }

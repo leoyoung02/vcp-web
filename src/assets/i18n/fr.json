@@ -3660,6 +3660,9 @@
     "shop": {
         "shop": "Boutique",
         "addtocart": "Ajouter au panier",
-        "product": "Produit"
+        "product": "Produit",
+        "products": "Produits",
+        "shopnow": "Acheter maintenant",
+        "shopbycategory": "Acheter par catégorie"
     }
 }

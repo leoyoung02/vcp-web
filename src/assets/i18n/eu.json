@@ -3666,6 +3666,9 @@
     "shop": {
         "shop": "Denda",
         "addtocart": "Gehitu saskira",
-        "product": "Produktua"
+        "product": "Produktua",
+        "products": "Produktuak",
+        "shopnow": "Erosi orain",
+        "shopbycategory": "Erosi kategoriaz"
     }
 }

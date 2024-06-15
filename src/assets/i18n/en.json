@@ -3702,6 +3702,9 @@
     "shop": {
         "shop": "Shop",
         "addtocart": "Add to cart",
-        "product": "Product"
+        "product": "Product",
+        "products": "Products",
+        "shopnow": "Shop now",
+        "shopbycategory": "Shop by Category"
     }
 }
