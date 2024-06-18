@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { LocalService } from "@share/services/storage/local.service";
-import { SHOPS_DATA_URL, SHOP_CATEGORIES_URL } from "@lib/api-constants";
+import { PRODUCTS_URL, SHOPS_DATA_URL, SHOP_CATEGORIES_URL } from "@lib/api-constants";
 
 @Injectable({
   providedIn: "root",
@@ -24,6 +24,17 @@ export class ShopService {
 
   fetchShopCategories(id: number = 0): Observable<any> {
     return this._http.get(`${SHOP_CATEGORIES_URL}/${id}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
+
+  fetchProducts(id: number = 0, categoryId: number = 0, status: number = 1): Observable<any> {
+    let url = `${PRODUCTS_URL}/${id}?status=${status}`;
+    if(categoryId) {
+      url += `&categoryId=${categoryId}`
+    }
+
+    return this._http.get(url, { 
       headers: this.headers 
     }).pipe(map(res => res));
   }

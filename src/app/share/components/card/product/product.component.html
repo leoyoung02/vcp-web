@@ -1,5 +1,5 @@
 <div class="bg-gray-200 rounded-xl hover:scale-[1.03] transition-all relative overflow-hidden">
-    <div class="p-6">
+    <div>
         <div
             class="bg-gray-100 w-10 h-10 flex items-center justify-center rounded-full cursor-pointer absolute top-4 right-4">
             <svg xmlns="http://www.w3.org/2000/svg" width="16px" class="fill-gray-800 inline-block" viewBox="0 0 64 64">
@@ -8,44 +8,28 @@
                 data-original="#000000"></path>
             </svg>
         </div>
-        <div class="w-2/3 h-[220px] overflow-hidden mx-auto aspect-w-16 aspect-h-8">
-            <img (click)="handleDetailsRoute(id)" [src]="image" [alt]="title" class="hover:cursor-pointer h-full w-full object-contain" />
+        <div class="w-full h-[250px]">
+            <img (click)="handleDetailsRoute(id)" [src]="image" [alt]="title" alt="cream image" class="w-full h-full object-cover rounded-xl">
         </div>
     </div>
-    <div class="text-center bg-gray-100 p-6">
-        <h3 class="text-lg font-bold text-gray-800 hover:cursor-pointer" (click)="handleDetailsRoute(id)">{{ title }}</h3>
-        <h4 class="text-lg text-gray-800 font-bold mt-6">
-            <div class="flex justify-center">
-                <p *ngIf="id == 1" class="text-lg font-bold text-gray-900 dark:text-white">
-                    <span class="line-through"> €19,99 </span>
-                </p>
-                <span [ngClass]="{'text-red-600 ml-2': id == 1}">{{ price }}</span>
+    <div class="text-center bg-gray-100 p-4">
+        <div class="flex items-center justify-between">
+            <div class="">
+                <h6 class="font-medium text-lg leading-8 text-black mb-1 hover:cursor-pointer" 
+                    (click)="handleDetailsRoute(id)">{{ title }}</h6>
+                <h6 class="text-left font-semibold text-lg leading-8"
+                    [ngStyle]="{'color': primaryColor}">{{ price }}</h6>
             </div>
-        </h4>
-        <div class="flex justify-center space-x-2 mt-4">
-            <svg [ngClass]="{'fill-[#facc15]': ratings >= 1, 'fill-[#CED5D8]': ratings == 0}" class="w-4" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-            </svg>
-            <svg [ngClass]="{'fill-[#facc15]': ratings >= 2, 'fill-[#CED5D8]': ratings < 2}" class="w-4" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-            </svg>
-            <svg [ngClass]="{'fill-[#facc15]': ratings >= 3, 'fill-[#CED5D8]': ratings < 3}" class="w-4" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-            </svg>
-            <svg [ngClass]="{'fill-[#facc15]': ratings >= 4, 'fill-[#CED5D8]': ratings < 4}" class="w-4" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-            </svg>
-            <svg [ngClass]="{'fill-[#facc15]': ratings >= 5, 'fill-[#CED5D8]': ratings < 5}" class="w-4" viewBox="0 0 14 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <path d="M7 0L9.4687 3.60213L13.6574 4.83688L10.9944 8.29787L11.1145 12.6631L7 11.2L2.8855 12.6631L3.00556 8.29787L0.342604 4.83688L4.5313 3.60213L7 0Z" />
-            </svg>
+            <button
+                class="p-2 min-[400px]:p-3 rounded-full bg-white border border-gray-300 flex items-center justify-center group shadow-sm shadow-transparent transition-all duration-500 hover:shadow-gray-200 hover:border-gray-400 hover:bg-gray-50">
+                <svg class="stroke-gray-900 transition-all duration-500 group-hover:stroke-black"
+                    xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"
+                    fill="none">
+                    <path
+                        d="M12.6892 21.125C12.6892 22.0225 11.9409 22.75 11.0177 22.75C10.0946 22.75 9.34632 22.0225 9.34632 21.125M19.3749 21.125C19.3749 22.0225 18.6266 22.75 17.7035 22.75C16.7804 22.75 16.032 22.0225 16.032 21.125M4.88917 6.5L6.4566 14.88C6.77298 16.5715 6.93117 17.4173 7.53301 17.917C8.13484 18.4167 8.99525 18.4167 10.7161 18.4167H18.0056C19.7266 18.4167 20.587 18.4167 21.1889 17.9169C21.7907 17.4172 21.9489 16.5714 22.2652 14.8798L22.8728 11.6298C23.3172 9.25332 23.5394 8.06508 22.8896 7.28254C22.2398 6.5 21.031 6.5 18.6133 6.5H4.88917ZM4.88917 6.5L4.33203 3.25"
+                        stroke="" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+            </button>
         </div>
-        <button type="button"
-            class="w-full flex items-center justify-center gap-3 mt-6 px-6 py-3 text-base text-white font-semibold rounded-xl"
-            [ngStyle]="{'background-color': buttonColor}"
-            (click)="handleAddToCart(id)">
-            <svg class="w-6 h-6 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4h1.5L8 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm.75-3H7.5M11 7H6.312M17 4v6m-3-3h6"/>
-            </svg>
-            {{ 'shop.addtocart' | translate }}</button>
     </div>
 </div>

@@ -39,6 +39,7 @@ export class ProductCardComponent {
   @Input() image: any;
   @Input() price: any;
   @Input() ratings: any;
+  @Input() primaryColor: any;
   @Input() buttonColor: any;
   @Input() companyId: any;
   @Output() handleDetailsClick = new EventEmitter();

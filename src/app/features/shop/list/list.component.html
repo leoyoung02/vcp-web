@@ -1,4 +1,4 @@
-<app-page-title [title]="pageName" [subtitle]="pageDescription"></app-page-title>
+<app-page-title [title]="pageName"></app-page-title>
 <div class="py-8">
     <div class="font-[sans-serif] pb-8 mx-auto max-w-full">
         <div class="flex flex-col lg:flex-row lg:items-center max-lg:gap-4 justify-between w-full pb-8">
@@ -188,6 +188,7 @@
                             [image]="product?.image"
                             [price]="product?.price"
                             [ratings]="product?.ratings"
+                            [primaryColor]="primaryColor"
                             [buttonColor]="buttonColor"
                             [companyId]="companyId"
                             (handleDetailsClick)="handleDetailsClickRoute($event)"

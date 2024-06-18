@@ -48,17 +48,11 @@ export class ShopListComponent {
   buttonColor: any
   isMobile: boolean = false
   user: any
-  shopFeature: any;
-  featureId: any;
   pageName: any;
-  pageDescription: any;
-  showFilters: boolean = false;
-  filterSettings: any;
   superAdmin: boolean = false;
   canViewShop: boolean = false;
   canCreateShop: any;
   canManageShop: boolean = false;
-  filterTypeControl: any;
   products: any = [];
 
   constructor(
@@ -108,57 +102,22 @@ export class ShopListComponent {
   }
 
   initializePage() {
-    this.fetchShopsData();
+    this.fetchProducts();
   }
 
-  fetchShopsData() {
+  fetchProducts() {
     this._shopService
-      .fetchShopsData(this.companyId, this.userId)
+      .fetchProducts(this.companyId, this.id)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          this.mapFeatures(data?.features_mapping);
-          this.mapSubfeatures(data?.settings?.subfeatures);
-
-          this.initializeFilterSettings(data?.module_filter_settings);
-
-          this.user = data?.user;
           this.mapUserPermissions(data?.user_permissions);
-
-          this.initializeProducts(data?.products || []); 
-
-          this.filterTypeControl = data?.filter_settings?.filter_type || 'dropdown';
+          this.formatProducts(data?.products || []);
         },
         (error) => {
           console.log(error);
         }
     );
-  }
-
-  mapFeatures(features) {
-    this.shopFeature = features?.find((f) => f.feature_id == 24);
-    this.featureId = this.shopFeature?.feature_id;
-    this.pageName = this.getFeatureTitle(this.shopFeature);
-    this.pageDescription = this.getFeatureDescription(this.shopFeature);
-  }
-
-  mapSubfeatures(subfeatures) {
-    if (subfeatures?.length > 0) {
-      // this.categoriesFilterActive = subfeatures.some(
-      //   (a) => a.name_en == "Filter" && a.active == 1
-      // );
-    }
-  }
-
-  initializeFilterSettings(filter_settings) {
-    let filter_settings_active = filter_settings?.filter(fs => {
-      return fs.active == 1
-    })
-    
-    // if(filter_settings_active?.length > 0 && this.categoriesFilterActive) {
-    //   this.showFilters = true;
-    //   this.filterSettings = filter_settings;
-    // }
   }
 
   mapUserPermissions(user_permissions) {
@@ -178,142 +137,48 @@ export class ShopListComponent {
       : false;
   }
 
-  getFeatureTitle(feature) {
-    return feature
-      ? this.language == "en"
-        ? feature.name_en ||
-          feature.feature_name ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : this.language == "fr"
-        ? feature.name_fr ||
-          feature.feature_name_FR ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : this.language == "eu"
-        ? feature.name_eu ||
-          feature.feature_name_EU ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : this.language == "ca"
-        ? feature.name_ca ||
-          feature.feature_name_CA ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : this.language == "de"
-        ? feature.name_de ||
-          feature.feature_name_DE ||
-          feature.name_es ||
-          feature.feature_name_ES
-        : feature.name_es || feature.feature_name_ES
-      : "";
-  }
-
-  getFeatureDescription(feature) {
-    return feature
-      ? this.language == "en"
-        ? feature.description_en || feature.description_es
-        : this.language == "fr"
-        ? feature.description_fr || feature.description_es
-        : this.language == "eu"
-        ? feature.description_eu || feature.description_es
-        : this.language == "ca"
-        ? feature.description_ca || feature.description_es
-        : this.language == "de"
-        ? feature.description_de || feature.description_es
-        : feature.description_es
-      : "";
-  }
-
-  initializeProducts(data) {
-    if(data?.length == 0) {
-      this.products = [
-        {
-          id: 1,
-          title: 'Espresso Elegante',
-          image: 'https://readymadeui.com/images/coffee1.webp',
-          price: '€10',
-          ratings: 5,
-        },
-        {
-          id: 2,
-          title: 'Mocha Madness',
-          image: 'https://readymadeui.com/images/coffee8.webp',
-          price: '€12',
-          ratings: 3,
-        },
-        {
-          id: 3,
-          title: 'Caramel Cream Delight',
-          image: 'https://readymadeui.com/images/coffee3.webp',
-          price: '€14',
-          ratings: 4,
-        },
-        {
-          id: 4,
-          title: 'Hazelnut Heaven Blend',
-          image: 'https://readymadeui.com/images/coffee4.webp',
-          price: '€12',
-          ratings: 5,
-        },
-        {
-          id: 5,
-          title: 'Vanilla Velvet Brew',
-          image: 'https://readymadeui.com/images/coffee5.webp',
-          price: '€15',
-          ratings: 5,
-        },
-        {
-          id: 6,
-          title: 'Double Shot Symphony',
-          image: 'https://readymadeui.com/images/coffee6.webp',
-          price: '€14',
-          ratings: 3,
-        },
-        {
-          id: 7,
-          title: 'Irish Cream Dream',
-          image: 'https://readymadeui.com/images/coffee7.webp',
-          price: '€11',
-          ratings: 5,
-        },
-        {
-          id: 8,
-          title: 'Coconut Bliss Coffee',
-          image: 'https://readymadeui.com/images/coffee8.webp',
-          price: '€13',
-          ratings: 5,
-        }
-      ]
+  formatProducts(products) {
+    let data;
+    if (products?.length > 0) {
+      data = products?.map((item) => {
+        return {
+          ...item,
+          title: this.getProductTitle(item),
+          image: `${this.apiPath}/v2/image/product/${item.image}`,
+          price: `${item.currency}${item.amount}`
+        };
+      });
     }
+
+    this.products = data;
   }
 
   getProductTitle(product) {
     return this.language == "en"
-      ? (product.title_en && product.title_en != 'undefined')
-        ? product.title_en || product.title
-        : product.title
+      ? product.name_en
+        ? product.name_en || product.name_es
+        : product.name_es
       : this.language == "fr"
-      ? product.title_fr
-        ? product.title_fr || product.title
-        : product.title
+      ? product.name_fr
+        ? product.name_fr || product.name_es
+        : product.name_es
       : this.language == "eu"
-      ? product.title_eu
-        ? product.title_eu || product.title
-        : product.title
+      ? product.name_eu
+        ? product.name_eu || product.name_es
+        : product.name_es
       : this.language == "ca"
-      ? product.title_ca
-        ? product.title_ca || product.title
-        : product.title
+      ? product.name_ca
+        ? product.name_ca || product.name_es
+        : product.name_es
       : this.language == "de"
-      ? product.title_de
-        ? product.title_de || product.title
-        : product.title
+      ? product.name_de
+        ? product.name_de || product.name_es
+        : product.name_es
       : this.language == "it"
-      ? product.title_it
-        ? product.title_it || product.title
-        : product.title
-      : product.title;
+      ? product.name_it
+        ? product.name_it || product.name_es
+        : product.name_es
+      : product.name_es;
   }
 
   handleDetailsClickRoute(id) {
