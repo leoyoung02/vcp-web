@@ -3668,6 +3668,10 @@
         "product": "Produkt",
         "products": "Produkte",
         "shopnow": "Jetzt einkaufen",
-        "shopbycategory": "Nach Kategorie einkaufen"
+        "shopbycategory": "Nach Kategorie einkaufen",
+        "cart": "Warenkorb",
+        "checkout": "Zur Kasse",
+        "ordersummary": "Bestellübersicht",
+        "myorders": "Meine Bestellungen"
     }
 }

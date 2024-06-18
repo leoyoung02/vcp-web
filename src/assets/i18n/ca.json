@@ -3676,6 +3676,10 @@
         "product": "Producte",
         "products": "Productes",
         "shopnow": "Compra ara",
-        "shopbycategory": "Compra per categoria"
+        "shopbycategory": "Compra per categoria",
+        "cart": "Cart",
+        "checkout": "Pagament",
+        "ordersummary": "Resum de la comanda",
+        "myorders": "Les meves comandes"
     }
 }

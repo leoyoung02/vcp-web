@@ -3663,6 +3663,10 @@
         "product": "Produit",
         "products": "Produits",
         "shopnow": "Acheter maintenant",
-        "shopbycategory": "Acheter par catégorie"
+        "shopbycategory": "Acheter par catégorie",
+        "cart": "Panier",
+        "checkout": "Commander",
+        "ordersummary": "Résumé de la commande",
+        "myorders": "Mes commandes"
     }
 }

@@ -19,7 +19,7 @@
             </div>
           </ng-container>
           <ng-container *ngIf="userid">
-            <button [routerLink]="['/shop/cart']" id="myCartDropdownButton1" type="button" class="inline-flex items-center rounded-lg justify-center text-sm font-medium leading-none text-gray-900 dark:text-white">
+            <button *ngIf="hasAccess('shop')" [routerLink]="['/shop/cart']" id="myCartDropdownButton1" type="button" class="inline-flex items-center rounded-lg justify-center text-sm font-medium leading-none text-gray-900 dark:text-white">
               <span class="sr-only">
                 Cart
               </span>
@@ -86,7 +86,8 @@
       data-popover 
       id="popover-user-profile"
       role="tooltip"
-      class="mt-2 absolute invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 w-80 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600">
+      class="mt-2 text-sm text-gray-500 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 w-80 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600"
+      [ngClass]="{'hidden': hideMenu, 'absolute invisible inline-block': !hideMenu}">
       <div class="shadow">
           <div class="p-8 flex items-center rounded-t-lg">
               <div>
@@ -209,6 +210,16 @@
                           </div>
                           <div class="pl-[5px]">{{ "credit-package.mycredits" | translate }}</div>
                       </div>
+                  </ng-container>
+                  <ng-container *ngIf="hasAccess('shop')">
+                    <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('myorders')">
+                      <div>
+                        <svg class="w-6 h-6 -ml-1 mr-2 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M9 8h10M9 12h10M9 16h10M4.99 8H5m-.02 4h.01m0 4H5"/>
+                        </svg>            
+                      </div>
+                      <div class="pl-[4px]">{{ "shop.myorders" | translate }}</div>
+                    </div>
                   </ng-container>
                   <ng-container *ngIf="hasAccess('plans') && hasCredits">
                       <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('mycreditsactivities')">
@@ -414,6 +425,6 @@
     </div>
   </nav>
 </nav>
-<button #outsidebutton dclass="hidden" type="button">
+<button #outsidebutton class="hidden" type="button">
   &nbsp;
 </button>

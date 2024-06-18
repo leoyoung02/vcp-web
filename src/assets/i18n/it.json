@@ -3661,6 +3661,10 @@
         "product": "Prodotto",
         "products": "Prodotti",
         "shopnow": "Acquista ora",
-        "shopbycategory": "Acquista per categoria"
+        "shopbycategory": "Acquista per categoria",
+        "cart": "Carrello",
+        "checkout": "Checkout",
+        "ordersummary": "Riepilogo dell'ordine",
+        "myorders": "I miei ordini"
     }
 }

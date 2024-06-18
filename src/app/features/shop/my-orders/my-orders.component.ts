@@ -16,7 +16,7 @@ import { ProductCardComponent } from "@share/components/card/product/product.com
 import get from "lodash/get";
 
 @Component({
-    selector: "app-cart",
+    selector: "app-my-orders",
     standalone: true,
     imports: [
         CommonModule,
@@ -26,9 +26,9 @@ import get from "lodash/get";
         ProductCardComponent,
         BreadcrumbComponent,
     ],
-    templateUrl: "./cart.component.html",
+    templateUrl: "./my-orders.component.html",
 })
-export class CartComponent {
+export class MyOrdersComponent {
     private destroy$ = new Subject<void>();
 
     @Input() id: any;
@@ -230,7 +230,7 @@ export class CartComponent {
     }
 
     goToCheckout() {
-        this._router.navigate([`/shop/checkout`]);
+        
     }
 
     handleGoBack() {

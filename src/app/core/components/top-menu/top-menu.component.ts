@@ -186,6 +186,7 @@ export class TopMenuComponent {
   canViewGuests: boolean = false;
   canViewAdministrar: boolean = false;
   companyId: any;
+  hideMenu: boolean = false;
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
@@ -856,8 +857,10 @@ export class TopMenuComponent {
   }
 
   redirectPath(mode) {
+    this.hideMenu = true;
     setTimeout(() => {
       this.outsidebutton?.nativeElement.click();
+      console.log('clicked menu')
       let path = '';
       switch(mode) {
         case 'userprofile':
@@ -902,9 +905,14 @@ export class TopMenuComponent {
         case 'manageusers':
           path = '/settings/manage-list/users';
           break;
+        case 'myorders':
+          path = '/shop/my-orders';
+          break;
       }
 
-      this._router.navigate([path]);
+      this._router.navigate([path]).then(() => {
+        window.location.reload();
+      });
     }, 500)
   }
 }

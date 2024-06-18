@@ -3669,6 +3669,10 @@
         "product": "Produktua",
         "products": "Produktuak",
         "shopnow": "Erosi orain",
-        "shopbycategory": "Erosi kategoriaz"
+        "shopbycategory": "Erosi kategoriaz",
+        "cart": "Saskia",
+        "checkout": "Egiaztatu",
+        "ordersummary": "Eskaeraren laburpena",
+        "myorders": "Nire eskaerak"
     }
 }

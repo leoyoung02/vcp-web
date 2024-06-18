@@ -23,7 +23,25 @@ export const routes: Routes = [
     {
         path: 'cart',
         title: CustomTitleResolver,
-        data: { titleKey: 'shop.product'},
+        data: { titleKey: 'shop.cart'},
         loadComponent: async () => (await import('./cart/cart.component')).CartComponent,
+    },
+    {
+        path: 'checkout',
+        title: CustomTitleResolver,
+        data: { titleKey: 'shop.checkout'},
+        loadComponent: async () => (await import('./checkout/checkout.component')).ShopCheckoutComponent,
+    },
+    {
+        path: 'order-summary',
+        title: CustomTitleResolver,
+        data: { titleKey: 'shop.ordersummary'},
+        loadComponent: async () => (await import('./order-summary/order-summary.component')).OrderSummaryComponent,
+    },
+    {
+        path: 'my-orders',
+        title: CustomTitleResolver,
+        data: { titleKey: 'shop.myorders'},
+        loadComponent: async () => (await import('./my-orders/my-orders.component')).MyOrdersComponent,
     }
 ];

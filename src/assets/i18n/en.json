@@ -3705,6 +3705,10 @@
         "product": "Product",
         "products": "Products",
         "shopnow": "Shop now",
-        "shopbycategory": "Shop by Category"
+        "shopbycategory": "Shop by Category",
+        "cart": "Cart",
+        "checkout": "Checkout",
+        "ordersummary": "Order Summary",
+        "myorders": "My Orders"
     }
 }

@@ -3690,6 +3690,10 @@
         "product": "Producto",
         "products": "Productos",
         "shopnow": "Comprar ahora",
-        "shopbycategory": "Acquista per categoria"
+        "shopbycategory": "Acquista per categoria",
+        "cart": "Carrito",
+        "checkout": "Pagar",
+        "ordersummary": "Resumen del pedido",
+        "myorders": "Mis pedidos"
     }
 }
