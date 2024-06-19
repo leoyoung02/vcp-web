@@ -6,6 +6,8 @@ import {
   ACTIVITY_CODE_DATA_URL,
   ACTIVITY_CREDITS_URL,
   ACTIVITY_PAYMENT_OPTIONS_URL,
+  ACTIVITY_TEACHERS_URL,
+  ADD_ACTIVITY_TEACHER_URL,
   ADD_AGE_GROUP_URL,
   ADD_ALIAS_URL,
   ADD_EVENT_CATEGORY_URL,
@@ -46,6 +48,7 @@ import {
   CREATE_PLAN_ROLES_URL,
   CREATE_PLAN_URL,
   DASHBOARD_DETAILS_URL,
+  DELETE_ACTIVITY_TEACHER_URL,
   DELETE_AGE_GROUP_URL,
   DELETE_ALIAS_URL,
   DELETE_COMMENT_URL,
@@ -54,6 +57,7 @@ import {
   DELETE_GROUP_PLAN_COMMENT_REACTION_URL,
   DELETE_GUEST_REGISTRATION_FIELDS_URL,
   DELETE_RECURRING_SERIES_URL,
+  EDIT_ACTIVITY_TEACHER_URL,
   EDIT_AGE_GROUP_URL,
   EDIT_ALIAS_URL,
   EDIT_CLUB_PLAN_URL,
@@ -640,6 +644,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'age_group_id', planForm.age_group_id );
     formData.append( 'default_cover', planForm.default_cover );
     formData.append( 'video', planForm.video );
+    formData.append( 'assign_teacher', planForm.assign_teacher );
 
     if(entityId == 32) {
       formData.append( 'additional_properties_course_access', allowCourseAccess == true ? '1' : '0' );
@@ -889,6 +894,7 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'age_group_id', planForm.age_group_id );
     formData.append( 'default_cover', planForm.default_cover );
     formData.append( 'video', planForm.video );
+    formData.append( 'assign_teacher', planForm.assign_teacher );
 
     if(entityId == 32) {
       formData.append( 'additional_properties_course_access', planForm.additional_properties_course_access );
@@ -1354,6 +1360,33 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     return this._http.post(
       `${CONFIRM_BIZUM_GROUP_PLAN_PARTICIPANT_URL}/${id}`, 
       param
+    ).pipe(map(res => res));
+  }
+
+  getActivityTeachers(id, typeId): Observable<any> {
+    return this._http.get(`${ACTIVITY_TEACHERS_URL}/${id}/${typeId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  addActivityTeacher(payload): Observable<any> {
+    return this._http.post(ADD_ACTIVITY_TEACHER_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editActivityTeacher(payload): Observable<any> {
+    return this._http.put(EDIT_ACTIVITY_TEACHER_URL,
+      payload,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  deleteActivityTeacher(payload): Observable<any> {
+    return this._http.post(`${DELETE_ACTIVITY_TEACHER_URL}`,
+      payload,
+      { headers: this.headers }
     ).pipe(map(res => res));
   }
 }
