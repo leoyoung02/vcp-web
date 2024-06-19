@@ -251,6 +251,38 @@
                                     placeholder="{{ 'edit-plan.numberofcredits' | translate }}">
                             </div>
                         </div>
+                        <div class="flex items-center justify-center relative" *ngIf="hasActivityCodeActivated">
+                            <div class="w-full max-w-full">
+                                <label for="activity-code" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{'edit-plan.activitycode' | translate}}
+                                </label>
+                                <input
+                                    *ngIf="companyId != 32 || (companyId == 32 && isUESchoolOfLife)"
+                                    id="activity-code"
+                                    type="text"
+                                    class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                                    [(ngModel)]="activityCode"
+                                    [ngModelOptions]="{standalone: true}"
+                                    placeholder="{{ 'edit-plan.activitycode' | translate }}"
+                                    maxlength="200"
+                                />
+                            </div>
+                            <div class="w-full max-w-full">
+                                <label for="activity-code-sigeca" class="ml-4 text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{'credits.activitycodesigeca' | translate}}
+                                </label>
+                                <input
+                                    *ngIf="companyId == 32 && isUESchoolOfLife"
+                                    id="activity-code-sigeca"
+                                    type="text"
+                                    class="ml-4 text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                                    [(ngModel)]="activityCodeSigeca"
+                                    [ngModelOptions]="{standalone: true}"
+                                    placeholder="{{ 'credits.activitycodesigeca' | translate }}"
+                                    maxlength="200"
+                                />
+                            </div>
+                        </div>
                         <div class="flex items-center justify-center relative">
                             <div class="w-full max-w-full">
                                 <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">

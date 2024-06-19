@@ -354,6 +354,13 @@ export class CoursesService {
       formData.append( 'additional_properties_branding_ids', params.additional_properties_branding_ids );
     }
 
+    if(params.activity_code) {
+      formData.append( 'activity_code', params.activity_code );
+      if(params.company_id == 32) {
+        formData.append( 'activity_code_sigeca', params.activity_code_sigeca );
+      }
+    }
+
     if(params.price) {
       formData.append( 'price', params.price );
     }
@@ -464,6 +471,13 @@ export class CoursesService {
       formData.append( 'additional_properties_type_ids', params.additional_properties_type_ids );
       formData.append( 'additional_properties_segment_ids', params.additional_properties_segment_ids );
       formData.append( 'additional_properties_branding_ids', params.additional_properties_branding_ids );
+    }
+
+    if(params.activity_code) {
+      formData.append( 'activity_code', params.activity_code );
+      if(params.company_id == 32) {
+        formData.append( 'activity_code_sigeca', params.activity_code_sigeca );
+      }
     }
 
     if (file) {
