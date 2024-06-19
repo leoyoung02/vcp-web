@@ -3219,6 +3219,7 @@ export class PlanEditComponent {
 
   imageCropperModalSave() {
     this.showImageCropper = false;
+    this.closemodalbutton?.nativeElement?.click();
   }
 
   imageCropperModalClose() {
