@@ -183,11 +183,11 @@ export class PlansAdminListComponent {
         moment().add(-1, 'days').format("YYYY-MM-DD") :
         moment().add(1, 'months').format("YYYY-MM-DD");
       this.minDate = this.status == 'past' || this.status == 'salesprocess' ?
-        moment().add(-3, 'months').format("YYYY-MM-DD") :
+        null :
         moment().format("YYYY-MM-DD");
       this.maxDate = this.status == 'past' || this.status == 'salesprocess' ?
         moment().add(-1, 'days').format("YYYY-MM-DD") :
-        moment().add(3, 'months').format("YYYY-MM-DD");
+        null;
       this.dateRange = new FormGroup({
         start: new FormControl(this.selectedStartDate),
         end: new FormControl( this.selectedEndDate)
@@ -435,9 +435,7 @@ export class PlansAdminListComponent {
           })
         }
 
-        if(this.allPlansData?.length == 0) {
-          this.allPlansData = data
-        }
+        this.allPlansData = data
         
         this.loadPlans(data, mode);
     }
@@ -672,7 +670,6 @@ export class PlansAdminListComponent {
             });
           }
         }
-        
 
         this.isLoading = false;
     }
@@ -1500,6 +1497,7 @@ export class PlansAdminListComponent {
         } else {
           this.selectedStartDate = '';
         }
+        this.selectedEndDate = '';
       }
       if (type == "end") {
         if(moment(event?.value).isValid()) {
@@ -1510,6 +1508,7 @@ export class PlansAdminListComponent {
       }
 
       if(this.selectedStartDate && this.selectedEndDate) {
+        this.isLoading = true;
         this.initializePage();
       }
     }
