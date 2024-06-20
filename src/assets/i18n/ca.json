@@ -3682,6 +3682,9 @@
         "cart": "Cart",
         "checkout": "Pagament",
         "ordersummary": "Resum de la comanda",
-        "myorders": "Les meves comandes"
+        "myorders": "Les meves comandes",
+        "itemaddedtocart": "1 article afegit al carret",
+        "itemremovedfromcart": "S'ha eliminat 1 element del carretó",
+        "cartcleared": "El carretó està esborrat"
     }
 }

@@ -3674,6 +3674,9 @@
         "cart": "Warenkorb",
         "checkout": "Zur Kasse",
         "ordersummary": "Bestellübersicht",
-        "myorders": "Meine Bestellungen"
+        "myorders": "Meine Bestellungen",
+        "itemaddedtocart": "1 Artikel zum Warenkorb hinzugefügt",
+        "itemremovedfromcart": "1 Artikel aus dem Warenkorb entfernt",
+        "cartcleared": "Warenkorb ist geleert"
     }
 }

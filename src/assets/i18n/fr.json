@@ -3669,6 +3669,9 @@
         "cart": "Panier",
         "checkout": "Commander",
         "ordersummary": "Résumé de la commande",
-        "myorders": "Mes commandes"
+        "myorders": "Mes commandes",
+        "itemaddedtocart": "1 article ajouté au panier",
+        "itemremovedfromcart": "1 article supprimé du panier",
+        "cartcleared": "Le panier est vidé"
     }
 }

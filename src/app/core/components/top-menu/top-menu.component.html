@@ -19,13 +19,14 @@
             </div>
           </ng-container>
           <ng-container *ngIf="userid">
-            <button *ngIf="hasAccess('shop')" [routerLink]="['/shop/cart']" id="myCartDropdownButton1" type="button" class="inline-flex items-center rounded-lg justify-center text-sm font-medium leading-none text-gray-900 dark:text-white">
+            <button *ngIf="hasAccess('shop')" [routerLink]="['/shop/cart']" id="myCartDropdownButton1" type="button" 
+              class="relative inline-flex items-center rounded-lg justify-center text-sm font-medium leading-none text-gray-900 dark:text-white">
               <span class="sr-only">
                 Cart
               </span>
               <svg class="w-7 h-7 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
-              </svg>            
+              </svg>
             </button>
             <span class="w-px h-5 bg-gray-300 ml-4 mr-3" *ngIf="hasShop">&nbsp;</span>
             <img 
@@ -63,7 +64,7 @@
           <div class="flex items-center">
             <ng-container *ngFor="let lang of languages;let i = index;">
               <div class="flex items-center space-x-1 md:space-x-0">
-                <button type="button" data-dropdown-toggle="language-dropdown-menu" 
+                <button type="button"
                   (click)="useLanguage(lang.code)"
                   class="inline-flex items-center font-medium justify-center p-1 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
                   <img

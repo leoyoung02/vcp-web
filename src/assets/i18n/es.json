@@ -3696,6 +3696,9 @@
         "cart": "Carrito",
         "checkout": "Pagar",
         "ordersummary": "Resumen del pedido",
-        "myorders": "Mis pedidos"
+        "myorders": "Mis pedidos",
+        "itemaddedtocart": "1 artículo añadido al carrito",
+        "itemremovedfromcart": "1 artículo eliminado del carrito",
+        "cartcleared": "El carrito se ha borrado"
     }
 }

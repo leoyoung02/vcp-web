@@ -9,10 +9,13 @@ import { CompanyService, LocalService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
 import { ActivatedRoute, Router } from "@angular/router";
+import { MatSnackBar, MatSnackBarModule  } from '@angular/material/snack-bar';
 import { SearchComponent } from "@share/components/search/search.component";
 import { PageTitleComponent } from "@share/components";
 import { ShopService } from "@features/services/shop/shop.service";
+import { CartService } from "@features/services/shop/cart.service";
 import { ProductCardComponent } from "@share/components/card/product/product.component";
+import { Product } from '@features/models/shop/product.model';
 import get from "lodash/get";
 
 @Component({
@@ -21,6 +24,7 @@ import get from "lodash/get";
   imports: [
     CommonModule,
     TranslateModule,
+    MatSnackBarModule,
     SearchComponent,
     PageTitleComponent,
     ProductCardComponent,
@@ -62,6 +66,8 @@ export class ShopListComponent {
     private _localService: LocalService,
     private _companyService: CompanyService,
     private _shopService: ShopService,
+    private _cartService: CartService,
+    private _snackBar: MatSnackBar,
   ) {}
 
   @HostListener("window:resize", [])
@@ -186,7 +192,23 @@ export class ShopListComponent {
   }
 
   handleAddToCartClickRoute(id) {
-  
+    let product = this.products.find((c) => c.id == id);
+    let prod = {
+      product: product.image,
+      name: product.title,
+      price: product.price,
+      quantity: 1,
+      id: product.id,
+    }
+    this._cartService.addToCart(prod);
+    this.open(this._translateService.instant('shop.itemaddedtocart'), '');
+  }
+
+  async open(message: string, action: string) {
+    await this._snackBar.open(message, action, {
+        duration: 3000,
+        panelClass: ["info-snackbar"],
+    });
   }
 
   ngOnDestroy() {

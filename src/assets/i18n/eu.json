@@ -3675,6 +3675,9 @@
         "cart": "Saskia",
         "checkout": "Egiaztatu",
         "ordersummary": "Eskaeraren laburpena",
-        "myorders": "Nire eskaerak"
+        "myorders": "Nire eskaerak",
+        "itemaddedtocart": "Elementu bat gehitu da saskira",
+        "itemremovedfromcart": "Elementu bat saskitik kendu da",
+        "cartcleared": "Saskia garbitu da"
     }
 }

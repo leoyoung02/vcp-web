@@ -17,6 +17,7 @@ import { LogoComponent } from "../logo/logo.component";
 import { COMPANY_IMAGE_URL } from "@lib/api-constants";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { MatSnackBar, MatSnackBarModule  } from '@angular/material/snack-bar';
 import { initFlowbite } from "flowbite";
 import { MenuIcon } from "@lib/interfaces";
 import {
@@ -39,6 +40,8 @@ import menuIconsData from "src/assets/data/menu-icons.json";
 import { GuestMenuComponent } from "../guest-menu/guest-menu.component";
 import { DateAgoPipe } from "@lib/pipes";
 import { environment } from "@env/environment";
+import { CartService } from "@features/services/shop/cart.service";
+import { Cart, CartItem } from "@features/models/shop/cart.model";
 
 @Component({
   selector: "app-top-menu",
@@ -49,6 +52,7 @@ import { environment } from "@env/environment";
     RouterModule,
     TranslateModule,
     FontAwesomeModule,
+    MatSnackBarModule,
     DateAgoPipe,
     LogoComponent,
     GuestMenuComponent,
@@ -60,6 +64,9 @@ export class TopMenuComponent {
   menus$ = inject(MenuService).menus$;
   menuIcons: MenuIcon[] = menuIconsData;
 
+  cart$ = inject(CartService).cart$;
+
+  @Input() cart: any;
   @Input() menus: any;
   @Input() company: any;
   @Input() otherSettings: any;
@@ -196,6 +203,7 @@ export class TopMenuComponent {
     private _authService: AuthService,
     private _translateService: TranslateService,
     private _localService: LocalService,
+    private _cartService: CartService
   ) {
     this.navigationSubscription = this._router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
@@ -266,10 +274,6 @@ export class TopMenuComponent {
     ) : this._translateService.instant('sidebar.activityfeed');
   }
 
-  ngOnDestroy() {
-    this.navigationSubscription?.unsubscribe();
-  }
-
   ngOnChanges(changes: SimpleChange) {
     let menuChange = changes["menus"];
     if (menuChange?.currentValue?.length > 0) {
@@ -279,6 +283,12 @@ export class TopMenuComponent {
       });
       this.navMenus = navmenus;
       this.checkCourseWalls(menuChange.currentValue);
+    }
+
+    let cartChange = changes["cart"];
+    if (cartChange?.currentValue?.length > 0) {
+      let cart = cartChange.currentValue;
+      this.cart = cart;
     }
 
     let otherSettingsChange = changes["otherSettings"];
@@ -914,5 +924,17 @@ export class TopMenuComponent {
         window.location.reload();
       });
     }, 500)
+  }
+
+  getTotal(items: CartItem[]): number {
+    return this._cartService.getTotal(items);
+  }
+
+  onClearCart(): void {
+    this._cartService.clearCart();
+  }
+
+  ngOnDestroy() {
+    this.navigationSubscription?.unsubscribe();
   }
 }

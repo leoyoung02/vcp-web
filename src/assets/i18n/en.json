@@ -3711,6 +3711,9 @@
         "cart": "Cart",
         "checkout": "Checkout",
         "ordersummary": "Order Summary",
-        "myorders": "My Orders"
+        "myorders": "My Orders",
+        "itemaddedtocart": "1 item added to cart",
+        "itemremovedfromcart": "1 item removed from cart",
+        "cartcleared": "Cart is cleared"
     }
 }

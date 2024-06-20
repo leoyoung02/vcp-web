@@ -20,7 +20,7 @@
                 <h6 class="text-left font-semibold text-lg leading-8"
                     [ngStyle]="{'color': primaryColor}">{{ price }}</h6>
             </div>
-            <button
+            <button (click)="handleAddToCart(id)"
                 class="p-2 min-[400px]:p-3 rounded-full bg-white border border-gray-300 flex items-center justify-center group shadow-sm shadow-transparent transition-all duration-500 hover:shadow-gray-200 hover:border-gray-400 hover:bg-gray-50">
                 <svg class="stroke-gray-900 transition-all duration-500 group-hover:stroke-black"
                     xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26"

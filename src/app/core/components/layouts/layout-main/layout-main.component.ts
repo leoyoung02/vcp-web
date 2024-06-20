@@ -194,6 +194,7 @@ export class LayoutMainComponent {
   navigation: any = 'side-menu';
   shopFeatureId: any;
   hasShop: boolean = false;
+  cart: any = [];
 
   constructor(
     private _router: Router,
@@ -204,7 +205,6 @@ export class LayoutMainComponent {
     private _userService: UserService,
     private _tutorsService: TutorsService,
     private _plansService: PlansService,
-    private _notificationsService: NotificationsService,
     private cd: ChangeDetectorRef
   ) {
     this.language = this._localService.getLocalStorage(environment.lslanguage);

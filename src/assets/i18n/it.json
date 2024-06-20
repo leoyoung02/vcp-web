@@ -3668,6 +3668,9 @@
         "cart": "Carrello",
         "checkout": "Checkout",
         "ordersummary": "Riepilogo dell'ordine",
-        "myorders": "I miei ordini"
+        "myorders": "I miei ordini",
+        "itemaddedtocart": "1 articolo aggiunto al carrello",
+        "itemremovedfromcart": "1 articolo rimosso dal carrello",
+        "cartcleared": "Il carrello è stato svuotato"
     }
 }
