@@ -1528,7 +1528,9 @@
         "bizumdesc": "Envía pago a través de tu teléfono inteligente",
         "reserve": "Reserva",
         "signup": "Apuntate",
-        "insertvideo": "Insertar vídeo"
+        "insertvideo": "Insertar vídeo",
+        "assignteacher": "¿Asignar docente?", 
+        "separatebycomma": "(Separado por coma)"
     },
     "edit-club": {
         "uploadimage": "Cargar imagen",

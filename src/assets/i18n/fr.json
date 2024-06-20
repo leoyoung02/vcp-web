@@ -1523,7 +1523,9 @@
         "bizumdesc": "Envoyez le paiement via votre smartphone",
         "reserve": "Réserve",
         "signup": "Inscrivez-vous",
-        "insertvideo": "Insérer une vidéo"
+        "insertvideo": "Insérer une vidéo",
+        "assignteacher": "Attribuer un enseignant?", 
+        "separatebycomma": "(Séparé par une virgule)"
     },
     "edit-club": {
         "uploadimage": "Télécharger une image",

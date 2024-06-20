@@ -1524,7 +1524,9 @@
         "bizumdesc": "Zahlung über Ihr Smartphone senden",
         "reserve": "Reservieren",
         "signup": "Anmelden",
-        "insertvideo": "Video einfügen"
+        "insertvideo": "Video einfügen",
+        "assignteacher": "Lehrer zuweisen?", 
+        "separatebycomma": "(Durch Komma getrennt)"
     },
     "edit-club": {
         "uploadimage": "Bild hochladen",

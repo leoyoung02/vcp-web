@@ -627,6 +627,25 @@ export class PlanEditComponent {
   };
   eventPondVideoFiles = [];
 
+  assignTeacher: boolean = false;
+  dialogMode: any;
+  dialogTitle: any;
+  assignedTeachers: any = [];
+  assignTeacherMode: any;
+  assignTeacherItemMode: any;
+  showAssignTeacherItemDetails: boolean = false;
+  assignTeacherItemFormSubmitted: boolean = false;
+  assignedTeacherFirstName: any;
+  assignedTeacherLastName: any;
+  assignedTeacherEmail: any;
+  selectedAssignTeacherItem: any;
+  selectedAssignTeacherItemId: any;
+  selectedAssignTeacherFirstName: any;
+  selectedAssignTeacherLastName: any;
+  selectedAssignTeacherEmail: any;
+  @ViewChild("closemodalbutton", { static: false })
+  closemodalbutton: ElementRef<HTMLInputElement> = {} as ElementRef;
+  
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -1521,6 +1540,7 @@ export class PlanEditComponent {
       slug,
       age_group_id,
       bizum_pay,
+      assign_teacher,
     } = this.plan;
 
     if(this.types && this.types.length > 0) {
@@ -1823,6 +1843,7 @@ export class PlanEditComponent {
     this.createdByUser = this.plan?.fk_user_id || this.userId;
     this.netcultura = netcultura;
     this.selectedAgeGroup = age_group_id || '';
+    this.assignTeacher = assign_teacher == 1 ? true : false;
     this.coverVideo = this.plan?.video;
     if(this.coverVideo) {
       this.hasExistingVideo = true;
@@ -2522,6 +2543,7 @@ export class PlanEditComponent {
     this.plan['default_cover'] = this.setDefaultVideo && ((this.eventVideoCoverUploaded && this.eventCoverVideoFileName) || this.existingVideoFile) ? 'video' : 'photo'; 
     this.plan['video'] = this.setDefaultVideo && this.eventVideoCoverUploaded && this.eventCoverVideoFileName ? this.eventCoverVideoFileName : (this.clearedVideo ? '' : this.existingVideoFile);
     this.plan["bizum_pay"] = this.isBizumActive && this.isBizumPayment ? 1 : 0;
+    this.plan["assign_teacher"] = this.assignTeacher ? 1 : 0;
 
     let event_reg_file_status = localStorage.getItem('event_reg_file')
     let event_reg_file = event_reg_file_status == 'complete' ? this.eventGuestRegFileName : ''
@@ -3163,6 +3185,8 @@ export class PlanEditComponent {
     } else {
       initFlowbite();
       setTimeout(() => {
+        this.dialogMode = 'photo';
+        this.dialogTitle = this._translateService.instant('club-create.uploadimage');
         this.modalbutton?.nativeElement.click();
       }, 500);
     }
@@ -3195,6 +3219,7 @@ export class PlanEditComponent {
 
   imageCropperModalSave() {
     this.showImageCropper = false;
+    this.closemodalbutton?.nativeElement?.click();
   }
 
   imageCropperModalClose() {
@@ -3520,6 +3545,138 @@ export class PlanEditComponent {
     this.existingVideoURL = '';
     this.setDefaultPhoto = true;
     this.setDefaultVideo = false;
+  }
+
+  setupAssignedTeachers() {
+    this._plansService.getActivityTeachers(this.id, this.planTypeId).subscribe(
+      (response) => {
+        this.assignedTeachers = response.assigned_teachers;
+        setTimeout(() => {
+          this.resetAssignTeacherItemFields();
+          this.dialogMode = 'assign-teacher';
+          this.dialogTitle = this._translateService.instant('edit-plan.assignteacher');
+          this.modalbutton?.nativeElement.click();
+        }, 500);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
+  }
+
+  addAssignTeacherItem() {
+    this.resetAssignTeacherItemFields();
+    this.assignTeacherItemMode = 'add';
+    this.showAssignTeacherItemDetails = true;
+  }
+
+  resetAssignTeacherItemFields() {
+    this.assignTeacherItemMode = '';
+    this.assignedTeacherFirstName = '';
+    this.assignedTeacherLastName = '';
+    this.assignedTeacherEmail = '';
+    this.assignTeacherItemFormSubmitted = false;
+    this.showAssignTeacherItemDetails = false;
+  }
+
+  cancelAssignTeacherItem() {
+    this.resetAssignTeacherItemFields();
+    this.assignTeacherItemMode = '';
+    this.showAssignTeacherItemDetails = false;
+  }
+
+  handleEditAssignedTeacher(item) {
+    this.assignTeacherItemMode = 'edit';
+    this.selectedAssignTeacherItem = item;
+    this.selectedAssignTeacherItemId = item.id;
+    this.assignedTeacherFirstName = item.first_name;
+    this.assignedTeacherLastName = item.last_name;
+    this.assignedTeacherEmail = item.email;
+    this.showAssignTeacherItemDetails = true;
+  }
+
+  saveAssignedTeacher() {
+    this.assignTeacherItemFormSubmitted = true;
+
+    if (
+      !this.assignedTeacherFirstName ||
+      !this.assignedTeacherLastName ||
+      !this.assignedTeacherEmail
+    ) {
+      return false;
+    }
+
+    if (this.assignTeacherItemMode == "add") {
+      let params = {
+        company_id: this.companyId,
+        plan_id: this.id,
+        plan_type_id: this.planTypeId,
+        first_name: this.assignedTeacherFirstName,
+        last_name: this.assignedTeacherLastName,
+        email: this.assignedTeacherEmail,
+        created_by: this.userId,
+      };
+
+      this._plansService.addActivityTeacher(params).subscribe(
+        (response) => {
+          this.open(
+            this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+          this.assignedTeachers = response.assigned_teachers;
+          this.resetAssignTeacherItemFields();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    } else if (this.assignTeacherItemMode == "edit") {
+      let params = {
+        id: this.selectedAssignTeacherItemId,
+        plan_id: this.id,
+        plan_type_id: this.planTypeId,
+        first_name: this.assignedTeacherFirstName,
+        last_name: this.assignedTeacherLastName,
+        email: this.assignedTeacherEmail,
+      };
+      this._plansService.editActivityTeacher(params).subscribe(
+        (response) => {
+          this.open(
+            this._translateService.instant("dialog.savedsuccessfully"),
+            ""
+          );
+          this.assignedTeachers = response.assigned_teachers;
+          this.resetAssignTeacherItemFields();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    }
+  }
+
+  handleDeleteAssignedTeacher(item) {
+    let params = {
+      id: item.id,
+      plan_id: this.id,
+      plan_type_id: this.planTypeId,
+    };
+    this._plansService.deleteActivityTeacher(params).subscribe(
+      (response) => {
+        this.assignedTeachers.forEach((cat, index) => {
+          if (cat.id == item.id) {
+            this.assignedTeachers.splice(index, 1);
+          }
+        });
+        this.open(
+          this._translateService.instant("dialog.deletedsuccessfully"),
+          ""
+        );
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
   }
 
   async open(message: string, action: string) {
