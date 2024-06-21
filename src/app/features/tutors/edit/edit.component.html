@@ -144,33 +144,7 @@
                 <div class="font-light text-xl">{{ 'landing.description' | translate }}</div>
             </div>
             <div class="flex items-center justify-center mb-4 relative">
-                <editor
-                    class="w-full"
-                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                    [init]="{
-                        height: 183,
-                        menubar: false,
-                        plugins: [
-                        'advlist autolink lists link image imagetools charmap print',
-                        'preview anchor searchreplace visualblocks code',
-                        'fullscreen insertdatetime media table paste',
-                        'help wordcount',
-                        'code media'
-                        ],
-                        toolbar:
-                        'undo redo | formatselect | bold italic | \
-                        alignleft aligncenter alignright alignjustify | \
-                        media | \
-                        paste pastetext | \
-                        image imagetools | \
-                        bullist numlist outdent indent | help',
-                        valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
-                    }"
-                    id="description"
-                    [(ngModel)]="who_am_i"
-                    [ngModelOptions]="{standalone: true}"
-                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': submitted && !who_am_i }"
-                ></editor>
+                <quill-editor [(ngModel)]="who_am_i" [ngModelOptions]="{standalone: true}" [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': submitted && !who_am_i }" class="w-full max-w-full content-editor"></quill-editor>
             </div>
             <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                 <button

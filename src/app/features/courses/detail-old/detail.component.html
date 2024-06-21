@@ -443,15 +443,7 @@
                                     <div [ngClass]="{
                                         'h-[calc(100vh_-_200px)]': isExpanded,
                                         'min-h-[300px]': !isExpanded
-                                    }">
-                                        <iframe scrolling="no" style="display:none;width:100%;border:none;height:100%;" #iframeText></iframe>
-                                        <div style="display:none;" #editor>
-                                            <editor
-                                                apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                                [init]="{ plugins: ['autoresize'] }"
-                                                (onInit)="handleEditorInit($event)"
-                                            ></editor>
-                                        </div>
+                                    }" [innerHtml]="getCourseTextContent()">
                                     </div>
                                 </ng-container>
                                 <ng-container *ngIf="selectedUnit?.Company_Course_Unit_Type?.type == 'script' && selectedUnit?.script">

@@ -20,7 +20,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
-import { EditorModule } from "@tinymce/tinymce-angular";
+import { QuillModule } from 'ngx-quill';
 import { environment } from "@env/environment";
 import get from "lodash/get";
 
@@ -34,7 +34,7 @@ import get from "lodash/get";
     ReactiveFormsModule,
     MatSnackBarModule,
     NgMultiSelectDropDownModule,
-    EditorModule,
+    QuillModule,
     ButtonGroupComponent,
     PageTitleComponent,
     NoAccessComponent,

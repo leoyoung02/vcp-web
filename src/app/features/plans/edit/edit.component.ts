@@ -31,7 +31,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
-import { EditorModule } from "@tinymce/tinymce-angular";
 import {
   ImageCropperModule,
   ImageCroppedEvent,
@@ -53,6 +52,7 @@ import { MatInputModule } from "@angular/material/input";
 import { MatDatepickerModule } from "@angular/material/datepicker";
 import { MatNativeDateModule } from "@angular/material/core";
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { QuillModule } from 'ngx-quill';
 import { DateAdapter } from '@angular/material/core';
 import moment from "moment";
 import get from "lodash/get";
@@ -75,7 +75,6 @@ registerPlugin(FilepondPluginImagePreview, FilePondPluginMediaPreview, FilepondP
     ReactiveFormsModule,
     MatSnackBarModule,
     NgMultiSelectDropDownModule,
-    EditorModule,
     ImageCropperModule,
     FontAwesomeModule,
     FilePondModule,
@@ -92,6 +91,7 @@ registerPlugin(FilepondPluginImagePreview, FilePondPluginMediaPreview, FilepondP
     MatDatepickerModule,
     MatFormFieldModule,
     NgxMaterialTimepickerModule,
+    QuillModule,
   ],
   templateUrl: "./edit.component.html",
 })

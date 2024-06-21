@@ -17,7 +17,7 @@ import {
   ReactiveFormsModule,
 } from "@angular/forms";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
-import { EditorModule } from "@tinymce/tinymce-angular";
+import { QuillModule } from 'ngx-quill';
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
@@ -42,7 +42,7 @@ import { checkIfValidCalendlyAccount } from "src/app/utils/calendly/helper";
     ReactiveFormsModule,
     MatSnackBarModule,
     NgMultiSelectDropDownModule,
-    EditorModule,
+    QuillModule,
     FontAwesomeModule,
     NgxMatDatetimePickerModule,
     NgxMatTimepickerModule,

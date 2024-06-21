@@ -46,7 +46,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { DateAdapter } from '@angular/material/core';
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
-import { EditorModule } from "@tinymce/tinymce-angular";
+import { QuillModule } from 'ngx-quill';
 import get from "lodash/get";
 import each from "lodash/each";
 import keys from "lodash/keys";
@@ -71,7 +71,7 @@ import "moment/locale/it";
     ImageCropperModule,
     FontAwesomeModule,
     MatSnackBarModule,
-    EditorModule,
+    QuillModule,
     PageTitleComponent,
     ToastComponent,
     NgMultiSelectDropDownModule,

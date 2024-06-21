@@ -28,7 +28,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from "@angular/forms";
-import { EditorModule } from "@tinymce/tinymce-angular";
+import { QuillModule } from 'ngx-quill';
 import { CoursesService } from "@features/services";
 import { initFlowbite } from "flowbite";
 import get from "lodash/get";
@@ -57,7 +57,7 @@ registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPlug
     ColorPickerModule,
     FilePondModule,
     NgImageSliderModule,
-    EditorModule,
+    QuillModule,
     SearchComponent,
     BreadcrumbComponent,
     ToastComponent,

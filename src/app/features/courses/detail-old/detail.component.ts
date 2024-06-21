@@ -1463,6 +1463,18 @@ export class CourseDetailComponent {
       )) : ''
   }
 
+  getCourseTextContent() {
+    let unit = this.selectedUnit;
+    return unit ? (this.language == 'en' ? (unit.text_en ? (unit.text_en || unit.text) : unit.text) :
+    (this.language == 'fr' ? (unit.text_fr ? (unit.text_fr || unit.text) : unit.text) : 
+        (this.language == 'eu' ? (unit.text_eu ? (unit.text_eu || unit.text) : unit.text) : 
+            (this.language == 'ca' ? (unit.text_ca ? (unit.text_ca || unit.text) : unit.text) : 
+                (this.language == 'de' ? (unit.text_de ? (unit.text_de || unit.text) : unit.text) : unit.text)
+            )
+        )
+    )) : ''
+  }
+
   handleEditorInit(e) {
     let unit = this.selectedUnit;
     let text = unit ? (this.language == 'en' ? (unit.text_en ? (unit.text_en || unit.text) : unit.text) :
