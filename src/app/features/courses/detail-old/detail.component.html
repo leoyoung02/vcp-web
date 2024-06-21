@@ -26,21 +26,6 @@
                     </div>
                 </div>
             </ng-container>
-            <div *ngIf="courseIntroPDFURL" class="flex flex-wrap my-4 bg-[#f8f8f4] rounded-[15px] px-[20px]">
-                <a [href]="courseIntroPDFURL" target="_blank" class="w-full max-w-full flex items-center justify-between my-4">
-                    <div class="hover:cursor-pointer mr-2">
-                        <svg class="w-10 h-10" [ngStyle]="{'color': buttonColor}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                            <path fill-rule="evenodd" d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-7Zm-6 9a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h.5a2.5 2.5 0 0 0 0-5H5Zm1.5 3H6v-1h.5a.5.5 0 0 1 0 1Zm4.5-3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1.376A2.626 2.626 0 0 0 15 15.375v-1.75A2.626 2.626 0 0 0 12.375 11H11Zm1 5v-3h.375a.626.626 0 0 1 .625.626v1.748a.625.625 0 0 1-.626.626H12Zm5-5a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1h1a1 1 0 1 0 0-2h-2Z" clip-rule="evenodd"/>
-                        </svg>
-                    </div>
-                    <div class="text-sm flex items-center">
-                        <div class="mr-4">{{ 'members.downloadpdf' | translate }}</div>
-                        <svg class="w-6 h-6 mr-2 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13V4M7 14H5a1 1 0 0 0-1 1v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4a1 1 0 0 0-1-1h-2m-1-5-4 5-4-5m9 8h.01"/>
-                        </svg>
-                    </div>
-                </a> 
-            </div>
             <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
                 <div *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title">
                     <ng-container *ngIf="beginningCourseAssessment?.assessment_id > 0">
@@ -156,6 +141,13 @@
                             </ng-container>
                         </ng-container>
                     </ng-container>
+                    <ng-container *ngIf="courseIntroPDFURL">
+                        <div (click)="openIntroPDF()" class="bg-[#F8F4F4] min-h-[32px] rounded-[10px] flex flex-row justify-between py-2 px-3 mb-[7px]">
+                            <div class="font-bold hover:cursor-pointer">
+                                {{ 'course-details.coursecontent' | translate }}
+                            </div>
+                        </div>
+                    </ng-container>
                     <ng-container *ngIf="endCourseAssessment?.assessment_id > 0">
                         <div class="hover:cursor-pointer bg-[#F8F4F4] min-h-[32px] rounded-[10px] flex flex-row justify-between py-2 px-3 mb-[7px]"
                             (click)="displayAssessment(endCourseAssessment)">
@@ -176,7 +168,7 @@
                 </div>
             </ng-container>
         </div>
-        <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
+        <ng-container *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin || showIntroPDF">
             <div maximize #maximize="maximize" class="z-10 w-full max-w-full transition duration-700 ease-in-out" 
                 *ngIf="course?.course_modules?.length > 0 && selectedUnit?.title && !showAssessment"
                 [ngClass]="{
@@ -186,25 +178,9 @@
                 >
                 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between" [ngClass]="{'vidalytics-div1': selectedUnit?.option == 'Vidalytics'}">
                     <div class="flex items-center mb-4 sm:mb-4 md:mb-0 lg:mb-0 font-semibold text-4xl font-semibold">
-                        {{ isModuleLocked ? selectedModuleTitle : getCourseUnitTitle(selectedUnit) }}
+                        {{ showIntroPDF ? ('course-details.coursecontent' | translate) : (isModuleLocked ? selectedModuleTitle : getCourseUnitTitle(selectedUnit)) }}
                         <div class="flex justify-en ml-4" *ngIf="!isMobile">
                             <div class="grid grid-cols-2 gap-2">
-                                <!-- <button
-                                    class="w-6 h-6 p-1 cursor-pointer"
-                                    (click)="maximize.minimize()"
-                                >
-                                    <svg [ngStyle]="{'color': buttonColor}" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9h4m0 0V5m0 4L4 4m15 5h-4m0 0V5m0 4 5-5M5 15h4m0 0v4m0-4-5 5m15-5h-4m0 0v4m0-4 5 5"/>
-                                    </svg>                                
-                                </button>
-                                <button
-                                    class="w-6 h-6 p-1 cursor-pointer"
-                                    (click)="maximize.maximize()"
-                                >
-                                    <svg [ngStyle]="{'color': buttonColor}" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4H4m0 0v4m0-4 5 5m7-5h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5m7 5h4m0 0v-4m0 4-5-5"/>
-                                    </svg>
-                                </button> -->
                                 <button
                                     class="w-6 h-6 p-1 cursor-pointer"
                                     (click)="minimizeWindow()"
@@ -224,7 +200,7 @@
                             </div> 
                         </div>
                     </div>
-                    <div class="mb-4 sm:mb-4 md:mb-0 lg:mb-0 flex items-center">
+                    <div *ngIf="!showIntroPDF" class="mb-4 sm:mb-4 md:mb-0 lg:mb-0 flex items-center">
                         <div class="flex items-center align-center uppercase mr-4" *ngIf="selectedUnit?.Company_Course_Unit_Users[0]?.progress == 100">
                             <img class="w-4 h-4 mr-2" src="./assets/images/new-design/icons/Progress-completed.png" />
                             {{ 'courses.completed' | translate }}
@@ -270,7 +246,7 @@
                                 </div>
                             </ng-container>
                             <ng-container *ngIf="canAccessLesson() || superAdmin || selectedUnit?.video_always_available">
-                                <ng-container *ngIf="selectedUnit?.Company_Course_Unit_Type?.type == 'video'">
+                                <ng-container *ngIf="!showIntroPDF && selectedUnit?.Company_Course_Unit_Type?.type == 'video'">
                                     <div class="bg-black relative rounded-[10px]">
                                         <ng-container *ngIf="selectedUnit?.option == 'YouTube' || selectedUnit?.option == 'Vimeo' || selectedUnit?.option == 'External' || selectedUnit?.option == 'Vidalytics'">
                                             <div class="video-wrap relative" *ngIf="course?.video_cover || selectedUnit?.video_cover">
@@ -409,8 +385,8 @@
                                     <p [innerHTML]="getVideoDescription(selectedUnit)" class="mt-4"></p>
                                 </ng-container>
                             </ng-container>
-                            <ng-container *ngIf="canAccessLesson() || superAdmin">
-                                <ng-container *ngIf="selectedUnit?.Company_Course_Unit_Type?.type == 'podcast'">
+                            <ng-container *ngIf="canAccessLesson() || superAdmin || showIntroPDF">
+                                <ng-container *ngIf="!showIntroPDF && selectedUnit?.Company_Course_Unit_Type?.type == 'podcast'">
                                     <ng-container *ngIf="selectedLesson">
                                         <div class="audio-container" [innerHtml]="selectedLesson | safeContentHtml: 'html'"></div>
                                     </ng-container>
@@ -423,30 +399,30 @@
                                         </div>
                                     </ng-container>
                                 </ng-container>
-                                <ng-container *ngIf="selectedUnit?.Company_Course_Unit_Type?.type == 'pdf' || selectedUnit?.Company_Course_Unit_Type?.type == 'others'">
+                                <ng-container *ngIf="showIntroPDF || selectedUnit?.Company_Course_Unit_Type?.type == 'pdf' || selectedUnit?.Company_Course_Unit_Type?.type == 'others'">
                                     <ngx-doc-viewer
                                         url="{{ courseUnitSrc + selectedUnit.file }}"
                                         viewer="google"
                                         style="width:100%;height:546px;"
-                                        *ngIf="showDocumentViewer && selectedUnit?.Company_Course_Unit_Type?.type != 'pdf'"
+                                        *ngIf="showDocumentViewer && selectedUnit?.Company_Course_Unit_Type?.type != 'pdf' && !showIntroPDF"
                                     ></ngx-doc-viewer>
                                     <iframe 
-                                        id="{{ 'iframe-' + selectedUnit.id }}"
-                                        [src]="selectedUnitSafeFileUrl" 
+                                        id="{{ 'iframe-' + (showIntroPDF ? 1 : selectedUnit.id) }}"
+                                        [src]="showIntroPDF ? courseIntroPDFURLSrc : selectedUnitSafeFileUrl" 
                                         width="100%" 
                                         height="546px"
-                                        *ngIf="showDocumentViewer && selectedUnit?.Company_Course_Unit_Type?.type == 'pdf'"
+                                        *ngIf="showIntroPDF || (showDocumentViewer && selectedUnit?.Company_Course_Unit_Type?.type == 'pdf')"
                                     >
                                     </iframe>
                                 </ng-container>
-                                <ng-container *ngIf="selectedUnit?.Company_Course_Unit_Type?.type == 'text'">
+                                <ng-container *ngIf="!showIntroPDF && selectedUnit?.Company_Course_Unit_Type?.type == 'text'">
                                     <div [ngClass]="{
                                         'h-[calc(100vh_-_200px)]': isExpanded,
                                         'min-h-[300px]': !isExpanded
                                     }" [innerHtml]="getCourseTextContent()">
                                     </div>
                                 </ng-container>
-                                <ng-container *ngIf="selectedUnit?.Company_Course_Unit_Type?.type == 'script' && selectedUnit?.script">
+                                <ng-container *ngIf="!showIntroPDF && selectedUnit?.Company_Course_Unit_Type?.type == 'script' && selectedUnit?.script">
                                    <ng-container *ngIf="selectedUnit?.script?.indexOf('</iframe>') >= 0 || (selectedUnit?.script?.indexOf('<iframe') >= 0 && selectedUnit?.script?.indexOf('/>') >= 0)">
                                         <div class="script-container"
                                             [ngClass]="{
@@ -470,7 +446,7 @@
                             </ng-container>
                         </ng-container>
                     </div>
-                    <ng-container *ngIf="canAccessLesson() || superAdmin">
+                    <ng-container *ngIf="!showIntroPDF && (canAccessLesson() || superAdmin)">
                         <div class="flex justify-evenly flex-wrap py-8" *ngIf="selectedUnit?.cta == 1 && (!isModuleLocked || superAdmin)">
                             <ng-container *ngIf="ctaList?.length > 0">
                                 <a *ngFor="let item of ctaList" class="cta rounded-[10px] text-white py-4 font-semibold px-8 hover:cursor-pointer" [href]="item?.cta_link" target="_blank" [ngStyle]="{'background-color': buttonColor}">
@@ -490,7 +466,7 @@
                             </div>
                         </div>
                     </ng-container>
-                    <ng-container *ngIf="(canAccessLesson() || superAdmin) && (selectedUnit?.module_id == selectedModuleId && (!isModuleLocked || superAdmin))">
+                    <ng-container *ngIf="!showIntroPDF && (canAccessLesson() || superAdmin) && (selectedUnit?.module_id == selectedModuleId && (!isModuleLocked || superAdmin))">
                         <div class="flex justify-between mt-8">
                             <div>
                                 <div 

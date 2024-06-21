@@ -246,6 +246,8 @@ export class CourseDetailComponent {
   isExpanded: boolean = false;
   @ViewChild(MaximizeDirective, { static: true }) maximize!: MaximizeDirective;
   courseIntroPDFURL: any;
+  showIntroPDF: boolean = false;
+  courseIntroPDFURLSrc: any;
   
   constructor(
     private _router: Router,
@@ -487,6 +489,7 @@ export class CourseDetailComponent {
     this.courseImage = `${COURSE_IMAGE_URL}/${this.course?.image}`;
     this.showComments = this.course?.show_comments == 1 ? true : false;
     this.courseIntroPDFURL = this.course.intro_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_pdf}` : '';
+    this.courseIntroPDFURLSrc = this.courseIntroPDFURL ? this.sanitizer.bypassSecurityTrustResourceUrl(this.courseIntroPDFURL) : '';
 
     if(this.course) {
       this.coursePoints = this.course.course_users && this.course.course_users[0] ? ((parseInt(this.course.course_users[0].progress) * parseInt(this.course.points)) / 100) : 0;
@@ -1013,6 +1016,7 @@ export class CourseDetailComponent {
     this.availableAfterCompletion = false
     this.selfHostedVideoSrc = ''
     this.videoSrc = ''
+    this.showIntroPDF = false
 
     if(this.course.course_modules) {
       let module = this.course.course_modules && this.course.course_modules.filter(cm => {
@@ -2061,6 +2065,10 @@ export class CourseDetailComponent {
 
   minimizeWindow() {
     this.isExpanded = false;
+  }
+
+  openIntroPDF() {
+    this.showIntroPDF = true;
   }
 
   handleGoBack() {
