@@ -406,6 +406,10 @@ export const ACTIVITY_PAYMENT_OPTIONS_URL = `${API_BASE}/v2/activity/payment-opt
 export const PLAN_PAYMENT_BIZUM_URL = `${API_BASE}/v2/activity/pay/bizum`;
 export const CONFIRM_BIZUM_PLAN_PARTICIPANT_URL = `${API_BASE}/v2/bizum/plan/participant/confirm`;
 export const CONFIRM_BIZUM_GROUP_PLAN_PARTICIPANT_URL = `${API_BASE}/v2/bizum/group-plan/participant/confirm`;
+export const ACTIVITY_TEACHERS_URL = `${API_BASE}/v2/activity/assigned-teachers`;
+export const ADD_ACTIVITY_TEACHER_URL = `${API_BASE}/v2/activity/assigned-teachers/add`;
+export const EDIT_ACTIVITY_TEACHER_URL = `${API_BASE}/v2/activity/assigned-teachers/edit`;
+export const DELETE_ACTIVITY_TEACHER_URL = `${API_BASE}/v2/activity/assigned-teachers/delete`;
 
 // CLUBS
 export const SUBGROUP_TITLE_URL = `${API_BASE}/company/subgroup/titles`;

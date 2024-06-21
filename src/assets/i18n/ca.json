@@ -1522,7 +1522,9 @@
         "bizumpayment": "Activeu Bizum com a opció de pagament?",
         "reserve": "Reserva",
         "signup": "Apunta't",
-        "insertvideo": "Insereix vídeo"
+        "insertvideo": "Insereix vídeo",
+        "assignteacher": "Assignar docent?", 
+        "separatebycomma": "(Separat per comes)"
     },
     "edit-club": {
         "uploadimage": "Carregar imatge",

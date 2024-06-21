@@ -1525,7 +1525,9 @@
         "bizumdesc": "Send payment through your smartphone",
         "reserve": "Reserve",
         "signup": "Sign up",
-        "insertvideo": "Insert video"
+        "insertvideo": "Insert video",
+        "assignteacher": "Assign teacher?",
+        "separatebycomma": "(Separate by comma)"
     },
     "edit-club": {
         "uploadimage": "Upload image",

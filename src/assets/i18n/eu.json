@@ -1521,7 +1521,9 @@
         "bizumdesc": "Bidali ordainketa zure telefonoaren bidez",
         "reserve": "Erreserba",
         "signup": "Eman izena",
-        "insertvideo": "Txertatu bideoa"
+        "insertvideo": "Txertatu bideoa",
+        "assignteacher": "Esleitu irakaslea?", 
+        "separatebycomma": "(Komaz bereizita)"
     },
     "edit-club": {
         "uploadimage": "Igo irudia",
