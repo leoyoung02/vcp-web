@@ -122,7 +122,7 @@ export class ShopHomeComponent {
           description: this.getCategoryDescription(item),
           no_items: this.getCategoryItems(item, products)?.length || 0,
           label: item?.type == 'services' ? this._translateService.instant('news.services')?.toLowerCase() : this._translateService.instant('shop.products')?.toLowerCase(),
-          image: `${this.apiPath}/v2/image/shop-category/${item.image}`
+          image: `${this.apiPath}/get-ie-image-plan/${item.image}`
         };
       });
     }

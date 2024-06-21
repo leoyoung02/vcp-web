@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { Component, HostListener, Input } from "@angular/core";
 import {
   LangChangeEvent,
@@ -68,6 +68,7 @@ export class ShopListComponent {
     private _shopService: ShopService,
     private _cartService: CartService,
     private _snackBar: MatSnackBar,
+    private _location: Location,
   ) {}
 
   @HostListener("window:resize", [])
@@ -119,6 +120,9 @@ export class ShopListComponent {
         (data) => {
           this.mapUserPermissions(data?.user_permissions);
           this.formatProducts(data?.products || []);
+          if(data?.products?.length > 0) {
+            this.pageName = data?.products[0].category;
+          }
         },
         (error) => {
           console.log(error);
@@ -150,7 +154,7 @@ export class ShopListComponent {
         return {
           ...item,
           title: this.getProductTitle(item),
-          image: `${this.apiPath}/v2/image/product/${item.image}`,
+          image: `${this.apiPath}/get-ie-image-plan/${item.image}`,
           price: `${item.currency}${item.amount}`
         };
       });
@@ -202,6 +206,10 @@ export class ShopListComponent {
     }
     this._cartService.addToCart(prod);
     this.open(this._translateService.instant('shop.itemaddedtocart'), '');
+  }
+
+  handleGoBack() {
+    this._location.back();
   }
 
   async open(message: string, action: string) {
