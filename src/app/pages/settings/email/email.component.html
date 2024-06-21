@@ -65,10 +65,9 @@
     </div>
 </div>
 <div class="pt-6">
-    <editor
-        *ngIf="editorToUse == 'tinymce'"
-        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-        [init]="tinymceInitialize()"
-        (onInit)="handleEditorInit($event)"
-    ></editor>
+    <quill-editor *ngIf="editorToUse == 'tinymce'"
+        class="w-full max-w-full content-editor" 
+        [(ngModel)]="body"
+        [ngModelOptions]="{standalone: true}">
+    </quill-editor>
 </div>

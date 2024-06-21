@@ -78,9 +78,15 @@
               "./node_modules/filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css",
               "./node_modules/filepond-plugin-media-preview/dist/filepond-plugin-media-preview.min.css",
               "./node_modules/cookieconsent/build/cookieconsent.min.css",
-              "./node_modules/@videogular/ngx-videogular/fonts/videogular.css"
+              "./node_modules/@videogular/ngx-videogular/fonts/videogular.css",
+              "./node_modules/quill/dist/quill.core.css",
+              "./node_modules/quill/dist/quill.bubble.css",
+              "./node_modules/quill/dist/quill.snow.css"
             ],
-            "scripts": ["node_modules/apexcharts/dist/apexcharts.min.js","node_modules/cookieconsent/build/cookieconsent.min.js"],
+            "scripts": [
+              "node_modules/apexcharts/dist/apexcharts.min.js",
+              "node_modules/cookieconsent/build/cookieconsent.min.js"
+            ],
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
