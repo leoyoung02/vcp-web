@@ -10,7 +10,7 @@ import {
 import { CompanyService, LocalService, UserService } from "@share/services";
 import { environment } from "@env/environment";
 import { FormsModule } from "@angular/forms";
-import { EditorModule } from "@tinymce/tinymce-angular";
+import { QuillModule } from 'ngx-quill';
 import { SafeContentHtmlPipe } from "@lib/pipes";
 import { PageTitleComponent } from "@share/components";
 import { DomSanitizer } from '@angular/platform-browser';
@@ -22,7 +22,7 @@ import { DomSanitizer } from '@angular/platform-browser';
     RouterModule, 
     TranslateModule, 
     FormsModule,
-    EditorModule,
+    QuillModule,
     SafeContentHtmlPipe,
     PageTitleComponent,
   ],
@@ -85,32 +85,15 @@ export class TermsAndConditionsComponent implements OnInit, OnDestroy {
           this.initializePage();
         }
       );
+
+    this.initializePage();
   }
 
   initializePage() {
-
-  }
-
-  handleEditorInit(e) {
     this.terms = this._sanitizer.bypassSecurityTrustHtml(this.termsAndConditions);
-    setTimeout(() => {
-        if (this.editor && this.iframeTermsAndConditions && this.terms?.changingThisBreaksApplicationSecurity) {
-            this.editor.nativeElement.style.display = 'block'
-
-            e.editor.setContent(this.terms?.changingThisBreaksApplicationSecurity)
-            this.iframeTermsAndConditions.nativeElement.style.height = `${e.editor.container.clientHeight + 200}px`
-
-            this.editor.nativeElement.style.display = 'none'
-
-            this.iframeTermsAndConditions.nativeElement.src =
-                'data:text/html;charset=utf-8,' +
-                '<html>' +
-                '<head>' + e.editor.getDoc().head.innerHTML + '<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Poppins" /><style>* {font-family: "Poppins", sans-serif;}</style></head>' +
-                '<body>' + e.editor.getDoc().body.innerHTML + '</body>' +
-                '</html>';
-            this.iframeTermsAndConditions.nativeElement.style.display = 'block'
-        }
-    }, 500)
+    if(this.terms) {
+      this.terms = this.terms?.changingThisBreaksApplicationSecurity;
+    }
   }
 
   ngOnDestroy(): void {

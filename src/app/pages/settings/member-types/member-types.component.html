@@ -859,28 +859,10 @@
                                 </div>
                                 <ng-container *ngIf="activeContract">
                                     <div class="flex items-center justify-center mb-4">
-                                        <editor
-                                            apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                            [init]="{
-                                                height: 400,
-                                                menubar: false,
-                                                plugins: [
-                                                'advlist autolink lists link image imagetools charmap print',
-                                                'preview anchor searchreplace visualblocks code',
-                                                'fullscreen insertdatetime media table paste',
-                                                'help wordcount'
-                                                ],
-                                                toolbar:
-                                                'undo redo | formatselect | bold italic | \
-                                                alignleft aligncenter alignright alignjustify | \
-                                                paste pastetext | \
-                                                image imagetools | \
-                                                bullist numlist outdent indent | help',
-                                                valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr'
-                                            }"
+                                        <quill-editor class="w-full max-w-full content-editor" 
                                             [(ngModel)]="contractDescription"
                                             [ngModelOptions]="{standalone: true}"
-                                        ></editor>
+                                        ></quill-editor>
                                     </div>
                                     <div class="mt-8 mb-4 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                                         <button 

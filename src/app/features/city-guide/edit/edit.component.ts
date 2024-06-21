@@ -27,7 +27,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
-import { EditorModule } from "@tinymce/tinymce-angular";
+import { QuillModule } from 'ngx-quill';
 import {
   ImageCropperModule,
   ImageCroppedEvent,
@@ -51,7 +51,7 @@ import get from "lodash/get";
     ReactiveFormsModule,
     MatSnackBarModule,
     MatTabsModule,
-    EditorModule,
+    QuillModule,
     ImageCropperModule,
     FontAwesomeModule,
     ButtonGroupComponent,

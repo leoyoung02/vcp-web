@@ -74,34 +74,10 @@
                             <label for="page-title-text" class="text-left block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 {{'course-details.text' | translate}}
                             </label>
-                            <editor
-                                class="w-full"
-                                apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                [init]="{
-                                    height: 180,
-                                    menubar: true,
-                                    plugins: [
-                                    'advlist autolink lists link image imagetools charmap print',
-                                    'textcolor preview anchor searchreplace visualblocks code',
-                                    'fullscreen insertdatetime media table paste',
-                                    'help wordcount',
-                                    'code media'
-                                    ],
-                                    toolbar:
-                                    'undo redo | formatselect | bold italic | \
-                                    forecolor | backcolor | \
-                                    sizeselect | bold italic | fontselect | fontsize | \
-                                    alignleft aligncenter alignright alignjustify | \
-                                    media | \
-                                    paste pastetext | \
-                                    image imagetools | \
-                                    bullist numlist outdent indent | help',
-                                    font_family_formats: 'Andale Mono=andale mono,times; Arial=arial,helvetica,sans-serif; Arial Black=arial black,avant garde; Book Antiqua=book antiqua,palatino; Comic Sans MS=comic sans ms,sans-serif; Courier New=courier new,courier; Georgia=georgia,palatino; Helvetica=helvetica; Impact=impact,chicago; Symbol=symbol; Tahoma=tahoma,arial,helvetica,sans-serif; Terminal=terminal,monaco; Times New Roman=times new roman,times; Trebuchet MS=trebuchet ms,geneva; Verdana=verdana,geneva; Webdings=webdings; Wingdings=wingdings,zapf dingbats; Afacad=afacad,sans-serif; Marcellus=marcellus,serif; Poppins=poppins,sans-serif; Raleway=raleway,sans-serif; Bebas=Bebas Neue',
-                                }"
-                                id="page-title-text"
+                            <quill-editor class="w-full max-w-full content-editor" 
                                 [(ngModel)]="pageTitleText"
-                                [ngModelOptions]="{standalone: true}"
-                            ></editor>
+                                [ngModelOptions]="{standalone: true}">
+                            </quill-editor>
                         </div>
                     </div>
                 </div>
@@ -306,33 +282,10 @@
                             <label for="description-text" class="text-left block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 {{'course-details.text' | translate}}
                             </label>
-                            <editor
-                                class="w-full"
-                                apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                [init]="{
-                                    height: 180,
-                                    menubar: true,
-                                    plugins: [
-                                    'advlist autolink lists link image imagetools charmap print',
-                                    'textcolor preview anchor searchreplace visualblocks code',
-                                    'fullscreen insertdatetime media table paste',
-                                    'help wordcount',
-                                    'code media'
-                                    ],
-                                    toolbar:
-                                    'undo redo | formatselect | bold italic | \
-                                    forecolor | backcolor | \
-                                    sizeselect | bold italic | fontselect | fontsize | \
-                                    alignleft aligncenter alignright alignjustify | \
-                                    media | \
-                                    paste pastetext | \
-                                    image imagetools | \
-                                    bullist numlist outdent indent | help'
-                                }"
-                                id="description-text"
+                            <quill-editor class="w-full max-w-full content-editor" 
                                 [(ngModel)]="descriptionText"
-                                [ngModelOptions]="{standalone: true}"
-                            ></editor>
+                                [ngModelOptions]="{standalone: true}">
+                            </quill-editor>
                         </div>
                     </div>
                 </div>
@@ -530,33 +483,10 @@
                              <label for="ques-ans-text" class="text-left block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                  {{'course-details.text' | translate}}
                              </label>
-                             <editor
-                                 class="w-full"
-                                 apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                 [init]="{
-                                     height: 180,
-                                     menubar: true,
-                                     plugins: [
-                                     'advlist autolink lists link image imagetools charmap print',
-                                     'textcolor preview anchor searchreplace visualblocks code',
-                                     'fullscreen insertdatetime media table paste',
-                                     'help wordcount',
-                                     'code media'
-                                     ],
-                                     toolbar:
-                                     'undo redo | formatselect | bold italic | \
-                                     forecolor | backcolor | \
-                                     sizeselect | bold italic | fontselect | fontsize | \
-                                     alignleft aligncenter alignright alignjustify | \
-                                     media | \
-                                     paste pastetext | \
-                                     image imagetools | \
-                                     bullist numlist outdent indent | help'
-                                 }"
-                                 id="ques-ans-text"
-                                 [(ngModel)]="quesAnsText"
-                                 [ngModelOptions]="{standalone: true}"
-                             ></editor>
+                             <quill-editor class="w-full max-w-full content-editor" 
+                                [(ngModel)]="quesAnsText"
+                                [ngModelOptions]="{standalone: true}">
+                            </quill-editor>
                          </div>
                      </div>
                  </div>

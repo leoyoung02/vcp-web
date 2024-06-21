@@ -27,7 +27,7 @@ import {
 } from "ngx-image-cropper";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { Gallery, GalleryItem, ImageItem, VideoItem } from 'ng-gallery';
-import { EditorModule } from "@tinymce/tinymce-angular";
+import { QuillModule } from 'ngx-quill';
 import { faRotateLeft, faRotateRight } from "@fortawesome/free-solid-svg-icons";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
@@ -52,7 +52,7 @@ registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPlug
     ReactiveFormsModule,
     MatSnackBarModule,
     NgMultiSelectDropDownModule,
-    EditorModule,
+    QuillModule,
     ImageCropperModule,
     FontAwesomeModule,
     FilePondModule,

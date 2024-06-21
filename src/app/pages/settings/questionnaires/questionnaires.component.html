@@ -632,33 +632,10 @@
                                             <label for="images-description" class="text-left block mt-4 mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                                 {{'landing.description' | translate}}
                                             </label>
-                                            <editor
-                                                class="w-full"
-                                                apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                                [init]="{
-                                                    height: 180,
-                                                    menubar: false,
-                                                    plugins: [
-                                                    'advlist autolink lists link image imagetools charmap print',
-                                                    'textcolor preview anchor searchreplace visualblocks code',
-                                                    'fullscreen insertdatetime media table paste',
-                                                    'help wordcount',
-                                                    'code media'
-                                                    ],
-                                                    toolbar:
-                                                    'undo redo | formatselect | bold italic | \
-                                                    forecolor | backcolor | \
-                                                    sizeselect | bold italic | fontselect | fontsize | \
-                                                    alignleft aligncenter alignright alignjustify | \
-                                                    media | \
-                                                    paste pastetext | \
-                                                    image imagetools | \
-                                                    bullist numlist outdent indent | help'
-                                                }"
-                                                id="images-description"
+                                            <quill-editor class="w-full max-w-full content-editor" 
                                                 [(ngModel)]="imagesDescription"
-                                                [ngModelOptions]="{standalone: true}"
-                                            ></editor>
+                                                [ngModelOptions]="{standalone: true}">
+                                            </quill-editor>
                                         </div>
                                     </div>
                                     <div class="flex items-center justify-between relative pt-4">

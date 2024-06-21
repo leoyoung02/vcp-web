@@ -685,166 +685,13 @@
                         <div class="font-light text-xl">{{ 'course-create.description' | translate }}</div>
                     </div>
                     <div class="flex items-center justify-center relative">
-                        <editor
-                            *ngIf="selectedLanguage == 'es'"
-                            class="w-full"
-                            [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': courseForm.get('description')?.errors }"
-                            apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                            [init]="{
-                                height: 183,
-                                menubar: false,
-                                plugins: [
-                                'link'
-                                ],
-                                toolbar:
-                                'undo redo | formatselect | bold italic | fontsize | \
-                                alignleft aligncenter alignright alignjustify | \
-                                link | \
-                                forecolor backcolor \ \
-                                paste pastetext | \
-                                bullist numlist outdent indent | help',
-                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                            }"
-                            id="description"
-                            formControlName="description" 
-                        ></editor>
-                        <editor
-                            *ngIf="selectedLanguage == 'en'"
-                            class="w-full"
-                            [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'en' && !courseForm.get('description_en')?.value }"
-                            apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                            [init]="{
-                                height: 183,
-                                menubar: false,
-                                plugins: [
-                                'link'
-                                ],
-                                toolbar:
-                                'undo redo | formatselect | bold italic | fontsize | \
-                                alignleft aligncenter alignright alignjustify | \
-                                link | \
-                                forecolor backcolor \ \
-                                paste pastetext | \
-                                bullist numlist outdent indent | help',
-                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                            }"
-                            id="description"
-                            formControlName="description_en" 
-                        ></editor>
-                        <editor
-                            *ngIf="selectedLanguage == 'fr'"
-                            class="w-full"
-                            apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                            [init]="{
-                                height: 183,
-                                menubar: false,
-                                plugins: [
-                                'link'
-                                ],
-                                toolbar:
-                                'undo redo | formatselect | bold italic | fontsize | \
-                                alignleft aligncenter alignright alignjustify | \
-                                link | \
-                                forecolor backcolor \ \
-                                paste pastetext | \
-                                bullist numlist outdent indent | help',
-                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                            }"
-                            id="description"
-                            formControlName="description_fr" 
-                        ></editor>
-                        <editor
-                            *ngIf="selectedLanguage == 'eu'"
-                            class="w-full"
-                            [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'eu' && !courseForm.get('description_eu')?.value }"
-                            apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                            [init]="{
-                                height: 183,
-                                menubar: false,
-                                plugins: [
-                                'link'
-                                ],
-                                toolbar:
-                                'undo redo | formatselect | bold italic | fontsize | \
-                                alignleft aligncenter alignright alignjustify | \
-                                link | \
-                                forecolor backcolor \ \
-                                paste pastetext | \
-                                bullist numlist outdent indent | help',
-                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                            }"
-                            id="description"
-                            formControlName="description_eu" 
-                        ></editor>
-                        <editor
-                            *ngIf="selectedLanguage == 'ca'"
-                            class="w-full"
-                            [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'ca' && !courseForm.get('description_ca')?.value }"
-                            apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                            [init]="{
-                                height: 183,
-                                menubar: false,
-                                plugins: [
-                                'link'
-                                ],
-                                toolbar:
-                                'undo redo | formatselect | bold italic | fontsize | \
-                                alignleft aligncenter alignright alignjustify | \
-                                link | \
-                                forecolor backcolor \ \
-                                paste pastetext | \
-                                bullist numlist outdent indent | help',
-                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                            }"
-                            id="description"
-                            formControlName="description_ca" 
-                        ></editor>
-                        <editor
-                            *ngIf="selectedLanguage == 'de'"
-                            class="w-full"
-                            [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'de' && !courseForm.get('description_de')?.value }"
-                            apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                            [init]="{
-                                height: 183,
-                                menubar: false,
-                                plugins: [
-                                'link'
-                                ],
-                                toolbar:
-                                'undo redo | formatselect | bold italic | fontsize | \
-                                alignleft aligncenter alignright alignjustify | \
-                                link | \
-                                forecolor backcolor \ \
-                                paste pastetext | \
-                                bullist numlist outdent indent | help',
-                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                            }"
-                            id="description"
-                            formControlName="description_de" 
-                        ></editor>
-                        <editor
-                            *ngIf="selectedLanguage == 'it'"
-                            class="w-full"
-                            [ngClass]="{'rounded-lg full bg-red-50 border border-red-500 text-red-900 placeholder-red-700': selectedLanguage == 'it' && !courseForm.get('description_it')?.value }"
-                            apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                            [init]="{
-                                height: 183,
-                                menubar: false,
-                                plugins: [
-                                'link'
-                                ],
-                                toolbar:
-                                'undo redo | formatselect | bold italic | fontsize | \
-                                alignleft aligncenter alignright alignjustify | \
-                                link | \
-                                forecolor backcolor \ \
-                                paste pastetext | \
-                                bullist numlist outdent indent | help',
-                                fontsize_formats: '8pt 10pt 12pt 14pt 18pt 24pt 36pt'
-                            }"
-                            id="description"
-                            formControlName="description_it" 
-                        ></editor>
+                        <quill-editor [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': courseForm.get('description')?.errors }" *ngIf="selectedLanguage == 'es'" class="w-full max-w-full content-editor" formControlName="description"></quill-editor>
+                        <quill-editor *ngIf="selectedLanguage == 'en'" class="w-full max-w-full content-editor" formControlName="description_en"></quill-editor>
+                        <quill-editor *ngIf="selectedLanguage == 'fr'" class="w-full max-w-full content-editor" formControlName="description_fr"></quill-editor>
+                        <quill-editor *ngIf="selectedLanguage == 'eu'" class="w-full max-w-full content-editor" formControlName="description_eu"></quill-editor>
+                        <quill-editor *ngIf="selectedLanguage == 'ca'" class="w-full max-w-full content-editor" formControlName="description_ca"></quill-editor>
+                        <quill-editor *ngIf="selectedLanguage == 'de'" class="w-full max-w-full content-editor" formControlName="description_de"></quill-editor>
+                        <quill-editor *ngIf="selectedLanguage == 'it'" class="w-full max-w-full content-editor" formControlName="description_it"></quill-editor>
                     </div>
                     <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                         <button
@@ -1375,26 +1222,11 @@
                                 <div class="font-light text-xl">{{ 'course-details.text' | translate }}</div>
                             </div>
                             <div class="flex items-center justify-center my-8 relative">
-                                <editor
-                                    class="w-full"
-                                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                    [init]="{
-                                        height: 283,
-                                        menubar: false,
-                                        plugins: [
-                                        'link'
-                                        ],
-                                        toolbar:
-                                        'undo redo | formatselect | bold italic | \
-                                        alignleft aligncenter alignright alignjustify | \
-                                        link | \
-                                        forecolor backcolor \ \
-                                        paste pastetext | \
-                                        bullist numlist outdent indent | help'
-                                    }"
+                                <quill-editor 
+                                    class="w-full max-w-full content-editor" 
                                     [(ngModel)]="text"
-                                    [ngModelOptions]="{standalone: true}"
-                                ></editor>
+                                    [ngModelOptions]="{standalone: true}">
+                                </quill-editor>
                             </div>
                         </ng-container>
                         <ng-container *ngIf="selectedUnitType == 7">
@@ -1451,31 +1283,11 @@
                                 <div class="font-light text-xl">{{ 'course-create.description' | translate }}</div>
                             </div>
                             <div class="flex items-center justify-center my-8 relative">
-                                <editor
-                                    class="w-full"
-                                    apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                    [init]="{
-                                        height: 183,
-                                        menubar: false,
-                                        plugins: [
-                                        'advlist autolink lists link image imagetools charmap print',
-                                        'preview anchor searchreplace visualblocks code',
-                                        'fullscreen insertdatetime media table paste',
-                                        'help wordcount',
-                                        'code media'
-                                        ],
-                                        toolbar:
-                                        'undo redo | formatselect | bold italic | \
-                                        alignleft aligncenter alignright alignjustify | \
-                                        media | \
-                                        paste pastetext | \
-                                        image imagetools | \
-                                        bullist numlist outdent indent | help',
-                                        valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
-                                    }"
+                                <quill-editor 
+                                    class="w-full max-w-full content-editor" 
                                     [(ngModel)]="videoDescription"
-                                    [ngModelOptions]="{standalone: true}"
-                                ></editor>
+                                    [ngModelOptions]="{standalone: true}">
+                                </quill-editor>
                             </div>
                         </ng-container>
                         <ng-container *ngIf="selectedUnitType == 1 && selectedUnitId">

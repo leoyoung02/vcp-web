@@ -32,7 +32,7 @@ import {
   Validators,
 } from "@angular/forms";
 import { initFlowbite } from "flowbite";
-import { EditorModule } from "@tinymce/tinymce-angular";
+import { QuillModule } from 'ngx-quill';
 import get from "lodash/get";
 
 @Component({
@@ -48,7 +48,7 @@ import get from "lodash/get";
     MatPaginatorModule,
     MatSortModule,
     MatSnackBarModule,
-    EditorModule,
+    QuillModule,
     SearchComponent,
     BreadcrumbComponent,
     ToastComponent,
