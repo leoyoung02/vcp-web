@@ -12,4 +12,5 @@ import { RouterModule } from "@angular/router";
 export class StarRatingComponent {
   @Input() rating: any;
   @Input() align: any;
+  @Input() mode: any;
 }

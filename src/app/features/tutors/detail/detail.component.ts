@@ -877,7 +877,7 @@ export class TutorDetailComponent {
       types = []
       this.tutorTypes.forEach(tt => {
           let typeTutor = tt.tutorTypes.name_ES
-          if(tt.tutor_id == item.id && !(types).includes(typeTutor)){
+          if(tt.tutor_id == item.id && !(types).includes(typeTutor) && typeTutor != 'Curso Genius' && typeTutor != '30 días 1 idioma'){
               (types)?.push(typeTutor)
           }
       })
@@ -896,7 +896,7 @@ export class TutorDetailComponent {
           let match = types?.some(
             (a) => a == typeTutor
           );
-          if(!match) {
+          if(!match && typeTutor != 'Curso Genius' && typeTutor != '30 días 1 idioma') {
             (types)?.push(typeTutor)
           }
         }
