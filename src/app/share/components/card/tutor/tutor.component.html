@@ -13,10 +13,10 @@
             'h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]': page != 'list' && page != 'detail',
             'h-full max-h-full sm:h-full sm:max-h-full md:h-[339px] md:max-h-[339px] lg:h-[339px] lg:max-h-[339px]': page == 'list',
             'h-full max-h-full min-h-[559px]': page == 'detail'}">
-    <div *ngIf="page != 'detail'" class="absolute inset-0 bg-gray-800 opacity-60 rounded-[30px] w-full max-w-full">
-    </div>
-    <div class="absolute inset-0 flex items-center justify-center" *ngIf="page != 'detail'">
-        <div class="absolute inset-0 flex items-end  p-1.5">
+    <div class="absolute inset-0 flex items-center justify-center rounded-[30px]" 
+        style="background-image:linear-gradient(0deg, rgba(0, 0, 0, 0.3) 17.36%, rgba(0, 0, 0, 0.1) 35.64%, rgba(0, 0, 0, 0) 50%)" 
+        *ngIf="page != 'detail'">
+        <div class="absolute inset-0 flex items-end">
             <div class="flex flex-col w-full w-max-full">
                 <p class="text-white text-[17px] -mb-[3px] leading-6 text-center font-bold">{{ name || (first_name + ' ' + last_name) }}</p>
                 <app-star-rating *ngIf="page != 'list'" [rating]="rating" [align]="'center'"></app-star-rating>
@@ -47,7 +47,7 @@
                         <span class="px-1">{{ rating > 0 ? '•' : '' }}</span>
                         <app-star-rating [rating]="rating" [align]="'center'" [mode]="page"></app-star-rating>
                     </div>
-                    <div class="flex justify-center flex-wrap pt-[1px]">
+                    <div class="flex justify-center flex-wrap pt-[1px] mb-[6px]">
                         <ng-container *ngFor="let type of types; let i = index;">
                             <div *ngIf="i < 3" class="flex justify-center items-center mr-1 px-2 py-1 border border-white rounded-full text-[10px] text-white font-medium">
                                 <div class="flex-initial max-w-full leading-none text-[10px] font-normal">{{type}}</div>
