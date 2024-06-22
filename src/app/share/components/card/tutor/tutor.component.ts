@@ -95,6 +95,23 @@ export class TutorCardComponent {
     this.onQuestionClick.emit();
   }
 
+  getTutorCity() {
+    let city = this.city;
+
+    let tutor_name = this.name || (this.first_name + ' ' + this.last_name);
+    if(tutor_name) {
+      city = city?.replace(`(${tutor_name})`, '')
+    }
+
+    if(city?.indexOf('(') >= 0) {
+      let start_index = city?.indexOf('(');
+      let suffix = city?.substr(start_index, city?.length - start_index);
+      city = city?.replace(suffix, '');
+    }
+
+    return city?.trim();
+  }
+
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
