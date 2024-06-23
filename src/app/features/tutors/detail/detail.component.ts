@@ -157,6 +157,7 @@ export class TutorDetailComponent {
   hasCheckedCalendly: boolean = false;
   tutorCardSmallImage: boolean = false;
   showImageLoadingAnimation: boolean = false;
+  tutorTypesDisplay: any;
 
   constructor(
     private _router: Router,
@@ -348,6 +349,7 @@ export class TutorDetailComponent {
     this.tutorRating = this.getTutorRating(this.tutor);
     this.allTutorTypes = data?.all_tutor_types;
     this.types = this.getTutorTypes(this.tutor);
+    this.tutorTypesDisplay = this.getTutorTypesDisplay(this.tutor);
     this.accountIds = data?.tutor_account_ids;
     this.me = data?.user;
 
@@ -877,9 +879,44 @@ export class TutorDetailComponent {
       types = []
       this.tutorTypes.forEach(tt => {
           let typeTutor = tt.tutorTypes.name_ES
-          if(tt.tutor_id == item.id && !(types).includes(typeTutor) && typeTutor != 'Curso Genius' && typeTutor != '30 días 1 idioma'){
+          if(tt.tutor_id == item.id && !(types).includes(typeTutor)){
               (types)?.push(typeTutor)
           }
+      })
+    }
+
+    if(item?.tutor_type_tags?.length > 0) {
+      item?.tutor_type_tags?.forEach(ttt => {
+        let typeTutor = ''
+        let tt = this.allTutorTypes?.filter(t => {
+          return t.id == ttt.type_id
+        })
+        if(tt?.length > 0) {
+          typeTutor = tt[0].name_ES
+        }
+        if(typeTutor) {
+          let match = types?.some(
+            (a) => a == typeTutor
+          );
+          if(!match) {
+            (types)?.push(typeTutor)
+          }
+        }
+      })
+    }
+
+    return types;
+  }
+
+  getTutorTypesDisplay(item) {
+    let types: any = []
+    if(this.tutorTypesDisplay?.length > 0){
+      types = []
+      this.tutorTypesDisplay.forEach(tt => {
+        let typeTutor = tt.tutorTypes.name_ES
+        if(tt.tutor_id == item.id && !(types).includes(typeTutor) && typeTutor != 'Curso Genius' && typeTutor != '30 días 1 idioma') {
+          (types)?.push(typeTutor)
+        }
       })
     }
 
