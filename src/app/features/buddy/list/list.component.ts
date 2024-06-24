@@ -434,6 +434,7 @@ export class BuddyListComponent {
                 ...item,
                 path: `/buddy/mentor/${item.user_id}`,
                 buddy_image: `${environment.api}/${item.image}`,
+                buddy_photo: item?.photo ? `data:image/png;base64,${item?.photo}` : '',
                 languages: item?.language,
             };
         });

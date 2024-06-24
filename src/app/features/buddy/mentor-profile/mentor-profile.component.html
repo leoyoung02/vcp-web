@@ -166,30 +166,7 @@
                                     </div>
                                 </div>
                             </label>
-                            <editor
-                                class="w-full"
-                                apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                [init]="{
-                                    height: 183,
-                                    menubar: false,
-                                    plugins: [
-                                    'advlist autolink lists link image imagetools charmap print',
-                                    'preview anchor searchreplace visualblocks code',
-                                    'fullscreen insertdatetime media table paste',
-                                    'help wordcount',
-                                    'code media'
-                                    ],
-                                    toolbar:
-                                    'undo redo | formatselect | bold italic | \
-                                    alignleft aligncenter alignright alignjustify | \
-                                    media | \
-                                    paste pastetext | \
-                                    image imagetools | \
-                                    bullist numlist outdent indent | help',
-                                    valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
-                                }"
-                                formControlName="introduction"
-                            ></editor>
+                            <quill-editor class="w-full max-w-full content-editor" formControlName="introduction"></quill-editor>
                         </div>
                     </div>
                     <div class="text-center col-span-2">
@@ -201,30 +178,7 @@
                                     </div>
                                 </div>
                             </label>
-                            <editor
-                                class="w-full"
-                                apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                [init]="{
-                                    height: 183,
-                                    menubar: false,
-                                    plugins: [
-                                    'advlist autolink lists link image imagetools charmap print',
-                                    'preview anchor searchreplace visualblocks code',
-                                    'fullscreen insertdatetime media table paste',
-                                    'help wordcount',
-                                    'code media'
-                                    ],
-                                    toolbar:
-                                    'undo redo | formatselect | bold italic | \
-                                    alignleft aligncenter alignright alignjustify | \
-                                    media | \
-                                    paste pastetext | \
-                                    image imagetools | \
-                                    bullist numlist outdent indent | help',
-                                    valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
-                                }"
-                                formControlName="interests"
-                            ></editor>
+                            <quill-editor class="w-full max-w-full content-editor" formControlName="interests"></quill-editor>
                         </div>
                     </div>
                     <div class="text-center col-span-2">
@@ -236,30 +190,7 @@
                                     </div>
                                 </div>
                             </label>
-                            <editor
-                                class="w-full"
-                                apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                                [init]="{
-                                    height: 183,
-                                    menubar: false,
-                                    plugins: [
-                                    'advlist autolink lists link image imagetools charmap print',
-                                    'preview anchor searchreplace visualblocks code',
-                                    'fullscreen insertdatetime media table paste',
-                                    'help wordcount',
-                                    'code media'
-                                    ],
-                                    toolbar:
-                                    'undo redo | formatselect | bold italic | \
-                                    alignleft aligncenter alignright alignjustify | \
-                                    media | \
-                                    paste pastetext | \
-                                    image imagetools | \
-                                    bullist numlist outdent indent | help',
-                                    valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
-                                }"
-                                formControlName="personality"
-                            ></editor>
+                            <quill-editor class="w-full max-w-full content-editor" formControlName="personality"></quill-editor>
                         </div>
                     </div>
                 </div>
@@ -354,7 +285,7 @@
             </mat-tab>
             <mat-tab *ngIf="messages?.length > 0" class="uppercase" label="{{ 'sidebar.yourmessages' | translate }}">
                 <div class="md:flex mb-8 max-w-screen-md mx-auto p-8">
-                    <ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
+                    <ul *ngIf="messages?.length > 0" class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
                         <ng-container *ngFor="let msg of messages">
                             <li>
                                 <a (click)="selectMenteeMessage(msg)" href="javascript:;" 

@@ -3,7 +3,7 @@ import { Component, ElementRef, HostListener, Input, ViewChild } from '@angular/
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CompanyService, LocalService } from '@share/services';
 import { Subject, takeUntil } from 'rxjs';
-import { EditorModule } from "@tinymce/tinymce-angular";
+import { QuillModule } from 'ngx-quill';
 import { environment } from '@env/environment';
 import { BuddyService } from '@features/services';
 import { initFlowbite } from "flowbite";
@@ -24,7 +24,7 @@ import get from 'lodash/get';
         NgOptimizedImage,
         FormsModule,
         ReactiveFormsModule,
-        EditorModule,
+        QuillModule,
         MatSnackBarModule,
         FontAwesomeModule,
         NgMultiSelectDropDownModule,

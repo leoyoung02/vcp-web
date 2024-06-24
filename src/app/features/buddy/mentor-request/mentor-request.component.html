@@ -111,30 +111,7 @@
                             </div>
                         </div>
                     </label>
-                    <editor
-                        class="w-full"
-                        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                        [init]="{
-                            height: 183,
-                            menubar: false,
-                            plugins: [
-                            'advlist autolink lists link image imagetools charmap print',
-                            'preview anchor searchreplace visualblocks code',
-                            'fullscreen insertdatetime media table paste',
-                            'help wordcount',
-                            'code media'
-                            ],
-                            toolbar:
-                            'undo redo | formatselect | bold italic | \
-                            alignleft aligncenter alignright alignjustify | \
-                            media | \
-                            paste pastetext | \
-                            image imagetools | \
-                            bullist numlist outdent indent | help',
-                            valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
-                        }"
-                        formControlName="message"
-                    ></editor>
+                    <quill-editor class="w-full max-w-full content-editor" formControlName="message"></quill-editor>
                 </div>
             </div>
         </div>

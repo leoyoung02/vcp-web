@@ -4,7 +4,7 @@ import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-transla
 import { CompanyService, LocalService } from '@share/services';
 import { Subject, takeUntil } from 'rxjs';
 import { ActivatedRoute, Router } from "@angular/router";
-import { EditorModule } from "@tinymce/tinymce-angular";
+import { QuillModule } from 'ngx-quill';
 import { environment } from '@env/environment';
 import { BuddyService } from '@features/services';
 import { initFlowbite } from "flowbite";
@@ -44,7 +44,7 @@ import get from 'lodash/get';
         NgOptimizedImage,
         FormsModule,
         ReactiveFormsModule,
-        EditorModule,
+        QuillModule,
         MatSnackBarModule,
         ImageCropperModule,
         FontAwesomeModule,

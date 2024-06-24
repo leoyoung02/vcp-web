@@ -174,22 +174,6 @@
                         {{ isModuleLocked ? selectedModuleTitle : getCourseUnitTitle(selectedUnit) }}
                         <div class="flex justify-en ml-4" *ngIf="!isMobile">
                             <div class="grid grid-cols-2 gap-2">
-                                <!-- <button
-                                    class="w-6 h-6 p-1 cursor-pointer"
-                                    (click)="maximize.minimize()"
-                                >
-                                    <svg [ngStyle]="{'color': buttonColor}" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 9h4m0 0V5m0 4L4 4m15 5h-4m0 0V5m0 4 5-5M5 15h4m0 0v4m0-4-5 5m15-5h-4m0 0v4m0-4 5 5"/>
-                                    </svg>                                
-                                </button>
-                                <button
-                                    class="w-6 h-6 p-1 cursor-pointer"
-                                    (click)="maximize.maximize()"
-                                >
-                                    <svg [ngStyle]="{'color': buttonColor}" class="w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 4H4m0 0v4m0-4 5 5m7-5h4m0 0v4m0-4-5 5M8 20H4m0 0v-4m0 4 5-5m7 5h4m0 0v-4m0 4-5-5"/>
-                                    </svg>
-                                </button> -->
                                 <button
                                     class="w-6 h-6 p-1 cursor-pointer"
                                     (click)="minimizeWindow()"
@@ -573,7 +557,7 @@
             </div>
         </ng-container>
     </div>
-    <div class="pt-24" *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
+    <div class="pt-32" *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
         <div *ngIf="course && (!course?.course_modules || course?.course_modules?.length == 0)" class="center">
             {{ 'course-details.nomodules' | translate }}
         </div>

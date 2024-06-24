@@ -117,6 +117,7 @@ export class MentorComponent {
     showRequestMentor: boolean = false;
     hasLimitReached: boolean = false;
     limitSettings: any;
+    photo: any;
     @ViewChild("modalbutton", { static: false }) modalbutton:
     | ElementRef
     | undefined;
@@ -344,6 +345,7 @@ export class MentorComponent {
         this.user = data?.user;
         this.mentor = data?.mentor;
         this.image =  `${environment.api}/${this.user?.image}`;
+        this.photo =  this.user?.photo ? `data:image/png;base64,${this.user?.photo}` : '';
         this.location = this.mentor?.location || this.user?.city;
         this.languages = this.mentor?.languages || this.user?.language;
         this.contactBuddyLog = data.buddy_contact_log;
@@ -621,6 +623,17 @@ export class MentorComponent {
     handleGoBack() {
         this._location.back();
     }
+
+    getCurrentUserImage() {
+        let image = ''
+        if(this.me?.photo) {
+          image = `data:image/png;base64,${this.me?.photo}`
+        } else {
+          image = this.me?.image == 'default-avatar.jpg' || this.me?.image == 'empty_avatar.png' ? ('./assets/images/default-profile.png') : (this.apiPath + this.me?.image)
+        }
+        
+        return image;
+      }
 
     async open(message: string, action: string) {
         await this._snackBar.open(message, action, {
