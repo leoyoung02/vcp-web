@@ -9,8 +9,8 @@ import { NavigationEnd, Router } from "@angular/router";
 import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
-import { MenuService, NotificationsService } from "@lib/services";
-import { PlansService, TutorsService } from "@features/services";
+import { MenuService } from "@lib/services";
+import { PlansService, TutorsService, BuddyService } from "@features/services";
 import { FooterComponent, MobileNavbarComponent } from "src/app/core/components";
 import { Subject, takeUntil } from "rxjs";
 import { ToastComponent } from "@share/components";
@@ -188,6 +188,9 @@ export class LayoutMainComponent {
   showFooter: boolean = false;
   customLinks: any = [];
   isCursoGeniusTestimonials: boolean = false;
+  hasBuddy: boolean = false;
+  isMentor: boolean = false;
+  userMentor: any;
 
   constructor(
     private _router: Router,
@@ -198,7 +201,7 @@ export class LayoutMainComponent {
     private _userService: UserService,
     private _tutorsService: TutorsService,
     private _plansService: PlansService,
-    private _notificationsService: NotificationsService,
+    private _buddyService: BuddyService,
     private cd: ChangeDetectorRef
   ) {
     this.language = this._localService.getLocalStorage(environment.lslanguage);
@@ -314,6 +317,14 @@ export class LayoutMainComponent {
         this.coursesFeatureId = coursesFeature[0].id;
         this.hasCourses = true;
         this.getCourseFeature(coursesFeature[0]);
+      }
+
+      let buddyFeature = this.features.filter((f) => {
+        return f.feature_name == "Buddy";
+      });
+      if (buddyFeature && buddyFeature[0] && this.userId > 0) {
+        this.hasBuddy = true;
+        this.getMentors();
       }
     }
 
@@ -2433,6 +2444,39 @@ export class LayoutMainComponent {
     this._translateService.use(lang);
     this._localService.setLocalStorage(environment.lslang, lang);
     this._companyService.changeLanguage(lang);
+  }
+
+  getMentors() {
+    this._buddyService
+      .fetchBuddies(this.companyId, this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        async (response) => {
+          let mentors = response?.mentors;
+          let current_user_mentor = mentors?.filter(mentor => {
+            return mentor.user_id == this.userId
+          })
+          let user_mentor = mentors?.filter(m => {
+            let include = false;
+            if(m.buddies?.length > 0) {
+              let match = m.buddies?.some(
+                (a) => a.id == this.userId
+              );
+
+              if(match) {
+                include = true;
+              }
+            }
+
+            return include;
+          })
+          this.userMentor = user_mentor;
+          this.isMentor = current_user_mentor?.length > 0 ? true : false;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   ngOnDestroy() {
