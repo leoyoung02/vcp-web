@@ -348,10 +348,10 @@ export class CourseDetailComponent {
     this.initializeBreadcrumb(data);
   }
 
-  formatCourseAssessments() {
-    this.courseAssessments = this.courseData?.course_assessments;
-    let assessments = this.courseData?.assessments;
-    let assessmentMultipleChoiceOptions = this.courseData?.assessment_multiple_choice_options;
+  formatCourseAssessments(updated_course_assessments: any = [], updated_assesments: any = [], updated_assessment_multiple_choice_options: any = []) {
+    this.courseAssessments = updated_course_assessments?.length > 0 ? updated_course_assessments : this.courseData?.course_assessments;
+    let assessments = updated_assesments?.length > 0 ? updated_assesments : this.courseData?.assessments;
+    let assessmentMultipleChoiceOptions = updated_assessment_multiple_choice_options?.length > 0 ? updated_assessment_multiple_choice_options : this.courseData?.assessment_multiple_choice_options;
     if(this.courseAssessments?.length > 0) {
       let beginningCourseAssessment = this.courseAssessments?.find((f) => f.timing == 'beginning' && f.type == 'course');
       let endCourseAssessment = this.courseAssessments?.find((f) => f.timing == 'end' && f.type == 'course');
@@ -1797,6 +1797,25 @@ export class CourseDetailComponent {
     }
   }
 
+  handleResetAssessment(event) {
+    if(event?.assessment_id > 0) {
+      this.getUpdatedCourseAssessment(this.userId, this.id, event?.assessment?.id)
+    }
+  }
+
+  getUpdatedCourseAssessment(user_id, course_id, course_assessment_item_id) {
+    this._coursesService
+      .fetchStudentCourseAssessment(user_id, course_id, course_assessment_item_id)
+      .subscribe(
+        (data) => {
+          this.formatCourseAssessments(data.course_assessments, data.assessments, data.assessment_multiple_choice_options);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
   updateAssessment(assessment) {
     if(assessment?.type == 'module') {
       if(this.afterModuleAssessments?.length > 0) {
@@ -2068,7 +2087,11 @@ export class CourseDetailComponent {
   }
 
   openIntroPDF() {
-    this.showIntroPDF = true;
+    this.showAssessment = false;
+    this.showIntroPDF = false;
+    setTimeout(() => {
+      this.showIntroPDF = true;
+    }, 100)
   }
 
   handleGoBack() {

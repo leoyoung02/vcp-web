@@ -33,6 +33,7 @@ export class AssessmentComponent {
     @Input() assessment: any;
     @Input() courseId: any;
     @Output() onFinishAssessment = new EventEmitter();
+    @Output() onResetAssessment = new EventEmitter();
 
     languageChangeSubscription;
     isMobile: boolean = false;
@@ -152,6 +153,32 @@ export class AssessmentComponent {
                 let assessment = this.assessment;
                 assessment['ratings'] = this.rating;
                 this.onFinishAssessment.emit(assessment);
+            },
+            error => {
+              this.open(this._translateService.instant("dialog.error"), "");
+            }
+        )
+    }
+
+    reset() {
+        let params = {
+            company_id: this.company?.id,
+            course_id: this.courseId,
+            user_id: this.userId,
+            course_assessment_item_id: this.assessment?.id,
+        }
+
+        this._coursesService.resetCourseAssessment(
+            params,
+        ).subscribe(
+            response => {
+                this.currentIndex = 0;
+                this.finished = false;
+                this.rating = 0;
+                this.correctAnswers = 0;
+                let assessment = this.assessment;
+                assessment['ratings'] = 0;
+                this.onResetAssessment.emit(assessment);
             },
             error => {
               this.open(this._translateService.instant("dialog.error"), "");

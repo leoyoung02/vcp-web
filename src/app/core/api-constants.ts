@@ -756,6 +756,8 @@ export const CREATE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/asse
 export const EDIT_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/edit`;
 export const DELETE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/delete`;
 export const SUBMIT_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment/submit`;
+export const STUDENT_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment`;
+export const RESET_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment/reset`;
 
 // COMMUNITY
 export const COMMUNITY_CHANNELS_URL = `${API_BASE}/v2/channels`;

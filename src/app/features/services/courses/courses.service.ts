@@ -62,8 +62,10 @@ import {
   PAYMENT_COURSE_DETAILS_URL,
   PAYMENT_COURSE_URL,
   RESEND_ACCESS_URL,
+  RESET_COURSE_ASSESSMENT_URL,
   RESET_STATUS_URL,
   SAVE_COURSE_SESSION_URL,
+  STUDENT_COURSE_ASSESSMENT_URL,
   SUBMIT_COURSE_ASSESSMENT_URL,
   UNASSIGN_USER_COURSE_URL,
   UNIT_TYPES_URL,
@@ -732,5 +734,20 @@ export class CoursesService {
       { headers: this.headers }
     )
     .pipe(map(res => res));
+  }
+
+  fetchStudentCourseAssessment(userId, courseId, courseAssessmentItemId): Observable<any> {
+    return this._http.get(
+      `${STUDENT_COURSE_ASSESSMENT_URL}/${userId}/${courseId}/${courseAssessmentItemId}`,
+      { headers: this.headers }
+    )
+    .pipe(map(res => res));
+  }
+
+  resetCourseAssessment(payload): Observable<any> {
+    return this._http.post(
+      RESET_COURSE_ASSESSMENT_URL,
+      payload,
+    ).pipe(map(res => res));
   }
 }
