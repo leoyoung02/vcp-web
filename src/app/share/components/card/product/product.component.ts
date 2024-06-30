@@ -13,57 +13,40 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import {
-  faPaperPlane
-} from "@fortawesome/free-solid-svg-icons";
 import { LocalService } from "@share/services";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
-import { StarRatingComponent } from "@lib/components";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
+import { FormsModule } from "@angular/forms";
 
 @Component({
-  selector: "app-member-small-card",
+  selector: "app-product-card",
   standalone: true,
   imports: [
     CommonModule,
     RouterModule,
     TranslateModule,
-    FontAwesomeModule,
-    NgOptimizedImage,
-    StarRatingComponent,
+    FormsModule,
+    NgOptimizedImage
   ],
-  templateUrl: "./member-small.component.html",
+  templateUrl: "./product.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class MemberSmallCardComponent {
+export class ProductCardComponent {
   private destroy$ = new Subject<void>();
 
   @Input() id: any;
-  @Input() path: any;
-  @Input() name: any;
-  @Input() city: any;
-  @Input() sector: any;
-  @Input() phone: any;
-  @Input() linkedin: any;
-  @Input() email: any;
-  @Input() references: any;
+  @Input() title: any;
   @Input() image: any;
-  @Input() logo: any;
+  @Input() price: any;
+  @Input() ratings: any;
+  @Input() primaryColor: any;
   @Input() buttonColor: any;
-  @Input() page: any;
-  @Input() hasCallFeature: any;
-  @Input() hasChatFeature: any;
-  @Output() audioCall = new EventEmitter();
-  @Output() chat = new EventEmitter();
-  @Output() sendReference = new EventEmitter();
+  @Input() companyId: any;
+  @Output() handleDetailsClick = new EventEmitter();
+  @Output() handleAddToCartClick = new EventEmitter()
 
   languageChangeSubscription;
   language: any;
-  selectedMemberId: any;
-  readHover: boolean = false;
-
-  sendIcon = faPaperPlane;
 
   constructor(
     private _translateService: TranslateService,
@@ -90,21 +73,12 @@ export class MemberSmallCardComponent {
     
   }
 
-  toggleReadHover(event, id) {
-    this.readHover = event;
-    this.selectedMemberId = event ? id : ''
+  handleDetailsRoute(event) {
+    this.handleDetailsClick.emit(event);
   }
 
-  handleSendReference() {
-    this.sendReference.emit(this.id);
-  }
-
-  handleAudioCall() {
-    this.audioCall.emit(this.id);
-  }
-
-  handleChat() {
-    this.chat.emit(this.id);
+  handleAddToCart(event) {
+    this.handleAddToCartClick.emit(event);
   }
 
   ngOnDestroy() {

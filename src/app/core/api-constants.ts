@@ -168,6 +168,7 @@ export const ACTIVATE_POLICY_URL = `${API_BASE}/company/policy/activate`;
 export const ACTIVATE_COOKIE_URL = `${API_BASE}/company/cookie-policy/activate`;
 export const ACTIVATE_TERMS_URL = `${API_BASE}/company/terms-conditions/activate`;
 export const EDIT_OTHER_SETTING_VALUE_URL = `${API_BASE}/company/other-settings/value/update`;
+export const EDIT_NAVIGATION_SETTINGS_URL = `${API_BASE}/v2/navigation/edit`;
 
 // REPORTS
 export const REPORTS_DATA_URL = `${API_BASE}/v2/reports-data`;
@@ -767,3 +768,8 @@ export const STARTUPS_URL = `${API_BASE}/v2/startups`;
 export const STARTUP_DETAILS_URL = `${API_BASE}/v2/startup-details`;
 export const ADD_STARTUP_URL = `${API_BASE}/company/startup/add`;
 export const GET_STARTUPS_URL = `${API_BASE}/company/startups`;
+
+// SHOP
+export const SHOPS_DATA_URL = `${API_BASE}/v2/shops-data`;
+export const SHOP_CATEGORIES_URL = `${API_BASE}/v2/shop-categories`;
+export const PRODUCTS_URL = `${API_BASE}/v2/products`;

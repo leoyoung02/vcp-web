@@ -300,6 +300,12 @@ export const routes: Routes = [
         canMatch: [authGuard()],
     },
     {
+        path: 'shop',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/shop')).routes,
+        canMatch: [authGuard()],
+    },
+    {
         path: ':slug/:invite_guid',
         data: { layout: PageLayout.Blank, titleKey: 'Registro' },
         title: CustomTitleResolver,

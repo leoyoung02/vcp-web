@@ -75,7 +75,11 @@
         "sendmeamessage": "Inviami un messaggio",
         "mailto": "Se non succede nulla dopo aver fatto clic, assicurati di avere un client di posta predefinito installato o di aver configurato il browser per aprire i collegamenti e-mail. Puoi fare riferimento a https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome su come configurare il browser.",
         "showcalendar": "Mostra calendario",
-        "solcourses": "Corsi di livellamento"
+        "solcourses": "Corsi di livellamento",
+        "navigation": "Navigazione",
+        "navigationdesc": "Menu di navigazione che consente un rapido accesso alle pagine",
+        "topmenu": "Menu principale",
+        "sidemenu": "Menù laterale"
     },
     "user-popup": {
         "myplans": "I miei piani",
@@ -3653,5 +3657,20 @@
         "percentuale": "Percentuale",
         "validfrom": "Valido dal",
         "validuntil": "Valido fino al"
+    },
+    "shop": {
+        "shop": "Negozio",
+        "addtocart": "Aggiungi al carrello",
+        "product": "Prodotto",
+        "products": "Prodotti",
+        "shopnow": "Acquista ora",
+        "shopbycategory": "Acquista per categoria",
+        "cart": "Carrello",
+        "checkout": "Checkout",
+        "ordersummary": "Riepilogo dell'ordine",
+        "myorders": "I miei ordini",
+        "itemaddedtocart": "1 articolo aggiunto al carrello",
+        "itemremovedfromcart": "1 articolo rimosso dal carrello",
+        "cartcleared": "Il carrello è stato svuotato"
     }
 }

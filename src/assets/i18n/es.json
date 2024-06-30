@@ -75,7 +75,11 @@
         "sendmeamessage": "Mándame un mensaje",
         "mailto": "Si no sucede nada al hacer clic, asegúrese de tener instalado un cliente de correo predeterminado o tener su navegador configurado para abrir enlaces de correo electrónico. Puede consultar https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome sobre cómo configurar su navegador.",
         "showcalendar": "Mostrar calendario",
-        "solcourses": "Cursos de Nivelación"
+        "solcourses": "Cursos de Nivelación",
+        "navigation": "Navegación",
+        "navigationdesc": "Menú de navegación que permite un acceso rápido a las páginas",
+        "topmenu": "Menú superior",
+        "sidemenu": "Menú lateral"
     },
     "user-popup": {
         "myplans": "Mis planes",
@@ -3681,5 +3685,20 @@
         "percent": "Porcentaje",
         "validfrom": "Válido desde",
         "validuntil": "Válido hasta"
+    },
+    "shop": {
+        "shop": "Comercio",
+        "addtocart": "Añadir al carrito",
+        "product": "Producto",
+        "products": "Productos",
+        "shopnow": "Comprar ahora",
+        "shopbycategory": "Acquista per categoria",
+        "cart": "Carrito",
+        "checkout": "Pagar",
+        "ordersummary": "Resumen del pedido",
+        "myorders": "Mis pedidos",
+        "itemaddedtocart": "1 artículo añadido al carrito",
+        "itemremovedfromcart": "1 artículo eliminado del carrito",
+        "cartcleared": "El carrito se ha borrado"
     }
 }
