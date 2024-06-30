@@ -123,6 +123,13 @@
         "icon": "./assets/menu-icons/menu-icon-shop.png",
         "icondark": "./assets/menu-icons/menu-icon-shop-dark.png", 
         "facode": "fas fa-user-friends", 
-        "activeicon": "./assets/images/new-design/icons/menus/Buddy-active.png"   
+        "activeicon": "./assets/images/new-design/icons/menus/Buddy-active.png"  
+    },
+    {
+        "path": "professionals",  
+        "icon": "./assets/menu-icons/menu-icon-clubs.png", 
+        "icondark": "./assets/menu-icons/menu-icon-clubs-dark.png",
+        "facode": "fa fa-users",
+        "activeicon": "./assets/images/new-design/icons/menus/Clubs-active.png"
     }
 ]  

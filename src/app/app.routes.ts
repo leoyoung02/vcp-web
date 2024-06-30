@@ -306,6 +306,12 @@ export const routes: Routes = [
         canMatch: [authGuard()],
     },
     {
+        path: 'professionals',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/professionals')).routes,
+        canMatch: [authGuard()],
+    },
+    {
         path: ':slug/:invite_guid',
         data: { layout: PageLayout.Blank, titleKey: 'Registro' },
         title: CustomTitleResolver,

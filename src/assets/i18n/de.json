@@ -3678,5 +3678,9 @@
         "itemaddedtocart": "1 Artikel zum Warenkorb hinzugefügt",
         "itemremovedfromcart": "1 Artikel aus dem Warenkorb entfernt",
         "cartcleared": "Warenkorb ist geleert"
+    },
+    "professionals": {
+        "professionals": "Profis",
+        "professional": "Profi"
     }
 }

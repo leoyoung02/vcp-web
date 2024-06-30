@@ -3700,5 +3700,9 @@
         "itemaddedtocart": "1 artículo añadido al carrito",
         "itemremovedfromcart": "1 artículo eliminado del carrito",
         "cartcleared": "El carrito se ha borrado"
+    },
+    "professionals": {
+        "professionals": "Profesionales",
+        "professional": "Profesional"
     }
 }

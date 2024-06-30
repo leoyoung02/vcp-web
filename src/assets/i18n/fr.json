@@ -3673,5 +3673,9 @@
         "itemaddedtocart": "1 article ajouté au panier",
         "itemremovedfromcart": "1 article supprimé du panier",
         "cartcleared": "Le panier est vidé"
+    },
+    "professionals": {
+        "professionals": "Professionnels",
+        "professional": "Professionnel"
     }
 }

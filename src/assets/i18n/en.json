@@ -3715,5 +3715,9 @@
         "itemaddedtocart": "1 item added to cart",
         "itemremovedfromcart": "1 item removed from cart",
         "cartcleared": "Cart is cleared"
+    },
+    "professionals": {
+        "professionals": "professionals",
+        "professional": "Professional"
     }
 }

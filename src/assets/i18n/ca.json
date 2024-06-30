@@ -3686,5 +3686,9 @@
         "itemaddedtocart": "1 article afegit al carret",
         "itemremovedfromcart": "S'ha eliminat 1 element del carretó",
         "cartcleared": "El carretó està esborrat"
+    },
+    "professionals": {
+        "professionals": "Professionals",
+        "professional": "Professional"
     }
 }

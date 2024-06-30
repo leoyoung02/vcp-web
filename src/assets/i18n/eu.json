@@ -3679,5 +3679,9 @@
         "itemaddedtocart": "Elementu bat gehitu da saskira",
         "itemremovedfromcart": "Elementu bat saskitik kendu da",
         "cartcleared": "Saskia garbitu da"
+    },
+    "professionals": {
+        "professionals": "Profesionalak",
+        "professional": "Professional"
     }
 }
