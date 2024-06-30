@@ -3668,5 +3668,9 @@
         "percent": "Per cent",
         "validfrom": "Vàlid des de",
         "validuntil": "Vàlid fins a"
+    },
+    "professionals": {
+        "professionals": "Professionals",
+        "professional": "Professional"
     }
 }

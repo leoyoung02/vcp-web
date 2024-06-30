@@ -3660,5 +3660,9 @@
         "percent": "Ehuneko",
         "validfrom": "Balioa hemendik",
         "validuntil": "Balioa arte"
+    },
+    "professionals": {
+        "professionals": "Profesionalak",
+        "professional": "Professional"
     }
 }

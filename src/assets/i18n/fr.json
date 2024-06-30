@@ -3654,5 +3654,9 @@
         "percentage": "Pourcentage",
         "validfrom": "Valable à partir de",
         "validuntil": "Valide jusqu'à"
+    },
+    "professionals": {
+        "professionals": "Professionnels",
+        "professional": "Professionnel"
     }
 }

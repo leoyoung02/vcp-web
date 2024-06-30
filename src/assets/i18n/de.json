@@ -3659,5 +3659,9 @@
         "percent": "Prozent",
         "validfrom": "Gültig ab",
         "validuntil": "Gültig bis"
+    },
+    "professionals": {
+        "professionals": "Profis",
+        "professional": "Profi"
     }
 }
