@@ -65,6 +65,10 @@ import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
 import 'filepond-plugin-media-preview/dist/filepond-plugin-media-preview.css';
 registerPlugin(FilepondPluginImagePreview, FilePondPluginMediaPreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
 
+import Quill from 'quill'
+import ImageResize from 'quill-image-resize-module'
+Quill.register('modules/imageResize', ImageResize)
+
 @Component({
   selector: "app-clubs-edit",
   standalone: true,
@@ -646,6 +650,8 @@ export class PlanEditComponent {
   @ViewChild("closemodalbutton", { static: false })
   closemodalbutton: ElementRef<HTMLInputElement> = {} as ElementRef;
   
+  modules = {}
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -656,7 +662,27 @@ export class PlanEditComponent {
     private _plansService: PlansService,
     private sanitizer: DomSanitizer,
     private dateAdapter: DateAdapter<Date>
-  ) {}
+  ) {
+    this.modules = {
+      toolbar: [
+        ["bold", "italic", "underline", "strike"],
+        ["blockquote", "code-block"],
+        [{ header: 1 }, { header: 2 }],
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ script: "sub" }, { script: "super" }],
+        [{ indent: "-1" }, { indent: "+1" }],
+        [{ direction: "rtl" }],
+        [{ size: ["small", false, "large", "huge"] }],
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ color: [] }, { background: [] }],
+        // [{ font: [] }],
+        // [{ align: [] }],
+        ["clean"],
+        ["link", "image", "video"],
+      ],
+      imageResize: true
+    }
+  }
 
   @HostListener("window:resize", [])
   private onResize() {
@@ -2216,121 +2242,121 @@ export class PlanEditComponent {
   }
 
   setDescription() {
-    if (this.editorToUse == "tinymce" && this.editor) {
-      if (this.planForm.controls["descriptionEs"]) {
-        this.planForm.controls["descriptionEs"].setValue(
-          this.editor.getContent()
-        );
-      }
-      if (this.planForm.controls["descriptionEn"]) {
-        this.planForm.controls["descriptionEn"].setValue(
-          this.editor.getContent()
-        );
-      }
-      if (this.planForm.controls["descriptionFr"]) {
-        this.planForm.controls["descriptionFr"].setValue(
-          this.editor.getContent()
-        );
-      }
-      if (this.planForm.controls["description_eu"]) {
-        this.planForm.controls["description_eu"].setValue(
-          this.editor.getContent()
-        );
-      }
-      if (this.planForm.controls["descriptionCa"]) {
-        this.planForm.controls["descriptionCa"].setValue(
-          this.editor.getContent()
-        );
-      }
-      if (this.planForm.controls["descriptionDe"]) {
-        this.planForm.controls["descriptionDe"].setValue(
-          this.editor.getContent()
-        );
-      }
-    }
+    // if (this.editorToUse == "tinymce" && this.editor) {
+    //   if (this.planForm.controls["descriptionEs"]) {
+    //     this.planForm.controls["descriptionEs"].setValue(
+    //       this.editor.getContent()
+    //     );
+    //   }
+    //   if (this.planForm.controls["descriptionEn"]) {
+    //     this.planForm.controls["descriptionEn"].setValue(
+    //       this.editor.getContent()
+    //     );
+    //   }
+    //   if (this.planForm.controls["descriptionFr"]) {
+    //     this.planForm.controls["descriptionFr"].setValue(
+    //       this.editor.getContent()
+    //     );
+    //   }
+    //   if (this.planForm.controls["description_eu"]) {
+    //     this.planForm.controls["description_eu"].setValue(
+    //       this.editor.getContent()
+    //     );
+    //   }
+    //   if (this.planForm.controls["descriptionCa"]) {
+    //     this.planForm.controls["descriptionCa"].setValue(
+    //       this.editor.getContent()
+    //     );
+    //   }
+    //   if (this.planForm.controls["descriptionDe"]) {
+    //     this.planForm.controls["descriptionDe"].setValue(
+    //       this.editor.getContent()
+    //     );
+    //   }
+    // }
 
     if (this.planForm.controls["descriptionEs"]) {
-      this.planForm.controls["descriptionEs"].setValue(
-        this.planForm
-          .get("descriptionEs")
-          ?.value?.replace("*|MC:SUBJECT|*", "")
-          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
-          .replace(
-            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
-            ""
-          )
-          .replace("<!--*|END:IF|*-->", "")
-      );
+      let descEs = this.planForm
+        .get("descriptionEs")
+        ?.value?.replace("*|MC:SUBJECT|*", "")
+        .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
+        .replace(
+          '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
+          ""
+        )
+        .replace("<!--*|END:IF|*-->", "");
+      descEs = descEs && descEs != 'undefined' ? descEs : '';
+      this.planForm.controls["descriptionEs"].setValue(descEs);
     }
 
     if (this.planForm.controls["descriptionEn"]) {
-      this.planForm.controls["descriptionEn"].setValue(
-        this.planForm
-          .get("descriptionEn")
-          ?.value?.replace("*|MC:SUBJECT|*", "")
-          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
-          .replace(
-            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
-            ""
-          )
-          .replace("<!--*|END:IF|*-->", "")
-      );
+      let descEn = this.planForm
+        .get("descriptionEn")
+        ?.value?.replace("*|MC:SUBJECT|*", "")
+        .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
+        .replace(
+          '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
+          ""
+        )
+        .replace("<!--*|END:IF|*-->", "");
+      descEn = descEn && descEn != 'undefined' ? descEn : '';
+      this.planForm.controls["descriptionEn"].setValue(descEn);
     }
 
     if (this.planForm.controls["descriptionFr"]) {
-      this.planForm.controls["descriptionFr"].setValue(
-        this.planForm
-          .get("descriptionFr")
-          ?.value?.replace("*|MC:SUBJECT|*", "")
-          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
-          .replace(
-            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
-            ""
-          )
-          .replace("<!--*|END:IF|*-->", "")
-      );
+      let descFr = this.planForm
+      .get("descriptionFr")
+      ?.value?.replace("*|MC:SUBJECT|*", "")
+      .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
+      .replace(
+        '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
+        ""
+      )
+      .replace("<!--*|END:IF|*-->", "")
+      descFr = descFr && descFr != 'undefined' ? descFr : '';
+      this.planForm.controls["descriptionFr"].setValue(descFr);
     }
 
     if (this.planForm.controls["descriptionEu"]) {
-      this.planForm.controls["descriptionEu"].setValue(
-        this.planForm
-          .get("descriptionEu")
-          ?.value?.replace("*|MC:SUBJECT|*", "")
-          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
-          .replace(
-            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
-            ""
-          )
-          .replace("<!--*|END:IF|*-->", "")
-      );
+      let descEu = this.planForm
+      .get("descriptionEu")
+      ?.value?.replace("*|MC:SUBJECT|*", "")
+      .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
+      .replace(
+        '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
+        ""
+      )
+      .replace("<!--*|END:IF|*-->", "")
+      descEu = descEu && descEu != 'undefined' ? descEu : '';
+      this.planForm.controls["descriptionEu"].setValue(descEu);
     }
 
     if (this.planForm.controls["descriptionCa"]) {
-      this.planForm.controls["descriptionCa"].setValue(
-        this.planForm
-          .get("descriptionCa")
-          ?.value?.replace("*|MC:SUBJECT|*", "")
-          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
-          .replace(
-            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
-            ""
-          )
-          .replace("<!--*|END:IF|*-->", "")
-      );
+      let descCa = this.planForm
+      .get("descriptionCa")
+      ?.value?.replace("*|MC:SUBJECT|*", "")
+      .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
+      .replace(
+        '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
+        ""
+      )
+      .replace("<!--*|END:IF|*-->", "")
+      descCa = descCa && descCa != 'undefined' ? descCa : '';
+      this.planForm.controls["descriptionCa"].setValue(descCa);
     }
 
     if (this.planForm.controls["descriptionDe"]) {
-      this.planForm.controls["descriptionDe"].setValue(
-        this.planForm
-          .get("descriptionDe")
-          ?.value?.replace("*|MC:SUBJECT|*", "")
-          .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
-          .replace(
-            '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
-            ""
-          )
-          .replace("<!--*|END:IF|*-->", "")
-      );
+      let descDe = this.planForm
+      .get("descriptionDe")
+      ?.value?.replace("*|MC:SUBJECT|*", "")
+      .replace("<!--*|IF:MC_PREVIEW_TEXT|*-->", "")
+      .replace(
+        '<!--[if !gte mso 9]><!----><span class="mcnPreviewText" style="display:none;visibility:hidden; mso-hide:all;">*|MC_PREVIEW_TEXT|*</span><!--<![endif]-->',
+        ""
+      )
+      .replace("<!--*|END:IF|*-->", "");
+      descDe = descDe && descDe != 'undefined' ? descDe : '';
+      this.planForm.controls["descriptionDe"].setValue(descDe);
     }
   }
 
@@ -2407,8 +2433,8 @@ export class PlanEditComponent {
     if (
       this.planForm.get("title_" + code)?.errors ||
       this.planForm.get("plan_date")?.errors ||
-      (this.guestMemberSeatActive && (this.membersLimitGreaterThanSeats || this.guestsLimitGreaterThanSeats)) ||
-      this.checkDescription()
+      (this.guestMemberSeatActive && (this.membersLimitGreaterThanSeats || this.guestsLimitGreaterThanSeats)) 
+      // || this.checkDescription()
     ) {
       this.issaving = false;
       this.scrollToTop();
