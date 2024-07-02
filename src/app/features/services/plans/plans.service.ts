@@ -703,12 +703,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     formData.append( 'privacy', planForm.privacy );
     formData.append( 'private_type', planForm.private_type );
     formData.append( 'fk_group_id', planForm.fk_group_id );
-    formData.append( 'description', planForm.description_es ? planForm.description_es : planForm.description );
-    formData.append( 'description_en', planForm.description_en ? planForm.description_en : planForm.description );
-    formData.append( 'description_fr', planForm.description_fr ? planForm.description_fr : planForm.description );
-    formData.append( 'description_eu', planForm.description_eu ? planForm.description_eu : planForm.description );
-    formData.append( 'description_ca', planForm.description_ca ? planForm.description_ca : planForm.description );
-    formData.append( 'description_de', planForm.description_de ? planForm.description_de : planForm.description );
+    formData.append( 'description', planForm.descriptionEs && planForm.descriptionEs != 'undefined' ? planForm.descriptionEs : (planForm.description || '') );
+    formData.append( 'description_en', planForm.descriptionEn && planForm.descriptionEn != 'undefined' ? planForm.descriptionEn : (planForm.description || '') );
+    formData.append( 'description_fr', planForm.description_fr && planForm.descriptionFr != 'undefined' ? planForm.descriptionFr : (planForm.description || '') );
+    formData.append( 'description_eu', planForm.description_eu && planForm.descriptionEu != 'undefined' ? planForm.descriptionEu : (planForm.description || '') );
+    formData.append( 'description_ca', planForm.description_ca && planForm.descriptionCa != 'undefined' ? planForm.descriptionCa : (planForm.description || '') );
+    formData.append( 'description_de', planForm.description_de && planForm.descriptionDe != 'undefined' ? planForm.descriptionDe : (planForm.description || '') );
 
     if(planForm.latitude) {
         formData.append( 'latitude', planForm.latitude );
@@ -955,12 +955,12 @@ getCombinedCoursePlansPrefetch(companyId, userId, featureId): Observable<any[]> 
     if(planForm.fk_group_id) {
         formData.append( 'fk_group_id', planForm.fk_group_id );
     }
-    formData.append( 'description', planForm.descriptionEs ? planForm.descriptionEs : planForm.description );
-    formData.append( 'description_en', planForm.descriptionEn ? planForm.descriptionEn : planForm.description );
-    formData.append( 'description_fr', planForm.descriptionFr ? planForm.descriptionFr : planForm.description );
-    formData.append( 'description_eu', planForm.descriptionEu ? planForm.descriptionEu : planForm.description );
-    formData.append( 'description_ca', planForm.descriptionCa ? planForm.descriptionCa : planForm.description );
-    formData.append( 'description_de', planForm.descriptionDe ? planForm.descriptionDe : planForm.description );
+    formData.append( 'description', planForm.descriptionEs && planForm.descriptionEs != 'undefined' ? planForm.descriptionEs : (planForm.description || '') );
+    formData.append( 'description_en', planForm.descriptionEn && planForm.descriptionEn != 'undefined' ? planForm.descriptionEn : (planForm.description || '') );
+    formData.append( 'description_fr', planForm.descriptionFr && planForm.descriptionFr != 'undefined' ? planForm.descriptionFr : (planForm.description || '') );
+    formData.append( 'description_eu', planForm.descriptionEu && planForm.descriptionEu != 'undefined' ? planForm.descriptionEu : (planForm.description || '') );
+    formData.append( 'description_ca', planForm.descriptionCa && planForm.descriptionCa != 'undefined' ? planForm.descriptionCa : (planForm.description || '') );
+    formData.append( 'description_de', planForm.descriptionDe && planForm.descriptionDe != 'undefined' ? planForm.descriptionDe : (planForm.description || '') );
 
     if(planForm.latitude) {
         formData.append( 'latitude', planForm.latitude );
