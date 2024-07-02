@@ -774,3 +774,8 @@ export const GET_STARTUPS_URL = `${API_BASE}/company/startups`;
 export const SHOPS_DATA_URL = `${API_BASE}/v2/shops-data`;
 export const SHOP_CATEGORIES_URL = `${API_BASE}/v2/shop-categories`;
 export const PRODUCTS_URL = `${API_BASE}/v2/products`;
+
+// PROFESSIONALS
+export const GENERATE_RTC_TOKEN_URL = `${API_BASE}/v3/agora/rtc`;
+export const NOTIFY_PROFESSIONAL_PUSHER_URL = `${API_BASE}/v3/voice-call/push`;
+export const VOICE_CALL_URL = `${API_BASE}/v3/voice-call`;
