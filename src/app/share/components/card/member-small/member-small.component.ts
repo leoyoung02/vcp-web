@@ -92,7 +92,6 @@ export class MemberSmallCardComponent {
   }
 
   handleSendReference() {
-    console.log('handleSendReference emit')
     this.sendReference.emit(this.id);
   }
 

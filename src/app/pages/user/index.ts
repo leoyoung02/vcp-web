@@ -50,5 +50,11 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'CRM'},
         loadComponent: async () => (await import('./crm/crm.component')).CRMComponent,
-    }
+    },
+    {
+        path: 'my-sessions',
+        title: CustomTitleResolver,
+        data: { layout: PageLayout.Main , titleKey: 'buddy.mysessions' },
+        loadComponent: async () => (await import('./my-sessions/my-sessions.component')).MySessionsComponent,
+    },
 ];

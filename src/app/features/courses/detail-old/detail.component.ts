@@ -242,9 +242,12 @@ export class CourseDetailComponent {
   commentsList: any = [];
   newComment: any = '';
   showComments: boolean = false;
-
+  autoCompleteLesson: boolean = false;
   isExpanded: boolean = false;
   @ViewChild(MaximizeDirective, { static: true }) maximize!: MaximizeDirective;
+  courseIntroPDFURL: any;
+  showIntroPDF: boolean = false;
+  courseIntroPDFURLSrc: any;
   
   constructor(
     private _router: Router,
@@ -312,7 +315,6 @@ export class CourseDetailComponent {
   getCourse() {
     this._coursesService
       .fetchCourseCombined(this.id, this.companyId, this.userId)
-      // .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
           let course_data =  data[0] ? data[0] : [];
@@ -346,10 +348,10 @@ export class CourseDetailComponent {
     this.initializeBreadcrumb(data);
   }
 
-  formatCourseAssessments() {
-    this.courseAssessments = this.courseData?.course_assessments;
-    let assessments = this.courseData?.assessments;
-    let assessmentMultipleChoiceOptions = this.courseData?.assessment_multiple_choice_options;
+  formatCourseAssessments(updated_course_assessments: any = [], updated_assesments: any = [], updated_assessment_multiple_choice_options: any = []) {
+    this.courseAssessments = updated_course_assessments?.length > 0 ? updated_course_assessments : this.courseData?.course_assessments;
+    let assessments = updated_assesments?.length > 0 ? updated_assesments : this.courseData?.assessments;
+    let assessmentMultipleChoiceOptions = updated_assessment_multiple_choice_options?.length > 0 ? updated_assessment_multiple_choice_options : this.courseData?.assessment_multiple_choice_options;
     if(this.courseAssessments?.length > 0) {
       let beginningCourseAssessment = this.courseAssessments?.find((f) => f.timing == 'beginning' && f.type == 'course');
       let endCourseAssessment = this.courseAssessments?.find((f) => f.timing == 'end' && f.type == 'course');
@@ -465,6 +467,7 @@ export class CourseDetailComponent {
       this.onlyAssignedTutorAccess = subfeatures.some(a => a.name_en == 'Tutors assigned to courses' && a.active == 1);
       this.hasCourseCreditSetting = subfeatures.some(a => a.name_en == 'Credits' && a.active == 1 && a.feature_id == 11);
       this.hasCourseVideoComments = subfeatures.some(a => a.name_en == 'Course video comments' && a.active == 1 && a.feature_id == 11);
+      this.autoCompleteLesson = subfeatures.some(a => a.name_en == 'Autocomplete lesson' && a.active == 1 && a.feature_id == 11);
     }
   }
 
@@ -485,6 +488,8 @@ export class CourseDetailComponent {
     this.courseDescription = this.getCourseDescription(this.course);
     this.courseImage = `${COURSE_IMAGE_URL}/${this.course?.image}`;
     this.showComments = this.course?.show_comments == 1 ? true : false;
+    this.courseIntroPDFURL = this.course.intro_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_pdf}` : '';
+    this.courseIntroPDFURLSrc = this.courseIntroPDFURL ? this.sanitizer.bypassSecurityTrustResourceUrl(this.courseIntroPDFURL) : '';
 
     if(this.course) {
       this.coursePoints = this.course.course_users && this.course.course_users[0] ? ((parseInt(this.course.course_users[0].progress) * parseInt(this.course.points)) / 100) : 0;
@@ -656,7 +661,9 @@ export class CourseDetailComponent {
         countCompleted = countCompleted + 1;
       }
     });
-    this.selectedModuleUnitsCompleted = (countCompleted == units.length)  && (this.selectedModule[0].reward_tutor_package);
+    if(this.selectedModule?.length > 0) {
+      this.selectedModuleUnitsCompleted = (countCompleted == units.length) && (this.selectedModule[0].reward_tutor_package);
+    }
 
     if (this.selectedModuleUnitsCompleted) {
       this.selectedModulePackageId = this.selectedModule[0].package_id;
@@ -1009,6 +1016,7 @@ export class CourseDetailComponent {
     this.availableAfterCompletion = false
     this.selfHostedVideoSrc = ''
     this.videoSrc = ''
+    this.showIntroPDF = false
 
     if(this.course.course_modules) {
       let module = this.course.course_modules && this.course.course_modules.filter(cm => {
@@ -1123,6 +1131,14 @@ export class CourseDetailComponent {
   }
 
   goToNextLesson() {
+    if(this.autoCompleteLesson) {
+      this.markComplete(this.selectedUnit?.id, true);
+    } else {
+      this.selectNextUnit();
+    }
+  }
+
+  selectNextUnit() {
     let current_unit_index = 0
     if(this.course.course_units) {
       this.course.course_units.forEach((cu, index) => {
@@ -1524,9 +1540,13 @@ export class CourseDetailComponent {
           if(response['total_progress'] == 100 && this.hasCourseCreditSetting) {
             this.completemodalbutton?.nativeElement.click();
           } else {
-            this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
-            if(response['total_progress'] != 100) {
-              this.goToNextLesson()
+            if(this.autoCompleteLesson) {
+              this.selectNextUnit();
+            } else {
+              this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+              if(response['total_progress'] != 100) {
+                this.goToNextLesson()
+              }
             }
           }
       },
@@ -1775,6 +1795,25 @@ export class CourseDetailComponent {
     if(event?.assessment_id > 0) {
       this.updateAssessment(event);
     }
+  }
+
+  handleResetAssessment(event) {
+    if(event?.assessment_id > 0) {
+      this.getUpdatedCourseAssessment(this.userId, this.id, event?.assessment?.id)
+    }
+  }
+
+  getUpdatedCourseAssessment(user_id, course_id, course_assessment_item_id) {
+    this._coursesService
+      .fetchStudentCourseAssessment(user_id, course_id, course_assessment_item_id)
+      .subscribe(
+        (data) => {
+          this.formatCourseAssessments(data.course_assessments, data.assessments, data.assessment_multiple_choice_options);
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   updateAssessment(assessment) {
@@ -2045,6 +2084,14 @@ export class CourseDetailComponent {
 
   minimizeWindow() {
     this.isExpanded = false;
+  }
+
+  openIntroPDF() {
+    this.showAssessment = false;
+    this.showIntroPDF = false;
+    setTimeout(() => {
+      this.showIntroPDF = true;
+    }, 100)
   }
 
   handleGoBack() {

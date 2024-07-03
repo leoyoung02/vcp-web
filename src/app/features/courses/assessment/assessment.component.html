@@ -52,6 +52,14 @@
         <div class="mt-4 text-4xl font-bold text-center">
             {{rating}}%
         </div>
+        <div *ngIf="superAdmin" class="mt-4">
+            <div 
+                [ngStyle]="{'background-color': buttonColor}"
+                class="w-[175px] text-sm rounded-lg text-white py-3 uppercase px-4 hover:cursor-pointer h-[42px] ml-[10px] text-center"
+                (click)="reset()">
+                {{ 'crm.reset' | translate }}
+            </div>
+        </div>
     </div>
 </div>
 <div class="my-6">

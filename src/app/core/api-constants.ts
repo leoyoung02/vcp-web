@@ -534,6 +534,7 @@ export const COURSES_ADMIN_LIST_URL = `${API_BASE}/v2/courses-list`;
 export const COURSE_COMPLETE_EVALUATE_URL = `${API_BASE}/v2/course/completed/evaluate`;
 export const COURSES_MANAGEMENT_DATA_URL = `${API_BASE}/v2/courses-management-data`;
 export const ADDITIONAL_PROPERTIES_DATA = `${API_BASE}/company/user/get-additional-properties`;
+export const COURSE_DETAIL_URL = `${API_BASE}/course`;
 
 // TUTORS
 export const TUTORS_URL = `${API_BASE}/company/tutors`;
@@ -755,6 +756,8 @@ export const CREATE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/asse
 export const EDIT_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/edit`;
 export const DELETE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/delete`;
 export const SUBMIT_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment/submit`;
+export const STUDENT_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment`;
+export const RESET_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment/reset`;
 
 // COMMUNITY
 export const COMMUNITY_CHANNELS_URL = `${API_BASE}/v2/channels`;
@@ -767,3 +770,35 @@ export const STARTUPS_URL = `${API_BASE}/v2/startups`;
 export const STARTUP_DETAILS_URL = `${API_BASE}/v2/startup-details`;
 export const ADD_STARTUP_URL = `${API_BASE}/company/startup/add`;
 export const GET_STARTUPS_URL = `${API_BASE}/company/startups`;
+
+// BUDDIES
+export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;
+export const BUDDIES_URL = `${API_BASE}/v2/buddies`;
+export const MENTOR_URL = `${API_BASE}/v2/mentor`;
+export const MENTOR_REQUEST_DATA_URL = `${API_BASE}/v2/mentor-request-data`;
+export const EDIT_MENTOR_URL = `${API_BASE}/mentor/edit`;
+export const EDIT_MENTOR_PHOTO_URL = `${API_BASE}/v2/mentor/profile/image/temp-upload`;
+export const APPLY_MENTOR_URL = `${API_BASE}/v2/mentor/apply`;
+export const MENTOR_REQUESTS_URL = `${API_BASE}/v2/mentor-requests`;
+export const APPROVE_MENTOR_REQUEST_URL = `${API_BASE}/v2/mentor/request/accept`;
+export const REJECT_MENTOR_REQUEST_URL = `${API_BASE}/v2/mentor/request/reject`;
+export const UPDATE_MENTOR_CALENDLY_URL = `${API_BASE}/v2/mentor/calendar/update`;
+export const ASK_AS_MENTOR_URL = `${API_BASE}/colleague/ask-mentor`;
+export const CONTACT_MENTOR_URL = `${API_BASE}/v2/mentor/contact`;
+export const CONTACT_MENTOR_REPLY_URL = `${API_BASE}/v2/mentor/reply`;
+export const COLLEAGUE_ASKED_URL = `${API_BASE}/colleague/asked`;
+export const CONTACT_LOG_URL = `${API_BASE}/buddy/contact/log`;
+export const MENTEE_ACCEPT_URL = `${API_BASE}/buddy/accept`;
+export const MENTEE_REJECT_URL = `${API_BASE}/colleague/reject`;
+export const MENTOR_MENTEE_MESSAGES_URL = `${API_BASE}/v2/mentor-mentee/messages`;
+export const DELETE_MENTOR_MESSAGE_URL = `${API_BASE}/v2/mentor/message/delete`;
+export const ADD_CALENDLY_SESSION_URL = `${API_BASE}/v2/calendly/session/add`;
+export const MENTOR_SESSIONS_URL = `${API_BASE}/v2/mentor/sessions`;
+export const EDIT_SESSION_STATUS_URL = `${API_BASE}/v2/mentor/session/edit-status`;
+export const DELETE_SESSION_URL = `${API_BASE}/v2/mentor/session/delete`;
+export const CANCEL_SESSION_URL = `${API_BASE}/v2/mentor/session/cancel`;
+export const SEARCH_MENTOR_URL = `${API_BASE}/v2/mentor/user/search`;
+export const ADD_MENTOR_URL = `${API_BASE}/v2/mentor/add`;
+export const DELETE_MENTOR_URL = `${API_BASE}/v2/mentor/delete`;
+export const BUDDY_LIMIT_SETTINGS_URL = `${API_BASE}/buddy/settings/limit`;
+export const EDIT_BUDDY_LIMIT_SETTINGS_URL = `${API_BASE}/buddy/settings/limit/edit`;

@@ -651,6 +651,7 @@ export class CoursesListComponent {
           "unassigned_status": course.unassigned_status == 1 ? 1 : 0,
           "course_categories": course.course_categories,
           "buy_now_button_color": course.buy_now_button_color,
+          "course_intro": course.course_intro,
         })
       });
     }

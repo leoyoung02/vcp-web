@@ -67,6 +67,7 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
                 _localService.removeLocalStorage(environment.lstoken);
                 _localService.removeLocalStorage(environment.lsrefreshtoken);
                 _localService.removeLocalStorage(environment.lsuser);
+                console.log('jwtInterceptor location.href: /');
                 location.href =  `/`
             }
       
@@ -79,6 +80,7 @@ export const jwtInterceptor: HttpInterceptorFn = (request, next) => {
             _localService.removeLocalStorage(environment.lstoken);
             _localService.removeLocalStorage(environment.lsrefreshtoken);
             _localService.removeLocalStorage(environment.lsuser);
+            console.log('jwtInterceptor removeSession & localStorage: /');
             location.href =  `/`
         } 
 
