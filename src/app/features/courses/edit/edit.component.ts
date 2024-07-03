@@ -514,6 +514,9 @@ export class CourseEditComponent {
   existingIntroPDFFile: any;
   existingIntroPDFFileURL: any;
   existingIntroRemoved: boolean = false;
+  hasActivityCodeActivated: boolean = false;
+  activityCode: any;
+  activityCodeSigeca: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -954,6 +957,9 @@ export class CourseEditComponent {
       this.hasCourseVideoComments = subfeatures.some(
         (a) => a.name_en == 'Course video comments' && a.active == 1 
       );
+      this.hasActivityCodeActivated = subfeatures.some(
+        (a) => a.name_en == "Activity Code" && a.active == 1
+      );
     }
 
     if(this.isAdvancedCourse) {
@@ -1221,6 +1227,12 @@ export class CourseEditComponent {
     this.courseIntro = this.course.course_intro == 1 ? true : false;
     this.existingIntroPDFFile = this.course.intro_pdf;
     this.existingIntroPDFFileURL = this.course.intro_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_pdf}` : '';
+    if(this.hasActivityCodeActivated) {
+      this.activityCode = this.course?.activity_code;
+      if(this.companyId == 32) {
+        this.activityCodeSigeca = this.course?.activity_code_sigeca;
+      }
+    }
 
     if(this.course.price > 0 
       && (this.course.payment_type > 0 || data?.recurring_payments)) {
@@ -1960,6 +1972,12 @@ export class CourseEditComponent {
     }
     if(this.existingIntroRemoved && this.courseIntro) {
       params['intro_pdf_removed'] = 1;
+    }
+    if(this.hasActivityCodeActivated) {
+      params["activity_code"] = this.activityCode || "";
+      if(this.companyId == 32) {
+        params["activity_code_sigeca"] = this.activityCodeSigeca || "";
+      }
     }
 
     if (this.id > 0) {
