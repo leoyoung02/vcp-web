@@ -13,5 +13,11 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'professionals.professional'},
         loadComponent: async () => (await import('./detail/detail.component')).ProfessionalDetailComponent,
+    },
+    {
+        path: 'voice/:id/:userId/:phone',
+        title: CustomTitleResolver,
+        data: { titleKey: 'professionals.professional'},
+        loadComponent: async () => (await import('./rooms/voice/voice.component')).VoiceRoomComponent,
     }
 ];

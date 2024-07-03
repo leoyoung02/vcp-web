@@ -1,13 +1,51 @@
-<div>{{'professionals.professionals' | translate}}</div>
-<button type="button" 
+<app-page-title title="{{'professionals.professionals' | translate}}"></app-page-title>
+<div class="pt-6">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-8 py-2 pb-20">
+        <div class="w-full relative bg-white border border-gray-200 rounded-lg shadow p-6 dark:bg-gray-800 dark:border-gray-700">
+            <div class="flow-root relative">
+                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
+                    <li class="relative">
+                        <div class="flex">
+                            <div class="flex-shrink-0">
+                                <img class="hover:cursor-pointer w-20 h-20 rounded-full object-cover object-top" width="75" height="75" 
+                                    src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png">
+                            </div>
+                            <div class="flex-1 min-w-0 ms-4">
+                                <p class="hover:cursor-pointer text-base text-gray2 font-bold text-gray-900 truncate dark:text-white">
+                                    Bonnie Green
+                                </p>
+                                <p class="leading-4 font-medium text-gray3 truncate dark:text-gray-400">
+                                    <span class="text-sm">Tarotista</span>
+                                </p>
+                                <p class="leading-4 truncate">
+                                    <span class="text-xs uppercase">Ingles, Español</span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="absolute bottom-0 right-0 flex items-center align-center">
+                            <a href="javascript:;" (click)="handleStartCall(41051, '+639171242918', 'Bonnie Green', 'https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png')" 
+                                [ngStyle]="{'background-color': buttonColor}" class="mr-2 font-medium rounded-full text-sm p-2 text-center inline-flex items-center">
+                                <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                    <path fill-rule="evenodd" d="M5 8a1 1 0 0 1 1 1v3a4.006 4.006 0 0 0 4 4h4a4.006 4.006 0 0 0 4-4V9a1 1 0 1 1 2 0v3.001A6.006 6.006 0 0 1 14.001 18H13v2h2a1 1 0 1 1 0 2H9a1 1 0 1 1 0-2h2v-2H9.999A6.006 6.006 0 0 1 4 12.001V9a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
+                                    <path d="M7 6a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v5a4 4 0 0 1-4 4h-2a4 4 0 0 1-4-4V6Z"/>
+                                </svg>  
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- <button type="button" 
     (click)="handleStartCall(41051, '+639171242918')"
     class="mt-8 flex items-center text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
     <svg class="w-6 h-6 mr-2 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
         <path d="M7.978 4a2.553 2.553 0 0 0-1.926.877C4.233 6.7 3.699 8.751 4.153 10.814c.44 1.995 1.778 3.893 3.456 5.572 1.68 1.679 3.577 3.018 5.57 3.459 2.062.456 4.115-.073 5.94-1.885a2.556 2.556 0 0 0 .001-3.861l-1.21-1.21a2.689 2.689 0 0 0-3.802 0l-.617.618a.806.806 0 0 1-1.14 0l-1.854-1.855a.807.807 0 0 1 0-1.14l.618-.62a2.692 2.692 0 0 0 0-3.803l-1.21-1.211A2.555 2.555 0 0 0 7.978 4Z"/>
     </svg>
     Start a Call
-</button>
-<div class="row video-group">
+</button> -->
+<!-- <div class="row video-group">
     <div class="col">
       <p id="local-player-name" class="player-name"></p>
       <div id="local-player" class="player"></div>
@@ -17,20 +55,20 @@
       <div id="{{ 'remote-playerlist' + i.uid}}" class="ui centered medium image" style="  width: 200px;
       height: 200px;">{{i.uid}}</div>
     </div>
-  </div>
+</div> -->
 <div id="toast-message-cta" *ngIf="showToast" 
     class="bg-yellow-50 fixed top-1/3 md:translate-x-2/4 lg:translate-x-2/4 flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" 
     style="left:20%;"
     role="alert">
     <div class="flex">
         <div class="relative inline-block shrink-0">
-            <img class="w-12 h-12 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-3.jpg" alt="Jese Leos image"/>
+            <img class="w-12 h-12 rounded-full" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/avatars/karen-nelson.png" alt="Jese Leos image"/>
         </div>
         <div class="ms-3 text-sm font-normal">
             <div class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</div>
             <div class="text-sm font-normal">{{ toastMessage }}</div> 
             <a *ngIf="toastMode != 'accept-call'" href="javascript:;" (click)="cancelCall()" class="mt-2 inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">Cancel</a> 
-            <a *ngIf="toastMode == 'accept-call'" href="javascript:;" (click)="acceptCall()" class="mt-2 inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">Accept</a> 
+            <!-- <a *ngIf="toastMode == 'accept-call'" href="javascript:;" (click)="acceptCall()" class="mt-2 inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">Accept</a>  -->
         </div>
     </div>
 </div>

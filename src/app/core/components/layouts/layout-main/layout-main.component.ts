@@ -3,7 +3,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
+  ViewChild,
 } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { environment } from "@env/environment";
@@ -19,6 +21,9 @@ import { SidebarComponent } from "@lib/components/sidebar/sidebar.component";
 import { UserMenuComponent } from "@lib/components/user-menu/user-menu.component";
 import { GuestMenuComponent } from "@lib/components/guest-menu/guest-menu.component";
 import { TopMenuComponent } from "@lib/components/top-menu/top-menu.component";
+import { ProfessionalsService } from "@features/services/professionals/professionals.service";
+import { CallNotificationPopupComponent } from "@share/components/call-notification-popup/call-notification-popup.component";
+import { Subscription } from 'rxjs';
 import moment from "moment";
 import get from "lodash/get";
 
@@ -36,6 +41,7 @@ import get from "lodash/get";
     MobileNavbarComponent,
     GuestMenuComponent,
     TopMenuComponent,
+    CallNotificationPopupComponent,
   ],
   templateUrl: "./layout-main.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -196,6 +202,16 @@ export class LayoutMainComponent {
   hasShop: boolean = false;
   cart: any = [];
 
+  pusherSubscription: Subscription | undefined;
+  pusherData: any = {};
+  showToast: boolean = false;
+  toastMessage: string = '';
+  toastMode: string = '';
+  @ViewChild("outsidebutton", { static: false }) outsidebutton:
+    | ElementRef
+    | undefined;
+  audio: any;
+
   constructor(
     private _router: Router,
     private _localService: LocalService,
@@ -205,6 +221,7 @@ export class LayoutMainComponent {
     private _userService: UserService,
     private _tutorsService: TutorsService,
     private _plansService: PlansService,
+    private _professionalsService: ProfessionalsService,
     private cd: ChangeDetectorRef
   ) {
     this.language = this._localService.getLocalStorage(environment.lslanguage);
@@ -360,7 +377,61 @@ export class LayoutMainComponent {
           localStorage.setItem('version', newVersion);
       }
     }
- 
+    
+    this.subscribeVoiceCall();
+  }
+
+  subscribeVoiceCall() {
+    this.pusherSubscription = this._professionalsService
+      .getFeedItems()
+      .subscribe(async(response) => {
+        if(response?.id == this.userId || response?.channel == this.userId) {
+          this.pusherData = response;
+          this.toastMessage = response.message || 'Incoming call...';
+          this.toastMode = response.mode;
+
+          if(this.toastMode == 'end-call') {
+            // await this._professionalsService.leaveCall();
+            // this.showToast = false;
+          } else if(this.toastMode == 'accept-call') {
+            this.showToast = true;
+            setTimeout(() => {
+              this.outsidebutton?.nativeElement.click();
+              let audioPlayer = <HTMLAudioElement> document.getElementById('audio-ring');
+              if(audioPlayer) {
+                audioPlayer.loop = true;
+                audioPlayer.play();
+              }
+            }, 100);
+          }
+          this.cd.detectChanges();
+        }
+      })
+  }
+
+  handleAccept() {
+    console.log('accept call')
+    console.log(this.pusherData)
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      let audioPlayer = <HTMLAudioElement> document.getElementById('audio-ring');
+      if(audioPlayer) {
+        audioPlayer.pause();
+      }
+    }, 500);
+    this.showToast = false;
+    this._router.navigate([`/professionals/voice/${this.pusherData.id}/${this.pusherData.user_id}/${this.pusherData.phone}`])
+  }
+
+  handleCancel() {
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      let audioPlayer = <HTMLAudioElement> document.getElementById('audio-ring');
+      if(audioPlayer) {
+        audioPlayer.pause();
+      }
+    }, 100);
+    this.showToast = false;
   }
 
   getNetculturaUsers() {

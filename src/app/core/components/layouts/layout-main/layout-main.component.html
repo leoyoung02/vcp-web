@@ -209,6 +209,18 @@
                 </div>
             </ng-container>
             <ng-content></ng-content>
+            <audio id="audio-ring">
+                <source src='./assets/audio/ring.mp3' type="audio/mpeg">
+            </audio>
+            <app-call-notification-popup 
+                [showToast]="showToast"
+                [company]="company"
+                [userId]="userId" 
+                [toastMode]="toastMode"
+                [toastMessage]="toastMessage"
+                (handleAcceptClick)="handleAccept()"
+                (handleCancelClick)="handleCancel()">
+            </app-call-notification-popup>
         </div>
         <app-footer 
             class="-pl-6 -pr-6" 
@@ -219,3 +231,6 @@
         </app-footer>
     </main>
 </div>
+<button #outsidebutton class="hidden" type="button">
+    &nbsp;
+</button>

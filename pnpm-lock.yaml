@@ -92,6 +92,9 @@ dependencies:
   agora-rtc-sdk-ng:
     specifier: ^4.21.0
     version: 4.21.0
+  agora-rtm-sdk:
+    specifier: ^2.1.10
+    version: 2.1.10
   angular-star-rating:
     specifier: ^7.0.0
     version: 7.0.0(@angular/core@16.0.0)(@angular/forms@16.0.0)(css-star-rating@1.3.1)(rxjs@7.8.0)
@@ -4404,6 +4407,14 @@ packages:
 
   /agora-rte-extension@1.2.4:
     resolution: {integrity: sha512-0ovZz1lbe30QraG1cU+ji7EnQ8aUu+Hf3F+a8xPml3wPOyUQEK6CTdxV9kMecr9t+fIDrGeW7wgJTsM1DQE7Nw==}
+    dev: false
+
+  /agora-rtm-sdk@2.1.10:
+    resolution: {integrity: sha512-dls963836Z999mF/fwUbsQymAuQ2C/kzAsAl2ppu24Hd8vMug28vPvJhgkxPzxkqVNnsTxSLfP0iR0cMG/5mmQ==}
+    dependencies:
+      agora-rtc-sdk-ng: 4.21.0
+    transitivePeerDependencies:
+      - debug
     dev: false
 
   /ajv-formats@2.1.1(ajv@8.12.0):

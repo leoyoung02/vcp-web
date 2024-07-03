@@ -62,6 +62,7 @@
     "@videogular/ngx-videogular": "^8.0.0",
     "@vimeo/player": "^2.20.1",
     "agora-rtc-sdk-ng": "^4.21.0",
+    "agora-rtm-sdk": "^2.1.10",
     "angular-star-rating": "^7.0.0",
     "apexcharts": "^3.42.0",
     "cookieconsent": "^3.1.1",

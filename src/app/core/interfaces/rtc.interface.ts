@@ -1,6 +1,7 @@
-import AgoraRTC, { IMicrophoneAudioTrack, IAgoraRTCClient } from 'agora-rtc-sdk-ng';
+import AgoraRTC, { IMicrophoneAudioTrack, IAgoraRTCClient, IRemoteAudioTrack } from 'agora-rtc-sdk-ng';
 
 export interface RTC {
     client: IAgoraRTCClient | null,
     localAudioTrack: IMicrophoneAudioTrack | null,
+    remoteAudioTracks: IRemoteAudioTrack | {},
 }
