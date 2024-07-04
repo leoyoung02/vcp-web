@@ -124,7 +124,7 @@
     </ng-container>
   </div>
 </ng-container>
-<ng-container *ngIf="courses?.length > 0">
+<ng-container *ngIf="!isUESchoolOfLife && courses?.length > 0">
   <app-page-title [mode]="'section'" [title]="coursesSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
     <ng-container *ngFor="let item of courses; let even=even; let i = index;">
@@ -157,7 +157,7 @@
     </ng-container>
   </div>
 </ng-container>
-<ng-container *ngIf="coursesNivelacion?.length > 0">
+<ng-container *ngIf="isUESchoolOfLife && coursesNivelacion?.length > 0">
   <app-page-title [mode]="'section'" [title]="coursesNivelacionSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
     <ng-container *ngFor="let item of coursesNivelacion; let even=even; let i = index;">
