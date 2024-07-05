@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, Subject, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
-import { GENERATE_RTC_TOKEN_URL, NOTIFY_PROFESSIONAL_PUSHER_URL, VOICE_CALL_URL } from "@lib/api-constants";
+import { GENERATE_RTC_TOKEN_URL, NOTIFY_PROFESSIONAL_PUSHER_URL, VALIDATE_VOICE_CALL_PASSCODE_URL, VOICE_CALL_URL } from "@lib/api-constants";
 import { RTC, RTCUser } from "@lib/interfaces";
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import Pusher from 'pusher-js';
@@ -18,9 +18,10 @@ export class ProfessionalsService {
     client: null,
     localAudioTrack: null,
     remoteAudioTracks: {},
+    micMuted: true,
   };
 
-  token = '007eJxTYBDV2BawpVgy4l26V8q9tQoeZccf5LbvzvONb2aLOFY/a74Cg5GhWXKSpZGFWZp5kkmKsUVimpFRmpFJUqJpkmmqQYqJ1s2WtIZARob1us7MjAwQCOKzMOQmZuYxMAAAEEIeow=='
+  token = '007eJxTYAhoi77dpbj7jsqGqSuFHlVaXPjMmBi14fKC11NnPlPa03lDgcHI0Cw5ydLIwizNPMkkxdgiMc3IKM3IJCnRNMk01SDFJL+tNa0hkJEhUHQbAyMUgvgsDLmJmXkMDADw2iFf'
   rtcUid =  Math.floor(Math.random() * 2032)
   rtmUid =  String(Math.floor(Math.random() * 2032))
 
@@ -36,13 +37,6 @@ export class ProfessionalsService {
   companyId: any;
 
   roomId = "main"
-
-  // audioTracks = {
-  //   localAudioTrack: null,
-  //   remoteAudioTracks: {},
-  // };
-
-  micMuted = true
 
   rtcClient;
   rtmClient;
@@ -62,12 +56,14 @@ export class ProfessionalsService {
     const client = new Pusher('d15683105c5d696cddc7', { cluster: 'eu' });
     // console.log('channel: ' + `pusher-vcp-${this.userId}`)
     
-    const pusherChannel = client.subscribe(`pusher-vcp-${this.userId}`);
+    let sub = 'pusher-vcp-astroideal' // `pusher-vcp-${this.userId}`;
+    const pusherChannel = client.subscribe(sub);
+    console.log('sub channel: ' + sub);
     pusherChannel.bind('professional-voice-call', (data) => this.subject.next(data));
   }
 
   async initRtc() {
-    this.rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp9" });
+    this.rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
   
     this.rtc.client.on("user-published", this.handleUserPublished);
     this.rtc.client.on("user-left", this.handleUserLeft);
@@ -77,8 +73,8 @@ export class ProfessionalsService {
     this.rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack({
       encoderConfig: "music_standard"
     });
-    this.rtc.localAudioTrack.setMuted(this.micMuted);
-    await this.rtc.client.publish(this.rtc.localAudioTrack);
+    // this.rtc.localAudioTrack.setMuted(this.micMuted);
+    await this.rtc.client.publish([this.rtc.localAudioTrack]);
   
     //initVolumeIndicator()
   }
@@ -90,123 +86,153 @@ export class ProfessionalsService {
     if (mediaType == "audio"){
       this.rtc.remoteAudioTracks[user.uid] = [user.audioTrack]
       user.audioTrack.play();
+      
+      // const remoteAudioTrack = user.audioTrack;
+      // remoteAudioTrack.play();
     }
   }
 
   async handleUserLeft(user) {
     console.log('handleUserLeft')
-    delete this.rtc.remoteAudioTracks[user.uid]
+    // delete this.rtc.remoteAudioTracks[user.uid]
   }
 
   async enterRoom() {
     this.initRtc();
   }
 
-  // createRTCClient() {
-  //   this.rtc.client = AgoraRTC.createClient({ 
-  //     mode: "rtc", 
-  //     codec: "vp9" 
-  //   });
+  toggleMic() {
+    this.rtc?.localAudioTrack?.setMuted(this.rtc.micMuted);
+  }
 
-  //   // Enable log upload
-  //   AgoraRTC.enableLogUpload();
-  //   // Set the log output level as INFO
-  //   AgoraRTC.setLogLevel(1);
+  createRTCClient() {
+    this.rtc.client = AgoraRTC.createClient({ 
+      mode: "rtc", 
+      codec: "vp9" 
+    });
 
-  //   AgoraRTC.onAudioAutoplayFailed = () => {
-  //     alert("click to start autoplay!");
-  //   };
+    // Enable log upload
+    AgoraRTC.enableLogUpload();
+    // Set the log output level as INFO
+    AgoraRTC.setLogLevel(1);
 
-  //   AgoraRTC.onMicrophoneChanged = async changedDevice => {
-  //     // When plugging in a device, switch to a device that is newly plugged in.
-  //     if (changedDevice.state === "ACTIVE") {
-  //       this.rtc?.localAudioTrack?.setDevice(changedDevice.device.deviceId);
-  //       // Switch to an existing device when the current device is unplugged.
-  //     } else if (changedDevice.device.label === this.rtc?.localAudioTrack?.getTrackLabel()) {
-  //       const oldMicrophones = await AgoraRTC.getMicrophones();
-  //       oldMicrophones[0] && this.rtc?.localAudioTrack?.setDevice(oldMicrophones[0].deviceId);
-  //     }
-  //   };
-  // }
+    AgoraRTC.onAudioAutoplayFailed = () => {
+      // alert("click to start autoplay!");
+    };
 
-  // async localUser(channel, token, uuid) {
-  //   const uid = await this.rtc?.client?.join(this.options.appId, channel, token, uuid);
-  //   // Create an audio track from the audio sampled by a microphone.
-  //   this.rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack({
-  //     encoderConfig: "music_standard"
-  //   });
+    AgoraRTC.onMicrophoneChanged = async changedDevice => {
+      // When plugging in a device, switch to a device that is newly plugged in.
+      if (changedDevice.state === "ACTIVE") {
+        this.rtc?.localAudioTrack?.setDevice(changedDevice.device.deviceId);
+        // Switch to an existing device when the current device is unplugged.
+      } else if (changedDevice.device.label === this.rtc?.localAudioTrack?.getTrackLabel()) {
+        const oldMicrophones = await AgoraRTC.getMicrophones();
+        oldMicrophones[0] && this.rtc?.localAudioTrack?.setDevice(oldMicrophones[0].deviceId);
+      }
+    };
+  }
 
-  //   // Publish the local audio and video tracks to the
-  //   // channel for other users to subscribe to it.
-  //   await this.rtc?.client?.publish([this.rtc.localAudioTrack]);
-  // }
+  async localUser(channel, token, uuid, mode: string = '') {
+    const uid = await this.rtc?.client?.join(this.options.appId, channel, token, uuid);
+    
+    // // Create an audio track from the audio sampled by a microphone.
+    // this.rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack({
+    //   encoderConfig: "music_standard"
+    // });
 
-  // agoraServerEvents(rtc) {
-  //   rtc.client.on("user-published", async (user, mediaType) => {
-  //     console.log(user, mediaType, 'user-published');
+    // // Publish the local audio and video tracks to the
+    // // channel for other users to subscribe to it.
+    // this.rtc.localAudioTrack.setMuted(this.rtc.micMuted);
 
-  //     await rtc.client.subscribe(user, mediaType);
-  //     console.log("subscribe success");
+    // await this.rtc?.client?.publish([this.rtc.localAudioTrack]);
 
-  //     if (mediaType === "audio") {
-  //       const remoteAudioTrack = user.audioTrack;
-  //       remoteAudioTrack.play();
-  //     }
-  //   });
+    this.getEquipment(mode);
+  }
 
-  //   rtc.client.on("user-unpublished", async(user, mediaType) => {
-  //     console.log(user, 'user-unpublished');
+  async getEquipment(mode) {
+    let skipPermissionsCheck = mode ? true : false;
+    const dev = await AgoraRTC.getMicrophones(skipPermissionsCheck);
+    const hasMicrophone = dev.some(device => device.kind === 'audioinput');
+    if(hasMicrophone && !mode) {
+       // Create an audio track from the audio sampled by a microphone.
+      this.rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack({
+        encoderConfig: "music_standard"
+      });
 
-  //     if (mediaType === 'audio') {
-  //       const id = user.uid;
-  //       delete this.remoteUsers[id];
+      // Publish the local audio and video tracks to the
+      // channel for other users to subscribe to it.
+      this.rtc.localAudioTrack.setMuted(this.rtc.micMuted);
 
-  //       const playerContainer = document.getElementById('remote-playerlist' + user.uid.toString());
-  //       playerContainer && playerContainer.remove();
-  //     }
+      await this.rtc?.client?.publish([this.rtc.localAudioTrack]);
+    }
+  }
 
-  //     // Destroy the local audio track.
-  //     rtc.localAudioTrack.close();
+  agoraServerEvents(rtc) {
+    rtc.client.on("user-published", async (user, mediaType) => {
+      console.log(user, mediaType, 'user-published');
 
-  //     // Leave the channel.
-  //     await rtc.client.leave();
+      await rtc.client.subscribe(user, mediaType);
+      console.log("subscribe success");
 
-  //     // let params = {
-  //     //   id: user.uid,
-  //     //   user_id: this.userId,
-  //     //   company_id: this.companyId,
-  //     //   mode: 'end-call',
-  //     //   channel: user.uid,
-  //     // }
+      if (mediaType === "audio") {
+        const remoteAudioTrack = user.audioTrack;
+        remoteAudioTrack.play();
+      }
+    });
 
-  //     // await this.notifyProfessional(params);
-  //   });
+    rtc.client.on("user-unpublished", async(user, mediaType) => {
+      console.log(user, 'user-unpublished');
 
-  //   rtc.client.on("user-joined", (user) => {
-  //     let id = user.uid;
-  //     this.remoteUsers.push({ 'uid': + id });
-  //     this.updateUserInfo.next(id);
-  //     console.log("user-joined", user, this.remoteUsers, 'event1');
-  //   });
-  // }
+      // if (mediaType === 'audio') {
+      //   const id = user.uid;
+      //   delete this.remoteUsers[id];
+
+      //   const playerContainer = document.getElementById('remote-playerlist' + user.uid.toString());
+      //   playerContainer && playerContainer.remove();
+      // }
+
+      // Destroy the local audio track.
+      rtc.localAudioTrack.close();
+
+      // Leave the channel.
+      await rtc.client.leave();
+
+      // let params = {
+      //   id: user.uid,
+      //   user_id: this.userId,
+      //   company_id: this.companyId,
+      //   mode: 'end-call',
+      //   channel: user.uid,
+      // }
+
+      // await this.notifyProfessional(params);
+    });
+
+    rtc.client.on("user-joined", (user) => {
+      let id = user.uid;
+      this.remoteUsers.push({ 'uid': + id });
+      this.updateUserInfo.next(id);
+      console.log("user-joined", user, this.remoteUsers, 'event1');
+    });
+  }
 
   // outboundPSTN(user) {
   //   console.log(user)
   // }
   
-  // async leaveCall() {
-  //   // Destroy the local audio track.
-  //   this.rtc?.localAudioTrack?.close();
+  async leaveCall() {
+    // Destroy the local audio track.
+    this.rtc?.localAudioTrack?.close();
 
-  //   // Traverse all remote users.
-  //   this.rtc?.client?.remoteUsers.forEach(user => {
-  //     // Destroy the dynamically created DIV container.
-  //     const playerContainer = document.getElementById('remote-playerlist' + user.uid.toString());
-  //     playerContainer && playerContainer.remove();
-  //   });
-  //   // Leave the channel.
-  //   await this.rtc?.client?.leave();
-  // }
+    // // Traverse all remote users.
+    // this.rtc?.client?.remoteUsers.forEach(user => {
+    //   // Destroy the dynamically created DIV container.
+    //   const playerContainer = document.getElementById('remote-playerlist' + user.uid.toString());
+    //   playerContainer && playerContainer.remove();
+    // });
+    // Leave the channel.
+    await this.rtc?.client?.leave();
+  }
 
   // generateUid() {
   //   const length = 5;
@@ -214,11 +240,11 @@ export class ProfessionalsService {
   //   return randomNo;
   // }
 
-  // generateRTCToken(channel, role, tokentype, uid): Observable<any> {
-  //   return this._http.get(`${GENERATE_RTC_TOKEN_URL}/${channel}/${role}/${tokentype}/${uid}`, { 
-  //     headers: this.headers 
-  //   }).pipe(map(res => res));
-  // }
+  generateRTCToken(channel, role, tokentype, uid): Observable<any> {
+    return this._http.get(`${GENERATE_RTC_TOKEN_URL}/${channel}/${role}/${tokentype}/${uid}`, { 
+      headers: this.headers 
+    }).pipe(map(res => res));
+  }
 
   getFeedItems(): Observable<any> {
     return this.subject.asObservable();
@@ -231,10 +257,17 @@ export class ProfessionalsService {
     ).pipe(map(res => res));
   }
 
-  // voiceCall(payload): Observable<any> {
-  //   return this._http.post(VOICE_CALL_URL,
-  //       payload,
-  //       { headers: this.headers }
-  //   ).pipe(map(res => res));
-  // }
+  voiceCall(payload): Observable<any> {
+    return this._http.post(VOICE_CALL_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  validateVoiceCallPasscode(payload): Observable<any> {
+    return this._http.post(VALIDATE_VOICE_CALL_PASSCODE_URL,
+        payload,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
 }

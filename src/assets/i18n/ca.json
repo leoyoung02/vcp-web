@@ -3689,6 +3689,10 @@
     },
     "professionals": {
         "professionals": "Professionals",
-        "professional": "Professional"
+        "professional": "Professional",
+        "endcall": "Finalitzar la trucada",
+        "gender": "Gènere",
+        "civilstatus": "Estat civil",
+        "voice": "Veu"
     }
 }

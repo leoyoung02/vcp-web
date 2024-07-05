@@ -4,4 +4,5 @@ export interface RTC {
     client: IAgoraRTCClient | null,
     localAudioTrack: IMicrophoneAudioTrack | null,
     remoteAudioTracks: IRemoteAudioTrack | {},
+    micMuted: boolean | true,
 }

@@ -207,10 +207,15 @@ export class LayoutMainComponent {
   showToast: boolean = false;
   toastMessage: string = '';
   toastMode: string = '';
+  audio: any;
+  toastImage: any;
+  toastName: any;
+  professionalsFeatureId: any;
+  hasProfessionals: boolean = false;
+  voiceCallPage: boolean = false;
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
-  audio: any;
 
   constructor(
     private _router: Router,
@@ -240,6 +245,7 @@ export class LayoutMainComponent {
 
   async ngOnInit() {
     this.pageInit = true;
+    this.voiceCallPage = window.location.href?.indexOf("/call/voice") >= 0 ? true : false;
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     if (!this._localService.getLocalStorage(environment.lslang)) { this._localService.setLocalStorage(environment.lslang, "es"); }
@@ -348,6 +354,16 @@ export class LayoutMainComponent {
         this.shopFeatureId = shopFeature[0].id;
         this.hasShop = true;
       }
+
+      let professionalsFeature = this.features.filter((f) => {
+        return f.feature_name == "Professionals";
+      });
+      if (professionalsFeature && professionalsFeature[0]) {
+        this.professionalsFeatureId = professionalsFeature[0].id;
+        this.hasProfessionals = true;
+
+        this.subscribeVoiceCall();
+      }
     }
 
     this._userService.currentRefreshNotification
@@ -377,8 +393,6 @@ export class LayoutMainComponent {
           localStorage.setItem('version', newVersion);
       }
     }
-    
-    this.subscribeVoiceCall();
   }
 
   subscribeVoiceCall() {
@@ -389,10 +403,12 @@ export class LayoutMainComponent {
           this.pusherData = response;
           this.toastMessage = response.message || 'Incoming call...';
           this.toastMode = response.mode;
+          this.toastName = response.caller_name;
+          this.toastImage = response.caller_image;
 
           if(this.toastMode == 'end-call') {
-            // await this._professionalsService.leaveCall();
-            // this.showToast = false;
+            await this._professionalsService.leaveCall();
+            this.showToast = false;
           } else if(this.toastMode == 'accept-call') {
             this.showToast = true;
             setTimeout(() => {
@@ -420,7 +436,10 @@ export class LayoutMainComponent {
       }
     }, 500);
     this.showToast = false;
-    this._router.navigate([`/professionals/voice/${this.pusherData.id}/${this.pusherData.user_id}/${this.pusherData.phone}`])
+    this._router.navigate([`/professionals/call/voice/${this.pusherData.id}/${this.pusherData.user_id}/${this.pusherData.phone}`])
+    .then(() => {
+      window.location.reload();
+    });
   }
 
   handleCancel() {

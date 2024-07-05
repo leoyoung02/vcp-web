@@ -12,7 +12,7 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import { CompanyService, LocalService } from "@share/services";
+import { CompanyService, LocalService, UserService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -21,6 +21,7 @@ import { PageTitleComponent } from "@share/components";
 import { ProfessionalsService } from "@features/services/professionals/professionals.service";
 import { Subscription } from 'rxjs';
 import { initFlowbite } from "flowbite";
+import { timer } from "@lib/utils/timer/timer.utils";
 import get from "lodash/get";
 
 @Component({
@@ -55,6 +56,14 @@ export class ProfessionalsListComponent {
   primaryColor: any;
   buttonColor: any;
   hoverColor: any;
+  professionalImage: any;
+  professionalName: any;
+  professional: any;
+  user: any;
+
+  time: number = 0;
+  display ;
+  interval;
   
   constructor(
     private _route: ActivatedRoute,
@@ -63,6 +72,7 @@ export class ProfessionalsListComponent {
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _companyService: CompanyService,
+    private _userService: UserService,
     public _professionalsService: ProfessionalsService,
   ) {
     
@@ -80,6 +90,7 @@ export class ProfessionalsListComponent {
 
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
+    this.user = this._localService.getLocalStorage(environment.lsuser);
 
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
@@ -114,30 +125,67 @@ export class ProfessionalsListComponent {
   }
 
   initializePage() {
-    // this.subscribeVoiceCall();
+    this.getTestProfessional();
+    this.subscribeVoiceCall();
   }
 
-  // subscribeVoiceCall() {
-  //   this.pusherSubscription = this._professionalsService
-  //     .getFeedItems()
-  //     .subscribe(async(response) => {
-  //       if(response?.id == this.userId || response?.channel == this.userId) {
-  //         this.pusherData = response;
-  //         this.toastMessage = response.message || 'Incoming call...';
-  //         this.toastMode = response.mode;
+  getTestProfessional() {
+    this._userService
+      .getUserById(41051)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (response) => {
+          this.professional = response.CompanyUser;
+          this.professionalImage = `${environment.api}/${this.professional.image}`;
+          this.professionalName = this.professional?.first_name ? `${this.professional.first_name} ${this.professional.last_name}` : this.professional.name;
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
 
-  //         if(this.toastMode == 'end-call') {
-  //           await this._professionalsService.leaveCall();
-  //           this.showToast = false;
-  //         } else {
-  //           this.showToast = true;
-  //         }
-  //       }
-  //     })
-  // }
+  subscribeVoiceCall() {
+    this.pusherSubscription = this._professionalsService
+      .getFeedItems()
+      .subscribe(async(response) => {
+        if(response?.id == this.userId || response?.channel == this.userId) {
+          this.pusherData = response;
+          this.toastMessage = response.message || 'Incoming call...';
+          this.toastMode = response.mode;
 
-  handleStartCall(id, phone_number, name, avatar) {
+          if(this.toastMode == 'end-call') {
+            await this._professionalsService.leaveCall();
+            this.showToast = false;
+          } else if(this.toastMode == 'ongoing-call') {
+            this.startTimer();
+          }
+        }
+      })
+  }
+
+  startTimer() {
+    this.interval = setInterval(() => {
+      if (this.time === 0) {
+        this.time++;
+      } else {
+        this.time++;
+      }
+      this.display = timer.transform(this.time);
+    }, 1000);
+  }
+
+  pauseTimer() {
+    clearInterval(this.interval);
+  }
+
+  async handleStartCall(id, phone_number, name, avatar) {
+    this.display = '';
     this.selectedId = id;
+
+    const channel =  `agora-vcp-${id}`;
+    let caller_uid = Math.floor(Math.random() * 2032);
+
     setTimeout(() => {
       initFlowbite();
       this.toastMessage = 'Dialing...';
@@ -149,11 +197,19 @@ export class ProfessionalsListComponent {
         company_id: this.companyId,
         mode: 'accept-call',
         message: 'Incoming call',
+        caller_name: this.user?.first_name ? `${this.user.first_name} ${this.user.last_name}` : this.user.name,
+        caller_image: `${environment.api}/${this.user?.image}`,
         phone: phone_number,
+        room: channel,
+        caller_uid,
       }
       this.notifyProfessional(params);
     }, 100);
-    this._professionalsService.enterRoom();
+
+    const token = get(await this._professionalsService.generateRTCToken(channel, 'publisher', 'uid', this.userId).toPromise(), 'rtcToken')
+    this._professionalsService.createRTCClient();
+    this._professionalsService.agoraServerEvents(this._professionalsService.rtc);
+    await this._professionalsService.localUser(channel, token, caller_uid, 'initiate-call');
   }
 
   notifyProfessional(params) {
@@ -166,63 +222,19 @@ export class ProfessionalsListComponent {
       })
   }
 
-  // acceptCall() {
-  //   this.toastMessage = 'Ongoing call...';
-  //   this.toastMode = 'ongoing-call';
-  //   let params = {
-  //     id: this.selectedId,
-  //     user_id: this.userId,
-  //     company_id: this.companyId,
-  //     mode: this.toastMode,
-  //     message: this.toastMessage,
-  //     channel: this.pusherData.user_id
-  //   }
-  //   this.notifyProfessional(params);
-
-  //   // this.startCall(this.pusherData.user_id, this.pusherData.phone);
-  // }
-
   async cancelCall() {
-  //   await this._professionalsService.leaveCall();
-  //   let params = {
-  //     id: this.selectedId,
-  //     user_id: this.userId,
-  //     company_id: this.companyId,
-  //     mode: 'end-call',
-  //     channel: this.pusherData.user_id,
-  //   }
-  //   this.notifyProfessional(params);
-  //   this.showToast = false;
+    await this._professionalsService.leaveCall();
+    let params = {
+      id: this.professional?.id,
+      user_id: this.userId,
+      company_id: this.companyId,
+      mode: 'end-call',
+      channel: this.userId,
+    }
+    this.notifyProfessional(params);
+    this._professionalsService.leaveCall();
+    this.showToast = false;
   }
-
-  // async startCall(id, phone_number) {
-  //   const channel =  `agora-vcp-${id}`
-  //   const token = get(await this._professionalsService.generateRTCToken(channel, 'publisher', 'uid', this.userId).toPromise(), 'rtcToken')
-  //   this._professionalsService.createRTCClient();
-  //   this._professionalsService.agoraServerEvents(this._professionalsService.rtc);
-
-  //   await this._professionalsService.localUser(channel, token, this.userId);
-
-  //   // this.handleOutboundPSTN(id, phone_number, channel, token);
-  // }
-
-  // handleOutboundPSTN(uid, phone_number, channel, token) {
-  //   let params = {
-  //     company_id: this.companyId,
-  //     uid,
-  //     channel,
-  //     to: phone_number,
-  //     token,
-  //   }
-
-  //   this._professionalsService.voiceCall(params).subscribe(
-  //     (response) => {
-        
-  //     },
-  //     (error) => {
-  //       console.log(error);
-  //     })
-  // }
 
   async open(message: string, action: string) {
     await this._snackBar.open(message, action, {

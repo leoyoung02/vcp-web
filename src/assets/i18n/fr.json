@@ -3676,6 +3676,10 @@
     },
     "professionals": {
         "professionals": "Professionnels",
-        "professional": "Professionnel"
+        "professional": "Professionnel",
+        "endcall": "Fin de l'appel",
+        "gender": "Genre",
+        "civilstatus": "Etat civil",
+        "voice": "Voix"
     }
 }

@@ -779,3 +779,4 @@ export const PRODUCTS_URL = `${API_BASE}/v2/products`;
 export const GENERATE_RTC_TOKEN_URL = `${API_BASE}/v3/agora/rtc`;
 export const NOTIFY_PROFESSIONAL_PUSHER_URL = `${API_BASE}/v3/voice-call/push`;
 export const VOICE_CALL_URL = `${API_BASE}/v3/voice-call`;
+export const VALIDATE_VOICE_CALL_PASSCODE_URL = `${API_BASE}/v3/voice-call/validate-code`;

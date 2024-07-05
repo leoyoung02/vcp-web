@@ -3718,6 +3718,10 @@
     },
     "professionals": {
         "professionals": "professionals",
-        "professional": "Professional"
+        "professional": "Professional",
+        "endcall": "End call",
+        "gender": "Gender",
+        "civilstatus": "Civil status",
+        "voice": "Voice"
     }
 }

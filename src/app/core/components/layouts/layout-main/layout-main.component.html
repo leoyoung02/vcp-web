@@ -1,4 +1,4 @@
-<ng-container *ngIf="navigation == 'top-menu'">
+<ng-container *ngIf="!voiceCallPage && navigation == 'top-menu'">
     <div class="hidden sm:hidden md:block lg:block">
         <app-top-menu
             *ngIf="!isCursoGeniusTestimonials"
@@ -59,7 +59,7 @@
     </div>
 </ng-container>
 <div class="flex">
-    <ng-container *ngIf="navigation == 'side-menu'">
+    <ng-container *ngIf="!voiceCallPage && navigation == 'side-menu'">
         <app-sidebar
             *ngIf="!isCursoGeniusTestimonials"
             [menus]="menus" 
@@ -104,11 +104,19 @@
         </app-sidebar>
     </ng-container>
     <main class="relative w-full"
-        [ngClass]="{'max-w-full': navigation != 'top-menu', 'mx-auto max-w-screen-2xl': navigation == 'top-menu'}"
+        [ngClass]="{
+            'max-w-full': navigation != 'top-menu', 
+            'mx-auto max-w-full sm:max-w-full md:max-w-screen-2xl lg:max-w-screen-2xl': navigation == 'top-menu' && !voiceCallPage, 
+            'h-screen bg-[#00122e] max-w-full': voiceCallPage
+        }"
         [ngStyle]="{'background': isWall ? '#f8f4f4' : 'initial'}">
-        <div class="min-h-[calc(100vh_-_330px)]"
-            [ngClass]="{'px-6 sm:px-6 md:px-6 md:px-16 lg:md:px-16 py-6': navigation != 'top-menu', 'p-6 md:pt-40 lg:pt-40': navigation == 'top-menu'}">
-            <div class="absolute top-10 left-7 md:hidden lg:hidden bg-white border-gray-200 dark:bg-gray-900">
+        <div [ngClass]="{
+                'px-6 sm:px-6 md:px-6 md:px-16 lg:md:px-16 py-6': navigation != 'top-menu', 
+                'p-6 md:pt-40 lg:pt-40': navigation == 'top-menu' && !voiceCallPage,
+                'min-h-[calc(100vh_-_330px)]': !voiceCallPage
+            }">
+            <div *ngIf="!voiceCallPage"
+                class="absolute top-10 left-7 md:hidden lg:hidden bg-white border-gray-200 dark:bg-gray-900">
                 <app-mobile-navbar 
                     *ngIf="!isCursoGeniusTestimonials"
                     [menus]="menus" 
@@ -143,7 +151,7 @@
                     (changeLanguage)="changedLanguage($event)" 
                 ></app-mobile-navbar>
             </div>
-            <ng-container>
+            <ng-container *ngIf="!voiceCallPage">
                 <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50"
                     *ngIf="userId"
                     [ngClass]="{'md:hidden lg:hidden': navigation == 'top-menu'}">
@@ -209,22 +217,25 @@
                 </div>
             </ng-container>
             <ng-content></ng-content>
-            <audio id="audio-ring">
+            <audio *ngIf="!voiceCallPage" id="audio-ring">
                 <source src='./assets/audio/ring.mp3' type="audio/mpeg">
             </audio>
             <app-call-notification-popup 
+                *ngIf="!voiceCallPage"
                 [showToast]="showToast"
                 [company]="company"
                 [userId]="userId" 
                 [toastMode]="toastMode"
                 [toastMessage]="toastMessage"
+                [toastName]="toastName"
+                [toastImage]="toastImage"
                 (handleAcceptClick)="handleAccept()"
                 (handleCancelClick)="handleCancel()">
             </app-call-notification-popup>
         </div>
         <app-footer 
             class="-pl-6 -pr-6" 
-            *ngIf="showFooter && (companyId != 32 || (companyId == 32 && isUESchoolOfLife))" 
+            *ngIf="!voiceCallPage && showFooter && (companyId != 32 || (companyId == 32 && isUESchoolOfLife))" 
             [company]="company"
             [customLinks]="customLinks"
             [contactUsDetails]="contactUsDetails">

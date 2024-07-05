@@ -1,14 +1,15 @@
 <app-voice-call-room
     [buttonColor]="buttonColor"
     [statusText]="statusText"
-    [name]="callerName"
-    [image]="callerImage"
+    [name]="name"
+    [image]="image"
     [micMuted]="micMuted"
     [personalData]="personalData"
     [showActions]="showActions"
     [invalidPasscode]="invalidPasscode"
     [requirePasscode]="requirePasscode"
-    (toggleMic)="toggleMic()"
-    (endCall)="endCall()"
+    (toggleMic)="handleToggleMic()"
+    (endCall)="handleEndCall()"
+    (validatePasscode)="handleValidatePasscode($event)"
 >
 </app-voice-call-room>

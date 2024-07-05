@@ -3681,6 +3681,10 @@
     },
     "professionals": {
         "professionals": "Profis",
-        "professional": "Profi"
+        "professional": "Profi",
+        "endcall": "Anruf beenden",
+        "gender": "Geschlecht",
+        "civilstatus": "Personenstand",
+        "voice": "Stimme"
     }
 }

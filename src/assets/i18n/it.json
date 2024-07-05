@@ -3675,6 +3675,10 @@
     },
     "professionals": {
         "professionals": "Professionisti",
-        "professional": "Professionista"
+        "professional": "Professionista",
+        "endcall": "Termina chiamata",
+        "gender": "Genere",
+        "civilstatus": "Stato civile",
+        "voice": "Voce"
     }
 }

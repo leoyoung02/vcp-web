@@ -3703,6 +3703,10 @@
     },
     "professionals": {
         "professionals": "Profesionales",
-        "professional": "Profesional"
+        "professional": "Profesional",
+        "endcall": "Finalizar llamada",
+        "gender": "Género",
+        "civilstatus": "Estado civil",
+        "voice": "Voz"
     }
 }

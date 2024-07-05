@@ -3682,6 +3682,10 @@
     },
     "professionals": {
         "professionals": "Profesionalak",
-        "professional": "Professional"
+        "professional": "Professional",
+        "endcall": "Amaitu deia",
+        "gender": "Generoa",
+        "civilstatus": "Egoera zibila",
+        "voice": "Ahotsa"
     }
 }

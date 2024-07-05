@@ -28,6 +28,8 @@ export class CallNotificationPopupComponent {
     @Input() userId: any;
     @Input() toastMessage: any;
     @Input() toastMode: any;
+    @Input() toastName: any;
+    @Input() toastImage: any;
     @Output() handleAcceptClick = new EventEmitter();
     @Output() handleCancelClick = new EventEmitter()
 
