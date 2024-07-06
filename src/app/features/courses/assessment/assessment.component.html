@@ -4,11 +4,15 @@
     
     <div *ngIf="!finished">
         <div *ngFor="let item of assessment?.assessment_details; let i = index;">
-            <div class="flex items-center justify-center mb-4 relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
-                <div class="w-full max-w-full" *ngIf="currentIndex == i">
+            <div *ngIf="currentIndex == i" class="flex items-center justify-center mb-4 relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                <div class="w-full max-w-full">
                     <div class="mb-6 pb-4 border border-b-2 border-t-0 border-l-0 border-r-0 border-gray-300">
                         <div class="text-sm opacity-80 tracking-tight dark:text-white">{{'survey-create.question' | translate}} {{currentIndex + 1}} {{'course-assessment.of' | translate}} {{assessment?.assessment_details?.length}}</div>
                         <div class="text-lg font-semibold">{{item?.title}}</div>
+                        <ng-container *ngIf="item?.image">
+                            <img [src]="apiPath + '/get-course-unit-file/' + item.image" class="h-auto object-cover rounded-lg"
+                                [ngStyle]="{'width': item?.image_width}" />
+                        </ng-container>
                     </div>
                     <div>
                         <div *ngFor="let choice of item?.multiple_choice_options; let n = index;">

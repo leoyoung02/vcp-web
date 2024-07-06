@@ -186,6 +186,59 @@
                                     </div>
                                     <div class="flex items-center justify-center relative w-full max-w-full">
                                         <div class="mb-2 relative w-full max-w-full">
+                                            <label for="assessment-image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'quiz-details.image' | translate }}</label>
+                                            <ng-container *ngIf="assessmentItemImage">
+                                                <div class="flex items-center mb-4">
+                                                    <img [src]="apiPath + '/get-course-unit-file/' + assessmentItemImage" class="w-40 h-auto object-cover rounded-lg" />
+                                                    <div class="ml-4 w-24 p-2 px-4 rounded-lg flex items-center justify-center hover:cursor-pointer"
+                                                        [ngStyle]="{'background-color': buttonColor}"
+                                                        (click)="clearImage()">
+                                                        <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"
+                                                            [ngStyle]="{'color': '#c24130'}">
+                                                            <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z" clip-rule="evenodd"/>
+                                                        </svg>
+                                                        <span class="text-white text-xs ml-1">{{ 'profile-fields.remove' | translate }}</span>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <file-pond
+                                                #myPond
+                                                [options]="pondOptions"
+                                                [files]="pondFiles"
+                                                (oninit)="pondHandleInit()"
+                                                (onaddfile)="pondHandleAddFile($event)"
+                                            >
+                                            </file-pond>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="assessmentFileName || assessmentItemImage" class="flex items-center justify-center relative w-full max-w-full">
+                                        <div class="mb-2 relative w-full max-w-full">
+                                            <label for="assessment-image-width" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'company-settings.width' | translate }}</label>
+                                            <input 
+                                                id="assessment-image-width"
+                                                type="number" 
+                                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                [(ngModel)]="assessmentImageWidth"
+                                                [ngModelOptions]="{standalone: true}"
+                                                [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !assessmentItemTitle }"
+                                                placeholder="{{ 'company-settings.width' | translate }}">
+                                        </div>
+                                        <div class="mb-2 ml-4 relative w-full max-w-full">
+                                            <label for="assessment-image-width-unit" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'member-type-registration.selecttype' | translate }}</label>
+                                            <select
+                                                id="assessment-image-width-unit"
+                                                class="rounded-lg bg-white border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                                [(ngModel)]="assessmentImageWidthUnit"
+                                                [ngModelOptions]="{standalone: true}"
+                                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !assessmentImageWidthUnit }"
+                                            >
+                                                <option value="px">px</option>
+                                                <option value="%">%</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center justify-center relative w-full max-w-full">
+                                        <div class="mb-2 relative w-full max-w-full">
                                             <label for="question-type" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'member-type-registration.selecttype' | translate }}</label>
                                             <select
                                                 id="question-type"

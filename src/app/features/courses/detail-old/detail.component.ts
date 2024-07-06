@@ -371,6 +371,8 @@ export class CourseDetailComponent {
               assessment_id: detail.assessment_id,
               number: detail.number,
               title: detail.title,
+              image: detail.image,
+              image_width: detail.image_width,
               multiple_choice_options,
             });
           })
@@ -404,6 +406,8 @@ export class CourseDetailComponent {
               assessment_id: detail.assessment_id,
               number: detail.number,
               title: detail.title,
+              image: detail.image,
+              image_width: detail.image_width,
               multiple_choice_options,
             });
           })
@@ -435,6 +439,8 @@ export class CourseDetailComponent {
                   assessment_id: detail.assessment_id,
                   number: detail.number,
                   title: detail.title,
+                  image: detail.image,
+                  image_width: detail.image_width,
                   multiple_choice_options,
                 });
               })

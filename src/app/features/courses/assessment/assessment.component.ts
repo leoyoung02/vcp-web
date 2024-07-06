@@ -8,6 +8,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { CoursesService } from '@features/services';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-course-assessment',
@@ -48,6 +49,7 @@ export class AssessmentComponent {
     currentItemSubmitted: boolean = false;
     correctAnswers: any;
     rating: any;
+    apiPath: string = environment.api;
 
     constructor(
         private _route: ActivatedRoute,

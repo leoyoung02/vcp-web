@@ -31,6 +31,14 @@ import { CoursesService } from "@features/services";
 import { initFlowbite } from "flowbite";
 import get from "lodash/get";
 
+import { FilePondModule, registerPlugin } from 'ngx-filepond';
+import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+import { searchSpecialCase } from "src/app/utils/search/helper";
+registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
+
 @Component({
   selector: "app-course-assessments-list",
   standalone: true,
@@ -45,6 +53,7 @@ import get from "lodash/get";
     MatSnackBarModule,
     MatTabsModule,
     EditorModule,
+    FilePondModule,
     SearchComponent,
     BreadcrumbComponent,
     ToastComponent,
@@ -117,6 +126,8 @@ export class CourseAssessmentsListComponent {
   selectedAssessmentItemId: any;
   selectedAssessmentItemType: any = '';
   assessmentItemTitle: any;
+  assessmentImageWidth: any = '384';
+  assessmentImageWidthUnit: any = 'px';
   assessmentItemFormSubmitted: boolean = false;
   selectedAssessmentItem: any;
   selectedMultipleChoiceOption: any;
@@ -127,6 +138,62 @@ export class CourseAssessmentsListComponent {
   multipleChoiceCorrect: boolean = false;
   confirmMode: any;
   multipleChoiceOptionMode: any;
+
+  apiPath: string = environment.api;
+  assessmentImage: any;
+  assessmentFileName: any;
+  assessmentImageName: any;
+  pondFiles = [];
+  assessmentItemImage: any;
+  clearedImage: boolean = false;
+  @ViewChild('myPond', {static: false}) myPond: any;
+  pondOptions = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    acceptedFileTypes: 'image/jpg, image/jpeg, image/png',
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.assessmentFileName = 'assmt_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('file', file, this.assessmentFileName);
+        localStorage.setItem('course_assessment_file', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/company/course/temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('course_assessment_file', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+              request.abort();
+              abort();
+          },
+        };
+      },
+    },
+  };
 
   constructor(
     private _companyService: CompanyService,
@@ -507,6 +574,9 @@ export class CourseAssessmentsListComponent {
     this.selectedAssessmentItemId = item.id;
     this.selectedAssessmentItemType = item.assessment_type_id;
     this.assessmentItemTitle = item.title;
+    this.assessmentItemImage = item.image;
+    this.assessmentImageWidth = item?.image_width?.replace('px', '')?.replace('%', '');
+    this.assessmentImageWidthUnit = item?.image_width?.replace(this.assessmentImageWidth, '');
     this.showAssessmentItemDetails = true;
   }
 
@@ -560,6 +630,8 @@ export class CourseAssessmentsListComponent {
       assessment_id: this.selectedId,
       assessment_type_id: this.selectedAssessmentItemType,
       title: this.assessmentItemTitle,
+      image: this.assessmentFileName,
+      image_width: this.assessmentImageWidth ? `${this.assessmentImageWidth}${this.assessmentImageWidthUnit}` : '',
       created_by: this.userId,
     };
 
@@ -771,6 +843,37 @@ export class CourseAssessmentsListComponent {
     )
   }
 
+  pondHandleInit() {
+    console.log('FilePond has initialised', this.myPond);
+  }
+
+  pondHandleAddFile(event: any) {
+    console.log('A file was added', event);
+    if(localStorage.getItem('course_assessment_file') == 'complete' && this.assessmentFileName) {
+      this.assessmentImage = `${environment.api}/get-course-image/${this.assessmentFileName}`;
+    }
+  }
+
+  podHandleUpdateFiles(event: any) {
+    console.log('A file was updated', event);
+    if(localStorage.getItem('course_assessment_file') == 'complete' && this.assessmentFileName) {
+      this.assessmentImage = `${environment.api}/get-course-image/${this.assessmentFileName}`;
+    }
+  }
+
+  podHandleProcessFile(event: any) {
+    console.log('A file was updated', event);
+    if(localStorage.getItem('course_assessment_file') == 'complete' && this.assessmentFileName) {
+      this.assessmentImage = `${environment.api}/get-course-image/${this.assessmentFileName}`;
+    }
+  }
+
+  public getTimestamp() {
+    const date = new Date()
+    const timestamp = date.getTime()
+    return timestamp
+  }
+
   handleGoBack() {
     this._location.back();
   }
@@ -782,7 +885,18 @@ export class CourseAssessmentsListComponent {
     });
   }
 
+  clearImage() {
+    this.clearedImage = true;
+    this.assessmentItemImage = '';
+    this.assessmentFileName = '';
+  }
+
+  clearFileLocal() {
+    localStorage.removeItem('course_assessment_file');
+  }
+
   ngOnDestroy() {
+    this.clearFileLocal();
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
