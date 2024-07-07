@@ -22,6 +22,7 @@ import {
   COURSE_CATEGORY_DELETE_URL,
   COURSE_CATEGORY_EDIT_URL,
   COURSE_CATEGORY_MAPPING_URL,
+  COURSE_CITIES_URL,
   COURSE_COMPLETE_EVALUATE_URL,
   COURSE_CTA_URL,
   COURSE_DETAILS_ADMIN_URL,
@@ -363,6 +364,7 @@ export class CoursesService {
       formData.append( 'additional_properties_type_ids', params.additional_properties_type_ids );
       formData.append( 'additional_properties_segment_ids', params.additional_properties_segment_ids );
       formData.append( 'additional_properties_branding_ids', params.additional_properties_branding_ids );
+      formData.append('city_id', params.city_id);
     }
 
     if(params.activity_code) {
@@ -489,6 +491,7 @@ export class CoursesService {
       formData.append( 'additional_properties_type_ids', params.additional_properties_type_ids );
       formData.append( 'additional_properties_segment_ids', params.additional_properties_segment_ids );
       formData.append( 'additional_properties_branding_ids', params.additional_properties_branding_ids );
+      formData.append('city_id', params.city_id);
     }
 
     if(params.activity_code) {
@@ -763,5 +766,13 @@ export class CoursesService {
       RESET_COURSE_ASSESSMENT_URL,
       payload,
     ).pipe(map(res => res));
+  }
+
+  getCourseCities(id): Observable<any> {
+    return this._http.get(
+      `${COURSE_CITIES_URL}/${id}`,
+      { headers: this.headers }
+    )
+    .pipe(map(res => res));
   }
 }

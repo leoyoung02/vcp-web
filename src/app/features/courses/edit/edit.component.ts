@@ -518,6 +518,10 @@ export class CourseEditComponent {
   activityCode: any;
   activityCodeSigeca: any;
 
+  cityDropdownSettings: any;
+  cities: any = [];
+  selectedCity: any = '';
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -671,6 +675,16 @@ export class CourseEditComponent {
       itemsShowLimit: 3,
       allowSearchFilter: true,
     };
+    this.cityDropdownSettings = {
+      singleSelection: false,
+      idField: "id",
+      textField: "city",
+      selectAllText: this._translateService.instant("dialog.selectall"),
+      unSelectAllText: this._translateService.instant("dialog.clearall"),
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
+    };
     this.unlockModuleQuestions = [
       {
         id: 1,
@@ -812,6 +826,7 @@ export class CourseEditComponent {
           this.courseDurationUnits = data?.course_duration_units;
           this.otherStripeAccounts = data?.other_stripe_accounts;
           this.assessments = data?.assessments;
+          this.cities = data?.cities;
           this.formatCourseAssessments(data?.course_assessments);
           this.getOtherSettings(data?.settings?.other_settings, data?.member_types);
           this.getCourseWalls();
@@ -1318,6 +1333,10 @@ export class CourseEditComponent {
         this.courseCredits = this.course.course_credits
       }
     }
+
+    if(this.companyId == 32) {
+      this.getCourseCities();
+    }
   };
 
   mapCategories(data) {
@@ -1343,6 +1362,27 @@ export class CourseEditComponent {
     });
 
     return categories;
+  }
+
+  getCourseCities() {
+    this._coursesService.getCourseCities(this.id).subscribe(
+      (response) => {
+        let cities = response.course_cities;
+        let crs_cities: any[] = [];
+        if (cities && cities.length > 0) {
+          cities.forEach((ct) => {
+            crs_cities.push({
+              id: ct.city_id,
+              city: ct.city,
+            });
+          });
+        }
+        this.selectedCity = crs_cities;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   getTutors() {
@@ -1963,6 +2003,7 @@ export class CourseEditComponent {
       params['additional_properties_type_ids'] = this.selectedType?.length > 0 ? this.selectedType?.map( (data) => { return data.id }).join() : '';
       params['additional_properties_segment_ids'] = this.selectedSegment?.length > 0 ? this.selectedSegment?.map( (data) => { return data.id }).join() : '';
       params['additional_properties_branding_ids'] = this.selectedBranding?.length > 0 ? this.selectedBranding?.map( (data) => { return data.id }).join() : '';
+      params["city_id"] = this.selectedCity?.length > 0 ? this.selectedCity?.map( (data) => { return data.id }).join() : '';
     }
 
     let course_intro_file_status = localStorage.getItem('course_intro_file')

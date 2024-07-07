@@ -197,6 +197,16 @@
                                 </option>
                             </select>
                         </div>
+                        <div *ngIf="companyId == 32">
+                            <ng-multiselect-dropdown
+                                placeholder="{{ 'club-create.selectcity' | translate }}"
+                                [settings]="cityDropdownSettings"
+                                [data]="cities"
+                                [(ngModel)]="selectedCity"
+                                [ngModelOptions]="{standalone: true}"
+                            >
+                            </ng-multiselect-dropdown>
+                        </div>
                         <div class="flex items-center justify-center relative">
                             <div class="w-full max-w-full">
                                 <mat-form-field class="w-full datetime-picker-field">
