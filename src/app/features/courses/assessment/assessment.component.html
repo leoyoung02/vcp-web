@@ -10,7 +10,7 @@
                         <div class="text-sm opacity-80 tracking-tight dark:text-white">{{'survey-create.question' | translate}} {{currentIndex + 1}} {{'course-assessment.of' | translate}} {{assessment?.assessment_details?.length}}</div>
                         <div class="text-lg font-semibold">{{ getAssessmentTitle(item) }}</div>
                         <ng-container *ngIf="item?.image">
-                            <img [src]="apiPath + '/get-course-unit-file/' + item.image" class="h-auto object-cover rounded-lg"
+                            <img [src]="apiPath + '/get-course-image/' + item.image" class="h-auto object-cover rounded-lg"
                                 [ngStyle]="{'width': item?.image_width}" />
                         </ng-container>
                     </div>

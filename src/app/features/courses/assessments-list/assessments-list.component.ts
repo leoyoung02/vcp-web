@@ -177,11 +177,11 @@ export class CourseAssessmentsListComponent {
         const formData = new FormData();
         let fileExtension = file ? file.name.split('.').pop() : '';
         this.assessmentFileName = 'assmt_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
-        formData.append('file', file, this.assessmentFileName);
+        formData.append('image', file, this.assessmentFileName);
         localStorage.setItem('course_assessment_file', 'uploading');
 
         const request = new XMLHttpRequest();
-        request.open('POST', environment.api + '/company/course/temp-upload');
+        request.open('POST', environment.api + '/v2/course-assessment/temp-upload');
 
         request.upload.onprogress = (e) => {
           progress(e.lengthComputable, e.loaded, e.total);

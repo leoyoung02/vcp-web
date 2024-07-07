@@ -359,7 +359,7 @@
                                             <label for="assessment-image" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'quiz-details.image' | translate }}</label>
                                             <ng-container *ngIf="assessmentItemImage">
                                                 <div class="flex items-center mb-4">
-                                                    <img [src]="apiPath + '/get-course-unit-file/' + assessmentItemImage" class="w-40 h-auto object-cover rounded-lg" />
+                                                    <img [src]="apiPath + '/get-course-image/' + assessmentItemImage" class="w-40 h-auto object-cover rounded-lg" />
                                                     <div class="ml-4 w-24 p-2 px-4 rounded-lg flex items-center justify-center hover:cursor-pointer"
                                                         [ngStyle]="{'background-color': buttonColor}"
                                                         (click)="clearImage()">
