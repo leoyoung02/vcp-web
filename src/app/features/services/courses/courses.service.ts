@@ -364,7 +364,9 @@ export class CoursesService {
       formData.append( 'additional_properties_type_ids', params.additional_properties_type_ids );
       formData.append( 'additional_properties_segment_ids', params.additional_properties_segment_ids );
       formData.append( 'additional_properties_branding_ids', params.additional_properties_branding_ids );
-      formData.append('city_id', params.city_id);
+      formData.append( 'city_id', params.city_id);
+      formData.append( 'default_cover', params?.default_cover || 'photo' );
+      formData.append( 'video', params?.video || '' );
     }
 
     if(params.activity_code) {
@@ -491,7 +493,9 @@ export class CoursesService {
       formData.append( 'additional_properties_type_ids', params.additional_properties_type_ids );
       formData.append( 'additional_properties_segment_ids', params.additional_properties_segment_ids );
       formData.append( 'additional_properties_branding_ids', params.additional_properties_branding_ids );
-      formData.append('city_id', params.city_id);
+      formData.append( 'city_id', params.city_id );
+      formData.append( 'default_cover', params?.default_cover || 'photo' );
+      formData.append( 'video', params?.video || '' );
     }
 
     if(params.activity_code) {
