@@ -188,6 +188,22 @@ export class AssessmentComponent {
         )
     }
 
+    getAssessmentTitle(assessment) {
+        return assessment ? this.language == 'en' ? (assessment.title_en || assessment.title) : (this.language == 'fr' ? (assessment.title_fr || assessment.title) : 
+          (this.language == 'eu' ? (assessment.title_eu || assessment.title) : (this.language == 'ca' ? (assessment.title_ca || assessment.title) : 
+          (this.language == 'de' ? (assessment.title_de || assessment.title) : (this.language == 'it' ? (assessment.title_it || assessment.title) : assessment.title)
+          )))
+        ) : ''
+    }
+
+    getChoiceTitle(choice) {
+        return choice ? this.language == 'en' ? (choice.choice_en || choice.choice) : (this.language == 'fr' ? (choice.title_fr || choice.choice) : 
+          (this.language == 'eu' ? (choice.choice_eu || choice.choice) : (this.language == 'ca' ? (choice.choice_ca || choice.choice) : 
+          (this.language == 'de' ? (choice.choice_de || choice.choice) : (this.language == 'it' ? (choice.choice_it || choice.choice) : choice.choice)
+          )))
+        ) : ''
+    }
+
     async open(message: string, action: string) {
         await this._snackBar.open(message, action, {
             duration: 3000,

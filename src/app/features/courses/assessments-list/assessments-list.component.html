@@ -47,12 +47,11 @@
             <mat-table [dataSource]="dataSource" matSort>
                 <ng-container matColumnDef="title">
                     <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'plan-create.title' | translate }} </mat-header-cell>
-                    <mat-cell *matCellDef="let row" data-label="title"> {{ row.title }}</mat-cell>
+                    <mat-cell *matCellDef="let row" data-label="title"> {{ getAssessmentTitle(row) }}</mat-cell>
                 </ng-container>
                 <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'customer.action' | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="action" class="flex;">
-                        
                         <button type="button" class="text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-full text-sm p-2.5 text-center inline-flex items-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                             [ngStyle]="{'background-color': buttonColor}" (click)="editAssessment(row)"
                         >
@@ -97,9 +96,21 @@
                 <span class="sr-only">Close modal</span>
             </button>
             <div class="px-6 py-6 lg:px-8">
-                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                <h3 class="text-xl font-medium text-gray-900 dark:text-white">
                     {{ mode == 'edit' ? ('cities.edit' | translate) : ('cities.createnew' | translate) }}
                 </h3>
+                <div>
+                    <ng-container *ngIf="languages?.length > 1">
+                        <div class="pt-1.5 mb-6">
+                            <app-button-group class="flex justify-center"
+                                [buttonColor]="buttonColor"
+                                [buttonList]="buttonList"
+                                (onButtonClick)="handleChangeLanguageFilter($event)"
+                            >
+                            </app-button-group>
+                        </div>
+                    </ng-container>
+                </div>
                 <form 
                     [formGroup]="assessmentForm"
                     class="my-4 px-1"
@@ -110,6 +121,7 @@
                                 <div class="mt-8 mb-2 relative">
                                     <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'plan-create.title' | translate }}</label>
                                     <input
+                                        *ngIf="selectedLanguage == 'es'"
                                         id="title"
                                         class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                         [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && assessmentForm.get('title')?.errors }"
@@ -117,15 +129,124 @@
                                         formControlName="title"
                                         required
                                     />
+                                    <input
+                                        *ngIf="selectedLanguage == 'en'"
+                                        id="title"
+                                        class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && assessmentForm.get('title_en')?.errors }"
+                                        placeholder="{{ 'plan-create.title' | translate }}"
+                                        formControlName="title_en"
+                                        required
+                                    />
+                                    <input
+                                        *ngIf="selectedLanguage == 'fr'"
+                                        id="title"
+                                        class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && assessmentForm.get('title_fr')?.errors }"
+                                        placeholder="{{ 'plan-create.title' | translate }}"
+                                        formControlName="title_fr"
+                                        required
+                                    />
+                                    <input
+                                        *ngIf="selectedLanguage == 'eu'"
+                                        id="title"
+                                        class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && assessmentForm.get('title_eu')?.errors }"
+                                        placeholder="{{ 'plan-create.title' | translate }}"
+                                        formControlName="title_eu"
+                                        required
+                                    />
+                                    <input
+                                        *ngIf="selectedLanguage == 'ca'"
+                                        id="title"
+                                        class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && assessmentForm.get('title_ca')?.errors }"
+                                        placeholder="{{ 'plan-create.title' | translate }}"
+                                        formControlName="title_ca"
+                                        required
+                                    />
+                                    <input
+                                        *ngIf="selectedLanguage == 'de'"
+                                        id="title"
+                                        class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && assessmentForm.get('title_de')?.errors }"
+                                        placeholder="{{ 'plan-create.title' | translate }}"
+                                        formControlName="title_de"
+                                        required
+                                    />
+                                    <input
+                                        *ngIf="selectedLanguage == 'it'"
+                                        id="title"
+                                        class="text-sm shadow appearance-none border border-gray-600 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': formSubmitted && assessmentForm.get('title_it')?.errors }"
+                                        placeholder="{{ 'plan-create.title' | translate }}"
+                                        formControlName="title_it"
+                                        required
+                                    />
                                 </div>
                                 <div class="mb-2 relative">
                                     <label for="description" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'plan-create.description' | translate }}</label>
                                     <textarea
+                                        *ngIf="selectedLanguage == 'es'"
                                         id="description"
                                         rows="4" 
                                         class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
                                         placeholder="{{ 'plan-create.description' | translate }}"
                                         formControlName="description"
+                                    >
+                                    </textarea>
+                                    <textarea
+                                        *ngIf="selectedLanguage == 'en'"
+                                        id="description_en"
+                                        rows="4" 
+                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                        placeholder="{{ 'plan-create.description' | translate }}"
+                                        formControlName="description_en"
+                                    >
+                                    </textarea>
+                                    <textarea
+                                        *ngIf="selectedLanguage == 'fr'"
+                                        id="description_en"
+                                        rows="4" 
+                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                        placeholder="{{ 'plan-create.description' | translate }}"
+                                        formControlName="description_fr"
+                                    >
+                                    </textarea>
+                                    <textarea
+                                        *ngIf="selectedLanguage == 'eu'"
+                                        id="description_en"
+                                        rows="4" 
+                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                        placeholder="{{ 'plan-create.description' | translate }}"
+                                        formControlName="description_eu"
+                                    >
+                                    </textarea>
+                                    <textarea
+                                        *ngIf="selectedLanguage == 'ca'"
+                                        id="description_en"
+                                        rows="4" 
+                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                        placeholder="{{ 'plan-create.description' | translate }}"
+                                        formControlName="description_ca"
+                                    >
+                                    </textarea>
+                                    <textarea
+                                        *ngIf="selectedLanguage == 'de'"
+                                        id="description_en"
+                                        rows="4" 
+                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                        placeholder="{{ 'plan-create.description' | translate }}"
+                                        formControlName="description_de"
+                                    >
+                                    </textarea>
+                                    <textarea
+                                        *ngIf="selectedLanguage == 'it'"
+                                        id="description_en"
+                                        rows="4" 
+                                        class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" 
+                                        placeholder="{{ 'plan-create.description' | translate }}"
+                                        formControlName="description_it"
                                     >
                                     </textarea>
                                 </div>
@@ -175,12 +296,61 @@
                                         <div class="mb-2 relative w-full max-w-full">
                                             <label for="question-title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'plan-create.title' | translate }}</label>
                                             <input 
+                                                *ngIf="selectedLanguage == 'es'"
                                                 id="question-title"
                                                 type="text" 
                                                 class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                                 [(ngModel)]="assessmentItemTitle"
                                                 [ngModelOptions]="{standalone: true}"
                                                 [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !assessmentItemTitle }"
+                                                placeholder="{{ 'club-create.title' | translate }}">
+                                            <input 
+                                                *ngIf="selectedLanguage == 'en'"
+                                                id="question-title"
+                                                type="text" 
+                                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                [(ngModel)]="assessmentItemTitleEn"
+                                                [ngModelOptions]="{standalone: true}"
+                                                placeholder="{{ 'club-create.title' | translate }}">
+                                            <input 
+                                                *ngIf="selectedLanguage == 'fr'"
+                                                id="question-title"
+                                                type="text" 
+                                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                [(ngModel)]="assessmentItemTitleFr"
+                                                [ngModelOptions]="{standalone: true}"
+                                                placeholder="{{ 'club-create.title' | translate }}">
+                                            <input 
+                                                *ngIf="selectedLanguage == 'eu'"
+                                                id="question-title"
+                                                type="text" 
+                                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                [(ngModel)]="assessmentItemTitleEu"
+                                                [ngModelOptions]="{standalone: true}"
+                                                placeholder="{{ 'club-create.title' | translate }}">
+                                            <input 
+                                                *ngIf="selectedLanguage == 'ca'"
+                                                id="question-title"
+                                                type="text" 
+                                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                [(ngModel)]="assessmentItemTitleCa"
+                                                [ngModelOptions]="{standalone: true}"
+                                                placeholder="{{ 'club-create.title' | translate }}">
+                                            <input 
+                                                *ngIf="selectedLanguage == 'de'"
+                                                id="question-title"
+                                                type="text" 
+                                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                [(ngModel)]="assessmentItemTitleDe"
+                                                [ngModelOptions]="{standalone: true}"
+                                                placeholder="{{ 'club-create.title' | translate }}">
+                                            <input 
+                                                *ngIf="selectedLanguage == 'it'"
+                                                id="question-title"
+                                                type="text" 
+                                                class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                [(ngModel)]="assessmentItemTitleIt"
+                                                [ngModelOptions]="{standalone: true}"
                                                 placeholder="{{ 'club-create.title' | translate }}">
                                         </div>
                                     </div>
@@ -277,11 +447,54 @@
                                             <div class="mb-2 relative w-full max-w-full">
                                                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">{{ 'wall.choice' | translate }}</label>
                                                 <input 
+                                                    *ngIf="selectedLanguage == 'es'"
                                                     type="text" 
                                                     class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                                     [(ngModel)]="multipleChoiceChoice"
                                                     [ngModelOptions]="{standalone: true}"
                                                     [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !multipleChoiceChoice }"
+                                                    placeholder="{{ 'wall.choice' | translate }}">
+                                                <input 
+                                                    *ngIf="selectedLanguage == 'en'"
+                                                    type="text" 
+                                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                    [(ngModel)]="multipleChoiceChoiceEn"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    placeholder="{{ 'wall.choice' | translate }}">
+                                                <input 
+                                                    *ngIf="selectedLanguage == 'fr'"
+                                                    type="text" 
+                                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                    [(ngModel)]="multipleChoiceChoiceFr"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    placeholder="{{ 'wall.choice' | translate }}">
+                                                <input 
+                                                    *ngIf="selectedLanguage == 'eu'"
+                                                    type="text" 
+                                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                    [(ngModel)]="multipleChoiceChoiceEu"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    placeholder="{{ 'wall.choice' | translate }}">
+                                                <input 
+                                                    *ngIf="selectedLanguage == 'ca'"
+                                                    type="text" 
+                                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                    [(ngModel)]="multipleChoiceChoiceCa"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    placeholder="{{ 'wall.choice' | translate }}">
+                                                <input 
+                                                    *ngIf="selectedLanguage == 'de'"
+                                                    type="text" 
+                                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                    [(ngModel)]="multipleChoiceChoiceDe"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                    placeholder="{{ 'wall.choice' | translate }}">
+                                                <input 
+                                                    *ngIf="selectedLanguage == 'it'"
+                                                    type="text" 
+                                                    class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                                    [(ngModel)]="multipleChoiceChoiceIt"
+                                                    [ngModelOptions]="{standalone: true}"
                                                     placeholder="{{ 'wall.choice' | translate }}">
                                             </div>
                                         </div>
@@ -361,7 +574,7 @@
                                                     </div>
                                                 </td>
                                                 <td class="text-xs px-2 py-1">
-                                                    {{option?.choice}}
+                                                    {{ getChoiceTitle(option) }}
                                                 </td>
                                                 <td class="text-xs px-2 py-1">
                                                     <svg

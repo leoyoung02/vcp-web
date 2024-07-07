@@ -371,6 +371,12 @@ export class CourseDetailComponent {
               assessment_id: detail.assessment_id,
               number: detail.number,
               title: detail.title,
+              title_en: detail?.title_en || detail?.title,
+              title_fr: detail?.title_fr || detail?.title,
+              title_eu: detail?.title_eu || detail?.title,
+              title_ca: detail?.title_ca || detail?.title,
+              title_de: detail?.title_de || detail?.title,
+              title_it: detail?.title_it || detail?.title,
               image: detail.image,
               image_width: detail.image_width,
               multiple_choice_options,
@@ -406,6 +412,12 @@ export class CourseDetailComponent {
               assessment_id: detail.assessment_id,
               number: detail.number,
               title: detail.title,
+              title_en: detail?.title_en || detail?.title,
+              title_fr: detail?.title_fr || detail?.title,
+              title_eu: detail?.title_eu || detail?.title,
+              title_ca: detail?.title_ca || detail?.title,
+              title_de: detail?.title_de || detail?.title,
+              title_it: detail?.title_it || detail?.title,
               image: detail.image,
               image_width: detail.image_width,
               multiple_choice_options,
@@ -439,6 +451,12 @@ export class CourseDetailComponent {
                   assessment_id: detail.assessment_id,
                   number: detail.number,
                   title: detail.title,
+                  title_en: detail?.title_en || detail?.title,
+                  title_fr: detail?.title_fr || detail?.title,
+                  title_eu: detail?.title_eu || detail?.title,
+                  title_ca: detail?.title_ca || detail?.title,
+                  title_de: detail?.title_de || detail?.title,
+                  title_it: detail?.title_it || detail?.title,
                   image: detail.image,
                   image_width: detail.image_width,
                   multiple_choice_options,
@@ -2098,6 +2116,14 @@ export class CourseDetailComponent {
     setTimeout(() => {
       this.showIntroPDF = true;
     }, 100)
+  }
+
+  getAssessmentTitle(assessment) {
+    return assessment ? this.language == 'en' ? (assessment.assessment_title_en || assessment.assessment_title) : (this.language == 'fr' ? (assessment.title_fr || assessment.assessment_title) : 
+      (this.language == 'eu' ? (assessment.assessment_title_eu || assessment.assessment_title) : (this.language == 'ca' ? (assessment.assessment_title_ca || assessment.assessment_title) : 
+      (this.language == 'de' ? (assessment.assessment_title_de || assessment.assessment_title) : (this.language == 'it' ? (assessment.assessment_title_it || assessment.assessment_title) : assessment.assessment_title)
+      )))
+    ) : ''
   }
 
   handleGoBack() {
