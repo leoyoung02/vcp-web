@@ -239,15 +239,24 @@ export class SectionsComponent {
 
   goToCourseDetails(item) {
     if(this.userId > 0) {
-      if(item?.course_intro == 1) {
-        this._router.navigate([`/courses/intro/${item.item_id}`]);
+      if(item?.button_text != this._translateService.instant("courses.begin") && item?.button_text != this._translateService.instant("courses.continue")) {
       } else {
-        this._router.navigate([item.path]);
+        if(item?.course_intro == 1) {
+          this._router.navigate([`/courses/intro/${item.item_id}`]);
+        } else {
+          this._router.navigate([item.path]);
+        }
       }
     } else {
+      let returnUrl = this._router.routerState.snapshot.url;
+      if(item?.course_intro == 1) {
+        returnUrl = `/courses/intro/${item.item_id}`;
+      } else {
+        returnUrl = item.path;
+      }
       this._router.navigate(["/auth/login"], {
         queryParams: {
-          returnUrl: this._router.routerState.snapshot.url
+          returnUrl,
         }
       });
     }
