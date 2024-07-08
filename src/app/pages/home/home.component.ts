@@ -739,6 +739,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           created_by_image: this.getCreatedByImage(item),
           description: this.getDescription(item),
           sol_nivelacion: item?.sol_nivelacion,
+          course_intro: item?.course_intro,
         })
       })
     }

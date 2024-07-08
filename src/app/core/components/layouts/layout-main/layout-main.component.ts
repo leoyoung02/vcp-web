@@ -1735,7 +1735,9 @@ export class LayoutMainComponent {
         if(this.companyId == 32) {
           if(this.isUESchoolOfLife) {
             if(tempData?.id == 1 || tempData?.id == 11) {
-              this.menus.push(tempData);
+              if(tempData?.id == 1) {
+                this.menus.push(tempData);
+              }
 
               if(tempData?.id == 1 && this.hasHistoryOfActivities) {
                 this.menus.push({

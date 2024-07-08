@@ -318,6 +318,12 @@ export const routes: Routes = [
         canMatch: [authGuard()],
     },
     {
+        path: 'buddy',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/buddy')).routes,
+        canMatch: [authGuard()],
+    },
+    {
         path: ':slug/:invite_guid',
         data: { layout: PageLayout.Blank, titleKey: 'Registro' },
         title: CustomTitleResolver,

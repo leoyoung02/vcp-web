@@ -3176,7 +3176,19 @@
         "mentor": "Mentor",
         "asktobementor": "Demana ser mentor",
         "mentees": "Mentees",
-        "mentorname": "Mentorname"
+        "mentorname": "Mentorname",
+        "mentordesc": "Profil und zugehörige Mentees anzeigen",
+        "Mentee": "Mentee",
+        "menteedesc": "Wählen Sie einen Mentor mit den erforderlichen Filtern",
+        "wanttobementor": "Ich möchte Mentor sein",
+        "applyasmentor": "Als Mentor bewerben",
+        "mysessions": "Meine Mentoring-Sitzungen",
+        "selectmentor": "Mentor auswählen",
+        "selectmentee": "Mentee auswählen", 
+        "pendingcompletion": "Ausstehender Abschluss",
+        "introductionlabel": "Über mich: Warum ich Mentorin werden möchte, warum ich meinen Abschluss gewählt habe...",
+        "interestslabel": "Interessen: Teilnahme am Universitätsleben (Vereine, Vereine, Delegierte, Sportmannschaft...)",
+        "personalitylabel": "Persönlichkeit, Interessen"
     },
     "cities": {
         "cities": "Städte",
@@ -3306,6 +3318,7 @@
         "status" : "Status",
         "current_module" : "Aktuelles Modul",
         "no_of_interaction" : "Nein der Interaktion",
+        "no_of_session" : "Anzahl der Sitzungen (Calendly)",
         "phonenumber" : "Telefon",
         "allowaccestocourse": "Erlauben Sie benutzerdefinierten Zugriff auf den Kurs",
         "unitdetails": "Details zur Einheit",

@@ -3177,7 +3177,19 @@
         "mentor": "Mentor",
         "asktobementor": "Eskatu tutore izateko",
         "mentees": "Mentees",
-        "mentorname": "Tutorearen izena"
+        "mentorname": "Tutorearen izena",
+        "mentordesc": "Ikusi profila eta lotutako tutoreak",
+        "mentee": "Mentee",
+        "menteedesc": "Aukeratu tutore bat beharrezko iragazkiak dituena",
+        "wanttobementor": "Tutore izan nahi dut",
+        "applyasmentor": "Eskatu tutore gisa",
+        "mysessions": "Nire tutoretza saioak",
+        "selectmentor": "Hautatu tutorea",
+        "selectmentee": "Hautatu tutorea", 
+        "pendingcompletion": "Bukatzeko zain",
+        "introductionlabel": "Niri buruz: zergatik izan nahi dudan tutore, zergatik aukeratu dudan gradua...",
+        "interestslabel": "Interesak: Unibertsitate Bizitzan parte hartzeko (klubak, elkarteak, ordezkariak, kirol taldea...)",
+        "personalitylabel": "Nortasuna, interesak"
     },
     "cities": {
         "cities": "Hiriak",
@@ -3307,6 +3319,7 @@
         "status" : "Egoera",
         "current_module" : "Oraingo Modulua",
         "no_of_interaction" : "Interakzio-zenbakia",
+        "no_of_session" : "Saiorik ez (Calendly)",
         "phonenumber" : "Telefonoa",
         "allowaccestocourse": "Baimendu ikastarorako sarbide pertsonalizatua",
         "unitdetails": "Unitatearen xehetasunak",

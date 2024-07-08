@@ -278,6 +278,9 @@ export class UserMenuComponent {
         case 'manageusers':
           path = '/settings/manage-list/users';
           break;
+        case 'mysessions':
+          path = '/users/my-sessions';
+          break;
       }
 
       this._router.navigate([path]);

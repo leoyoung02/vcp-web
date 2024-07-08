@@ -251,6 +251,38 @@
                                     placeholder="{{ 'edit-plan.numberofcredits' | translate }}">
                             </div>
                         </div>
+                        <div class="flex items-center justify-center relative" *ngIf="hasActivityCodeActivated">
+                            <div class="w-full max-w-full">
+                                <label for="activity-code" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{'edit-plan.activitycode' | translate}}
+                                </label>
+                                <input
+                                    *ngIf="companyId != 32 || (companyId == 32 && isUESchoolOfLife)"
+                                    id="activity-code"
+                                    type="text"
+                                    class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                                    [(ngModel)]="activityCode"
+                                    [ngModelOptions]="{standalone: true}"
+                                    placeholder="{{ 'edit-plan.activitycode' | translate }}"
+                                    maxlength="200"
+                                />
+                            </div>
+                            <div class="w-full max-w-full">
+                                <label for="activity-code-sigeca" class="ml-4 text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                    {{'credits.activitycodesigeca' | translate}}
+                                </label>
+                                <input
+                                    *ngIf="companyId == 32 && isUESchoolOfLife"
+                                    id="activity-code-sigeca"
+                                    type="text"
+                                    class="ml-4 text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                                    [(ngModel)]="activityCodeSigeca"
+                                    [ngModelOptions]="{standalone: true}"
+                                    placeholder="{{ 'credits.activitycodesigeca' | translate }}"
+                                    maxlength="200"
+                                />
+                            </div>
+                        </div>
                         <div class="flex items-center justify-center relative">
                             <div class="w-full max-w-full">
                                 <label for="input-color" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -680,6 +712,66 @@
                             </div>
                         </div>
                     </ng-container>
+                    <div class="flex items-center justify-center relative col-span-2 pt-4">
+                        <div class="w-full max-w-full">
+                            <div class="flex items-center">
+                                <div>
+                                    <label for="setting-30" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                        {{ 'buddy.introduction' | translate }}
+                                    </label>
+                                    <div class="flex items-center w-full max-w-full">
+                                        <div class="flex items-center justify-between relative mr-4">
+                                            <label
+                                                for="setting-30"
+                                                class="flex items-center w-full justify-between cursor-pointer"
+                                            >
+                                                <div class="relative mr-1">
+                                                    <input
+                                                        id="setting-30"
+                                                        name="setting-30"
+                                                        type="checkbox"
+                                                        class="sr-only"
+                                                        [(ngModel)]="courseIntro" 
+                                                        [ngModelOptions]="{standalone: true}"
+                                                    />
+                                                    <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                    <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                </div>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <ng-container *ngIf="courseIntro && existingIntroPDFFileURL && !existingIntroRemoved">
+                                    <a [href]="existingIntroPDFFileURL" target="_blank">
+                                        <svg class="mt-4 ml-4 w-10 h-10 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-7Zm-6 9a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h.5a2.5 2.5 0 0 0 0-5H5Zm1.5 3H6v-1h.5a.5.5 0 0 1 0 1Zm4.5-3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1.376A2.626 2.626 0 0 0 15 15.375v-1.75A2.626 2.626 0 0 0 12.375 11H11Zm1 5v-3h.375a.626.626 0 0 1 .625.626v1.748a.625.625 0 0 1-.626.626H12Zm5-5a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1h1a1 1 0 1 0 0-2h-2Z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </a>
+                                    <svg class="mt-4 ml-2 w-6 h-6 hover:cursor-pointer" (click)="removeExistingIntroPDF()" [ngStyle]="{'color': '#c24130'}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z" clip-rule="evenodd"/>
+                                    </svg>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-center my-8 relative col-span-2" *ngIf="courseIntro">
+                        <div class="w-full max-w-full">
+                            <label for="setting-30" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                {{ 'settings.upload' | translate }} PDF
+                            </label>
+                            <div class="flex items-center w-full max-w-full">
+                                <file-pond
+                                    class="w-full"
+                                    #courseIntroPond
+                                    [options]="courseIntroPondOptions"
+                                    [files]="courseIntroPondFiles"
+                                    (oninit)="courseIntroPondHandleInit()"
+                                    (onaddfile)="courseIntroPondHandleAddFile($event)"
+                                >
+                                </file-pond>
+                            </div>
+                        </div>
+                    </div>
                     <div class="flex items-center border border-b-2 border-l-0 border-r-0 border-t-0 pb-4 my-8">
                         <img class="w-6 object-contain mr-4" src="./assets/images/new-design/icons/Write.png" />
                         <div class="font-light text-xl">{{ 'course-create.description' | translate }}</div>

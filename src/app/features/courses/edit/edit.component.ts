@@ -311,8 +311,11 @@ export class CourseEditComponent {
   videoAvailability: boolean = false
   groupWalls: any = []
 
+  courseIntroFileName: any;
+
   @ViewChild('myPond', {static: false}) myPond: any;
   @ViewChild('downloadPond', {static: false}) downloadPond: any;
+  @ViewChild('courseIntroPond', {static: false}) courseIntroPond: any;
   pondOptions = {
     class: 'my-filepond',
     multiple: false,
@@ -416,6 +419,57 @@ export class CourseEditComponent {
       },
   };
   downloadPondFiles = [];
+  courseIntroPondOptions = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    acceptedFileTypes: "application/pdf",
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        let course_intro_unit_id = localStorage.getItem('course_intro_unit_id') || '';
+
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.courseIntroFileName = 'courseLessonIntroFile_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('file', file, this.courseIntroFileName);
+        formData.append('course_intro_id', course_intro_unit_id);
+        localStorage.setItem('course_intro_file', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/company/course/download-temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('course_intro_file', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+            request.abort();
+            abort();
+          },
+        };
+      },
+    },
+  };
+  courseIntroPondFiles = [];
   allTutors: any;
   filteredTutors: any;
   unitAvailability: boolean = false;
@@ -456,6 +510,13 @@ export class CourseEditComponent {
   isUESchoolOfLife: boolean = false;
   hasCourseVideoComments: boolean = false;
   showComments: boolean = false;
+  courseIntro: boolean = false;
+  existingIntroPDFFile: any;
+  existingIntroPDFFileURL: any;
+  existingIntroRemoved: boolean = false;
+  hasActivityCodeActivated: boolean = false;
+  activityCode: any;
+  activityCodeSigeca: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -896,6 +957,9 @@ export class CourseEditComponent {
       this.hasCourseVideoComments = subfeatures.some(
         (a) => a.name_en == 'Course video comments' && a.active == 1 
       );
+      this.hasActivityCodeActivated = subfeatures.some(
+        (a) => a.name_en == "Activity Code" && a.active == 1
+      );
     }
 
     if(this.isAdvancedCourse) {
@@ -1160,6 +1224,15 @@ export class CourseEditComponent {
     this.startButtonColor = this.course.button_color || this.buttonColor;
     this.buyNowButtonColor = this.course.buy_now_button_color || this.buttonColor;
     this.showComments = this.course.show_comments == 1 ? true : false;
+    this.courseIntro = this.course.course_intro == 1 ? true : false;
+    this.existingIntroPDFFile = this.course.intro_pdf;
+    this.existingIntroPDFFileURL = this.course.intro_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_pdf}` : '';
+    if(this.hasActivityCodeActivated) {
+      this.activityCode = this.course?.activity_code;
+      if(this.companyId == 32) {
+        this.activityCodeSigeca = this.course?.activity_code_sigeca;
+      }
+    }
 
     if(this.course.price > 0 
       && (this.course.payment_type > 0 || data?.recurring_payments)) {
@@ -1880,6 +1953,7 @@ export class CourseEditComponent {
       params['course_credits'] = this.courseCredits || 0
     }
     params['school_of_life'] = this.isUESchoolOfLife ? 1 : 0;
+    params['course_intro'] = this.courseIntro ? 1 : 0;
 
     if(this.companyId == 32) {
       params['additional_properties_course_access'] = this.allowCourseAccess ? 1 : 0,
@@ -1889,6 +1963,21 @@ export class CourseEditComponent {
       params['additional_properties_type_ids'] = this.selectedType?.length > 0 ? this.selectedType?.map( (data) => { return data.id }).join() : '';
       params['additional_properties_segment_ids'] = this.selectedSegment?.length > 0 ? this.selectedSegment?.map( (data) => { return data.id }).join() : '';
       params['additional_properties_branding_ids'] = this.selectedBranding?.length > 0 ? this.selectedBranding?.map( (data) => { return data.id }).join() : '';
+    }
+
+    let course_intro_file_status = localStorage.getItem('course_intro_file')
+    let course_intro_file = course_intro_file_status == 'complete' ? this.courseIntroFileName : ''
+    if(course_intro_file) {
+      params['intro_pdf'] = course_intro_file;
+    }
+    if(this.existingIntroRemoved && this.courseIntro) {
+      params['intro_pdf_removed'] = 1;
+    }
+    if(this.hasActivityCodeActivated) {
+      params["activity_code"] = this.activityCode || "";
+      if(this.companyId == 32) {
+        params["activity_code_sigeca"] = this.activityCodeSigeca || "";
+      }
     }
 
     if (this.id > 0) {
@@ -3377,6 +3466,18 @@ export class CourseEditComponent {
 
   deleteBackground(){
     this.videoBackgroundImgSrc = ""
+  }
+
+  courseIntroPondHandleInit() {
+    console.log('Course Intro FilePond has initialised', this.myPond);
+  }
+
+  courseIntroPondHandleAddFile(event: any) {
+    console.log('A file was added (course Intro)', event);
+  }
+
+  removeExistingIntroPDF() {
+    this.existingIntroRemoved = true;
   }
   
   ngOnDestroy() {

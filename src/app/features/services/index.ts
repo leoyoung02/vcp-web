@@ -11,3 +11,4 @@ export * from './blogs/blogs.service';
 export * from './wall/wall.service';
 export * from './startups/startups.service';
 export * from './professionals/professionals.service';
+export * from './buddy/buddy.service';

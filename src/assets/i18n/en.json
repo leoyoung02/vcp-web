@@ -3205,7 +3205,19 @@
         "mentor": "Mentor",
         "asktobementor": "Ask to be mentor",
         "mentees": "Mentees",
-        "mentorname": "Mentor name"
+        "mentorname": "Mentor name",
+        "mentordesc": "View profile and associated mentees",
+        "mentee": "Mentee",
+        "menteedesc": "Choose a mentor with necessary filters",
+        "wanttobementor": "I want to be a mentor",
+        "applyasmentor": "Apply as mentor",
+        "mysessions": "My mentoring sessions",
+        "selectmentor": "Select mentor",
+        "selectmentee": "Select mentee",
+        "pendingcompletion": "Pending completion", 
+        "introductionlabel": "About me: why I want to be a mentor, why I have chosen my degree...",
+        "interestslabel": "Interests: to participate in University Life (clubs, associations, delegates, sports team...)",
+        "personalitylabel": "Personality, Interests"
     },
     "cities": {
         "cities": "Cities",
@@ -3343,6 +3355,7 @@
         "status" : "Status",
         "current_module" : "Current Module",
         "no_of_interaction" : "No of Interaction",
+        "no_of_session" : "No of Session (Calendly)",
         "phonenumber" : "Phone Number",
         "allowaccestocourse": "Allow custom access to course",
         "unitdetails": "Unit details",
