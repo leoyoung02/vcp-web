@@ -3698,6 +3698,10 @@
         "endcall": "Anruf beenden",
         "gender": "Geschlecht",
         "civilstatus": "Personenstand",
-        "voice": "Stimme"
+        "voice": "Stimme",
+        "calllogs": "Anrufprotokolle",
+        "callended": "Anruf beendet",
+        "ongoingcall": "Laufender Anruf",
+        "incomingcall": "Eingehender Anruf"
     }
 }

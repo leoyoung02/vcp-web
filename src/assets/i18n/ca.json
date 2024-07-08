@@ -3706,6 +3706,10 @@
         "endcall": "Finalitzar la trucada",
         "gender": "Gènere",
         "civilstatus": "Estat civil",
-        "voice": "Veu"
+        "voice": "Veu",
+        "calllogs": "Registres de trucades",
+        "callended": "La trucada ha finalitzat",
+        "ongoingcall": "Trucada en curs",
+        "incomingcall": "Trucada entrant"
     }
 }

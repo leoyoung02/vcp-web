@@ -48,8 +48,8 @@
         <div class="ms-3 text-sm font-normal">
             <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ professionalName }}</div>
             <div class="text-sm font-normal">{{ toastMessage }}</div> 
-            {{ display }}
-            <a *ngIf="toastMode != 'accept-call' && toastMode != 'ongoing-call'" href="javascript:;" (click)="cancelCall()" class="mt-2 inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">{{ 'wall.cancel' | translate }}</a>
+            <div>{{ display }}</div>
+            <a href="javascript:;" (click)="cancelCall()" class="mt-2 inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">{{ 'wall.cancel' | translate }}</a>
         </div>
     </div>
 </div>

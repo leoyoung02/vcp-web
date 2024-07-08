@@ -183,29 +183,22 @@ export class ProfessionalsService {
     rtc.client.on("user-unpublished", async(user, mediaType) => {
       console.log(user, 'user-unpublished');
 
-      // if (mediaType === 'audio') {
-      //   const id = user.uid;
-      //   delete this.remoteUsers[id];
-
-      //   const playerContainer = document.getElementById('remote-playerlist' + user.uid.toString());
-      //   playerContainer && playerContainer.remove();
-      // }
-
       // Destroy the local audio track.
-      rtc.localAudioTrack.close();
+      rtc?.localAudioTrack?.close();
 
       // Leave the channel.
       await rtc.client.leave();
 
-      // let params = {
-      //   id: user.uid,
-      //   user_id: this.userId,
-      //   company_id: this.companyId,
-      //   mode: 'end-call',
-      //   channel: user.uid,
-      // }
+      let params = {
+        id: user.uid,
+        user_id: this.userId,
+        company_id: this.companyId,
+        mode: 'end-call',
+        channel: this.userId,
+        room: `agora-vcp-${user.uid}`,
+      }
 
-      // await this.notifyProfessional(params);
+      await this.notifyProfessional(params);
     });
 
     rtc.client.on("user-joined", (user) => {
@@ -214,31 +207,20 @@ export class ProfessionalsService {
       this.updateUserInfo.next(id);
       console.log("user-joined", user, this.remoteUsers, 'event1');
     });
-  }
 
-  // outboundPSTN(user) {
-  //   console.log(user)
-  // }
+    rtc.client.on("user-left", (user) => {
+      console.log("user-left", user, this.remoteUsers, 'event1');
+      this.leaveCall();
+    })
+  }
   
   async leaveCall() {
     // Destroy the local audio track.
     this.rtc?.localAudioTrack?.close();
 
-    // // Traverse all remote users.
-    // this.rtc?.client?.remoteUsers.forEach(user => {
-    //   // Destroy the dynamically created DIV container.
-    //   const playerContainer = document.getElementById('remote-playerlist' + user.uid.toString());
-    //   playerContainer && playerContainer.remove();
-    // });
     // Leave the channel.
     await this.rtc?.client?.leave();
   }
-
-  // generateUid() {
-  //   const length = 5;
-  //   const randomNo = (Math.floor(Math.pow(10, length - 1) + Math.random() * 9 * Math.pow(10, length - 1)));
-  //   return randomNo;
-  // }
 
   generateRTCToken(channel, role, tokentype, uid): Observable<any> {
     return this._http.get(`${GENERATE_RTC_TOKEN_URL}/${channel}/${role}/${tokentype}/${uid}`, { 

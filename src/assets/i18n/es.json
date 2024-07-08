@@ -3720,6 +3720,10 @@
         "endcall": "Finalizar llamada",
         "gender": "Género",
         "civilstatus": "Estado civil",
-        "voice": "Voz"
+        "voice": "Voz",
+        "calllogs": "Registros de llamadas",
+        "callended": "La llamada ha finalizado",
+        "ongoingcall": "Llamada en curso",
+        "incomingcall": "Llamada entrante"
     }
 }

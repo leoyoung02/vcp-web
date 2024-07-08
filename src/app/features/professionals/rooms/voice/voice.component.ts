@@ -129,10 +129,12 @@ export class VoiceRoomComponent {
         if(response?.id == this.userId || response?.channel == this.userId) {
           this.pusherData = response;
 
-          if(response.message == 'end-call') {
-            this._professionalsService.leaveCall();
-            this.showEndCall = false;
+          if(response.mode == 'end-call') {
+            clearInterval(this.interval);
+            this.statusText = `${this._translateService.instant('professionals.callended')} ${timer.transform(this.time)}`;
             this.showActions = false;
+            this.cd.detectChanges;
+            this._professionalsService.leaveCall();
           }
         }
       })
@@ -198,7 +200,6 @@ export class VoiceRoomComponent {
     this._professionalsService.createRTCClient();
     this._professionalsService.agoraServerEvents(this._professionalsService.rtc);
     await this._professionalsService.localUser(channel, token, this.recipientUid);
-    // this.showEndCall = true;
     this.showActions = true;
     this.acceptCall(token, this.recipientUid);
   }
@@ -226,7 +227,7 @@ export class VoiceRoomComponent {
           user_id: this.userId,
           company_id: this.companyId,
           mode: 'ongoing-call',
-          message: 'Ongoing call...',
+          message: `${this._translateService.instant('professionals.ongoingcall')}...`,
           channel: this.userId
         }
         this.notifyProfessional(params);
@@ -270,12 +271,9 @@ export class VoiceRoomComponent {
     }
     this.notifyProfessional(params);
     this._professionalsService.leaveCall();
-    // this.showEndCall = false;
-    this.statusText = `Call has ended ${timer.transform(this.time)}`;
+    this.statusText = `${this._translateService.instant('professionals.callended')} ${timer.transform(this.time)}`;
     this.showActions = false;
-    setTimeout(() => {
-      location.href = '/';
-    }, 1000)
+    this.cd.detectChanges;
   }
 
   notifyProfessional(params) {

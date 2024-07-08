@@ -92,6 +92,10 @@ export class VoiceCallRoomComponent {
     this.validatePasscode.emit(this.passcode);
   }
 
+  goHome() {
+    location.href = '/';
+  }
+
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();

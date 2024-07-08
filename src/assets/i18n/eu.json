@@ -3699,6 +3699,10 @@
         "endcall": "Amaitu deia",
         "gender": "Generoa",
         "civilstatus": "Egoera zibila",
-        "voice": "Ahotsa"
+        "voice": "Ahotsa",
+        "calllogs": "Deien erregistroak",
+        "callended": "Deia amaitu da",
+        "ongoingcall": "Abian deia",
+        "incomingcall": "Sarrerako deia"
     }
 }

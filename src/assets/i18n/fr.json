@@ -3693,6 +3693,10 @@
         "endcall": "Fin de l'appel",
         "gender": "Genre",
         "civilstatus": "Etat civil",
-        "voice": "Voix"
+        "voice": "Voix",
+        "calllogs": "Journaux d'appels",
+        "callended": "L'appel est terminé",
+        "ongoingcall": "Appel en cours",
+        "incomingcall": "Appel entrant"
     }
 }

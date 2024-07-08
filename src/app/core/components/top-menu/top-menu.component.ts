@@ -918,6 +918,9 @@ export class TopMenuComponent {
         case 'myorders':
           path = '/shop/my-orders';
           break;
+        case 'mycalllogs':
+          path = '/users/my-call-logs';
+          break;
       }
 
       this._router.navigate([path]).then(() => {

@@ -3735,6 +3735,10 @@
         "endcall": "End call",
         "gender": "Gender",
         "civilstatus": "Civil status",
-        "voice": "Voice"
+        "voice": "Voice",
+        "calllogs": "Call logs",
+        "callended": "Call has ended",
+        "ongoingcall": "Ongoing call",
+        "incomingcall": "Incoming call"
     }
 }

@@ -151,7 +151,7 @@ export class ProfessionalsListComponent {
       .subscribe(async(response) => {
         if(response?.id == this.userId || response?.channel == this.userId) {
           this.pusherData = response;
-          this.toastMessage = response.message || 'Incoming call...';
+          this.toastMessage = response.message || `${this._translateService.instant('professionals.incomingcall')}...`;
           this.toastMode = response.mode;
 
           if(this.toastMode == 'end-call') {
@@ -196,7 +196,7 @@ export class ProfessionalsListComponent {
         user_id: this.userId,
         company_id: this.companyId,
         mode: 'accept-call',
-        message: 'Incoming call',
+        message: this._translateService.instant('professionals.incomingcall'),
         caller_name: this.user?.first_name ? `${this.user.first_name} ${this.user.last_name}` : this.user.name,
         caller_image: `${environment.api}/${this.user?.image}`,
         phone: phone_number,
