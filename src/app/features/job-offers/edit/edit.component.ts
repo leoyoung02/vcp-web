@@ -24,6 +24,11 @@ import { QuillModule } from 'ngx-quill';
 import { environment } from "@env/environment";
 import get from "lodash/get";
 
+import Quill from 'quill';
+import ImageResize from 'quill-image-resize-module';
+import 'quill-paste-smart';
+Quill.register('modules/imageResize', ImageResize);
+
 @Component({
   selector: "app-job-offers-edit",
   standalone: true,
@@ -128,6 +133,9 @@ export class JobOfferEditComponent {
     notes_de: new FormControl(""),
   });
 
+  modules = {}
+  quill: Quill | undefined;
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -136,7 +144,43 @@ export class JobOfferEditComponent {
     private _localService: LocalService,
     private _companyService: CompanyService,
     private _jobOffersService: JobOffersService
-  ) {}
+  ) {
+    this.modules = {
+      toolbar: [
+        ["bold", "italic", "underline", "strike"],
+        ["blockquote", "code-block"],
+        [{ header: 1 }, { header: 2 }],
+        [{ list: "ordered" }, { list: "bullet" }],
+        [{ script: "sub" }, { script: "super" }],
+        [{ indent: "-1" }, { indent: "+1" }],
+        [{ direction: "rtl" }],
+        [{ size: ["small", false, "large", "huge"] }],
+        [{ header: [1, 2, 3, 4, 5, 6, false] }],
+        [{ color: [] }, { background: [] }],
+        ["clean"],
+        ["link", "image", "video"],
+      ],
+      imageResize: true,
+      clipboard: {
+        matchVisual: false,
+        allowed: {
+          tags: ['a', 'b', 'strong', 'u', 's', 'i', 'p', 'br', 'ul', 'ol', 'li', 'span'],
+          attributes: ['href', 'rel', 'target', 'class']
+        },
+        keepSelection: true,
+        substituteBlockElements: true,
+        magicPasteLinks: true,
+        hooks: {
+          uponSanitizeElement(node, data, config) {
+            console.log(node);
+          },
+        },
+        handleImagePaste(image) {
+          console.log("Image file pasted", image);
+        }
+      },
+    }
+  }
 
   @HostListener("window:resize", [])
   private onResize() {
