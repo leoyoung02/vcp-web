@@ -1,9 +1,8 @@
-<!-- <app-page-title title="{{'professionals.professionals' | translate}}"></app-page-title> -->
 <div class="pt-24 sm:pt-20 md:pt-6 lg:pt-6">
     <div class="py-2 pb-20">
         <div class="w-full relative p-6">
             <div class="flow-root relative">
-                <ul role="list" class="divide-y divide-gray-200 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-8">
+                <ul role="list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-8">
                     <li class="relative" *ngFor="let professional of professionals">
                         <app-professional-card
                             [id]="professional.id"

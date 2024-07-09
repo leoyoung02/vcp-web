@@ -262,7 +262,6 @@ export class VoiceRoomComponent {
     await this._professionalsService.leaveCall();
 
     let stats = this._professionalsService.rtcStats;
-    console.log('stats from service', stats);
 
     let timezoneOffset = new Date().getTimezoneOffset();
     let offset = moment().format('Z');
