@@ -243,6 +243,11 @@ export class VoiceCallComponent {
     async handleEndCall() {
         this.pauseTimer();
         await this._professionalsService.leaveCall();
+
+        let stats = this._professionalsService.rtcStats;
+
+        let timezoneOffset = new Date().getTimezoneOffset();
+        let offset = moment().format('Z');
         let params = {
             id: this.existingCallLog.professional_user_id,
             user_id: this.existingCallLog.caller_user_id,
@@ -252,6 +257,9 @@ export class VoiceCallComponent {
             room: this.room,
             recipient_uid: this.recipientUid,
             guid: this.guid,
+            duration: stats?.Duration || 0,
+            timezone: timezoneOffset,
+            offset,
         }
         this.notifyProfessional(params);
         this._professionalsService.leaveCall();

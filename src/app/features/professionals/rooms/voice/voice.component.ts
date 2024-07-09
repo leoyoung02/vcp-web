@@ -260,6 +260,12 @@ export class VoiceRoomComponent {
   async endCall() {
     clearInterval(this.interval);
     await this._professionalsService.leaveCall();
+
+    let stats = this._professionalsService.rtcStats;
+    console.log('stats from service', stats);
+
+    let timezoneOffset = new Date().getTimezoneOffset();
+    let offset = moment().format('Z');
     let params = {
       id: this.id,
       user_id: this.userId,
@@ -268,9 +274,12 @@ export class VoiceRoomComponent {
       channel: this.userId,
       room: this.room,
       recipient_uid: this.recipientUid,
+      duration: stats?.Duration || 0,
+      timezone: timezoneOffset,
+      offset,
     }
     this.notifyProfessional(params);
-    this._professionalsService.leaveCall();
+
     this.statusText = `${this._translateService.instant('professionals.callended')} ${timer.transform(this.time)}`;
     this.showActions = false;
     this.cd.detectChanges;

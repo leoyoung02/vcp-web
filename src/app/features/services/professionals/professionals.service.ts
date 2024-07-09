@@ -3,8 +3,9 @@ import { BehaviorSubject, Observable, Subject, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
-import { GENERATE_RTC_TOKEN_URL, NOTIFY_PROFESSIONAL_PUSHER_URL, VALIDATE_VOICE_CALL_PASSCODE_URL, VOICE_CALL_URL } from "@lib/api-constants";
+import { EDIT_MINIMUM_BALANCE_URL, GENERATE_RTC_TOKEN_URL, MINIMUM_BALANCE_URL, NOTIFY_PROFESSIONAL_PUSHER_URL, PROFESSIONALS_DATA_URL, VALIDATE_VOICE_CALL_PASSCODE_URL, VOICE_CALL_URL } from "@lib/api-constants";
 import { RTC, RTCUser } from "@lib/interfaces";
+import moment from "moment";
 import AgoraRTC from 'agora-rtc-sdk-ng';
 import Pusher from 'pusher-js';
 
@@ -41,6 +42,7 @@ export class ProfessionalsService {
   rtcClient;
   rtmClient;
   channel;
+  rtcStats;
 
   constructor(
     private _http: HttpClient, 
@@ -183,22 +185,15 @@ export class ProfessionalsService {
     rtc.client.on("user-unpublished", async(user, mediaType) => {
       console.log(user, 'user-unpublished');
 
+      this.getStats();
+
       // Destroy the local audio track.
       rtc?.localAudioTrack?.close();
 
       // Leave the channel.
       await rtc.client.leave();
 
-      let params = {
-        id: user.uid,
-        user_id: this.userId,
-        company_id: this.companyId,
-        mode: 'end-call',
-        channel: this.userId,
-        room: `agora-vcp-${user.uid}`,
-      }
-
-      await this.notifyProfessional(params);
+      this.triggerNotification(user);
     });
 
     rtc.client.on("user-joined", (user) => {
@@ -211,15 +206,42 @@ export class ProfessionalsService {
     rtc.client.on("user-left", (user) => {
       console.log("user-left", user, this.remoteUsers, 'event1');
       this.leaveCall();
+      this.triggerNotification(user);
     })
+  }
+
+  async triggerNotification(user) {
+    let timezoneOffset = new Date().getTimezoneOffset();
+    let offset = moment().format('Z');
+    let params = {
+      id: user.uid,
+      user_id: this.userId,
+      company_id: this.companyId,
+      mode: 'end-call',
+      channel: this.userId,
+      room: `agora-vcp-${user.uid}`,
+      duration: this.rtcStats?.Duration || 0,
+      timezone: timezoneOffset,
+      offset,
+    }
+
+    await this.notifyProfessional(params);
   }
   
   async leaveCall() {
+    this.getStats();
+
     // Destroy the local audio track.
     this.rtc?.localAudioTrack?.close();
 
     // Leave the channel.
     await this.rtc?.client?.leave();
+  }
+
+  async getStats() {
+    const stats = await this.rtc?.client?.getRTCStats();
+    console.log('stats', stats);
+    this.rtcStats = stats;
   }
 
   generateRTCToken(channel, role, tokentype, uid): Observable<any> {
@@ -251,5 +273,24 @@ export class ProfessionalsService {
         payload,
         { headers: this.headers }
     ).pipe(map(res => res));
+  }
+
+  getMinimumBalance(id): Observable<any> {
+    return this._http.get(`${MINIMUM_BALANCE_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  updateMinimumBalance(params): Observable<any> {
+    return this._http.post(EDIT_MINIMUM_BALANCE_URL,
+        params,
+        { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getProfessionalsData(id, userId): Observable<any> {
+    return this._http.get(`${PROFESSIONALS_DATA_URL}/${id}/${userId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
   }
 }

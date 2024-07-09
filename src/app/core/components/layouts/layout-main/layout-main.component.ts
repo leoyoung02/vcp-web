@@ -409,25 +409,32 @@ export class LayoutMainComponent {
           if(this.toastMode == 'end-call') {
             await this._professionalsService.leaveCall();
             this.showToast = false;
+            this.handleAudio('stop');
           } else if(this.toastMode == 'accept-call') {
             this.showToast = true;
-            setTimeout(() => {
-              this.outsidebutton?.nativeElement.click();
-              let audioPlayer = <HTMLAudioElement> document.getElementById('audio-ring');
-              if(audioPlayer) {
-                audioPlayer.loop = true;
-                audioPlayer.play();
-              }
-            }, 100);
+            this.handleAudio('play');
           }
           this.cd.detectChanges();
         }
       })
   }
 
+  handleAudio(mode) {
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      let audioPlayer = <HTMLAudioElement> document.getElementById('audio-ring');
+      if(audioPlayer) {
+        if(mode == 'play') {
+          audioPlayer.loop = true;
+          audioPlayer.play();
+        } else if(mode == 'stop') {
+          audioPlayer.pause();
+        }
+      }
+    }, 100);
+  }
+
   handleAccept() {
-    console.log('accept call')
-    console.log(this.pusherData)
     setTimeout(() => {
       this.outsidebutton?.nativeElement.click();
       let audioPlayer = <HTMLAudioElement> document.getElementById('audio-ring');

@@ -3696,6 +3696,19 @@
         "calllogs": "Registri delle chiamate",
         "callended": "La chiamata è terminata",
         "ongoingcall": "Chiamata in corso",
-        "incomingcall": "Chiamata in arrivo"
+        "incomingcall": "Chiamata in arrivo",
+        "mytransactions": "Le mie transazioni",
+        "callwith": "Chiama con",
+        "for": "per", 
+        "videocalllogs": "registri delle videochiamate", 
+        "chatlogs": "registri delle chat", 
+        "minimumbalance": "Saldo minimo",
+        "insufficientbalance": "Saldo insufficiente",
+        "minimumbalanceof": "Saldo minimo di",
+        "requiredtostart": "è necessario per iniziare",
+        "with": "con", 
+        "voicecall": "chiamata", 
+        "videocall": "videochiamata", 
+        "chat": "chat"
     }
 }

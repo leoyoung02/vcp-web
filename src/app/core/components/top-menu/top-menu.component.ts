@@ -870,7 +870,6 @@ export class TopMenuComponent {
     this.hideMenu = true;
     setTimeout(() => {
       this.outsidebutton?.nativeElement.click();
-      console.log('clicked menu')
       let path = '';
       switch(mode) {
         case 'userprofile':
@@ -918,8 +917,8 @@ export class TopMenuComponent {
         case 'myorders':
           path = '/shop/my-orders';
           break;
-        case 'mycalllogs':
-          path = '/users/my-call-logs';
+        case 'mytransactions':
+          path = '/users/my-transactions';
           break;
       }
 

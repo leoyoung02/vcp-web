@@ -1,55 +1,62 @@
-<app-page-title title="{{'professionals.professionals' | translate}}"></app-page-title>
-<div class="pt-6">
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-8 py-2 pb-20">
-        <div class="w-full relative bg-white border border-gray-200 rounded-lg shadow p-6 dark:bg-gray-800 dark:border-gray-700">
+<!-- <app-page-title title="{{'professionals.professionals' | translate}}"></app-page-title> -->
+<div class="pt-24 sm:pt-20 md:pt-6 lg:pt-6">
+    <div class="py-2 pb-20">
+        <div class="w-full relative p-6">
             <div class="flow-root relative">
-                <ul role="list" class="divide-y divide-gray-200 dark:divide-gray-700">
-                    <li class="relative">
-                        <div class="flex">
-                            <div class="flex-shrink-0">
-                                <img class="hover:cursor-pointer w-20 h-20 rounded-full object-cover object-top" width="75" height="75" 
-                                    [src]="professionalImage" loading="lazy">
-                            </div>
-                            <div class="flex-1 min-w-0 ms-4">
-                                <p class="hover:cursor-pointer text-base text-gray2 font-bold text-gray-900 truncate dark:text-white">
-                                    {{ professionalName }}
-                                </p>
-                                <p class="leading-4 font-medium text-gray3 truncate dark:text-gray-400">
-                                    <span class="text-sm">Tarotista</span>
-                                </p>
-                                <p class="leading-4 truncate">
-                                    <span class="text-xs uppercase">Ingles, Español</span>
-                                </p>
-                            </div>
-                        </div>
-                        <div class="absolute bottom-0 right-0 flex items-center align-center">
-                            <a href="javascript:;" (click)="handleStartCall(professional?.id, professional?.phone, professionalName, professionalImage)" 
-                                [ngStyle]="{'background-color': buttonColor}" class="mr-2 font-medium rounded-full text-sm p-2 text-center inline-flex items-center">
-                                <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
-                                    <path fill-rule="evenodd" d="M5 8a1 1 0 0 1 1 1v3a4.006 4.006 0 0 0 4 4h4a4.006 4.006 0 0 0 4-4V9a1 1 0 1 1 2 0v3.001A6.006 6.006 0 0 1 14.001 18H13v2h2a1 1 0 1 1 0 2H9a1 1 0 1 1 0-2h2v-2H9.999A6.006 6.006 0 0 1 4 12.001V9a1 1 0 0 1 1-1Z" clip-rule="evenodd"/>
-                                    <path d="M7 6a4 4 0 0 1 4-4h2a4 4 0 0 1 4 4v5a4 4 0 0 1-4 4h-2a4 4 0 0 1-4-4V6Z"/>
-                                </svg>  
-                            </a>
-                        </div>
+                <ul role="list" class="divide-y divide-gray-200 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-8">
+                    <li class="relative" *ngFor="let professional of professionals">
+                        <app-professional-card
+                            [id]="professional.id"
+                            [image]="professional.image"
+                            [path]="professional.path"
+                            [name]="professional.name"
+                            [languages]="professional.language"
+                            [experience]="professional.experience"
+                            [experiencePeriod]="professional.experience_period"
+                            [rate]="professional.rate"
+                            [rateCurrency]="professional.rate_currency"
+                            [rating]="professional.rating"
+                            [onlineStatus]="professional.online_status"
+                            [buttonColor]="buttonColor"
+                            [hasVoiceCall]="hasVoiceCall"
+                            [hasVideoCall]="hasVideoCall"
+                            [hasChat]="hasChat"
+                            (onStartCall)="handleStartCall($event)"
+                            (onStartChat)="handleStartChat($event)"
+                            (onStartVideoCall)="handleStartVideoCall($event)"
+                        >
+                        </app-professional-card>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
 </div>
-<div id="toast-message-cta" *ngIf="showToast" 
-    class="bg-yellow-50 fixed top-1/3 md:translate-x-2/4 lg:translate-x-2/4 flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" 
-    style="left:20%;"
+<div id="toast-message-cta" 
+    *ngIf="showToast" 
+    class="bg-[#ffffed] fixed top-1/3 md:translate-x-2/4 lg:translate-x-2/4 flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x divide-gray-200 rounded-lg shadow" 
+    style="left:35%;"
     role="alert">
     <div class="flex">
         <div class="relative inline-block shrink-0">
-            <img class="w-12 h-12 rounded-full object-cover" [src]="professionalImage" [alt]="professionalName"/>
+            <img class="w-12 h-12 rounded-full object-cover" [src]="professional.image" [alt]="professional.name"/>
         </div>
         <div class="ms-3 text-sm font-normal">
-            <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ professionalName }}</div>
+            <div class="text-sm font-semibold text-gray-900 dark:text-white">{{ professional.name }}</div>
             <div class="text-sm font-normal">{{ toastMessage }}</div> 
             <div>{{ display }}</div>
             <a href="javascript:;" (click)="cancelCall()" class="mt-2 inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-red-600 rounded-lg hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800">{{ 'wall.cancel' | translate }}</a>
         </div>
     </div>
 </div>
+<app-toast 
+    *ngIf="showRequiredMinimumBalanceModal" 
+    [company]="company" 
+    [update]="false" 
+    [confirm]="true"
+    [title]="toastTitle"
+    [description]="toastDescription"
+    [acceptText]="acceptText"
+    [cancelText]="cancelText"
+    (onAccept)="confirm()"
+></app-toast>

@@ -58,9 +58,9 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./my-sessions/my-sessions.component')).MySessionsComponent,
     },
     {
-        path: 'my-call-logs',
+        path: 'my-transactions',
         title: CustomTitleResolver,
-        data: { layout: PageLayout.Main , titleKey: 'professionals.calllogs' },
-        loadComponent: async () => (await import('./my-call-logs/my-call-logs.component')).MyCallLogsComponent,
+        data: { layout: PageLayout.Main , titleKey: 'professionals.mytransactions' },
+        loadComponent: async () => (await import('./my-transactions/my-transactions.component')).MyTransactionsComponent,
     },
 ];

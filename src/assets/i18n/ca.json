@@ -3710,6 +3710,19 @@
         "calllogs": "Registres de trucades",
         "callended": "La trucada ha finalitzat",
         "ongoingcall": "Trucada en curs",
-        "incomingcall": "Trucada entrant"
+        "incomingcall": "Trucada entrant",
+        "mytransactions": "Les meves transaccions",
+        "callwith": "Truca amb",
+        "for": "per a", 
+        "videocalllogs": "Registres de videotrucades", 
+        "chatlogs": "Registres de xat", 
+        "minimumbalance": "Saldo mínim",
+        "insufficientebalance": "Saldo insuficient",
+        "minimumbalanceof": "Saldo mínim de",
+        "requiredtostart": "és necessari per començar",
+        "with": "amb", 
+        "voicecall": "trucada", 
+        "videocall": "videotrucada", 
+        "chat": "xat"
     }
 }

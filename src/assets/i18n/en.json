@@ -3739,6 +3739,19 @@
         "calllogs": "Call logs",
         "callended": "Call has ended",
         "ongoingcall": "Ongoing call",
-        "incomingcall": "Incoming call"
+        "incomingcall": "Incoming call",
+        "mytransactions": "My transactions",
+        "callwith": "Call with",
+        "for": "for",
+        "videocalllogs": "Video call logs",
+        "chatlogs": "Chat logs",
+        "minimumbalance": "Minimum balance",
+        "insufficientbalance": "Insufficient balance",
+        "minimumbalanceof": "Minimum balance of",
+        "requiredtostart": "is required to start",
+        "with": "with",
+        "voicecall": "call",
+        "videocall": "video call",
+        "chat": "chat"
     }
 }

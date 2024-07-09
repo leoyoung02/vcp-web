@@ -3702,6 +3702,19 @@
         "calllogs": "Anrufprotokolle",
         "callended": "Anruf beendet",
         "ongoingcall": "Laufender Anruf",
-        "incomingcall": "Eingehender Anruf"
+        "incomingcall": "Eingehender Anruf",
+        "mytransactions": "Meine Transaktionen",
+        "callwith": "Anruf mit",
+        "for": "für", 
+        "videocalllogs": "Videoanrufprotokolle", 
+        "chatlogs": "Chatprotokolle", 
+        "minimumbalance": "Mindestguthaben",
+        "insufficientbalance": "Unzureichendes Guthaben",
+        "minimumbalanceof": "Mindestguthaben von",
+        "requiredtostart": "wird zum Starten benötigt",
+        "with": "mit", 
+        "voicecall": "anruf", 
+        "videocall": "videoanruf", 
+        "chat": "chat"
     }
 }

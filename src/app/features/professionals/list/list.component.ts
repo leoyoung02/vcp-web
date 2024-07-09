@@ -17,11 +17,13 @@ import { Subject, takeUntil } from "rxjs";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "@env/environment";
-import { PageTitleComponent } from "@share/components";
+import { PageTitleComponent, ToastComponent } from "@share/components";
 import { ProfessionalsService } from "@features/services/professionals/professionals.service";
+import { ProfessionalCardComponent } from "@share/components/card/professional/professional.component";
 import { Subscription } from 'rxjs';
 import { initFlowbite } from "flowbite";
 import { timer } from "@lib/utils/timer/timer.utils";
+import moment from 'moment';
 import get from "lodash/get";
 
 @Component({
@@ -32,6 +34,8 @@ import get from "lodash/get";
     TranslateModule,
     MatSnackBarModule,
     PageTitleComponent,
+    ProfessionalCardComponent,
+    ToastComponent,
   ],
   templateUrl: "./list.component.html",
 })
@@ -58,12 +62,37 @@ export class ProfessionalsListComponent {
   hoverColor: any;
   professionalImage: any;
   professionalName: any;
+  professionalRate: any = 0.89;
   professional: any;
   user: any;
 
   time: number = 0;
   display ;
   interval;
+  professionalsFeature: any;
+  featureId: any;
+  pageName: any;
+  pageDescription: any;
+  hasMinimumBalance: any;
+  minimumBalance: any;
+  superAdmin: boolean = false;
+  canViewProfessionals: boolean = false;
+  canCreateProfessional: boolean = false;
+  canManageProfessional: boolean = false;
+  allProfessionals: any = [];
+  professionals: any = [];
+  hasVoiceCall: boolean = false;
+  hasVideoCall: boolean = false;
+  hasChat: boolean = false;
+  company: any;
+  showConfirmationModal: boolean = false;
+  selectedItem: any;
+  toastTitle: string = "";
+  toastDescription: string = "";
+  acceptText: string = "";
+  cancelText: string = "";
+  showRequiredMinimumBalanceModal: boolean = false;
+  actionMode: string = "";
   
   constructor(
     private _route: ActivatedRoute,
@@ -103,6 +132,7 @@ export class ProfessionalsListComponent {
     }
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
+      this.company = company[0];
       this.companyId = company[0].id;
       this.primaryColor = company[0].primary_color;
       this.buttonColor = company[0].button_color
@@ -125,24 +155,136 @@ export class ProfessionalsListComponent {
   }
 
   initializePage() {
-    this.getTestProfessional();
+    this.getProfessionals();
     this.subscribeVoiceCall();
   }
 
-  getTestProfessional() {
-    this._userService
-      .getUserById(41051)
+  getProfessionals() {
+    this._professionalsService
+      .getProfessionalsData(this.companyId, this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (response) => {
-          this.professional = response.CompanyUser;
-          this.professionalImage = `${environment.api}/${this.professional.image}`;
-          this.professionalName = this.professional?.first_name ? `${this.professional.first_name} ${this.professional.last_name}` : this.professional.name;
+        (data) => {
+          this.user['available_balance'] = data?.user?.available_balance;
+          this.mapFeatures(data?.features_mapping);
+          this.mapSubfeatures(data?.settings);
+
+          this.mapUserPermissions(data?.user_permissions);
+
+          let professionals = data?.professionals;
+          this.allProfessionals = professionals;
+          this.formatProfessionals(professionals);
         },
         (error) => {
           console.log(error);
         }
       );
+  }
+
+  mapFeatures(features) {
+    this.professionalsFeature = features?.find((f) => f.feature_id == 23);
+    this.featureId = this.professionalsFeature?.id;
+    this.pageName = this.getFeatureTitle(this.professionalsFeature);
+    this.pageDescription = this.getFeatureDescription(this.professionalsFeature);
+  }
+
+  mapSubfeatures(settings) {
+    let subfeatures = settings?.subfeatures;
+    if(subfeatures?.length > 0) {
+      this.hasVoiceCall = subfeatures.some(a => a.name_en == 'Call feature' && a.active == 1);
+      this.hasVideoCall = subfeatures.some(a => a.name_en == 'Video call feature' && a.active == 1);
+      this.hasChat = subfeatures.some(a => a.name_en == 'Chat feature' && a.active == 1);
+      this.hasMinimumBalance = subfeatures?.some((a) => a.name_en == "Minimum balance" && a.active == 1);
+    }
+
+    if(this.hasMinimumBalance) {
+      this.minimumBalance = settings?.professional_settings?.minimum_balance;
+    }
+  }
+
+  mapUserPermissions(user_permissions) {
+    this.superAdmin = user_permissions?.super_admin_user ? true : false;
+    this.canViewProfessionals = user_permissions?.member_type_permissions?.find(
+      (f) => f.view == 1 && f.feature_id == 23
+    )
+      ? true
+      : false;
+    this.canCreateProfessional =
+      user_permissions?.create_plan_roles?.length > 0 ||
+      user_permissions?.member_type_permissions?.find((f) => f.create == 1 && f.feature_id == 25);
+    this.canManageProfessional = user_permissions?.member_type_permissions?.find(
+      (f) => f.manage == 1 && f.feature_id == 23
+      )
+      ? true
+      : false;
+  }
+
+  formatProfessionals(professionals) {
+    professionals = professionals?.map((item) => {
+      return {
+        ...item,
+        id: item?.id,
+        path: `/professionals/details/${item.id}`,
+        image: `${environment.api}/${item.image}`,
+        name: item?.first_name ? `${item.first_name} ${item.last_name}` : item.name,
+      };
+    });
+
+    this.professionals = professionals;
+  }
+
+  getFeatureTitle(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.name_en ||
+          feature.feature_name ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "fr"
+        ? feature.name_fr ||
+          feature.feature_name_FR ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "eu"
+        ? feature.name_eu ||
+          feature.feature_name_EU ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "ca"
+        ? feature.name_ca ||
+          feature.feature_name_CA ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "de"
+        ? feature.name_de ||
+          feature.feature_name_DE ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : this.language == "it"
+        ? feature.name_it ||
+          feature.feature_name_IT ||
+          feature.name_es ||
+          feature.feature_name_ES
+        : feature.name_es || feature.feature_name_ES
+      : "";
+  }
+
+  getFeatureDescription(feature) {
+    return feature
+      ? this.language == "en"
+        ? feature.description_en || feature.description_es
+        : this.language == "fr"
+        ? feature.description_fr || feature.description_es
+        : this.language == "eu"
+        ? feature.description_eu || feature.description_es
+        : this.language == "ca"
+        ? feature.description_ca || feature.description_es
+        : this.language == "de"
+        ? feature.description_de || feature.description_es
+        : this.language == "it"
+        ? feature.description_it || feature.description_es
+        : feature.description_es
+      : "";
   }
 
   subscribeVoiceCall() {
@@ -179,37 +321,54 @@ export class ProfessionalsListComponent {
     clearInterval(this.interval);
   }
 
-  async handleStartCall(id, phone_number, name, avatar) {
-    this.display = '';
-    this.selectedId = id;
+  async handleStartCall(id) {
+    this.actionMode = 'voicecall';
+    this.professional = this.professionals.find((c) => c.id == id);
 
-    const channel =  `agora-vcp-${id}`;
-    let caller_uid = Math.floor(Math.random() * 2032);
+    if(this.hasRequiredMinimumBalance()) {
+      this.display = '';
+      this.selectedId = id;
 
-    setTimeout(() => {
-      initFlowbite();
-      this.toastMessage = 'Dialing...';
-      this.toastMode = 'initiate-call';
-      this.showToast = true;
-      let params = {
-        id,
-        user_id: this.userId,
-        company_id: this.companyId,
-        mode: 'accept-call',
-        message: this._translateService.instant('professionals.incomingcall'),
-        caller_name: this.user?.first_name ? `${this.user.first_name} ${this.user.last_name}` : this.user.name,
-        caller_image: `${environment.api}/${this.user?.image}`,
-        phone: phone_number,
-        room: channel,
-        caller_uid,
-      }
-      this.notifyProfessional(params);
-    }, 100);
+      const channel =  `agora-vcp-${id}`;
+      let caller_uid = Math.floor(Math.random() * 2032);
 
-    const token = get(await this._professionalsService.generateRTCToken(channel, 'publisher', 'uid', this.userId).toPromise(), 'rtcToken')
-    this._professionalsService.createRTCClient();
-    this._professionalsService.agoraServerEvents(this._professionalsService.rtc);
-    await this._professionalsService.localUser(channel, token, caller_uid, 'initiate-call');
+      setTimeout(() => {
+        initFlowbite();
+        this.toastMessage = 'Dialing...';
+        this.toastMode = 'initiate-call';
+        this.showToast = true;
+        let params = {
+          id,
+          user_id: this.userId,
+          company_id: this.companyId,
+          mode: 'accept-call',
+          message: this._translateService.instant('professionals.incomingcall'),
+          caller_name: this.user?.first_name ? `${this.user.first_name} ${this.user.last_name}` : this.user.name,
+          caller_image: `${environment.api}/${this.user?.image}`,
+          phone: this.professional?.phone,
+          room: channel,
+          caller_uid,
+        }
+        this.notifyProfessional(params);
+      }, 100);
+
+      const token = get(await this._professionalsService.generateRTCToken(channel, 'publisher', 'uid', this.userId).toPromise(), 'rtcToken')
+      this._professionalsService.createRTCClient();
+      this._professionalsService.agoraServerEvents(this._professionalsService.rtc);
+      await this._professionalsService.localUser(channel, token, caller_uid, 'initiate-call');
+    }
+  }
+
+  hasRequiredMinimumBalance() {
+    let valid = true;
+
+    let requiredMinimumBalance = this.minimumBalance > 0 ? (this.professional?.rate * this.minimumBalance) : 0;
+    if(!(this.minimumBalance > 0 && this.user?.available_balance >= (requiredMinimumBalance))) {
+      valid = false;
+      this.showRequiredMinimumBalanceMessage();
+    }
+
+    return valid;
   }
 
   notifyProfessional(params) {
@@ -224,16 +383,51 @@ export class ProfessionalsListComponent {
 
   async cancelCall() {
     await this._professionalsService.leaveCall();
+    
+    let stats = this._professionalsService.rtcStats;
+
+    let timezoneOffset = new Date().getTimezoneOffset();
+    let offset = moment().format('Z');
     let params = {
       id: this.professional?.id,
       user_id: this.userId,
       company_id: this.companyId,
       mode: 'end-call',
       channel: this.userId,
+      room: `agora-vcp-${this.professional?.id}`,
+      duration: stats?.Duration || 0,
+      timezone: timezoneOffset,
+      offset,
+      user_mode: 'caller',
     }
     this.notifyProfessional(params);
-    this._professionalsService.leaveCall();
+
     this.showToast = false;
+  }
+
+  async handleStartChat(id) {
+    this.actionMode = 'chat';
+    this.professional = this.professionals.find((c) => c.id == id);
+  }
+
+  async handleStartVideoCall(id) {
+    this.actionMode = 'videocall';
+    this.professional = this.professionals.find((c) => c.id == id);
+  }
+
+  showRequiredMinimumBalanceMessage() {
+    let minimumAmount = parseFloat((this.professional?.rate * this.minimumBalance)?.toString()).toFixed(2);
+    let amountInText =  `(${this.professional?.rate_currency} ${minimumAmount})`;
+    let actionModeText = this._translateService.instant(`professionals.${this.actionMode}`);
+    this.showRequiredMinimumBalanceModal = false;
+    this.toastTitle = this._translateService.instant('professionals.insufficientbalance');
+    this.toastDescription = `${this._translateService.instant("professionals.minimumbalanceof")} ${this.minimumBalance?.toString()?.replace('.00', '')} ${this._translateService.instant('timeunits.minutes')} ${amountInText} ${this._translateService.instant('professionals.requiredtostart')} ${actionModeText} ${this._translateService.instant('professionals.with')} ${this.professional?.name}`;
+    this.acceptText = "OK";
+    setTimeout(() => (this.showRequiredMinimumBalanceModal = true));
+  }
+
+  confirm() {
+    this.showRequiredMinimumBalanceModal = false;
   }
 
   async open(message: string, action: string) {

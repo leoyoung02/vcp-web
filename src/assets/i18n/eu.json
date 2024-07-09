@@ -3703,6 +3703,19 @@
         "calllogs": "Deien erregistroak",
         "callended": "Deia amaitu da",
         "ongoingcall": "Abian deia",
-        "incomingcall": "Sarrerako deia"
+        "incomingcall": "Sarrerako deia",
+        "mytransactions": "Nire transakzioak", 
+        "callwith": "Deitu honekin",
+        "for": "for",
+        "videocalllogs": "Bideo-deien erregistroak", 
+        "chatlogs": "Txat-erregistroak", 
+        "minimumbalance": "Gutxieneko saldoa",
+        "insufficientbalance": "Oreka nahikoa ez",
+        "minimumbalanceof": "Gutxieneko saldoa",
+        "requiredtostart": "hasteko beharrezkoa da",
+        "with": "ekin", 
+        "voicecall": "deitu", 
+        "videocall": "bideo-deia", 
+        "chat": "txat"
     }
 }

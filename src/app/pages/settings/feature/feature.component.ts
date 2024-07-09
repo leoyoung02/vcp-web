@@ -23,7 +23,7 @@ import { MatSelectModule } from "@angular/material/select";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { initFlowbite } from "flowbite";
 import { Subject, takeUntil } from "rxjs";
-import { ClubsService, PlansService, TutorsService, BuddyService, JobOffersService } from "@features/services";
+import { ClubsService, PlansService, TutorsService, BuddyService, JobOffersService, ProfessionalsService } from "@features/services";
 import get from "lodash/get";
 @Component({
   standalone: true,
@@ -161,6 +161,9 @@ export class FeatureComponent {
   limitMessage: any
   createMenteeLimit: any;
   menteeLimitSettings: any = [];
+  professionalSettings: any;
+  minimumBalance: any;
+  showMinimumBalanceModal: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -175,6 +178,7 @@ export class FeatureComponent {
     private _userService: UserService,
     private _menuService: MenuService,
     private _jobOfferService: JobOffersService,
+    private _professionalsService: ProfessionalsService,
     private _location: Location,
     private _snackBar: MatSnackBar
   ) {}
@@ -391,6 +395,7 @@ export class FeatureComponent {
       { id: 37, name_en: "Testimonials filter" },
       { id: 38, name_en: "Buddies filter" },
       { id: 39, name_en: "Mentee Limit" },
+      { id: 40, name_en: "Minimum balance" },
     ];
   }
 
@@ -505,6 +510,7 @@ export class FeatureComponent {
       case "Testimonials filter":
       case "Buddies filter":
       case "Mentee Limit":
+      case "Minimum balance":
       case "Candidates display":
         this.openSettingModal(row);
         break;
@@ -615,6 +621,10 @@ export class FeatureComponent {
         break;
       case "Mentee Limit":
         this.getMenteeLimitSettings();
+        this.settingmodalbutton?.nativeElement.click();
+        break;
+      case "Minimum balance":
+        this.getMinimumBalance();
         this.settingmodalbutton?.nativeElement.click();
         break;
       case "Filter":
@@ -2378,6 +2388,42 @@ export class FeatureComponent {
           feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
       : "";
+  }
+
+  getMinimumBalance() {
+    this._professionalsService.getMinimumBalance(this.companyId)
+      .subscribe(
+        async (response) => {
+          this.professionalSettings = response.settings;
+          if(this.professionalSettings) {
+            this.minimumBalance = this.professionalSettings.minimum_balance || '';
+          }
+          this.showMinimumBalanceModal = true
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  saveMinimumBalance() {
+    if(this.minimumBalance) {
+      let params = {
+        company_id: this.companyId,
+        minimum_balance: this.minimumBalance
+      }
+      this._professionalsService.updateMinimumBalance(params)
+      .subscribe(
+        response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          this.showMinimumBalanceModal = false;
+          this.closesettingmodalbutton?.nativeElement.click();
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    }
   }
 
   handleGoBack() {

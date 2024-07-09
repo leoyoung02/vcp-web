@@ -3697,6 +3697,19 @@
         "calllogs": "Journaux d'appels",
         "callended": "L'appel est terminé",
         "ongoingcall": "Appel en cours",
-        "incomingcall": "Appel entrant"
+        "incomingcall": "Appel entrant",
+        "mytransactions": "Mes transactions",
+        "callwith": "Appeler avec",
+        "for": "pour", 
+        "videocalllogs": "Journaux d'appels vidéo", 
+        "chatlogs": "Journaux de discussion", 
+        "minimumbalance": "Solde minimum",
+        "insufficientbalance": "Solde insuffisant",
+        "minimumbalanceof": "Solde minimum de",
+        "requiredtostart": "est requis pour démarrer",
+        "with": "avec", 
+        "voicecall": "appel", 
+        "videocall": "appel vidéo", 
+        "chat": "chat"
     }
 }

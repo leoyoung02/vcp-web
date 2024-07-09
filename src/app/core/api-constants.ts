@@ -274,6 +274,7 @@ export const UPDATE_REGISTRATION_FIELD_DETAILS_URL = `${API_BASE}/company/regist
 export const SUPER_TUTOR_STUDENTS_URL = `${API_BASE}/v2/super-tutor/students`;
 export const POT_SUPER_TUTOR_STUDENTS_URL = `${API_BASE}/v2/potsuper-tutor/students`;
 export const EDIT_USER_BIRTHDAY_URL = `${API_BASE}/v2/user/birthday/edit`;
+export const USER_TRANSACTIONS_URL = `${API_BASE}/v3/user-transactions`;
 
 // NOTIFICATIONS
 export const ACCEPT_CLUB_NOTIFICATION_URL = `${API_BASE}/company-approve-join-group`;
@@ -783,6 +784,9 @@ export const GENERATE_RTC_TOKEN_URL = `${API_BASE}/v3/agora/rtc`;
 export const NOTIFY_PROFESSIONAL_PUSHER_URL = `${API_BASE}/v3/voice-call/push`;
 export const VOICE_CALL_URL = `${API_BASE}/v3/voice-call`;
 export const VALIDATE_VOICE_CALL_PASSCODE_URL = `${API_BASE}/v3/voice-call/validate-code`;
+export const MINIMUM_BALANCE_URL = `${API_BASE}/v3/minimum-balance`;
+export const EDIT_MINIMUM_BALANCE_URL = `${API_BASE}/v3/minimum-balance/edit`;
+export const PROFESSIONALS_DATA_URL = `${API_BASE}/v3/professionals-data`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;
