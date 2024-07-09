@@ -31,6 +31,7 @@ export class CourseIntroComponent {
     @Input() id!: number;
 
     language: any;
+    apiPath: string = environment.api;
     userId: any;
     companyId: any;
     companies: any;

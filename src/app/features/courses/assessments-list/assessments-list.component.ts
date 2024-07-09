@@ -11,7 +11,7 @@ import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatTabsModule } from "@angular/material/tabs";
 import { MatTableDataSource, MatTableModule } from "@angular/material/table";
-import { BreadcrumbComponent, PageTitleComponent, ToastComponent } from "@share/components";
+import { BreadcrumbComponent, ButtonGroupComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import { SearchComponent } from "@share/components/search/search.component";
 import {
   CompanyService,
@@ -31,6 +31,14 @@ import { CoursesService } from "@features/services";
 import { initFlowbite } from "flowbite";
 import get from "lodash/get";
 
+import { FilePondModule, registerPlugin } from 'ngx-filepond';
+import FilepondPluginImagePreview from 'filepond-plugin-image-preview';
+import FilepondPluginImageEdit from 'filepond-plugin-image-edit';
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type';
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size';
+import { searchSpecialCase } from "src/app/utils/search/helper";
+registerPlugin(FilepondPluginImagePreview, FilepondPluginImageEdit, FilePondPluginFileValidateType, FilePondPluginFileValidateSize);
+
 @Component({
   selector: "app-course-assessments-list",
   standalone: true,
@@ -45,10 +53,12 @@ import get from "lodash/get";
     MatSnackBarModule,
     MatTabsModule,
     EditorModule,
+    FilePondModule,
     SearchComponent,
     BreadcrumbComponent,
     ToastComponent,
     PageTitleComponent,
+    ButtonGroupComponent,
   ],
   templateUrl: "./assessments-list.component.html",
 })
@@ -82,7 +92,19 @@ export class CourseAssessmentsListComponent {
   formSubmitted: boolean = false;
   assessmentForm = new FormGroup({
     title: new FormControl("", [Validators.required]),
+    title_en: new FormControl(""),
+    title_fr: new FormControl(""),
+    title_eu: new FormControl(""),
+    title_ca: new FormControl(""),
+    title_de: new FormControl(""),
+    title_it: new FormControl(""),
     description: new FormControl(""),
+    description_en: new FormControl(""),
+    description_fr: new FormControl(""),
+    description_eu: new FormControl(""),
+    description_ca: new FormControl(""),
+    description_de: new FormControl(""),
+    description_it: new FormControl(""),
   });
   pageSize: number = 10;
   pageIndex: number = 0;
@@ -117,6 +139,8 @@ export class CourseAssessmentsListComponent {
   selectedAssessmentItemId: any;
   selectedAssessmentItemType: any = '';
   assessmentItemTitle: any;
+  assessmentImageWidth: any = '384';
+  assessmentImageWidthUnit: any = 'px';
   assessmentItemFormSubmitted: boolean = false;
   selectedAssessmentItem: any;
   selectedMultipleChoiceOption: any;
@@ -127,6 +151,92 @@ export class CourseAssessmentsListComponent {
   multipleChoiceCorrect: boolean = false;
   confirmMode: any;
   multipleChoiceOptionMode: any;
+
+  apiPath: string = environment.api;
+  assessmentImage: any;
+  assessmentFileName: any;
+  assessmentImageName: any;
+  pondFiles = [];
+  assessmentItemImage: any;
+  clearedImage: boolean = false;
+  @ViewChild('myPond', {static: false}) myPond: any;
+  pondOptions = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    acceptedFileTypes: 'image/jpg, image/jpeg, image/png',
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.assessmentFileName = 'assmt_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('image', file, this.assessmentFileName);
+        localStorage.setItem('course_assessment_file', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/v2/course-assessment/temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('course_assessment_file', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+              request.abort();
+              abort();
+          },
+        };
+      },
+    },
+  };
+
+  languages: any = [];
+  selectedLanguage: any = "es";
+  defaultLanguage: any = "es";
+  selectedLanguageChanged: boolean = false;
+  buttonList: any = [];
+  title_en: any;
+  title_fr: any;
+  title_eu: any;
+  title_ca: any;
+  title_de: any;
+  title_it: any;
+  description_en: any;
+  description_fr: any;
+  description_eu: any;
+  description_ca: any;
+  description_de: any;
+  description_it: any;
+  assessmentItemTitleEn: any;
+  assessmentItemTitleFr: any;
+  assessmentItemTitleEu: any;
+  assessmentItemTitleCa: any;
+  assessmentItemTitleDe: any;
+  assessmentItemTitleIt: any;
+  multipleChoiceChoiceEn: any;
+  multipleChoiceChoiceFr: any;
+  multipleChoiceChoiceEu: any;
+  multipleChoiceChoiceCa: any;
+  multipleChoiceChoiceDe: any;
+  multipleChoiceChoiceIt: any;
 
   constructor(
     private _companyService: CompanyService,
@@ -210,6 +320,7 @@ export class CourseAssessmentsListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (response) => {
+          this.mapLanguages(response?.languages);
           this.assessmentTypes = response.assessment_types;
           this.formatAssessments(response.assessments);
           this.allAssessments = this.assessments;
@@ -250,6 +361,14 @@ export class CourseAssessmentsListComponent {
     }
   }
 
+  getAssessmentTitle(assessment) {
+    return assessment ? this.language == 'en' ? (assessment.title_en || assessment.title) : (this.language == 'fr' ? (assessment.title_fr || assessment.title) : 
+      (this.language == 'eu' ? (assessment.title_eu || assessment.title) : (this.language == 'ca' ? (assessment.title_ca || assessment.title) : 
+      (this.language == 'de' ? (assessment.title_de || assessment.title) : (this.language == 'it' ? (assessment.title_it || assessment.title) : assessment.title)
+      )))
+    ) : ''
+  }
+
   getAssessmentType(id) {
     let type = ''
     if(this.assessmentTypes?.length > 0) {
@@ -270,6 +389,70 @@ export class CourseAssessmentsListComponent {
       (this.language == 'de' ? (type.type_de || type.type_es) : (this.language == 'it' ? (type.type_it || type.type_es) : type.type_es)
       )))
     ) : ''
+  }
+
+  mapLanguages(languages) {
+    languages = languages?.map((language) => {
+      return {
+        ...language,
+        name: this.getLanguageName(language),
+      };
+    });
+
+    this.languages = languages?.filter((lang) => {
+      return lang.status == 1;
+    });
+    this.defaultLanguage = languages
+      ? languages.filter((lang) => {
+          return lang.default == true;
+        })
+      : [];
+    this.selectedLanguage = this.language || this.defaultLanguage;
+    this.initializeButtonGroup();
+  }
+
+  getLanguageName(language) {
+    return this.language == "en"
+      ? language.name_EN
+      : this.language == "fr"
+      ? language.name_FR
+      : this.language == "eu"
+      ? language.name_EU
+      : this.language == "ca"
+      ? language.name_CA
+      : this.language == "de"
+      ? language.name_DE
+      : this.language == "it"
+      ? language.name_IT
+      : language.name_ES;
+  }
+
+  initializeButtonGroup() {
+    let list: any[] = [];
+    this.languages?.forEach((language) => {
+      list.push({
+        id: language.id,
+        value: language.code,
+        text: this.getLanguageName(language),
+        selected: this.selectedLanguage == language.code ? true : false,
+        code: language.code,
+      });
+    });
+
+    this.buttonList = list;
+  }
+
+  handleChangeLanguageFilter(event) {
+    this.buttonList?.forEach((item) => {
+      if (item.code == event.code) {
+        item.selected = true;
+      } else {
+        item.selected = false;
+      }
+    });
+
+    this.selectedLanguage = event.code;
+    this.selectedLanguageChanged = true;
   }
 
   refreshTable(array) {
@@ -368,11 +551,35 @@ export class CourseAssessmentsListComponent {
     this.resetModes();
     this.selectedId = item.id;
     this.title = item.title;
+    this.title_en = item.title_en;
+    this.title_fr = item.title_fr;
+    this.title_eu = item.title_eu;
+    this.title_ca = item.title_ca;
+    this.title_de = item.title_de;
+    this.title_it = item.title_it;
     this.description = item.description;
+    this.description_en = item.description_en;
+    this.description_fr = item.description_fr;
+    this.description_eu = item.description_eu;
+    this.description_ca = item.description_ca;
+    this.description_de = item.description_de;
+    this.description_it = item.description_it;
     this.formatAssessmentItems(item.details);
     
     this.assessmentForm.controls["title"].setValue(this.title);
+    this.assessmentForm.controls["title_en"].setValue(this.title_en || this.title);
+    this.assessmentForm.controls["title_fr"].setValue(this.title_fr || this.title);
+    this.assessmentForm.controls["title_eu"].setValue(this.title_eu || this.title);
+    this.assessmentForm.controls["title_ca"].setValue(this.title_ca || this.title);
+    this.assessmentForm.controls["title_de"].setValue(this.title_de || this.title);
+    this.assessmentForm.controls["title_it"].setValue(this.title_it || this.title);
     this.assessmentForm.controls["description"].setValue(this.description);
+    this.assessmentForm.controls["description_en"].setValue(this.description_en || this.description);
+    this.assessmentForm.controls["description_fr"].setValue(this.description_fr || this.description);
+    this.assessmentForm.controls["description_eu"].setValue(this.description_eu || this.description);
+    this.assessmentForm.controls["description_ca"].setValue(this.description_ca || this.description);
+    this.assessmentForm.controls["description_de"].setValue(this.description_de || this.description);
+    this.assessmentForm.controls["description_it"].setValue(this.description_it || this.description);
 
     if(this.createdAssessmentId) {
       this.createdAssessmentId = '';
@@ -419,7 +626,19 @@ export class CourseAssessmentsListComponent {
 
     let params = {
       title: this.assessmentForm.get("title")?.value,
+      title_en: this.assessmentForm.get("title_en")?.value || this.assessmentForm.get("title")?.value,
+      title_fr: this.assessmentForm.get("title_fr")?.value || this.assessmentForm.get("title")?.value,
+      title_eu: this.assessmentForm.get("title_eu")?.value || this.assessmentForm.get("title")?.value,
+      title_ca: this.assessmentForm.get("title_ca")?.value || this.assessmentForm.get("title")?.value,
+      title_de: this.assessmentForm.get("title_de")?.value || this.assessmentForm.get("title")?.value,
+      title_it: this.assessmentForm.get("title_it")?.value || this.assessmentForm.get("title")?.value,
       description: this.assessmentForm.get("description")?.value,
+      description_en: this.assessmentForm.get("description_en")?.value || this.assessmentForm.get("description")?.value,
+      description_fr: this.assessmentForm.get("description_fr")?.value || this.assessmentForm.get("description")?.value,
+      description_eu: this.assessmentForm.get("description_eu")?.value || this.assessmentForm.get("description")?.value,
+      description_ca: this.assessmentForm.get("description_ca")?.value || this.assessmentForm.get("description")?.value,
+      description_de: this.assessmentForm.get("description_de")?.value || this.assessmentForm.get("description")?.value,
+      description_it: this.assessmentForm.get("description_it")?.value || this.assessmentForm.get("description")?.value,
       company_id: this.companyId,
       created_by: this.userId,
     };
@@ -507,6 +726,15 @@ export class CourseAssessmentsListComponent {
     this.selectedAssessmentItemId = item.id;
     this.selectedAssessmentItemType = item.assessment_type_id;
     this.assessmentItemTitle = item.title;
+    this.assessmentItemTitleEn = item?.title_en || item?.title;
+    this.assessmentItemTitleFr = item?.title_fr || item?.title;
+    this.assessmentItemTitleEu = item?.title_eu || item?.title;
+    this.assessmentItemTitleCa = item?.title_ca || item?.title;
+    this.assessmentItemTitleDe = item?.title_de || item?.title;
+    this.assessmentItemTitleIt = item?.title_it || item?.title;
+    this.assessmentItemImage = item.image;
+    this.assessmentImageWidth = item?.image_width?.replace('px', '')?.replace('%', '');
+    this.assessmentImageWidthUnit = item?.image_width?.replace(this.assessmentImageWidth, '');
     this.showAssessmentItemDetails = true;
   }
 
@@ -540,6 +768,12 @@ export class CourseAssessmentsListComponent {
     this.selectedAssessmentItemId = '';
     this.selectedAssessmentItemType = '';
     this.assessmentItemTitle = '';
+    this.assessmentItemTitleEn = '';
+    this.assessmentItemTitleFr = '';
+    this.assessmentItemTitleEu = '';
+    this.assessmentItemTitleCa = '';
+    this.assessmentItemTitleDe = '';
+    this.assessmentItemTitleIt = '';
     this.assessmentItemFormSubmitted = false;
     this.showAssessmentItemDetails = false;
     localStorage.removeItem('selected_assessment_type');
@@ -560,6 +794,14 @@ export class CourseAssessmentsListComponent {
       assessment_id: this.selectedId,
       assessment_type_id: this.selectedAssessmentItemType,
       title: this.assessmentItemTitle,
+      title_en: this.assessmentItemTitleEn || this.assessmentItemTitle,
+      title_fr: this.assessmentItemTitleFr || this.assessmentItemTitle,
+      title_eu: this.assessmentItemTitleEu || this.assessmentItemTitle,
+      title_ca: this.assessmentItemTitleCa || this.assessmentItemTitle,
+      title_de: this.assessmentItemTitleDe || this.assessmentItemTitle,
+      title_it: this.assessmentItemTitleIt || this.assessmentItemTitle,
+      image: this.assessmentFileName,
+      image_width: this.assessmentImageWidth ? `${this.assessmentImageWidth}${this.assessmentImageWidthUnit}` : '',
       created_by: this.userId,
     };
 
@@ -602,11 +844,25 @@ export class CourseAssessmentsListComponent {
     this.showAssessmentItemDetails = false;
   }
 
+  getChoiceTitle(choice) {
+    return choice ? this.language == 'en' ? (choice.choice_en || choice.choice) : (this.language == 'fr' ? (choice.title_fr || choice.choice) : 
+      (this.language == 'eu' ? (choice.choice_eu || choice.choice) : (this.language == 'ca' ? (choice.choice_ca || choice.choice) : 
+      (this.language == 'de' ? (choice.choice_de || choice.choice) : (this.language == 'it' ? (choice.choice_it || choice.choice) : choice.choice)
+      )))
+    ) : ''
+  }
+
   handleEditMultipleChoiceOption(option) {
     this.multipleChoiceOptionMode = 'edit';
     this.selectedMultipleChoiceOption = option;
     this.selectedMultipleChoiceOptionId = option.id;
     this.multipleChoiceChoice = option.choice;
+    this.multipleChoiceChoiceEn = option.choice_en || option.choice;
+    this.multipleChoiceChoiceFr = option.choice_fr || option.choice;
+    this.multipleChoiceChoiceEu = option.choice_eu || option.choice;
+    this.multipleChoiceChoiceCa = option.choice_ca || option.choice;
+    this.multipleChoiceChoiceDe = option.choice_de || option.choice;
+    this.multipleChoiceChoiceIt = option.choice_it || option.choice;
     this.multipleChoiceCorrect = option.correct == 1 ? true : false;
     this.showMultipleChoiceOptionDetails = true;
   }
@@ -616,6 +872,12 @@ export class CourseAssessmentsListComponent {
     this.selectedMultipleChoiceOption = '';
     this.selectedMultipleChoiceOptionId = '';
     this.multipleChoiceChoice = '';
+    this.multipleChoiceChoiceEn = '';
+    this.multipleChoiceChoiceFr = '';
+    this.multipleChoiceChoiceEu = '';
+    this.multipleChoiceChoiceCa = '';
+    this.multipleChoiceChoiceDe = '';
+    this.multipleChoiceChoiceIt = '';
     this.multipleChoiceCorrect = false;
     this.showMultipleChoiceOptionDetails = true;
   }
@@ -625,6 +887,12 @@ export class CourseAssessmentsListComponent {
     this.selectedMultipleChoiceOption = '';
     this.selectedMultipleChoiceOptionId = '';
     this.multipleChoiceChoice = '';
+    this.multipleChoiceChoiceEn = '';
+    this.multipleChoiceChoiceFr = '';
+    this.multipleChoiceChoiceEu = '';
+    this.multipleChoiceChoiceCa = '';
+    this.multipleChoiceChoiceDe = '';
+    this.multipleChoiceChoiceIt = '';
     this.multipleChoiceCorrect = false;
     this.showMultipleChoiceOptionDetails = false;
   }
@@ -666,6 +934,12 @@ export class CourseAssessmentsListComponent {
       assessment_type_id: this.selectedAssessmentItemType,
       assessment_detail_id: this.selectedAssessmentItemId,
       choice: this.multipleChoiceChoice,
+      choice_en: this.multipleChoiceChoiceEn || this.multipleChoiceChoice,
+      choice_fr: this.multipleChoiceChoiceFr || this.multipleChoiceChoice,
+      choice_eu: this.multipleChoiceChoiceEu || this.multipleChoiceChoice,
+      choice_ca: this.multipleChoiceChoiceCa || this.multipleChoiceChoice,
+      choice_de: this.multipleChoiceChoiceDe || this.multipleChoiceChoice,
+      choice_it: this.multipleChoiceChoiceIt || this.multipleChoiceChoice,
       correct: this.multipleChoiceCorrect ? 1 : 0,
       created_by: this.userId,
     };
@@ -691,6 +965,12 @@ export class CourseAssessmentsListComponent {
           this.getAssessments();
           this.selectedAssessmentItem = assessment_item;
           this.multipleChoiceChoice = '';
+          this.multipleChoiceChoiceEn = '';
+          this.multipleChoiceChoiceFr = '';
+          this.multipleChoiceChoiceEu = '';
+          this.multipleChoiceChoiceCa = '';
+          this.multipleChoiceChoiceDe = '';
+          this.multipleChoiceChoiceIt = '';
           this.multipleChoiceCorrect = false;
           this.multipleChoiceOptionMode = '';
           this.showMultipleChoiceOptionDetails = false;
@@ -720,6 +1000,12 @@ export class CourseAssessmentsListComponent {
           this.getAssessments();
           this.selectedAssessmentItem = assessment_item;
           this.multipleChoiceChoice = '';
+          this.multipleChoiceChoiceEn = '';
+          this.multipleChoiceChoiceFr = '';
+          this.multipleChoiceChoiceEu = '';
+          this.multipleChoiceChoiceCa = '';
+          this.multipleChoiceChoiceDe = '';
+          this.multipleChoiceChoiceIt = '';
           this.multipleChoiceCorrect = false;
           this.multipleChoiceOptionMode = '';
           this.showMultipleChoiceOptionDetails = false;
@@ -771,6 +1057,37 @@ export class CourseAssessmentsListComponent {
     )
   }
 
+  pondHandleInit() {
+    console.log('FilePond has initialised', this.myPond);
+  }
+
+  pondHandleAddFile(event: any) {
+    console.log('A file was added', event);
+    if(localStorage.getItem('course_assessment_file') == 'complete' && this.assessmentFileName) {
+      this.assessmentImage = `${environment.api}/get-course-image/${this.assessmentFileName}`;
+    }
+  }
+
+  podHandleUpdateFiles(event: any) {
+    console.log('A file was updated', event);
+    if(localStorage.getItem('course_assessment_file') == 'complete' && this.assessmentFileName) {
+      this.assessmentImage = `${environment.api}/get-course-image/${this.assessmentFileName}`;
+    }
+  }
+
+  podHandleProcessFile(event: any) {
+    console.log('A file was updated', event);
+    if(localStorage.getItem('course_assessment_file') == 'complete' && this.assessmentFileName) {
+      this.assessmentImage = `${environment.api}/get-course-image/${this.assessmentFileName}`;
+    }
+  }
+
+  public getTimestamp() {
+    const date = new Date()
+    const timestamp = date.getTime()
+    return timestamp
+  }
+
   handleGoBack() {
     this._location.back();
   }
@@ -782,7 +1099,18 @@ export class CourseAssessmentsListComponent {
     });
   }
 
+  clearImage() {
+    this.clearedImage = true;
+    this.assessmentItemImage = '';
+    this.assessmentFileName = '';
+  }
+
+  clearFileLocal() {
+    localStorage.removeItem('course_assessment_file');
+  }
+
   ngOnDestroy() {
+    this.clearFileLocal();
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();

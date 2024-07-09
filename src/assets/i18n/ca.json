@@ -1061,7 +1061,9 @@
         "text": "Text",
         "coursecontent":"Contingut del curs",
         "viewclass": "Mostra la classe",
-        "stripeinactivetransfer":"Capacitats de transferència inactives"
+        "stripeinactivetransfer":"Capacitats de transferència inactives",
+        "levelingcoursesdescription": "Els cursos BASIC STEAM són cursos d'anivellament dissenyats per reforçar i consolidar els coneixements bàsics, assegurant una preparació òptima per enfrontar amb èxit els desafiaments acadèmics dels primers cursos de l'etapa universitària.",
+        "levelingcoursesduration": "Durada: 10 hores"
     },
     "course-lesson": {
         "section": "Secció"
