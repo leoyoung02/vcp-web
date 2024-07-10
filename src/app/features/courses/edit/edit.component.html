@@ -24,38 +24,203 @@
             <mat-tab class="uppercase" label="{{ 'course-create.details' | translate }}">
                 <form [formGroup]="courseForm" (ngSubmit)="saveCourse()">
                     <div class="grid gap-0 sm:gap-0 md:gap-6 lg:gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
-                        <div class="flex items-center justify-evenly my-8 relative col-span-2">
-                            <div class="relative">
-                                <div class="text-center font-semibold uppercase mb-2">{{ 'courses.courseimage' | translate }}</div>
-                                <input 
-                                    required 
-                                    type="file"
-                                    id="photo" 
-                                    style="display:none;"
-                                    (change)="fileChangeEvent($event, 'photo')"
-                                />
-                                <div 
-                                    class="grid max-w-xl text-center shadow-2xl bg-neutral-50 rounded-xl place-items-center bg-opacity-5 backdrop-filter backdrop-blur"
-                                    [ngClass]="{'p-6 rounded-xl bg-red-50 border border-red-500': !imgSrc}"
-                                >
-                                    <div
-                                        class="grid mb-8 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300 place-items-center"
-                                        [ngClass]="{'w-28 h-28': !imgSrc}"
+                        <div class="flex justify-evenly my-8 relative col-span-2"
+                            [ngClass]="{'items-center': !isUESchoolOfLife}">
+                            <ng-container *ngIf="!isUESchoolOfLife">
+                                <div class="relative">
+                                    <div class="text-center font-semibold uppercase mb-2">{{ 'courses.courseimage' | translate }}</div>
+                                    <input 
+                                        required 
+                                        type="file"
+                                        id="photo" 
+                                        style="display:none;"
+                                        (change)="fileChangeEvent($event, 'photo')"
+                                    />
+                                    <div 
+                                        class="grid max-w-xl text-center shadow-2xl bg-neutral-50 rounded-xl place-items-center bg-opacity-5 backdrop-filter backdrop-blur"
+                                        [ngClass]="{'p-6 rounded-xl bg-red-50 border border-red-500': !imgSrc}"
                                     >
-                                        <img *ngIf="!imgSrc" width="40" height="40" src="./assets/images/new-design/camera.png" />
-                                        <img *ngIf="imgSrc" class="rounded-xl object-cover h-[240px]" src="{{ imgSrc }}" />
+                                        <div
+                                            class="grid mb-8 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300 place-items-center"
+                                            [ngClass]="{'w-28 h-28': !imgSrc}"
+                                        >
+                                            <img *ngIf="!imgSrc" width="40" height="40" src="./assets/images/new-design/camera.png" />
+                                            <img *ngIf="imgSrc" class="rounded-xl object-cover h-[240px]" src="{{ imgSrc }}" />
+                                        </div>
+                                    </div>
+                                    <div class="text-center absolute bottom-2 left-0 right-0 m-auto">
+                                        <label
+                                            for="photo"
+                                            [ngStyle]="{'background-color': buttonColor}"
+                                            class="btn text-white"
+                                        >
+                                            {{ 'club-create.uploadimage' | translate }}
+                                        </label>
                                     </div>
                                 </div>
-                                <div class="text-center absolute bottom-2 left-0 right-0 m-auto">
-                                    <label
-                                        for="photo"
-                                        [ngStyle]="{'background-color': buttonColor}"
-                                        class="btn text-white"
-                                    >
-                                        {{ 'club-create.uploadimage' | translate }}
-                                    </label>
+                            </ng-container>
+                            <ng-container *ngIf="isUESchoolOfLife">
+                                <div class="relative">
+                                    <div class="md:flex mb-8 max-w-screen-md mx-auto">
+                                        <ul class="flex-column space-y space-y-4 text-sm font-medium text-gray-500 dark:text-gray-400 md:me-4 mb-4 md:mb-0">
+                                            <li>
+                                                <a (click)="selectCourseCover('photo')" href="javascript:;" 
+                                                    class="inline-flex items-center px-4 py-3 rounded-lg w-full" aria-current="page"
+                                                    [ngClass]="{'active text-white': isDefaultPhoto}"
+                                                    [ngStyle]="{'background-color': isDefaultPhoto ? buttonColor : '#F9FAFB'}">
+                                                    <svg class="w-4 h-4 me-2"
+                                                        [ngClass]="{'text-white': isDefaultPhoto}"
+                                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path fill-rule="evenodd" d="M13 10a1 1 0 0 1 1-1h.01a1 1 0 1 1 0 2H14a1 1 0 0 1-1-1Z" clip-rule="evenodd"/>
+                                                        <path fill-rule="evenodd" d="M2 6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v12c0 .556-.227 1.06-.593 1.422A.999.999 0 0 1 20.5 20H4a2.002 2.002 0 0 1-2-2V6Zm6.892 12 3.833-5.356-3.99-4.322a1 1 0 0 0-1.549.097L4 12.879V6h16v9.95l-3.257-3.619a1 1 0 0 0-1.557.088L11.2 18H8.892Z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    {{ 'plan-create.image' | translate }}
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a (click)="selectCourseCover('video')" href="javascript:;" 
+                                                    class="inline-flex items-center px-4 py-3 rounded-lg w-full"
+                                                    [ngClass]="{'active text-white': isDefaultVideo}"
+                                                    [ngStyle]="{'background-color': isDefaultVideo ? buttonColor : '#F9FAFB'}">
+                                                    <svg class="w-4 h-4 me-2" 
+                                                        [ngClass]="{'text-white': isDefaultVideo}"
+                                                        aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                                        <path fill-rule="evenodd" d="M14 7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V7Zm2 9.387 4.684 1.562A1 1 0 0 0 22 17V7a1 1 0 0 0-1.316-.949L16 7.613v8.774Z" clip-rule="evenodd"/>
+                                                    </svg>
+                                                    {{ 'plan-details.video' | translate }}
+                                                </a>
+                                            </li>
+                                        </ul>
+                                        <div class="p-6 bg-gray-50 text-medium text-gray-500 dark:text-gray-400 dark:bg-gray-800 rounded-lg w-full">
+                                            <ng-container *ngIf="isDefaultPhoto">
+                                                <h3 class="text-center text-lg font-bold text-gray-900 dark:text-white mb-2">
+                                                    {{ 'plan-create.image' | translate }}
+                                                </h3>
+                                                <div class="flex items-center justify-center mt-4 mb-8 relative">
+                                                    <div>
+                                                        <input 
+                                                            required 
+                                                            type="file"
+                                                            id="photo" 
+                                                            style="display:none;"
+                                                            (change)="fileChangeEvent($event)"
+                                                        />
+                                                        <div 
+                                                            class="grid max-w-xl text-center shadow-2xl bg-neutral-50 rounded-xl place-items-center bg-opacity-5 backdrop-filter backdrop-blur"
+                                                            [ngClass]="{'p-6': !imgSrc}"
+                                                        >
+                                                            <div
+                                                                class="grid mb-8 rounded-full bg-gradient-to-br from-neutral-900 to-indigo-300 place-items-center"
+                                                                [ngClass]="{'w-28 h-28': !imgSrc, 'w-60 h-60': imgSrc}"
+                                                            >
+                                                                <img *ngIf="!imgSrc" width="40" height="40" src="./assets/images/new-design/camera.png" />
+                                                                <img *ngIf="imgSrc" class="rounded-xl object-contain" src="{{ imgSrc }}" />
+                                                            </div>
+                                                        </div>
+                                                        <div class="text-center absolute bottom-2 left-0 right-0 m-auto">
+                                                            <label
+                                                                for="photo"
+                                                                [ngStyle]="{'background-color': buttonColor}"
+                                                                class="btn text-white"
+                                                            >
+                                                                {{ 'club-create.uploadimage' | translate }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="flex items-center justify-center max-w-xs mx-auto">
+                                                    <div class="flex items-center justify-center w-full relative">
+                                                        <label
+                                                            for="default-photo"
+                                                            class="flex items-center justify-between cursor-pointer"
+                                                        >
+                                                            <div class="ml-3 text-black text-sm mr-6">
+                                                                {{ "categories.setasdefault" | translate }}
+                                                            </div>
+                                                            <div class="relative mr-1">
+                                                                <input
+                                                                    id="default-photo"
+                                                                    type="checkbox"
+                                                                    class="sr-only"
+                                                                    [(ngModel)]="setDefaultPhoto"
+                                                                    [ngModelOptions]="{standalone: true}"
+                                                                    (change)="editCoverStatus($event, 'photo')"
+                                                                />
+                                                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                            <ng-container *ngIf="isDefaultVideo">
+                                                <div class="flex items-center"
+                                                    [ngClass]="{
+                                                        'justify-between mb-4': existingVideoURL,
+                                                        'justify-center': !existingVideoURL
+                                                    }">
+                                                    <h3 class="text-center text-lg font-bold text-gray-900 dark:text-white mb-2">
+                                                        {{ 'plan-details.video' | translate }}
+                                                    </h3>
+                                                    <div *ngIf="existingVideoURL" 
+                                                        class="p-2 px-4 rounded-lg flex items-center justify-center hover:cursor-pointer" 
+                                                        [ngStyle]="{'background-color': buttonColor}"
+                                                        (click)="clearVideo()">
+                                                        <svg class="w-4 h-4 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24"
+                                                            [ngStyle]="{'color': '#c24130'}">
+                                                            <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z" clip-rule="evenodd"/>
+                                                        </svg>
+                                                        <span class="text-white text-xs ml-1">{{ 'profile-fields.remove' | translate }}</span>
+                                                    </div>
+                                                </div>
+                                                <div *ngIf="!existingVideoURL"
+                                                    class="flex flex-col items-center justify-center plan-video-preview h-64 max-w-full w-full border-2 border-gray-300 border-dashed rounded-lg bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                                                    <file-pond
+                                                        class="w-full max-w-full"
+                                                        #coursePondVideo
+                                                        [options]="eventPondVideoOptions"
+                                                        [files]="eventPondVideoFiles"
+                                                        (oninit)="eventPondHandleVideoInit()"
+                                                        (onaddfile)="eventPondHandleAddVideoFile($event)"
+                                                        (onactivatefile)="eventPondHandleActivateVideoFile($event)"
+                                                        (onprocessfiles)="eventPondHandleProcessFiles()"
+                                                    >
+                                                    </file-pond>
+                                                </div>
+                                                <div *ngIf="existingVideoURL" class="relative">             
+                                                    <video *ngIf="existingVideoURL" controls width="100%" height="200px" class="h-64">
+                                                        <source src="{{ existingVideoURL }}" type="video/mp4" />
+                                                    </video>
+                                                </div>
+                                                <div class="flex items-center justify-center max-w-xs mx-auto my-8" [ngClass]="{'mt-16 mb-0': courseVideoCoverUploaded}">
+                                                    <div class="flex items-center justify-center w-full relative">
+                                                        <label
+                                                            for="default-video"
+                                                            class="flex items-center justify-between cursor-pointer"
+                                                        >
+                                                            <div class="ml-3 text-black text-sm mr-6">
+                                                                {{ "categories.setasdefault" | translate }}
+                                                            </div>
+                                                            <div class="relative mr-1">
+                                                                <input
+                                                                    id="default-video"
+                                                                    type="checkbox"
+                                                                    class="sr-only"
+                                                                    [(ngModel)]="setDefaultVideo"
+                                                                    [ngModelOptions]="{standalone: true}"
+                                                                    (change)="editCoverStatus($event, 'video')"
+                                                                />
+                                                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                                            </div>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
+                            </ng-container>
                             <div class="relative">
                                 <div class="text-center font-semibold uppercase mb-2">{{ 'courses.videobackground' | translate }}</div>
                                 <input 
@@ -77,7 +242,8 @@
                                         <img *ngIf="videoBackgroundImgSrc" class="rounded-xl object-cover h-[240px]" src="{{ videoBackgroundImgSrc }}" />
                                     </div>
                                 </div>
-                                <div class="text-center absolute bottom-2 left-0 right-0 m-auto">
+                                <div class="text-center m-auto"
+                                    [ngClass]="{'absolute bottom-2 left-0 right-0': !isUESchoolOfLife, '-mt-[50px]': isUESchoolOfLife}">
                                     <label
                                         for="coverphoto"
                                         [ngStyle]="{'background-color': buttonColor}"
@@ -196,6 +362,16 @@
                                     {{ getDifficultyLevelTitle(difficulty) }}
                                 </option>
                             </select>
+                        </div>
+                        <div *ngIf="companyId == 32">
+                            <ng-multiselect-dropdown
+                                placeholder="{{ 'club-create.selectcity' | translate }}"
+                                [settings]="cityDropdownSettings"
+                                [data]="cities"
+                                [(ngModel)]="selectedCity"
+                                [ngModelOptions]="{standalone: true}"
+                            >
+                            </ng-multiselect-dropdown>
                         </div>
                         <div class="flex items-center justify-center relative">
                             <div class="w-full max-w-full">

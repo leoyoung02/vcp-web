@@ -436,6 +436,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.language = event.lang;
       this.getTitles();
       this.showLandingTemplate();
+      if(this.showModuleSections) {
+        this.loadSectionsList(1);
+      }
     });
 
     this.getOtherSettings();

@@ -1062,7 +1062,9 @@
         "text": "Testua",
         "coursecontent":"Ikastaroaren edukia",
         "viewclass": "Ikusi klasea",
-        "stripeinactivetransfer":"Transferentzia Gaitasun Inaktiboak"
+        "stripeinactivetransfer":"Transferentzia Gaitasun Inaktiboak",
+        "levelingcoursesdescription": "BASIC STEAM ikastaroak mailaketa-ikastaroak dira oinarrizko ezagutzak sendotzeko eta indartzeko diseinatuta, unibertsitate-etapako lehen ikastaroetako erronka akademikoei arrakastaz aurre egiteko prestaketa ezin hobea bermatuz.",
+        "levelingcoursesduration": "Iraupena: 10 ordu"
     },
     "course-lesson": {
         "section": "Atala"

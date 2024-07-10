@@ -1061,7 +1061,9 @@
         "text": "Texte",
         "coursecontent": "Contenu du cours",
         "viewclass": "Afficher la classe",
-        "stripeinactivetransfer":"Capacités de transfert inactives"
+        "stripeinactivetransfer":"Capacités de transfert inactives",
+        "levelingcoursesdescription": "Les cours BASIC STEAM sont des cours de mise à niveau conçus pour renforcer et renforcer les connaissances de base, assurant une préparation optimale pour affronter avec succès les défis académiques des premiers cours du stade universitaire.",
+        "levelingcoursesduration": "Durée : 10 heures"
     },
     "course-lesson": {
         "section": "Section"

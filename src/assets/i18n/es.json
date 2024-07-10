@@ -1067,7 +1067,9 @@
         "text": "Texto",
         "coursecontent":"Contenido del curso",
         "viewclass": "Ver clase",
-        "stripeinactivetransfer":"Capacidades de transferencia inactiva"
+        "stripeinactivetransfer":"Capacidades de transferencia inactiva",
+        "levelingcoursesdescription": "Los cursos BASIC STEAM son cursos de nivelación diseñados para reforzar y afianzar los conocimientos básicos, asegurando una preparación óptima para enfrentar con éxito los desafíos académicos de los primeros cursos de la etapa universitaria.",
+        "levelingcoursesduration": "Duración: 10 horas"
     },
     "course-lesson": {
         "section": "Sección"
