@@ -750,7 +750,8 @@
         "privacypolicy": "Política de privacidad",
         "cookiespolicy":"Política de cookies", 
         "customeronboarding": "Incorporación de clientes",
-        "historyofactivities": "Historial de actividades"
+        "historyofactivities": "Historial de actividades",
+        "myaccount": "Mi cuenta"
     },
     "public-profile": {
         "publicprofile": "Perfil Público",

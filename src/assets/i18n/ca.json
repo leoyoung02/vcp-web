@@ -749,7 +749,8 @@
         "privacypolicy": "Política de privadesa",
         "cookiespolicy":"Política de cookies", 
         "customeronboarding": "Incorporació del client", 
-        "historyofactivities": "Historial d'activitats"
+        "historyofactivities": "Historial d'activitats",
+        "myaccount": "El meu compte"
     },
     "public-profile": {
         "publicprofile": "Perfil Públic",

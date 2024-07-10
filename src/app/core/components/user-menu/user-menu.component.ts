@@ -239,6 +239,9 @@ export class UserMenuComponent {
         case 'userprofile':
           path = `/users/profile/${this.userid}`;
           break;
+        case 'myaccount':
+          path = `/users/my-account/${this.userid}`;
+          break;
         case 'myclubs':
           path = '/dashboard/5';
           break;

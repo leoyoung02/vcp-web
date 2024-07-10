@@ -749,7 +749,8 @@
         "privacypolicy": "Pribatutasun politika",
         "cookiespolicy":"Cookie-politika", 
         "customeronboarding": "Bezeroa sartzea", 
-        "historyofactivities": "Jardueren historia"
+        "historyofactivities": "Jardueren historia",
+        "myaccount": "Nire kontua"
     },
     "public-profile": {
         "publicprofile": "Profil publikoa",
