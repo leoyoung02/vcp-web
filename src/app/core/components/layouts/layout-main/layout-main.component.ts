@@ -216,6 +216,8 @@ export class LayoutMainComponent {
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
+  callGuid: any;
+  callPasscode: any;
 
   constructor(
     private _router: Router,
@@ -401,6 +403,11 @@ export class LayoutMainComponent {
       .subscribe(async(response) => {
         if(response?.id == this.userId || response?.channel == this.userId) {
           this.pusherData = response;
+          if(this.pusherData.call_guid) {
+            this.callGuid = this.pusherData.call_guid;
+            this.callPasscode = this.pusherData.passcode;
+          }
+          
           this.toastMessage = response.message || 'Incoming call...';
           this.toastMode = response.mode;
           this.toastName = response.caller_name;
@@ -443,7 +450,11 @@ export class LayoutMainComponent {
       }
     }, 500);
     this.showToast = false;
-    this._router.navigate([`/professionals/call/voice/${this.pusherData.id}/${this.pusherData.user_id}/${this.pusherData.phone}`])
+    let url = `/professionals/call/voice/${this.pusherData.id}/${this.pusherData.user_id}/${this.pusherData.phone}`;
+    if(this.callGuid) {
+      url = `/call/voice/${this.callGuid}/${this.callPasscode}`;
+    }
+    this._router.navigate([url])
     .then(() => {
       window.location.reload();
     });

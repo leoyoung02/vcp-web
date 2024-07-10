@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, Subject, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
-import { EDIT_MINIMUM_BALANCE_URL, GENERATE_RTC_TOKEN_URL, MINIMUM_BALANCE_URL, NOTIFY_PROFESSIONAL_PUSHER_URL, PROFESSIONALS_DATA_URL, VALIDATE_VOICE_CALL_PASSCODE_URL, VOICE_CALL_URL } from "@lib/api-constants";
+import { EDIT_CALLER_BALANCE_URL, EDIT_MINIMUM_BALANCE_URL, GENERATE_RTC_TOKEN_URL, MINIMUM_BALANCE_URL, NOTIFY_PROFESSIONAL_PUSHER_URL, PROFESSIONALS_DATA_URL, VALIDATE_VOICE_CALL_PASSCODE_URL, VOICE_CALL_URL } from "@lib/api-constants";
 import { RTC, RTCUser } from "@lib/interfaces";
 import moment from "moment";
 import AgoraRTC from 'agora-rtc-sdk-ng';
@@ -292,5 +292,12 @@ export class ProfessionalsService {
     return this._http.get(`${PROFESSIONALS_DATA_URL}/${id}/${userId}`,
       { headers: this.headers }
     ).pipe(map(res => res))
+  }
+
+  editCallerBalance(params): Observable<any> {
+    return this._http.post(EDIT_CALLER_BALANCE_URL,
+      params,
+      { headers: this.headers }
+    ).pipe(map(res => res));
   }
 }

@@ -32,6 +32,7 @@ import { environment } from "@env/environment";
 export class VoiceCallRoomComponent {
   private destroy$ = new Subject<void>();
 
+  @Input() isLoading: any;
   @Input() buttonColor: any;
   @Input() statusText: any;
   @Input() name: any;

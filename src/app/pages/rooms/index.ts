@@ -3,7 +3,7 @@ import { CustomTitleResolver } from '@lib/resolvers';
 
 export const routes: Routes = [
     {
-        path: 'voice/:guid',
+        path: 'voice/:guid/:code',
         title: CustomTitleResolver,
         data: { titleKey: 'professionals.voice'},
         loadComponent: async () => (await import('./voice-call/voice-call.component')).VoiceCallComponent,

@@ -788,6 +788,7 @@ export const VALIDATE_VOICE_CALL_PASSCODE_URL = `${API_BASE}/v3/voice-call/valid
 export const MINIMUM_BALANCE_URL = `${API_BASE}/v3/minimum-balance`;
 export const EDIT_MINIMUM_BALANCE_URL = `${API_BASE}/v3/minimum-balance/edit`;
 export const PROFESSIONALS_DATA_URL = `${API_BASE}/v3/professionals-data`;
+export const EDIT_CALLER_BALANCE_URL = `${API_BASE}/v3/caller-balance/edit`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;

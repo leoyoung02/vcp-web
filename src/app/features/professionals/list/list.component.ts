@@ -165,7 +165,8 @@ export class ProfessionalsListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          this.user['available_balance'] = data?.user?.available_balance;
+          if(this.user) { this.user['available_balance'] = this.userId > 0 ? data?.user?.available_balance : 0; }
+
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings);
 
@@ -322,40 +323,55 @@ export class ProfessionalsListComponent {
   }
 
   async handleStartCall(id) {
-    this.actionMode = 'voicecall';
-    this.professional = this.professionals.find((c) => c.id == id);
+    if(this.userId > 0) {
+      this.actionMode = 'voicecall';
+      this.professional = this.professionals.find((c) => c.user_id == id);
 
-    if(this.hasRequiredMinimumBalance()) {
-      this.display = '';
-      this.selectedId = id;
+      if(this.hasRequiredMinimumBalance()) {
+        this.display = '';
+        this.selectedId = id;
 
-      const channel =  `agora-vcp-${id}`;
-      let caller_uid = Math.floor(Math.random() * 2032);
+        const channel =  `agora-vcp-${id}`;
+        let caller_uid = Math.floor(Math.random() * 2032);
 
-      setTimeout(() => {
-        initFlowbite();
-        this.toastMessage = 'Dialing...';
-        this.toastMode = 'initiate-call';
-        this.showToast = true;
-        let params = {
-          id,
-          user_id: this.userId,
-          company_id: this.companyId,
-          mode: 'accept-call',
-          message: this._translateService.instant('professionals.incomingcall'),
-          caller_name: this.user?.first_name ? `${this.user.first_name} ${this.user.last_name}` : this.user.name,
-          caller_image: `${environment.api}/${this.user?.image}`,
-          phone: this.professional?.phone,
-          room: channel,
-          caller_uid,
+        let caller_balance_before_call = 0;
+        if(this.userId > 0) {
+          caller_balance_before_call = this.user?.available_balance;
         }
-        this.notifyProfessional(params);
-      }, 100);
 
-      const token = get(await this._professionalsService.generateRTCToken(channel, 'publisher', 'uid', this.userId).toPromise(), 'rtcToken')
-      this._professionalsService.createRTCClient();
-      this._professionalsService.agoraServerEvents(this._professionalsService.rtc);
-      await this._professionalsService.localUser(channel, token, caller_uid, 'initiate-call');
+        let call_guid = Math.random().toString(36).substring(6);
+        let passcode = Math.random().toString(36).substring(6);
+
+        setTimeout(() => {
+          initFlowbite();
+          this.toastMessage = 'Dialing...';
+          this.toastMode = 'initiate-call';
+          this.showToast = true;
+          let params = {
+            id,
+            user_id: this.userId,
+            company_id: this.companyId,
+            mode: 'accept-call',
+            message: this._translateService.instant('professionals.incomingcall'),
+            caller_name: this.user?.first_name ? `${this.user.first_name} ${this.user.last_name}` : this.user.name,
+            caller_image: `${environment.api}/${this.user?.image}`,
+            phone: this.professional?.phone,
+            room: channel,
+            caller_uid,
+            caller_balance_before_call,
+            call_guid,
+            passcode,
+          }
+          this.notifyProfessional(params);
+        }, 100);
+
+        const token = get(await this._professionalsService.generateRTCToken(channel, 'publisher', 'uid', this.userId).toPromise(), 'rtcToken')
+        this._professionalsService.createRTCClient();
+        this._professionalsService.agoraServerEvents(this._professionalsService.rtc);
+        await this._professionalsService.localUser(channel, token, caller_uid, 'initiate-call');
+      }
+    } else {
+      this._router.navigate(['/auth/login']);
     }
   }
 
@@ -374,7 +390,7 @@ export class ProfessionalsListComponent {
   notifyProfessional(params) {
     this._professionalsService.notifyProfessional(params).subscribe(
       (response) => {
-        
+        console.log('notifyProfessional response', response)
       },
       (error) => {
         console.log(error);
@@ -389,12 +405,12 @@ export class ProfessionalsListComponent {
     let timezoneOffset = new Date().getTimezoneOffset();
     let offset = moment().format('Z');
     let params = {
-      id: this.professional?.id,
+      id: this.professional?.user_id,
       user_id: this.userId,
       company_id: this.companyId,
       mode: 'end-call',
       channel: this.userId,
-      room: `agora-vcp-${this.professional?.id}`,
+      room: `agora-vcp-${this.professional?.user_id}`,
       duration: stats?.Duration || 0,
       timezone: timezoneOffset,
       offset,
@@ -406,13 +422,21 @@ export class ProfessionalsListComponent {
   }
 
   async handleStartChat(id) {
-    this.actionMode = 'chat';
-    this.professional = this.professionals.find((c) => c.id == id);
+    if(this.userId > 0) {
+      this.actionMode = 'chat';
+      this.professional = this.professionals.find((c) => c.user_id == id);
+    } else {
+      this._router.navigate(['/auth/login']);
+    }
   }
 
   async handleStartVideoCall(id) {
-    this.actionMode = 'videocall';
-    this.professional = this.professionals.find((c) => c.id == id);
+    if(this.userId > 0) {
+      this.actionMode = 'videocall';
+      this.professional = this.professionals.find((c) => c.user_id == id);
+    } else {
+      this._router.navigate(['/auth/login']);
+    }
   }
 
   showRequiredMinimumBalanceMessage() {

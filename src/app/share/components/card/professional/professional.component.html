@@ -33,21 +33,27 @@
                 <button [disabled]="!onlineStatus" (click)="handleStartVideoCall()" 
                     [ngStyle]="{'background-color': onlineStatus == 1 ? buttonColor : '#c7c7c7'}" 
                     class="mr-2.5 font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center">
-                    <img src="./assets/professional-icons/comment.png" class="cursor-pointer w-[18px] h-[18px] object-contain" />
+                    <img src="./assets/professional-icons/comment.png" 
+                        class="w-[18px] h-[18px] object-contain" 
+                        [ngClass]="{'cursor-pointer': onlineStatus}" />
                 </button>
             </ng-container>
             <ng-container *ngIf="hasVoiceCall">
                 <button [disabled]="!onlineStatus" (click)="handleStartCall()" 
                     [ngStyle]="{'background-color': onlineStatus == 1 ? buttonColor : '#c7c7c7'}" 
                     class="mr-2.5 font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center">
-                    <img src="./assets/professional-icons/phone.png" class="cursor-pointer w-[18px] h-[18px] object-contain" />
+                    <img src="./assets/professional-icons/phone.png" 
+                        class="w-[18px] h-[18px] object-contain"
+                        [ngClass]="{'cursor-pointer': onlineStatus}" />
                 </button>
             </ng-container>
             <ng-container *ngIf="hasChat">
                 <button [disabled]="!onlineStatus" (click)="handleStartChat()" 
                     [ngStyle]="{'background-color': onlineStatus == 1 ? buttonColor : '#c7c7c7'}" 
                     class="font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center">
-                    <img src="./assets/professional-icons/video.png" class="cursor-pointer w-[18px] h-[18px] object-contain" />
+                    <img src="./assets/professional-icons/video.png" 
+                        class="cursor-pointer w-[18px] h-[18px] object-contain"
+                        [ngClass]="{'cursor-pointer': onlineStatus}" />
                 </button>
             </ng-container>
         </div>

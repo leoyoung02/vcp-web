@@ -18,6 +18,7 @@ import { CompanyService, LocalService } from '@share/services';
 import { ProfessionalsService } from '@features/services';
 import { Subject } from 'rxjs';
 import { timer } from "@lib/utils/timer/timer.utils";
+import { Subscription } from 'rxjs';
 import { environment } from '@env/environment';
 import moment from "moment";
 import get from "lodash/get";
@@ -38,6 +39,7 @@ export class VoiceCallComponent {
     private destroy$ = new Subject<void>();
 
     @Input() guid: any;
+    @Input() code: any;
     
     languageChangeSubscription;
     language: any;
@@ -62,6 +64,12 @@ export class VoiceCallComponent {
     room: any;
     recipientUid: any;
     caller: any;
+    callTime: number = 0;
+    callTrackingInterval;
+    // pushNotificationData: any;
+    pusherSubscription: Subscription | undefined;
+    pusherData: any = {};
+    isLoading; boolean = true;
 
     constructor(
         private _route: ActivatedRoute,
@@ -107,11 +115,11 @@ export class VoiceCallComponent {
         this._translateService.onLangChange.subscribe(
             (event: LangChangeEvent) => {
                 this.language = event.lang;
-                this.initializeData(null);
+                this.handleValidatePasscode(this.code);
             }
         );
 
-        this.initializeData(null);
+        this.handleValidatePasscode(this.code);
     }
 
     initializeData(response: any) {
@@ -158,7 +166,6 @@ export class VoiceCallComponent {
                 },
             ]
             this.initiateCall();
-            // this.startTimer();
         }
     }
 
@@ -203,6 +210,7 @@ export class VoiceCallComponent {
             }
             this.notifyProfessional(params);
             this.startTimer();
+            this.startTrackingCallDuration();
           },
           (error) => {
             console.log(error);
@@ -212,7 +220,7 @@ export class VoiceCallComponent {
     notifyProfessional(params) {
         this._professionalsService.notifyProfessional(params).subscribe(
             (response) => {
-                
+
             },
             (error) => {
                 console.log(error);
@@ -231,8 +239,40 @@ export class VoiceCallComponent {
         }, 1000);
     }
 
+    startTrackingCallDuration() {
+        this.callTrackingInterval = setInterval(() => {
+      if (this.callTime === 0) {
+        this.callTime++;
+      } else {
+        this.callTime++;
+      }
+
+      this._professionalsService.getStats();
+      let stats = this._professionalsService.rtcStats?.Duration || 0;
+
+      if(stats > 0) {
+        let params = {
+          call_guid: this.guid,
+          stats,
+          professional_user_id: this.existingCallLog.professional_user_id,
+          caller_user_id: this.existingCallLog.caller_user_id,
+          room: this.room,
+        }
+        console.log('params', params);
+        this._professionalsService.editCallerBalance(params).subscribe(
+          (response) => {
+            console.log('editCallerBalance', response);
+          },
+          (error) => {
+            console.log(error);
+          })
+        }
+    }, 5000);
+    }
+
     pauseTimer() {
         clearInterval(this.interval);
+        clearInterval(this.callTrackingInterval);
     }
 
     handleToggleMic() {
@@ -242,6 +282,7 @@ export class VoiceCallComponent {
 
     async handleEndCall() {
         this.pauseTimer();
+
         await this._professionalsService.leaveCall();
 
         let stats = this._professionalsService.rtcStats;
@@ -278,6 +319,7 @@ export class VoiceCallComponent {
 
         this._professionalsService.validateVoiceCallPasscode(params).subscribe(
             (response) => {
+                this.isLoading = false;
                 if(response?.existing_call_log?.id > 0) {
                     this.requirePasscode = false;
                     this.initializeData(response);

@@ -66,6 +66,10 @@ export class VoiceRoomComponent {
   room: any;
   requirePasscode: boolean = false;
   invalidPasscode: boolean = false;
+  callTime: number = 0;
+  callTrackingInterval;
+  pushNotificationData: any;
+  callGuid: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -128,6 +132,9 @@ export class VoiceRoomComponent {
       .subscribe(async(response) => {
         if(response?.id == this.userId || response?.channel == this.userId) {
           this.pusherData = response;
+          if(this.pusherData.call_guid) {
+            this.callGuid = this.pusherData.call_guid;
+          }
 
           if(response.mode == 'end-call') {
             clearInterval(this.interval);
@@ -232,6 +239,7 @@ export class VoiceRoomComponent {
         }
         this.notifyProfessional(params);
         this.startTimer();
+        this.startTrackingCallDuration();
       },
       (error) => {
         console.log(error);
@@ -250,6 +258,37 @@ export class VoiceRoomComponent {
     }, 1000);
   }
 
+  startTrackingCallDuration() {
+    this.callTrackingInterval = setInterval(() => {
+      if (this.callTime === 0) {
+        this.callTime++;
+      } else {
+        this.callTime++;
+      }
+
+      this._professionalsService.getStats();
+      let stats = this._professionalsService.rtcStats?.Duration || 0;
+
+      if(stats > 0) {
+        let params = {
+          call_guid: this.callGuid,
+          stats,
+          professional_user_id: this.id,
+          caller_user_id: this.userId,
+          room: this.room,
+        }
+        console.log('params', params);
+        this._professionalsService.editCallerBalance(params).subscribe(
+          (response) => {
+            console.log('editCallerBalance', response);
+          },
+          (error) => {
+            console.log(error);
+          })
+        }
+    }, 5000);
+  }
+
   toggleMic() {
     this._professionalsService.rtc.micMuted = !this._professionalsService.rtc.micMuted;
     this.micMuted = this._professionalsService.rtc.micMuted;
@@ -259,9 +298,12 @@ export class VoiceRoomComponent {
 
   async endCall() {
     clearInterval(this.interval);
+    clearInterval(this.callTrackingInterval);
+
     await this._professionalsService.leaveCall();
 
-    let stats = this._professionalsService.rtcStats;
+    this._professionalsService.getStats();
+    let stats = this._professionalsService.rtcStats?.Duration || 0;
 
     let timezoneOffset = new Date().getTimezoneOffset();
     let offset = moment().format('Z');
@@ -273,7 +315,7 @@ export class VoiceRoomComponent {
       channel: this.userId,
       room: this.room,
       recipient_uid: this.recipientUid,
-      duration: stats?.Duration || 0,
+      duration: stats,
       timezone: timezoneOffset,
       offset,
     }
@@ -287,7 +329,7 @@ export class VoiceRoomComponent {
   notifyProfessional(params) {
     this._professionalsService.notifyProfessional(params).subscribe(
       (response) => {
-        
+        this.pushNotificationData = response?.pusherData;
       },
       (error) => {
         console.log(error);
