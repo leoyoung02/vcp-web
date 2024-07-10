@@ -33,7 +33,7 @@
                             (click)="displayAssessment(beginningCourseAssessment)">
                             <div class="font-bold">
                                 {{ 'course-assessment.courseassessment' | translate }}
-                                <div class="font-normal">{{ beginningCourseAssessment?.assessment_title }} - {{beginningCourseAssessment?.assessment_details?.length}} {{'quizzes-popup.questions' | translate}}</div>
+                                <div class="font-normal">{{ getAssessmentTitle(beginningCourseAssessment) }} - {{beginningCourseAssessment?.assessment_details?.length}} {{'quizzes-popup.questions' | translate}}</div>
                             </div>
                             <div>
                                 <svg *ngIf="!beginningCourseAssessment?.ratings" [ngStyle]="{'color': buttonColor}" class="mt-1 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 20">
@@ -125,7 +125,7 @@
                                                     'line-height': courseLineHeight,
                                                     'font-weight': currentAssessment?.assessment_id == assessment?.assessment_id ? 'bold' : 'normal'}">
                                                     {{ 'course-assessment.courseassessment' | translate }}
-                                                    <div>{{ assessment?.assessment_title }} - {{assessment?.assessment_details?.length}} {{'quizzes-popup.questions' | translate}}</div>
+                                                    <div>{{ getAssessmentTitle(assessment) }} - {{assessment?.assessment_details?.length}} {{'quizzes-popup.questions' | translate}}</div>
                                             </div>
                                             <div class="unit-progress">
                                                 <ng-container *ngIf="assessment?.ratings">
@@ -153,7 +153,7 @@
                             (click)="displayAssessment(endCourseAssessment)">
                             <div class="font-bold">
                                 {{ 'course-assessment.courseassessment' | translate }}
-                                <div class="font-normal">{{ endCourseAssessment?.assessment_title }} - {{endCourseAssessment?.assessment_details?.length}} {{'quizzes-popup.questions' | translate}}</div>
+                                <div class="font-normal">{{ getAssessmentTitle(endCourseAssessment) }} - {{endCourseAssessment?.assessment_details?.length}} {{'quizzes-popup.questions' | translate}}</div>
                             </div>
                             <div>
                                 <svg *ngIf="!endCourseAssessment?.ratings" [ngStyle]="{'color': buttonColor}" class="mt-1 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 20">
@@ -547,7 +547,7 @@
         <ng-container *ngIf="showAssessment">
             <div class="ml-0 sm:ml-0 md:ml-[416px] lg:ml-[416px] col-span-1 sm:col-span-1 md:col-span-2 lg:col-span-2 w-full max-w-full">
                 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between">
-                    <div class="text-4xl font-semibold text-4xl font-semibold">{{ currentAssessment?.assessment_title }}</div>
+                    <div class="text-4xl font-semibold text-4xl font-semibold">{{ getAssessmentTitle(currentAssessment) }}</div>
                 </div>
                 <div class="mt-8">
                     <div class="content-container">

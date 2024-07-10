@@ -31,6 +31,7 @@ export class CourseIntroComponent {
     @Input() id!: number;
 
     language: any;
+    apiPath: string = environment.api;
     userId: any;
     companyId: any;
     companies: any;
@@ -155,31 +156,21 @@ export class CourseIntroComponent {
     }
 
     getCourseDescription(course) {
-        return this.language == "en"
-          ? course.description_en
-            ? course.title_en || course.description
-            : course.description
+      return course
+        ? this.language == "en"
+          ? course.description_en || course.description
           : this.language == "fr"
-          ? course.title_fr
-            ? course.title_fr || course.description
-            : course.description
+          ? course.description_fr || course.description
           : this.language == "eu"
-          ? course.title_eu
-            ? course.title_eu || course.description
-            : course.description
+          ? course.description_eu || course.description
           : this.language == "ca"
-          ? course.title_ca
-            ? course.title_ca || course.description
-            : course.description
+          ? course.description_ca || course.description
           : this.language == "de"
-          ? course.title_de
-            ? course.title_de || course.description
-            : course.description
+          ? course.description_de || course.description
           : this.language == "it"
-          ? course.title_it
-            ? course.title_it || course.description
-            : course.description
-          : course.description;
+          ? course.description_it || course.description
+          : course.description
+        : "";
     }
 
     getCourseDurationUnitTitle(course) {
@@ -191,7 +182,7 @@ export class CourseIntroComponent {
     }
 
     getDifficultyLevelTitle(course) {
-        return this.language == 'en' ? course.difficulty : (this.language == 'fr' ? course.difficulty_fr : 
+        return this.language == 'en' ? course.difficulty_en : (this.language == 'fr' ? course.difficulty_fr : 
           (this.language == 'eu' ? course.difficulty_eu : (this.language == 'ca' ? course.difficulty_ca : 
           (this.language == 'de' ? course.difficulty_de : (this.language == 'it' ? course.difficulty_it : course.difficulty_es)
           )))
