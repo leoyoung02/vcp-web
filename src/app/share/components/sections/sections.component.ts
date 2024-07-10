@@ -110,49 +110,63 @@ export class SectionsComponent {
 
   ngOnChanges(changes: SimpleChange) {
     let plansTitleChange = changes["plansTitle"];
-    if (plansTitleChange.previousValue != plansTitleChange.currentValue) {
-      this.plansSectionTitle = plansTitleChange.currentValue;
+    if (plansTitleChange?.previousValue != plansTitleChange?.currentValue) {
+      this.plansSectionTitle = plansTitleChange?.currentValue;
     }
 
     let groupsTitleChange = changes["groupsTitle"];
-    if (groupsTitleChange.previousValue != groupsTitleChange.currentValue) {
-      this.groupsSectionTitle = groupsTitleChange.currentValue;
+    if (groupsTitleChange?.previousValue != groupsTitleChange?.currentValue) {
+      this.groupsSectionTitle = groupsTitleChange?.currentValue;
     }
 
     let cityGuidesTitleChange = changes["cityGuidesTitle"];
-    if (cityGuidesTitleChange.previousValue != cityGuidesTitleChange.currentValue) {
-      this.cityGuidesSectionTitle = cityGuidesTitleChange.currentValue;
+    if (cityGuidesTitleChange?.previousValue != cityGuidesTitleChange?.currentValue) {
+      this.cityGuidesSectionTitle = cityGuidesTitleChange?.currentValue;
     }
 
     let jobOffersTitleChange = changes["jobOffersTitle"];
-    if (jobOffersTitleChange.previousValue != jobOffersTitleChange.currentValue) {
-      this.jobOffersSectionTitle = jobOffersTitleChange.currentValue;
+    if (jobOffersTitleChange?.previousValue != jobOffersTitleChange?.currentValue) {
+      this.jobOffersSectionTitle = jobOffersTitleChange?.currentValue;
     }
 
     let coursesTitleChange = changes["coursesTitle"];
-    if (coursesTitleChange.previousValue != coursesTitleChange.currentValue) {
-      this.coursesSectionTitle = coursesTitleChange.currentValue;
+    if (coursesTitleChange?.previousValue != coursesTitleChange?.currentValue) {
+      this.coursesSectionTitle = coursesTitleChange?.currentValue;
       this.coursesNivelacionSectionTitle = this._translateService.instant('landing.solcourses');
     }
 
     let discountsTitleChange = changes["discountsTitle"];
-    if (discountsTitleChange.previousValue != discountsTitleChange.currentValue) {
-      this.discountsSectionTitle = discountsTitleChange.currentValue;
+    if (discountsTitleChange?.previousValue != discountsTitleChange?.currentValue) {
+      this.discountsSectionTitle = discountsTitleChange?.currentValue;
     }
 
     let blogsTitleChange = changes["blogsTitle"];
-    if (blogsTitleChange.previousValue != blogsTitleChange.currentValue) {
-      this.blogsSectionTitle = blogsTitleChange.currentValue;
+    if (blogsTitleChange?.previousValue != blogsTitleChange?.currentValue) {
+      this.blogsSectionTitle = blogsTitleChange?.currentValue;
     }
 
     let membersTitleChange = changes["membersTitle"];
-    if (membersTitleChange.previousValue != membersTitleChange.currentValue) {
-      this.membersSectionTitle = membersTitleChange.currentValue;
+    if (membersTitleChange?.previousValue != membersTitleChange?.currentValue) {
+      this.membersSectionTitle = membersTitleChange?.currentValue;
     }
 
     let tutorsTitleChange = changes["tutorsTitle"];
-    if (tutorsTitleChange.previousValue != tutorsTitleChange.currentValue) {
-      this.tutorsSectionTitle = tutorsTitleChange.currentValue;
+    if (tutorsTitleChange?.previousValue != tutorsTitleChange?.currentValue) {
+      this.tutorsSectionTitle = tutorsTitleChange?.currentValue;
+    }
+
+    // let listChange = changes["list"];
+    // if (listChange?.currentValue?.length > 0) {
+    //   let list = listChange.currentValue;
+    //   this.list = list;
+    //   this.fetchData();
+    // }
+
+    let allListChange = changes["allList"];
+    if (allListChange?.currentValue?.length > 0) {
+      let list = allListChange.currentValue;
+      this.allList = list;
+      this.fetchData();
     }
   }
 
@@ -239,7 +253,7 @@ export class SectionsComponent {
 
   goToCourseDetails(item) {
     if(this.userId > 0) {
-      if(item?.button_text != this._translateService.instant("courses.begin") && item?.button_text != this._translateService.instant("courses.continue")) {
+      if(item?.button_text != `${this._translateService.instant("courses.begin")} ${this._translateService.instant("invite.here")}` && item?.button_text != this._translateService.instant("courses.continue")) {
       } else {
         if(item?.course_intro == 1) {
           this._router.navigate([`/courses/intro/${item.item_id}`]);
