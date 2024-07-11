@@ -325,6 +325,7 @@ export class AccountRechargeComponent {
     }
 
     async handleChangePaymentMethod(event) {
+        this.showStripePaymentSection = false;
         this.selectedPaymentMethod = event?.target?.value;
         if(this.selectedPaymentMethod == 'PayPal') {
             this.initPayPalConfig();

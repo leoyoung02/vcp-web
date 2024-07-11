@@ -671,6 +671,7 @@ export class FeatureComponent {
     this.showApproveClubActivitiesModal = false;
     this.showFilterModal = false;
     this.showHideOffersModal = false;
+    this.menteeLimitSettings = false;
     this.showMinimumBalanceModal = false;
     this.showPaymentMethodsModal = false;
   }
