@@ -1,9 +1,10 @@
-<nav class="bg-white dark:bg-gray-900 fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600">
-  <nav class="bg-white border-gray-200 dark:bg-gray-900">
-    <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-2xl p-4">
+<nav class="fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600"
+  [ngStyle]="{'background-color': primaryColor}">
+  <nav class="border-gray-200 dark:bg-gray-900" [ngStyle]="{'background-color': primaryColor}">
+    <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-2xl p-4 pb-2"
+      [ngStyle]="{'background-color': primaryColor}">
         <a href="https://flowbite.com" class="flex items-center space-x-3 rtl:space-x-reverse">
-            <img [src]="logoSource" class="h-8" alt="VCP" />
-            <span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white capitalize">{{ company?.entity_name }}</span>
+          <img [src]="logoSource" class="h-16" [alt]="company.entity_name" />
         </a>
         <div class="flex items-center">
           <ng-container *ngIf="!userid && !isCursoGeniusTestimonials">
@@ -38,9 +39,9 @@
               data-popover-placement="bottom" 
               data-popover-trigger="click"
             />
-            <button *ngIf="userid" [routerLink]="['/users/notifications/', userid]" 
-              class="inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400" type="button"> 
-              <svg class="ml-2 w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 21">
+            <button *ngIf="userid" [routerLink]="['/users/notifications/', userid]"  
+              class="inline-flex items-center text-sm font-medium text-center focus:outline-none" type="button"> 
+              <svg [ngStyle]="{'color': menuColor}" class="ml-2 w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 21">
                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C15 15.4 15 16 14.462 16H1.538C1 16 1 15.4 1 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 8 3.464ZM4.54 16a3.48 3.48 0 0 0 6.92 0H4.54Z"/>
               </svg>
               <div class="relative flex" *ngIf="notifications?.length > 0">
@@ -48,7 +49,7 @@
               </div>
             </button>
             <ng-container *ngIf="username && (isAdmin || canAccessPlatformSettings)">
-              <svg [routerLink]="['/settings']" [ngClass]="{'ml-2': !(notifications?.length > 0)}" class="hover:cursor-pointer w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+              <svg [routerLink]="['/settings']" [ngClass]="{'ml-2': !(notifications?.length > 0)}" [ngStyle]="{'color': menuColor}" class="hover:cursor-pointer w-6 h-6 focus:outline-none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13v-2a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L14 4.757V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L4.929 6.343a1 1 0 0 0 0 1.414l.536.536L4.757 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535 1.707.707V20a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H20a1 1 0 0 0 1-1Z"/>
                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
               </svg>

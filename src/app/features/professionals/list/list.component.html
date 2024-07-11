@@ -1,8 +1,8 @@
-<ng-container *ngIf="userId">
-    <div class="flex justify-end">
+<ng-container *ngIf="userId && user?.custom_member_type_id != 327">
+    <div class="flex justify-end pt-24 sm:pt-24 md:pt-6 lg:pt-6">
         <div class="flex items-center">
             <div class="text-sm">{{ 'professionals.availablebalance' | translate }}:</div>
-            <div class="ml-2 font-bold text-base">{{ user?.currency || 'EUR' }} {{ user?.available_balance }}</div>
+            <div class="ml-2 font-bold text-base">{{ user?.currency || 'EUR' }} {{ user?.available_balance || 0 }}</div>
             <button [routerLink]="['/users/account-recharge']" class="text-sm font-semibold p-2 px-4 ml-6 border border-2 rounded-lg"
                 [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}">
                 {{ 'professionals.recharge' | translate }}
@@ -10,9 +10,9 @@
         </div>
     </div>
 </ng-container>
-<div class="pt-24 sm:pt-20 md:pt-6 lg:pt-6">
+<div class="pt-24 sm:pt-20 md:pt-0 lg:pt-0">
     <div class="py-2 pb-20">
-        <div class="w-full relative p-6">
+        <div class="w-full relative py-6">
             <div class="flow-root relative">
                 <ul role="list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-3 gap-8">
                     <li class="relative" *ngFor="let professional of professionals">
