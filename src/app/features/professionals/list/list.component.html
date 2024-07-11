@@ -1,3 +1,15 @@
+<ng-container *ngIf="userId">
+    <div class="flex justify-end">
+        <div class="flex items-center">
+            <div class="text-sm">{{ 'professionals.availablebalance' | translate }}:</div>
+            <div class="ml-2 font-bold text-base">{{ user?.currency || 'EUR' }} {{ user?.available_balance }}</div>
+            <button [routerLink]="['/users/account-recharge']" class="text-sm font-semibold p-2 px-4 ml-6 border border-2 rounded-lg"
+                [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}">
+                {{ 'professionals.recharge' | translate }}
+            </button>
+        </div>
+    </div>
+</ng-container>
 <div class="pt-24 sm:pt-20 md:pt-6 lg:pt-6">
     <div class="py-2 pb-20">
         <div class="w-full relative p-6">
@@ -59,3 +71,53 @@
     [cancelText]="cancelText"
     (onAccept)="confirm()"
 ></app-toast>
+<button #modalbutton2 data-modal-target="item-modal2" data-modal-toggle="item-modal2" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+    &nbsp;
+</button>
+<div id="item-modal2" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-h-full max-w-lg">
+        <div class="relative bg-white rounded-lg shadow">
+            <button #closemodalbutton2 type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="item-modal2">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="px-6 py-6 lg:px-8">
+                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                    {{ 'plan-details.confirm' | translate }}
+                </h3>
+                <div>
+                    <label 
+                        for="phonenumber" 
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        {{ 'category.phone' | translate }}
+                    </label>
+                    <input 
+                        type="text" 
+                        name="phonenumber" 
+                        id="phonenumber" 
+                        class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5" 
+                        [ngClass]="{'bg-red-50 border border-red-500': !userPhone || !validatePhoneForE164() }"
+                        placeholder="{{ 'category.phone' | translate }}*" 
+                        [(ngModel)]="userPhone" 
+                        [ngModelOptions]="{standalone: true}"
+                        required>
+                </div>
+                <ng-container *ngIf="!validatePhoneForE164()">
+                    <div class="text-[#c24130] text-xs mt-1 font-medium text-center">{{ 'professionals.enteravalidphone' | translate }}</div>
+                </ng-container>
+                <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                    <button 
+                        class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        [ngStyle]="{'background-color': !validatePhoneForE164() ? '#c7c7c7' : buttonColor}"
+                        [disabled]="!validatePhoneForE164()"
+                        (click)="proceedToCall()"
+                    >
+                        {{ 'customer-onboarding.proceed' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

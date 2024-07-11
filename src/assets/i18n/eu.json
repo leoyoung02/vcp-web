@@ -3718,6 +3718,24 @@
         "with": "ekin", 
         "voicecall": "deitu", 
         "videocall": "bideo-deia", 
-        "chat": "txat"
+        "chat": "txat",
+        "dialling": "Markatzen", 
+        "availablebalance": "Saldo erabilgarria",
+        "recharge": "Barkargatu",
+        "addmoneytowallet": "Gehitu dirua zorroan",
+        "rechargeamount": "Birkargatu zenbatekoa",
+        "paymentdetails": "Ordainketaren xehetasunak",
+        "transactionsummary": "Transakzioen laburpena",
+        "payment": "Ordainketa",
+        "paypaldesc": "Egin lineako ordainketa PayPal erabiliz", 
+        "voicecalls": "Ahots-deiak", 
+        "videocalls": "Bideo-deiak", 
+        "chatmessages": "Txateko mezuak",
+        "wallet": "Kartera",
+        "purchased": "Erosia",
+        "via": "bide",
+        "enteravalidphone": "Mesedez, sartu baliozko telefono-zenbaki bat +<country_code><number> +34999999999",
+        "enteravalidpasscode": "Mesedez, sartu baliozko pasakode bat", 
+        "enterpasscode": "Idatzi pasakodea"
     }
 }

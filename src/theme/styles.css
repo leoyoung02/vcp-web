@@ -680,6 +680,11 @@ app-courses-edit .multiselect-dropdown .dropdown-btn .selected-item-container .s
     background: #fbfbfb;
 }
 
+.credits-box.amount-package-box {
+    width: 15%;
+    margin-bottom: 40px;
+}
+
 .selected-credits-box {
     font-size: 30px;
     margin-bottom: 14px;
@@ -691,6 +696,11 @@ app-courses-edit .multiselect-dropdown .dropdown-btn .selected-item-container .s
     font-weight: 600;
     position: relative;
     overflow: hidden;
+}
+
+.selected-credits-box.amount-package {
+    width: 15%;
+    margin-bottom: 40px;
 }
 
 .selected-credits-box::before {
@@ -705,6 +715,10 @@ app-courses-edit .multiselect-dropdown .dropdown-btn .selected-item-container .s
     -webkit-transform: rotate(-45deg);
     transform: rotate(-45deg);
     width: 0;
+}
+
+.selected-credits-box.amount-package::before {
+    border-color: transparent transparent #a77fe0;
 }
 
 .credit-wrapper {

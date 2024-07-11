@@ -6,7 +6,7 @@ import {
   Input,
   ViewChild,
 } from "@angular/core";
-import { ActivatedRoute, Router } from "@angular/router";
+import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import {
   LangChangeEvent,
   TranslateModule,
@@ -14,6 +14,7 @@ import {
 } from "@ngx-translate/core";
 import { CompanyService, LocalService, UserService } from "@share/services";
 import { Subject, takeUntil } from "rxjs";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "@env/environment";
@@ -33,6 +34,9 @@ import get from "lodash/get";
     CommonModule,
     TranslateModule,
     MatSnackBarModule,
+    RouterModule,
+    FormsModule,
+    ReactiveFormsModule,
     PageTitleComponent,
     ProfessionalCardComponent,
     ToastComponent,
@@ -93,6 +97,18 @@ export class ProfessionalsListComponent {
   cancelText: string = "";
   showRequiredMinimumBalanceModal: boolean = false;
   actionMode: string = "";
+  callTime: number = 0;
+  callTrackingInterval;
+  callGuid: any;
+  callPasscode: any;
+  room: any;
+  userPhone: any;
+  @ViewChild("modalbutton2", { static: false }) modalbutton2:
+    | ElementRef
+    | undefined;
+  @ViewChild("closemodalbutton2", { static: false }) closemodalbutton2:
+    | ElementRef
+    | undefined;
   
   constructor(
     private _route: ActivatedRoute,
@@ -167,6 +183,9 @@ export class ProfessionalsListComponent {
         (data) => {
           if(this.user) { this.user['available_balance'] = this.userId > 0 ? data?.user?.available_balance : 0; }
 
+          let payment_methods = data?.payment_methods || '';
+          this._localService.setLocalStorage(environment.lspaymentmethods, payment_methods);
+
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings);
 
@@ -192,9 +211,9 @@ export class ProfessionalsListComponent {
   mapSubfeatures(settings) {
     let subfeatures = settings?.subfeatures;
     if(subfeatures?.length > 0) {
-      this.hasVoiceCall = subfeatures.some(a => a.name_en == 'Call feature' && a.active == 1);
-      this.hasVideoCall = subfeatures.some(a => a.name_en == 'Video call feature' && a.active == 1);
-      this.hasChat = subfeatures.some(a => a.name_en == 'Chat feature' && a.active == 1);
+      this.hasVoiceCall = this.userId && subfeatures.some(a => a.name_en == 'Call feature' && a.active == 1);
+      this.hasVideoCall = this.userId && subfeatures.some(a => a.name_en == 'Video call feature' && a.active == 1);
+      this.hasChat = this.userId && subfeatures.some(a => a.name_en == 'Chat feature' && a.active == 1);
       this.hasMinimumBalance = subfeatures?.some((a) => a.name_en == "Minimum balance" && a.active == 1);
     }
 
@@ -294,6 +313,11 @@ export class ProfessionalsListComponent {
       .subscribe(async(response) => {
         if(response?.id == this.userId || response?.channel == this.userId) {
           this.pusherData = response;
+          if(this.pusherData.call_guid) {
+            this.callGuid = this.pusherData.call_guid;
+            this.callPasscode = this.pusherData.passcode;
+          }
+
           this.toastMessage = response.message || `${this._translateService.instant('professionals.incomingcall')}...`;
           this.toastMode = response.mode;
 
@@ -302,6 +326,7 @@ export class ProfessionalsListComponent {
             this.showToast = false;
           } else if(this.toastMode == 'ongoing-call') {
             this.startTimer();
+            this.startTrackingCallDuration();
           }
         }
       })
@@ -318,20 +343,77 @@ export class ProfessionalsListComponent {
     }, 1000);
   }
 
+  startTrackingCallDuration() {
+    this.callTrackingInterval = setInterval(() => {
+        if (this.callTime === 0) {
+            this.callTime++;
+        } else {
+            this.callTime++;
+        }
+
+        this._professionalsService.getStats();
+        let stats = this._professionalsService.rtcStats?.Duration || 0;
+
+        if(stats > 0) {
+          let params = {
+            call_guid: this.callGuid,
+            stats,
+            professional_user_id: this.professional?.user_id,
+            caller_user_id: this.userId,
+            room: this.room,
+          }
+          
+          this._professionalsService.editCallerBalance(params).subscribe(
+          (response) => {
+            let user = response?.user;
+            if(user?.id == this.userId) {
+              if(this.user) {
+                this.user['available_balance'] = user?.available_balance;
+              }
+            }
+          },
+          (error) => {
+            console.log(error);
+          })
+        }
+    }, 5000);
+  }
+
   pauseTimer() {
     clearInterval(this.interval);
+    clearInterval(this.callTrackingInterval);
   }
 
   async handleStartCall(id) {
     if(this.userId > 0) {
       this.actionMode = 'voicecall';
+      this.userPhone = this.user?.phone;
+      if(!this.userPhone) {
+        let user = get(
+          await this._userService.getUserById(this.user?.id).toPromise(),
+          "CompanyUser"
+        );
+        this.user['phone'] = user?.phone;
+        this.userPhone = user?.phone;
+      }
       this.professional = this.professionals.find((c) => c.user_id == id);
+      this.modalbutton2?.nativeElement?.click();
+    } else {
+      this._router.navigate(['/auth/login']);
+    }
+  }
 
+  async proceedToCall() {
+    this.closemodalbutton2?.nativeElement?.click();
+
+    setTimeout(async () => {
+      let id = this.professional.user_id;
       if(this.hasRequiredMinimumBalance()) {
         this.display = '';
         this.selectedId = id;
 
         const channel =  `agora-vcp-${id}`;
+        this.room = channel;
         let caller_uid = Math.floor(Math.random() * 2032);
 
         let caller_balance_before_call = 0;
@@ -344,7 +426,7 @@ export class ProfessionalsListComponent {
 
         setTimeout(() => {
           initFlowbite();
-          this.toastMessage = 'Dialing...';
+          this.toastMessage = `${this._translateService.instant('professionals.dialling')}...`;
           this.toastMode = 'initiate-call';
           this.showToast = true;
           let params = {
@@ -355,7 +437,7 @@ export class ProfessionalsListComponent {
             message: this._translateService.instant('professionals.incomingcall'),
             caller_name: this.user?.first_name ? `${this.user.first_name} ${this.user.last_name}` : this.user.name,
             caller_image: `${environment.api}/${this.user?.image}`,
-            phone: this.professional?.phone,
+            phone: this.userPhone,
             room: channel,
             caller_uid,
             caller_balance_before_call,
@@ -370,10 +452,14 @@ export class ProfessionalsListComponent {
         this._professionalsService.agoraServerEvents(this._professionalsService.rtc);
         await this._professionalsService.localUser(channel, token, caller_uid, 'initiate-call');
       }
-    } else {
-      this._router.navigate(['/auth/login']);
-    }
+    }, 500)
   }
+
+  validatePhoneForE164() {
+    const phoneNumber = this.userPhone || this.user?.phone;
+    const regEx = /^\+[1-9]\d{10,14}$/;
+    return regEx.test(phoneNumber);
+  };
 
   hasRequiredMinimumBalance() {
     let valid = true;
@@ -390,7 +476,6 @@ export class ProfessionalsListComponent {
   notifyProfessional(params) {
     this._professionalsService.notifyProfessional(params).subscribe(
       (response) => {
-        console.log('notifyProfessional response', response)
       },
       (error) => {
         console.log(error);
@@ -462,6 +547,7 @@ export class ProfessionalsListComponent {
   }
 
   ngOnDestroy() {
+    this.pauseTimer();
     this.languageChangeSubscription?.unsubscribe();
     this.pusherSubscription?.unsubscribe();
     this.destroy$.next();

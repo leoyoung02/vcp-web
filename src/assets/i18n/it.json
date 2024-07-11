@@ -3711,6 +3711,24 @@
         "with": "con", 
         "voicecall": "chiamata", 
         "videocall": "videochiamata", 
-        "chat": "chat"
+        "chat": "chat",
+        "dialling": "Composizione", 
+        "availablebalance": "Saldo disponibile",
+        "recharge": "Ricarica",
+        "addmoneytowallet": "Aggiungi denaro al portafoglio",
+        "rechargeamount": "Importo di ricarica",
+        "paymentdetails": "Dettagli del pagamento",
+        "transactionsummary": "Riepilogo della transazione",
+        "payment": "Pagamento",
+        "paypaldesc": "Effettua il pagamento online utilizzando PayPal", 
+        "voicecalls": "Chiamate vocali", 
+        "videocalls": "Videochiamate", 
+        "chatmessages": "Messaggi chat",
+        "wallet": "Portafoglio",
+        "purchased": "Acquistato",
+        "via": "via",
+        "enteravalidphone": "Inserisci un numero di telefono valido +<codice_paese><numero> +34999999999",
+        "enteravalidpasscode": "Inserisci un codice di accesso valido", 
+        "enterpasscode": "Inserisci codice"
     }
 }

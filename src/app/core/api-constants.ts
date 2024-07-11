@@ -789,6 +789,12 @@ export const MINIMUM_BALANCE_URL = `${API_BASE}/v3/minimum-balance`;
 export const EDIT_MINIMUM_BALANCE_URL = `${API_BASE}/v3/minimum-balance/edit`;
 export const PROFESSIONALS_DATA_URL = `${API_BASE}/v3/professionals-data`;
 export const EDIT_CALLER_BALANCE_URL = `${API_BASE}/v3/caller-balance/edit`;
+export const STRIPE_CREATE_PAYMENT_INTENT_URL = `${API_BASE}/v3/payments/create-payment-intent`;
+export const STRIPE_CREATE_IDENTITY_VERIFICATION_SESSION_URL = `${API_BASE}/v3/payments/identity/create-verification-session`;
+export const ACCOUNT_RECHARGE_URL = `${API_BASE}/v3/account-recharge`;
+export const ACCOUNT_RECHARGE_DATA_URL = `${API_BASE}/v3/account-recharge-data`;
+export const EDIT_STRIPE_PAYMENT_URL = `${API_BASE}/v3/payment-stripe/edit`;
+export const EDIT_PAYPAL_PAYMENT_URL = `${API_BASE}/v3/payment-paypal/edit`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;

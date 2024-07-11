@@ -66,7 +66,6 @@ export class VoiceCallComponent {
     caller: any;
     callTime: number = 0;
     callTrackingInterval;
-    // pushNotificationData: any;
     pusherSubscription: Subscription | undefined;
     pusherData: any = {};
     isLoading; boolean = true;
@@ -119,8 +118,29 @@ export class VoiceCallComponent {
             }
         );
 
+        this.subscribeVoiceCall();
         this.handleValidatePasscode(this.code);
     }
+
+    subscribeVoiceCall() {
+        this.pusherSubscription = this._professionalsService
+          .getFeedItems()
+          .subscribe(async(response) => {
+            if(response?.id == this.existingCallLog?.caller_user_id || response?.channel == this.existingCallLog?.caller_user_id) {
+              this.pusherData = response;
+    
+              if(response.mode == 'end-call') {
+                this.pauseTimer();
+
+                this.statusText = `${this._translateService.instant('professionals.callended')} ${timer.transform(this.time)}`;
+                this.showActions = false;
+                this.cd.detectChanges;
+                
+                this._professionalsService.leaveCall();
+              }
+            }
+          })
+      }
 
     initializeData(response: any) {
         if(!this.requirePasscode && response) {
@@ -205,7 +225,7 @@ export class VoiceCallComponent {
               user_id: this.existingCallLog.caller_user_id,
               company_id: this.companyId,
               mode: 'ongoing-call',
-              message: 'Ongoing call...',
+              message: `${this._translateService.instant('professionals.ongoingcall')}...`,
               channel: this.existingCallLog.caller_user_id
             }
             this.notifyProfessional(params);
@@ -241,33 +261,33 @@ export class VoiceCallComponent {
 
     startTrackingCallDuration() {
         this.callTrackingInterval = setInterval(() => {
-      if (this.callTime === 0) {
-        this.callTime++;
-      } else {
-        this.callTime++;
-      }
+            if (this.callTime === 0) {
+                this.callTime++;
+            } else {
+                this.callTime++;
+            }
 
-      this._professionalsService.getStats();
-      let stats = this._professionalsService.rtcStats?.Duration || 0;
+            this._professionalsService.getStats();
+            let stats = this._professionalsService.rtcStats?.Duration || 0;
 
-      if(stats > 0) {
-        let params = {
-          call_guid: this.guid,
-          stats,
-          professional_user_id: this.existingCallLog.professional_user_id,
-          caller_user_id: this.existingCallLog.caller_user_id,
-          room: this.room,
-        }
-        console.log('params', params);
-        this._professionalsService.editCallerBalance(params).subscribe(
-          (response) => {
-            console.log('editCallerBalance', response);
-          },
-          (error) => {
-            console.log(error);
-          })
-        }
-    }, 5000);
+            if(stats > 0) {
+                let params = {
+                    call_guid: this.guid,
+                    stats,
+                    professional_user_id: this.existingCallLog.professional_user_id,
+                    caller_user_id: this.existingCallLog.caller_user_id,
+                    room: this.room,
+                }
+                
+                this._professionalsService.editCallerBalance(params).subscribe(
+                (response) => {
+                    
+                },
+                (error) => {
+                    console.log(error);
+                })
+            }
+        }, 5000);
     }
 
     pauseTimer() {
@@ -334,6 +354,7 @@ export class VoiceCallComponent {
     }
 
     ngOnDestroy() {
+        this.pauseTimer();
         this.languageChangeSubscription?.unsubscribe();
         this.destroy$.next();
         this.destroy$.complete();

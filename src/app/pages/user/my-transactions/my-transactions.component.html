@@ -22,6 +22,14 @@
                             <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'database.description' | translate }} </mat-header-cell>
                             <mat-cell *matCellDef="let row" data-label="credit_package_name"> {{ row.description }} </mat-cell>
                         </ng-container>
+                        <ng-container matColumnDef="transaction_amount">
+                            <mat-header-cell *matHeaderCellDef mat-sort-header><span>{{ 'pricing.amount' | translate }}</span></mat-header-cell>
+                            <mat-cell *matCellDef="let row" data-label="transaction_amount"> 
+                                <span [ngStyle]="{'color': row?.type == 'deduct' ? '#c24130' : '#4BB543'}">
+                                    {{ row?.transaction_amount }}
+                                </span> 
+                            </mat-cell>
+                        </ng-container>
                         <ng-container matColumnDef="date">
                             <mat-header-cell *matHeaderCellDef mat-sort-header><span class="capitalize">{{ 'landing.date' | translate }}</span></mat-header-cell>
                             <mat-cell *matCellDef="let row" data-label="date"> <span>{{ row?.created_at | date:'dd MMM yyyy hh:mm a' }}</span> </mat-cell>

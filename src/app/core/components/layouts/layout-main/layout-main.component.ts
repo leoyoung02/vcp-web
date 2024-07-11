@@ -408,7 +408,7 @@ export class LayoutMainComponent {
             this.callPasscode = this.pusherData.passcode;
           }
           
-          this.toastMessage = response.message || 'Incoming call...';
+          this.toastMessage = response.message || `${this._translateService.instant('professionals.incomingcall')}...`;
           this.toastMode = response.mode;
           this.toastName = response.caller_name;
           this.toastImage = response.caller_image;
@@ -450,11 +450,7 @@ export class LayoutMainComponent {
       }
     }, 500);
     this.showToast = false;
-    let url = `/professionals/call/voice/${this.pusherData.id}/${this.pusherData.user_id}/${this.pusherData.phone}`;
-    if(this.callGuid) {
-      url = `/call/voice/${this.callGuid}/${this.callPasscode}`;
-    }
-    this._router.navigate([url])
+    this._router.navigate([`/call/voice/${this.callGuid}/${this.callPasscode}`])
     .then(() => {
       window.location.reload();
     });

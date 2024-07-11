@@ -3,7 +3,7 @@ import { BehaviorSubject, Observable, Subject, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
-import { EDIT_CALLER_BALANCE_URL, EDIT_MINIMUM_BALANCE_URL, GENERATE_RTC_TOKEN_URL, MINIMUM_BALANCE_URL, NOTIFY_PROFESSIONAL_PUSHER_URL, PROFESSIONALS_DATA_URL, VALIDATE_VOICE_CALL_PASSCODE_URL, VOICE_CALL_URL } from "@lib/api-constants";
+import { ACCOUNT_RECHARGE_DATA_URL, ACCOUNT_RECHARGE_URL, EDIT_CALLER_BALANCE_URL, EDIT_MINIMUM_BALANCE_URL, EDIT_PAYPAL_PAYMENT_URL, EDIT_STRIPE_PAYMENT_URL, GENERATE_RTC_TOKEN_URL, MINIMUM_BALANCE_URL, NOTIFY_PROFESSIONAL_PUSHER_URL, PROFESSIONALS_DATA_URL, VALIDATE_VOICE_CALL_PASSCODE_URL, VOICE_CALL_URL } from "@lib/api-constants";
 import { RTC, RTCUser } from "@lib/interfaces";
 import moment from "moment";
 import AgoraRTC from 'agora-rtc-sdk-ng';
@@ -56,52 +56,13 @@ export class ProfessionalsService {
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     
     const client = new Pusher('d15683105c5d696cddc7', { cluster: 'eu' });
-    // console.log('channel: ' + `pusher-vcp-${this.userId}`)
     
-    let sub = 'pusher-vcp-astroideal' // `pusher-vcp-${this.userId}`;
+    let sub = 'pusher-vcp-astroideal';
     const pusherChannel = client.subscribe(sub);
     console.log('sub channel: ' + sub);
     pusherChannel.bind('professional-voice-call', (data) => this.subject.next(data));
   }
 
-  async initRtc() {
-    this.rtc.client = AgoraRTC.createClient({ mode: "rtc", codec: "vp8" });
-  
-    this.rtc.client.on("user-published", this.handleUserPublished);
-    this.rtc.client.on("user-left", this.handleUserLeft);
-    
-
-    await this.rtc.client.join(this.options.appId, this.roomId, this.token, this.rtcUid)
-    this.rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack({
-      encoderConfig: "music_standard"
-    });
-    // this.rtc.localAudioTrack.setMuted(this.micMuted);
-    await this.rtc.client.publish([this.rtc.localAudioTrack]);
-  
-    //initVolumeIndicator()
-  }
-
-  async handleUserPublished(user, mediaType) {
-    console.log('handleUserPublished')
-    await this.rtc?.client?.subscribe(user, mediaType);
-
-    if (mediaType == "audio"){
-      this.rtc.remoteAudioTracks[user.uid] = [user.audioTrack]
-      user.audioTrack.play();
-      
-      // const remoteAudioTrack = user.audioTrack;
-      // remoteAudioTrack.play();
-    }
-  }
-
-  async handleUserLeft(user) {
-    console.log('handleUserLeft')
-    // delete this.rtc.remoteAudioTracks[user.uid]
-  }
-
-  async enterRoom() {
-    this.initRtc();
-  }
 
   toggleMic() {
     this.rtc?.localAudioTrack?.setMuted(this.rtc.micMuted);
@@ -119,7 +80,6 @@ export class ProfessionalsService {
     AgoraRTC.setLogLevel(1);
 
     AgoraRTC.onAudioAutoplayFailed = () => {
-      // alert("click to start autoplay!");
     };
 
     AgoraRTC.onMicrophoneChanged = async changedDevice => {
@@ -136,18 +96,6 @@ export class ProfessionalsService {
 
   async localUser(channel, token, uuid, mode: string = '') {
     const uid = await this.rtc?.client?.join(this.options.appId, channel, token, uuid);
-    
-    // // Create an audio track from the audio sampled by a microphone.
-    // this.rtc.localAudioTrack = await AgoraRTC.createMicrophoneAudioTrack({
-    //   encoderConfig: "music_standard"
-    // });
-
-    // // Publish the local audio and video tracks to the
-    // // channel for other users to subscribe to it.
-    // this.rtc.localAudioTrack.setMuted(this.rtc.micMuted);
-
-    // await this.rtc?.client?.publish([this.rtc.localAudioTrack]);
-
     this.getEquipment(mode);
   }
 
@@ -296,6 +244,33 @@ export class ProfessionalsService {
 
   editCallerBalance(params): Observable<any> {
     return this._http.post(EDIT_CALLER_BALANCE_URL,
+      params,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  accountRecharge(params): Observable<any> {
+    return this._http.post(ACCOUNT_RECHARGE_URL,
+      params,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  getAccountRechargeData(id): Observable<any> {
+    return this._http.get(`${ACCOUNT_RECHARGE_DATA_URL}/${id}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  editStripePayment(params): Observable<any> {
+    return this._http.post(EDIT_STRIPE_PAYMENT_URL,
+      params,
+      { headers: this.headers }
+    ).pipe(map(res => res));
+  }
+
+  editPayPalPayment(params): Observable<any> {
+    return this._http.post(EDIT_PAYPAL_PAYMENT_URL,
       params,
       { headers: this.headers }
     ).pipe(map(res => res));

@@ -30,7 +30,7 @@
                                 'text-gray-900': !invalidPasscode,
                                 'text-red-600': invalidPasscode
                             }">
-                            {{ invalidPasscode ? 'Please enter a valid passcode' : 'Enter Passcode' }} *
+                            {{ invalidPasscode ? ('professionals.enteravalidpasscode' | translate) : ('professionals.enterpasscode' | translate) }} *
                         </label>
                         <input 
                             id="passcode"

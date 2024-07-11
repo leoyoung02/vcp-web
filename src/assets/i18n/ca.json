@@ -3725,6 +3725,24 @@
         "with": "amb", 
         "voicecall": "trucada", 
         "videocall": "videotrucada", 
-        "chat": "xat"
+        "chat": "xat",
+        "dialling": "Marcat", 
+        "availablebalance": "Saldo disponible",
+        "recharge": "Aufladen",
+        "addmoneytowallet": "Afegeix diners a la cartera",
+        "rechargeamount": "Import de recàrrega",
+        "paymentdetails": "Detalls de pagament",
+        "transactionsummary": "Resum de la transacció",
+        "payment": "Pagament",
+        "paypaldesc": "Efectua un pagament en línia amb PayPal", 
+        "voicecalls": "Trucades de veu", 
+        "videocalls": "Videotrucades", 
+        "chatmessages": "Missatges de xat",
+        "wallet": "Cartera",
+        "purchased": "Comprat",
+        "via": "via",
+        "enteravalidphone": "Introduïu un número de telèfon vàlid +<country_code><number> +34999999999",
+        "enteravalidpasscode": "Introduïu una contrasenya vàlida", 
+        "enterpasscode": "Introdueix la contrasenya"
     }
 }

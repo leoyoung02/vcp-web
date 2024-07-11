@@ -184,8 +184,8 @@
 <div id="setting-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-w-md max-h-full"
         [ngClass]="{'max-w-2xl': showGuestRegistrationFieldsModal,
-            'max-w-md': !showGuestRegistrationFieldsModal && !showFilterModal,
-            'max-w-4xl': showFilterModal,
+            'max-w-md': !showGuestRegistrationFieldsModal && !showFilterModal && !showPaymentMethodsModal,
+            'max-w-4xl': showFilterModal || showPaymentMethodsModal,
         }">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
             <button #closesettingmodalbutton type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="setting-modal">
@@ -713,6 +713,152 @@
                         >
                             {{ 'company-settings.save' | translate }}
                         </button>
+                    </ng-container>
+                    <ng-container *ngIf="showPaymentMethodsModal">
+                        <mat-tab-group #mtTab (selectedTabChange)="changeTab($event)" [(selectedIndex)]="tabIndex">
+                            <mat-tab label="Stripe">
+                                <div class="flex items-center justify-between w-full my-8">
+                                    <div class="flex items-center justify-between w-full relative">
+                                        <label
+                                            for="stripe"
+                                            class="flex items-center w-full justify-between cursor-pointer"
+                                        >
+                                            <div class="text-black text-sm capitalize">
+                                                {{'company-settings.activate' | translate}} Stripe
+                                            </div>
+                                            <div class="relative mr-1">
+                                                <input
+                                                    id="stripe"
+                                                    type="checkbox"
+                                                    class="sr-only"
+                                                    [(ngModel)]="activeStripe"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                />
+                                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <ng-container *ngIf="activeStripe">
+                                    <div>
+                                        <label 
+                                            for="stripepublickey" 
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            {{ 'stripe-account.publishablekey' | translate }}
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            name="stripepublickey" 
+                                            id="stripepublickey" 
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" 
+                                            [ngClass]="{'bg-red-50 border border-red-500': !stripePublicKey}"
+                                            placeholder="{{ 'stripe-account.publishablekey' | translate }}*" 
+                                            [(ngModel)]="stripePublicKey" 
+                                            [ngModelOptions]="{standalone: true}"
+                                            required>
+                                    </div>
+                                    <div>
+                                        <label 
+                                            for="stripesecretkey" 
+                                            class="block my-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            {{ 'stripe-account.secretkey' | translate }}
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            name="stripesecretkey" 
+                                            id="stripesecretkey" 
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" 
+                                            [ngClass]="{'bg-red-50 border border-red-500': !stripeSecretKey}"
+                                            placeholder="{{ 'stripe-account.secretkey' | translate }}*" 
+                                            [(ngModel)]="stripeSecretKey" 
+                                            [ngModelOptions]="{standalone: true}"
+                                            required>
+                                    </div>
+                                </ng-container>
+                                <div class="flex items-center justify-center mt-8 mb-4 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                                    <button 
+                                        type="button" 
+                                        class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        (click)="saveStripeSettings()"
+                                        [ngStyle]="{'background-color': buttonColor}"
+                                    >
+                                        {{ 'company-settings.save' | translate }}
+                                    </button>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="PayPal">
+                                <div class="flex items-center justify-between w-full my-8">
+                                    <div class="flex items-center justify-between w-full relative">
+                                        <label
+                                            for="paypal"
+                                            class="flex items-center w-full justify-between cursor-pointer"
+                                        >
+                                            <div class="text-black text-sm capitalize">
+                                                {{'company-settings.activate' | translate}} PayPal
+                                            </div>
+                                            <div class="relative mr-1">
+                                                <input
+                                                    id="paypal"
+                                                    type="checkbox"
+                                                    class="sr-only"
+                                                    [(ngModel)]="activePayPal"
+                                                    [ngModelOptions]="{standalone: true}"
+                                                />
+                                                <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                                                <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                <ng-container *ngIf="activePayPal">
+                                    <div>
+                                        <label 
+                                            for="paypalclientid" 
+                                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            {{ 'settings.client_id' | translate }}
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            name="paypalclientid" 
+                                            id="paypalclientid" 
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" 
+                                            [ngClass]="{'bg-red-50 border border-red-500': !paypalClientID}"
+                                            placeholder="{{ 'settings.client_id' | translate }}*" 
+                                            [(ngModel)]="paypalClientID" 
+                                            [ngModelOptions]="{standalone: true}"
+                                            required>
+                                    </div>
+                                    <div>
+                                        <label 
+                                            for="paypalsecret" 
+                                            class="block my-2 text-sm font-medium text-gray-900 dark:text-white">
+                                            {{ 'settings.client_secret' | translate }}
+                                        </label>
+                                        <input 
+                                            type="text" 
+                                            name="paypalsecret" 
+                                            id="paypalsecret" 
+                                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white" 
+                                            [ngClass]="{'bg-red-50 border border-red-500': !paypalSecret}"
+                                            placeholder="{{ 'settings.client_secret' | translate }}*" 
+                                            [(ngModel)]="paypalSecret" 
+                                            [ngModelOptions]="{standalone: true}"
+                                            required>
+                                    </div>
+                                </ng-container>
+                                <div class="flex items-center justify-center mt-8 mb-4 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                                    <button 
+                                        type="button" 
+                                        class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                        (click)="savePayPalSettings()"
+                                        [ngStyle]="{'background-color': buttonColor}"
+                                    >
+                                        {{ 'company-settings.save' | translate }}
+                                    </button>
+                                </div>
+                            </mat-tab>
+                        </mat-tab-group>
                     </ng-container>
                 </form>
             </div>

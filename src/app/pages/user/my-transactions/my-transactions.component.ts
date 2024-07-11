@@ -52,11 +52,12 @@ export class MyTransactionsComponent {
     hasChat: boolean = false;
     company: any;
     user: any;
-    viewMode: string = 'calllogs';
-    displayedColumns: any[] = [ 'description', 'date'];
+    viewMode: string = 'voicecalls';
+    displayedColumns: any[] = [ 'description', 'transaction_amount', 'date'];
     callLogs: any = [];
     videoCallLogs: any = [];
     chatLogs: any = [];
+    walletLogs: any = [];
     dataSource: any;
     showConfirmationModal: boolean = false;
     selectedItem: any;
@@ -119,9 +120,10 @@ export class MyTransactionsComponent {
         this._userService.getUserTransactions(this.companyId, this.userId).subscribe(data => {
             this.mapSubfeatures(data?.subfeatures);
             this.user = data?.user;
-            this.callLogs = this.formatList(data?.call_logs);
-            this.videoCallLogs = this.formatList(data?.videocall_logs);
-            this.chatLogs = this.formatList(data?.chat_logs);
+            this.callLogs = this.formatList(data?.call_logs, 'deduct');
+            this.videoCallLogs = this.formatList(data?.videocall_logs, 'deduct');
+            this.chatLogs = this.formatList(data?.chat_logs, 'deduct');
+            this.walletLogs = this.formatList(data?.wallet_transactions, 'add');
             this.initializeTable();
         }, error => {
             console.log(error)
@@ -132,14 +134,17 @@ export class MyTransactionsComponent {
         let list = [];
 
         switch(this.viewMode) {
-            case 'calllogs':
+            case 'voicecalls':
                 list = this.callLogs;
                 break;
-            case 'videocalllogs':
+            case 'videocalls':
                 list = this.videoCallLogs;
                 break;
-            case 'chatlogs':
+            case 'chatmessages':
                 list = this.chatLogs;
+                break;
+            case 'wallet':
+                list = this.walletLogs;
                 break;
         }
 
@@ -160,54 +165,75 @@ export class MyTransactionsComponent {
 
         if(this.hasVideoCall) {
             this.leftTabs.push({
-                mode: 'calllogs',
-                text: this._translateService.instant('professionals.calllogs')
+                mode: 'voicecalls',
+                text: this._translateService.instant('professionals.voicecalls')
             })
         }
         if(this.hasVideoCall) {
             this.leftTabs.push({
-                mode: 'videocalllogs',
-                text: this._translateService.instant('professionals.videocalllogs')
+                mode: 'videocalls',
+                text: this._translateService.instant('professionals.videocalls')
             })
         }
         if(this.hasChat) {
             this.leftTabs.push({
-                mode: 'chatlogs',
-                text: this._translateService.instant('professionals.chatlogs')
+                mode: 'chatmessages',
+                text: this._translateService.instant('professionals.chatmessages')
             })
         }
+        this.leftTabs.push({
+            mode: 'wallet',
+            text: this._translateService.instant('professionals.wallet')
+        })
 
         initFlowbite();
     }
 
-    formatList(list) {
+    formatList(list, type) {
         this.list = list;
-        return list?.map((item) => {
-            let minutes_duration;
-            let seconds_duration = 0;
 
-            if(item?.duration > 0) {
-                if(item?.duration < 60) {
-                    seconds_duration = item?.duration;
-                } else {
-                    let duration = item?.duration / 60;
-                    minutes_duration = parseFloat(duration?.toString())?.toFixed(2);
-                }
+        return list?.map((item) => {
+            let description = '';
+            let transaction_amount = '';
+
+            if(type == 'add') {
+                description = `${this._translateService.instant('professionals.purchased')} ${this._translateService.instant('professionals.via')} ${item.payment_method}`;
+                transaction_amount = `${item?.amount ? ' + ' : ''} ${item?.currency || ''} ${item?.amount || ''}`;
             } else {
-                minutes_duration = moment(item?.updated_at).diff(moment(item?.created_at), 'minutes');
-                if(minutes_duration > 0) {
+                let minutes_duration;
+                let seconds_duration = 0;
+
+                if(item?.duration > 0) {
+                    if(item?.duration < 60) {
+                        seconds_duration = item?.duration;
+                    } else {
+                        let duration = item?.duration / 60;
+                        minutes_duration = parseFloat(duration?.toString())?.toFixed(2);
+                    }
                 } else {
-                    seconds_duration = seconds_duration = moment(item?.updated_at).diff(moment(item?.created_at), 'seconds');
+                    minutes_duration = moment(item?.updated_at).diff(moment(item?.created_at), 'minutes');
+                    if(minutes_duration > 0) {
+                    } else {
+                        seconds_duration = seconds_duration = moment(item?.updated_at).diff(moment(item?.created_at), 'seconds');
+                    }
                 }
+
+                let duration_text = minutes_duration > 0 ? 
+                    `${minutes_duration} ${this._translateService.instant('timeunits.minutes')}` :
+                    `${seconds_duration} ${this._translateService.instant('videos-ctas.seconds')}`
+
+                description = `${this._translateService.instant('professionals.callwith')} ${item.professional_name} ${duration_text}`;
+                
+                let amount = item?.caller_balance_before_call ? (parseFloat((parseFloat(item?.caller_balance_before_call) - parseFloat(item?.caller_balance_after_call)).toString()).toFixed(2)) : 0;
+                transaction_amount = `${amount ? ' - ' : ''} ${amount ? (item?.currency || 'EUR') : ''} ${amount || ''}`;
             }
 
-            let duration_text = minutes_duration > 0 ? 
-                `${minutes_duration} ${this._translateService.instant('timeunits.minutes')}` :
-                `${seconds_duration} ${this._translateService.instant('videos-ctas.seconds')}`
             return {
               ...item,
               id: item?.id,
-              description: `${this._translateService.instant('professionals.callwith')} ${item.professional_name} ${duration_text}`,
+              description,
+              transaction_amount,
+              type,
             };
         });
     }

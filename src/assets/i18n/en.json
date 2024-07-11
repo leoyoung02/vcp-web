@@ -3754,6 +3754,24 @@
         "with": "with",
         "voicecall": "call",
         "videocall": "video call",
-        "chat": "chat"
+        "chat": "chat",
+        "dialling": "Dialing",
+        "availablebalance": "Available balance",
+        "recharge": "Recharge",
+        "addmoneytowallet": "Add money to wallet",
+        "rechargeamount": "Recharge amount",
+        "paymentdetails": "Payment details",
+        "transactionsummary": "Transaction summary",
+        "payment": "Payment",
+        "paypaldesc": "Make online payment using PayPal",
+        "voicecalls": "Voice calls",
+        "videocalls": "Video calls",
+        "chatmessages": "Chat messages",
+        "wallet": "Wallet",
+        "purchased": "Purchased",
+        "via": "via",
+        "enteravalidphone": "Please enter a valid phone number +<country_code><number> +34999999999",
+        "enteravalidpasscode": "Please enter a valid passcode",
+        "enterpasscode": "Enter passcode"
     }
 }
