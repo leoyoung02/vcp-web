@@ -296,7 +296,10 @@ export class VoiceCallComponent {
     }
 
     handleToggleMic() {
-        this.micMuted = !this.micMuted;
+        // this.micMuted = !this.micMuted;
+        this._professionalsService.rtc.micMuted = !this._professionalsService.rtc.micMuted;
+        this.micMuted = this._professionalsService.rtc.micMuted;
+        this._professionalsService.toggleMic();
         this.cd.detectChanges();
     }
 
