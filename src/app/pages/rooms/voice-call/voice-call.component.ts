@@ -120,6 +120,12 @@ export class VoiceCallComponent {
 
         this.subscribeVoiceCall();
         this.handleValidatePasscode(this.code);
+
+        this._professionalsService.participantEndsCall$.subscribe(status =>{
+            if(status) {
+                this.handleEndCall();
+            }
+        })
     }
 
     subscribeVoiceCall() {

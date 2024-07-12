@@ -14,6 +14,7 @@ import Pusher from 'pusher-js';
 })
 export class ProfessionalsService {
   private headers: HttpHeaders;
+  participantEndsCall$ = new BehaviorSubject<boolean>(false); 
 
   rtc: RTC = {
     client: null,
@@ -62,7 +63,6 @@ export class ProfessionalsService {
     console.log('sub channel: ' + sub);
     pusherChannel.bind('professional-voice-call', (data) => this.subject.next(data));
   }
-
 
   toggleMic() {
     this.rtc?.localAudioTrack?.setMuted(this.rtc.micMuted);
@@ -132,15 +132,7 @@ export class ProfessionalsService {
 
     rtc.client.on("user-unpublished", async(user, mediaType) => {
       console.log(user, 'user-unpublished');
-
-      this.getStats();
-
-      // Destroy the local audio track.
-      rtc?.localAudioTrack?.close();
-
-      // Leave the channel.
-      await rtc.client.leave();
-
+      this.leaveCall();
       this.triggerNotification(user);
     });
 
@@ -174,6 +166,7 @@ export class ProfessionalsService {
     }
 
     await this.notifyProfessional(params);
+    this.participantEndsCall$.next(true);
   }
   
   async leaveCall() {
