@@ -157,6 +157,11 @@ export class UserMenuComponent {
         this.canViewAdministrar = this.getAdministrarPermissions(this.customMemberTypePermissions);
       }
     }
+
+    let userMentorChange = changes["userMentor"];
+    if (userMentorChange?.currentValue?.length > 0) {
+      this.userMentor = userMentorChange.currentValue;
+    }
   }
 
   getCRMPermissions(permissions) {

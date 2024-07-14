@@ -2489,6 +2489,7 @@ export class LayoutMainComponent {
           })
           this.userMentor = user_mentor;
           this.isMentor = current_user_mentor?.length > 0 ? true : false;
+          this.cd.detectChanges();
         },
         (error) => {
           console.log(error);
