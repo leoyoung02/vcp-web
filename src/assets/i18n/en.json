@@ -1063,7 +1063,9 @@
         "text": "Text",
         "coursecontent":"Course content",
         "viewclass": "View class",
-        "stripeinactivetransfer":"Inactive Transfer Capabilities"
+        "stripeinactivetransfer":"Inactive Transfer Capabilities",
+        "levelingcoursesdescription": "The BASIC STEAM courses are leveling courses designed to reinforce and strengthen basic knowledge, ensuring optimal preparation to successfully face the academic challenges of the first courses of the university stage.",
+        "levelingcoursesduration": "Duration: 10 hours"
     },
     "course-lesson": {
         "section": "Section"

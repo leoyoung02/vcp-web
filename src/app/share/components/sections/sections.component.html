@@ -124,7 +124,7 @@
     </ng-container>
   </div>
 </ng-container>
-<ng-container *ngIf="courses?.length > 0">
+<ng-container *ngIf="!isUESchoolOfLife && courses?.length > 0">
   <app-page-title [mode]="'section'" [title]="coursesSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
     <ng-container *ngFor="let item of courses; let even=even; let i = index;">
@@ -157,7 +157,7 @@
     </ng-container>
   </div>
 </ng-container>
-<ng-container *ngIf="coursesNivelacion?.length > 0">
+<ng-container *ngIf="isUESchoolOfLife && coursesNivelacion?.length > 0">
   <app-page-title [mode]="'section'" [title]="coursesNivelacionSectionTitle"></app-page-title>
   <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pt-4 pb-12">
     <ng-container *ngFor="let item of coursesNivelacion; let even=even; let i = index;">
@@ -165,8 +165,8 @@
         class="break-inside-avoid-column hover:cursor-pointer relative before:content-[''] before:rounded-md before:absolute before:inset-0 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700"
         (click)="goToCourseDetails(item)">
         <div class="relative">
-          <img class="rounded-t-lg w-full object-cover" [src]="item.image" [alt]="item.title" loading="lazy" />
-          <div class="test__body absolute inset-0 p-4 text-white flex flex-col">
+          <img class="rounded-t-lg w-full h-auto sm:h-auto md:h-[250px] lg:h=[250px] object-cover" [src]="item.image" [alt]="item.title" loading="lazy" />
+          <div *ngIf="item?.category" class="test__body absolute inset-0 p-4 text-white flex flex-col">
             <div class="mt-auto">
               <span class="test__tag bg-white bg-opacity-60 py-1 px-4 rounded-md text-black text-sm">
                 {{item?.category}}

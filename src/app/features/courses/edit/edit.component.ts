@@ -83,6 +83,7 @@ export class CourseEditComponent {
   @Input() category: any;
 
   languageChangeSubscription: any;
+  apiPath: string = environment.api;
   isMobile: boolean = false;
   language: any;
   companyId: number = 0;
@@ -311,8 +312,11 @@ export class CourseEditComponent {
   videoAvailability: boolean = false
   groupWalls: any = []
 
+  courseIntroFileName: any;
+
   @ViewChild('myPond', {static: false}) myPond: any;
   @ViewChild('downloadPond', {static: false}) downloadPond: any;
+  @ViewChild('courseIntroPond', {static: false}) courseIntroPond: any;
   pondOptions = {
     class: 'my-filepond',
     multiple: false,
@@ -416,6 +420,57 @@ export class CourseEditComponent {
       },
   };
   downloadPondFiles = [];
+  courseIntroPondOptions = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    acceptedFileTypes: "application/pdf",
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        let course_intro_unit_id = localStorage.getItem('course_intro_unit_id') || '';
+
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.courseIntroFileName = 'courseLessonIntroFile_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('file', file, this.courseIntroFileName);
+        formData.append('course_intro_id', course_intro_unit_id);
+        localStorage.setItem('course_intro_file', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/company/course/download-temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('course_intro_file', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+            request.abort();
+            abort();
+          },
+        };
+      },
+    },
+  };
+  courseIntroPondFiles = [];
   allTutors: any;
   filteredTutors: any;
   unitAvailability: boolean = false;
@@ -456,6 +511,79 @@ export class CourseEditComponent {
   isUESchoolOfLife: boolean = false;
   hasCourseVideoComments: boolean = false;
   showComments: boolean = false;
+  courseIntro: boolean = false;
+  existingIntroPDFFile: any;
+  existingIntroPDFFileURL: any;
+  existingIntroRemoved: boolean = false;
+  hasActivityCodeActivated: boolean = false;
+  activityCode: any;
+  activityCodeSigeca: any;
+
+  cityDropdownSettings: any;
+  cities: any = [];
+  selectedCity: any = '';
+
+  isDefaultPhoto: boolean = false;
+  isDefaultVideo: boolean = false;
+  setDefaultPhoto: boolean = false;
+  setDefaultVideo: boolean = false;
+  coverVideo: string = '';
+  hasExistingVideo: boolean = false;
+  existingVideoURL: string = '';
+  existingVideoFile: string = '';
+  uploadingVideoComplete: boolean = false;
+  clearedVideo: boolean = false;
+  courseVideoCoverUploaded: boolean = false;
+  courseCoverVideoFileName: any = '';
+  @ViewChild('coursePondVideo', {static: false}) coursePondVideo: any;
+  eventPondVideoOptions = {
+    class: 'event-filepond-video',
+    multiple: false,
+    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
+    labelFileProcessing: "En curso",
+    labelFileProcessingComplete: "Carga completa",
+    labelFileProcessingAborted: "Carga cancelada",
+    labelFileProcessingError: "Error durante la carga",
+    labelTapToCancel: "toque para cancelar",
+    labelTapToRetry: "toca para reintentar",
+    labelTapToUndo: "toque para deshacer",
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+          const formData = new FormData();
+          let fileExtension = file ? file.name.split('.').pop() : '';
+          this.courseCoverVideoFileName = 'p_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+          formData.append('file', file, this.courseCoverVideoFileName);
+          console.log('course video: ' + this.courseCoverVideoFileName)
+          localStorage.setItem('course_cover_video_file', 'uploading');
+
+          const request = new XMLHttpRequest();
+          request.open('POST', environment.api + '/company/course/temp-upload');
+
+          request.upload.onprogress = (e) => {
+            progress(e.lengthComputable, e.loaded, e.total);
+          };
+
+          request.onload = function () {
+              if (request.status >= 200 && request.status < 300) {
+                load(request.responseText);
+                localStorage.setItem('course_cover_video_file', 'complete');
+              } else {
+                error('oh no');
+              }
+          };
+
+          request.send(formData);
+
+          return {
+            abort: () => {
+              request.abort();
+              abort();
+            },
+          };
+      },
+    },
+  };
+  eventPondVideoFiles = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -610,6 +738,16 @@ export class CourseEditComponent {
       itemsShowLimit: 3,
       allowSearchFilter: true,
     };
+    this.cityDropdownSettings = {
+      singleSelection: false,
+      idField: "id",
+      textField: "city",
+      selectAllText: this._translateService.instant("dialog.selectall"),
+      unSelectAllText: this._translateService.instant("dialog.clearall"),
+      itemsShowLimit: 3,
+      allowSearchFilter: true,
+      searchPlaceholderText: this._translateService.instant('guests.search'),
+    };
     this.unlockModuleQuestions = [
       {
         id: 1,
@@ -751,6 +889,7 @@ export class CourseEditComponent {
           this.courseDurationUnits = data?.course_duration_units;
           this.otherStripeAccounts = data?.other_stripe_accounts;
           this.assessments = data?.assessments;
+          this.cities = data?.cities;
           this.formatCourseAssessments(data?.course_assessments);
           this.getOtherSettings(data?.settings?.other_settings, data?.member_types);
           this.getCourseWalls();
@@ -895,6 +1034,9 @@ export class CourseEditComponent {
       );
       this.hasCourseVideoComments = subfeatures.some(
         (a) => a.name_en == 'Course video comments' && a.active == 1 
+      );
+      this.hasActivityCodeActivated = subfeatures.some(
+        (a) => a.name_en == "Activity Code" && a.active == 1
       );
     }
 
@@ -1160,6 +1302,15 @@ export class CourseEditComponent {
     this.startButtonColor = this.course.button_color || this.buttonColor;
     this.buyNowButtonColor = this.course.buy_now_button_color || this.buttonColor;
     this.showComments = this.course.show_comments == 1 ? true : false;
+    this.courseIntro = this.course.course_intro == 1 ? true : false;
+    this.existingIntroPDFFile = this.course.intro_pdf;
+    this.existingIntroPDFFileURL = this.course.intro_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_pdf}` : '';
+    if(this.hasActivityCodeActivated) {
+      this.activityCode = this.course?.activity_code;
+      if(this.companyId == 32) {
+        this.activityCodeSigeca = this.course?.activity_code_sigeca;
+      }
+    }
 
     if(this.course.price > 0 
       && (this.course.payment_type > 0 || data?.recurring_payments)) {
@@ -1245,6 +1396,28 @@ export class CourseEditComponent {
         this.courseCredits = this.course.course_credits
       }
     }
+
+    if(this.companyId == 32) {
+      this.getCourseCities();
+      if(this.isUESchoolOfLife) {
+        this.coverVideo = this.course?.video;
+        if(this.coverVideo) {
+          this.hasExistingVideo = true;
+          this.existingVideoFile = this.course?.video;
+          this.existingVideoURL = `${this.apiPath}/get-course-unit-file/${this.course?.video}`;
+        }
+        if(this.course?.default_cover == 'video') {
+          this.isDefaultVideo = true;
+          this.setDefaultVideo = true;
+          this.setDefaultPhoto = false;
+        } else {
+          this.setDefaultPhoto = true;
+          this.isDefaultPhoto = true;
+          this.setDefaultVideo = false;
+          this.setDefaultPhoto = true;
+        }
+      }
+    }
   };
 
   mapCategories(data) {
@@ -1270,6 +1443,27 @@ export class CourseEditComponent {
     });
 
     return categories;
+  }
+
+  getCourseCities() {
+    this._coursesService.getCourseCities(this.id).subscribe(
+      (response) => {
+        let cities = response.course_cities;
+        let crs_cities: any[] = [];
+        if (cities && cities.length > 0) {
+          cities.forEach((ct) => {
+            crs_cities.push({
+              id: ct.city_id,
+              city: ct.city,
+            });
+          });
+        }
+        this.selectedCity = crs_cities;
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   getTutors() {
@@ -1880,6 +2074,7 @@ export class CourseEditComponent {
       params['course_credits'] = this.courseCredits || 0
     }
     params['school_of_life'] = this.isUESchoolOfLife ? 1 : 0;
+    params['course_intro'] = this.courseIntro ? 1 : 0;
 
     if(this.companyId == 32) {
       params['additional_properties_course_access'] = this.allowCourseAccess ? 1 : 0,
@@ -1889,6 +2084,26 @@ export class CourseEditComponent {
       params['additional_properties_type_ids'] = this.selectedType?.length > 0 ? this.selectedType?.map( (data) => { return data.id }).join() : '';
       params['additional_properties_segment_ids'] = this.selectedSegment?.length > 0 ? this.selectedSegment?.map( (data) => { return data.id }).join() : '';
       params['additional_properties_branding_ids'] = this.selectedBranding?.length > 0 ? this.selectedBranding?.map( (data) => { return data.id }).join() : '';
+      params["city_id"] = this.selectedCity?.length > 0 ? this.selectedCity?.map( (data) => { return data.id }).join() : '';
+      if(this.isUESchoolOfLife) {
+        params['default_cover'] = this.setDefaultVideo && ((this.courseVideoCoverUploaded && this.courseCoverVideoFileName) || this.existingVideoFile) ? 'video' : 'photo'; 
+        params['video'] = this.setDefaultVideo && this.courseVideoCoverUploaded && this.courseCoverVideoFileName ? this.courseCoverVideoFileName : (this.clearedVideo ? '' : this.existingVideoFile);
+      }
+    }
+
+    let course_intro_file_status = localStorage.getItem('course_intro_file')
+    let course_intro_file = course_intro_file_status == 'complete' ? this.courseIntroFileName : ''
+    if(course_intro_file) {
+      params['intro_pdf'] = course_intro_file;
+    }
+    if(this.existingIntroRemoved && this.courseIntro) {
+      params['intro_pdf_removed'] = 1;
+    }
+    if(this.hasActivityCodeActivated) {
+      params["activity_code"] = this.activityCode || "";
+      if(this.companyId == 32) {
+        params["activity_code_sigeca"] = this.activityCodeSigeca || "";
+      }
     }
 
     if (this.id > 0) {
@@ -2282,19 +2497,19 @@ export class CourseEditComponent {
     let params = {
       number: this.moduleNumber,
       title: this.moduleTitle,
-      title_en: this.moduleTitleEn,
-      title_fr: this.moduleTitleFr,
-      title_eu: this.moduleTitleEu,
-      title_ca: this.moduleTitleCa,
-      title_de: this.moduleTitleDe,
-      title_it: this.moduleTitleIt,
+      title_en: this.moduleTitleEn || this.moduleTitle,
+      title_fr: this.moduleTitleFr || this.moduleTitle,
+      title_eu: this.moduleTitleEu || this.moduleTitle,
+      title_ca: this.moduleTitleCa || this.moduleTitle,
+      title_de: this.moduleTitleDe || this.moduleTitle,
+      title_it: this.moduleTitleIt || this.moduleTitle,
       description: this.moduleDescription,
-      description_en: this.moduleDescriptionEn,
-      description_fr: this.moduleDescriptionFr,
-      description_eu: this.moduleDescriptionEu,
-      description_ca: this.moduleDescriptionCa,
-      description_de: this.moduleDescriptionDe,
-      description_it: this.moduleDescriptionIt,
+      description_en: this.moduleDescriptionEn || this.moduleDescription,
+      description_fr: this.moduleDescriptionFr || this.moduleDescription,
+      description_eu: this.moduleDescriptionEu || this.moduleDescription,
+      description_ca: this.moduleDescriptionCa || this.moduleDescription,
+      description_de: this.moduleDescriptionDe || this.moduleDescription,
+      description_it: this.moduleDescriptionIt || this.moduleDescription,
       block_other_modules: this.isModuleLockUnlock ? 1 : 0,
       block_days_after: this.isModuleLockUnlock && this.moduleAvailableAfter > 0 && this.selectedUnlockQuestionId == 1 ? this.moduleAvailableAfter : 0,
       block_days_after_start: this.isModuleLockUnlock && this.unlockAfterStartDays > 0 && this.selectedUnlockQuestionId == -1 ? this.unlockAfterStartDays : 0,
@@ -3378,8 +3593,76 @@ export class CourseEditComponent {
   deleteBackground(){
     this.videoBackgroundImgSrc = ""
   }
+
+  courseIntroPondHandleInit() {
+    console.log('Course Intro FilePond has initialised', this.myPond);
+  }
+
+  courseIntroPondHandleAddFile(event: any) {
+    console.log('A file was added (course Intro)', event);
+  }
+
+  removeExistingIntroPDF() {
+    this.existingIntroRemoved = true;
+  }
+
+  selectCourseCover(mode) {
+    if(mode == 'video') {
+      this.isDefaultVideo = true;
+      this.isDefaultPhoto = false;
+    } else {
+      this.isDefaultVideo = false;
+      this.isDefaultPhoto = true;
+    }
+  }
+
+  editCoverStatus(event, mode) {
+    let checked = event?.target?.checked
+    switch(mode) {
+      case 'photo':
+        this.setDefaultPhoto = checked ? true : false;
+        this.setDefaultVideo = checked ? false : true;
+        break;
+      case 'video':
+        this.setDefaultPhoto = checked ? false : true;
+        this.setDefaultVideo = checked ? true : false;
+        break;
+    }
+  }
+
+  eventPondHandleVideoInit() {
+    console.log('FilePond has initialised', this.coursePondVideo);
+  }
+
+  eventPondHandleAddVideoFile(event: any) {
+    console.log('A file was added', event);
+    let course_cover_video_file_status = localStorage.getItem('course_cover_video_file');
+    let course_cover_video_file = course_cover_video_file_status == 'complete' ? this.courseCoverVideoFileName : '';
+  }
+
+  eventPondHandleActivateVideoFile(event: any) {
+    console.log('A file was activated', event);
+  }
+
+  eventPondHandleProcessFiles() {
+    console.log('FilePond has processed files', this.coursePondVideo);
+    this.existingVideoURL = `${environment.api}/get-course-unit-file/${this.courseCoverVideoFileName}`;
+    this.courseVideoCoverUploaded = true;
+  }
+
+  clearVideo() {
+    this.clearedVideo = true;
+    this.existingVideoURL = '';
+    this.setDefaultPhoto = true;
+    this.setDefaultVideo = false;
+  }
+
+  clearFileLocal() {
+    localStorage.removeItem('course_cover_video_file');
+  }
   
   ngOnDestroy() {
+    this.clearFileLocal();
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();

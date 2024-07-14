@@ -534,6 +534,8 @@ export const COURSES_ADMIN_LIST_URL = `${API_BASE}/v2/courses-list`;
 export const COURSE_COMPLETE_EVALUATE_URL = `${API_BASE}/v2/course/completed/evaluate`;
 export const COURSES_MANAGEMENT_DATA_URL = `${API_BASE}/v2/courses-management-data`;
 export const ADDITIONAL_PROPERTIES_DATA = `${API_BASE}/company/user/get-additional-properties`;
+export const COURSE_DETAIL_URL = `${API_BASE}/course`;
+export const COURSE_CITIES_URL = `${API_BASE}/v2/course-cities`;
 
 // TUTORS
 export const TUTORS_URL = `${API_BASE}/company/tutors`;
@@ -755,6 +757,8 @@ export const CREATE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/asse
 export const EDIT_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/edit`;
 export const DELETE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/delete`;
 export const SUBMIT_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment/submit`;
+export const STUDENT_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment`;
+export const RESET_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment/reset`;
 
 // COMMUNITY
 export const COMMUNITY_CHANNELS_URL = `${API_BASE}/v2/channels`;

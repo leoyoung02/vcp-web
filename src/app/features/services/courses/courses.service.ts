@@ -22,10 +22,12 @@ import {
   COURSE_CATEGORY_DELETE_URL,
   COURSE_CATEGORY_EDIT_URL,
   COURSE_CATEGORY_MAPPING_URL,
+  COURSE_CITIES_URL,
   COURSE_COMPLETE_EVALUATE_URL,
   COURSE_CTA_URL,
   COURSE_DETAILS_ADMIN_URL,
   COURSE_DETAILS_URL,
+  COURSE_DETAIL_URL,
   COURSE_DOWNLOADS_URL,
   COURSE_EXCEPION_USERS_URL,
   COURSE_SECTIONS_URL,
@@ -61,8 +63,10 @@ import {
   PAYMENT_COURSE_DETAILS_URL,
   PAYMENT_COURSE_URL,
   RESEND_ACCESS_URL,
+  RESET_COURSE_ASSESSMENT_URL,
   RESET_STATUS_URL,
   SAVE_COURSE_SESSION_URL,
+  STUDENT_COURSE_ASSESSMENT_URL,
   SUBMIT_COURSE_ASSESSMENT_URL,
   UNASSIGN_USER_COURSE_URL,
   UNIT_TYPES_URL,
@@ -343,6 +347,14 @@ export class CoursesService {
     formData.append( 'instructor', params.instructor ? params.instructor : 0 );
     formData.append( 'school_of_life', params.school_of_life );
     formData.append( 'sol_nivelacion', params.sol_nivelacion );
+    formData.append( 'course_intro', params.course_intro );
+
+    if(params['intro_pdf']) {
+      formData.append( 'intro_pdf', params.intro_pdf );
+    }
+    if(params.course_intro && params.intro_pdf_removed == 1 && !params['intro_pdf']) {
+      formData.append( 'intro_pdf', '' );
+    }
 
     if(params.company_id == 32) {
       formData.append( 'additional_properties_course_access', params.additional_properties_course_access );
@@ -352,6 +364,16 @@ export class CoursesService {
       formData.append( 'additional_properties_type_ids', params.additional_properties_type_ids );
       formData.append( 'additional_properties_segment_ids', params.additional_properties_segment_ids );
       formData.append( 'additional_properties_branding_ids', params.additional_properties_branding_ids );
+      formData.append( 'city_id', params.city_id);
+      formData.append( 'default_cover', params?.default_cover || 'photo' );
+      formData.append( 'video', params?.video || '' );
+    }
+
+    if(params.activity_code) {
+      formData.append( 'activity_code', params.activity_code );
+      if(params.company_id == 32) {
+        formData.append( 'activity_code_sigeca', params.activity_code_sigeca );
+      }
     }
 
     if(params.price) {
@@ -424,6 +446,13 @@ export class CoursesService {
     formData.append( 'school_of_life', params.school_of_life );
     formData.append( 'show_comments', params.show_comments );
     formData.append( 'sol_nivelacion', params.sol_nivelacion );
+    formData.append( 'course_intro', params.course_intro );
+    if(params['intro_pdf']) {
+      formData.append( 'intro_pdf', params.intro_pdf );
+    }
+    if(params.course_intro && params.intro_pdf_removed == 1 && !params['intro_pdf']) {
+      formData.append( 'intro_pdf', '' );
+    }
 
     if(params.group_id > 0) {
       formData.append( 'group_id', params.group_id);
@@ -464,6 +493,16 @@ export class CoursesService {
       formData.append( 'additional_properties_type_ids', params.additional_properties_type_ids );
       formData.append( 'additional_properties_segment_ids', params.additional_properties_segment_ids );
       formData.append( 'additional_properties_branding_ids', params.additional_properties_branding_ids );
+      formData.append( 'city_id', params.city_id );
+      formData.append( 'default_cover', params?.default_cover || 'photo' );
+      formData.append( 'video', params?.video || '' );
+    }
+
+    if(params.activity_code) {
+      formData.append( 'activity_code', params.activity_code );
+      if(params.company_id == 32) {
+        formData.append( 'activity_code_sigeca', params.activity_code_sigeca );
+      }
     }
 
     if (file) {
@@ -708,5 +747,36 @@ export class CoursesService {
       SUBMIT_COURSE_ASSESSMENT_URL,
       payload,
     ).pipe(map(res => res));
+  }
+
+  fetchCourseDetail(id): Observable<any> {
+    return this._http.get(
+      `${COURSE_DETAIL_URL}/${id}`,
+      { headers: this.headers }
+    )
+    .pipe(map(res => res));
+  }
+
+  fetchStudentCourseAssessment(userId, courseId, courseAssessmentItemId): Observable<any> {
+    return this._http.get(
+      `${STUDENT_COURSE_ASSESSMENT_URL}/${userId}/${courseId}/${courseAssessmentItemId}`,
+      { headers: this.headers }
+    )
+    .pipe(map(res => res));
+  }
+
+  resetCourseAssessment(payload): Observable<any> {
+    return this._http.post(
+      RESET_COURSE_ASSESSMENT_URL,
+      payload,
+    ).pipe(map(res => res));
+  }
+
+  getCourseCities(id): Observable<any> {
+    return this._http.get(
+      `${COURSE_CITIES_URL}/${id}`,
+      { headers: this.headers }
+    )
+    .pipe(map(res => res));
   }
 }

@@ -753,6 +753,7 @@
                 </div>
                 <div class="flex items-center justify-center relative" *ngIf="hasActivityCodeActivated">
                     <input
+                        *ngIf="companyId != 32 || (companyId == 32 && isUESchoolOfLife)"
                         id="activity-code"
                         type="text"
                         class="text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
@@ -762,7 +763,7 @@
                         maxlength="200"
                     />
                     <input
-                        *ngIf="companyId == 32"
+                        *ngIf="companyId == 32 && isUESchoolOfLife"
                         id="activity-code-sigeca"
                         type="text"
                         class="ml-4 text-base shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
@@ -1259,12 +1260,12 @@
                 </div>
             </div>
             <div class="flex items-center justify-center mb-4 relative w-full max-w-full">
-                <quill-editor [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': planForm.get('descriptionEs')?.errors }" *ngIf="selectedLanguage == 'es'" class="w-full max-w-full content-editor" formControlName="descriptionEs"></quill-editor>
-                <quill-editor *ngIf="selectedLanguage == 'en'" class="w-full max-w-full content-editor" formControlName="descriptionEn"></quill-editor>
-                <quill-editor *ngIf="selectedLanguage == 'fr'" class="w-full max-w-full content-editor" formControlName="descriptionFr"></quill-editor>
-                <quill-editor *ngIf="selectedLanguage == 'eu'" class="w-full max-w-full content-editor" formControlName="descriptionEu"></quill-editor>
-                <quill-editor *ngIf="selectedLanguage == 'ca'" class="w-full max-w-full content-editor" formControlName="descriptionCa"></quill-editor>
-                <quill-editor *ngIf="selectedLanguage == 'de'" class="w-full max-w-full content-editor" formControlName="descriptionDe"></quill-editor>
+                <quill-editor #editor [modules]="modules" *ngIf="selectedLanguage == 'es'" class="w-full max-w-full content-editor" formControlName="descriptionEs"></quill-editor>
+                <quill-editor #editor [modules]="modules" *ngIf="selectedLanguage == 'en'" class="w-full max-w-full content-editor" formControlName="descriptionEn"></quill-editor>
+                <quill-editor #editor [modules]="modules" *ngIf="selectedLanguage == 'fr'" class="w-full max-w-full content-editor" formControlName="descriptionFr"></quill-editor>
+                <quill-editor #editor [modules]="modules" *ngIf="selectedLanguage == 'eu'" class="w-full max-w-full content-editor" formControlName="descriptionEu"></quill-editor>
+                <quill-editor #editor [modules]="modules" *ngIf="selectedLanguage == 'ca'" class="w-full max-w-full content-editor" formControlName="descriptionCa"></quill-editor>
+                <quill-editor #editor [modules]="modules" *ngIf="selectedLanguage == 'de'" class="w-full max-w-full content-editor" formControlName="descriptionDe"></quill-editor>
             </div>
             <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
                 <button

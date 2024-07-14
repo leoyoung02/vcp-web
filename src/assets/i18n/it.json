@@ -57,7 +57,7 @@
         "favicondesc": "Imposta l'icona che appare nella scheda del browser",
         "changeicon": "Cambia icona preferita",
         "videodesc": "Descrizione del video",
-        "menu": "Menù",
+        "menu": "Menu",
         "welcometitle1": "Vi diamo il benvenuto",
         "welcometitle2": "al",
         "welcomedesc": "Un mondo di opportunità accademiche ti aspetta.",
@@ -1062,7 +1062,9 @@
         "text": "Testo",
         "coursecontent":"Contenuti del corso",
         "viewclass": "Visualizza classe",
-        "stripeinactivetransfer": "Funzionalità di trasferimento inattive"
+        "stripeinactivetransfer": "Funzionalità di trasferimento inattive",
+        "levelingcoursesdescription": "I corsi BASIC STEAM sono corsi di livellamento pensati per rafforzare e potenziare le conoscenze di base, garantendo una preparazione ottimale per affrontare con successo le sfide accademiche dei primi corsi del percorso universitario.",
+        "levelingcoursesduration": "Durata: 10 ore"
     },
     "course-lesson": {
         "section": "Sezione"

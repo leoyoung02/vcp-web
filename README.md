@@ -30,7 +30,7 @@ VCP (Vistingo Company Product) is a SaaS (Software as a Service) platform, where
 ## ⚙ Prerequisites
 
 - Node.js ([^16.14.0 || ^18.10.0](https://angular.io/guide/versions)): <https://nodejs.org/en/>
-- PNPM: <https://pnpm.io/es/>
+- PNPM: <https://pnpm.io/es/> If you're having compatibility issues, try with these specific versions: node v18.10.0 and pnpm v8.15.3
 - Docker (optional): <https://www.docker.com/>
 
 ## 🏹 Start development
@@ -61,7 +61,7 @@ Please review this checklist and modify it as necessary to run the project.
 
 - [ ] Install dependencies.
 - [ ] Run the vcp-web-project.
-- [ ] Run the vcp-web-api project.
+- [ ] Run the vcp-api-latest project.
 
 ## 🐳 Docker
 

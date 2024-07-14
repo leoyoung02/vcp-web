@@ -631,7 +631,21 @@ export class SidebarComponent {
     this.toggleSidebar('', {});
   }
 
+  scrollToTop() {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+    const contentContainer =
+      document.querySelector(".mat-sidenav-content") || window;
+    contentContainer.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  }
+
   navigateToPage(menu) {
+    this.scrollToTop();
     if(menu.new_button == 1 || menu.new_url == 1) {
       let path = menu.path;
       if(path?.indexOf('schooloflife') >= 0 && this.currentUser?.guid) {
