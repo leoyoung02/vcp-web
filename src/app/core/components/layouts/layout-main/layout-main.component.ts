@@ -191,6 +191,7 @@ export class LayoutMainComponent {
   hasBuddy: boolean = false;
   isMentor: boolean = false;
   userMentor: any;
+  canAccessIntroduceU: boolean = false;
 
   constructor(
     private _router: Router,
@@ -1685,8 +1686,22 @@ export class LayoutMainComponent {
               }
             }
           } else {
-            if(tempData?.id != 11 && tempData?.id != 19) {
-              this.menus.push(tempData);
+            if(tempData?.id != 11) {
+              if(tempData?.id == 19) {
+                if(this.superAdmin) {
+                  this.canAccessIntroduceU = true;
+                  this.menus.push(tempData);
+                } else {
+                  if(this.currentUser?.bussines_unit &&
+                    !(this.currentUser?.bussines_unit?.toLowerCase()?.indexOf('online') >= 0) &&
+                    this.currentUser?.segment?.toLowerCase()?.indexOf('grado') >= 0) {
+                      this.canAccessIntroduceU = true;
+                      this.menus.push(tempData);
+                  }
+                }
+              } else {
+                this.menus.push(tempData);
+              }
             }
           }
         } else {

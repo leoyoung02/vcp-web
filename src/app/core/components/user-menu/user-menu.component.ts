@@ -91,6 +91,7 @@ export class UserMenuComponent {
   @Input() superAdmin: any;
   @Input() isMentor: any;
   @Input() userMentor: any;
+  @Input() canAccessIntroduceU: any;
 
   @Output() changeLanguage = new EventEmitter();
 

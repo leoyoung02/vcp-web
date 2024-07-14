@@ -3196,7 +3196,11 @@
         "introductionlabel": "Sobre mi: per què vull ser mentor, per què he triat el meu grau...",
         "interestslabel": "Interessos: posar participació a la Vida Universitària (clubs, associacions, delegats, equip esportiu….)",
         "personalitylabel": "Personalitat, Interessos",
-        "mymentor": "El meu mentor"
+        "mymentor": "El meu mentor", 
+        "campus": "Campus",
+        "faculty": "Facultad", 
+        "businessunit": "Unitat de negoci", 
+        "segment": "Segment"
     },
     "cities": {
         "cities": "Ciutats",

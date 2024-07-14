@@ -179,6 +179,19 @@ export class MenteeComponent {
         } else if(mentee.canonical_name?.indexOf("SALAZAR") >= 0) {
             mentee_campus = 'Canarias'
         }
+
+        let campus = mentee?.campus || mentee?.city;
+        if(
+            mentee.campus?.indexOf("VILLAVICIOSA") >= 0 ||
+            mentee.campus?.indexOf("ALCOBENDAS") >= 0 ||
+            mentee.campus?.indexOf("MADRID") >= 0
+        ) {
+            campus = 'Madrid';
+        } else if(mentee.campus?.indexOf("VALENCIA") >= 0) {
+            campus = 'Valencia';
+        } else if(mentee.campus?.indexOf("SALAZAR") >= 0) {
+            campus = 'Canarias'
+        }
         
         let mentee_image = `${environment.api}/${mentee?.image}`;
         if(mentee?.photo) {
@@ -263,6 +276,8 @@ export class MenteeComponent {
             segments: mentee_segments,
             business_units: mentee_business_units,
             num_matricula: mentee_num_matricula,
+            faculty: mentee?.faculty,
+            campus,
         }
     }
 

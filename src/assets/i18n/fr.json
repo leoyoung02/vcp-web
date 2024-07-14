@@ -3182,7 +3182,11 @@
         "introductionlabel": "À propos de moi : pourquoi je veux être mentor, pourquoi j'ai choisi mon diplôme...",
         "interestslabel": "Intérêts : participer à la vie universitaire (clubs, associations, délégués, équipe sportive...)",
         "personalitylabel": "Personnalité, Intérêts",
-        "mymentor": "Mon mentor"
+        "mymentor": "Mon mentor", 
+        "campus": "Campus",
+        "faculty": "Faculté", 
+        "businessunit": "Business unit", 
+        "segment": "Segment"
     },
     "cities": {
         "cities": "Villes",

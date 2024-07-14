@@ -3216,7 +3216,11 @@
         "introductionlabel": "About me: why I want to be a mentor, why I have chosen my degree...",
         "interestslabel": "Interests: to participate in University Life (clubs, associations, delegates, sports team...)",
         "personalitylabel": "Personality, Interests",
-        "mymentor": "My mentor"
+        "mymentor": "My mentor",
+        "campus": "Campus",
+        "faculty": "Faculty",
+        "businessunit": "Bussiness unit",
+        "segment": "Segment"
     },
     "cities": {
         "cities": "Cities",

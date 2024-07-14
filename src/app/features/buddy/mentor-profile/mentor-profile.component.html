@@ -138,7 +138,7 @@
                             </ng-multiselect-dropdown> 
                         </div>
                     </div>
-                    <div class="text-center col-span-2">
+                    <div class="text-center">
                         <div>
                             <label for="major" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                 <div class="flex items-center justify-between">
@@ -154,6 +154,63 @@
                                 class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                 formControlName="major" 
                                 placeholder="{{ 'buddy.major' | translate }}"
+                                required>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div>
+                            <label for="faculty" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        {{ 'buddy.faculty' | translate }}
+                                    </div>
+                                </div>
+                            </label>
+                            <input 
+                                id="faculty"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('faculty')?.errors }"
+                                type="text" 
+                                class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                formControlName="faculty" 
+                                placeholder="{{ 'buddy.faculty' | translate }}"
+                                required>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div>
+                            <label for="businessunit" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        {{ 'buddy.businessunit' | translate }}
+                                    </div>
+                                </div>
+                            </label>
+                            <input 
+                                id="businessunit"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('business_unit')?.errors }"
+                                type="text" 
+                                class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                formControlName="business_unit" 
+                                placeholder="{{ 'buddy.businessunit' | translate }}"
+                                required>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <div>
+                            <label for="segment" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        {{ 'buddy.segment' | translate }}
+                                    </div>
+                                </div>
+                            </label>
+                            <input 
+                                id="segment"
+                                [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('segment')?.errors }"
+                                type="text" 
+                                class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                formControlName="segment" 
+                                placeholder="{{ 'buddy.segment' | translate }}"
                                 required>
                         </div>
                     </div>

@@ -243,6 +243,9 @@ export class MentorProfileComponent {
             interests: new FormControl('', [Validators.required]),
             personality: new FormControl('', [Validators.required]),
             location: new FormControl('', [Validators.required]),
+            faculty: new FormControl('', [Validators.required]),
+            business_unit: new FormControl('', [Validators.required]),
+            segment: new FormControl('', [Validators.required]),
         })
 
         this.loadProfileData();
@@ -446,6 +449,9 @@ export class MentorProfileComponent {
             this.profileForm.get('interests').setValue(this.mentor.interests);
             this.profileForm.get('personality').setValue(this.mentor.personality);
             this.profileForm.get('location').setValue(this.mentor.location);
+            this.profileForm.get('faculty').setValue(this.mentor.faculty);
+            this.profileForm.get('business_unit').setValue(this.mentor.business_unit);
+            this.profileForm.get('segment').setValue(this.mentor.segment);
 
             let mentor_language = this.me?.language || data?.current_user?.language;
             let selected_languages = this.languages.filter((language) => {

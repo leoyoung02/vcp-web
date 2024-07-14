@@ -142,6 +142,9 @@ export class MentorRequestComponent {
             last_name: ["", Validators.required],
             major: new FormControl('', [Validators.required]),
             location: new FormControl('', [Validators.required]),
+            faculty: new FormControl('', [Validators.required]),
+            business_unit: new FormControl('', [Validators.required]),
+            segment: new FormControl('', [Validators.required]),
             message: new FormControl('', [Validators.required]),
         });
 
@@ -184,6 +187,9 @@ export class MentorRequestComponent {
         this.form.get('last_name').setValue(this.me?.last_name || data?.current_user?.last_name);
         this.form.get('location').setValue(this.me?.location || data?.current_user?.city);
         this.form.get('major').setValue(this.me?.major || data?.current_user?.major);
+        this.form.get('faculty').setValue(this.me?.faculty || data?.current_user?.faculty);
+        this.form.get('business_unit').setValue(this.me?.business_unit || data?.current_user?.business_unit);
+        this.form.get('segment').setValue(this.me?.segment || data?.current_user?.segment);
         
         let mentor_language = this.me?.language || data?.current_user?.language;
         let selected_languages = this.languages.filter((language) => {
@@ -215,6 +221,9 @@ export class MentorRequestComponent {
             last_name: this.form.get('last_name').value,
             major: this.form.get('major').value,
             location: this.form.get('location').value,
+            faculty: this.form.get('faculty').value,
+            business_unit: this.form.get('business_unit').value,
+            segment: this.form.get('segment').value,
             language,
             message: this.form.get('message').value,
         }

@@ -64,19 +64,35 @@
     </div>
     <div class="text-lg leading-6 pb-2 py-6 flex flex-col bg-[#F8F4F4] px-16 rounded-lg w-full sm:w-full md:w-2/6 lg:w-2/6">
         <div class="text-2xl leading-6 pb-2 font-bold border border-1 pb-4 mb-4 border-[#c7c7c7] border-t-0 border-l-0 border-r-0 pr-8">{{'members.moreinformation' | translate}}</div>
-        <div class="text-sm mb-4">
-            <div class="flex item-center" *ngIf="mentee?.types?.length > 0">
-                <span class="font-semibold mr-2">{{ 'plan-details.type' | translate }}:</span>
+        <div class="text-sm mt-1 mb-4" *ngIf="mentee?.campus">
+            <div class="flex item-center">
+                <span class="font-semibold mr-2">{{'buddy.campus' | translate}}:</span>
                 <div>
-                    <div *ngFor="let type of mentee?.types">
-                        <span class="break-words">{{ type?.type }}</span>
+                    <span class="break-words">{{ mentee?.campus }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="text-sm mt-1 mb-4" *ngIf="mentee?.faculty">
+            <div class="flex item-center">
+                <span class="font-semibold mr-2">{{'buddy.faculty' | translate}}:</span>
+                <div>
+                    <span class="break-words">{{ mentee?.faculty }}</span>
+                </div>
+            </div>
+        </div>
+        <div class="text-sm mt-1 mb-4" *ngIf="mentee?.business_units?.length > 0">
+            <div class="flex item-center">
+                <span class="font-semibold mr-2">{{'buddy.businessunit' | translate}}:</span>
+                <div>
+                    <div *ngFor="let unit of mentee?.business_units">
+                        <span class="break-words">{{ unit?.bussines_unit }}</span>
                     </div>
                 </div>
             </div>
         </div>
         <div class="text-sm mt-1 mb-4" *ngIf="mentee?.segments?.length > 0">
             <div class="flex item-center">
-                <span class="font-semibold mr-2">Segment:</span>
+                <span class="font-semibold mr-2">{{'buddy.segment' | translate}}:</span>
                 <div>
                     <div *ngFor="let segment of mentee?.segments">
                         <span class="break-words">{{ segment?.segment }}</span>
@@ -84,12 +100,12 @@
                 </div>
             </div>
         </div>
-        <div class="text-sm mt-1 mb-4" *ngIf="mentee?.business_units?.length > 0">
-            <div class="flex item-center">
-                <span class="font-semibold mr-2">Business Unit:</span>
+        <div class="text-sm mb-4">
+            <div class="flex item-center" *ngIf="mentee?.types?.length > 0">
+                <span class="font-semibold mr-2">{{ 'plan-details.type' | translate }}:</span>
                 <div>
-                    <div *ngFor="let unit of mentee?.business_units">
-                        <span class="break-words">{{ unit?.bussines_unit }}</span>
+                    <div *ngFor="let type of mentee?.types">
+                        <span class="break-words">{{ type?.type }}</span>
                     </div>
                 </div>
             </div>
