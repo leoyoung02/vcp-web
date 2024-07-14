@@ -597,6 +597,9 @@ export class MentorProfileComponent {
                 interests: this.profileForm.get('interests').value,
                 personality: this.profileForm.get('personality').value,
                 location: this.profileForm.get('location').value,
+                faculty: this.profileForm.get('faculty').value,
+                business_unit: this.profileForm.get('business_unit').value,
+                segment: this.profileForm.get('segment').value,
                 language,
                 image: image,
                 }
@@ -609,6 +612,9 @@ export class MentorProfileComponent {
                 interests: this.profileForm.get('interests').value,
                 personality: this.profileForm.get('personality').value,
                 location: this.profileForm.get('location').value,
+                faculty: this.profileForm.get('faculty').value,
+                business_unit: this.profileForm.get('business_unit').value,
+                segment: this.profileForm.get('segment').value,
                 language,
             }
         }
