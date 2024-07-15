@@ -47,6 +47,15 @@ git clone  https://github.com/vistingogrupo/vcp-web.git
 pnpm install # run `pnpm install -g pnpm` if you don't have pnpm installed
 ```
 
+### NOTE: 
+Check compatibility on https://pnpm.io/installation#compatibility
+
+```sh
+Tested Working Combination:
+node v18.10.0
+pnpm v8.15.3
+```
+
 ### Run project
 
 ```sh
