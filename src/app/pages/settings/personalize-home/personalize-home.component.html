@@ -11,6 +11,33 @@
 </div>
 <div class="py-6">
     <div class="w-full min-w-full">
+        <div class="setting-item">
+            <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4 items-center">
+                <div class="pr-12">
+                    <div>{{ 'company-settings.status' | translate }}</div>
+                    <div class="opacity-30 text-sm">{{ 'company-settings.statusdeschome' | translate }}</div>
+                </div>
+                <div class="flex items-center justify-between relative ml-4">
+                    <label
+                        for="homestatus"
+                        class="flex items-center w-full justify-between cursor-pointer"
+                    >
+                        <div class="relative mr-1">
+                            <input
+                                id="homestatus"
+                                type="checkbox"
+                                class="sr-only"
+                                [(ngModel)]="homeActive"
+                                [ngModelOptions]="{standalone: true}"
+                                (change)="toggleHomeStatus($event)"
+                            />
+                            <div class="w-10 h-4 bg-gray-400 rounded-full shadow-inner"></div>
+                            <div class="dot absolute w-6 h-6 bg-white rounded-full shadow -left-1 -top-1 transition"></div>
+                        </div>
+                    </label>
+                </div>
+            </div>
+        </div>
         <div *ngFor="let item of settings" class="setting-item">
             <ng-container *ngIf="item?.title_en != 'Allow different content based on profile' && item?.title_en != 'Show module sections'">
                 <div class="flex justify-between border border-b-1 border-l-0 border-r-0 border-t-0 pb-2 mb-4 items-center">

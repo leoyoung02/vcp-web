@@ -20,10 +20,11 @@ import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatOptionModule } from "@angular/material/core";
 import { MatInputModule } from "@angular/material/input";
 import { MatSelectModule } from "@angular/material/select";
+import { MatTabsModule } from "@angular/material/tabs";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { initFlowbite } from "flowbite";
 import { Subject, takeUntil } from "rxjs";
-import { ClubsService, PlansService, TutorsService, JobOffersService } from "@features/services";
+import { ClubsService, PlansService, TutorsService, BuddyService, JobOffersService, ProfessionalsService } from "@features/services";
 import get from "lodash/get";
 @Component({
   standalone: true,
@@ -41,6 +42,7 @@ import get from "lodash/get";
     MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTabsModule,
     SearchComponent,
   ],
   templateUrl: "./feature.component.html",
@@ -157,6 +159,24 @@ export class FeatureComponent {
   hideOffersDays: any;
   showHideOffersModal: boolean = false;
 
+  showMenteeLimitModal: boolean = false;
+  limitMessage: any
+  createMenteeLimit: any;
+  menteeLimitSettings: any = [];
+  professionalSettings: any;
+  minimumBalance: any;
+  showMinimumBalanceModal: boolean = false;
+  paymentMethods: any;
+  showPaymentMethodsModal: boolean = false;
+  tabIndex = 0;
+  tabSelected: boolean= false;
+  activeStripe: boolean = false;
+  activePayPal: boolean = false;
+  paypalClientID: any;
+  paypalSecret: any;
+  stripePublicKey: any;
+  stripeSecretKey: any;
+
   constructor(
     private _route: ActivatedRoute,
     private _router: Router,
@@ -166,9 +186,11 @@ export class FeatureComponent {
     private _tutorsService: TutorsService,
     private _plansService: PlansService,
     private _clubsService: ClubsService,
+    private _buddyService: BuddyService,
     private _userService: UserService,
     private _menuService: MenuService,
     private _jobOfferService: JobOffersService,
+    private _professionalsService: ProfessionalsService,
     private _location: Location,
     private _snackBar: MatSnackBar
   ) {}
@@ -383,6 +405,10 @@ export class FeatureComponent {
       { id: 35, name_en: "Members filter" },
       { id: 36, name_en: "Tutors filter" },
       { id: 37, name_en: "Testimonials filter" },
+      { id: 38, name_en: "Buddies filter" },
+      { id: 39, name_en: "Mentee Limit" },
+      { id: 40, name_en: "Minimum balance" },
+      { id: 41, name_en: "Payment methods" },
     ];
   }
 
@@ -495,6 +521,10 @@ export class FeatureComponent {
       case "Members filter":
       case "Tutors filter":
       case "Testimonials filter":
+      case "Buddies filter":
+      case "Mentee Limit":
+      case "Minimum balance":
+      case "Payment methods":
       case "Candidates display":
         this.openSettingModal(row);
         break;
@@ -603,10 +633,23 @@ export class FeatureComponent {
         this.getCandidatesDisplay();
         this.settingmodalbutton?.nativeElement.click();
         break;
+      case "Mentee Limit":
+        this.getMenteeLimitSettings();
+        this.settingmodalbutton?.nativeElement.click();
+        break;
+      case "Minimum balance":
+        this.getMinimumBalance();
+        this.settingmodalbutton?.nativeElement.click();
+        break;
+      case "Payment methods":
+        this.getPaymentMethods();
+        this.settingmodalbutton?.nativeElement.click();
+        break;
       case "Filter":
       case "Members filter":
       case "Tutors filter":
       case "Testimonials filter":
+      case "Buddies filter":
       case "Categories filter":
         this.getSettingTitle(row);
         this.updateFilter();
@@ -628,6 +671,9 @@ export class FeatureComponent {
     this.showApproveClubActivitiesModal = false;
     this.showFilterModal = false;
     this.showHideOffersModal = false;
+    this.menteeLimitSettings = false;
+    this.showMinimumBalanceModal = false;
+    this.showPaymentMethodsModal = false;
   }
 
   goToAdminList(row) {
@@ -2111,6 +2157,44 @@ export class FeatureComponent {
     //   )
   }
 
+  getMenteeLimitSettings() {
+    this._buddyService.getMenteeLimitSettings(this.companyId)
+      .subscribe(
+        async (response) => {
+          this.menteeLimitSettings = response.buddy_limit_settings
+          if(this.menteeLimitSettings && this.menteeLimitSettings.id) {
+            this.createMenteeLimit = this.menteeLimitSettings.limit ? this.menteeLimitSettings.limit : ''
+            this.limitMessage = this.menteeLimitSettings.limit_message || ''
+          }
+          this.showMenteeLimitModal = true
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  saveMenteeLimitSettings() {
+    if(this.createMenteeLimit) {
+      let params = {
+        company_id: this.companyId,
+        limit: this.createMenteeLimit,
+        limit_message: this.limitMessage
+      }
+      this._buddyService.updateMenteeLimitSettings(params)
+      .subscribe(
+        response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          this.showMenteeLimitModal = false;
+          this.closesettingmodalbutton?.nativeElement.click();
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    }
+  }
+
   saveCandidatesDisplay() {
     // if(this.candidatesDisplay) {
     //   let params = {
@@ -2229,6 +2313,9 @@ export class FeatureComponent {
           case 'group':
             text = this.clubTitle;
             break;
+          case 'language':
+            text = this._translateService.instant('job-offers.language');
+            break;
         }
         let filter = {
           id: fs.id,
@@ -2322,6 +2409,103 @@ export class FeatureComponent {
           feature.feature_name_ES
         : feature.name_es || feature.feature_name_ES
       : "";
+  }
+
+  getMinimumBalance() {
+    this._professionalsService.getMinimumBalance(this.companyId)
+      .subscribe(
+        async (response) => {
+          this.professionalSettings = response.settings;
+          if(this.professionalSettings) {
+            this.minimumBalance = this.professionalSettings.minimum_balance || '';
+          }
+          this.showMinimumBalanceModal = true;
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  saveMinimumBalance() {
+    if(this.minimumBalance) {
+      let params = {
+        company_id: this.companyId,
+        minimum_balance: this.minimumBalance
+      }
+      this._professionalsService.updateMinimumBalance(params)
+      .subscribe(
+        response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          this.showMinimumBalanceModal = false;
+          this.closesettingmodalbutton?.nativeElement.click();
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    }
+  }
+
+  changeTab(event) {
+    this.tabSelected = true;
+  }
+
+  getPaymentMethods() {
+    this._professionalsService.getAccountRechargeData(this.companyId)
+      .subscribe(
+        async (response) => {
+          this.paymentMethods = response.payment_methods;
+          if(this.paymentMethods) {
+            this.activeStripe = this.paymentMethods?.stripe == 1 ? true : false;
+            this.activePayPal = this.paymentMethods?.paypal == 1 ? true : false;
+            this.paypalClientID = this.paymentMethods?.paypal_client_id;
+            this.paypalSecret = this.paymentMethods?.paypal_secret;
+            this.stripePublicKey = this.paymentMethods?.stripe_public_key;
+            this.stripeSecretKey = this.paymentMethods?.stripe_secret_key;
+          }
+          this.showPaymentMethodsModal = true;
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  saveStripeSettings() {
+    let params = {
+      company_id: this.companyId,
+      stripe: this.activeStripe ? 1 : 0,
+      stripe_public_key: this.stripePublicKey,
+      stripe_secret_key: this.stripeSecretKey,
+    }
+    this._professionalsService.editStripePayment(params)
+    .subscribe(
+      response => {
+        this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  savePayPalSettings() {
+    let params = {
+      company_id: this.companyId,
+      paypal: this.activePayPal ? 1 : 0,
+      paypal_client_id: this.paypalClientID,
+      paypal_secret: this.paypalSecret,
+    }
+    this._professionalsService.editPayPalPayment(params)
+    .subscribe(
+      response => {
+        this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+      },
+      error => {
+        console.log(error)
+      }
+    )
   }
 
   handleGoBack() {

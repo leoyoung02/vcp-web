@@ -8,6 +8,7 @@ import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { CoursesService } from '@features/services';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { environment } from '@env/environment';
 
 @Component({
     selector: 'app-course-assessment',
@@ -33,6 +34,7 @@ export class AssessmentComponent {
     @Input() assessment: any;
     @Input() courseId: any;
     @Output() onFinishAssessment = new EventEmitter();
+    @Output() onResetAssessment = new EventEmitter();
 
     languageChangeSubscription;
     isMobile: boolean = false;
@@ -47,6 +49,7 @@ export class AssessmentComponent {
     currentItemSubmitted: boolean = false;
     correctAnswers: any;
     rating: any;
+    apiPath: string = environment.api;
 
     constructor(
         private _route: ActivatedRoute,
@@ -157,6 +160,48 @@ export class AssessmentComponent {
               this.open(this._translateService.instant("dialog.error"), "");
             }
         )
+    }
+
+    reset() {
+        let params = {
+            company_id: this.company?.id,
+            course_id: this.courseId,
+            user_id: this.userId,
+            course_assessment_item_id: this.assessment?.id,
+        }
+
+        this._coursesService.resetCourseAssessment(
+            params,
+        ).subscribe(
+            response => {
+                this.currentIndex = 0;
+                this.finished = false;
+                this.rating = 0;
+                this.correctAnswers = 0;
+                let assessment = this.assessment;
+                assessment['ratings'] = 0;
+                this.onResetAssessment.emit(assessment);
+            },
+            error => {
+              this.open(this._translateService.instant("dialog.error"), "");
+            }
+        )
+    }
+
+    getAssessmentTitle(assessment) {
+        return assessment ? this.language == 'en' ? (assessment.title_en || assessment.title) : (this.language == 'fr' ? (assessment.title_fr || assessment.title) : 
+          (this.language == 'eu' ? (assessment.title_eu || assessment.title) : (this.language == 'ca' ? (assessment.title_ca || assessment.title) : 
+          (this.language == 'de' ? (assessment.title_de || assessment.title) : (this.language == 'it' ? (assessment.title_it || assessment.title) : assessment.title)
+          )))
+        ) : ''
+    }
+
+    getChoiceTitle(choice) {
+        return choice ? this.language == 'en' ? (choice.choice_en || choice.choice) : (this.language == 'fr' ? (choice.title_fr || choice.choice) : 
+          (this.language == 'eu' ? (choice.choice_eu || choice.choice) : (this.language == 'ca' ? (choice.choice_ca || choice.choice) : 
+          (this.language == 'de' ? (choice.choice_de || choice.choice) : (this.language == 'it' ? (choice.choice_it || choice.choice) : choice.choice)
+          )))
+        ) : ''
     }
 
     async open(message: string, action: string) {

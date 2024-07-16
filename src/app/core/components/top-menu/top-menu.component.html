@@ -1,0 +1,436 @@
+<nav class="fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600"
+  [ngStyle]="{'background-color': primaryColor}">
+  <nav class="border-gray-200 dark:bg-gray-900" [ngStyle]="{'background-color': primaryColor}">
+    <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-2xl p-4 pb-2"
+      [ngStyle]="{'background-color': primaryColor}">
+        <a href="https://flowbite.com" class="flex items-center space-x-3 rtl:space-x-reverse">
+          <img [src]="logoSource" class="h-16" [alt]="company.entity_name" />
+        </a>
+        <div class="flex items-center">
+          <ng-container *ngIf="!userid && !isCursoGeniusTestimonials">
+            <div class="ml-2">
+              <app-guest-menu
+                [company]="company"
+                [language]="language"
+                [primaryColor]="primaryColor"
+                [buttonColor]="buttonColor"
+                [canRegister]="canRegister"
+                [navigation]="navigation">
+              </app-guest-menu>
+            </div>
+          </ng-container>
+          <ng-container *ngIf="userid">
+            <button *ngIf="hasAccess('shop')" [routerLink]="['/shop/cart']" id="myCartDropdownButton1" type="button" 
+              class="relative inline-flex items-center rounded-lg justify-center text-sm font-medium leading-none text-gray-900 dark:text-white">
+              <span class="sr-only">
+                Cart
+              </span>
+              <svg class="w-7 h-7 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 4h1.5L9 16m0 0h8m-8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm8 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm-8.5-3h9.25L19 7H7.312"/>
+              </svg>
+            </button>
+            <span class="w-px h-5 bg-gray-300 ml-4 mr-3" *ngIf="hasShop">&nbsp;</span>
+            <img 
+              class="w-8 h-8 object-cover rounded-full mr-1.5 hover:cursor-pointer object-top" 
+              *ngIf="imageSrc" 
+              [src]="imageSrc" 
+              [alt]="username" 
+              data-popover-target="popover-user-profile" 
+              data-popover-placement="bottom" 
+              data-popover-trigger="click"
+            />
+            <button *ngIf="userid" [routerLink]="['/users/notifications/', userid]"  
+              class="inline-flex items-center text-sm font-medium text-center focus:outline-none" type="button"> 
+              <svg [ngStyle]="{'color': menuColor}" class="ml-2 w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 21">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C15 15.4 15 16 14.462 16H1.538C1 16 1 15.4 1 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 8 3.464ZM4.54 16a3.48 3.48 0 0 0 6.92 0H4.54Z"/>
+              </svg>
+              <div class="relative flex" *ngIf="notifications?.length > 0">
+                  <div class="relative inline-flex w-3 h-3 bg-white border-2 border-slate-600 rounded-full -top-2 right-3 dark:border-gray-900"></div>
+              </div>
+            </button>
+            <ng-container *ngIf="username && (isAdmin || canAccessPlatformSettings)">
+              <svg [routerLink]="['/settings']" [ngClass]="{'ml-2': !(notifications?.length > 0)}" [ngStyle]="{'color': menuColor}" class="hover:cursor-pointer w-6 h-6 focus:outline-none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13v-2a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L14 4.757V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L4.929 6.343a1 1 0 0 0 0 1.414l.536.536L4.757 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535 1.707.707V20a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H20a1 1 0 0 0 1-1Z"/>
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+              </svg>
+            </ng-container>
+          </ng-container>
+          <span class="w-px h-5 bg-gray-300 ml-4 mr-3" *ngIf="languages?.length > 0">&nbsp;</span>
+          <div class="flex items-center">
+            <ng-container *ngFor="let lang of languages;let i = index;">
+              <div class="flex items-center space-x-1 md:space-x-0">
+                <button type="button"
+                  (click)="useLanguage(lang.code)"
+                  class="inline-flex items-center font-medium justify-center p-1 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
+                  <img
+                    [src]="lang.code == 'en' ? './assets/menu-icons/menu-icon-en.png' : (
+                      lang.code == 'eu' ? './assets/menu-icons/menu-icon-eu.png' : (
+                        lang.code == 'it' ? './assets/menu-icons/menu-icon-it.png' : 
+                        './assets/menu-icons/menu-icon-es.png')
+                    )"
+                    class="cursor-pointer w-[28px] max-w-[28px] h-[21px] max-h-[21px] object-cover rounded-[5px]"
+                    [ngClass]="{'grayscale': language != lang.code}"
+                    alt="getLanguage(lang)"
+                  />
+                </button>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+    </div>
+    <div 
+      data-popover 
+      id="popover-user-profile"
+      role="tooltip"
+      class="mt-2 text-sm text-gray-500 transition-opacity duration-300 bg-white rounded-lg shadow-sm opacity-0 w-80 dark:text-gray-400 dark:bg-gray-800 dark:border-gray-600"
+      [ngClass]="{'hidden': hideMenu, 'absolute invisible inline-block': !hideMenu}">
+      <div class="shadow">
+          <div class="p-8 flex items-center rounded-t-lg">
+              <div>
+                <img 
+                  class="h-12 object-cover rounded-full mr-3" 
+                  *ngIf="imageSrc" 
+                  [src]="imageSrc" 
+                  [alt]="username"
+                />
+              </div>
+              <div class="ml-4 leading-5">
+                <div class="text-black text-lg font-semibold leading-5 whitespace-nowrap overflow-hidden text-ellipsis w-36">{{ username }}</div>
+                <div class="mt-1 opacity-60" *ngIf="userTypeName">{{ userTypeName }}</div>
+                <div *ngIf="campus"
+                    class="w-auto inline-block text-[10px] leading-[10px] uppercase font-semibold text-white rounded-md px-3 py-1 mt-1"  
+                    [ngStyle]="{'background-color': buttonColor}">
+                    {{ campus }}
+                </div>
+              </div>
+          </div>
+          <div>
+              <div class="p-8 pt-0 pb-2">
+                  <ng-container *ngIf="showProfileButton && customMemberType?.access_profile == 1">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('userprofile')">
+                          <div>
+                              <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 16">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.656 12.115a3 3 0 0 1 5.682-.015M13 5h3m-3 3h3m-3 3h3M2 1h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Zm6.5 4.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/>
+                              </svg>
+                          </div>
+                          <div>{{ 'landing.myprofile' | translate }}</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="hasAccess('clubs') && myClubsTitle">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('myclubs')">
+                          <div>
+                              <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 3a3 3 0 1 1-1.614 5.53M15 12a4 4 0 0 1 4 4v1h-3.348M10 4.5a3.5 3.5 0 1 1-7 0 3.5 3.5 0 0 1 7 0ZM5 11h3a4 4 0 0 1 4 4v2H1v-2a4 4 0 0 1 4-4Z"/>
+                              </svg>
+                          </div>
+                          <div>{{ myClubsTitle }}</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="companyId != 32 && hasAccess('plans') && (superAdmin || canViewCRM)">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('crm')">
+                          <div>
+                              <svg class="w-5 h-5 mr-3 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 12h4m-2 2v-4M4 18v-1a3 3 0 0 1 3-3h4a3 3 0 0 1 3 3v1a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Zm8-10a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                              </svg>
+                          </div>
+                          <div>CRM</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="companyId != 32 && hasAccess('plans') && hasInvitations && (customMemberType?.my_invitations || superAdmin)">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('invites')">
+                          <div>
+                              <svg class="w-5 h-5 mr-3 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15.141 6 5.518 4.95a1.05 1.05 0 0 1 0 1.549l-5.612 5.088m-6.154-3.214v1.615a.95.95 0 0 0 1.525.845l5.108-4.251a1.1 1.1 0 0 0 0-1.646l-5.108-4.251a.95.95 0 0 0-1.525.846v1.7c-3.312 0-6 2.979-6 6.654v1.329a.7.7 0 0 0 1.344.353 5.174 5.174 0 0 1 4.652-3.191l.004-.003Z"/>
+                              </svg>
+                          </div>
+                          <div>{{ 'company-settings.myinvitations' | translate }}</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="companyId != 32 && hasAccess('plans') && (canViewGuests || superAdmin)">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('viewguests')">
+                          <div>
+                              <svg class="w-5 h-5 mr-3 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 24 24">
+                                  <path fill-rule="evenodd" d="M4.998 7.78C6.729 6.345 9.198 5 12 5c2.802 0 5.27 1.345 7.002 2.78a12.713 12.713 0 0 1 2.096 2.183c.253.344.465.682.618.997.14.286.284.658.284 1.04s-.145.754-.284 1.04a6.6 6.6 0 0 1-.618.997 12.712 12.712 0 0 1-2.096 2.183C17.271 17.655 14.802 19 12 19c-2.802 0-5.27-1.345-7.002-2.78a12.712 12.712 0 0 1-2.096-2.183 6.6 6.6 0 0 1-.618-.997C2.144 12.754 2 12.382 2 12s.145-.754.284-1.04c.153-.315.365-.653.618-.997A12.714 12.714 0 0 1 4.998 7.78ZM12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z" clip-rule="evenodd"/>
+                              </svg>
+                          </div>
+                          <div>{{ 'member-type-registration.viewguests' | translate }}</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="hasAccess('plans') && myActivitiesTitle">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('myactivities')">
+                          <div>
+                              <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
+                              </svg>
+                          </div>
+                          <div>{{ myActivitiesTitle }}</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="hasAccess('plans') && (canManageEvents || superAdmin || canViewAdministrar)">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('adminlists')">
+                          <div>
+                              <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                      <path d="M19 11V9a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L12 2.757V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L2.929 4.343a1 1 0 0 0 0 1.414l.536.536L2.757 8H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535L8 17.243V18a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H18a1 1 0 0 0 1-1Z"/>
+                                      <path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                  </g>
+                              </svg>
+                          </div>
+                          <div>{{ 'company-settings.managelanding' | translate }}</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="hasAccess('tutors') && isTutorMenuVisible">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('mylessons')">
+                          <div>
+                              <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 1v3m5-3v3m5-3v3M1 7h18M5 11h10M2 3h16a1 1 0 0 1 1 1v14a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z"/>
+                              </svg>
+                          </div>
+                          <div>{{ 'tutors.mylessons' | translate }}</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="hasAccess('tutors') && (superTutor || potSuperTutor || isAdmin)">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('bookingshistory')">
+                          <div>
+                              <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 18">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 16.5c0-1-8-2.7-9-2V1.8c1-1 9 .707 9 1.706M10 16.5V3.506M10 16.5c0-1 8-2.7 9-2V1.8c-1-1-9 .707-9 1.706"/>
+                              </svg>
+                          </div>
+                          <div>{{ 'tutors.bookings' | translate }} {{ 'ranking.history' | translate }}</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="hasAccess('tutors') && hasCreditSetting && hasCreditPackageSetting && !(isTutorUser || superTutor || potSuperTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0)">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('mycreditstutors')">
+                          <div>
+                              <img src="./assets/images/icons/credits.png" class="w-[28px] pr-2" />
+                          </div>
+                          <div class="pl-[5px]">{{ "credit-package.mycredits" | translate }}</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="hasAccess('shop')">
+                    <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('myorders')">
+                      <div>
+                        <svg class="w-6 h-6 -ml-1 mr-2 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-width="2" d="M9 8h10M9 12h10M9 16h10M4.99 8H5m-.02 4h.01m0 4H5"/>
+                        </svg>            
+                      </div>
+                      <div class="pl-[4px]">{{ "shop.myorders" | translate }}</div>
+                    </div>
+                  </ng-container>
+                  <ng-container *ngIf="hasAccess('plans') && hasCredits">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('mycreditsactivities')">
+                          <div>
+                              <img src="./assets/images/icons/credits.png" class="w-[28px] pr-2" />
+                          </div>
+                          <div class="pl-[5px]">{{ "credit-package.mycredits" | translate }}</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="hasAccess('professionals')">
+                    <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('mytransactions')">
+                      <div>
+                        <svg class="w-5 h-5 mr-3 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                          <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.283 8h-4.285m3.85 3h-3.85m4.061-6H11v11h8.27l1.715-9.847A.983.983 0 0 0 20.059 5ZM6.581 13.23h-.838A13.752 13.752 0 0 1 5.622 11c-.02-.745.02-1.49.12-2.23h1.04c.252 0 .496-.088.683-.245a.927.927 0 0 0 .329-.61l.2-1.872a.888.888 0 0 0-.045-.39.936.936 0 0 0-.212-.34 1.017 1.017 0 0 0-.341-.231A1.08 1.08 0 0 0 6.983 5h-2.06a1.27 1.27 0 0 0-.699.204 1.135 1.135 0 0 0-.442.543A15.066 15.066 0 0 0 3.007 11a15.656 15.656 0 0 0 .795 5.229c.165.462 1.342.771 1.864.771h1.116c.142 0 .283-.028.413-.082.13-.053.246-.132.341-.23a.936.936 0 0 0 .212-.34.889.889 0 0 0 .046-.391l-.201-1.873a.927.927 0 0 0-.33-.609 1.059 1.059 0 0 0-.682-.245ZM10 18v1h10v-1a2 2 0 0 0-2-2h-6a2 2 0 0 0-2 2Z"/>
+                        </svg>
+                      </div>
+                      <div>{{ 'professionals.mytransactions' | translate }}</div>
+                    </div>
+                  </ng-container>
+                  <ng-container 
+                      *ngIf="hasAccess('tutors') && 
+                          (
+                              (isTutorUser && !(userTypeName?.toLowerCase()?.indexOf('admin sede') >= 0) && !potSuperTutor && !potTutor) ||
+                              (userTypeName?.toLowerCase()?.indexOf('admin sede') >= 0)
+                          )
+                      ">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('tutorsstripeconnect')">
+                          <div>
+                              <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.905 1.316 15.633 6M18 10h-5a2 2 0 0 0-2 2v1a2 2 0 0 0 2 2h5m0-5a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1m0-5V7a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v11a1 1 0 0 0 1 1h15a1 1 0 0 0 1-1v-3m-6.367-9L7.905 1.316 2.352 6h9.281Z"/>
+                              </svg>
+                          </div>
+                          <div>Stripe Connect</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="(isTutorUser || superTutor || potSuperTutor || isAdmin || userTypeName?.indexOf('Admin') >= 0) && (tutorManageStudentAccess || (company?.id == 27 && isAdmin)) && !(userTypeName?.indexOf('Admin TUTORES') >= 0)">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('studentsmanagement')">
+                          <div>
+                              <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <path d="M19 11V9a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L12 2.757V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L2.929 4.343a1 1 0 0 0 0 1.414l.536.536L2.757 8H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535L8 17.243V18a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H18a1 1 0 0 0 1-1Z"/>
+                                    <path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                  </g>
+                              </svg>
+                          </div>
+                          <div>{{ 'course-students.managestudents' | translate }}</div>
+                      </div>
+                  </ng-container>
+                  <ng-container *ngIf="manageMembers">
+                      <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('manageusers')">
+                          <div>
+                              <svg class="w-4 h-4 mr-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 20 20">
+                                  <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                                    <path d="M19 11V9a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L12 2.757V2a1 1 0 0 0-1-1H9a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L2.929 4.343a1 1 0 0 0 0 1.414l.536.536L2.757 8H2a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535L8 17.243V18a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H18a1 1 0 0 0 1-1Z"/>
+                                    <path d="M10 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
+                                  </g>
+                              </svg>
+                          </div>
+                          <div>{{ 'company-settings.managemembers' | translate }}</div>
+                      </div>
+                  </ng-container>
+              </div>
+          </div>
+          <div [ngStyle]="{'background-color': buttonColor}" class="p-8">
+              <ng-container *ngIf="popupNotifications?.length > 0">
+                  <ng-container *ngFor="let notification of popupNotifications">
+                      <div class="flex mb-3">
+                          <div class="mr-2">
+                              <svg class="-mt-1.5 w-5 h-5 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 20">
+                                  <path d="M12.133 10.632v-1.8A5.406 5.406 0 0 0 7.979 3.57.946.946 0 0 0 8 3.464V1.1a1 1 0 0 0-2 0v2.364a.946.946 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C1.867 13.018 0 13.614 0 14.807 0 15.4 0 16 .538 16h12.924C14 16 14 15.4 14 14.807c0-1.193-1.867-1.789-1.867-4.175ZM3.823 17a3.453 3.453 0 0 0 6.354 0H3.823Z"/>
+                              </svg>
+                          </div>
+                          <div>
+                              <div class="text-white -mt-2 text-xs">{{ language == 'en' ? notification?.message_en : notification.message }}</div>
+                              <div class="text-white text-xs mt-2">{{ notification.created | dateAgo: (language || 'es') }}</div>
+                          </div>
+                      </div>
+                  </ng-container>
+              </ng-container>
+              <ng-container *ngIf="popupNotifications?.length == 0">
+                  <div class="flex mb-3">
+                      <div class="mr-2">
+                          <svg class="-mt-1.5 w-5 h-5 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 20">
+                              <path d="M12.133 10.632v-1.8A5.406 5.406 0 0 0 7.979 3.57.946.946 0 0 0 8 3.464V1.1a1 1 0 0 0-2 0v2.364a.946.946 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C1.867 13.018 0 13.614 0 14.807 0 15.4 0 16 .538 16h12.924C14 16 14 15.4 14 14.807c0-1.193-1.867-1.789-1.867-4.175ZM3.823 17a3.453 3.453 0 0 0 6.354 0H3.823Z"/>
+                          </svg>
+                      </div>
+                      <div>
+                          <div class="text-white -mt-2 text-xs text-center">{{ 'user-popup.nounreadmessages' | translate }}</div>
+                      </div>
+                  </div>
+              </ng-container>
+              <div 
+                  class="text-white rounded-lg border border-white mt-8 mx-auto w-2/3 text-center p-2 uppercase text-sm font-semibold rounded-[15px] hover:cursor-pointer"
+                  [ngStyle]="{'color': buttonColor, 'border-color': buttonColor}"
+                  [routerLink]="['/users/notifications/', userid]"
+                  *ngIf="notifications?.length > 0"
+                >
+                  {{ 'notification-popup.viewall' | translate }}
+                </div>
+          </div>
+          <div class="rounded-b-lg p-6 px-12" [ngStyle]="{'background-color': '#1C393D'}">
+              <div (click)="logout()" class="rounded-[15px] flex justify-center items-center hover:cursor-pointer text-center py-3" 
+                  [ngStyle]="{'background-color': buttonColor}">
+                  <svg class="w-5 h-5 text-white dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16">
+                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8h11m0 0-4-4m4 4-4 4m-5 3H3a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h3"/>
+                  </svg>
+                  <span class="ml-2 text-white uppercase text-sm font-semibold">{{ 'sidebar.logout' | translate }}</span>
+              </div>
+          </div>
+      </div>
+    </div>
+  </nav>
+  <nav [ngStyle]="{'background-color': primaryColor}">
+    <div class="px-4 py-4 mx-auto max-w-screen-2xl">
+        <div class="flex items-center">
+            <ul class="flex flex-row font-medium mt-0 space-x-7 rtl:space-x-reverse text-sm overflow-x-scroll no-scrollbar">
+              <ng-container *ngFor="let menu of menus$ | async">
+                <ng-container *ngIf="!menu?.course_wall && menu?.path != 'dashboard'">
+                  <li>
+                    <a href="javascript:;" (click)="navigateToPage(menu)" class="text-white" aria-current="page">
+                      <div 
+                        class="flex items-center p-2 hover:rounded-lg"
+                        [ngClass]="{'rounded-lg': selectedTab == menu.path, 'justify-center': !menuOpened}"
+                        [ngStyle]="{'background-color': (menuHover && hoveredMenuPath == menu.path) || selectedTab == menu.path ? hoverColor : 'transparent'}"
+                        (click)="navigateToPage(menu)"
+                        (mouseover)="toggleMenuHover(true, menu)"
+                        (mouseleave)="toggleMenuHover(false, menu)"
+                      >
+                        <img
+                          [src]="menu?.new_button == 1 || (menu?.new_url == 1 && !menu?.original_path) ? 
+                            (menuColor == '#000000' ? 
+                              (menu?.new_button == 1 ? './assets/menu-icons/menu-icon-volunteering.png' : './assets/menu-icons/menu-icon-members-dark.png') : 
+                              (menu?.new_button == 1 ? './assets/menu-icons/menu-icon-volunteering.png' : './assets/menu-icons/menu-icon-members.png')
+                            ) : getMenuIcon(menu)"
+                          class="cursor-pointer"
+                          [ngClass]="{'invisible': menu?.school_of_life_submenu == 1, 
+                            'w-[15px] max-w-[15px] h-[15px] max-h-[15px]': menu?.new_button != 1,
+                            'w-[28px] max-w-[28px] h-[25px] max-h-[25px]': menu?.new_button == 1,
+                          }"
+                          alt=""
+                        />
+                        <svg [ngClass]="{'has-history': hasHistoryOfActivities, 'no-history': !hasHistoryOfActivities}" style="width:45px;color:#fff;position:absolute;" 
+                          *ngIf="menu?.school_of_life_submenu == 1" 
+                          class="DocSearch-Hit-Tree" viewBox="0 0 24 54">
+                          <g stroke="currentColor" fill="none" fill-rule="evenodd" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M8 6v42M20 27H8.3"></path>
+                          </g>
+                        </svg>
+                        <span
+                          class="text-sm" 
+                          [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}"
+                          [ngClass]="{'ml-[10px]': menu?.new_button != 1,
+                            'ml-[30px]': menu?.new_button == 1
+                          }">
+                          {{ getMenuTitle(menu) }}
+                        </span>
+                      </div>
+                    </a>
+                  </li>
+                </ng-container>
+              </ng-container>
+              <ng-container *ngIf="company?.id == 25 && superAdmin">
+                <li>
+                  <a href="javascript:;" (click)="goToCustomerOnboarding()" class="text-white" aria-current="page">
+                    <div 
+                      class="flex items-center p-2 hover:rounded-lg"
+                      [ngStyle]="{'background-color': customerOnboardingHover ? hoverColor : 'transparent'}"
+                      (click)="goToCustomerOnboarding()"
+                      (mouseover)="toggleCustomerOnboardingHover(true)"
+                      (mouseleave)="toggleCustomerOnboardingHover(false)"
+                    >
+                      <svg [ngStyle]="{'color': primaryColor == '#ffffff' || primaryColor == '#fff' ? '#000000' : '#ffffff'}"
+                        class="cursor-pointer w-[15px] max-w-[15px] h-[15px] max-h-[15px]" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                        <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10ZM17 13h-2v-2a1 1 0 0 0-2 0v2h-2a1 1 0 0 0 0 2h2v2a1 1 0 0 0 2 0v-2h2a1 1 0 0 0 0-2Z"/>
+                      </svg>
+                      <span
+                        class="text-sm ml-[10px]" 
+                        [ngStyle]="{'color': (primaryColor == '#ffffff' ? primaryColor : menuColor) || '#ffffff'}">
+                        {{ 'customer.customers' | translate }}
+                      </span>
+                    </div>
+                  </a>
+                </li>
+              </ng-container>
+              <ng-container *ngIf="hasCourseWallDropdown">
+                <li>
+                  <div 
+                    class="flex items-center p-2 hover:rounded-lg"
+                    >
+                    <button id="dropdownNavbarLink" data-dropdown-toggle="dropdownNavbar" 
+                      class="flex items-center justify-between w-full py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:p-0 md:w-auto">
+                      {{ getCourseWallMenuText() }} 
+                      <svg class="w-2.5 h-2.5 ms-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4"/>
+                      </svg>
+                    </button>
+                  </div>
+                  <div id="dropdownNavbar" class="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600">
+                    <ul class="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownLargeButton">
+                      <ng-container *ngFor="let item of courseWallDropdownMenu?.subs;let i = index;">
+                        <li>
+                          <a href="javascript:;" (click)="goToCourseWall(item)" class="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">
+                            {{ getCourseWallName(item) }}
+                          </a>
+                        </li>
+                      </ng-container>
+                    </ul>
+                  </div>
+                </li>
+              </ng-container>
+            </ul>
+        </div>
+    </div>
+  </nav>
+</nav>
+<button #outsidebutton class="hidden" type="button">
+  &nbsp;
+</button>

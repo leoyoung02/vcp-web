@@ -1,50 +1,122 @@
+<ng-container *ngIf="!voiceCallPage && navigation == 'top-menu'">
+    <div class="hidden sm:hidden md:block lg:block">
+        <app-top-menu
+            *ngIf="!isCursoGeniusTestimonials"
+            [menus]="menus" 
+            [refreshedMenu]="refreshedMenu"
+            [company]="company"
+            [otherSettings]="otherSettings"
+            [language]="language"
+            [languages]="languages"
+            [userid]="userId"
+            [username]="username" 
+            [isAdmin]="isAdmin" 
+            [currentUser]="currentUser"
+            [imageSrc]="imageSrc"
+            [notifications]="notifications"
+            [popupNotifications]="popupNotifications"
+            [canManageEvents]="canManageEvents"
+            [customMemberTypeName]="customMemberTypeName"
+            [expireDays]="expireDays"
+            [expireDaysDiff]="expireDaysDiff"
+            [cancelDays]="cancelDays"
+            [memberTypeExpirations]="memberTypeExpirations"
+            [hasEventCalendar]="hasEventCalendar"
+            [isTutorUser]="isTutorUser"
+            [hasTutors]="hasTutors"
+            [canCreateCourse]="canCreateCourse"
+            [coursesTitle]="coursesTitle"
+            [tutorManageStudentAccess]="tutorManageStudentAccess"
+            [hasCreditSetting]="hasCreditSetting"
+            [hasCreditPackageSetting]="hasCreditPackageSetting"
+            [myClubsTitle]="myClubsTitle"
+            [myActivitiesTitle]="myActivitiesTitle"
+            [primaryColor]="primaryColor"
+            [buttonColor]="buttonColor"
+            [hoverColor]="hoverColor"
+            [logoSource]="logoSource"
+            [superAdmin]="superAdmin"
+            [isUESchoolOfLife]="isUESchoolOfLife"
+            [hasHistoryOfActivities]="hasHistoryOfActivities"
+            [customMemberType]="customMemberType"
+            [isCursoGeniusTestimonials]="isCursoGeniusTestimonials"
+            [canRegister]="canRegister"
+            [navigation]="navigation"
+            [manageMembers]="manageMembers"
+            [userTypeName]="userTypeName"
+            [potSuperTutor]="potSuperTutor"
+            [potTutor]="potTutor"
+            [superTutor]="superTutor"
+            [isTutorMenuVisible]="isTutorMenuVisible"
+            [hasCredits]="hasCredits"
+            [customMemberTypePermissions]="customMemberTypePermissions"
+            [campus]="user?.campus"
+            [hasShop]="hasShop"
+            [cart]="cart"
+            (changeLanguage)="changedLanguage($event)" 
+        >
+        </app-top-menu>
+    </div>
+</ng-container>
 <div class="flex">
-    <app-sidebar
-        *ngIf="!isCursoGeniusTestimonials"
-        [menus]="menus" 
-        [refreshedMenu]="refreshedMenu"
-        [company]="company"
-        [otherSettings]="otherSettings"
-        [language]="language"
-        [languages]="languages"
-        [userid]="userId"
-        [username]="username" 
-        [isAdmin]="isAdmin" 
-        [currentUser]="currentUser"
-        [imageSrc]="imageSrc"
-        [notifications]="notifications"
-        [popupNotifications]="popupNotifications"
-        [canManageEvents]="canManageEvents"
-        [customMemberTypeName]="customMemberTypeName"
-        [expireDays]="expireDays"
-        [expireDaysDiff]="expireDaysDiff"
-        [cancelDays]="cancelDays"
-        [memberTypeExpirations]="memberTypeExpirations"
-        [hasEventCalendar]="hasEventCalendar"
-        [isTutorUser]="isTutorUser"
-        [hasTutors]="hasTutors"
-        [canCreateCourse]="canCreateCourse"
-        [coursesTitle]="coursesTitle"
-        [tutorManageStudentAccess]="tutorManageStudentAccess"
-        [hasCreditSetting]="hasCreditSetting"
-        [hasCreditPackageSetting]="hasCreditPackageSetting"
-        [myClubsTitle]="myClubsTitle"
-        [myActivitiesTitle]="myActivitiesTitle"
-        [buttonColor]="buttonColor"
-        [hoverColor]="hoverColor"
-        [logoSource]="logoSource"
-        [superAdmin]="superAdmin"
-        [isUESchoolOfLife]="isUESchoolOfLife"
-        [hasHistoryOfActivities]="hasHistoryOfActivities"
-        [customMemberType]="customMemberType"
-        [isCursoGeniusTestimonials]="isCursoGeniusTestimonials"
-        (changeLanguage)="changedLanguage($event)" 
-    >
-    </app-sidebar>
-    <main class="w-full max-w-full relative"
+    <ng-container *ngIf="!voiceCallPage && navigation == 'side-menu'">
+        <app-sidebar
+            *ngIf="!isCursoGeniusTestimonials"
+            [menus]="menus" 
+            [refreshedMenu]="refreshedMenu"
+            [company]="company"
+            [otherSettings]="otherSettings"
+            [language]="language"
+            [languages]="languages"
+            [userid]="userId"
+            [username]="username" 
+            [isAdmin]="isAdmin" 
+            [currentUser]="currentUser"
+            [imageSrc]="imageSrc"
+            [notifications]="notifications"
+            [popupNotifications]="popupNotifications"
+            [canManageEvents]="canManageEvents"
+            [customMemberTypeName]="customMemberTypeName"
+            [expireDays]="expireDays"
+            [expireDaysDiff]="expireDaysDiff"
+            [cancelDays]="cancelDays"
+            [memberTypeExpirations]="memberTypeExpirations"
+            [hasEventCalendar]="hasEventCalendar"
+            [isTutorUser]="isTutorUser"
+            [hasTutors]="hasTutors"
+            [canCreateCourse]="canCreateCourse"
+            [coursesTitle]="coursesTitle"
+            [tutorManageStudentAccess]="tutorManageStudentAccess"
+            [hasCreditSetting]="hasCreditSetting"
+            [hasCreditPackageSetting]="hasCreditPackageSetting"
+            [myClubsTitle]="myClubsTitle"
+            [myActivitiesTitle]="myActivitiesTitle"
+            [buttonColor]="buttonColor"
+            [hoverColor]="hoverColor"
+            [logoSource]="logoSource"
+            [superAdmin]="superAdmin"
+            [isUESchoolOfLife]="isUESchoolOfLife"
+            [hasHistoryOfActivities]="hasHistoryOfActivities"
+            [customMemberType]="customMemberType"
+            [isCursoGeniusTestimonials]="isCursoGeniusTestimonials"
+            (changeLanguage)="changedLanguage($event)" 
+        >
+        </app-sidebar>
+    </ng-container>
+    <main class="relative w-full"
+        [ngClass]="{
+            'max-w-full': navigation != 'top-menu', 
+            'mx-auto max-w-full sm:max-w-full md:max-w-screen-2xl lg:max-w-screen-2xl': navigation == 'top-menu' && !voiceCallPage, 
+            'h-screen bg-[#00122e] max-w-full': voiceCallPage
+        }"
         [ngStyle]="{'background': isWall ? '#f8f4f4' : 'initial'}">
-        <div class="min-h-[calc(100vh_-_330px)] py-6 px-6 sm:px-6 md:px-6 md:px-16 lg:md:px-16">
-            <div class="absolute top-10 left-7 md:hidden lg:hidden bg-white border-gray-200 dark:bg-gray-900">
+        <div [ngClass]="{
+                'px-6 sm:px-6 md:px-6 md:px-16 lg:md:px-16 py-6': navigation != 'top-menu', 
+                'p-6 md:pt-40 lg:pt-40': navigation == 'top-menu' && !voiceCallPage,
+                'min-h-[calc(100vh_-_330px)]': !voiceCallPage
+            }">
+            <div *ngIf="!voiceCallPage"
+                class="absolute top-10 left-7 md:hidden lg:hidden bg-white border-gray-200 dark:bg-gray-900">
                 <app-mobile-navbar 
                     *ngIf="!isCursoGeniusTestimonials"
                     [menus]="menus" 
@@ -79,72 +151,97 @@
                     (changeLanguage)="changedLanguage($event)" 
                 ></app-mobile-navbar>
             </div>
-            <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" *ngIf="userId">
-                <app-user-menu
-                    *ngIf="!isCursoGeniusTestimonials"
-                    [menus]="menus"
-                    [company]="company"
-                    [otherSettings]="otherSettings"
-                    [language]="language"
-                    [languages]="languages"
-                    [userid]="userId"
-                    [username]="username" 
-                    [isAdmin]="isAdmin" 
-                    [currentUser]="currentUser"
-                    [imageSrc]="imageSrc"
-                    [notifications]="notifications"
-                    [popupNotifications]="popupNotifications"
-                    [canManageEvents]="canManageEvents"
-                    [customMemberTypeName]="customMemberTypeName"
-                    [myClubsTitle]="myClubsTitle"
-                    [myActivitiesTitle]="myActivitiesTitle"
-                    [buttonColor]="buttonColor"
-                    [isTutorMenuVisible]="isTutorMenuVisible"
-                    [manageMembers]="manageMembers"
-                    [userTypeName]="userTypeName"
-                    [superTutor]="superTutor"
-                    [cityAdmin]="cityAdmin"
-                    [hasCreditSetting]="hasCreditSetting"
-                    [hasCreditPackageSetting]="hasCreditPackageSetting"
-                    [isTutorUser]="isTutorUser"
-                    [showProfileButton]="showProfileButton"
-                    [perHourCommission]="perHourCommission"
-                    [tutorManageStudentAccess]="tutorManageStudentAccess"
-                    [separateCourseCredits]="separateCourseCredits"
-                    [courseSubscriptions]="courseSubscriptions"
-                    [userCourseCredits]="userCourseCredits"
-                    [courses]="courses"
-                    [creditPackages]="creditPackages"
-                    [hasCredits]="hasCredits"
-                    [campus]="user?.campus"
-                    [isNetculturaUser]="isNetculturaUser"
-                    (changeLanguage)="changedLanguage($event)" 
-                    [potSuperTutor]="potSuperTutor"
-                    [potTutor]="potTutor"
-                    [hasInvitations]="hasInvitations"
-                    [companyId]="companyId"
-                    [customMemberType]="customMemberType"
-                    [customMemberTypePermissions]="customMemberTypePermissions"
-                    [superAdmin]="superAdmin"
-                >
-                </app-user-menu>
-            </div>
-            <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" *ngIf="!userId && !isCursoGeniusTestimonials">
-                <app-guest-menu
-                    [company]="company"
-                    [language]="language"
-                    [buttonColor]="buttonColor"
-                    [canRegister]="canRegister">
-                </app-guest-menu>
-            </div>
+            <ng-container *ngIf="!voiceCallPage">
+                <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50"
+                    *ngIf="userId"
+                    [ngClass]="{'md:hidden lg:hidden': navigation == 'top-menu'}">
+                    <app-user-menu
+                        *ngIf="!isCursoGeniusTestimonials"
+                        [menus]="menus"
+                        [company]="company"
+                        [otherSettings]="otherSettings"
+                        [language]="language"
+                        [languages]="languages"
+                        [userid]="userId"
+                        [username]="username" 
+                        [isAdmin]="isAdmin" 
+                        [currentUser]="currentUser"
+                        [imageSrc]="imageSrc"
+                        [notifications]="notifications"
+                        [popupNotifications]="popupNotifications"
+                        [canManageEvents]="canManageEvents"
+                        [customMemberTypeName]="customMemberTypeName"
+                        [myClubsTitle]="myClubsTitle"
+                        [myActivitiesTitle]="myActivitiesTitle"
+                        [buttonColor]="buttonColor"
+                        [isTutorMenuVisible]="isTutorMenuVisible"
+                        [manageMembers]="manageMembers"
+                        [userTypeName]="userTypeName"
+                        [superTutor]="superTutor"
+                        [cityAdmin]="cityAdmin"
+                        [hasCreditSetting]="hasCreditSetting"
+                        [hasCreditPackageSetting]="hasCreditPackageSetting"
+                        [isTutorUser]="isTutorUser"
+                        [showProfileButton]="showProfileButton"
+                        [perHourCommission]="perHourCommission"
+                        [tutorManageStudentAccess]="tutorManageStudentAccess"
+                        [separateCourseCredits]="separateCourseCredits"
+                        [courseSubscriptions]="courseSubscriptions"
+                        [userCourseCredits]="userCourseCredits"
+                        [courses]="courses"
+                        [creditPackages]="creditPackages"
+                        [hasCredits]="hasCredits"
+                        [campus]="user?.campus"
+                        [isNetculturaUser]="isNetculturaUser"
+                        (changeLanguage)="changedLanguage($event)" 
+                        [potSuperTutor]="potSuperTutor"
+                        [potTutor]="potTutor"
+                        [hasInvitations]="hasInvitations"
+                        [companyId]="companyId"
+                        [customMemberType]="customMemberType"
+                        [customMemberTypePermissions]="customMemberTypePermissions"
+                        [superAdmin]="superAdmin"
+                    >
+                    </app-user-menu>
+                </div>
+                <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" 
+                    *ngIf="!userId && !isCursoGeniusTestimonials && navigation != 'top-menu'">
+                    <app-guest-menu
+                        [company]="company"
+                        [language]="language"
+                        [primaryColor]="primaryColor"
+                        [buttonColor]="buttonColor"
+                        [canRegister]="canRegister"
+                        [navigation]="navigation">
+                    </app-guest-menu>
+                </div>
+            </ng-container>
             <ng-content></ng-content>
+            <audio *ngIf="!voiceCallPage" id="audio-ring">
+                <source src='./assets/audio/ring.mp3' type="audio/mpeg">
+            </audio>
+            <app-call-notification-popup 
+                *ngIf="!voiceCallPage"
+                [showToast]="showToast"
+                [company]="company"
+                [userId]="userId" 
+                [toastMode]="toastMode"
+                [toastMessage]="toastMessage"
+                [toastName]="toastName"
+                [toastImage]="toastImage"
+                (handleAcceptClick)="handleAccept()"
+                (handleCancelClick)="handleCancel()">
+            </app-call-notification-popup>
         </div>
         <app-footer 
             class="-pl-6 -pr-6" 
-            *ngIf="showFooter && (companyId != 32 || (companyId == 32 && isUESchoolOfLife))" 
+            *ngIf="!voiceCallPage && showFooter && (companyId != 32 || (companyId == 32 && isUESchoolOfLife))" 
             [company]="company"
             [customLinks]="customLinks"
             [contactUsDetails]="contactUsDetails">
         </app-footer>
     </main>
 </div>
+<button #outsidebutton class="hidden" type="button">
+    &nbsp;
+</button>

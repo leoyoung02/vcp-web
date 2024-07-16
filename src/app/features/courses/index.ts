@@ -67,5 +67,11 @@ export const routes: Routes = [
         title: CustomTitleResolver,
         data: { titleKey: 'course-assessments.manageassessments'},
         loadComponent: async () => (await import('./assessments-list/assessments-list.component')).CourseAssessmentsListComponent,
-    }
+    },
+    {
+        path: 'intro/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'buddy.introduction'},
+        loadComponent: async () => (await import('./intro/intro.component')).CourseIntroComponent,
+    },
 ];

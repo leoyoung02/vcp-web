@@ -82,6 +82,7 @@ export class MainComponent {
   buddiesTitle: any;
   tutorsTitle: any;
   blogTitle: any;
+  buddyTitle: any;
 
   otherSettings: any;
   otherSettingsCategories: any;
@@ -439,20 +440,7 @@ export class MainComponent {
             });
             if (planFeature?.length > 0) {
               this.isPlanEnabled = true;
-              this.planTitle =
-                this.language == "en"
-                  ? planFeature[0].name_en || planFeature[0].feature_name
-                  : this.language == "fr"
-                  ? planFeature[0].name_fr || planFeature[0].feature_name_FR
-                  : this.language == "eu"
-                  ? planFeature[0].name_eu || planFeature[0].feature_name_EU
-                  : this.language == "ca"
-                  ? planFeature[0].name_ca || planFeature[0].feature_name_CA
-                  : this.language == "de"
-                  ? planFeature[0].name_de || planFeature[0].feature_name_DE
-                  : this.language == "it"
-                  ? planFeature[0].name_it || planFeature[0].feature_name_IT
-                  : planFeature[0].name_es || planFeature[0].feature_name_ES;
+              this.planTitle = this.getFeatureTitle(planFeature[0]);
               this.getPlanSubfeatures(planFeature[0].id);
             }
 
@@ -605,6 +593,14 @@ export class MainComponent {
                     tutorsFeature[0].feature_name_ES;
               this.getTutorSubfeatures(tutorsFeature[0].id);
             }
+
+            let buddyFeature = companyFeatures.filter((f) => {
+              return f.feature_name == "Buddy" && f.status == 1;
+            });
+            if (buddyFeature?.length > 0) {
+              this.isBuddyEnabled = true;
+              this.buddyTitle = this.getFeatureTitle(buddyFeature[0]);
+            }
           }
 
           let testimonialFeature = companyFeatures?.filter((f) => {
@@ -706,6 +702,22 @@ export class MainComponent {
           console.log(error);
         }
       );
+  }
+
+  getFeatureTitle(feature) {
+    return this.language == "en"
+      ? feature.name_en || feature.feature_name
+      : this.language == "fr"
+      ? feature.name_fr || feature.feature_name_FR
+      : this.language == "eu"
+      ? feature.name_eu || feature.feature_name_EU
+      : this.language == "ca"
+      ? feature.name_ca || feature.feature_name_CA
+      : this.language == "de"
+      ? feature.name_de || feature.feature_name_DE
+      : this.language == "it"
+      ? feature.name_it || feature.feature_name_IT
+      : feature.name_es || feature.feature_name_ES
   }
 
   async getPlanSubfeatures(plansFeatureId) {
@@ -1054,6 +1066,16 @@ export class MainComponent {
               mi.submenus.push({
                 text: `${this.membersTitle} ${this._translateService.instant('members.references')}`,
                 value: 'References'
+              })
+            }
+          }
+
+          if(this.isBuddyEnabled) {
+            let match =  mi.submenus && mi.submenus.some(a => a.value === 'IntroduceU')
+            if(!match) {
+              mi.submenus.push({
+                text: this.buddyTitle,
+                value: 'IntroduceU'
               })
             }
           }
@@ -1540,6 +1562,8 @@ export class MainComponent {
         this._router.navigate([`/settings/manage-list/credits`]);
       } else if (content == "References") {
         this._router.navigate([`/settings/manage-list/references`]);
+      } else if (content == "IntroduceU") {
+        this._router.navigate([`/settings/manage-list/buddy`]);
       }
     } else if (menu.value == "Users" && content == "Users") {
       this._router.navigate([`/settings/manage-list/users`]);

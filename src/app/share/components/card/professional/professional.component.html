@@ -1,0 +1,61 @@
+<div class="bg-[#F5F6F8] rounded-[20px] p-6 pb-[30px]"
+    style="filter:drop-shadow(0 3.46px 3.46px rgb(0 0 0 / 0.25))">
+    <div class="flex">
+        <div class="flex-shrink-0">
+            <img class="hover:cursor-pointer w-[88px] h-[88px] rounded-full object-cover object-top"
+                [ngSrc]="image" width="80" height="80" loading="lazy">
+            <div class="mt-2.5 -ml-2">
+                <app-star-rating [rating]="rating"></app-star-rating>
+            </div>
+        </div>
+        <div class="flex-1 min-w-0 ms-4 mt-2">
+            <p [routerLink]="path" class="hover:cursor-pointer text-base text-black font-bold">
+                {{ name }}
+            </p>
+            <p class="leading-4 truncate">
+                <span class="text-xs uppercase" [ngStyle]="{'color': buttonColor}">Especialidad</span>
+            </p>
+            <p class="leading-4 truncate mt-1">
+                <span class="text-xs">{{ languages }}</span>
+            </p>
+            <p class="leading-4 truncate">
+                <span class="text-xs">Exp: {{ experienceText }}</span>
+            </p>
+            <p class="leading-4 truncate font-semibold mt-1">
+                <span class="text-xl">{{ rateCurrency }} </span>
+                <span class="text-xl">{{ rate }}</span>
+            </p>
+        </div>
+    </div>
+    <div class="absolute bottom-5 right-5 flex items-center align-center">
+        <div class="flex">
+            <ng-container *ngIf="hasVideoCall">
+                <button [disabled]="!onlineStatus" (click)="handleStartVideoCall()" 
+                    [ngStyle]="{'background-color': onlineStatus == 1 ? buttonColor : '#c7c7c7'}" 
+                    class="mr-2.5 font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center">
+                    <img src="./assets/professional-icons/comment.png" 
+                        class="w-[18px] h-[18px] object-contain" 
+                        [ngClass]="{'cursor-pointer': onlineStatus}" />
+                </button>
+            </ng-container>
+            <ng-container *ngIf="hasVoiceCall">
+                <button [disabled]="!onlineStatus" (click)="handleStartCall()" 
+                    [ngStyle]="{'background-color': onlineStatus == 1 ? buttonColor : '#c7c7c7'}" 
+                    class="mr-2.5 font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center">
+                    <img src="./assets/professional-icons/phone.png" 
+                        class="w-[18px] h-[18px] object-contain"
+                        [ngClass]="{'cursor-pointer': onlineStatus}" />
+                </button>
+            </ng-container>
+            <ng-container *ngIf="hasChat">
+                <button [disabled]="!onlineStatus" (click)="handleStartChat()" 
+                    [ngStyle]="{'background-color': onlineStatus == 1 ? buttonColor : '#c7c7c7'}" 
+                    class="font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center">
+                    <img src="./assets/professional-icons/video.png" 
+                        class="cursor-pointer w-[18px] h-[18px] object-contain"
+                        [ngClass]="{'cursor-pointer': onlineStatus}" />
+                </button>
+            </ng-container>
+        </div>
+    </div>
+</div>

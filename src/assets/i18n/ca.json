@@ -75,7 +75,11 @@
         "sendmeamessage": "Envia un missatge",
         "mailto": "Si no passa res en fer clic, assegureu-vos que teniu instal·lat un client de correu predeterminat o que teniu el navegador configurat per obrir enllaços de correu electrònic. Podeu consultar https://www.indeed.com/career-advice/career-development/how-to-get-email-links-to-open-in-chrome sobre com configurar el vostre navegador.",
         "showcalendar": "Mostra el calendari",
-        "solcourses": "Cursos de Nivellació"
+        "solcourses": "Cursos de Nivellació",
+        "navigation": "Navegació",
+        "navigationdesc": "Menú de navegació que permet un accés ràpid a les pàgines",
+        "topmenu": "Menú superior",
+        "sidemenu": "Menú lateral"
     },
     "user-popup": {
         "myplans": "Els meus plans",
@@ -1062,7 +1066,9 @@
         "text": "Text",
         "coursecontent":"Contingut del curs",
         "viewclass": "Mostra la classe",
-        "stripeinactivetransfer":"Capacitats de transferència inactives"
+        "stripeinactivetransfer":"Capacitats de transferència inactives",
+        "levelingcoursesdescription": "Els cursos BASIC STEAM són cursos d'anivellament dissenyats per reforçar i consolidar els coneixements bàsics, assegurant una preparació òptima per enfrontar amb èxit els desafiaments acadèmics dels primers cursos de l'etapa universitària.",
+        "levelingcoursesduration": "Durada: 10 hores"
     },
     "course-lesson": {
         "section": "Secció"
@@ -3183,7 +3189,19 @@
         "mentor": "Mentor",
         "asktobementor": "Demana ser mentor",
         "mentees": "Mentees",
-        "mentorname": "Nom del mentor"
+        "mentorname": "Nom del mentor",
+        "mentordesc": "Veure perfil i els ments associats",
+        "mentee": "Mentee",
+        "menteedesc": "Trieu un mentor amb els filtres necessaris",
+        "wanttobementor": "Vull ser un mentor",
+        "applyasmentor": "Aplica com a mentor",
+        "mysessions": "Les meves sessions de tutoria",
+        "selectmentor": "Selecciona el mentor",
+        "selectmentee": "Selecciona l'alumnat", 
+        "pendingcompletion": "Pendent de finalització",
+        "introductionlabel": "Sobre mi: per què vull ser mentor, per què he triat el meu grau...",
+        "interestslabel": "Interessos: posar participació a la Vida Universitària (clubs, associacions, delegats, equip esportiu….)",
+        "personalitylabel": "Personalitat, Interessos"
     },
     "cities": {
         "cities": "Ciutats",
@@ -3313,6 +3331,7 @@
         "status" : "Estat",
         "current_module" : "Mòdul actual",
         "no_of_interaction" : "No d'interacció",
+        "no_of_session": "Nombre de sessió (Calendly)",
         "phonenumber" : "Telèfon",
         "allowaccestocourse": "Permet l'accés personalitzat al curs",
         "unitdetails": "Detalls de la unitat",
@@ -3401,7 +3420,6 @@
         "years": "anys",
         "timeavailable": "Temps disponible"
     },
-
     "stripe-account": {
         "secretkey": "Clau secreta",
         "publishablekey": "Clau publicable",
@@ -3670,5 +3688,63 @@
         "percent": "Per cent",
         "validfrom": "Vàlid des de",
         "validuntil": "Vàlid fins a"
+    },
+    "shop": {
+        "shop": "Botiga",
+        "addtocart": "Afegeix al carret",
+        "product": "Producte",
+        "products": "Productes",
+        "shopnow": "Compra ara",
+        "shopbycategory": "Compra per categoria",
+        "cart": "Cart",
+        "checkout": "Pagament",
+        "ordersummary": "Resum de la comanda",
+        "myorders": "Les meves comandes",
+        "itemaddedtocart": "1 article afegit al carret",
+        "itemremovedfromcart": "S'ha eliminat 1 element del carretó",
+        "cartcleared": "El carretó està esborrat"
+    },
+    "professionals": {
+        "professionals": "Professionals",
+        "professional": "Professional",
+        "endcall": "Finalitzar la trucada",
+        "gender": "Gènere",
+        "civilstatus": "Estat civil",
+        "voice": "Veu",
+        "calllogs": "Registres de trucades",
+        "callended": "La trucada ha finalitzat",
+        "ongoingcall": "Trucada en curs",
+        "incomingcall": "Trucada entrant",
+        "mytransactions": "Les meves transaccions",
+        "callwith": "Truca amb",
+        "for": "per a", 
+        "videocalllogs": "Registres de videotrucades", 
+        "chatlogs": "Registres de xat", 
+        "minimumbalance": "Saldo mínim",
+        "insufficientebalance": "Saldo insuficient",
+        "minimumbalanceof": "Saldo mínim de",
+        "requiredtostart": "és necessari per començar",
+        "with": "amb", 
+        "voicecall": "trucada", 
+        "videocall": "videotrucada", 
+        "chat": "xat",
+        "dialling": "Marcat", 
+        "availablebalance": "Saldo disponible",
+        "recharge": "Aufladen",
+        "addmoneytowallet": "Afegeix diners a la cartera",
+        "rechargeamount": "Import de recàrrega",
+        "paymentdetails": "Detalls de pagament",
+        "transactionsummary": "Resum de la transacció",
+        "payment": "Pagament",
+        "paypaldesc": "Efectua un pagament en línia amb PayPal", 
+        "voicecalls": "Trucades de veu", 
+        "videocalls": "Videotrucades", 
+        "chatmessages": "Missatges de xat",
+        "wallet": "Cartera",
+        "purchased": "Comprat",
+        "via": "via",
+        "enteravalidphone": "Introduïu un número de telèfon vàlid +<country_code><number> +34999999999",
+        "enteravalidpasscode": "Introduïu una contrasenya vàlida", 
+        "enterpasscode": "Introdueix la contrasenya"
     }
 }

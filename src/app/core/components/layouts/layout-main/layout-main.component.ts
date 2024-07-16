@@ -3,7 +3,9 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ElementRef,
   Input,
+  ViewChild,
 } from "@angular/core";
 import { NavigationEnd, Router } from "@angular/router";
 import { environment } from "@env/environment";
@@ -18,6 +20,10 @@ import { FormsModule } from "@angular/forms";
 import { SidebarComponent } from "@lib/components/sidebar/sidebar.component";
 import { UserMenuComponent } from "@lib/components/user-menu/user-menu.component";
 import { GuestMenuComponent } from "@lib/components/guest-menu/guest-menu.component";
+import { TopMenuComponent } from "@lib/components/top-menu/top-menu.component";
+import { ProfessionalsService } from "@features/services/professionals/professionals.service";
+import { CallNotificationPopupComponent } from "@share/components/call-notification-popup/call-notification-popup.component";
+import { Subscription } from 'rxjs';
 import moment from "moment";
 import get from "lodash/get";
 
@@ -34,6 +40,8 @@ import get from "lodash/get";
     UserMenuComponent,
     MobileNavbarComponent,
     GuestMenuComponent,
+    TopMenuComponent,
+    CallNotificationPopupComponent,
   ],
   templateUrl: "./layout-main.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -143,6 +151,7 @@ export class LayoutMainComponent {
   myActivities: any;
   myClubsTitle: string = '';
   myActivitiesTitle: string = '';
+  primaryColor: any;
   buttonColor: any;
   hoverColor: any;
   logoSource: any;
@@ -188,6 +197,27 @@ export class LayoutMainComponent {
   showFooter: boolean = false;
   customLinks: any = [];
   isCursoGeniusTestimonials: boolean = false;
+  navigation: any = 'side-menu';
+  shopFeatureId: any;
+  hasShop: boolean = false;
+  cart: any = [];
+
+  pusherSubscription: Subscription | undefined;
+  pusherData: any = {};
+  showToast: boolean = false;
+  toastMessage: string = '';
+  toastMode: string = '';
+  audio: any;
+  toastImage: any;
+  toastName: any;
+  professionalsFeatureId: any;
+  hasProfessionals: boolean = false;
+  voiceCallPage: boolean = false;
+  @ViewChild("outsidebutton", { static: false }) outsidebutton:
+    | ElementRef
+    | undefined;
+  callGuid: any;
+  callPasscode: any;
 
   constructor(
     private _router: Router,
@@ -198,7 +228,7 @@ export class LayoutMainComponent {
     private _userService: UserService,
     private _tutorsService: TutorsService,
     private _plansService: PlansService,
-    private _notificationsService: NotificationsService,
+    private _professionalsService: ProfessionalsService,
     private cd: ChangeDetectorRef
   ) {
     this.language = this._localService.getLocalStorage(environment.lslanguage);
@@ -217,6 +247,7 @@ export class LayoutMainComponent {
 
   async ngOnInit() {
     this.pageInit = true;
+    this.voiceCallPage = window.location.href?.indexOf("/call/voice") >= 0 ? true : false;
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     if (!this._localService.getLocalStorage(environment.lslang)) { this._localService.setLocalStorage(environment.lslang, "es"); }
@@ -239,6 +270,7 @@ export class LayoutMainComponent {
       this.companyId = company[0].id;
       this.domain = company[0].domain;
       this.logoSource = environment.api +  "/get-image-company/" +  (company[0].photo || company[0].image);
+      this.primaryColor = company[0].primary_color ? company[0].primary_color : company[0].button_color;
       this.buttonColor = company[0].button_color ? company[0].button_color : company[0].primary_color;
       this.hoverColor = company[0].hover_color ? company[0].hover_color : company[0].primary_color;
       this.homeTextValue = company[0].home_text || "Inicio";
@@ -276,6 +308,7 @@ export class LayoutMainComponent {
       this.courseWallPrefixTextValueDe = company[0].course_wall_prefix_text_de;
       this.courseWallPrefixTextValueIt = company[0].course_wall_prefix_text_it;
       this.courseWallMenu = company[0].course_wall_menu;
+      this.navigation = company[0].navigation || 'side-menu';
       this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
     }
 
@@ -315,6 +348,24 @@ export class LayoutMainComponent {
         this.hasCourses = true;
         this.getCourseFeature(coursesFeature[0]);
       }
+
+      let shopFeature = this.features.filter((f) => {
+        return f.feature_name == "Shop";
+      });
+      if (shopFeature && shopFeature[0]) {
+        this.shopFeatureId = shopFeature[0].id;
+        this.hasShop = true;
+      }
+
+      let professionalsFeature = this.features.filter((f) => {
+        return f.feature_name == "Professionals";
+      });
+      if (professionalsFeature && professionalsFeature[0]) {
+        this.professionalsFeatureId = professionalsFeature[0].id;
+        this.hasProfessionals = true;
+
+        this.subscribeVoiceCall();
+      }
     }
 
     this._userService.currentRefreshNotification
@@ -344,7 +395,76 @@ export class LayoutMainComponent {
           localStorage.setItem('version', newVersion);
       }
     }
- 
+  }
+
+  subscribeVoiceCall() {
+    this.pusherSubscription = this._professionalsService
+      .getFeedItems()
+      .subscribe(async(response) => {
+        if(response?.id == this.userId || response?.channel == this.userId) {
+          this.pusherData = response;
+          if(this.pusherData.call_guid) {
+            this.callGuid = this.pusherData.call_guid;
+            this.callPasscode = this.pusherData.passcode;
+          }
+          
+          this.toastMessage = response.message || `${this._translateService.instant('professionals.incomingcall')}...`;
+          this.toastMode = response.mode;
+          this.toastName = response.caller_name;
+          this.toastImage = response.caller_image;
+
+          if(this.toastMode == 'end-call') {
+            await this._professionalsService.leaveCall();
+            this.showToast = false;
+            this.handleAudio('stop');
+          } else if(this.toastMode == 'accept-call') {
+            this.showToast = true;
+            this.handleAudio('play');
+          }
+          this.cd.detectChanges();
+        }
+      })
+  }
+
+  handleAudio(mode) {
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      let audioPlayer = <HTMLAudioElement> document.getElementById('audio-ring');
+      if(audioPlayer) {
+        if(mode == 'play') {
+          audioPlayer.loop = true;
+          audioPlayer.play();
+        } else if(mode == 'stop') {
+          audioPlayer.pause();
+        }
+      }
+    }, 100);
+  }
+
+  handleAccept() {
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      let audioPlayer = <HTMLAudioElement> document.getElementById('audio-ring');
+      if(audioPlayer) {
+        audioPlayer.pause();
+      }
+    }, 500);
+    this.showToast = false;
+    this._router.navigate([`/call/voice/${this.callGuid}/${this.callPasscode}`])
+    .then(() => {
+      window.location.reload();
+    });
+  }
+
+  handleCancel() {
+    setTimeout(() => {
+      this.outsidebutton?.nativeElement.click();
+      let audioPlayer = <HTMLAudioElement> document.getElementById('audio-ring');
+      if(audioPlayer) {
+        audioPlayer.pause();
+      }
+    }, 100);
+    this.showToast = false;
   }
 
   getNetculturaUsers() {

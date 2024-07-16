@@ -41,6 +41,12 @@ export const routes: Routes = [
         canMatch: [authGuard({ requiresAuthentication: false })],
     },
     {
+        path: 'call',
+        data: { layout: PageLayout.Blank },
+        loadChildren: async () => (await import('@pages/rooms')).routes,
+        canMatch: [authGuard({ requiresAuthentication: false })],
+    },
+    {
         path: 'share/event/:slug/:invite_guid',
         data: { layout: PageLayout.Blank, titleKey: 'Registro' },
         title: CustomTitleResolver,
@@ -297,6 +303,24 @@ export const routes: Routes = [
         path: 'startups',
         data: { layout: PageLayout.Main },
         loadChildren: async () => (await import('@features/startups')).routes,
+        canMatch: [authGuard()],
+    },
+    {
+        path: 'shop',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/shop')).routes,
+        canMatch: [authGuard()],
+    },
+    {
+        path: 'professionals',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/professionals')).routes,
+        canMatch: [authGuard()],
+    },
+    {
+        path: 'buddy',
+        data: { layout: PageLayout.Main },
+        loadChildren: async () => (await import('@features/buddy')).routes,
         canMatch: [authGuard()],
     },
     {

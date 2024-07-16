@@ -4,11 +4,15 @@
     
     <div *ngIf="!finished">
         <div *ngFor="let item of assessment?.assessment_details; let i = index;">
-            <div class="flex items-center justify-center mb-4 relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
-                <div class="w-full max-w-full" *ngIf="currentIndex == i">
+            <div *ngIf="currentIndex == i" class="flex items-center justify-center mb-4 relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                <div class="w-full max-w-full">
                     <div class="mb-6 pb-4 border border-b-2 border-t-0 border-l-0 border-r-0 border-gray-300">
                         <div class="text-sm opacity-80 tracking-tight dark:text-white">{{'survey-create.question' | translate}} {{currentIndex + 1}} {{'course-assessment.of' | translate}} {{assessment?.assessment_details?.length}}</div>
-                        <div class="text-lg font-semibold">{{item?.title}}</div>
+                        <div class="text-lg font-semibold">{{ getAssessmentTitle(item) }}</div>
+                        <ng-container *ngIf="item?.image">
+                            <img [src]="apiPath + '/get-course-image/' + item.image" class="h-auto object-cover rounded-lg"
+                                [ngStyle]="{'width': item?.image_width}" />
+                        </ng-container>
                     </div>
                     <div>
                         <div *ngFor="let choice of item?.multiple_choice_options; let n = index;">
@@ -22,7 +26,7 @@
                                     [disabled]="currentItemSubmitted"
                                     class="w-4 h-4 border-gray-300 focus:ring-2 focus:ring-blue-300 dark:focus:ring-blue-600 dark:focus:bg-blue-600 dark:bg-gray-700 dark:border-gray-600">
                                 <label for="{{'question' + choice.id }}" class="block ml-2 text-sm font-medium text-gray-900 dark:text-gray-300">
-                                    {{ choice.choice }}
+                                    {{ getChoiceTitle(choice) }}
                                     <div *ngIf="currentItemSubmitted && item?.answer == choice?.id" class="flex items-center mt-1">
                                         <svg *ngIf="!choice?.correct" [ngStyle]="{'color': '#c24130'}" class="mr-2 w-4 h-4 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                                             <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 11.793a1 1 0 1 1-1.414 1.414L10 11.414l-2.293 2.293a1 1 0 0 1-1.414-1.414L8.586 10 6.293 7.707a1 1 0 0 1 1.414-1.414L10 8.586l2.293-2.293a1 1 0 0 1 1.414 1.414L11.414 10l2.293 2.293Z"/>
@@ -51,6 +55,14 @@
         </div>
         <div class="mt-4 text-4xl font-bold text-center">
             {{rating}}%
+        </div>
+        <div *ngIf="superAdmin" class="mt-4">
+            <div 
+                [ngStyle]="{'background-color': buttonColor}"
+                class="w-[175px] text-sm rounded-lg text-white py-3 uppercase px-4 hover:cursor-pointer h-[42px] ml-[10px] text-center"
+                (click)="reset()">
+                {{ 'crm.reset' | translate }}
+            </div>
         </div>
     </div>
 </div>

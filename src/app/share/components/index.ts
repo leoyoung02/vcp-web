@@ -22,3 +22,4 @@ export * from './sections/sections.component';
 export * from './sections-middle/sections-middle.component';
 export * from './section-title/section-title.component';
 export * from './comments/comments.component';
+export * from './rooms/voice-call/voice-call.component';

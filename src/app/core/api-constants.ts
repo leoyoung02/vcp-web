@@ -142,6 +142,7 @@ export const HOME_COURSES_TUTORS_TESTIMONIALS_DATA_URL = `${API_BASE}/v2/home-co
 export const HOME_PLANS_COURSES_DATA_URL = `${API_BASE}/v2/home-plans-courses`;
 export const HOME_SECTIONS_DATA_URL = `${API_BASE}/v2/home/sections-data`;
 export const EDIT_HOME_TEXT_URL = `${API_BASE}/company/menu/home/edit`;
+export const EDIT_HOME_STATUS_URL = `${API_BASE}/home/status/edit`;
 
 // SETTINGS
 export const SETTINGS_CATEGORY_URL = `${API_BASE}/company/settings/category/list/all`;
@@ -168,6 +169,7 @@ export const ACTIVATE_POLICY_URL = `${API_BASE}/company/policy/activate`;
 export const ACTIVATE_COOKIE_URL = `${API_BASE}/company/cookie-policy/activate`;
 export const ACTIVATE_TERMS_URL = `${API_BASE}/company/terms-conditions/activate`;
 export const EDIT_OTHER_SETTING_VALUE_URL = `${API_BASE}/company/other-settings/value/update`;
+export const EDIT_NAVIGATION_SETTINGS_URL = `${API_BASE}/v2/navigation/edit`;
 
 // REPORTS
 export const REPORTS_DATA_URL = `${API_BASE}/v2/reports-data`;
@@ -272,6 +274,7 @@ export const UPDATE_REGISTRATION_FIELD_DETAILS_URL = `${API_BASE}/company/regist
 export const SUPER_TUTOR_STUDENTS_URL = `${API_BASE}/v2/super-tutor/students`;
 export const POT_SUPER_TUTOR_STUDENTS_URL = `${API_BASE}/v2/potsuper-tutor/students`;
 export const EDIT_USER_BIRTHDAY_URL = `${API_BASE}/v2/user/birthday/edit`;
+export const USER_TRANSACTIONS_URL = `${API_BASE}/v3/user-transactions`;
 
 // NOTIFICATIONS
 export const ACCEPT_CLUB_NOTIFICATION_URL = `${API_BASE}/company-approve-join-group`;
@@ -534,6 +537,8 @@ export const COURSES_ADMIN_LIST_URL = `${API_BASE}/v2/courses-list`;
 export const COURSE_COMPLETE_EVALUATE_URL = `${API_BASE}/v2/course/completed/evaluate`;
 export const COURSES_MANAGEMENT_DATA_URL = `${API_BASE}/v2/courses-management-data`;
 export const ADDITIONAL_PROPERTIES_DATA = `${API_BASE}/company/user/get-additional-properties`;
+export const COURSE_DETAIL_URL = `${API_BASE}/course`;
+export const COURSE_CITIES_URL = `${API_BASE}/v2/course-cities`;
 
 // TUTORS
 export const TUTORS_URL = `${API_BASE}/company/tutors`;
@@ -755,6 +760,8 @@ export const CREATE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/asse
 export const EDIT_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/edit`;
 export const DELETE_ASSESSMENT_MULTIPLE_CHOICE_OPTION_URL = `${API_BASE}/v2/assessment-multiple-choice-option/delete`;
 export const SUBMIT_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment/submit`;
+export const STUDENT_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment`;
+export const RESET_COURSE_ASSESSMENT_URL = `${API_BASE}/v2/course-assessment/reset`;
 
 // COMMUNITY
 export const COMMUNITY_CHANNELS_URL = `${API_BASE}/v2/channels`;
@@ -767,3 +774,56 @@ export const STARTUPS_URL = `${API_BASE}/v2/startups`;
 export const STARTUP_DETAILS_URL = `${API_BASE}/v2/startup-details`;
 export const ADD_STARTUP_URL = `${API_BASE}/company/startup/add`;
 export const GET_STARTUPS_URL = `${API_BASE}/company/startups`;
+
+// SHOP
+export const SHOPS_DATA_URL = `${API_BASE}/v2/shops-data`;
+export const SHOP_CATEGORIES_URL = `${API_BASE}/v2/shop-categories`;
+export const PRODUCTS_URL = `${API_BASE}/v2/products`;
+
+// PROFESSIONALS
+export const GENERATE_RTC_TOKEN_URL = `${API_BASE}/v3/agora/rtc`;
+export const NOTIFY_PROFESSIONAL_PUSHER_URL = `${API_BASE}/v3/voice-call/push`;
+export const VOICE_CALL_URL = `${API_BASE}/v3/voice-call`;
+export const VALIDATE_VOICE_CALL_PASSCODE_URL = `${API_BASE}/v3/voice-call/validate-code`;
+export const MINIMUM_BALANCE_URL = `${API_BASE}/v3/minimum-balance`;
+export const EDIT_MINIMUM_BALANCE_URL = `${API_BASE}/v3/minimum-balance/edit`;
+export const PROFESSIONALS_DATA_URL = `${API_BASE}/v3/professionals-data`;
+export const EDIT_CALLER_BALANCE_URL = `${API_BASE}/v3/caller-balance/edit`;
+export const STRIPE_CREATE_PAYMENT_INTENT_URL = `${API_BASE}/v3/payments/create-payment-intent`;
+export const STRIPE_CREATE_IDENTITY_VERIFICATION_SESSION_URL = `${API_BASE}/v3/payments/identity/create-verification-session`;
+export const ACCOUNT_RECHARGE_URL = `${API_BASE}/v3/account-recharge`;
+export const ACCOUNT_RECHARGE_DATA_URL = `${API_BASE}/v3/account-recharge-data`;
+export const EDIT_STRIPE_PAYMENT_URL = `${API_BASE}/v3/payment-stripe/edit`;
+export const EDIT_PAYPAL_PAYMENT_URL = `${API_BASE}/v3/payment-paypal/edit`;
+
+// BUDDIES
+export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;
+export const BUDDIES_URL = `${API_BASE}/v2/buddies`;
+export const MENTOR_URL = `${API_BASE}/v2/mentor`;
+export const MENTOR_REQUEST_DATA_URL = `${API_BASE}/v2/mentor-request-data`;
+export const EDIT_MENTOR_URL = `${API_BASE}/mentor/edit`;
+export const EDIT_MENTOR_PHOTO_URL = `${API_BASE}/v2/mentor/profile/image/temp-upload`;
+export const APPLY_MENTOR_URL = `${API_BASE}/v2/mentor/apply`;
+export const MENTOR_REQUESTS_URL = `${API_BASE}/v2/mentor-requests`;
+export const APPROVE_MENTOR_REQUEST_URL = `${API_BASE}/v2/mentor/request/accept`;
+export const REJECT_MENTOR_REQUEST_URL = `${API_BASE}/v2/mentor/request/reject`;
+export const UPDATE_MENTOR_CALENDLY_URL = `${API_BASE}/v2/mentor/calendar/update`;
+export const ASK_AS_MENTOR_URL = `${API_BASE}/colleague/ask-mentor`;
+export const CONTACT_MENTOR_URL = `${API_BASE}/v2/mentor/contact`;
+export const CONTACT_MENTOR_REPLY_URL = `${API_BASE}/v2/mentor/reply`;
+export const COLLEAGUE_ASKED_URL = `${API_BASE}/colleague/asked`;
+export const CONTACT_LOG_URL = `${API_BASE}/buddy/contact/log`;
+export const MENTEE_ACCEPT_URL = `${API_BASE}/buddy/accept`;
+export const MENTEE_REJECT_URL = `${API_BASE}/colleague/reject`;
+export const MENTOR_MENTEE_MESSAGES_URL = `${API_BASE}/v2/mentor-mentee/messages`;
+export const DELETE_MENTOR_MESSAGE_URL = `${API_BASE}/v2/mentor/message/delete`;
+export const ADD_CALENDLY_SESSION_URL = `${API_BASE}/v2/calendly/session/add`;
+export const MENTOR_SESSIONS_URL = `${API_BASE}/v2/mentor/sessions`;
+export const EDIT_SESSION_STATUS_URL = `${API_BASE}/v2/mentor/session/edit-status`;
+export const DELETE_SESSION_URL = `${API_BASE}/v2/mentor/session/delete`;
+export const CANCEL_SESSION_URL = `${API_BASE}/v2/mentor/session/cancel`;
+export const SEARCH_MENTOR_URL = `${API_BASE}/v2/mentor/user/search`;
+export const ADD_MENTOR_URL = `${API_BASE}/v2/mentor/add`;
+export const DELETE_MENTOR_URL = `${API_BASE}/v2/mentor/delete`;
+export const BUDDY_LIMIT_SETTINGS_URL = `${API_BASE}/buddy/settings/limit`;
+export const EDIT_BUDDY_LIMIT_SETTINGS_URL = `${API_BASE}/buddy/settings/limit/edit`;

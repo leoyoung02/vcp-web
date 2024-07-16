@@ -222,7 +222,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this._translateService.use(this.language || "es");
     this.user = this._localService.getLocalStorage(environment.lsuser);
-    // this.campus = this.user?.campus || '';
 
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
@@ -273,6 +272,14 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.newURLButtonTextValueDe = company[0].new_url_button_text_de;
         this.newURLButtonUrl = company[0].new_url_button_url;
         this.getSchoolOfLifeTitle();
+      }
+      this.homeActive = company[0].show_home_menu == 1 ? true : false;
+
+      if(!this.homeActive) {
+        let menus = this._localService.getLocalStorage(environment.lsmenus) ? JSON.parse(this._localService.getLocalStorage(environment.lsmenus)) : '';
+        if(menus?.length > 0) {
+          location.href = menus[0].path;
+        }
       }
 
       if(this.returnUrl && this.returnUrl != 'undefined') {
@@ -429,6 +436,9 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.language = event.lang;
       this.getTitles();
       this.showLandingTemplate();
+      if(this.showModuleSections) {
+        this.loadSectionsList(1);
+      }
     });
 
     this.getOtherSettings();
@@ -732,6 +742,7 @@ export class HomeComponent implements OnInit, OnDestroy {
           created_by_image: this.getCreatedByImage(item),
           description: this.getDescription(item),
           sol_nivelacion: item?.sol_nivelacion,
+          course_intro: item?.course_intro,
         })
       })
     }

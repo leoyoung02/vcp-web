@@ -236,6 +236,8 @@ export class PersonalizeHomeComponent {
     | ElementRef
     | undefined
 
+  homeActive: boolean = false
+
   constructor(
     private _router: Router,
     private _companyService: CompanyService,
@@ -279,6 +281,7 @@ export class PersonalizeHomeComponent {
       this.homeTextValueEu = company[0].home_text_eu || 'Hasi';
       this.homeTextValueCa = company[0].home_text_ca || 'Inici';
       this.homeTextValueDe = company[0].home_text_de || 'Anfang';
+      this.homeActive = company[0].show_home_menu == 1 ? true : false;
     }
 
     this.languageChangeSubscription =
@@ -1399,6 +1402,31 @@ export class PersonalizeHomeComponent {
     return this.companyId != 32 || 
       (this.companyId == 32 && !this.isUESchoolOfLife && feature?.id != 11) || 
       (this.companyId == 32 && this.isUESchoolOfLife && (feature?.id == 1 || feature?.id == 11))
+  }
+
+  toggleHomeStatus(event) {
+    let payload = {
+      company_id: this.companyId,
+      status: this.homeActive ? 1 : 0
+    }
+
+    this._companyService.editHomeStatus(payload).subscribe(
+      response => {
+        if (response) {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+          this.reloadMenu();
+        }
+      },
+      error => {
+        console.log(error)
+      }
+    )
+  }
+
+  async reloadMenu() {
+    this.companies = get(await this._companyService.getCompanies().toPromise(), 'companies');
+    this._companyService.getCompany(this.companies);
+    location.reload();
   }
 
   handleGoBack() {
