@@ -13,13 +13,13 @@ import {
   TranslateService,
 } from "@ngx-translate/core";
 import { CompanyService, LocalService, UserService } from "@share/services";
+import { ProfessionalsService, VoiceCallService } from "@features/services";
 import { Subject, takeUntil } from "rxjs";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "@env/environment";
 import { PageTitleComponent, ToastComponent } from "@share/components";
-import { ProfessionalsService } from "@features/services/professionals/professionals.service";
 import { ProfessionalCardComponent } from "@share/components/card/professional/professional.component";
 import { Subscription } from 'rxjs';
 import { initFlowbite } from "flowbite";
@@ -119,6 +119,7 @@ export class ProfessionalsListComponent {
     private _companyService: CompanyService,
     private _userService: UserService,
     public _professionalsService: ProfessionalsService,
+    public _voiceCallService: VoiceCallService,
   ) {
     
   }
@@ -308,7 +309,7 @@ export class ProfessionalsListComponent {
   }
 
   subscribeVoiceCall() {
-    this.pusherSubscription = this._professionalsService
+    this.pusherSubscription = this._voiceCallService
       .getFeedItems()
       .subscribe(async(response) => {
         if(response?.id == this.userId || response?.channel == this.userId) {
@@ -322,7 +323,7 @@ export class ProfessionalsListComponent {
           this.toastMode = response.mode;
 
           if(this.toastMode == 'end-call') {
-            await this._professionalsService.leaveCall();
+            await this._voiceCallService.leaveCall();
             this.showToast = false;
           } else if(this.toastMode == 'ongoing-call') {
             this.startTimer();
@@ -351,8 +352,8 @@ export class ProfessionalsListComponent {
             this.callTime++;
         }
 
-        this._professionalsService.getStats();
-        let stats = this._professionalsService.rtcStats?.Duration || 0;
+        this._voiceCallService.getStats();
+        let stats = this._voiceCallService.rtcStats?.Duration || 0;
 
         if(stats > 0) {
           let params = {
@@ -447,10 +448,10 @@ export class ProfessionalsListComponent {
           this.notifyProfessional(params);
         }, 100);
 
-        const token = get(await this._professionalsService.generateRTCToken(channel, 'publisher', 'uid', this.userId).toPromise(), 'rtcToken')
-        this._professionalsService.createRTCClient();
-        this._professionalsService.agoraServerEvents(this._professionalsService.rtc);
-        await this._professionalsService.localUser(channel, token, caller_uid, 'initiate-call');
+        const token = get(await this._voiceCallService.generateRTCToken(channel, 'publisher', 'uid', this.userId).toPromise(), 'rtcToken');
+        this._voiceCallService.createRTCClient();
+        this._voiceCallService.agoraServerEvents(this._voiceCallService.rtc);
+        await this._voiceCallService.localUser(channel, token, caller_uid, 'initiate-call');
       }
     }, 500)
   }
@@ -483,9 +484,9 @@ export class ProfessionalsListComponent {
   }
 
   async cancelCall() {
-    await this._professionalsService.leaveCall();
+    await this._voiceCallService.leaveCall();
     
-    let stats = this._professionalsService.rtcStats;
+    let stats = this._voiceCallService.rtcStats;
 
     let timezoneOffset = new Date().getTimezoneOffset();
     let offset = moment().format('Z');
@@ -519,6 +520,9 @@ export class ProfessionalsListComponent {
     if(this.userId > 0) {
       this.actionMode = 'videocall';
       this.professional = this.professionals.find((c) => c.user_id == id);
+
+      let voice_call_guid = Math.random().toString(36).substring(6);
+      this._router.navigate([`/call/voice/${voice_call_guid}/${this.userId}/${this.professional?.user_id}`]);
     } else {
       this._router.navigate(['/auth/login']);
     }

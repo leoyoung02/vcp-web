@@ -15,7 +15,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { VoiceCallRoomComponent } from '@share/components';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { CompanyService, LocalService } from '@share/services';
-import { ProfessionalsService } from '@features/services';
+import { ProfessionalsService, VoiceCallService } from '@features/services';
 import { Subject } from 'rxjs';
 import { timer } from "@lib/utils/timer/timer.utils";
 import { Subscription } from 'rxjs';
@@ -76,6 +76,7 @@ export class VoiceCallComponent {
         private _translateService: TranslateService,
         private _localService: LocalService,
         private _companyService: CompanyService,
+        private _voiceCallService: VoiceCallService,
         private _professionalsService: ProfessionalsService,
         private cd: ChangeDetectorRef
     ) {
@@ -121,7 +122,7 @@ export class VoiceCallComponent {
         this.subscribeVoiceCall();
         this.handleValidatePasscode(this.code);
 
-        this._professionalsService.participantEndsCall$.subscribe(status =>{
+        this._voiceCallService.participantEndsCall$.subscribe(status =>{
             if(status) {
                 this.handleEndCall();
             }
@@ -129,7 +130,7 @@ export class VoiceCallComponent {
     }
 
     subscribeVoiceCall() {
-        this.pusherSubscription = this._professionalsService
+        this.pusherSubscription = this._voiceCallService
           .getFeedItems()
           .subscribe(async(response) => {
             if(response?.id == this.existingCallLog?.caller_user_id || response?.channel == this.existingCallLog?.caller_user_id) {
@@ -142,7 +143,7 @@ export class VoiceCallComponent {
                 this.showActions = false;
                 this.cd.detectChanges;
                 
-                this._professionalsService.leaveCall();
+                this._voiceCallService.leaveCall();
               }
             }
           })
@@ -196,14 +197,14 @@ export class VoiceCallComponent {
     }
 
     async initiateCall() {
-        this.micMuted = this._professionalsService.rtc.micMuted;
+        this.micMuted = this._voiceCallService.rtc.micMuted;
         const channel =  this.existingCallLog.room;
         this.room = channel;
         this.recipientUid = Math.floor(Math.random() * 2032);
-        const token = get(await this._professionalsService.generateRTCToken(channel, 'publisher', 'uid', this.existingCallLog.caller_user_id).toPromise(), 'rtcToken')
-        this._professionalsService.createRTCClient();
-        this._professionalsService.agoraServerEvents(this._professionalsService.rtc);
-        await this._professionalsService.localUser(channel, token, this.recipientUid);
+        const token = get(await this._voiceCallService.generateRTCToken(channel, 'publisher', 'uid', this.existingCallLog.caller_user_id).toPromise(), 'rtcToken')
+        this._voiceCallService.createRTCClient();
+        this._voiceCallService.agoraServerEvents(this._voiceCallService.rtc);
+        await this._voiceCallService.localUser(channel, token, this.recipientUid);
         this.showActions = true;
         this.acceptCall(token, this.recipientUid);
     }
@@ -273,8 +274,8 @@ export class VoiceCallComponent {
                 this.callTime++;
             }
 
-            this._professionalsService.getStats();
-            let stats = this._professionalsService.rtcStats?.Duration || 0;
+            this._voiceCallService.getStats();
+            let stats = this._voiceCallService.rtcStats?.Duration || 0;
 
             if(stats > 0) {
                 let params = {
@@ -303,18 +304,18 @@ export class VoiceCallComponent {
 
     handleToggleMic() {
         // this.micMuted = !this.micMuted;
-        this._professionalsService.rtc.micMuted = !this._professionalsService.rtc.micMuted;
-        this.micMuted = this._professionalsService.rtc.micMuted;
-        this._professionalsService.toggleMic();
+        this._voiceCallService.rtc.micMuted = !this._voiceCallService.rtc.micMuted;
+        this.micMuted = this._voiceCallService.rtc.micMuted;
+        this._voiceCallService.toggleMic();
         this.cd.detectChanges();
     }
 
     async handleEndCall() {
         this.pauseTimer();
 
-        await this._professionalsService.leaveCall();
+        await this._voiceCallService.leaveCall();
 
-        let stats = this._professionalsService.rtcStats;
+        let stats = this._voiceCallService.rtcStats;
 
         let timezoneOffset = new Date().getTimezoneOffset();
         let offset = moment().format('Z');
@@ -332,7 +333,7 @@ export class VoiceCallComponent {
             offset,
         }
         this.notifyProfessional(params);
-        this._professionalsService.leaveCall();
+        this._voiceCallService.leaveCall();
 
         this.statusText = `Call has ended ${timer.transform(this.time)}`;
         this.showActions = false;

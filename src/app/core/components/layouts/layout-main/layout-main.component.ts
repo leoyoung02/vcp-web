@@ -11,8 +11,8 @@ import { NavigationEnd, Router } from "@angular/router";
 import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
-import { MenuService, NotificationsService } from "@lib/services";
-import { PlansService, TutorsService } from "@features/services";
+import { MenuService } from "@lib/services";
+import { PlansService, TutorsService, VoiceCallService } from "@features/services";
 import { FooterComponent, MobileNavbarComponent } from "src/app/core/components";
 import { Subject, takeUntil } from "rxjs";
 import { ToastComponent } from "@share/components";
@@ -21,7 +21,6 @@ import { SidebarComponent } from "@lib/components/sidebar/sidebar.component";
 import { UserMenuComponent } from "@lib/components/user-menu/user-menu.component";
 import { GuestMenuComponent } from "@lib/components/guest-menu/guest-menu.component";
 import { TopMenuComponent } from "@lib/components/top-menu/top-menu.component";
-import { ProfessionalsService } from "@features/services/professionals/professionals.service";
 import { CallNotificationPopupComponent } from "@share/components/call-notification-popup/call-notification-popup.component";
 import { Subscription } from 'rxjs';
 import moment from "moment";
@@ -212,7 +211,7 @@ export class LayoutMainComponent {
   toastName: any;
   professionalsFeatureId: any;
   hasProfessionals: boolean = false;
-  voiceCallPage: boolean = false;
+  callPage: boolean = false;
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
@@ -228,7 +227,7 @@ export class LayoutMainComponent {
     private _userService: UserService,
     private _tutorsService: TutorsService,
     private _plansService: PlansService,
-    private _professionalsService: ProfessionalsService,
+    private _voiceCallService: VoiceCallService,
     private cd: ChangeDetectorRef
   ) {
     this.language = this._localService.getLocalStorage(environment.lslanguage);
@@ -247,7 +246,7 @@ export class LayoutMainComponent {
 
   async ngOnInit() {
     this.pageInit = true;
-    this.voiceCallPage = window.location.href?.indexOf("/call/voice") >= 0 ? true : false;
+    this.callPage = window.location.href?.indexOf("/call/") >= 0 ? true : false;
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     if (!this._localService.getLocalStorage(environment.lslang)) { this._localService.setLocalStorage(environment.lslang, "es"); }
@@ -398,7 +397,7 @@ export class LayoutMainComponent {
   }
 
   subscribeVoiceCall() {
-    this.pusherSubscription = this._professionalsService
+    this.pusherSubscription = this._voiceCallService
       .getFeedItems()
       .subscribe(async(response) => {
         if(response?.id == this.userId || response?.channel == this.userId) {
@@ -414,7 +413,7 @@ export class LayoutMainComponent {
           this.toastImage = response.caller_image;
 
           if(this.toastMode == 'end-call') {
-            await this._professionalsService.leaveCall();
+            await this._voiceCallService.leaveCall();
             this.showToast = false;
             this.handleAudio('stop');
           } else if(this.toastMode == 'accept-call') {

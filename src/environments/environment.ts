@@ -10,6 +10,7 @@ export const environment = {
     company: 'vcp.vistingo.com',
     logLevel: NgxLoggerLevel.LOG,
     serverLogLevel: NgxLoggerLevel.LOG,
+    agoraAppId: '216cb9286f7b4d38af22f24ba5b5e0d4',
     lstoken: 'MDzMJjldj0uCZf+DrObXFA==',
     lsrefreshtoken: 'EKHWGZB/EkSWmaO+0haEvA==',
     lsinitializationVector: 'encryptionIntVec',
