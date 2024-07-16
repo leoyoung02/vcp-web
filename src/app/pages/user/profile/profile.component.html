@@ -11,17 +11,17 @@
                     <div class="number">{{ n + 1 }}</div>
                     <div class="title">{{ language == 'en' ? section?.field_group_en : (language == 'fr' ? (section?.field_group_fr || section?.field_group_es) : section?.field_group_es) }}</div>
                 </div>
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 pt-12 pb-4">
+                <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 pt-12 pb-4">
                     <ng-container *ngFor="let field of section?.fields; let i = index;">
-                        <div class="text-center" 
-                            [ngClass]="{'col-span-2': field.field == 'image' && !hasCompanyImageField}"
-                            *ngIf="field.field != 'password'">
-                            <div *ngIf="field.field_type == 'image' && field.field == 'image'">
+                        <ng-container *ngIf="field.field != 'password'">
+                            <div class="text-center" 
+                                *ngIf="field.field_type == 'image' && field.field == 'image'"
+                                [ngClass]="{'col-span-2': (field.field == 'image' && !hasCompanyImageField) || isMobile}">
                                 <div class="container upload-btn-wrapper profile-image">
                                     <div>
                                         <div class="font-semibold mb-2">{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} </div>
-                                        <div class="flex items-center justify-center mb-8 relative">
-                                            <div class="max-w-xl mr-8">
+                                        <div class="flex flex-col-reverse sm:flex-col-reverse md:flex-row lg:flex-row items-center justify-center mb-8 relative">
+                                            <div class="max-w-xl mr-0 sm:mr-0 md:mr-8 lg:mr-8">
                                                 <img width="160" height="192" src="./assets/images/640.png" />
                                             </div>
                                             <div class="relative">
@@ -59,7 +59,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf="field.field_type == 'image' && field.field == 'company_logo'">
+                            <div class="text-center" 
+                                *ngIf="field.field_type == 'image' && field.field == 'company_logo'"
+                                [ngClass]="{'col-span-2': (field.field == 'image' && !hasProfileImageField) || isMobile}">
                                 <div class="container upload-btn-wrapper profile-image">
                                     <div>
                                         <div class="font-semibold mb-2">{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} </div>
@@ -97,7 +99,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div *ngIf="field.field_type == 'text' || field.field_type == 'number' || (field?.field == 'country' && countryDropdown)">
+                            <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1" 
+                                *ngIf="field.field_type == 'text' || field.field_type == 'number' || (field?.field == 'country' && countryDropdown)">
                                 <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     <div class="flex items-center justify-between">
                                         <div>
@@ -151,7 +154,8 @@
                                     </select>
                                 </ng-container>
                             </div>
-                            <div *ngIf="field.field_type == 'select'">
+                            <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1" 
+                                *ngIf="field.field_type == 'select'">
                                 <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     <div class="flex items-center justify-between">
                                         <div>
@@ -227,7 +231,8 @@
                                     </select>
                                 </ng-container>
                             </div>
-                            <div *ngIf="field.field_type == 'textarea'">
+                            <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1" 
+                                *ngIf="field.field_type == 'textarea'">
                                 <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     <div class="flex items-center justify-between">
                                         <div>
@@ -258,7 +263,8 @@
                                 </label>
                                 <quill-editor class="w-full max-w-full content-editor" formControlName="{{field?.field}}"></quill-editor>
                             </div>
-                            <div *ngIf="field.field_type == 'date'" class="-mb-5 signup-date">
+                            <div class="-mb-5 signup-date text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1"
+                                *ngIf="field.field_type == 'date'">
                                 <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     <div class="flex items-center justify-between">
                                         <div>
@@ -299,10 +305,10 @@
                                     </mat-datepicker>
                                 </mat-form-field>
                             </div>
-                        </div>
+                        </ng-container>
                     </ng-container>
                     <div class="mt-[6px]" *ngIf="me?.custom_member_type_id !== 144 && me?.custom_member_type_id !== 321 &&  me?.custom_member_type_id !== 243 && isTermsAccepted">
-                            <p class="text-sm mb-5" *ngIf="dateOfAcceptance">{{'footer.dateofacceptance' | translate}} : <span class="font-medium text-gray-900 dark:text-gray-300">{{dateOfAcceptance}}</span></p>
+                        <p class="text-sm mb-5" *ngIf="dateOfAcceptance">{{'footer.dateofacceptance' | translate}} : <span class="font-medium text-gray-900 dark:text-gray-300">{{dateOfAcceptance}}</span></p>
                         <label class="checkbox-container">
                             <div class="flex mb-4 align-center items-center">
                                 <input 
@@ -312,10 +318,10 @@
                                     [disabled]="isTermsAccepted"
                                     class="w-4 h-4 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                                 >
-                                <label for="terms-conditions" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300 flex" >
-                                    {{ 'footer.i' | translate }}<p class="capitalize mx-1">{{userFullName ? userFullName : ''}}</p> {{ 'footer.acceptthe' | translate }}
+                                <label for="terms-conditions" class="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300" >
+                                    {{ 'footer.i' | translate }} <span class="capitalize">{{userFullName ? userFullName : ''}}</span> {{ 'footer.acceptthe' | translate }}
                                     <button type="button" (click)="openTermDialog()">
-                                        <span class="font-bold ml-2">
+                                        <span class="font-bold">
                                            {{ 'register.termsandconditions' | translate }}
                                         </span>
                                     </button> 
@@ -329,7 +335,7 @@
         <div>
             <div class="font-bold">{{ 'profile-settings.changepassword' | translate }}</div>
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 my-4">
-                <div class="flex items-center justify-center relative">
+                <div class="flex items-center justify-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
                     <input 
                         [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('password')?.errors || passwordMismatch }"
                         [type]="fieldTextType ? 'text' : 'password'"
@@ -342,7 +348,7 @@
                         (click)="toggleFieldTextType()"
                     ></fa-icon>
                 </div>
-                <div class="flex items-center justify-center relative">
+                <div class="flex items-center justify-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
                     <input 
                         [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('confirmPassword')?.errors || passwordMismatch }"
                         [type]="fieldConfirmTextType ? 'text' : 'password'"

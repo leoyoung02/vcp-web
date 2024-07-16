@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { Component, ElementRef, HostListener, Input, ViewChild } from "@angular/core";
 import {
   LangChangeEvent,
   TranslateModule,
@@ -208,8 +208,8 @@ export class ProfileComponent {
   contracts: any;
   contract: any;
   userFullName:string = '';
-  dateOfAcceptance:string = ''
-
+  dateOfAcceptance:string = '';
+  isMobile: boolean = false;
 
   constructor(
     private _route: ActivatedRoute,
@@ -223,25 +223,31 @@ export class ProfileComponent {
     private fb: FormBuilder,
     private dateAdapter: DateAdapter<Date>,
     ) {}
+
+  @HostListener("window:resize", [])
+  private onResize() {
+    this.isMobile = window.innerWidth < 768;
+  }
     
   async ngOnInit() {
-      this.email = this._localService.getLocalStorage(environment.lsemail);
-      this.language = this._localService.getLocalStorage(environment.lslang);
+    this.onResize();
+    this.email = this._localService.getLocalStorage(environment.lsemail);
+    this.language = this._localService.getLocalStorage(environment.lslang);
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(
       environment.lscompanyId
       );
-      this.domain = this._localService.getLocalStorage(environment.lsdomain);
-      this._translateService.use(this.language || "es");
-      this.companies = this._localService.getLocalStorage(environment.lscompanies)
-      ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
-      : "";
-      if (!this.companies) {
-        this.companies = get(
-          await this._companyService.getCompanies().toPromise(),
-          "companies"
-          );
-        }
+    this.domain = this._localService.getLocalStorage(environment.lsdomain);
+    this._translateService.use(this.language || "es");
+    this.companies = this._localService.getLocalStorage(environment.lscompanies)
+    ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
+    : "";
+    if (!this.companies) {
+      this.companies = get(
+        await this._companyService.getCompanies().toPromise(),
+        "companies"
+        );
+    }
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
