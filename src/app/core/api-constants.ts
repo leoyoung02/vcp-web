@@ -795,6 +795,8 @@ export const ACCOUNT_RECHARGE_URL = `${API_BASE}/v3/account-recharge`;
 export const ACCOUNT_RECHARGE_DATA_URL = `${API_BASE}/v3/account-recharge-data`;
 export const EDIT_STRIPE_PAYMENT_URL = `${API_BASE}/v3/payment-stripe/edit`;
 export const EDIT_PAYPAL_PAYMENT_URL = `${API_BASE}/v3/payment-paypal/edit`;
+export const NOTIFY_VIDEO_CALL_PROFESSIONAL_PUSHER_URL = `${API_BASE}/v3/video-call/push`;
+export const VALIDATE_VIDEO_CALL_PASSCODE_URL = `${API_BASE}/v3/video-call/validate-code`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;

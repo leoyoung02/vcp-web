@@ -18,7 +18,10 @@ import { CompanyService, LocalService } from '@share/services';
 import { ProfessionalsService, VideoCallService } from '@features/services';
 import { VideoCallRoomComponent } from '@share/components/rooms/video-call/video-call.component';
 import { Subject } from 'rxjs';
+import { timer } from "@lib/utils/timer/timer.utils";
+import { Subscription } from 'rxjs';
 import { environment } from '@env/environment';
+import moment from "moment";
 import get from "lodash/get";
 
 @Component({
@@ -38,6 +41,7 @@ export class VideoCallComponent {
     private destroy$ = new Subject<void>();
 
     @Input() guid: any;
+    @Input() code: any;
     
     languageChangeSubscription;
     language: any;
@@ -46,13 +50,27 @@ export class VideoCallComponent {
     primaryColor: any;
     buttonColor: any;
     isMobile: boolean = false;
-    isLoading; boolean = true;
 
     statusText: any;
     name: any;
     image: any;
     micMuted: boolean = true;
     showActions: boolean = false;
+    requirePasscode: boolean = true;
+    invalidPasscode: boolean = false;
+    personalData: any = [];
+
+    time: number = 0;
+    interval;
+    existingCallLog: any;
+    room: any;
+    recipientUid: any;
+    caller: any;
+    callTime: number = 0;
+    callTrackingInterval;
+    pusherSubscription: Subscription | undefined;
+    pusherData: any = {};
+    isLoading; boolean = true;
 
     constructor(
         private _route: ActivatedRoute,
@@ -107,10 +125,76 @@ export class VideoCallComponent {
     }
 
     initializePage() {
-        this.image = `${environment.api}/empty_avatar.png`;
-        this.name = 'John Doe';
-        this.showActions = true;
-        this.isLoading = false;
+        this.getVideoCallDetails;
+    }
+
+    getVideoCallDetails() {
+        let params = {
+            company_id: this.companyId,
+            video_call_guid: this.guid,
+            video_call_passcode: this.code,
+        }
+
+        this._professionalsService.validateVideoCallPasscode(params).subscribe(
+            (response) => {
+                this.isLoading = false;
+                if(response?.existing_video_call_log?.id > 0) {
+                    this.requirePasscode = false;
+                    this.initializeData(response);
+                } else {
+                    this.invalidPasscode = true;
+                }
+                this.cd.detectChanges();
+            },
+            (error) => {
+              console.log(error);
+            })
+    }
+
+    initializeData(response: any) {
+        if(!this.requirePasscode && response) {
+            this.statusText =  this._translateService.instant('professionals.connecing');
+            this.existingCallLog = response.existing_call_log;
+            let user = response.user;
+            this.name = user.name;
+            this.image = user.image;
+            let caller = {
+                birthday: user.birthday,
+                gender: user.gender,
+                civil_status: user.civil_status,
+                position: user.position,
+                city: user.city,
+                country: user.country,
+                phone: user.phone,
+            }
+            this.caller = caller;
+            this.personalData = [
+                {
+                    label: this._translateService.instant('profile-settings.birthday'),
+                    value: caller.birthday ? moment(caller.birthday).format('DD/MM/YYYY') : '-'
+                },
+                {
+                    label: this._translateService.instant('professionals.gender'),
+                    value: caller?.gender || '-'
+                },
+                {
+                    label: this._translateService.instant('professionals.civilstatus'),
+                    value: caller?.civil_status || '-'
+                },
+                {
+                    label: this._translateService.instant('profile-settings.position'),
+                    value: caller?.position || ''
+                },
+                {
+                    label: this._translateService.instant('profile-settings.city'),
+                    value: caller?.city || ''
+                },
+                {
+                    label: this._translateService.instant('profile-settings.country'),
+                    value: caller?.country || ''
+                },
+            ]
+        }
     }
 
     handleToggleMic() {

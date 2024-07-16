@@ -9,7 +9,7 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./voice-call/voice-call.component')).VoiceCallComponent,
     },
     {
-        path: 'video/:guid',
+        path: 'video/:guid/:code',
         title: CustomTitleResolver,
         data: { titleKey: 'professionals.videocall'},
         loadComponent: async () => (await import('./video-call/video-call.component')).VideoCallComponent,

@@ -3772,6 +3772,8 @@
         "via": "via",
         "enteravalidphone": "Please enter a valid phone number +<country_code><number> +34999999999",
         "enteravalidpasscode": "Please enter a valid passcode",
-        "enterpasscode": "Enter passcode"
+        "enterpasscode": "Enter passcode",
+        "incomingvideocall": "Incoming video call",
+        "connecting": "Connecting"
     }
 }

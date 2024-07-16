@@ -151,7 +151,7 @@ export class VoiceCallComponent {
 
     initializeData(response: any) {
         if(!this.requirePasscode && response) {
-            this.statusText = "Connecting...";
+            this.statusText =  this._translateService.instant('professionals.connecing');
             this.existingCallLog = response.existing_call_log;
             let user = response.user;
             this.name = user.name;

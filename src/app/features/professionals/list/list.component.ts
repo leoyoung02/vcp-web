@@ -521,8 +521,42 @@ export class ProfessionalsListComponent {
       this.actionMode = 'videocall';
       this.professional = this.professionals.find((c) => c.user_id == id);
 
-      let voice_call_guid = Math.random().toString(36).substring(6);
-      this._router.navigate([`/call/voice/${voice_call_guid}/${this.userId}/${this.professional?.user_id}`]);
+      let id = this.professional.user_id;
+      if(this.hasRequiredMinimumBalance()) {
+        this.display = '';
+        this.selectedId = id;
+
+        const channel =  `agora-vcp-video-${id}-${this.userId}`;
+        this.room = channel;
+        let caller_uid = Math.floor(Math.random() * 2032);
+
+        let caller_balance_before_call = 0;
+        if(this.userId > 0) {
+          caller_balance_before_call = this.user?.available_balance;
+        }
+
+        let video_call_guid = Math.random().toString(36).substring(6);
+        let video_call_passcode = Math.random().toString(36).substring(6);
+        const token = get(await this._voiceCallService.generateRTCToken(channel, 'publisher', 'uid', this.userId).toPromise(), 'rtcToken');
+
+        let params = {
+          id,
+          user_id: this.userId,
+          company_id: this.companyId,
+          mode: 'accept-video-call',
+          message: this._translateService.instant('professionals.incomingvideocall'),
+          caller_name: this.user?.first_name ? `${this.user.first_name} ${this.user.last_name}` : this.user.name,
+          caller_image: `${environment.api}/${this.user?.image}`,
+          room: channel,
+          caller_uid,
+          caller_balance_before_call,
+          video_call_guid,
+          video_call_passcode,
+          token,
+        }
+        this.notifyVideoCallProfessional(params);
+        this._router.navigate([`/call/video/${video_call_guid}/${video_call_passcode}`]);
+      }
     } else {
       this._router.navigate(['/auth/login']);
     }
@@ -541,6 +575,15 @@ export class ProfessionalsListComponent {
 
   confirm() {
     this.showRequiredMinimumBalanceModal = false;
+  }
+
+  notifyVideoCallProfessional(params) {
+    this._professionalsService.notifyProfessional(params).subscribe(
+      (response) => {
+      },
+      (error) => {
+        console.log(error);
+      })
   }
 
   async open(message: string, action: string) {
