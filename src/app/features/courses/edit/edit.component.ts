@@ -1693,7 +1693,7 @@ export class CourseEditComponent {
           name: "image",
           image: base64ToFile(event.base64),
         };
-      } else if(this.uploadImageMode == 'photo') {
+      } else if(!this.uploadImageMode || this.uploadImageMode == 'photo') {
         this.imgSrc = this.croppedImage = event.base64;
         this.file = {
           name: "image",
