@@ -44,13 +44,6 @@ export class MediaControlsComponent {
   async ngOnInit() {
     initFlowbite();
     this.subscribeVideoCall();
-    
-    this._videoCallService.professionalJoinedCall$.subscribe(status =>{
-      if(status) {
-        this.startTimer();
-        this.startTrackingCallDuration();
-      }
-    })
   }
 
   subscribeVideoCall() {

@@ -556,11 +556,13 @@ export class ProfessionalsListComponent {
         }
         this.notifyVideoCallProfessional(params);
 
-        let url = `/call/video/${video_call_guid}/${video_call_passcode}/caller`;
-        this._router.navigate([url])
-        .then(() => {
-          window.location.reload();
-        });
+        setTimeout(() => {
+          let url = `/call/video/${video_call_guid}/${video_call_passcode}/caller`;
+          this._router.navigate([url])
+          .then(() => {
+            window.location.reload();
+          });
+        }, 500)
       }
     } else {
       this._router.navigate(['/auth/login']);

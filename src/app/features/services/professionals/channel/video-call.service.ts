@@ -113,7 +113,9 @@ export class VideoCallService {
         this._professionalsService.notifyVideoCallProfessional(params).subscribe(
             (response) => {
                 this.join(channelName, token, uid);
-                this.professionalJoinedCall$.next(true);
+                setTimeout(() => {
+                    this.professionalJoinedCall$.next(true);
+                }, 500)
             },
             (error) => {
               console.log(error);
