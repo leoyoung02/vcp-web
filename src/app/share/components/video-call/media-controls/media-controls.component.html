@@ -23,17 +23,6 @@
         class="hover:cursor-pointer w-[35px] max-w-[35px] h-[35px] max-h-[35px]"
       />
     </button>
-    <button
-      class="ml-4 w-[4em] h-[4em] rounded-full flex justify-center items-center"
-      style="background-color:rgba(0, 0, 0, .2);"
-      (click)="handleScreenShare($event)">
-      <img *ngIf="screenShared" src="./assets/professional-icons/icon-stop-share.png"
-        class="hover:cursor-pointer w-[35px] max-w-[35px] h-[28px] max-h-[28px]"
-      />
-      <img *ngIf="!screenShared" src="./assets/professional-icons/icon-share.png"
-        class="hover:cursor-pointer w-[35px] max-w-[35px] h-[28px] max-h-[28px]"
-      />
-    </button>
     <button 
       class="ml-4 w-[4em] h-[4em] rounded-full flex justify-center items-center bg-[#fe302b]"
       (click)="handleLeaveChannel()">
@@ -42,4 +31,7 @@
       </svg>
     </button>
   </div>
+</div>
+<div class="absolute left-5 bottom-[35px]">
+  <div class="text-white text-lg font-semibold">{{timerText}}</div>
 </div>

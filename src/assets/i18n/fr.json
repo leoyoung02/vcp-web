@@ -3730,6 +3730,8 @@
         "via": "via",
         "enteravalidphone": "Veuillez entrer un numéro de téléphone valide +<code_pays><numéro> +34999999999",
         "enteravalidpasscode": "Veuillez saisir un mot de passe valide", 
-        "enterpasscode": "Entrez le code"
+        "enterpasscode": "Entrez le code",
+        "incomingvideocall": "Appel vidéo entrant",
+        "connecting": "Connexion"
     }
 }

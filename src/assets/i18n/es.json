@@ -3757,6 +3757,8 @@
         "via": "vía",
         "enteravalidphone": "Por favor ingresa un número de teléfono válido +<código_país><número> +34999999999",
         "enteravalidpasscode": "Por favor, introduce una contraseña válida", 
-        "enterpasscode": "Ingrese el código de acceso"
+        "enterpasscode": "Ingrese el código de acceso",
+        "incomingvideocall": "Videollamada entrante",
+        "connecting": "Conectando"
     }
 }

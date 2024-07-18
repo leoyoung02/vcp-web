@@ -30,7 +30,7 @@
     <div class="absolute bottom-5 right-5 flex items-center align-center">
         <div class="flex">
             <ng-container *ngIf="hasVideoCall">
-                <button [disabled]="!onlineStatus" (click)="handleStartVideoCall()" 
+                <button [disabled]="!onlineStatus" (click)="handleStartChat()" 
                     [ngStyle]="{'background-color': onlineStatus == 1 ? buttonColor : '#c7c7c7'}" 
                     class="mr-2.5 font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center">
                     <img src="./assets/professional-icons/comment.png" 
@@ -48,7 +48,7 @@
                 </button>
             </ng-container>
             <ng-container *ngIf="hasChat">
-                <button [disabled]="!onlineStatus" (click)="handleStartChat()" 
+                <button [disabled]="!onlineStatus" (click)="handleStartVideoCall()" 
                     [ngStyle]="{'background-color': onlineStatus == 1 ? buttonColor : '#c7c7c7'}" 
                     class="font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center">
                     <img src="./assets/professional-icons/video.png" 

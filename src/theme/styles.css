@@ -1065,3 +1065,32 @@ app-sidebar > aside > div:nth-child(11) > div > svg.has-history {
     background-position: center left 12px;
     background-repeat: no-repeat;
 }
+
+#local-video-container video,
+.remote-video > div > video {
+    border-radius: 20px;
+}
+
+::ng-deep .remote-video > div {
+    @media screen and (min-width:1024px) {
+        margin-top: 158px;
+        position: absolute;
+    }
+
+    @media screen and (max-width:768px) {
+        margin-top: 0px !important;
+        position: absolute;
+    }
+}
+
+.remote-user > div {
+    margin-top: 158px;
+    position: absolute !important;
+}
+
+@media (max-width:768px) {
+    .remote-user > div {
+        margin-top: 0px !important;
+        position: absolute;
+    }
+}

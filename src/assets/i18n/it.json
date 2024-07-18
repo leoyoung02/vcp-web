@@ -3729,6 +3729,8 @@
         "via": "via",
         "enteravalidphone": "Inserisci un numero di telefono valido +<codice_paese><numero> +34999999999",
         "enteravalidpasscode": "Inserisci un codice di accesso valido", 
-        "enterpasscode": "Inserisci codice"
+        "enterpasscode": "Inserisci codice",
+        "incomingvideocall": "Videochiamata in arrivo",
+        "connecting": "Connessione"
     }
 }

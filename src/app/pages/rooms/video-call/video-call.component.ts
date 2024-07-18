@@ -18,10 +18,7 @@ import { CompanyService, LocalService } from '@share/services';
 import { ProfessionalsService, VideoCallService } from '@features/services';
 import { VideoCallRoomComponent } from '@share/components/rooms/video-call/video-call.component';
 import { Subject } from 'rxjs';
-import { timer } from "@lib/utils/timer/timer.utils";
-import { Subscription } from 'rxjs';
 import { environment } from '@env/environment';
-import moment from "moment";
 import get from "lodash/get";
 
 @Component({
@@ -42,6 +39,7 @@ export class VideoCallComponent {
 
     @Input() guid: any;
     @Input() code: any;
+    @Input() role: any;
     
     languageChangeSubscription;
     language: any;
@@ -58,19 +56,16 @@ export class VideoCallComponent {
     showActions: boolean = false;
     requirePasscode: boolean = true;
     invalidPasscode: boolean = false;
-    personalData: any = [];
+    callerData: any = [];
 
-    time: number = 0;
-    interval;
-    existingCallLog: any;
+    existingVideoCallLog: any;
     room: any;
     recipientUid: any;
     caller: any;
-    callTime: number = 0;
-    callTrackingInterval;
-    pusherSubscription: Subscription | undefined;
-    pusherData: any = {};
     isLoading; boolean = true;
+    professional: any;
+    mode: string = '';
+    hasJoined: boolean = false;
 
     constructor(
         private _route: ActivatedRoute,
@@ -82,7 +77,7 @@ export class VideoCallComponent {
         private _professionalsService: ProfessionalsService,
         private cd: ChangeDetectorRef
     ) {
-        
+        localStorage.removeItem('joined-video-channel');
     }
 
     @HostListener("window:resize", [])
@@ -125,10 +120,6 @@ export class VideoCallComponent {
     }
 
     initializePage() {
-        this.getVideoCallDetails;
-    }
-
-    getVideoCallDetails() {
         let params = {
             company_id: this.companyId,
             video_call_guid: this.guid,
@@ -147,53 +138,19 @@ export class VideoCallComponent {
                 this.cd.detectChanges();
             },
             (error) => {
-              console.log(error);
+                console.log(error);
             })
     }
 
     initializeData(response: any) {
         if(!this.requirePasscode && response) {
-            this.statusText =  this._translateService.instant('professionals.connecing');
-            this.existingCallLog = response.existing_call_log;
-            let user = response.user;
-            this.name = user.name;
-            this.image = user.image;
-            let caller = {
-                birthday: user.birthday,
-                gender: user.gender,
-                civil_status: user.civil_status,
-                position: user.position,
-                city: user.city,
-                country: user.country,
-                phone: user.phone,
-            }
-            this.caller = caller;
-            this.personalData = [
-                {
-                    label: this._translateService.instant('profile-settings.birthday'),
-                    value: caller.birthday ? moment(caller.birthday).format('DD/MM/YYYY') : '-'
-                },
-                {
-                    label: this._translateService.instant('professionals.gender'),
-                    value: caller?.gender || '-'
-                },
-                {
-                    label: this._translateService.instant('professionals.civilstatus'),
-                    value: caller?.civil_status || '-'
-                },
-                {
-                    label: this._translateService.instant('profile-settings.position'),
-                    value: caller?.position || ''
-                },
-                {
-                    label: this._translateService.instant('profile-settings.city'),
-                    value: caller?.city || ''
-                },
-                {
-                    label: this._translateService.instant('profile-settings.country'),
-                    value: caller?.country || ''
-                },
-            ]
+            this.statusText =  this._translateService.instant('professionals.connecting');
+            this.existingVideoCallLog = response.existing_video_call_log;
+        
+            this.caller = response.user;
+            this.professional = response.professional;
+            this.mode = this.role;
+            this.cd.detectChanges();
         }
     }
 
@@ -202,15 +159,41 @@ export class VideoCallComponent {
     }
 
     handleEndCall() {
-
+        this._videoCallService.leaveChannel();
     }
 
-    handleJoinChannel() {
-        // this._videoCallService.joinChannel(
-        //     'vcp-voice-call-test', 
-        //     '007eJxTYGC6KhO0ufbHn3s2Is4hsf/0244t4c9fsHof65xTdid41F4oMBgZmiUnWRpZmKWZJ5mkGFskphkZpRmZJCWaJpmmGqSY+N+bktYQyMjAonWdiZEBAkF8YYay5ALdsvzM5FTd5MScHN2S1OISBgYAYv8lEg==',
-        //     '123'
-        // );
+    async handleJoinChannel() {
+        if(window.location.href?.indexOf("/call/") >= 0) {
+            if(!this.hasJoined && !localStorage.getItem('joined-video-channel')) {
+                this.hasJoined = true;
+                
+                if(!this.existingVideoCallLog) {
+                    let params = {
+                        company_id: this.companyId,
+                        video_call_guid: this.guid,
+                        video_call_passcode: this.code,
+                    }
+    
+                    let result = get(await this._professionalsService.validateVideoCallPasscode(params).toPromise(), 'existing_video_call_log');
+                    this.existingVideoCallLog = result;
+                }
+
+                let channel = this.existingVideoCallLog?.room;
+                let uid = this.role == 'caller' ? this.existingVideoCallLog?.caller_uid : Math.floor(Math.random() * 2032);
+                let userId = this.role == 'caller' ? this.existingVideoCallLog?.caller_user_id : this.existingVideoCallLog?.professional_user_id;
+                let token = this.role == 'caller' ? this.existingVideoCallLog?.token : get(await this._videoCallService.generateRTCToken(channel, 'publisher', 'uid', userId).toPromise(), 'rtcToken');
+
+
+                localStorage.setItem('joined-video-channel', channel);
+                this._videoCallService.joinChannel(
+                    channel, 
+                    token,
+                    uid,
+                    this.role,
+                    this.existingVideoCallLog,
+                );
+            }
+        }
     }
 
     goHome() {
@@ -218,6 +201,7 @@ export class VideoCallComponent {
     }
 
     ngOnDestroy() {
+        localStorage.removeItem('joined-video-channel');
         this.languageChangeSubscription?.unsubscribe();
         this.destroy$.next();
         this.destroy$.complete();

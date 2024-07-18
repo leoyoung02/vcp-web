@@ -3735,6 +3735,8 @@
         "via": "via",
         "enteravalidphone": "Bitte geben Sie eine gültige Telefonnummer ein +<Ländercode><Nummer> +34999999999",
         "enteravalidpasscode": "Bitte geben Sie einen gültigen Passcode ein", 
-        "enterpasscode": "Passcode eingeben"
+        "enterpasscode": "Passcode eingeben",
+        "incomingvideocall": "Eingehender Videoanruf",
+        "connecting": "Verbindung wird hergestellt"
     }
 }

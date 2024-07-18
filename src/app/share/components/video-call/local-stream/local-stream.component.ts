@@ -1,22 +1,36 @@
 import { CommonModule } from "@angular/common";
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, SimpleChange, ViewChild } from '@angular/core'
+import { ActivatedRoute, Router } from "@angular/router";
+import { AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, SimpleChange, ViewChild } from '@angular/core'
 import { ILocalTrack, IAgoraRTCClient } from 'agora-rtc-sdk-ng';
 import { MediaControlsComponent } from '../media-controls/media-controls.component';
 import { VideoCallService } from '@features/services';
 import { Subscription } from 'rxjs';
+import {
+    LangChangeEvent,
+    TranslateModule,
+    TranslateService,
+  } from "@ngx-translate/core";
+import { LocalService } from "@share/services";
+import { environment } from "@env/environment";
 
 @Component({
     selector: 'app-local-stream',
     standalone: true,
     imports: [
         CommonModule,
+        TranslateModule,
         MediaControlsComponent
     ],
     templateUrl: './local-stream.component.html',
     changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocalStreamComponent implements AfterViewInit {
+    @Input() mode: any;
     @Input() micMuted: any;
+    @Input() currentUserInfo: any;
+    @Input() existingVideoCallLog: any;
+
+    language: any;
 
     @ViewChild('localVideo', { static: true }) localVideo!: ElementRef<HTMLDivElement>;
     @Output() leaveChannel = new EventEmitter<void>();
@@ -42,38 +56,39 @@ export class LocalStreamComponent implements AfterViewInit {
         video: 'video',
         screen: 'screen',
     }
+    callEnded: boolean = false;
 
-    constructor(private _videoCallService: VideoCallService) {
-        this.client = this._videoCallService.getClient()
+    constructor(
+        private _route: ActivatedRoute,
+        private _router: Router,
+        private _videoCallService: VideoCallService,
+        private _translateService: TranslateService,
+        private _localService: LocalService,
+        private cd: ChangeDetectorRef
+    ) {
+        this.client = this._videoCallService.getClient();
     }
 
-    // ngOnChanges(changes: SimpleChange) {
-    //     let micMutedChange = changes["micMuted"];
-    //     if (micMutedChange && 
-    //         (micMutedChange?.previousValue != micMutedChange?.currentValue ||
-    //         micMutedChange?.currentValue == true)
-    //       ) {
-    //         this.micMuted = micMutedChange.currentValue;
-    //       }
-    // }
+    async ngOnInit() {
+        this.language = this._localService.getLocalStorage(environment.lslang);
+        this._translateService.use(this.language || "es");
+    }
 
     async ngAfterViewInit(): Promise<void> {
-        // [this.localMicTrack, this.localVideoTrack] = await this._videoCallService.setupLocalTracks();
-        // this.localTracksActive.audio = this.localMicTrack ? true : false
-        // this.localTracksActive.video = this.localVideoTrack ? true : false
+        [this.localMicTrack, this.localVideoTrack] = await this._videoCallService.setupLocalTracks();
+        this.localTracksActive.audio = this.localMicTrack ? true : false
+        this.localTracksActive.video = this.localVideoTrack ? true : false
         
-        // // play video track in localStreamComponent div
-        // this.localVideoTrack.play(this.localVideo.nativeElement);
-        // this.subscription.add(this._videoCallService.channelJoined$.subscribe(status => {
-        //     this.channelJoined = status
-        //     if (status) {
-        //         this.publishTracks() // publish the tracks once we are in the channel
-        //     }
-        // }))
+        this.localVideoTrack.play(this.localVideo.nativeElement);
+        this.subscription.add(this._videoCallService.channelJoined$.subscribe(status => {
+            this.channelJoined = status
+            if (status) {
+                this.publishTracks()
+            }
+        }))
     }
 
     async ngOnDestroy() {
-        // leave the channel if the component unmounts
         this.handleLeaveChannel()
     }
 
@@ -89,33 +104,39 @@ export class LocalStreamComponent implements AfterViewInit {
         if (this.channelJoined) {
             const tracks = [this.localMicTrack, this.localVideoTrack]
             tracks.forEach(track => {
-                track.close()
+                track.close();
             })
-            await this.client?.unpublish(tracks)
-            await this._videoCallService.leaveChannel()
+
+            try {
+                await this.client?.unpublish(tracks);
+                await this._videoCallService.leaveChannel();
+                this.redirectToCallEndedPage();
+            } catch (error) {
+                this.redirectToCallEndedPage();
+                console.error('Error unpublishing:', error);
+            }
         }
-        this.leaveChannel.emit()
+    }
+
+    leave() {
+        this.leaveChannel.emit();
+        this.redirectToCallEndedPage();
+    }
+
+    redirectToCallEndedPage() {
+        setTimeout(() => {
+            this._router.navigate([`/call/ended`])
+            .then(() => {
+                window.location.reload();
+            });
+        }, 500)
     }
 
     async muteTrack(trackName: string, enabled: boolean): Promise<boolean> {
-        const track = trackName === 'mic' ? this.localMicTrack : this.localVideoTrack;
+        const track = trackName === 'audio' ? this.localMicTrack : this.localVideoTrack;
         await track?.setEnabled(enabled);
         this.setTrackState(trackName, enabled)
         return enabled;
-    }
-
-    async startScreenShare(): Promise<boolean> {
-        // TODO: add start screen share
-        // Listen for screen share ended event (from browser ui button)
-        // this.localScreenTracks[0]?.on("track-ended", () => {
-        //   this.stopScreenShare()
-        // })    
-        return true;
-    }
-
-    async stopScreenShare(): Promise<boolean> {
-        // TODO: add stop screenshare
-        return false;
     }
 
     getTrackState(trackName: string): boolean | undefined {
@@ -123,7 +144,6 @@ export class LocalStreamComponent implements AfterViewInit {
         if (key) {
             return this.localTracksActive[key]
         }
-        console.log(`Get Track State Error: Unknown trackName: ${trackName}`)
         return
     }
 
@@ -132,7 +152,14 @@ export class LocalStreamComponent implements AfterViewInit {
         if (key) {
             this.localTracksActive[key] = state
         }
-        console.log(`Set Track State Error: Unknown trackName: ${trackName}`)
         return
+    }
+
+    getClientStats() {
+        this._videoCallService.getClientStats();
+    }
+
+    goHome() {
+        location.href = '/';
     }
 }

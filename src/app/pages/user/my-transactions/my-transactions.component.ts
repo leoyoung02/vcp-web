@@ -121,7 +121,7 @@ export class MyTransactionsComponent {
             this.mapSubfeatures(data?.subfeatures);
             this.user = data?.user;
             this.callLogs = this.formatList(data?.call_logs, 'deduct');
-            this.videoCallLogs = this.formatList(data?.videocall_logs, 'deduct');
+            this.videoCallLogs = this.formatList(data?.video_call_logs, 'deduct');
             this.chatLogs = this.formatList(data?.chat_logs, 'deduct');
             this.walletLogs = this.formatList(data?.wallet_transactions, 'add');
             this.initializeTable();

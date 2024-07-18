@@ -517,16 +517,16 @@ export class ProfessionalsListComponent {
   }
 
   async handleStartVideoCall(id) {
+    localStorage.removeItem('joined-video-channel');
+    this.selectedId = id;
     if(this.userId > 0) {
       this.actionMode = 'videocall';
-      this.professional = this.professionals.find((c) => c.user_id == id);
+      this.professional = this.professionals?.find((c) => c.user_id == this.selectedId);
 
-      let id = this.professional.user_id;
       if(this.hasRequiredMinimumBalance()) {
         this.display = '';
-        this.selectedId = id;
 
-        const channel =  `agora-vcp-video-${id}-${this.userId}`;
+        const channel =  `agora-vcp-video-${this.selectedId}-${this.userId}`;
         this.room = channel;
         let caller_uid = Math.floor(Math.random() * 2032);
 
@@ -555,7 +555,12 @@ export class ProfessionalsListComponent {
           token,
         }
         this.notifyVideoCallProfessional(params);
-        this._router.navigate([`/call/video/${video_call_guid}/${video_call_passcode}`]);
+
+        let url = `/call/video/${video_call_guid}/${video_call_passcode}/caller`;
+        this._router.navigate([url])
+        .then(() => {
+          window.location.reload();
+        });
       }
     } else {
       this._router.navigate(['/auth/login']);
@@ -578,7 +583,7 @@ export class ProfessionalsListComponent {
   }
 
   notifyVideoCallProfessional(params) {
-    this._professionalsService.notifyProfessional(params).subscribe(
+    this._professionalsService.notifyVideoCallProfessional(params).subscribe(
       (response) => {
       },
       (error) => {

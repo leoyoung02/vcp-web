@@ -12,7 +12,7 @@ import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
 import { MenuService } from "@lib/services";
-import { PlansService, TutorsService, VoiceCallService } from "@features/services";
+import { PlansService, TutorsService, VideoCallService, VoiceCallService } from "@features/services";
 import { FooterComponent, MobileNavbarComponent } from "src/app/core/components";
 import { Subject, takeUntil } from "rxjs";
 import { ToastComponent } from "@share/components";
@@ -212,11 +212,14 @@ export class LayoutMainComponent {
   professionalsFeatureId: any;
   hasProfessionals: boolean = false;
   callPage: boolean = false;
+  callGuid: any;
+  callPasscode: any;
+  videoCallGuid: any;
+  videoCallPasscode: any;
+  communicationMode: any;
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
-  callGuid: any;
-  callPasscode: any;
 
   constructor(
     private _router: Router,
@@ -228,6 +231,7 @@ export class LayoutMainComponent {
     private _tutorsService: TutorsService,
     private _plansService: PlansService,
     private _voiceCallService: VoiceCallService,
+    private _videoCallService: VideoCallService,
     private cd: ChangeDetectorRef
   ) {
     this.language = this._localService.getLocalStorage(environment.lslanguage);
@@ -364,6 +368,7 @@ export class LayoutMainComponent {
         this.hasProfessionals = true;
 
         this.subscribeVoiceCall();
+        this.subscribeVideoCall();
       }
     }
 
@@ -401,7 +406,9 @@ export class LayoutMainComponent {
       .getFeedItems()
       .subscribe(async(response) => {
         if(response?.id == this.userId || response?.channel == this.userId) {
+          this.communicationMode = response.mode?.indexOf('video') >= 0 ? 'video' : 'call';
           this.pusherData = response;
+          
           if(this.pusherData.call_guid) {
             this.callGuid = this.pusherData.call_guid;
             this.callPasscode = this.pusherData.passcode;
@@ -411,12 +418,43 @@ export class LayoutMainComponent {
           this.toastMode = response.mode;
           this.toastName = response.caller_name;
           this.toastImage = response.caller_image;
-
+      
           if(this.toastMode == 'end-call') {
             await this._voiceCallService.leaveCall();
             this.showToast = false;
             this.handleAudio('stop');
           } else if(this.toastMode == 'accept-call') {
+            this.showToast = true;
+            this.handleAudio('play');
+          }
+          this.cd.detectChanges();
+        }
+      })
+  }
+
+  subscribeVideoCall() {
+    this.pusherSubscription = this._videoCallService
+      .getFeedItems()
+      .subscribe(async(response) => {
+        if(response?.id == this.userId || response?.channel == this.userId) {
+          this.communicationMode = response.mode?.indexOf('video') >= 0 ? 'video' : 'call';
+          this.pusherData = response;
+          
+          if(this.pusherData.video_call_guid) {
+            this.videoCallGuid = this.pusherData.video_call_guid;
+            this.videoCallPasscode = this.pusherData.video_call_passcode;
+          }
+          
+          this.toastMessage = response.message || `${this._translateService.instant('professionals.incomingvideocall')}...`;
+          this.toastMode = response.mode;
+          this.toastName = response.caller_name;
+          this.toastImage = response.caller_image;
+      
+          if(this.toastMode == 'end-video-call') {
+            await this._videoCallService.leaveChannel();
+            this.showToast = false;
+            this.handleAudio('stop');
+          } else if(this.toastMode == 'accept-video-call') {
             this.showToast = true;
             this.handleAudio('play');
           }
@@ -448,8 +486,11 @@ export class LayoutMainComponent {
         audioPlayer.pause();
       }
     }, 500);
+    
     this.showToast = false;
-    this._router.navigate([`/call/voice/${this.callGuid}/${this.callPasscode}`])
+    
+    let url = this.communicationMode == 'video' ? `/call/video/${this.videoCallGuid}/${this.videoCallPasscode}/recipient` : `/call/voice/${this.callGuid}/${this.callPasscode}`;
+    this._router.navigate([url])
     .then(() => {
       window.location.reload();
     });
