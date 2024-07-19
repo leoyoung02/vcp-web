@@ -79,7 +79,11 @@
         "navigation": "Navegación",
         "navigationdesc": "Menú de navegación que permite un acceso rápido a las páginas",
         "topmenu": "Menú superior",
-        "sidemenu": "Menú lateral"
+        "sidemenu": "Menú lateral",
+        "events": "Eventos",
+        "courses": "Cursos",
+        "rituals": "Rituales",
+        "services": "Servicios gratuitos"
     },
     "user-popup": {
         "myplans": "Mis planes",

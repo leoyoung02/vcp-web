@@ -1,12 +1,17 @@
 <nav class="fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600"
   [ngStyle]="{'background-color': primaryColor}">
   <nav class="border-gray-200 dark:bg-gray-900" [ngStyle]="{'background-color': primaryColor}">
-    <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-2xl p-4 pb-2"
+    <div class="flex flex-wrap justify-between items-center mx-auto max-w-screen-2xl  pb-2"
       [ngStyle]="{'background-color': primaryColor}">
         <a href="https://flowbite.com" class="flex items-center space-x-3 rtl:space-x-reverse">
-          <img [src]="logoSource" class="h-16" [alt]="company.entity_name" />
+          <img [src]="logoSource" class="h-16 mr-6 pt-2" [alt]="company.entity_name" />
         </a>
-        <div class="flex items-center">
+        <div class="flex items-center flex-1 space-x-2 pt-2">
+          <ul class="flex flex-row gap-12 justify-start alig font-medium mt-0 space-x-7 rtl:space-x-reverse text-sm overflow-x-scroll no-scrollbar pt-5">
+            <li *ngFor="let item of topMenuItems" class="text-[#E6D3B4] text-lg cursor-pointer" routerLinkActive="text-[#D1B298]" >{{"landing."+item | translate}}</li>
+          </ul>
+        </div>
+        <div class=" bg-[#A77FE0] items-center flex rounded-bl-lg h-14">
           <ng-container *ngIf="!userid && !isCursoGeniusTestimonials">
             <div class="ml-2">
               <app-guest-menu
@@ -55,28 +60,8 @@
               </svg>
             </ng-container>
           </ng-container>
-          <span class="w-px h-5 bg-gray-300 ml-4 mr-3" *ngIf="languages?.length > 0">&nbsp;</span>
-          <div class="flex items-center">
-            <ng-container *ngFor="let lang of languages;let i = index;">
-              <div class="flex items-center space-x-1 md:space-x-0">
-                <button type="button"
-                  (click)="useLanguage(lang.code)"
-                  class="inline-flex items-center font-medium justify-center p-1 text-sm text-gray-900 dark:text-white rounded-lg cursor-pointer hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white">
-                  <img
-                    [src]="lang.code == 'en' ? './assets/menu-icons/menu-icon-en.png' : (
-                      lang.code == 'eu' ? './assets/menu-icons/menu-icon-eu.png' : (
-                        lang.code == 'it' ? './assets/menu-icons/menu-icon-it.png' : 
-                        './assets/menu-icons/menu-icon-es.png')
-                    )"
-                    class="cursor-pointer w-[28px] max-w-[28px] h-[21px] max-h-[21px] object-cover rounded-[5px]"
-                    [ngClass]="{'grayscale': language != lang.code}"
-                    alt="getLanguage(lang)"
-                  />
-                </button>
-              </div>
-            </ng-container>
-          </div>
         </div>
+        <!-- ################################################### -->
     </div>
     <div 
       data-popover 

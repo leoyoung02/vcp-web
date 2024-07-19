@@ -194,6 +194,12 @@ export class TopMenuComponent {
   canViewAdministrar: boolean = false;
   companyId: any;
   hideMenu: boolean = false;
+  topMenuItems: string[] = [
+    'events',
+    'courses',
+    'rituals',
+    'services',
+  ];
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
