@@ -230,6 +230,7 @@ export class ManageMemberTypesComponent {
     "show_register",
     "require_payment",
     "members_visible",
+    "access_account",
     "action",
   ];
   @ViewChild(MatPaginator, { static: false }) paginator:
@@ -349,6 +350,7 @@ export class ManageMemberTypesComponent {
         "show_register",
         "require_payment",
         "members_visible",
+        "access_account",
         "action",
       ];
     // }
@@ -792,6 +794,7 @@ export class ManageMemberTypesComponent {
   }
 
   async editMemberType(item) {
+    console.log(item);
     this.mode = "edit";
     this.samePrice = false;
     this.permissionsData = [];
@@ -1488,6 +1491,7 @@ export class ManageMemberTypesComponent {
         invite_all_events: this.inviteAllEvents || 0,
         view_guests: this.viewGuests || 0,
       };
+      console.log(this.selectedId, params);
       this._companyService
         .editCustomMemberType(this.selectedId, params)
         .subscribe(

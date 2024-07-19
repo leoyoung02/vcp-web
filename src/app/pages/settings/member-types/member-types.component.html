@@ -111,6 +111,16 @@
                         </div>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="access_account">
+                    <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'member-type-registration.showaccount' | translate }} </mat-header-cell>
+                    <mat-cell *matCellDef="let row" data-label="access_account">
+                        <div class="w-full flex justify-center">
+                            <svg *ngIf="row?.access_account == 1" [ngStyle]="{'color': '#5cb85c'}" class="mr-2 hover:cursor-pointer w-8 h-8 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z"/>
+                            </svg>
+                        </div>
+                    </mat-cell>
+                </ng-container>
                 <ng-container matColumnDef="action">
                     <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'customer.action' | translate }}</mat-header-cell>
                     <mat-cell *matCellDef="let row" data-label="action" class="flex;">
