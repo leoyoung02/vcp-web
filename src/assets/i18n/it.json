@@ -79,7 +79,8 @@
         "navigation": "Navigazione",
         "navigationdesc": "Menu di navigazione che consente un rapido accesso alle pagine",
         "topmenu": "Menu principale",
-        "sidemenu": "Menù laterale"
+        "sidemenu": "Menù laterale",
+        "accessaccount": "Il mio account"
     },
     "user-popup": {
         "myplans": "I miei piani",
@@ -3733,5 +3734,15 @@
         "enteravalidphone": "Inserisci un numero di telefono valido +<codice_paese><numero> +34999999999",
         "enteravalidpasscode": "Inserisci un codice di accesso valido", 
         "enterpasscode": "Inserisci codice"
+    },
+    "my-account": {
+        "availablebalance": "Saldo disponible",
+        "recharge": "Ricaricare",
+        "deleteall": "Cancella tutto",
+        "loading": "Ricarica...",
+        "calls": "Chiamate",
+        "cost": "Costo",
+        "date": "Data",
+        "deleteiconalt": "Icona nera di un bidone della spazzatura"
     }
 }

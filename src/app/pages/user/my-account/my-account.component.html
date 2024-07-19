@@ -6,21 +6,21 @@
       <div class="flex gap-3 items-center justify-between">
         <div class="flex gap-3 items-center">
           <p class="text-2xl font-extrabold text-green-700">
-            Saldo disponible:
+            {{"my-account.availablebalance" | translate}}:
             {{ balance | currency : currency : 'symbol' : '1.2-2' }}
           </p>
           <button
             type="button"
             class="text-green-700 hover:text-white border border-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-1 mb-1 dark:border-green-500 dark:text-green-500 dark:hover:text-white dark:hover:bg-green-600 dark:focus:ring-green-800"
           >
-            Recargar
+            {{"my-account.recharge" | translate}}
           </button>
         </div>
         <button
           type="button"
           class="text-red-700 hover:text-white border border-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-1 mb-1 dark:border-red-500 dark:text-red-500 dark:hover:text-white dark:hover:bg-red-600 dark:focus:ring-red-900"
         >
-          Eliminar todo
+          {{"my-account.deleteall" | translate}}
         </button>
       </div>
     </div>
@@ -50,12 +50,12 @@
               fill="currentFill"
             />
           </svg>
-          <span class="sr-only">Cargando...</span>
+          <span class="sr-only">{{ 'my-account.loading' | translate }}</span>
         </div>
         <mat-table *ngIf="!isloading" [dataSource]="dataSource" matSort>
           <ng-container matColumnDef="call">
             <mat-header-cell *matHeaderCellDef mat-sort-header>
-              Llamadas
+              {{'my-account.calls' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let row" data-label="call">
               {{ row?.call }}
@@ -64,7 +64,7 @@
 
           <ng-container matColumnDef="cost">
             <mat-header-cell *matHeaderCellDef mat-sort-header>
-              Coste
+              {{'my-account.cost' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let row" data-label="cost">
               {{ row?.cost | currency : currency : 'symbol' : '1.2-2' }}
@@ -73,7 +73,7 @@
 
           <ng-container matColumnDef="date">
             <mat-header-cell *matHeaderCellDef mat-sort-header>
-              Fecha
+              {{'my-account.date' | translate}}
             </mat-header-cell>
             <mat-cell *matCellDef="let row" data-label="date">
               {{ row?.date | date : 'd MMM yyyy' : 'UTC' }}
@@ -101,7 +101,7 @@
                     d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"
                   />
                 </svg>
-                <span class="sr-only">Icono negro de papelera</span>
+                <span class="sr-only">{{ 'my-account.deleteiconalt' | translate }}</span>
               </button>
             </mat-cell>
           </ng-container>

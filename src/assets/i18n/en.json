@@ -79,7 +79,8 @@
         "navigation": "Navigation",
         "navigationdesc": "Navigation menu allowing quick access to pages",
         "topmenu": "Top menu",
-        "sidemenu": "Side menu"
+        "sidemenu": "Side menu",
+        "accessaccount": "My Account"
     },
     "user-popup": {
         "myplans": "My Plans",
@@ -3776,5 +3777,15 @@
         "enteravalidphone": "Please enter a valid phone number +<country_code><number> +34999999999",
         "enteravalidpasscode": "Please enter a valid passcode",
         "enterpasscode": "Enter passcode"
+    },
+    "my-account": {
+        "availablebalance": "Available balance",
+        "recharge": "Recharge",
+        "deleteall": "Delete all",
+        "loading": "Loading...",
+        "calls": "Calls",
+        "cost": "Cost",
+        "date": "Date",
+        "deleteiconalt": "Black icon of a trash can"
     }
 }

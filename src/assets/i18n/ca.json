@@ -79,7 +79,8 @@
         "navigation": "Navegació",
         "navigationdesc": "Menú de navegació que permet un accés ràpid a les pàgines",
         "topmenu": "Menú superior",
-        "sidemenu": "Menú lateral"
+        "sidemenu": "Menú lateral",
+        "accessaccount": "El meu compte"
     },
     "user-popup": {
         "myplans": "Els meus plans",
@@ -3747,5 +3748,15 @@
         "enteravalidphone": "Introduïu un número de telèfon vàlid +<country_code><number> +34999999999",
         "enteravalidpasscode": "Introduïu una contrasenya vàlida", 
         "enterpasscode": "Introdueix la contrasenya"
+    },
+    "my-account": {
+        "availablebalance": "Saldo disponible",
+        "recharge": "Recarregar",
+        "deleteall": "Eliminar-ho tot",
+        "loading": "Carregant...",
+        "calls": "Trucades",
+        "cost": "Cost",
+        "date": "Data",
+        "deleteiconalt": "Icona negra d'una paperera"
     }
 }

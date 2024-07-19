@@ -79,7 +79,8 @@
         "navigation": "Navegació",
         "navigationdesc": "Menú de navegació que permet un accés ràpid a les pàgines",
         "topmenu": "Menú superior",
-        "sidemenu": "Menú lateral"
+        "sidemenu": "Menú lateral",
+        "accessaccount": "Mein Konto"
     },
     "user-popup": {
         "myplans": "Meine Pläne",
@@ -3739,5 +3740,15 @@
         "enteravalidphone": "Bitte geben Sie eine gültige Telefonnummer ein +<Ländercode><Nummer> +34999999999",
         "enteravalidpasscode": "Bitte geben Sie einen gültigen Passcode ein", 
         "enterpasscode": "Passcode eingeben"
+    },
+    "my-account": {
+        "availablebalance": "Verfügbares Guthaben",
+        "recharge": "Aufladen",
+        "deleteall": "Alles löschen",
+        "loading": "Aufladen...",
+        "calls": "Anrufe",
+        "cost": "Kosten",
+        "date": "Datum",
+        "deleteiconalt": "Schwarzes Symbol eines Mülleimers"
     }
 }

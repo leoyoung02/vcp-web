@@ -79,7 +79,8 @@
         "navigation": "Navigation",
         "navigationdesc": "Menu de navigation permettant un accès rapide aux pages",
         "topmenu": "Menu supérieur",
-        "sidemenu": "Menu latéral"
+        "sidemenu": "Menu latéral",
+        "accessaccount": "Mon compte"
     },
     "user-popup": {
         "myplans": "Mes projets",
@@ -3734,5 +3735,15 @@
         "enteravalidphone": "Veuillez entrer un numéro de téléphone valide +<code_pays><numéro> +34999999999",
         "enteravalidpasscode": "Veuillez saisir un mot de passe valide", 
         "enterpasscode": "Entrez le code"
+    },
+    "my-account": {
+        "availablebalance": "Solde disponible",
+        "recharge": "Recharger",
+        "deleteall": "Supprimer tout",
+        "loading": "Mise en charge...",
+        "calls": "Appels",
+        "cost": "Coût",
+        "date": "Date",
+        "deleteiconalt": "Icône noire d'une poubelle"
     }
 }

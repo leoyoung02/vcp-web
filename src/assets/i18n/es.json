@@ -79,7 +79,8 @@
         "navigation": "Navegación",
         "navigationdesc": "Menú de navegación que permite un acceso rápido a las páginas",
         "topmenu": "Menú superior",
-        "sidemenu": "Menú lateral"
+        "sidemenu": "Menú lateral",
+        "accessaccount": "Mi cuenta"
     },
     "user-popup": {
         "myplans": "Mis planes",
@@ -3761,5 +3762,15 @@
         "enteravalidphone": "Por favor ingresa un número de teléfono válido +<código_país><número> +34999999999",
         "enteravalidpasscode": "Por favor, introduce una contraseña válida", 
         "enterpasscode": "Ingrese el código de acceso"
+    },
+    "my-account": {
+        "availablebalance": "Saldo disponible",
+        "recharge": "Recargar",
+        "deleteall": "Eliminar todo",
+        "loading": "Cargando...",
+        "calls": "Llamadas",
+        "cost": "Coste",
+        "date": "Fecha",
+        "deleteiconalt": "Icono negro de una papelera"
     }
 }

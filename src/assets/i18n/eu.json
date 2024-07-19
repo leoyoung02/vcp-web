@@ -79,7 +79,8 @@
         "navigation": "Nabigazioa",
         "navigationdesc": "Nabigazio menua orrietara sarbide azkarra ahalbidetzen du",
         "topmenu": "Goiko menua",
-        "sidemenu": "Alboko menua"
+        "sidemenu": "Alboko menua",
+        "accessaccount": "Nire kontua"
     },
     "user-popup": {
         "myplans": "Nire planak",
@@ -3740,5 +3741,15 @@
         "enteravalidphone": "Mesedez, sartu baliozko telefono-zenbaki bat +<country_code><number> +34999999999",
         "enteravalidpasscode": "Mesedez, sartu baliozko pasakode bat", 
         "enterpasscode": "Idatzi pasakodea"
+    },
+    "my-account": {
+        "availablebalance": "Saldo erabilgarria",
+        "recharge": "Kargatu",
+        "deleteall": "Ezabatu guztiak",
+        "loading": "Kargatzen...",
+        "calls": "Deiak",
+        "cost": "Kostua",
+        "date": "Data",
+        "deleteiconalt": "Zaborrontzi baten ikono beltza"
     }
 }
