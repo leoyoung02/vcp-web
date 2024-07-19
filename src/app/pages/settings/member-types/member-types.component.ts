@@ -794,7 +794,6 @@ export class ManageMemberTypesComponent {
   }
 
   async editMemberType(item) {
-    console.log(item);
     this.mode = "edit";
     this.samePrice = false;
     this.permissionsData = [];
@@ -858,6 +857,7 @@ export class ManageMemberTypesComponent {
 
     this.taxIncludeStatus = item.tax_include ? item.tax_include : "";
     this.membersVisible = item.members_visible == 1 ? true : false;
+    this.accessAccount = item.access_account ? true : false;
     this.includePlatformFee = item.platform_account ? true : false;
     if (this.includePlatformFee) {
       this.stripeAccountId = item.platform_account;
@@ -1491,7 +1491,6 @@ export class ManageMemberTypesComponent {
         invite_all_events: this.inviteAllEvents || 0,
         view_guests: this.viewGuests || 0,
       };
-      console.log(this.selectedId, params);
       this._companyService
         .editCustomMemberType(this.selectedId, params)
         .subscribe(
