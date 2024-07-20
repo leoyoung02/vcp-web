@@ -27,12 +27,16 @@
             </p>
         </div>
     </div>
-    <div class="absolute bottom-5 right-5 flex items-center align-center">
+    <div class="relative sm:relative md:absolute lg-absolute md:bottom-5 lg:bottom-5 md:right-5 lg:right-5 flex items-center align-center justify-center sm:justify-center md:justify-normal lg:justify-normal mt-6 sm:mt-6 md:mt-0 lg:mt-0">
         <div class="flex">
-            <ng-container *ngIf="hasVideoCall">
-                <button [disabled]="!onlineStatus" (click)="handleStartChat()" 
-                    [ngStyle]="{'background-color': onlineStatus == 1 ? buttonColor : '#c7c7c7'}" 
-                    class="mr-2.5 font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center">
+            <ng-container *ngIf="hasChat">
+                <button [disabled]="!onlineStatus" (click)="handleStartChat()"
+                    [ngStyle]="{'background-color': onlineStatus ? buttonColor : '#c7c7c7'}" 
+                    class="mr-2.5 font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center"
+                    data-drawer-target="drawer-right" 
+                    data-drawer-show="drawer-right" 
+                    data-drawer-placement="right"
+                    data-drawer-backdrop="false">
                     <img src="./assets/professional-icons/comment.png" 
                         class="w-[18px] h-[18px] object-contain" 
                         [ngClass]="{'cursor-pointer': onlineStatus}" />
@@ -47,7 +51,7 @@
                         [ngClass]="{'cursor-pointer': onlineStatus}" />
                 </button>
             </ng-container>
-            <ng-container *ngIf="hasChat">
+            <ng-container *ngIf="hasVideoCall">
                 <button [disabled]="!onlineStatus" (click)="handleStartVideoCall()" 
                     [ngStyle]="{'background-color': onlineStatus == 1 ? buttonColor : '#c7c7c7'}" 
                     class="font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center">
@@ -59,3 +63,14 @@
         </div>
     </div>
 </div>
+<app-chat-drawer 
+    [canChat]="canChat" 
+    [buttonColor]="buttonColor"
+    [id]="id"
+    [image]="image"
+    [firstName]="firstName"
+    [userId]="userId"
+    [userName]="userName"
+    [userImage]="userImage"
+    [userData]="userData">
+</app-chat-drawer>

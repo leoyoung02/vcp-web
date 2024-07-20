@@ -7,6 +7,7 @@ export const environment = {
     logLevel: NgxLoggerLevel.OFF,
     serverLogLevel: NgxLoggerLevel.ERROR,
     agoraAppId: '216cb9286f7b4d38af22f24ba5b5e0d4',
+    agoraChatAppKey: '71257372#1312265',
     lstoken: 'MDzMJjldj0uCZf+DrObXFA==',
     lsrefreshtoken: 'EKHWGZB/EkSWmaO+0haEvA==',
     lsinitializationVector: 'encryptionIntVec',

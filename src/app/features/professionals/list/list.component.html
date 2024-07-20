@@ -10,7 +10,7 @@
         </div>
     </div>
 </ng-container>
-<div class="pt-24 sm:pt-20 md:pt-0 lg:pt-0">
+<div>
     <div class="py-2 pb-20">
         <div class="w-full relative py-6">
             <div class="flow-root relative">
@@ -21,6 +21,10 @@
                             [image]="professional.image"
                             [path]="professional.path"
                             [name]="professional.name"
+                            [firstName]="professional.first_name"
+                            [userId]="userId"
+                            [userName]="professional.user_name"
+                            [userImage]="professional.user_image"
                             [languages]="professional.language"
                             [experience]="professional.experience"
                             [experiencePeriod]="professional.experience_period"
@@ -32,6 +36,8 @@
                             [hasVoiceCall]="hasVoiceCall"
                             [hasVideoCall]="hasVideoCall"
                             [hasChat]="hasChat"
+                            [canChat]="canChat"
+                            [userData]="userData"
                             (onStartCall)="handleStartCall($event)"
                             (onStartChat)="handleStartChat($event)"
                             (onStartVideoCall)="handleStartVideoCall($event)"

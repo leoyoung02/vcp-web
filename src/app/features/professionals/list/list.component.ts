@@ -103,12 +103,15 @@ export class ProfessionalsListComponent {
   callPasscode: any;
   room: any;
   userPhone: any;
+  userData: any = [];
   @ViewChild("modalbutton2", { static: false }) modalbutton2:
     | ElementRef
     | undefined;
   @ViewChild("closemodalbutton2", { static: false }) closemodalbutton2:
     | ElementRef
     | undefined;
+
+  canChat: boolean = false;
   
   constructor(
     private _route: ActivatedRoute,
@@ -182,7 +185,10 @@ export class ProfessionalsListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          if(this.user) { this.user['available_balance'] = this.userId > 0 ? data?.user?.available_balance : 0; }
+          this.user = data?.user || this.user;
+          if(this.user) { 
+            this.user['available_balance'] = this.userId > 0 ? data?.user?.available_balance : 0; 
+          }
 
           let payment_methods = data?.payment_methods || '';
           this._localService.setLocalStorage(environment.lspaymentmethods, payment_methods);
@@ -248,6 +254,9 @@ export class ProfessionalsListComponent {
         path: `/professionals/details/${item.id}`,
         image: `${environment.api}/${item.image}`,
         name: item?.first_name ? `${item.first_name} ${item.last_name}` : item.name,
+        first_name: item?.first_name || item?.name,
+        user_name: this.user?.first_name || this.user.name,
+        user_image: `${environment.api}/${this.user?.image}`,
       };
     });
 
@@ -511,9 +520,40 @@ export class ProfessionalsListComponent {
     if(this.userId > 0) {
       this.actionMode = 'chat';
       this.professional = this.professionals.find((c) => c.user_id == id);
+      this.initializeUserDetails();
+      this.canChat = true;
     } else {
       this._router.navigate(['/auth/login']);
     }
+  }
+
+  initializeUserDetails() {
+    this.userData = [
+      {
+        label: this._translateService.instant('profile-settings.birthday'),
+        value: this.user.birthday ? moment(this.user.birthday).format('DD/MM/YYYY') : '-'
+      },
+      {
+        label: this._translateService.instant('professionals.gender'),
+        value: this.user?.gender || '-'
+      },
+      {
+        label: this._translateService.instant('professionals.civilstatus'),
+        value: this.user?.civil_status || '-'
+      },
+      {
+        label: this._translateService.instant('profile-settings.position'),
+        value: this.user?.position || ''
+      },
+      {
+        label: this._translateService.instant('profile-settings.city'),
+        value: this.user?.city || ''
+      },
+      {
+        label: this._translateService.instant('profile-settings.country'),
+        value: this.user?.country || ''
+      },
+  ]
   }
 
   async handleStartVideoCall(id) {
