@@ -249,6 +249,12 @@ export class CourseEditComponent {
   courseDownloads: any = [];
   courseLessonFileSrc: string = environment.api +  '/get-course-unit-file/';
   courseUnitFileName: any = '';
+  courseUnitFileNameEn: any = '';
+  courseUnitFileNameFr: any = '';
+  courseUnitFileNameEu: any = '';
+  courseUnitFileNameCa: any = '';
+  courseUnitFileNameDe: any = '';
+  courseUnitFileNameIt: any = '';
   allCourseDownloads: any = [];
   selectedDownloadUnit: any = '';
   downloadFileTypes: any = [];
@@ -315,24 +321,24 @@ export class CourseEditComponent {
   courseIntroFileName: any;
 
   @ViewChild('myPond', {static: false}) myPond: any;
+  @ViewChild('myPondEn', {static: false}) myPondEn: any;
+  @ViewChild('myPondIt', {static: false}) myPondIt: any;
+
   @ViewChild('downloadPond', {static: false}) downloadPond: any;
   @ViewChild('courseIntroPond', {static: false}) courseIntroPond: any;
   pondOptions = {
     class: 'my-filepond',
     multiple: false,
-    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
-    // maxFileSize: 200000000,
-    // labelMaxFileSizeExceeded: "El archivo es demasiado grande",
-    // labelMaxFileSize: "El tamaño máximo de archivo es {filesize}",
-    labelFileProcessing: "En curso",
-    labelFileProcessingComplete: "Carga completa",
-    labelFileProcessingAborted: "Carga cancelada",
-    labelFileProcessingError: "Error durante la carga",
-    labelTapToCancel: "toque para cancelar",
-    labelTapToRetry: "toca para reintentar",
-    labelTapToUndo: "toque para deshacer",
+    labelIdle: this._translateService.instant('course-details.uploaddesc'),
+    labelFileProcessing: this._translateService.instant('course-details.uploadprocessing'),
+    labelFileProcessingComplete: this._translateService.instant('course-details.uploadcomplete'),
+    labelFileProcessingAborted: this._translateService.instant('course-details.uploadcancelled'),
+    labelFileProcessingError: this._translateService.instant('course-details.uploaderror'),
+    labelTapToCancel: this._translateService.instant('course-details.uploadtapcancel'),
+    labelTapToRetry: this._translateService.instant('course-details.uploadtapretry'),
+    labelTapToUndo: this._translateService.instant('course-details.uploadtapundo'),
     server: {
-    process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
         const formData = new FormData();
         let fileExtension = file ? file.name.split('.').pop() : '';
         this.courseUnitFileName = 'courseLessonFile_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
@@ -343,30 +349,124 @@ export class CourseEditComponent {
         request.open('POST', environment.api + '/company/course/temp-upload');
 
         request.upload.onprogress = (e) => {
-        progress(e.lengthComputable, e.loaded, e.total);
+          progress(e.lengthComputable, e.loaded, e.total);
         };
 
         request.onload = function () {
-            if (request.status >= 200 && request.status < 300) {
+          if (request.status >= 200 && request.status < 300) {
             load(request.responseText);
             localStorage.setItem('course_unit_file', 'complete');
-            } else {
+          } else {
             error('oh no');
-            }
+          }
         };
 
         request.send(formData);
 
         return {
-        abort: () => {
+          abort: () => {
             request.abort();
             abort();
-        },
+          },
         };
-    },
+      },
     },
   };
   pondFiles = [];
+  pondOptionsEn = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: this._translateService.instant('course-details.uploaddesc'),
+    labelFileProcessing: this._translateService.instant('course-details.uploadprocessing'),
+    labelFileProcessingComplete: this._translateService.instant('course-details.uploadcomplete'),
+    labelFileProcessingAborted: this._translateService.instant('course-details.uploadcancelled'),
+    labelFileProcessingError: this._translateService.instant('course-details.uploaderror'),
+    labelTapToCancel: this._translateService.instant('course-details.uploadtapcancel'),
+    labelTapToRetry: this._translateService.instant('course-details.uploadtapretry'),
+    labelTapToUndo: this._translateService.instant('course-details.uploadtapundo'),
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.courseUnitFileNameEn = 'courseLessonFile_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('file', file, this.courseUnitFileNameEn);
+        localStorage.setItem('course_unit_file_en', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/company/course/temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('course_unit_file_en', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+            request.abort();
+            abort();
+          },
+        };
+      },
+    },
+  };
+  pondFilesEn = [];
+  pondOptionsIt = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: this._translateService.instant('course-details.uploaddesc'),
+    labelFileProcessing: this._translateService.instant('course-details.uploadprocessing'),
+    labelFileProcessingComplete: this._translateService.instant('course-details.uploadcomplete'),
+    labelFileProcessingAborted: this._translateService.instant('course-details.uploadcancelled'),
+    labelFileProcessingError: this._translateService.instant('course-details.uploaderror'),
+    labelTapToCancel: this._translateService.instant('course-details.uploadtapcancel'),
+    labelTapToRetry: this._translateService.instant('course-details.uploadtapretry'),
+    labelTapToUndo: this._translateService.instant('course-details.uploadtapundo'),
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.courseUnitFileNameIt = 'courseLessonFile_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('file', file, this.courseUnitFileNameIt);
+        localStorage.setItem('course_unit_file_it', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/company/course/temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('course_unit_file_it', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+            request.abort();
+            abort();
+          },
+        };
+      },
+    },
+  };
+  pondFilesIt = [];
   downloadPondOptions = {
       class: 'my-filepond',
       multiple: false,
@@ -584,6 +684,19 @@ export class CourseEditComponent {
     },
   };
   eventPondVideoFiles = [];
+
+  embedScriptEn: string = '';
+  embedScriptFr: string = '';
+  embedScriptEu: string = '';
+  embedScriptCa: string = '';
+  embedScriptDe: string = '';
+  embedScriptIt: string = '';
+  externalLinkEn: string = '';
+  externalLinkFr: string = '';
+  externalLinkEu: string = '';
+  externalLinkCa: string = '';
+  externalLinkDe: string = '';
+  externalLinkIt: string = '';
 
   constructor(
     private _route: ActivatedRoute,
@@ -2784,6 +2897,22 @@ export class CourseEditComponent {
     console.log('A file was added', event);
   }
 
+  pondHandleInitEn() {
+    console.log('FilePond has initialised', this.myPond);
+  }
+
+  pondHandleAddFileEn(event: any) {
+    console.log('A file was added', event);
+  }
+
+  pondHandleInitIt() {
+    console.log('FilePond has initialised', this.myPond);
+  }
+
+  pondHandleAddFileIt(event: any) {
+    console.log('A file was added', event);
+  }
+
   downloadPondHandleInit() {
     console.log('Download FilePond has initialised', this.myPond);
   }
@@ -2826,15 +2955,34 @@ export class CourseEditComponent {
     this.textIT = ''
     this.unitPoints = ''
     this.courseUnitFileName = ''
+    this.courseUnitFileNameEn = ''
+    this.courseUnitFileNameFr = ''
+    this.courseUnitFileNameEu = ''
+    this.courseUnitFileNameCa = ''
+    this.courseUnitFileNameDe = ''
+    this.courseUnitFileNameIt = ''
     this.selectedUnitOption = ''
     this.unitDuration = ''
     this.selectedCourseUnitDurationUnit = ''
     this.selectedUnitType = ''
     this.externalLink = ''
+    this.externalLinkEn = ''
+    this.externalLinkFr = ''
+    this.externalLinkEu = ''
+    this.externalLinkCa = ''
+    this.externalLinkDe = ''
+    this.externalLinkIt = ''
     this.courseUnitFormSubmitted = false
     this.textSizeUnit = ''
     this.unitAvailability = false
     this.unitAvailabilityDate = ''
+    this.embedScript = ''
+    this.embedScriptEn = ''
+    this.embedScriptFr = ''
+    this.embedScriptEu = ''
+    this.embedScriptCa = ''
+    this.embedScriptDe = ''
+    this.embedScriptIt = ''
   }
 
   addUnit() {
@@ -2890,8 +3038,13 @@ export class CourseEditComponent {
         }
     }
     
-    let course_file_status = localStorage.getItem('course_unit_file')
-    let course_file = course_file_status == 'complete' ? this.courseUnitFileName : ''
+    let course_file = localStorage.getItem('course_unit_file') == 'complete' ? this.courseUnitFileName : ''
+    let course_file_en = localStorage.getItem('course_unit_file_en') == 'complete' ? this.courseUnitFileNameEn : ''
+    let course_file_fr = localStorage.getItem('course_unit_file_fr') == 'complete' ? this.courseUnitFileNameFr : ''
+    let course_file_eu = localStorage.getItem('course_unit_file_eu') == 'complete' ? this.courseUnitFileNameEu : ''
+    let course_file_ca = localStorage.getItem('course_unit_file_ca') == 'complete' ? this.courseUnitFileNameCa : ''
+    let course_file_de = localStorage.getItem('course_unit_file_de') == 'complete' ? this.courseUnitFileNameDe : ''
+    let course_file_it = localStorage.getItem('course_unit_file_it') == 'complete' ? this.courseUnitFileNameIt : ''
 
     let params = {
       course_id: this.course.id,
@@ -2911,8 +3064,20 @@ export class CourseEditComponent {
       duration_unit: this.selectedCourseUnitDurationUnit ? this.selectedCourseUnitDurationUnit : 0,
       created_by: this.userId,
       file: course_file,
+      file_en: course_file_en || '',
+      file_fr: course_file_fr || '',
+      file_eu: course_file_eu || '',
+      file_ca: course_file_ca || '',
+      file_de: course_file_de || '',
+      file_it: course_file_it || '',
       option: this.selectedUnitOption ? this.selectedUnitOption : '',
-      url: this.externalLink ? this.externalLink : '',
+      url: this.externalLink || '',
+      url_en: this.externalLinkEn || '',
+      url_fr: this.externalLinkFr || '',
+      url_eu: this.externalLinkEu || '',
+      url_ca: this.externalLinkCa || '',
+      url_de: this.externalLinkDe || '',
+      url_it: this.externalLinkIt || '',
       cta: this.cta ? 1 : 0,
       cta_text: this.ctaText,
       cta_link: this.ctaLink,
@@ -2935,6 +3100,12 @@ export class CourseEditComponent {
       unit_availability: this.unitAvailability || 0,
       unit_availability_date: this.unitAvailabilityDate || null,
       script: this.embedScript || '',
+      script_en: this.embedScriptEn || '',
+      script_fr: this.embedScriptFr || '',
+      script_eu: this.embedScriptEu || '',
+      script_ca: this.embedScriptCa || '',
+      script_de: this.embedScriptDe || '',
+      script_it: this.embedScriptIt || '',
     }
 
     this._coursesService.addCourseUnitNew(
@@ -3021,8 +3192,20 @@ export class CourseEditComponent {
       duration_unit: this.selectedCourseUnitDurationUnit ? this.selectedCourseUnitDurationUnit : 0,
       created_by: this.userId,
       file: this.courseUnitFileName,
+      file_en: this.courseUnitFileNameEn,
+      file_fr: this.courseUnitFileNameFr,
+      file_eu: this.courseUnitFileNameEu,
+      file_ca: this.courseUnitFileNameCa,
+      file_de: this.courseUnitFileNameDe,
+      file_it: this.courseUnitFileNameIt,
       option: this.selectedUnitOption ? this.selectedUnitOption : '',
-      url: this.externalLink ? this.externalLink : '',
+      url: this.externalLink || '',
+      url_en: this.externalLinkEn || '',
+      url_fr: this.externalLinkFr || '',
+      url_eu: this.externalLinkEu || '',
+      url_ca: this.externalLinkCa || '',
+      url_de: this.externalLinkDe || '',
+      url_it: this.externalLinkIt || '',
       cta: this.cta ? 1 : 0,
       cta_text: this.ctaText,
       cta_link: this.ctaLink,
@@ -3045,6 +3228,12 @@ export class CourseEditComponent {
       unit_availability: this.unitAvailability || 0,
       unit_availability_date: this.unitAvailabilityDate || null,
       script: this.embedScript || '',
+      script_en: this.embedScriptEn || '',
+      script_fr: this.embedScriptFr || '',
+      script_eu: this.embedScriptEu || '',
+      script_ca: this.embedScriptCa || '',
+      script_de: this.embedScriptDe || '',
+      script_it: this.embedScriptIt || '',
     }
 
     this._coursesService.editCourseUnitNew(
@@ -3117,10 +3306,22 @@ export class CourseEditComponent {
     this.selectedUnitType = item.course_unit_type_id || ''
     this.unitPoints = item.points
     this.courseUnitFileName = item.file
+    this.courseUnitFileNameEn = item.file_en
+    this.courseUnitFileNameFr = item.file_fr
+    this.courseUnitFileNameEu = item.file_eu
+    this.courseUnitFileNameCa = item.file_ca
+    this.courseUnitFileNameDe = item.file_de
+    this.courseUnitFileNameIt = item.file_it
     this.showUnitDetails = true
     this.courseUnitFormSubmitted = false
     this.selectedUnitOption = item.option
     this.externalLink = item.url
+    this.externalLinkEn = item.url_en
+    this.externalLinkFr = item.url_fr
+    this.externalLinkEu = item.url_eu
+    this.externalLinkCa = item.url_ca
+    this.externalLinkDe = item.url_de
+    this.externalLinkIt = item.url_it
     this.cta = item.cta == 1 ? true : false
     this.ctaText = item.cta_text || ''
     this.ctaLink = item.cta_link || ''
@@ -3144,6 +3345,12 @@ export class CourseEditComponent {
     this.unitAvailability = item.unit_availability == 1 ? true : false
     this.unitAvailabilityDate = item.unit_availability_date
     this.embedScript = item.script
+    this.embedScriptEn = item.script_en || ''
+    this.embedScriptFr = item.script_fr || ''
+    this.embedScriptEu = item.script_eu || ''
+    this.embedScriptCa = item.script_ca || ''
+    this.embedScriptDe = item.script_de || ''
+    this.embedScriptIt = item.script_it || ''
 
     if(this.cta) {
       this.getCTAs()

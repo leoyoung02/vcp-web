@@ -1060,7 +1060,15 @@
         "viewclass": "Klasse anzeigen",
         "stripeinactivetransfer":"Inaktive Überweisen Fähigkeiten",
         "levelingcoursesdescription": "Die BASIC STEAM-Kurse sind Leveling-Kurse, die darauf abzielen, das Grundwissen zu festigen und zu festigen und eine optimale Vorbereitung für die erfolgreiche Bewältigung der akademischen Herausforderungen der ersten Kurse der Universitätsstufe zu gewährleisten.",
-        "levelingcoursesduration": "Dauer: 10 Stunden"
+        "levelingcoursesduration": "Dauer: 10 Stunden",
+        "uploaddesc": "Ziehen Sie Ihre Datei per Drag & Drop oder suchen Sie nach hochzuladenden Dateien",
+        "uploadprocessing": "Wird verarbeitet",
+        "uploadcomplete": "Upload abgeschlossen",
+        "uploadcancelled": "Upload abgebrochen",
+        "uploaderror": "Uploadfehler",
+        "uploadtapcancel": "Zum Abbrechen tippen",
+        "uploadtapretry": "Zum erneuten Versuch tippen",
+        "uploadtapundo": "Zum Rückgängigmachen tippen"
     },
     "course-lesson": {
         "section": "Abschnitt"
