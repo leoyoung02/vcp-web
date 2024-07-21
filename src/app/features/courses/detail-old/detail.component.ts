@@ -642,7 +642,7 @@ export class CourseDetailComponent {
             if(this.selectedUnit.Company_Course_Unit_Type && this.selectedUnit.Company_Course_Unit_Type.type == 'video'
               && (this.selectedUnit.option == 'YouTube' || this.selectedUnit.option == 'Vimeo' || this.selectedUnit.option == 'External')
             ) {
-              this.selectedLesson = this.selectedUnit.url
+              this.selectedLesson = this.getLessonContent(this.selectedUnit);
             } 
             this.getSafeFileUrl()
           }
@@ -1206,10 +1206,10 @@ export class CourseDetailComponent {
             }
           }
         } else if(this.selectedUnit.option == 'YouTube' || this.selectedUnit.option == 'Vimeo') {
-          this.selectedLesson = this.selectedUnit.url
+          this.selectedLesson = this.getLessonContent(this.selectedUnit);
         } else {
           if(this.selectedUnit.Company_Course_Unit_Type.type == 'pdf') {
-            this.selectedUnitSafeFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.courseUnitSrc + this.selectedUnit.file)
+            this.selectedUnitSafeFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.courseUnitSrc + this.getFileContent(this.selectedUnit))
           } else if(this.selectedUnit.Company_Course_Unit_Type.type == 'others') {
             this.selectedUnitSafeFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://docs.google.com/viewer?url=' + this.courseUnitSrc + this.selectedUnit.file)
           }
@@ -1218,7 +1218,7 @@ export class CourseDetailComponent {
       }
     }
     if(this.selectedUnit.url) {
-      this.selectedLesson = this.selectedUnit.url
+      this.selectedLesson = this.getLessonContent(this.selectedUnit)
     }
     if(this.selectedUnit.option == 'Vimeo' && this.course.vimeo_token && this.selectedUnit.vimeo_id > 0) {
       let result = get(await this._coursesService.getVimeoEmbed(this.selectedUnit.vimeo_id, this.course.vimeo_token).toPromise(), 'result')
@@ -2124,6 +2124,30 @@ export class CourseDetailComponent {
       (this.language == 'de' ? (assessment.assessment_title_de || assessment.assessment_title) : (this.language == 'it' ? (assessment.assessment_title_it || assessment.assessment_title) : assessment.assessment_title)
       )))
     ) : ''
+  }
+
+  getScriptContent(content) {
+    return this.language == 'en' ? (content.script_en || content.script) : (this.language == 'fr' ? (content.script_fr || content.script) : 
+      (this.language == 'eu' ? (content.script_eu || content.script) : (this.language == 'ca' ? (content.script_ca || content.script) : 
+      (this.language == 'de' ? (content.script_de || content.script) : (this.language == 'it' ? (content.script_it || content.script) : content.script)
+      )))
+    )
+  }
+
+  getFileContent(content) {
+    return this.language == 'en' ? (content.file_en || content.file) : (this.language == 'fr' ? (content.file_fr || content.file) : 
+      (this.language == 'eu' ? (content.file_eu || content.file) : (this.language == 'ca' ? (content.file_ca || content.file) : 
+      (this.language == 'de' ? (content.file_de || content.file) : (this.language == 'it' ? (content.file_it || content.file) : content.file)
+      )))
+    )
+  }
+
+  getLessonContent(lesson) {
+    return this.language == 'en' ? (lesson.url_en || lesson.url) : (this.language == 'fr' ? (lesson.url_fr || lesson.url) : 
+      (this.language == 'eu' ? (lesson.url_eu || lesson.url) : (this.language == 'ca' ? (lesson.url_ca || lesson.url) : 
+      (this.language == 'de' ? (lesson.url_de || lesson.url) : (this.language == 'it' ? (lesson.url_it || lesson.url) : lesson.url)
+      )))
+    )
   }
 
   handleGoBack() {
