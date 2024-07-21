@@ -38,6 +38,7 @@ export class MentorCardComponent {
   @Input() name: any;
   @Input() path: any;
   @Input() image: any;
+  @Input() photo: any;
   @Input() location: any;
   @Input() languages: any;
   @Input() major: any;

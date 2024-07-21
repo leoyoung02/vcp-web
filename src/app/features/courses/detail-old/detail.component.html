@@ -269,7 +269,7 @@
                                                     </ng-container>
                                                     <div *ngIf="!playCurrentVideo" class="blur"></div>
                                                     <div 
-                                                        class="video-container 123" 
+                                                        class="video-container" 
                                                         style="opacity:0;" 
                                                         [innerHtml]="playCurrentVideo ? (addAutoPlay(selectedLesson) | safeContentHtml: 'html') : (selectedLesson | safeContentHtml: 'html')" 
                                                         *ngIf="selectedUnit?.url?.indexOf('iframe') >= 0 || selectedUnit?.vimeo_id > 0">
@@ -406,7 +406,7 @@
                                             <span class="sr-only">Loading...</span>
                                         </div>
                                         <ngx-doc-viewer
-                                            url="{{ courseUnitSrc + selectedUnit.file }}"
+                                            url="{{ courseUnitSrc + getFileContent(selectedUnit) }}"
                                             viewer="google"
                                             style="width:100%;height:546px;"
                                             *ngIf="showDocumentViewer && selectedUnit?.Company_Course_Unit_Type?.type != 'pdf' && !showIntroPDF"
@@ -436,7 +436,7 @@
                                                 'h-[calc(100vh_-_200px)]': isExpanded,
                                                 'min-h-[300px]': !isExpanded
                                             }"
-                                            [innerHtml]="selectedUnit?.script | safeContentHtml: 'html'">
+                                            [innerHtml]="getScriptContent(selectedUnit) | safeContentHtml: 'html'">
                                         </div>
                                     </ng-container>
                                     <ng-container *ngIf="selectedUnit?.script?.indexOf('</script>') >= 0">
@@ -571,7 +571,7 @@
             </div>
         </ng-container>
     </div>
-    <div class="pt-24" *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
+    <div class="pt-32" *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
         <div *ngIf="course && (!course?.course_modules || course?.course_modules?.length == 0)" class="center">
             {{ 'course-details.nomodules' | translate }}
         </div>

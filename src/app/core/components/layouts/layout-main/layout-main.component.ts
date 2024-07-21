@@ -12,7 +12,7 @@ import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
 import { MenuService } from "@lib/services";
-import { PlansService, TutorsService, VideoCallService, VoiceCallService } from "@features/services";
+import { PlansService, TutorsService, BuddyService, VideoCallService, VoiceCallService, ProfessionalsService } from "@features/services";
 import { FooterComponent, MobileNavbarComponent } from "src/app/core/components";
 import { Subject, takeUntil } from "rxjs";
 import { ToastComponent } from "@share/components";
@@ -196,6 +196,10 @@ export class LayoutMainComponent {
   showFooter: boolean = false;
   customLinks: any = [];
   isCursoGeniusTestimonials: boolean = false;
+  hasBuddy: boolean = false;
+  isMentor: boolean = false;
+  userMentor: any;
+  canAccessIntroduceU: boolean = false;
   navigation: any = 'side-menu';
   shopFeatureId: any;
   hasShop: boolean = false;
@@ -232,6 +236,8 @@ export class LayoutMainComponent {
     private _plansService: PlansService,
     private _voiceCallService: VoiceCallService,
     private _videoCallService: VideoCallService,
+    private _buddyService: BuddyService,
+    private _professionalsService: ProfessionalsService,
     private cd: ChangeDetectorRef
   ) {
     this.language = this._localService.getLocalStorage(environment.lslanguage);
@@ -352,6 +358,14 @@ export class LayoutMainComponent {
         this.getCourseFeature(coursesFeature[0]);
       }
 
+      let buddyFeature = this.features.filter((f) => {
+        return f.feature_name == "Buddy";
+      });
+      if (buddyFeature && buddyFeature[0] && this.userId > 0) {
+        this.hasBuddy = true;
+        this.getMentors();
+      }
+      
       let shopFeature = this.features.filter((f) => {
         return f.feature_name == "Shop";
       });
@@ -1833,7 +1847,21 @@ export class LayoutMainComponent {
             }
           } else {
             if(tempData?.id != 11) {
-              this.menus.push(tempData);
+              if(tempData?.id == 19) {
+                if(this.superAdmin) {
+                  this.canAccessIntroduceU = true;
+                  this.menus.push(tempData);
+                } else {
+                  if(this.currentUser?.bussines_unit &&
+                    !(this.currentUser?.bussines_unit?.toLowerCase()?.indexOf('online') >= 0) &&
+                    this.currentUser?.segment?.toLowerCase()?.indexOf('grado') >= 0) {
+                      this.canAccessIntroduceU = true;
+                      this.menus.push(tempData);
+                  }
+                }
+              } else {
+                this.menus.push(tempData);
+              }
             }
           }
         } else {
@@ -2593,6 +2621,40 @@ export class LayoutMainComponent {
     this._translateService.use(lang);
     this._localService.setLocalStorage(environment.lslang, lang);
     this._companyService.changeLanguage(lang);
+  }
+
+  getMentors() {
+    this._buddyService
+      .fetchBuddies(this.companyId, this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        async (response) => {
+          let mentors = response?.mentors;
+          let current_user_mentor = mentors?.filter(mentor => {
+            return mentor.user_id == this.userId
+          })
+          let user_mentor = mentors?.filter(m => {
+            let include = false;
+            if(m.buddies?.length > 0) {
+              let match = m.buddies?.some(
+                (a) => a.id == this.userId
+              );
+
+              if(match) {
+                include = true;
+              }
+            }
+
+            return include;
+          })
+          this.userMentor = user_mentor;
+          this.isMentor = current_user_mentor?.length > 0 ? true : false;
+          this.cd.detectChanges();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   ngOnDestroy() {

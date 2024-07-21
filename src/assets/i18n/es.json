@@ -79,7 +79,8 @@
         "navigation": "Navegación",
         "navigationdesc": "Menú de navegación que permite un acceso rápido a las páginas",
         "topmenu": "Menú superior",
-        "sidemenu": "Menú lateral"
+        "sidemenu": "Menú lateral",
+        "accessaccount": "Mi cuenta"
     },
     "user-popup": {
         "myplans": "Mis planes",
@@ -754,7 +755,8 @@
         "privacypolicy": "Política de privacidad",
         "cookiespolicy":"Política de cookies", 
         "customeronboarding": "Incorporación de clientes",
-        "historyofactivities": "Historial de actividades"
+        "historyofactivities": "Historial de actividades",
+        "myaccount": "Mi cuenta"
     },
     "public-profile": {
         "publicprofile": "Perfil Público",
@@ -1069,7 +1071,15 @@
         "viewclass": "Ver clase",
         "stripeinactivetransfer":"Capacidades de transferencia inactiva",
         "levelingcoursesdescription": "Los cursos BASIC STEAM son cursos de nivelación diseñados para reforzar y afianzar los conocimientos básicos, asegurando una preparación óptima para enfrentar con éxito los desafíos académicos de los primeros cursos de la etapa universitaria.",
-        "levelingcoursesduration": "Duración: 10 horas"
+        "levelingcoursesduration": "Duración: 10 horas",
+        "uploaddesc": "Arrastre y suelte su archivo o busque el archivo para cargarlo",
+        "uploadprocessing": "Procesando",
+        "uploadcomplete": "Subida completa",
+        "uploadcancelled": "Subida cancelada",
+        "uploaderror": "Error al cargar",
+        "uploadtapcancel": "Toca para cancelar",
+        "uploadtapretry": "Toca para volver a intentarlo",
+        "uploadtapundo": "Toca para deshacer"
     },
     "course-lesson": {
         "section": "Sección"
@@ -2683,7 +2693,9 @@
         "commissionfee": "Cuota de comisión",
         "showregister": "¿Mostrar en el registro?",
         "requireapproval": "¿Requiere aprobación?",
+        "showaccount": "¿Mostrar Mi cuenta?",
         "managenotes": "Gestionar: Crear, editar y eliminar",
+        "accessaccount": "Accede a Mi cuenta",
         "clubpresident": "Presidente del club",
         "withinspain": "Dentro de España",
         "outsidespain": "Fuera de España",
@@ -3203,7 +3215,12 @@
         "pendingcompletion": "Pendiente de finalización",
         "introductionlabel": "Sobre mí: por qué quiero ser mentor, por qué he elegido mi grado...",
         "interestslabel": "Intereses: poner participación en la Vida Universitaria (clubes, asociaciones, delegados, equipo deportivo….)",
-        "personalitylabel": "Personalidad, Intereses"
+        "personalitylabel": "Personalidad, Intereses",
+        "mymentor": "Mi mentor", 
+        "campus": "Campus",
+        "faculty": "Facultad", 
+        "businessunit": "Unidad de negocio", 
+        "segment": "Segmento"
     },
     "cities": {
         "cities": "Ciudades",
@@ -3760,5 +3777,15 @@
         "enterpasscode": "Ingrese el código de acceso",
         "incomingvideocall": "Videollamada entrante",
         "connecting": "Conectando"
+    },
+    "my-account": {
+        "availablebalance": "Saldo disponible",
+        "recharge": "Recargar",
+        "deleteall": "Eliminar todo",
+        "loading": "Cargando...",
+        "calls": "Llamadas",
+        "cost": "Coste",
+        "date": "Fecha",
+        "deleteiconalt": "Icono negro de una papelera"
     }
 }

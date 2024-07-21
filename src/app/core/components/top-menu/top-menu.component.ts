@@ -875,6 +875,9 @@ export class TopMenuComponent {
         case 'userprofile':
           path = `/users/profile/${this.userid}`;
           break;
+        case 'useraccount':
+          path = `/users/my-account/${this.userid}`;
+          break;
         case 'myclubs':
           path = '/dashboard/5';
           break;

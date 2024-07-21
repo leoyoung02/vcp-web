@@ -83,7 +83,7 @@
                     </ng-multiselect-dropdown> 
                 </div>
             </div>
-            <div class="text-center col-span-2">
+            <div class="text-center">
                 <div>
                     <label for="major" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                         <div class="flex items-center justify-between">
@@ -102,6 +102,63 @@
                         required>
                 </div>
             </div>
+            <div class="text-center">
+                <div>
+                    <label for="faculty" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                {{ 'buddy.faculty' | translate }}
+                            </div>
+                        </div>
+                    </label>
+                    <input 
+                        id="faculty"
+                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': form.get('faculty')?.errors }"
+                        type="text" 
+                        class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                        formControlName="faculty" 
+                        placeholder="{{ 'buddy.faculty' | translate }}"
+                        required>
+                </div>
+            </div>
+            <div class="text-center">
+                <div>
+                    <label for="businessunit" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                {{ 'buddy.businessunit' | translate }}
+                            </div>
+                        </div>
+                    </label>
+                    <input 
+                        id="businessunit"
+                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': form.get('business_unit')?.errors }"
+                        type="text" 
+                        class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                        formControlName="business_unit" 
+                        placeholder="{{ 'buddy.businessunit' | translate }}"
+                        required>
+                </div>
+            </div>
+            <div class="text-center">
+                <div>
+                    <label for="segment" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                        <div class="flex items-center justify-between">
+                            <div>
+                                {{ 'buddy.segment' | translate }}
+                            </div>
+                        </div>
+                    </label>
+                    <input 
+                        id="segment"
+                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': form.get('segment')?.errors }"
+                        type="text" 
+                        class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                        formControlName="segment" 
+                        placeholder="{{ 'buddy.segment' | translate }}"
+                        required>
+                </div>
+            </div>
             <div class="text-center col-span-2">
                 <div>
                     <label for="message" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
@@ -111,30 +168,7 @@
                             </div>
                         </div>
                     </label>
-                    <editor
-                        class="w-full"
-                        apiKey="65qwcuk78wm1otjq5k4awi6ao5mfypkliawrfmg72dult6ua"
-                        [init]="{
-                            height: 183,
-                            menubar: false,
-                            plugins: [
-                            'advlist autolink lists link image imagetools charmap print',
-                            'preview anchor searchreplace visualblocks code',
-                            'fullscreen insertdatetime media table paste',
-                            'help wordcount',
-                            'code media'
-                            ],
-                            toolbar:
-                            'undo redo | formatselect | bold italic | \
-                            alignleft aligncenter alignright alignjustify | \
-                            media | \
-                            paste pastetext | \
-                            image imagetools | \
-                            bullist numlist outdent indent | help',
-                            valid_elements: 'a[href|target=_blank],strong/b,div[align],-h1,-h2,-h3,-h4,-h5,-h6,#p,-ol,-ul,-li,br,img[src|height|width],-sub,-sup,-b,-i,-u,-span,hr,iframe[src|frameborder|style|scrolling|class|width|height|name|align]'
-                        }"
-                        formControlName="message"
-                    ></editor>
+                    <quill-editor class="w-full max-w-full content-editor" formControlName="message"></quill-editor>
                 </div>
             </div>
         </div>

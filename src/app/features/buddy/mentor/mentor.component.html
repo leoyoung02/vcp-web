@@ -28,34 +28,19 @@
                 </svg>
                 <span class="text-white text-md font-semibold uppercase">{{ 'plan-details.edit' | translate }}</span>
             </button>
-            <!-- <button 
-                class="flex items-center border p-3.5 px-8 sm:px-8 md:px-12 lg:px-12 rounded-[15px] justify-evenly mt-4"
-                (click)="handleDeactivate()" 
-                [ngStyle]="{
-                    'border-color': deactivateHover ? 'transparent' : buttonColor,
-                    'background-color': deactivateHover ? buttonColor : '#fff',
-                }"
-                (mouseover)="toggleDeactivateHover(true)"
-                (mouseleave)="toggleDeactivateHover(false)"
-            >
-                <svg [ngStyle]="{'color': deactivateHover ? '#fff' : buttonColor}" class="w-2 h-2 font-semibold dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                    <path d="M17 4h-4V2a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v2H1a1 1 0 0 0 0 2h1v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V6h1a1 1 0 1 0 0-2ZM7 2h4v2H7V2Zm1 14a1 1 0 1 1-2 0V8a1 1 0 0 1 2 0v8Zm4 0a1 1 0 0 1-2 0V8a1 1 0 0 1 2 0v8Z"/>
-                </svg>
-                <span [ngStyle]="{'color': deactivateHover ? '#fff' : buttonColor}" class="text-md font-semibold uppercase">{{ 'plan-details.delete' | translate }}</span>
-            </button> -->
         </div>
     </div>
 </div>
 <div>
     <div class="grid grid-cols-1 mb-20 rounded-[30px] rounded-tr-[10px] md:grid-cols-3 lg:grid-cols-3">
-        <div 
+        <div
             class="flex flex-col px-[58px] max-w-screen-lg bg-[#f6f6f6]"
             [ngClass]="{'rounded-l-lg': isMyMentor, 'rounded-lg': !isMyMentor}"
         >
             <ng-container *ngIf="mentor">
                 <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row items-center pt-6">
                     <div class="flex-shrink-0">
-                        <img class="w-32 h-32 rounded-full object-cover" width="128" height="128" [ngSrc]="image" alt="{{ user?.name }}">
+                        <img class="w-32 h-32 rounded-full object-cover" width="128" height="128" [src]="photo || image" alt="{{ user?.name }}">
                     </div>
                     <div class="flex-1 min-w-0 ms-4">
                         <div class="pt-3 text-3xl font-semibold">
@@ -157,9 +142,7 @@
             </div>
             <div class="mt-4">
                 <div class="p-6 bg-white relative sm:block md:flex lg:flex sm:flex-col md:flex-row lg:flex-row rounded-[16px]">
-                    <img *ngIf="me?.image" class="mr-6 mb-6 sm:mb-6 md:mb-0 lg:mb-0 rounded-full object-top object-cover w-[40px] h-[40px]" width="40" height="40"
-                        [ngSrc]="apiPath + me.image"
-                    />
+                    <img class="mr-6 mb-6 sm:mb-6 md:mb-0 lg:mb-0 rounded-full object-top object-cover min-w-[40px] w-[40px] h-[40px]" width="40" height="40" [src]="getCurrentUserImage()" />
                     <div class="mb-6 sm:mb-6 md:mb-0 lg:mb-0 rounded-[6px] p-3 w-full max-w-full text-sm text-sm bg-[#F8F4F4]" 
                         (blur)="getNewPost($event)" 
                         (focusout)="getNewPost($event)"

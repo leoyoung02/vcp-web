@@ -79,7 +79,8 @@
         "navigation": "Navegació",
         "navigationdesc": "Menú de navegació que permet un accés ràpid a les pàgines",
         "topmenu": "Menú superior",
-        "sidemenu": "Menú lateral"
+        "sidemenu": "Menú lateral",
+        "accessaccount": "El meu compte"
     },
     "user-popup": {
         "myplans": "Els meus plans",
@@ -753,7 +754,8 @@
         "privacypolicy": "Política de privadesa",
         "cookiespolicy":"Política de cookies", 
         "customeronboarding": "Incorporació del client", 
-        "historyofactivities": "Historial d'activitats"
+        "historyofactivities": "Historial d'activitats",
+        "myaccount": "El meu compte"
     },
     "public-profile": {
         "publicprofile": "Perfil Públic",
@@ -1067,7 +1069,15 @@
         "viewclass": "Mostra la classe",
         "stripeinactivetransfer":"Capacitats de transferència inactives",
         "levelingcoursesdescription": "Els cursos BASIC STEAM són cursos d'anivellament dissenyats per reforçar i consolidar els coneixements bàsics, assegurant una preparació òptima per enfrontar amb èxit els desafiaments acadèmics dels primers cursos de l'etapa universitària.",
-        "levelingcoursesduration": "Durada: 10 hores"
+        "levelingcoursesduration": "Durada: 10 hores",
+        "uploaddesc": "Arrossegueu i deixeu anar el vostre fitxer o navegueu per carregar-lo",
+        "uploadprocessing": "S'està processant",
+        "uploadcomplete": "Càrrega completada",
+        "uploadcancelled": "Pujada cancel·lada",
+        "uploaderror": "Error de càrrega",
+        "uploadtapcancel": "Toqueu per cancel·lar",
+        "uploadtapretry": "Toqueu per tornar-ho a provar",
+        "uploadtapundo": "Toca per desfer"
     },
     "course-lesson": {
         "section": "Secció"
@@ -2681,7 +2691,9 @@
         "commissionfee": "Quota de comissió",
         "showregister": "Mostrar al registre?",
         "requireapproval": "Requereix aprovació?",
+        "showaccount": "Mostrar compte?",
         "managenotes": "Gestionar: Crear, editar i eliminar",
+        "accessaccount": "Accedeix al Meu compte",
         "clubpresident": "President del club",
         "withinspain": "Dins d'Espanya",
         "outsidespain": "Fora d'Espanya",
@@ -3199,7 +3211,12 @@
         "pendingcompletion": "Pendent de finalització",
         "introductionlabel": "Sobre mi: per què vull ser mentor, per què he triat el meu grau...",
         "interestslabel": "Interessos: posar participació a la Vida Universitària (clubs, associacions, delegats, equip esportiu….)",
-        "personalitylabel": "Personalitat, Interessos"
+        "personalitylabel": "Personalitat, Interessos",
+        "mymentor": "El meu mentor", 
+        "campus": "Campus",
+        "faculty": "Facultad", 
+        "businessunit": "Unitat de negoci", 
+        "segment": "Segment"
     },
     "cities": {
         "cities": "Ciutats",
@@ -3744,5 +3761,15 @@
         "enteravalidphone": "Introduïu un número de telèfon vàlid +<country_code><number> +34999999999",
         "enteravalidpasscode": "Introduïu una contrasenya vàlida", 
         "enterpasscode": "Introdueix la contrasenya"
+    },
+    "my-account": {
+        "availablebalance": "Saldo disponible",
+        "recharge": "Recarregar",
+        "deleteall": "Eliminar-ho tot",
+        "loading": "Carregant...",
+        "calls": "Trucades",
+        "cost": "Cost",
+        "date": "Data",
+        "deleteiconalt": "Icona negra d'una paperera"
     }
 }

@@ -79,7 +79,8 @@
         "navigation": "Navegació",
         "navigationdesc": "Menú de navegació que permet un accés ràpid a les pàgines",
         "topmenu": "Menú superior",
-        "sidemenu": "Menú lateral"
+        "sidemenu": "Menú lateral",
+        "accessaccount": "Mein Konto"
     },
     "user-popup": {
         "myplans": "Meine Pläne",
@@ -753,7 +754,8 @@
         "privacypolicy": "Política de privadesa",
         "cookiespolicy":"Política de cookies", 
         "customeronboarding": "Kunden Onboarding", 
-        "historyofactivities": "Aktivitätsverlauf"
+        "historyofactivities": "Aktivitätsverlauf",
+        "myaccount": "Mein Konto"
     },
     "public-profile": {
         "publicprofile": "Öffentliches Profil",
@@ -1064,7 +1066,15 @@
         "viewclass": "Klasse anzeigen",
         "stripeinactivetransfer":"Inaktive Überweisen Fähigkeiten",
         "levelingcoursesdescription": "Die BASIC STEAM-Kurse sind Leveling-Kurse, die darauf abzielen, das Grundwissen zu festigen und zu festigen und eine optimale Vorbereitung für die erfolgreiche Bewältigung der akademischen Herausforderungen der ersten Kurse der Universitätsstufe zu gewährleisten.",
-        "levelingcoursesduration": "Dauer: 10 Stunden"
+        "levelingcoursesduration": "Dauer: 10 Stunden",
+        "uploaddesc": "Ziehen Sie Ihre Datei per Drag & Drop oder suchen Sie nach hochzuladenden Dateien",
+        "uploadprocessing": "Wird verarbeitet",
+        "uploadcomplete": "Upload abgeschlossen",
+        "uploadcancelled": "Upload abgebrochen",
+        "uploaderror": "Uploadfehler",
+        "uploadtapcancel": "Zum Abbrechen tippen",
+        "uploadtapretry": "Zum erneuten Versuch tippen",
+        "uploadtapundo": "Zum Rückgängigmachen tippen"
     },
     "course-lesson": {
         "section": "Abschnitt"
@@ -2678,7 +2688,9 @@
         "commissionfee": "Provisionsgebühr",
         "showregister": "In Registrierung anzeigen?",
         "requireapproval": "Genehmigung erforderlich?",
+        "showaccount": "Konto anzeigen?",
         "managenotes": "Verwalten: Erstellen, bearbeiten und löschen",
+        "accessaccount": "Greifen Sie auf mein Konto zu",
         "clubpresident": "Clubpräsident",
         "withinspain": "Innerhalb Spaniens",
         "outsidespain": "Außerhalb Spaniens",
@@ -3190,7 +3202,12 @@
         "pendingcompletion": "Ausstehender Abschluss",
         "introductionlabel": "Über mich: Warum ich Mentorin werden möchte, warum ich meinen Abschluss gewählt habe...",
         "interestslabel": "Interessen: Teilnahme am Universitätsleben (Vereine, Vereine, Delegierte, Sportmannschaft...)",
-        "personalitylabel": "Persönlichkeit, Interessen"
+        "personalitylabel": "Persönlichkeit, Interessen",
+        "mymentor": "Mein Mentor", 
+        "campus": "Campus",
+        "faculty": "Fakultät", 
+        "businessunit": "Geschäftsbereich", 
+        "segment": "Segment"
     },
     "cities": {
         "cities": "Städte",
@@ -3738,5 +3755,15 @@
         "enterpasscode": "Passcode eingeben",
         "incomingvideocall": "Eingehender Videoanruf",
         "connecting": "Verbindung wird hergestellt"
+    },
+    "my-account": {
+        "availablebalance": "Verfügbares Guthaben",
+        "recharge": "Aufladen",
+        "deleteall": "Alles löschen",
+        "loading": "Aufladen...",
+        "calls": "Anrufe",
+        "cost": "Kosten",
+        "date": "Datum",
+        "deleteiconalt": "Schwarzes Symbol eines Mülleimers"
     }
 }

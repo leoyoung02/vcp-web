@@ -1,4 +1,5 @@
-<div class="flex items-center justify-center min-h-[calc(100vh_-_100px)] max-w-xl flex-col mx-auto">
+<div class="flex items-center justify-center min-h-[calc(100vh_-_100px)] max-w-xl flex-col mx-auto"
+    *ngIf="!isLoading && hasAccess">
     <h1 class="mb-4 text-4xl font-extrabold leading-none tracking-tight text-center text-gray-900 md:text-5xl lg:text-6xl dark:text-white">{{ pageName }}</h1>
     <p class="my-16 mt-0 text-lg font-normal text-gray-500 text-center dark:text-gray-400">{{ pageDescription }}</p>
     <ul class="grid w-full gap-6 md:grid-cols-2">
@@ -68,4 +69,7 @@
             </svg>
         </button>
     </div>
+</div>
+<div class="flex h-screen justify-center items-center" *ngIf="!isLoading && !hasAccess">
+    <app-no-access></app-no-access>  
 </div>

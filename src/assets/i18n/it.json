@@ -79,7 +79,8 @@
         "navigation": "Navigazione",
         "navigationdesc": "Menu di navigazione che consente un rapido accesso alle pagine",
         "topmenu": "Menu principale",
-        "sidemenu": "Menù laterale"
+        "sidemenu": "Menù laterale",
+        "accessaccount": "Il mio account"
     },
     "user-popup": {
         "myplans": "I miei piani",
@@ -753,7 +754,8 @@
         "privacypolicy": "Informativa sulla privacy",
         "cookiespolicy":"Politica sui cookie",
         "customeronboarding": "Onboarding del cliente", 
-        "historyofactivities": "Cronologia delle attività"
+        "historyofactivities": "Cronologia delle attività",
+        "myaccount": "Il mio conto"
     },
     "public-profile": {
         "publicprofile": "Profilo pubblico",
@@ -1068,7 +1070,15 @@
         "viewclass": "Visualizza classe",
         "stripeinactivetransfer": "Funzionalità di trasferimento inattive",
         "levelingcoursesdescription": "I corsi BASIC STEAM sono corsi di livellamento pensati per rafforzare e potenziare le conoscenze di base, garantendo una preparazione ottimale per affrontare con successo le sfide accademiche dei primi corsi del percorso universitario.",
-        "levelingcoursesduration": "Durata: 10 ore"
+        "levelingcoursesduration": "Durata: 10 ore",
+        "uploaddesc": "Trascina e rilascia il tuo file o sfoglia il file da caricare",
+        "uploadprocessing": "Elaborazione",
+        "uploadcomplete": "Caricamento completato",
+        "uploadcancelled": "Caricamento annullato",
+        "uploaderror": "Errore di caricamento",
+        "uploadtapcancel": "Tocca per annullare",
+        "uploadtapretry": "Tocca per riprovare",
+        "uploadtapundo": "Tocca per annullare"
     },
     "course-lesson": {
         "section": "Sezione"
@@ -2668,7 +2678,9 @@
         "commissionfee": "Commissione",
         "showregister": "Mostra nel registro?",
         "requireapproval": "Hai bisogno dell'approvazione?",
+        "showaccount": "Mostra il Mio account?",
         "managenotes": "Gestisci: crea, modifica ed elimina",
+        "accessaccount": "Accedi al Mio account",
         "clubpresident": "Presidente del club",
         "withinspain": "All'interno della Spagna",
         "outsidespain": "Fuori dalla Spagna",
@@ -3188,7 +3200,12 @@
         "pendingcompletion": "Completamento in attesa",
         "introductionlabel": "Chi sono: perché voglio essere un mentore, perché ho scelto la mia laurea...",
         "interestslabel": "Interessi: partecipare alla vita universitaria (club, associazioni, delegati, squadre sportive...)",
-        "personalitylabel": "Personalità, interessi"
+        "personalitylabel": "Personalità, interessi",
+        "mymentor": "Il mio mentore", 
+        "campus": "Città universitaria",
+        "faculty": "Facoltà", 
+        "businessunit": "Business unit", 
+        "segment": "Segmento"
     },
     "cities": {
         "cities": "Città",
@@ -3732,5 +3749,15 @@
         "enterpasscode": "Inserisci codice",
         "incomingvideocall": "Videochiamata in arrivo",
         "connecting": "Connessione"
+    },
+    "my-account": {
+        "availablebalance": "Saldo disponible",
+        "recharge": "Ricaricare",
+        "deleteall": "Cancella tutto",
+        "loading": "Ricarica...",
+        "calls": "Chiamate",
+        "cost": "Costo",
+        "date": "Data",
+        "deleteiconalt": "Icona nera di un bidone della spazzatura"
     }
 }

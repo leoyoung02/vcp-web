@@ -8,6 +8,7 @@ import { environment } from '@env/environment';
 import { BuddyService } from '@features/services';
 import { initFlowbite } from "flowbite";
 import { FormsModule } from '@angular/forms';
+import { NoAccessComponent } from '@share/components';
 import get from 'lodash/get';
 
 @Component({
@@ -18,6 +19,7 @@ import get from 'lodash/get';
         TranslateModule,
         NgOptimizedImage,
         FormsModule,
+        NoAccessComponent,
     ],
     templateUrl: './home.component.html'
 })
@@ -64,6 +66,9 @@ export class BuddyHomeComponent {
     proceedHover: boolean = false;
     mentorHover: boolean = false;
     isMentor: boolean = false;
+    currentUser: any;
+    isLoading: boolean = true;
+    hasAccess: boolean = false;
 
     constructor(
         private _route: ActivatedRoute,
@@ -133,19 +138,26 @@ export class BuddyHomeComponent {
     }
 
     fetchBuddiesData() {
-        this._buddyService
-            .fetchBuddiesData(this.companyId, this.userId)
-            .pipe(takeUntil(this.destroy$))
-            .subscribe(
-                (data) => {
-                    this.mapFeatures(data?.features_mapping);
-                    this.mapUserPermissions(data?.user_permissions);
-                    this.isMentor = data?.mentor?.id > 0 ? true : false;
-                },
-                (error) => {
-                    console.log(error);
-                }
-            );
+        if(this.userId > 0) {
+            this._buddyService
+                .fetchBuddiesData(this.companyId, this.userId)
+                .pipe(takeUntil(this.destroy$))
+                .subscribe(
+                    (data) => {
+                        this.currentUser = data?.user;
+                        this.mapFeatures(data?.features_mapping);
+                        this.mapUserPermissions(data?.user_permissions);
+                        this.isMentor = data?.mentor?.id > 0 ? true : false;
+                        this.isLoading = false;
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                );
+        } else {
+            this.isLoading = false;
+            this.hasAccess = false;
+        }
     }
 
     mapFeatures(features) {
@@ -157,6 +169,15 @@ export class BuddyHomeComponent {
 
     mapUserPermissions(user_permissions) {
         this.superAdmin = user_permissions?.super_admin_user ? true : false;
+        if(this.superAdmin) { 
+            this.hasAccess = true; 
+        } else {
+            if(this.currentUser?.bussines_unit &&
+                !(this.currentUser?.bussines_unit?.toLowerCase()?.indexOf('online') >= 0) &&
+                this.currentUser?.segment?.toLowerCase()?.indexOf('grado') >= 0) {
+                this.hasAccess = true;
+            }
+        }
     }
 
     getFeatureTitle(feature) {
