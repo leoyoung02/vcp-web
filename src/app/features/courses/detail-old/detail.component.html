@@ -571,7 +571,7 @@
             </div>
         </ng-container>
     </div>
-    <div class="pt-24" *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
+    <div class="pt-32" *ngIf="(hasCourseStarted(course) && (!course?.locked && !showBuyNow)) || superAdmin">
         <div *ngIf="course && (!course?.course_modules || course?.course_modules?.length == 0)" class="center">
             {{ 'course-details.nomodules' | translate }}
         </div>
