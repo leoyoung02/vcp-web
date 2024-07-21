@@ -156,6 +156,7 @@ export class ManageMemberTypesComponent {
   includeCommissionFee: boolean = false;
   showRegister: boolean = false;
   requireApproval: boolean = false;
+  accessAccount: boolean = false;
   clubPresident: boolean = false;
   manageMembers: boolean = false;
   hasCustomInvoice: boolean = false;
@@ -229,6 +230,7 @@ export class ManageMemberTypesComponent {
     "show_register",
     "require_payment",
     "members_visible",
+    "access_account",
     "action",
   ];
   @ViewChild(MatPaginator, { static: false }) paginator:
@@ -348,6 +350,7 @@ export class ManageMemberTypesComponent {
         "show_register",
         "require_payment",
         "members_visible",
+        "access_account",
         "action",
       ];
     // }
@@ -801,6 +804,7 @@ export class ManageMemberTypesComponent {
     this.memberTypeForm.controls["description"].setValue(item.description);
     this.showRegister = item.show_register ? true : false;
     this.requireApproval = item.require_approval ? true : false;
+    this.accessAccount = item.access_account ? true : false;
     this.clubPresident = item.club_president ? true : false;
     this.manageMembers = item.manage_members ? true : false;
     this.requirePayment = item.require_payment == 1 ? true : false;
@@ -853,6 +857,7 @@ export class ManageMemberTypesComponent {
 
     this.taxIncludeStatus = item.tax_include ? item.tax_include : "";
     this.membersVisible = item.members_visible == 1 ? true : false;
+    this.accessAccount = item.access_account ? true : false;
     this.includePlatformFee = item.platform_account ? true : false;
     if (this.includePlatformFee) {
       this.stripeAccountId = item.platform_account;
@@ -1055,6 +1060,7 @@ export class ManageMemberTypesComponent {
 
     this.memberTypeForm.controls["type_es"].setValue("");
     this.requireApproval = false;
+    this.accessAccount = false;
     this.clubPresident = false;
     this.manageMembers = false;
     this.requirePayment = false;
@@ -1399,6 +1405,7 @@ export class ManageMemberTypesComponent {
         commission_fee: this.includeCommissionFee ? commission_fee : 0,
         show_register: this.showRegister ? this.showRegister : 0,
         require_approval: this.requireApproval ? this.requireApproval : 0,
+        access_account: this.accessAccount ? this.accessAccount : 0,
         club_president: this.clubPresident ? this.clubPresident : 0,
         manage_members: this.manageMembers ? this.manageMembers : 0,
         description: this.memberTypeForm.get("description")?.value,
@@ -1462,6 +1469,7 @@ export class ManageMemberTypesComponent {
         commission_fee: this.includeCommissionFee ? commission_fee : 0,
         show_register: this.showRegister ? this.showRegister : 0,
         require_approval: this.requireApproval ? this.requireApproval : 0,
+        access_account: this.accessAccount ? this.accessAccount : 0,
         club_president: this.clubPresident ? this.clubPresident : 0,
         manage_members: this.manageMembers ? this.manageMembers : 0,
         description: this.memberTypeForm.get("description")?.value,

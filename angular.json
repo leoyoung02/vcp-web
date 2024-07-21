@@ -86,6 +86,7 @@
             "scripts": [
               "node_modules/apexcharts/dist/apexcharts.min.js",
               "node_modules/cookieconsent/build/cookieconsent.min.js",
+              "node_modules/pusher-js/dist/web/pusher.min.js",
               "node_modules/quill/dist/quill.min.js"
             ],
             "vendorChunk": true,

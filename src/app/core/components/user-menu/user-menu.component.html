@@ -112,6 +112,17 @@
                             <div>CRM</div>
                         </div>
                     </ng-container>
+                    <ng-container>
+                        <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('myaccount')">
+                            <div>
+                                <svg class="w-5 h-5 mr-3 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <path stroke="currentColor"
+                                    stroke-width="2" d="M7 17v1a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1a3 3 0 0 0-3-3h-4a3 3 0 0 0-3 3Zm8-9a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                </svg>
+                            </div>
+                            <div>{{"sidebar.myaccount" | translate}}</div>
+                        </div>
+                    </ng-container>
                     <ng-container *ngIf="companyId != 32 && hasAccess('plans') && hasInvitations && (customMemberType?.my_invitations || superAdmin)">
                         <div class="hover:cursor-pointer flex capitalize pb-4 items-center" (click)="redirectPath('invites')">
                             <div>

@@ -52,9 +52,27 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./crm/crm.component')).CRMComponent,
     },
     {
+        path: 'my-account/:id',
+        title: CustomTitleResolver,
+        data: { layout: PageLayout.Main , titleKey: 'company-settings.profile' },
+        loadComponent: async () => (await import('./my-account/my-account.component')).MyAccountComponent,
+    },
+    {
         path: 'my-sessions',
         title: CustomTitleResolver,
         data: { layout: PageLayout.Main , titleKey: 'buddy.mysessions' },
         loadComponent: async () => (await import('./my-sessions/my-sessions.component')).MySessionsComponent,
+    },
+    {
+        path: 'my-transactions',
+        title: CustomTitleResolver,
+        data: { layout: PageLayout.Main , titleKey: 'professionals.mytransactions' },
+        loadComponent: async () => (await import('./my-transactions/my-transactions.component')).MyTransactionsComponent,
+    },
+    {
+        path: 'account-recharge',
+        title: CustomTitleResolver,
+        data: { layout: PageLayout.Main , titleKey: 'professionals.addmoneytowallet' },
+        loadComponent: async () => (await import('./account-recharge/account-recharge.component')).AccountRechargeComponent,
     },
 ];

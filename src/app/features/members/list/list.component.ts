@@ -103,6 +103,8 @@ export class MembersListComponent {
   ageGroupList: any = [];
   allAgeGroups: any = [];
   selectedAgeGroup: any = '';
+  hasCallFeature: boolean = false;
+  hasChatFeature: boolean = false;
 
   constructor(
     private _router: Router,
@@ -313,6 +315,12 @@ export class MembersListComponent {
       this.ageGroupFilterActive = subfeatures.some(
         (a) => a.name_en == "Age group filter" && a.active == 1
       );
+      this.hasCallFeature = subfeatures.some(
+        (a) => a.name_en == "Call feature" && a.active == 1
+      );
+      this.hasChatFeature = subfeatures.some(
+        (a) => a.name_en == "Chat feature" && a.active == 1
+      );
     }
   }
 
@@ -409,7 +417,7 @@ export class MembersListComponent {
         company_image: `${environment.api}/${item.company_logo}`,
         display_name: item?.first_name ? `${item?.first_name} ${item?.last_name}` : item?.name,
         email: `mailto:${item?.email}`,
-        phone: `tel:${item?.phone}`
+        phone: item?.phone && item?.phone != 'undefined' ? `tel:${item?.phone}` : ''
       };
     });
 
@@ -746,6 +754,14 @@ export class MembersListComponent {
 
     this.selectedAgeGroup = event || "";
     this.filterMembers();
+  }
+
+  handleAudioCall(event) {
+    console.log('handleAudioCall: ' + event)
+  }
+
+  handleChat(event) {
+    console.log('handleChat: ' + event)
   }
 
   ngOnDestroy() {

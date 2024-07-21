@@ -224,6 +224,8 @@ import {
   EDIT_MODULE_FILTER_SETTINGS_URL,
   MODULE_FILTER_SETTINGS_URL,
   EDIT_HOME_TEXT_URL,
+  EDIT_NAVIGATION_SETTINGS_URL,
+  EDIT_HOME_STATUS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { withCache } from '@ngneat/cashew';
@@ -2025,5 +2027,17 @@ export class CompanyService {
     }
 
     return result;
+  }
+
+  editNavigationSettings(params): Observable<any> {
+    return this._http.put(EDIT_NAVIGATION_SETTINGS_URL,
+      params,
+    ).pipe(map(res => res));
+  }
+
+  editHomeStatus(payload): Observable<any> {
+    return this._http.put(EDIT_HOME_STATUS_URL,
+      payload
+    ).pipe(map(res => res));
   }
 }

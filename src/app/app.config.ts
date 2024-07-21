@@ -28,6 +28,7 @@ import { TranslateHttpLoader } from "@ngx-translate/http-loader";
 import { CompanyService } from "src/app/share/services";
 import { environment } from "@env/environment";
 import { provideNgxStripe } from "ngx-stripe";
+import { STRIPE_CLIENT_ID } from "@features/services/payment/stripe.service";
 import { Meta, Title } from "@angular/platform-browser";
 import { Customer } from "@lib/interfaces";
 import { StarRatingModule } from "angular-star-rating";
@@ -37,6 +38,7 @@ import { CookieService } from 'ngx-cookie-service';
 import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { QuillModule } from 'ngx-quill';
 import customersData from "src/assets/data/customers.json";
+
 
 @Injectable({ providedIn: "root" })
 export class TemplatePageTitleStrategy extends TitleStrategy {
@@ -96,6 +98,10 @@ export const appConfig: ApplicationConfig = {
       withInterceptors([serverErrorInterceptor, jwtInterceptor])
     ),
     provideNgxStripe('pk_test_51Gu9UDDAf3Yyd0pq9nltjnpw8MKjDmO6Sk36Ld5he5VWDHQQ8gm8skfeJYovpy3w0s03h680p4k046P0ha1If0Wl00Xi0z0UEe'),
+    {
+      provide: STRIPE_CLIENT_ID,
+      useValue: '449f8516-791a-49ab-a09d-50f79a0678b6',
+    },
     importProvidersFrom(
       TranslateModule.forRoot({
         loader: {

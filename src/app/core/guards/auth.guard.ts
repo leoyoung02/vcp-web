@@ -3,6 +3,8 @@ import { CanMatchFn, Route, Router, UrlSegment } from '@angular/router';
 import { environment } from '@env/environment';
 import { CompanyService, LocalService, TokenStorageService } from '@share/services';
 import { AuthService } from 'src/app/core/services';
+import { GuestAccess } from "@lib/interfaces";
+import guestAccessData from "src/assets/data/guest-access.json";
 
 type AuthGuardOptions = {
     requiresAuthentication: boolean;
@@ -46,12 +48,13 @@ export const authGuard = (options: AuthGuardOptions = defaultAuthGuardOptions())
     return (_: Route, segments: UrlSegment[]) => {
         const router = inject(Router);
         const authService = inject(AuthService);
+        const guestAccess: GuestAccess[] = guestAccessData;
 
         const _localService = inject(LocalService);
         const _companyService = inject(CompanyService);
         const localToken = _localService.getLocalStorage(environment.lstoken);
         const localUser = _localService.getLocalStorage(environment.lsuser);
-        const companyId = _localService.getLocalStorage(environment.lscompanyId);
+        let companyId = _localService.getLocalStorage(environment.lscompanyId);
         const userId = _localService.getLocalStorage(environment.lsuserId);
         const localAppSession = localStorage.getItem('appSession');
         if(localToken && localUser && !localAppSession) {
@@ -62,6 +65,7 @@ export const authGuard = (options: AuthGuardOptions = defaultAuthGuardOptions())
         }
 
         let setGuestAccessToken = false;
+        let hasGuestAccess = false;
         if(!userId) {
             let companies = _localService.getLocalStorage(environment.lscompanies)
                 ? JSON.parse(_localService.getLocalStorage(environment.lscompanies))
@@ -75,12 +79,21 @@ export const authGuard = (options: AuthGuardOptions = defaultAuthGuardOptions())
                     }
                 }
             } else {
+                let host = window.location.host;
+                let company = guestAccess && guestAccess.find(
+                  (c) => c.url == host || c.url == environment.company && c.guest_access == 1
+                );
+                if (company) {
+                    hasGuestAccess = true;
+                }
+
                 if(companyId == 32 || 
                     environment.company == 'vidauniversitaria.universidadeuropea.com' ||
                     environment.company == 'schooloflife.vistingo.com' ||
                     window.location.host?.indexOf('vidauniversitaria.') >= 0 ||
                     window.location.host?.indexOf('uestaging.') >= 0 ||
-                    window.location.host?.indexOf('schooloflife.') >= 0
+                    window.location.host?.indexOf('schooloflife.') >= 0 ||
+                    hasGuestAccess
                 ) {
                     setGuestAccessToken = true;
                 }

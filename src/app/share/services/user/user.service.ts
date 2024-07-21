@@ -98,6 +98,7 @@ import {
     POT_SUPER_TUTOR_STUDENTS_URL,
     EDIT_USER_BIRTHDAY_URL,
     MENTOR_SESSIONS_URL,
+    USER_TRANSACTIONS_URL,
 } from "@lib/api-constants";
 import { LocalService } from "@share/services/storage/local.service";
 import { environment } from "@env/environment";
@@ -769,6 +770,12 @@ export class UserService {
 
   getUserMentorSessions(companyId, userId): Observable<any> {
     return this._http.get(`${MENTOR_SESSIONS_URL}/${companyId}/${userId}`,
+      { headers: this.headers }
+    ).pipe(map(res => res))
+  }
+
+  getUserTransactions(companyId, userId): Observable<any> {
+    return this._http.get(`${USER_TRANSACTIONS_URL}/${companyId}/${userId}`,
       { headers: this.headers }
     ).pipe(map(res => res))
   }

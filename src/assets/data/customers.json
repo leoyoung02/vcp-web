@@ -436,5 +436,17 @@
         "name": "Testimonios",
         "url": "testimonios.vistingo.com",
         "domain": "cursogenius.com"
+    },
+    {  
+        "id": 52,  
+        "name": "Testimonios",
+        "url": "testimoniosstaging.vistingo.com",
+        "domain": "cursogenius.com"
+    },
+    {  
+        "id": 67,  
+        "name": "ASTRO IDEAL",
+        "url": "astroideal.com",
+        "domain": "astroideal.com"
     }
 ]

@@ -350,6 +350,8 @@ export class SettingComponent {
   cookiePolicyOption: any;
   privacyPolicyOption: any;
 
+  selectedNavigation: any = 'side-menu';
+
   constructor(
     private _router: Router,
     private _companyService: CompanyService,
@@ -2019,6 +2021,31 @@ export class SettingComponent {
 
   manageRegistrationFields() {
     this._router.navigate([`/settings/registration-fields`])
+  }
+
+  showNavigationModal() {
+    this.dialogTitle =  this._translateService.instant('landing.navigation');
+    this.dialogMode = 'navigation';
+    this.modalbutton?.nativeElement.click();
+  }
+
+  saveNavigation() {
+    let params = {
+      id: this.companyId,
+      navigation: this.selectedNavigation,
+    }
+    this._companyService.editNavigationSettings(params)
+      .subscribe(
+        async response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '')
+          await this.setCompanyInit();
+          this.closemodalbutton?.nativeElement.click();
+          location.reload();
+        },
+        error => {
+          console.log(error)
+        }
+      )
   }
 
   handleGoBack() {

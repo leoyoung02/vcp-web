@@ -142,6 +142,7 @@ export const HOME_COURSES_TUTORS_TESTIMONIALS_DATA_URL = `${API_BASE}/v2/home-co
 export const HOME_PLANS_COURSES_DATA_URL = `${API_BASE}/v2/home-plans-courses`;
 export const HOME_SECTIONS_DATA_URL = `${API_BASE}/v2/home/sections-data`;
 export const EDIT_HOME_TEXT_URL = `${API_BASE}/company/menu/home/edit`;
+export const EDIT_HOME_STATUS_URL = `${API_BASE}/home/status/edit`;
 
 // SETTINGS
 export const SETTINGS_CATEGORY_URL = `${API_BASE}/company/settings/category/list/all`;
@@ -168,6 +169,7 @@ export const ACTIVATE_POLICY_URL = `${API_BASE}/company/policy/activate`;
 export const ACTIVATE_COOKIE_URL = `${API_BASE}/company/cookie-policy/activate`;
 export const ACTIVATE_TERMS_URL = `${API_BASE}/company/terms-conditions/activate`;
 export const EDIT_OTHER_SETTING_VALUE_URL = `${API_BASE}/company/other-settings/value/update`;
+export const EDIT_NAVIGATION_SETTINGS_URL = `${API_BASE}/v2/navigation/edit`;
 
 // REPORTS
 export const REPORTS_DATA_URL = `${API_BASE}/v2/reports-data`;
@@ -272,6 +274,7 @@ export const UPDATE_REGISTRATION_FIELD_DETAILS_URL = `${API_BASE}/company/regist
 export const SUPER_TUTOR_STUDENTS_URL = `${API_BASE}/v2/super-tutor/students`;
 export const POT_SUPER_TUTOR_STUDENTS_URL = `${API_BASE}/v2/potsuper-tutor/students`;
 export const EDIT_USER_BIRTHDAY_URL = `${API_BASE}/v2/user/birthday/edit`;
+export const USER_TRANSACTIONS_URL = `${API_BASE}/v3/user-transactions`;
 
 // NOTIFICATIONS
 export const ACCEPT_CLUB_NOTIFICATION_URL = `${API_BASE}/company-approve-join-group`;
@@ -771,6 +774,27 @@ export const STARTUPS_URL = `${API_BASE}/v2/startups`;
 export const STARTUP_DETAILS_URL = `${API_BASE}/v2/startup-details`;
 export const ADD_STARTUP_URL = `${API_BASE}/company/startup/add`;
 export const GET_STARTUPS_URL = `${API_BASE}/company/startups`;
+
+// SHOP
+export const SHOPS_DATA_URL = `${API_BASE}/v2/shops-data`;
+export const SHOP_CATEGORIES_URL = `${API_BASE}/v2/shop-categories`;
+export const PRODUCTS_URL = `${API_BASE}/v2/products`;
+
+// PROFESSIONALS
+export const GENERATE_RTC_TOKEN_URL = `${API_BASE}/v3/agora/rtc`;
+export const NOTIFY_PROFESSIONAL_PUSHER_URL = `${API_BASE}/v3/voice-call/push`;
+export const VOICE_CALL_URL = `${API_BASE}/v3/voice-call`;
+export const VALIDATE_VOICE_CALL_PASSCODE_URL = `${API_BASE}/v3/voice-call/validate-code`;
+export const MINIMUM_BALANCE_URL = `${API_BASE}/v3/minimum-balance`;
+export const EDIT_MINIMUM_BALANCE_URL = `${API_BASE}/v3/minimum-balance/edit`;
+export const PROFESSIONALS_DATA_URL = `${API_BASE}/v3/professionals-data`;
+export const EDIT_CALLER_BALANCE_URL = `${API_BASE}/v3/caller-balance/edit`;
+export const STRIPE_CREATE_PAYMENT_INTENT_URL = `${API_BASE}/v3/payments/create-payment-intent`;
+export const STRIPE_CREATE_IDENTITY_VERIFICATION_SESSION_URL = `${API_BASE}/v3/payments/identity/create-verification-session`;
+export const ACCOUNT_RECHARGE_URL = `${API_BASE}/v3/account-recharge`;
+export const ACCOUNT_RECHARGE_DATA_URL = `${API_BASE}/v3/account-recharge-data`;
+export const EDIT_STRIPE_PAYMENT_URL = `${API_BASE}/v3/payment-stripe/edit`;
+export const EDIT_PAYPAL_PAYMENT_URL = `${API_BASE}/v3/payment-paypal/edit`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;
