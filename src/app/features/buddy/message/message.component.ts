@@ -360,6 +360,17 @@ export class MentorMessageComponent {
     this.handleDelete.emit(message);
   }
 
+  getCurrentUserImage() {
+    let image = ''
+    if(this.me.photo) {
+      image = `data:image/png;base64,${this.me?.photo}`
+    } else {
+      image = this.me?.image == 'default-avatar.jpg' || this.me?.image == 'empty_avatar.png' ? ('./assets/images/default-profile.png') : (this.apiPath + this.me?.image)
+    }
+    
+    return image;
+  }
+
   async open(message: string, action: string) {
     await this._snackBar.open(message, action, {
       duration: 3000,

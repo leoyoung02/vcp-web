@@ -3187,7 +3187,12 @@
         "pendingcompletion": "Bukatzeko zain",
         "introductionlabel": "Niri buruz: zergatik izan nahi dudan tutore, zergatik aukeratu dudan gradua...",
         "interestslabel": "Interesak: Unibertsitate Bizitzan parte hartzeko (klubak, elkarteak, ordezkariak, kirol taldea...)",
-        "personalitylabel": "Nortasuna, interesak"
+        "personalitylabel": "Nortasuna, interesak",
+        "mymentor": "Nire tutorea",
+        "campus": "Campus", 
+        "faculty": "Fakultade", 
+        "businessunit": "Negozio-unitatea", 
+        "segment": "Segmentua"
     },
     "cities": {
         "cities": "Hiriak",

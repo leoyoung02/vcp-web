@@ -32,7 +32,7 @@
     <div class="mt-4 mb-8" *ngIf="mentorId == userId">
         <div class="relative sm:block md:flex lg:flex sm:flex-col md:flex-row lg:flex-row rounded-[16px]">
             <img class="mr-6 rounded-full object-top object-cover w-[40px] h-[40px]" width="40" height="40"
-                [ngSrc]="me?.image == 'default-avatar.jpg' || me?.image == 'empty_avatar.png' ? ('./assets/images/default-profile.png') : (apiPath + me?.image)"
+                [ngSrc]="getCurrentUserImage()"
             />
             <div class="rounded-[6px] p-3 w-full max-w-full text-sm text-sm bg-[#f6f6f6]" 
                 (blur)="getNewComment($event)" 

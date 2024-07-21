@@ -31,4 +31,10 @@ export const routes: Routes = [
         data: { titleKey: 'buddy.mentor'},
         loadComponent: async () => (await import('./mentor/mentor.component')).MentorComponent,
     },
+    {
+        path: 'mentee/:id',
+        title: CustomTitleResolver,
+        data: { titleKey: 'buddy.mentee'},
+        loadComponent: async () => (await import('./mentee/mentee.component')).MenteeComponent,
+    },
 ];
