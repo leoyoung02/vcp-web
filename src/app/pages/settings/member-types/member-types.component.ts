@@ -230,7 +230,6 @@ export class ManageMemberTypesComponent {
     "show_register",
     "require_payment",
     "members_visible",
-    "access_account",
     "action",
   ];
   @ViewChild(MatPaginator, { static: false }) paginator:
@@ -337,23 +336,15 @@ export class ManageMemberTypesComponent {
   }
 
   initData() {
-    // if(this.companyId == 12) {
-    //   this.displayedColumns = [
-    //     "title",
-    //     "action",
-    //   ];
-    // } else {
-      this.displayedColumns = [
-        "move",
-        "sequence",
-        "title",
-        "show_register",
-        "require_payment",
-        "members_visible",
-        "access_account",
-        "action",
-      ];
-    // }
+    this.displayedColumns = [
+      "move",
+      "sequence",
+      "title",
+      "show_register",
+      "require_payment",
+      "members_visible",
+      "action",
+    ];
     this.paymentTypes = [
       {
         id: 1,
