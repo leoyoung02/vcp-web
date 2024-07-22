@@ -1069,7 +1069,15 @@
         "viewclass": "Ver clase",
         "stripeinactivetransfer":"Capacidades de transferencia inactiva",
         "levelingcoursesdescription": "Los cursos BASIC STEAM son cursos de nivelación diseñados para reforzar y afianzar los conocimientos básicos, asegurando una preparación óptima para enfrentar con éxito los desafíos académicos de los primeros cursos de la etapa universitaria.",
-        "levelingcoursesduration": "Duración: 10 horas"
+        "levelingcoursesduration": "Duración: 10 horas",
+        "uploaddesc": "Arrastre y suelte su archivo o busque el archivo para cargarlo",
+        "uploadprocessing": "Procesando",
+        "uploadcomplete": "Subida completa",
+        "uploadcancelled": "Subida cancelada",
+        "uploaderror": "Error al cargar",
+        "uploadtapcancel": "Toca para cancelar",
+        "uploadtapretry": "Toca para volver a intentarlo",
+        "uploadtapundo": "Toca para deshacer"
     },
     "course-lesson": {
         "section": "Sección"
@@ -3203,7 +3211,12 @@
         "pendingcompletion": "Pendiente de finalización",
         "introductionlabel": "Sobre mí: por qué quiero ser mentor, por qué he elegido mi grado...",
         "interestslabel": "Intereses: poner participación en la Vida Universitaria (clubes, asociaciones, delegados, equipo deportivo….)",
-        "personalitylabel": "Personalidad, Intereses"
+        "personalitylabel": "Personalidad, Intereses",
+        "mymentor": "Mi mentor", 
+        "campus": "Campus",
+        "faculty": "Facultad", 
+        "businessunit": "Unidad de negocio", 
+        "segment": "Segmento"
     },
     "cities": {
         "cities": "Ciudades",

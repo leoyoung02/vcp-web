@@ -830,3 +830,6 @@ export const ADD_MENTOR_URL = `${API_BASE}/v2/mentor/add`;
 export const DELETE_MENTOR_URL = `${API_BASE}/v2/mentor/delete`;
 export const BUDDY_LIMIT_SETTINGS_URL = `${API_BASE}/buddy/settings/limit`;
 export const EDIT_BUDDY_LIMIT_SETTINGS_URL = `${API_BASE}/buddy/settings/limit/edit`;
+export const MENTOR_PROFILE_REQUESTS_URL = `${API_BASE}/v2/introduceu/mentor-requests`;
+export const MENTOR_PROFILE_MESSAGES_URL = `${API_BASE}/v2/introduceu/mentor/mentee-messages`;
+export const MENTOR_MENTEE_REQUESTS_URL = `${API_BASE}/v2/introduceu/statistics/mentor-mentee-requests`;

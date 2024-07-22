@@ -1433,10 +1433,52 @@
                                 </div>
                                 <div class="flex items-center justify-center mb-8 relative" 
                                     *ngIf="selectedUnitOption != 'Vidalytics'">
-                                    <textarea name="" id="description" cols="30" rows="3"
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'es'"
                                         class="w-full rounded-lg p-4"
                                         placeholder="{{ 'courses.embedorurl' | translate }}"
                                         [(ngModel)]="externalLink"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embedorurl' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'en'"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embedorurl' | translate }}"
+                                        [(ngModel)]="externalLinkEn"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embedorurl' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'fr'"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embedorurl' | translate }}"
+                                        [(ngModel)]="externalLinkFr"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embedorurl' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'eu'"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embedorurl' | translate }}"
+                                        [(ngModel)]="externalLinkEu"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embedorurl' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'ca'"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embedorurl' | translate }}"
+                                        [(ngModel)]="externalLinkCa"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embedorurl' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'de'"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embedorurl' | translate }}"
+                                        [(ngModel)]="externalLinkDe"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embedorurl' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'it'"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embedorurl' | translate }}"
+                                        [(ngModel)]="externalLinkIt"
                                         [ngModelOptions]="{standalone: true}">
                                         {{ 'courses.embedorurl' | translate }}
                                     </textarea>
@@ -1474,11 +1516,30 @@
                             <div class="flex items-center justify-center my-8 relative">
                                 <div class="w-full max-w-full">
                                     <file-pond
+                                        *ngIf="selectedLanguage == 'es'"
                                         #myPond
                                         [options]="pondOptions"
                                         [files]="pondFiles"
                                         (oninit)="pondHandleInit()"
                                         (onaddfile)="pondHandleAddFile($event)"
+                                    >
+                                    </file-pond>
+                                    <file-pond
+                                        *ngIf="selectedLanguage == 'en'"
+                                        #myPondEn
+                                        [options]="pondOptionsEn"
+                                        [files]="pondFilesEn"
+                                        (oninit)="pondHandleInitEn()"
+                                        (onaddfile)="pondHandleAddFileEn($event)"
+                                    >
+                                    </file-pond>
+                                    <file-pond
+                                        *ngIf="selectedLanguage == 'it'"
+                                        #myPondIt
+                                        [options]="pondOptionsIt"
+                                        [files]="pondFilesIt"
+                                        (oninit)="pondHandleInitIt()"
+                                        (onaddfile)="pondHandleAddFileIt($event)"
                                     >
                                     </file-pond>
                                 </div>
@@ -1500,10 +1561,52 @@
                         <ng-container *ngIf="selectedUnitType == 7">
                             <div class="flex items-center justify-center my-8 relative">
                                 <div class="w-full max-w-full">
-                                    <textarea name="" id="embed-script" cols="30" rows="3"
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'es'" cols="30" rows="3"
                                         class="w-full rounded-lg p-4"
                                         placeholder="{{ 'courses.embed' | translate }}"
                                         [(ngModel)]="embedScript"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'en'" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScriptEn"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'fr'" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScriptFr"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'eu'" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScriptEu"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'ca'" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScriptCa"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'de'" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScriptDe"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'it'" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScriptIt"
                                         [ngModelOptions]="{standalone: true}">
                                         {{ 'courses.embed' | translate }}
                                     </textarea>

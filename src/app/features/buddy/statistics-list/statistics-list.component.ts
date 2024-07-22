@@ -4,7 +4,7 @@ import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { LangChangeEvent, TranslateModule, TranslateService } from '@ngx-translate/core';
 import { CompanyService, ExcelService, LocalService } from '@share/services';
 import { Subject, takeUntil } from 'rxjs';
-import { IconFilterComponent } from '@share/components';
+import { ButtonGroupComponent, IconFilterComponent } from '@share/components';
 import { SearchComponent } from '@share/components/search/search.component';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
@@ -36,6 +36,7 @@ import moment from "moment";
         ReactiveFormsModule,
         SearchComponent,
         IconFilterComponent,
+        ButtonGroupComponent,
         NgOptimizedImage
     ],
     templateUrl: './statistics-list.component.html',
@@ -69,6 +70,13 @@ export class BuddyStatisticsListComponent {
     allMentorsData: any[] = [];
     expandedMentorId: any = '';
     list: any;
+    buttonList: any = [];
+    viewMode: any = '';
+
+    allMentorRequestsData: any[] = [];
+    expandedMentorRequestId: any = '';
+    mentorRequestsData: any[] = [];
+    allStatistics: any = [];
 
     constructor(
         private _route: ActivatedRoute,
@@ -104,27 +112,65 @@ export class BuddyStatisticsListComponent {
         setTimeout(() => {
             initFlowbite();
         }, 500);
-        this.fetchMentorsManagementData();
+        this.buttonList = [
+            {
+              id: 1,
+              value: "mentor-mentees",
+              text: this._translateService.instant("company-reports.nomentormentees"),
+              selected: true,
+            },
+            {
+              id: 2,
+              value: "mentor-mentee-requests",
+              text: this._translateService.instant("notification-popup.mentorrequests"),
+              selected: false,
+            },
+        ];
+        this.viewMode = this.buttonList?.length > 0 ? this.buttonList[0].value : 'mentor-mentees';
+        this.initializeData();
         this.initializeSearch();
     }
 
-    fetchMentorsManagementData() {
-        this._buddyService
-          .fetchBuddies(this.company?.id, this.userId)
-          .pipe(takeUntil(this.destroy$))
-          .subscribe(
-            (data) => {
-                this.formatMentors(data?.mentors || []);
-            },
-            (error) => {
-              console.log(error);
-            }
-          );
+    initializeData() {
+        if(this.viewMode == 'mentor-mentees') {
+            this.displayedColumns = [
+                "mentor_name",
+                "mentees"
+            ];
+            this.fetchMentorsManagementData();
+        } else if(this.viewMode == 'mentor-mentee-requests') {
+            this.displayedColumns = [
+                "mentor_name",
+                "requests",
+                "accepted",
+                "declined"
+            ];
+            this.fetchMenteeMentorRequestsStatus();
+        }
     }
 
     initializeSearch() {
         this.searchText = this._translateService.instant("guests.search");
         this.placeholderText = this._translateService.instant("news.searchbykeyword");
+    }
+
+    handleSearch(event) {
+        this.searchKeyword = event;
+        this.loadMentors(this.allMentorsData);
+    }
+
+    fetchMentorsManagementData() {
+        this._buddyService
+            .fetchBuddies(this.company?.id, this.userId)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(
+                (data) => {
+                    this.formatMentors(data?.mentors || []);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
     }
 
     formatMentors(mentors) {
@@ -157,11 +203,6 @@ export class BuddyStatisticsListComponent {
         this.loadMentors(data);
     }
 
-    handleSearch(event) {
-        this.searchKeyword = event;
-        this.loadMentors(this.allMentorsData);
-    }
-
     loadMentors(data) {
         this.mentorsData = data;
 
@@ -172,6 +213,82 @@ export class BuddyStatisticsListComponent {
         }
 
         this.refreshTable(this.mentorsData);
+    }
+
+    fetchMenteeMentorRequestsStatus() {
+        this._buddyService
+            .fetchMentorMenteeRequests(this.company?.id)
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(
+                (data) => {
+                    this.formatMentorRequests(data?.statistics || []);
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    }
+
+    formatMentorRequests(statistics) {
+        let all_statistics = statistics;
+        this.allStatistics = statistics;
+        let mentors: any[] = [];
+
+        if(statistics?.length > 0) {
+            statistics?.forEach(stat => {
+                let match = mentors?.some(
+                    (a) => a.mentor_id == stat.mentor_id
+                );
+
+                if(!match) {
+                    let mentor_requests = all_statistics?.filter(as => {
+                        return as.mentor_id == stat.mentor_id
+                    })
+
+                    let accepted = []
+                    let declined = []
+                    if(mentor_requests?.length > 0) {
+                        accepted = mentor_requests?.filter(mr => {
+                            return mr.read == 1
+                        })
+                        declined = mentor_requests?.filter(mr => {
+                            return mr.declined == 1
+                        })
+                    }
+
+                    mentors?.push({
+                        mentor_id: stat.mentor_id,
+                        mentor_name: stat.mentor_name,
+                        requests: mentor_requests?.length || 0,
+                        mentor_requests,
+                        accepted: accepted?.length || 0,
+                        mentor_accepted: accepted,
+                        declined: declined?.length || 0,
+                        mentor_declined: declined,
+                    })
+                }
+            })
+        }
+
+        if(this.allMentorRequestsData?.length == 0) {
+            this.allMentorRequestsData = mentors
+        }
+
+        console.log(mentors)
+        
+        this.loadMentorRequests(mentors);
+    }
+
+    loadMentorRequests(data) {
+        this.mentorRequestsData = data;
+
+        if(this.searchKeyword && this.mentorRequestsData) {
+            this.mentorRequestsData = this.mentorRequestsData.filter(p => {
+              return p.mentor_name && p.mentor_name.toLowerCase().indexOf(this.searchKeyword.toLowerCase()) >= 0 
+            })
+        }
+
+        this.refreshTable(this.mentorRequestsData);
     }
 
     refreshTable(list) {
@@ -226,23 +343,35 @@ export class BuddyStatisticsListComponent {
 
     downloadExcel() {
         let mentor_data: any[] = [];
-        if(this.mentorsData) {
-        this.mentorsData.forEach(mentor => {
-            if(mentor?.mentees?.length > 0) {
-                mentor?.mentees?.forEach(p => {
-                    let match = mentor_data.some(a => a.user_id === p.user_id && p.mentor_name == mentor.mentor_name);
-                    if(!match) {
-                        mentor_data.push({
-                            'Mentor': mentor.mentor_name,
-                            'Mentee': p.name,
-                            'Correo electrónico': p.email,
-                            'Nº de Interacción': p.no_of_interactions,
-                            'Nº de sesión (Calendly)': p.no_of_schedules,
+        if(this.viewMode == 'mentor-mentees') {
+            if(this.mentorsData) {
+                this.mentorsData.forEach(mentor => {
+                    if(mentor?.mentees?.length > 0) {
+                        mentor?.mentees?.forEach(p => {
+                            let match = mentor_data.some(a => a.user_id === p.user_id && p.mentor_name == mentor.mentor_name);
+                            if(!match) {
+                                mentor_data.push({
+                                    'Mentor': mentor.mentor_name,
+                                    'Mentee': p.name,
+                                    'Correo electrónico': p.email,
+                                    'Nº de Interacción': p.no_of_interactions,
+                                    'Nº de sesión (Calendly)': p.no_of_schedules,
+                                })
+                            }
                         })
                     }
+                });
+            }
+        } else if(this.viewMode == 'mentor-mentee-requests') {
+            if(this.allStatistics) {
+                this.allStatistics.forEach(mentor => {
+                    mentor_data.push({
+                        'Mentor': mentor.mentor_name,
+                        'Mentee': mentor.mentee_name,
+                        'Estado': mentor.read == 1 ? this._translateService.instant('notification-popup.accepted') : (mentor?.declined == 1 ? this._translateService.instant('notification-popup.declined') : this._translateService.instant('campaign-details.pendingrequest')),
+                    })
                 })
             }
-        });
         }
     
         this._excelService.exportAsExcelFile(mentor_data, 'mentors_' + this.getTimestamp());
@@ -254,6 +383,20 @@ export class BuddyStatisticsListComponent {
         const timestamp = date.getTime();
     
         return timestamp;
+    }
+
+    handleChangeViewClick(event) {
+        this.viewMode = event?.value;
+        if (event) {
+            this.buttonList?.forEach((item) => {
+                if (item.id === event.id) {
+                    item.selected = true;
+                } else {
+                    item.selected = false;
+                }
+            });
+        }
+        this.initializeData();
     }
 
     ngOnDestroy() {

@@ -1067,7 +1067,15 @@
         "viewclass": "Mostra la classe",
         "stripeinactivetransfer":"Capacitats de transferència inactives",
         "levelingcoursesdescription": "Els cursos BASIC STEAM són cursos d'anivellament dissenyats per reforçar i consolidar els coneixements bàsics, assegurant una preparació òptima per enfrontar amb èxit els desafiaments acadèmics dels primers cursos de l'etapa universitària.",
-        "levelingcoursesduration": "Durada: 10 hores"
+        "levelingcoursesduration": "Durada: 10 hores",
+        "uploaddesc": "Arrossegueu i deixeu anar el vostre fitxer o navegueu per carregar-lo",
+        "uploadprocessing": "S'està processant",
+        "uploadcomplete": "Càrrega completada",
+        "uploadcancelled": "Pujada cancel·lada",
+        "uploaderror": "Error de càrrega",
+        "uploadtapcancel": "Toqueu per cancel·lar",
+        "uploadtapretry": "Toqueu per tornar-ho a provar",
+        "uploadtapundo": "Toca per desfer"
     },
     "course-lesson": {
         "section": "Secció"
@@ -3199,7 +3207,12 @@
         "pendingcompletion": "Pendent de finalització",
         "introductionlabel": "Sobre mi: per què vull ser mentor, per què he triat el meu grau...",
         "interestslabel": "Interessos: posar participació a la Vida Universitària (clubs, associacions, delegats, equip esportiu….)",
-        "personalitylabel": "Personalitat, Interessos"
+        "personalitylabel": "Personalitat, Interessos",
+        "mymentor": "El meu mentor", 
+        "campus": "Campus",
+        "faculty": "Facultad", 
+        "businessunit": "Unitat de negoci", 
+        "segment": "Segment"
     },
     "cities": {
         "cities": "Ciutats",

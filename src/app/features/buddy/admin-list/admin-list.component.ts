@@ -157,6 +157,24 @@ export class BuddyAdminListComponent {
   }
 
   loadData() {
+    if(this.company?.id == 32) {
+      this.displayedColumns = [
+        "name",
+        "location",
+        "major",
+        "faculty",
+        "business_unit",
+        "segment",
+        "action"
+      ];
+    } else {
+      this.displayedColumns = [
+        "name",
+        "location",
+        "major",
+        "action"
+      ];
+    }
     if(this.status == 'MentorRequests') {
       this.fetchMentorRequests();
     } else {

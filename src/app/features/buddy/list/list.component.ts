@@ -7,7 +7,7 @@ import { environment } from '@env/environment';
 import { BuddyService } from '@features/services';
 import { initFlowbite } from "flowbite";
 import { FormsModule } from '@angular/forms';
-import { FilterComponent, PageTitleComponent } from '@share/components';
+import { FilterComponent, NoAccessComponent, PageTitleComponent } from '@share/components';
 import { SearchComponent } from '@share/components/search/search.component';
 import { MentorCardComponent } from '@share/components/card/mentor/mentor.component';
 import { LanguageFilterComponent } from '@share/components/language-filter/language-filter.component';
@@ -26,6 +26,7 @@ import get from 'lodash/get';
         FilterComponent,
         MentorCardComponent,
         LanguageFilterComponent,
+        NoAccessComponent,
     ],
     templateUrl: './list.component.html'
 })
@@ -77,6 +78,10 @@ export class BuddyListComponent {
     languages: any = [];
     languageList: any = [];
     selectedLanguage: any = '';
+
+    currentUser: any;
+    isLoading: boolean = true;
+    hasAccess: boolean = false;
 
     constructor(
         private _translateService: TranslateService,
@@ -177,6 +182,7 @@ export class BuddyListComponent {
           .pipe(takeUntil(this.destroy$))
           .subscribe(
             (data) => {
+                this.currentUser = data?.user;
                 this.languages = this.formatLanguages(data?.languages);
 
                 this.mapFeatures(data?.features_mapping);
@@ -196,8 +202,8 @@ export class BuddyListComponent {
                 this.years = this.sortArray(this.years);
 
                 this.initializeButtonGroup();
-
                 this.filterTypeControl = 'dropdown';
+                this.isLoading = false;
             },
             (error) => {
               console.log(error);
@@ -310,6 +316,15 @@ export class BuddyListComponent {
 
     mapUserPermissions(user_permissions) {
         this.superAdmin = user_permissions?.super_admin_user ? true : false;
+        if(this.superAdmin) { 
+            this.hasAccess = true; 
+        } else {
+            if(this.currentUser?.bussines_unit &&
+                !(this.currentUser?.bussines_unit?.toLowerCase()?.indexOf('online') >= 0) &&
+                this.currentUser?.segment?.toLowerCase()?.indexOf('grado') >= 0) {
+                this.hasAccess = true;
+            }
+        }
     }
 
     initializeIconFilterList(list) {
@@ -434,6 +449,7 @@ export class BuddyListComponent {
                 ...item,
                 path: `/buddy/mentor/${item.user_id}`,
                 buddy_image: `${environment.api}/${item.image}`,
+                buddy_photo: item?.photo ? `data:image/png;base64,${item?.photo}` : '',
                 languages: item?.language,
             };
         });

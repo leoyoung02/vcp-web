@@ -1064,7 +1064,15 @@
         "viewclass": "Klasse anzeigen",
         "stripeinactivetransfer":"Inaktive Überweisen Fähigkeiten",
         "levelingcoursesdescription": "Die BASIC STEAM-Kurse sind Leveling-Kurse, die darauf abzielen, das Grundwissen zu festigen und zu festigen und eine optimale Vorbereitung für die erfolgreiche Bewältigung der akademischen Herausforderungen der ersten Kurse der Universitätsstufe zu gewährleisten.",
-        "levelingcoursesduration": "Dauer: 10 Stunden"
+        "levelingcoursesduration": "Dauer: 10 Stunden",
+        "uploaddesc": "Ziehen Sie Ihre Datei per Drag & Drop oder suchen Sie nach hochzuladenden Dateien",
+        "uploadprocessing": "Wird verarbeitet",
+        "uploadcomplete": "Upload abgeschlossen",
+        "uploadcancelled": "Upload abgebrochen",
+        "uploaderror": "Uploadfehler",
+        "uploadtapcancel": "Zum Abbrechen tippen",
+        "uploadtapretry": "Zum erneuten Versuch tippen",
+        "uploadtapundo": "Zum Rückgängigmachen tippen"
     },
     "course-lesson": {
         "section": "Abschnitt"
@@ -3190,7 +3198,12 @@
         "pendingcompletion": "Ausstehender Abschluss",
         "introductionlabel": "Über mich: Warum ich Mentorin werden möchte, warum ich meinen Abschluss gewählt habe...",
         "interestslabel": "Interessen: Teilnahme am Universitätsleben (Vereine, Vereine, Delegierte, Sportmannschaft...)",
-        "personalitylabel": "Persönlichkeit, Interessen"
+        "personalitylabel": "Persönlichkeit, Interessen",
+        "mymentor": "Mein Mentor", 
+        "campus": "Campus",
+        "faculty": "Fakultät", 
+        "businessunit": "Geschäftsbereich", 
+        "segment": "Segment"
     },
     "cities": {
         "cities": "Städte",
