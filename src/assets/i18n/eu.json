@@ -3752,6 +3752,9 @@
         "enterpasscode": "Idatzi pasakodea",
         "incomingvideocall": "Sarrerako bideo-deia",
         "connecting": "Konektatzen",
-        "incomingchat": "Sarrerako txat eskaera"
+        "incomingchat": "Sarrerako txat eskaera",
+        "waitingfor": "Itxaron",
+        "acceptchatrequest": "txat eskaera onartzeko",
+        "chatinprogress": "Txatea martxan"
     }
 }

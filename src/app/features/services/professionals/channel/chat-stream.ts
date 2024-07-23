@@ -1,13 +1,16 @@
 import { BehaviorSubject, ReplaySubject } from "rxjs";
 import { ChatMessages } from "@lib/interfaces";
 import AgoraRTM, { RtmClient, RtmChannel } from 'agora-rtm-sdk';
+import { ProfessionalsService } from "../professionals.service";
 import { environment } from "@env/environment";
+import moment from "moment";
 
 export class ChatStream {
     private appId = environment.agoraAppId;
     private channel: string = '';
     private token: string = '';
     private uid: string = '';
+    private recipientJoined: boolean = false;
     private rtmClient!: RtmClient;
     private rtmChannel!: RtmChannel;
     public loading: boolean = false;
@@ -22,21 +25,56 @@ export class ChatStream {
     public chatMessages: ChatMessages[] = [];
 
     chatMessagesUpdated$ = new BehaviorSubject<boolean>(false);
+    recipientJoined$ = new BehaviorSubject<boolean>(false);
 
-    constructor(channel: string, token: string, uid: string) {
+    _professionalsService: ProfessionalsService | undefined;
+
+    constructor(channel: string, token: string, uid: string, professionalsService: ProfessionalsService) {
         this.channel = channel;
         this.token = token;
         this.uid = uid;
+        this._professionalsService = professionalsService;
         this.rtmClient = AgoraRTM.createInstance(this.appId);
     }
 
     /**
     * Join the Local streamer client channel.
     */
-    async joinChannel(channel: string, token: string, username: string, image: string) {
+    async joinChannel(channel: string, token: string, username: string, image: string, recipientJoined: boolean, chat: any, chatGuid: string) {
         await this.loginRTM(username, image);
+        this.recipientJoined = recipientJoined;
         this.isJoined = true;
         this.loading = false;
+
+        if(this.recipientJoined) {
+            this.triggerNotification(channel, token, chat);
+        }
+    }
+
+    triggerNotification(channelName: string, token: string | null, chat: any) {
+        this.recipientJoined$.next(true);
+
+        let timezoneOffset = new Date().getTimezoneOffset();
+        let offset = moment().format('Z');
+        let params = {
+            id: chat?.id,
+            user_id: chat?.user_id,
+            company_id: chat?.company_id,
+            mode: 'recipient-joined-chat',
+            channel: chat?.user_id,
+            room: chat?.room,
+            timezone: timezoneOffset,
+            offset,
+            recipient_uid: this.uid,
+            chat_guid: chat?.chat_guid,
+        }
+
+        this._professionalsService?.notifyChatProfessional(params).subscribe(
+            (response) => { 
+            },
+            (error) => {
+                console.log(error);
+            })
     }
 
     /**
@@ -72,7 +110,6 @@ export class ChatStream {
     * Create the RTM Channel.
     */
     async createChannel(): Promise<void> {
-        console.log('create channel ' + this.channel)
         this.rtmChannel = await this.rtmClient.createChannel(this.channel);
         await this.joinRTM();
     }
@@ -102,6 +139,7 @@ export class ChatStream {
             await this.getUserAttribute(memberId)
                 .then((value) => {
                     name = value.name;
+                    image = value.image;
                 })
                 .catch((reason: any) => console.log("getUserAttribute error", reason));
             this.chatMessages.push({

@@ -3751,6 +3751,9 @@
         "enterpasscode": "Passcode eingeben",
         "incomingvideocall": "Eingehender Videoanruf",
         "connecting": "Verbindung wird hergestellt",
-        "incomingchat": "Eingehende Chat-Anfrage"
+        "incomingchat": "Eingehende Chat-Anfrage",
+        "waitingfor": "Warten auf",
+        "acceptchatrequest": "Chat-Anfrage annehmen",
+        "chatinprogress": "Chat läuft"
     }
 }

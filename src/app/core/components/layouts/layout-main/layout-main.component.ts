@@ -235,6 +235,11 @@ export class LayoutMainComponent {
   userData: any;
   sender: any;
   reloadData: boolean = false;
+  currentUserImage: any;
+  chatRole: any;
+  chatTimer: string = '';
+  chatEnded: boolean = false;
+  existingChatGuid: any;
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
@@ -498,7 +503,10 @@ export class LayoutMainComponent {
     this.pusherSubscription = this._chatService
       .getFeedItems()
       .subscribe(async(response) => {
-        if(!localStorage.getItem('chat-session') && (response?.id == this.userId || response?.channel == this.userId)) {
+        if(
+          (!localStorage.getItem('chat-session') || response.mode == 'end-chat') && 
+          (response?.id == this.userId || response?.channel == this.userId)
+        ) {
           this.communicationMode = response.mode?.indexOf('video') >= 0 ? 'video' : (response.mode?.indexOf('chat') >= 0 ? 'chat' : 'call');
           this.pusherData = response;
           
@@ -515,7 +523,11 @@ export class LayoutMainComponent {
           if(this.toastMode == 'end-chat') {
             this.showToast = false;
             this.canChat = false;
+            this.chatEnded = true;
+            this.cd.detectChanges();
           } else if(this.toastMode == 'accept-chat') {
+            this.existingChatGuid = this.chatGuid;
+            this.chatRole = 'recipient';
             this.showToast = true;
             this.handleAudio('play');
           }
@@ -558,6 +570,7 @@ export class LayoutMainComponent {
       });
     } else {
       setTimeout(() => {
+        this.chatTimer = '';
         this.canChat = false;
         this.reloadData = false;
         this.initializeUserDetails();
@@ -576,13 +589,19 @@ export class LayoutMainComponent {
     this.id = this.pusherData?.professional_id;
     this.senderId = this.pusherData?.user_id;
     this.image = this.pusherData?.professional_image;
-    this.firstName = this.pusherData?.professional_name;
-    this.userName = this.pusherData?.sender?.name;
+    this.firstName = this.pusherData?.professional_first_name;
+    this.userName = this.pusherData?.sender_first_name;
     this.userImage = this.pusherData?.sender?.image;
     this.sender = this.pusherData?.sender;
     this.senderBalance = this.sender?.available_balance;
+    this.chatRole = 'recipient';
+    this.currentUserImage = this.pusherData.professional_image;
 
     this.userData = [
+      {
+        label: this._translateService.instant('company-settings.name'),
+        value: this.pusherData?.sender_full_name,
+      },
       {
         label: this._translateService.instant('profile-settings.birthday'),
         value: this.sender?.birthday ? moment(this.sender?.birthday).format('DD/MM/YYYY') : '-'

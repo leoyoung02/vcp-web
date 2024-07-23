@@ -3745,6 +3745,9 @@
         "enterpasscode": "Inserisci codice",
         "incomingvideocall": "Videochiamata in arrivo",
         "connecting": "Connessione",
-        "incomingchat": "Richiesta di chat in arrivo"
+        "incomingchat": "Richiesta di chat in arrivo",
+        "waitingfor": "Aspettando",
+        "acceptchatrequest": "per accettare la richiesta di chat",
+        "chatinprogress": "Chat in corso"
     }
 }

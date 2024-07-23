@@ -3788,6 +3788,9 @@
         "enterpasscode": "Enter passcode",
         "incomingvideocall": "Incoming video call",
         "connecting": "Connecting",
-        "incomingchat": "Incoming chat request"
+        "incomingchat": "Incoming chat request",
+        "waitingfor": "Waiting for",
+        "acceptchatrequest": "to accept chat request",
+        "chatinprogress": "Chat in progress"
     }
 }

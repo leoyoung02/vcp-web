@@ -800,6 +800,7 @@ export const VALIDATE_VIDEO_CALL_PASSCODE_URL = `${API_BASE}/v3/video-call/valid
 export const EDIT_VIDEO_CALLER_BALANCE_URL = `${API_BASE}/v3/video-caller-balance/edit`;
 export const GENERATE_RTM_TOKEN_URL = `${API_BASE}/v3/agora/rtm`;
 export const NOTIFY_CHAT_PROFESSIONAL_PUSHER_URL = `${API_BASE}/v3/chat/push`;
+export const EDIT_CHAT_SENDER_BALANCE_URL = `${API_BASE}/v3/chat-sender-balance/edit`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;

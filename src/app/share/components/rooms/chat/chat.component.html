@@ -25,10 +25,14 @@
                 </div>
             </div>
             <div *ngIf="reloadData" class="text-white">
-                <h2 class="font-semibold">{{ userName }}, {{ firstName }}</h2>
+                <h2 class="font-semibold leading-5">{{ userName }}, {{ firstName }}</h2>
+                <div *ngIf="chatTimer" class="flex items-center mt-1">
+                    <div class="bg-yellow-50 p-1 px-2 text-xs text-[#4bb543] font-medium rounded-lg">{{ timeDisplay }}</div>
+                    <div class="ml-2 text-xs text-white">{{ 'professionals.chatinprogress' | translate }}</div>
+                </div>
             </div>
             <div>
-                <button type="button" (click)="closeChat()" data-drawer-hide="drawer-right" aria-controls="drawer-right"
+                <button #closebutton type="button" (click)="closeChat()" data-drawer-hide="drawer-right" aria-controls="drawer-right"
                     class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-black rounded-lg text-sm w-8 h-8 absolute top-4 end-5 sm:end-5 mmd:end-2.5 lg:end-2.5 inline-flex items-center justify-center">
                     <svg class="w-3 h-3 text-white hover:text-black" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -55,7 +59,7 @@
                     <div class="text-sm font-semibold mb-2 uppercase">
                         {{ 'settings.personaldata' | translate }}
                     </div>
-                    <div class="py-3 px-4 bg-yellow-50 rounded-lg">
+                    <div class="py-3 px-4 bg-gray-50 rounded-lg">
                         <ng-container *ngFor="let field of userData">
                             <div *ngIf="field?.value && field?.value != '-'" 
                                 class="leading-3 space-y-0.5 font-medium text-left rtl:text-right flex flex-row items-center justify-between">
@@ -64,107 +68,52 @@
                             </div>
                         </ng-container>
                     </div>
-
                     <div class="py-4" *ngIf="chatMessages?.length > 0">
                         <ng-container *ngFor="let row of chatMessages; let i = index;">
-                            <div class="my-4 relative">
+                            <div class="my-4 relative"
+                                [ngClass]="{'mt-8': i == 0 || (i > 0 && chatMessages[i - 1].memberId != chatMessages[i].memberId) }">
                                 <div>
                                     <div class="flex gap-4">
-                                        <small class="m-0 text-dark">
-                                            <span *ngIf="memberId == row.memberId">
-                                              You
-                                            </span>
-                                            <span *ngIf="memberId != row.memberId">
-                                              {{row.memberName}}
-                                            </span>
-                                            <span class="text-secondary ms-3">
-                                              {{row.timestamp| date:'h:mm a'}}
-                                            </span>
-                                        </small>
-                                        <p>
-                                            {{row.message}}
-                                        </p>
+                                        <ng-container *ngIf="row.memberId == memberId">
+                                            <div class="text-sm text-white p-4 leading-5 w-full bg-blue-600 shadow relative before:content-['']"
+                                                [ngClass]="{
+                                                    'rounded-lg before:absolute before:w-3 before:h-3 before:bg-blue-600 before:rotate-45 before: before:-right-1 before:top-4': i == 0 || (i > 0 && chatMessages[i - 1].memberId != chatMessages[i].memberId),
+                                                    'rounded-l-lg rounded-br-lg': !(i == 0 || (i > 0 && chatMessages[i - 1].memberId != chatMessages[i].memberId))
+                                                }">
+                                                <p [innerHtml]="row.message"></p>
+                                                <div class="mt-2.5 text-xs text-white leading-none font-semibold">{{ row.date | date: 'dd MMM HH:mm' }}</div>
+                                            </div>
+                                            <div class="shrink-0 w-12 h-12 rounded-full bg-purple-400 p-0.5" *ngIf="i == 0 || (i > 0 && chatMessages[i - 1].memberId != chatMessages[i].memberId)">
+                                                <img [src]="row.memberImage" alt="" class="h-full w-full object-cover rounded-full">
+                                            </div>
+                                        </ng-container>
+                                        <ng-container *ngIf="row.memberId != memberId">
+                                            <div class="shrink-0 w-12 h-12 rounded-full bg-purple-400 p-0.5" *ngIf="i == 0 || (i > 0 && chatMessages[i - 1].memberId != chatMessages[i].memberId)">
+                                                <img [src]="row.memberImage" alt="" class="h-full w-full object-cover rounded-full">
+                                            </div>
+                                            <div class="text-sm p-4 leading-5 w-full bg-gray-100 shadow relative before:content-['']"
+                                                [ngClass]="{
+                                                    'rounded-lg before:absolute before:w-3 before:h-3 before:bg-gray-100 before:rotate-45 before: before:-left-1 before:top-4': i == 0 || (i > 0 && chatMessages[i - 1].memberId != chatMessages[i].memberId),
+                                                    'rounded-r-lg rounded-bl-lg': !(i == 0 || (i > 0 && chatMessages[i - 1].memberId != chatMessages[i].memberId))
+                                                }">
+                                                <p [innerHtml]="row.message"></p>
+                                                <div class="mt-2.5 text-xs text-gray-500 leading-none font-semibold"> {{ row.timestamp | date:'h:mm a' }}</div>
+                                            </div>
+                                        </ng-container>
                                     </div>
                                 </div>
                             </div>
                         </ng-container>
                     </div>
-
-                    <!-- <div class="py-4" *ngIf="messages?.length > 0"> -->
-                        <!-- <ng-container *ngFor="let row of messages; let i = index;">
-                            <div class="my-4 relative"
-                                [ngClass]="{'mt-8': i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id) }">
-                                <div>
-                                    <div class="flex gap-4">
-                                        <ng-container *ngIf="row.sender_id == userId">
-                                            <div class="text-sm text-white p-4 leading-5 w-full bg-blue-600 shadow relative before:content-['']"
-                                                [ngClass]="{
-                                                    'rounded-lg before:absolute before:w-3 before:h-3 before:bg-blue-600 before:rotate-45 before: before:-right-1 before:top-4': i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id),
-                                                    'rounded-l-lg rounded-br-lg': !(i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id))
-                                                }">
-                                                <p [innerHtml]="row.message"></p>
-                                                <div class="mt-2.5 text-xs text-white leading-none font-semibold">{{ row.date | date: 'dd MMM HH:mm' }}</div>
-                                            </div>
-                                            <div class="shrink-0 w-12 h-12 rounded-full bg-purple-400 p-0.5" *ngIf="i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id)">
-                                                <img [src]="userImage" alt="" class="h-full w-full object-cover rounded-full">
-                                            </div>
-                                        </ng-container>
-                                        <ng-container *ngIf="row.sender_id != userId">
-                                            <div class="shrink-0 w-12 h-12 rounded-full bg-purple-400 p-0.5" *ngIf="i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id)">
-                                                <img [src]="image" alt="" class="h-full w-full object-cover rounded-full">
-                                            </div>
-                                            <div class="text-sm p-4 leading-5 w-full bg-gray-100 shadow relative before:content-['']"
-                                                [ngClass]="{
-                                                    'rounded-lg before:absolute before:w-3 before:h-3 before:bg-gray-100 before:rotate-45 before: before:-left-1 before:top-4': i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id),
-                                                    'rounded-r-lg rounded-bl-lg': !(i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id))
-                                                }">
-                                                <p [innerHtml]="row.message"></p>
-                                                <div class="mt-2.5 text-xs text-gray-500 leading-none font-semibold">{{ row.date | date: 'dd MMM HH:mm'  }}</div>
-                                            </div>
-                                        </ng-container>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-container> -->
-
-                        <!-- <ng-container *ngFor="let row of messages; let i = index;">
-                            <div class="my-4 relative"
-                                [ngClass]="{'mt-8': i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id) }">
-                                <div>
-                                    <div class="flex gap-4">
-                                        <ng-container *ngIf="row.sender_id == userId">
-                                            <div class="text-sm text-white p-4 leading-5 w-full bg-blue-600 shadow relative before:content-['']"
-                                                [ngClass]="{
-                                                    'rounded-lg before:absolute before:w-3 before:h-3 before:bg-blue-600 before:rotate-45 before: before:-right-1 before:top-4': i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id),
-                                                    'rounded-l-lg rounded-br-lg': !(i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id))
-                                                }">
-                                                <p [innerHtml]="row.message"></p>
-                                                <div class="mt-2.5 text-xs text-white leading-none font-semibold">{{ row.date | date: 'dd MMM HH:mm' }}</div>
-                                            </div>
-                                            <div class="shrink-0 w-12 h-12 rounded-full bg-purple-400 p-0.5" *ngIf="i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id)">
-                                                <img [src]="userImage" alt="" class="h-full w-full object-cover rounded-full">
-                                            </div>
-                                        </ng-container>
-                                        <ng-container *ngIf="row.sender_id != userId">
-                                            <div class="shrink-0 w-12 h-12 rounded-full bg-purple-400 p-0.5" *ngIf="i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id)">
-                                                <img [src]="image" alt="" class="h-full w-full object-cover rounded-full">
-                                            </div>
-                                            <div class="text-sm p-4 leading-5 w-full bg-gray-100 shadow relative before:content-['']"
-                                                [ngClass]="{
-                                                    'rounded-lg before:absolute before:w-3 before:h-3 before:bg-gray-100 before:rotate-45 before: before:-left-1 before:top-4': i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id),
-                                                    'rounded-r-lg rounded-bl-lg': !(i == 0 || (i > 0 && messages[i - 1].sender_id != messages[i].sender_id))
-                                                }">
-                                                <p [innerHtml]="row.message"></p>
-                                                <div class="mt-2.5 text-xs text-gray-500 leading-none font-semibold">{{ row.date | date: 'dd MMM HH:mm'  }}</div>
-                                            </div>
-                                        </ng-container>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-container> -->
-                    <!-- </div> -->
+                </div>
+                <div *ngIf="canChat && !chatTimer && chatRole !== 'recipient'" class="py-3 px-4 bg-yellow-50">
+                    <div class="text-base text-center">
+                        {{ waitingText }}
+                    </div>
                 </div>
                 <div *ngIf="!canChat">
+                    <div class="my-4 mb-2 font-semibold" *ngIf="insufficientBalanceTitle">{{ insufficientBalanceTitle }}</div>
+                    <div class="mb-4" *ngIf="insufficientBalanceDescription">{{ insufficientBalanceDescription }}</div>
                     <a [routerLink]="['/users/account-recharge']" 
                         class="inline-flex items-center px-4 py-2 text-sm font-medium text-center text-white rounded-lg hover:bg-black focus:ring-4 focus:ring-blue-300 focus:outline-none"
                         [ngStyle]="{'background-color': buttonColor}">
@@ -178,7 +127,7 @@
                 </div>
             </ng-container>
         </div>
-        <div *ngIf="canChat && reloadData" 
+        <div *ngIf="canChat && reloadData && chatTimer" 
             class="w-full flex justify-between bg-[#f8f4f4] absolute bottom-16">
             <textarea class="flex-grow m-2 py-2 px-4 mr-1 w-full px-0 text-sm text-gray-900 bg-white border border-0 resize-none rounded-lg" 
                 style="outline: none;"
