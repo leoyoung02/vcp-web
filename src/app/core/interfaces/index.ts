@@ -6,3 +6,4 @@ export * from './media.interface';
 export * from './guest-access.interface';
 export * from './rtc.interface';
 export * from './rtc-user.interface';
+export * from './chat-message.interface';

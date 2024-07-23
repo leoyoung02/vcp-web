@@ -29,7 +29,7 @@ import { ChatComponent } from "@share/components";
         TranslateModule,
         NgOptimizedImage,
         StarRatingComponent,
-        ChatComponent,
+        // ChatComponent,
     ],
     templateUrl: "./professional.component.html",
     changeDetection: ChangeDetectionStrategy.OnPush,

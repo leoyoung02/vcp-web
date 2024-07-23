@@ -3750,6 +3750,7 @@
         "enteravalidpasscode": "Bitte geben Sie einen gültigen Passcode ein", 
         "enterpasscode": "Passcode eingeben",
         "incomingvideocall": "Eingehender Videoanruf",
-        "connecting": "Verbindung wird hergestellt"
+        "connecting": "Verbindung wird hergestellt",
+        "incomingchat": "Eingehende Chat-Anfrage"
     }
 }

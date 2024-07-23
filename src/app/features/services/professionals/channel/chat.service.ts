@@ -1,9 +1,10 @@
 import { Injectable } from "@angular/core";
-import { BehaviorSubject, map, Observable, Subject } from "rxjs";
+import { map, Observable, Subject } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { GENERATE_RTM_TOKEN_URL } from "@lib/api-constants";
 import { ProfessionalsService } from "@features/services";
 import { environment } from "@env/environment";
-import AC, { AgoraChat } from 'agora-chat';
+import Pusher from 'pusher-js';
 
 @Injectable({
     providedIn: "root",
@@ -11,9 +12,7 @@ import AC, { AgoraChat } from 'agora-chat';
 export class ChatService {
     private headers: HttpHeaders;
 
-    private appKey = environment.agoraChatAppKey;
-
-    private connection;
+    subject: Subject<any> = new Subject<any>();
 
     constructor(
         private _http: HttpClient,
@@ -23,85 +22,19 @@ export class ChatService {
             "Content-Type": "application/json",
         });
 
-        if (this.appKey == '')
-            console.error('APPKEY REQUIRED');
-
-        this.connection = new AC.connection({
-            appKey: this.appKey,
-        })
-
-        this.addEventHandler(this.connection);
+        const pusherClient = new Pusher(environment.pusherAppKey, { cluster: environment.pusherCluster });
+        let sub = 'pusher-vcp-astroideal-chat';
+        const pusherChannel = pusherClient.subscribe(sub);
+        pusherChannel.bind('professional-chat', (data) => this.subject.next(data));
     }
 
-    addEventHandler(connection) {
-        connection.addEventHandler('connection&message', {
-            onConnected: () => {
-                console.log('connected!')
-            },
-            onDisconnected: () => {
-                console.log('disconnected!')
-            },
-            onTextMessage: (message) => {
-                console.log('message', message);
-            },
-            onTokenWillExpire: (params) => {
-                console.log('params', params);
-            },
-            onTokenExpired: (params) => {
-                console.log('params', params);
-            },
-            onError: (error) => {
-                console.log('error', error);
-            }
-        });
+    generateRTMToken(uid): Observable<any> {
+        return this._http.get(`${GENERATE_RTM_TOKEN_URL}/${uid}`, {
+          headers: this.headers
+        }).pipe(map(res => res));
     }
 
-    getConnection() {
-        return this.connection;
-    }
-
-    async openConnection(userId, token) {
-        await this.connection?.open({
-			user: userId,
-			agoraToken: token,
-		})
-    }
-
-    closeConnection() {
-        this.connection?.close();
-    }
-
-    async createMessage(peerId, peerMessage) {
-        let options: AgoraChat.CreateMsgType = {
-            chatType: "singleChat",
-            type: "txt",
-            to: peerId,
-            msg: peerMessage,
-        };
-        let msg = AC.message.create(options);
-        this.connection
-            .send(msg)
-            .then((res) => {
-                console.log("send private text success");
-            })
-            .catch((error) => {
-                console.log('send message error', error);
-            });
-        
-
-        // conn.getConversationlist({
-        //     pageSize: 50
-        // }).then((res)=>{
-        //     console.log(res)
-        // })
-
-        // conn.getHistoryMessages({
-        //     pageSize: 20,
-        //     cursor: -1,
-        //     chatType: 'singleChat',
-        //     targetId: peerId,
-        // }).then((res)=>{
-        //     console.log(res)
-        // })
+    getFeedItems(): Observable<any> {
+        return this.subject.asObservable();
     }
 }

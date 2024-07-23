@@ -12,10 +12,10 @@ import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
 import { MenuService } from "@lib/services";
-import { PlansService, TutorsService, BuddyService, VideoCallService, VoiceCallService } from "@features/services";
+import { PlansService, TutorsService, BuddyService, VideoCallService, VoiceCallService, ChatService } from "@features/services";
 import { FooterComponent, MobileNavbarComponent } from "src/app/core/components";
 import { Subject, takeUntil } from "rxjs";
-import { ToastComponent } from "@share/components";
+import { ChatComponent, ToastComponent } from "@share/components";
 import { FormsModule } from "@angular/forms";
 import { SidebarComponent } from "@lib/components/sidebar/sidebar.component";
 import { UserMenuComponent } from "@lib/components/user-menu/user-menu.component";
@@ -41,6 +41,7 @@ import get from "lodash/get";
     GuestMenuComponent,
     TopMenuComponent,
     CallNotificationPopupComponent,
+    ChatComponent,
   ],
   templateUrl: "./layout-main.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -217,13 +218,29 @@ export class LayoutMainComponent {
   videoCallGuid: any;
   videoCallPasscode: any;
   communicationMode: any;
-  @ViewChild("outsidebutton", { static: false }) outsidebutton:
-    | ElementRef
-    | undefined;
   hasBuddy: boolean = false;
   isMentor: boolean = false;
   userMentor: any;
   canAccessIntroduceU: boolean = false;
+  chatGuid: any;
+  chatPasscode: any;
+  canChat: boolean = false;
+  id: any;
+  image: any;
+  firstName: any;
+  senderId: any;
+  userName: any;
+  userImage: any;
+  senderBalance: any;
+  userData: any;
+  sender: any;
+  reloadData: boolean = false;
+  @ViewChild("outsidebutton", { static: false }) outsidebutton:
+    | ElementRef
+    | undefined;
+  @ViewChild("chatbutton", { static: false }) chatbutton:
+    | ElementRef
+    | undefined;
 
   constructor(
     private _router: Router,
@@ -236,6 +253,7 @@ export class LayoutMainComponent {
     private _plansService: PlansService,
     private _voiceCallService: VoiceCallService,
     private _videoCallService: VideoCallService,
+    private _chatService: ChatService,
     private _buddyService: BuddyService,
     private cd: ChangeDetectorRef
   ) {
@@ -371,9 +389,9 @@ export class LayoutMainComponent {
       if (professionalsFeature && professionalsFeature[0]) {
         this.professionalsFeatureId = professionalsFeature[0].id;
         this.hasProfessionals = true;
-
         this.subscribeVoiceCall();
         this.subscribeVideoCall();
+        this.subscribeChat();
       }
       
       let buddyFeature = this.features.filter((f) => {
@@ -476,6 +494,36 @@ export class LayoutMainComponent {
       })
   }
 
+  subscribeChat() {
+    this.pusherSubscription = this._chatService
+      .getFeedItems()
+      .subscribe(async(response) => {
+        if(!localStorage.getItem('chat-session') && (response?.id == this.userId || response?.channel == this.userId)) {
+          this.communicationMode = response.mode?.indexOf('video') >= 0 ? 'video' : (response.mode?.indexOf('chat') >= 0 ? 'chat' : 'call');
+          this.pusherData = response;
+          
+          if(this.pusherData.chat_guid) {
+            this.chatGuid = this.pusherData.chat_guid;
+            this.chatPasscode = this.pusherData.chat_passcode;
+          }
+          
+          this.toastMessage = response.message || `${this._translateService.instant('professionals.incomingchat')}...`;
+          this.toastMode = response.mode;
+          this.toastName = response.sender_name;
+          this.toastImage = response.sender_image;
+      
+          if(this.toastMode == 'end-chat') {
+            this.showToast = false;
+            this.canChat = false;
+          } else if(this.toastMode == 'accept-chat') {
+            this.showToast = true;
+            this.handleAudio('play');
+          }
+          this.cd.detectChanges();
+        }
+      })
+  }
+
   handleAudio(mode) {
     setTimeout(() => {
       this.outsidebutton?.nativeElement.click();
@@ -502,11 +550,64 @@ export class LayoutMainComponent {
     
     this.showToast = false;
     
-    let url = this.communicationMode == 'video' ? `/call/video/${this.videoCallGuid}/${this.videoCallPasscode}/recipient` : `/call/voice/${this.callGuid}/${this.callPasscode}`;
-    this._router.navigate([url])
-    .then(() => {
-      window.location.reload();
-    });
+    let url = this.communicationMode == 'video' ? `/call/video/${this.videoCallGuid}/${this.videoCallPasscode}/recipient` : (this.communicationMode == 'chat' ? '' : `/call/voice/${this.callGuid}/${this.callPasscode}`);
+    if(url) {
+      this._router.navigate([url])
+      .then(() => {
+        window.location.reload();
+      });
+    } else {
+      setTimeout(() => {
+        this.canChat = false;
+        this.reloadData = false;
+        this.initializeUserDetails();
+        localStorage.setItem('chat-session', this.pusherData?.chat_guid);
+        this.chatbutton?.nativeElement.click();
+        setTimeout(() => {
+          this.canChat = true;
+          this.reloadData = true;
+          this.cd.detectChanges();
+        })
+      }, 500);
+    }
+  }
+
+  initializeUserDetails() {
+    this.id = this.pusherData?.professional_id;
+    this.senderId = this.pusherData?.user_id;
+    this.image = this.pusherData?.professional_image;
+    this.firstName = this.pusherData?.professional_name;
+    this.userName = this.pusherData?.sender?.name;
+    this.userImage = this.pusherData?.sender?.image;
+    this.sender = this.pusherData?.sender;
+    this.senderBalance = this.sender?.available_balance;
+
+    this.userData = [
+      {
+        label: this._translateService.instant('profile-settings.birthday'),
+        value: this.sender?.birthday ? moment(this.sender?.birthday).format('DD/MM/YYYY') : '-'
+      },
+      {
+        label: this._translateService.instant('professionals.gender'),
+        value: this.sender?.gender || '-'
+      },
+      {
+        label: this._translateService.instant('professionals.civilstatus'),
+        value: this.sender?.civil_status || '-'
+      },
+      {
+        label: this._translateService.instant('profile-settings.position'),
+        value: this.sender?.position || ''
+      },
+      {
+        label: this._translateService.instant('profile-settings.city'),
+        value: this.sender?.city || ''
+      },
+      {
+        label: this._translateService.instant('profile-settings.country'),
+        value: this.sender?.country || ''
+      },
+    ]
   }
 
   handleCancel() {
@@ -2657,6 +2758,7 @@ export class LayoutMainComponent {
   }
 
   ngOnDestroy() {
+    localStorage.removeItem('chat-session');
     this.navigationSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();

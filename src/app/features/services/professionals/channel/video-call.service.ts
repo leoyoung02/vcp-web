@@ -40,7 +40,7 @@ export class VideoCallService {
 
         this.client = AgoraRTC.createClient({ mode: 'rtc', codec: 'vp9' });
 
-        const pusherClient = new Pusher('d15683105c5d696cddc7', { cluster: 'eu' });
+        const pusherClient = new Pusher(environment.pusherAppKey, { cluster: environment.pusherCluster });
         let sub = 'pusher-vcp-astroideal-video';
         const pusherChannel = pusherClient.subscribe(sub);
         pusherChannel.bind('professional-video-call', (data) => this.subject.next(data));

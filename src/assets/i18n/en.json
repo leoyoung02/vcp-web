@@ -3787,6 +3787,7 @@
         "enteravalidpasscode": "Please enter a valid passcode",
         "enterpasscode": "Enter passcode",
         "incomingvideocall": "Incoming video call",
-        "connecting": "Connecting"
+        "connecting": "Connecting",
+        "incomingchat": "Incoming chat request"
     }
 }

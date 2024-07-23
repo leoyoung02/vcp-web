@@ -15,3 +15,4 @@ export * from './professionals/professionals.service';
 export * from './professionals/channel/voice-call.service';
 export * from './professionals/channel/video-call.service';
 export * from './professionals/channel/chat.service';
+export * from './professionals/channel/chat-stream';

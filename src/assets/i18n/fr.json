@@ -3745,6 +3745,7 @@
         "enteravalidpasscode": "Veuillez saisir un mot de passe valide", 
         "enterpasscode": "Entrez le code",
         "incomingvideocall": "Appel vidéo entrant",
-        "connecting": "Connexion"
+        "connecting": "Connexion",
+        "incomingchat": "Demande de chat entrante"
     }
 }

@@ -1,5 +1,7 @@
 import { CommonModule } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -19,7 +21,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "@env/environment";
-import { PageTitleComponent, ToastComponent } from "@share/components";
+import { ChatComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import { ProfessionalCardComponent } from "@share/components/card/professional/professional.component";
 import { Subscription } from 'rxjs';
 import { initFlowbite } from "flowbite";
@@ -40,6 +42,7 @@ import get from "lodash/get";
     PageTitleComponent,
     ProfessionalCardComponent,
     ToastComponent,
+    ChatComponent,
   ],
   templateUrl: "./list.component.html",
 })
@@ -112,6 +115,13 @@ export class ProfessionalsListComponent {
     | undefined;
 
   canChat: boolean = false;
+  id: any;
+  image: any;
+  firstName: any;
+  userName: any;
+  userImage: any;
+  senderBalance: any;
+  reloadData: boolean = false;
   
   constructor(
     private _route: ActivatedRoute,
@@ -520,14 +530,28 @@ export class ProfessionalsListComponent {
     if(this.userId > 0) {
       this.actionMode = 'chat';
       this.professional = this.professionals.find((c) => c.user_id == id);
+      this.reloadData = false;
       this.initializeUserDetails();
       this.canChat = true;
+      this.reloadData = true;
     } else {
       this._router.navigate(['/auth/login']);
     }
   }
 
   initializeUserDetails() {
+    this.id = this.professional?.user_id;
+    this.image = this.professional?.image;
+    this.firstName = this.professional?.first_name;
+    this.userName = this.professional?.user_name;
+    this.userImage = this.professional?.user_image;
+
+    let caller_balance_before_call = 0;
+    if(this.userId > 0) {
+      caller_balance_before_call = this.user?.available_balance;
+    }
+    this.senderBalance = caller_balance_before_call;
+
     this.userData = [
       {
         label: this._translateService.instant('profile-settings.birthday'),
@@ -553,7 +577,7 @@ export class ProfessionalsListComponent {
         label: this._translateService.instant('profile-settings.country'),
         value: this.user?.country || ''
       },
-  ]
+    ]
   }
 
   async handleStartVideoCall(id) {

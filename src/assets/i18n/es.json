@@ -3772,6 +3772,7 @@
         "enteravalidpasscode": "Por favor, introduce una contraseña válida", 
         "enterpasscode": "Ingrese el código de acceso",
         "incomingvideocall": "Videollamada entrante",
-        "connecting": "Conectando"
+        "connecting": "Conectando",
+        "incomingchat": "Solicitud de chat entrante"
     }
 }
