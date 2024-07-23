@@ -83,7 +83,21 @@
         "events": "Eventos",
         "courses": "Cursos",
         "rituals": "Rituales",
-        "services": "Servicios gratuitos"
+        "services": "Servicios gratuitos",
+        "tarottalk": "Habla con un Tarotista",
+        "chatalt": "Bocadillo de diálogo de comentario",
+        "callalt": "Llamada de voz",
+        "videocallalt": "Videollamada",
+        "money": "Dinero",
+        "moneyalt": "Icono de montón de billetes representando dinero en efectivo",
+        "relationship": "Relaciones",
+        "relationshipalt": "Icono de un copo de nieve",
+        "body": "Cuerpo",
+        "bodyalt": "Icono de un cuerpo",
+        "energy": "Energía",
+        "energyalt": "Icono de un globo de energía parecido a una flor",
+        "spirituality": "Espiritualidad",
+        "spiritualityalt": "Icono de un atrapasueños"
     },
     "user-popup": {
         "myplans": "Mis planes",
