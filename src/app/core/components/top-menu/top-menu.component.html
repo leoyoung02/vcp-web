@@ -1,23 +1,32 @@
 <nav class="fixed w-full z-20 top-0 start-0 border-b border-gray-200 dark:border-gray-600"
   [ngStyle]="{'background-color': primaryColor}">
-  <nav class="border-gray-200 dark:bg-gray-900 max-w-[1536px] mx-auto" [ngStyle]="{'background-color': primaryColor}">
+  <nav class="border-gray-200 dark:bg-gray-900 mx-auto" [ngStyle]="{'background-color': primaryColor}">
     <div class="relative">
       <div class="flex bg-[#A77FE0]">
-        <div class=" grow flex flex-wrap justify-between items-center mx-auto max-w-screen-2xl pb-2 rounded-tr-3xl"
+        <div class=" grow flex flex-wrap justify-between items-center pl-14 pb-2 rounded-tr-xl"
           [ngStyle]="{'background-color': primaryColor}">
             <a href="https://flowbite.com" class="flex items-center space-x-3 rtl:space-x-reverse">
               <img [src]="logoSource" class="h-16 mr-6 pt-2" [alt]="company.entity_name" />
             </a>
-            <div class="flex items-center flex-1 space-x-2 pt-2">
-              <ul class="flex flex-row gap-12 justify-start alig font-medium mt-0 space-x-7 rtl:space-x-reverse text-sm overflow-x-scroll no-scrollbar pt-5">
-                <li *ngFor="let item of topMenuItems" class="text-[#E6D3B4] hover:text-[#D1B298] text-lg" routerLinkActive="text-[#D1B298]" >
+            <div class="flex items-center flex-1  pt-2">
+              <ul class="flex flex-row grow gap-12 justify-start alig font-medium mt-0 space-x-7 rtl:space-x-reverse text-sm overflow-x-scroll no-scrollbar pt-4">
+                <li *ngFor="let item of topMenuItems" class="text-[#E6D3B4] hover:text-[#D1B298] text-base" routerLinkActive="text-[#D1B298]" >
                   <a href="#">{{"landing." + item | translate}}</a>
                 </li>
               </ul>
+              <img 
+                  class="w-12 h-12 object-cover rounded-full mr-4 hover:cursor-pointer object-top" 
+                  *ngIf="imageSrc" 
+                  [src]="imageSrc" 
+                  [alt]="username" 
+                  data-popover-target="popover-user-profile" 
+                  data-popover-placement="bottom" 
+                  data-popover-trigger="click"
+                />
             </div>
           </div>
-          <div class="rounded-tl-[1.6rem] rounded-tr-[1.6rem]" [ngStyle]="{'background-color': primaryColor}">
-            <div class="bg-[#A77FE0] items-center flex rounded-3xl">
+          <div [ngStyle]="{'background-color': primaryColor}">
+            <div class="bg-[#A77FE0] items-center flex rounded-bl-xl h-14">
               <ng-container *ngIf="!userid && !isCursoGeniusTestimonials">
                 <div class="ml-2">
                   <app-guest-menu
@@ -41,30 +50,18 @@
                   </svg>
                 </button>
                 <span class="w-px h-5 bg-gray-300 ml-4 mr-3" *ngIf="hasShop">&nbsp;</span>
-                <img 
-                  class="w-8 h-8 object-cover rounded-full mr-1.5 hover:cursor-pointer object-top" 
-                  *ngIf="imageSrc" 
-                  [src]="imageSrc" 
-                  [alt]="username" 
-                  data-popover-target="popover-user-profile" 
-                  data-popover-placement="bottom" 
-                  data-popover-trigger="click"
-                />
-                <button *ngIf="userid" [routerLink]="['/users/notifications/', userid]"  
-                  class="inline-flex items-center text-sm font-medium text-center focus:outline-none" type="button"> 
-                  <svg [ngStyle]="{'color': menuColor}" class="ml-2 w-6 h-6" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 21">
-                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 3.464V1.1m0 2.365a5.338 5.338 0 0 1 5.133 5.368v1.8c0 2.386 1.867 2.982 1.867 4.175C15 15.4 15 16 14.462 16H1.538C1 16 1 15.4 1 14.807c0-1.193 1.867-1.789 1.867-4.175v-1.8A5.338 5.338 0 0 1 8 3.464ZM4.54 16a3.48 3.48 0 0 0 6.92 0H4.54Z"/>
-                  </svg>
-                  <div class="relative flex" *ngIf="notifications?.length > 0">
-                      <div class="relative inline-flex w-3 h-3 bg-white border-2 border-slate-600 rounded-full -top-2 right-3 dark:border-gray-900"></div>
+                <div class="flex justify-center">
+                  <div class="flex items-center text-white ml-14 mr-9">
+                    <div class="text-sm">{{ 'professionals.availablebalance' | translate }}:</div>
+                    <div class="ml-2 font-bold text-base">{{ user?.currency || 'EUR' }} {{ user?.available_balance || 0 }}</div>
+                    <button
+                      class="text-sm text-white font-semibold px-[20px] py-[10px]  ml-6 border border-white rounded-lg"
+                      [routerLink]="['/users/account-recharge']"
+                      [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}">
+                          {{ 'professionals.recharge' | translate }}
+                    </button>
                   </div>
-                </button>
-                <ng-container *ngIf="username && (isAdmin || canAccessPlatformSettings)">
-                  <svg [routerLink]="['/settings']" [ngClass]="{'ml-2': !(notifications?.length > 0)}" [ngStyle]="{'color': menuColor}" class="hover:cursor-pointer w-6 h-6 focus:outline-none" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13v-2a1 1 0 0 0-1-1h-.757l-.707-1.707.535-.536a1 1 0 0 0 0-1.414l-1.414-1.414a1 1 0 0 0-1.414 0l-.536.535L14 4.757V4a1 1 0 0 0-1-1h-2a1 1 0 0 0-1 1v.757l-1.707.707-.536-.535a1 1 0 0 0-1.414 0L4.929 6.343a1 1 0 0 0 0 1.414l.536.536L4.757 10H4a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h.757l.707 1.707-.535.536a1 1 0 0 0 0 1.414l1.414 1.414a1 1 0 0 0 1.414 0l.536-.535 1.707.707V20a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-.757l1.707-.708.536.536a1 1 0 0 0 1.414 0l1.414-1.414a1 1 0 0 0 0-1.414l-.535-.536.707-1.707H20a1 1 0 0 0 1-1Z"/>
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
-                  </svg>
-                </ng-container>
+                </div>
               </ng-container>
             </div>
           </div>
@@ -321,11 +318,14 @@
     </div>
   </nav>
   <nav [ngStyle]="{'background-color': primaryColor}">
-    <div class="mx-auto max-w-screen-2xl">
+    <div>
         <div class="flex items-center">
-            <ul class="flex flex-row font-medium mt-0 space-x-7 rtl:space-x-reverse text-sm overflow-x-scroll no-scrollbar">
-              <div class="bg-[#A77FE0] items-center flex rounded-tr-lg p-4">
-                <p class="text-white pr-4 text-xl">{{"landing.tarottalk" | translate}}</p>
+            <ul class="flex flex-row font-medium mt-0 space-x-28 rtl:space-x-reverse text-sm overflow-x-scroll no-scrollbar">
+              <div class="bg-[#A77FE0] items-center flex rounded-tr-xl py-4 pl-14 pr-4">
+                <div class="flex flex-col">
+                  <p class="text-white pr-4 text-xl">{{"landing.tarottalk" | translate}}</p>
+                  <p class="text-white text-xs">{{"landing.payperminute" | translate}}</p>
+                </div>
                 <ul class="flex flex-row gap-3 justify-center items-center font-medium mt-0  rtl:space-x-reverse">
                   <li>
                     <button
@@ -391,12 +391,12 @@
                   </li>
                 </ul>
               </div>
-              <div class="flex items-center pl-14">
+              <div class="flex items-center">
                 <ul class="flex flex-row gap-20">
                   <li>
                     <button class="flex flex-col items-center">
                       <svg
-                        class="w-6 h-6"
+                        class="w-8 h-8"
                         viewBox="0 0 34 35"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -407,13 +407,13 @@
                         />
                       </svg>
                       <span class="sr-only">{{ "landing.moneyalt" | translate }}</span>
-                      <p class="text-[#D8D7D7]">{{ "landing.money" | translate }}</p>
+                      <p class="text-[#D8D7D7] pt-1">{{ "landing.money" | translate }}</p>
                     </button>
                   </li>
                   <li>
                     <button class="flex flex-col items-center">
                       <svg
-                        class="w-6 h-6"
+                        class="w-8 h-8"
                         viewBox="0 0 41 42"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg">
@@ -429,13 +429,13 @@
                       <path d="M23.5797 23.2359C22.8559 23.9222 22.0186 24.3871 21.0046 24.4072C19.3611 24.4402 18.1467 23.6578 17.5043 22.1195C17.465 22.0243 17.4147 21.9337 17.3698 21.8413C17.3799 21.8138 17.3744 21.79 17.3533 21.7699C17.3652 21.6647 17.3597 21.564 17.2737 21.4862C17.2664 21.4277 17.26 21.37 17.2527 21.3114C17.249 20.9765 17.2454 20.6416 17.2417 20.3066C17.282 19.6761 17.4705 19.0099 17.831 18.5808C18.4936 17.7929 19.341 17.1788 20.4702 17.0782C21.4182 16.993 22.3407 17.1642 23.0398 17.7023C23.6905 18.2028 24.2139 18.9404 24.4061 19.8216C24.6348 20.8676 24.4399 21.8385 23.9412 22.7655C23.8067 22.858 23.7371 22.998 23.6685 23.138C23.6401 23.1691 23.6108 23.2002 23.5825 23.2313L23.5797 23.2341V23.2359Z" fill="#D8D7D7"/>
                       </svg>
                       <span class="sr-only">{{ "landing.relationshipalt" | translate }}</span>
-                      <p class="text-[#D8D7D7]">{{ "landing.relationship" | translate }}</p>
+                      <p class="text-[#D8D7D7] pt-1">{{ "landing.relationship" | translate }}</p>
                     </button>
                   </li>
                   <li>
                     <button class="flex flex-col items-center">
                       <svg
-                        class="w-6 h-6"
+                        class="w-8 h-8"
                         viewBox="0 0 41 44"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -485,14 +485,14 @@
                           </clipPath>
                         </defs>
                       </svg>
-                      <span class="sr-only">{{ "landing.energyalt" | translate }}</span>
-                      <p class="text-[#D8D7D7]">{{ "landing.energy" | translate }}</p>
+                      <span class="sr-only">{{ "landing.bodyalt" | translate }}</span>
+                      <p class="text-[#D8D7D7] pt-1">{{ "landing.body" | translate }}</p>
                     </button>
                   </li>
                   <li>
                     <button class="flex flex-col items-center">
                       <svg
-                        class="w-6 h-6"
+                        class="w-8 h-8"
                         viewBox="0 0 37 47"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -674,14 +674,14 @@
                           </clipPath>
                         </defs>
                       </svg>
-                      <span class="sr-only">{{ "landing.spiritualityalt" | translate }}</span>
-                      <p class="text-[#D8D7D7]">{{ "landing.spirituality" | translate }}</p>
+                      <span class="sr-only">{{ "landing.energyalt" | translate }}</span>
+                      <p class="text-[#D8D7D7] pt-1">{{ "landing.energy" | translate }}</p>
                     </button>
                   </li>
                   <li>
                     <button class="flex flex-col items-center">
                       <svg
-                        class="w-6 h-6"
+                        class="w-8 h-8"
                         viewBox="0 0 48 53"
                         fill="none"
                         xmlns="http://www.w3.org/2000/svg"
@@ -827,7 +827,8 @@
                           </clipPath>
                         </defs>
                       </svg>
-                      <p class="text-[#D8D7D7]">Espiritualidad</p>
+                      <span class="sr-only">{{ "landing.spiritualityalt" | translate }}</span>
+                      <p class="text-[#D8D7D7] pt-1">{{ "landing.spirituality" | translate }}</p>
                     </button>
                   </li>
                 </ul>

@@ -200,6 +200,7 @@ export class TopMenuComponent {
     'rituals',
     'services',
   ];
+  user: any;
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
@@ -253,6 +254,8 @@ export class TopMenuComponent {
       initFlowbite();
       this.companyId = this.company.id;
     }, 1000)
+
+    this.user = this._localService.getLocalStorage(environment.lsuser);
   }
 
   initializePage() {
