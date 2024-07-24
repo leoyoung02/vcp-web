@@ -42,6 +42,7 @@ import { DateAgoPipe } from "@lib/pipes";
 import { environment } from "@env/environment";
 import { CartService } from "@features/services/shop/cart.service";
 import { Cart, CartItem } from "@features/models/shop/cart.model";
+import { ProfessionalsService } from "@features/services/professionals/professionals.service";
 
 @Component({
   selector: "app-top-menu",
@@ -201,6 +202,7 @@ export class TopMenuComponent {
     'services',
   ];
   user: any;
+  professionalCategories: any;
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
@@ -210,7 +212,8 @@ export class TopMenuComponent {
     private _authService: AuthService,
     private _translateService: TranslateService,
     private _localService: LocalService,
-    private _cartService: CartService
+    private _cartService: CartService,
+    private _professionalsService: ProfessionalsService
   ) {
     this.navigationSubscription = this._router.events.subscribe((e: any) => {
       if (e instanceof NavigationEnd) {
@@ -249,6 +252,7 @@ export class TopMenuComponent {
   async ngOnInit() {
     this.initializePage();
     this.getCourseWallMenuText();
+    this.getProfessionalCategories();
 
     setTimeout(() => {
       initFlowbite();
@@ -943,6 +947,13 @@ export class TopMenuComponent {
 
   onClearCart(): void {
     this._cartService.clearCart();
+  }
+
+  getProfessionalCategories() {
+    this._professionalsService.getProfessionalCategories().subscribe({
+      next: (data) => this.professionalCategories = data,
+      error: (error) => console.log(error)
+    });
   }
 
   ngOnDestroy() {

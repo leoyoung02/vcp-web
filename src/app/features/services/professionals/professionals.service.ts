@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { Observable, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { ACCOUNT_RECHARGE_DATA_URL, ACCOUNT_RECHARGE_URL, EDIT_CALLER_BALANCE_URL, EDIT_MINIMUM_BALANCE_URL, EDIT_PAYPAL_PAYMENT_URL, EDIT_STRIPE_PAYMENT_URL, EDIT_VIDEO_CALLER_BALANCE_URL, MINIMUM_BALANCE_URL, NOTIFY_PROFESSIONAL_PUSHER_URL, NOTIFY_VIDEO_CALL_PROFESSIONAL_PUSHER_URL, PROFESSIONALS_DATA_URL, VALIDATE_VIDEO_CALL_PASSCODE_URL, VALIDATE_VOICE_CALL_PASSCODE_URL, VOICE_CALL_URL } from "@lib/api-constants";
+import { PROFESSIONAL_CATEGORIES_URL } from '../../../core/api-constants';
 
 @Injectable({
   providedIn: "root",
@@ -108,5 +109,9 @@ export class ProfessionalsService {
       params,
       { headers: this.headers }
     ).pipe(map(res => res));
+  }
+
+  getProfessionalCategories(): Observable<any> {
+    return this._http.get(`${PROFESSIONAL_CATEGORIES_URL}`).pipe(map(res => res));
   }
 }
