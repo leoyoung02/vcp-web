@@ -1,5 +1,7 @@
 import { CommonModule } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
@@ -13,13 +15,13 @@ import {
   TranslateService,
 } from "@ngx-translate/core";
 import { CompanyService, LocalService, UserService } from "@share/services";
-import { ProfessionalsService, VoiceCallService } from "@features/services";
+import { ChatService, ProfessionalsService, VoiceCallService } from "@features/services";
 import { Subject, takeUntil } from "rxjs";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "@env/environment";
-import { PageTitleComponent, ToastComponent } from "@share/components";
+import { ChatComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import { ProfessionalCardComponent } from "@share/components/card/professional/professional.component";
 import { Subscription } from 'rxjs';
 import { initFlowbite } from "flowbite";
@@ -40,6 +42,7 @@ import get from "lodash/get";
     PageTitleComponent,
     ProfessionalCardComponent,
     ToastComponent,
+    ChatComponent,
   ],
   templateUrl: "./list.component.html",
 })
@@ -103,6 +106,27 @@ export class ProfessionalsListComponent {
   callPasscode: any;
   room: any;
   userPhone: any;
+  userData: any = [];
+  chatTime: number = 0;
+  chatInterval;
+  chatTrackingTime: number = 0;
+  chatTrackingInterval;
+  canChat: boolean = false;
+  id: any;
+  image: any;
+  firstName: any;
+  userName: any;
+  userImage: any;
+  senderBalance: any;
+  reloadData: boolean = false;
+  currentUserImage: any;
+  chatRole: any;
+  chatGuid: any;
+  chatPasscode: any;
+  chatTimer: any;
+  chatEnded: boolean = false;
+  insufficientBalanceTitle: string = '';
+  insufficientBalanceDescription: string = '';
   @ViewChild("modalbutton2", { static: false }) modalbutton2:
     | ElementRef
     | undefined;
@@ -120,6 +144,7 @@ export class ProfessionalsListComponent {
     private _userService: UserService,
     public _professionalsService: ProfessionalsService,
     public _voiceCallService: VoiceCallService,
+    public _chatService: ChatService,
   ) {
     
   }
@@ -174,6 +199,7 @@ export class ProfessionalsListComponent {
   initializePage() {
     this.getProfessionals();
     this.subscribeVoiceCall();
+    this.subscribeChat();
   }
 
   getProfessionals() {
@@ -182,7 +208,10 @@ export class ProfessionalsListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          if(this.user) { this.user['available_balance'] = this.userId > 0 ? data?.user?.available_balance : 0; }
+          this.user = data?.user || this.user;
+          if(this.user) { 
+            this.user['available_balance'] = this.userId > 0 ? data?.user?.available_balance : 0; 
+          }
 
           let payment_methods = data?.payment_methods || '';
           this._localService.setLocalStorage(environment.lspaymentmethods, payment_methods);
@@ -248,6 +277,9 @@ export class ProfessionalsListComponent {
         path: `/professionals/details/${item.id}`,
         image: `${environment.api}/${item.image}`,
         name: item?.first_name ? `${item.first_name} ${item.last_name}` : item.name,
+        first_name: item?.first_name || item?.name,
+        user_name: this.user?.first_name || this.user.name,
+        user_image: `${environment.api}/${this.user?.image}`,
       };
     });
 
@@ -385,6 +417,46 @@ export class ProfessionalsListComponent {
     clearInterval(this.callTrackingInterval);
   }
 
+  subscribeChat() {
+    this.pusherSubscription = this._chatService
+      .getFeedItems()
+      .subscribe(async(response) => {
+        if(response?.professional_id == this.userId || response?.sender?.id == this.userId) {
+          if(response.mode == 'recipient-joined-chat') {
+            this.startChatTimer();
+            this.startTrackingChatDuration();
+          } else if(response.mode == 'end-chat') {
+            this.canChat = false;
+            this.chatEnded = true;
+            setTimeout(() => {
+              location.reload();
+            }, 1000)
+          }
+        }
+      })
+  }
+
+  startChatTimer() {
+    this.chatInterval = setInterval(() => {
+      if (this.chatTime === 0) {
+        this.chatTime++;
+      } else {
+        this.chatTime++;
+      }
+      this.chatTimer = timer.transform(this.chatTime);
+    }, 1000);
+  }
+
+  startTrackingChatDuration() {
+    this.chatTrackingInterval = setInterval(() => {
+      if (this.chatTrackingTime === 0) {
+        this.chatTrackingTime++;
+      } else {
+        this.chatTrackingTime++;
+      }
+    }, 5000);
+  }
+
   async handleStartCall(id) {
     if(this.userId > 0) {
       this.actionMode = 'voicecall';
@@ -462,13 +534,13 @@ export class ProfessionalsListComponent {
     return regEx.test(phoneNumber);
   };
 
-  hasRequiredMinimumBalance() {
+  hasRequiredMinimumBalance(mode: string = '') {
     let valid = true;
 
     let requiredMinimumBalance = this.minimumBalance > 0 ? (this.professional?.rate * this.minimumBalance) : 0;
     if(!(this.minimumBalance > 0 && this.user?.available_balance >= (requiredMinimumBalance))) {
       valid = false;
-      this.showRequiredMinimumBalanceMessage();
+      this.showRequiredMinimumBalanceMessage(mode);
     }
 
     return valid;
@@ -511,9 +583,68 @@ export class ProfessionalsListComponent {
     if(this.userId > 0) {
       this.actionMode = 'chat';
       this.professional = this.professionals.find((c) => c.user_id == id);
+      this.chatTimer = '';
+      this.reloadData = false;
+      this.initializeUserDetails();
+      if(this.hasRequiredMinimumBalance('chat')) {
+        this.canChat = true;
+      } else {
+        this.insufficientBalanceTitle = this.toastTitle;
+        this.insufficientBalanceDescription = this.toastDescription;
+        this.canChat = false;
+      }
+      this.reloadData = true;
     } else {
       this._router.navigate(['/auth/login']);
     }
+  }
+
+  initializeUserDetails() {
+    this.id = this.professional?.user_id;
+    this.image = this.professional?.image;
+    this.firstName = this.professional?.first_name;
+    this.userName = this.professional?.user_name;
+    this.userImage = this.professional?.user_image;
+    this.chatRole = 'sender';
+    this.currentUserImage = this.professional?.user_image;
+
+    let caller_balance_before_call = 0;
+    if(this.userId > 0) {
+      caller_balance_before_call = this.user?.available_balance;
+    }
+    this.senderBalance = caller_balance_before_call;
+
+    let name = this.user?.first_name ? `${this.user?.first_name} ${this.user?.last_name}` : this.user?.name;
+    this.userData = [
+      {
+        label: this._translateService.instant('company-settings.name'),
+        value: name,
+      },
+      {
+        label: this._translateService.instant('profile-settings.birthday'),
+        value: this.user.birthday ? moment(this.user.birthday).format('DD/MM/YYYY') : '-'
+      },
+      {
+        label: this._translateService.instant('professionals.gender'),
+        value: this.user?.gender || '-'
+      },
+      {
+        label: this._translateService.instant('professionals.civilstatus'),
+        value: this.user?.civil_status || '-'
+      },
+      {
+        label: this._translateService.instant('profile-settings.position'),
+        value: this.user?.position || ''
+      },
+      {
+        label: this._translateService.instant('profile-settings.city'),
+        value: this.user?.city || ''
+      },
+      {
+        label: this._translateService.instant('profile-settings.country'),
+        value: this.user?.country || ''
+      },
+    ]
   }
 
   async handleStartVideoCall(id) {
@@ -569,15 +700,18 @@ export class ProfessionalsListComponent {
     }
   }
 
-  showRequiredMinimumBalanceMessage() {
+  showRequiredMinimumBalanceMessage(mode: string = '') {
     let minimumAmount = parseFloat((this.professional?.rate * this.minimumBalance)?.toString()).toFixed(2);
     let amountInText =  `(${this.professional?.rate_currency} ${minimumAmount})`;
     let actionModeText = this._translateService.instant(`professionals.${this.actionMode}`);
     this.showRequiredMinimumBalanceModal = false;
     this.toastTitle = this._translateService.instant('professionals.insufficientbalance');
     this.toastDescription = `${this._translateService.instant("professionals.minimumbalanceof")} ${this.minimumBalance?.toString()?.replace('.00', '')} ${this._translateService.instant('timeunits.minutes')} ${amountInText} ${this._translateService.instant('professionals.requiredtostart')} ${actionModeText} ${this._translateService.instant('professionals.with')} ${this.professional?.name}`;
-    this.acceptText = "OK";
-    setTimeout(() => (this.showRequiredMinimumBalanceModal = true));
+    
+    if(!mode) {
+      this.acceptText = "OK";
+      setTimeout(() => (this.showRequiredMinimumBalanceModal = true));
+    }
   }
 
   confirm() {

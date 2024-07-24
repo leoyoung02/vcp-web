@@ -3749,7 +3749,11 @@
         "enteravalidpasscode": "Veuillez saisir un mot de passe valide", 
         "enterpasscode": "Entrez le code",
         "incomingvideocall": "Appel vidéo entrant",
-        "connecting": "Connexion"
+        "connecting": "Connexion",
+        "incomingchat": "Demande de chat entrante",
+        "en attente": "En attente de",
+        "acceptchatrequest": "pour accepter la demande de chat",
+        "chatinprogress": "Chat en cours"
     },
     "my-account": {
         "availablebalance": "Solde disponible",

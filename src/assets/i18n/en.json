@@ -3791,7 +3791,11 @@
         "enteravalidpasscode": "Please enter a valid passcode",
         "enterpasscode": "Enter passcode",
         "incomingvideocall": "Incoming video call",
-        "connecting": "Connecting"
+        "connecting": "Connecting",
+        "incomingchat": "Incoming chat request",
+        "waitingfor": "Waiting for",
+        "acceptchatrequest": "to accept chat request",
+        "chatinprogress": "Chat in progress"
     },
     "my-account": {
         "availablebalance": "Available balance",

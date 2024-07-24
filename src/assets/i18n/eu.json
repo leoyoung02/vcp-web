@@ -3755,7 +3755,11 @@
         "enteravalidpasscode": "Mesedez, sartu baliozko pasakode bat", 
         "enterpasscode": "Idatzi pasakodea",
         "incomingvideocall": "Sarrerako bideo-deia",
-        "connecting": "Konektatzen"
+        "connecting": "Konektatzen",
+        "incomingchat": "Sarrerako txat eskaera",
+        "waitingfor": "Itxaron",
+        "acceptchatrequest": "txat eskaera onartzeko",
+        "chatinprogress": "Txatea martxan"
     },
     "my-account": {
         "availablebalance": "Saldo erabilgarria",

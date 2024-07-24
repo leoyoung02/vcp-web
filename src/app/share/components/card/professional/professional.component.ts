@@ -18,6 +18,7 @@ import { LocalService } from "@share/services";
 import { StarRatingComponent } from "@lib/components";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
+import { ChatComponent } from "@share/components";
 
 @Component({
     selector: "app-professional-card",
@@ -28,6 +29,7 @@ import { initFlowbite } from "flowbite";
         TranslateModule,
         NgOptimizedImage,
         StarRatingComponent,
+        // ChatComponent,
     ],
     templateUrl: "./professional.component.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,6 +41,10 @@ export class ProfessionalCardComponent {
     @Input() image: any;
     @Input() path: any;
     @Input() name: any;
+    @Input() firstName: any;
+    @Input() userId: any;
+    @Input() userName: any;
+    @Input() userImage: any;
     @Input() label: any;
     @Input() languages: any;
     @Input() experience: any;
@@ -51,6 +57,8 @@ export class ProfessionalCardComponent {
     @Input() hasVoiceCall: any;
     @Input() hasVideoCall: any;
     @Input() hasChat: any;
+    @Input() canChat: any;
+    @Input() userData: any;
     @Output() onStartCall = new EventEmitter();
     @Output() onStartChat = new EventEmitter();
     @Output() onStartVideoCall = new EventEmitter();

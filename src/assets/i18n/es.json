@@ -3776,7 +3776,11 @@
         "enteravalidpasscode": "Por favor, introduce una contraseña válida", 
         "enterpasscode": "Ingrese el código de acceso",
         "incomingvideocall": "Videollamada entrante",
-        "connecting": "Conectando"
+        "connecting": "Conectando",
+        "incomingchat": "Solicitud de chat entrante",
+        "waitingfor": "Esperando",
+        "acceptchatrequest": "aceptar solicitud de chat",
+        "chatinprogress": "Chat en curso"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

@@ -3748,7 +3748,11 @@
         "enteravalidpasscode": "Inserisci un codice di accesso valido", 
         "enterpasscode": "Inserisci codice",
         "incomingvideocall": "Videochiamata in arrivo",
-        "connecting": "Connessione"
+        "connecting": "Connessione",
+        "incomingchat": "Richiesta di chat in arrivo",
+        "waitingfor": "Aspettando",
+        "acceptchatrequest": "per accettare la richiesta di chat",
+        "chatinprogress": "Chat in corso"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

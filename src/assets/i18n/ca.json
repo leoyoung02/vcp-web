@@ -3760,7 +3760,13 @@
         "via": "via",
         "enteravalidphone": "Introduïu un número de telèfon vàlid +<country_code><number> +34999999999",
         "enteravalidpasscode": "Introduïu una contrasenya vàlida", 
-        "enterpasscode": "Introdueix la contrasenya"
+        "enterpasscode": "Introdueix la contrasenya",
+        "incomingvideocall": "Videotrucada entrant",
+        "connecting": "Connectant",
+        "incomingchat": "Sol·licitud de xat entrant",
+        "waitingfor": "Esperant",
+        "acceptchatrequest": "per acceptar la sol·licitud de xat",
+        "chatinprogress": "Xat en curs"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

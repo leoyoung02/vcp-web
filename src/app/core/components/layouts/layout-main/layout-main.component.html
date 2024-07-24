@@ -249,3 +249,31 @@
 <button #outsidebutton class="hidden" type="button">
     &nbsp;
 </button>
+<button #chatbutton 
+    class="hidden" 
+    type="button"
+    data-drawer-target="drawer-right" 
+    data-drawer-show="drawer-right" 
+    data-drawer-placement="right"
+    data-drawer-backdrop="false">
+    &nbsp;
+</button>
+<app-chat-drawer 
+    [canChat]="canChat" 
+    [buttonColor]="buttonColor"
+    [companyId]="companyId"
+    [id]="id"
+    [image]="image"
+    [firstName]="firstName"
+    [userId]="senderId"
+    [userName]="userName"
+    [userImage]="userImage"
+    [userData]="userData"
+    [senderBalance]="senderBalance"
+    [reloadData]="reloadData"
+    [currentUserImage]="currentUserImage"
+    [chatRole]="chatRole"
+    [chatTimer]="chatTimer"
+    [chatEnded]="chatEnded"
+    [existingChatGuid]="existingChatGuid">
+</app-chat-drawer>
