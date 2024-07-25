@@ -413,7 +413,7 @@
                                         ></ngx-doc-viewer>
                                         <iframe 
                                             id="{{ 'iframe-' + (showIntroPDF ? 1 : selectedUnit.id) }}"
-                                            [src]="showIntroPDF ? courseIntroPDFURLSrc : selectedUnitSafeFileUrl" 
+                                            [src]="showIntroPDF ? getCourseIntroPDFURLSrc() : selectedUnitSafeFileUrl" 
                                             width="100%" 
                                             height="546px"
                                             *ngIf="showIntroPDF || (showDocumentViewer && selectedUnit?.Company_Course_Unit_Type?.type == 'pdf')"
@@ -501,25 +501,25 @@
                             <div class="text-lg font-semibold my-8">{{'course-details.downloads' | translate}}</div>
                             <div *ngFor="let download of courseDownloads" class="flex flex-wrap" (click)="downloadFileResource(download)">
                                 <div class="w-full max-w-full">
-                                    <a [href]="downloadCourseUnitSrc + download?.id + '/' + download?.file" 
+                                    <a [href]="downloadCourseUnitSrc + download?.id + '/' + getDownloadFile(download)" 
                                         download target="_blank" class="w-full max-w-full flex">
                                         <div class="mr-4 mb-4 hover:cursor-pointer">
-                                            <svg *ngIf="download?.file?.indexOf('pdf') >= 0" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+                                            <svg *ngIf="getDownloadType(download) == 'pdf'" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
                                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M1 18a.969.969 0 0 0 .933 1h12.134A.97.97 0 0 0 15 18M1 7V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2v5M6 1v4a1 1 0 0 1-1 1H1m0 9v-5h1.5a1.5 1.5 0 1 1 0 3H1m12 2v-5h2m-2 3h2m-8-3v5h1.375A1.626 1.626 0 0 0 10 13.375v-1.75A1.626 1.626 0 0 0 8.375 10H7Z"/>
                                             </svg>
-                                            <svg *ngIf="download?.file?.indexOf('mp4') >= 0" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                                            <svg *ngIf="getDownloadType(download) == 'mp4'" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                                                 <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z"/>
                                                 <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM9 13a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-2a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2Zm4 .382a1 1 0 0 1-1.447.894L10 13v-2l1.553-1.276a1 1 0 0 1 1.447.894v2.764Z"/>
                                             </svg>
-                                            <svg *ngIf="download?.file?.indexOf('mp3') >= 0" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
+                                            <svg *ngIf="getDownloadType(download) == 'mp3'" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 20">
                                                 <path d="M5 5V.13a2.98 2.98 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Zm1.5 10c.828 0 1.5-.448 1.5-1s-.672-1-1.5-1-1.5.448-1.5 1 .672 1 1.5 1Z"/>
                                                 <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2ZM12 10a1 1 0 0 1-1-1 2.971 2.971 0 0 0-1-2.237V13.5a.963.963 0 0 1-.037.185c.019.104.031.21.037.315a3.283 3.283 0 0 1-3.5 3A3.283 3.283 0 0 1 3 14a3.283 3.283 0 0 1 3.5-3 3.942 3.942 0 0 1 1.5.3V5a1 1 0 0 1 1.316-.948C9.467 4.1 13 5.321 13 9a1 1 0 0 1-1 1Z"/>
                                             </svg>
-                                            <svg *ngIf="!(download?.file?.indexOf('pdf') >= 0 || download?.file?.indexOf('mp3') >= 0 || download?.file?.indexOf('mp4') >= 0)" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
+                                            <svg *ngIf="!(getDownloadType(download) == 'pdf' || getDownloadType(download) == 'mp4' || getDownloadType(download) == 'mp3')" class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 20">
                                                 <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M6 1v4a1 1 0 0 1-1 1H1m14-4v16a.97.97 0 0 1-.933 1H1.933A.97.97 0 0 1 1 18V5.828a2 2 0 0 1 .586-1.414l2.828-2.828A2 2 0 0 1 5.828 1h8.239A.97.97 0 0 1 15 2Z"/>
                                             </svg>
                                         </div>
-                                        <div>{{ download?.filename }}</div>
+                                        <div>{{ getDownloadFilename(download) }}</div>
                                     </a>
                                 </div>
                             </div>
