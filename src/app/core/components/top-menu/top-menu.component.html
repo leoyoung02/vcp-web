@@ -10,8 +10,18 @@
             </a>
             <div class="flex items-center flex-1  pt-2">
               <ul class="flex flex-row grow gap-12 justify-start alig font-medium mt-0 space-x-7 rtl:space-x-reverse text-sm overflow-x-scroll no-scrollbar pt-4">
-                <li *ngFor="let item of topMenuItems" class="text-[#E6D3B4] hover:text-[#D1B298] text-base" routerLinkActive="text-[#D1B298]" >
-                  <a href="#">{{"landing." + item | translate}}</a>
+                <li *ngFor="let item of topMenuItems; let i = index; let last = last" class="text-[#E6D3B4] hover:text-[#D1B298] text-base" routerLinkActive="text-[#D1B298]" >
+                  <a href="#" class="flex flex-row items-center gap-3">{{"landing." + item | translate}}
+                    <svg
+                      *ngIf="last"
+                      class="w-4 h-4 fill-[#E6D3B4] hover:fill-[#D1B298]"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 512 512">
+                      <path
+                        fill="currentColor"
+                        d="M233.4 406.6c12.5 12.5 32.8 12.5 45.3 0l192-192c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0L256 338.7 86.6 169.4c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3l192 192z"/>
+                    </svg>
+                  </a>
                 </li>
               </ul>
               <img 
