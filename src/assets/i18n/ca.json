@@ -109,7 +109,18 @@
         "i":"jo",
         "acceptthe":"acceptar el",
         "dateofacceptance":"Data d'acceptació",
-        "linkstitle": "El Vicerectorat d'Estudiants i Vida Universitària està format per:"
+        "linkstitle": "El Vicerectorat d'Estudiants i Vida Universitària està format per:",
+        "help": "Ajuda",
+        "aboutus": "Sobre nosaltres",
+        "registration": "Dóna't d'alta",
+        "pricingpolicy": "Politica de preus",
+        "securepayments": "Pagaments segurs",
+        "verifiedastrologers": "Astròlegs verificats",
+        "users": "Usuaris",
+        "professionals": "Professionals",
+        "writetous": "Escriu-nos",
+        "signup": "Inscriu-te",
+        "registrationlink": "Link d'inscripció"
     },
     "settings": {
         "logo_banner": "Logo i Banner",

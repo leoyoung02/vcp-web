@@ -109,7 +109,18 @@
         "i":"I",
         "acceptthe":"onartu",
         "dateofacceptance":"Onarpen-data",
-        "linkstitle": "Ikasleen eta Unibertsitate Bizitzaren Errektoreordetza hauek osatzen dute:"
+        "linkstitle": "Ikasleen eta Unibertsitate Bizitzaren Errektoreordetza hauek osatzen dute:",
+        "help": "Laguntza",
+        "aboutus": "Guri buruz",
+        "registration": "Erregistratu",
+        "pricingpolicy": "Prezioen politika",
+        "securepayments": "Ordainketa seguruak",
+        "verifiedastrologers": "Egiaztatutako astrologoak",
+        "users": "Erabiltzaileak",
+        "professionals": "Profesionalak",
+        "writetous": "Idatz iezaguzu",
+        "signup": "Eman izena",
+        "registrationlink": "Erregistratzeko esteka"
     },
     "settings": {
         "logo_banner": "Logoa eta pankarta",

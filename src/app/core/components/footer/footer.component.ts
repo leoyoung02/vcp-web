@@ -45,6 +45,8 @@ export class FooterComponent {
   @Input() contactUsDetails: any;
   @Input() customLinks: any;
   @Input() languages: any;
+  @Input() logoSource: any;
+  @Input() isUESchoolOfLife: any;
 
   @Output() changeLanguage = new EventEmitter();
 
@@ -52,7 +54,6 @@ export class FooterComponent {
   readonly currentYear = new Date().getFullYear();
 
   envelopeIcon = faEnvelope;
-  logoSrc: string = COMPANY_IMAGE_URL;
 
   language: any;
   selectedLanguage: any;
@@ -153,7 +154,6 @@ export class FooterComponent {
       );
 
     this.companyId = this.company?.id;
-    this.logoSrc = `${COMPANY_IMAGE_URL}/${this.company?.image}`;
     this.primaryColor = this.company.primary_color;
     this.buttonColor = this.company.button_color
       ? this.company.button_color
@@ -203,12 +203,9 @@ export class FooterComponent {
     this.cookiePolicyURLEu = this.company.cookie_policy_url_eu;
     this.cookiePolicyURLCa = this.company.cookie_policy_url_ca;
     this.cookiePolicyURLDe = this.company.cookie_policy_url_de;
-    this.canShowTermsAndConditions =
-      this.company.show_terms == 1 ? true : false;
-    this.canShowPrivacyPolicy =
-      this.company.show_privacy_policy == 1 ? true : false;
-    this.canShowCookiePolicy =
-      this.company.show_cookie_policy == 1 ? true : false;
+    this.canShowTermsAndConditions = this.company.show_terms == 1 ? true : false;
+    this.canShowPrivacyPolicy = this.company.show_privacy_policy == 1 ? true : false;
+    this.canShowCookiePolicy = this.company.show_cookie_policy == 1 ? true : false;
     this.footerTextColor = this.company.footer_text_color;
     this.footerBackgroundColor = this.company.footer_background_color;
     this.footerLogoHeight = this.company.footer_logo_height || 50;

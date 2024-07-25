@@ -109,7 +109,18 @@
         "i":"je",
         "acceptthe":"accepte le",
         "dateofacceptance":"Date d'acceptation",
-        "linkstitle": "Le Vice-Rectorat chargé des Etudiants et de la Vie Universitaire est composé de :"
+        "linkstitle": "Le Vice-Rectorat chargé des Etudiants et de la Vie Universitaire est composé de :",
+        "help": "À l'aide",
+        "aboutus": "À propos de nous",
+        "registration": "S'inscrire",
+        "pricingpolicy": "Politique tarifaire",
+        "securepayments": "Paiements sécurisés",
+        "Verifiedastrologers": "Astrologues vérifiés",
+        "users": "Utilisateurs",
+        "professionnels": "Professionnels",
+        "writetous": "Écrivez-nous",
+        "signup": "Inscrivez-vous",
+        "registrationlink": "Lien d'inscription"
     },
     "settings": {
         "logo_banner": "Logo et bannière",

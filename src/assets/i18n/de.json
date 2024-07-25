@@ -109,7 +109,18 @@
         "i":"ICH",
         "acceptthe":"akzeptieren",
         "dateofacceptance":"Datum der Annahme",
-        "linkstitle": "Das Vizerektorat für Studierende und Universitätsleben setzt sich zusammen aus:"
+        "linkstitle": "Das Vizerektorat für Studierende und Universitätsleben setzt sich zusammen aus:",
+        "help": "Hilfe",
+        "aboutus": "Über uns",
+        "registration": "Registrieren",
+        "pricingpolicy": "Preispolitik",
+        "securepayments": "Sichere Zahlungen",
+        "verifiedastrologers": "Verifizierte Astrologen",
+        "users": "Benutzer",
+        "professionals": "Profis",
+        "writetous": "Schreiben Sie uns",
+        "signup": "Anmelden",
+        "registrationlink": "Registrierungslink"
     },
     "settings": {
         "logo_banner": "Logo und Banner",

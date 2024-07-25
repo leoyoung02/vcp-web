@@ -109,7 +109,18 @@
         "i":"I",
         "acceptthe":"aceptar el",
         "dateofacceptance":"Fecha de Aceptación",
-        "linkstitle": "El Vicerrectorado de Estudiantes y Vida Universitaria está formado por:"
+        "linkstitle": "El Vicerrectorado de Estudiantes y Vida Universitaria está formado por:",
+        "help": "Ayuda",
+        "aboutus": "Acerca de nostros",
+        "registration": "Date de alta",
+        "pricingpolicy": "Politica de precios",
+        "securepayments": "Pagos seguros",
+        "verifiedastrologers": "Astrologos verificados",
+        "users": "Usuarios",
+        "professionals": "Profesionales",
+        "writetous": "Escríbenos",
+        "signup": "Inscríbete",
+        "registrationlink": "Link de inscripción"
     },
     "settings": {
         "logo_banner": "Logo y Banner",
