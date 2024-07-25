@@ -194,7 +194,7 @@ export class LayoutMainComponent {
   canRegister: boolean = false;
   customMemberType: any;
   customMemberTypePermissions: any;
-  showFooter: boolean = false;
+  showFooter: boolean = true;
   customLinks: any = [];
   isCursoGeniusTestimonials: boolean = false;
   hasBuddy: boolean = false;
