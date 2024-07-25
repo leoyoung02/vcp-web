@@ -100,7 +100,8 @@
         "energy": "Energía",
         "energyalt": "Icono de un globo de energía parecido a una flor",
         "spirituality": "Espiritualidad",
-        "spiritualityalt": "Icono de un atrapasueños"
+        "spiritualityalt": "Icono de un atrapasueños",
+        "seemore": "Ver más"
     },
     "user-popup": {
         "myplans": "Mis planes",
