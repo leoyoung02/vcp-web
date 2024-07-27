@@ -14,6 +14,7 @@ export const environment = {
     agoraChatAppKey: '71257372#1312265',
     pusherAppKey: 'd15683105c5d696cddc7',
     pusherCluster: 'eu',
+    webPushServerPublicKey: 'BHe-SRlUU3aDVs5Brau5XGf9SG0P4Rt4IyhdqnURo37l2pYnxbzhCq_wqDnH1Vg2yxHa-5wr-E0FAE9tgyW8WHU',
     lstoken: 'MDzMJjldj0uCZf+DrObXFA==',
     lsrefreshtoken: 'EKHWGZB/EkSWmaO+0haEvA==',
     lsinitializationVector: 'encryptionIntVec',

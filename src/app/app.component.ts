@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject, OnInit } from "@angular/core";
 import { Router, RouterModule, RoutesRecognized } from "@angular/router";
-import { AuthService } from "src/app/core/services";
+import { AuthService, PushNotificationService } from "src/app/core/services";
 import { ThemeService } from "src/app/core/services/theme";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService } from "src/app/share/services";
@@ -52,13 +52,18 @@ export class AppComponent implements OnInit {
     private router: Router,
     private _translateService: TranslateService,
     private _localService: LocalService,
-    private _companyService: CompanyService
+    private _companyService: CompanyService,
+    private _pushNotificationService: PushNotificationService
   ) {
     this.setFavIcon(window.location.host);
   }
 
   async ngOnInit() {
     this._themeService.init();
+
+    this._pushNotificationService.subscribeToNotifications();
+    this._pushNotificationService.subscribeMessage();
+
     this.router.events.subscribe((data: any) => {
       if (data instanceof RoutesRecognized) {
         this.layout = data?.state?.root?.firstChild?.data["layout"];
@@ -151,5 +156,9 @@ export class AppComponent implements OnInit {
   setDefaultLanguage() {
     this._translateService.setDefaultLang("es");
     this._translateService.use("es");
+  }
+
+  ngOnDestroy() {
+    // this._pushNotificationService.unsubscribeFromPushNotifications();
   }
 }
