@@ -52,17 +52,13 @@ export class AppComponent implements OnInit {
     private router: Router,
     private _translateService: TranslateService,
     private _localService: LocalService,
-    private _companyService: CompanyService,
-    private _pushNotificationService: PushNotificationService
+    private _companyService: CompanyService
   ) {
     this.setFavIcon(window.location.host);
   }
 
   async ngOnInit() {
     this._themeService.init();
-
-    this._pushNotificationService.subscribeToNotifications();
-    this._pushNotificationService.subscribeMessage();
 
     this.router.events.subscribe((data: any) => {
       if (data instanceof RoutesRecognized) {
@@ -156,9 +152,5 @@ export class AppComponent implements OnInit {
   setDefaultLanguage() {
     this._translateService.setDefaultLang("es");
     this._translateService.use("es");
-  }
-
-  ngOnDestroy() {
-    // this._pushNotificationService.unsubscribeFromPushNotifications();
   }
 }

@@ -801,6 +801,8 @@ export const EDIT_VIDEO_CALLER_BALANCE_URL = `${API_BASE}/v3/video-caller-balanc
 export const GENERATE_RTM_TOKEN_URL = `${API_BASE}/v3/agora/rtm`;
 export const NOTIFY_CHAT_PROFESSIONAL_PUSHER_URL = `${API_BASE}/v3/chat/push`;
 export const EDIT_CHAT_SENDER_BALANCE_URL = `${API_BASE}/v3/chat-sender-balance/edit`;
+export const VALIDATE_CHAT_PASSCODE_URL = `${API_BASE}/v3/chat/validate-code`;
+export const NOTIFICATION_SUBSCRIPTION_URL = `${API_BASE}/v3/notification/subscription`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;

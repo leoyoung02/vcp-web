@@ -11,7 +11,7 @@ import { NavigationEnd, Router } from "@angular/router";
 import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
-import { MenuService } from "@lib/services";
+import { MenuService, PushNotificationService } from "@lib/services";
 import { PlansService, TutorsService, BuddyService, VideoCallService, VoiceCallService, ChatService, ProfessionalsService } from "@features/services";
 import { FooterComponent, MobileNavbarComponent } from "src/app/core/components";
 import { Subject, takeUntil } from "rxjs";
@@ -240,6 +240,7 @@ export class LayoutMainComponent {
   chatTimer: string = '';
   chatEnded: boolean = false;
   existingChatGuid: any;
+  professional: any;
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
@@ -261,6 +262,7 @@ export class LayoutMainComponent {
     private _buddyService: BuddyService,
     private _professionalsService: ProfessionalsService,
     private _chatService: ChatService,
+    private _pushNotificationService: PushNotificationService,
     private cd: ChangeDetectorRef
   ) {
     this.language = this._localService.getLocalStorage(environment.lslanguage);
@@ -686,6 +688,12 @@ export class LayoutMainComponent {
         .subscribe((data) => {
           this.otherSettings = data[0] ? data[0]["other_settings"] : [];
           this.currentUser = data[1] ? data[1]["CompanyUser"] : [];
+          this.professional = data[1] ? data[1]["professional"] : [];
+          if(this.professional) {
+            this._localService.setLocalStorage(environment.lsprofessional, this.professional);
+            this._pushNotificationService.subscribeToNotifications(this.professional);
+            this._pushNotificationService.subscribeMessage();
+          }
           this.roles = data[2] ? data[2]["role"] : [];
           this.dashboardDetails = data[3] ? data[3]["dashboard_details"] : [];
           this.mapDashboard(this.dashboardDetails);

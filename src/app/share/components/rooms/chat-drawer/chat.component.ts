@@ -16,7 +16,6 @@ import {
     TranslateModule,
     TranslateService,
 } from "@ngx-translate/core";
-import { ActivatedRoute, Router } from "@angular/router";
 import { LocalService } from "@share/services";
 import { FormsModule } from "@angular/forms";
 import { initFlowbite } from 'flowbite';
@@ -27,7 +26,7 @@ import moment from "moment";
 import get from "lodash/get";
 
 @Component({
-    selector: "app-chat-room",
+    selector: "app-chat-drawer",
     standalone: true,
     imports: [
         CommonModule,
@@ -47,9 +46,7 @@ export class ChatComponent {
     @Input() id: any;
     @Input() image: any;
     @Input() firstName: any;
-    @Input() name: any;
     @Input() userId: any;
-    @Input() userFirstName: any;
     @Input() userName: any;
     @Input() userImage: any;
     @Input() userData: any;
@@ -90,9 +87,6 @@ export class ChatComponent {
     waitingText: string = '';
     timeDisplay: string = '';
     notificationParams: any;
-    
-    pusherSubscription: Subscription | undefined;
-
     @ViewChild("closebutton", { static: false }) closebutton:
     | ElementRef
     | undefined;
@@ -146,8 +140,6 @@ export class ChatComponent {
     }
 
     constructor(
-        private _route: ActivatedRoute,
-        private _router: Router,
         private _translateService: TranslateService,
         private _localService: LocalService,
         private _chatService: ChatService,
@@ -178,31 +170,7 @@ export class ChatComponent {
         if (this.canChat) {
             initFlowbite();
         }
-
-        this.subscribeChat();
         this.initializeData();
-    }
-
-    subscribeChat() {
-        this.pusherSubscription = this._chatService
-          .getFeedItems()
-          .subscribe(async(response) => {
-            if(
-              (!localStorage.getItem('chat-session') || response.mode == 'end-chat') && 
-              (response?.id == this.userId || response?.channel == this.userId)
-            ) {
-          
-              if(response.mode == 'end-chat') {
-                this.canChat = false;
-                this.chatEnded = true;
-                this.cd.detectChanges();
-
-                setTimeout(() => {
-                    this.closeChat();
-                })
-              }
-            }
-          })
     }
 
     initializeData() {
@@ -427,13 +395,6 @@ export class ChatComponent {
             offset,
         }
         this.notifyChatProfessional(params);
-
-        setTimeout(() => {
-            this._router.navigate(['/'])
-            .then(() => {
-                window.location.reload();
-            });
-        })
     }
 
     pauseTimer() {
@@ -449,7 +410,6 @@ export class ChatComponent {
     }
 
     ngOnDestroy() {
-        localStorage.removeItem('chat-session');
         this.languageChangeSubscription?.unsubscribe();
         this.destroy$.next();
         this.destroy$.complete();

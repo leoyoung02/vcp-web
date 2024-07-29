@@ -15,6 +15,12 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./video-call/video-call.component')).VideoCallComponent,
     },
     {
+        path: 'chat/:guid/:code/:role',
+        title: CustomTitleResolver,
+        data: { titleKey: 'professionals.chat'},
+        loadComponent: async () => (await import('./chat/chat.component')).ChatRoomComponent,
+    },
+    {
         path: 'ended',
         title: CustomTitleResolver,
         data: { titleKey: 'professionals.callended'},

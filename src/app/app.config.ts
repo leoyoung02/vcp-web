@@ -142,7 +142,7 @@ export const appConfig: ApplicationConfig = {
     provideNgcCookieConsent(cookieConfig),
     CookieService,
     provideServiceWorker('ngsw-worker.js', {
-      enabled: !isDevMode() && window.location.host == "astroideal.com",
+      enabled: !isDevMode() && (window.location.host == "astroideal.com"),
       registrationStrategy: 'registerWhenStable:30000'
     }),
   ],

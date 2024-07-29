@@ -283,6 +283,21 @@ export class EmailComponent {
         type: "reminder_teacher",
         title_en: "Event reminder email (teacher)",
       },
+      {
+        id: 161,
+        type: "incoming_voice_call",
+        title_en: "Incoming voice call email",
+      },
+      {
+        id: 162,
+        type: "incoming_video_call",
+        title_en: "Incoming video call email",
+      },
+      {
+        id: 163,
+        type: "incoming_chat",
+        title_en: "Incoming chat email",
+      },
     ];
     this.shortcodes = [
       {

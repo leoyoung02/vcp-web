@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { SwPush } from '@angular/service-worker';
 import { environment } from '@env/environment';
+import { ProfessionalsService } from '@features/services';
+import { LocalService } from '@share/services';
 
 @Injectable({
   providedIn: 'root'
@@ -8,22 +10,23 @@ import { environment } from '@env/environment';
 export class PushNotificationService {
   swPushpayload: any;
 
-  constructor(private swPush: SwPush) {}
+  constructor(
+    private swPush: SwPush,
+    private _localService: LocalService,
+    private _professionalsService: ProfessionalsService,
+  ) {
 
-  subscribeToNotifications(): void {
+  }
+
+  subscribeToNotifications(professional: any): void {
     if (this.swPush.isEnabled) {
       this.swPush
         .requestSubscription({
           serverPublicKey: environment.webPushServerPublicKey
         })
         .then((sub: PushSubscription) => {
-          // Save the subscription object to your server
-          this.saveSubscription(sub);
-
-          // Store the subscription in local storage or any other storage mechanism
+          this.saveSubscription(sub, professional);
           this.storeSubscription(sub);
-
-          console.log('Display', JSON.stringify(sub)); // This will be required for the Nest.js backend to send notifications
         })
         .catch((err: any) => console.error('Could not subscribe to notifications', err));
     }
@@ -42,19 +45,28 @@ export class PushNotificationService {
 
   subscribeMessage(): void {
     this.swPush.messages.subscribe((res: any) => {
-      console.log('Received push notification', res);
-      location.href = res.notification.data.url;
+      if(res.notification.data.url) {
+        location.href = res.notification.data.url;
+      }
     });
   }
 
-  private saveSubscription(sub: PushSubscription): void {
-    // Send the subscription object to your server for storing
-    // You can make an HTTP request or use any other method to send the subscription data to your server
-    console.log('saveSub', sub)
+  private saveSubscription(sub: PushSubscription, professional): void {
+    let params = {
+      id: professional.user_id,
+      subscription: JSON.stringify(sub),
+    }
+
+    this._professionalsService.notificationSubscription(params).subscribe(
+      (response) => {
+        
+      },
+      (error) => {
+        console.log(error);
+      })
   }
 
   private storeSubscription(sub: PushSubscription): void {
-    // Store the subscription in local storage or any other storage mechanism
-    console.log('storeSub', sub)
+    this._localService.setLocalStorage(environment.lsprofessionalsubscription, JSON.stringify(sub))
   }
 }
