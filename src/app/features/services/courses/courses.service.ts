@@ -347,14 +347,15 @@ export class CoursesService {
     formData.append( 'instructor', params.instructor ? params.instructor : 0 );
     formData.append( 'school_of_life', params.school_of_life );
     formData.append( 'sol_nivelacion', params.sol_nivelacion );
-    formData.append( 'course_intro', params.course_intro );
 
-    if(params['intro_pdf']) {
-      formData.append( 'intro_pdf', params.intro_pdf );
-    }
-    if(params.course_intro && params.intro_pdf_removed == 1 && !params['intro_pdf']) {
-      formData.append( 'intro_pdf', '' );
-    }
+    formData.append( 'course_intro', params.course_intro );
+    formData.append( 'intro_pdf', params.course_intro && params.intro_pdf_removed == 1 && !params['intro_pdf'] ? '' : params.intro_pdf );
+    formData.append( 'intro_en_pdf', params.course_intro && params.intro_en_pdf_removed == 1 && !params['intro_en_pdf'] ? '' : params.intro_en_pdf );
+    formData.append( 'intro_fr_pdf', params.course_intro && params.intro_fr_pdf_removed == 1 && !params['intro_fr_pdf'] ? '' : params.intro_fr_pdf );
+    formData.append( 'intro_eu_pdf', params.course_intro && params.intro_eu_pdf_removed == 1 && !params['intro_eu_pdf'] ? '' : params.intro_eu_pdf );
+    formData.append( 'intro_ca_pdf', params.course_intro && params.intro_ca_pdf_removed == 1 && !params['intro_ca_pdf'] ? '' : params.intro_ca_pdf );
+    formData.append( 'intro_de_pdf', params.course_intro && params.intro_de_pdf_removed == 1 && !params['intro_de_pdf'] ? '' : params.intro_de_pdf );
+    formData.append( 'intro_it_pdf', params.course_intro && params.intro_it_pdf_removed == 1 && !params['intro_it_pdf'] ? '' : params.intro_it_pdf );
 
     if(params.company_id == 32) {
       formData.append( 'additional_properties_course_access', params.additional_properties_course_access );
@@ -446,13 +447,15 @@ export class CoursesService {
     formData.append( 'school_of_life', params.school_of_life );
     formData.append( 'show_comments', params.show_comments );
     formData.append( 'sol_nivelacion', params.sol_nivelacion );
+
     formData.append( 'course_intro', params.course_intro );
-    if(params['intro_pdf']) {
-      formData.append( 'intro_pdf', params.intro_pdf );
-    }
-    if(params.course_intro && params.intro_pdf_removed == 1 && !params['intro_pdf']) {
-      formData.append( 'intro_pdf', '' );
-    }
+    formData.append( 'intro_pdf', params.course_intro && params.intro_pdf_removed == 1 ? '' : params.intro_pdf );
+    formData.append( 'intro_en_pdf', params.course_intro && params.intro_en_pdf_removed == 1 ? '' : params.intro_en_pdf );
+    formData.append( 'intro_fr_pdf', params.course_intro && params.intro_fr_pdf_removed == 1 ? '' : params.intro_fr_pdf );
+    formData.append( 'intro_eu_pdf', params.course_intro && params.intro_eu_pdf_removed == 1 ? '' : params.intro_eu_pdf );
+    formData.append( 'intro_ca_pdf', params.course_intro && params.intro_ca_pdf_removed == 1 ? '' : params.intro_ca_pdf );
+    formData.append( 'intro_de_pdf', params.course_intro && params.intro_de_pdf_removed == 1 ? '' : params.intro_de_pdf );
+    formData.append( 'intro_it_pdf', params.course_intro && params.intro_it_pdf_removed == 1 ? '' : params.intro_it_pdf );
 
     if(params.group_id > 0) {
       formData.append( 'group_id', params.group_id);
