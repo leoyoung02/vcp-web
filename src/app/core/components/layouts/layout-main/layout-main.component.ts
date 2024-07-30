@@ -241,6 +241,7 @@ export class LayoutMainComponent {
   chatEnded: boolean = false;
   existingChatGuid: any;
   professional: any;
+  professionalsListPage: boolean = false;
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
@@ -282,6 +283,7 @@ export class LayoutMainComponent {
   async ngOnInit() {
     this.pageInit = true;
     this.callPage = window.location.href?.indexOf("/call/") >= 0 ? true : false;
+    this.professionalsListPage = window.location.href?.indexOf("/professionals") >= 0 && window.location.href?.indexOf("/professionals/details") < 0 ? true : false;
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     if (!this._localService.getLocalStorage(environment.lslang)) { this._localService.setLocalStorage(environment.lslang, "es"); }

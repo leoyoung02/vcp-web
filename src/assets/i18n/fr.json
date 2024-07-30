@@ -3764,7 +3764,17 @@
         "incomingchat": "Demande de chat entrante",
         "en attente": "En attente de",
         "acceptchatrequest": "pour accepter la demande de chat",
-        "chatinprogress": "Chat en cours"
+        "chatinprogress": "Chat en cours",
+        "filters": "Filtres",
+        "contact": "Contacter",
+        "specialties": "Spécialités",
+        "female": "Féminin",
+        "male": "Masculin", 
+        "experience": "Expérience", 
+        "hightolow": "Du plus haut au plus bas", 
+        "lowtohigh": "Du plus bas au plus haut", 
+        "rate": "Évaluer", 
+        "reviews": "Avis"
     },
     "my-account": {
         "availablebalance": "Solde disponible",

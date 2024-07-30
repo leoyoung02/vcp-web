@@ -3791,7 +3791,17 @@
         "incomingchat": "Solicitud de chat entrante",
         "waitingfor": "Esperando",
         "acceptchatrequest": "aceptar solicitud de chat",
-        "chatinprogress": "Chat en curso"
+        "chatinprogress": "Chat en curso",
+        "filters": "Filtros",
+        "contact": "Contáctate",
+        "specialties": "Especialidades",
+        "female": "Femenino",
+        "male": "Masculino", 
+        "experience": "Experiencia", 
+        "hightolow": "De mayor a menor", 
+        "lowtohigh": "De menor a mayor", 
+        "rate": "Calificación", 
+        "reviews": "Reseñas"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

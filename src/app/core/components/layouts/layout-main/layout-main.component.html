@@ -116,7 +116,8 @@
                 'px-6 py-6 sm:px-6 md:px-16 md:px-6 lg:md:px-16': navigation != 'top-menu',
                 'p-6 md:pt-40 lg:pt-40': navigation == 'top-menu' && !callPage,
                 'min-h-[calc(100vh_-_330px)]': !callPage,
-                'mx-auto max-w-full sm:max-w-full md:max-w-screen-2xl lg:max-w-screen-2xl': navigation == 'top-menu' && !callPage,
+                'mx-auto max-w-full': navigation == 'top-menu' && !callPage,
+                'sm:max-w-full md:max-w-screen-2xl lg:max-w-screen-2xl': navigation == 'top-menu' && !callPage && !professionalsListPage
             }"
         >
             <div

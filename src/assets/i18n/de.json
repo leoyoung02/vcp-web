@@ -3769,7 +3769,17 @@
         "incomingchat": "Eingehende Chat-Anfrage",
         "waitingfor": "Warten auf",
         "acceptchatrequest": "Chat-Anfrage annehmen",
-        "chatinprogress": "Chat läuft"
+        "chatinprogress": "Chat läuft",
+        "filters": "Filter",
+        "contact": "Kontakt",
+        "specialties": "Spezialitäten",
+        "female": "Weiblich",
+        "male": "Männlich", 
+        "experience": "Erfahrung", 
+        "hightolow": "Höchste bis niedrigste", 
+        "lowtohigh": "Niedrigste bis höchste", 
+        "rate": "Bewerten", 
+        "reviews": "Bewertungen"
     },
     "my-account": {
         "availablebalance": "Verfügbares Guthaben",
