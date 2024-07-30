@@ -4,6 +4,11 @@
   <div class="text-sm mt-8" *ngIf="!isUESchoolOfLife">{{ welcomeTitle ? welcomeSubtitle : ('landing.welcomedesc' | translate) }}</div>
 </div>
 <div class="py-10">
+  <div  class="flex flex-row gap-10 justify-center">
+    <ng-container *ngFor="let professional of professionals">
+      <app-tarot-card [cardData]="professional"></app-tarot-card>
+    </ng-container>
+  </div>
   <ng-container *ngIf="hasLandingTemplate && !hasPredefinedTemplate">
     <div class="pt-12" [innerHtml]="html"></div>
   </ng-container>

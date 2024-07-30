@@ -1,0 +1,72 @@
+<div
+  class="mx-auto bg-white rounded-lg shadow-md overflow-hidden"
+  [ngClass]="['flex', direction]"
+>
+  <img
+    class="h-[285px] w-[350px]"
+    [alt]="cardData.title"
+    [ngSrc]="imageUrl"
+  />
+  <div class="p-4 bg-[#F5F6F8]">
+    <h2 class="text-3xl font-semibold mb-2">{{ cardData.title }}</h2>
+    <p class="text-xs text-[#1E1E1E] h-[100px] max-w-[320px] mb-4">
+      {{ cardData.description }}
+    </p>
+    <div class="flex flex-col gap-y-4 mb-2">
+      <div class="flex flex-wrap mb-4">
+        <ng-container *ngFor="let specialty of cardData.specialties">
+          <span
+            class="text-[#A77FE0] text-[15px] font-semibold mr-2 px-2.5 py-0.5 rounded"
+            >{{ specialty }}</span
+          >
+        </ng-container>
+      </div>
+      <span
+        class="bg-[#D0AD45] text-[#F5F6F8] w-full block text-[18px] rounded-md p-1 pl-3"
+      >
+        {{ cardData.salary }}
+      </span>
+      <app-star-rating [rating]="cardData.rating"></app-star-rating>
+    </div>
+    <div
+      class="relative md:bottom-5 lg:bottom-5 md:right-5 lg:right-5 flex items-center align-center justify-center sm:justify-center md:justify-normal lg:justify-normal mt-6 sm:mt-6 md:mt-0 lg:mt-0"
+    >
+      <div class="flex">
+        <ng-container>
+          <button
+            class="mr-2.5 font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center"
+            data-drawer-target="drawer-right"
+            data-drawer-show="drawer-right"
+            data-drawer-placement="right"
+            data-drawer-backdrop="false"
+          >
+            <img
+              src="./assets/professional-icons/comment.png"
+              class="w-[18px] h-[18px] object-contain"
+            />
+          </button>
+        </ng-container>
+        <ng-container>
+          <button
+            class="mr-2.5 font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center"
+          >
+            <img
+              src="./assets/professional-icons/phone.png"
+              class="w-[18px] h-[18px] object-contain"
+            />
+          </button>
+        </ng-container>
+        <ng-container>
+          <button
+            class="font-medium rounded-[2px] text-sm p-2 text-center inline-flex items-center"
+          >
+            <img
+              src="./assets/professional-icons/video.png"
+              class="cursor-pointer w-[18px] h-[18px] object-contain"
+            />
+          </button>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
