@@ -84,7 +84,9 @@ export const environment = {
     lsusercoursecredits: "N4RxzstAvEeTmLstp5yICA==",
     lsguestaccesstoken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiZW1haWwiOiIiLCJyb2xlIjoiTSIsImd1aWQiOiIiLCJpYXQiOjE3MTIyMDk2NzcsImV4cCI6MTc0Mzc0NTY3N30.-p7g_upTn26pZUAks5iNMdIywT7vToVOUpn0VCctiTM",
     lscartitems: "cVmvfyXAyEOv4M/X+O3KLA==",
-    lspaymentmethods: "CFmuvYIT30KLk5aAegdh9w=="
+    lspaymentmethods: "CFmuvYIT30KLk5aAegdh9w==",
+    lsprofessional: "Xrez4rPjJUKwqLFo6Y+vHQ==",
+    lsprofessionalsubscription: "W9tn1hPcjka8zSb7KKXs5A=="
 };
 
 /*

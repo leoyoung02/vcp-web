@@ -158,6 +158,7 @@ export class ProfessionalsListComponent {
   drawerSortList: any = [];
   showSort: boolean = false;
   selectedSort: any;
+  isLoading: boolean = true;
 
   @ViewChild("modalbutton2", { static: false }) modalbutton2:
     | ElementRef
@@ -363,6 +364,8 @@ export class ProfessionalsListComponent {
           this.allProfessionals = this.formatProfessionals(professionals);
           this.professionals = this.allProfessionals;
           this.groupProfessionals(this.professionals);
+
+          this.isLoading = false;
         },
         (error) => {
           console.log(error);

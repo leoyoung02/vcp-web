@@ -22,8 +22,8 @@
                     name="search" 
                     id="search" 
                     [(ngModel)]="search" 
-                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                    [ngStyle]="{'border-color': '#677173'}" 
+                    class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border border-l-0 border-t-0 border-r-0 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                    [ngStyle]="{'border-color': '#677173', 'border-bottom-width': '2px !important'}" 
                     placeholder=" "
                     (keyup.enter)="handleKeyPressed()"
                     (input)="handleSearchChanged($event)" />
