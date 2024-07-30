@@ -3770,7 +3770,17 @@
         "incomingchat": "Sarrerako txat eskaera",
         "waitingfor": "Itxaron",
         "acceptchatrequest": "txat eskaera onartzeko",
-        "chatinprogress": "Txatea martxan"
+        "chatinprogress": "Txatea martxan",
+        "filters": "Iragazkiak",
+        "contact": "Kontaktua",
+        "specialties": "Espezialitateak",
+        "female": "Emakumezkoa",
+        "male": "Makulinoa", 
+        "experience": "Esperientzia",
+        "hightolow": "Altuenetik baxuenera", 
+        "lowtohigh": "Baxutik handienera", 
+        "rate": "Balorazioa", 
+        "reviews": "Iritziak"
     },
     "my-account": {
         "availablebalance": "Saldo erabilgarria",

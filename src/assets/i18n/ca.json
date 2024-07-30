@@ -3777,7 +3777,17 @@
         "incomingchat": "Sol·licitud de xat entrant",
         "waitingfor": "Esperant",
         "acceptchatrequest": "per acceptar la sol·licitud de xat",
-        "chatinprogress": "Xat en curs"
+        "chatinprogress": "Xat en curs",
+        "filters": "Filtres",
+        "contact": "Contacta't",
+        "specialties": "Especialitats",
+        "female": "Femení",
+        "male": "Masculí", 
+        "experience": "Experiència", 
+        "hightolow": "De més alt a més baix", 
+        "lowtohigh": "De menor a més alt", 
+        "rate": "Valoració", 
+        "reviews": "Ressenyes"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

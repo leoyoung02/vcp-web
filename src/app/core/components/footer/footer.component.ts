@@ -354,7 +354,6 @@ export class FooterComponent {
   }
 
   getContactUsText(contact_us) {
-    console.dir(contact_us);
     return this.language == 'en'
       ? contact_us.text
       : this.language == 'fr'

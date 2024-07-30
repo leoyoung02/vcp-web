@@ -5,7 +5,6 @@ import {
     EventEmitter,
     Input,
     Output,
-    SimpleChange,
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { Subject } from "rxjs";
@@ -14,11 +13,10 @@ import {
     TranslateModule,
     TranslateService,
 } from "@ngx-translate/core";
+import { StarRatingModule } from 'angular-star-rating';
 import { LocalService } from "@share/services";
-import { StarRatingComponent } from "@lib/components";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
-import { ChatComponent } from "@share/components";
 
 @Component({
     selector: "app-professional-card",
@@ -28,8 +26,7 @@ import { ChatComponent } from "@share/components";
         RouterModule,
         TranslateModule,
         NgOptimizedImage,
-        StarRatingComponent,
-        // ChatComponent,
+        StarRatingModule
     ],
     templateUrl: "./professional.component.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -45,7 +42,7 @@ export class ProfessionalCardComponent {
     @Input() userId: any;
     @Input() userName: any;
     @Input() userImage: any;
-    @Input() label: any;
+    @Input() specialties: any;
     @Input() languages: any;
     @Input() experience: any;
     @Input() experiencePeriod: any;

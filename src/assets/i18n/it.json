@@ -3763,7 +3763,17 @@
         "incomingchat": "Richiesta di chat in arrivo",
         "waitingfor": "Aspettando",
         "acceptchatrequest": "per accettare la richiesta di chat",
-        "chatinprogress": "Chat in corso"
+        "chatinprogress": "Chat in corso",
+        "filters": "Filtri",
+        "contact": "Contatto",
+        "specialties": "Specialità",
+        "female": "Femminile",
+        "male": "maschile", 
+        "experience": "Esperienza", 
+        "hightolow": "Dal più alto al più basso", 
+        "lowtohigh": "Dal più basso al più alto", 
+        "rate": "Valuta", 
+        "reviews": "Recensioni"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",
