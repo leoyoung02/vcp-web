@@ -11,6 +11,10 @@ export const environment = {
     logLevel: NgxLoggerLevel.LOG,
     serverLogLevel: NgxLoggerLevel.LOG,
     agoraAppId: '216cb9286f7b4d38af22f24ba5b5e0d4',
+    agoraChatAppKey: '71257372#1312265',
+    pusherAppKey: 'd15683105c5d696cddc7',
+    pusherCluster: 'eu',
+    webPushServerPublicKey: 'BHe-SRlUU3aDVs5Brau5XGf9SG0P4Rt4IyhdqnURo37l2pYnxbzhCq_wqDnH1Vg2yxHa-5wr-E0FAE9tgyW8WHU',
     lstoken: 'MDzMJjldj0uCZf+DrObXFA==',
     lsrefreshtoken: 'EKHWGZB/EkSWmaO+0haEvA==',
     lsinitializationVector: 'encryptionIntVec',
@@ -80,7 +84,9 @@ export const environment = {
     lsusercoursecredits: "N4RxzstAvEeTmLstp5yICA==",
     lsguestaccesstoken: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MCwiZW1haWwiOiIiLCJyb2xlIjoiTSIsImd1aWQiOiIiLCJpYXQiOjE3MTIyMDk2NzcsImV4cCI6MTc0Mzc0NTY3N30.-p7g_upTn26pZUAks5iNMdIywT7vToVOUpn0VCctiTM",
     lscartitems: "cVmvfyXAyEOv4M/X+O3KLA==",
-    lspaymentmethods: "CFmuvYIT30KLk5aAegdh9w=="
+    lspaymentmethods: "CFmuvYIT30KLk5aAegdh9w==",
+    lsprofessional: "Xrez4rPjJUKwqLFo6Y+vHQ==",
+    lsprofessionalsubscription: "W9tn1hPcjka8zSb7KKXs5A=="
 };
 
 /*

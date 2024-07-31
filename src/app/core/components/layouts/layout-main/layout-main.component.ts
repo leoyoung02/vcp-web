@@ -11,11 +11,11 @@ import { NavigationEnd, Router } from "@angular/router";
 import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
-import { MenuService } from "@lib/services";
-import { PlansService, TutorsService, VideoCallService, VoiceCallService } from "@features/services";
+import { MenuService, PushNotificationService } from "@lib/services";
+import { PlansService, TutorsService, BuddyService, VideoCallService, VoiceCallService, ChatService, ProfessionalsService } from "@features/services";
 import { FooterComponent, MobileNavbarComponent } from "src/app/core/components";
 import { Subject, takeUntil } from "rxjs";
-import { ToastComponent } from "@share/components";
+import { ChatComponent, ToastComponent } from "@share/components";
 import { FormsModule } from "@angular/forms";
 import { SidebarComponent } from "@lib/components/sidebar/sidebar.component";
 import { UserMenuComponent } from "@lib/components/user-menu/user-menu.component";
@@ -41,6 +41,7 @@ import get from "lodash/get";
     GuestMenuComponent,
     TopMenuComponent,
     CallNotificationPopupComponent,
+    ChatComponent,
   ],
   templateUrl: "./layout-main.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -196,6 +197,10 @@ export class LayoutMainComponent {
   showFooter: boolean = false;
   customLinks: any = [];
   isCursoGeniusTestimonials: boolean = false;
+  hasBuddy: boolean = false;
+  isMentor: boolean = false;
+  userMentor: any;
+  canAccessIntroduceU: boolean = false;
   navigation: any = 'side-menu';
   shopFeatureId: any;
   hasShop: boolean = false;
@@ -217,7 +222,30 @@ export class LayoutMainComponent {
   videoCallGuid: any;
   videoCallPasscode: any;
   communicationMode: any;
+  chatGuid: any;
+  chatPasscode: any;
+  canChat: boolean = false;
+  id: any;
+  image: any;
+  firstName: any;
+  senderId: any;
+  userName: any;
+  userImage: any;
+  senderBalance: any;
+  userData: any;
+  sender: any;
+  reloadData: boolean = false;
+  currentUserImage: any;
+  chatRole: any;
+  chatTimer: string = '';
+  chatEnded: boolean = false;
+  existingChatGuid: any;
+  professional: any;
+  professionalsListPage: boolean = false;
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
+    | ElementRef
+    | undefined;
+  @ViewChild("chatbutton", { static: false }) chatbutton:
     | ElementRef
     | undefined;
 
@@ -232,6 +260,10 @@ export class LayoutMainComponent {
     private _plansService: PlansService,
     private _voiceCallService: VoiceCallService,
     private _videoCallService: VideoCallService,
+    private _buddyService: BuddyService,
+    private _professionalsService: ProfessionalsService,
+    private _chatService: ChatService,
+    private _pushNotificationService: PushNotificationService,
     private cd: ChangeDetectorRef
   ) {
     this.language = this._localService.getLocalStorage(environment.lslanguage);
@@ -251,6 +283,7 @@ export class LayoutMainComponent {
   async ngOnInit() {
     this.pageInit = true;
     this.callPage = window.location.href?.indexOf("/call/") >= 0 ? true : false;
+    this.professionalsListPage = window.location.href?.indexOf("/professionals") >= 0 && window.location.href?.indexOf("/professionals/details") < 0 ? true : false;
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     if (!this._localService.getLocalStorage(environment.lslang)) { this._localService.setLocalStorage(environment.lslang, "es"); }
@@ -352,6 +385,14 @@ export class LayoutMainComponent {
         this.getCourseFeature(coursesFeature[0]);
       }
 
+      let buddyFeature = this.features.filter((f) => {
+        return f.feature_name == "Buddy";
+      });
+      if (buddyFeature && buddyFeature[0] && this.userId > 0) {
+        this.hasBuddy = true;
+        this.getMentors();
+      }
+      
       let shopFeature = this.features.filter((f) => {
         return f.feature_name == "Shop";
       });
@@ -366,9 +407,9 @@ export class LayoutMainComponent {
       if (professionalsFeature && professionalsFeature[0]) {
         this.professionalsFeatureId = professionalsFeature[0].id;
         this.hasProfessionals = true;
-
         this.subscribeVoiceCall();
         this.subscribeVideoCall();
+        this.subscribeChat();
       }
     }
 
@@ -463,6 +504,43 @@ export class LayoutMainComponent {
       })
   }
 
+  subscribeChat() {
+    this.pusherSubscription = this._chatService
+      .getFeedItems()
+      .subscribe(async(response) => {
+        if(
+          (!localStorage.getItem('chat-session') || response.mode == 'end-chat') && 
+          (response?.id == this.userId || response?.channel == this.userId)
+        ) {
+          this.communicationMode = response.mode?.indexOf('video') >= 0 ? 'video' : (response.mode?.indexOf('chat') >= 0 ? 'chat' : 'call');
+          this.pusherData = response;
+          
+          if(this.pusherData.chat_guid) {
+            this.chatGuid = this.pusherData.chat_guid;
+            this.chatPasscode = this.pusherData.chat_passcode;
+          }
+          
+          this.toastMessage = response.message || `${this._translateService.instant('professionals.incomingchat')}...`;
+          this.toastMode = response.mode;
+          this.toastName = response.sender_name;
+          this.toastImage = response.sender_image;
+      
+          if(this.toastMode == 'end-chat') {
+            this.showToast = false;
+            this.canChat = false;
+            this.chatEnded = true;
+            this.cd.detectChanges();
+          } else if(this.toastMode == 'accept-chat') {
+            this.existingChatGuid = this.chatGuid;
+            this.chatRole = 'recipient';
+            this.showToast = true;
+            this.handleAudio('play');
+          }
+          this.cd.detectChanges();
+        }
+      })
+  }
+
   handleAudio(mode) {
     setTimeout(() => {
       this.outsidebutton?.nativeElement.click();
@@ -489,11 +567,71 @@ export class LayoutMainComponent {
     
     this.showToast = false;
     
-    let url = this.communicationMode == 'video' ? `/call/video/${this.videoCallGuid}/${this.videoCallPasscode}/recipient` : `/call/voice/${this.callGuid}/${this.callPasscode}`;
-    this._router.navigate([url])
-    .then(() => {
-      window.location.reload();
-    });
+    let url = this.communicationMode == 'video' ? `/call/video/${this.videoCallGuid}/${this.videoCallPasscode}/recipient` : (this.communicationMode == 'chat' ? '' : `/call/voice/${this.callGuid}/${this.callPasscode}`);
+    if(url) {
+      this._router.navigate([url])
+      .then(() => {
+        window.location.reload();
+      });
+    } else {
+      setTimeout(() => {
+        this.chatTimer = '';
+        this.canChat = false;
+        this.reloadData = false;
+        this.initializeUserDetails();
+        localStorage.setItem('chat-session', this.pusherData?.chat_guid);
+        this.chatbutton?.nativeElement.click();
+        setTimeout(() => {
+          this.canChat = true;
+          this.reloadData = true;
+          this.cd.detectChanges();
+        })
+      }, 500);
+    }
+  }
+
+  initializeUserDetails() {
+    this.id = this.pusherData?.professional_id;
+    this.senderId = this.pusherData?.user_id;
+    this.image = this.pusherData?.professional_image;
+    this.firstName = this.pusherData?.professional_first_name;
+    this.userName = this.pusherData?.sender_first_name;
+    this.userImage = this.pusherData?.sender?.image;
+    this.sender = this.pusherData?.sender;
+    this.senderBalance = this.sender?.available_balance;
+    this.chatRole = 'recipient';
+    this.currentUserImage = this.pusherData.professional_image;
+
+    this.userData = [
+      {
+        label: this._translateService.instant('company-settings.name'),
+        value: this.pusherData?.sender_full_name,
+      },
+      {
+        label: this._translateService.instant('profile-settings.birthday'),
+        value: this.sender?.birthday ? moment(this.sender?.birthday).format('DD/MM/YYYY') : '-'
+      },
+      {
+        label: this._translateService.instant('professionals.gender'),
+        value: this.sender?.gender || '-'
+      },
+      {
+        label: this._translateService.instant('professionals.civilstatus'),
+        value: this.sender?.civil_status || '-'
+      },
+      {
+        label: this._translateService.instant('profile-settings.position'),
+        value: this.sender?.position || ''
+      },
+      {
+        label: this._translateService.instant('profile-settings.city'),
+        value: this.sender?.city || ''
+      },
+      {
+        label: this._translateService.instant('profile-settings.country'),
+        value: this.sender?.country || ''
+      },
+    ]
   }
 
   handleCancel() {
@@ -552,6 +690,12 @@ export class LayoutMainComponent {
         .subscribe((data) => {
           this.otherSettings = data[0] ? data[0]["other_settings"] : [];
           this.currentUser = data[1] ? data[1]["CompanyUser"] : [];
+          this.professional = data[1] ? data[1]["professional"] : [];
+          if(this.professional) {
+            this._localService.setLocalStorage(environment.lsprofessional, this.professional);
+            this._pushNotificationService.subscribeToNotifications(this.professional);
+            this._pushNotificationService.subscribeMessage();
+          }
           this.roles = data[2] ? data[2]["role"] : [];
           this.dashboardDetails = data[3] ? data[3]["dashboard_details"] : [];
           this.mapDashboard(this.dashboardDetails);
@@ -1833,7 +1977,21 @@ export class LayoutMainComponent {
             }
           } else {
             if(tempData?.id != 11) {
-              this.menus.push(tempData);
+              if(tempData?.id == 19) {
+                if(this.superAdmin) {
+                  this.canAccessIntroduceU = true;
+                  this.menus.push(tempData);
+                } else {
+                  if(this.currentUser?.bussines_unit &&
+                    !(this.currentUser?.bussines_unit?.toLowerCase()?.indexOf('online') >= 0) &&
+                    this.currentUser?.segment?.toLowerCase()?.indexOf('grado') >= 0) {
+                      this.canAccessIntroduceU = true;
+                      this.menus.push(tempData);
+                  }
+                }
+              } else {
+                this.menus.push(tempData);
+              }
             }
           }
         } else {
@@ -2595,7 +2753,42 @@ export class LayoutMainComponent {
     this._companyService.changeLanguage(lang);
   }
 
+  getMentors() {
+    this._buddyService
+      .fetchBuddies(this.companyId, this.userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        async (response) => {
+          let mentors = response?.mentors;
+          let current_user_mentor = mentors?.filter(mentor => {
+            return mentor.user_id == this.userId
+          })
+          let user_mentor = mentors?.filter(m => {
+            let include = false;
+            if(m.buddies?.length > 0) {
+              let match = m.buddies?.some(
+                (a) => a.id == this.userId
+              );
+
+              if(match) {
+                include = true;
+              }
+            }
+
+            return include;
+          })
+          this.userMentor = user_mentor;
+          this.isMentor = current_user_mentor?.length > 0 ? true : false;
+          this.cd.detectChanges();
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
   ngOnDestroy() {
+    localStorage.removeItem('chat-session');
     this.navigationSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();

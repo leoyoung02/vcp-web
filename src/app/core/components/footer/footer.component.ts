@@ -1,33 +1,42 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
   Input,
   SimpleChange,
   inject,
-} from "@angular/core";
-import { Router, RouterModule } from "@angular/router";
-import { PACKAGE_JSON, providePackageJson } from "src/app/core/providers";
-import { LogoComponent } from "../logo/logo.component";
-import { LocalService } from "src/app/share/services";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { 
-  faEnvelope
-} from "@fortawesome/free-solid-svg-icons";
+  EventEmitter,
+  Output,
+} from '@angular/core';
+import { FormsModule } from '@angular/forms';
+import { Router, RouterModule } from '@angular/router';
+import { PACKAGE_JSON, providePackageJson } from 'src/app/core/providers';
+import { LogoComponent } from '../logo/logo.component';
+import { LocalService } from 'src/app/share/services';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { faEnvelope } from '@fortawesome/free-solid-svg-icons';
 import {
   LangChangeEvent,
   TranslateService,
   TranslateModule,
-} from "@ngx-translate/core";
-import { environment } from "@env/environment";
-import { COMPANY_IMAGE_URL } from "@lib/api-constants";
+} from '@ngx-translate/core';
+
+import { environment } from '@env/environment';
+import { COMPANY_IMAGE_URL } from '@lib/api-constants';
 
 @Component({
-  selector: "app-footer",
+  selector: 'app-footer',
   standalone: true,
-  imports: [CommonModule, RouterModule, TranslateModule, FontAwesomeModule, LogoComponent],
+  imports: [
+    FormsModule,
+    CommonModule,
+    RouterModule,
+    TranslateModule,
+    FontAwesomeModule,
+    LogoComponent,
+  ],
   providers: [providePackageJson()],
-  templateUrl: "./footer.component.html",
+  templateUrl: './footer.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FooterComponent {
@@ -35,13 +44,19 @@ export class FooterComponent {
   @Input() company: any;
   @Input() contactUsDetails: any;
   @Input() customLinks: any;
+  @Input() languages: any;
+  @Input() logoSource: any;
+  @Input() isUESchoolOfLife: any;
+
+  @Output() changeLanguage = new EventEmitter();
 
   readonly packageJson = inject(PACKAGE_JSON);
   readonly currentYear = new Date().getFullYear();
 
   envelopeIcon = faEnvelope;
-  logoSrc: string = COMPANY_IMAGE_URL;
+
   language: any;
+  selectedLanguage: any;
   companyName: any;
   domain: any;
   primaryColor: any;
@@ -96,14 +111,24 @@ export class FooterComponent {
   languageChangeSubscription;
   additionalLinks: any = [];
 
+  // social
+  twitter: any;
+  facebook: any;
+  instagram: any;
+  linkedin: any;
+  youtube: any;
+  hasSocials: boolean;
+
   constructor(
     private _router: Router,
     private _localService: LocalService,
     private _translateService: TranslateService
-  ) {}
+  ) {
+    this.hasSocials = false;
+  }
 
   ngOnChanges(changes: SimpleChange) {
-    let customLinksChange = changes["customLinks"];
+    let customLinksChange = changes['customLinks'];
     if (customLinksChange?.currentValue?.length > 0) {
       let links = customLinksChange.currentValue;
       this.additionalLinks = links;
@@ -111,25 +136,31 @@ export class FooterComponent {
   }
 
   async ngOnInit() {
-    this.language = this._localService.getLocalStorage(environment.lslang) || "es";
-    this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
-    this._translateService.use(this.language || "es");
+    this.language =
+      this._localService.getLocalStorage(environment.lslang) || 'es';
+    this.selectedLanguage = this.language;
+    this.companyId = this._localService.getLocalStorage(
+      environment.lscompanyId
+    );
+    this._translateService.use(this.language || 'es');
     this.isLoading = false;
 
-    this.languageChangeSubscription = this._translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.language = event.lang;
-      this.rerenderLinks();
-    });
+    this.languageChangeSubscription =
+      this._translateService.onLangChange.subscribe(
+        (event: LangChangeEvent) => {
+          this.language = event.lang;
+          this.rerenderLinks();
+        }
+      );
 
     this.companyId = this.company?.id;
-    this.logoSrc = `${COMPANY_IMAGE_URL}/${this.company?.image}`;
     this.primaryColor = this.company.primary_color;
     this.buttonColor = this.company.button_color
       ? this.company.button_color
       : this.company.primary_color;
     this.menuColor = this.company.menu_color
       ? this.company.menu_color
-      : "#ffffff";
+      : '#ffffff';
     this.footerBackgroundColor = this.company.footer_background_color
       ? this.company.footer_background_color
       : this.company.primary_color;
@@ -172,16 +203,46 @@ export class FooterComponent {
     this.cookiePolicyURLEu = this.company.cookie_policy_url_eu;
     this.cookiePolicyURLCa = this.company.cookie_policy_url_ca;
     this.cookiePolicyURLDe = this.company.cookie_policy_url_de;
-    this.canShowTermsAndConditions =
-      this.company.show_terms == 1 ? true : false;
-    this.canShowPrivacyPolicy =
-      this.company.show_privacy_policy == 1 ? true : false;
-    this.canShowCookiePolicy =
-      this.company.show_cookie_policy == 1 ? true : false;
+    this.canShowTermsAndConditions = this.company.show_terms == 1 ? true : false;
+    this.canShowPrivacyPolicy = this.company.show_privacy_policy == 1 ? true : false;
+    this.canShowCookiePolicy = this.company.show_cookie_policy == 1 ? true : false;
     this.footerTextColor = this.company.footer_text_color;
     this.footerBackgroundColor = this.company.footer_background_color;
     this.footerLogoHeight = this.company.footer_logo_height || 50;
     this.footerLogowidth = this.company.footer_logo_width || 180;
+
+    // social
+    this.twitter = this.company.twitter;
+    if (this.twitter && !this.twitter.startsWith('https://')) {
+      this.twitter = 'https://' + this.twitter;
+    }
+
+    this.youtube = this.company.youtube;
+    if (this.youtube && !this.youtube.startsWith('https://')) {
+      this.youtube = 'https://' + this.youtube;
+    }
+
+    this.instagram = this.company.instagram;
+    if (this.instagram && !this.instagram.startsWith('https://')) {
+      this.instagram = 'https://' + this.instagram;
+    }
+
+    this.facebook = this.company.facebook;
+    if (this.facebook && !this.facebook.startsWith('https://')) {
+      this.facebook = 'https://' + this.facebook;
+    }
+
+    this.linkedin = this.company.linked_in;
+    if (this.linkedin && !this.linkedin.startsWith('https://')) {
+      this.linkedin = 'https://' + this.linkedin;
+    }
+
+    this.hasSocials =
+      !!this.twitter ||
+      !!this.instagram ||
+      !!this.facebook ||
+      !!this.linkedin ||
+      !!this.youtube;
   }
 
   rerenderLinks() {
@@ -191,117 +252,156 @@ export class FooterComponent {
 
   openTermsAndConditions() {
     if (!this.canShowTermsAndConditions && this.termsAndConditionsURL) {
-      let link =
-        this.language == "en"
-          ? this.termsAndConditionsURLEn
-          : this.language == "fr"
-          ? this.termsAndConditionsURLFr || this.termsAndConditionsURL
-          : this.language == "eu"
-          ? this.termsAndConditionsURLEu || this.termsAndConditionsURL
-          : this.language == "ca"
-          ? this.termsAndConditionsURLCa || this.termsAndConditionsURL
-          : this.language == "de"
-          ? this.termsAndConditionsURLDe || this.termsAndConditionsURL
-          : this.termsAndConditionsURL;
+      let link = '';
+      switch (this.language) {
+        case 'en':
+          link = this.termsAndConditionsURLEn;
+          break;
+        case 'fr':
+          link = this.termsAndConditionsURLFr;
+          break;
+        case 'eu':
+          link = this.termsAndConditionsURLEu;
+          break;
+        case 'ca':
+          link = this.termsAndConditionsURLCa;
+          break;
+        case 'de':
+          link = this.termsAndConditionsURLDe;
+          break;
+      }
+      if (!link) {
+        link = this.termsAndConditionsURL;
+      }
 
-      window.open(link, "_blank");
+      window.open(link, '_blank');
     } else {
-      this._router.navigate(["/general/terms-and-conditions"]);
+      this._router.navigate(['/general/terms-and-conditions']);
     }
   }
 
   openPrivacyPolicy() {
     if (!this.canShowPrivacyPolicy && this.privacyPolicyURL) {
-      let link =
-        this.language == "en"
-          ? this.privacyPolicyURLEn
-          : this.language == "fr"
-          ? this.privacyPolicyURLFr || this.privacyPolicyURL
-          : this.language == "eu"
-          ? this.privacyPolicyURLEu || this.privacyPolicyURL
-          : this.language == "ca"
-          ? this.privacyPolicyURLCa || this.privacyPolicyURL
-          : this.language == "de"
-          ? this.privacyPolicyURLDe || this.privacyPolicyURL
-          : this.privacyPolicyURL;
+      let link = '';
+      switch (this.language) {
+        case 'en':
+          link = this.privacyPolicyURLEn;
+          break;
+        case 'fr':
+          link = this.privacyPolicyURLFr;
+          break;
+        case 'eu':
+          link = this.privacyPolicyURLEu;
+          break;
+        case 'ca':
+          link = this.privacyPolicyURLCa;
+          break;
+        case 'de':
+          link = this.privacyPolicyURLDe;
+          break;
+      }
+      if (!link) {
+        link = this.privacyPolicyURL;
+      }
 
-      window.open(link, "_blank");
+      window.open(link, '_blank');
     } else {
-      this._router.navigate(["/general/privacy-policy"]);
+      this._router.navigate(['/general/privacy-policy']);
     }
   }
 
   openCookiePolicy() {
     if (!this.canShowCookiePolicy && this.cookiePolicyURL) {
-      let link =
-        this.language == "en"
-          ? this.cookiePolicyURLEn
-          : this.language == "fr"
-          ? this.cookiePolicyURLFr || this.cookiePolicyURL
-          : this.language == "eu"
-          ? this.cookiePolicyURLEu || this.cookiePolicyURL
-          : this.language == "ca"
-          ? this.cookiePolicyURLCa || this.cookiePolicyURL
-          : this.language == "de"
-          ? this.cookiePolicyURLDe || this.cookiePolicyURL
-          : this.cookiePolicyURL;
-
-      window.open(link, "_blank");
+      let link = '';
+      switch (this.language) {
+        case 'en':
+          link = this.cookiePolicyURLEn;
+          break;
+        case 'fr':
+          link = this.cookiePolicyURLFr;
+          break;
+        case 'eu':
+          link = this.cookiePolicyURLEu;
+          break;
+        case 'ca':
+          link = this.cookiePolicyURLCa;
+          break;
+        case 'de':
+          link = this.cookiePolicyURLDe;
+          break;
+      }
+      if (!link) {
+        link = this.cookiePolicyURL;
+      }
+      window.open(link, '_blank');
     } else {
-      this._router.navigate(["/general/cookie-policy"]);
+      this._router.navigate(['/general/cookie-policy']);
     }
   }
 
   getMenuTitle(menu) {
-    return this.language == "en"
+    return this.language == 'en'
       ? menu.name
-      : this.language == "fr"
+      : this.language == 'fr'
       ? menu.name_FR || menu.name_ES
-      : this.language == "eu"
+      : this.language == 'eu'
       ? menu.name_EU || menu.name_ES
-      : this.language == "ca"
+      : this.language == 'ca'
       ? menu.name_CA || menu.name_ES
-      : this.language == "de"
+      : this.language == 'de'
       ? menu.name_DE || menu.name_ES
       : menu.name_ES;
   }
 
   getContactUsText(contact_us) {
-    return this.language == "en"
+    return this.language == 'en'
       ? contact_us.text
-      : this.language == "fr"
+      : this.language == 'fr'
       ? contact_us.text_fr || contact_us.text
-      : this.language == "eu"
+      : this.language == 'eu'
       ? contact_us.text_eu || contact_us.text
-      : this.language == "ca"
+      : this.language == 'ca'
       ? contact_us.text_ca || contact_us.text
-      : this.language == "de"
+      : this.language == 'de'
       ? contact_us.text_de || contact_us.text
       : contact_us.text;
   }
 
   getLinkText(link) {
-    return this.language == "en"
-      ? link.text_en 
-      : link.text_es
+    return this.language == 'en' ? link.text_en : link.text_es;
   }
 
   getTermsAndConditionsText() {
-    let str = this._translateService.instant('footer.terms_and_conditions')?.toLowerCase();
+    let str = this._translateService
+      .instant('footer.terms_and_conditions')
+      ?.toLowerCase();
     return str ? str[0].toUpperCase() + str.slice(1) : '';
   }
 
   getPrivacyPolicyText() {
-    let str = this._translateService.instant('footer.privacy_policy')?.toLowerCase();
+    let str = this._translateService
+      .instant('footer.privacy_policy')
+      ?.toLowerCase();
     return str ? str[0].toUpperCase() + str.slice(1) : '';
   }
 
   getCookiePolicyText() {
-    let str = this._translateService.instant('footer.cookies_policy')?.toLowerCase();
+    let str = this._translateService
+      .instant('footer.cookies_policy')
+      ?.toLowerCase();
     return str ? str[0].toUpperCase() + str.slice(1) : '';
   }
 
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
+  }
+
+  getLanguage(language) {
+    return language[`name_${this.language.toUpperCase()}`];
+  }
+
+  onLanguageChange() {
+    this.language = this.selectedLanguage;
+    this.changeLanguage.emit(this.language);
   }
 }

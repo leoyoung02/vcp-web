@@ -5,7 +5,6 @@ import {
     EventEmitter,
     Input,
     Output,
-    SimpleChange,
 } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { Subject } from "rxjs";
@@ -14,8 +13,8 @@ import {
     TranslateModule,
     TranslateService,
 } from "@ngx-translate/core";
+import { StarRatingModule } from 'angular-star-rating';
 import { LocalService } from "@share/services";
-import { StarRatingComponent } from "@lib/components";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
 
@@ -27,7 +26,7 @@ import { initFlowbite } from "flowbite";
         RouterModule,
         TranslateModule,
         NgOptimizedImage,
-        StarRatingComponent,
+        StarRatingModule
     ],
     templateUrl: "./professional.component.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -39,7 +38,11 @@ export class ProfessionalCardComponent {
     @Input() image: any;
     @Input() path: any;
     @Input() name: any;
-    @Input() label: any;
+    @Input() firstName: any;
+    @Input() userId: any;
+    @Input() userName: any;
+    @Input() userImage: any;
+    @Input() specialties: any;
     @Input() languages: any;
     @Input() experience: any;
     @Input() experiencePeriod: any;
@@ -51,6 +54,8 @@ export class ProfessionalCardComponent {
     @Input() hasVoiceCall: any;
     @Input() hasVideoCall: any;
     @Input() hasChat: any;
+    @Input() canChat: any;
+    @Input() userData: any;
     @Output() onStartCall = new EventEmitter();
     @Output() onStartChat = new EventEmitter();
     @Output() onStartVideoCall = new EventEmitter();

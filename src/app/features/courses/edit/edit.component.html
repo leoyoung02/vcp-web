@@ -917,13 +917,33 @@
                                         </div>
                                     </div>
                                 </div>
-                                <ng-container *ngIf="courseIntro && existingIntroPDFFileURL && !existingIntroRemoved">
+                                <ng-container *ngIf="selectedLanguage == 'es' && courseIntro && existingIntroPDFFileURL && !existingIntroRemoved">
                                     <a [href]="existingIntroPDFFileURL" target="_blank">
                                         <svg class="mt-4 ml-4 w-10 h-10 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                             <path fill-rule="evenodd" d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-7Zm-6 9a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h.5a2.5 2.5 0 0 0 0-5H5Zm1.5 3H6v-1h.5a.5.5 0 0 1 0 1Zm4.5-3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1.376A2.626 2.626 0 0 0 15 15.375v-1.75A2.626 2.626 0 0 0 12.375 11H11Zm1 5v-3h.375a.626.626 0 0 1 .625.626v1.748a.625.625 0 0 1-.626.626H12Zm5-5a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1h1a1 1 0 1 0 0-2h-2Z" clip-rule="evenodd"/>
                                         </svg>
                                     </a>
                                     <svg class="mt-4 ml-2 w-6 h-6 hover:cursor-pointer" (click)="removeExistingIntroPDF()" [ngStyle]="{'color': '#c24130'}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z" clip-rule="evenodd"/>
+                                    </svg>
+                                </ng-container>
+                                <ng-container *ngIf="selectedLanguage == 'en' && courseIntro && existingIntroPDFFileURLEn && !existingIntroRemovedEn">
+                                    <a [href]="existingIntroPDFFileURLEn" target="_blank">
+                                        <svg class="mt-4 ml-4 w-10 h-10 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-7Zm-6 9a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h.5a2.5 2.5 0 0 0 0-5H5Zm1.5 3H6v-1h.5a.5.5 0 0 1 0 1Zm4.5-3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1.376A2.626 2.626 0 0 0 15 15.375v-1.75A2.626 2.626 0 0 0 12.375 11H11Zm1 5v-3h.375a.626.626 0 0 1 .625.626v1.748a.625.625 0 0 1-.626.626H12Zm5-5a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1h1a1 1 0 1 0 0-2h-2Z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </a>
+                                    <svg class="mt-4 ml-2 w-6 h-6 hover:cursor-pointer" (click)="removeExistingIntroPDFEn()" [ngStyle]="{'color': '#c24130'}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                        <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z" clip-rule="evenodd"/>
+                                    </svg>
+                                </ng-container>
+                                <ng-container *ngIf="selectedLanguage == 'it' && courseIntro && existingIntroPDFFileURLIt && !existingIntroRemovedIt">
+                                    <a [href]="existingIntroPDFFileURLIt" target="_blank">
+                                        <svg class="mt-4 ml-4 w-10 h-10 text-gray-800" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                            <path fill-rule="evenodd" d="M9 2.221V7H4.221a2 2 0 0 1 .365-.5L8.5 2.586A2 2 0 0 1 9 2.22ZM11 2v5a2 2 0 0 1-2 2H4a2 2 0 0 0-2 2v7a2 2 0 0 0 2 2 2 2 0 0 0 2 2h12a2 2 0 0 0 2-2 2 2 0 0 0 2-2v-7a2 2 0 0 0-2-2V4a2 2 0 0 0-2-2h-7Zm-6 9a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h.5a2.5 2.5 0 0 0 0-5H5Zm1.5 3H6v-1h.5a.5.5 0 0 1 0 1Zm4.5-3a1 1 0 0 0-1 1v5a1 1 0 0 0 1 1h1.376A2.626 2.626 0 0 0 15 15.375v-1.75A2.626 2.626 0 0 0 12.375 11H11Zm1 5v-3h.375a.626.626 0 0 1 .625.626v1.748a.625.625 0 0 1-.626.626H12Zm5-5a1 1 0 0 0-1 1v5a1 1 0 1 0 2 0v-1h1a1 1 0 1 0 0-2h-1v-1h1a1 1 0 1 0 0-2h-2Z" clip-rule="evenodd"/>
+                                        </svg>
+                                    </a>
+                                    <svg class="mt-4 ml-2 w-6 h-6 hover:cursor-pointer" (click)="removeExistingIntroPDFIt()" [ngStyle]="{'color': '#c24130'}" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
                                         <path fill-rule="evenodd" d="M2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10S2 17.523 2 12Zm7.707-3.707a1 1 0 0 0-1.414 1.414L10.586 12l-2.293 2.293a1 1 0 1 0 1.414 1.414L12 13.414l2.293 2.293a1 1 0 0 0 1.414-1.414L13.414 12l2.293-2.293a1 1 0 0 0-1.414-1.414L12 10.586 9.707 8.293Z" clip-rule="evenodd"/>
                                     </svg>
                                 </ng-container>
@@ -937,12 +957,33 @@
                             </label>
                             <div class="flex items-center w-full max-w-full">
                                 <file-pond
+                                    *ngIf="selectedLanguage == 'es'"
                                     class="w-full"
                                     #courseIntroPond
                                     [options]="courseIntroPondOptions"
                                     [files]="courseIntroPondFiles"
                                     (oninit)="courseIntroPondHandleInit()"
                                     (onaddfile)="courseIntroPondHandleAddFile($event)"
+                                >
+                                </file-pond>
+                                <file-pond
+                                    *ngIf="selectedLanguage == 'en'"
+                                    class="w-full"
+                                    #courseIntroPond
+                                    [options]="courseIntroPondOptionsEn"
+                                    [files]="courseIntroPondFilesEn"
+                                    (oninit)="courseIntroPondHandleInitEn()"
+                                    (onaddfile)="courseIntroPondHandleAddFileEn($event)"
+                                >
+                                </file-pond>
+                                <file-pond
+                                    *ngIf="selectedLanguage == 'it'"
+                                    class="w-full"
+                                    #courseIntroPond
+                                    [options]="courseIntroPondOptionsIt"
+                                    [files]="courseIntroPondFilesIt"
+                                    (oninit)="courseIntroPondHandleInitIt()"
+                                    (onaddfile)="courseIntroPondHandleAddFileIt($event)"
                                 >
                                 </file-pond>
                             </div>
@@ -1433,10 +1474,52 @@
                                 </div>
                                 <div class="flex items-center justify-center mb-8 relative" 
                                     *ngIf="selectedUnitOption != 'Vidalytics'">
-                                    <textarea name="" id="description" cols="30" rows="3"
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'es'"
                                         class="w-full rounded-lg p-4"
                                         placeholder="{{ 'courses.embedorurl' | translate }}"
                                         [(ngModel)]="externalLink"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embedorurl' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'en'"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embedorurl' | translate }}"
+                                        [(ngModel)]="externalLinkEn"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embedorurl' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'fr'"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embedorurl' | translate }}"
+                                        [(ngModel)]="externalLinkFr"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embedorurl' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'eu'"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embedorurl' | translate }}"
+                                        [(ngModel)]="externalLinkEu"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embedorurl' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'ca'"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embedorurl' | translate }}"
+                                        [(ngModel)]="externalLinkCa"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embedorurl' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'de'"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embedorurl' | translate }}"
+                                        [(ngModel)]="externalLinkDe"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embedorurl' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="description" cols="30" rows="3" *ngIf="selectedLanguage == 'it'"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embedorurl' | translate }}"
+                                        [(ngModel)]="externalLinkIt"
                                         [ngModelOptions]="{standalone: true}">
                                         {{ 'courses.embedorurl' | translate }}
                                     </textarea>
@@ -1474,11 +1557,30 @@
                             <div class="flex items-center justify-center my-8 relative">
                                 <div class="w-full max-w-full">
                                     <file-pond
+                                        *ngIf="selectedLanguage == 'es'"
                                         #myPond
                                         [options]="pondOptions"
                                         [files]="pondFiles"
                                         (oninit)="pondHandleInit()"
                                         (onaddfile)="pondHandleAddFile($event)"
+                                    >
+                                    </file-pond>
+                                    <file-pond
+                                        *ngIf="selectedLanguage == 'en'"
+                                        #myPondEn
+                                        [options]="pondOptionsEn"
+                                        [files]="pondFilesEn"
+                                        (oninit)="pondHandleInitEn()"
+                                        (onaddfile)="pondHandleAddFileEn($event)"
+                                    >
+                                    </file-pond>
+                                    <file-pond
+                                        *ngIf="selectedLanguage == 'it'"
+                                        #myPondIt
+                                        [options]="pondOptionsIt"
+                                        [files]="pondFilesIt"
+                                        (oninit)="pondHandleInitIt()"
+                                        (onaddfile)="pondHandleAddFileIt($event)"
                                     >
                                     </file-pond>
                                 </div>
@@ -1500,10 +1602,52 @@
                         <ng-container *ngIf="selectedUnitType == 7">
                             <div class="flex items-center justify-center my-8 relative">
                                 <div class="w-full max-w-full">
-                                    <textarea name="" id="embed-script" cols="30" rows="3"
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'es'" cols="30" rows="3"
                                         class="w-full rounded-lg p-4"
                                         placeholder="{{ 'courses.embed' | translate }}"
                                         [(ngModel)]="embedScript"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'en'" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScriptEn"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'fr'" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScriptFr"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'eu'" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScriptEu"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'ca'" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScriptCa"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'de'" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScriptDe"
+                                        [ngModelOptions]="{standalone: true}">
+                                        {{ 'courses.embed' | translate }}
+                                    </textarea>
+                                    <textarea name="" id="embed-script" *ngIf="selectedLanguage == 'it'" cols="30" rows="3"
+                                        class="w-full rounded-lg p-4"
+                                        placeholder="{{ 'courses.embed' | translate }}"
+                                        [(ngModel)]="embedScriptIt"
                                         [ngModelOptions]="{standalone: true}">
                                         {{ 'courses.embed' | translate }}
                                     </textarea>
@@ -1821,9 +1965,52 @@
                             <input 
                                 type="text" 
                                 class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                *ngIf="selectedLanguage == 'es'"
                                 [(ngModel)]="courseDownloadTitle"
                                 [ngModelOptions]="{standalone: true}"
                                 [ngClass]="{'rounded-lg bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !courseDownloadTitle }"
+                                placeholder="{{ 'club-create.title' | translate }}">
+                            <input 
+                                type="text" 
+                                class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                *ngIf="selectedLanguage == 'en'"
+                                [(ngModel)]="courseDownloadTitleEn"
+                                [ngModelOptions]="{standalone: true}"
+                                placeholder="{{ 'club-create.title' | translate }}">
+                            <input 
+                                type="text" 
+                                class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                *ngIf="selectedLanguage == 'fr'"
+                                [(ngModel)]="courseDownloadTitleFr"
+                                [ngModelOptions]="{standalone: true}"
+                                placeholder="{{ 'club-create.title' | translate }}">
+                            <input 
+                                type="text" 
+                                class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                *ngIf="selectedLanguage == 'eu'"
+                                [(ngModel)]="courseDownloadTitleEu"
+                                [ngModelOptions]="{standalone: true}"
+                                placeholder="{{ 'club-create.title' | translate }}">
+                            <input 
+                                type="text" 
+                                class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                *ngIf="selectedLanguage == 'ca'"
+                                [(ngModel)]="courseDownloadTitleCa"
+                                [ngModelOptions]="{standalone: true}"
+                                placeholder="{{ 'club-create.title' | translate }}">
+                            <input 
+                                type="text" 
+                                class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                *ngIf="selectedLanguage == 'de'"
+                                [(ngModel)]="courseDownloadTitleDe"
+                                [ngModelOptions]="{standalone: true}"
+                                placeholder="{{ 'club-create.title' | translate }}">
+                            <input 
+                                type="text" 
+                                class="text-2xl shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                                *ngIf="selectedLanguage == 'it'"
+                                [(ngModel)]="courseDownloadTitleIt"
+                                [ngModelOptions]="{standalone: true}"
                                 placeholder="{{ 'club-create.title' | translate }}">
                         </div>
                         <div class="flex items-center justify-center my-8 relative">
@@ -1847,11 +2034,30 @@
                         <div class="flex items-center justify-center my-8 relative" *ngIf="selectedDownloadUnitId">
                             <div class="w-full max-w-full">
                                 <file-pond
+                                    *ngIf="selectedLanguage == 'es'"
                                     #downloadPond
                                     [options]="downloadPondOptions"
                                     [files]="downloadPondFiles"
                                     (oninit)="downloadPondHandleInit()"
                                     (onaddfile)="downloadPondHandleAddFile($event)"
+                                >
+                                </file-pond>
+                                <file-pond
+                                    *ngIf="selectedLanguage == 'en'"
+                                    #downloadPond
+                                    [options]="downloadPondOptionsEn"
+                                    [files]="downloadPondFilesEn"
+                                    (oninit)="downloadPondHandleInitEn()"
+                                    (onaddfile)="downloadPondHandleAddFileEn($event)"
+                                >
+                                </file-pond>
+                                <file-pond
+                                    *ngIf="selectedLanguage == 'it'"
+                                    #downloadPond
+                                    [options]="downloadPondOptionsIt"
+                                    [files]="downloadPondFilesIt"
+                                    (oninit)="downloadPondHandleInitIt()"
+                                    (onaddfile)="downloadPondHandleAddFileIt($event)"
                                 >
                                 </file-pond>
                         </div>

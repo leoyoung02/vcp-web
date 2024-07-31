@@ -1,26 +1,32 @@
 import { CommonModule } from "@angular/common";
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
   Input,
   ViewChild,
 } from "@angular/core";
-import { ActivatedRoute, Router, RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import {
   LangChangeEvent,
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
 import { CompanyService, LocalService, UserService } from "@share/services";
-import { ProfessionalsService, VoiceCallService } from "@features/services";
+import { ChatService, ProfessionalsService, VoiceCallService } from "@features/services";
 import { Subject, takeUntil } from "rxjs";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "@env/environment";
-import { PageTitleComponent, ToastComponent } from "@share/components";
+import { ChatComponent, PageTitleComponent, ToastComponent } from "@share/components";
 import { ProfessionalCardComponent } from "@share/components/card/professional/professional.component";
+import { SearchComponent } from "@share/components/astro-ideal/search/search.component";
+import { FilterComponent } from "@share/components/astro-ideal/filter/filter.component";
+import { FilterDrawerComponent } from "@share/components/astro-ideal/filter-drawer/filter-drawer.component";
+import { SortDrawerComponent } from "@share/components/astro-ideal/sort-drawer/sort-drawer.component";
 import { Subscription } from 'rxjs';
 import { initFlowbite } from "flowbite";
 import { timer } from "@lib/utils/timer/timer.utils";
@@ -40,6 +46,11 @@ import get from "lodash/get";
     PageTitleComponent,
     ProfessionalCardComponent,
     ToastComponent,
+    ChatComponent,
+    SearchComponent,
+    FilterComponent,
+    FilterDrawerComponent,
+    SortDrawerComponent,
   ],
   templateUrl: "./list.component.html",
 })
@@ -103,6 +114,52 @@ export class ProfessionalsListComponent {
   callPasscode: any;
   room: any;
   userPhone: any;
+  userData: any = [];
+  chatTime: number = 0;
+  chatInterval;
+  chatTrackingTime: number = 0;
+  chatTrackingInterval;
+  canChat: boolean = false;
+  id: any;
+  image: any;
+  firstName: any;
+  userName: any;
+  userImage: any;
+  senderBalance: any;
+  reloadData: boolean = false;
+  currentUserImage: any;
+  chatRole: any;
+  chatGuid: any;
+  chatPasscode: any;
+  chatTimer: any;
+  chatEnded: boolean = false;
+  insufficientBalanceTitle: string = '';
+  insufficientBalanceDescription: string = '';
+  
+  activeProfessionals: any = [];
+  nonActiveProfessionals: any = [];
+  placeholderText: any;
+  search: any;
+  searchText: any;
+  filterList: any = [];
+  showFilters: boolean = false;
+  filterType: any;
+  filtersText: any;
+  drawerFilterList: any = [];
+  subcategories: any = [];
+  languages: any = [];
+  gender: any = [];
+  subcategoryMapping: any = [];
+  selectedFilters: any = [];
+  showChat: boolean = false;
+  showVoiceCall: boolean = false;
+  showVideoCall: boolean = false;
+  sortText: any;
+  drawerSortList: any = [];
+  showSort: boolean = false;
+  selectedSort: any;
+  isLoading: boolean = true;
+
   @ViewChild("modalbutton2", { static: false }) modalbutton2:
     | ElementRef
     | undefined;
@@ -111,7 +168,6 @@ export class ProfessionalsListComponent {
     | undefined;
   
   constructor(
-    private _route: ActivatedRoute,
     private _router: Router,
     private _snackBar: MatSnackBar,
     private _translateService: TranslateService,
@@ -120,6 +176,7 @@ export class ProfessionalsListComponent {
     private _userService: UserService,
     public _professionalsService: ProfessionalsService,
     public _voiceCallService: VoiceCallService,
+    public _chatService: ChatService,
   ) {
     
   }
@@ -172,8 +229,113 @@ export class ProfessionalsListComponent {
   }
 
   initializePage() {
+    this.initializeSearch();
+    this.initializeFilter();
+    this.initializeSortDrawer();
     this.getProfessionals();
     this.subscribeVoiceCall();
+    this.subscribeChat();
+  }
+
+  initializeSearch() {
+    this.searchText = this._translateService.instant("guests.search");
+    this.placeholderText = this._translateService.instant(
+      "guests.search"
+    );
+  }
+
+  initializeFilter() {
+    this.filterList = [
+      {
+        id: 1,
+        icon: './src/assets/professional-icons/filter-gray.png',
+        type: 'filter',
+        text: this._translateService.instant('professionals.filters'),
+        show: true,
+      },
+      {
+        id: 2,
+        icon: './src/assets/professional-icons/comment-gray.png',
+        type: 'chat',
+        text: this._translateService.instant('professionals.contact'),
+        show: true,
+      },
+      {
+        id: 3,
+        icon: './src/assets/professional-icons/phone-gray.png',
+        type: 'voice_call',
+        text: this._translateService.instant('professionals.voicecall'),
+        show: true,
+      },
+      {
+        id: 4,
+        icon: './src/assets/professional-icons/video-gray.png',
+        type: 'video_call',
+        text: this._translateService.instant('professionals.videocall'),
+        show: true,
+      },
+      {
+        id: 5,
+        icon: './src/assets/professional-icons/sort-gray.png',
+        type: 'sort',
+        text: this._translateService.instant('pricing.order'),
+        show: true,
+      }
+    ]
+  }
+
+  initializeSortDrawer() {
+    this.sortText = this._translateService.instant('pricing.order');
+    this.drawerSortList = [
+      {
+        id: 1,
+        title: this._translateService.instant('professionals.experience'),
+        items: [
+          {
+            id: 1,
+            text: this._translateService.instant('professionals.hightolow'),
+            type: 'xp-high-low'
+          },
+          {
+            id: 2,
+            text: this._translateService.instant('professionals.lowtohigh'),
+            type: 'xp-low-high'
+          }
+        ],
+      },
+      {
+        id: 2,
+        title: this._translateService.instant('professionals.rate'),
+        items: [
+          {
+            id: 1,
+            text: this._translateService.instant('professionals.hightolow'),
+            type: 'rate-high-low'
+          },
+          {
+            id: 2,
+            text: this._translateService.instant('professionals.lowtohigh'),
+            type: 'rate-low-high'
+          }
+        ],
+      },
+      {
+        id: 3,
+        title: this._translateService.instant('professionals.reviews'),
+        items: [
+          {
+            id: 1,
+            text: this._translateService.instant('professionals.hightolow'),
+            type: 'review-high-low'
+          },
+          {
+            id: 2,
+            text: this._translateService.instant('professionals.lowtohigh'),
+            type: 'review-low-high'
+          }
+        ],
+      }
+    ]
   }
 
   getProfessionals() {
@@ -182,19 +344,28 @@ export class ProfessionalsListComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          this.user = data?.user || this.user;
           if(this.user) { this.user['available_balance'] = this.userId > 0 ? data?.user?.available_balance : 0; }
+          
+          this.subcategories = data?.subcategories;
+          this.languages = data?.languages;
+          this.gender = data?.gender;
+          this.subcategoryMapping = data?.subcategory_mapping;
+          this.initializeFilterDrawer();
 
           let payment_methods = data?.payment_methods || '';
           this._localService.setLocalStorage(environment.lspaymentmethods, payment_methods);
 
           this.mapFeatures(data?.features_mapping);
           this.mapSubfeatures(data?.settings);
-
           this.mapUserPermissions(data?.user_permissions);
 
           let professionals = data?.professionals;
-          this.allProfessionals = professionals;
-          this.formatProfessionals(professionals);
+          this.allProfessionals = this.formatProfessionals(professionals);
+          this.professionals = this.allProfessionals;
+          this.groupProfessionals(this.professionals);
+
+          this.isLoading = false;
         },
         (error) => {
           console.log(error);
@@ -248,10 +419,17 @@ export class ProfessionalsListComponent {
         path: `/professionals/details/${item.id}`,
         image: `${environment.api}/${item.image}`,
         name: item?.first_name ? `${item.first_name} ${item.last_name}` : item.name,
+        first_name: item?.first_name || item?.name,
+        user_name: this.user?.first_name || this.user.name,
+        user_image: `${environment.api}/${this.user?.image}`,
+        voice_call: this.hasVoiceCall && item.voice_call == 1 ? true : false,
+        video_call: this.hasVideoCall && item.video_call == 1 ? true : false,
+        chat: this.hasChat && item.chat == 1 ? true : false,
+        specialties: this.getSpecialties(item),
       };
     });
 
-    this.professionals = professionals;
+    return professionals;
   }
 
   getFeatureTitle(feature) {
@@ -385,6 +563,46 @@ export class ProfessionalsListComponent {
     clearInterval(this.callTrackingInterval);
   }
 
+  subscribeChat() {
+    this.pusherSubscription = this._chatService
+      .getFeedItems()
+      .subscribe(async(response) => {
+        if(response?.professional_id == this.userId || response?.sender?.id == this.userId) {
+          if(response.mode == 'recipient-joined-chat') {
+            this.startChatTimer();
+            this.startTrackingChatDuration();
+          } else if(response.mode == 'end-chat') {
+            this.canChat = false;
+            this.chatEnded = true;
+            setTimeout(() => {
+              location.reload();
+            }, 1000)
+          }
+        }
+      })
+  }
+
+  startChatTimer() {
+    this.chatInterval = setInterval(() => {
+      if (this.chatTime === 0) {
+        this.chatTime++;
+      } else {
+        this.chatTime++;
+      }
+      this.chatTimer = timer.transform(this.chatTime);
+    }, 1000);
+  }
+
+  startTrackingChatDuration() {
+    this.chatTrackingInterval = setInterval(() => {
+      if (this.chatTrackingTime === 0) {
+        this.chatTrackingTime++;
+      } else {
+        this.chatTrackingTime++;
+      }
+    }, 5000);
+  }
+
   async handleStartCall(id) {
     if(this.userId > 0) {
       this.actionMode = 'voicecall';
@@ -462,13 +680,13 @@ export class ProfessionalsListComponent {
     return regEx.test(phoneNumber);
   };
 
-  hasRequiredMinimumBalance() {
+  hasRequiredMinimumBalance(mode: string = '') {
     let valid = true;
 
     let requiredMinimumBalance = this.minimumBalance > 0 ? (this.professional?.rate * this.minimumBalance) : 0;
     if(!(this.minimumBalance > 0 && this.user?.available_balance >= (requiredMinimumBalance))) {
       valid = false;
-      this.showRequiredMinimumBalanceMessage();
+      this.showRequiredMinimumBalanceMessage(mode);
     }
 
     return valid;
@@ -511,9 +729,68 @@ export class ProfessionalsListComponent {
     if(this.userId > 0) {
       this.actionMode = 'chat';
       this.professional = this.professionals.find((c) => c.user_id == id);
+      this.chatTimer = '';
+      this.reloadData = false;
+      this.initializeUserDetails();
+      if(this.hasRequiredMinimumBalance('chat')) {
+        this.canChat = true;
+      } else {
+        this.insufficientBalanceTitle = this.toastTitle;
+        this.insufficientBalanceDescription = this.toastDescription;
+        this.canChat = false;
+      }
+      this.reloadData = true;
     } else {
       this._router.navigate(['/auth/login']);
     }
+  }
+
+  initializeUserDetails() {
+    this.id = this.professional?.user_id;
+    this.image = this.professional?.image;
+    this.firstName = this.professional?.first_name;
+    this.userName = this.professional?.user_name;
+    this.userImage = this.professional?.user_image;
+    this.chatRole = 'sender';
+    this.currentUserImage = this.professional?.user_image;
+
+    let caller_balance_before_call = 0;
+    if(this.userId > 0) {
+      caller_balance_before_call = this.user?.available_balance;
+    }
+    this.senderBalance = caller_balance_before_call;
+
+    let name = this.user?.first_name ? `${this.user?.first_name} ${this.user?.last_name}` : this.user?.name;
+    this.userData = [
+      {
+        label: this._translateService.instant('company-settings.name'),
+        value: name,
+      },
+      {
+        label: this._translateService.instant('profile-settings.birthday'),
+        value: this.user.birthday ? moment(this.user.birthday).format('DD/MM/YYYY') : '-'
+      },
+      {
+        label: this._translateService.instant('professionals.gender'),
+        value: this.user?.gender || '-'
+      },
+      {
+        label: this._translateService.instant('professionals.civilstatus'),
+        value: this.user?.civil_status || '-'
+      },
+      {
+        label: this._translateService.instant('profile-settings.position'),
+        value: this.user?.position || ''
+      },
+      {
+        label: this._translateService.instant('profile-settings.city'),
+        value: this.user?.city || ''
+      },
+      {
+        label: this._translateService.instant('profile-settings.country'),
+        value: this.user?.country || ''
+      },
+    ]
   }
 
   async handleStartVideoCall(id) {
@@ -569,15 +846,18 @@ export class ProfessionalsListComponent {
     }
   }
 
-  showRequiredMinimumBalanceMessage() {
+  showRequiredMinimumBalanceMessage(mode: string = '') {
     let minimumAmount = parseFloat((this.professional?.rate * this.minimumBalance)?.toString()).toFixed(2);
     let amountInText =  `(${this.professional?.rate_currency} ${minimumAmount})`;
     let actionModeText = this._translateService.instant(`professionals.${this.actionMode}`);
     this.showRequiredMinimumBalanceModal = false;
     this.toastTitle = this._translateService.instant('professionals.insufficientbalance');
     this.toastDescription = `${this._translateService.instant("professionals.minimumbalanceof")} ${this.minimumBalance?.toString()?.replace('.00', '')} ${this._translateService.instant('timeunits.minutes')} ${amountInText} ${this._translateService.instant('professionals.requiredtostart')} ${actionModeText} ${this._translateService.instant('professionals.with')} ${this.professional?.name}`;
-    this.acceptText = "OK";
-    setTimeout(() => (this.showRequiredMinimumBalanceModal = true));
+    
+    if(!mode) {
+      this.acceptText = "OK";
+      setTimeout(() => (this.showRequiredMinimumBalanceModal = true));
+    }
   }
 
   confirm() {
@@ -591,6 +871,387 @@ export class ProfessionalsListComponent {
       (error) => {
         console.log(error);
       })
+  }
+
+  getSpecialties(item) {
+    let list = [];
+
+    list = this.subcategoryMapping?.filter(subcategory => {
+      return subcategory.professional_id == item.id
+    })?.map((row) => {
+      return {
+        id: row.id,
+        text: this.getSubcategoryText(row)
+      }
+    })
+
+    return list;
+  }
+
+  initializeFilterDrawer() {
+    this.filtersText = this._translateService.instant('professionals.filters');
+    let subcategories = this.subcategories?.map((item) => {
+      return {
+        id: item?.id,
+        text: this.getSubcategoryText(item),
+        type: 'specialties',
+      };
+    });
+    let languages = this.languages?.map((item) => {
+      return {
+        id: item?.id,
+        text: this.getItemText(item),
+        type: 'languages',
+      };
+    });
+    let gender = this.gender?.map((item) => {
+      return {
+        id: item?.id,
+        text: this.getItemText(item),
+        type: 'gender',
+      };
+    });
+    this.drawerFilterList = [
+      {
+        id: 1,
+        title: this._translateService.instant('professionals.specialties'),
+        items: subcategories,
+      },
+      {
+        id: 2,
+        title: this._translateService.instant('job-offers.language'),
+        items: languages,
+      },
+      {
+        id: 3,
+        title: this._translateService.instant('professionals.gender'),
+        items: gender,
+      }
+    ]
+  }
+
+  getSubcategoryText(subcategory) {
+    return subcategory
+      ? this.language == "en"
+        ? subcategory.subcategory_en ||
+          subcategory.subcategory_es
+        : this.language == "fr"
+        ? subcategory.subcategory_fr ||
+          subcategory.subcategory_es
+        : this.language == "eu"
+        ? subcategory.subcategory_eu ||
+          subcategory.subcategory_es
+        : this.language == "ca"
+        ? subcategory.subcategory_ca ||
+          subcategory.subcategory_es
+        : this.language == "de"
+        ? subcategory.subcategory_de ||
+          subcategory.subcategory_es
+        : this.language == "it"
+        ? subcategory.subcategory_it ||
+          subcategory.subcategory_es
+        : subcategory.subcategory_es
+      : "";
+  }
+
+  getItemText(item) {
+    return item
+      ? this.language == "en"
+        ? item.name_EN ||
+          item.name_ES
+        : this.language == "fr"
+        ? item.name_FR ||
+          item.name_ES
+        : this.language == "eu"
+        ? item.name_EU ||
+          item.name_ES
+        : this.language == "ca"
+        ? item.name_CA ||
+          item.name_ES
+        : this.language == "de"
+        ? item.name_DE ||
+          item.name_ES
+        : this.language == "it"
+        ? item.name_IT ||
+          item.name_ES
+        : item.name_ES
+      : "";
+  }
+
+  groupProfessionals(professionals) {
+    this.activeProfessionals = professionals?.filter(professional => {
+      return professional.online_status == 1
+    })
+    this.nonActiveProfessionals = professionals?.filter(professional => {
+      return professional.online_status != 1
+    })
+  }
+
+  handleSearchChanged(event) {
+    this.search = event || "";
+    this.searchProfessionals();
+  }
+
+  searchProfessionals() {
+    let professionals = this.allProfessionals
+    if (this.search) {
+      professionals = this.filterSearchKeyword(professionals);
+    }
+
+    if(this.selectedFilters?.length > 0) {
+      professionals = this.filterGender(professionals, 'gender');
+      professionals = this.filterLanguages(professionals, 'languages');
+      professionals = this.filterSpecialties(professionals, 'specialties');
+    }
+
+    if(this.showChat) {
+      professionals = professionals?.filter(professional => {
+        return professional.chat == 1 && professional?.online_status == 1
+      })
+    }
+
+    if(this.showVideoCall) {
+      professionals = professionals?.filter(professional => {
+        return professional.video_call == 1 && professional?.online_status == 1
+      })
+    }
+
+    if(this.showVoiceCall) {
+      professionals = professionals?.filter(professional => {
+        return professional.voice_call == 1 && professional?.online_status == 1
+      })
+    }
+
+    if(this.selectedSort) {
+      switch(this.selectedSort) {
+        case 'xp-high-low':
+          professionals = professionals.sort((a, b) => {
+            return b.experience - a.experience;
+          });
+          break;
+        case 'xp-low-high':
+          professionals = professionals.sort((a, b) => {
+            return a.experience - b.experience;
+          });
+          break;
+        case 'rate-high-low':
+          professionals = professionals.sort((a, b) => {
+            return b.rate - a.rate;
+          });
+          break;
+        case 'rate-low-high':
+          professionals = professionals.sort((a, b) => {
+            return a.rate - b.rate;
+          });
+          break;
+        case 'review-high-low':
+          professionals = professionals.sort((a, b) => {
+            return b.rating - a.rating;
+          });
+          break;
+        case 'review-low-high':
+          professionals = professionals.sort((a, b) => {
+            return a.rating - b.rating;
+          });
+          break;
+      }
+    }
+
+    this.professionals = professionals;
+    this.groupProfessionals(this.professionals);
+  }
+
+  filterGender(professionals, mode) {
+    let gender_filters = this.selectedFilters?.filter(filter => {
+      return filter.type == mode
+    })
+    let genders: any[] = [];
+    if(gender_filters?.length > 0) {
+      gender_filters?.forEach(filter => {
+        let gender = this.gender?.find((g) => g.id == filter.id)
+        if(gender) {
+          genders?.push(gender);
+        }
+      })
+    }
+    if(genders?.length > 0) {
+      professionals = professionals?.filter(professional => {
+        let match = this.isItemFound(professional.gender, genders, mode);
+        return match
+      })
+    }
+
+    return professionals;
+  }
+
+  filterLanguages(professionals, mode) {
+    let languages_filters = this.selectedFilters?.filter(filter => {
+      return filter.type == mode
+    })
+    let languages: any[] = [];
+    if(languages_filters?.length > 0) {
+      languages_filters?.forEach(filter => {
+        let language = this.languages?.find((g) => g.id == filter.id)
+        if(language) {
+          languages?.push(language);
+        }
+      })
+    }
+    if(languages?.length > 0) {
+      professionals = professionals?.filter(professional => {
+        let match = this.isItemFound(professional.language, languages, mode);
+        return match
+      })
+    }
+
+    return professionals;
+  }
+
+  filterSpecialties(professionals, mode) {
+    let specialties_filters = this.selectedFilters?.filter(filter => {
+      return filter.type == mode
+    })
+    let subcategories: any[] = [];
+    if(specialties_filters?.length > 0) {
+      specialties_filters?.forEach(filter => {
+        let subcategory = this.subcategories?.find((g) => g.id == filter.id)
+        if(subcategory) {
+          subcategories?.push(subcategory);
+        }
+      })
+    }
+    if(subcategories?.length > 0) {
+      professionals = professionals?.filter(professional => {
+        let match = this.isItemFound(professional.specialties, subcategories, mode);
+        return match
+      })
+    }
+
+    return professionals;
+  }
+
+  isItemFound(search, list, mode) {
+    let new_list = [];
+    
+    if(mode == 'specialties') {
+      let found = false;
+
+      list?.forEach(item => {
+        let items = search?.filter((a) => {
+          return a.text == item.subcategory_es || a.text == item.subcategory_en
+        });
+        if(items?.length > 0) {
+          found = true;
+        }
+      })
+
+      return found;
+    } else {
+      new_list = list?.filter(item => {
+        let match = false;
+        
+        if(mode == 'gender') {
+          match = (search?.toLowerCase() == item.name_ES?.toLowerCase() ||
+            search?.toLowerCase() == item.name_EN?.toLowerCase()) ? true : false;
+        } else if(mode == 'languages') {
+          match = (search?.toLowerCase()?.indexOf(item.name_ES?.toLowerCase()) >= 0 ||
+            search?.toLowerCase()?.indexOf(item.name_EN?.toLowerCase()) >= 0) ? true : false;
+        }
+
+        return match;
+      })
+
+      return new_list?.length > 0 ? true : false;
+    }
+  }
+
+  filterSearchKeyword(professionals) {
+    if(professionals?.length > 0) {
+      return professionals.filter(professional => {
+        return (
+          (professional.first_name && 
+            (professional.first_name
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.search
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0)
+          ) ||
+          (professional.last_name && professional.last_name
+            .toLowerCase()
+            .normalize("NFD")
+            .replace(/\p{Diacritic}/gu, "")
+            .indexOf(
+              this.search
+                .toLowerCase()
+                .normalize("NFD")
+                .replace(/\p{Diacritic}/gu, "")
+            ) >= 0)
+        )
+      })
+    }
+  }
+
+  handleFilterClick(event) {
+    this.filterType = event || "";
+    switch(this.filterType) {
+      case 'filter':
+        this.showSort = false;
+        this.showFilters = !this.showFilters;
+        break;
+      case 'chat':
+        this.showChat = !this.showChat;
+        break;
+      case 'voice_call':
+        this.showVoiceCall = !this.showVoiceCall;
+        break;
+      case 'video_call':
+        this.showVideoCall = !this.showVideoCall;
+        break;
+      case 'sort':
+        this.showFilters = false;
+        this.showSort = !this.showSort;
+        break;
+    }
+
+    this.searchProfessionals();
+  }
+
+  handleFiltersExitClick() {
+    this.showFilters = false;
+  }
+
+  handleFilterDrawerClick(event) {
+    let match = this.selectedFilters?.some(
+      (a) => a.type == event.type && a.id == event.id
+    );
+    if(match) {
+      let selected_filters = this.selectedFilters;
+      if (selected_filters?.length > 0) {
+        selected_filters.forEach((filter, index) => {
+          if (filter.type == event.type && filter.id == event.id) {
+            selected_filters.splice(index, 1);
+          }
+        });
+      }
+      this.selectedFilters = selected_filters;
+    } else {
+      this.selectedFilters?.push(event);
+    }
+    this.searchProfessionals();
+  }
+
+  handleSortDrawerClick(event) {
+    this.selectedSort = event;
+    this.searchProfessionals();
+  }
+
+  handleSortExitClick() {
+    this.showSort = false;
   }
 
   async open(message: string, action: string) {

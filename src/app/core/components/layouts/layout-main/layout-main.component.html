@@ -2,15 +2,15 @@
     <div class="hidden sm:hidden md:block lg:block">
         <app-top-menu
             *ngIf="!isCursoGeniusTestimonials"
-            [menus]="menus" 
+            [menus]="menus"
             [refreshedMenu]="refreshedMenu"
             [company]="company"
             [otherSettings]="otherSettings"
             [language]="language"
             [languages]="languages"
             [userid]="userId"
-            [username]="username" 
-            [isAdmin]="isAdmin" 
+            [username]="username"
+            [isAdmin]="isAdmin"
             [currentUser]="currentUser"
             [imageSrc]="imageSrc"
             [notifications]="notifications"
@@ -53,7 +53,7 @@
             [campus]="user?.campus"
             [hasShop]="hasShop"
             [cart]="cart"
-            (changeLanguage)="changedLanguage($event)" 
+            (changeLanguage)="changedLanguage($event)"
         >
         </app-top-menu>
     </div>
@@ -62,15 +62,15 @@
     <ng-container *ngIf="!callPage && navigation == 'side-menu'">
         <app-sidebar
             *ngIf="!isCursoGeniusTestimonials"
-            [menus]="menus" 
+            [menus]="menus"
             [refreshedMenu]="refreshedMenu"
             [company]="company"
             [otherSettings]="otherSettings"
             [language]="language"
             [languages]="languages"
             [userid]="userId"
-            [username]="username" 
-            [isAdmin]="isAdmin" 
+            [username]="username"
+            [isAdmin]="isAdmin"
             [currentUser]="currentUser"
             [imageSrc]="imageSrc"
             [notifications]="notifications"
@@ -99,34 +99,41 @@
             [hasHistoryOfActivities]="hasHistoryOfActivities"
             [customMemberType]="customMemberType"
             [isCursoGeniusTestimonials]="isCursoGeniusTestimonials"
-            (changeLanguage)="changedLanguage($event)" 
+            (changeLanguage)="changedLanguage($event)"
         >
         </app-sidebar>
     </ng-container>
-    <main class="relative w-full"
+    <main
+        class="relative w-full"
         [ngClass]="{
-            'max-w-full': navigation != 'top-menu', 
-            'mx-auto max-w-full sm:max-w-full md:max-w-screen-2xl lg:max-w-screen-2xl': navigation == 'top-menu' && !callPage, 
-            'h-screen bg-[#00122e] max-w-full': callPage
+            'max-w-full': navigation != 'top-menu',
+            'h-screen max-w-full bg-[#00122e]': callPage
         }"
-        [ngStyle]="{'background': isWall ? '#f8f4f4' : 'initial'}">
-        <div [ngClass]="{
-                'px-6 sm:px-6 md:px-6 md:px-16 lg:md:px-16 py-6': navigation != 'top-menu', 
+        [ngStyle]="{ background: isWall ? '#f8f4f4' : 'initial' }"
+    >
+        <div
+            [ngClass]="{
+                'px-6 py-6 sm:px-6 md:px-16 md:px-6 lg:md:px-16': navigation != 'top-menu',
                 'p-6 md:pt-40 lg:pt-40': navigation == 'top-menu' && !callPage,
-                'min-h-[calc(100vh_-_330px)]': !callPage
-            }">
-            <div *ngIf="!callPage"
-                class="absolute top-10 left-7 md:hidden lg:hidden bg-white border-gray-200 dark:bg-gray-900">
-                <app-mobile-navbar 
+                'min-h-[calc(100vh_-_330px)]': !callPage,
+                'mx-auto max-w-full': navigation == 'top-menu' && !callPage,
+                'sm:max-w-full md:max-w-screen-2xl lg:max-w-screen-2xl': navigation == 'top-menu' && !callPage && !professionalsListPage
+            }"
+        >
+            <div
+                *ngIf="!callPage"
+                class="absolute left-7 top-10 border-gray-200 bg-white dark:bg-gray-900 md:hidden lg:hidden"
+            >
+                <app-mobile-navbar
                     *ngIf="!isCursoGeniusTestimonials"
-                    [menus]="menus" 
+                    [menus]="menus"
                     [company]="company"
                     [otherSettings]="otherSettings"
                     [language]="language"
                     [languages]="languages"
                     [userid]="userId"
-                    [username]="username" 
-                    [isAdmin]="isAdmin" 
+                    [username]="username"
+                    [isAdmin]="isAdmin"
                     [currentUser]="currentUser"
                     [imageSrc]="imageSrc"
                     [notifications]="notifications"
@@ -148,13 +155,17 @@
                     [myClubsTitle]="myClubsTitle"
                     [myActivitiesTitle]="myActivitiesTitle"
                     [isUESchoolOfLife]="isUESchoolOfLife"
-                    (changeLanguage)="changedLanguage($event)" 
+                    (changeLanguage)="changedLanguage($event)"
                 ></app-mobile-navbar>
             </div>
             <ng-container *ngIf="!callPage">
-                <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50"
+                <div
+                    class="absolute right-10 z-50 sm:right-10 md:right-20 lg:right-20"
                     *ngIf="userId"
-                    [ngClass]="{'md:hidden lg:hidden': navigation == 'top-menu'}">
+                    [ngClass]="{
+                        'md:hidden lg:hidden': navigation == 'top-menu'
+                    }"
+                >
                     <app-user-menu
                         *ngIf="!isCursoGeniusTestimonials"
                         [menus]="menus"
@@ -163,8 +174,8 @@
                         [language]="language"
                         [languages]="languages"
                         [userid]="userId"
-                        [username]="username" 
-                        [isAdmin]="isAdmin" 
+                        [username]="username"
+                        [isAdmin]="isAdmin"
                         [currentUser]="currentUser"
                         [imageSrc]="imageSrc"
                         [notifications]="notifications"
@@ -193,56 +204,107 @@
                         [hasCredits]="hasCredits"
                         [campus]="user?.campus"
                         [isNetculturaUser]="isNetculturaUser"
-                        (changeLanguage)="changedLanguage($event)" 
+                        (changeLanguage)="changedLanguage($event)"
                         [potSuperTutor]="potSuperTutor"
                         [potTutor]="potTutor"
                         [hasInvitations]="hasInvitations"
                         [companyId]="companyId"
                         [customMemberType]="customMemberType"
-                        [customMemberTypePermissions]="customMemberTypePermissions"
+                        [customMemberTypePermissions]="
+                            customMemberTypePermissions
+                        "
                         [superAdmin]="superAdmin"
+                        [isMentor]="isMentor"
+                        [userMentor]="userMentor"
+                        [canAccessIntroduceU]="canAccessIntroduceU"
                     >
                     </app-user-menu>
                 </div>
-                <div class="absolute right-10 sm:right-10 md:right-20 lg:right-20 z-50" 
-                    *ngIf="!userId && !isCursoGeniusTestimonials && navigation != 'top-menu'">
+                <div
+                    class="absolute right-10 z-50 sm:right-10 md:right-20 lg:right-20"
+                    *ngIf="
+                        !userId &&
+                        !isCursoGeniusTestimonials &&
+                        navigation != 'top-menu'
+                    "
+                >
                     <app-guest-menu
                         [company]="company"
                         [language]="language"
                         [primaryColor]="primaryColor"
                         [buttonColor]="buttonColor"
                         [canRegister]="canRegister"
-                        [navigation]="navigation">
+                        [navigation]="navigation"
+                    >
                     </app-guest-menu>
                 </div>
             </ng-container>
             <ng-content></ng-content>
             <audio *ngIf="!callPage" id="audio-ring">
-                <source src='./assets/audio/ring.mp3' type="audio/mpeg">
+                <source src="./assets/audio/ring.mp3" type="audio/mpeg" />
             </audio>
-            <app-call-notification-popup 
+            <app-call-notification-popup
                 *ngIf="!callPage"
                 [showToast]="showToast"
                 [company]="company"
-                [userId]="userId" 
+                [userId]="userId"
                 [toastMode]="toastMode"
                 [toastMessage]="toastMessage"
                 [toastName]="toastName"
                 [toastImage]="toastImage"
                 [communicationMode]="communicationMode"
                 (handleAcceptClick)="handleAccept()"
-                (handleCancelClick)="handleCancel()">
+                (handleCancelClick)="handleCancel()"
+            >
             </app-call-notification-popup>
         </div>
-        <app-footer 
-            class="-pl-6 -pr-6" 
-            *ngIf="!callPage && showFooter && (companyId != 32 || (companyId == 32 && isUESchoolOfLife))" 
+        <app-footer
+            class="-pl-6 -pr-6"
+            *ngIf="
+                !callPage &&
+                showFooter &&
+                (companyId != 32 || (companyId == 32 && isUESchoolOfLife))
+            "
             [company]="company"
+            [logoSource]="logoSource"
             [customLinks]="customLinks"
-            [contactUsDetails]="contactUsDetails">
+            [contactUsDetails]="contactUsDetails"
+            [languages]="languages"
+            [isUESchoolOfLife]="isUESchoolOfLife"
+            (changeLanguage)="changedLanguage($event)"
+        >
         </app-footer>
     </main>
 </div>
-<button #outsidebutton class="hidden" type="button">
+<button #outsidebutton class="hidden" type="button">&nbsp;</button>
+<button
+    #chatbutton
+    class="hidden"
+    type="button"
+    data-drawer-target="drawer-right"
+    data-drawer-show="drawer-right"
+    data-drawer-placement="right"
+    data-drawer-backdrop="false"
+>
     &nbsp;
 </button>
+<app-chat-drawer
+    [canChat]="canChat"
+    [buttonColor]="buttonColor"
+    [companyId]="companyId"
+    [id]="id"
+    [image]="image"
+    [firstName]="firstName"
+    [userId]="senderId"
+    [userName]="userName"
+    [userImage]="userImage"
+    [userData]="userData"
+    [senderBalance]="senderBalance"
+    [reloadData]="reloadData"
+    [currentUserImage]="currentUserImage"
+    [chatRole]="chatRole"
+    [chatTimer]="chatTimer"
+    [chatEnded]="chatEnded"
+    [existingChatGuid]="existingChatGuid"
+>
+</app-chat-drawer>

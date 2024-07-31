@@ -23,6 +23,31 @@
         <meta property="og:description" content="Crea, gestiona y monetiza una comunidad online. Toda la gestión de tu comunidad, en un sola plataforma. Tu negocio empieza por ciudar a tu comunidad.">
         <meta property="og:image" content="http://vistingo.com/wp-content/uploads/2023/04/vistingo_logo.png">
         <meta property="og:url" content="https://vcp.vistingo.com">
+        
+        <script type="text/javascript">
+            var script_src = "";
+            if(window.location.host == "astroideal.com") {
+                manifest_file = "manifest.webmanifest";
+
+                var link = document.createElement('Link');
+                link.rel = "manifest";
+                var manifest_file = "manifest.webmanifest";
+                link.setAttribute('href', manifest_file);
+                document.head.appendChild(link);
+            } else {
+                if ('serviceWorker' in navigator) {
+                    navigator.serviceWorker.getRegistrations().then(function (registrations) {
+                        //returns installed service workers
+                        if (registrations.length) {
+                            for(let registration of registrations) {
+                                registration.unregister();
+                            }
+                        }
+                    });
+                }
+            }
+        </script>
+        <meta name="theme-color" content="#1f2121">
 
         <script type="text/javascript" src="https://addevent.com/libs/atc/1.6.1/atc.min.js" async="" defer=""></script>
         <script type="text/javascript" src="https://assets.calendly.com/assets/external/widget.js"></script> 

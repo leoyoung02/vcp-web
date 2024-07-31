@@ -56,7 +56,7 @@ export class VoiceCallService {
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
 
-    const client = new Pusher('d15683105c5d696cddc7', { cluster: 'eu' });
+    const client = new Pusher(environment.pusherAppKey, { cluster: environment.pusherCluster });
 
     let sub = 'pusher-vcp-astroideal';
     const pusherChannel = client.subscribe(sub);

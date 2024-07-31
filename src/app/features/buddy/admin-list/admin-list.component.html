@@ -42,7 +42,7 @@
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="location">
-                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'buddy.location' | translate }} </mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ company?.id == 32 ? ('buddy.campus' | translate) : ('buddy.location' | translate) }} </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="location">
                    <span class="capitalize">{{ row?.location }}</span>
                 </mat-cell>
@@ -51,6 +51,24 @@
                 <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'buddy.major' | translate }} </mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="major">
                    <span class="capitalize">{{ row?.major }}</span>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="faculty">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'buddy.faculty' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="faculty">
+                   <span class="capitalize">{{ row?.faculty }}</span>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="business_unit">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'buddy.businessunit' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="business_unit">
+                   <span class="capitalize">{{ row?.business_unit }}</span>
+                </mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="segment">
+                <mat-header-cell *matHeaderCellDef mat-sort-header> {{ 'buddy.segment' | translate }} </mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="segment">
+                   <span class="capitalize">{{ row?.segment }}</span>
                 </mat-cell>
             </ng-container>
             <ng-container matColumnDef="action">

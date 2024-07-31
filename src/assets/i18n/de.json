@@ -98,7 +98,8 @@
         "energy": "Energie",
         "energyalt": "Blumenähnliches Energieglobus-Symbol",
         "spirituality": "Spiritualität",
-        "spiritualityalt": "Traumfänger-Symbol"
+        "spiritualityalt": "Traumfänger-Symbol",
+        "accessaccount": "Mein Konto"
     },
     "user-popup": {
         "myplans": "Meine Pläne",
@@ -127,7 +128,18 @@
         "i":"ICH",
         "acceptthe":"akzeptieren",
         "dateofacceptance":"Datum der Annahme",
-        "linkstitle": "Das Vizerektorat für Studierende und Universitätsleben setzt sich zusammen aus:"
+        "linkstitle": "Das Vizerektorat für Studierende und Universitätsleben setzt sich zusammen aus:",
+        "help": "Hilfe",
+        "aboutus": "Über uns",
+        "registration": "Registrieren",
+        "pricingpolicy": "Preispolitik",
+        "securepayments": "Sichere Zahlungen",
+        "verifiedastrologers": "Verifizierte Astrologen",
+        "users": "Benutzer",
+        "professionals": "Profis",
+        "writetous": "Schreiben Sie uns",
+        "signup": "Anmelden",
+        "registrationlink": "Registrierungslink"
     },
     "settings": {
         "logo_banner": "Logo und Banner",
@@ -772,7 +784,8 @@
         "privacypolicy": "Política de privadesa",
         "cookiespolicy":"Política de cookies", 
         "customeronboarding": "Kunden Onboarding", 
-        "historyofactivities": "Aktivitätsverlauf"
+        "historyofactivities": "Aktivitätsverlauf",
+        "myaccount": "Mein Konto"
     },
     "public-profile": {
         "publicprofile": "Öffentliches Profil",
@@ -1083,7 +1096,15 @@
         "viewclass": "Klasse anzeigen",
         "stripeinactivetransfer":"Inaktive Überweisen Fähigkeiten",
         "levelingcoursesdescription": "Die BASIC STEAM-Kurse sind Leveling-Kurse, die darauf abzielen, das Grundwissen zu festigen und zu festigen und eine optimale Vorbereitung für die erfolgreiche Bewältigung der akademischen Herausforderungen der ersten Kurse der Universitätsstufe zu gewährleisten.",
-        "levelingcoursesduration": "Dauer: 10 Stunden"
+        "levelingcoursesduration": "Dauer: 10 Stunden",
+        "uploaddesc": "Ziehen Sie Ihre Datei per Drag & Drop oder suchen Sie nach hochzuladenden Dateien",
+        "uploadprocessing": "Wird verarbeitet",
+        "uploadcomplete": "Upload abgeschlossen",
+        "uploadcancelled": "Upload abgebrochen",
+        "uploaderror": "Uploadfehler",
+        "uploadtapcancel": "Zum Abbrechen tippen",
+        "uploadtapretry": "Zum erneuten Versuch tippen",
+        "uploadtapundo": "Zum Rückgängigmachen tippen"
     },
     "course-lesson": {
         "section": "Abschnitt"
@@ -2697,7 +2718,9 @@
         "commissionfee": "Provisionsgebühr",
         "showregister": "In Registrierung anzeigen?",
         "requireapproval": "Genehmigung erforderlich?",
+        "showaccount": "Konto anzeigen?",
         "managenotes": "Verwalten: Erstellen, bearbeiten und löschen",
+        "accessaccount": "Greifen Sie auf mein Konto zu",
         "clubpresident": "Clubpräsident",
         "withinspain": "Innerhalb Spaniens",
         "outsidespain": "Außerhalb Spaniens",
@@ -3209,7 +3232,12 @@
         "pendingcompletion": "Ausstehender Abschluss",
         "introductionlabel": "Über mich: Warum ich Mentorin werden möchte, warum ich meinen Abschluss gewählt habe...",
         "interestslabel": "Interessen: Teilnahme am Universitätsleben (Vereine, Vereine, Delegierte, Sportmannschaft...)",
-        "personalitylabel": "Persönlichkeit, Interessen"
+        "personalitylabel": "Persönlichkeit, Interessen",
+        "mymentor": "Mein Mentor", 
+        "campus": "Campus",
+        "faculty": "Fakultät", 
+        "businessunit": "Geschäftsbereich", 
+        "segment": "Segment"
     },
     "cities": {
         "cities": "Städte",
@@ -3756,6 +3784,30 @@
         "enteravalidpasscode": "Bitte geben Sie einen gültigen Passcode ein", 
         "enterpasscode": "Passcode eingeben",
         "incomingvideocall": "Eingehender Videoanruf",
-        "connecting": "Verbindung wird hergestellt"
+        "connecting": "Verbindung wird hergestellt",
+        "incomingchat": "Eingehende Chat-Anfrage",
+        "waitingfor": "Warten auf",
+        "acceptchatrequest": "Chat-Anfrage annehmen",
+        "chatinprogress": "Chat läuft",
+        "filters": "Filter",
+        "contact": "Kontakt",
+        "specialties": "Spezialitäten",
+        "female": "Weiblich",
+        "male": "Männlich", 
+        "experience": "Erfahrung", 
+        "hightolow": "Höchste bis niedrigste", 
+        "lowtohigh": "Niedrigste bis höchste", 
+        "rate": "Bewerten", 
+        "reviews": "Bewertungen"
+    },
+    "my-account": {
+        "availablebalance": "Verfügbares Guthaben",
+        "recharge": "Aufladen",
+        "deleteall": "Alles löschen",
+        "loading": "Aufladen...",
+        "calls": "Anrufe",
+        "cost": "Kosten",
+        "date": "Datum",
+        "deleteiconalt": "Schwarzes Symbol eines Mülleimers"
     }
 }

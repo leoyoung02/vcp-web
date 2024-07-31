@@ -3,6 +3,7 @@ import { storage } from "src/app/core/utils/storage/storage.utils";
 import { BehaviorSubject, Observable, forkJoin, map } from "rxjs";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { LocalService, TokenStorageService } from "@share/services";
+import { PushNotificationService } from "../notifications/push-notification.service";
 import { environment } from "@env/environment";
 import { User } from "@lib/interfaces";
 import {
@@ -19,7 +20,6 @@ import {
   SEND_EMAIL_WELCOME_URL,
   UE_TEST_LOGIN_URL,
 } from "@lib/api-constants";
-import moment from "moment";
 
 @Injectable({
   providedIn: "root",
@@ -34,7 +34,8 @@ export class AuthService {
   constructor(
     private _http: HttpClient,
     private _localService: LocalService,
-    private _tokenStorageService: TokenStorageService
+    private _tokenStorageService: TokenStorageService,
+    private _pushNotificationService: PushNotificationService
   ) {
     this.headers = new HttpHeaders({
       "Content-Type": "application/json",
@@ -177,6 +178,9 @@ export class AuthService {
     this._localService.removeLocalStorage(environment.lsuser);
     this._localService.removeLocalStorage(environment.lsusercoursecredits);
     this._localService.removeLocalStorage(environment.lsuserId);
+    this._localService.removeLocalStorage(environment.lsprofessional);
+    this._localService.removeLocalStorage(environment.lsprofessionalsubscription);
+    this._pushNotificationService.unsubscribeFromPushNotifications();
     this.isAuthenticated$.next(false);
   }
 

@@ -89,6 +89,9 @@ export class UserMenuComponent {
   @Input() customMemberType: any;
   @Input() customMemberTypePermissions: any;
   @Input() superAdmin: any;
+  @Input() isMentor: any;
+  @Input() userMentor: any;
+  @Input() canAccessIntroduceU: any;
 
   @Output() changeLanguage = new EventEmitter();
 
@@ -153,6 +156,11 @@ export class UserMenuComponent {
         this.canViewCRM = this.getCRMPermissions(this.customMemberTypePermissions);
         this.canViewAdministrar = this.getAdministrarPermissions(this.customMemberTypePermissions);
       }
+    }
+
+    let userMentorChange = changes["userMentor"];
+    if (userMentorChange?.currentValue?.length > 0) {
+      this.userMentor = userMentorChange.currentValue;
     }
   }
 
@@ -232,12 +240,22 @@ export class UserMenuComponent {
   }
 
   redirectPath(mode) {
+    let mentorId = 0;
+    if(mode == 'mymentor') {
+      if(this.userMentor?.length > 0) {
+        mentorId = this.userMentor[0].user_id;
+      }
+    }
+
     setTimeout(() => {
       this.outsidebutton?.nativeElement.click();
       let path = '';
       switch(mode) {
         case 'userprofile':
           path = `/users/profile/${this.userid}`;
+          break;
+        case 'myaccount':
+          path = `/users/my-account/${this.userid}`;
           break;
         case 'myclubs':
           path = '/dashboard/5';
@@ -280,6 +298,12 @@ export class UserMenuComponent {
           break;
         case 'mysessions':
           path = '/users/my-sessions';
+          break;
+        case 'mentorprofile':
+          path = `/buddy/profile/mentor/${this.userid}`;
+          break;
+        case 'mymentor':
+          path = `/buddy/mentor/${mentorId}`;
           break;
       }
 

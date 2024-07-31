@@ -16,7 +16,9 @@
                 {{ 'settings.cancel' | translate }}
             </a> 
             <a class="mt-2 inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800"
-                *ngIf="(communicationMode == 'call' && toastMode == 'accept-call') || (communicationMode == 'video' && toastMode == 'accept-video-call')" 
+                *ngIf="(communicationMode == 'call' && toastMode == 'accept-call') || 
+                    (communicationMode == 'video' && toastMode == 'accept-video-call') ||
+                    (communicationMode == 'chat' && toastMode == 'accept-chat')" 
                 href="javascript:;" 
                 (click)="handleAcceptCall()">
                 {{ 'notification-popup.accept' | translate }}

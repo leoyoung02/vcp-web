@@ -98,7 +98,8 @@
         "energy": "Energia",
         "energyalt": "Lore itxurako energia-globoaren ikonoa",
         "spirituality": "Espiritualitatea",
-        "spiritualityalt": "Dreamcatcher ikonoa"
+        "spiritualityalt": "Dreamcatcher ikonoa",
+        "accessaccount": "Nire kontua"
     },
     "user-popup": {
         "myplans": "Nire planak",
@@ -127,7 +128,18 @@
         "i":"I",
         "acceptthe":"onartu",
         "dateofacceptance":"Onarpen-data",
-        "linkstitle": "Ikasleen eta Unibertsitate Bizitzaren Errektoreordetza hauek osatzen dute:"
+        "linkstitle": "Ikasleen eta Unibertsitate Bizitzaren Errektoreordetza hauek osatzen dute:",
+        "help": "Laguntza",
+        "aboutus": "Guri buruz",
+        "registration": "Erregistratu",
+        "pricingpolicy": "Prezioen politika",
+        "securepayments": "Ordainketa seguruak",
+        "verifiedastrologers": "Egiaztatutako astrologoak",
+        "users": "Erabiltzaileak",
+        "professionals": "Profesionalak",
+        "writetous": "Idatz iezaguzu",
+        "signup": "Eman izena",
+        "registrationlink": "Erregistratzeko esteka"
     },
     "settings": {
         "logo_banner": "Logoa eta pankarta",
@@ -772,7 +784,8 @@
         "privacypolicy": "Pribatutasun politika",
         "cookiespolicy":"Cookie-politika", 
         "customeronboarding": "Bezeroa sartzea", 
-        "historyofactivities": "Jardueren historia"
+        "historyofactivities": "Jardueren historia",
+        "myaccount": "Nire kontua"
     },
     "public-profile": {
         "publicprofile": "Profil publikoa",
@@ -1083,7 +1096,15 @@
         "viewclass": "Ikusi klasea",
         "stripeinactivetransfer":"Transferentzia Gaitasun Inaktiboak",
         "levelingcoursesdescription": "BASIC STEAM ikastaroak mailaketa-ikastaroak dira oinarrizko ezagutzak sendotzeko eta indartzeko diseinatuta, unibertsitate-etapako lehen ikastaroetako erronka akademikoei arrakastaz aurre egiteko prestaketa ezin hobea bermatuz.",
-        "levelingcoursesduration": "Iraupena: 10 ordu"
+        "levelingcoursesduration": "Iraupena: 10 ordu",
+        "uploaddesc": "Arrastatu eta jaregin zure fitxategia edo arakatu fitxategia kargatzeko",
+        "uploadprocessing": "Prozesatzen",
+        "uploadcomplete": "Kargaketa amaituta",
+        "uploadcancelled": "Kargaketa bertan behera utzi da",
+        "uploaderror": "Kargatzeko errorea",
+        "uploadtapcancel": "Sakatu bertan behera uzteko",
+        "uploadtapretry": "Sakatu berriro saiatzeko",
+        "uploadtapundo": "Sakatu desegiteko"
     },
     "course-lesson": {
         "section": "Atala"
@@ -2698,7 +2719,9 @@
         "commissionfee": "Komisioaren kuota",
         "showregister": "Erregistroan erakutsi?",
         "requireapproval": "Onarpena behar duzu?",
+        "showaccount": "Erakutsi kontua?",
         "managenotes": "Kudeatu: Sortu, editatu eta ezabatu",
+        "accessaccount": "Sartu Nire kontua",
         "clubpresident": "Klubeko presidentea",
         "withinspain": "Espainia barruan",
         "outsidespain": "Espainiatik kanpo",
@@ -3210,7 +3233,12 @@
         "pendingcompletion": "Bukatzeko zain",
         "introductionlabel": "Niri buruz: zergatik izan nahi dudan tutore, zergatik aukeratu dudan gradua...",
         "interestslabel": "Interesak: Unibertsitate Bizitzan parte hartzeko (klubak, elkarteak, ordezkariak, kirol taldea...)",
-        "personalitylabel": "Nortasuna, interesak"
+        "personalitylabel": "Nortasuna, interesak",
+        "mymentor": "Nire tutorea",
+        "campus": "Campus", 
+        "faculty": "Fakultade", 
+        "businessunit": "Negozio-unitatea", 
+        "segment": "Segmentua"
     },
     "cities": {
         "cities": "Hiriak",
@@ -3757,6 +3785,30 @@
         "enteravalidpasscode": "Mesedez, sartu baliozko pasakode bat", 
         "enterpasscode": "Idatzi pasakodea",
         "incomingvideocall": "Sarrerako bideo-deia",
-        "connecting": "Konektatzen"
+        "connecting": "Konektatzen",
+        "incomingchat": "Sarrerako txat eskaera",
+        "waitingfor": "Itxaron",
+        "acceptchatrequest": "txat eskaera onartzeko",
+        "chatinprogress": "Txatea martxan",
+        "filters": "Iragazkiak",
+        "contact": "Kontaktua",
+        "specialties": "Espezialitateak",
+        "female": "Emakumezkoa",
+        "male": "Makulinoa", 
+        "experience": "Esperientzia",
+        "hightolow": "Altuenetik baxuenera", 
+        "lowtohigh": "Baxutik handienera", 
+        "rate": "Balorazioa", 
+        "reviews": "Iritziak"
+    },
+    "my-account": {
+        "availablebalance": "Saldo erabilgarria",
+        "recharge": "Kargatu",
+        "deleteall": "Ezabatu guztiak",
+        "loading": "Kargatzen...",
+        "calls": "Deiak",
+        "cost": "Kostua",
+        "date": "Data",
+        "deleteiconalt": "Zaborrontzi baten ikono beltza"
     }
 }

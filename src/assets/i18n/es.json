@@ -101,7 +101,8 @@
         "energyalt": "Icono de un globo de energía parecido a una flor",
         "spirituality": "Espiritualidad",
         "spiritualityalt": "Icono de un atrapasueños",
-        "seemore": "Ver más"
+        "seemore": "Ver más",
+        "accessaccount": "Mi cuenta"
     },
     "user-popup": {
         "myplans": "Mis planes",
@@ -130,7 +131,18 @@
         "i":"I",
         "acceptthe":"aceptar el",
         "dateofacceptance":"Fecha de Aceptación",
-        "linkstitle": "El Vicerrectorado de Estudiantes y Vida Universitaria está formado por:"
+        "linkstitle": "El Vicerrectorado de Estudiantes y Vida Universitaria está formado por:",
+        "help": "Ayuda",
+        "aboutus": "Acerca de nostros",
+        "registration": "Date de alta",
+        "pricingpolicy": "Politica de precios",
+        "securepayments": "Pagos seguros",
+        "verifiedastrologers": "Astrologos verificados",
+        "users": "Usuarios",
+        "professionals": "Profesionales",
+        "writetous": "Escríbenos",
+        "signup": "Inscríbete",
+        "registrationlink": "Link de inscripción"
     },
     "settings": {
         "logo_banner": "Logo y Banner",
@@ -776,7 +788,8 @@
         "privacypolicy": "Política de privacidad",
         "cookiespolicy":"Política de cookies", 
         "customeronboarding": "Incorporación de clientes",
-        "historyofactivities": "Historial de actividades"
+        "historyofactivities": "Historial de actividades",
+        "myaccount": "Mi cuenta"
     },
     "public-profile": {
         "publicprofile": "Perfil Público",
@@ -1091,7 +1104,15 @@
         "viewclass": "Ver clase",
         "stripeinactivetransfer":"Capacidades de transferencia inactiva",
         "levelingcoursesdescription": "Los cursos BASIC STEAM son cursos de nivelación diseñados para reforzar y afianzar los conocimientos básicos, asegurando una preparación óptima para enfrentar con éxito los desafíos académicos de los primeros cursos de la etapa universitaria.",
-        "levelingcoursesduration": "Duración: 10 horas"
+        "levelingcoursesduration": "Duración: 10 horas",
+        "uploaddesc": "Arrastre y suelte su archivo o busque el archivo para cargarlo",
+        "uploadprocessing": "Procesando",
+        "uploadcomplete": "Subida completa",
+        "uploadcancelled": "Subida cancelada",
+        "uploaderror": "Error al cargar",
+        "uploadtapcancel": "Toca para cancelar",
+        "uploadtapretry": "Toca para volver a intentarlo",
+        "uploadtapundo": "Toca para deshacer"
     },
     "course-lesson": {
         "section": "Sección"
@@ -2705,7 +2726,9 @@
         "commissionfee": "Cuota de comisión",
         "showregister": "¿Mostrar en el registro?",
         "requireapproval": "¿Requiere aprobación?",
+        "showaccount": "¿Mostrar Mi cuenta?",
         "managenotes": "Gestionar: Crear, editar y eliminar",
+        "accessaccount": "Accede a Mi cuenta",
         "clubpresident": "Presidente del club",
         "withinspain": "Dentro de España",
         "outsidespain": "Fuera de España",
@@ -3225,7 +3248,12 @@
         "pendingcompletion": "Pendiente de finalización",
         "introductionlabel": "Sobre mí: por qué quiero ser mentor, por qué he elegido mi grado...",
         "interestslabel": "Intereses: poner participación en la Vida Universitaria (clubes, asociaciones, delegados, equipo deportivo….)",
-        "personalitylabel": "Personalidad, Intereses"
+        "personalitylabel": "Personalidad, Intereses",
+        "mymentor": "Mi mentor", 
+        "campus": "Campus",
+        "faculty": "Facultad", 
+        "businessunit": "Unidad de negocio", 
+        "segment": "Segmento"
     },
     "cities": {
         "cities": "Ciudades",
@@ -3781,6 +3809,30 @@
         "enteravalidpasscode": "Por favor, introduce una contraseña válida", 
         "enterpasscode": "Ingrese el código de acceso",
         "incomingvideocall": "Videollamada entrante",
-        "connecting": "Conectando"
+        "connecting": "Conectando",
+        "incomingchat": "Solicitud de chat entrante",
+        "waitingfor": "Esperando",
+        "acceptchatrequest": "aceptar solicitud de chat",
+        "chatinprogress": "Chat en curso",
+        "filters": "Filtros",
+        "contact": "Contáctate",
+        "specialties": "Especialidades",
+        "female": "Femenino",
+        "male": "Masculino", 
+        "experience": "Experiencia", 
+        "hightolow": "De mayor a menor", 
+        "lowtohigh": "De menor a mayor", 
+        "rate": "Calificación", 
+        "reviews": "Reseñas"
+    },
+    "my-account": {
+        "availablebalance": "Saldo disponible",
+        "recharge": "Recargar",
+        "deleteall": "Eliminar todo",
+        "loading": "Cargando...",
+        "calls": "Llamadas",
+        "cost": "Coste",
+        "date": "Fecha",
+        "deleteiconalt": "Icono negro de una papelera"
     }
 }

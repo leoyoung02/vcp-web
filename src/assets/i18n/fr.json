@@ -98,7 +98,8 @@
         "energy": "Énergie",
         "energyalt": "Icône de globe d'énergie en forme de fleur",
         "spirituality": "Spiritualité",
-        "spiritualityalt": "Icône attrape-rêves"
+        "spiritualityalt": "Icône attrape-rêves",
+        "accessaccount": "Mon compte"
     },
     "user-popup": {
         "myplans": "Mes projets",
@@ -127,7 +128,18 @@
         "i":"je",
         "acceptthe":"accepte le",
         "dateofacceptance":"Date d'acceptation",
-        "linkstitle": "Le Vice-Rectorat chargé des Etudiants et de la Vie Universitaire est composé de :"
+        "linkstitle": "Le Vice-Rectorat chargé des Etudiants et de la Vie Universitaire est composé de :",
+        "help": "À l'aide",
+        "aboutus": "À propos de nous",
+        "registration": "S'inscrire",
+        "pricingpolicy": "Politique tarifaire",
+        "securepayments": "Paiements sécurisés",
+        "Verifiedastrologers": "Astrologues vérifiés",
+        "users": "Utilisateurs",
+        "professionnels": "Professionnels",
+        "writetous": "Écrivez-nous",
+        "signup": "Inscrivez-vous",
+        "registrationlink": "Lien d'inscription"
     },
     "settings": {
         "logo_banner": "Logo et bannière",
@@ -773,7 +785,8 @@
         "privacypolicy": "Politique de confidentialité",
         "cookiespolicy": "Politique en matière de cookies", 
         "customeronboarding": "Intégration client", 
-        "historyofactivities" : "Historique d'activité"
+        "historyofactivities" : "Historique d'activité",
+        "myaccount": "Mon compte"
     },
     "public-profile": {
         "publicprofile": "Profil public",
@@ -1082,7 +1095,15 @@
         "viewclass": "Afficher la classe",
         "stripeinactivetransfer":"Capacités de transfert inactives",
         "levelingcoursesdescription": "Les cours BASIC STEAM sont des cours de mise à niveau conçus pour renforcer et renforcer les connaissances de base, assurant une préparation optimale pour affronter avec succès les défis académiques des premiers cours du stade universitaire.",
-        "levelingcoursesduration": "Durée : 10 heures"
+        "levelingcoursesduration": "Durée : 10 heures",
+        "uploaddesc": "Faites glisser et déposez votre fichier ou parcourez le fichier à télécharger",
+        "uploadprocessing": "Traitement",
+        "uploadcomplete": "Téléchargement terminé",
+        "uploadcancelled": "Téléchargement annulé",
+        "uploaderror": "Erreur de téléchargement",
+        "uploadtapcancel": "Appuyez pour annuler",
+        "uploadtapretry": "Appuyez pour réessayer",
+        "uploadtapundo": "Appuyez pour annuler"
     },
     "course-lesson": {
         "section": "Section"
@@ -2693,7 +2714,9 @@
         "commissionfee": "Frais de commission",
         "showregister": "Afficher dans le registre?",
         "requireapproval": "Approbation requise?",
+        "showaccount": "Afficher le compte?",
         "managenotes": "Gérer - Créer, modifier et supprimer",
+        "accessaccount": "Accéder à Mon Compte",
         "clubpresident": "Président de club",
         "withinspain": "En Espagne",
         "outsidespain": "Hors d'Espagne",
@@ -3204,7 +3227,12 @@
         "pendingcompletion": "En attente d'achèvement",
         "introductionlabel": "À propos de moi : pourquoi je veux être mentor, pourquoi j'ai choisi mon diplôme...",
         "interestslabel": "Intérêts : participer à la vie universitaire (clubs, associations, délégués, équipe sportive...)",
-        "personalitylabel": "Personnalité, Intérêts"
+        "personalitylabel": "Personnalité, Intérêts",
+        "mymentor": "Mon mentor", 
+        "campus": "Campus",
+        "faculty": "Faculté", 
+        "businessunit": "Business unit", 
+        "segment": "Segment"
     },
     "cities": {
         "cities": "Villes",
@@ -3751,6 +3779,30 @@
         "enteravalidpasscode": "Veuillez saisir un mot de passe valide", 
         "enterpasscode": "Entrez le code",
         "incomingvideocall": "Appel vidéo entrant",
-        "connecting": "Connexion"
+        "connecting": "Connexion",
+        "incomingchat": "Demande de chat entrante",
+        "en attente": "En attente de",
+        "acceptchatrequest": "pour accepter la demande de chat",
+        "chatinprogress": "Chat en cours",
+        "filters": "Filtres",
+        "contact": "Contacter",
+        "specialties": "Spécialités",
+        "female": "Féminin",
+        "male": "Masculin", 
+        "experience": "Expérience", 
+        "hightolow": "Du plus haut au plus bas", 
+        "lowtohigh": "Du plus bas au plus haut", 
+        "rate": "Évaluer", 
+        "reviews": "Avis"
+    },
+    "my-account": {
+        "availablebalance": "Solde disponible",
+        "recharge": "Recharger",
+        "deleteall": "Supprimer tout",
+        "loading": "Mise en charge...",
+        "calls": "Appels",
+        "cost": "Coût",
+        "date": "Date",
+        "deleteiconalt": "Icône noire d'une poubelle"
     }
 }

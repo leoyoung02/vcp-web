@@ -245,9 +245,22 @@ export class CourseDetailComponent {
   autoCompleteLesson: boolean = false;
   isExpanded: boolean = false;
   @ViewChild(MaximizeDirective, { static: true }) maximize!: MaximizeDirective;
-  courseIntroPDFURL: any;
+
   showIntroPDF: boolean = false;
+  courseIntroPDFURL: any;
+  courseIntroPDFURLEn: any;
+  courseIntroPDFURLFr: any;
+  courseIntroPDFURLEu: any;
+  courseIntroPDFURLCa: any;
+  courseIntroPDFURLDe: any;
+  courseIntroPDFURLIt: any;
   courseIntroPDFURLSrc: any;
+  courseIntroPDFURLSrcEn: any;
+  courseIntroPDFURLSrcFr: any;
+  courseIntroPDFURLSrcEu: any;
+  courseIntroPDFURLSrcCa: any;
+  courseIntroPDFURLSrcDe: any;
+  courseIntroPDFURLSrcIt: any;
   
   constructor(
     private _router: Router,
@@ -512,8 +525,22 @@ export class CourseDetailComponent {
     this.courseDescription = this.getCourseDescription(this.course);
     this.courseImage = `${COURSE_IMAGE_URL}/${this.course?.image}`;
     this.showComments = this.course?.show_comments == 1 ? true : false;
+    
     this.courseIntroPDFURL = this.course.intro_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_pdf}` : '';
+    this.courseIntroPDFURLEn = this.course.intro_en_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_en_pdf}` : '';
+    this.courseIntroPDFURLFr = this.course.intro_fr_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_fr_pdf}` : '';
+    this.courseIntroPDFURLEu = this.course.intro_eu_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_eu_pdf}` : '';
+    this.courseIntroPDFURLCa = this.course.intro_ca_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_ca_pdf}` : '';
+    this.courseIntroPDFURLDe = this.course.intro_de_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_de_pdf}` : '';
+    this.courseIntroPDFURLIt = this.course.intro_it_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_it_pdf}` : '';
+
     this.courseIntroPDFURLSrc = this.courseIntroPDFURL ? this.sanitizer.bypassSecurityTrustResourceUrl(this.courseIntroPDFURL) : '';
+    this.courseIntroPDFURLSrcEn = this.courseIntroPDFURLEn ? this.sanitizer.bypassSecurityTrustResourceUrl(this.courseIntroPDFURLEn) : '';
+    this.courseIntroPDFURLSrcFr = this.courseIntroPDFURLFr ? this.sanitizer.bypassSecurityTrustResourceUrl(this.courseIntroPDFURLFr) : '';
+    this.courseIntroPDFURLSrcEu = this.courseIntroPDFURLEu ? this.sanitizer.bypassSecurityTrustResourceUrl(this.courseIntroPDFURLEu) : '';
+    this.courseIntroPDFURLSrcCa = this.courseIntroPDFURLCa ? this.sanitizer.bypassSecurityTrustResourceUrl(this.courseIntroPDFURLCa) : '';
+    this.courseIntroPDFURLSrcDe = this.courseIntroPDFURLDe ? this.sanitizer.bypassSecurityTrustResourceUrl(this.courseIntroPDFURLDe) : '';
+    this.courseIntroPDFURLSrcIt = this.courseIntroPDFURLIt ? this.sanitizer.bypassSecurityTrustResourceUrl(this.courseIntroPDFURLIt) : '';
 
     if(this.course) {
       this.coursePoints = this.course.course_users && this.course.course_users[0] ? ((parseInt(this.course.course_users[0].progress) * parseInt(this.course.points)) / 100) : 0;
@@ -642,7 +669,7 @@ export class CourseDetailComponent {
             if(this.selectedUnit.Company_Course_Unit_Type && this.selectedUnit.Company_Course_Unit_Type.type == 'video'
               && (this.selectedUnit.option == 'YouTube' || this.selectedUnit.option == 'Vimeo' || this.selectedUnit.option == 'External')
             ) {
-              this.selectedLesson = this.selectedUnit.url
+              this.selectedLesson = this.getLessonContent(this.selectedUnit);
             } 
             this.getSafeFileUrl()
           }
@@ -1206,10 +1233,10 @@ export class CourseDetailComponent {
             }
           }
         } else if(this.selectedUnit.option == 'YouTube' || this.selectedUnit.option == 'Vimeo') {
-          this.selectedLesson = this.selectedUnit.url
+          this.selectedLesson = this.getLessonContent(this.selectedUnit);
         } else {
           if(this.selectedUnit.Company_Course_Unit_Type.type == 'pdf') {
-            this.selectedUnitSafeFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.courseUnitSrc + this.selectedUnit.file)
+            this.selectedUnitSafeFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.courseUnitSrc + this.getFileContent(this.selectedUnit))
           } else if(this.selectedUnit.Company_Course_Unit_Type.type == 'others') {
             this.selectedUnitSafeFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl('https://docs.google.com/viewer?url=' + this.courseUnitSrc + this.selectedUnit.file)
           }
@@ -1218,7 +1245,7 @@ export class CourseDetailComponent {
       }
     }
     if(this.selectedUnit.url) {
-      this.selectedLesson = this.selectedUnit.url
+      this.selectedLesson = this.getLessonContent(this.selectedUnit)
     }
     if(this.selectedUnit.option == 'Vimeo' && this.course.vimeo_token && this.selectedUnit.vimeo_id > 0) {
       let result = get(await this._coursesService.getVimeoEmbed(this.selectedUnit.vimeo_id, this.course.vimeo_token).toPromise(), 'result')
@@ -1283,8 +1310,8 @@ export class CourseDetailComponent {
   downloadFileResource(download) {
     const link = document.createElement('a');
     link.setAttribute('target', '_blank');
-    link.setAttribute('href', `${this.courseUnitSrc}${download.file}`);
-    link.setAttribute('download', download.filename);
+    link.setAttribute('href', `${this.courseUnitSrc}${this.getDownloadFile(download)}`);
+    link.setAttribute('download', this.getDownloadFilename(download));
     document.body.appendChild(link);
     link.click();
     link.remove();
@@ -2124,6 +2151,89 @@ export class CourseDetailComponent {
       (this.language == 'de' ? (assessment.assessment_title_de || assessment.assessment_title) : (this.language == 'it' ? (assessment.assessment_title_it || assessment.assessment_title) : assessment.assessment_title)
       )))
     ) : ''
+  }
+
+  getScriptContent(content) {
+    return this.language == 'en' ? (content.script_en || content.script) : (this.language == 'fr' ? (content.script_fr || content.script) : 
+      (this.language == 'eu' ? (content.script_eu || content.script) : (this.language == 'ca' ? (content.script_ca || content.script) : 
+      (this.language == 'de' ? (content.script_de || content.script) : (this.language == 'it' ? (content.script_it || content.script) : content.script)
+      )))
+    )
+  }
+
+  getFileContent(content) {
+    return this.language == 'en' ? (content.file_en || content.file) : (this.language == 'fr' ? (content.file_fr || content.file) : 
+      (this.language == 'eu' ? (content.file_eu || content.file) : (this.language == 'ca' ? (content.file_ca || content.file) : 
+      (this.language == 'de' ? (content.file_de || content.file) : (this.language == 'it' ? (content.file_it || content.file) : content.file)
+      )))
+    )
+  }
+
+  getLessonContent(lesson) {
+    return this.language == 'en' ? (lesson.url_en || lesson.url) : (this.language == 'fr' ? (lesson.url_fr || lesson.url) : 
+      (this.language == 'eu' ? (lesson.url_eu || lesson.url) : (this.language == 'ca' ? (lesson.url_ca || lesson.url) : 
+      (this.language == 'de' ? (lesson.url_de || lesson.url) : (this.language == 'it' ? (lesson.url_it || lesson.url) : lesson.url)
+      )))
+    )
+  }
+
+  getDownloadFilename(download) {
+    return this.language == 'en' ? (download.filename_en || download.filename) : (this.language == 'fr' ? (download.filename_fr || download.filename) : 
+      (this.language == 'eu' ? (download.filename_eu || download.filename) : (this.language == 'ca' ? (download.filename_ca || download.filename) : 
+      (this.language == 'de' ? (download.filename_de || download.filename) : (this.language == 'it' ? (download.filename_it || download.filename) : download.filename)
+      )))
+    )
+  }
+
+  getDownloadFile(download) {
+    return this.language == 'en' ? (download.file_en || download.file) : (this.language == 'fr' ? (download.file_fr || download.file) : 
+      (this.language == 'eu' ? (download.file_eu || download.file) : (this.language == 'ca' ? (download.file_ca || download.file) : 
+      (this.language == 'de' ? (download.file_de || download.file) : (this.language == 'it' ? (download.file_it || download.file) : download.file)
+      )))
+    )
+  }
+
+  getDownloadType(download) {
+    let file = this.language == 'en' ? (download.file_en || download.file) : (this.language == 'fr' ? (download.file_fr || download.file) : 
+      (this.language == 'eu' ? (download.file_eu || download.file) : (this.language == 'ca' ? (download.file_ca || download.file) : 
+      (this.language == 'de' ? (download.file_de || download.file) : (this.language == 'it' ? (download.file_it || download.file) : download.file)
+      )))
+    )
+
+    let type = '';
+    if(file?.indexOf('pdf') >= 0) { type = 'pdf' }
+    else if(file?.indexOf('mp4') >= 0) { type = 'mp4' }
+    else if(file?.indexOf('mp3') >= 0) { type = 'mp3' };
+
+    return type;
+  }
+
+  getCourseIntroPDFURLSrc() {
+    return this.language == "en"
+      ? this.courseIntroPDFURLSrcEn
+        ? this.courseIntroPDFURLSrcEn || this.courseIntroPDFURLSrc
+        : this.courseIntroPDFURLSrc
+      : this.language == "fr"
+      ? this.courseIntroPDFURLSrcFr
+        ? this.courseIntroPDFURLSrcFr || this.courseIntroPDFURLSrc
+        : this.courseIntroPDFURLSrc
+      : this.language == "eu"
+      ? this.courseIntroPDFURLSrcEu
+        ? this.courseIntroPDFURLSrcEu || this.courseIntroPDFURLSrc
+        : this.courseIntroPDFURLSrc
+      : this.language == "ca"
+      ? this.courseIntroPDFURLSrcCa
+        ? this.courseIntroPDFURLSrcCa || this.courseIntroPDFURLSrc
+        : this.courseIntroPDFURLSrc
+      : this.language == "de"
+      ? this.courseIntroPDFURLSrcDe
+        ? this.courseIntroPDFURLSrcDe || this.courseIntroPDFURLSrc
+        : this.courseIntroPDFURLSrc
+      : this.language == "it"
+      ? this.courseIntroPDFURLSrcIt
+        ? this.courseIntroPDFURLSrcIt || this.courseIntroPDFURLSrc
+        : this.courseIntroPDFURLSrc
+      : this.courseIntroPDFURLSrc;
   }
 
   handleGoBack() {

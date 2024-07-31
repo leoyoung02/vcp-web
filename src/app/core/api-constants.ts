@@ -799,6 +799,11 @@ export const NOTIFY_VIDEO_CALL_PROFESSIONAL_PUSHER_URL = `${API_BASE}/v3/video-c
 export const VALIDATE_VIDEO_CALL_PASSCODE_URL = `${API_BASE}/v3/video-call/validate-code`;
 export const EDIT_VIDEO_CALLER_BALANCE_URL = `${API_BASE}/v3/video-caller-balance/edit`;
 export const PROFESSIONAL_CATEGORIES_URL = `${API_BASE}/v3/professional-categories`;
+export const GENERATE_RTM_TOKEN_URL = `${API_BASE}/v3/agora/rtm`;
+export const NOTIFY_CHAT_PROFESSIONAL_PUSHER_URL = `${API_BASE}/v3/chat/push`;
+export const EDIT_CHAT_SENDER_BALANCE_URL = `${API_BASE}/v3/chat-sender-balance/edit`;
+export const VALIDATE_CHAT_PASSCODE_URL = `${API_BASE}/v3/chat/validate-code`;
+export const NOTIFICATION_SUBSCRIPTION_URL = `${API_BASE}/v3/notification/subscription`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;
@@ -831,3 +836,6 @@ export const ADD_MENTOR_URL = `${API_BASE}/v2/mentor/add`;
 export const DELETE_MENTOR_URL = `${API_BASE}/v2/mentor/delete`;
 export const BUDDY_LIMIT_SETTINGS_URL = `${API_BASE}/buddy/settings/limit`;
 export const EDIT_BUDDY_LIMIT_SETTINGS_URL = `${API_BASE}/buddy/settings/limit/edit`;
+export const MENTOR_PROFILE_REQUESTS_URL = `${API_BASE}/v2/introduceu/mentor-requests`;
+export const MENTOR_PROFILE_MESSAGES_URL = `${API_BASE}/v2/introduceu/mentor/mentee-messages`;
+export const MENTOR_MENTEE_REQUESTS_URL = `${API_BASE}/v2/introduceu/statistics/mentor-mentee-requests`;
