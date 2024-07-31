@@ -3793,7 +3793,8 @@
         "hightolow": "Du plus haut au plus bas", 
         "lowtohigh": "Du plus bas au plus haut", 
         "rate": "Évaluer", 
-        "reviews": "Avis"
+        "reviews": "Avis",
+        "tocontact": "Contacter"
     },
     "my-account": {
         "availablebalance": "Solde disponible",

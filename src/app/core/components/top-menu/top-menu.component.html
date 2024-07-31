@@ -1,4 +1,4 @@
-<ng-container *ngIf="hasProfessionals && homePage">
+<ng-container *ngIf="hasProfessionals && homePage && professionals?.length > 0">
   <app-astro-ideal-floating-tarot-readers
     [companyId]="companyId"
     [userId]="userid"

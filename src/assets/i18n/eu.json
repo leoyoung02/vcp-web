@@ -3799,7 +3799,8 @@
         "hightolow": "Altuenetik baxuenera", 
         "lowtohigh": "Baxutik handienera", 
         "rate": "Balorazioa", 
-        "reviews": "Iritziak"
+        "reviews": "Iritziak",
+        "tocontact": "Harremanetarako"
     },
     "my-account": {
         "availablebalance": "Saldo erabilgarria",

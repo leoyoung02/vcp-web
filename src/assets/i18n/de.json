@@ -3798,7 +3798,8 @@
         "hightolow": "Höchste bis niedrigste", 
         "lowtohigh": "Niedrigste bis höchste", 
         "rate": "Bewerten", 
-        "reviews": "Bewertungen"
+        "reviews": "Bewertungen",
+        "tocontact": "Kontakt"
     },
     "my-account": {
         "availablebalance": "Verfügbares Guthaben",

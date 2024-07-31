@@ -79,6 +79,13 @@ export class FloatingTarotReadersComponent {
       });
   }
 
+  goToProfessionalPage(item) {
+    this._router.navigate([item.path])
+    .then(() => {
+      window.location.reload();
+    });
+  }
+
   ngOnDestroy() {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();

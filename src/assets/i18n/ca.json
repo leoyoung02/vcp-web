@@ -3806,7 +3806,8 @@
         "hightolow": "De més alt a més baix", 
         "lowtohigh": "De menor a més alt", 
         "rate": "Valoració", 
-        "reviews": "Ressenyes"
+        "reviews": "Ressenyes",
+        "tocontact": "Contactar"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

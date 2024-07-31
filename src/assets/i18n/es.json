@@ -3823,7 +3823,8 @@
         "hightolow": "De mayor a menor", 
         "lowtohigh": "De menor a mayor", 
         "rate": "Calificación", 
-        "reviews": "Reseñas"
+        "reviews": "Reseñas",
+        "tocontact": "Contactar"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",
