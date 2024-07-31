@@ -297,7 +297,6 @@ export class LayoutMainComponent {
   async ngOnInit() {
     this.onResize();
     this.pageInit = true;
-    this.homePage = window.location.href == 'http://localhost:4200/' ? true : false;
     this.callPage = window.location.href?.indexOf("/call/") >= 0 ? true : false;
     this.professionalsListPage = window.location.href?.indexOf("/professionals") >= 0 && window.location.href?.indexOf("/professionals/details") < 0 ? true : false;
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
@@ -363,6 +362,8 @@ export class LayoutMainComponent {
       this.navigation = company[0].navigation || 'side-menu';
       this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
     }
+
+    this.homePage = this.companyId == 67 && (window.location.href == `https://${this.company.url}/` || window.location.href == 'http://localhost:4200/') ? true : false;
 
     this.features = this._localService.getLocalStorage(environment.lsfeatures)
       ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
