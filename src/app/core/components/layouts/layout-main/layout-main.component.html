@@ -3,57 +3,24 @@
         <app-top-menu
             *ngIf="!isCursoGeniusTestimonials"
             [menus]="menus"
-            [refreshedMenu]="refreshedMenu"
             [company]="company"
-            [otherSettings]="otherSettings"
             [language]="language"
-            [languages]="languages"
+            [imageSrc]="imageSrc"
             [userid]="userId"
             [username]="username"
-            [isAdmin]="isAdmin"
             [currentUser]="currentUser"
-            [imageSrc]="imageSrc"
-            [notifications]="notifications"
-            [popupNotifications]="popupNotifications"
-            [canManageEvents]="canManageEvents"
-            [customMemberTypeName]="customMemberTypeName"
-            [expireDays]="expireDays"
-            [expireDaysDiff]="expireDaysDiff"
-            [cancelDays]="cancelDays"
-            [memberTypeExpirations]="memberTypeExpirations"
-            [hasEventCalendar]="hasEventCalendar"
-            [isTutorUser]="isTutorUser"
-            [hasTutors]="hasTutors"
-            [canCreateCourse]="canCreateCourse"
-            [coursesTitle]="coursesTitle"
-            [tutorManageStudentAccess]="tutorManageStudentAccess"
-            [hasCreditSetting]="hasCreditSetting"
-            [hasCreditPackageSetting]="hasCreditPackageSetting"
-            [myClubsTitle]="myClubsTitle"
-            [myActivitiesTitle]="myActivitiesTitle"
             [primaryColor]="primaryColor"
             [buttonColor]="buttonColor"
-            [hoverColor]="hoverColor"
             [logoSource]="logoSource"
             [superAdmin]="superAdmin"
-            [isUESchoolOfLife]="isUESchoolOfLife"
-            [hasHistoryOfActivities]="hasHistoryOfActivities"
-            [customMemberType]="customMemberType"
-            [isCursoGeniusTestimonials]="isCursoGeniusTestimonials"
             [canRegister]="canRegister"
             [navigation]="navigation"
-            [manageMembers]="manageMembers"
-            [userTypeName]="userTypeName"
-            [potSuperTutor]="potSuperTutor"
-            [potTutor]="potTutor"
-            [superTutor]="superTutor"
-            [isTutorMenuVisible]="isTutorMenuVisible"
-            [hasCredits]="hasCredits"
-            [customMemberTypePermissions]="customMemberTypePermissions"
-            [campus]="user?.campus"
-            [hasShop]="hasShop"
-            [cart]="cart"
-            (changeLanguage)="changedLanguage($event)"
+            [hasProfessionals]="hasProfessionals"
+            [isUESchoolOfLife]="isUESchoolOfLife"
+            [isCursoGeniusTestimonials]="isCursoGeniusTestimonials"
+            [homePage]="homePage"
+            [professionals]="professionals"
+            [categories]="categories"
         >
         </app-top-menu>
     </div>
@@ -114,7 +81,7 @@
         <div
             [ngClass]="{
                 'px-6 py-6 sm:px-6 md:px-16 md:px-6 lg:md:px-16': navigation != 'top-menu',
-                'p-6 md:pt-40 lg:pt-40': navigation == 'top-menu' && !callPage,
+                'p-6 md:pt-48 lg:pt-48': navigation == 'top-menu' && !callPage,
                 'min-h-[calc(100vh_-_330px)]': !callPage,
                 'mx-auto max-w-full': navigation == 'top-menu' && !callPage,
                 'sm:max-w-full md:max-w-screen-2xl lg:max-w-screen-2xl': navigation == 'top-menu' && !callPage && !professionalsListPage
@@ -289,6 +256,7 @@
     &nbsp;
 </button>
 <app-chat-drawer
+    *ngIf="!isMobile"
     [canChat]="canChat"
     [buttonColor]="buttonColor"
     [companyId]="companyId"

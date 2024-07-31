@@ -3803,5 +3803,10 @@
         "cost": "Costo",
         "date": "Data",
         "deleteiconalt": "Icona nera di un bidone della spazzatura"
+    },
+    "user-panel": {
+        "userpanel": "Pannello utente",
+        "personalinformation": "Informazioni personali",
+        "deleteaccount": "Elimina account"
     }
 }

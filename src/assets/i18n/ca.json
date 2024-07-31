@@ -3817,5 +3817,10 @@
         "cost": "Cost",
         "date": "Data",
         "deleteiconalt": "Icona negra d'una paperera"
+    },
+    "user-panel": {
+        "userpanel": "Tauler d'usuari",
+        "personalinformation": "Informació personal",
+        "deleteaccount": "Suprimeix el compte"
     }
 }

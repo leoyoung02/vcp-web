@@ -3810,5 +3810,10 @@
         "cost": "Kostua",
         "date": "Data",
         "deleteiconalt": "Zaborrontzi baten ikono beltza"
+    },
+    "user-panel": {
+        "userpanel": "Erabiltzaile panela",
+        "personalinformation": "Informazio pertsonala",
+        "deleteaccount": "Ezabatu kontua"
     }
 }

@@ -3809,5 +3809,10 @@
         "cost": "Kosten",
         "date": "Datum",
         "deleteiconalt": "Schwarzes Symbol eines Mülleimers"
+    },
+    "user-panel": {
+        "userpanel": "Benutzerpanel",
+        "personalinformation": "Persönliche Informationen",
+        "deleteaccount": "Konto löschen"
     }
 }

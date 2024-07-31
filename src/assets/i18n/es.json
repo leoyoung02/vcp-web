@@ -3834,5 +3834,10 @@
         "cost": "Coste",
         "date": "Fecha",
         "deleteiconalt": "Icono negro de una papelera"
+    },
+    "user-panel": {
+        "userpanel": "Panel de usuarios",
+        "personalinformation": "Información personal",
+        "deleteaccount": "Eliminar cuenta"
     }
 }

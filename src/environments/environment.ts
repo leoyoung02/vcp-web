@@ -7,7 +7,7 @@ import { NgxLoggerLevel } from 'ngx-logger';
 export const environment = {
     production: true,
     api: 'http://localhost:8977/secureapi',
-    company: 'vcp.vistingo.com',
+    company: 'astroideal.com',
     logLevel: NgxLoggerLevel.LOG,
     serverLogLevel: NgxLoggerLevel.LOG,
     agoraAppId: '216cb9286f7b4d38af22f24ba5b5e0d4',

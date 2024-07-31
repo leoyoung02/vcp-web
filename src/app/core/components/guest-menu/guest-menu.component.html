@@ -22,17 +22,16 @@
     <div class="flex items-center md:order-2 space-x-1 md:space-x-2 rtl:space-x-reverse pr-9">
         <ng-container *ngIf="canRegister">
            <a href="javascript:;" 
-                (click)="login()" class="text-white focus:ring-4 focus:ring-gray-300 font-medium text-sm px-9 py-2 md:px-5 md:py-2.5 focus:outline-none">
+                (click)="login()" class="text-white font-medium text-sm px-9 py-2 md:px-5 md:py-2.5 focus:outline-none border-transparent focus:border-transparent focus:ring-0">
                 {{ 'landing.login' | translate }}
             </a>
-            <a href="javascript:;" class="bg-white text-[#A77FE0] hover:bg-white focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-1 py-1 md:px-2 md:py-1 focus:outline-none"
-                [ngStyle]="{'background-color': primaryColor}"
+            <a href="javascript:;" class="text-white hover:bg-[#A77FE0] font-medium rounded-lg text-sm px-5 py-1.5 focus:outline-none border border-white border-1 focus:border-transparent focus:ring-0"
                 (click)="signup()">
                 {{ 'login.signup' | translate }}
             </a> 
         </ng-container>
         <ng-container *ngIf="!canRegister">
-            <a href="javascript:;" class="text-white hover:bg-black focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 md:px-5 md:py-2.5 focus:outline-none"
+            <a href="javascript:;" class="text-white hover:bg-black font-medium rounded-lg text-sm px-5 py-1.5 focus:outline-none border-transparent focus:border-transparent focus:ring-0"
                 [ngStyle]="{'background-color': primaryColor}"
                 (click)="login()">
                 {{ 'landing.login' | translate }}

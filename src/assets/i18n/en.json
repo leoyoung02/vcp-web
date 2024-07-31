@@ -3846,5 +3846,10 @@
         "cost": "Cost",
         "date": "Date",
         "deleteiconalt": "Black icon of a trash can"
+    },
+    "user-panel": {
+        "userpanel": "User panel",
+        "personalinformation": "Personal information",
+        "deleteaccount": "Delete account"
     }
 }

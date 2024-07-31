@@ -3804,5 +3804,10 @@
         "cost": "Coût",
         "date": "Date",
         "deleteiconalt": "Icône noire d'une poubelle"
+    },
+    "user-panel": {
+        "userpanel": "Panneau utilisateur",
+        "personalinformation": "Informations personnelles",
+        "deleteaccount": "Supprimer le compte"
     }
 }
