@@ -27,6 +27,7 @@ import {
 } from "@share/components";
 import moment from "moment";
 import get from 'lodash/get';
+import { AstroIdealHomeComponent } from "@lib/components/ideal-home/astroideal-home.component";
 
 @Component({
   standalone: true,
@@ -45,6 +46,7 @@ import get from 'lodash/get';
     SectionsComponent,
     SectionsMiddleComponent,
     TarotCardComponent,
+    AstroIdealHomeComponent,
   ],
   templateUrl: "./home.component.html",
 })

@@ -29,10 +29,10 @@ interface ITarotCardData {
     StarRatingComponent,
     IdealButtonComponent,
   ],
-  selector: "app-tarot-card",
-  templateUrl: "./tarot-card.component.html",
+  selector: "app-tarot-card-portrait",
+  templateUrl: "./tarot-card-portrait.component.html",
 })
-export class TarotCardComponent {
+export class TarotCardPortraitComponent {
   @Input() cardData!: ITarotCardData;
   @Input() direction: "flex-row" | "flex-col" = "flex-col";
 
