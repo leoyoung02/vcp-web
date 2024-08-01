@@ -3793,7 +3793,11 @@
         "lowtohigh": "Dal più basso al più alto", 
         "rate": "Valuta", 
         "reviews": "Recensioni",
-        "tocontact": "Contatto"
+        "tocontact": "Contatto",
+        "chatwithprofessional": "Chatta con un professionista",
+        "callprofessional": "Chiama un professionista",
+        "videocallprofessional": "Videochiama un professionista",
+        "addreview": "Aggiungi commento"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

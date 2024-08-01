@@ -56,6 +56,7 @@ export class ProfessionalCardComponent {
     @Input() hasChat: any;
     @Input() canChat: any;
     @Input() userData: any;
+    @Output() onDetailClick = new EventEmitter();
     @Output() onStartCall = new EventEmitter();
     @Output() onStartChat = new EventEmitter();
     @Output() onStartVideoCall = new EventEmitter();
@@ -100,6 +101,10 @@ export class ProfessionalCardComponent {
 
     handleStartVideoCall() {
         this.onStartVideoCall.emit(this.id);
+    }
+
+    handleDetailClick(event) {
+        this.onDetailClick.emit(event);
     }
 
     ngOnDestroy() {

@@ -3824,7 +3824,15 @@
         "lowtohigh": "De menor a mayor", 
         "rate": "Calificación", 
         "reviews": "Reseñas",
-        "tocontact": "Contactar"
+        "tocontact": "Contactar",
+        "chatwithprofessional": "Chatear con Profesional",
+        "callprofessional": "Llamar a Profesional",
+        "videocallprofessional": "Videollamada a Profesional", 
+        "ratingandreview": "Calificación y reseña", 
+        "iam": "soy", 
+        "similarconsultations": "Consultas similares", 
+        "customerreviews": "Opiniones de los Usuarios", 
+        "addreview": "Agregar comentario"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

@@ -1254,6 +1254,13 @@ export class ProfessionalsListComponent {
     this.showSort = false;
   }
 
+  handleDetailClick(event) {
+    this._router.navigate([event])
+    .then(() => {
+      window.location.reload();
+    });
+  }
+
   async open(message: string, action: string) {
     await this._snackBar.open(message, action, {
       duration: 3000,

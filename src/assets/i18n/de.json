@@ -3799,7 +3799,15 @@
         "lowtohigh": "Niedrigste bis höchste", 
         "rate": "Bewerten", 
         "reviews": "Bewertungen",
-        "tocontact": "Kontakt"
+        "tocontact": "Kontakt",
+        "chatwithprofessional": "Mit einem Profi chatten",
+        "callprofessional": "Profi anrufen",
+        "videocallprofessional": "Profi per Videoanruf anrufen",
+        "ratingandreview": "Bewertung und Rezension",
+        "iam": "bin",
+        "similarconsultations": "Ähnliche Abfragen",
+        "customerreviews": "Benutzerrezensionen",
+        "addreview": "Kommentar hinzufügen"
     },
     "my-account": {
         "availablebalance": "Verfügbares Guthaben",

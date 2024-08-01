@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="flex-1 min-w-0 ms-4 mt-2">
-            <p [routerLink]="path" class="hover:cursor-pointer text-base text-black font-bold mb-1">
+            <p (click)="handleDetailClick(path)" class="hover:cursor-pointer text-base text-black font-bold mb-1">
                 {{ name }}
             </p>
             <div class="leading-4 truncate">

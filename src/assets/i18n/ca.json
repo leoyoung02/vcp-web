@@ -3807,7 +3807,15 @@
         "lowtohigh": "De menor a més alt", 
         "rate": "Valoració", 
         "reviews": "Ressenyes",
-        "tocontact": "Contactar"
+        "tocontact": "Contactar",
+        "chatwithprofessional": "Xat amb Professional",
+        "callprofessional": "Truca professional",
+        "videocallprofessional": "Videotrucada professional",
+        "ratingandreview": "Qualificació i ressenya",
+        "iam": "sóc",
+        "similarconsultations": "Consultes similars",
+        "customerreviews": "Opinions dels Usuaris",
+        "addreview": "Afegeix comentari"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

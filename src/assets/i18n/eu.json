@@ -3800,7 +3800,14 @@
         "lowtohigh": "Baxutik handienera", 
         "rate": "Balorazioa", 
         "reviews": "Iritziak",
-        "tocontact": "Harremanetarako"
+        "tocontact": "Harremanetarako",
+        "chatwithprofessional": "Txateatu profesionalarekin",
+        "callprofessional": "Deitu profesionalari",
+        "videocallprofessional": "Bideo-dei profesionala",
+        "ratingandreview": "Balorazioa eta berrikuspena",
+        "iam": "naiz",
+        "similarconsultations": "Antzeko kontsultak",
+        "customerreviews": "Erabiltzaileen iritziak"
     },
     "my-account": {
         "availablebalance": "Saldo erabilgarria",

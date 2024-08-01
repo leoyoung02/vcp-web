@@ -805,6 +805,9 @@ export const EDIT_CHAT_SENDER_BALANCE_URL = `${API_BASE}/v3/chat-sender-balance/
 export const VALIDATE_CHAT_PASSCODE_URL = `${API_BASE}/v3/chat/validate-code`;
 export const NOTIFICATION_SUBSCRIPTION_URL = `${API_BASE}/v3/notification/subscription`;
 export const PROFESSIONALS_HOME_DATA_URL = `${API_BASE}/v3/professionals-home-data`;
+export const PROFESSIONAL_DATA_URL = `${API_BASE}/v3/professional`;
+export const ADD_PROFESSIONAL_REVIEW_URL = `${API_BASE}/v3/professional/review/add`;
+export const FOLLOW_PROFESSIONAL_URL = `${API_BASE}/v3/professional/follower/add`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;

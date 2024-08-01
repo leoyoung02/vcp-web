@@ -3836,7 +3836,15 @@
         "lowtohigh": "Lowest to Highest",
         "rate": "Rate",
         "reviews": "Reviews",
-        "tocontact": "Contactar"
+        "tocontact": "Contact",
+        "chatwithprofessional": "Chat with Professional",
+        "callprofessional": "Call Professional",
+        "videocalltoprofessional": "Video call to Professional",
+        "ratingandreview": "Rating & Review",
+        "iam": "I am",
+        "similarconsultations": "Similar consultations",
+        "customerreviews": "Customer reviews", 
+        "addreview": "Add review"
     },
     "my-account": {
         "availablebalance": "Available balance",

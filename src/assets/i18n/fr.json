@@ -3794,7 +3794,15 @@
         "lowtohigh": "Du plus bas au plus haut", 
         "rate": "Évaluer", 
         "reviews": "Avis",
-        "tocontact": "Contacter"
+        "tocontact": "Contacter",
+        "chatwithprofessional": "Chat avec un professionnel",
+        "callprofessional": "Appeler un professionnel",
+        "videocallprofessional": "Appel vidéo professionnel",
+        "ratingandreview": "Note et avis",
+        "iam": "je suis",
+        "similarconsultations": "Requêtes similaires",
+        "customerreviews": "Avis d'utilisateurs",
+        "addreview": "Ajouter un commentaire"
     },
     "my-account": {
         "availablebalance": "Solde disponible",
