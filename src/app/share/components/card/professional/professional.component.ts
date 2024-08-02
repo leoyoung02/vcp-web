@@ -14,8 +14,8 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
+import { StarRatingModule } from 'angular-star-rating';
 import { LocalService } from "@share/services";
-import { StarRatingComponent } from "@lib/components";
 import { environment } from "@env/environment";
 import { initFlowbite } from "flowbite";
 
@@ -23,12 +23,11 @@ import { initFlowbite } from "flowbite";
   selector: "app-professional-card",
   standalone: true,
   imports: [
-    CommonModule,
-    RouterModule,
-    TranslateModule,
-    NgOptimizedImage,
-    StarRatingComponent,
-    // ChatComponent,
+      CommonModule,
+      RouterModule,
+      TranslateModule,
+      NgOptimizedImage,
+      StarRatingModule
   ],
   templateUrl: "./professional.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -58,9 +57,11 @@ export class ProfessionalCardComponent {
   @Input() hasChat: any;
   @Input() canChat: any;
   @Input() userData: any;
+  @Input() specialties: any[] = [];
   @Output() onStartCall = new EventEmitter();
   @Output() onStartChat = new EventEmitter();
   @Output() onStartVideoCall = new EventEmitter();
+  @Output() onDetailClick = new EventEmitter();
 
   languageChangeSubscription;
   language: any;
@@ -104,6 +105,10 @@ export class ProfessionalCardComponent {
 
   handleStartVideoCall() {
     this.onStartVideoCall.emit(this.id);
+  }
+
+  handleDetailClick(event) {
+      this.onDetailClick.emit(event);
   }
 
   ngOnDestroy() {

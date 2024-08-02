@@ -1094,3 +1094,7 @@ app-sidebar > aside > div:nth-child(11) > div > svg.has-history {
         position: absolute;
     }
 }
+
+.ng-image-slider-container .img-div.image-popup {
+    box-shadow: none !important;
+}

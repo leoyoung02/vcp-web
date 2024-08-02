@@ -80,6 +80,25 @@
         "navigationdesc": "Menu di navigazione che consente un rapido accesso alle pagine",
         "topmenu": "Menu principale",
         "sidemenu": "Menù laterale",
+        "events": "Eventi",
+        "courses": "Corsi",
+        "rituals": "Rituali",
+        "services": "Servizi gratuiti",
+        "tarottalk": "Parla con un lettore di tarocchi",
+        "payperminute": "Paga per minuto",
+        "chatalt": "Punto elenco della finestra di dialogo Commento",
+        "callalt": "Chiamata vocale",
+        "videocallalt": "Video chiamata",
+        "money": "Soldi",
+        "moneyalt": "Icona di una pila di banconote che rappresenta contanti",
+        "relationship": "Relazioni",
+        "relationshipalt": "Icona del fiocco di neve",
+        "body": "Corpo",
+        "bodyalt": "Icona di un corpo",
+        "energy": "Energia",
+        "energyalt": "Icona del globo energetico simile a un fiore",
+        "spirituality": "Espiritualidad",
+        "spiritualityalt": "Icona dell'acchiappasogni",
         "accessaccount": "Il mio account"
     },
     "user-popup": {
@@ -3774,7 +3793,22 @@
         "holisticprofessionals": "Professionisti olistici",
         "gettoknowourfreeresources": "Scopri le nostre risorse gratuite",
         "seeallservices": "Vedi tutti i servizi",
-        "learnmoreaboutthesetestimonies": "Scopri di più su queste testimonianze"
+        "learnmoreaboutthesetestimonies": "Scopri di più su queste testimonianze",
+        "filters": "Filtri",
+        "contact": "Contatto",
+        "specialties": "Specialità",
+        "female": "Femminile",
+        "male": "maschile", 
+        "experience": "Esperienza", 
+        "hightolow": "Dal più alto al più basso", 
+        "lowtohigh": "Dal più basso al più alto", 
+        "rate": "Valuta", 
+        "reviews": "Recensioni",
+        "tocontact": "Contatto",
+        "chatwithprofessional": "Chatta con un professionista",
+        "callprofessional": "Chiama un professionista",
+        "videocallprofessional": "Videochiama un professionista",
+        "addreview": "Aggiungi commento"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",
@@ -3785,5 +3819,10 @@
         "cost": "Costo",
         "date": "Data",
         "deleteiconalt": "Icona nera di un bidone della spazzatura"
+    },
+    "user-panel": {
+        "userpanel": "Pannello utente",
+        "personalinformation": "Informazioni personali",
+        "deleteaccount": "Elimina account"
     }
 }

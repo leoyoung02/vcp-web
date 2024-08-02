@@ -4,6 +4,7 @@ import {
   ChangeDetectorRef,
   Component,
   ElementRef,
+  HostListener,
   Input,
   ViewChild,
 } from "@angular/core";
@@ -11,7 +12,7 @@ import { NavigationEnd, Router } from "@angular/router";
 import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
-import { MenuService } from "@lib/services";
+import { MenuService, PushNotificationService } from "@lib/services";
 import { PlansService, TutorsService, BuddyService, VideoCallService, VoiceCallService, ChatService, ProfessionalsService } from "@features/services";
 import { FooterComponent, MobileNavbarComponent } from "src/app/core/components";
 import { Subject, takeUntil } from "rxjs";
@@ -240,6 +241,16 @@ export class LayoutMainComponent {
   chatTimer: string = '';
   chatEnded: boolean = false;
   existingChatGuid: any;
+  professional: any;
+  professionalsListPage: boolean = false;
+  isMobile: boolean = false;
+
+  homePage: boolean = false;
+  categories: any = [];
+  professionals: any = [];
+  subcategories: any = [];
+  subcategoryMapping: any = [];
+
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
     | undefined;
@@ -261,6 +272,7 @@ export class LayoutMainComponent {
     private _buddyService: BuddyService,
     private _professionalsService: ProfessionalsService,
     private _chatService: ChatService,
+    private _pushNotificationService: PushNotificationService,
     private cd: ChangeDetectorRef
   ) {
     this.language = this._localService.getLocalStorage(environment.lslanguage);
@@ -277,9 +289,16 @@ export class LayoutMainComponent {
     });
   }
 
+  @HostListener("window:resize", [])
+  private onResize() {
+    this.isMobile = window.innerWidth < 768;
+  }
+
   async ngOnInit() {
+    this.onResize();
     this.pageInit = true;
     this.callPage = window.location.href?.indexOf("/call/") >= 0 ? true : false;
+    this.professionalsListPage = window.location.href?.indexOf("/professionals") >= 0 && window.location.href?.indexOf("/professionals/details") < 0 ? true : false;
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     if (!this._localService.getLocalStorage(environment.lslang)) { this._localService.setLocalStorage(environment.lslang, "es"); }
@@ -344,6 +363,8 @@ export class LayoutMainComponent {
       this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
     }
 
+    this.homePage = this.companyId == 67 && (window.location.href == `https://${this.company.url}/` || window.location.href == 'http://localhost:4200/') ? true : false;
+
     this.features = this._localService.getLocalStorage(environment.lsfeatures)
       ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
       : "";
@@ -406,6 +427,7 @@ export class LayoutMainComponent {
         this.subscribeVoiceCall();
         this.subscribeVideoCall();
         this.subscribeChat();
+        if(this.hasProfessionals && this.navigation == 'top-menu') { this.initializeTopMenu(); }
       }
     }
 
@@ -686,6 +708,12 @@ export class LayoutMainComponent {
         .subscribe((data) => {
           this.otherSettings = data[0] ? data[0]["other_settings"] : [];
           this.currentUser = data[1] ? data[1]["CompanyUser"] : [];
+          this.professional = data[1] ? data[1]["professional"] : [];
+          if(this.professional) {
+            this._localService.setLocalStorage(environment.lsprofessional, this.professional);
+            this._pushNotificationService.subscribeToNotifications(this.professional);
+            this._pushNotificationService.subscribeMessage();
+          }
           this.roles = data[2] ? data[2]["role"] : [];
           this.dashboardDetails = data[3] ? data[3]["dashboard_details"] : [];
           this.mapDashboard(this.dashboardDetails);
@@ -1996,6 +2024,30 @@ export class LayoutMainComponent {
       }
     }
 
+    // Add specifically for ASTROIDEAL only
+    if(this.companyId == 67) {
+      let fsmatch = this.menus.some((a) => a.name === 'Free services');
+      if (!fsmatch) {
+        this.menus.push({
+          id: this.menus?.length + 1,
+          path: '/free-services',
+          new_url: 0,
+          new_button: 0,
+          return_url: '',
+          name: this._translateService.instant('landing.services'),
+          name_ES: this._translateService.instant('landing.services'),
+          name_FR: this._translateService.instant('landing.services'),
+          name_EU: this._translateService.instant('landing.services'),
+          name_CA: this._translateService.instant('landing.services'),
+          name_DE: this._translateService.instant('landing.services'),
+          show: true,
+          sequence: this.menus?.length + 1,
+          parent_path: '',
+          school_of_life_submenu: 0,
+        })
+      }
+    }
+
     this.sortMenuOrdering();
     mmatch = this.renderNewMenu(mmatch);
     if(
@@ -2775,6 +2827,110 @@ export class LayoutMainComponent {
           console.log(error);
         }
       );
+  }
+
+  initializeTopMenu() {
+    this.getProfessionalsHomeData();
+  }
+
+  getProfessionalsHomeData() {
+    this._professionalsService
+      .getProfessionalsHomeData(this.company?.id)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          this.subcategories = data?.subcategories;
+          this.subcategoryMapping = data?.subcategory_mapping;
+          this.formatProfessionalsData(data);
+        },
+        (error) => {
+          console.log(error)
+        });
+  }
+
+  async formatProfessionalsData(data) {
+    this.professionals = data?.professionals?.map((item) => {
+      return {
+        ...item,
+        id: item?.id,
+        path: `/professionals/details/${item.id}`,
+        image: `${environment.api}/${item.image}`,
+        name: item?.first_name ? `${item.first_name} ${item.last_name}` : item.name,
+        first_name: item?.first_name || item?.name,
+        specialties: this.getSpecialties(item),
+      };
+    });
+
+    this.categories = data?.categories?.map((category) => {
+      return {
+        ...category,
+        name: this.getCategoryText(category),
+        image: `${environment.api}/v3/image/professionals/category/${category.image}`,
+      };
+    });
+  }
+
+  getSpecialties(item) {
+    let list = [];
+
+    list = this.subcategoryMapping?.filter(subcategory => {
+      return subcategory.professional_id == item.id
+    })?.map((row) => {
+      return {
+        id: row.id,
+        text: this.getSubcategoryText(row)
+      }
+    })
+
+    return list;
+  }
+
+  getCategoryText(category) {
+    return category
+      ? this.language == "en"
+        ? category.category_en ||
+          category.category_es
+        : this.language == "fr"
+        ? category.category_fr ||
+          category.category_es
+        : this.language == "eu"
+        ? category.category_eu ||
+          category.category_es
+        : this.language == "ca"
+        ? category.category_ca ||
+          category.category_es
+        : this.language == "de"
+        ? category.category_de ||
+          category.category_es
+        : this.language == "it"
+        ? category.category_it ||
+          category.category_es
+        : category.category_es
+      : "";
+  }
+
+  getSubcategoryText(subcategory) {
+    return subcategory
+      ? this.language == "en"
+        ? subcategory.subcategory_en ||
+          subcategory.subcategory_es
+        : this.language == "fr"
+        ? subcategory.subcategory_fr ||
+          subcategory.subcategory_es
+        : this.language == "eu"
+        ? subcategory.subcategory_eu ||
+          subcategory.subcategory_es
+        : this.language == "ca"
+        ? subcategory.subcategory_ca ||
+          subcategory.subcategory_es
+        : this.language == "de"
+        ? subcategory.subcategory_de ||
+          subcategory.subcategory_es
+        : this.language == "it"
+        ? subcategory.subcategory_it ||
+          subcategory.subcategory_es
+        : subcategory.subcategory_es
+      : "";
   }
 
   ngOnDestroy() {

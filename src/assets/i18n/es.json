@@ -80,6 +80,28 @@
         "navigationdesc": "Menú de navegación que permite un acceso rápido a las páginas",
         "topmenu": "Menú superior",
         "sidemenu": "Menú lateral",
+        "events": "Eventos",
+        "courses": "Cursos",
+        "rituals": "Rituales",
+        "services": "Servicios gratuitos",
+        "tarottalk": "Habla con un Tarotista",
+        "payperminute": "Paga por minuto",
+        "chatalt": "Bocadillo de diálogo de comentario",
+        "callalt": "Llamada de voz",
+        "videocallalt": "Videollamada",
+        "tarot_readers": "Lectores de Tarot",
+        "tarot_readersalt": "Icono de un cuerpo",
+        "money": "Dinero",
+        "moneyalt": "Icono de montón de billetes representando dinero en efectivo",
+        "relations": "Relaciones",
+        "relationsalt": "Icono de un copo de nieve",
+        "body": "Cuerpo",
+        "bodyalt": "Icono de un cuerpo",
+        "energy": "Energía",
+        "energyalt": "Icono de un globo de energía parecido a una flor",
+        "spirituality": "Espiritualidad",
+        "spiritualityalt": "Icono de un atrapasueños",
+        "seemore": "Ver más",
         "accessaccount": "Mi cuenta"
     },
     "user-popup": {
@@ -3802,7 +3824,26 @@
         "holisticprofessionals": "Profesionales Holísticos",
         "gettoknowourfreeresources": "Conoce nuestros recursos gratuitos",
         "seeallservices": "Ver todos los servicios",
-        "learnmoreaboutthesetestimonies": "Conoce mas de estos testimonios"
+        "learnmoreaboutthesetestimonies": "Conoce mas de estos testimonios",
+        "filters": "Filtros",
+        "contact": "Contáctate",
+        "specialties": "Especialidades",
+        "female": "Femenino",
+        "male": "Masculino", 
+        "experience": "Experiencia", 
+        "hightolow": "De mayor a menor", 
+        "lowtohigh": "De menor a mayor", 
+        "rate": "Calificación", 
+        "reviews": "Reseñas",
+        "tocontact": "Contactar",
+        "chatwithprofessional": "Chatear con Profesional",
+        "callprofessional": "Llamar a Profesional",
+        "videocallprofessional": "Videollamada a Profesional", 
+        "ratingandreview": "Calificación y reseña", 
+        "iam": "soy", 
+        "similarconsultations": "Consultas similares", 
+        "customerreviews": "Opiniones de los Usuarios", 
+        "addreview": "Agregar comentario"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",
@@ -3813,5 +3854,10 @@
         "cost": "Coste",
         "date": "Fecha",
         "deleteiconalt": "Icono negro de una papelera"
+    },
+    "user-panel": {
+        "userpanel": "Panel de usuarios",
+        "personalinformation": "Información personal",
+        "deleteaccount": "Eliminar cuenta"
     }
 }

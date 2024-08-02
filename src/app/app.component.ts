@@ -1,7 +1,7 @@
 import { CommonModule } from "@angular/common";
 import { Component, inject, OnInit } from "@angular/core";
 import { Router, RouterModule, RoutesRecognized } from "@angular/router";
-import { AuthService } from "src/app/core/services";
+import { AuthService, PushNotificationService } from "src/app/core/services";
 import { ThemeService } from "src/app/core/services/theme";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService } from "src/app/share/services";
@@ -59,6 +59,7 @@ export class AppComponent implements OnInit {
 
   async ngOnInit() {
     this._themeService.init();
+
     this.router.events.subscribe((data: any) => {
       if (data instanceof RoutesRecognized) {
         this.layout = data?.state?.root?.firstChild?.data["layout"];

@@ -203,6 +203,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   isMiddleSectionTemplate: boolean = false;
   planCalendar: boolean = false;
   isCursoGeniusTestimonials: boolean = false;
+  hasProfessionals: boolean = false;
+  professionalsFeature: any;
 
   mockCategoryData = {
     image: '1.png',
@@ -360,8 +362,24 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     }
 
+    this.getAllActivatedFeatures();
+    this.getTitles();
+    this.isloading = false;
 
-    // Get all activated features
+    this._translateService.onLangChange.subscribe((event: LangChangeEvent) => {
+      this.language = event.lang;
+      this.getTitles();
+      this.showLandingTemplate();
+      if(this.showModuleSections) {
+        this.loadSectionsList(1);
+      }
+    });
+
+    this.getOtherSettings();
+    this.getMenus();
+  }
+
+  async getAllActivatedFeatures() {
     this.features = await this._companyService
       .getFeatures(this.domain)
       .toPromise();
@@ -438,21 +456,13 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.tutorsFeature = tutorsFeature[0];
     }
 
-    this.getTitles();
-
-    this.isloading = false;
-
-    this._translateService.onLangChange.subscribe((event: LangChangeEvent) => {
-      this.language = event.lang;
-      this.getTitles();
-      this.showLandingTemplate();
-      if(this.showModuleSections) {
-        this.loadSectionsList(1);
-      }
+    let professionalsFeature = this.features.filter((f) => {
+      return f.feature_name == "Professionals";
     });
-
-    this.getOtherSettings();
-    this.getMenus();
+    if (professionalsFeature?.length > 0) {
+      this.hasProfessionals = true;
+      this.professionalsFeature = professionalsFeature[0];
+    }
   }
 
   async getMenus() {

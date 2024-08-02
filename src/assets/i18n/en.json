@@ -80,6 +80,25 @@
         "navigationdesc": "Navigation menu allowing quick access to pages",
         "topmenu": "Top menu",
         "sidemenu": "Side menu",
+        "events": "Events",
+        "courses": "Courses",
+        "rituals": "Rituals",
+        "services": "Free services",
+        "tarottalk": "Talk to a Tarot reader",
+        "payperminute": "Pay per minute",
+        "chatalt": "Comment dialog box",
+        "callalt": "Voice call",
+        "videocallalt": "Video call",
+        "money": "Money",
+        "moneyalt": "Money icon representing money in effective form",
+        "relationship": "Relationships",
+        "relationshipalt": "Snowflake icon",
+        "body": "Body",
+        "bodyalt": "Body icon",
+        "energy": "Energy",
+        "energyalt": "Flower-like energy globe icon",
+        "spirituality": "Spirituality",
+        "spiritualityalt": "Dream catcher icon",
         "accessaccount": "My Account"
     },
     "user-popup": {
@@ -3817,7 +3836,26 @@
         "holisticprofessionals": "Holistic Professionals",
         "gettoknowourfreeresources": "Get to know our free resources",
         "seeallservices": "See all services",
-        "learnmoreaboutthesetestimonies": "Learn more about these testimonies"
+        "learnmoreaboutthesetestimonies": "Learn more about these testimonies",
+        "filters": "Filters",
+        "contact": "Chat",
+        "specialties": "Specialties",
+        "female": "Female",
+        "male": "Male",
+        "experience": "Experience",
+        "hightolow": "Highest to Lowest",
+        "lowtohigh": "Lowest to Highest",
+        "rate": "Rate",
+        "reviews": "Reviews",
+        "tocontact": "Contact",
+        "chatwithprofessional": "Chat with Professional",
+        "callprofessional": "Call Professional",
+        "videocalltoprofessional": "Video call to Professional",
+        "ratingandreview": "Rating & Review",
+        "iam": "I am",
+        "similarconsultations": "Similar consultations",
+        "customerreviews": "Customer reviews", 
+        "addreview": "Add review"
     },
     "my-account": {
         "availablebalance": "Available balance",
@@ -3828,5 +3866,10 @@
         "cost": "Cost",
         "date": "Date",
         "deleteiconalt": "Black icon of a trash can"
+    },
+    "user-panel": {
+        "userpanel": "User panel",
+        "personalinformation": "Personal information",
+        "deleteaccount": "Delete account"
     }
 }

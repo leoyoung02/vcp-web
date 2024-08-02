@@ -80,6 +80,25 @@
         "navigationdesc": "Menú de navegació que permet un accés ràpid a les pàgines",
         "topmenu": "Menú superior",
         "sidemenu": "Menú lateral",
+        "events": "Esdeveniments",
+        "courses": "Cursos",
+        "rituals": "Rituals",
+        "services": "Serveis gratuïts",
+        "tarottalk": "Parla amb un Tarotista",
+        "payperminute": "Paga per minut",
+        "chatalt": "Vinyeta de diàleg de comentari",
+        "callalt": "Trucada de veu",
+        "videocallalt": "Videotrucada",
+        "money": "Diners",
+        "moneyalt": "Icona de munt de bitllets representant diners en efectiu",
+        "relationship": "Relacions",
+        "relationshipalt": "Icona d'un floc de neu",
+        "body": "Cos",
+        "bodyalt": "Icona d'un cos",
+        "energy": "Energia",
+        "energyalt": "Icona d'un globus d'energia semblant a una flor",
+        "spirituality": "Espiritualitat",
+        "spiritualityalt": "Icona d'un atrapasomnis",
         "accessaccount": "El meu compte"
     },
     "user-popup": {
@@ -3788,7 +3807,26 @@
         "holisticprofessionals": "Professionals Holístics",
         "gettoknowourfreeresources": "Coneix els nostres recursos gratuïts",
         "seeallservices": "Veure tots els serveis",
-        "learnmoreaboutthesetestimonies": "Coneix més d'aquests testimonis"
+        "learnmoreaboutthesetestimonies": "Coneix més d'aquests testimonis",
+        "filters": "Filtres",
+        "contact": "Contacta't",
+        "specialties": "Especialitats",
+        "female": "Femení",
+        "male": "Masculí", 
+        "experience": "Experiència", 
+        "hightolow": "De més alt a més baix", 
+        "lowtohigh": "De menor a més alt", 
+        "rate": "Valoració", 
+        "reviews": "Ressenyes",
+        "tocontact": "Contactar",
+        "chatwithprofessional": "Xat amb Professional",
+        "callprofessional": "Truca professional",
+        "videocallprofessional": "Videotrucada professional",
+        "ratingandreview": "Qualificació i ressenya",
+        "iam": "sóc",
+        "similarconsultations": "Consultes similars",
+        "customerreviews": "Opinions dels Usuaris",
+        "addreview": "Afegeix comentari"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",
@@ -3799,5 +3837,10 @@
         "cost": "Cost",
         "date": "Data",
         "deleteiconalt": "Icona negra d'una paperera"
+    },
+    "user-panel": {
+        "userpanel": "Tauler d'usuari",
+        "personalinformation": "Informació personal",
+        "deleteaccount": "Suprimeix el compte"
     }
 }

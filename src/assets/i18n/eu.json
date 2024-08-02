@@ -80,6 +80,25 @@
         "navigationdesc": "Nabigazio menua orrietara sarbide azkarra ahalbidetzen du",
         "topmenu": "Goiko menua",
         "sidemenu": "Alboko menua",
+        "events": "Gertaerak",
+        "courses": "Ikastaroak",
+        "rituals": "Errituak",
+        "services": "Doako zerbitzuak",
+        "tarottalk": "Hitz egin Tarot irakurle batekin",
+        "payperminute": "Bidali minutu bakoitzeko",
+        "chatalt": "Iruzkinen elkarrizketa-buleta",
+        "callalt": "Ahots-deia",
+        "videocallalt": "Bideo deia",
+        "money": "Dirua",
+        "moneyalt": "Dirua adierazten duen billeteen ikonoa",
+        "relationship": "Harremanak",
+        "relationshipalt": "Elur maluta ikonoa",
+        "body": "Gorputza",
+        "bodyalt": "Gorputz baten ikonoa",
+        "energy": "Energia",
+        "energyalt": "Lore itxurako energia-globoaren ikonoa",
+        "spirituality": "Espiritualitatea",
+        "spiritualityalt": "Dreamcatcher ikonoa",
         "accessaccount": "Nire kontua"
     },
     "user-popup": {
@@ -3781,7 +3800,25 @@
         "holisticprofessionals": "Profesional holistikoak",
         "gettoknowourfreeresources": "Ezagutu gure doako baliabideei buruz",
         "seeallservices": "Ikusi zerbitzu guztiak",
-        "learnmoreaboutthesetestimonies": "Informazio gehiago testigantza hauei buruz"
+        "learnmoreaboutthesetestimonies": "Informazio gehiago testigantza hauei buruz",
+        "filters": "Iragazkiak",
+        "contact": "Kontaktua",
+        "specialties": "Espezialitateak",
+        "female": "Emakumezkoa",
+        "male": "Makulinoa", 
+        "experience": "Esperientzia",
+        "hightolow": "Altuenetik baxuenera", 
+        "lowtohigh": "Baxutik handienera", 
+        "rate": "Balorazioa", 
+        "reviews": "Iritziak",
+        "tocontact": "Harremanetarako",
+        "chatwithprofessional": "Txateatu profesionalarekin",
+        "callprofessional": "Deitu profesionalari",
+        "videocallprofessional": "Bideo-dei profesionala",
+        "ratingandreview": "Balorazioa eta berrikuspena",
+        "iam": "naiz",
+        "similarconsultations": "Antzeko kontsultak",
+        "customerreviews": "Erabiltzaileen iritziak"
     },
     "my-account": {
         "availablebalance": "Saldo erabilgarria",
@@ -3792,5 +3829,10 @@
         "cost": "Kostua",
         "date": "Data",
         "deleteiconalt": "Zaborrontzi baten ikono beltza"
+    },
+    "user-panel": {
+        "userpanel": "Erabiltzaile panela",
+        "personalinformation": "Informazio pertsonala",
+        "deleteaccount": "Ezabatu kontua"
     }
 }

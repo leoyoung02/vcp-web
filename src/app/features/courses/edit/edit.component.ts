@@ -318,14 +318,18 @@ export class CourseEditComponent {
   videoAvailability: boolean = false
   groupWalls: any = []
 
-  courseIntroFileName: any;
-
   @ViewChild('myPond', {static: false}) myPond: any;
   @ViewChild('myPondEn', {static: false}) myPondEn: any;
   @ViewChild('myPondIt', {static: false}) myPondIt: any;
 
   @ViewChild('downloadPond', {static: false}) downloadPond: any;
+  @ViewChild('downloadPondEn', {static: false}) downloadPondEn: any;
+  @ViewChild('downloadPondIt', {static: false}) downloadPondIt: any;
+
   @ViewChild('courseIntroPond', {static: false}) courseIntroPond: any;
+  @ViewChild('courseIntroPondEn', {static: false}) courseIntroPondEn: any;
+  @ViewChild('courseIntroPondIt', {static: false}) courseIntroPondIt: any;
+
   pondOptions = {
     class: 'my-filepond',
     multiple: false,
@@ -467,13 +471,11 @@ export class CourseEditComponent {
     },
   };
   pondFilesIt = [];
+
   downloadPondOptions = {
       class: 'my-filepond',
       multiple: false,
       labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
-      // maxFileSize: 200000000,
-      // labelMaxFileSizeExceeded: "El archivo es demasiado grande",
-      // labelMaxFileSize: "El tamaño máximo de archivo es {filesize}",
       labelFileProcessing: "En curso",
       labelFileProcessingComplete: "Carga completa",
       labelFileProcessingAborted: "Carga cancelada",
@@ -520,18 +522,118 @@ export class CourseEditComponent {
       },
   };
   downloadPondFiles = [];
+  downloadPondOptionsEn = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: this._translateService.instant('course-details.uploaddesc'),
+    labelFileProcessing: this._translateService.instant('course-details.uploadprocessing'),
+    labelFileProcessingComplete: this._translateService.instant('course-details.uploadcomplete'),
+    labelFileProcessingAborted: this._translateService.instant('course-details.uploadcancelled'),
+    labelFileProcessingError: this._translateService.instant('course-details.uploaderror'),
+    labelTapToCancel: this._translateService.instant('course-details.uploadtapcancel'),
+    labelTapToRetry: this._translateService.instant('course-details.uploadtapretry'),
+    labelTapToUndo: this._translateService.instant('course-details.uploadtapundo'),
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        let course_download_unit_id = localStorage.getItem('course_download_unit_id') || '';
+
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.courseDownloadFileNameEn = 'courseLessonDownloadFile_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('file', file, this.courseDownloadFileNameEn);
+        formData.append('course_unit_id', course_download_unit_id);
+        localStorage.setItem('course_download_file_en', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/company/course/download-temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('course_download_file_en', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+            request.abort();
+            abort();
+          },
+        };
+      },
+    },
+  };
+  downloadPondFilesEn = [];
+  downloadPondOptionsIt = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: this._translateService.instant('course-details.uploaddesc'),
+    labelFileProcessing: this._translateService.instant('course-details.uploadprocessing'),
+    labelFileProcessingComplete: this._translateService.instant('course-details.uploadcomplete'),
+    labelFileProcessingAborted: this._translateService.instant('course-details.uploadcancelled'),
+    labelFileProcessingError: this._translateService.instant('course-details.uploaderror'),
+    labelTapToCancel: this._translateService.instant('course-details.uploadtapcancel'),
+    labelTapToRetry: this._translateService.instant('course-details.uploadtapretry'),
+    labelTapToUndo: this._translateService.instant('course-details.uploadtapundo'),
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        let course_download_unit_id = localStorage.getItem('course_download_unit_id') || '';
+
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.courseDownloadFileNameIt = 'courseLessonDownloadFile_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('file', file, this.courseDownloadFileNameIt);
+        formData.append('course_unit_id', course_download_unit_id);
+        localStorage.setItem('course_download_file_it', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/company/course/download-temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('course_download_file_it', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+            request.abort();
+            abort();
+          },
+        };
+      },
+    },
+  };
+  downloadPondFilesIt = [];
+
   courseIntroPondOptions = {
     class: 'my-filepond',
     multiple: false,
-    labelIdle: 'Arrastra y suelta tu archivo o <span class="filepond--label-action" style="color:#00f;text-decoration:underline;"> Navegar </span><div><small style="color:#006999;font-size:12px;">*Subir archivo</small></div>',
-    labelFileProcessing: "En curso",
-    labelFileProcessingComplete: "Carga completa",
-    labelFileProcessingAborted: "Carga cancelada",
-    labelFileProcessingError: "Error durante la carga",
-    labelTapToCancel: "toque para cancelar",
-    labelTapToRetry: "toca para reintentar",
-    labelTapToUndo: "toque para deshacer",
-    acceptedFileTypes: "application/pdf",
+    labelIdle: this._translateService.instant('course-details.uploaddesc'),
+    labelFileProcessing: this._translateService.instant('course-details.uploadprocessing'),
+    labelFileProcessingComplete: this._translateService.instant('course-details.uploadcomplete'),
+    labelFileProcessingAborted: this._translateService.instant('course-details.uploadcancelled'),
+    labelFileProcessingError: this._translateService.instant('course-details.uploaderror'),
+    labelTapToCancel: this._translateService.instant('course-details.uploadtapcancel'),
+    labelTapToRetry: this._translateService.instant('course-details.uploadtapretry'),
+    labelTapToUndo: this._translateService.instant('course-details.uploadtapundo'),
     server: {
       process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
         let course_intro_unit_id = localStorage.getItem('course_intro_unit_id') || '';
@@ -571,6 +673,109 @@ export class CourseEditComponent {
     },
   };
   courseIntroPondFiles = [];
+  courseIntroPondOptionsEn = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: this._translateService.instant('course-details.uploaddesc'),
+    labelFileProcessing: this._translateService.instant('course-details.uploadprocessing'),
+    labelFileProcessingComplete: this._translateService.instant('course-details.uploadcomplete'),
+    labelFileProcessingAborted: this._translateService.instant('course-details.uploadcancelled'),
+    labelFileProcessingError: this._translateService.instant('course-details.uploaderror'),
+    labelTapToCancel: this._translateService.instant('course-details.uploadtapcancel'),
+    labelTapToRetry: this._translateService.instant('course-details.uploadtapretry'),
+    labelTapToUndo: this._translateService.instant('course-details.uploadtapundo'),
+    acceptedFileTypes: "application/pdf",
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        let course_intro_unit_id = localStorage.getItem('course_intro_unit_id') || '';
+
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.courseIntroFileNameEn = 'courseLessonIntroFile_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('file', file, this.courseIntroFileNameEn);
+        formData.append('course_intro_id', course_intro_unit_id);
+        localStorage.setItem('course_intro_file_en', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/company/course/download-temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('course_intro_file_en', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+            request.abort();
+            abort();
+          },
+        };
+      },
+    },
+  };
+  courseIntroPondFilesEn = [];
+  courseIntroPondOptionsIt = {
+    class: 'my-filepond',
+    multiple: false,
+    labelIdle: this._translateService.instant('course-details.uploaddesc'),
+    labelFileProcessing: this._translateService.instant('course-details.uploadprocessing'),
+    labelFileProcessingComplete: this._translateService.instant('course-details.uploadcomplete'),
+    labelFileProcessingAborted: this._translateService.instant('course-details.uploadcancelled'),
+    labelFileProcessingError: this._translateService.instant('course-details.uploaderror'),
+    labelTapToCancel: this._translateService.instant('course-details.uploadtapcancel'),
+    labelTapToRetry: this._translateService.instant('course-details.uploadtapretry'),
+    labelTapToUndo: this._translateService.instant('course-details.uploadtapundo'),
+    acceptedFileTypes: "application/pdf",
+    server: {
+      process: (fieldName, file, metadata, load, error, progress, abort, transfer, options) => {
+        let course_intro_unit_id = localStorage.getItem('course_intro_unit_id') || '';
+
+        const formData = new FormData();
+        let fileExtension = file ? file.name.split('.').pop() : '';
+        this.courseIntroFileNameIt = 'courseLessonIntroFile_' + this.userId + '_' + this.getTimestamp() + '.' + fileExtension;
+        formData.append('file', file, this.courseIntroFileNameIt);
+        formData.append('course_intro_id', course_intro_unit_id);
+        localStorage.setItem('course_intro_file_it', 'uploading');
+
+        const request = new XMLHttpRequest();
+        request.open('POST', environment.api + '/company/course/download-temp-upload');
+
+        request.upload.onprogress = (e) => {
+          progress(e.lengthComputable, e.loaded, e.total);
+        };
+
+        request.onload = function () {
+          if (request.status >= 200 && request.status < 300) {
+            load(request.responseText);
+            localStorage.setItem('course_intro_file_it', 'complete');
+          } else {
+            error('oh no');
+          }
+        };
+
+        request.send(formData);
+
+        return {
+          abort: () => {
+            request.abort();
+            abort();
+          },
+        };
+      },
+    },
+  };
+  courseIntroPondFilesIt = [];
+
   allTutors: any;
   filteredTutors: any;
   unitAvailability: boolean = false;
@@ -691,12 +896,64 @@ export class CourseEditComponent {
   embedScriptCa: string = '';
   embedScriptDe: string = '';
   embedScriptIt: string = '';
+  
   externalLinkEn: string = '';
   externalLinkFr: string = '';
   externalLinkEu: string = '';
   externalLinkCa: string = '';
   externalLinkDe: string = '';
   externalLinkIt: string = '';
+
+  courseIntroFileName: any;
+  courseIntroFileNameEn: any;
+  courseIntroFileNameFr: any;
+  courseIntroFileNameEu: any;
+  courseIntroFileNameCa: any;
+  courseIntroFileNameDe: any;
+  courseIntroFileNameIt: any;
+  courseIntroEn: boolean = false;
+  courseIntroFr: boolean = false;
+  courseIntroEu: boolean = false;
+  courseIntroCa: boolean = false;
+  courseIntroDe: boolean = false;
+  courseIntroIt: boolean = false;
+  existingIntroPDFFileEn: any;
+  existingIntroPDFFileFr: any;
+  existingIntroPDFFileEu: any;
+  existingIntroPDFFileCa: any;
+  existingIntroPDFFileDe: any;
+  existingIntroPDFFileIt: any;
+  existingIntroPDFFileURLEn: any;
+  existingIntroPDFFileURLFr: any;
+  existingIntroPDFFileURLEu: any;
+  existingIntroPDFFileURLCa: any;
+  existingIntroPDFFileURLDe: any;
+  existingIntroPDFFileURLIt: any;
+  existingIntroRemovedEn: boolean = false;
+  existingIntroRemovedFr: boolean = false;
+  existingIntroRemovedEu: boolean = false;
+  existingIntroRemovedCa: boolean = false;
+  existingIntroRemovedDe: boolean = false;
+  existingIntroRemovedIt: boolean = false;
+
+  courseDownloadTitleEn: any;
+  courseDownloadTitleFr: any;
+  courseDownloadTitleEu: any;
+  courseDownloadTitleCa: any;
+  courseDownloadTitleDe: any;
+  courseDownloadTitleIt: any;
+  courseDownloadFileNameEn: any;
+  courseDownloadFileNameFr: any;
+  courseDownloadFileNameEu: any;
+  courseDownloadFileNameCa: any;
+  courseDownloadFileNameDe: any;
+  courseDownloadFileNameIt: any;
+  courseDownloadFileEn: any;
+  courseDownloadFileFr: any;
+  courseDownloadFileEu: any;
+  courseDownloadFileCa: any;
+  courseDownloadFileDe: any;
+  courseDownloadFileIt: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -1415,9 +1672,23 @@ export class CourseEditComponent {
     this.startButtonColor = this.course.button_color || this.buttonColor;
     this.buyNowButtonColor = this.course.buy_now_button_color || this.buttonColor;
     this.showComments = this.course.show_comments == 1 ? true : false;
+    
     this.courseIntro = this.course.course_intro == 1 ? true : false;
     this.existingIntroPDFFile = this.course.intro_pdf;
+    this.existingIntroPDFFileEn = this.course.intro_en_pdf;
+    this.existingIntroPDFFileFr = this.course.intro_fr_pdf;
+    this.existingIntroPDFFileEu = this.course.intro_eu_pdf;
+    this.existingIntroPDFFileCa = this.course.intro_ca_pdf;
+    this.existingIntroPDFFileDe = this.course.intro_de_pdf;
+    this.existingIntroPDFFileIt = this.course.intro_it_pdf;
     this.existingIntroPDFFileURL = this.course.intro_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_pdf}` : '';
+    this.existingIntroPDFFileURLEn = this.course.intro_en_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_en_pdf}` : '';
+    this.existingIntroPDFFileURLFr = this.course.intro_fr_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_fr_pdf}` : '';
+    this.existingIntroPDFFileURLEu = this.course.intro_eu_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_eu_pdf}` : '';
+    this.existingIntroPDFFileURLCa = this.course.intro_ca_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_ca_pdf}` : '';
+    this.existingIntroPDFFileURLDe = this.course.intro_de_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_de_pdf}` : '';
+    this.existingIntroPDFFileURLIt = this.course.intro_it_pdf ? `${environment.api}/get-course-unit-file/${this.course.intro_it_pdf}` : '';
+
     if(this.hasActivityCodeActivated) {
       this.activityCode = this.course?.activity_code;
       if(this.companyId == 32) {
@@ -2204,14 +2475,30 @@ export class CourseEditComponent {
       }
     }
 
-    let course_intro_file_status = localStorage.getItem('course_intro_file')
-    let course_intro_file = course_intro_file_status == 'complete' ? this.courseIntroFileName : ''
-    if(course_intro_file) {
-      params['intro_pdf'] = course_intro_file;
+    let course_intro_file = localStorage.getItem('course_intro_file') == 'complete' || this.existingIntroPDFFile ? (this.courseIntroFileName || this.existingIntroPDFFile) : ''
+    let course_intro_file_en = localStorage.getItem('course_intro_file_en') == 'complete' || this.existingIntroPDFFileEn ? (this.courseIntroFileNameEn || this.existingIntroPDFFileEn) : ''
+    let course_intro_file_fr = localStorage.getItem('course_intro_file_fr') == 'complete' || this.existingIntroPDFFileFr ? (this.courseIntroFileNameFr || this.existingIntroPDFFileFr) : ''
+    let course_intro_file_eu = localStorage.getItem('course_intro_file_eu') == 'complete' || this.existingIntroPDFFileEu ? (this.courseIntroFileNameEu || this.existingIntroPDFFileEu) : ''
+    let course_intro_file_ca = localStorage.getItem('course_intro_file_ca') == 'complete' || this.existingIntroPDFFileCa ? (this.courseIntroFileNameCa || this.existingIntroPDFFileCa) : ''
+    let course_intro_file_de = localStorage.getItem('course_intro_file_de') == 'complete' || this.existingIntroPDFFileDe ? (this.courseIntroFileNameDe || this.existingIntroPDFFileDe) : ''
+    let course_intro_file_it = localStorage.getItem('course_intro_file_it') == 'complete' || this.existingIntroPDFFileIt ? (this.courseIntroFileNameIt || this.existingIntroPDFFileIt) : ''
+    params['intro_pdf'] = course_intro_file || '';
+    params['intro_en_pdf'] = course_intro_file_en || '';
+    params['intro_fr_pdf'] = course_intro_file_fr || '';
+    params['intro_eu_pdf'] = course_intro_file_eu || '';
+    params['intro_ca_pdf'] = course_intro_file_ca || '';
+    params['intro_de_pdf'] = course_intro_file_de || '';
+    params['intro_it_pdf'] = course_intro_file_it || '';
+    if(this.courseIntro) {
+      params['intro_pdf_removed'] = this.existingIntroRemoved ? 1 : 0;
+      params['intro_en_pdf_removed'] = this.existingIntroRemovedEn ? 1 : 0;
+      params['intro_fr_pdf_removed'] = this.existingIntroRemovedFr ? 1 : 0;
+      params['intro_eu_pdf_removed'] = this.existingIntroRemovedEu ? 1 : 0;
+      params['intro_ca_pdf_removed'] = this.existingIntroRemovedCa ? 1 : 0;
+      params['intro_de_pdf_removed'] = this.existingIntroRemovedDe ? 1 : 0;
+      params['intro_it_pdf_removed'] = this.existingIntroRemovedIt ? 1 : 0;
     }
-    if(this.existingIntroRemoved && this.courseIntro) {
-      params['intro_pdf_removed'] = 1;
-    }
+    
     if(this.hasActivityCodeActivated) {
       params["activity_code"] = this.activityCode || "";
       if(this.companyId == 32) {
@@ -2287,6 +2574,13 @@ export class CourseEditComponent {
     this.newCourseSaving = false;
     this.courseFormSubmitted = false;
     this.issaving = false;
+    this.existingIntroRemoved = false;
+    this.existingIntroRemovedEn = false;
+    this.existingIntroRemovedFr = false;
+    this.existingIntroRemovedEu = false;
+    this.existingIntroRemovedCa = false;
+    this.existingIntroRemovedDe = false;
+    this.existingIntroRemovedIt = false;
     this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
     if(this.id > 0) {
       this.scrollToTop();
@@ -2738,13 +3032,10 @@ export class CourseEditComponent {
   }
 
   addCourseDownload() {
-    this.selectedDownloadId = ''
-    this.selectedDownloadUnitId = ''
-    this.courseDownloadTitle = ''
-    this.courseDownloadFileName = ''
-    this.courseDownloadMode = 'add'
-    this.courseDownloadFormSubmitted = false
-    this.showDownloadDetails = true
+    this.resetDownloads();
+    this.selectedDownloadId = '';
+    this.courseDownloadMode = 'add';
+    this.showDownloadDetails = true;
   }
 
   addDownload() {
@@ -2756,35 +3047,74 @@ export class CourseEditComponent {
       return false
     }
 
-    let course_file_status = localStorage.getItem('course_download_file')
-    let course_file = course_file_status == 'complete' ? this.courseDownloadFileName : ''
+    let course_file = localStorage.getItem('course_download_file') == 'complete' ? this.courseDownloadFileName : ''
+    let course_file_en = localStorage.getItem('course_download_file_en') == 'complete' ? this.courseDownloadFileNameEn : ''
+    let course_file_fr = localStorage.getItem('course_download_file_fr') == 'complete' ? this.courseDownloadFileNameFr : ''
+    let course_file_eu = localStorage.getItem('course_download_file_eu') == 'complete' ? this.courseDownloadFileNameEu : ''
+    let course_file_ca = localStorage.getItem('course_download_file_ca') == 'complete' ? this.courseDownloadFileNameCa : ''
+    let course_file_de = localStorage.getItem('course_download_file_de') == 'complete' ? this.courseDownloadFileNameDe : ''
+    let course_file_it = localStorage.getItem('course_download_file_it') == 'complete' ? this.courseDownloadFileNameIt : ''
 
     let params = {
       company_id: this.companyId,
       course_id: this.course.id,
       course_unit_id: this.selectedDownloadUnitId,
       filename: this.courseDownloadTitle,
-      file: course_file,
+      filename_en: this.courseDownloadTitleEn,
+      filename_fr: this.courseDownloadTitleFr,
+      filename_eu: this.courseDownloadTitleEu,
+      filename_ca: this.courseDownloadTitleCa,
+      filename_de: this.courseDownloadTitleDe,
+      filename_it: this.courseDownloadTitleIt,
+      file: course_file || '',
+      file_en: course_file_en || '',
+      file_fr: course_file_fr || '',
+      file_eu: course_file_eu || '',
+      file_ca: course_file_ca || '',
+      file_de: course_file_de || '',
+      file_it: course_file_it || '',
     }
 
     this._coursesService.addCourseUnitDownload(
       params,
     ).subscribe(
       response => {
-        this.getCourseDownloads()
-        this.selectedDownloadUnitId = ''
-        this.courseDownloadTitle = ''
-        this.courseDownloadFileName = ''
-        this.courseDownloadMode = ''
-        this.showDownloadDetails = false
-        this.courseDownloadFormSubmitted = false
-        localStorage.removeItem('course_download_file')
+        this.getCourseDownloads();
+        this.resetDownloads();
         this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
       },
       error => {
         this.open(this._translateService.instant("dialog.error"), "");
       }
     )
+  }
+
+  resetDownloads() {
+    this.selectedDownloadUnitId = '';
+    this.courseDownloadTitle = '';
+    this.courseDownloadTitleEn = '';
+    this.courseDownloadTitleFr = '';
+    this.courseDownloadTitleEu = '';
+    this.courseDownloadTitleCa = '';
+    this.courseDownloadTitleDe = '';
+    this.courseDownloadTitleIt = '';
+    this.courseDownloadFileName = '';
+    this.courseDownloadFileNameEn = '';
+    this.courseDownloadFileNameFr = '';
+    this.courseDownloadFileNameEu = '';
+    this.courseDownloadFileNameCa = '';
+    this.courseDownloadFileNameDe = '';
+    this.courseDownloadFileNameIt = '';
+    this.courseDownloadMode = '';
+    this.showDownloadDetails = false;
+    this.courseDownloadFormSubmitted = false;
+    localStorage.removeItem('course_download_file');
+    localStorage.removeItem('course_download_file_en');
+    localStorage.removeItem('course_download_file_fr');
+    localStorage.removeItem('course_download_file_eu');
+    localStorage.removeItem('course_download_file_ca');
+    localStorage.removeItem('course_download_file_de');
+    localStorage.removeItem('course_download_file_it');
   }
 
   viewCourseDownload(download) {
@@ -2800,7 +3130,19 @@ export class CourseEditComponent {
     this.courseDownloadMode = 'edit'
     this.selectedCourseDownloadId = download.id
     this.courseDownloadTitle = download.filename
+    this.courseDownloadTitleEn = download.filename_en
+    this.courseDownloadTitleFr = download.filename_fr
+    this.courseDownloadTitleEu = download.filename_eu
+    this.courseDownloadTitleCa = download.filename_ca
+    this.courseDownloadTitleDe = download.filename_de
+    this.courseDownloadTitleIt = download.filename_it
     this.courseDownloadFile = download.file
+    this.courseDownloadFileEn = download.file_en
+    this.courseDownloadFileFr = download.file_fr
+    this.courseDownloadFileEu = download.file_eu
+    this.courseDownloadFileCa = download.file_ca
+    this.courseDownloadFileDe = download.file_de
+    this.courseDownloadFileIt = download.file_it
     this.selectedDownloadUnitId = download.course_unit_id || ''
     this.showDownloadDetails = true
     this.courseDownloadFormSubmitted = false
@@ -2814,12 +3156,13 @@ export class CourseEditComponent {
       return false
     }
 
-    let course_file_status
-    let course_file
-    if(this.courseDownloadFileName) {
-      localStorage.getItem('course_download_file')
-      course_file = course_file_status == 'complete' ? this.courseDownloadFileName : ''
-    }
+    let course_file = localStorage.getItem('course_download_file') == 'complete' || this.courseDownloadFile ? this.courseDownloadFile : ''
+    let course_file_en = localStorage.getItem('course_download_file_en') == 'complete' || this.courseDownloadFileEn ? this.courseDownloadFileEn : ''
+    let course_file_fr = localStorage.getItem('course_download_file_fr') == 'complete' || this.courseDownloadFileFr ? this.courseDownloadFileFr : ''
+    let course_file_eu = localStorage.getItem('course_download_file_eu') == 'complete' || this.courseDownloadFileEu ? this.courseDownloadFileEu : ''
+    let course_file_ca = localStorage.getItem('course_download_file_ca') == 'complete' || this.courseDownloadFileCa ? this.courseDownloadFileCa : ''
+    let course_file_de = localStorage.getItem('course_download_file_de') == 'complete' || this.courseDownloadFileDe ? this.courseDownloadFileDe : ''
+    let course_file_it = localStorage.getItem('course_download_file_it') == 'complete' || this.courseDownloadFileIt ? this.courseDownloadFileIt : ''
 
     let params = {
       id: this.selectedCourseDownloadId,
@@ -2827,21 +3170,27 @@ export class CourseEditComponent {
       course_id: this.course.id,
       course_unit_id: this.selectedDownloadUnitId,
       filename: this.courseDownloadTitle,
-      file: course_file || this.courseDownloadFile,
+      filename_en: this.courseDownloadTitleEn,
+      filename_fr: this.courseDownloadTitleFr,
+      filename_eu: this.courseDownloadTitleEu,
+      filename_ca: this.courseDownloadTitleCa,
+      filename_de: this.courseDownloadTitleDe,
+      filename_it: this.courseDownloadTitleIt,
+      file: course_file,
+      file_en: course_file_en,
+      file_fr: course_file_fr,
+      file_eu: course_file_eu,
+      file_ca: course_file_ca,
+      file_de: course_file_de,
+      file_it: course_file_it,
     }
 
     this._coursesService.updateCourseUnitDownload(
       params,
     ).subscribe(
       response => {
-        this.getCourseDownloads()
-        this.selectedDownloadUnitId = ''
-        this.courseDownloadTitle = ''
-        this.courseDownloadFileName = ''
-        this.courseDownloadMode = ''
-        this.showDownloadDetails = false
-        this.courseDownloadFormSubmitted = false
-        localStorage.removeItem('course_download_file')
+        this.getCourseDownloads();
+        this.resetDownloads();
         this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
       },
       error => {
@@ -3855,6 +4204,46 @@ export class CourseEditComponent {
     console.log('FilePond has processed files', this.coursePondVideo);
     this.existingVideoURL = `${environment.api}/get-course-unit-file/${this.courseCoverVideoFileName}`;
     this.courseVideoCoverUploaded = true;
+  }
+
+  courseIntroPondHandleInitEn() {
+    console.log('Course Intro FilePond has initialised', this.myPond);
+  }
+
+  courseIntroPondHandleInitIt() {
+    console.log('Course Intro FilePond has initialised', this.myPond);
+  }
+
+  courseIntroPondHandleAddFileEn(event: any) {
+    console.log('A file was added (course Intro)', event);
+  }
+
+  courseIntroPondHandleAddFileIt(event: any) {
+    console.log('A file was added (course Intro)', event);
+  }
+
+  removeExistingIntroPDFEn() {
+    this.existingIntroRemovedEn = true;
+  }
+
+  removeExistingIntroPDFIt() {
+    this.existingIntroRemovedIt = true;
+  }
+
+  downloadPondHandleInitEn() {
+    console.log('Download FilePond has initialised', this.myPond);
+  }
+
+  downloadPondHandleInitIt() {
+    console.log('Download FilePond has initialised', this.myPond);
+  }
+
+  downloadPondHandleAddFileEn(event: any) {
+    console.log('A file was added (download)', event);
+  }
+
+  downloadPondHandleAddFileIt(event: any) {
+    console.log('A file was added (download)', event);
   }
 
   clearVideo() {
