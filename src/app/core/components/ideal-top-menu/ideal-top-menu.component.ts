@@ -17,7 +17,7 @@ import { LogoComponent } from "../logo/logo.component";
 import { COMPANY_IMAGE_URL } from "@lib/api-constants";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { MatSnackBar, MatSnackBarModule  } from '@angular/material/snack-bar';
+import { MatSnackBarModule  } from '@angular/material/snack-bar';
 import { initFlowbite } from "flowbite";
 import { MenuIcon } from "@lib/interfaces";
 import {
@@ -41,7 +41,7 @@ import { GuestMenuComponent } from "../guest-menu/guest-menu.component";
 import { DateAgoPipe } from "@lib/pipes";
 import { environment } from "@env/environment";
 import { CartService } from "@features/services/shop/cart.service";
-import { Cart, CartItem } from "@features/models/shop/cart.model";
+import { CartItem } from "@features/models/shop/cart.model";
 
 @Component({
   selector: "app-ideal-top-menu",

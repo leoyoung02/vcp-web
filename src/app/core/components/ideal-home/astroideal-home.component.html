@@ -1,50 +1,58 @@
 <div class="relative">
-  <div class="z-0 relative">
-    <img src="/src/assets/images/ideal_home/header/back.png" />
+  <div class="z-0 relative hidden md:block">
+    <img class="w-full" src="/src/assets/images/ideal_home/header/back.png" />
   </div>
   <div
-    class="2xl:pt-[270px] z-30 absolute w-full top-0 left-0 flex flex-col justify-between h-full"
+    class="2xl:pt-[270px] z-30 relative md:absolute w-full top-0 left-0 flex flex-col justify-between h-full space-y-6 md:space-y-0"
   >
     <!-- <img class="" src="/src/assets/images/ideal_home/header/avatar.png" /> -->
     <div class="w-10 h-[180px]"></div>
-    <div class="flex w-full justify-end">
-      <div class="basis-1/2 ml-[-48px]">
-        <p class="text-[#CEB05A] xl:text-2xl 2xl:text-4xl">
-          Te ayudamos a ESTAR EN CONTACTO CONTIGO MISMO Y EL MUNDO QUE TE RODEA
+    <div class="flex w-full justify-center md:justify-end">
+      <div class="basis-full md:basis-1/2 px-4 md:px-0 ml-0 md:ml-[-48px]">
+        <p class="text-[#CEB05A] text-2xl md:text-xl xl:text-2xl 2xl:text-4xl">
+          {{ "professionals.banner_title" | translate }}
         </p>
       </div>
     </div>
     <div class="flex justify-center">
       <div
-        class="grid grid-rows-2 grid-cols-2 md:grid-rows-1 md:grid-cols-4 gap-x-16 text-white gap-y-16"
+        class="grid grid-rows-4 grid-cols-1 sm:grid-rows-2 sm:grid-cols-2 md:grid-rows-1 md:grid-cols-4 gap-x-16 text-white gap-y-16"
       >
         <div class="rounded-xl bg-[#1E1E1E] py-4 px-2">
           <div class="flex flex-col items-center">
             <img src="/src/assets/images/ideal_home/header/img1.png" />
-            <p class="mt-2 xl:text-2xl 2xl:text-3xl">Habla con Tarotista</p>
+            <p class="mt-2 xl:text-2xl 2xl:text-3xl">
+              {{ "professionals.talktoatarotreader" | translate }}
+            </p>
           </div>
         </div>
         <div class="rounded-xl bg-[#1E1E1E] py-4 px-2">
           <div class="flex flex-col items-center">
             <img src="/src/assets/images/ideal_home/header/img2.png" />
-            <p class="mt-2 xl:text-2xl 2xl:text-3xl">Reserva tu Ritual</p>
+            <p class="mt-2 xl:text-2xl 2xl:text-3xl">
+              {{ "professionals.bookyourritual" | translate }}
+            </p>
           </div>
         </div>
         <div class="rounded-xl bg-[#1E1E1E] py-4 px-2">
           <div class="flex flex-col items-center">
             <img src="/src/assets/images/ideal_home/header/img3.png" />
-            <p class="mt-2 xl:text-2xl 2xl:text-3xl">Atiende tu Evento</p>
+            <p class="mt-2 xl:text-2xl 2xl:text-3xl">
+              {{ "professionals.attendyourevent" | translate }}
+            </p>
           </div>
         </div>
         <div class="rounded-xl bg-[#1E1E1E] py-4 px-2">
           <div class="flex flex-col items-center">
             <img src="/src/assets/images/ideal_home/header/img4.png" />
-            <p class="mt-2 xl:text-2xl 2xl:text-3xl">Haz tu Curso</p>
+            <p class="mt-2 xl:text-2xl 2xl:text-3xl">
+              {{ "professionals.takeyourcourse" | translate }}
+            </p>
           </div>
         </div>
       </div>
     </div>
-    <div class="absolute top-[42%] left-[6%] z-10">
+    <div class="absolute top-[42%] left-[6%] z-10 hidden md:block">
       <img
         class="w-[36.7vw]"
         src="/src/assets/images/ideal_home/header/people.png"
@@ -53,21 +61,26 @@
   </div>
 </div>
 
-<div class="md:container md:mx-auto pt-32 relative">
-  <div class="absolute top-0 z-0">
+<div class="pt-32 relative">
+  <div class="absolute top-0 z-0 w-full">
     <img class="w-full" src="/src/assets/images/ideal_home/back.jpg" />
   </div>
-  <div class="relative z-10">
+  <div class="relative z-10 md:container md:mx-auto">
     <div class="mb-12 flex justify-center">
-      <p class="text-[40px] font-bold">Conoce nuestros Tarotistas</p>
+      <p class="text-[40px] font-bold text-center">
+        {{ "professionals.meetourtarotreaders" | translate }}
+      </p>
     </div>
 
     <div
       class="flex flex-col gap-y-4 items-center xl:flex-row xl:justify-between"
     >
+      <ng-container *ngFor="let professional of professionals">
+        <app-tarot-card [cardData]="professional"></app-tarot-card>
+      </ng-container>
+      <!-- <app-tarot-card />
       <app-tarot-card />
-      <app-tarot-card />
-      <app-tarot-card />
+      <app-tarot-card /> -->
     </div>
 
     <div class="flex flex-col relative items-center mt-12">
@@ -75,7 +88,7 @@
         <p
           class="text-[#6F30C7] font-semibold text-2xl relative transform -translate-y-1/2"
         >
-          Ver todos los Tarotistas&nbsp;
+          {{ "professionals.seealltarotreaders" | translate }}&nbsp;
           <fa-icon
             class="fa w-5 h-5 text-[#6F30C7]"
             [icon]="arrowRightIcon"
@@ -88,44 +101,24 @@
       <div
         class="xl:basis-2/5 basis-full flex items-center xl:items-normal flex-col xl:block"
       >
-        <p class="font-bold text-[40px]">Profesionales Holísticos</p>
-        <p class="mt-3 text-xl mb-28">
+        <p class="font-bold text-[40px] text-center">
+          {{ "professionals.holisticprofessionals" | translate }}
+        </p>
+        <p class="mt-3 text-xl mb-28 mx-4 md:mx-0">
           Lorem ipsum dolor sit amet consectetur. Tortor purus scelerisque
           faucibus gravida mus ultricies dignissim. Non platea vestibulum
           laoreet adipiscing lobortis
         </p>
 
         <div class="flex flex-col space-y-8">
-          <app-category-card
-            [cardData]="{
-              title: 'Dinero',
-              image: '/src/assets/images/ideal_home/dollar.png'
-            }"
-          />
-          <app-category-card
-            [cardData]="{
-              title: 'Relaciones',
-              image: '/src/assets/images/ideal_home/big_snow.png'
-            }"
-          />
-          <app-category-card
-            [cardData]="{
-              title: 'Cuerpo',
-              image: '/src/assets/images/ideal_home/big_human.png'
-            }"
-          />
-          <app-category-card
-            [cardData]="{
-              title: 'Energía',
-              image: '/src/assets/images/ideal_home/energy.png'
-            }"
-          />
-          <app-category-card
-            [cardData]="{
-              title: 'Espiritualidad',
-              image: '/src/assets/images/ideal_home/rune.png'
-            }"
-          />
+          <ng-container *ngFor="let category of categories">
+            <app-category-card
+              [cardData]="{
+                title: this.titleTranslator(category),
+                image: '/src/assets/images/ideal_home/dollar.png'
+              }"
+            />
+          </ng-container>
         </div>
       </div>
       <div
@@ -133,150 +126,72 @@
       >
         <div class="flex">
           <div
-            class="ml-0 xl:ml-52 mt-9 bg-[#A77FE0] flex justify-center items-center w-20 h-20 rounded-md mr-7"
+            class="ml-0 xl:ml-52 mt-9 bg-[#A77FE0] justify-center items-center w-20 h-20 rounded-md mr-7 hidden md:flex"
           >
             <img src="/src/assets/images/ideal_home/snow.png" />
           </div>
           <div class="mr-1">
-            <app-tarot-card-portrait />
+            <app-tarot-card-portrait [cardData]="professionals[0]" />
           </div>
         </div>
         <div class="flex mt-7">
           <div
-            class="mt-16 bg-[#A77FE0] flex justify-center items-center w-20 h-20 rounded-md mr-7"
+            class="mt-16 bg-[#A77FE0] hidden md:flex justify-center items-center w-20 h-20 rounded-md mr-7"
           >
             <img src="/src/assets/images/ideal_home/human.png" />
           </div>
           <div class="mr-1">
-            <app-tarot-card-portrait />
+            <app-tarot-card-portrait [cardData]="professionals[1]" />
           </div>
         </div>
         <div class="flex mt-5">
           <div
-            class="ml-0 xl:ml-52 mt-10 bg-[#A77FE0] flex justify-center items-center w-20 h-20 rounded-md mr-10"
+            class="ml-0 xl:ml-52 mt-10 bg-[#A77FE0] hidden md:flex justify-center items-center w-20 h-20 rounded-md mr-10"
           >
             <img src="/src/assets/images/ideal_home/rune.png" />
           </div>
           <div class="mr-1">
-            <app-tarot-card-portrait />
+            <app-tarot-card-portrait [cardData]="professionals[2]" />
           </div>
         </div>
       </div>
     </div>
+  </div>
+
+  <div class="justify-center flex mt-[160px]">
+    <p class="font-semibold text-[35px]">
+      {{ "professionals.gettoknowourfreeresources" | translate }}
+    </p>
   </div>
 
   <div class="mt-24 md:container md:mx-auto">
     <div
-      class="grid gap-x-14 gap-y-6 grid-rows-2 grid-cols-2 xl:grid-rows-1 xl:grid-cols-4"
+      class="grid gap-x-14 gap-y-6 grid-rows-4 grid-cols-1 md:grid-rows-2 md:grid-cols-2 xl:grid-rows-1 xl:grid-cols-4"
     >
-      <div class="flex justify-center">
-        <app-blog-card [cardData]="{ title: 'Match Pareja' }" />
-      </div>
-      <div class="flex justify-center">
-        <app-blog-card [cardData]="{ title: 'Horóscopo' }" />
-      </div>
-      <div class="flex justify-center">
-        <app-blog-card [cardData]="{ title: 'BLOG' }" />
-      </div>
-      <div class="flex justify-center">
-        <app-blog-card [cardData]="{ title: 'CARTA ASTRAL' }" />
-      </div>
+
+      <ng-container *ngFor="let service of services">
+        <div class="flex justify-center">
+          <app-blog-card [cardData]="{ title: titleTranslator(service), description: descriptionTranslator(service) }" />
+        </div>
+      </ng-container>
     </div>
   </div>
 
-  <div class="flex justify-center mt-20">
+  <div class="flex justify-center mt-20 mb-36">
     <div
       class="py-4 px-5 bg-gradient-to-r from-[#A77FE0] to-[#874FD5] text-2xl font-semibold text-white rounded-md"
     >
-      Ver todos los servicios
+      {{ "professionals.seeallservices" | translate }}
     </div>
   </div>
 
-  <div class="relative">
-    <div class="absolute z-0 top-0 left-0">
-      <img class="w-full" src="/src/assets/images/ideal_home/sided_back.jpg" />
-    </div>
-    <div class="relative z-10">
-      <div class="flex justify-center pt-60">
-        <div
-          class="w-[800px] xl:w-[1100px] flex px-24 xl:px-36 py-16 flex-col space-y-12 rounded-lg bg-[#F5F6F8] shadow-lg"
-        >
-          <p class="text-3xl">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti
-            sint ipsa aliquid, qui rerum, minima illum deserunt alias eaque eius
-            saepe a nostrum autem architecto. Assumenda numquam ad magni sed.
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit.Deleniti
-            sint ipsa
-          </p>
-          <div
-            class="flex flex-col space-y-4 xl:space-y-0 xl:justify-between xl:flex-row"
-          >
-            <div class="flex items-center justify-between xl:space-x-9">
-              <img src="/src/assets/images/ideal_home/avatar.png" />
-              <div>
-                <p class="font-bold text-3xl">Nombre</p>
-                <p class="text-2xl">Lorem ipsum d...</p>
-              </div>
-            </div>
-            <div
-              class="text-[#A77FE0] flex justify-center xl:justify-normal xl:items-center xl:self-end"
-            >
-              <p class="font-extrabold text-2xl">
-                Conoce mas de estos testimonios&nbsp;
-              </p>
-              <fa-icon class="fa text-2xl" [icon]="arrowRightIcon"></fa-icon>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="grid grid-rows-2 grid-cols-5 gap-x-6 gap-y-10 mt-80 mb-[300px]">
-    <div class="col-span-2 flex justify-center items-center">
-      <div class="w-[300px] flex flex-col space-y-6">
-        <div class="flex justify-between items-center">
-          <img src="/src/assets/images/ideal_home/avatar_empty.png" />
-          <p class="font-semibold text-3xl">@Astroideal</p>
-        </div>
-        <div
-          class="#A77FE0 rounded-md font-semibold text-xl space-x-6 space-y-5"
-        >
-          Síguenos en Instagram
-        </div>
-      </div>
-    </div>
-    <div class="w-full">
-      <img class="w-full" src="/src/assets/images/ideal_home/img/img1.png" />
-    </div>
-    <div class="w-full">
-      <img class="w-full" src="/src/assets/images/ideal_home/img/img2.png" />
-    </div>
-    <div class="w-full">
-      <img class="w-full" src="/src/assets/images/ideal_home/img/img3.png" />
-    </div>
-    <div class="w-full">
-      <img class="w-full" src="/src/assets/images/ideal_home/img/img4.png" />
-    </div>
-    <div class="w-full">
-      <img class="w-full" src="/src/assets/images/ideal_home/img/img5.png" />
-    </div>
-    <div class="w-full">
-      <img class="w-full" src="/src/assets/images/ideal_home/img/img6.png" />
-    </div>
-    <div class="w-full">
-      <img class="w-full" src="/src/assets/images/ideal_home/img/img7.png" />
-    </div>
-    <div class="w-full">
-      <img class="w-full" src="/src/assets/images/ideal_home/img/img8.png" />
-    </div>
-  </div>
-
+  <app-testimonial-card [cardData]="testimonial" />
+  
   <iframe
-    [src]="'https://www.instagram.com/p/1238578393243739028/embed'"
+    src="instagram_feed"
     frameborder="0"
-    scrolling="no"
-    allowtransparency="true"
-    allow="encrypted-media"
+    width="1000"
+    height="1000"
+    style="display: block; margin: 0 auto"
   ></iframe>
 </div>

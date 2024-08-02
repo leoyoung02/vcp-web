@@ -1,7 +1,5 @@
 import { Component, Input } from "@angular/core";
 import { CommonModule, NgOptimizedImage } from "@angular/common";
-import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
-import { IconDefinition } from "@fortawesome/free-solid-svg-icons";
 
 interface ICategoryCardData {
   title: string;

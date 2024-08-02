@@ -18,6 +18,9 @@ interface ITarotCardData {
   salary: string;
   rate: number;
   rate_currency: string;
+  chat: boolean;
+  voice_call: boolean;
+  video_call: boolean;
 }
 
 @Component({
@@ -35,20 +38,7 @@ interface ITarotCardData {
 export class TarotCardComponent {
   @Input() cardData!: ITarotCardData;
   @Input() direction: "flex-row" | "flex-col" = "flex-col";
-
-  mockData: ITarotCardData = {
-    image: "",
-    title: "Nombre Tarotista",
-    description: "Lorem ipsum dolor sit amet consectetur. Tortor purus scelerisque faucibus gravida mus ultricies dignissim. Non platea vestibulum laoreet adipiscing lobortis",
-    specialties: [""],
-    rating: 4,
-    salary: "EUR 20,00",
-    rate: 4,
-    rate_currency: "$"
-  }
   commentIcon = faComment;
   phoneIcon = faPhoneFlip;
   videoIcon = faVideo;
-
-  // imageUrl = `/professionals/details/${this.cardData.image}`;
 }

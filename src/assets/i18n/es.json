@@ -3791,7 +3791,18 @@
         "incomingchat": "Solicitud de chat entrante",
         "waitingfor": "Esperando",
         "acceptchatrequest": "aceptar solicitud de chat",
-        "chatinprogress": "Chat en curso"
+        "chatinprogress": "Chat en curso",
+        "banner_title": "Te ayudamos a ESTAR EN CONTACTO CONTIGO MISMO Y EL MUNDO QUE TE RODEA",
+        "talktoatarotreader": "Habla con Tarotista",
+        "bookyourritual": "Reserva tu Ritual",
+        "attendyourevent": "Atiende tu Evento",
+        "takeyourcourse": "Haz tu Curso",
+        "meetourtarotreaders": "Conoce nuestros Tarotistas",
+        "seealltarotreaders": "Ver todos los Tarotistas",
+        "holisticprofessionals": "Profesionales Holísticos",
+        "gettoknowourfreeresources": "Conoce nuestros recursos gratuitos",
+        "seeallservices": "Ver todos los servicios",
+        "learnmoreaboutthesetestimonies": "Conoce mas de estos testimonios"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

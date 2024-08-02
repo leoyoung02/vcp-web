@@ -617,6 +617,7 @@ export const TESTIMONIAL_TAGS_URL = `${API_BASE}/company/testimonial/tags`;
 export const ADD_TESTIMONIAL_TAG_URL = `${API_BASE}/company/testimonial/tag/add`;
 export const EDIT_TESTIMONIAL_TAG_URL = `${API_BASE}/company/testimonial/tag/edit`;
 export const DELETE_TESTIMONIAL_TAG_URL = `${API_BASE}/company/testimonial/tag/delete`;
+export const RANDOM_TESTIMONIAL_URL = `${API_BASE}/company/testimonial/random`;
 
 export const TESTIMONIALS_URL = `${API_BASE}/v2/testimonials`;
 export const TESTIMONIAL_DETAILS_URL = `${API_BASE}/v2/testimonial-details`;

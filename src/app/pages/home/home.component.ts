@@ -203,8 +203,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   isMiddleSectionTemplate: boolean = false;
   planCalendar: boolean = false;
   isCursoGeniusTestimonials: boolean = false;
-  
-  professionals: any[] = [];
 
   mockCategoryData = {
     image: '1.png',
@@ -286,26 +284,6 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.getSchoolOfLifeTitle();
       }
       this.homeActive = company[0].show_home_menu == 1 ? true : false;
-
-      this._companyService.getCompanyProfessional(this.companyId).subscribe(
-        (response) => {
-          const professionalData = response.professionals.slice(0, 3).map((item) => ({
-            id: item.id,
-            title: item.user.name,
-            image: item.user.image,
-            description: item.user.who_am_i,
-            rating: item.experience,
-            salary: `${item.rate_currency} ${item.rate}`,
-            rate: item.rate,
-            rate_currency: item.rate_currency,
-          }));
-          this.professionals = professionalData;
-        },
-        (error) => {
-          console.log(error);
-        }
-      );;
-
 
       if(!this.homeActive) {
         let menus = this._localService.getLocalStorage(environment.lsmenus) ? JSON.parse(this._localService.getLocalStorage(environment.lsmenus)) : '';

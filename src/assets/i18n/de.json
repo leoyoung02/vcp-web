@@ -3769,7 +3769,18 @@
         "incomingchat": "Eingehende Chat-Anfrage",
         "waitingfor": "Warten auf",
         "acceptchatrequest": "Chat-Anfrage annehmen",
-        "chatinprogress": "Chat läuft"
+        "chatinprogress": "Chat läuft",
+        "banner_title": "Wir helfen Ihnen, mit Ihnen in Kontakt zu bleiben SIE selbst und die Welt um Sie herum",
+        "talktoatarotreader": "Sprechen Sie mit dem Tarotisten",
+        "bookyourritual": "Reservieren Sie Ihr Ritual",
+        "attendyourevent": "Nehmen Sie an Ihrer Veranstaltung teil",
+        "takeyourcourse": "Nehmen Sie an Ihrem Kurs teil",
+        "meetourtarotreaders": "Treffen Sie unsere Tarot-Leser",
+        "seealltarotreaders": "Alle Tarot-Leser anzeigen",
+        "holisticprofessionals": "Ganzheitliche Profis",
+        "gettoknowourfreeresources": "Erfahren Sie mehr über unsere kostenlosen Ressourcen",
+        "seeallservices": "Alle Dienste anzeigen",
+        "learnmoreaboutthesetestimonies": "Erfahren Sie mehr über diese Zeugnisse"
     },
     "my-account": {
         "availablebalance": "Verfügbares Guthaben",

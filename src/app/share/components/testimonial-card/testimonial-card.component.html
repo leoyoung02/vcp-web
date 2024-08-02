@@ -1,0 +1,41 @@
+<div class="relative">
+  <div class="z-0 w-full hidden md:block relative">
+    <img class="w-full" src="/src/assets/images/ideal_home/sided_back.jpg" />
+  </div>
+  <div class="relative md:absolute z-10 top-0 w-full h-full flex items-center justify-center">
+    <div class="flex justify-center">
+      <div
+        class="mx-10 md:mx-0 w-full md:w-[800px] xl:w-[1100px] flex px-4 md:px-24 xl:px-36 py-2 md:py-[42px] lg:py-[86px] flex-col space-y-12 rounded-lg bg-[#F5F6F8] shadow-lg"
+      >
+        <p class="text-lg md:text-2xl leading-[40px] lg:text-[29px] lg:leading-[40px] line-clamp-5" [innerHtml]="cardData.description">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Deleniti
+          sint ipsa aliquid, qui rerum, minima illum deserunt alias eaque eius
+          saepe a nostrum autem architecto. Assumenda numquam ad magni sed.
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit.Deleniti
+          sint ipsa
+        </p>
+        <div
+          class="flex flex-col space-y-4 xl:space-y-0 xl:justify-between xl:flex-row"
+        >
+          <div class="flex items-center justify-between xl:space-x-9">
+            <div class="w-[79px] h-[79px] overflow-hidden">
+              <img [ngSrc]="cardData.image" />
+            </div>
+            <div>
+              <p class="font-bold text-3xl">{{ cardData.author }}</p>
+              <p class="text-2xl w-[200px] line-clamp-1" [innerHTML]="cardData.short_description"></p>
+            </div>
+          </div>
+          <div
+            class="text-[#A77FE0] flex justify-center xl:justify-normal xl:items-center xl:self-end"
+          >
+            <p class="font-extrabold text-2xl">
+              {{ 'professionals.learnmoreaboutthesetestimonies' | translate }}&nbsp;
+            </p>
+            <fa-icon class="fa text-2xl" [icon]="arrowRightIcon"></fa-icon>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

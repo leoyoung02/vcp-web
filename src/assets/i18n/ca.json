@@ -3777,7 +3777,18 @@
         "incomingchat": "Sol·licitud de xat entrant",
         "waitingfor": "Esperant",
         "acceptchatrequest": "per acceptar la sol·licitud de xat",
-        "chatinprogress": "Xat en curs"
+        "chatinprogress": "Xat en curs",
+        "banner_title": "T'ajudem a ESTAR EN CONTACTE AMB TU MATEIX I EL MÓN QUE ET ENVOLTA",
+        "talktoatarotreader": "Parla amb Tarotista",
+        "bookyourritual": "Reserva el teu Ritual",
+        "attendyourevent": "Atén el teu Esdeveniment",
+        "takeyourcourse": "Fes el teu curs",
+        "meetourtarotreaders": "Coneix els nostres Tarotistes",
+        "seealltarotreaders": "Veure tots els Tarotistes",
+        "holisticprofessionals": "Professionals Holístics",
+        "gettoknowourfreeresources": "Coneix els nostres recursos gratuïts",
+        "seeallservices": "Veure tots els serveis",
+        "learnmoreaboutthesetestimonies": "Coneix més d'aquests testimonis"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

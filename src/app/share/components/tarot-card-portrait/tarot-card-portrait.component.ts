@@ -49,6 +49,4 @@ export class TarotCardPortraitComponent {
   commentIcon = faComment;
   phoneIcon = faPhoneFlip;
   videoIcon = faVideo;
-
-  // imageUrl = `/professionals/details/${this.cardData.image}`;
 }

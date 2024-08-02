@@ -3764,7 +3764,18 @@
         "incomingchat": "Demande de chat entrante",
         "en attente": "En attente de",
         "acceptchatrequest": "pour accepter la demande de chat",
-        "chatinprogress": "Chat en cours"
+        "chatinprogress": "Chat en cours",
+        "banner_title": "Nous vous aidons à ÊTRE EN CONTACT AVEC VOUS VOUS-MÊME ET LE MONDE AUTOUR DE VOUS",
+        "talktoatarotreader": "Parlez au tarotiste",
+        "bookyourritual": "Réservez votre rituel",
+        "attendyourevent": "Assistez à votre événement",
+        "takeyourcourse": "Suivez votre cours",
+        "meetourtarotreaders": "Rencontrez nos lecteurs de Tarot",
+        "seealltarotreaders": "Voir tous les lecteurs de Tarot",
+        "holisticprofessionals": "Professionnels holistiques",
+        "gettoknowourfreeresources": "Découvrez nos ressources gratuites",
+        "seeallservices": "Voir toutes les prestations",
+        "learnmoreaboutthesetestimonies": "En savoir plus sur ces témoignages"
     },
     "my-account": {
         "availablebalance": "Solde disponible",

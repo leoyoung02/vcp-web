@@ -3,14 +3,10 @@ import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { StarRatingComponent } from "@lib/components";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { IdealButtonComponent } from "../ideal-button/ideal-button.component";
-import {
-  faComment,
-  faPhoneFlip,
-  faVideo,
-} from "@fortawesome/free-solid-svg-icons";
 
 interface IBlogCardData {
   title: string;
+  description: string;
 }
 
 @Component({

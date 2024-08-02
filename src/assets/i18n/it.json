@@ -3763,7 +3763,18 @@
         "incomingchat": "Richiesta di chat in arrivo",
         "waitingfor": "Aspettando",
         "acceptchatrequest": "per accettare la richiesta di chat",
-        "chatinprogress": "Chat in corso"
+        "chatinprogress": "Chat in corso",
+        "banner_title": "Ti aiutiamo a ESSERE IN CONTATTO CON TE TE STESSO E IL MONDO INTORNO A TE",
+        "talktoatarotreader": "Parla con il Tarotista",
+        "bookyourritual": "Prenota il tuo Rituale",
+        "attendyourevent": "Partecipa al tuo evento",
+        "takeyourcourse": "Segui il tuo corso",
+        "meetourtarotreaders": "Incontra i nostri lettori di tarocchi",
+        "seealltarotreaders": "Vedi tutti i lettori di tarocchi",
+        "holisticprofessionals": "Professionisti olistici",
+        "gettoknowourfreeresources": "Scopri le nostre risorse gratuite",
+        "seeallservices": "Vedi tutti i servizi",
+        "learnmoreaboutthesetestimonies": "Scopri di più su queste testimonianze"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

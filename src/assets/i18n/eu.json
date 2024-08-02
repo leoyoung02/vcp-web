@@ -3770,7 +3770,18 @@
         "incomingchat": "Sarrerako txat eskaera",
         "waitingfor": "Itxaron",
         "acceptchatrequest": "txat eskaera onartzeko",
-        "chatinprogress": "Txatea martxan"
+        "chatinprogress": "Txatea martxan",
+        "banner_title": "ZUREKIN HARREMANETAN EGOTEN laguntzen dizugu ZURE BURUA ETA INGURUKO MUNDUA",
+        "talktoatarotreader": "Tarotistarekin hitz egin",
+        "bookyourritual": "Erreserbatu zure erritua",
+        "attendyourevent": "Joan zaitez zure ekitaldira",
+        "takeyourcourse": "Hartu zure Ikastaroa",
+        "meetourtarotreaders": "Ezagutu gure Tarot irakurleak",
+        "seealltarotreaders": "Ikusi Tarot irakurle guztiak",
+        "holisticprofessionals": "Profesional holistikoak",
+        "gettoknowourfreeresources": "Ezagutu gure doako baliabideei buruz",
+        "seeallservices": "Ikusi zerbitzu guztiak",
+        "learnmoreaboutthesetestimonies": "Informazio gehiago testigantza hauei buruz"
     },
     "my-account": {
         "availablebalance": "Saldo erabilgarria",
