@@ -3819,7 +3819,7 @@
         "bookyourritual": "Reserva tu Ritual",
         "attendyourevent": "Atiende tu Evento",
         "takeyourcourse": "Haz tu Curso",
-        "meetourtarotreaders": "Conoce nuestros Tarotistas",
+        "meetourtarotreaders": "Conoce nuestros Tarotista",
         "seealltarotreaders": "Ver todos los Tarotistas",
         "holisticprofessionals": "Profesionales Holísticos",
         "gettoknowourfreeresources": "Conoce nuestros recursos gratuitos",
@@ -3843,7 +3843,8 @@
         "iam": "soy", 
         "similarconsultations": "Consultas similares", 
         "customerreviews": "Opiniones de los Usuarios", 
-        "addreview": "Agregar comentario"
+        "addreview": "Agregar comentario",
+        "gettoknowthespecialties": "Conoce las Especialidades"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

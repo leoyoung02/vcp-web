@@ -3818,7 +3818,8 @@
         "iam": "bin",
         "similarconsultations": "Ähnliche Abfragen",
         "customerreviews": "Benutzerrezensionen",
-        "addreview": "Kommentar hinzufügen"
+        "addreview": "Kommentar hinzufügen",
+        "gettoknowthespecialties": "Kennen Sie die Spezialitäten"
     },
     "my-account": {
         "availablebalance": "Verfügbares Guthaben",

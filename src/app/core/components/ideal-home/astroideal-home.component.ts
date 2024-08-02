@@ -39,6 +39,7 @@ export class AstroIdealHomeComponent {
   testimonial: any = {};
   services: any[] = [];
   instagram_feed: string = "";
+  banner_title: any = {};
 
   arrowRightIcon = faArrowRight;
 
@@ -105,7 +106,7 @@ export class AstroIdealHomeComponent {
           chat: item.chat,
           voice_call: item.voice_call,
           video_call: item.video_call,
-          specialties: [""],
+          specialties: item.subcategories.slice(0,3),
         }));
       },
       (error) => {
@@ -163,7 +164,8 @@ export class AstroIdealHomeComponent {
     this._companyService.getCompanyTestimonial(this.companyId).subscribe(
       (response) => {
         this.testimonial = response.testimonial;
-        this.testimonial.image = `${environment.api}/${this.testimonial.image}`;
+        const image_url = this.testimonial.image || this.testimonial.author_image;
+        this.testimonial.image = `${environment.api}/${image_url}`;
       },
       (error) => {
         console.log(error);
@@ -173,6 +175,17 @@ export class AstroIdealHomeComponent {
     this._companyService.getCompanyInstagramFeed(this.companyId).subscribe(
       (response) => {
         this.instagram_feed = response.instagram_feed;
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+
+    this._companyService.getCompanyBannerTitle(this.companyId).subscribe(
+      (response) => {
+        this.banner_title = response.banner_title;
+        console.log('*********');
+        console.log(this.banner_title);
       },
       (error) => {
         console.log(error);

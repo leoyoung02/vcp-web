@@ -2073,4 +2073,10 @@ export class CompanyService {
       .get(`${COMPANY_PROFESSIONALS_URL}/instagram_feed/${id}`, { headers: this.headers })
       .pipe(map((res) => res));
   }
+
+  getCompanyBannerTitle(id): Observable<any> {
+    return this._http
+      .get(`${COMPANY_PROFESSIONALS_URL}/banner_title/${id}`, { headers: this.headers })
+      .pipe(map((res) => res));
+  }
 }

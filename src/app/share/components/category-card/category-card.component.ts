@@ -1,5 +1,6 @@
 import { Component, Input } from "@angular/core";
 import { CommonModule, NgOptimizedImage } from "@angular/common";
+import { TranslateModule } from "@ngx-translate/core";
 
 interface ICategoryCardData {
   title: string;
@@ -8,7 +9,7 @@ interface ICategoryCardData {
 
 @Component({
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage],
+  imports: [CommonModule, NgOptimizedImage, TranslateModule],
   selector: "app-category-card",
   templateUrl: "./category-card.component.html",
 })
