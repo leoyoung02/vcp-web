@@ -23,9 +23,11 @@ import {
   SectionsMasonryComponent,
   SectionsComponent,
   SectionsMiddleComponent,
+  TarotCardComponent
 } from "@share/components";
 import moment from "moment";
 import get from 'lodash/get';
+import { AstroIdealHomeComponent } from "@lib/components/ideal-home/astroideal-home.component";
 
 @Component({
   standalone: true,
@@ -43,6 +45,8 @@ import get from 'lodash/get';
     SectionsMasonryComponent,
     SectionsComponent,
     SectionsMiddleComponent,
+    TarotCardComponent,
+    AstroIdealHomeComponent,
   ],
   templateUrl: "./home.component.html",
 })
@@ -201,6 +205,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   isCursoGeniusTestimonials: boolean = false;
   hasProfessionals: boolean = false;
   professionalsFeature: any;
+
+  mockCategoryData = {
+    image: '1.png',
+    title: 'adfafsafsad',
+    description: 'adfadsfadsfd'
+  };
 
   constructor(
     private _translateService: TranslateService,

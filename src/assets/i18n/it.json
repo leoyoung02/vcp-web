@@ -99,7 +99,8 @@
         "energyalt": "Icona del globo energetico simile a un fiore",
         "spirituality": "Espiritualidad",
         "spiritualityalt": "Icona dell'acchiappasogni",
-        "accessaccount": "Il mio account"
+        "accessaccount": "Il mio account",
+        "followoninstagram": "Seguici su Instagram"
     },
     "user-popup": {
         "myplans": "I miei piani",
@@ -3783,6 +3784,17 @@
         "waitingfor": "Aspettando",
         "acceptchatrequest": "per accettare la richiesta di chat",
         "chatinprogress": "Chat in corso",
+        "banner_title": "Ti aiutiamo a ESSERE IN CONTATTO CON TE TE STESSO E IL MONDO INTORNO A TE",
+        "talktoatarotreader": "Parla con il Tarotista",
+        "bookyourritual": "Prenota il tuo Rituale",
+        "attendyourevent": "Partecipa al tuo evento",
+        "takeyourcourse": "Segui il tuo corso",
+        "meetourtarotreaders": "Incontra i nostri lettori di tarocchi",
+        "seealltarotreaders": "Vedi tutti i lettori di tarocchi",
+        "holisticprofessionals": "Professionisti olistici",
+        "gettoknowourfreeresources": "Scopri le nostre risorse gratuite",
+        "seeallservices": "Vedi tutti i servizi",
+        "learnmoreaboutthesetestimonies": "Scopri di più su queste testimonianze",
         "filters": "Filtri",
         "contact": "Contatto",
         "specialties": "Specialità",
@@ -3797,7 +3809,8 @@
         "chatwithprofessional": "Chatta con un professionista",
         "callprofessional": "Chiama un professionista",
         "videocallprofessional": "Videochiama un professionista",
-        "addreview": "Aggiungi commento"
+        "addreview": "Aggiungi commento",
+        "gettoknowthespecialties": "Conosci le Specialità"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

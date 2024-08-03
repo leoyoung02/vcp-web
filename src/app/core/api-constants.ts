@@ -617,6 +617,7 @@ export const TESTIMONIAL_TAGS_URL = `${API_BASE}/company/testimonial/tags`;
 export const ADD_TESTIMONIAL_TAG_URL = `${API_BASE}/company/testimonial/tag/add`;
 export const EDIT_TESTIMONIAL_TAG_URL = `${API_BASE}/company/testimonial/tag/edit`;
 export const DELETE_TESTIMONIAL_TAG_URL = `${API_BASE}/company/testimonial/tag/delete`;
+export const RANDOM_TESTIMONIAL_URL = `${API_BASE}/company/testimonial/random`;
 
 export const TESTIMONIALS_URL = `${API_BASE}/v2/testimonials`;
 export const TESTIMONIAL_DETAILS_URL = `${API_BASE}/v2/testimonial-details`;
@@ -844,3 +845,6 @@ export const EDIT_BUDDY_LIMIT_SETTINGS_URL = `${API_BASE}/buddy/settings/limit/e
 export const MENTOR_PROFILE_REQUESTS_URL = `${API_BASE}/v2/introduceu/mentor-requests`;
 export const MENTOR_PROFILE_MESSAGES_URL = `${API_BASE}/v2/introduceu/mentor/mentee-messages`;
 export const MENTOR_MENTEE_REQUESTS_URL = `${API_BASE}/v2/introduceu/statistics/mentor-mentee-requests`;
+
+// Professionals
+export const COMPANY_PROFESSIONALS_URL = `${API_BASE}/company/professionals`;

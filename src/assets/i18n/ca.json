@@ -99,7 +99,8 @@
         "energyalt": "Icona d'un globus d'energia semblant a una flor",
         "spirituality": "Espiritualitat",
         "spiritualityalt": "Icona d'un atrapasomnis",
-        "accessaccount": "El meu compte"
+        "accessaccount": "El meu compte",
+        "followoninstagram": "Segueix-nos a Instagram"
     },
     "user-popup": {
         "myplans": "Els meus plans",
@@ -3797,6 +3798,17 @@
         "waitingfor": "Esperant",
         "acceptchatrequest": "per acceptar la sol·licitud de xat",
         "chatinprogress": "Xat en curs",
+        "banner_title": "T'ajudem a ESTAR EN CONTACTE AMB TU MATEIX I EL MÓN QUE ET ENVOLTA",
+        "talktoatarotreader": "Parla amb Tarotista",
+        "bookyourritual": "Reserva el teu Ritual",
+        "attendyourevent": "Atén el teu Esdeveniment",
+        "takeyourcourse": "Fes el teu curs",
+        "meetourtarotreaders": "Coneix els nostres Tarotistes",
+        "seealltarotreaders": "Veure tots els Tarotistes",
+        "holisticprofessionals": "Professionals Holístics",
+        "gettoknowourfreeresources": "Coneix els nostres recursos gratuïts",
+        "seeallservices": "Veure tots els serveis",
+        "learnmoreaboutthesetestimonies": "Coneix més d'aquests testimonis",
         "filters": "Filtres",
         "contact": "Contacta't",
         "specialties": "Especialitats",
@@ -3815,7 +3827,8 @@
         "iam": "sóc",
         "similarconsultations": "Consultes similars",
         "customerreviews": "Opinions dels Usuaris",
-        "addreview": "Afegeix comentari"
+        "addreview": "Afegeix comentari",
+        "gettoknowthespecialties": "Coneix les especialitats"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

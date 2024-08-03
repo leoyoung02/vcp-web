@@ -102,7 +102,8 @@
         "spirituality": "Espiritualidad",
         "spiritualityalt": "Icono de un atrapasueños",
         "seemore": "Ver más",
-        "accessaccount": "Mi cuenta"
+        "accessaccount": "Mi cuenta",
+        "followoninstagram": "Siguenos en Instagram"
     },
     "user-popup": {
         "myplans": "Mis planes",
@@ -3814,6 +3815,17 @@
         "waitingfor": "Esperando",
         "acceptchatrequest": "aceptar solicitud de chat",
         "chatinprogress": "Chat en curso",
+        "banner_title": "Te ayudamos a ESTAR EN CONTACTO CONTIGO MISMO Y EL MUNDO QUE TE RODEA",
+        "talktoatarotreader": "Habla con Tarotista",
+        "bookyourritual": "Reserva tu Ritual",
+        "attendyourevent": "Atiende tu Evento",
+        "takeyourcourse": "Haz tu Curso",
+        "meetourtarotreaders": "Conoce nuestros Tarotista",
+        "seealltarotreaders": "Ver todos los Tarotistas",
+        "holisticprofessionals": "Profesionales Holísticos",
+        "gettoknowourfreeresources": "Conoce nuestros recursos gratuitos",
+        "seeallservices": "Ver todos los servicios",
+        "learnmoreaboutthesetestimonies": "Conoce mas de estos testimonios",
         "filters": "Filtros",
         "contact": "Contáctate",
         "specialties": "Especialidades",
@@ -3832,7 +3844,8 @@
         "iam": "soy", 
         "similarconsultations": "Consultas similares", 
         "customerreviews": "Opiniones de los Usuarios", 
-        "addreview": "Agregar comentario"
+        "addreview": "Agregar comentario",
+        "gettoknowthespecialties": "Conoce las Especialidades"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

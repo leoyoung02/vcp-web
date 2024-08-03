@@ -99,7 +99,8 @@
         "energyalt": "Flower-like energy globe icon",
         "spirituality": "Spirituality",
         "spiritualityalt": "Dream catcher icon",
-        "accessaccount": "My Account"
+        "accessaccount": "My Account",
+        "followoninstagram": "Follow us on Instagram"
     },
     "user-popup": {
         "myplans": "My Plans",
@@ -3826,6 +3827,17 @@
         "waitingfor": "Waiting for",
         "acceptchatrequest": "to accept chat request",
         "chatinprogress": "Chat in progress",
+        "banner_title": "We help you STAY IN TOUCH WITH YOURSELF AND THE WORLD AROUND YOU",
+        "talktoatarotreader": "Talk to a Tarot Reader",
+        "bookyourritual": "Book your ritual",
+        "attendyourevent": "Attend your event",
+        "takeyourcourse": "Take your course",
+        "meetourtarotreaders": "Meet our Tarot Readers",
+        "seealltarotreaders": "See all Tarot readers",
+        "holisticprofessionals": "Holistic Professionals",
+        "gettoknowourfreeresources": "Get to know our free resources",
+        "seeallservices": "See all services",
+        "learnmoreaboutthesetestimonies": "Learn more about these testimonies",
         "filters": "Filters",
         "contact": "Chat",
         "specialties": "Specialties",
@@ -3844,7 +3856,8 @@
         "iam": "I am",
         "similarconsultations": "Similar consultations",
         "customerreviews": "Customer reviews", 
-        "addreview": "Add review"
+        "addreview": "Add review",
+        "gettoknowthespecialties": "Get to know the specialties"
     },
     "my-account": {
         "availablebalance": "Available balance",

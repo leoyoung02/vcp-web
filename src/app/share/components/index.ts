@@ -36,3 +36,4 @@ export * from './astro-ideal/panel/personal-information/personal-information.com
 export * from './astro-ideal/panel/specialties/specialties.component';
 export * from './astro-ideal/panel/contact-methods/contact-methods.component';
 export * from './astro-ideal/rating-reviews/rating-reviews.component';
+export * from './tarot-card/tarot-card.component';

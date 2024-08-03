@@ -99,7 +99,8 @@
         "energyalt": "Lore itxurako energia-globoaren ikonoa",
         "spirituality": "Espiritualitatea",
         "spiritualityalt": "Dreamcatcher ikonoa",
-        "accessaccount": "Nire kontua"
+        "accessaccount": "Nire kontua",
+        "followoninstagram": "Jarraitu gaitzazu Instagram-en"
     },
     "user-popup": {
         "myplans": "Nire planak",
@@ -3790,6 +3791,17 @@
         "waitingfor": "Itxaron",
         "acceptchatrequest": "txat eskaera onartzeko",
         "chatinprogress": "Txatea martxan",
+        "banner_title": "ZUREKIN HARREMANETAN EGOTEN laguntzen dizugu ZURE BURUA ETA INGURUKO MUNDUA",
+        "talktoatarotreader": "Tarotistarekin hitz egin",
+        "bookyourritual": "Erreserbatu zure erritua",
+        "attendyourevent": "Joan zaitez zure ekitaldira",
+        "takeyourcourse": "Hartu zure Ikastaroa",
+        "meetourtarotreaders": "Ezagutu gure Tarot irakurleak",
+        "seealltarotreaders": "Ikusi Tarot irakurle guztiak",
+        "holisticprofessionals": "Profesional holistikoak",
+        "gettoknowourfreeresources": "Ezagutu gure doako baliabideei buruz",
+        "seeallservices": "Ikusi zerbitzu guztiak",
+        "learnmoreaboutthesetestimonies": "Informazio gehiago testigantza hauei buruz",
         "filters": "Iragazkiak",
         "contact": "Kontaktua",
         "specialties": "Espezialitateak",
@@ -3807,7 +3819,8 @@
         "ratingandreview": "Balorazioa eta berrikuspena",
         "iam": "naiz",
         "similarconsultations": "Antzeko kontsultak",
-        "customerreviews": "Erabiltzaileen iritziak"
+        "customerreviews": "Erabiltzaileen iritziak",
+        "gettoknowthespecialties": "Espezialitateak ezagutu"
     },
     "my-account": {
         "availablebalance": "Saldo erabilgarria",
