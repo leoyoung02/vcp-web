@@ -21,7 +21,7 @@
         >
           <div class="flex items-center justify-between xl:justify-normal xl:space-x-9">
             <div class="w-[79px] h-[79px] overflow-hidden" *ngIf="cardData.image">
-              <img [src]="cardData.image" class="rounded-full" loading="lazy" *ngIf="cardData.image" />
+              <img [src]="cardData.image" class="w-full h-full rounded-full" loading="lazy" *ngIf="cardData.image" />
             </div>
             <div class="ml-4 sm:ml-4 md:ml-0 lg:ml-0">
               <p class="font-bold text-lg sm:text-lg md:text-3xl lg:text-3xl mt-2.5">{{ cardData.author }}</p>
