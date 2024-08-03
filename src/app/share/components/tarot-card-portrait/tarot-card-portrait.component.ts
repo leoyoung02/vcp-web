@@ -40,6 +40,7 @@ export class TarotCardPortraitComponent {
   @Input() cardData: ITarotCardData = {image: "", title: "" , description: "", specialties: [], rating: 0, salary: "", rate: 0, rate_currency: "$"};
   @Input() direction: "flex-row" | "flex-col" = "flex-col";
   @Input() language: any;
+  @Input() buttonColor: any;
 
   mockData: ITarotCardData = {
     image: "",

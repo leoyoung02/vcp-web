@@ -33,6 +33,7 @@ import { TranslateModule } from "@ngx-translate/core";
 export class AstroIdealHomeComponent {
   @Input() companyId: any;
   @Input() language: any;
+  @Input() buttonColor: any;
 
   professionals: any[] = [];
   categories: any[] = [];

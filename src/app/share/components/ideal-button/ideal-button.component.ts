@@ -7,6 +7,8 @@ interface IIdealButtonData {
   title: string;
   icon: IconDefinition;
   titleStyle?: string;
+  backgroundColor?: string;
+  textColor?: string;
 }
 
 @Component({
