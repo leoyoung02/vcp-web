@@ -361,9 +361,8 @@ export class LayoutMainComponent {
       this.courseWallMenu = company[0].course_wall_menu;
       this.navigation = company[0].navigation || 'side-menu';
       this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
+      this.homePage = this.companyId == 67 && (window.location.href == `https://${this.company.url}/` || window.location.href == 'http://localhost:4200/') ? true : false;
     }
-
-    this.homePage = this.companyId == 67 && (window.location.href == `https://${this.company.url}/` || window.location.href == 'http://localhost:4200/') ? true : false;
 
     this.features = this._localService.getLocalStorage(environment.lsfeatures)
       ? JSON.parse(this._localService.getLocalStorage(environment.lsfeatures))
