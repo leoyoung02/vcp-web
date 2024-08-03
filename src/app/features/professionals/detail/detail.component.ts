@@ -25,7 +25,7 @@ import {
 import { NgImageSliderModule } from 'ng-image-slider';
 import { ChatService, ProfessionalsService, VoiceCallService } from "@features/services";
 import { FormsModule } from "@angular/forms";
-import { ChatComponent, ToastComponent } from "@share/components";
+import { ChatComponent, RatingReviewsComponent, SpecialtiesComponent, ToastComponent } from "@share/components";
 import { initFlowbite } from "flowbite";
 import { timer } from "@lib/utils/timer/timer.utils";
 import { environment } from "@env/environment";
@@ -44,6 +44,8 @@ import get from "lodash/get";
     FormsModule,
     ToastComponent,
     ChatComponent,
+    RatingReviewsComponent,
+    SpecialtiesComponent,
   ],
   templateUrl: "./detail.component.html",
 })
@@ -564,7 +566,7 @@ export class ProfessionalDetailComponent {
     if(this.userId > 0) {
       this.actionMode = 'videocall';
       
-      if(this.hasRequiredMinimumBalance()) {
+      if(this.hasRequiredMinimumBalance('videocall')) {
         this.display = '';
 
         const channel = `agora-vcp-video-${this.selectedId}-${this.userId}`;
@@ -728,20 +730,33 @@ export class ProfessionalDetailComponent {
       })
   }
 
+  getRate(mode: string = '') {
+    let rate = this.professional?.rate;
+    if(mode == 'videocall' && this.professional?.video_call_rate) {
+      rate = this.professional?.video_call_rate;
+    } else if(mode == 'chat' && this.professional?.chat_rate) {
+      rate = this.professional?.chat_rate;
+    }
+
+    return rate;
+  }
+
   hasRequiredMinimumBalance(mode: string = '') {
     let valid = true;
 
-    let requiredMinimumBalance = this.minimumBalance > 0 ? (this.professional?.rate * this.minimumBalance) : 0;
+    let rate = this.getRate(mode);
+
+    let requiredMinimumBalance = this.minimumBalance > 0 ? (rate * this.minimumBalance) : 0;
     if(!(this.minimumBalance > 0 && this.user?.available_balance >= (requiredMinimumBalance))) {
       valid = false;
-      this.showRequiredMinimumBalanceMessage(mode);
+      this.showRequiredMinimumBalanceMessage(mode, rate);
     }
 
     return valid;
   }
 
-  showRequiredMinimumBalanceMessage(mode: string = '') {
-    let minimumAmount = parseFloat((this.professional?.rate * this.minimumBalance)?.toString()).toFixed(2);
+  showRequiredMinimumBalanceMessage(mode: string = '', rate) {
+    let minimumAmount = parseFloat((rate * this.minimumBalance)?.toString()).toFixed(2);
     let amountInText =  `(${this.professional?.rate_currency} ${minimumAmount})`;
     let actionModeText = this._translateService.instant(`professionals.${this.actionMode}`);
     this.showRequiredMinimumBalanceModal = false;

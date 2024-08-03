@@ -3817,6 +3817,30 @@
     "user-panel": {
         "userpanel": "Panneau utilisateur",
         "personalinformation": "Informations personnelles",
-        "deleteaccount": "Supprimer le compte"
+        "deleteaccount": "Supprimer le compte", 
+        "transactions": "Transactions", 
+        "confirmlogout": "Confirmer la déconnexion", 
+        "confirmlogoutdesc": "Êtes-vous sûr de vouloir vous déconnecter?",
+        "personalinformationdesc": "Modifier vos informations personnelles",
+        "aboutme": "À propos de moi",
+        "aboutmedesc": "Dites quelque chose sur vous",
+        "createdservices": "Services créés",
+        "createdservicesdesc": "Services que vous avez créés",
+        "transactionsdesc": "Détails sur vos transactions",
+        "notificationsdesc": "Notifications liées à la plateforme",
+        "deletteaccountdesc": "Supprimer votre compte",
+        "servicesacquired": "Services acquis",
+        "servicesacquireddesc": "Tous vos services acquis",
+        "availablebalance": "Solde disponible",
+        "availablebalancedesc": "Vérifiez votre portefeuille",
+        "earnings": "Gains",
+        "profilecompleted": "Profil complété",
+        "priceperservice": "Prix par service de contact", 
+        "call": "Appel", 
+        "videocall": "Appel vidéo",
+        "receivemail": "Recevoir des emails liés à vos préférences",
+        "receivemaildesc": "Nous réalisons que moins c'est plus",
+        "termsandconditionsdesc": "Nous établissons la manière dont nous utiliserons les informations et accéderons au contenu de la plateforme",
+        "waystocontact": "Façons de contacter"
     }
 }

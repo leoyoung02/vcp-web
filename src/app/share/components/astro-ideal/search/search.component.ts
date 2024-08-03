@@ -15,7 +15,7 @@ import { FormsModule } from "@angular/forms";
   templateUrl: "./search.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SearchComponent {
+export class ProfessionalSearchComponent {
     @Input() searchText: any;
     @Input() placeholderText: any;
     @Input() buttonColor;

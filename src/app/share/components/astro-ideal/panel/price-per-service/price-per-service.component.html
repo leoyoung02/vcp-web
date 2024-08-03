@@ -1,0 +1,60 @@
+<div class="font-semibold text-xl mb-8">{{ title }}</div>
+<div class="flex gap-4 ml-4">
+    <div *ngIf="chat" class="rounded-lg border border-1 border-[#677173] pt-3 pr-0 pb-2 pl-4">
+        <button class="font-semibold rounded-[2.75px] text-base text-center inline-flex items-center">
+            <img [src]="chat ? './assets/professional-icons/comment-purple.png' : './assets/professional-icons/comment-gray.png'" 
+                class="w-[27px] h-[30px] object-contain" />
+            <span class="ml-4 pr-6 border border-l-0 border-t-0 border-b-0 border-r-1 border-[#d3d4d6]" [ngStyle]="{'color': buttonColor}">
+                {{ 'professionals.contact' | translate }}
+            </span>
+            <div class="ml-4 text-xl font-semibold">€</div>
+            <div class="ml-2 relative z-0 w-16 group">
+                <input type="number" 
+                    name="chatrate" 
+                    id="chatrate" 
+                    class="block p-0 w-full text-xl font-semibold text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
+                    placeholder=" "
+                    [(ngModel)]="chatRate"
+                    [ngModelOptions]="{standalone: true}" />
+            </div>
+        </button>
+    </div>
+    <div *ngIf="voiceCall" class="rounded-lg border border-1 border-[#677173] pt-3 pr-0 pb-2 pl-4">
+        <button class="font-semibold rounded-[2.75px] text-base text-center inline-flex items-center">
+            <img [src]="voiceCall ? './assets/professional-icons/phone-purple.png' : './assets/professional-icons/phone-gray.png'" 
+                class="w-[27px] h-[30px] object-contain" />
+            <span class="ml-4 pr-6 border border-l-0 border-t-0 border-b-0 border-r-1 border-[#d3d4d6]" [ngStyle]="{'color': buttonColor}">
+                {{ 'user-panel.call' | translate }}
+            </span>
+            <div class="ml-4 text-xl font-semibold">€</div>
+            <div class="ml-2 relative z-0 w-16 group">
+                <input type="number" 
+                    name="voicecallrate" 
+                    id="voicecallrate" 
+                    class="block p-0 w-full text-xl font-semibold text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
+                    placeholder=" "
+                    [(ngModel)]="voiceCallRate"
+                    [ngModelOptions]="{standalone: true}" />
+            </div>
+        </button>
+    </div>
+    <div *ngIf="videoCall" class="rounded-lg border border-1 border-[#677173] pt-3 pr-0 pb-2 pl-4">
+        <button class="font-semibold rounded-[2.75px] text-base text-center inline-flex items-center">
+            <img [src]="videoCall ? './assets/professional-icons/video-purple.png' : './assets/professional-icons/video-gray.png'" 
+                class="w-[27px] h-[30px] object-contain" />
+            <span class="ml-4 pr-6 border border-l-0 border-t-0 border-b-0 border-r-1 border-[#d3d4d6]" [ngStyle]="{'color': buttonColor}">
+                {{ 'user-panel.videocall' | translate }}
+            </span>
+            <div class="ml-4 text-xl font-semibold">€</div>
+            <div class="ml-2 relative z-0 w-16 group">
+                <input type="number" 
+                    name="voicecallrate" 
+                    id="voicecallrate" 
+                    class="block p-0 w-full text-xl font-semibold text-gray-900 bg-transparent border-0 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer" 
+                    placeholder=" "
+                    [(ngModel)]="videoCallRate"
+                    [ngModelOptions]="{standalone: true}" />
+            </div>
+        </button>
+    </div>
+</div>

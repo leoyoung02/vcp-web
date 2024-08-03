@@ -3859,6 +3859,30 @@
     "user-panel": {
         "userpanel": "User panel",
         "personalinformation": "Personal information",
-        "deleteaccount": "Delete account"
+        "deleteaccount": "Delete account",
+        "transactions": "Tranasctions",
+        "confirmlogout": "Confirm logout",
+        "confirmlogoutdesc": "Are you dure you wnt to log out?",
+        "personalinformationdesc": "Edit your personal information",
+        "aboutme": "About me",
+        "aboutmedesc": "Say something about yourself",
+        "createdservices": "Created services",
+        "createdservicesdesc": "Services you have created",
+        "transactionsdesc": "Details about your transactions",
+        "notificationsdesc": "Platform-related notifications",
+        "deletteaccountdesc": "Remove your account",
+        "servicesacquired": "Services Acquired",
+        "servicesacquireddesc": "All your acquired services",
+        "availablebalance": "Available balance",
+        "availablebalancedesc": "Check your wallet",
+        "earnings": "Earnings",
+        "profilecompleted": "Profile completed",
+        "priceperservice": "Price per contact service", 
+        "call": "Call", 
+        "videocall": "Video call",
+        "receivemail": "Receive emails related to your preferences",
+        "receivemaildesc": "We are aware that less is more",
+        "termsandconditionsdesc": "We establish the way in which we will use the information and access to the contents of the platform",
+        "waystocontact": "Ways to contact"
     }
 }

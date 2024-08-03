@@ -1,0 +1,39 @@
+<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row gap-12">
+    <div class="shrink-0 w-full sm:w-full md:w-64 lg:w-64">
+        <div class="flex flex-col justify-center">
+            <div class="w-full">
+                <img *ngIf="image" 
+                    width="208" height="208" 
+                    class="mx-auto w-52 h-52 object-cover rounded-full"
+                    [src]="image" 
+                    loading="lazy" />
+            </div>
+            <hr class="h-px mt-8 mb-4 bg-gray-200 border-0">
+            <div class="mt-2">
+                <app-astro-ideal-specialties
+                    [specialties]="specialties"
+                    [buttonColor]="buttonColor">
+                </app-astro-ideal-specialties>
+            </div>
+            <div class="-mt-5">
+                <app-astro-ideal-rating-reviews
+                    title="{{ 'professionals.ratingandreview' | translate }}"
+                    [rating]="profile?.rating"
+                    [reviews]="reviews">
+                </app-astro-ideal-rating-reviews>
+            </div>
+        </div>
+    </div>
+    <div class="w-full max-w-full">
+        <div class="mt-8 font-semibold text-3xl">
+            {{ profile?.first_name }} {{ profile?.last_name }}
+        </div>
+        <div class="mt-8 mb-2 font-semibold text-base">{{ 'user-panel.waystocontact' | translate }}</div>
+        <app-astro-ideal-contact-methods
+            [buttonColor]="buttonColor"
+            [voiceCall]="voiceCall"
+            [videoCall]="videoCall"
+            [chat]="chat">
+        </app-astro-ideal-contact-methods>
+    </div>
+</div>

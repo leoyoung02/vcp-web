@@ -808,6 +808,7 @@ export const PROFESSIONALS_HOME_DATA_URL = `${API_BASE}/v3/professionals-home-da
 export const PROFESSIONAL_DATA_URL = `${API_BASE}/v3/professional`;
 export const ADD_PROFESSIONAL_REVIEW_URL = `${API_BASE}/v3/professional/review/add`;
 export const FOLLOW_PROFESSIONAL_URL = `${API_BASE}/v3/professional/follower/add`;
+export const PANEL_PROFILE_URL = `${API_BASE}/v3/panel/profile`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;

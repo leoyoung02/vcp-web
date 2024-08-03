@@ -257,6 +257,7 @@ export class LayoutMainComponent {
   @ViewChild("chatbutton", { static: false }) chatbutton:
     | ElementRef
     | undefined;
+  customMemberTypeId: any;
 
   constructor(
     private _router: Router,
@@ -771,6 +772,7 @@ export class LayoutMainComponent {
       })
 
       if(member_type && member_type.length > 0) {
+        this.customMemberTypeId = member_type[0].id;
         this.customMemberTypeName = this.language == 'en' ? (member_type[0].type) : (this.language == 'fr' ? (member_type[0].type_fr || member_type[0].type_es) : 
             (this.language == 'eu' ? (member_type[0].type_eu || member_type[0].type_es) : (this.language == 'ca' ? (member_type[0].type_ca || member_type[0].type_es) : 
             (this.language == 'de' ? (member_type[0].type_de || member_type[0].type_es) : (member_type[0].type_es))

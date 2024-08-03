@@ -3806,8 +3806,7 @@
         "ratingandreview": "Bewertung und Rezension",
         "iam": "bin",
         "similarconsultations": "Ähnliche Abfragen",
-        "customerreviews": "Benutzerrezensionen",
-        "addreview": "Kommentar hinzufügen"
+        "customerreviews": "Benutzerrezensionen"
     },
     "my-account": {
         "availablebalance": "Verfügbares Guthaben",
@@ -3822,6 +3821,31 @@
     "user-panel": {
         "userpanel": "Benutzerpanel",
         "personalinformation": "Persönliche Informationen",
-        "deleteaccount": "Konto löschen"
+        "deleteaccount": "Konto löschen",
+        "addreview": "Kommentar hinzufügen", 
+        "transactions": "Transaktionen", 
+        "confirmlogout": "Abmeldung bestätigen", 
+        "confirmlogoutdesc": "Möchten Sie sich wirklich abmelden?",
+        "personalinformationdesc": "Bearbeiten Sie Ihre persönlichen Daten",
+        "aboutme": "Über mich",
+        "aboutmedesc": "Sagen Sie etwas über sich selbst",
+        "createdservices": "Erstellte Dienste",
+        "createdservicesdesc": "Dienste, die Sie erstellt haben",
+        "transactionsdesc": "Details zu Ihren Transaktionen",
+        "notificationsdesc": "Plattformbezogene Benachrichtigungen",
+        "deletteaccountdesc": "Löschen Sie Ihr Konto",
+        "servicesacquired": "Erworbene Dienste",
+        "servicesacquireddesc": "Alle Ihre erworbenen Dienste",
+        "availablebalance": "Verfügbares Guthaben",
+        "availablebalancedesc": "Überprüfen Sie Ihr Portemonnaie",
+        "earnings": "Einnahmen",
+        "profilecompleted": "Profil abgeschlossen",
+        "priceperservice": "Preis pro Kontaktdienst", 
+        "call": "Anruf", 
+        "videocall": "Videoanruf",
+        "receivemail": "E-Mails zu Ihren Präferenzen erhalten",
+        "receivemaildesc": "Wir wissen, dass weniger mehr ist",
+        "termsandconditionsdesc": "Wir legen die Art und Weise fest, wie wir die Informationen nutzen und auf die Inhalte der Plattform zugreifen.",
+        "waystocontact": "Kontaktmöglichkeiten"
     }
 }

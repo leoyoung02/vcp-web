@@ -3822,6 +3822,30 @@
     "user-panel": {
         "userpanel": "Erabiltzaile panela",
         "personalinformation": "Informazio pertsonala",
-        "deleteaccount": "Ezabatu kontua"
+        "deleteaccount": "Ezabatu kontua", 
+        "transactions": "Transakzioak", 
+        "confirmlogout": "Berretsi saioa amaitu", 
+        "confirmlogoutdesc": "Ziur saioa amaitu nahi duzula?",
+        "personalinformationdesc": "Editatu zure informazio pertsonala",
+        "aboutme": "Niri buruz",
+        "aboutmedesc": "Esan zerbait zeure buruari buruz",
+        "createdservices": "Sortutako zerbitzuak",
+        "createdservicesdesc": "Sortu dituzun zerbitzuak",
+        "transactionsdesc": "Zure transakzioei buruzko xehetasunak",
+        "notificationsdesc": "Plataformari lotutako jakinarazpenak",
+        "deletteaccountdesc": "Kendu zure kontua",
+        "servicesacquired": "Eskuratutako zerbitzuak",
+        "servicesacquireddesc": "Hartutako zerbitzu guztiak",
+        "availablebalance": "Saldoa erabilgarri",
+        "availablebalancedesc": "Egiaztatu zure zorroa",
+        "earnings": "Irabaziak",
+        "profilempleted": "Profila osatuta",
+        "priceperservice": "Harremanetarako zerbitzu bakoitzeko prezioa", 
+        "call": "Deitu", 
+        "videocall": "Bideo-deia",
+        "receivemail": "Jaso zure hobespenekin lotutako mezu elektronikoak",
+        "receivemaildesc": "Gutxiago gehiago dela konturatzen gara",
+        "termsandconditionsdesc": "Plataformako informazioa eta edukietarako sarbidea nola erabiliko dugun ezartzen dugu",
+        "waystocontact": "Harremanetarako moduak"
     }
 }

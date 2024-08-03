@@ -7,12 +7,22 @@ import {
 } from "@ngx-translate/core";
 import { CompanyService, LocalService, UserService } from "@share/services";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
-import { Subject } from "rxjs";
-import { BreadcrumbComponent, PageTitleComponent } from "@share/components";
-import { PanelMenuComponent } from "@share/components/astro-ideal/panel/menu/menu.component";
+import { FormsModule } from "@angular/forms";
+import { Subject, takeUntil } from "rxjs";
+import { 
+  BreadcrumbComponent, 
+  PageTitleComponent, 
+  PanelMenuComponent, 
+  PersonalInformationComponent, 
+  PricePerServiceComponent, 
+  RadialProgressComponent,
+  ToastComponent 
+} from "@share/components";
+import { AuthService } from "@lib/services";
+import { ProfessionalsService } from "@features/services";
+import { initFlowbite } from "flowbite";
 import { environment } from "@env/environment";
 import get from "lodash/get";
-import { AuthService } from "@lib/services";
 
 @Component({
   standalone: true,
@@ -20,9 +30,14 @@ import { AuthService } from "@lib/services";
     CommonModule,
     TranslateModule,
     RouterModule,
+    FormsModule,
     PageTitleComponent,
     BreadcrumbComponent,
     PanelMenuComponent,
+    ToastComponent,
+    RadialProgressComponent,
+    PricePerServiceComponent,
+    PersonalInformationComponent,
   ],
   templateUrl: "./panel.component.html"
 })
@@ -30,6 +45,7 @@ export class UserPanelComponent {
   private destroy$ = new Subject<void>();
 
   @Input() id!: number;
+  @Input() role: any;
 
   languageChangeSubscription;
   language: any;
@@ -52,6 +68,23 @@ export class UserPanelComponent {
 
   menuItems: any = [];
   isAdmin: boolean = false;
+  selectedMenu: any;
+
+  showConfirmationModal: boolean = false;
+  selectedItem: any;
+  confirmTitle: any;
+  confirmDescription: any;
+  acceptText: string = "";
+  cancelText: any = "";
+  confirmMode: string = "";
+
+  me: any;
+  reviews: any = [];
+  image: any;
+  percentComplete: number = 0;
+  receiveEmail: boolean = false;
+  termsAndConditions: boolean = false;
+  specialtyCategories: any = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -61,6 +94,7 @@ export class UserPanelComponent {
     private _authService: AuthService,
     private _userService: UserService,
     private _companyService: CompanyService,
+    private _professionalsService: ProfessionalsService,
     private _location: Location,
     ) {}
 
@@ -70,6 +104,7 @@ export class UserPanelComponent {
   }
     
   async ngOnInit() {
+    initFlowbite();
     this.onResize();
     this.email = this._localService.getLocalStorage(environment.lsemail);
     this.language = this._localService.getLocalStorage(environment.lslang);
@@ -114,13 +149,85 @@ export class UserPanelComponent {
 
   async initializePage() {
     this.pageTitle = this._translateService.instant("user-panel.userpanel");
+    this.getProfile();
     this.initializeBreadcrumb();
     this.checkAdminPermissions();
   }
 
+  getProfile() {
+    this._professionalsService
+      .getPanelProfile(this.id, this.role)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (data) => {
+          this.me = data?.profile;
+          this.image = `${environment.api}/${this.me?.image}`;
+          if(this.role == 'professional') { this.initializeProfessionalProfile(data); }
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
+  initializeProfessionalProfile(data) {
+    this.reviews = this.formatReviews(data?.reviews);
+    this.specialtyCategories = this.formatSpecialties(data);
+    this.percentComplete = 60;
+  }
+
+  formatReviews(reviews) {
+    let result: any[] = [];
+
+    let startNum = 5;
+    for(var i = 0; i < startNum; i++) {
+      let rating = startNum - i;
+      let cnt = reviews?.filter(review => {
+        return review.rating == rating
+      })
+      let percentage = cnt?.length > 0 ? ((cnt?.length / reviews?.length) * 100) : 0;
+      result.push({
+        rating,
+        percentage,
+      })
+    }
+
+    return result;
+  }
+
+  formatSpecialties(data) {
+    let list: any[] = [];
+
+    list = data?.subcategory_mapping?.filter(subcategory => {
+      return subcategory.professional_id == data?.profile?.id
+    })?.map((row) => {
+      return {
+        id: row.id,
+        category_image: row.category_image,
+      }
+    })
+
+    let specialtyCategories: any[] = [];
+    if(list?.length > 0) {
+      list?.forEach(i => {
+        let match = specialtyCategories.some(
+          (a) => a.category_image == i.category_image
+        );
+
+        if(i.category_image && !match) {
+          specialtyCategories.push({
+            image: `${environment.api}/v3/image/professionals/category/${i.category_image}`,
+          })
+        }
+      })
+    }
+    
+    return specialtyCategories;
+  }
+
   initializeBreadcrumb() {
     this.level1Title = this._translateService.instant("company-settings.home");
-    this.level2Title = this.pageTitle;
+    this.level2Title = "";
     this.level3Title = "";
     this.level4Title = "";
   }
@@ -135,48 +242,132 @@ export class UserPanelComponent {
   initializeMenu() {
     this.menuItems = [
       {
+        index: 0,
         text: this._translateService.instant('user-panel.personalinformation'),
-        action: 'personal-info'
-      },
-      {
-        text: this._translateService.instant('professionals.mytransactions'),
-        action: 'my-transactions'
-      },
+        subtext: this._translateService.instant('user-panel.transactionsdesc'),
+        action: 'personal-info',
+        show_right_content: true,
+      }
     ]
+
+    if(this.role == 'professional') {
+      this.menuItems.push({
+        index: 1,
+        text: this._translateService.instant('user-panel.aboutme'),
+        subtext: this._translateService.instant('user-panel.aboutmedesc'),
+        action: 'about-me',
+        show_right_content: true,
+      })
+      this.menuItems.push({
+        index: 2,
+        text: this._translateService.instant('user-panel.createdservices'),
+        subtext: this._translateService.instant('user-panel.createdservicesdesc'),
+        action: 'services-created',
+        show_right_content: true,
+      })
+    } else {
+      this.menuItems.push({
+        index: 1,
+        text: this._translateService.instant('user-panel.servicesacquired'),
+        subtext: this._translateService.instant('user-panel.servicesacquireddesc'),
+        action: 'services-acquired',
+        show_right_content: true,
+      })
+      this.menuItems.push({
+        index: 2,
+        text: this._translateService.instant('user-panel.availablebalance'),
+        subtext: this._translateService.instant('user-panel.availablebalancedesc'),
+        action: 'available-balance',
+        show_right_content: true,
+      })
+    }
+
+    this.menuItems.push({
+      index: 3,
+      text: this._translateService.instant('user-panel.transactions'),
+      subtext: this._translateService.instant('user-panel.transactionsdesc'),
+      action: 'transactions',
+      show_right_content: true,
+    })
+    this.menuItems.push({
+      index: 4,
+      text: this._translateService.instant('notification-popup.notifications'),
+      subtext: this._translateService.instant('user-panel.notificationsdesc'),
+      action: 'notifications',
+      show_right_content: true,
+    })
 
     if(this.isAdmin) {
       this.menuItems.push({
+        index: 5,
         text: this._translateService.instant('company-settings.settings'),
-        action: 'settings'
+        subtext: '',
+        action: 'settings',
+        show_right_content: false,
       });
     }
 
     this.menuItems.push({
+      index: 6,
       text: this._translateService.instant('user-popup.logout'),
-      action: 'logout'
+      subtext: '',
+      action: 'logout',
+      show_right_content: false,
     });
     this.menuItems.push({
+      index: 7,
       text: this._translateService.instant('user-panel.deleteaccount'),
-      action: 'delete-account'
+      subtext: this._translateService.instant('user-panel.deletteaccountdesc'),
+      action: 'delete-account',
+      show_right_content: true,
     });
+
+    this.initializeMenuDetails(this.menuItems?.length > 0 ? this.menuItems[0] : {});
+  }
+
+  initializeMenuDetails(menu) {
+    this.level2Title = menu?.text || '';
+    this.selectedMenu = menu;
   }
 
   handleMenuClick(event) {
-    switch(event) {
+    this.showConfirmationModal = false;
+    this.initializeMenuDetails(event);
+
+    switch(event?.action) {
       case 'settings':
         this.navigateToPage('/settings');
         break;
-      case 'my-transactions':
-        this.navigateToPage('/users/my-transactions');
+      case 'transactions':
+        // this.navigateToPage('/users/my-transactions');
         break;
       case 'logout':
-        this.logout();
+        this.confirmLogout(event);
         break;
     }
   }
 
   navigateToPage(link) {
     this._router.navigate([link]);
+  }
+
+  confirmLogout(event) {
+    this.showConfirmationModal = false;
+    this.confirmMode = event?.action;
+    this.confirmTitle = this._translateService.instant(
+        "user-panel.confirmlogout"
+    );
+    this.confirmDescription = this._translateService.instant(
+        "user-panel.confirmlogoutdesc"
+    );
+    this.acceptText = "OK";
+    setTimeout(() => (this.showConfirmationModal = true));
+  }
+
+  confirm() {
+    if(this.confirmMode == 'logout') {
+      this.logout();
+    }
   }
 
   logout(): void {

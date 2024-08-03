@@ -1,0 +1,29 @@
+<div class="ml-8 relative w-16 h-16">
+    <svg class="w-full h-full" viewBox="0 0 100 100">
+        <!-- Background circle -->
+        <circle
+            class="text-gray-200 stroke-current"
+            stroke-width="10"
+            cx="50"
+            cy="50"
+            r="40"
+            fill="transparent"
+        ></circle>
+        <!-- Progress circle -->
+        <circle
+            class="text-[#A77FE0]  progress-ring__circle stroke-current"
+            stroke-width="10"
+            stroke-linecap="square"
+            cx="50"
+            cy="50"
+            r="40"
+            fill="transparent"
+            stroke-dasharray="251.2" 
+            [attr.stroke-dashoffset]="'calc(251.2px - (251.2px * ' + percentComplete + ') / 100)'"
+        ></circle>
+        <!-- Center text -->
+        <text x="50" y="50" font-size="26" text-anchor="middle" alignment-baseline="middle">
+            {{ percentComplete }}<tspan font-size="14" text-anchor="middle" alignment-baseline="middle">%</tspan>
+        </text>
+    </svg>
+</div>

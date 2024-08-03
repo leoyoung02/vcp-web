@@ -21,12 +21,8 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "@env/environment";
-import { ChatComponent, PageTitleComponent, ToastComponent } from "@share/components";
+import { ChatComponent, FilterDrawerComponent, PageTitleComponent, ProfessionalFilterComponent, ProfessionalSearchComponent, SortDrawerComponent, ToastComponent } from "@share/components";
 import { ProfessionalCardComponent } from "@share/components/card/professional/professional.component";
-import { SearchComponent } from "@share/components/astro-ideal/search/search.component";
-import { FilterComponent } from "@share/components/astro-ideal/filter/filter.component";
-import { FilterDrawerComponent } from "@share/components/astro-ideal/filter-drawer/filter-drawer.component";
-import { SortDrawerComponent } from "@share/components/astro-ideal/sort-drawer/sort-drawer.component";
 import { Subscription } from 'rxjs';
 import { initFlowbite } from "flowbite";
 import { timer } from "@lib/utils/timer/timer.utils";
@@ -47,8 +43,8 @@ import get from "lodash/get";
     ProfessionalCardComponent,
     ToastComponent,
     ChatComponent,
-    SearchComponent,
-    FilterComponent,
+    ProfessionalSearchComponent,
+    ProfessionalFilterComponent,
     FilterDrawerComponent,
     SortDrawerComponent,
   ],
@@ -680,13 +676,26 @@ export class ProfessionalsListComponent {
     return regEx.test(phoneNumber);
   };
 
+  getRate(mode: string = '') {
+    let rate = this.professional?.rate;
+    if(mode == 'videocall' && this.professional?.video_call_rate) {
+      rate = this.professional?.video_call_rate;
+    } else if(mode == 'chat' && this.professional?.chat_rate) {
+      rate = this.professional?.chat_rate;
+    }
+
+    return rate;
+  }
+
   hasRequiredMinimumBalance(mode: string = '') {
     let valid = true;
 
-    let requiredMinimumBalance = this.minimumBalance > 0 ? (this.professional?.rate * this.minimumBalance) : 0;
+    let rate = this.getRate(mode);
+
+    let requiredMinimumBalance = this.minimumBalance > 0 ? (rate * this.minimumBalance) : 0;
     if(!(this.minimumBalance > 0 && this.user?.available_balance >= (requiredMinimumBalance))) {
       valid = false;
-      this.showRequiredMinimumBalanceMessage(mode);
+      this.showRequiredMinimumBalanceMessage(mode, rate);
     }
 
     return valid;
@@ -800,7 +809,7 @@ export class ProfessionalsListComponent {
       this.actionMode = 'videocall';
       this.professional = this.professionals?.find((c) => c.user_id == this.selectedId);
 
-      if(this.hasRequiredMinimumBalance()) {
+      if(this.hasRequiredMinimumBalance('videocall')) {
         this.display = '';
 
         const channel =  `agora-vcp-video-${this.selectedId}-${this.userId}`;
@@ -846,15 +855,15 @@ export class ProfessionalsListComponent {
     }
   }
 
-  showRequiredMinimumBalanceMessage(mode: string = '') {
-    let minimumAmount = parseFloat((this.professional?.rate * this.minimumBalance)?.toString()).toFixed(2);
+  showRequiredMinimumBalanceMessage(mode: string = '', rate) {
+    let minimumAmount = parseFloat((rate * this.minimumBalance)?.toString()).toFixed(2);
     let amountInText =  `(${this.professional?.rate_currency} ${minimumAmount})`;
     let actionModeText = this._translateService.instant(`professionals.${this.actionMode}`);
     this.showRequiredMinimumBalanceModal = false;
     this.toastTitle = this._translateService.instant('professionals.insufficientbalance');
     this.toastDescription = `${this._translateService.instant("professionals.minimumbalanceof")} ${this.minimumBalance?.toString()?.replace('.00', '')} ${this._translateService.instant('timeunits.minutes')} ${amountInText} ${this._translateService.instant('professionals.requiredtostart')} ${actionModeText} ${this._translateService.instant('professionals.with')} ${this.professional?.name}`;
     
-    if(!mode) {
+    if(mode != 'chat') {
       this.acceptText = "OK";
       setTimeout(() => (this.showRequiredMinimumBalanceModal = true));
     }

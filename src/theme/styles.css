@@ -1098,3 +1098,9 @@ app-sidebar > aside > div:nth-child(11) > div > svg.has-history {
 .ng-image-slider-container .img-div.image-popup {
     box-shadow: none !important;
 }
+
+.progress-ring__circle {
+    transition: stroke-dashoffset 0.35s;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}

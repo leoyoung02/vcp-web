@@ -1,0 +1,25 @@
+<div class="w-full max-w-full mt-12 mb-4 border border-1 border-[#d3d4d6] rounded-[15px] p-2 pr-6 pb-4">
+    <div class="text-xs mb-2">{{ 'professionals.ratingandreview' | translate }}</div>
+    <div class="flex items-center">
+        <div class="w-1/3 shrink-0">
+            <div class="leading-4 text-2xl text-[#667173] text-center">{{ rating || '-' }}</div>
+            <star-rating 
+                [size]="'small'" 
+                [starType]="'svg'" 
+                [rating]="rating">
+            </star-rating>
+        </div>
+        <div class="w-full max-w-full">
+            <ng-container *ngFor="let item of reviews">
+                <div>
+                    <div class="flex items-center">
+                        <div class="text-xs mr-2">{{ item?.rating > 0 ? item?.rating : '' }}</div>
+                        <div class="w-full bg-gray-200 rounded-full h-1.5">
+                            <div class="bg-purple-400 h-1.5 rounded-full" [ngStyle]="{'width': item.percentage + '%'}"></div>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+</div>
