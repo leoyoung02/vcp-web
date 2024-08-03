@@ -12,6 +12,7 @@ import { BlogCardComponent } from "@share/components/blog-card/blog-card.compone
 import { CompanyService } from "@share/services";
 import { environment } from "@env/environment";
 import { TranslateModule } from "@ngx-translate/core";
+import { Router, RouterModule } from "@angular/router";
 
 @Component({
   selector: "app-astroideal-home",
@@ -19,6 +20,7 @@ import { TranslateModule } from "@ngx-translate/core";
   templateUrl: "./astroideal-home.component.html",
   imports: [
     CommonModule,
+    RouterModule,
     StarRatingComponent,
     TarotCardComponent,
     IdealButtonComponent,
@@ -44,7 +46,10 @@ export class AstroIdealHomeComponent {
 
   arrowRightIcon = faArrowRight;
 
-  constructor(private _companyService: CompanyService) {}
+  constructor(
+    private _companyService: CompanyService,
+    private _router: Router,
+  ) {}
 
   ngOnInit(): void {
     this.initializePage();
@@ -185,12 +190,24 @@ export class AstroIdealHomeComponent {
     this._companyService.getCompanyBannerTitle(this.companyId).subscribe(
       (response) => {
         this.banner_title = response.banner_title;
-        console.log('*********');
-        console.log(this.banner_title);
       },
       (error) => {
         console.log(error);
       }
     );
+  }
+
+  navigateToPage(link) {
+    this._router.navigate([link])
+    .then(() => {
+      window.location.reload();
+    });
+  }
+
+  handleOnClick(event) {
+    this._router.navigate([`/professionals/details/${event}`])
+    .then(() => {
+      window.location.reload();
+    });
   }
 }

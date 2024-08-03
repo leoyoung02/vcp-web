@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 import { CommonModule, NgOptimizedImage } from "@angular/common";
 import { StarRatingComponent } from "@lib/components";
 import {
@@ -13,6 +13,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 interface ITarotCardData {
+  id: number;
   image: string;
   title: string;
   description: string;
@@ -40,9 +41,11 @@ interface ITarotCardData {
   templateUrl: "./tarot-card.component.html",
 })
 export class TarotCardComponent {
-  @Input() cardData: ITarotCardData = {image: "", title: "", description: "", specialties: [], rating: 0, salary: "", rate: 0, rate_currency: "", chat: true, voice_call: true, video_call: true};
+  @Input() cardData: ITarotCardData = {id: 0, image: "", title: "", description: "", specialties: [], rating: 0, salary: "", rate: 0, rate_currency: "", chat: true, voice_call: true, video_call: true};
   @Input() direction: "flex-row" | "flex-col" = "flex-col";
   @Input() language: any;
+  @Output() onClick = new EventEmitter();
+  
   commentIcon = faComment;
   phoneIcon = faPhoneFlip;
   videoIcon = faVideo;
@@ -129,5 +132,9 @@ export class TarotCardComponent {
       default:
         return "dummy";
     }
+  }
+
+  handleClick(event) {
+    this.onClick.emit(event);
   }
 }

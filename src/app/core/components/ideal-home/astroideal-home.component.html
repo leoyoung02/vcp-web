@@ -17,7 +17,7 @@
       <div
         class="grid grid-rows-4 grid-cols-1 sm:grid-rows-2 sm:grid-cols-2 md:grid-rows-1 md:grid-cols-4 gap-x-16 text-white gap-y-16"
       >
-        <div class="rounded-xl bg-[#1E1E1E] py-4 px-2">
+        <div class="rounded-xl bg-[#1E1E1E] py-4 px-2 hover:cursor-pointer" (click)="navigateToPage('professionals')">
           <div class="flex flex-col items-center">
             <img src="/src/assets/images/ideal_home/header/img1.png" class="w-[93px] h-[93px] object-cover" loading="lazy" width="93" height="93" />
             <p class="mt-2 xl:text-xl 2xl:text-2xl">
@@ -25,7 +25,7 @@
             </p>
           </div>
         </div>
-        <div class="rounded-xl bg-[#1E1E1E] py-4 px-2">
+        <div class="rounded-xl bg-[#1E1E1E] py-4 px-2 hover:cursor-pointer" (click)="navigateToPage('shop')">
           <div class="flex flex-col items-center">
             <img src="/src/assets/images/ideal_home/header/img2.png" class="w-[93px] h-[93px] object-contain" loading="lazy" width="93" height="93" />
             <p class="mt-2 xl:text-xl 2xl:text-2xl">
@@ -33,7 +33,7 @@
             </p>
           </div>
         </div>
-        <div class="rounded-xl bg-[#1E1E1E] py-4 px-2">
+        <div class="rounded-xl bg-[#1E1E1E] py-4 px-2 hover:cursor-pointer" (click)="navigateToPage('plans')">
           <div class="flex flex-col items-center">
             <img src="/src/assets/images/ideal_home/header/img3.png" class="w-[93px] h-[93px] object-contain" loading="lazy" width="93" height="93" />
             <p class="mt-2 xl:text-xl 2xl:text-2xl">
@@ -41,7 +41,7 @@
             </p>
           </div>
         </div>
-        <div class="rounded-xl bg-[#1E1E1E] py-4 px-2">
+        <div class="rounded-xl bg-[#1E1E1E] py-4 px-2 hover:cursor-pointer" (click)="navigateToPage('courses')">
           <div class="flex flex-col items-center">
             <img src="/src/assets/images/ideal_home/header/img4.png" class="w-[93px] h-[93px] object-contain" loading="lazy" width="93" height="93" />
             <p class="mt-2 xl:text-xl 2xl:text-2xl">
@@ -75,7 +75,7 @@
       class="flex flex-col gap-y-4 items-center xl:flex-row xl:justify-between"
     >
       <ng-container *ngFor="let professional of professionals">
-        <app-tarot-card [cardData]="professional" [language]="language"></app-tarot-card>
+        <app-tarot-card [cardData]="professional" [language]="language" (onClick)="handleOnClick($event)"></app-tarot-card>
       </ng-container>
     </div>
 
@@ -130,7 +130,7 @@
             <img src="/src/assets/images/ideal_home/snow.png" />
           </div>
           <div class="mr-1">
-            <app-tarot-card-portrait [cardData]="professionals[0]" [language]="language" [buttonColor]="buttonColor" />
+            <app-tarot-card-portrait [cardData]="professionals[0]" [language]="language" [buttonColor]="buttonColor" (onClick)="handleOnClick($event)" />
           </div>
         </div>
         <div class="flex mt-7">
@@ -140,7 +140,7 @@
             <img src="/src/assets/images/ideal_home/human.png" />
           </div>
           <div class="mr-1">
-            <app-tarot-card-portrait [cardData]="professionals[1]" [language]="language" [buttonColor]="buttonColor" />
+            <app-tarot-card-portrait [cardData]="professionals[1]" [language]="language" [buttonColor]="buttonColor" (onClick)="handleOnClick($event)" />
           </div>
         </div>
         <div class="flex mt-5">
@@ -150,7 +150,7 @@
             <img src="/src/assets/images/ideal_home/rune.png" />
           </div>
           <div class="mr-1">
-            <app-tarot-card-portrait [cardData]="professionals[2]" [language]="language" [buttonColor]="buttonColor" />
+            <app-tarot-card-portrait [cardData]="professionals[2]" [language]="language" [buttonColor]="buttonColor" (onClick)="handleOnClick($event)" />
           </div>
         </div>
       </div>
@@ -177,8 +177,8 @@
   </div>
 
   <div class="flex justify-center mt-20">
-    <div
-      class="py-4 px-5 bg-gradient-to-r from-[#A77FE0] to-[#874FD5] text-2xl font-semibold text-white rounded-md"
+    <div (click)="navigateToPage('/free-services')"
+      class="hover:cursor-pointer py-4 px-5 bg-gradient-to-r from-[#A77FE0] to-[#874FD5] text-2xl font-semibold text-white rounded-md"
     >
       {{ "professionals.seeallservices" | translate }}
     </div>
