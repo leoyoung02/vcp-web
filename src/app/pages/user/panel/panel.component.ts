@@ -305,7 +305,7 @@ export class UserPanelComponent {
   formatImages(images) {
     images = images?.map((item) => {
       return {
-        image: `${environment.api}/v3/image/professionals/gallery/${item.image}`
+        image: `${environment.api}/${item.image}`
       };
     });
 

@@ -108,8 +108,8 @@
             </div>
             <div class="rounded-[15px] border border-1 border-[#d3d4d6] px-6 p-4 mb-4">
                 <div class="font-semibold text-base mb-4">{{ 'professionals.customerreviews' | translate }}</div>
-                <div class="border border-1 border-[#d3d4d6] p-6 pb-4 mb-4 rounded-[15px] shadow-lg">
-                    <div class="flex items-center" *ngIf="userId">
+                <div class="border border-1 border-[#d3d4d6] p-6 pb-4 mb-4 rounded-[15px] shadow-lg" *ngIf="userId">
+                    <div class="flex items-center">
                         <img [src]="currentUserAvatarPath" width="12" height="12" class="w-12 h-12 object-cover rounded-full" />
                         <div class="ml-4">
                             <div class="text-sm text-[#677173] opacity-40">
