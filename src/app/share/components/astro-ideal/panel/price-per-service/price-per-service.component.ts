@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { StarRatingModule } from 'angular-star-rating';
 import {
@@ -34,6 +34,7 @@ export class PricePerServiceComponent {
   @Input() voiceCallRate: any;
   @Input() videoCallRate: any;
   @Input() chatRate: any;
+  @Output() onPricePerServiceSaved = new EventEmitter();
 
   languageChangeSubscription;
   language: any;
@@ -62,6 +63,15 @@ export class PricePerServiceComponent {
 
   initializePage() {
 
+  }
+
+  savePricingRate() {
+    let rates = {
+      rate: this.voiceCallRate,
+      video_call_rate: this.videoCallRate,
+      chat_rate: this.chatRate
+    }
+    this.onPricePerServiceSaved.emit(rates);
   }
 
   ngOnDestroy() {

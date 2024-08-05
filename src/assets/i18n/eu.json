@@ -3859,6 +3859,10 @@
         "receivemail": "Jaso zure hobespenekin lotutako mezu elektronikoak",
         "receivemaildesc": "Gutxiago gehiago dela konturatzen gara",
         "termsandconditionsdesc": "Plataformako informazioa eta edukietarako sarbidea nola erabiliko dugun ezartzen dugu",
-        "waystocontact": "Harremanetarako moduak"
+        "waystocontact": "Harremanetarako moduak",
+        "experienceinyears": "Urteetako esperientzia",
+        "profiletitle": "Agurra edo deskribapenaren izenburua",
+        "multimediacontent": "Multimedia edukia",
+        "replace": "Ordezkatu"
     }
 }

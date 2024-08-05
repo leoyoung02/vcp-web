@@ -3849,6 +3849,10 @@
         "receivemail": "Ricevi email relative alle tue preferenze",
         "receivemaildesc": "Ci rendiamo conto che meno è meglio",
         "termsandconditionsdesc": "Stabiliamo il modo in cui utilizzeremo le informazioni e accederemo ai contenuti della piattaforma",
-        "waystocontact": "Modi per contattare"
+        "waystocontact": "Modi per contattare",
+        "experienceinyears": "Esperienza in anni",
+        "profiletitle": "Titolo di saluto o descrizione",
+        "multimediacontent": "Contenuti multimediali",
+        "replace": "Sostituisci"
     }
 }

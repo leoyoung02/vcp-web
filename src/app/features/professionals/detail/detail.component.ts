@@ -22,10 +22,9 @@ import {
   HoverRatingChangeEvent,
   RatingChangeEvent
 } from 'angular-star-rating';
-import { NgImageSliderModule } from 'ng-image-slider';
 import { ChatService, ProfessionalsService, VoiceCallService } from "@features/services";
 import { FormsModule } from "@angular/forms";
-import { ChatComponent, RatingReviewsComponent, SpecialtiesComponent, ToastComponent } from "@share/components";
+import { ChatComponent, MultimediaContentComponent, RatingReviewsComponent, SpecialtiesComponent, ToastComponent } from "@share/components";
 import { initFlowbite } from "flowbite";
 import { timer } from "@lib/utils/timer/timer.utils";
 import { environment } from "@env/environment";
@@ -40,12 +39,12 @@ import get from "lodash/get";
     TranslateModule,
     MatSnackBarModule,
     StarRatingModule,
-    NgImageSliderModule,
     FormsModule,
     ToastComponent,
     ChatComponent,
     RatingReviewsComponent,
     SpecialtiesComponent,
+    MultimediaContentComponent,
   ],
   templateUrl: "./detail.component.html",
 })
@@ -248,6 +247,76 @@ export class ProfessionalDetailComponent {
           console.log(error);
         }
       );
+  }
+
+  getProfessionalTitle() {
+    let title = '';
+    if(this.professional) {
+      title = this.getTitleText(this.professional);
+    }
+
+    if(!title && this.professional) {
+      title = `${this._translateService.instant('post-survey.hello')} ${this._translateService.instant('professionals.iam')} ${this.professional?.first_name || this.professional?.name}`;
+    }
+
+    return title;
+  }
+
+  getProfessionalDescription() {
+    let description = '';
+    if(this.professional) {
+      description = this.getDescriptionText(this.professional);
+    }
+
+    return description;
+  }
+
+  getTitleText(profile) {
+    return profile
+      ? this.language == "en"
+        ? profile.profile_title_en ||
+          profile.profile_title_es
+        : this.language == "fr"
+        ? profile.profile_title_fr ||
+          profile.profile_title_es
+        : this.language == "eu"
+        ? profile.profile_title_eu ||
+          profile.profile_title_es
+        : this.language == "ca"
+        ? profile.profile_title_ca ||
+          profile.profile_title_es
+        : this.language == "de"
+        ? profile.profile_title_de ||
+          profile.profile_title_es
+        : this.language == "it"
+        ? profile.profile_title_it ||
+          profile.profile_title_es
+        : profile.profile_title_es
+      : "";
+  }
+
+  getDescriptionText(profile) {
+    return profile
+      ? this.language == "en"
+        ? profile.description_en ||
+          profile.description_es
+        : this.language == "fr"
+        ? profile.description_fr ||
+          profile.description_es
+        : this.language == "eu"
+        ? profile.description_eu ||
+          profile.description_es
+        : this.language == "ca"
+        ? profile.description_ca ||
+          profile.description_es
+        : this.language == "de"
+        ? profile.description_de ||
+          profile.description_es
+        : this.language == "it"
+        ? profile.description_it ||
+          profile.description_es
+        : profile.description_es
+      : "";
   }
 
   formatCategories(categories) {

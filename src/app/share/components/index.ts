@@ -35,5 +35,9 @@ export * from './astro-ideal/panel/price-per-service/price-per-service.component
 export * from './astro-ideal/panel/personal-information/personal-information.component';
 export * from './astro-ideal/panel/specialties/specialties.component';
 export * from './astro-ideal/panel/contact-methods/contact-methods.component';
+export * from './astro-ideal/panel/specialties-chip/specialties-chip.component';
+export * from './astro-ideal/panel/about-me/about-me.component';
 export * from './astro-ideal/rating-reviews/rating-reviews.component';
+export * from './astro-ideal/multimedia-content/multimedia-content.component';
 export * from './tarot-card/tarot-card.component';
+export * from './date-picker/date-picker.component';

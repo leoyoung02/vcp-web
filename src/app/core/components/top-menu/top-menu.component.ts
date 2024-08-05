@@ -63,6 +63,7 @@ export class TopMenuComponent {
   @Input() professionals: any;
   @Input() categories: any;
   @Input() customMemberTypeId: any;
+  @Input() hasBlog: any;
 
   logoSrc: string = COMPANY_IMAGE_URL;
   companyName: any;
@@ -150,12 +151,13 @@ export class TopMenuComponent {
       } else {
         link += '/user';
       }
+      this._router.navigate([link])
+      .then(() => {
+        window.location.reload();
+      });
+    } else {
+      this._router.navigate([link]);
     }
-
-    this._router.navigate([link])
-    .then(() => {
-      window.location.reload();
-    });
   }
 
   getFormattedAvailableBalanceAmount(user) {

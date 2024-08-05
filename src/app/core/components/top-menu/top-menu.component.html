@@ -71,9 +71,9 @@
   </nav>
   <nav [ngStyle]="{'background-color': primaryColor}" class="-mb-[1px]">
     <div>
-        <div class="flex items-center">
-            <ul class="flex flex-row font-medium mt-0 space-x-28 rtl:space-x-reverse text-sm overflow-x-scroll no-scrollbar">
-              <div class="bg-[#A77FE0] items-center flex rounded-tr-xl p-4">
+        <div class="flex items-center w-full max-w-full">
+            <ul class="w-full max-w-full flex flex-row font-medium mt-0 space-x-28 rtl:space-x-reverse text-sm overflow-x-scroll no-scrollbar">
+              <div class="shrink-0 bg-[#A77FE0] items-center flex rounded-tr-xl p-4 px-5">
                 <div class="flex flex-col">
                   <p class="text-white pr-4 text-xl">{{"landing.tarottalk" | translate}}</p>
                 </div>
@@ -142,13 +142,21 @@
                   </li>
                 </ul>
               </div>
-              <div class="flex items-center">
-                <ul class="flex flex-row gap-20">
+              <div class="mx-auto w-2/3 max-w-2/3">
+                <ul class="-ml-24 flex items-center justify-around">
                   <li *ngFor="let item of categories">
                     <button class="flex flex-col items-center">
                       <img [src]="item.image" [alt]="item.name" class="w-8 h-8 object-cover" />
-                      <p class="text-[#D8D7D7] pt-2 text-base">
+                      <p class="text-[#D8D7D7] py-2 text-base">
                         {{ item.name }}
+                      </p>
+                    </button>
+                  </li>
+                  <li *ngIf="company?.id == 67 && hasBlog">
+                    <button class="flex flex-col items-center" (click)="navigateToPage('/blog')">
+                      <img src="./assets/professional-icons/blog.png" alt="Blog" class="w-8 h-8 object-cover" />
+                      <p class="text-[#D8D7D7] py-2 text-base">
+                        Blog
                       </p>
                     </button>
                   </li>

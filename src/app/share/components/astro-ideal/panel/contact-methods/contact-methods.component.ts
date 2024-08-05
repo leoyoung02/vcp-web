@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { StarRatingModule } from 'angular-star-rating';
 import {
@@ -30,6 +30,7 @@ export class ContactMethodsComponent {
   @Input() voiceCall: any;
   @Input() videoCall: any;
   @Input() chat: any;
+  @Output() onStatusChange = new EventEmitter();
 
   languageChangeSubscription;
   language: any;
@@ -58,6 +59,23 @@ export class ContactMethodsComponent {
 
   initializePage() {
 
+  }
+
+  handleChangeStatus(status, mode) {
+    switch(mode) {
+      case 'chat':
+        this.chat = status;
+        break;
+      case 'video_call':
+        this.videoCall = status;
+        break;
+      case 'voice_call':
+        this.voiceCall = status;
+        break;
+    }
+
+    let event = { status, mode }
+    this.onStatusChange.emit(event);
   }
 
   ngOnDestroy() {

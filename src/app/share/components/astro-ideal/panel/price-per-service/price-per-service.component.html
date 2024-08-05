@@ -1,5 +1,15 @@
-<div class="font-semibold text-xl mb-8">{{ title }}</div>
-<div class="flex gap-4 ml-4">
+<div class="flex items-center justify-between pb-8">
+    <div class="font-semibold text-xl">{{ title }}</div>
+    <div>
+        <button (click)="savePricingRate()" class="bg-[#D9D9D9] rounded-[7px] py-2 px-6 flex items-center justify-center">
+            <svg class="w-6 h-6 textblack" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z"/>
+            </svg>
+            <span class="ml-2 text-base font-semibold">{{ 'your-admin-area.save' | translate }}</span>
+        </button>
+    </div>
+</div>
+<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row gap-4 ml-0 sm:ml-0 md:ml-4 lg:ml-4">
     <div *ngIf="chat" class="rounded-lg border border-1 border-[#677173] pt-3 pr-0 pb-2 pl-4">
         <button class="font-semibold rounded-[2.75px] text-base text-center inline-flex items-center">
             <img [src]="chat ? './assets/professional-icons/comment-purple.png' : './assets/professional-icons/comment-gray.png'" 

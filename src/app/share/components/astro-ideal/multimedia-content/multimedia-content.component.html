@@ -1,0 +1,32 @@
+<div *ngIf="images?.length > 0" class="relative">
+    <ng-image-slider 
+        [images]="images" 
+        #nav
+        [infinite]="true"
+        [lazyLoading]="true"
+        [autoSlide]="0"
+        [imageSize]="{width: '28%',height: '200px', space: 16}"
+        [manageImageRatio]="true"
+        slideImage="1"
+    ></ng-image-slider>
+    <ng-container *ngIf="mode == 'edit'">
+        <button class="w-6 h-6 flex items-center justify-center rounded-full absolute top-[88px] -right-[20px]" [ngStyle]="{'background-color': buttonColor}"
+            (click)="addImage()">
+            <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+            </svg>      
+        </button> 
+    </ng-container>
+</div>
+<div *ngIf="showFilesUpload">
+    <file-pond
+        #myPond
+        [options]="pondOptions"
+        [files]="pondFiles"
+        (oninit)="pondHandleInit()"
+        (onaddfile)="pondHandleAddFile($event)"
+        (onupdatefiles)="podHandleUpdateFiles($event)"
+        (onprocessfile)="podHandleProcessFile($event)"
+    >
+    </file-pond>
+</div>

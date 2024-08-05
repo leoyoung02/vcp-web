@@ -1,5 +1,5 @@
 import { CommonModule, Location } from "@angular/common";
-import { Component, HostListener, Input } from "@angular/core";
+import { ChangeDetectorRef, Component, HostListener, Input } from "@angular/core";
 import {
   LangChangeEvent,
   TranslateModule,
@@ -10,7 +10,9 @@ import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
 import { 
+  AboutMeComponent,
   BreadcrumbComponent, 
+  MultimediaContentComponent, 
   PageTitleComponent, 
   PanelMenuComponent, 
   PersonalInformationComponent, 
@@ -20,6 +22,7 @@ import {
 } from "@share/components";
 import { AuthService } from "@lib/services";
 import { ProfessionalsService } from "@features/services";
+import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { initFlowbite } from "flowbite";
 import { environment } from "@env/environment";
 import get from "lodash/get";
@@ -31,6 +34,7 @@ import get from "lodash/get";
     TranslateModule,
     RouterModule,
     FormsModule,
+    MatSnackBarModule,
     PageTitleComponent,
     BreadcrumbComponent,
     PanelMenuComponent,
@@ -38,6 +42,8 @@ import get from "lodash/get";
     RadialProgressComponent,
     PricePerServiceComponent,
     PersonalInformationComponent,
+    AboutMeComponent,
+    MultimediaContentComponent,
   ],
   templateUrl: "./panel.component.html"
 })
@@ -85,6 +91,17 @@ export class UserPanelComponent {
   receiveEmail: boolean = false;
   termsAndConditions: boolean = false;
   specialtyCategories: any = [];
+  subcategories: any = [];
+  gender: any = [];
+  languages: any = [];
+  supportedLanguages: any = [];
+  images: any = [];
+  specialties: any = [];
+  subcategoryMapping: any = [];
+  totalEarnings: any;
+  // multimediaItems: any = [];
+  showFilesUpload: boolean = false;
+  imageAdded: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -95,7 +112,9 @@ export class UserPanelComponent {
     private _userService: UserService,
     private _companyService: CompanyService,
     private _professionalsService: ProfessionalsService,
+    private _snackBar: MatSnackBar,
     private _location: Location,
+    private cd: ChangeDetectorRef
     ) {}
 
   @HostListener("window:resize", [])
@@ -109,9 +128,7 @@ export class UserPanelComponent {
     this.email = this._localService.getLocalStorage(environment.lsemail);
     this.language = this._localService.getLocalStorage(environment.lslang);
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
-    this.companyId = this._localService.getLocalStorage(
-      environment.lscompanyId
-      );
+    this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     this.domain = this._localService.getLocalStorage(environment.lsdomain);
     this._translateService.use(this.language || "es");
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
@@ -142,16 +159,16 @@ export class UserPanelComponent {
         (event: LangChangeEvent) => {
           this.language = event.lang;
           this.initializePage();
-        }
-        );
-        this.initializePage();
+        });
+
+    this.initializePage();
   }
 
-  async initializePage() {
+  async initializePage(menu: string = '') {
     this.pageTitle = this._translateService.instant("user-panel.userpanel");
     this.getProfile();
     this.initializeBreadcrumb();
-    this.checkAdminPermissions();
+    this.checkAdminPermissions(menu);
   }
 
   getProfile() {
@@ -160,8 +177,15 @@ export class UserPanelComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
+          console.log(data)
           this.me = data?.profile;
+          this.gender = this.formatList(data?.gender);
+          this.languages = this.formatList(data?.languages);
+          this.supportedLanguages = this.formatList(data?.supported_languages, 'button-group');
+          this.images = this.formatImages(data?.images);
           this.image = `${environment.api}/${this.me?.image}`;
+          this.receiveEmail = this.me?.receive_email_preference == 1 ? true : false;
+          this.termsAndConditions = this.me?.accepted_conditions == 1 ? true : false;
           if(this.role == 'professional') { this.initializeProfessionalProfile(data); }
         },
         (error) => {
@@ -171,9 +195,62 @@ export class UserPanelComponent {
   }
 
   initializeProfessionalProfile(data) {
+    this.subcategories = data?.subcategories;
+    this.subcategoryMapping = data?.subcategory_mapping;
     this.reviews = this.formatReviews(data?.reviews);
-    this.specialtyCategories = this.formatSpecialties(data);
-    this.percentComplete = 60;
+    this.specialtyCategories = this.formatSpecialtyCategories(data);
+    this.specialties = this.formatSpecialties(data);
+    this.percentComplete = data?.profile_percentage;
+    this.totalEarnings = data?.total_earnings?.replace('.', ',') || '0,00';
+  }
+
+  formatList(list, mode:string = '') {
+    if(mode == 'button-group') {
+      let results: any[] = [];
+
+      list?.forEach((language) => {
+        results.push({
+          id: language.id,
+          value: language.code,
+          text: this.getItemName(language),
+          selected: language.default || language.code == this.language ? true : false,
+          code: language.code,
+        });
+      });
+
+      return results;
+    } else {
+      return list?.map((item) => {
+        return {
+          id: item.id,
+          name: this.getItemName(item),
+        };
+      });
+    }
+  }
+
+  getItemName(item) {
+    return item
+      ? this.language == "en"
+        ? item.name_EN ||
+          item.name_ES
+        : this.language == "fr"
+        ? item.name_FR ||
+          item.name_ES
+        : this.language == "eu"
+        ? item.name_EU ||
+          item.name_ES
+        : this.language == "ca"
+        ? item.name_CA ||
+          item.name_ES
+        : this.language == "de"
+        ? item.name_DE ||
+          item.name_ES
+        : this.language == "it"
+        ? item.name_IT ||
+          item.name_ES
+        : item.name_ES
+      : "";
   }
 
   formatReviews(reviews) {
@@ -195,7 +272,7 @@ export class UserPanelComponent {
     return result;
   }
 
-  formatSpecialties(data) {
+  formatSpecialtyCategories(data) {
     let list: any[] = [];
 
     list = data?.subcategory_mapping?.filter(subcategory => {
@@ -225,6 +302,96 @@ export class UserPanelComponent {
     return specialtyCategories;
   }
 
+  formatImages(images) {
+    images = images?.map((item) => {
+      return {
+        image: `${environment.api}/v3/image/professionals/gallery/${item.image}`
+      };
+    });
+
+    let imagesObject: any[] = [];
+    if(images?.length > 0) {
+      images?.forEach(image => {
+        imagesObject.push({
+          image: image?.image,
+          thumbImage: image?.image,
+        })
+      });
+    }
+
+    return imagesObject;
+  }
+
+  saveMultimediaContent() {
+    let params = {
+      id: this.me?.id,
+      company_id: this.companyId,
+      images: this.imageAdded,
+    }
+
+    this._professionalsService
+      .addMultimediaImage(params)
+      .subscribe(
+        (response) => {
+          this.showFilesUpload = true;
+          setTimeout(() => {
+            this.showFilesUpload = false;
+          })
+          
+          this.imageAdded = '';
+          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+          this.images = this.formatImages(response?.images);
+          localStorage.removeItem('professional_gallery_image_file');
+          this.cd.detectChanges();
+        },
+        (error) => {
+          this.open(
+            this._translateService.instant("dialog.error"),
+            ""
+          );
+        }
+      );
+  }
+
+  formatSpecialties(item) {
+    let list = [];
+
+    list = this.subcategoryMapping?.filter(subcategory => {
+      return subcategory.professional_id == this.me?.id
+    })?.map((row) => {
+      return {
+        ...row,
+        text: this.getSubcategoryText(row)
+      }
+    })
+
+    return list;
+  }
+
+  getSubcategoryText(subcategory) {
+    return subcategory
+      ? this.language == "en"
+        ? subcategory.subcategory_en ||
+          subcategory.subcategory_es
+        : this.language == "fr"
+        ? subcategory.subcategory_fr ||
+          subcategory.subcategory_es
+        : this.language == "eu"
+        ? subcategory.subcategory_eu ||
+          subcategory.subcategory_es
+        : this.language == "ca"
+        ? subcategory.subcategory_ca ||
+          subcategory.subcategory_es
+        : this.language == "de"
+        ? subcategory.subcategory_de ||
+          subcategory.subcategory_es
+        : this.language == "it"
+        ? subcategory.subcategory_it ||
+          subcategory.subcategory_es
+        : subcategory.subcategory_es
+      : "";
+  }
+
   initializeBreadcrumb() {
     this.level1Title = this._translateService.instant("company-settings.home");
     this.level2Title = "";
@@ -232,14 +399,14 @@ export class UserPanelComponent {
     this.level4Title = "";
   }
 
-  checkAdminPermissions() {
+  checkAdminPermissions(menu: string = '') {
     this._userService.isAdminById(this.userId).subscribe((res: any) => {
       this.isAdmin = res.isAdmin ? true : false;
-      this.initializeMenu();
+      this.initializeMenu(menu);
     })
   }
 
-  initializeMenu() {
+  initializeMenu(menu: string = '') {
     this.menuItems = [
       {
         index: 0,
@@ -322,7 +489,14 @@ export class UserPanelComponent {
       show_right_content: true,
     });
 
-    this.initializeMenuDetails(this.menuItems?.length > 0 ? this.menuItems[0] : {});
+    let initial_menu = this.menuItems?.length > 0 ? this.menuItems[0] : {};
+    if(menu) {
+      let menu_item = this.menuItems.find((c) => c.action == menu);
+      if(menu_item) {
+        initial_menu = menu_item
+      }
+    }
+    this.initializeMenuDetails(initial_menu);
   }
 
   initializeMenuDetails(menu) {
@@ -332,7 +506,9 @@ export class UserPanelComponent {
 
   handleMenuClick(event) {
     this.showConfirmationModal = false;
-    this.initializeMenuDetails(event);
+    if(event.action != 'logout' && event.action != 'delete-account' && event.action != 'notifications') { 
+      this.initializeMenuDetails(event)
+    };
 
     switch(event?.action) {
       case 'settings':
@@ -340,6 +516,9 @@ export class UserPanelComponent {
         break;
       case 'transactions':
         // this.navigateToPage('/users/my-transactions');
+        break;
+      case 'notifications':
+        this.navigateToPage(`/users/notifications/${this.id}`);
         break;
       case 'logout':
         this.confirmLogout(event);
@@ -375,11 +554,76 @@ export class UserPanelComponent {
     this._router.navigate(["/auth/login"]);
   }
 
+  handlePersonalInformationSaved() {
+    this.initializePage();
+  }
+
+  handleChangePreference(event, mode) {
+    let params = {
+      status: event.target.checked ? 1 : 0,
+      mode,
+      id: this.id
+    }
+
+    this._professionalsService
+      .editUserPreference(params)
+      .subscribe(
+        (response) => {
+          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+        },
+        (error) => {
+          this.open(
+            this._translateService.instant("dialog.error"),
+            ""
+          );
+        }
+      );
+  }
+
+  handlePricePerServiceSaved(event) {
+    let params = {
+      id: this.me?.id,
+      rates: event,
+    }
+
+    this._professionalsService
+      .editPricePerService(params)
+      .subscribe(
+        (response) => {
+          this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+        },
+        (error) => {
+          this.open(this._translateService.instant("dialog.error"), "");
+        }
+      );
+  }
+
+  handleAboutMeSaved(event) {
+    if(event == 'success') {
+      this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+      this.initializePage('about-me');
+    } else {
+      this.open(this._translateService.instant("dialog.error"), "");
+    }
+  }
+
+  handleFilesUploaded(event) {
+    this.imageAdded = event;
+  }
+
+  async open(message: string, action: string) {
+    await this._snackBar.open(message, action, {
+      duration: 3000,
+      panelClass: ["info-snackbar"],
+    });
+  }
+
   handleGoBack() {
     this._location.back();
   }
 
   ngOnDestroy() {
+    localStorage.removeItem('professional_gallery_image_file');
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();

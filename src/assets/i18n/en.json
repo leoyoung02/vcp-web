@@ -3896,6 +3896,10 @@
         "receivemail": "Receive emails related to your preferences",
         "receivemaildesc": "We are aware that less is more",
         "termsandconditionsdesc": "We establish the way in which we will use the information and access to the contents of the platform",
-        "waystocontact": "Ways to contact"
+        "waystocontact": "Ways to contact",
+        "experienceinyears": "Experience in years",
+        "profiletitle": "Greeting or Description Title",
+        "multimediacontent": "Multimedia content",
+        "replace": "Replace"
     }
 }

@@ -1,39 +1,260 @@
-<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row gap-12">
+<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row gap-12 relative">
     <div class="shrink-0 w-full sm:w-full md:w-64 lg:w-64">
         <div class="flex flex-col justify-center">
             <div class="w-full">
+                <input 
+                    #file
+                    id="image"
+                    name="image" 
+                    type="file"
+                    style="display:none;"
+                    (change)="uploadPhoto($event)"
+                />
                 <img *ngIf="image" 
                     width="208" height="208" 
                     class="mx-auto w-52 h-52 object-cover rounded-full"
                     [src]="image" 
                     loading="lazy" />
+                <label for="image" class="flex items-center justify-center mt-7">
+                    <img src="./assets/professional-icons/upload.png" loading="lazy" width="20" height="15" class="w-[20px] h-[15px] object-contain" />
+                    <div class="text-[15px] hover:cursor-pointer mx-3" [ngStyle]="{'color': buttonColor}">{{ 'user-panel.replace' | translate }}</div>
+                </label>
             </div>
-            <hr class="h-px mt-8 mb-4 bg-gray-200 border-0">
-            <div class="mt-2">
-                <app-astro-ideal-specialties
-                    [specialties]="specialties"
-                    [buttonColor]="buttonColor">
-                </app-astro-ideal-specialties>
-            </div>
-            <div class="-mt-5">
-                <app-astro-ideal-rating-reviews
-                    title="{{ 'professionals.ratingandreview' | translate }}"
-                    [rating]="profile?.rating"
-                    [reviews]="reviews">
-                </app-astro-ideal-rating-reviews>
-            </div>
+            <ng-container *ngIf="role == 'professional'">
+                <hr class="h-px mt-6 mb-4 bg-gray-200 border-0">
+                <div class="mt-2">
+                    <app-astro-ideal-specialties
+                        [specialties]="specialtyCategories"
+                        [buttonColor]="buttonColor">
+                    </app-astro-ideal-specialties>
+                </div>
+                <div class="-mt-5">
+                    <app-astro-ideal-rating-reviews
+                        title="{{ 'professionals.ratingandreview' | translate }}"
+                        [rating]="profile?.rating"
+                        [reviews]="reviews">
+                    </app-astro-ideal-rating-reviews>
+                </div>
+            </ng-container>
         </div>
     </div>
-    <div class="w-full max-w-full">
-        <div class="mt-8 font-semibold text-3xl">
-            {{ profile?.first_name }} {{ profile?.last_name }}
+    <div class="w-full max-w-full relative">
+        <div class="mt-8 relative">
+            <div class="flex items-center justify-between pb-2">
+                <div class="font-semibold text-3xl">{{ profile?.first_name }} {{ profile?.last_name }}</div>
+                <div>
+                    <button (click)="savePersonalInformation()" class="bg-[#D9D9D9] rounded-[7px] py-2 px-6 flex items-center justify-center">
+                        <svg class="w-6 h-6 textblack" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z"/>
+                        </svg>
+                        <span class="ml-2 text-base font-semibold">{{ 'your-admin-area.save' | translate }}</span>
+                    </button>
+                </div>
+            </div>
+            <hr class="h-px mt-2 mb-4 bg-gray-200 border-0">
         </div>
-        <div class="mt-8 mb-2 font-semibold text-base">{{ 'user-panel.waystocontact' | translate }}</div>
-        <app-astro-ideal-contact-methods
-            [buttonColor]="buttonColor"
-            [voiceCall]="voiceCall"
-            [videoCall]="videoCall"
-            [chat]="chat">
-        </app-astro-ideal-contact-methods>
+        <form [formGroup]="profileForm" autocomplete="off" class="relative">
+            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+                <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                    <label for="first_name" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                        <div class="flex items-center justify-between">
+                            <div>{{ 'signup.name' | translate }}</div>
+                        </div>
+                    </label>
+                    <input 
+                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('first_name')?.errors }"
+                        type="text" 
+                        class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                        formControlName="first_name" 
+                        placeholder="{{ 'signup.name' | translate }}"
+                        required>
+                </div>
+                <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                    <label for="last_name" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                        <div class="flex items-center justify-between">
+                            <div>{{ 'profile-settings.lastname' | translate }}</div>
+                        </div>
+                    </label>
+                    <input 
+                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('last_name')?.errors }"
+                        type="text" 
+                        class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                        formControlName="last_name" 
+                        placeholder="{{ 'profile-settings.lastname' | translate }}"
+                        required>
+                </div>
+                <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                    <label for="birthday" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                        <div class="flex items-center">
+                            <svg class="w-4 h-4 text-gray-400 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+                                <path fill-rule="evenodd" d="M5 5a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1h1a1 1 0 0 0 1-1 1 1 0 1 1 2 0 1 1 0 0 0 1 1 2 2 0 0 1 2 2v1a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a2 2 0 0 1 2-2ZM3 19v-7a1 1 0 0 1 1-1h16a1 1 0 0 1 1 1v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2Zm6.01-6a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm-10 4a1 1 0 1 1 2 0 1 1 0 0 1-2 0Zm6 0a1 1 0 1 0-2 0 1 1 0 0 0 2 0Zm2 0a1 1 0 1 1 2 0 1 1 0 0 1-2 0Z" clip-rule="evenodd"/>
+                            </svg>
+                            <div>{{ 'profile-settings.birthday' | translate }}</div>
+                        </div>
+                    </label>
+                    <div class="w-full max-w-full">
+                        <app-date-picker 
+                            [birthday]="profile?.birthday"
+                            (onSelectedDate)="handleSelectedDate($event)">
+                        </app-date-picker> 
+                    </div>
+                </div>
+                <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                    <label for="gender" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                        <div class="flex items-center justify-between">
+                            <div>{{ 'professionals.gender' | translate }}</div>
+                        </div>
+                    </label>
+                    <div class="w-full max-w-full">
+                        <select
+                            id="gender"
+                            class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('gender')?.errors }"
+                            formControlName="gender"
+                        >
+                            <option value="" selected>{{ 'professionals.gender' | translate }}</option>
+                            <option
+                                *ngFor="let item of gender"
+                                [value]="item.name"
+                            >
+                            {{ item.name }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                    <label for="email" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                        <div class="flex items-center justify-between">
+                            <div>{{ 'signup.emailaddress' | translate }}</div>
+                        </div>
+                    </label>
+                    <input 
+                        [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('email')?.errors }"
+                        type="text" 
+                        class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                        formControlName="email" 
+                        placeholder="{{ 'signup.emailaddress' | translate }}"
+                        required>
+                </div>
+            </div>
+            <ng-container *ngIf="role == 'professional'">
+                <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6 mt-6">
+                    <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-2 lg:col-span-2">
+                        <label for="profession" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                            <div class="flex items-center justify-between">
+                                <div>{{ 'public-profile.profession' | translate }}</div>
+                            </div>
+                        </label>
+                        <input 
+                            id="profession"
+                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('profession')?.errors }"
+                            type="text" 
+                            class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                            formControlName="profession" 
+                            placeholder="{{ 'public-profile.profession' | translate }}"
+                            required>
+                    </div>
+                    <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                        <label for="languages" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                            <div class="flex items-center justify-between">
+                                <div>{{ 'job-offers.language' | translate }}</div>
+                            </div>
+                        </label>
+                        <div>
+                            <ng-multiselect-dropdown
+                                placeholder="{{ 'signup.select' | translate }}"
+                                [settings]="dropdownSettings"
+                                [data]="languages"
+                                [(ngModel)]="selectedLanguages"
+                                [ngModelOptions]="{standalone: true}"
+                                (onSelect)="handleChangeLanguage($event)"
+                                (onDeSelect)="onDeSelectLanguage($event)"
+                            >
+                            </ng-multiselect-dropdown>
+                        </div>
+                    </div>
+                    <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                        <label for="experience" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                            <div class="flex items-center justify-between">
+                                <div>{{ 'user-panel.experienceinyears' | translate }}</div>
+                            </div>
+                        </label>
+                        <input 
+                            id="experience"
+                            [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('experience')?.errors }"
+                            type="number" 
+                            class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                            formControlName="experience" 
+                            placeholder="{{ 'user-panel.experienceinyears' | translate }}"
+                            required>
+                    </div>
+                </div>
+            </ng-container>
+        </form>
+        <ng-container *ngIf="role == 'professional'">
+            <div class="mt-8 mb-2 font-semibold text-base">{{ 'professionals.specialties' | translate }}</div>
+            <app-astro-ideal-specialties-chip
+                [buttonColor]="buttonColor"
+                [subcategories]="subcategories"
+                [selectedSubcategories]="specialties"
+                (onSpecialtiesChange)="handleSpecialtiesChange($event)">
+            </app-astro-ideal-specialties-chip>
+            <div class="mt-8 mb-2 font-semibold text-base">{{ 'user-panel.waystocontact' | translate }}</div>
+            <app-astro-ideal-contact-methods
+                [buttonColor]="buttonColor"
+                [voiceCall]="voiceCall"
+                [videoCall]="videoCall"
+                [chat]="chat"
+                (onStatusChange)="handleStatusChange($event)">
+            </app-astro-ideal-contact-methods>
+        </ng-container>
+    </div>
+</div>
+<button #modalbutton data-modal-target="item-modal" data-modal-toggle="item-modal" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+    &nbsp;
+</button>
+<div id="item-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-w-md max-h-full">
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="item-modal">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="px-6 py-6 lg:px-8">
+                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                    {{ 'club-create.uploadimage' | translate }}
+                </h3>
+                <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
+                    <div class="flex items-center relative">
+                        <fa-icon [ngStyle]="{'background-color': buttonColor}" class="p-2 rounded-lg mr-4 text-white fa flex items-center" [icon]="rotateLeftIcon"></fa-icon>
+                        <fa-icon [ngStyle]="{'background-color': buttonColor}" class="p-2 rounded-lg text-white fa flex items-center4" [icon]="rotateRightIcon"></fa-icon>
+                    </div>
+                    <div class="flex items-center relative">
+                        <a href="javascript:;" (click)="imageCropperModalSave()" [ngStyle]="{'background-color': buttonColor}" class="p-2 inline-flex justify-center w-full p-2 font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800" data-modal-hide="item-modal">
+                            {{ 'image-cropper.save' | translate }}
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <image-cropper 
+                        [canvasRotation]="canvasRotation"
+                        [transform]="transform"
+                        [imageChangedEvent]="imageChangedEvent" 
+                        [maintainAspectRatio]="true"
+                        [cropperMinWidth]="360" 
+                        [cropperMinHeight]="320" 
+                        format="png" 
+                        outputType="both"
+                        (imageCropped)="imageCropped($event)" 
+                        (imageLoaded)="imageLoaded()" 
+                        (cropperReady)="cropperReady()"
+                        (loadImageFailed)="loadImageFailed()"
+                        output="base64">
+                    </image-cropper>
+                </div>
+            </div>
+        </div>
     </div>
 </div>

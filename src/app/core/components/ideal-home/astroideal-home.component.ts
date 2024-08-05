@@ -97,6 +97,30 @@ export class AstroIdealHomeComponent {
     }
   }
 
+  getranslatedProfessionalDescription(profile: any): string {
+    return profile
+      ? this.language == "en"
+        ? profile.description_en ||
+          profile.description_es
+        : this.language == "fr"
+        ? profile.description_fr ||
+          profile.description_es
+        : this.language == "eu"
+        ? profile.description_eu ||
+          profile.description_es
+        : this.language == "ca"
+        ? profile.description_ca ||
+          profile.description_es
+        : this.language == "de"
+        ? profile.description_de ||
+          profile.description_es
+        : this.language == "it"
+        ? profile.description_it ||
+          profile.description_es
+        : profile.description_es
+      : "";
+  }
+
   async initializePage() {
     this._companyService.getCompanyProfessionals(this.companyId).subscribe(
       (response) => {
@@ -104,7 +128,7 @@ export class AstroIdealHomeComponent {
           id: item.id,
           title: item.user.name,
           image: `${environment.api}/${item.user.image}`,
-          description: item.user.who_am_i,
+          description: this.getranslatedProfessionalDescription(item),
           rating: item.experience,
           salary: `${item.rate_currency} ${item.rate}`,
           rate: item.rate,

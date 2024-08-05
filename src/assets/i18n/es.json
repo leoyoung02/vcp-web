@@ -796,7 +796,7 @@
         "publicprofile": "Perfil Público",
         "profession": "Profesión",
         "from": "Desde",
-        "birthday": "Cumpleaños",
+        "birthday": "Fecha de nacimiento",
         "preferences": "Preferencias",
         "plans": "Planes",
         "clubs": "Clubes",
@@ -3884,6 +3884,10 @@
         "receivemail": "Recibir mails relacionados a tus preferencias",
         "receivemaildesc": "Somos conscientes de que menos es más  ",
         "termsandconditionsdesc": "Establecemos la forma en la que usaremos la información y acceso a los contenidos de la plataforma",
-        "waystocontact": "Maneras de contactar"
+        "waystocontact": "Maneras de contactar",
+        "experienceinyears": "Experiencia en años",
+        "profiletitle": "Saludo o Título de la descripción",
+        "multimediacontent": "Contenido multimedia",
+        "replace": "Reemplazar"
     }
 }

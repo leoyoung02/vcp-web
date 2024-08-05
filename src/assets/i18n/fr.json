@@ -3854,6 +3854,10 @@
         "receivemail": "Recevoir des emails liés à vos préférences",
         "receivemaildesc": "Nous réalisons que moins c'est plus",
         "termsandconditionsdesc": "Nous établissons la manière dont nous utiliserons les informations et accéderons au contenu de la plateforme",
-        "waystocontact": "Façons de contacter"
+        "waystocontact": "Façons de contacter",
+        "experienceinyears": "Expérience en années",
+        "profiletitle": "Titre de message d'accueil ou de description",
+        "multimediacontent": "Contenu multimédia",
+        "replace": "Remplacer"
     }
 }

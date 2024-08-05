@@ -3867,6 +3867,10 @@
         "receivemail": "Rebre mails relacionats a les teves preferències",
         "receivemaildesc": "Som conscients que menys és més",
         "termsandconditionsdesc": "Establim la manera com utilitzarem la informació i accés als continguts de la plataforma",
-        "waystocontact": "Maneres de contactar"
+        "waystocontact": "Maneres de contactar",
+        "experienceinyears": "Experiència en anys",
+        "profiletitle": "Salut o Títol de la descripció",
+        "multimediacontent": "Contingut multimèdia",
+        "replace": "Reemplaça"
     }
 }

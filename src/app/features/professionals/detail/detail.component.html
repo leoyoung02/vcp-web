@@ -1,4 +1,4 @@
-<div class="mt-12 mx-auto max-w-full sm:max-w-full md:max-w-screen-2xl lg:max-w-screen-2xl pt-20 sm:pt-20 md:pt-0 lg:pt-0 relative p-6 md:pt-48 lg:pt-48">
+<div class="mt-12 mx-auto max-w-full sm:max-w-full md:max-w-screen-2xl lg:max-w-screen-2xl pt-20 sm:pt-20 md:pt-0 lg:pt-0 relative">
     <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row gap-20">
         <div class="shrink-0 w-full sm:w-full md:w-96 lg:w-96">
             <div class="flex flex-col justify-center">
@@ -91,20 +91,16 @@
         </div>
         <div class="w-full max-w-full">
             <div class="rounded-[15px] border border-1 border-[#d3d4d6] px-12 pt-16 pb-4 mb-4">
-                <div class="text-3xl font-semibold">{{ 'post-survey.hello' | translate }} {{ 'professionals.iam' | translate }} {{ professional?.first_name || professional?.name}}</div>
+                <div class="text-3xl font-semibold">{{ getProfessionalTitle() }}</div>
                 <hr class="h-px mt-2 my-4 bg-gray-200 border-0">
-                <div class="text-base pr-6" [innerHtml]="professional?.who_am_i"></div>
+                <div class="text-base pr-6" [innerHtml]="getProfessionalDescription()"></div>
                 <div class="pt-6" *ngIf="images?.length > 0">
-                    <ng-image-slider 
-                        [images]="images" 
-                        #nav
-                        [infinite]="true"
-                        [lazyLoading]="true"
-                        [autoSlide]="0"
-                        [imageSize]="{width: '28%',height: '200px', space: 16}"
-                        [manageImageRatio]="true"
-                        slideImage="1"
-                    ></ng-image-slider>
+                    <app-astro-ideal-multimedia-content
+                        [id]="id"
+                        [images]="images"
+                        [buttonColor]="buttonColor"
+                        mode="">
+                    </app-astro-ideal-multimedia-content>
                 </div>
             </div>
             <div class="rounded-[15px] border border-1 border-[#d3d4d6] px-6 p-4 mb-4">
