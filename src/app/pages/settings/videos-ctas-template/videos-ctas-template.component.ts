@@ -199,7 +199,7 @@ export class VideosCTAsTemplateComponent {
 
   async ngOnInit() {
     this.language =
-      this._localService.getLocalStorage(environment.lslanguage) || "es";
+      this._localService.getLocalStorage(environment.lslang) || "es";
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(
       environment.lscompanyId
