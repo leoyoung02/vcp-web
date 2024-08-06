@@ -308,15 +308,16 @@ export class PersonalInformationComponent {
 
     let specialty_ids = '';
     if(this.selectedSpecialties?.length > 0) {
-      specialty_ids = this.selectedSpecialties?.map((data) => { return data.professional_subcategory_id }).join(',')
+      specialty_ids = this.selectedSpecialties?.map((data) => { return data.id }).join(',')
     } else {
-      specialty_ids = this.specialties?.length > 0 ? this.specialties?.map((data) => { return data.professional_subcategory_id }).join(',') : ''
+      specialty_ids = this.specialties?.length > 0 ? this.specialties?.map((data) => { return data.id }).join(',') : ''
     }
 
     formData.append('subcategories', specialty_ids);
     
     if (this.file) {
-      const filename = 'professional_' + this.profile?.user_id + '_' + new Date()?.getTime();
+      let user_id = this.role.professional ? this.profile?.user_id : this.id;
+      const filename = 'professional_' + user_id + '_' + new Date()?.getTime();
       formData.append('destination', './uploads/profile_images/');
       formData.append('filepath', `./uploads/profile_images/${filename}.jpg`);
       formData.append('filenamewoextension', filename);

@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, SimpleChange, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import {
     LangChangeEvent,
@@ -47,17 +47,8 @@ export class SpecialtiesChipComponent {
   constructor(
     private _translateService: TranslateService,
     private _localService: LocalService,
-  ) { 
-    
-  }
+  ) { }
 
-  ngOnChanges(changes: SimpleChange) {
-    let specialtiesChange = changes['specialties'];
-    if (specialtiesChange?.currentValue?.length > 0) {
-      this.selectedSubcategories = specialtiesChange.currentValue;
-    }
-  }
-  
   async ngOnInit() {
     initFlowbite();
     this.language = this._localService.getLocalStorage(environment.lslang);
@@ -78,18 +69,7 @@ export class SpecialtiesChipComponent {
     this.dropdownSettings = {
         singleSelection: false,
         idField: "id",
-        textField:
-          this.language == "en"
-            ? "subcategory_en"
-            : this.language == "fr"
-            ? "subcategory_fr"
-            : this.language == "eu"
-            ? "subcategory_eu"
-            : this.language == "ca"
-            ? "subcategory_ca"
-            : this.language == "de"
-            ? "subcategory_de"
-            : "subcategory_es",
+        textField: "text",
         selectAllText: this._translateService.instant("dialog.selectall"),
         unSelectAllText: this._translateService.instant("dialog.clearall"),
         itemsShowLimit: 2,
@@ -118,30 +98,6 @@ export class SpecialtiesChipComponent {
 
   saveSelection() {
     this.closemodalbutton2?.nativeElement?.click();
-  }
-
-  getSubcategoryText(subcategory) {
-    return subcategory
-      ? this.language == "en"
-        ? subcategory.subcategory_en ||
-          subcategory.subcategory_es
-        : this.language == "fr"
-        ? subcategory.subcategory_fr ||
-          subcategory.subcategory_es
-        : this.language == "eu"
-        ? subcategory.subcategory_eu ||
-          subcategory.subcategory_es
-        : this.language == "ca"
-        ? subcategory.subcategory_ca ||
-          subcategory.subcategory_es
-        : this.language == "de"
-        ? subcategory.subcategory_de ||
-          subcategory.subcategory_es
-        : this.language == "it"
-        ? subcategory.subcategory_it ||
-          subcategory.subcategory_es
-        : subcategory.subcategory_es
-      : "";
   }
 
   ngOnDestroy() {

@@ -4,7 +4,7 @@
             <span id="badge-dismiss-default-{{ item.id }}" 
                 class="inline-flex items-center px-2 py-1 me-2 text-sm font-medium rounded-[6px] border border-1"
                 [ngStyle]="{'color': buttonColor, 'border-color': buttonColor}">
-                {{ getSubcategoryText(item) }}
+                {{ item.text }}
                 <button type="button" class="inline-flex items-center p-1 ms-2 text-sm bg-transparent rounded-sm hover:bg-purple-200 hover:text-purple-900" 
                     [ngClass]="{'color': buttonColor}"
                     (click)="onDeSelectCategory(item)"

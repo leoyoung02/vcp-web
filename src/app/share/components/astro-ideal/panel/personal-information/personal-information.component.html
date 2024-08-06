@@ -190,15 +190,38 @@
                     </div>
                 </div>
             </ng-container>
+            <ng-container *ngIf="role != 'professional'">
+                <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1 mt-6">
+                    <label for="languages" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                        <div class="flex items-center justify-between">
+                            <div>{{ 'job-offers.language' | translate }}</div>
+                        </div>
+                    </label>
+                    <div>
+                        <ng-multiselect-dropdown
+                            placeholder="{{ 'signup.select' | translate }}"
+                            [settings]="dropdownSettings"
+                            [data]="languages"
+                            [(ngModel)]="selectedLanguages"
+                            [ngModelOptions]="{standalone: true}"
+                            (onSelect)="handleChangeLanguage($event)"
+                            (onDeSelect)="onDeSelectLanguage($event)"
+                        >
+                        </ng-multiselect-dropdown>
+                    </div>
+                </div>
+            </ng-container>
         </form>
-        <ng-container *ngIf="role == 'professional'">
-            <div class="mt-8 mb-2 font-semibold text-base">{{ 'professionals.specialties' | translate }}</div>
+        <div class="mt-8 mb-2 font-semibold text-base">{{ role == 'professional' ? ('professionals.specialties' | translate) : ('buddy.interests' | translate) }}</div>
+        <div [ngClass]="{'mb-4': role != 'professional'}">
             <app-astro-ideal-specialties-chip
                 [buttonColor]="buttonColor"
                 [subcategories]="subcategories"
                 [selectedSubcategories]="specialties"
                 (onSpecialtiesChange)="handleSpecialtiesChange($event)">
             </app-astro-ideal-specialties-chip>
+        </div>
+        <ng-container *ngIf="role == 'professional'">
             <div class="mt-8 mb-2 font-semibold text-base">{{ 'user-panel.waystocontact' | translate }}</div>
             <app-astro-ideal-contact-methods
                 [buttonColor]="buttonColor"

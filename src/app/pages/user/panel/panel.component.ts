@@ -186,6 +186,9 @@ export class UserPanelComponent {
           this.image = `${environment.api}/${this.me?.image}`;
           this.receiveEmail = this.me?.receive_email_preference == 1 ? true : false;
           this.termsAndConditions = this.me?.accepted_conditions == 1 ? true : false;
+          this.subcategories = this.formatSubcategories(data?.subcategories);
+          this.subcategoryMapping = data?.subcategory_mapping;
+          this.specialties = this.formatSpecialties(data);
           if(this.role == 'professional') { this.initializeProfessionalProfile(data); }
         },
         (error) => {
@@ -195,11 +198,8 @@ export class UserPanelComponent {
   }
 
   initializeProfessionalProfile(data) {
-    this.subcategories = data?.subcategories;
-    this.subcategoryMapping = data?.subcategory_mapping;
     this.reviews = this.formatReviews(data?.reviews);
     this.specialtyCategories = this.formatSpecialtyCategories(data);
-    this.specialties = this.formatSpecialties(data);
     this.percentComplete = data?.profile_percentage;
     this.totalEarnings = data?.total_earnings?.replace('.', ',') || '0,00';
   }
@@ -353,19 +353,35 @@ export class UserPanelComponent {
       );
   }
 
-  formatSpecialties(item) {
-    let list = [];
-
-    list = this.subcategoryMapping?.filter(subcategory => {
-      return subcategory.professional_id == this.me?.id
-    })?.map((row) => {
+  formatSubcategories(list) {
+    return list?.map((row) => {
       return {
-        ...row,
+        id: row.id,
+        text: this.getSubcategoryText(row)
+      }
+    })
+  }
+
+  formatSpecialties(item) {
+    let filtered_list: any[] = []
+    if(this.role == 'professional') {
+      filtered_list = this.subcategoryMapping?.filter(subcategory => {
+        return subcategory.professional_id == this.me?.id
+      })
+    } else {
+      filtered_list = this.subcategoryMapping?.filter(subcategory => {
+        return subcategory.user_id == this.me?.id
+      })
+    }
+    
+    filtered_list = filtered_list?.map((row) => {
+      return {
+        id: row.professional_subcategory_id,
         text: this.getSubcategoryText(row)
       }
     })
 
-    return list;
+    return filtered_list;
   }
 
   getSubcategoryText(subcategory) {
