@@ -1,0 +1,14 @@
+<div class="justify-center flex" [ngClass]="{'mt-[160px]': page ==  'home'}">
+  <p class="font-semibold text-[35px] text-center">
+    {{ "professionals.gettoknowourfreeresources" | translate }}
+  </p>
+</div>
+<div class="mt-24 md:container md:mx-auto">
+  <div class="grid gap-x-14 gap-y-6 grid-rows-4 grid-cols-1 md:grid-rows-2 md:grid-cols-2 xl:grid-rows-1 xl:grid-cols-4">
+    <ng-container *ngFor="let service of services">
+      <div class="flex justify-center">
+        <app-blog-card [cardData]="{ title: titleTranslator(service), description: descriptionTranslator(service) }" />
+      </div>
+    </ng-container>
+  </div>
+</div>

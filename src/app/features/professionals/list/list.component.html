@@ -154,6 +154,12 @@
         </div>
     </div>
 </div>
+<div class="py-12">
+    <app-free-services
+        [services]="services"
+        [language]="language">
+    </app-free-services>
+</div>
 <app-toast 
     *ngIf="showRequiredMinimumBalanceModal" 
     [company]="company" 

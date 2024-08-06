@@ -39,6 +39,7 @@ export class FloatingTarotReadersComponent {
   @Input() primaryColor: any;
   @Input() professionals: any;
   @Input() categories: any;
+  @Input() left: any;
 
   languageChangeSubscription;
   language: any;

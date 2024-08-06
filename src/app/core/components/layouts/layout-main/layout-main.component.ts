@@ -2883,11 +2883,19 @@ export class LayoutMainComponent {
       };
     });
 
-    this.categories = data?.categories?.map((category) => {
+    this.categories = data?.categories?.map((category, index) => {
+      let left = [
+        '2',
+        '13',
+        '27',
+        '39',
+        '44'
+      ]
       return {
         ...category,
         name: this.getCategoryText(category),
-        image: `${environment.api}/v3/image/professionals/category/${category.image}`,
+        image: `${environment.api}/get-ie-image-plan/${category.image}`,
+        left: left[index]
       };
     });
   }

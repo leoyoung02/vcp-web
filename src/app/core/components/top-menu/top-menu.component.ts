@@ -72,6 +72,8 @@ export class TopMenuComponent {
   languageChangeSubscription;
   navigationSubscription;
   companyId: any;
+  showFloatingProfessionals: any = false;
+  left: any;
   
   constructor(
     private _router: Router,
@@ -165,6 +167,15 @@ export class TopMenuComponent {
     let amount = user?.available_balance || '0,00';
     let amount_in_text = `${currency} ${amount?.toString()?.replace('.', ',')}`;
     return amount_in_text;
+  }
+
+  handleSecondaryMenuClick(left) {
+    if(this.left != left) {
+      this.showFloatingProfessionals = true;
+    } else {
+      this.showFloatingProfessionals = !this.showFloatingProfessionals;
+    }
+    this.left = left;
   }
 
   ngOnDestroy() {

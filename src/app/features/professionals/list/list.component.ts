@@ -1,11 +1,8 @@
 import { CommonModule } from "@angular/common";
 import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   HostListener,
-  Input,
   ViewChild,
 } from "@angular/core";
 import { Router, RouterModule } from "@angular/router";
@@ -21,7 +18,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { environment } from "@env/environment";
-import { ChatComponent, FilterDrawerComponent, PageTitleComponent, ProfessionalFilterComponent, ProfessionalSearchComponent, SortDrawerComponent, ToastComponent } from "@share/components";
+import { ChatComponent, FilterDrawerComponent, FreeServicesComponent, PageTitleComponent, ProfessionalFilterComponent, ProfessionalSearchComponent, SortDrawerComponent, ToastComponent } from "@share/components";
 import { ProfessionalCardComponent } from "@share/components/card/professional/professional.component";
 import { Subscription } from 'rxjs';
 import { initFlowbite } from "flowbite";
@@ -47,6 +44,7 @@ import get from "lodash/get";
     ProfessionalFilterComponent,
     FilterDrawerComponent,
     SortDrawerComponent,
+    FreeServicesComponent,
   ],
   templateUrl: "./list.component.html",
 })
@@ -155,6 +153,7 @@ export class ProfessionalsListComponent {
   showSort: boolean = false;
   selectedSort: any;
   isLoading: boolean = true;
+  services: any;
 
   @ViewChild("modalbutton2", { static: false }) modalbutton2:
     | ElementRef
@@ -229,6 +228,7 @@ export class ProfessionalsListComponent {
     this.initializeFilter();
     this.initializeSortDrawer();
     this.getProfessionals();
+    this.getFreeServices();
     this.subscribeVoiceCall();
     this.subscribeChat();
   }
@@ -1268,6 +1268,35 @@ export class ProfessionalsListComponent {
     .then(() => {
       window.location.reload();
     });
+  }
+
+  getFreeServices() {
+    this._companyService
+      .getCompanyProfessionalFreeServices(this.companyId)
+      .subscribe(
+        (response) => {
+          this.services = response.services.slice(0, 4).map((item) => ({
+            id: item.id,
+            en_title: item.title_en,
+            es_title: item.title_es,
+            ca_title: item.title_ca,
+            fr_title: item.title_fr,
+            eu_title: item.title_eu,
+            de_title: item.title_de,
+            it_title: item.title_it,
+            en_description: item.description_en,
+            es_description: item.description_es,
+            ca_description: item.description_ca,
+            fr_description: item.description_fr,
+            eu_description: item.description_eu,
+            de_description: item.description_de,
+            it_description: item.description_it,
+          }));
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
   }
 
   async open(message: string, action: string) {

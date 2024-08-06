@@ -41,3 +41,4 @@ export * from './astro-ideal/rating-reviews/rating-reviews.component';
 export * from './astro-ideal/multimedia-content/multimedia-content.component';
 export * from './tarot-card/tarot-card.component';
 export * from './date-picker/date-picker.component';
+export * from './free-services/free-services.component';
