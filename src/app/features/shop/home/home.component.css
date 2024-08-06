@@ -1,0 +1,15 @@
+.flowing-div {
+  animation: flow 5s linear infinite;
+  animation-direction: linear;
+  white-space: nowrap;
+  overflow: hidden;
+  }
+  
+  @keyframes flow {
+    0% {
+      transform: translateX(100%);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }

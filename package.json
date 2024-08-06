@@ -65,6 +65,7 @@
     "agora-chat": "1.2.2-3",
     "agora-rtc-sdk-ng": "^4.21.0",
     "agora-rtm-sdk": "^1.4.4",
+    "angular-responsive-carousel": "^2.1.2",
     "angular-star-rating": "^7.0.0",
     "apexcharts": "^3.42.0",
     "cookieconsent": "^3.1.1",

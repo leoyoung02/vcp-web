@@ -108,6 +108,7 @@ export class LoginComponent {
       await this._companyService.getCompanies().toPromise(),
       "companies"
     );
+    console.log("companies", this.companies);
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.companyId = company[0].id;

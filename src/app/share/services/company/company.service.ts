@@ -2055,6 +2055,12 @@ export class CompanyService {
       .get(`${COMPANY_PROFESSIONALS_URL}/categories/${id}`, { headers: this.headers })
       .pipe(map((res) => res));
   }
+
+  getCompanyProfessionalSubCategories(id): Observable<any> {
+    return this._http
+      .get(`${COMPANY_PROFESSIONALS_URL}/subcategories/${id}`, { headers: this.headers })
+      .pipe(map((res) => res));
+  }
   
   getCompanyTestimonial(id): Observable<any> {
     return this._http
@@ -2077,6 +2083,12 @@ export class CompanyService {
   getCompanyBannerTitle(id): Observable<any> {
     return this._http
       .get(`${COMPANY_PROFESSIONALS_URL}/banner_title/${id}`, { headers: this.headers })
+      .pipe(map((res) => res));
+  }
+
+  getCompanyProducts(id): Observable<any> {
+    return this._http
+      .get(`${COMPANY_PROFESSIONALS_URL}/products/${id}`, { headers: this.headers })
       .pipe(map((res) => res));
   }
 }
