@@ -277,6 +277,8 @@ export class SignupComponent {
   imageSrc: string = environment.api + "/";
   myImage: any;
   hasImage: boolean = false;
+  isItalianDefault: boolean = false;
+  locale: any;
 
   constructor(
     private _router: Router,
@@ -321,14 +323,19 @@ export class SignupComponent {
         this.privacyPolicyURLCa = company[0].privacy_policy_url_ca;
         this.privacyPolicyURLDe = company[0].privacy_policy_url_de;
         this.canShowPrivacyPolicy = company[0].show_privacy_policy == 1 ? true : false;
-        if(this.companyId == 65 && this.language == 'es') {
-          this.language = 'it';
-        }
       }
     }
 
+    if(this.companyId == 65 || window.location.host == 'cursogeniusitaly.vistingo.com') { this.isItalianDefault = true; }
+    if(this.isItalianDefault) {
+      this.language = 'it';
+      this.locale = 'it-IT';
+    } else {
+      this.locale = 'es-ES';
+    }
     this._translateService.use(this.language);
-    this.dateAdapter.setLocale('es-ES');
+    
+    this.dateAdapter.setLocale(this.locale);
     this.initData();
   }
 
