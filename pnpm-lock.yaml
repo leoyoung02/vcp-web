@@ -101,6 +101,9 @@ dependencies:
   agora-rtm-sdk:
     specifier: ^1.4.4
     version: 1.4.4
+  angular-carousel:
+    specifier: ^1.1.0
+    version: 1.1.0
   angular-responsive-carousel:
     specifier: ^2.1.2
     version: 2.1.2(@angular/common@16.0.0)(@angular/core@16.0.0)
@@ -209,6 +212,9 @@ dependencies:
   ngx-material-timepicker:
     specifier: ^13.1.1
     version: 13.1.1(@types/luxon@3.4.2)(luxon@3.4.4)
+  ngx-owl-carousel-o:
+    specifier: ^18.0.0
+    version: 18.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.0)
   ngx-pagination:
     specifier: ^6.0.3
     version: 6.0.3(@angular/common@16.0.0)(@angular/core@16.0.0)
@@ -4496,6 +4502,11 @@ packages:
       uri-js: 4.4.1
     dev: true
 
+  /angular-carousel@1.1.0:
+    resolution: {integrity: sha512-UiLMgT7Ueqk4xpliF1gWt4dYKXezdJA1jyZPNsUWkOGO/dwLuKi284h3BgWl4CnaH7kEBw8L2gsBOyqbYaumNQ==}
+    engines: {node: '>= 0.8'}
+    dev: false
+
   /angular-responsive-carousel@2.1.2(@angular/common@16.0.0)(@angular/core@16.0.0):
     resolution: {integrity: sha512-nOCEyL9R80kW876GY8KvXoPu9fHu3nEnA2RVoFZ3hnBLx/OIdebeKFTxfogWLgbI4S1xn+vOecY/a+GnAQNc8w==}
     peerDependencies:
@@ -8536,6 +8547,19 @@ packages:
     dependencies:
       '@types/luxon': 3.4.2
       luxon: 3.4.4
+      tslib: 2.6.2
+    dev: false
+
+  /ngx-owl-carousel-o@18.0.0(@angular/common@16.0.0)(@angular/core@16.0.0)(rxjs@7.8.0):
+    resolution: {integrity: sha512-3ukc6mDGseUXvYrpfV+Hm2O6cBOgV0p1bT51fykQQxAMZptbnzIQJ+U6ADbeds4tkZiwAHLK2a3qItlHz5YVOg==}
+    peerDependencies:
+      '@angular/common': ' ^18.0.0-rc.0 || ^18.0.0'
+      '@angular/core': ^18.0.0-rc.0 || ^18.0.0
+      rxjs: ^6.0.1 || ^7.0.0
+    dependencies:
+      '@angular/common': 16.0.0(@angular/core@16.0.0)(rxjs@7.8.0)
+      '@angular/core': 16.0.0(rxjs@7.8.0)(zone.js@0.13.0)
+      rxjs: 7.8.0
       tslib: 2.6.2
     dev: false
 

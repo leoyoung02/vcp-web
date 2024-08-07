@@ -1,4 +1,4 @@
-import { CommonModule } from "@angular/common";
+import { CommonModule, Location } from "@angular/common";
 import { Component, HostListener, Input } from "@angular/core";
 import {
   LangChangeEvent,
@@ -15,8 +15,9 @@ import { ShopService } from "@features/services/shop/shop.service";
 import { ProductCardComponent } from "@share/components/card/product/product.component";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { RitualeCardComponent } from "@share/components/astro-ideal/rituale-card/rituale-card.component";
-import { NgImageSliderModule } from 'ng-image-slider';
+import { BreadcrumbComponent } from "@share/components";
 import { ElementRef, ViewChild } from '@angular/core';
+import { CarouselComponent } from "@share/components/astro-ideal/carousel/carousel.component";
 
 import get from "lodash/get";
 
@@ -30,13 +31,36 @@ import get from "lodash/get";
     PageTitleComponent,
     ProductCardComponent,
     RitualeCardComponent,
-    NgImageSliderModule,
+    BreadcrumbComponent,
+    CarouselComponent,
   ],
   templateUrl: "./home.component.html",
   styleUrls: ["./home.component.css"],
 })
 export class ShopHomeComponent {
   @ViewChild('elementRef', { static: false }) elementRef!: ElementRef;
+  level1Title: string = "";
+  level2Title: string = "";
+  level3Title: string = "";
+  level4Title: string = "";
+
+  magic_flag: number = 0;
+
+  index = 0;
+  items = [{ title: 'Slide 1' }, { title: 'Slide 2' }, { title: 'Slide 3' }];
+
+  jumpToSlide(number) {
+    this.index = number;
+  }
+
+
+
+  initializeBreadcrumb() {
+    this.level1Title = "Home";
+    this.level2Title ="Cursors";
+    this.level3Title = "";
+    this.level4Title = "";
+  }
 
   getRandomColorAndFont(type = true) {
     let colors1 = ["#725CAF", "#654DA8", "#543E91"];
@@ -49,24 +73,31 @@ export class ShopHomeComponent {
   }
 
   magic() {
-    if (this.elementRef.nativeElement.children.length == 0)
+    if (this.elementRef.nativeElement.children.length == 0 || this.magic_flag)
       return ;
 
+    this.magic_flag = 1;
     let length = this.subcategories.length - 1;
-		let start_x = 250, start_y = 250;
+		let start_x = 350, start_y = 250;
     this.subcategories.forEach((item, index) => {
+      if (index > 14) return;
       const itemElement: HTMLElement = this.elementRef.nativeElement.children[index];
+      let dimension = (index > 6) ? 1 : 0;
       if (index > 0) {
         index -= 1;
-        let data = this.getRandomColorAndFont(index >= (length/2));
+        let data = this.getRandomColorAndFont(dimension ? true : false);
 
-        let angle_unit = 360 / length * 2;
-        let angle = index * angle_unit + Math.floor(Math.random() * 20);
+        let angle_unit = 360 / (dimension ? 8 : 6);
+        if (index * angle_unit % 180 < 30 && dimension) {
+          itemElement.style.fontSize = "0px";
+          return ;
+        }
+        let angle = index * angle_unit + Math.floor(Math.random() * 10);
         let radians = angle * (Math.PI / 180);
-        let radius = 100;
-        if (index >= length/2) radius=200;
-        let x = radius * Math.cos(radians);
-        let y = radius * Math.sin(radians);
+        let radius_x = 200, radius_y = 80;
+        if (dimension) radius_x = 300, radius_y = 200;
+        let x = radius_x * Math.cos(radians);
+        let y = radius_y * Math.sin(radians);
         x = start_x + x;
         y = start_y + y;
 
@@ -88,7 +119,7 @@ export class ShopHomeComponent {
         const itemWidth = itemElement.offsetWidth;
         const itemHeight = itemElement.offsetHeight;
 
-        let x = 250, y = 250;
+        let x = start_x, y = start_y;
         x -= itemWidth / 2;
         y -= itemHeight / 2;
         
@@ -138,6 +169,7 @@ export class ShopHomeComponent {
     private _localService: LocalService,
     private _companyService: CompanyService,
     private _shopService: ShopService,
+    private _location: Location,
   ) {}
 
   @HostListener("window:resize", [])
@@ -177,6 +209,8 @@ export class ShopHomeComponent {
   }
 
   initializePage() {
+    this.initializeBreadcrumb();
+
     this.fetchShopCategories();
 
     this._companyService
@@ -240,7 +274,7 @@ export class ShopHomeComponent {
               eu_description: item.description_eu,
               de_description: item.description_de,
               it_description: item.description_it,
-              image: `${environment.api}/${item.image}`,
+              image: `${environment.api}/v2/image/product/${item.image}`,
               currency: item.currency,
               amount: item.amount,
               featured: item.featured,
@@ -399,5 +433,9 @@ export class ShopHomeComponent {
     this.languageChangeSubscription?.unsubscribe();
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  handleGoBack() {
+    this._location.back();
   }
 }
