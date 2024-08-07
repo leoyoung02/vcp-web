@@ -2894,7 +2894,7 @@ export class LayoutMainComponent {
       return {
         ...category,
         name: this.getCategoryText(category),
-        image: `${environment.api}/get-ie-image-plan/${category.image}`,
+        image: `${environment.api}/v3/image/professionals/category/${category.image}`,
         left: left[index]
       };
     });
