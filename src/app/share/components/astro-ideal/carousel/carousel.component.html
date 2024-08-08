@@ -1,7 +1,31 @@
-<owl-carousel-o [options]="customOptions">
-  <ng-container *ngFor="let item of items; let i = index">
-    <ng-template carouselSlide [id]="'carousel_index' + i">
-      <app-rituale-card [language]="this.language" [cardData]="{title: this.titleTranslator(item), description: this.descriptionTranslator(item), image: item.image, currency: item.currency, amount: item.amount, subcategories: item.subcategories}" />
-    </ng-template>
-  </ng-container>
-</owl-carousel-o>
+<div class="slider-container" (mousedown)="onMouseDown($event)">
+  <div class="cards-wrapper" [ngStyle]="{ transform: transform }">
+    <div class="w-[368px] h-[461px] rounded-2xl bg-[#FCFCFC] pt-1 flex flex-col mr-[50px]" *ngFor="let cardData of items" >
+      <img class="flex-none w-[368px] h-[264px] object-cover rounded-t-2xl" [src]="cardData.image" *ngIf="cardData.image" />
+    
+      <div class="flex-1 pl-5 pr-6 pt-2 pb-7 flex flex-col justify-between">
+        <div class="flex space-x-3 min-h-6 h-6 items-center">
+          <!-- <div class="bg-[#D0D0D0] rounded-md w-20 h-6" *ngFor="let subcategory of cardData.subcategories; let i = index;" [ngClass]="{'!hidden': (i >= 2)}">
+            {{ this.titleTranslator(subcategory) }}
+            {{ subcategory.es_title }}
+          </div> -->
+          <div class="bg-[#D0D0D0] rounded-md w-20 truncate h-6 text-center text-black px-1" *ngFor="let subcategory of cardData.subcategories;">
+            {{ this.titleTranslator(subcategory) || "Empty" }}
+          </div>
+        </div>
+        <div class="pb-[3px]">
+          <p class="font-semibold text-base">{{cardData.title}}</p>
+          <p class="w-[200px] truncate text-sm mb-3">{{cardData.description}} </p>
+          <!-- star starts -->
+          <div class="flex">
+            <star-rating [starType]="'svg'" [rating]="4"></star-rating>
+          </div>
+          <!-- star ends -->
+        </div>
+        <div class="ml-auto px-3 py-1 text-white text-sm rounded-md bg-[#A77FE0] opacity-50">
+          Comprar - {{cardData.currency}} {{cardData.amount}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

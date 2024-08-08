@@ -17,13 +17,13 @@
         <div class="flex items-center overflow-hidden relative min-h-[461px]">
           <div class="relative flex-none mr-[168px] z-0 top-0 left-0 hidden 2xl:block">
             <!-- <div class="w-[723px] h-[375px] relative" #elementRef> -->
-            <div class="w-[700px] h-[500px] relative font-semibold text-white" #elementRef>
+            <div class="w-[723px] h-[500px] relative font-semibold text-white" #elementRef>
               <div *ngFor="let subcategory of subcategories; let i = index;" class="absolute top-0 left-0 inline-block py-2 px-3 rounded-md max-w-[200px] truncate" [ngClass]="{'!hidden': (i>14)}">
                 {{ titleTranslator(subcategory) || "Empty" }}
               </div>
             </div>
           </div>
-          <div class="w-full relative 2xl:absolute z-10 left-0 2xl:left-[800px] top-0">
+          <div class="w-full">
             <!-- <div class="flex space-x-12"> -->
             <div class="owl_container w-full">
               <app-carousel [language]="language" [items]="featured_products"  />
@@ -35,37 +35,37 @@
         </div>
       </div>
     </div>
-    <div class="absolute z-0 w-full top-[165px] left-0 hidden 2xl:block">
+    <div class="absolute z-0 w-full top-[169px] left-0 hidden 2xl:block">
       <img class="w-full h-full" src="/src/assets/images/astro-ideal/rituale/back.png" />
     </div>
   </div>
 
   <div class="mb-8 flex items-center">
-    <hr class="flex-1 h-[1px]" />
+    <hr class="flex-1 h-[2px] bg-[#AEB0B0]" />
     <p class="font-medium text-xl flex-none px-4">Conoce los cursos más destacados </p>
-    <hr class="flex-1 lg:flex-none lg:w-[130px] h-[1px]" />
+    <hr class="flex-1 lg:flex-none lg:w-[130px] h-[2px] bg-[#AEB0B0]" />
   </div>
-  <div class="pl-32">
-    <div class="flex flex-wrap items-center space-y-5">
-      <div class="px-4 py-[10px] text-white font-semibold text-xl bg-[#464646] mr-[18px] mt-5 rounded-md" *ngFor="let subcategory of subcategories; let isFirst = first"  [ngClass]="{'mt-5': isFirst}" (click)="renderBySubcategory(subcategory.id)" [ngClass]="{'bg-[#A77FE0]': (this.selected_subcategory == subcategory.id)}">
-        {{ titleTranslator(subcategory) || "Empty" }}
+  <div class="pl-[102px] pr-[125px]">
+    <div class="flex flex-wrap items-center space-y-5 pl-[23px]">
+      <div class="px-4 py-[10px] text-white font-semibold text-xl bg-[#464646] mr-[18px] mt-5 rounded-md" *ngFor="let subcategory of subcategories; let isFirst = first;" (click)="renderBySubcategory(subcategory.id)" [ngClass]="{'bg-[#A77FE0]': (this.selected_subcategory == subcategory.id), 'ml-[54px]' : isFirst}">
+        {{ titleTranslator(subcategory) || "Empty" + isFirst }}
       </div>
     </div>
   </div>
-  <div class="px-[105px] mt-6">
+  <div class="pl-[102px] pr-[107px] mt-6">
     <div class="">
-      <hr class="bg-[#D2D4D4] w-full h-[1px]" />
-      <div class="pl-6 flex flex-col items-center space-y-4 space-x-0 lg:space-y-0 lg:items-center lg:flex-row lg:space-x-12 lg:py-[11px] py-2">
+      <hr class="bg-[#D2D4D4] w-full h-[2px]" />
+      <div class="pl-6 flex flex-col items-center space-y-4 space-x-0 2xl:space-y-0 2xl:items-center 2xl:flex-row 2xl:space-x-12 2xl:py-[11px] py-2">
         <div class="flex space-x-2 flex-row items-center px-4 py-3 rounded-lg" *ngFor="let category of pcategories" (click)="renderByCategory(category.id)" [ngClass]="{'bg-[#A77FE0]': (this.selected_category == category.id)}">
           <img src="/src/assets/images/astro-ideal/rituale/money.png" />
           <p class="text-[#A77FE0] text-xl font-semibold" [ngClass]="{'text-white': (this.selected_category == category.id)}">{{ titleTranslator(category) }}</p>
         </div>
       </div>
-      <hr class="bg-[#D2D4D4] w-full h-[1px]" />
+      <hr class="bg-[#D2D4D4] w-full h-[2px]" />
     </div>
   </div>
 
-  <div class="px-[105px] grid grid-rows-8 grid-cols-1 lg:grid-rows-4 lg:grid-cols-2 2xl:grid-rows-2 2xl:grid-cols-4 gap-y-14 justify-items-center pb-60 mt-8">
+  <div class="px-[105px] grid grid-rows-8 grid-cols-1 xl:grid-rows-4 xl:grid-cols-2 2xl:grid-rows-2 2xl:grid-cols-4 gap-y-14 justify-items-center pb-60 mt-8">
     <div *ngFor="let product of products">
       <app-rituale-card [language]="this.language" [cardData]="{title: this.titleTranslator(product), description: this.descriptionTranslator(product), image: product.image, currency: product.currency, amount: product.amount, subcategories: product.subcategories || []}" />
     </div>
