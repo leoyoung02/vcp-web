@@ -30,7 +30,7 @@
                 <input (focus)="onDateFocus($event)" (changeDate)="onDatePicked($event, 'start')"
                     id="datepicker-range-start" name="start" type="text"
                     [(ngModel)]="selectedStartDate"
-                    class="min-w-[220px] border border-gray-300 text-gray-900 text-sm rounded-[6px] block w-full px-10 p-2.5"
+                    class="max-w-[180px] border border-gray-300 text-gray-900 text-sm rounded-[6px] block w-full px-10 p-2.5"
                     placeholder="{{ 'user-panel.startdate' | translate }}">
             </div>
             <div class="relative">
@@ -44,7 +44,7 @@
                 <input (focus)="onDateFocus($event)" (changeDate)="onDatePicked($event, 'end')"
                     id="datepicker-range-end" name="end" type="text"
                     [(ngModel)]="selectedEndDate"
-                    class="min-w-[220px] border border-gray-300 text-gray-900 text-sm rounded-[6px] block w-full px-10 p-2.5"
+                    class="max-w-[180px] border border-gray-300 text-gray-900 text-sm rounded-[6px] block w-full px-10 p-2.5"
                     placeholder="{{ 'user-panel.enddate' | translate }}">
             </div>
         </div>
@@ -54,43 +54,43 @@
     <div>
         <mat-table [dataSource]="dataSource" matSort class="w-full max-w-full">
             <ng-container matColumnDef="service_type">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.servicetype' | translate }}</mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="service_type">{{ row?.service_type }}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'user-panel.servicetype' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="service_type" class="text-[#1C1C1C] text-[12px]">{{ row?.service_type }}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="date_time">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.datetime' | translate }}</mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="date_time">{{ row?.date_time }}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'user-panel.datetime' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="date_time" class="text-[#1C1C1C] text-[12px]">{{ row?.date_time }}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="invoice_minutes">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.invoiceminutes' | translate }}</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'user-panel.invoiceminutes' | translate }}</mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="invoice_minutes">{{ row?.invoice_minutes }}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="price_per_minute">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.priceperminute' | translate }}</mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="price_per_minute">{{ row?.price_per_minute }}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'user-panel.priceperminute' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="price_per_minute" class="text-[#35A301] text-[12px]">{{ row?.price_per_minute | currency: userCurrency : 'symbol' : '1.2' : language }}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="total_invoiced">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.totalinvoiced' | translate }}</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'user-panel.totalinvoiced' | translate }}</mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="total_invoiced"></mat-cell>
             </ng-container>
             <ng-container matColumnDef="platform_percentage">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.platformpercentage' | translate }}</mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="platform_percentage">{{ row?.platform_percentage }}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'user-panel.platformpercentage' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="platform_percentage" class="text-[#C00202] text-[12px]">{{ (row?.platform_percentage || 0) | currency: userCurrency : 'symbol' : '1.2' : language  }}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="total">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.total' | translate }}</mat-header-cell>
-                <mat-cell *matCellDef="let row" data-label="total">{{ row?.total }}</mat-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'user-panel.total' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="total" class="text-[#35A301] text-[12px]">{{ row?.total | currency: userCurrency : 'symbol' : '1.2' : language }}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="customer">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.customer' | translate }}</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'user-panel.customer' | translate }}</mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="customer">{{ row?.customer }}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="paid">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'professionals.payment' | translate }} {{ companyName }}</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'professionals.payment' | translate }} {{ companyName }}</mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="paid"></mat-cell>
             </ng-container>
             <ng-container matColumnDef="pending">
-                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.pendingcollection' | translate }}</mat-header-cell>
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'user-panel.pendingcollection' | translate }}</mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="pending"></mat-cell>
             </ng-container>
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

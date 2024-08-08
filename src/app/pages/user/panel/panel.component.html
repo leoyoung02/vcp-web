@@ -62,7 +62,7 @@
                     </div>
                 </div>
                 <div *ngIf="role == 'professional' && selectedMenu?.action == 'transactions'">
-                    <div class="flex items-center">
+                    <div class="flex items-center" (click)="downloadExcel()">
                         <img src="./assets/professional-icons/table.png" class="w-[22px] h-[23px] object-contain mr-2" />
                         <div class="underline cursor-pointer text-base" [ngStyle]="{'color': buttonColor}">{{ 'user-panel.downloadcontent' | translate }}</div>
                     </div>

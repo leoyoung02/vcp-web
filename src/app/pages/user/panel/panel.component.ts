@@ -5,7 +5,7 @@ import {
   TranslateModule,
   TranslateService,
 } from "@ngx-translate/core";
-import { CompanyService, LocalService, UserService } from "@share/services";
+import { CompanyService, ExcelService, LocalService, UserService } from "@share/services";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
@@ -112,6 +112,7 @@ export class UserPanelComponent {
   invoiceTotal: any;
   selectedInvoiceTotal: any;
   companyName: any;
+  transactions: any = [];
 
   constructor(
     private _route: ActivatedRoute,
@@ -122,6 +123,7 @@ export class UserPanelComponent {
     private _userService: UserService,
     private _companyService: CompanyService,
     private _professionalsService: ProfessionalsService,
+    private _excelService: ExcelService,
     private _snackBar: MatSnackBar,
     private _location: Location,
     private cd: ChangeDetectorRef
@@ -652,7 +654,7 @@ export class UserPanelComponent {
     this._location.back();
   }
 
-  initializeTransactions(startDate: string = '', endDate: string = '', invoiceTotal: number = 0, selectedInvoiceTotal: number = 0) {
+  initializeTransactions(startDate: string = '', endDate: string = '', invoiceTotal: number = 0, selectedInvoiceTotal: number = 0, transactions: any = []) {
     let start = startDate ? moment(startDate) : moment().startOf('month')
     this.startDate = start.format('DD/MM/YYYY');
 
@@ -665,12 +667,33 @@ export class UserPanelComponent {
     }
     this.selectedDates = `${this.startDate} ${this.endDate ? ' - ' : ''} ${this.endDate}`;
 
-    this.invoiceTotal = invoiceTotal;
-    this.selectedInvoiceTotal = selectedInvoiceTotal;
+    this.invoiceTotal = invoiceTotal || 0;
+    this.selectedInvoiceTotal = selectedInvoiceTotal || 0;
+    this.transactions = transactions || [];
   }
 
   handleDateChange(event) {
-    this.initializeTransactions((event?.start_date || ''), (event?.end_date || ''));
+    this.initializeTransactions((event?.start_date || ''), (event?.end_date || ''), event?.invoice_total, event?.selected_invoice_total, event?.transactions);
+  }
+
+  downloadExcel() {
+    let data: any[] = [];
+    if(this.transactions?.length > 0) {
+      this.transactions.forEach(txn => {
+        data.push({
+          'Tipo de servicio': txn.service_type,
+          'Fecha / Hora': txn.date_time,
+          'Minutos Facturados': txn.invoice_minutes,
+          'Precio por minuto': txn.price_per_minute,
+          '% Plataforma': txn.platform_percentage,
+          'Total': txn.total,
+          'Cliente': txn.customer
+        })
+      })
+
+      this._excelService.exportAsExcelFile(data, 'Contacto_con_profesional_' + new Date().getTime());
+      this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+    }
   }
 
   ngOnDestroy() {

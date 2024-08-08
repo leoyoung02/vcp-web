@@ -91,6 +91,9 @@ export class TransactionsComponent {
     }
 
     onDatePicked($event: any, mode) {
+        console.log($event.detail.date)
+        console.log('mode: ' + mode)
+
         switch(mode) {
             case 'start':
                 this.selectedStartDate = moment($event.detail.date).format('DD/MM/YYYY');
@@ -101,6 +104,7 @@ export class TransactionsComponent {
         }
 
         if(this.selectedStartDate && this.selectedEndDate) {
+            console.log('start: ' + this.selectedStartDate + ' end: ' + this.selectedEndDate)
             this.getTransactions();
         }
     }
@@ -217,16 +221,32 @@ export class TransactionsComponent {
     getTransactions() {
         let menu_selected = this.menu.find((c) => c.selected);
         this._professionalsService
-            .getTransactions(this.id, (menu_selected?.action || 'contacts'))
+            .getTransactions(
+                this.id, 
+                (menu_selected?.action || 'contacts'),
+                moment(this.selectedStartDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+                moment(this.selectedEndDate, 'DD/MM/YYYY').format('YYYY-MM-DD'))
             .pipe(takeUntil(this.destroy$))
             .subscribe(
                 (data) => {
                     this.transactions = this.formatTransactions(data.transactions);
+
+                    this.invoiceTotal = 0;
+                    this.transactions?.forEach(txn => {
+                        this.invoiceTotal += parseFloat(txn.total) || 0;
+                    })
+
+                    this.selectedInvoiceTotal = this.invoiceTotal || 0;
+
                     this.refreshTable();
 
                     this.onDateChanged.emit({
                         start_date: moment(this.selectedStartDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
-                        end_date: moment(this.selectedEndDate, 'DD/MM/YYYY').format('YYYY-MM-DD')
+                        end_date: moment(this.selectedEndDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+                        invoice_total: this.invoiceTotal,
+                        selected_invoice_total: this.selectedInvoiceTotal,
+                        transactions: this.transactions,
+                        service_type: menu_selected?.action,
                     })
                 },
                 (error) => {
