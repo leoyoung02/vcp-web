@@ -12,6 +12,7 @@ interface ICategoryCardData {
   image: string;
   amount: string;
   currency: string;
+  subcategories: any[];
 }
 
 @Component({
@@ -22,4 +23,26 @@ interface ICategoryCardData {
 })
 export class RitualeCardComponent {
   @Input() cardData!: ICategoryCardData;
+  @Input() language!: string;
+
+  titleTranslator(item: any): string {
+    switch (this.language) {
+      case "en":
+        return item.en_title;
+      case "es":
+        return item.es_title;
+      case "fr":
+        return item.fr_title;
+      case "eu":
+        return item.eu_title;
+      case "ca":
+        return item.ca_title;
+      case "de":
+        return item.de_title;
+      case "it":
+        return item.it_title;
+      default:
+        return "dummy";
+    }
+  }
 }

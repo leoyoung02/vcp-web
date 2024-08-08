@@ -18,26 +18,27 @@ export class CarouselComponent {
     mouseDrag: true,
     touchDrag: false,
     pullDrag: false,
-    dots: true,
-    margin: 135,
+    dots: false,
+    // margin: 135,
     navSpeed: 700,
     navText: ['', ''],
-    items: 3,
-    // responsive: {
-    //   0: {
-    //     items: 1
-    //   },
-    //   400: {
-    //     items: 2
-    //   },
-    //   740: {
-    //     items: 3
-    //   },
-    //   940: {
-    //     items: 4
-    //   }
-    // },
-    nav: true
+    // items: 3,
+    responsive: {
+      0: {
+        items: 1
+      },
+      1000: {
+        items: 2
+      },
+      1532: {
+        items: 3
+      },
+      1600: {
+        items: 4
+      },
+    },
+    nav: false,
+    // autoWidth: true,
   }
 
   titleTranslator(item: any): string {
