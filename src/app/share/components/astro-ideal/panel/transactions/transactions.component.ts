@@ -91,9 +91,6 @@ export class TransactionsComponent {
     }
 
     onDatePicked($event: any, mode) {
-        console.log($event.detail.date)
-        console.log('mode: ' + mode)
-
         switch(mode) {
             case 'start':
                 this.selectedStartDate = moment($event.detail.date).format('DD/MM/YYYY');
@@ -104,7 +101,6 @@ export class TransactionsComponent {
         }
 
         if(this.selectedStartDate && this.selectedEndDate) {
-            console.log('start: ' + this.selectedStartDate + ' end: ' + this.selectedEndDate)
             this.getTransactions();
         }
     }
