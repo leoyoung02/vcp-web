@@ -3900,6 +3900,21 @@
         "experienceinyears": "Experience in years",
         "profiletitle": "Greeting or Description Title",
         "multimediacontent": "Multimedia content",
-        "replace": "Replace"
+        "replace": "Replace",
+        "downloadcontent": "Download content",
+        "totalbilling": "Total Billing",
+        "contactwithprofessional": "Contact with professional",
+        "salesservices": "Sales services",
+        "payments": "Payments",
+        "startdate": "Start date",
+        "enddate": "End date",
+        "servicetype": "Service Type",
+        "datetime": "Date/Time",
+        "invoiceminutes": "Billed Minutes",
+        "priceperminute": "Price per minute",
+        "platformpercentage": "% Platform",
+        "total": "Total",
+        "customer": "Customer",
+        "itemsperpage": "Items per page"
     }
 }

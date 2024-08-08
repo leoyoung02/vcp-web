@@ -3863,6 +3863,21 @@
         "experienceinyears": "Urteetako esperientzia",
         "profiletitle": "Agurra edo deskribapenaren izenburua",
         "multimediacontent": "Multimedia edukia",
-        "replace": "Ordezkatu"
+        "replace": "Ordezkatu",
+        "downloadcontent": "Edukia deskargatu",
+        "totalbilling": "Fakturazio osoa",
+        "contactwithprofessional": "Profesionalarekin harremanetan jarri",
+        "salesservices": "Salmenta zerbitzuak",
+        "payments": "Ordainketak",
+        "startdate": "Hasierako data",
+        "enddate": "Amaiera data",
+        "servicetype": "Zerbitzu mota",
+        "datetime": "Data/Ordua",
+        "invoiceminutes": "Fakturaren aktak",
+        "priceperminute": "Prezioa minutuko",
+        "platformpercentage": "%Platform",
+        "total": "Guztira",
+        "customer": "Bezeroa",
+        "itemsperpage": "Orri bakoitzeko elementuak"
     }
 }

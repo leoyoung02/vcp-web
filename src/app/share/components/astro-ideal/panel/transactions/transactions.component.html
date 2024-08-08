@@ -1,0 +1,89 @@
+<div class="flex items-center pt-4">
+    <div class="text-lg font-medium text-[#42C604] mr-4">{{ 'user-panel.totalbilling' | translate }}</div>
+    <div class="text-xl font-medium text-[#42C604]">EUR 0,00</div>
+</div>
+<div class="flex items-center pb-8">
+    <div class="text-[15px] font-medium mr-4">Julio</div>
+    <div class="text-base font-medium mr-4">EUR 0,00</div>
+</div>
+<div class="flex items-center justify-between">
+    <div class="w-2/3">
+        <ng-container *ngFor="let item of menu; let i = index; let last = last;">
+            <button class="py-2 px-6 text-white text-base rounded-[6px]"
+                [ngStyle]="{'background-color': item.selected ? buttonColor : '#BFB9C6'}"
+                [ngClass]="{'mr-3': !last}"
+                (click)="handleMenuClick(item)">
+                {{ item?.text }}
+            </button>
+        </ng-container>
+    </div>
+    <div class="relative">
+      <div id="date-rangepicker" date-rangepicker class="flex items-center"
+        datepicker-format="dd/mm/yyyy" datepicker-orientation="bottom">
+        <div class="relative mr-4">
+          <div class="absolute inset-y-0 start-0 flex items-center ps-4 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+            </svg>
+          </div>
+          <input (focus)="onDateFocus($event)" (changeDate)="onDatePicked($event, 'start')" id="datepicker-range-start" name="start" type="text"
+            class="min-w-[220px] border border-gray-300 text-gray-900 text-sm rounded-[6px] block w-full px-10 p-2.5"
+            placeholder="{{ 'user-panel.startdate' | translate }}">
+        </div>
+        <div class="relative">
+          <div class="absolute inset-y-0 start-0 flex items-center ps-4 pointer-events-none">
+            <svg class="w-4 h-4 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor" viewBox="0 0 20 20">
+              <path
+                d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z" />
+            </svg>
+          </div>
+          <input (focus)="onDateFocus($event)" (changeDate)="onDatePicked($event, 'end')" id="datepicker-range-end" name="end" type="text"
+          class="min-w-[220px] border border-gray-300 text-gray-900 text-sm rounded-[6px] block w-full px-10 p-2.5"
+            placeholder="{{ 'user-panel.enddate' | translate }}">
+        </div>
+      </div>
+    </div>
+</div>
+<div class="py-8">
+    <div>
+        <mat-table [dataSource]="dataSource" matSort class="w-full max-w-full">
+            <ng-container matColumnDef="service_type">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.servicetype' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="service_type"></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="date_time">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.datetime' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="date_time"></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="invoice_minutes">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.invoiceminutes' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="invoice_minutes"></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="price_per_minute">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.priceperminute' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="price_per_minute"></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="platform_percentage">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.total' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="platform_percentage"></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="total">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.platformpercentage' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="total"></mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="customer">
+                <mat-header-cell *matHeaderCellDef mat-sort-header>{{ 'user-panel.customer' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="customer"></mat-cell>
+            </ng-container>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+    </div>
+    <mat-paginator
+        #paginator [pageSize]="10" [pageSizeOptions]="[5, 10, 20]"
+        [showFirstLastButtons]="true"
+    ></mat-paginator>
+</div>

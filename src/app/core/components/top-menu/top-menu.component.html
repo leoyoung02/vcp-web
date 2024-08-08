@@ -136,7 +136,7 @@
                 <ul class="-ml-24 flex items-center justify-around">
                   <li *ngFor="let item of categories">
                     <button class="flex flex-col items-center" (click)="handleSecondaryMenuClick(item.left)">
-                      <img [src]="item.image" [alt]="item.name" class="w-8 h-8 object-cover" />
+                      <img [src]="item.image" [alt]="item.name" class="w-8 h-8 object-cover opacity-70" />
                       <p class="text-[#D8D7D7] py-2 text-base">
                         {{ item.name }}
                       </p>

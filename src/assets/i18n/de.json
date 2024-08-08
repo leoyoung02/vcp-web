@@ -3864,6 +3864,21 @@
         "experienceinyears": "Erfahrung in Jahren",
         "profiletitle": "Begrüßungs- oder Beschreibungstitel",
         "multimediacontent": "Multimedia-Inhalt",
-        "replace": "Ersetzen"
+        "replace": "Ersetzen",
+        "downloadcontent": "Inhalt herunterladen",
+        "totalbilling": "Gesamtabrechnung",
+        "contactwithprofessional": "Kontakt mit einem Fachmann",
+        "salesservices": "Verkaufsdienstleistungen",
+        "payments": "Zahlungen",
+        "startdate": "Startdatum",
+        "enddate": "Enddatum",
+        "servicetype": "Art des Dienstes",
+        "datetime": "Datum/Uhrzeit",
+        "invoiceminutes": "Rechnungsminuten",
+        "priceperminute": "Preis pro Minute",
+        "platformpercentage": "% Platform",
+        "total": "Gesamt",
+        "Kunde": "Kunde",
+        "itemsperpage": "Elemente pro Seite"
     }
 }

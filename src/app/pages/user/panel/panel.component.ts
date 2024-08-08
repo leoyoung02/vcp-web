@@ -18,7 +18,8 @@ import {
   PersonalInformationComponent, 
   PricePerServiceComponent, 
   RadialProgressComponent,
-  ToastComponent 
+  ToastComponent, 
+  TransactionsComponent
 } from "@share/components";
 import { AuthService } from "@lib/services";
 import { ProfessionalsService } from "@features/services";
@@ -44,6 +45,7 @@ import get from "lodash/get";
     PersonalInformationComponent,
     AboutMeComponent,
     MultimediaContentComponent,
+    TransactionsComponent,
   ],
   templateUrl: "./panel.component.html"
 })
@@ -177,7 +179,6 @@ export class UserPanelComponent {
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
-          console.log(data)
           this.me = data?.profile;
           this.gender = this.formatList(data?.gender);
           this.languages = this.formatList(data?.languages);
@@ -448,6 +449,14 @@ export class UserPanelComponent {
         action: 'services-created',
         show_right_content: true,
       })
+      this.menuItems.push({
+        index: 3,
+        text: this._translateService.instant('user-panel.transactions'),
+        subtext: this._translateService.instant('user-panel.transactionsdesc'),
+        alternative_text: this._translateService.instant('user-panel.earnings'),
+        action: 'transactions',
+        show_right_content: true,
+      })
     } else {
       this.menuItems.push({
         index: 1,
@@ -465,13 +474,6 @@ export class UserPanelComponent {
       })
     }
 
-    this.menuItems.push({
-      index: 3,
-      text: this._translateService.instant('user-panel.transactions'),
-      subtext: this._translateService.instant('user-panel.transactionsdesc'),
-      action: 'transactions',
-      show_right_content: true,
-    })
     this.menuItems.push({
       index: 4,
       text: this._translateService.instant('notification-popup.notifications'),

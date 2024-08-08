@@ -148,14 +148,7 @@ export class AstroIdealHomeComponent {
     this._companyService
       .getCompanyProfessionalCategories(this.companyId)
       .subscribe(
-        (response) => { 
-          let images = [
-            '/src/assets/images/ideal_home/dollar.png',
-            '/src/assets/images/ideal_home/snow.png',
-            '/src/assets/images/ideal_home/human.png',
-            '/src/assets/images/ideal_home/energy.png',
-            '/src/assets/images/ideal_home/rune.png'
-          ]
+        (response) => {
           this.categories = response.categories.slice(0, 5).map((item, index) => ({
             id: item.id,
             en_title: item.category_en,
@@ -165,7 +158,7 @@ export class AstroIdealHomeComponent {
             eu_title: item.category_eu,
             de_title: item.category_de,
             it_title: item.category_it,
-            image: images[index]
+            image: `${environment.api}/v3/image/professionals/category/${item.image}`,
           }));
         },
         (error) => {

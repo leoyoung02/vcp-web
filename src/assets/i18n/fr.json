@@ -3858,6 +3858,21 @@
         "experienceinyears": "Expérience en années",
         "profiletitle": "Titre de message d'accueil ou de description",
         "multimediacontent": "Contenu multimédia",
-        "replace": "Remplacer"
+        "replace": "Remplacer",
+        "downloadcontent": "Télécharger le contenu",
+        "totalbilling": "Facturation totale",
+        "contactwithprofessional": "Contact avec un professionnel",
+        "salesservices": "Services de vente",
+        "payments": "Paiements",
+        "startdate": "Date de début",
+        "enddate": "Date de fin",
+        "servicetype": "Type de service",
+        "datetime": "Date/Heure",
+        "invoiceminutes": "Procès-verbaux de facturation",
+        "priceperminute": "Prix par minute",
+        "platformpercentage": "%Plateforme",
+        "total": "Total",
+        "client": "Client",
+        "itemsperpage": "Éléments par page"
     }
 }

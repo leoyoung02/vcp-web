@@ -1104,3 +1104,7 @@ app-sidebar > aside > div:nth-child(11) > div > svg.has-history {
     transform: rotate(-90deg);
     transform-origin: 50% 50%;
 }
+
+.datepicker.datepicker-dropdown.dropdown.absolute.top-0.left-0.z-50.pt-2.active.block.datepicker-orient-bottom.datepicker-orient-left {
+    visibility: hidden;
+}

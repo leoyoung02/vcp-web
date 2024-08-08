@@ -3871,6 +3871,21 @@
         "experienceinyears": "Experiència en anys",
         "profiletitle": "Salut o Títol de la descripció",
         "multimediacontent": "Contingut multimèdia",
-        "replace": "Reemplaça"
+        "replace": "Reemplaça",
+        "downloadcontent": "Descarregar contingut",
+        "totalbilling": "Facturació Total",
+        "contactwithprofessional": "Contacte amb professional",
+        "salsservices": "Serveis de venda",
+        "payments": "Pagaments",
+        "startdate": "Data Inici",
+        "enddate": "Data Final",
+        "servicetype": "Tipus de servei",
+        "datetime": "Data / Hora",
+        "invoiceminutes": "Minuts Facturats",
+        "priceperminute": "Preu per minut",
+        "platformpercentage": "% Plataforma",
+        "total": "Total",
+        "customer": "Client",
+        "itemsperpage": "Elements per pàgina"
     }
 }
