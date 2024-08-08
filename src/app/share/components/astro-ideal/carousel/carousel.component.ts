@@ -26,9 +26,14 @@ export class CarouselComponent {
   startX: number = 0;
   currentX: number = 0;
   isDragging: boolean = false;
-  totalWidth = 150 * this.items.length + 30 * (this.items.length - 1);
+  totalWidth = 0;
 
   constructor(private cdr: ChangeDetectorRef) {}
+
+  ngOnChanges(changes) {
+    const itemData = changes.items.currentValue;
+    this.totalWidth = 368 * itemData.length + 50 * (itemData.length - 1) - 800;
+  }
 
   @HostListener("mouseup", ["$event"])
   onMouseUp() {
@@ -67,9 +72,7 @@ export class CarouselComponent {
   }
 
   get transform() {
-    // Adjust the transformation based on the current index and card width
-    const cardWidth = 300; // Set this to the actual width of your cards
-    return `translateX(${this.currentX * 3}px)`; // Use currentX directly
+    return `translateX(${this.currentX * 3}px)`;
   }
 
   customOptions: OwlOptions = {

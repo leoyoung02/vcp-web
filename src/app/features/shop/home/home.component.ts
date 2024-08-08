@@ -53,34 +53,104 @@ export class ShopHomeComponent {
     this.index = number;
   }
 
+  getProductsFromBackend() {
+    this._companyService
+      .getCompanyProducts(this.companyId)
+      .subscribe(
+        (response) => {
+          this.products = response.products.map((item) => {
+            let psubcategories = item.professionalSubcategories.map((sub) => {
+              return {
+                ca_title: sub.subcategory_ca,
+                de_title: sub.subcategory_de,
+                en_title: sub.subcategory_en,
+                es_title: sub.subcategory_es,
+                eu_title: sub.subcategory_eu,
+                fr_title: sub.subcategory_fr,
+                it_title: sub.subcategory_it,
+              }
+            })
+            return {
+              id: item.id,
+              en_title: item.name_en,
+              es_title: item.name_es,
+              ca_title: item.name_ca,
+              fr_title: item.name_fr,
+              eu_title: item.name_eu,
+              de_title: item.name_de,
+              it_title: item.name_it,
+              en_description: item.description_en,
+              es_description: item.description_es,
+              ca_description: item.description_ca,
+              fr_description: item.description_fr,
+              eu_description: item.description_eu,
+              de_description: item.description_de,
+              it_description: item.description_it,
+              image: `${environment.api}/v2/image/product/${item.image}`,
+              currency: item.currency,
+              amount: item.amount,
+              subcategories: psubcategories,
+              featured: item.featured,
+            };
+          });
+          this.featured_products = this.products.filter((item) => {
+            return item.featured;
+          });
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+  }
+
   renderByCategory(category_id) {
-    this.selected_category = category_id;
+    this.selected_category = this.selected_category == category_id ? -1 : category_id;
+    this.selected_subcategory = this.selected_category != -1 ? -1 : this.selected_subcategory;
     
+    if (this.selected_category == -1) {
+      this.getProductsFromBackend();
+      return ;
+    }
+
     this._companyService
       .getCompanyProductsByCategory(this.companyId, category_id)
       .subscribe(
         (response) => {
-          this.products = response.products.map((item) => ({
-            id: item.id,
-            en_title: item.name_en,
-            es_title: item.name_es,
-            ca_title: item.name_ca,
-            fr_title: item.name_fr,
-            eu_title: item.name_eu,
-            de_title: item.name_de,
-            it_title: item.name_it,
-            en_description: item.description_en,
-            es_description: item.description_es,
-            ca_description: item.description_ca,
-            fr_description: item.description_fr,
-            eu_description: item.description_eu,
-            de_description: item.description_de,
-            it_description: item.description_it,
-            image: `${environment.api}/v2/image/product/${item.image}`,
-            currency: item.currency,
-            amount: item.amount,
-            featured: item.featured,
-          }));
+          this.products = response.products.map((item) => {
+            let psubcategories = item.professionalSubcategories.map((sub) => {
+              return {
+                ca_title: sub.subcategory_ca,
+                de_title: sub.subcategory_de,
+                en_title: sub.subcategory_en,
+                es_title: sub.subcategory_es,
+                eu_title: sub.subcategory_eu,
+                fr_title: sub.subcategory_fr,
+                it_title: sub.subcategory_it,
+              }
+            });
+            return {
+              id: item.id,
+              en_title: item.name_en,
+              es_title: item.name_es,
+              ca_title: item.name_ca,
+              fr_title: item.name_fr,
+              eu_title: item.name_eu,
+              de_title: item.name_de,
+              it_title: item.name_it,
+              en_description: item.description_en,
+              es_description: item.description_es,
+              ca_description: item.description_ca,
+              fr_description: item.description_fr,
+              eu_description: item.description_eu,
+              de_description: item.description_de,
+              it_description: item.description_it,
+              image: `${environment.api}/v2/image/product/${item.image}`,
+              currency: item.currency,
+              amount: item.amount,
+              subcategories: psubcategories,
+              featured: item.featured,
+            };
+          });
         },
         (error) => {
           console.log(error);
@@ -89,32 +159,53 @@ export class ShopHomeComponent {
   }
 
   renderBySubcategory(subcategory_id) {
-    this.selected_subcategory = subcategory_id;
+    this.selected_subcategory = this.selected_subcategory == subcategory_id ? -1: subcategory_id;
+    this.selected_category = this.selected_subcategory != -1 ? -1 : this.selected_subcategory;
+
+    if (this.selected_subcategory == -1) {
+      this.getProductsFromBackend();
+      return ;
+    }
+
     this._companyService
       .getCompanyProductsBySubcategory(this.companyId, subcategory_id)
       .subscribe(
         (response) => {
-          this.products = response.products.map((item) => ({
-            id: item.id,
-            en_title: item.name_en,
-            es_title: item.name_es,
-            ca_title: item.name_ca,
-            fr_title: item.name_fr,
-            eu_title: item.name_eu,
-            de_title: item.name_de,
-            it_title: item.name_it,
-            en_description: item.description_en,
-            es_description: item.description_es,
-            ca_description: item.description_ca,
-            fr_description: item.description_fr,
-            eu_description: item.description_eu,
-            de_description: item.description_de,
-            it_description: item.description_it,
-            image: `${environment.api}/v2/image/product/${item.image}`,
-            currency: item.currency,
-            amount: item.amount,
-            featured: item.featured,
-          }));
+          this.products = response.products.map((item) => {
+            let psubcategories = item.professionalSubcategories.map((sub) => {
+              return {
+                ca_title: sub.subcategory_ca,
+                de_title: sub.subcategory_de,
+                en_title: sub.subcategory_en,
+                es_title: sub.subcategory_es,
+                eu_title: sub.subcategory_eu,
+                fr_title: sub.subcategory_fr,
+                it_title: sub.subcategory_it,
+              }
+            });
+            return {
+              id: item.id,
+              en_title: item.name_en,
+              es_title: item.name_es,
+              ca_title: item.name_ca,
+              fr_title: item.name_fr,
+              eu_title: item.name_eu,
+              de_title: item.name_de,
+              it_title: item.name_it,
+              en_description: item.description_en,
+              es_description: item.description_es,
+              ca_description: item.description_ca,
+              fr_description: item.description_fr,
+              eu_description: item.description_eu,
+              de_description: item.description_de,
+              it_description: item.description_it,
+              image: `${environment.api}/v2/image/product/${item.image}`,
+              currency: item.currency,
+              amount: item.amount,
+              subcategories: psubcategories,
+              featured: item.featured,
+            };
+          });
         },
         (error) => {
           console.log(error);
@@ -163,6 +254,7 @@ export class ShopHomeComponent {
   magic() {
     if (this.elementRef.nativeElement.children.length == 0 || this.magic_flag)
       return ;
+    console.log(this.magic_flag);
 
     this.magic_flag = 1;
     let length = this.subcategories.length - 1;
@@ -217,7 +309,7 @@ export class ShopHomeComponent {
   }
 
   ngAfterViewChecked() {
-    if (this.subcategories.length > 0) {
+    if (this.subcategories.length > 0 && !this.magic_flag) {
       this.magic();
     }
   }
@@ -227,8 +319,8 @@ export class ShopHomeComponent {
   @Input() parentComponent: any;
   @Input() limit: any;
 
-  selected_category: any;
-  selected_subcategory: any;
+  selected_category: any = -1;
+  selected_subcategory: any = -1;
   pcategories: any[] = [];
   subcategories: any[] = [];
   products: any[] = [];
@@ -337,7 +429,7 @@ export class ShopHomeComponent {
             de_title: item.subcategory_de,
             it_title: item.subcategory_it,
           }));
-          this.magic();
+          this.magic_flag = 0;
         },
         (error) => {
           console.log(error);

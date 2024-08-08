@@ -47,8 +47,8 @@
   </div>
   <div class="pl-[102px] pr-[125px]">
     <div class="flex flex-wrap items-center space-y-5 pl-[23px]">
-      <div class="px-4 py-[10px] text-white font-semibold text-xl bg-[#464646] mr-[18px] mt-5 rounded-md" *ngFor="let subcategory of subcategories; let isFirst = first;" (click)="renderBySubcategory(subcategory.id)" [ngClass]="{'bg-[#A77FE0]': (this.selected_subcategory == subcategory.id), 'ml-[54px]' : isFirst}">
-        {{ titleTranslator(subcategory) || "Empty" + isFirst }}
+      <div class="cursor-pointer px-4 py-[10px] text-white font-semibold text-xl bg-[#464646] mr-[18px] mt-5 rounded-md" *ngFor="let subcategory of subcategories; let isFirst = first;" (click)="renderBySubcategory(subcategory.id)" [ngClass]="{'bg-[#A77FE0]': (this.selected_subcategory == subcategory.id), 'ml-[54px]' : isFirst}">
+        {{ titleTranslator(subcategory) || "Empty" }}
       </div>
     </div>
   </div>
@@ -56,7 +56,7 @@
     <div class="">
       <hr class="bg-[#D2D4D4] w-full h-[2px]" />
       <div class="pl-6 flex flex-col items-center space-y-4 space-x-0 2xl:space-y-0 2xl:items-center 2xl:flex-row 2xl:space-x-12 2xl:py-[11px] py-2">
-        <div class="flex space-x-2 flex-row items-center px-4 py-3 rounded-lg" *ngFor="let category of pcategories" (click)="renderByCategory(category.id)" [ngClass]="{'bg-[#A77FE0]': (this.selected_category == category.id)}">
+        <div class="cursor-pointer flex space-x-2 flex-row items-center px-4 py-3 rounded-lg" *ngFor="let category of pcategories" (click)="renderByCategory(category.id)" [ngClass]="{'bg-[#A77FE0]': (this.selected_category == category.id)}">
           <img src="/src/assets/images/astro-ideal/rituale/money.png" />
           <p class="text-[#A77FE0] text-xl font-semibold" [ngClass]="{'text-white': (this.selected_category == category.id)}">{{ titleTranslator(category) }}</p>
         </div>
