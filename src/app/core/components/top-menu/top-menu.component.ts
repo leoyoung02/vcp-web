@@ -162,13 +162,6 @@ export class TopMenuComponent {
     }
   }
 
-  getFormattedAvailableBalanceAmount(user) {
-    let currency = user?.currency || 'EUR';
-    let amount = user?.available_balance || '0,00';
-    let amount_in_text = `${currency} ${amount?.toString()?.replace('.', ',')}`;
-    return amount_in_text;
-  }
-
   handleSecondaryMenuClick(left) {
     if(this.left != left) {
       this.showFloatingProfessionals = true;

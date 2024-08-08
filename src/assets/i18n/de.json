@@ -3879,6 +3879,9 @@
         "platformpercentage": "% Platform",
         "total": "Gesamt",
         "Kunde": "Kunde",
-        "itemsperpage": "Elemente pro Seite"
+        "itemsperpage": "Elemente pro Seite", 
+        "helpdesc": "Kontaktieren Sie unsere Helpline",
+        "totalinvoiced": "In Rechnung gestellter Gesamtbetrag", 
+        "pendingcollection": "Ausstehende Sammlung"
     }
 }

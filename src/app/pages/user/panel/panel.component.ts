@@ -9,16 +9,16 @@ import { CompanyService, LocalService, UserService } from "@share/services";
 import { ActivatedRoute, Router, RouterModule } from "@angular/router";
 import { FormsModule } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
-import { 
+import {
   AboutMeComponent,
-  BreadcrumbComponent, 
-  MultimediaContentComponent, 
-  PageTitleComponent, 
-  PanelMenuComponent, 
-  PersonalInformationComponent, 
-  PricePerServiceComponent, 
+  BreadcrumbComponent,
+  MultimediaContentComponent,
+  PageTitleComponent,
+  PanelMenuComponent,
+  PersonalInformationComponent,
+  PricePerServiceComponent,
   RadialProgressComponent,
-  ToastComponent, 
+  ToastComponent,
   TransactionsComponent
 } from "@share/components";
 import { AuthService } from "@lib/services";
@@ -26,6 +26,7 @@ import { ProfessionalsService } from "@features/services";
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
 import { initFlowbite } from "flowbite";
 import { environment } from "@env/environment";
+import moment from "moment";
 import get from "lodash/get";
 
 @Component({
@@ -101,9 +102,16 @@ export class UserPanelComponent {
   specialties: any = [];
   subcategoryMapping: any = [];
   totalEarnings: any;
-  // multimediaItems: any = [];
   showFilesUpload: boolean = false;
   imageAdded: any;
+
+  startDate: any;
+  endDate: any;
+  month: any;
+  selectedDates: any;
+  invoiceTotal: any;
+  selectedInvoiceTotal: any;
+  companyName: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -117,13 +125,13 @@ export class UserPanelComponent {
     private _snackBar: MatSnackBar,
     private _location: Location,
     private cd: ChangeDetectorRef
-    ) {}
+  ) { }
 
   @HostListener("window:resize", [])
   private onResize() {
     this.isMobile = window.innerWidth < 768;
   }
-    
+
   async ngOnInit() {
     initFlowbite();
     this.onResize();
@@ -134,28 +142,32 @@ export class UserPanelComponent {
     this.domain = this._localService.getLocalStorage(environment.lsdomain);
     this._translateService.use(this.language || "es");
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
-    ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
-    : "";
+      ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
+      : "";
     if (!this.companies) {
       this.companies = get(
         await this._companyService.getCompanies().toPromise(),
         "companies"
-        );
+      );
     }
     let company = this._companyService.getCompany(this.companies);
     if (company && company[0]) {
       this.company = company[0];
       this.domain = company[0].domain;
       this.companyId = company[0].id;
+      
+      let companyName = company[0].entity_name?.toLowerCase()?.replace(' ', '');
+      this.companyName = companyName.charAt(0).toUpperCase() + companyName.slice(1);
+
       this.primaryColor = company[0].primary_color;
       this.buttonColor = company[0].button_color
-      ? company[0].button_color
-      : company[0].primary_color;
+        ? company[0].button_color
+        : company[0].primary_color;
       this.hoverColor = company[0].hover_color
-      ? company[0].hover_color
-      : company[0].primary_color;
+        ? company[0].hover_color
+        : company[0].primary_color;
     }
-    
+
     this.languageChangeSubscription =
       this._translateService.onLangChange.subscribe(
         (event: LangChangeEvent) => {
@@ -190,7 +202,7 @@ export class UserPanelComponent {
           this.subcategories = this.formatSubcategories(data?.subcategories);
           this.subcategoryMapping = data?.subcategory_mapping;
           this.specialties = this.formatSpecialties(data);
-          if(this.role == 'professional') { this.initializeProfessionalProfile(data); }
+          if (this.role == 'professional') { this.initializeProfessionalProfile(data); }
         },
         (error) => {
           console.log(error);
@@ -202,11 +214,11 @@ export class UserPanelComponent {
     this.reviews = this.formatReviews(data?.reviews);
     this.specialtyCategories = this.formatSpecialtyCategories(data);
     this.percentComplete = data?.profile_percentage;
-    this.totalEarnings = data?.total_earnings?.replace('.', ',') || '0,00';
+    this.totalEarnings = data?.total_earnings;
   }
 
-  formatList(list, mode:string = '') {
-    if(mode == 'button-group') {
+  formatList(list, mode: string = '') {
+    if (mode == 'button-group') {
       let results: any[] = [];
 
       list?.forEach((language) => {
@@ -234,23 +246,23 @@ export class UserPanelComponent {
     return item
       ? this.language == "en"
         ? item.name_EN ||
-          item.name_ES
+        item.name_ES
         : this.language == "fr"
-        ? item.name_FR ||
+          ? item.name_FR ||
           item.name_ES
-        : this.language == "eu"
-        ? item.name_EU ||
-          item.name_ES
-        : this.language == "ca"
-        ? item.name_CA ||
-          item.name_ES
-        : this.language == "de"
-        ? item.name_DE ||
-          item.name_ES
-        : this.language == "it"
-        ? item.name_IT ||
-          item.name_ES
-        : item.name_ES
+          : this.language == "eu"
+            ? item.name_EU ||
+            item.name_ES
+            : this.language == "ca"
+              ? item.name_CA ||
+              item.name_ES
+              : this.language == "de"
+                ? item.name_DE ||
+                item.name_ES
+                : this.language == "it"
+                  ? item.name_IT ||
+                  item.name_ES
+                  : item.name_ES
       : "";
   }
 
@@ -258,7 +270,7 @@ export class UserPanelComponent {
     let result: any[] = [];
 
     let startNum = 5;
-    for(var i = 0; i < startNum; i++) {
+    for (var i = 0; i < startNum; i++) {
       let rating = startNum - i;
       let cnt = reviews?.filter(review => {
         return review.rating == rating
@@ -286,20 +298,20 @@ export class UserPanelComponent {
     })
 
     let specialtyCategories: any[] = [];
-    if(list?.length > 0) {
+    if (list?.length > 0) {
       list?.forEach(i => {
         let match = specialtyCategories.some(
           (a) => a.category_image == i.category_image
         );
 
-        if(i.category_image && !match) {
+        if (i.category_image && !match) {
           specialtyCategories.push({
             image: `${environment.api}/v3/image/professionals/category/${i.category_image}`,
           })
         }
       })
     }
-    
+
     return specialtyCategories;
   }
 
@@ -311,7 +323,7 @@ export class UserPanelComponent {
     });
 
     let imagesObject: any[] = [];
-    if(images?.length > 0) {
+    if (images?.length > 0) {
       images?.forEach(image => {
         imagesObject.push({
           image: image?.image,
@@ -338,7 +350,7 @@ export class UserPanelComponent {
           setTimeout(() => {
             this.showFilesUpload = false;
           })
-          
+
           this.imageAdded = '';
           this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
           this.images = this.formatImages(response?.images);
@@ -365,7 +377,7 @@ export class UserPanelComponent {
 
   formatSpecialties(item) {
     let filtered_list: any[] = []
-    if(this.role == 'professional') {
+    if (this.role == 'professional') {
       filtered_list = this.subcategoryMapping?.filter(subcategory => {
         return subcategory.professional_id == this.me?.id
       })
@@ -374,7 +386,7 @@ export class UserPanelComponent {
         return subcategory.user_id == this.me?.id
       })
     }
-    
+
     filtered_list = filtered_list?.map((row) => {
       return {
         id: row.professional_subcategory_id,
@@ -389,23 +401,23 @@ export class UserPanelComponent {
     return subcategory
       ? this.language == "en"
         ? subcategory.subcategory_en ||
-          subcategory.subcategory_es
+        subcategory.subcategory_es
         : this.language == "fr"
-        ? subcategory.subcategory_fr ||
+          ? subcategory.subcategory_fr ||
           subcategory.subcategory_es
-        : this.language == "eu"
-        ? subcategory.subcategory_eu ||
-          subcategory.subcategory_es
-        : this.language == "ca"
-        ? subcategory.subcategory_ca ||
-          subcategory.subcategory_es
-        : this.language == "de"
-        ? subcategory.subcategory_de ||
-          subcategory.subcategory_es
-        : this.language == "it"
-        ? subcategory.subcategory_it ||
-          subcategory.subcategory_es
-        : subcategory.subcategory_es
+          : this.language == "eu"
+            ? subcategory.subcategory_eu ||
+            subcategory.subcategory_es
+            : this.language == "ca"
+              ? subcategory.subcategory_ca ||
+              subcategory.subcategory_es
+              : this.language == "de"
+                ? subcategory.subcategory_de ||
+                subcategory.subcategory_es
+                : this.language == "it"
+                  ? subcategory.subcategory_it ||
+                  subcategory.subcategory_es
+                  : subcategory.subcategory_es
       : "";
   }
 
@@ -434,7 +446,7 @@ export class UserPanelComponent {
       }
     ]
 
-    if(this.role == 'professional') {
+    if (this.role == 'professional') {
       this.menuItems.push({
         index: 1,
         text: this._translateService.instant('user-panel.aboutme'),
@@ -482,7 +494,7 @@ export class UserPanelComponent {
       show_right_content: true,
     })
 
-    if(this.isAdmin) {
+    if (this.isAdmin) {
       this.menuItems.push({
         index: 5,
         text: this._translateService.instant('company-settings.settings'),
@@ -508,9 +520,9 @@ export class UserPanelComponent {
     });
 
     let initial_menu = this.menuItems?.length > 0 ? this.menuItems[0] : {};
-    if(menu) {
+    if (menu) {
       let menu_item = this.menuItems.find((c) => c.action == menu);
-      if(menu_item) {
+      if (menu_item) {
         initial_menu = menu_item
       }
     }
@@ -524,16 +536,16 @@ export class UserPanelComponent {
 
   handleMenuClick(event) {
     this.showConfirmationModal = false;
-    if(event.action != 'logout' && event.action != 'delete-account' && event.action != 'notifications') { 
+    if (event.action != 'logout' && event.action != 'delete-account' && event.action != 'notifications') {
       this.initializeMenuDetails(event)
     };
 
-    switch(event?.action) {
+    switch (event?.action) {
       case 'settings':
         this.navigateToPage('/settings');
         break;
       case 'transactions':
-        // this.navigateToPage('/users/my-transactions');
+        this.initializeTransactions();
         break;
       case 'notifications':
         this.navigateToPage(`/users/notifications/${this.id}`);
@@ -552,17 +564,17 @@ export class UserPanelComponent {
     this.showConfirmationModal = false;
     this.confirmMode = event?.action;
     this.confirmTitle = this._translateService.instant(
-        "user-panel.confirmlogout"
+      "user-panel.confirmlogout"
     );
     this.confirmDescription = this._translateService.instant(
-        "user-panel.confirmlogoutdesc"
+      "user-panel.confirmlogoutdesc"
     );
     this.acceptText = "OK";
     setTimeout(() => (this.showConfirmationModal = true));
   }
 
   confirm() {
-    if(this.confirmMode == 'logout') {
+    if (this.confirmMode == 'logout') {
       this.logout();
     }
   }
@@ -617,7 +629,7 @@ export class UserPanelComponent {
   }
 
   handleAboutMeSaved(event) {
-    if(event == 'success') {
+    if (event == 'success') {
       this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
       this.initializePage('about-me');
     } else {
@@ -638,6 +650,27 @@ export class UserPanelComponent {
 
   handleGoBack() {
     this._location.back();
+  }
+
+  initializeTransactions(startDate: string = '', endDate: string = '', invoiceTotal: number = 0, selectedInvoiceTotal: number = 0) {
+    let start = startDate ? moment(startDate) : moment().startOf('month')
+    this.startDate = start.format('DD/MM/YYYY');
+
+    let end = endDate ? moment(endDate) : moment().endOf('month')
+    this.endDate = end.format('DD/MM/YYYY');
+
+    if (start) {
+      let mEs = moment(start).locale('es');
+      this.month = mEs.format('MMMM');
+    }
+    this.selectedDates = `${this.startDate} ${this.endDate ? ' - ' : ''} ${this.endDate}`;
+
+    this.invoiceTotal = invoiceTotal;
+    this.selectedInvoiceTotal = selectedInvoiceTotal;
+  }
+
+  handleDateChange(event) {
+    this.initializeTransactions((event?.start_date || ''), (event?.end_date || ''));
   }
 
   ngOnDestroy() {

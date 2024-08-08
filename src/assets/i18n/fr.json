@@ -3873,6 +3873,9 @@
         "platformpercentage": "%Plateforme",
         "total": "Total",
         "client": "Client",
-        "itemsperpage": "Éléments par page"
+        "itemsperpage": "Éléments par page", 
+        "helpdesc": "Contactez notre assistance téléphonique",
+        "totalinvoiced": "Total facturé", 
+        "pendingcollection": "En attente de collecte"
     }
 }

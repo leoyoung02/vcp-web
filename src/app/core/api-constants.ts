@@ -815,6 +815,8 @@ export const EDIT_USER_PREFERENCE_URL = `${API_BASE}/v3/professional/user-prefer
 export const EDIT_PRICE_PER_SERVICE_URL = `${API_BASE}/v3/professional/price-per-service/edit`;
 export const EDIT_ABOUT_ME_URL = `${API_BASE}/v3/professional/about-me/edit`;
 export const ADD_MULTIMEDIA_IMAGE_URL = `${API_BASE}//v3/professional/multimedia/image/add`;
+export const COMPANY_PROFESSIONALS_URL = `${API_BASE}/company/professionals`;
+export const PROFESSIONAL_TRANSACTIONS_URL = `${API_BASE}/v3/panel/transactions`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;
@@ -850,6 +852,3 @@ export const EDIT_BUDDY_LIMIT_SETTINGS_URL = `${API_BASE}/buddy/settings/limit/e
 export const MENTOR_PROFILE_REQUESTS_URL = `${API_BASE}/v2/introduceu/mentor-requests`;
 export const MENTOR_PROFILE_MESSAGES_URL = `${API_BASE}/v2/introduceu/mentor/mentee-messages`;
 export const MENTOR_MENTEE_REQUESTS_URL = `${API_BASE}/v2/introduceu/statistics/mentor-mentee-requests`;
-
-// Professionals
-export const COMPANY_PROFESSIONALS_URL = `${API_BASE}/company/professionals`;

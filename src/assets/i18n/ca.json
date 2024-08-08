@@ -3886,6 +3886,9 @@
         "platformpercentage": "% Plataforma",
         "total": "Total",
         "customer": "Client",
-        "itemsperpage": "Elements per pàgina"
+        "itemsperpage": "Elements per pàgina", 
+        "helpdesc": "Comunica't amb la nostra línia d'ajuda",
+        "totalinvoiced": "Total facturat", 
+        "pendingcollection": "Pendent de cobrament"
     }
 }

@@ -24,10 +24,27 @@
             [selectedMenu]="selectedMenu"
             (onMenuClick)="handleMenuClick($event)">
         </app-astro-ideal-panel-menu>
-        <div class="mt-4 flex justify-between">
-            <div class="text-lg font-medium">{{ role == 'professional' ? ('user-panel.earnings' | translate) : ('professionals.availablebalance' | translate) }}<span *ngIf="role != 'professional'">:</span></div>
-            <div class="font-semibold" [ngClass]="{'text-2xl': role == 'professional', 'text-lg -ml-8': role != 'professional'}">EUR {{ role == 'professional' ? totalEarnings : me?.available_balance?.replace('.', ',') }}</div>
-            <div *ngIf="role != 'professional'" class="underline font-semibold text-lg hover:cursor-pointer" [ngStyle]="{'color': buttonColor}" [routerLink]="['/users/account-recharge']">{{ 'professionals.recharge' | translate }}</div>
+        <div class="mt-4">
+            <div class="flex justify-between" *ngIf="selectedMenu?.action != 'transactions'">
+                <div class="text-lg font-medium">{{ role == 'professional' ? ('user-panel.earnings' | translate) : ('professionals.availablebalance' | translate) }}<span *ngIf="role != 'professional'">:</span></div>
+                <div class="font-semibold" [ngClass]="{'text-2xl': role == 'professional', 'text-lg -ml-8': role != 'professional'}">
+                    <ng-container *ngIf="role == 'professional'">
+                        {{ totalEarnings | currency: (me?.currency || 'EUR') : 'code' : '1.2' : language }}
+                    </ng-container>
+                    <ng-container *ngIf="role != 'professional'">
+                        {{ me?.available_balance | currency: (me?.currency || 'EUR') : 'code' : '1.2' : language }}
+                    </ng-container>
+                </div>
+                <div *ngIf="role != 'professional'" class="underline font-semibold text-lg hover:cursor-pointer" [ngStyle]="{'color': buttonColor}" [routerLink]="['/users/account-recharge']">{{ 'professionals.recharge' | translate }}</div>
+            </div>
+            <div *ngIf="selectedMenu?.action == 'transactions'">
+                <div class="text-lg font-medium">{{ selectedDates }}</div>
+                <div class="font-semibold text-[#42C604]">{{ 'user-panel.totalbilling' | translate }} {{ selectedInvoiceTotal | currency: (me.currency || 'EUR') : 'code' : '1.2' : language }}</div>
+                <div class="mt-8">
+                    <div class="text-lg font-semibold underline hover:cursor-pointer" [routerLink]="['/support-tickets']" [ngStyle]="{'color': buttonColor}">{{ 'footer.help' | translate }}</div>
+                    <div class="text-base">{{ 'user-panel.helpdesc' | translate }}</div>
+                </div>
+            </div>
         </div>
     </div>
     <div class="w-full max-w-full my-8" *ngIf="selectedMenu?.show_right_content">
@@ -82,7 +99,16 @@
             </ng-container>
             <ng-container *ngIf="selectedMenu?.action == 'transactions'">
                 <app-astro-ideal-transactions
-                    [buttonColor]="buttonColor">
+                    [id]="id"
+                    [buttonColor]="buttonColor"
+                    [selectedStartDate]="startDate"
+                    [selectedEndDate]="endDate"
+                    [selectedMonth]="month"
+                    [invoiceTotal]="invoiceTotal"
+                    [selectedInvoiceTotal]="selectedInvoiceTotal"
+                    [userCurrency]="me?.currency || 'EUR'"
+                    [companyName]="companyName"
+                    (onDateChanged)="handleDateChange($event)">
                 </app-astro-ideal-transactions>
             </ng-container>
         </div>
@@ -153,6 +179,13 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+<div class="my-16" *ngIf="selectedMenu?.action == 'transactions'">
+    <div class="text-lg">{{ 'customer.dashboard' | translate }}</div>
+    <hr class="h-px mt-1 mb-8 bg-gray-200 border-0">
+    <div>
+        Graphs
     </div>
 </div>
 <app-toast 

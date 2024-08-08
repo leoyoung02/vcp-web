@@ -3915,6 +3915,9 @@
         "platformpercentage": "% Platform",
         "total": "Total",
         "customer": "Customer",
-        "itemsperpage": "Items per page"
+        "itemsperpage": "Items per page", 
+        "helpdesc": "Contact our help line",
+        "totalinvoiced": "Total invoiced", 
+        "pendingcollection": "Pending collection"
     }
 }

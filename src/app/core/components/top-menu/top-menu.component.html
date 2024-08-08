@@ -44,7 +44,7 @@
               <ng-container *ngIf="userid">
                 <div class="flex justify-center">
                   <div class="flex items-center text-white ml-4 mr-9">
-                    <div class="ml-2 font-semibold text-base">{{ getFormattedAvailableBalanceAmount(currentUser) }}</div>
+                    <div class="ml-2 font-semibold text-base" *ngIf="currentUser">{{ (currentUser?.available_balance || 0) | currency: (currentUser?.currency || 'EUR') : 'code' : '1.2' : language }}</div>
                     <button
                       class="text-sm text-white font-semibold px-5 py-1.5 ml-4 border border-white rounded-lg"
                       (click)="goToPage('/users/account-recharge')"

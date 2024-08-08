@@ -3878,6 +3878,9 @@
         "platformpercentage": "%Platform",
         "total": "Guztira",
         "customer": "Bezeroa",
-        "itemsperpage": "Orri bakoitzeko elementuak"
+        "itemsperpage": "Orri bakoitzeko elementuak", 
+        "helpdesc": "Jarri gure laguntza-zerbitzuarekin harremanetan",
+        "totalinvoiced": "Total facturé", 
+        "pendingcollection": "Bildu zain"
     }
 }

@@ -9,6 +9,7 @@ import {
   importProvidersFrom,
   makeEnvironmentProviders, 
   isDevMode,
+  LOCALE_ID,
 } from "@angular/core";
 import {
   RouterStateSnapshot,
@@ -40,6 +41,10 @@ import { QuillModule } from 'ngx-quill';
 import customersData from "src/assets/data/customers.json";
 import { provideServiceWorker } from '@angular/service-worker';
 
+import { registerLocaleData } from '@angular/common';
+import localeEs from '@angular/common/locales/es';
+
+registerLocaleData(localeEs);
 
 @Injectable({ providedIn: "root" })
 export class TemplatePageTitleStrategy extends TitleStrategy {
@@ -93,6 +98,7 @@ export function createTranslateLoader(http: HttpClient) {
 export const appConfig: ApplicationConfig = {
   providers: [
     { provide: TitleStrategy, useClass: TemplatePageTitleStrategy },
+    { provide: LOCALE_ID, useValue: 'en' },
     provideAnimations(),
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(withInterceptors([serverErrorInterceptor, jwtInterceptor])),

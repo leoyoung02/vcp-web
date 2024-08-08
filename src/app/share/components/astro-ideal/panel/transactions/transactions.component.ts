@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, ElementRef, Input, ViewChild } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from "@angular/core";
 import {
     LangChangeEvent,
     TranslateModule,
@@ -10,23 +10,12 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { MatSort, MatSortModule } from '@angular/material/sort';
 import { LocalService } from "@share/services";
-import { Subject } from "rxjs";
+import { Subject, takeUntil } from "rxjs";
 import { environment } from "@env/environment";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import DateRangePicker from 'flowbite-datepicker/DateRangePicker';
-
-declare var Datepicker: any;
-Datepicker.locales.es = {
-    days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado"],
-    daysShort: ["Dom", "Lun", "Mar", "Mié", "Jue", "Vie", "Sáb"],
-    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa"],
-    months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-    monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Sep", "Oct", "Nov", "Dic"],
-    today: "Hoy",
-    monthsTitle: "Meses",
-    clear: "Borrar",
-    weekStart: 1,
-    format: "dd/mm/yyyy"
-};
+import moment from "moment";
+import { ProfessionalsService } from "@features/services";
 
 @Component({
     selector: "app-astro-ideal-transactions",
@@ -34,6 +23,8 @@ Datepicker.locales.es = {
     imports: [
         CommonModule,
         TranslateModule,
+        FormsModule,
+        ReactiveFormsModule,
         MatTableModule,
         MatPaginatorModule,
         MatSortModule,
@@ -44,25 +35,33 @@ Datepicker.locales.es = {
 export class TransactionsComponent {
     private destroy$ = new Subject<void>();
 
+    @Input() id: any;
     @Input() buttonColor: any;
+    @Input() selectedStartDate: any;
+    @Input() selectedEndDate: any;
+    @Input() selectedMonth: any;
+    @Input() invoiceTotal: any;
+    @Input() selectedInvoiceTotal: any;
+    @Input() userCurrency: any;
+    @Input() companyName: any;
+    @Output() onDateChanged = new EventEmitter();
 
     languageChangeSubscription;
     language: any;
     menu: any = [];
 
     element: HTMLElement | undefined;
-    selectedStartDate!: Date;
-    selectedEndDate!: Date;
 
     transactions: any = [];
     dataSource: any;
-    displayedColumns = ['service_type', 'date_time', 'invoice_minutes', 'price_per_minute', 'platform_percentage', 'total', 'customer']
+    displayedColumns: any;
     @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator | undefined
     @ViewChild(MatSort, { static: false }) sort: MatSort | undefined
 
     constructor(
         private _translateService: TranslateService,
         private _localService: LocalService,
+        private _professionalsService: ProfessionalsService,
     ) { }
 
     async ngOnInit() {
@@ -82,23 +81,27 @@ export class TransactionsComponent {
 
     ngAfterViewInit(): void {
         const dateRangePickerEl = document.getElementById('date-rangepicker');
-        console.log(DateRangePicker)
         new DateRangePicker(dateRangePickerEl, {
             format: 'dd/mm/yyyy',
             orientation: 'bottom',
-            language: 'es',
+            language: this.language,
             weekStart: 1,
+            locale: this.language,
         });
     }
 
     onDatePicked($event: any, mode) {
         switch(mode) {
             case 'start':
-                this.selectedStartDate = new Date($event.detail.date);
+                this.selectedStartDate = moment($event.detail.date).format('DD/MM/YYYY');
                 break;
             case 'end':
-                this.selectedEndDate = new Date($event.detail.date);
+                this.selectedEndDate = moment($event.detail.date).format('DD/MM/YYYY');
                 break;
+        }
+
+        if(this.selectedStartDate && this.selectedEndDate) {
+            this.getTransactions();
         }
     }
 
@@ -115,7 +118,7 @@ export class TransactionsComponent {
 
     initializePage() {
         this.initializeMenu();
-        this.refreshTable();
+        this.initializeTable();
     }
 
     initializeMenu() {
@@ -139,6 +142,19 @@ export class TransactionsComponent {
                 selected: false,
             }
         ]
+    }
+
+    initializeTable() {
+        this.displayedColumns = [
+            'service_type', 
+            'date_time', 
+            'invoice_minutes', 
+            'price_per_minute', 
+            'platform_percentage', 
+            'total', 
+            'customer'
+        ]
+        this.getTransactions();
     }
 
     refreshTable(keepPage: boolean = false) {
@@ -167,12 +183,65 @@ export class TransactionsComponent {
     }
 
     handleMenuClick(event) {
-        console.log(event);
         this.menu?.forEach(item => {
             if(item.id == event.id) {
                 item.selected = true;
             } else {
                 item.selected = false;
+            }
+        })
+
+        if(event.action == 'services') {
+            this.displayedColumns = [
+                'service_type', 
+                'date_time', 
+                'total_invoiced',
+                'platform_percentage',
+                'customer'
+            ]
+        } else if(event.action == 'payments') {
+            this.displayedColumns = [
+                'service_type', 
+                'date_time', 
+                'total_invoiced',
+                'paid',
+                'pending'
+            ]
+        }
+
+        if(this.selectedStartDate && this.selectedEndDate) {
+            this.getTransactions();
+        }
+    }
+
+    getTransactions() {
+        let menu_selected = this.menu.find((c) => c.selected);
+        this._professionalsService
+            .getTransactions(this.id, (menu_selected?.action || 'contacts'))
+            .pipe(takeUntil(this.destroy$))
+            .subscribe(
+                (data) => {
+                    this.transactions = this.formatTransactions(data.transactions);
+                    this.refreshTable();
+
+                    this.onDateChanged.emit({
+                        start_date: moment(this.selectedStartDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+                        end_date: moment(this.selectedEndDate, 'DD/MM/YYYY').format('YYYY-MM-DD')
+                    })
+                },
+                (error) => {
+                    console.log(error);
+                }
+            );
+    }
+
+    formatTransactions(list) {
+        return list?.map((row) => {
+            let key = row.service_type == 'chat' ? `professionals.${row.service_type}` : `user-panel.${row.service_type}`
+            return {
+              ...row,
+              date_time: moment(row.date_time).locale(this.language).format('DD MMMM YYYY H:mm A'),
+              service_type: this._translateService.instant(key),
             }
         })
     }

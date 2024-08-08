@@ -3868,6 +3868,9 @@
         "platformpercentage": "%Piattaforma",
         "total": "Totale",
         "customer": "Cliente",
-        "itemsperpage": "Elementi per pagina"
+        "itemsperpage": "Elementi per pagina", 
+        "helpdesc": "Contatta la nostra linea di assistenza",
+        "totalinvoiced": "Totale fatturato", 
+        "pendingcollection": "Ritiro in sospeso"
     }
 }
