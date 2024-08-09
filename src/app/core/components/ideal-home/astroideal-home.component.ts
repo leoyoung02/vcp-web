@@ -148,7 +148,14 @@ export class AstroIdealHomeComponent {
     this._companyService
       .getCompanyProfessionalCategories(this.companyId)
       .subscribe(
-        (response) => {
+        (response) => { 
+          let images = [
+            '/src/assets/images/ideal_home/dollar.png',
+            '/src/assets/images/ideal_home/big_snow.png',
+            '/src/assets/images/ideal_home/big_human.png',
+            '/src/assets/images/ideal_home/energy.png',
+            '/src/assets/images/ideal_home/big_rune.png'
+          ]
           this.categories = response.categories.slice(0, 5).map((item, index) => ({
             id: item.id,
             en_title: item.category_en,

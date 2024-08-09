@@ -1,18 +1,16 @@
 <div class="h-[285px] flex flex-row bg-[#F5F6F8] rounded-lg shadow-lg">
   <div class="flex-none rounded-l-2xl hidden md:block">
-    <div class="w-[286px] h-full overflow-hidden" *ngIf="cardData && cardData.image">
-      <img class="w-[286px] h-full rounded-l-lg object-cover" [src]="cardData.image" *ngIf="cardData && cardData.image" />
+    <div class="w-[223px] h-full overflow-hidden" *ngIf="cardData && cardData.image">
+      <img class="w-[223px] h-full rounded-l-lg object-cover" [src]="cardData.image" *ngIf="cardData && cardData.image" />
     </div>
   </div>
-  <div class="flex-1 pl-5 py-4 pr-5 md:pr-2">
+  <div class="flex-none pl-5 py-4 pr-5 md:pr-2 w-[310px]">
     <div class="pr-3">
       <div class="pr-3">
-        <div class="pr-12">
+        <div class="pr-12 mb-[10px]">
           <p class="font-bold text-2xl" *ngIf="cardData && cardData.title">{{ cardData.title }}</p>
           <p class="pt-2 text-[9px] leading-4 w-[208px] h-[76px] text-ellipsis overflow-hidden" [innerHtml]="cardData && cardData.description">
-            Lorem ipsum dolor sit amet consectetur. Tortor purus
-            scelerisque faucibus gravida &nbsp;mus ultricies dignissim. Non
-            platea vestibulum laoreet adipiscing lobortis
+            Lorem ipsum dolor sit amet consectetur. Tortor purus scelerisque faucibus gravida mus ultricies dignissim. Non platea vestibulum laoreet adipiscing lobortis 
           </p>
         </div>
 
@@ -28,9 +26,9 @@
       </div>
     </div>
     <div class="mt-[2px] flex justify-between">
-      <app-ideal-button [buttonData]="{ title: this.translateContactUs(), icon: commentIcon, titleStyle: 'text-[10px] !ml-1', backgroundColor: buttonColor, textColor: '#ffffff' }" (onClick)="handleClick(cardData.id)" />
-      <app-ideal-button [buttonData]="{ title: this.translateCalls(), icon: phoneIcon, titleStyle: 'text-[10px] !ml-1' }" (onClick)="handleClick(cardData.id)" />
-      <app-ideal-button [buttonData]="{ title: this.translateVideoCall(), icon: videoIcon, titleStyle: 'text-[10px] !ml-1' }" (onClick)="handleClick(cardData.id)" />
+      <app-ideal-button [width]="'93px'" [buttonData]="{ title: this.translateContactUs(), icon: commentIcon, titleStyle: 'text-[10px] !ml-1', backgroundColor: buttonColor, textColor: '#ffffff' }" (onClick)="handleClick(cardData.id)" />
+      <app-ideal-button [width]="'72px'" [buttonData]="{ title: this.translateCalls(), icon: phoneIcon, titleStyle: 'text-[10px] !ml-1' }" (onClick)="handleClick(cardData.id)" />
+      <app-ideal-button [width]="'93px'" [buttonData]="{ title: this.translateVideoCall(), icon: videoIcon, titleStyle: 'text-[10px] !ml-1' }" (onClick)="handleClick(cardData.id)" />
     </div>
   </div>
 </div>

@@ -62,8 +62,8 @@
   <nav [ngStyle]="{'background-color': primaryColor}" class="-mb-[1px]">
     <div>
         <div class="flex items-center w-full max-w-full relative">
-            <ul class="w-full max-w-full flex flex-row font-medium mt-0 space-x-28 rtl:space-x-reverse text-sm overflow-x-scroll no-scrollbar">
-              <div class="shrink-0 bg-[#A77FE0] items-center flex rounded-tr-xl p-4 px-5">
+            <ul class="w-full max-w-full flex flex-row font-medium mt-0 space-x-12 text-sm overflow-x-scroll no-scrollbar">
+              <div class="flex-none bg-[#A77FE0] items-center hidden lg:flex rounded-tr-xl p-4 px-5">
                 <div class="flex flex-col hover:cursor-pointer" (click)="handleSecondaryMenuClick('1')">
                   <p class="text-white pr-4 text-xl">{{"landing.tarottalk" | translate}}</p>
                 </div>
@@ -132,20 +132,30 @@
                   </li>
                 </ul>
               </div>
-              <div class="mx-auto w-2/3 max-w-2/3">
-                <ul class="-ml-24 flex items-center justify-around">
-                  <li *ngFor="let item of categories">
+              <div class="flex-1">
+                <ul class="flex items-center justify-between">
+                  <li class="space-x-[85px] items-center hidden xl:flex">
+                    <div *ngFor="let item of categories">
+                      <button class="flex flex-col items-center" (click)="handleSecondaryMenuClick(item.left)">
+                        <img [src]="item.image" [alt]="item.name" class="w-8 h-8 object-cover opacity-70" />
+                        <p class="text-[#D8D7D7] py-2 font-semibold text-xl">
+                          {{ item.name }}
+                        </p>
+                      </button>
+                    </div>
+                  </li>
+                  <div *ngFor="let item of categories" class="block xl:hidden">
                     <button class="flex flex-col items-center" (click)="handleSecondaryMenuClick(item.left)">
                       <img [src]="item.image" [alt]="item.name" class="w-8 h-8 object-cover opacity-70" />
-                      <p class="text-[#D8D7D7] py-2 text-base">
+                      <p class="text-[#D8D7D7] py-2 font-semibold text-xl">
                         {{ item.name }}
                       </p>
                     </button>
-                  </li>
-                  <li *ngIf="company?.id == 67 && hasBlog">
-                    <button class="flex flex-col items-center" (click)="navigateToPage('/blog')">
-                      <img src="./assets/professional-icons/blog.png" alt="Blog" class="w-8 h-8 object-cover" />
-                      <p class="text-[#D8D7D7] py-2 text-base">
+                  </div>
+                  <li *ngIf="company?.id == 67 && hasBlog" class="pr-12 xl:pr-[139px]">
+                    <button class="flex flex-col items-center relative" (click)="navigateToPage('/blog')">
+                      <img src="./assets/professional-icons/blog_small.png" alt="Blog" class="" />
+                      <p class="text-[#CEB05A] text-xl font-semibold absolute left-[28px] top-[26px]">
                         Blog
                       </p>
                     </button>

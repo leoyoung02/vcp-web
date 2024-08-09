@@ -1,14 +1,15 @@
-<div class="p-1 text-sm flex items-center group/button rounded-md shadow-md hover:cursor-pointer h-8"
+<div class="p-1 text-sm flex items-center justify-center group/button rounded-md shadow-md hover:cursor-pointer h-8"
   [ngStyle]="{
-    'background-color': buttonData?.backgroundColor || '#fffff',
-    'color': buttonData?.textColor || '#A77FE0'
+    'background-color': buttonData.backgroundColor || '#fffff',
+    'color': buttonData.textColor || '#A77FE0',
+    'width': width,
   }"
   [ngClass]="{
-    'hover:text-white hover:bg-[#A77FE0]': !buttonData?.backgroundColor,
-    'hover:text-[#A77FE0] hover:bg-white': buttonData?.backgroundColor
+    'hover:text-white hover:bg-[#A77FE0]': !buttonData.backgroundColor,
+    'hover:text-[#A77FE0] hover:bg-white': buttonData.backgroundColor
   }"
-  (click)="handleClick(buttonData?.id)">
-  <fa-icon class="fa w-5 h-5 flex items-center group-hover/button:hidden" [icon]="buttonData.icon"></fa-icon>
-  <fa-icon class="fa w-5 h-5 items-center group-hover/button:block hidden" [ngStyle]="{'color':  buttonData?.backgroundColor || '#fff'}" [icon]="buttonData.icon"></fa-icon>
-  <p class="ml-2" [ngClass]="buttonData.titleStyle">{{buttonData.title}}</p>
+  (click)="handleClick(buttonData.id)">
+  <fa-icon class="fa text-[16.6px] flex items-center group-hover/button:hidden" [icon]="buttonData.icon"></fa-icon>
+  <fa-icon class="fa text-[16.6px] items-center group-hover/button:block hidden" [ngStyle]="{'color':  buttonData.backgroundColor || '#fff'}" [icon]="buttonData.icon"></fa-icon>
+  <p class="ml-[6.7px] truncate" [ngClass]="buttonData.titleStyle">{{buttonData.title}}</p>
 </div>
