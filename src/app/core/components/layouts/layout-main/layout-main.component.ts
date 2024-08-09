@@ -252,6 +252,7 @@ export class LayoutMainComponent {
   subcategoryMapping: any = [];
   customMemberTypeId: any;
   hasBlog: boolean = false;
+  shopPage: boolean = false;
 
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
@@ -292,6 +293,10 @@ export class LayoutMainComponent {
         if(this._router.url) {
           if(this._router.url == '/') {
             this.homePage = true;
+          } else {
+            if(this._router.url == '/shop') {
+              this.shopPage = true;
+            }
           }
           this.cd.detectChanges();
         }

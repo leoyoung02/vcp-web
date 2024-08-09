@@ -1,0 +1,18 @@
+.slider-container {
+    overflow: hidden;
+    cursor: grab;
+    position: relative;
+    width: 100%;
+  }
+  
+.cards-wrapper {
+  display: flex;
+  transition: transform 0.3s ease;
+}
+
+.card {
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
+}
+  

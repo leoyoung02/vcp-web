@@ -1,0 +1,27 @@
+<div class="w-[368px] h-[461px] rounded-2xl bg-[#FCFCFC] flex flex-col">
+  <img class="flex-none w-[368px] h-[264px] object-cover rounded-t-2xl" [src]="cardData.image" *ngIf="cardData.image" />
+
+  <div class="flex-1 pl-5 pr-6 pt-2 pb-7 flex flex-col justify-between">
+    <div class="flex space-x-3 min-h-6 h-6 items-center">
+      <!-- <div class="bg-[#D0D0D0] rounded-md w-20 h-6" *ngFor="let subcategory of cardData.subcategories; let i = index;" [ngClass]="{'!hidden': (i >= 2)}">
+        {{ this.titleTranslator(subcategory) }}
+        {{ subcategory.es_title }}
+      </div> -->
+      <div class="bg-[#D0D0D0] rounded-md w-20 truncate h-6 text-center text-black px-1" *ngFor="let subcategory of cardData.subcategories;">
+        {{ this.titleTranslator(subcategory) || subcategory.es_title || "Empty" }}
+      </div>
+    </div>
+    <div class="pb-[3px]">
+      <p class="font-semibold text-base">{{ cardData.title || "&nbsp;" }}</p>
+      <p class="w-[200px] truncate text-sm mb-3">{{ cardData.description || "&nbsp;" }} </p>
+      <!-- star starts -->
+      <div class="flex">
+        <star-rating [starType]="'svg'" [rating]="4"></star-rating>
+      </div>
+      <!-- star ends -->
+    </div>
+    <div class="ml-auto px-3 py-1 text-white text-sm rounded-md bg-[#A77FE0] opacity-50">
+      Comprar - {{cardData.currency}} {{cardData.amount}}
+    </div>
+  </div>
+</div>

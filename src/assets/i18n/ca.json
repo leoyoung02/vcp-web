@@ -3748,7 +3748,8 @@
         "myorders": "Les meves comandes",
         "itemaddedtocart": "1 article afegit al carret",
         "itemremovedfromcart": "S'ha eliminat 1 element del carretó",
-        "cartcleared": "El carretó està esborrat"
+        "cartcleared": "El carretó està esborrat",
+        "gettoknowthemostoutstandingcourses": "Coneix els cursos més destacats"
     },
     "professionals": {
         "professionals": "Professionals",

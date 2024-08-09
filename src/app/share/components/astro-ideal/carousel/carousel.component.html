@@ -1,0 +1,7 @@
+<div class="slider-container" (mousedown)="onMouseDown($event)">
+  <div class="cards-wrapper" [ngStyle]="{ transform: transform }">
+    <div *ngFor="let item of items" class="mr-[50px] card">
+      <app-rituale-card [language]="this.language" [cardData]="{title: this.titleTranslator(item), description: this.descriptionTranslator(item), image: item.image, currency: item.currency, amount: item.amount, subcategories: item.subcategories || []}" />
+    </div>
+  </div>
+</div>
