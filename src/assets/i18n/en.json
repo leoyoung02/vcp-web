@@ -3918,6 +3918,11 @@
         "itemsperpage": "Items per page", 
         "helpdesc": "Contact our help line",
         "totalinvoiced": "Total invoiced", 
-        "pendingcollection": "Pending collection"
+        "pendingcollection": "Pending collection",
+        "professionalcontactservices": "Professional contact services",
+        "billingyearandmonth": "Billing by year and month",
+        "activitypercentage": "Activity percentage",
+        "highlightedevents": "Highlighted events",
+        "percentageservices": "Percentage of services"
     }
 }

@@ -3906,6 +3906,11 @@
         "itemsperpage": "Elementos por página",
         "helpdesc": "Comunicate con nuestra linea de ayuda",
         "totalinvoiced": "Total  facturado",
-        "pendingcollection": "Pendiente de cobro"
+        "pendingcollection": "Pendiente de cobro", 
+        "professionalcontactservices": "Servicios de contacto con profesional",
+        "billingyearandmonth": "Facturación por año y mes",
+        "activitypercentage": "Porcentaje de actividad",
+        "highlightedevents": "Eventos más destacados",
+        "percentageservices": "Porcentaje de los servicios"
     }
 }

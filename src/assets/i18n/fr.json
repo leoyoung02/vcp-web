@@ -3876,6 +3876,11 @@
         "itemsperpage": "Éléments par page", 
         "helpdesc": "Contactez notre assistance téléphonique",
         "totalinvoiced": "Total facturé", 
-        "pendingcollection": "En attente de collecte"
+        "pendingcollection": "En attente de collecte",
+        "professionalcontactservices": "Services de contact professionnels",
+        "billingyearandmonth": "Facturation par année et par mois",
+        "activitypercentage": "Pourcentage d'activité",
+        "highlightedevents": "Événements mis en évidence",
+        "percentageservices": "Pourcentage de services"
     }
 }

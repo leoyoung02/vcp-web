@@ -39,7 +39,7 @@
             </div>
             <div *ngIf="selectedMenu?.action == 'transactions'">
                 <div class="text-lg font-medium">{{ selectedDates }}</div>
-                <div class="font-semibold text-[#42C604]">{{ 'user-panel.totalbilling' | translate }} {{ selectedInvoiceTotal | currency: (me.currency || 'EUR') : 'code' : '1.2' : language }}</div>
+                <div class="font-semibold text-[#42C604]">{{ 'user-panel.totalbilling' | translate }} {{ invoiceTotal | currency: (me.currency || 'EUR') : 'code' : '1.2' : language }}</div>
                 <div class="mt-8">
                     <div class="text-lg font-semibold underline hover:cursor-pointer" [routerLink]="['/support-tickets']" [ngStyle]="{'color': buttonColor}">{{ 'footer.help' | translate }}</div>
                     <div class="text-base">{{ 'user-panel.helpdesc' | translate }}</div>
@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="w-full max-w-full my-8" *ngIf="selectedMenu?.show_right_content">
-        <div *ngIf="role == 'professional'"
+        <div *ngIf="role == 'professional' || isAdmin"
             [ngClass]="{'mb-8': selectedMenu?.action != 'transactions'}">
             <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between" >
                 <div>
@@ -61,7 +61,7 @@
                         <app-astro-ideal-radial-progress [percentComplete]="percentComplete"></app-astro-ideal-radial-progress>
                     </div>
                 </div>
-                <div *ngIf="role == 'professional' && selectedMenu?.action == 'transactions'">
+                <div *ngIf="(role == 'professional' || isAdmin) && selectedMenu?.action == 'transactions'">
                     <div class="flex items-center" (click)="downloadExcel()">
                         <img src="./assets/professional-icons/table.png" class="w-[22px] h-[23px] object-contain mr-2" />
                         <div class="underline cursor-pointer text-base" [ngStyle]="{'color': buttonColor}">{{ 'user-panel.downloadcontent' | translate }}</div>
@@ -100,12 +100,14 @@
             <ng-container *ngIf="selectedMenu?.action == 'transactions'">
                 <app-astro-ideal-transactions
                     [id]="id"
+                    [isAdmin]="isAdmin"
+                    [role]="role"
                     [buttonColor]="buttonColor"
                     [selectedStartDate]="startDate"
                     [selectedEndDate]="endDate"
                     [selectedMonth]="month"
                     [invoiceTotal]="invoiceTotal"
-                    [selectedInvoiceTotal]="selectedInvoiceTotal"
+                    [currentInvoiceTotal]="currentInvoiceTotal"
                     [userCurrency]="me?.currency || 'EUR'"
                     [companyName]="companyName"
                     (onDateChanged)="handleDateChange($event)">
@@ -184,8 +186,32 @@
 <div class="my-16" *ngIf="selectedMenu?.action == 'transactions'">
     <div class="text-lg">{{ 'customer.dashboard' | translate }}</div>
     <hr class="h-px mt-1 mb-8 bg-gray-200 border-0">
-    <div>
-        Graphs
+    <div class="w-full max-w-full mb-4">
+        <div class="flex justify-between gap-4">
+            <div class="shadow w-3/12 flex-none rounded-[15px] border border-1 border-[#CCCACA] p-4">
+                <div class="text-base text-center mb-8">{{ 'user-panel.professionalcontactservices' | translate }}</div>
+                <app-astro-ideal-pie-chart></app-astro-ideal-pie-chart>
+            </div>
+            <div class="shadow grow rounded-[15px] border border-1 border-[#d3d4d6] p-4">
+                <div class="text-base text-center mb-8">{{ 'user-panel.billingyearandmonth' | translate }}</div>
+            </div>
+            <div class="shadow w-1/6 flex-none rounded-[15px] border border-1 border-[#d3d4d6] p-4">
+                <div class="text-base text-center mb-8">{{ 'user-panel.activitypercentage' | translate }}</div>
+                <app-astro-ideal-semi-donut></app-astro-ideal-semi-donut>
+                <app-astro-ideal-semi-donut></app-astro-ideal-semi-donut>
+            </div>
+        </div>
+    </div>
+    <div class="w-full max-w-full mb-16">
+        <div class="flex justify-between gap-4">
+            <div class="shadow w-4/12 flex-none rounded-[15px] border border-1 border-[#CCCACA] p-4">
+                <div class="text-base text-center mb-8">{{ 'user-panel.highlightedevents' | translate }}</div>
+                <app-astro-ideal-bar-chart></app-astro-ideal-bar-chart>
+            </div>
+            <div class="shadow flex-grow rounded-[15px] border border-1 border-[#CCCACA] p-4">
+                <div class="text-base text-center mb-8">{{ 'user-panel.percentageservices' | translate }}</div>
+            </div>
+        </div>
     </div>
 </div>
 <app-toast 

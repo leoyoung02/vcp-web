@@ -4,7 +4,7 @@
 </div>
 <div class="flex items-center pb-8">
     <div class="text-[15px] font-medium mr-4 capitalize">{{ selectedMonth }}</div>
-    <div class="text-base font-medium mr-4">{{ selectedInvoiceTotal | currency: userCurrency : 'code' : '1.2' : language }}</div>
+    <div class="text-base font-medium mr-4">{{ currentInvoiceTotal | currency: userCurrency : 'code' : '1.2' : language }}</div>
 </div>
 <div class="flex items-center justify-between">
     <div class="w-2/3">
@@ -80,6 +80,10 @@
             <ng-container matColumnDef="total">
                 <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'user-panel.total' | translate }}</mat-header-cell>
                 <mat-cell *matCellDef="let row" data-label="total" class="text-[#35A301] text-[12px]">{{ row?.total | currency: userCurrency : 'symbol' : '1.2' : language }}</mat-cell>
+            </ng-container>
+            <ng-container matColumnDef="professional">
+                <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'professionals.professional' | translate }}</mat-header-cell>
+                <mat-cell *matCellDef="let row" data-label="professional">{{ row?.professional }}</mat-cell>
             </ng-container>
             <ng-container matColumnDef="customer">
                 <mat-header-cell *matHeaderCellDef mat-sort-header class="font-semibold text-[11px]">{{ 'user-panel.customer' | translate }}</mat-header-cell>

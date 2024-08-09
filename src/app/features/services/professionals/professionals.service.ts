@@ -209,8 +209,8 @@ export class ProfessionalsService {
     ).pipe(map(res => res));
   }
 
-  getTransactions(id, type, startDate: any, endDate: any): Observable<any> {
-    return this._http.get(`${PROFESSIONAL_TRANSACTIONS_URL}/${id}/${type}/${startDate}/${endDate}`,
+  getTransactions(id, type, startDate: any, endDate: any, role): Observable<any> {
+    return this._http.get(`${PROFESSIONAL_TRANSACTIONS_URL}/${id}/${type}/${startDate}/${endDate}/${role}`,
       { headers: this.headers }
     ).pipe(map(res => res))
   }

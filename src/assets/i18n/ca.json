@@ -3889,6 +3889,11 @@
         "itemsperpage": "Elements per pàgina", 
         "helpdesc": "Comunica't amb la nostra línia d'ajuda",
         "totalinvoiced": "Total facturat", 
-        "pendingcollection": "Pendent de cobrament"
+        "pendingcollection": "Pendent de cobrament",
+        "professionalcontactservices": "Serveis de contacte amb professional",
+        "billingyearandmonth": "Facturació per any i mes",
+        "activitypercentage": "Percentatge d'activitat",
+        "highlightedevents": "Esdeveniments més destacats",
+        "percentageservices": "Percentatge dels serveis"
     }
 }

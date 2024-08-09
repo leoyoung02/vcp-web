@@ -3881,6 +3881,11 @@
         "itemsperpage": "Orri bakoitzeko elementuak", 
         "helpdesc": "Jarri gure laguntza-zerbitzuarekin harremanetan",
         "totalinvoiced": "Total facturé", 
-        "pendingcollection": "Bildu zain"
+        "pendingcollection": "Bildu zain",
+        "professionalcontactservices": "Harremanetarako zerbitzuak",
+        "billingyearandmonth": "Fakturazioa urte eta hilabeteka",
+        "activitypercentage": "Jardueraren ehunekoa",
+        "highlightedevents": "Nabarmendutako gertaerak",
+        "percentageservices": "Zerbitzuen ehunekoa"
     }
 }

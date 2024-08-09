@@ -3882,6 +3882,11 @@
         "itemsperpage": "Elemente pro Seite", 
         "helpdesc": "Kontaktieren Sie unsere Helpline",
         "totalinvoiced": "In Rechnung gestellter Gesamtbetrag", 
-        "pendingcollection": "Ausstehende Sammlung"
+        "pendingcollection": "Ausstehende Sammlung",
+        "professionalcontactservices": "Professionelle Kontaktdienste",
+        "billingyearandmonth": "Abrechnung nach Jahr und Monat",
+        "activitypercentage": "Aktivitätsprozentsatz",
+        "highlightedevents": "Hervorgehobene Ereignisse",
+        "percentageservices": "Prozentsatz der Dienste"
     }
 }

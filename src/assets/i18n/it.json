@@ -3871,6 +3871,11 @@
         "itemsperpage": "Elementi per pagina", 
         "helpdesc": "Contatta la nostra linea di assistenza",
         "totalinvoiced": "Totale fatturato", 
-        "pendingcollection": "Ritiro in sospeso"
+        "pendingcollection": "Ritiro in sospeso",
+        "professionalcontactservices": "Servizi di contatto professionali",
+        "billingyearandmonth": "Fatturazione per anno e mese",
+        "activitypercentage": "Percentuale di attività",
+        "highlightedevents": "Eventi in evidenza",
+        "percentageservices": "Percentuale di servizi"
     }
 }

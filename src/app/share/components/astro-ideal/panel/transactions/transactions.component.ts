@@ -36,12 +36,14 @@ export class TransactionsComponent {
     private destroy$ = new Subject<void>();
 
     @Input() id: any;
+    @Input() isAdmin: any;
+    @Input() role: any;
     @Input() buttonColor: any;
     @Input() selectedStartDate: any;
     @Input() selectedEndDate: any;
     @Input() selectedMonth: any;
     @Input() invoiceTotal: any;
-    @Input() selectedInvoiceTotal: any;
+    @Input() currentInvoiceTotal: any;
     @Input() userCurrency: any;
     @Input() companyName: any;
     @Output() onDateChanged = new EventEmitter();
@@ -145,15 +147,28 @@ export class TransactionsComponent {
     }
 
     initializeTable() {
-        this.displayedColumns = [
-            'service_type', 
-            'date_time', 
-            'invoice_minutes', 
-            'price_per_minute', 
-            'platform_percentage', 
-            'total', 
-            'customer'
-        ]
+        if(this.isAdmin) {
+            this.displayedColumns = [
+                'service_type', 
+                'date_time', 
+                'invoice_minutes', 
+                'price_per_minute', 
+                'platform_percentage', 
+                'total', 
+                'professional',
+                'customer'
+            ]
+        } else {
+            this.displayedColumns = [
+                'service_type', 
+                'date_time', 
+                'invoice_minutes', 
+                'price_per_minute', 
+                'platform_percentage', 
+                'total', 
+                'customer'
+            ]
+        }
         this.getTransactions();
     }
 
@@ -216,31 +231,27 @@ export class TransactionsComponent {
 
     getTransactions() {
         let menu_selected = this.menu.find((c) => c.selected);
+        let role = this.isAdmin ? 'admin' : this.role;
         this._professionalsService
             .getTransactions(
                 this.id, 
                 (menu_selected?.action || 'contacts'),
                 moment(this.selectedStartDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
-                moment(this.selectedEndDate, 'DD/MM/YYYY').format('YYYY-MM-DD'))
+                moment(this.selectedEndDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
+                role,
+            )
             .pipe(takeUntil(this.destroy$))
             .subscribe(
                 (data) => {
                     this.transactions = this.formatTransactions(data.transactions);
-
-                    this.invoiceTotal = 0;
-                    this.transactions?.forEach(txn => {
-                        this.invoiceTotal += parseFloat(txn.total) || 0;
-                    })
-
-                    this.selectedInvoiceTotal = this.invoiceTotal || 0;
-
+                    this.getTotals();
                     this.refreshTable();
 
                     this.onDateChanged.emit({
                         start_date: moment(this.selectedStartDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
                         end_date: moment(this.selectedEndDate, 'DD/MM/YYYY').format('YYYY-MM-DD'),
                         invoice_total: this.invoiceTotal,
-                        selected_invoice_total: this.selectedInvoiceTotal,
+                        selected_invoice_total: this.currentInvoiceTotal,
                         transactions: this.transactions,
                         service_type: menu_selected?.action,
                     })
@@ -259,6 +270,25 @@ export class TransactionsComponent {
               date_time: moment(row.date_time).locale(this.language).format('DD MMMM YYYY H:mm A'),
               service_type: this._translateService.instant(key),
             }
+        })
+    }
+
+    getTotals() {
+        this.invoiceTotal = 0;
+        this.transactions?.forEach(txn => {
+            this.invoiceTotal += parseFloat(txn.total) || 0;
+        })
+
+        let start_month = moment().startOf('month').format('YYYY-MM-DD');
+        let end_month = moment().endOf('month').format('YYYY-MM-DD');
+        this.currentInvoiceTotal = 0;
+        let current_month_transactions = this.transactions?.filter(txn => {
+            let formatted_date = moment(txn.date_time).format('YYYY-MM-DD');
+            return moment(formatted_date).isSameOrAfter(start_month) &&
+                moment(formatted_date).isSameOrBefore(end_month)
+        })
+        current_month_transactions?.forEach(txn => {
+            this.currentInvoiceTotal += parseFloat(txn.total) || 0;
         })
     }
 

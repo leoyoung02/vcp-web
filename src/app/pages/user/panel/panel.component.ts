@@ -11,13 +11,16 @@ import { FormsModule } from "@angular/forms";
 import { Subject, takeUntil } from "rxjs";
 import {
   AboutMeComponent,
+  BarChartComponent,
   BreadcrumbComponent,
   MultimediaContentComponent,
   PageTitleComponent,
   PanelMenuComponent,
   PersonalInformationComponent,
+  PieChartComponent,
   PricePerServiceComponent,
   RadialProgressComponent,
+  SemiDonutComponent,
   ToastComponent,
   TransactionsComponent
 } from "@share/components";
@@ -47,6 +50,9 @@ import get from "lodash/get";
     AboutMeComponent,
     MultimediaContentComponent,
     TransactionsComponent,
+    PieChartComponent,
+    SemiDonutComponent,
+    BarChartComponent,
   ],
   templateUrl: "./panel.component.html"
 })
@@ -110,9 +116,10 @@ export class UserPanelComponent {
   month: any;
   selectedDates: any;
   invoiceTotal: any;
-  selectedInvoiceTotal: any;
+  currentInvoiceTotal: any;
   companyName: any;
   transactions: any = [];
+  currentMonth: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -448,21 +455,23 @@ export class UserPanelComponent {
       }
     ]
 
-    if (this.role == 'professional') {
-      this.menuItems.push({
-        index: 1,
-        text: this._translateService.instant('user-panel.aboutme'),
-        subtext: this._translateService.instant('user-panel.aboutmedesc'),
-        action: 'about-me',
-        show_right_content: true,
-      })
-      this.menuItems.push({
-        index: 2,
-        text: this._translateService.instant('user-panel.createdservices'),
-        subtext: this._translateService.instant('user-panel.createdservicesdesc'),
-        action: 'services-created',
-        show_right_content: true,
-      })
+    if (this.role == 'professional' || this.isAdmin) {
+      if(this.role == 'professional') {
+        this.menuItems.push({
+          index: 1,
+          text: this._translateService.instant('user-panel.aboutme'),
+          subtext: this._translateService.instant('user-panel.aboutmedesc'),
+          action: 'about-me',
+          show_right_content: true,
+        })
+        this.menuItems.push({
+          index: 2,
+          text: this._translateService.instant('user-panel.createdservices'),
+          subtext: this._translateService.instant('user-panel.createdservicesdesc'),
+          action: 'services-created',
+          show_right_content: true,
+        })
+      }
       this.menuItems.push({
         index: 3,
         text: this._translateService.instant('user-panel.transactions'),
@@ -654,21 +663,20 @@ export class UserPanelComponent {
     this._location.back();
   }
 
-  initializeTransactions(startDate: string = '', endDate: string = '', invoiceTotal: number = 0, selectedInvoiceTotal: number = 0, transactions: any = []) {
-    let start = startDate ? moment(startDate) : moment().startOf('month')
+  initializeTransactions(startDate: string = '', endDate: string = '', invoiceTotal: number = 0, currentInvoiceTotal: number = 0, transactions: any = []) {
+    let start = startDate ? moment(startDate) : moment().startOf('month');
     this.startDate = start.format('DD/MM/YYYY');
 
-    let end = endDate ? moment(endDate) : moment().endOf('month')
+    let end = endDate ? moment(endDate) : moment().endOf('month');
     this.endDate = end.format('DD/MM/YYYY');
 
-    if (start) {
-      let mEs = moment(start).locale('es');
-      this.month = mEs.format('MMMM');
-    }
+    let mEs = moment().locale('es');
+    this.month = mEs.format('MMMM');
+ 
     this.selectedDates = `${this.startDate} ${this.endDate ? ' - ' : ''} ${this.endDate}`;
 
     this.invoiceTotal = invoiceTotal || 0;
-    this.selectedInvoiceTotal = selectedInvoiceTotal || 0;
+    this.currentInvoiceTotal = currentInvoiceTotal || 0;
     this.transactions = transactions || [];
   }
 
