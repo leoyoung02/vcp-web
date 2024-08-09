@@ -2918,7 +2918,7 @@
         "edit": "Modifica",
         "createapoll": "Crea un sondaggio",
         "you": "tu",
-        "tutor": "Tutor",
+        "tutors": "Tutor",
         "resources": "Risorse",
         "adminbadge": "Badge amministratore",
         "tutorbadge": "Badge tutor"
@@ -3321,7 +3321,8 @@
         "tiktokstats": "Statistiche TikTok",
         "daterangedesc": "Seleziona l'intervallo di date (massimo 1 mese). Fai clic su Ripristina per impostare il mese predefinito",
         "noratingsyet": "Ancora nessuna valutazione",
-        "edittutor": "Modifica tutor"
+        "edittutor": "Modifica tutor",
+        "italian": "Italiano"
     },
     "general-details": {
         "name": "Nome",

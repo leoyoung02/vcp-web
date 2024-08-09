@@ -3340,7 +3340,8 @@
         "tiktokstats": "Estadísticas de TikTok",
         "daterangedesc": "Seleccione el rango de fechas (máximo 1 mes). Haga clic en restablecer para establecer el mes predeterminado",
         "noratingsyet": "Aún no hay calificaciones",
-        "edittutor": "Editar tutor"
+        "edittutor": "Editar tutor",
+        "italian": "Italiano"
     },
     "general-details": {
         "name" : "Nombre",

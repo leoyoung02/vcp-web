@@ -54,6 +54,7 @@ export class AppComponent implements OnInit {
     private _localService: LocalService,
     private _companyService: CompanyService
   ) {
+    this.setDefaultLanguage();
     this.setFavIcon(window.location.host);
   }
 
@@ -86,55 +87,16 @@ export class AppComponent implements OnInit {
 
   async setFavIcon(host) {
     let favIcon = "vistingo.com_favicon.ico";
-    let company =
-      this.customers &&
-      this.customers.find((c) => c.url == host || c.url == environment.company);
+    let company = this.customers?.find((c) => c.url == host || c.url == environment.company);
     if (company) {
-      this.companies = this._localService.getLocalStorage(
-        environment.lscompanies
-      )
-        ? JSON.parse(
-            this._localService.getLocalStorage(environment.lscompanies)
-          )
+      this.companies = this._localService.getLocalStorage(environment.lscompanies)
+        ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))
         : "";
       if (!this.companies) {
-        this.companies = get(
-          await this._companyService.getCompanies().toPromise(),
-          "companies"
-        );
+        this.companies = get(await this._companyService.getCompanies().toPromise(), "companies");
       }
+
       let comp = this._companyService.getCompany(this.companies);
-
-      if (comp && comp[0] && comp[0].id) {
-        this.language = this._localService.getLocalStorage(environment.lslang);
-        if (this.language) {
-          this._translateService.setDefaultLang(this.language);
-          this._translateService.use(this.language);
-        } else {
-          this.languages = get(
-            await this._companyService.getLanguages(comp[0].id).toPromise(),
-            "languages"
-          );
-          let default_language =
-            this.languages &&
-            this.languages.filter((l) => {
-              return l.default == 1;
-            });
-          if (default_language && default_language[0]) {
-            this._translateService.setDefaultLang(default_language[0].code);
-            this._translateService.use(default_language[0].code);
-            this._localService.setLocalStorage(
-              environment.lslang,
-              default_language[0].code
-            );
-          } else {
-            this.setDefaultLanguage();
-          }
-        }
-      } else {
-        this.setDefaultLanguage();
-      }
-
       if (comp && comp[0] && comp[0].favicon_image) {
         this.favIcon.href = `${this.logoImageSrc}/${
           comp[0].favicon_image || comp[0].image
@@ -143,13 +105,19 @@ export class AppComponent implements OnInit {
         this.favIcon.href = `./assets/favicon/${company.domain}_favicon.ico`;
       }
     } else {
-      this.setDefaultLanguage();
       this.favIcon.href = `./assets/favicon/${favIcon}`;
     }
   }
 
   setDefaultLanguage() {
-    this._translateService.setDefaultLang("es");
-    this._translateService.use("es");
+    let default_language = this._companyService.getCompanyDefaultLanguage();
+    
+    this._translateService.setDefaultLang(default_language);
+    this._translateService.use(default_language);
+    
+    this._localService.setLocalStorage(
+      environment.lslang,
+      default_language
+    );
   }
 }

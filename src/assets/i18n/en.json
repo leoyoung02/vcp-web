@@ -3356,7 +3356,8 @@
         "tiktokstats": "TikTok Statistics",
         "daterangedesc": "Select date range (maximum of 1 month). Click reset to set to default month",
         "noratingsyet": "No ratings yet",
-        "edittutor": "Edit tutor"
+        "edittutor": "Edit tutor",
+        "italian": "Italian"
     },
     "general-details": {
         "name" : "Name",

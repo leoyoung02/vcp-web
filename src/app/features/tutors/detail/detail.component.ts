@@ -171,8 +171,7 @@ export class TutorDetailComponent {
 
   async ngOnInit() {
     initFlowbite();
-    this.language =
-      this._localService.getLocalStorage(environment.lslang) || "es";
+    this.language = this._localService.getLocalStorage(environment.lslang) || "es";
     this._translateService.use(this.language || "es");
 
     this.emailDomain = this._localService.getLocalStorage(environment.lsemail);
@@ -360,6 +359,10 @@ export class TutorDetailComponent {
     this.tutorCalendlyUrlFixed = this.tutor?.calendly_url;
     this.tutorPersonalAccessToken = this.tutor?.personal_access_token;
 
+    if(this.tutor) {
+      this.tutor['languages'] = this.tutor?.languages || this.getDefaultLanguage();
+    }
+
     this.packages = data?.packages;
     let tutorCategory = data?.tutor_types;
     this.tutorTypeTags = data?.tutor_type_tags?.length > 0 ? data?.tutor_type_tags : [];
@@ -409,6 +412,21 @@ export class TutorDetailComponent {
     }
     this.hasCheckedCalendly = true;
     this.getCompanyCourses();
+  }
+
+  getDefaultLanguage() {
+    let language = '';
+    let default_language = this._companyService.getCompanyDefaultLanguage();
+    switch(default_language) {
+      case 'it':
+        language = this._translateService.instant('tutors.italian');
+        break;
+      default:
+        language = this._translateService.instant('tutors.spanish');
+        break;
+    }
+
+    return language;
   }
 
   getCompanyCourses() {

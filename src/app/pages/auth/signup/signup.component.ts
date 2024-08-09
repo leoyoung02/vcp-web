@@ -277,8 +277,6 @@ export class SignupComponent {
   imageSrc: string = environment.api + "/";
   myImage: any;
   hasImage: boolean = false;
-  isItalianDefault: boolean = false;
-  locale: any;
 
   constructor(
     private _router: Router,
@@ -326,16 +324,8 @@ export class SignupComponent {
       }
     }
 
-    if(this.companyId == 65 || window.location.host == 'cursogeniusitaly.vistingo.com') { this.isItalianDefault = true; }
-    if(this.isItalianDefault) {
-      this.language = 'it';
-      this.locale = 'it-IT';
-    } else {
-      this.locale = 'es-ES';
-    }
     this._translateService.use(this.language);
-    
-    this.dateAdapter.setLocale(this.locale);
+    this.dateAdapter.setLocale('es-ES');
     this.initData();
   }
 
