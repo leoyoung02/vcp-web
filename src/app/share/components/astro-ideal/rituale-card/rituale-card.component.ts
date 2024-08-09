@@ -26,23 +26,33 @@ export class RitualeCardComponent {
   @Input() language!: string;
 
   titleTranslator(item: any): string {
+    let title = "";
     switch (this.language) {
       case "en":
-        return item.en_title;
+        title = item.en_title;
+        break;
       case "es":
-        return item.es_title;
+        title = item.es_title;
+        break;
       case "fr":
-        return item.fr_title;
+        title = item.fr_title;
+        break;
       case "eu":
-        return item.eu_title;
+        title = item.eu_title;
+        break;
       case "ca":
-        return item.ca_title;
+        title = item.ca_title;
+        break;
       case "de":
-        return item.de_title;
+        title = item.de_title;
+        break;
       case "it":
-        return item.it_title;
+        title = item.it_title;
+        break;
       default:
-        return "dummy";
+        title = "dummy";
+        break;
     }
+    return title || item.es_title || "Empty";
   }
 }

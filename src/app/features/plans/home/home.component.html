@@ -1,7 +1,7 @@
 <div class="bg-[#EEE]">
   <div class="relative">
     <div class="relative pt-[245px] mb-20 z-10">
-      <div class="ml-14 hidden sm:hidden md:block lg:block">
+      <div class="ml-20 hidden sm:hidden md:block lg:block">
         <app-breadcrumb 
             [level1Title]="level1Title"
             [level2Title]="level2Title"
@@ -12,14 +12,36 @@
         />
       </div>
 
-      <div class="ml-24 mt-7">
-        <p class="mb-5 text-[40px] font-semibold">{{ 'landing.rituals' | translate }}</p>
-        <div class="flex items-center overflow-hidden relative min-h-[461px]">
-          <div class="relative flex-none mr-[168px] z-0 top-0 left-0 hidden 2xl:block">
+      <div class="ml-[120px] mt-12">
+        <p class="mb-6 text-[41px] font-semibold">{{ 'landing.events' | translate }}</p>
+        <div class="flex overflow-hidden relative">
+          <div class="relative flex-none mr-[280px] hidden 2xl:block">
             <!-- <div class="w-[723px] h-[375px] relative" #elementRef> -->
-            <div class="w-[723px] h-[500px] relative font-semibold text-white" #elementRef>
-              <div *ngFor="let subcategory of subcategories; let i = index;" class="absolute top-0 left-0 inline-block py-2 px-3 rounded-md max-w-[200px] truncate" [ngClass]="{'!hidden': (i>14)}">
-                {{ titleTranslator(subcategory) || subcategory.es_title || "Empty" }}
+            <div class="w-[461px] h-[457px] relative font-semibold text-white" #elementRef>
+              <div class="w-full max-w-full rounded-lg py-4 bg-transparent">
+                <app-plans-calendar
+                >
+                </app-plans-calendar>
+                <!-- [hasDateSelected]="hasDateSelected"
+                    [showPastEvents]="mode == 'history' ? true : showPastEvents"
+                    [joinedPlan]="joinedPlan"
+                    [courses]="courses"
+                    [groups]="groups"
+                    [courseCategoriesAccessRoles]="courseCategoriesAccessRoles"
+                    [allCourseCategories]="allCourseCategories"
+                    [courseCategoryMapping]="courseCategoryMapping"
+                    [admin1]="admin1"
+                    [admin2]="admin2"
+                    [superAdmin]="superAdmin"
+                    [calendarFilterMode]="calendarFilterMode"
+                    [canCreatePlan]="canCreatePlan"
+                    (handleCalendarDateChange)="handleCalendarDateChanged($event)" 
+                    (handleJoinChange)="handleJoinChanged($event)"
+                    (handleExitCalendarFilter)="exitCalendarEventMode()"
+                    [notifier]="childNotifier"
+                    [isUESchoolOfLife]="isUESchoolOfLife"
+                    [campus]="campus"
+                    [mode]="mode" -->
               </div>
             </div>
           </div>

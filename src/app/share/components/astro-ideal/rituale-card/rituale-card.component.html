@@ -8,7 +8,7 @@
         {{ subcategory.es_title }}
       </div> -->
       <div class="bg-[#D0D0D0] rounded-md w-20 truncate h-6 text-center text-black px-1" *ngFor="let subcategory of cardData.subcategories;">
-        {{ this.titleTranslator(subcategory) || "Empty" }}
+        {{ this.titleTranslator(subcategory) || subcategory.es_title || "Empty" }}
       </div>
     </div>
     <div class="pb-[3px]">

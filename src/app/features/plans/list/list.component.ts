@@ -11,6 +11,7 @@ import { environment } from "@env/environment";
 import { ActivatedRoute, Router } from "@angular/router";
 import { PlansService } from "@features/services";
 import { PlansCalendarComponent } from "../calendar/calendar.component";
+import { PlanHomeComponent } from "../home/home.component";
 import { SearchComponent } from "@share/components/search/search.component";
 import { 
   ButtonGroupComponent, 
@@ -18,7 +19,7 @@ import {
   IconFilterComponent, 
   PageTitleComponent, 
   AgeGroupFilterComponent, 
-  GroupFilterComponent 
+  GroupFilterComponent,
 } from "@share/components";
 import { NgxPaginationModule } from "ngx-pagination";
 import { PlanCardComponent } from "@share/components/card/plan/plan.component";
@@ -42,6 +43,7 @@ import get from "lodash/get";
     NgxPaginationModule,
     AgeGroupFilterComponent,
     GroupFilterComponent,
+    PlanHomeComponent
   ],
   templateUrl: "./list.component.html",
 })

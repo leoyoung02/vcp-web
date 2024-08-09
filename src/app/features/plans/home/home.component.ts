@@ -11,18 +11,18 @@ import { environment } from "@env/environment";
 import { ActivatedRoute, Router } from "@angular/router";
 import { SearchComponent } from "@share/components/search/search.component";
 import { PageTitleComponent } from "@share/components";
-import { ShopService } from "@features/services/shop/shop.service";
 import { ProductCardComponent } from "@share/components/card/product/product.component";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { RitualeCardComponent } from "@share/components/astro-ideal/rituale-card/rituale-card.component";
 import { BreadcrumbComponent } from "@share/components";
 import { ElementRef, ViewChild } from "@angular/core";
 import { CarouselComponent } from "@share/components/astro-ideal/carousel/carousel.component";
+import { PlansCalendarComponent } from "../calendar/calendar.component";
 
 import get from "lodash/get";
 
 @Component({
-  selector: "app-shop-home",
+  selector: "app-plan-home",
   standalone: true,
   imports: [
     CommonModule,
@@ -33,18 +33,17 @@ import get from "lodash/get";
     RitualeCardComponent,
     BreadcrumbComponent,
     CarouselComponent,
+    PlansCalendarComponent,
   ],
   templateUrl: "./home.component.html",
-  styleUrls: ["./home.component.css"],
+  styleUrls: [],
 })
-export class ShopHomeComponent {
+export class PlanHomeComponent {
   @ViewChild("elementRef", { static: false }) elementRef!: ElementRef;
   level1Title: string = "";
   level2Title: string = "";
   level3Title: string = "";
   level4Title: string = "";
-
-  magic_flag: number = 0;
 
   index = 0;
   items = [{ title: "Slide 1" }, { title: "Slide 2" }, { title: "Slide 3" }];
@@ -218,19 +217,19 @@ export class ShopHomeComponent {
   breadTranslator() {
     switch (this.language) {
       case "ca":
-        return { level1: "Inici", level2: "Rituals" };
+        return { level1: "Inici", level2: "Esdeveniments" };
       case "de":
-        return { level1: "Start", level2: "Rituale" };
+        return { level1: "Start", level2: "Veranstaltungen" };
       case "en":
-        return { level1: "Home", level2: "Rituals" };
+        return { level1: "Home", level2: "Events" };
       case "es":
-        return { level1: "Inicio", level2: "Rituales" };
+        return { level1: "Inicio", level2: "Eventos" };
       case "eu":
-        return { level1: "Hasi", level2: "Errituak" };
+        return { level1: "Hasi", level2: "Gertaerak" };
       case "fr":
-        return { level1: "Début", level2: "Rituels" };
+        return { level1: "Début", level2: "Événements" };
       case "it":
-        return { level1: "Inizio", level2: "Rituali" };
+        return { level1: "Inizio", level2: "Eventi" };
       default:
         return { level1: "Empty", level2: "Empty" };
     }
@@ -243,87 +242,6 @@ export class ShopHomeComponent {
     this.level4Title = "";
   }
 
-  getRandomColorAndFont(type = true) {
-    let colors1 = ["#725CAF", "#654DA8", "#543E91"];
-    let colors2 = ["#A77FE0", "#9A6BDC", "#A77FE0"];
-    let base_font = type ? 15 : 12;
-    let array = type ? colors1 : colors2;
-    let randomIndex = Math.floor(Math.random() * array.length);
-    let font = base_font + Math.random() * 5;
-    return { color: array[randomIndex], font };
-  }
-
-  magic() {
-    if (this.elementRef.nativeElement.children[0].style.transform != "")
-      return ;
-    if (this.elementRef.nativeElement.children.length == 0 || this.magic_flag)
-      return;
-
-    this.magic_flag = 1;
-    let length = this.subcategories.length - 1;
-    let start_x = 350,
-      start_y = 250;
-    this.subcategories.forEach((item, index) => {
-      if (index > 14) return;
-      const itemElement: HTMLElement =
-        this.elementRef.nativeElement.children[index];
-      let dimension = index > 6 ? 1 : 0;
-      if (index > 0) {
-        index -= 1;
-        let data = this.getRandomColorAndFont(dimension ? true : false);
-
-        let angle_unit = 360 / (dimension ? 8 : 6);
-        if ((index * angle_unit) % 180 < 30 && dimension) {
-          itemElement.style.fontSize = "0px";
-          return;
-        }
-        let angle = index * angle_unit + Math.floor(Math.random() * 10);
-        let radians = angle * (Math.PI / 180);
-        let radius_x = 200,
-          radius_y = 80;
-        if (dimension) (radius_x = 300), (radius_y = 200);
-        let x = radius_x * Math.cos(radians);
-        let y = radius_y * Math.sin(radians);
-        x = start_x + x;
-        y = start_y + y;
-
-        itemElement.style.backgroundColor = data.color;
-        itemElement.style.fontSize = data.font + "px";
-
-        const itemWidth = itemElement.offsetWidth;
-        const itemHeight = itemElement.offsetHeight;
-
-        x -= itemWidth / 2;
-        y -= itemHeight / 2;
-
-        itemElement.style.transform = `${
-          "translate(" + x + "px, " + y + "px)"
-        }`;
-      } else {
-        itemElement.style.backgroundColor = "#A77FE0";
-        itemElement.style.fontSize = "29px";
-
-        const itemWidth = itemElement.offsetWidth;
-        const itemHeight = itemElement.offsetHeight;
-
-        let x = start_x,
-          y = start_y;
-        x -= itemWidth / 2;
-        y -= itemHeight / 2;
-
-        itemElement.style.transform = `${
-          "translate(" + x + "px, " + y + "px)"
-        }`;
-      }
-    });
-  }
-
-  ngAfterViewChecked() {
-    if (this.subcategories.length > 0 && !this.magic_flag) {
-      this.magic();
-    }
-  }
-
   private destroy$ = new Subject<void>();
 
   @Input() parentComponent: any;
@@ -333,7 +251,6 @@ export class ShopHomeComponent {
   selected_subcategory: any = -1;
   pcategories: any[] = [];
   subcategories: any[] = [];
-  tagCloudItems: any[] = [];
   products: any[] = [];
   featured_products: any[] = [];
 
@@ -361,7 +278,6 @@ export class ShopHomeComponent {
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _companyService: CompanyService,
-    private _shopService: ShopService,
     private _location: Location
   ) {}
 
@@ -417,8 +333,6 @@ export class ShopHomeComponent {
   initializePage() {
     this.initializeBreadcrumb();
 
-    this.fetchShopCategories();
-
     this._companyService
       .getCompanyProfessionalCategories(this.companyId)
       .subscribe(
@@ -453,38 +367,6 @@ export class ShopHomeComponent {
             de_title: item.subcategory_de,
             it_title: item.subcategory_it,
           }));
-          this.tagCloudItems = this.subcategories.filter((item) => {
-            let title = "";
-            switch (this.language) {
-              case "en":
-                title = item.en_title || item.es_title;
-                break;
-              case "es":
-                title = item.es_title;
-                break;
-              case "fr":
-                title = item.fr_title || item.es_title;
-                break;
-              case "eu":
-                title = item.eu_title || item.es_title;
-                break;
-              case "ca":
-                title = item.ca_title || item.es_title;
-                break;
-              case "de":
-                title = item.de_title || item.es_title;
-                break;
-              case "it":
-                title = item.it_title || item.es_title;
-                break;
-              default:
-                title = "dummy" || item.es_title;
-                break;
-            }
-            if(title.length > 15) return false;
-            return true;
-          });
-          this.magic_flag = 0;
         },
         (error) => {
           console.log(error);
@@ -578,107 +460,6 @@ export class ShopHomeComponent {
       default:
         return "dummy";
     }
-  }
-
-  fetchShopCategories() {
-    this._shopService
-      .fetchShopCategories(this.companyId)
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        (data) => {
-          this.formatCategories(data?.categories, data?.shop_products);
-        },
-        (error) => {
-          console.log(error);
-        }
-      );
-  }
-
-  formatCategories(categories, products) {
-    let data;
-    if (categories?.length > 0) {
-      data = categories?.map((item) => {
-        return {
-          ...item,
-          name: this.getCategoryName(item),
-          description: this.getCategoryDescription(item),
-          no_items: this.getCategoryItems(item, products)?.length || 0,
-          label:
-            item?.type == "services"
-              ? this._translateService.instant("news.services")?.toLowerCase()
-              : this._translateService.instant("shop.products")?.toLowerCase(),
-          image: `${this.apiPath}/get-ie-image-plan/${item.image}`,
-        };
-      });
-    }
-
-    this.categories = data;
-  }
-
-  getCategoryName(category) {
-    return this.language == "en"
-      ? category.name_en
-        ? category.name_en || category.name_es
-        : category.name_es
-      : this.language == "fr"
-      ? category.name_fr
-        ? category.name_fr || category.name_es
-        : category.name_es
-      : this.language == "eu"
-      ? category.name_eu
-        ? category.name_eu || category.name_es
-        : category.name_es
-      : this.language == "ca"
-      ? category.name_ca
-        ? category.name_ca || category.name_es
-        : category.name_es
-      : this.language == "de"
-      ? category.name_de
-        ? category.name_de || category.name_es
-        : category.name_es
-      : this.language == "it"
-      ? category.name_it
-        ? category.name_it || category.name_es
-        : category.name_es
-      : category.name_es;
-  }
-
-  getCategoryDescription(category) {
-    return this.language == "en"
-      ? category.description_en
-        ? category.description_en || category.description_es
-        : category.description_es
-      : this.language == "fr"
-      ? category.description_fr
-        ? category.description_fr || category.description_es
-        : category.description_es
-      : this.language == "eu"
-      ? category.description_eu
-        ? category.description_eu || category.description_es
-        : category.description_es
-      : this.language == "ca"
-      ? category.description_ca
-        ? category.description_ca || category.description_es
-        : category.description_es
-      : this.language == "de"
-      ? category.description_de
-        ? category.description_de || category.description_es
-        : category.description_es
-      : this.language == "it"
-      ? category.description_it
-        ? category.description_it || category.description_es
-        : category.description_es
-      : category.description_es;
-  }
-
-  getCategoryItems(category, products) {
-    return products?.filter((product) => {
-      return product?.category_id == category.id;
-    });
-  }
-
-  goToCategoryPage(category) {
-    this._router.navigate([`/shop/list/${category.id}`]);
   }
 
   ngOnDestroy() {
