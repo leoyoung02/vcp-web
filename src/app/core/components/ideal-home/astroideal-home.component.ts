@@ -2,7 +2,7 @@ import { Component, Input } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { StarRatingComponent } from "@lib/components";
 import { IdealButtonComponent } from "@share/components/ideal-button/ideal-button.component";
-import { TarotCardComponent } from "@share/components";
+import { FreeServicesComponent, TarotCardComponent } from "@share/components";
 import { faArrowRight } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { CategoryCardComponent } from "@share/components/category-card/category-card.component";
@@ -21,6 +21,7 @@ import { Router, RouterModule } from "@angular/router";
   imports: [
     CommonModule,
     RouterModule,
+    TranslateModule,
     StarRatingComponent,
     TarotCardComponent,
     IdealButtonComponent,
@@ -29,7 +30,7 @@ import { Router, RouterModule } from "@angular/router";
     TarotCardPortraitComponent,
     BlogCardComponent,
     TestimonialCardComponent,
-    TranslateModule,
+    FreeServicesComponent,
   ],
 })
 export class AstroIdealHomeComponent {
@@ -97,6 +98,30 @@ export class AstroIdealHomeComponent {
     }
   }
 
+  getranslatedProfessionalDescription(profile: any): string {
+    return profile
+      ? this.language == "en"
+        ? profile.description_en ||
+          profile.description_es
+        : this.language == "fr"
+        ? profile.description_fr ||
+          profile.description_es
+        : this.language == "eu"
+        ? profile.description_eu ||
+          profile.description_es
+        : this.language == "ca"
+        ? profile.description_ca ||
+          profile.description_es
+        : this.language == "de"
+        ? profile.description_de ||
+          profile.description_es
+        : this.language == "it"
+        ? profile.description_it ||
+          profile.description_es
+        : profile.description_es
+      : "";
+  }
+
   async initializePage() {
     this._companyService.getCompanyProfessionals(this.companyId).subscribe(
       (response) => {
@@ -104,7 +129,7 @@ export class AstroIdealHomeComponent {
           id: item.id,
           title: item.user.name,
           image: `${environment.api}/${item.user.image}`,
-          description: item.user.who_am_i,
+          description: this.getranslatedProfessionalDescription(item),
           rating: item.experience,
           salary: `${item.rate_currency} ${item.rate}`,
           rate: item.rate,
@@ -123,8 +148,15 @@ export class AstroIdealHomeComponent {
     this._companyService
       .getCompanyProfessionalCategories(this.companyId)
       .subscribe(
-        (response) => {
-          this.categories = response.categories.slice(0, 5).map((item) => ({
+        (response) => { 
+          let images = [
+            '/src/assets/images/ideal_home/dollar.png',
+            '/src/assets/images/ideal_home/snow.png',
+            '/src/assets/images/ideal_home/human.png',
+            '/src/assets/images/ideal_home/energy.png',
+            '/src/assets/images/ideal_home/rune.png'
+          ]
+          this.categories = response.categories.slice(0, 5).map((item, index) => ({
             id: item.id,
             en_title: item.category_en,
             es_title: item.category_es,
@@ -133,6 +165,7 @@ export class AstroIdealHomeComponent {
             eu_title: item.category_eu,
             de_title: item.category_de,
             it_title: item.category_it,
+            image: images[index]
           }));
         },
         (error) => {

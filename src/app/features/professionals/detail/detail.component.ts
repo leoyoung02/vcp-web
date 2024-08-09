@@ -22,10 +22,9 @@ import {
   HoverRatingChangeEvent,
   RatingChangeEvent
 } from 'angular-star-rating';
-import { NgImageSliderModule } from 'ng-image-slider';
 import { ChatService, ProfessionalsService, VoiceCallService } from "@features/services";
 import { FormsModule } from "@angular/forms";
-import { ChatComponent, ToastComponent } from "@share/components";
+import { ChatComponent, MultimediaContentComponent, RatingReviewsComponent, SpecialtiesComponent, ToastComponent } from "@share/components";
 import { initFlowbite } from "flowbite";
 import { timer } from "@lib/utils/timer/timer.utils";
 import { environment } from "@env/environment";
@@ -40,10 +39,12 @@ import get from "lodash/get";
     TranslateModule,
     MatSnackBarModule,
     StarRatingModule,
-    NgImageSliderModule,
     FormsModule,
     ToastComponent,
     ChatComponent,
+    RatingReviewsComponent,
+    SpecialtiesComponent,
+    MultimediaContentComponent,
   ],
   templateUrl: "./detail.component.html",
 })
@@ -248,6 +249,76 @@ export class ProfessionalDetailComponent {
       );
   }
 
+  getProfessionalTitle() {
+    let title = '';
+    if(this.professional) {
+      title = this.getTitleText(this.professional);
+    }
+
+    if(!title && this.professional) {
+      title = `${this._translateService.instant('post-survey.hello')} ${this._translateService.instant('professionals.iam')} ${this.professional?.first_name || this.professional?.name}`;
+    }
+
+    return title;
+  }
+
+  getProfessionalDescription() {
+    let description = '';
+    if(this.professional) {
+      description = this.getDescriptionText(this.professional);
+    }
+
+    return description;
+  }
+
+  getTitleText(profile) {
+    return profile
+      ? this.language == "en"
+        ? profile.profile_title_en ||
+          profile.profile_title_es
+        : this.language == "fr"
+        ? profile.profile_title_fr ||
+          profile.profile_title_es
+        : this.language == "eu"
+        ? profile.profile_title_eu ||
+          profile.profile_title_es
+        : this.language == "ca"
+        ? profile.profile_title_ca ||
+          profile.profile_title_es
+        : this.language == "de"
+        ? profile.profile_title_de ||
+          profile.profile_title_es
+        : this.language == "it"
+        ? profile.profile_title_it ||
+          profile.profile_title_es
+        : profile.profile_title_es
+      : "";
+  }
+
+  getDescriptionText(profile) {
+    return profile
+      ? this.language == "en"
+        ? profile.description_en ||
+          profile.description_es
+        : this.language == "fr"
+        ? profile.description_fr ||
+          profile.description_es
+        : this.language == "eu"
+        ? profile.description_eu ||
+          profile.description_es
+        : this.language == "ca"
+        ? profile.description_ca ||
+          profile.description_es
+        : this.language == "de"
+        ? profile.description_de ||
+          profile.description_es
+        : this.language == "it"
+        ? profile.description_it ||
+          profile.description_es
+        : profile.description_es
+      : "";
+  }
+
   formatCategories(categories) {
     return categories?.map((item) => {
       return {
@@ -335,7 +406,7 @@ export class ProfessionalDetailComponent {
   formatImages(images) {
     images = images?.map((item) => {
       return {
-        image: `${environment.api}/v3/image/professionals/gallery/${item.image}`
+        image: `${environment.api}/${item.image}`
       };
     });
 
@@ -564,7 +635,7 @@ export class ProfessionalDetailComponent {
     if(this.userId > 0) {
       this.actionMode = 'videocall';
       
-      if(this.hasRequiredMinimumBalance()) {
+      if(this.hasRequiredMinimumBalance('videocall')) {
         this.display = '';
 
         const channel = `agora-vcp-video-${this.selectedId}-${this.userId}`;
@@ -728,20 +799,33 @@ export class ProfessionalDetailComponent {
       })
   }
 
+  getRate(mode: string = '') {
+    let rate = this.professional?.rate;
+    if(mode == 'videocall' && this.professional?.video_call_rate) {
+      rate = this.professional?.video_call_rate;
+    } else if(mode == 'chat' && this.professional?.chat_rate) {
+      rate = this.professional?.chat_rate;
+    }
+
+    return rate;
+  }
+
   hasRequiredMinimumBalance(mode: string = '') {
     let valid = true;
 
-    let requiredMinimumBalance = this.minimumBalance > 0 ? (this.professional?.rate * this.minimumBalance) : 0;
+    let rate = this.getRate(mode);
+
+    let requiredMinimumBalance = this.minimumBalance > 0 ? (rate * this.minimumBalance) : 0;
     if(!(this.minimumBalance > 0 && this.user?.available_balance >= (requiredMinimumBalance))) {
       valid = false;
-      this.showRequiredMinimumBalanceMessage(mode);
+      this.showRequiredMinimumBalanceMessage(mode, rate);
     }
 
     return valid;
   }
 
-  showRequiredMinimumBalanceMessage(mode: string = '') {
-    let minimumAmount = parseFloat((this.professional?.rate * this.minimumBalance)?.toString()).toFixed(2);
+  showRequiredMinimumBalanceMessage(mode: string = '', rate) {
+    let minimumAmount = parseFloat((rate * this.minimumBalance)?.toString()).toFixed(2);
     let amountInText =  `(${this.professional?.rate_currency} ${minimumAmount})`;
     let actionModeText = this._translateService.instant(`professionals.${this.actionMode}`);
     this.showRequiredMinimumBalanceModal = false;

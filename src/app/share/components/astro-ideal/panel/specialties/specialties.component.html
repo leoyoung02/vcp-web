@@ -1,0 +1,7 @@
+<div class="flex gap-2 items-center">
+    <ng-container *ngFor="let item of specialties">
+        <div class="opacity-50 rounded-lg p-2" [ngStyle]="{'background-color': buttonColor}">
+            <img [src]="item.image" class="w-8 h-8 object-contain" width="56" height="56" loading="lazy" />
+        </div>
+    </ng-container>
+</div>

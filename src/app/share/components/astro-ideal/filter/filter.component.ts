@@ -18,7 +18,7 @@ import { FormsModule } from "@angular/forms";
   templateUrl: "./filter.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FilterComponent {
+export class ProfessionalFilterComponent {
     @Input() isMobile;
     @Input() buttonColor;
     @Input() list: any;

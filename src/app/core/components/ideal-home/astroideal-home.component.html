@@ -114,7 +114,7 @@
             <app-category-card
               [cardData]="{
                 title: this.titleTranslator(category),
-                image: '/src/assets/images/ideal_home/dollar.png'
+                image: category.image
               }"
             />
           </ng-container>
@@ -157,25 +157,12 @@
     </div>
   </div>
 
-  <div class="justify-center flex mt-[160px]">
-    <p class="font-semibold text-[35px] text-center">
-      {{ "professionals.gettoknowourfreeresources" | translate }}
-    </p>
-  </div>
-
-  <div class="mt-24 md:container md:mx-auto">
-    <div
-      class="grid gap-x-14 gap-y-6 grid-rows-4 grid-cols-1 md:grid-rows-2 md:grid-cols-2 xl:grid-rows-1 xl:grid-cols-4"
-    >
-
-      <ng-container *ngFor="let service of services">
-        <div class="flex justify-center">
-          <app-blog-card [cardData]="{ title: titleTranslator(service), description: descriptionTranslator(service) }" />
-        </div>
-      </ng-container>
-    </div>
-  </div>
-
+  <app-free-services
+    [services]="services"
+    [language]="language"
+    page="home">
+  </app-free-services>
+  
   <div class="flex justify-center mt-20">
     <div (click)="navigateToPage('/free-services')"
       class="hover:cursor-pointer py-4 px-5 bg-gradient-to-r from-[#A77FE0] to-[#874FD5] text-2xl font-semibold text-white rounded-md"

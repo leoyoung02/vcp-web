@@ -85,6 +85,7 @@ export class NotificationsComponent {
     message: any;
     canAccept: boolean = false;
     contactFormSubmitted: boolean = false;
+    navigation: string = 'side-menu';
     @ViewChild("modalbutton", { static: false }) modalbutton:
     | ElementRef
     | undefined;
@@ -141,6 +142,7 @@ export class NotificationsComponent {
           this.buttonColor = company[0].button_color
             ? company[0].button_color
             : company[0].primary_color;
+          this.navigation = company[0].navigation;
         }
     
         this.languageChangeSubscription =

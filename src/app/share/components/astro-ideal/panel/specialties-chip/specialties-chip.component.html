@@ -1,0 +1,68 @@
+<div class="flex items-center gap-2">
+    <ng-container *ngIf="selectedSubcategories?.length > 0">
+        <span *ngFor="let item of selectedSubcategories">
+            <span id="badge-dismiss-default-{{ item.id }}" 
+                class="inline-flex items-center px-2 py-1 me-2 text-sm font-medium rounded-[6px] border border-1"
+                [ngStyle]="{'color': buttonColor, 'border-color': buttonColor}">
+                {{ item.text }}
+                <button type="button" class="inline-flex items-center p-1 ms-2 text-sm bg-transparent rounded-sm hover:bg-purple-200 hover:text-purple-900" 
+                    [ngClass]="{'color': buttonColor}"
+                    (click)="onDeSelectCategory(item)"
+                    [attr.data-dismiss-target]="'#badge-dismiss-default-' + item.id" aria-label="Remove">
+                    <svg class="w-2 h-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                    </svg>
+                    <span class="sr-only">Remove badge</span>
+                </button>
+            </span>
+        </span>
+    </ng-container>
+    <button class="w-6 h-6 flex items-center justify-center rounded-full" [ngStyle]="{'background-color': buttonColor}"
+        (click)="addSpecialty()">
+        <svg class="w-5 h-5 text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14m-7 7V5"/>
+        </svg>      
+    </button> 
+</div>
+<button #modalbutton2 data-modal-target="item-modal2" data-modal-toggle="item-modal2" class="hidden block text-white bg-white hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800" type="button">
+    &nbsp;
+</button>
+<div id="item-modal2" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+    <div class="relative w-full max-h-full max-w-lg">
+        <div class="relative bg-white rounded-lg shadow">
+            <button #closemodalbutton2 type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="item-modal2">
+                <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
+                </svg>
+                <span class="sr-only">Close modal</span>
+            </button>
+            <div class="px-6 py-6 lg:px-8">
+                <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
+                    {{ 'professionals.specialties' | translate }}
+                </h3>
+                <div>
+                    <ng-multiselect-dropdown
+                        placeholder="{{ 'signup.select' | translate }}"
+                        [settings]="dropdownSettings"
+                        [data]="subcategories"
+                        [(ngModel)]="selectedSubcategories"
+                        [ngModelOptions]="{standalone: true}"
+                        (onSelect)="handleChangeCategory($event)"
+                        (onDeSelect)="onDeSelectCategory($event)"
+                    >
+                    </ng-multiselect-dropdown>
+                </div>
+                <div class="mt-8 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
+                    <button 
+                        class="w-full text-white focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        [ngStyle]="{'background-color': !(selectedSubcategories?.length > 0) ? '#c7c7c7' : buttonColor}"
+                        [disabled]="!(selectedSubcategories?.length > 0)"
+                        (click)="saveSelection()"
+                    >
+                        {{ 'company-settings.save' | translate }}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

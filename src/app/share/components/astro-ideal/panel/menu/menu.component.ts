@@ -36,6 +36,7 @@ export class PanelMenuComponent {
   @Input() buttonColor: any;
   @Input() primaryColor: any;
   @Input() list: any;
+  @Input() selectedMenu: any;
   @Output() onMenuClick = new EventEmitter();
 
   languageChangeSubscription;

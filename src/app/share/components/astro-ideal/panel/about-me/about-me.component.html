@@ -1,0 +1,73 @@
+<div class="flex flex-col sm:flex-col md:flex-row lg:flex-row gap-12 relative">
+    <div class="w-full max-w-full relative">
+        <div class="flex items-center justify-between mb-8">
+            <div class="font-semibold text-base">{{ 'user-panel.aboutme' | translate }}</div>
+            <div class="flex items items-center">
+                <ng-container *ngIf="supportedLanguages?.length > 1">
+                    <div>
+                        <app-button-group class="flex justify-end"
+                            [buttonColor]="buttonColor"
+                            [buttonList]="supportedLanguages"
+                            (onButtonClick)="handleChangeLanguageFilter($event)"
+                        >
+                        </app-button-group>
+                    </div>
+                    <div class="ml-4">
+                        <button (click)="saveAboutMe()" class="bg-[#D9D9D9] rounded-[7px] py-2 px-6 flex items-center justify-center">
+                            <svg class="w-6 h-6 textblack" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z"/>
+                            </svg>
+                            <span class="ml-2 text-base font-semibold">{{ 'your-admin-area.save' | translate }}</span>
+                        </button>
+                    </div>
+                </ng-container>
+            </div>
+        </div>
+        <form [formGroup]="aboutMeForm" autocomplete="off" class="relative">
+            <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1 mb-6">
+                <label for="{{'profile_title_' + selectedLanguage}}" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    <div class="flex items-center justify-between">
+                        <div>{{ 'user-panel.profiletitle' | translate }}</div>
+                    </div>
+                </label>
+                <input 
+                    *ngIf="selectedLanguage == 'es'"
+                    id="profile_title_es"
+                    type="text" 
+                    class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                    formControlName="profile_title_es" 
+                    placeholder="{{ 'user-panel.profiletitle' | translate }}">
+                <input 
+                    *ngIf="selectedLanguage == 'en'"
+                    id="profile_title_en"
+                    type="text" 
+                    class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                    formControlName="profile_title_en" 
+                    placeholder="{{ 'user-panel.profiletitle' | translate }}">
+            </div>
+            <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1 mb-6">
+                <label for="{{'description_' + selectedLanguage}}" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    <div class="flex items-center justify-between">
+                        <div>{{ 'landing.description' | translate }}</div>
+                    </div>
+                </label>
+                <div class="flex items-center justify-center">
+                    <textarea  
+                        *ngIf="selectedLanguage == 'es'"
+                        id="description_es" cols="30" rows="6"
+                        class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                        placeholder="{{ 'buddy.message' | translate }}"
+                        formControlName="description_es">
+                    </textarea>
+                    <textarea  
+                        *ngIf="selectedLanguage == 'en'"
+                        id="description_en" cols="30" rows="6"
+                        class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none"
+                        placeholder="{{ 'buddy.message' | translate }}"
+                        formControlName="description_en">
+                    </textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

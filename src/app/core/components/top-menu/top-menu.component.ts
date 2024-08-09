@@ -14,7 +14,7 @@ import { LangChangeEvent, TranslateModule, TranslateService } from "@ngx-transla
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { FormsModule } from "@angular/forms";
 import { GuestMenuComponent } from "../guest-menu/guest-menu.component";
-import { FloatingTarotReadersComponent } from "@share/components/astro-ideal/floating-tarot-readers/floating-tarot-readers.component";
+import { FloatingTarotReadersComponent } from "@share/components";
 import { Subject } from "rxjs";
 import { initFlowbite } from "flowbite";
 import { MenuIcon } from "@lib/interfaces";
@@ -62,6 +62,8 @@ export class TopMenuComponent {
   @Input() homePage: any;
   @Input() professionals: any;
   @Input() categories: any;
+  @Input() customMemberTypeId: any;
+  @Input() hasBlog: any;
 
   logoSrc: string = COMPANY_IMAGE_URL;
   companyName: any;
@@ -70,6 +72,8 @@ export class TopMenuComponent {
   languageChangeSubscription;
   navigationSubscription;
   companyId: any;
+  showFloatingProfessionals: any = false;
+  left: any;
   
   constructor(
     private _router: Router,
@@ -138,22 +142,40 @@ export class TopMenuComponent {
   }
 
   navigateToPage(menu) {
-    let link = menu?.path == 'home' ? '/' : menu?.path
+    let link = menu?.path == 'home' ? '/' : menu?.path;
     this.goToPage(link);
   }
 
-  goToPage(link) {
-    this._router.navigate([link])
-    .then(() => {
-      window.location.reload();
-    });
+  goToPage(link, type: string = '') {
+    if(type == 'panel') {
+      if(this.company?.id == 67 && this.customMemberTypeId == 327) {
+        link += '/professional';
+      } else {
+        link += '/user';
+      }
+      this._router.navigate([link])
+      .then(() => {
+        window.location.reload();
+      });
+    } else {
+      this._router.navigate([link]);
+    }
   }
 
   getFormattedAvailableBalanceAmount(user) {
     let currency = user?.currency || 'EUR';
-    let amount = user?.available_balance || 0;
+    let amount = user?.available_balance || '0,00';
     let amount_in_text = `${currency} ${amount?.toString()?.replace('.', ',')}`;
     return amount_in_text;
+  }
+
+  handleSecondaryMenuClick(left) {
+    if(this.left != left) {
+      this.showFloatingProfessionals = true;
+    } else {
+      this.showFloatingProfessionals = !this.showFloatingProfessionals;
+    }
+    this.left = left;
   }
 
   ngOnDestroy() {

@@ -8,7 +8,7 @@ import {
   Input,
   ViewChild,
 } from "@angular/core";
-import { NavigationEnd, Router } from "@angular/router";
+import { ActivatedRoute, NavigationEnd, Router } from "@angular/router";
 import { environment } from "@env/environment";
 import { TranslateModule, TranslateService } from "@ngx-translate/core";
 import { LocalService, CompanyService, UserService } from "@share/services";
@@ -250,6 +250,8 @@ export class LayoutMainComponent {
   professionals: any = [];
   subcategories: any = [];
   subcategoryMapping: any = [];
+  customMemberTypeId: any;
+  hasBlog: boolean = false;
 
   @ViewChild("outsidebutton", { static: false }) outsidebutton:
     | ElementRef
@@ -259,6 +261,7 @@ export class LayoutMainComponent {
     | undefined;
 
   constructor(
+    private _route: ActivatedRoute,
     private _router: Router,
     private _localService: LocalService,
     private _companyService: CompanyService,
@@ -284,6 +287,13 @@ export class LayoutMainComponent {
         this.isWall = false;
         if(this._router.url?.indexOf("activity-feed/wall") >= 0) {
           this.isWall = true;
+        }
+        
+        if(this._router.url) {
+          if(this._router.url == '/') {
+            this.homePage = true;
+          }
+          this.cd.detectChanges();
         }
       }
     });
@@ -361,7 +371,6 @@ export class LayoutMainComponent {
       this.courseWallMenu = company[0].course_wall_menu;
       this.navigation = company[0].navigation || 'side-menu';
       this.isCursoGeniusTestimonials = this._companyService.isCursoGeniusTestimonials(company[0]);
-      this.homePage = this.companyId == 67 && (window.location.href == `https://${this.company.url}/` || window.location.href == 'http://localhost:4200/') ? true : false;
     }
 
     this.features = this._localService.getLocalStorage(environment.lsfeatures)
@@ -427,6 +436,13 @@ export class LayoutMainComponent {
         this.subscribeVideoCall();
         this.subscribeChat();
         if(this.hasProfessionals && this.navigation == 'top-menu') { this.initializeTopMenu(); }
+      }
+
+      let blogFeature = this.features.filter((f) => {
+        return f.feature_name == "Blog";
+      });
+      if (blogFeature && blogFeature[0]) {
+        this.hasBlog = true;
       }
     }
 
@@ -770,6 +786,7 @@ export class LayoutMainComponent {
       })
 
       if(member_type && member_type.length > 0) {
+        this.customMemberTypeId = member_type[0].id;
         this.customMemberTypeName = this.language == 'en' ? (member_type[0].type) : (this.language == 'fr' ? (member_type[0].type_fr || member_type[0].type_es) : 
             (this.language == 'eu' ? (member_type[0].type_eu || member_type[0].type_es) : (this.language == 'ca' ? (member_type[0].type_ca || member_type[0].type_es) : 
             (this.language == 'de' ? (member_type[0].type_de || member_type[0].type_es) : (member_type[0].type_es))
@@ -2017,7 +2034,13 @@ export class LayoutMainComponent {
               this.menus.push(tempData);
             }
           } else {
-            this.menus.push(tempData);
+            if(this.companyId == 67) {
+              if(tempData?.id != 21) {
+                this.menus.push(tempData);
+              }
+            } else {
+              this.menus.push(tempData);
+            }
           }
         }
       }
@@ -2860,11 +2883,19 @@ export class LayoutMainComponent {
       };
     });
 
-    this.categories = data?.categories?.map((category) => {
+    this.categories = data?.categories?.map((category, index) => {
+      let left = [
+        '2',
+        '13',
+        '27',
+        '39',
+        '44'
+      ]
       return {
         ...category,
         name: this.getCategoryText(category),
         image: `${environment.api}/v3/image/professionals/category/${category.image}`,
+        left: left[index]
       };
     });
   }
