@@ -274,7 +274,7 @@ export class ShopHomeComponent {
 
         let angle_unit = 360 / (dimension ? 8 : 6);
         if ((index * angle_unit) % 180 < 30 && dimension) {
-          itemElement.style.fontSize = "0px";
+          if(itemElement) { itemElement.style.fontSize = "0px"; }
           return;
         }
         let angle = index * angle_unit + Math.floor(Math.random() * 10);
@@ -287,18 +287,20 @@ export class ShopHomeComponent {
         x = start_x + x;
         y = start_y + y;
 
-        itemElement.style.backgroundColor = data.color;
-        itemElement.style.fontSize = data.font + "px";
+        if(itemElement) {
+          itemElement.style.backgroundColor = data.color;
+          itemElement.style.fontSize = data.font + "px";
 
-        const itemWidth = itemElement.offsetWidth;
-        const itemHeight = itemElement.offsetHeight;
-
-        x -= itemWidth / 2;
-        y -= itemHeight / 2;
-
-        itemElement.style.transform = `${
-          "translate(" + x + "px, " + y + "px)"
-        }`;
+          const itemWidth = itemElement.offsetWidth;
+          const itemHeight = itemElement.offsetHeight;
+  
+          x -= itemWidth / 2;
+          y -= itemHeight / 2;
+  
+          itemElement.style.transform = `${
+            "translate(" + x + "px, " + y + "px)"
+          }`;
+        }
       } else {
         itemElement.style.backgroundColor = "#A77FE0";
         itemElement.style.fontSize = "29px";

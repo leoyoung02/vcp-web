@@ -233,6 +233,9 @@ dependencies:
   pre-push:
     specifier: ^0.1.4
     version: 0.1.4
+  prebuilt-the..:
+    specifier: link:node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-the..
+    version: link:node_modules/ngx-owl-carousel-o/lib/styles/prebuilt-the..
   pusher-js:
     specifier: 8.4.0-rc2
     version: 8.4.0-rc2
