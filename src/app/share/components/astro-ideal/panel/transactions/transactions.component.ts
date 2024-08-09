@@ -222,6 +222,29 @@ export class TransactionsComponent {
                 'paid',
                 'pending'
             ]
+        } else {
+            if(this.isAdmin) {
+                this.displayedColumns = [
+                    'service_type', 
+                    'date_time', 
+                    'invoice_minutes', 
+                    'price_per_minute', 
+                    'platform_percentage', 
+                    'total', 
+                    'professional',
+                    'customer'
+                ]
+            } else {
+                this.displayedColumns = [
+                    'service_type', 
+                    'date_time', 
+                    'invoice_minutes', 
+                    'price_per_minute', 
+                    'platform_percentage', 
+                    'total', 
+                    'customer'
+                ]
+            }
         }
 
         if(this.selectedStartDate && this.selectedEndDate) {
