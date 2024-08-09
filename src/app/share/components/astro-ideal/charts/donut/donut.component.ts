@@ -13,15 +13,14 @@ import {
     NgApexchartsModule,
     ChartComponent,
     ApexLegend,
-    ApexDataLabels,
     ApexFill,
+    ApexDataLabels,
   } from "ng-apexcharts";
 
-export type PieChartOptions = {
+export type DonutChartOptions = {
     series: ApexNonAxisChartSeries;
     chart: ApexChart;
     responsive: ApexResponsive[];
-    labels: any;
     legend: ApexLegend;
     dataLabels: ApexDataLabels;
     fill: ApexFill,
@@ -29,19 +28,19 @@ export type PieChartOptions = {
 };
 
 @Component({
-  selector: "app-astro-ideal-pie-chart",
+  selector: "app-astro-ideal-donut",
   standalone: true,
   imports: [
     CommonModule, 
     FormsModule,
     NgApexchartsModule,
   ],
-  templateUrl: "./pie-chart.component.html",
+  templateUrl: "./donut.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PieChartComponent {
+export class DonutComponent {
     @ViewChild("chart") chart: ChartComponent | undefined;
-    public chartOptions: Partial<PieChartOptions> | any;
+    public chartOptions: Partial<DonutChartOptions> | any;
 
     constructor(private cd: ChangeDetectorRef) { }
 
@@ -52,12 +51,13 @@ export class PieChartComponent {
     }
 
     generateChart() {
+        console.log('generateChart', this.chartOptions)
         this.chartOptions = {
-            series: [16.6, 16.6, 16.6, 16.6, 16.6, 16.6],
+            series: [44, 55, 41, 17, 15],
+            labels: ["Nombre servicio", "Nombre servicio", "Nombre servicio", "Nombre servicio", "Nombre servicio"],
             chart: {
-                type: "pie"
+                type: "donut"
             },
-            labels: ["Contacto", "Dinero", "Relaciones", "Cuerpo", "Energía", "Espiritualidad"],
             responsive: [
               {
                 breakpoint: 480,
@@ -78,20 +78,19 @@ export class PieChartComponent {
                 enabled: true,
                 formatter(value: any, opts: any): any {
                     var label = opts.w.globals.labels[opts.seriesIndex];
-                    var val = parseFloat(value).toFixed(2) + "%";
-                    return [label, val];
-                }
+                    var val = parseFloat(value).toFixed(1) + "%";
+                    return [val, label];
+                },
             },
             fill: {
-                type: "gradient"
+                type: "gradient",
             },
             colors: [
-                "#7F35E8",
-                "#767AF6",
-                "#2E3191",
-                "#D3145A",
-                "#AE6CC6",
-                "#C6A2F8"
+                "#A77FE0",
+                "#3D107D",
+                "#8039E5",
+                "#D8C5F2",
+                "#543E91"
             ],
         };
         this.cd.detectChanges();

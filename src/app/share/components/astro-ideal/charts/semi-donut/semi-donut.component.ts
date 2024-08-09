@@ -1,7 +1,9 @@
 import { CommonModule } from "@angular/common";
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  Input,
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
@@ -42,10 +44,12 @@ export type SemiDonutChartOptions = {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SemiDonutComponent {
+    @Input() currentDate: any;
+    
     @ViewChild("chart") chart: ChartComponent | undefined;
     public chartOptions: Partial<SemiDonutChartOptions> | any;
 
-    constructor() { }
+    constructor(private cd: ChangeDetectorRef) { }
 
     ngOnInit() {
         setTimeout(() => {
@@ -54,7 +58,6 @@ export class SemiDonutComponent {
     }
 
     generateChart() {
-        console.log('generateChart', this.chartOptions)
         this.chartOptions = {
             series: [56, 44],
             labels: ["Julio 30"],
@@ -88,7 +91,6 @@ export class SemiDonutComponent {
                 enabled: true,
                 formatter(value: any, opts: any): any {
                     if(opts && opts.seriesIndex == 0) {
-                        console.log('opts', opts)
                         return parseFloat(value).toFixed(1) + "%";
                     }
                 },
@@ -101,5 +103,6 @@ export class SemiDonutComponent {
                 "#D9D9D9"
             ],
         };
+        this.cd.detectChanges();
     }
 }

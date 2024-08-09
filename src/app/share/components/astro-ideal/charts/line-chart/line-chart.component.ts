@@ -3,51 +3,60 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  Input,
   ViewChild,
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import {
-    ApexNonAxisChartSeries,
-    ApexResponsive,
-    ApexChart,
     NgApexchartsModule,
     ChartComponent,
-    ApexLegend,
-    ApexDataLabels,
-    ApexFill,
+    ApexAxisChartSeries,
+    ApexChart,
     ApexXAxis,
-    ApexPlotOptions,
+    ApexDataLabels,
+    ApexTitleSubtitle,
+    ApexStroke,
     ApexGrid,
+    ApexFill,
+    ApexMarkers,
+    ApexYAxis,
+    ApexResponsive,
+    ApexLegend
   } from "ng-apexcharts";
 
-export type BarChartOptions = {
-    series: ApexNonAxisChartSeries;
+export type LineChartOptions = {
+    series: ApexAxisChartSeries;
     chart: ApexChart;
-    responsive: ApexResponsive[];
-    labels: any;
-    legend: ApexLegend;
-    dataLabels: ApexDataLabels;
-    fill: ApexFill,
-    colors: any;
-    plotOptions: ApexPlotOptions;
     xaxis: ApexXAxis;
+    dataLabels: ApexDataLabels;
     grid: ApexGrid;
+    fill: ApexFill;
+    markers: ApexMarkers;
+    yaxis: ApexYAxis;
+    stroke: ApexStroke;
+    title: ApexTitleSubtitle;
+    responsive: ApexResponsive;
+    legend: ApexLegend;
+    colors: any;
 };
 
 @Component({
-  selector: "app-astro-ideal-bar-chart",
+  selector: "app-astro-ideal-line-chart",
   standalone: true,
   imports: [
     CommonModule, 
     FormsModule,
     NgApexchartsModule,
   ],
-  templateUrl: "./bar-chart.component.html",
+  templateUrl: "./line-chart.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BarChartComponent {
+export class LineChartComponent {
+    @Input() labels: any;
+    @Input() data: any;
+    
     @ViewChild("chart") chart: ChartComponent | undefined;
-    public chartOptions: Partial<BarChartOptions> | any;
+    public chartOptions: Partial<LineChartOptions> | any;
 
     constructor(private cd: ChangeDetectorRef) { }
 
@@ -61,17 +70,22 @@ export class BarChartComponent {
         this.chartOptions = {
             series: [
                 {
-                    name: '#',
-                    data: [540, 470, 448, 430, 400]
+                    name: 'Invoice',
+                    data: this.data
                 }
             ],
             chart: {
-                type: "bar",
+                height: 90,
+                type: "line",
                 toolbar: {
                     show: false
                 }
             },
-            labels: ["Evento 1", "Evento 2", "Evento 3", "Evento 4", "Evento 5"],
+            stroke: {
+                width: 10,
+                curve: "smooth"
+            },
+            labels: this.labels,
             responsive: [
               {
                 breakpoint: 480,
@@ -93,14 +107,16 @@ export class BarChartComponent {
             },
             fill: {
                 type: "gradient",
+                gradient: {
+                    shade: "dark",
+                    gradientToColors: ["#A77FE0"],
+                    shadeIntensity: 1,
+                    type: "horizontal",
+                    opacityFrom: 1,
+                    opacityTo: 1,
+                    stops: [0, 100, 100, 100]
+                }
             },
-            colors: [
-                "#8352C8",
-                "#A77FE0",
-                "#B59ED5",
-                "#D5BCF7",
-                "#E3DCEE"
-            ],
             plotOptions: {
                 bar: {
                     distributed: true,
@@ -108,15 +124,13 @@ export class BarChartComponent {
                 }
             },
             xaxis: {
-                axisBorder: {
-                    show: false
-                },
-                axisTicks: {
-                    show: false
-                },
-                labels: {
-                    show: false
-                }
+                type: "category",
+                categories: this.labels
+            },
+            yaxis: {
+                show: false,
+                min: 0,
+                forceNiceScale: true,
             },
             grid: {
                 show: false,
@@ -130,7 +144,12 @@ export class BarChartComponent {
                         show: false
                     }
                 },
-            }
+                padding: {
+                    left: 40,
+                    right: 40
+                },
+            },
+            colors: ["#A77FE0"]
         };
         this.cd.detectChanges();
     }

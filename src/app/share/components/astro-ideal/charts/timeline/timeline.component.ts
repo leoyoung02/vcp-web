@@ -7,47 +7,50 @@ import {
 } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import {
-    ApexNonAxisChartSeries,
+    ApexAxisChartSeries,
     ApexResponsive,
     ApexChart,
     NgApexchartsModule,
     ChartComponent,
     ApexLegend,
-    ApexDataLabels,
     ApexFill,
     ApexXAxis,
     ApexPlotOptions,
     ApexGrid,
+    ApexYAxis,
+    ApexDataLabels,
   } from "ng-apexcharts";
+import moment from "moment";
 
-export type BarChartOptions = {
-    series: ApexNonAxisChartSeries;
+export type TimelineOptions = {
+    series: ApexAxisChartSeries;
     chart: ApexChart;
     responsive: ApexResponsive[];
     labels: any;
     legend: ApexLegend;
-    dataLabels: ApexDataLabels;
     fill: ApexFill,
     colors: any;
     plotOptions: ApexPlotOptions;
     xaxis: ApexXAxis;
+    yaxis: ApexYAxis; 
     grid: ApexGrid;
+    dataLabels: ApexDataLabels;
 };
 
 @Component({
-  selector: "app-astro-ideal-bar-chart",
+  selector: "app-astro-ideal-timeline",
   standalone: true,
   imports: [
     CommonModule, 
     FormsModule,
     NgApexchartsModule,
   ],
-  templateUrl: "./bar-chart.component.html",
+  templateUrl: "./timeline.component.html",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class BarChartComponent {
+export class TimelineComponent {
     @ViewChild("chart") chart: ChartComponent | undefined;
-    public chartOptions: Partial<BarChartOptions> | any;
+    public chartOptions: Partial<TimelineOptions> | any;
 
     constructor(private cd: ChangeDetectorRef) { }
 
@@ -61,17 +64,25 @@ export class BarChartComponent {
         this.chartOptions = {
             series: [
                 {
-                    name: '#',
-                    data: [540, 470, 448, 430, 400]
+                    data: [
+                        {
+                            x: "Invoice",
+                            y: [
+                                new Date("2024-08-05").getTime(),
+                                new Date("2024-08-12").getTime(),
+                                new Date("2024-08-19").getTime(),
+                                new Date("2024-08-26").getTime(),
+                            ]
+                        }
+                    ]
                 }
             ],
             chart: {
-                type: "bar",
+                type: "rangeBar",
                 toolbar: {
                     show: false
                 }
             },
-            labels: ["Evento 1", "Evento 2", "Evento 3", "Evento 4", "Evento 5"],
             responsive: [
               {
                 breakpoint: 480,
@@ -95,19 +106,34 @@ export class BarChartComponent {
                 type: "gradient",
             },
             colors: [
-                "#8352C8",
-                "#A77FE0",
-                "#B59ED5",
-                "#D5BCF7",
-                "#E3DCEE"
+                "#A77FE0"
             ],
             plotOptions: {
                 bar: {
                     distributed: true,
-                    horizontal: true
+                    horizontal: true,
+                    height: "20%"
                 }
             },
             xaxis: {
+                type: "datetime",
+                labels: {
+                    formatter: function (val: any) {
+                        let formatted_date = moment(new Date(val)).format('YYYY-MM-DD');
+                        var date = new Date(formatted_date);
+
+                        let adjustedDate = date.getDate()+ date.getDay();
+                        let prefixes = ['0', '1', '2', '3', '4', '5'];
+                        let week = (parseInt(prefixes[0 | adjustedDate / 7]) + 1);
+                        
+                        let week_text = "Semana " + week;
+
+                        return week_text;
+                    }
+                }
+            },
+            yaxis: {
+                show: false,
                 axisBorder: {
                     show: false
                 },
@@ -119,17 +145,17 @@ export class BarChartComponent {
                 }
             },
             grid: {
-                show: false,
+                show: false,   
                 xaxis: {
                     lines: {
-                        show: false
+                        show: true
                     }
-                },   
+                },
                 yaxis: {
                     lines: {
                         show: false
                     }
-                },
+                }
             }
         };
         this.cd.detectChanges();

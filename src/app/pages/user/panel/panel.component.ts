@@ -13,6 +13,8 @@ import {
   AboutMeComponent,
   BarChartComponent,
   BreadcrumbComponent,
+  DonutComponent,
+  LineChartComponent,
   MultimediaContentComponent,
   PageTitleComponent,
   PanelMenuComponent,
@@ -21,6 +23,7 @@ import {
   PricePerServiceComponent,
   RadialProgressComponent,
   SemiDonutComponent,
+  StackedBarChartComponent,
   ToastComponent,
   TransactionsComponent
 } from "@share/components";
@@ -53,6 +56,9 @@ import get from "lodash/get";
     PieChartComponent,
     SemiDonutComponent,
     BarChartComponent,
+    DonutComponent,
+    StackedBarChartComponent,
+    LineChartComponent,
   ],
   templateUrl: "./panel.component.html"
 })
@@ -120,6 +126,14 @@ export class UserPanelComponent {
   companyName: any;
   transactions: any = [];
   currentMonth: any;
+  
+  weekLabels: any = [];
+  weekData: any = [];
+  monthLabels: any = [];
+  monthData: any = [];
+  currentDay: any;
+  currentYear: any;
+  currentDate: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -678,6 +692,20 @@ export class UserPanelComponent {
     this.invoiceTotal = invoiceTotal || 0;
     this.currentInvoiceTotal = currentInvoiceTotal || 0;
     this.transactions = transactions || [];
+
+    this.initializeCharts();
+  }
+
+  initializeCharts() {
+    this.currentDay = moment().locale(this.language).format('MMMM D, YYYY');
+    this.weekLabels = ["Semana 1", "Semana 2", "Semana 3", "Semana 4"];
+    this.weekData = [1, 1.1, null, null];
+
+    this.currentDate = moment().locale(this.language).format('MMMM D');
+
+    this.currentYear = moment().format('YYYY');
+    this.monthLabels = ["E", "F", "M", "A", "M", "J", "J", "A", "S", "O", "N", "D"];
+    this.monthData = [1, 1.1, 1.15, 1.2, 1.21, 1.22, 1.23, 1.25, null, null, null, null];
   }
 
   handleDateChange(event) {

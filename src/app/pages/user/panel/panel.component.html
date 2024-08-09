@@ -187,29 +187,48 @@
     <div class="text-lg">{{ 'customer.dashboard' | translate }}</div>
     <hr class="h-px mt-1 mb-8 bg-gray-200 border-0">
     <div class="w-full max-w-full mb-4">
-        <div class="flex justify-between gap-4">
-            <div class="shadow w-3/12 flex-none rounded-[15px] border border-1 border-[#CCCACA] p-4">
+        <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between gap-4">
+            <div class="shadow w-full sm:w-full md:w-3/12 lg:w-3/12 flex-none rounded-[15px] border border-1 border-[#CCCACA] p-4">
                 <div class="text-base text-center mb-8">{{ 'user-panel.professionalcontactservices' | translate }}</div>
                 <app-astro-ideal-pie-chart></app-astro-ideal-pie-chart>
             </div>
             <div class="shadow grow rounded-[15px] border border-1 border-[#d3d4d6] p-4">
-                <div class="text-base text-center mb-8">{{ 'user-panel.billingyearandmonth' | translate }}</div>
+                <div class="text-base text-center">{{ 'user-panel.billingyearandmonth' | translate }}</div>
+                
+                <div class="ml-10">
+                    <div class="text-xl font-medium text-[#42C604] leading-5">{{ currentInvoiceTotal | currency: (me?.currency || 'EUR') : 'code' : '1.2' : language }}</div>
+                    <div class="text-sm font-medium text-[#677173] capitalize">{{ currentDay }}</div>
+                </div>
+                <app-astro-ideal-line-chart [labels]="weekLabels" [data]="weekData"></app-astro-ideal-line-chart>
+                
+                <div class="ml-10">
+                    <div class="text-xl font-medium text-[#42C604] leading-5">{{ invoiceTotal | currency: (me?.currency || 'EUR') : 'code' : '1.2' : language }}</div>
+                    <div class="text-sm font-medium text-[#677173]">{{ currentYear }}</div>
+                </div>
+                <app-astro-ideal-line-chart [labels]="monthLabels" [data]="monthData"></app-astro-ideal-line-chart>
             </div>
-            <div class="shadow w-1/6 flex-none rounded-[15px] border border-1 border-[#d3d4d6] p-4">
+            <div class="shadow w-full sm:w-full md:w-1/6 lg:w-1/6 flex-none rounded-[15px] border border-1 border-[#d3d4d6] p-4">
                 <div class="text-base text-center mb-8">{{ 'user-panel.activitypercentage' | translate }}</div>
-                <app-astro-ideal-semi-donut></app-astro-ideal-semi-donut>
-                <app-astro-ideal-semi-donut></app-astro-ideal-semi-donut>
+                <app-astro-ideal-semi-donut [currentDate]="currentDate"></app-astro-ideal-semi-donut>
+                <div class="mt-10">
+                    <app-astro-ideal-semi-donut [currentDate]="currentDate"></app-astro-ideal-semi-donut>
+                </div>
             </div>
         </div>
     </div>
     <div class="w-full max-w-full mb-16">
-        <div class="flex justify-between gap-4">
-            <div class="shadow w-4/12 flex-none rounded-[15px] border border-1 border-[#CCCACA] p-4">
+        <div class="flex flex-col sm:flex-col md:flex-row lg:flex-row justify-between gap-4">
+            <div class="shadow w-full sm:w-full md:w-4/12 lg:w-4/12 flex-none rounded-[15px] border border-1 border-[#CCCACA] p-4">
                 <div class="text-base text-center mb-8">{{ 'user-panel.highlightedevents' | translate }}</div>
                 <app-astro-ideal-bar-chart></app-astro-ideal-bar-chart>
             </div>
             <div class="shadow flex-grow rounded-[15px] border border-1 border-[#CCCACA] p-4">
                 <div class="text-base text-center mb-8">{{ 'user-panel.percentageservices' | translate }}</div>
+                <div class="flex gap-4 mt-16">
+                    <app-astro-ideal-donut></app-astro-ideal-donut>
+                    <app-astro-ideal-donut></app-astro-ideal-donut>
+                    <app-astro-ideal-donut></app-astro-ideal-donut>
+                </div>
             </div>
         </div>
     </div>

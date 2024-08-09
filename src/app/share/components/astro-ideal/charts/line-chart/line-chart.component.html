@@ -3,14 +3,16 @@
         #chart
         [series]="chartOptions.series"
         [chart]="chartOptions.chart"
-        [labels]="chartOptions.labels"
+        [xaxis]="chartOptions.xaxis"
+        [dataLabels]="chartOptions.dataLabels"
         [grid]="chartOptions.grid"
-        [plotOptions]="chartOptions.plotOptions"
+        [stroke]="chartOptions.stroke"
+        [title]="chartOptions.title"
+        [markers]="chartOptions.markers"
+        [yaxis]="chartOptions.yaxis"
+        [fill]="chartOptions.fill"
         [responsive]="chartOptions.responsive"
         [legend]="chartOptions.legend"
-        [dataLabels]="chartOptions.dataLabels"
-        [fill]="chartOptions.fill"
         [colors]="chartOptions.colors"
     ></apx-chart>
 </div>
-<div class="text-center -mt-[98px] capitalize">{{ currentDate }}</div>
