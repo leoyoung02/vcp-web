@@ -18,7 +18,7 @@
           <div class="relative flex-none mr-[168px] z-0 top-0 left-0 hidden 2xl:block">
             <!-- <div class="w-[723px] h-[375px] relative" #elementRef> -->
             <div class="w-[723px] h-[500px] relative font-semibold text-white" #elementRef>
-              <div *ngFor="let subcategory of subcategories; let i = index;" class="absolute top-0 left-0 inline-block py-2 px-3 rounded-md max-w-[200px] truncate" [ngClass]="{'!hidden': (i>14)}">
+              <div *ngFor="let subcategory of tagCloudItems; let i = index;" class="absolute top-0 left-0 inline-block py-2 px-3 rounded-md max-w-[200px] truncate" [ngClass]="{'!hidden': (i>14)}">
                 {{ titleTranslator(subcategory) || subcategory.es_title || "Empty" }}
               </div>
             </div>
