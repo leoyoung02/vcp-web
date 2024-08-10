@@ -291,17 +291,28 @@ export class LayoutMainComponent {
         }
         
         if(this._router.url) {
-          if(this._router.url == '/') {
-            this.homePage = true;
-          } else {
-            if(this._router.url == '/shop') {
-              this.shopPage = true;
-            }
-          }
+          this.mapRoutes(this._router.url);
           this.cd.detectChanges();
         }
       }
     });
+  }
+
+  mapRoutes(url) {
+    switch(url) {
+      case '/':
+        this.homePage = true;
+        break;
+      case '/shop':
+        this.shopPage = true;
+        break;
+      case '/professionals':
+        this.professionalsListPage = true;
+        break;
+      case '/call':
+        this.callPage = true;
+        break;
+    }
   }
 
   @HostListener("window:resize", [])
@@ -312,8 +323,6 @@ export class LayoutMainComponent {
   async ngOnInit() {
     this.onResize();
     this.pageInit = true;
-    this.callPage = window.location.href?.indexOf("/call/") >= 0 ? true : false;
-    this.professionalsListPage = window.location.href?.indexOf("/professionals") >= 0 && window.location.href?.indexOf("/professionals/details") < 0 ? true : false;
     this.userId = this._localService.getLocalStorage(environment.lsuserId);
     this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
     if (!this._localService.getLocalStorage(environment.lslang)) { this._localService.setLocalStorage(environment.lslang, "es"); }
