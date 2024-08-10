@@ -309,7 +309,7 @@ export class TestimonialsAdminListComponent {
   }
 
   handleCreateRoute() {
-    this._router.navigate([`/testimonials/create`]);
+    this._router.navigate([`/testimonials/create/0`]);
   }
 
   handleSearch(event) {
