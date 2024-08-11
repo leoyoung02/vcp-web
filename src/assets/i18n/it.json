@@ -2133,6 +2133,7 @@
         "name_eu": "Nome (UE)",
         "name_ca": "Nome (CA)",
         "name_de": "Nome (DE)",
+        "name_it": "Nome (IT)",
         "action": "Azione",
         "noresultsfound": "Nessun risultato trovato",
         "createcategory": "Crea una nuova categoria",
@@ -2548,7 +2549,18 @@
         "asyourquestion": "Fai la tua domanda",
         "personalaccesstoken": "Token di accesso personale",
         "newquestion": "Nuova domanda",
-        "newreference": "Nuovo riferimento"
+        "newreference": "Nuovo riferimento",
+        "clicktocreatetoken": "Clicca qui per sapere come creare un token di accesso personale?",
+        "createpersonalaccesstoken": "Crea un token di accesso personale",
+        "followstepstocreatetoken": "Segui i passaggi seguenti per generare il tuo token di accesso personale",
+        "calendlytokenstep2": "opzione sotto Token di accesso personali",
+        "calendlytokenstep2option": "Ottieni un token adesso",
+        "calendlytokenstep3dilaog": "Vedrai una finestra di dialogo con il titolo",
+        "calendlytokenstep3dialogtitle": "Prima di iniziare",
+        "calendlytokenstep4": "Clicca sopra",
+        "calendlytokenstep5": "In Crea il tuo token di accesso personale, crea un nome identificabile per il tuo token e fai clic sul pulsante",
+        "calendlytokenstep5button": "Crea token",
+        "calendlytokenstep6": "Copia e incolla il tuo token di accesso personale"
     },
     "email": {
         "emails": "E-mail",

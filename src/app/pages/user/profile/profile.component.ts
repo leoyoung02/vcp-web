@@ -386,14 +386,16 @@ export class ProfileComponent {
       idField: 'id',
       textField: this.language == 'en' ? 'name_EN' :
       (this.language == 'fr' ? 'name_FR' : 
-      (this.language == 'eu' ? 'name_EU' : 
-      (this.language == 'ca' ? 'name_CA' : 
-      (this.language == 'de' ? 'name_DE' : 'name_ES')
-      )
-      )
-        ),
-        selectAllText: this._translateService.instant('dialog.selectall'),
-        unSelectAllText: this._translateService.instant('dialog.clearall'),
+        (this.language == 'eu' ? 'name_EU' : 
+          (this.language == 'ca' ? 'name_CA' : 
+            (this.language == 'de' ? 'name_DE' :
+              (this.language == 'it' ? 'name_IT' : 'name_ES')
+            )
+          )
+        )
+      ),
+      selectAllText: this._translateService.instant('dialog.selectall'),
+      unSelectAllText: this._translateService.instant('dialog.clearall'),
       itemsShowLimit: 5,
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search')
@@ -1093,17 +1095,48 @@ export class ProfileComponent {
               })
             })
           }
-          this.selectedCourseTutorType  = temp.map( category => {
-            return {
-              id: category?.id,
-              name_EN: category?.name_EN,
-              name_ES: category?.name_ES,
-              name_CA: category?.name_CA,
-              name_DE: category?.name_DE,
-              name_EU: category?.name_EU,
-              name_FR: category?.name_FR
+          this.selectedCourseTutorType = temp
+          .map(category => {
+            const { id, name_EN, name_ES, name_FR, name_EU, name_CA, name_DE, name_IT } = category
+            
+            if(this.language == 'en') {
+              return {
+                id,
+                name_EN
+              }
+            } else if(this.language == 'fr') {
+              return {
+                id,
+                name_FR
+              }
+            } else if(this.language == 'eu') {
+              return {
+                id,
+                name_EU
+              }
+            } else if(this.language == 'ca') {
+              return {
+                id,
+                name_CA
+              }
+            } else if(this.language == 'de') {
+              return {
+                id,
+                name_DE
+              }
+            } else if(this.language == 'it') {
+              return {
+                id,
+                name_IT
+              }
+            } else {
+              return {
+                id,
+                name_ES
+              }
             }
           })
+
           if (this.me) {
             if (
               this.me.fk_company_id == 32 &&
