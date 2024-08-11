@@ -42,11 +42,6 @@ import customersData from "src/assets/data/customers.json";
 import { provideServiceWorker } from '@angular/service-worker';
 
 import { registerLocaleData } from '@angular/common';
-import localeEs from '@angular/common/locales/es';
-
-registerLocaleData(localeEs);
-
-import { registerLocaleData } from '@angular/common';
 import localeEn from '@angular/common/locales/en';
 import localeEs from '@angular/common/locales/es';
 import localeFr from '@angular/common/locales/fr';
