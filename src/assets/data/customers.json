@@ -243,7 +243,8 @@
         "id": 42,  
         "name": "Eliku nutrizio aholkularitza",
         "url": "eliku.vistingo.com",
-        "domain": "elikuzentrua.com"
+        "domain": "elikuzentrua.com",
+        "language": "eu"
     },
     {  
         "id": 43,  
@@ -417,13 +418,15 @@
         "id": 65,  
         "name": "Curso Genius Italy",
         "url": "cursogeniusitaly.vistingo.com",
-        "domain": "cursogeniusitaly.com"
+        "domain": "cursogeniusitaly.com",
+        "language": "it"
     },
     {
         "id": 65,  
         "name": "Corso Genio",
         "url": "corsogenio.vistingo.com",
-        "domain": "cursogeniusitaly.com"
+        "domain": "cursogeniusitaly.com",
+        "language": "it"
     },
     {
         "id": 66,  

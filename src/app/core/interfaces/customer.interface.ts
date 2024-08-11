@@ -3,4 +3,5 @@ export interface Customer {
     name: string;  
     url: string;
     domain: string;
+    language?: string;
 }

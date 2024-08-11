@@ -99,7 +99,7 @@
                             [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': submitted &&tutorUserCalendlyURL && !tutorPersonalAccessToken }"
                             >
                             <button  type="button" (click)="openTokenDialog()"> 
-                                <span class="text-left block text-sm font-medium text-gray-900 dark:text-white">
+                                <span class="underline text-blue-600 text-left block text-sm font-medium dark:text-white">
                                     {{ 'members.clicktocreatetoken' | translate }}
                                 </span>
                             </button>
@@ -122,19 +122,18 @@
                 </div>
                 <div class="flex items-center justify-center relative mb-4 col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
                     <div class="w-full max-w-full">
-                        <label for="tags" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            {{'tutors.tutorsince' | translate}}
-                        </label>
-                        <mat-form-field class="w-full datetime-picker-field"
-                        >
-                            <input 
-                                matInput 
-                                [ngxMatDatetimePicker]="picker" 
-                                placeholder="{{ 'tutors.tutorsince' | translate }}" 
+                        <mat-form-field class="w-full datetime-picker-field">
+                            <mat-label>{{'company-reports.startdate' | translate}}</mat-label>
+                            <input matInput [matDatepicker]="startpickerdate" placeholder="{{'tutors.tutorsince' | translate}}" 
                                 [(ngModel)]="tutorUserSinceDate"
                                 [ngModelOptions]="{standalone: true}">
-                            <ngx-mat-datepicker-toggle matSuffix [for]="picker"></ngx-mat-datepicker-toggle>
-                            <ngx-mat-datetime-picker [hideTime]="true" [showSeconds]="false" #picker></ngx-mat-datetime-picker>
+                            <mat-datepicker-toggle matIconSuffix [for]="startpickerdate"></mat-datepicker-toggle>
+                            <mat-datepicker #startpickerdate>
+                                <mat-datepicker-actions>
+                                    <button mat-button matDatepickerCancel class="uppercase mr-8 text-cyan-400 mb-6 font-semibold">{{ 'settings.cancel' | translate }}</button>
+                                    <button mat-raised-button color="primary" matDatepickerApply class="uppercase mr-8 text-cyan-400 mb-6 font-semibold">{{ 'company-settings.apply' | translate }}</button>
+                                </mat-datepicker-actions>
+                            </mat-datepicker>
                         </mat-form-field>
                     </div>
                 </div>

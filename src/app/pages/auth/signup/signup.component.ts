@@ -321,9 +321,6 @@ export class SignupComponent {
         this.privacyPolicyURLCa = company[0].privacy_policy_url_ca;
         this.privacyPolicyURLDe = company[0].privacy_policy_url_de;
         this.canShowPrivacyPolicy = company[0].show_privacy_policy == 1 ? true : false;
-        if(this.companyId == 65 && this.language == 'es') {
-          this.language = 'it';
-        }
       }
     }
 

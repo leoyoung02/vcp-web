@@ -2026,4 +2026,10 @@ export class CompanyService {
 
     return result;
   }
+
+  getCompanyDefaultLanguage(): any {
+    let host = window.location.host;
+    let customer = this.customers?.find((c) => c.url == host || c.url == environment.company);
+    return customer?.language || 'es';
+  }
 }

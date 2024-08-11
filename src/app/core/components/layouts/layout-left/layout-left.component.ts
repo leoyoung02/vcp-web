@@ -53,7 +53,7 @@ export class LayoutLeftComponent {
     private router: Router,
     private cd: ChangeDetectorRef
   ) {
-    this.language = this._localService.getLocalStorage(environment.lslanguage);
+    this.language = this._localService.getLocalStorage(environment.lslang);
     this._translateService.setDefaultLang(this.language || "es");
     this._translateService.use(this.language || "es");
   }
@@ -66,7 +66,7 @@ export class LayoutLeftComponent {
     this.email = this._localService.getLocalStorage(environment.lsemail);
     this.language =
       this._localService.getLocalStorage(environment.lslang) ||
-      this._localService.getLocalStorage(environment.lslanguage);
+      this._localService.getLocalStorage(environment.lslang);
 
     this.companies = this._localService.getLocalStorage(environment.lscompanies)
       ? JSON.parse(this._localService.getLocalStorage(environment.lscompanies))

@@ -1595,7 +1595,7 @@ export class CourseDetailComponent {
               this.selectNextUnit();
             } else {
               this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
-              if(response['total_progress'] != 100) {
+              if(response['total_progress'] != 100 && this.companyId != 52 && this.companyId != 65) {
                 this.goToNextLesson()
               }
             }

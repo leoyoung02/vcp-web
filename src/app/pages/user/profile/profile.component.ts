@@ -386,14 +386,16 @@ export class ProfileComponent {
       idField: 'id',
       textField: this.language == 'en' ? 'name_EN' :
       (this.language == 'fr' ? 'name_FR' : 
-      (this.language == 'eu' ? 'name_EU' : 
-      (this.language == 'ca' ? 'name_CA' : 
-      (this.language == 'de' ? 'name_DE' : 'name_ES')
-      )
-      )
-        ),
-        selectAllText: this._translateService.instant('dialog.selectall'),
-        unSelectAllText: this._translateService.instant('dialog.clearall'),
+        (this.language == 'eu' ? 'name_EU' : 
+          (this.language == 'ca' ? 'name_CA' : 
+            (this.language == 'de' ? 'name_DE' :
+              (this.language == 'it' ? 'name_IT' : 'name_ES')
+            )
+          )
+        )
+      ),
+      selectAllText: this._translateService.instant('dialog.selectall'),
+      unSelectAllText: this._translateService.instant('dialog.clearall'),
       itemsShowLimit: 5,
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search')
@@ -587,7 +589,7 @@ export class ProfileComponent {
   }
 
   async getCustomProfileFields() {
-    this.memberTypeId = this.me.custom_member_type_id;
+    this.memberTypeId = this.me?.custom_member_type_id;
     if (this.memberTypeId && this.memberTypeId > 0) {
       if (this.customMemberTypes) {
         let user_custom_member_type = this.customMemberTypes.filter((mt) => {
@@ -623,10 +625,24 @@ export class ProfileComponent {
                 field_display_en: p.field_display_en,
                 field_display_es: p.field_display_es,
                 field_display_fr: p.field_display_fr,
+                field_display_eu: p.field_display_eu,
+                field_display_ca: p.field_display_ca,
+                field_display_de: p.field_display_de,
+                field_display_it: p.field_display_it,
                 field_group_en: p.field_group_en,
                 field_group_es: p.field_group_es,
+                field_group_fr: p.field_group_fr,
+                field_group_eu: p.field_group_eu,
+                field_group_ca: p.field_group_ca,
+                field_group_de: p.field_group_de,
+                field_group_it: p.field_group_it,
                 field_desc_en: p.field_desc_en,
                 field_desc_es: p.field_desc_es,
+                field_desc_fr: p.field_desc_fr,
+                field_desc_eu: p.field_desc_eu,
+                field_desc_ca: p.field_desc_ca,
+                field_desc_de: p.field_desc_de,
+                field_desc_it: p.field_desc_it,
                 field: p.field,
                 required: p.required,
                 created_at: p.created_at,
@@ -668,14 +684,27 @@ export class ProfileComponent {
                 company_id: this.companyId,
                 field: reg_field[0].field,
                 field_type: reg_field[0].field_type,
+                field_display_es: reg_field[0].field_display_es,
                 field_display_en: reg_field[0].field_display_en,
                 field_display_fr: reg_field[0].field_display_fr,
+                field_display_eu: reg_field[0].field_display_eu,
+                field_display_ca: reg_field[0].field_display_ca,
+                field_display_de: reg_field[0].field_display_de,
+                field_display_it: reg_field[0].field_display_it,
                 field_group_en: reg_field[0].field_group_en,
                 field_group_es: reg_field[0].field_group_es,
                 field_group_fr: reg_field[0].field_group_fr,
+                field_group_eu: reg_field[0].field_group_eu,
+                field_group_ca: reg_field[0].field_group_ca,
+                field_group_de: reg_field[0].field_group_de,
+                field_group_it: reg_field[0].field_group_it,
                 field_desc_en: reg_field[0].field_desc_en,
                 field_desc_es: reg_field[0].field_desc_es,
                 field_desc_fr: reg_field[0].field_desc_fr,
+                field_desc_eu: reg_field[0].field_desc_eu,
+                field_desc_ca: reg_field[0].field_desc_ca,
+                field_desc_de: reg_field[0].field_desc_de,
+                field_desc_it: reg_field[0].field_desc_it,
                 show: field.show == 1 ? true : false,
                 required: reg_field[0].required,
                 created_at: reg_field[0].created_at,
@@ -710,12 +739,24 @@ export class ProfileComponent {
               field_display_en: f.field_display_en,
               field_display_es: f.field_display_es,
               field_display_fr: f.field_display_fr,
+              field_display_eu: f.field_display_eu,
+              field_display_ca: f.field_display_ca,
+              field_display_de: f.field_display_de,
+              field_display_it: f.field_display_it,
               field_group_en: f.field_group_en,
               field_group_es: f.field_group_es,
               field_group_fr: f.field_group_fr,
+              field_group_eu: f.field_group_eu,
+              field_group_ca: f.field_group_ca,
+              field_group_de: f.field_group_de,
+              field_group_it: f.field_group_it,
               field_desc_en: f.field_desc_en,
               field_desc_es: f.field_desc_es,
               field_desc_fr: f.field_desc_fr,
+              field_desc_eu: f.field_desc_eu,
+              field_desc_ca: f.field_desc_ca,
+              field_desc_de: f.field_desc_de,
+              field_desc_it: f.field_desc_it,
               show: true,
               required: f.required,
               created_at: f.created_at,
@@ -734,6 +775,10 @@ export class ProfileComponent {
             field_group_en: "",
             field_group_es: "",
             field_group_fr: "",
+            field_group_eu: "",
+            field_group_ca: "",
+            field_group_de: "",
+            field_group_it: "",
             fields: selected_fields,
           },
         ];
@@ -1050,17 +1095,48 @@ export class ProfileComponent {
               })
             })
           }
-          this.selectedCourseTutorType  = temp.map( category => {
-            return {
-              id: category?.id,
-              name_EN: category?.name_EN,
-              name_ES: category?.name_ES,
-              name_CA: category?.name_CA,
-              name_DE: category?.name_DE,
-              name_EU: category?.name_EU,
-              name_FR: category?.name_FR
+          this.selectedCourseTutorType = temp
+          .map(category => {
+            const { id, name_EN, name_ES, name_FR, name_EU, name_CA, name_DE, name_IT } = category
+            
+            if(this.language == 'en') {
+              return {
+                id,
+                name_EN
+              }
+            } else if(this.language == 'fr') {
+              return {
+                id,
+                name_FR
+              }
+            } else if(this.language == 'eu') {
+              return {
+                id,
+                name_EU
+              }
+            } else if(this.language == 'ca') {
+              return {
+                id,
+                name_CA
+              }
+            } else if(this.language == 'de') {
+              return {
+                id,
+                name_DE
+              }
+            } else if(this.language == 'it') {
+              return {
+                id,
+                name_IT
+              }
+            } else {
+              return {
+                id,
+                name_ES
+              }
             }
           })
+
           if (this.me) {
             if (
               this.me.fk_company_id == 32 &&
@@ -1270,6 +1346,7 @@ export class ProfileComponent {
     this.imageChangedEvent = event;
     const file = event.target.files[0];
     if (file.size > 2000000) {
+      this.open(this._translateService.instant("dialog.fileuploadlimitdesc"), "");
     } else {
       initFlowbite();
       setTimeout(() => {
@@ -1283,6 +1360,7 @@ export class ProfileComponent {
     this.imageChangedEvent = event;
     const file = event.target.files[0];
     if (file.size > 2000000) {
+      this.open(this._translateService.instant("dialog.fileuploadlimitdesc"), "");
     } else {
       initFlowbite();
       setTimeout(() => {
@@ -1358,32 +1436,9 @@ export class ProfileComponent {
   }
 
   save() {
-    this.invalidPassword = false;
-    this.invalidPasswordMessage = "";
-    this.errors = [];
-    if (
-      this.profileForm.get("password").value &&
-      this.profileForm.get("confirmPassword").value
-    ) {
-      // Password validations
-      if (
-        this.profileForm.get("password").value !=
-        this.profileForm.get("confirmPassword").value
-      ) {
-        this.invalidPassword = true;
-        this.invalidPasswordMessage = "Las contraseñas no coinciden";
-        this.open(this._translateService.instant("dialog.passwordnotmatch"), "");
-        return false;
-      } else {
-        if (this.profileForm.get("password").value.length < 8) {
-          this.invalidPassword = true;
-          this.invalidPasswordMessage =
-            "La contraseña debe tener al menos 8 caracteres";
-            this.open(this._translateService.instant("dialog.passwordlength"), "");
-          return false;
-        }
-      }
-    }
+    this.reset();
+    if(!this.isValidPassword()) { return false; }
+
     let typeIdArray: any[] = [];
     this.selectedCourseTutorType?.forEach(sctt => {
       typeIdArray.push(sctt?.id);
@@ -1440,6 +1495,39 @@ export class ProfileComponent {
     } else {
       this.hasError = true;
     }
+  }
+
+  reset() {
+    this.passwordMismatch = false;
+    this.invalidPassword = false;
+    this.invalidPasswordMessage = "";
+    this.errors = [];
+  }
+
+  isValidPassword() {
+    let valid = true;
+
+    let password = this.profileForm.get("password").value;
+    let confirmPassword = this.profileForm.get("confirmPassword").value;
+
+    if (password || confirmPassword) {
+      if (password != confirmPassword) {
+        this.invalidPassword = true;
+        this.passwordMismatch = true;
+        this.invalidPasswordMessage = this._translateService.instant('dialog.passwordnotmatch');
+        this.open(this._translateService.instant("dialog.passwordnotmatch"), "");
+        valid = false;
+      } else {
+        if (password < 8) {
+          this.invalidPassword = true;
+          this.invalidPasswordMessage = this._translateService.instant('dialog.passwordlength');
+          this.open(this._translateService.instant("dialog.passwordlength"), "");
+          valid = false;
+        }
+      }
+    }
+
+    return valid;
   }
 
   isValidForm() {
@@ -1792,6 +1880,30 @@ export class ProfileComponent {
 
   goToStatistics(){
     this._router.navigate(['/tiktok/statistics'], { queryParams: { access: encodeURIComponent('true') } });
+  }
+
+  getFieldDisplay(field) {
+    return field
+    ? this.language == "en"
+      ? field.field_display_en ||
+        field.field_display_es
+      : this.language == "fr"
+      ? field.field_display_fr ||
+        field.field_display_es
+      : this.language == "eu"
+      ? field.field_display_eu ||
+        field.field_display_es
+      : this.language == "ca"
+      ? field.field_display_ca ||
+        field.field_display_es
+      : this.language == "de"
+      ? field.field_display_de ||
+        field.field_display_es
+      : this.language == "it"
+      ? field.field_display_it ||
+        field.field_display_es
+      : field.field_display_es
+    : "";
   }
 
   ngOnDestroy() {
