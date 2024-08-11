@@ -52,6 +52,7 @@ import each from "lodash/each";
 import keys from "lodash/keys";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { TutorHourlyateBanner } from "@pages/general/banner/tutor-hourly-rate.component";
+import { checkIfValidCalendlyAccount } from "src/app/utils/calendly/helper";
 import moment from "moment";
 import "moment/locale/es";
 import "moment/locale/fr";
@@ -210,6 +211,16 @@ export class ProfileComponent {
   userFullName:string = '';
   dateOfAcceptance:string = '';
   isMobile: boolean = false;
+
+  tutorId: any;
+  calendlyUrl: any;
+  calendlyPersonalAcessToken: any;
+  calendlyFormSubmitted: boolean = false;
+  isEditCalendly: boolean = false;
+  editHover: boolean = false;
+  showCalendlyModal: boolean = false;
+  @ViewChild("closemodalbutton", { static: false })
+  closemodalbutton: ElementRef<HTMLInputElement> = {} as ElementRef;
 
   constructor(
     private _route: ActivatedRoute,
@@ -468,6 +479,10 @@ export class ProfileComponent {
         this.userFullName = this.me?.name ? this.me?.name :  this.me?.first_name + ' ' + this.me?.last_name  
         this.dateOfAcceptance = this.me?.date_of_acceptance ? moment(this.me.date_of_acceptance).format('DD/MM/YYYY') : ''
 
+        // Tutor Calendly
+        this.calendlyUrl = this.me?.calendly_url;
+        this.calendlyPersonalAcessToken = this.me?.calendly_personal_access_token;
+
         this.mapSubfeatures(members_subfeatures, tutors_subfeatures);
         this.getOtherSettings();
       });
@@ -514,9 +529,9 @@ export class ProfileComponent {
       async (response) => {
         this.tutorUsers = response["tutors"];
         if (this.tutorUsers) {
-          this.isTutorUser = this.tutorUsers.some(
-            (a) => a.user_id == this.userId
-          );
+          let tutor_user = this.tutorUsers?.find((c) => c.user_id == this.userId);
+          this.isTutorUser = tutor_user ? true : false;
+          this.tutorId = tutor_user?.id || 0;
         }
       },
       (error) => {
@@ -1342,10 +1357,11 @@ export class ProfileComponent {
   }
 
   async uploadPhoto(event: any) {
+    this.showCalendlyModal = false;
     this.uploadImageMode = 'profile';
     this.imageChangedEvent = event;
     const file = event.target.files[0];
-    if (file.size > 2000000) {
+    if (file?.size > 2000000) {
       this.open(this._translateService.instant("dialog.fileuploadlimitdesc"), "");
     } else {
       initFlowbite();
@@ -1359,7 +1375,7 @@ export class ProfileComponent {
     this.uploadImageMode = 'companylogo';
     this.imageChangedEvent = event;
     const file = event.target.files[0];
-    if (file.size > 2000000) {
+    if (file?.size > 2000000) {
       this.open(this._translateService.instant("dialog.fileuploadlimitdesc"), "");
     } else {
       initFlowbite();
@@ -1904,6 +1920,56 @@ export class ProfileComponent {
         field.field_display_es
       : field.field_display_es
     : "";
+  }
+
+  handleEditCalendly() {
+    this.isEditCalendly = true;
+  }
+
+  toggleEditHover(event) {
+    this.editHover = event;
+  }
+
+  async handleSaveCalendly() {
+    this.calendlyFormSubmitted = true;
+
+    if(!this.calendlyUrl || !this.calendlyPersonalAcessToken) {
+      return false;
+    }
+
+    let isValidCalendlyToken = true
+    let isValidCalendlyUrl = true
+    if (this.calendlyUrl) {
+      const eventObj = await checkIfValidCalendlyAccount(this.calendlyPersonalAcessToken, this.calendlyUrl);
+      isValidCalendlyToken = eventObj?.isValidToken;
+      isValidCalendlyUrl = eventObj?.isValidURL
+    }
+
+    if(isValidCalendlyToken) {
+      this.calendlyFormSubmitted = true;
+
+      let params = {
+        company_id: this.companyId,
+        user_id: this.id,
+        link: this.calendlyUrl,
+        tutor_id: this.tutorId,
+        personal_access_token: this.calendlyPersonalAcessToken,
+      }
+      this._tutorsService.updateMemberCalendly(params).subscribe(data => {
+        this.closemodalbutton?.nativeElement.click();
+        this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+        this.isEditCalendly = false;
+      }, err => {
+        console.log('err: ', err);
+      })
+    }else if(!isValidCalendlyUrl || !isValidCalendlyToken){
+      this.open(this._translateService.instant('tutors.correctcalendlycredntials'), '');
+    }
+  }
+
+  openTokenDialog() {
+    this.showCalendlyModal = true;
+    this.modalbutton?.nativeElement.click();
   }
 
   ngOnDestroy() {

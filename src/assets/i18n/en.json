@@ -2554,7 +2554,7 @@
         "personalaccesstoken": "Personal access token",
         "newquestion": "New question",
         "newreference": "New reference",
-        "clicktocreatetoken":"Click here to learn how to create a personal access token ?",
+        "clicktocreatetoken":"Click here to learn how to create a personal access token",
         "createpersonalaccesstoken":"Create Personal Access token",
         "followstepstocreatetoken":"Follow the steps below to generate your personal access token",
         "calendlytokenstep2":"option under Personal Access Tokens",
