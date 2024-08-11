@@ -1,4 +1,4 @@
-<div *ngIf="isTutorUser">
+<div *ngIf="isTutorUser && companyId == 52">
     <app-tutor-hourly-rate-banner>
     </app-tutor-hourly-rate-banner>
 </div>
@@ -19,7 +19,7 @@
                                 [ngClass]="{'col-span-2': (field.field == 'image' && !hasCompanyImageField) || isMobile}">
                                 <div class="container upload-btn-wrapper profile-image">
                                     <div>
-                                        <div class="font-semibold mb-2">{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} </div>
+                                        <div class="font-semibold mb-2">{{ getFieldDisplay(field) }} </div>
                                         <div class="flex flex-col-reverse sm:flex-col-reverse md:flex-row lg:flex-row items-center justify-center mb-8 relative">
                                             <div class="max-w-xl mr-0 sm:mr-0 md:mr-8 lg:mr-8">
                                                 <img width="160" height="192" src="./assets/images/640.png" />
@@ -64,7 +64,7 @@
                                 [ngClass]="{'col-span-2': (field.field == 'image' && !hasProfileImageField) || isMobile}">
                                 <div class="container upload-btn-wrapper profile-image">
                                     <div>
-                                        <div class="font-semibold mb-2">{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} </div>
+                                        <div class="font-semibold mb-2">{{ getFieldDisplay(field) }} </div>
                                         <div class="flex items-center justify-center mb-8 relative">
                                             <input 
                                                 #companylogofile
@@ -331,6 +331,24 @@
                     </div>
                 </div>
             </div>
+            <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 my-4">
+                <div *ngIf="tutorInfo?.user_id == userId" class="flex items-center justify-center relative mb-4 col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                    <div class="w-full max-w-full">
+                        <label for="tutortype" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                            {{'tutors.tutortypes' | translate}}
+                        </label>
+                        <ng-multiselect-dropdown
+                            id="tutortype"
+                            placeholder="{{ 'tutors.tutortypes' | translate }}"
+                            [settings]="tutorTypeDropdownSettings"
+                            [data]="tutorTypes"
+                            [(ngModel)]="selectedCourseTutorType"
+                            [ngModelOptions]="{standalone: true}"
+                        >
+                        </ng-multiselect-dropdown>
+                    </div>
+                </div>
+            </div>
         </ng-container>
         <div>
             <div class="font-bold">{{ 'profile-settings.changepassword' | translate }}</div>
@@ -361,22 +379,6 @@
                         (click)="toggleFieldConfirmTextType()"
                     ></fa-icon>
                 </div>
-                <div *ngIf="tutorInfo?.user_id == userId" class="flex items-center justify-center relative mb-4 col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
-                    <div class="w-full max-w-full">
-                        <label for="tutortype" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                            {{'tutors.tutortypes' | translate}}
-                        </label>
-                        <ng-multiselect-dropdown
-                            id="tutortype"
-                            placeholder="{{ 'tutors.tutortypes' | translate }}"
-                            [settings]="tutorTypeDropdownSettings"
-                            [data]="tutorTypes"
-                            [(ngModel)]="selectedCourseTutorType"
-                            [ngModelOptions]="{standalone: true}"
-                        >
-                        </ng-multiselect-dropdown>
-                    </div>
-                </div>
             </div>
         </div>
         <div class="flex items-center justify-center mb-6 w-full sm:w-full md:w-4/12 lg:w-4/12 mx-auto">
@@ -389,6 +391,83 @@
             </button>
         </div>
     </form>
+    <div class="mb-8" *ngIf="isTutorUser">
+        <div class="flex items-center justify-between">
+            <div class="font-bold">Calendly</div>
+            <div class="flex" *ngIf="!isEditCalendly">
+                <button 
+                    class="bg-[#D7D7D7] flex items-center p-2 px-8 rounded-[15px] justify-evenly"
+                    (click)="handleEditCalendly()" 
+                    [ngStyle]="{
+                        'opacity': editHover ? 1.5 : 1,
+                        'filter': editHover ? 'brightness(0.8)' : 'brightness(1)'
+                    }"
+                    (mouseover)="toggleEditHover(true)"
+                    (mouseleave)="toggleEditHover(false)"
+                >
+                    <svg class="w-3 h-3 mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="m13.835 7.578-.005.007-7.137 7.137 2.139 2.138 7.143-7.142-2.14-2.14Zm-10.696 3.59 2.139 2.14 7.138-7.137.007-.005-2.141-2.141-7.143 7.143Zm1.433 4.261L2 12.852.051 18.684a1 1 0 0 0 1.265 1.264L7.147 18l-2.575-2.571Zm14.249-14.25a4.03 4.03 0 0 0-5.693 0L11.7 2.611 17.389 8.3l1.432-1.432a4.029 4.029 0 0 0 0-5.689Z"/>
+                    </svg>
+                    <span class="text-base font-semibold">{{ 'plan-details.edit' | translate }}</span>
+                </button>
+            </div>
+            <div class="flex" *ngIf="isEditCalendly">
+                <button 
+                    class="flex items-center p-2 px-8 rounded-[15px] justify-evenly"
+                    (click)="handleSaveCalendly()" 
+                    [ngStyle]="{
+                        'background-color': buttonColor,
+                        'opacity': editHover ? 1.5 : 1,
+                        'filter': editHover ? 'brightness(0.8)' : 'brightness(1)'
+                    }"
+                    (mouseover)="toggleEditHover(true)"
+                    (mouseleave)="toggleEditHover(false)"
+                >
+                    <svg class="w-3 h-3 text-white dark:text-white mr-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="m13.835 7.578-.005.007-7.137 7.137 2.139 2.138 7.143-7.142-2.14-2.14Zm-10.696 3.59 2.139 2.14 7.138-7.137.007-.005-2.141-2.141-7.143 7.143Zm1.433 4.261L2 12.852.051 18.684a1 1 0 0 0 1.265 1.264L7.147 18l-2.575-2.571Zm14.249-14.25a4.03 4.03 0 0 0-5.693 0L11.7 2.611 17.389 8.3l1.432-1.432a4.029 4.029 0 0 0 0-5.689Z"/>
+                    </svg>
+                    <span class="text-white text-base font-semibold">{{ 'plan-details.save' | translate }}</span>
+                </button>
+            </div>
+        </div>
+        <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 my-4">
+            <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                <label for="calendlylink" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <div> {{ 'members.link' | translate }}</div>
+                </label>
+                <input 
+                    id="calendlylink"
+                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': calendlyFormSubmitted && !calendlyUrl }"
+                    type="text" 
+                    class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                    placeholder="{{ 'members.link' | translate }}"
+                    [(ngModel)]="calendlyUrl" 
+                    [ngModelOptions]="{standalone: true}"
+                    [readonly]="!isEditCalendly">
+            </div>
+            <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                <label for="calendlytoken" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+                    <div class="flex"> 
+                        <div>{{ 'members.personalaccesstoken' | translate }}</div>
+                        <button type="button" (click)="openTokenDialog()" class="ml-4"> 
+                            <span class="underline text-blue-600 text-left block text-sm font-medium dark:text-white">
+                                {{ 'members.clicktocreatetoken' | translate }}
+                            </span>
+                        </button>
+                    </div>
+                </label>
+                <input 
+                    id="calendlytoken"
+                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': calendlyFormSubmitted && !calendlyPersonalAcessToken }"
+                    type="text" 
+                    class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                    placeholder="{{ 'members.personalaccesstoken' | translate }}"
+                    [(ngModel)]="calendlyPersonalAcessToken" 
+                    [ngModelOptions]="{standalone: true}"
+                    [readonly]="!isEditCalendly">
+            </div>
+        </div>
+    </div>
 </ng-container>
 <div *ngIf="userMemberTypes?.length > 0">
     <div class="font-bold mb-4">{{ 'profile-settings.memberships' | translate }}</div>
@@ -453,7 +532,7 @@
 <div id="item-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
     <div class="relative w-full max-w-md max-h-full">
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
-            <button type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="item-modal">
+            <button #closemodalbutton type="button" class="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white" data-modal-hide="item-modal">
                 <svg class="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                     <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"/>
                 </svg>
@@ -461,36 +540,68 @@
             </button>
             <div class="px-6 py-6 lg:px-8">
                 <h3 class="mb-4 text-xl font-medium text-gray-900 dark:text-white">
-                    {{ 'club-create.uploadimage' | translate }}
+                    {{ showCalendlyModal ? ('members.createpersonalaccesstoken' | translate) : ('club-create.uploadimage' | translate) }}
                 </h3>
-                <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
-                    <div class="flex items-center relative">
-                        <fa-icon [ngStyle]="{'background-color': buttonColor}" class="p-2 rounded-lg mr-4 text-white fa flex items-center" [icon]="rotateLeftIcon"></fa-icon>
-                        <fa-icon [ngStyle]="{'background-color': buttonColor}" class="p-2 rounded-lg text-white fa flex items-center4" [icon]="rotateRightIcon"></fa-icon>
+                <ng-container *ngIf="!showCalendlyModal">
+                    <div class="grid gap-6 grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid:cols-2 mb-4">
+                        <div class="flex items-center relative">
+                            <fa-icon [ngStyle]="{'background-color': buttonColor}" class="p-2 rounded-lg mr-4 text-white fa flex items-center" [icon]="rotateLeftIcon"></fa-icon>
+                            <fa-icon [ngStyle]="{'background-color': buttonColor}" class="p-2 rounded-lg text-white fa flex items-center4" [icon]="rotateRightIcon"></fa-icon>
+                        </div>
+                        <div class="flex items-center relative">
+                            <a href="javascript:;" (click)="imageCropperModalSave()" [ngStyle]="{'background-color': buttonColor}" class="p-2 inline-flex justify-center w-full p-2 font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800" data-modal-hide="item-modal">
+                                {{ 'image-cropper.save' | translate }}
+                            </a>
+                        </div>
                     </div>
-                    <div class="flex items-center relative">
-                        <a href="javascript:;" (click)="imageCropperModalSave()" [ngStyle]="{'background-color': buttonColor}" class="p-2 inline-flex justify-center w-full p-2 font-medium text-center text-white rounded-lg focus:ring-4 focus:outline-none focus:ring-blue-300 dark:focus:ring-blue-800" data-modal-hide="item-modal">
-                            {{ 'image-cropper.save' | translate }}
-                        </a>
+                    <div>
+                        <image-cropper 
+                            [canvasRotation]="canvasRotation"
+                            [transform]="transform"
+                            [imageChangedEvent]="imageChangedEvent" 
+                            [maintainAspectRatio]="true"
+                            [cropperMinWidth]="360" 
+                            [cropperMinHeight]="320" 
+                            format="png" 
+                            outputType="both"
+                            (imageCropped)="imageCropped($event)" 
+                            (imageLoaded)="imageLoaded()" 
+                            (cropperReady)="cropperReady()"
+                            (loadImageFailed)="loadImageFailed()"
+                            output="base64">
+                        </image-cropper>
                     </div>
-                </div>
-                <div>
-                    <image-cropper 
-                        [canvasRotation]="canvasRotation"
-                        [transform]="transform"
-                        [imageChangedEvent]="imageChangedEvent" 
-                        [maintainAspectRatio]="true"
-                        [cropperMinWidth]="360" 
-                        [cropperMinHeight]="320" 
-                        format="png" 
-                        outputType="both"
-                        (imageCropped)="imageCropped($event)" 
-                        (imageLoaded)="imageLoaded()" 
-                        (cropperReady)="cropperReady()"
-                        (loadImageFailed)="loadImageFailed()"
-                        output="base64">
-                    </image-cropper>
-                </div>
+                </ng-container>
+                <ng-container *ngIf="showCalendlyModal">
+                    <div class="text-sm mb-4">
+                        <div class="mb-4">{{'members.followstepstocreatetoken' | translate}}</div>
+                        <ol class="grid gap-2">
+                            <li>
+                               1. {{ "calendly-course.personalaccesstokentext" | translate }} <u><b><i><a href="https://calendly.com/integrations/api_webhooks" target="_blank">{{ "calendly-course.personalaccesstokentext1" | translate }}</a></i></b></u>{{ "calendly-course.personalaccesstokentext2" | translate }}.
+                            </li>
+                            <li>
+                                2. {{'member-type.select' | translate}} <span class="font-medium">
+                                    {{'members.calendlytokenstep2option' | translate}}
+                                </span> {{'members.calendlytokenstep2' | translate}}.
+                            </li>
+                            <li>
+                                3. {{'members.calendlytokenstep3dilaog' | translate}} <span class="font-medium">
+                                    {{'members.calendlytokenstep3dialogtitle' | translate}}.
+                                </span>
+                            </li>
+                            <li>
+                                4. {{'members.calendlytokenstep4' | translate}} <span class="font-medium">{{'job-offers.continue' | translate}}</span>.
+                            </li>
+                            <li>
+                                5. {{'members.calendlytokenstep5' | translate}} <span class="font-medium">{{'members.calendlytokenstep5button' | translate}}.
+                                </span>
+                            </li>
+                            <li>
+                                6. {{'members.calendlytokenstep6' | translate}}.
+                            </li>
+                        </ol>
+                    </div>
+                </ng-container>
             </div>
         </div>
     </div>
