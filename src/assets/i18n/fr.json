@@ -3315,7 +3315,8 @@
         "daterangedesc": "Sélectionnez une plage de dates (maximum de 1 mois). Cliquez sur réinitialiser pour définir le mois par défaut",
         "noratingsyet": "Aucune note pour l'instant",
         "edittutor": "Modifier le tuteur",
-        "italian": "Italien"
+        "italian": "Italien",
+        "incompletecalendarsetup": "La configuration du calendrier est incomplète."
     },
     "general-details": {
         "name" : "Nom",

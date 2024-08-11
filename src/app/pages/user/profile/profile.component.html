@@ -104,7 +104,7 @@
                                 <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                            {{ getFieldDisplay(field) }} {{field?.required ? '*' : ''}}
                                         </div>
                                         <ng-container *ngIf="showProfileFieldsInMembers && field?.field != 'first_name' && field?.field != 'last_name'">
                                             <div class="flex items-center justify-between relative ml-4">
@@ -135,7 +135,7 @@
                                         type="{{field?.field_type}}" 
                                         class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                                         formControlName="{{field?.field}}" 
-                                        placeholder="{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}"
+                                        placeholder="{{ getFieldDisplay(field) }} {{field?.required ? '*' : ''}}"
                                         [required]="field?.required ? true : false">
                                 </ng-container>
                                 <ng-container *ngIf="field?.field == 'country' && countryDropdown">
@@ -159,7 +159,7 @@
                                 <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                            {{ getFieldDisplay(field) }} {{field?.required ? '*' : ''}}
                                         </div>
                                         <ng-container *ngIf="showProfileFieldsInMembers && field?.field != 'first_name' && field?.field != 'last_name'">
                                             <div class="flex items-center justify-between relative ml-4">
@@ -190,7 +190,7 @@
                                         class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         formControlName="{{field?.field}}"
                                     >
-                                        <option value="">{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} </option>
+                                        <option value="">{{ getFieldDisplay(field) }} </option>
                                         <ng-container *ngIf="field.field == 'sector'">
                                             <option
                                                 *ngFor="let sector of sectors"                                
@@ -223,7 +223,7 @@
                                         class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         formControlName="{{field?.field}}"
                                     >
-                                        <option value="">{{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} </option>
+                                        <option value="">{{ getFieldDisplay(field) }} </option>
                                         <option
                                             *ngFor="let businessCategory of businessCategories"                                
                                             [value]="businessCategory.name"
@@ -236,7 +236,7 @@
                                 <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                            {{ getFieldDisplay(field) }} {{field?.required ? '*' : ''}}
                                         </div>
                                         <ng-container *ngIf="showProfileFieldsInMembers && field?.field != 'first_name' && field?.field != 'last_name'">
                                             <div class="flex items-center justify-between relative ml-4">
@@ -268,7 +268,7 @@
                                 <label for="{{field?.field}}" class="text-left block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                                     <div class="flex items-center justify-between">
                                         <div>
-                                            {{ language == 'en' ? field?.field_display_en : (language == 'fr' ? (field?.field_display_fr || field?.field_display_es) : field?.field_display_es) }} {{field?.required ? '*' : ''}}
+                                            {{ getFieldDisplay(field) }} {{field?.required ? '*' : ''}}
                                         </div>
                                         <ng-container *ngIf="showProfileFieldsInMembers && field?.field != 'first_name' && field?.field != 'last_name'">
                                             <div class="flex items-center justify-between relative ml-4">
@@ -294,7 +294,7 @@
                                     </div>
                                 </label>
                                 <mat-form-field class="w-full">
-                                    <mat-label>{{ language == 'en' ? field?.field_display_en : field?.field_display_es }}</mat-label>
+                                    <mat-label>{{ getFieldDisplay(field) }}</mat-label>
                                     <input matInput [matDatepicker]="pickerdate" placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}}" formControlName="{{ field?.field }}">
                                     <mat-datepicker-toggle matIconSuffix [for]="pickerdate"></mat-datepicker-toggle>
                                     <mat-datepicker #pickerdate>
@@ -352,7 +352,7 @@
                     <input 
                         [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': profileForm.get('confirmPassword')?.errors || passwordMismatch }"
                         [type]="fieldConfirmTextType ? 'text' : 'password'"
-                         class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                        class="text-sm shadow appearance-none border border-gray-200 rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
                         formControlName="confirmPassword" 
                         placeholder="{{ 'profile-settings.confirmpassword' | translate }}*">
                     <fa-icon
@@ -475,46 +475,21 @@
                     </div>
                 </div>
                 <div>
-                    <ng-container *ngIf="companyId != 52">
-                        <image-cropper 
-                            [canvasRotation]="canvasRotation"
-                            [transform]="transform"
-                            [imageChangedEvent]="imageChangedEvent" 
-                            [maintainAspectRatio]="true"
-                            [containWithinAspectRatio]="true"
-                            [onlyScaleDown]="true"
-                            [roundCropper]="false"
-                            [aspectRatio]="16 / 9"
-                            [resizeToWidth]="256"
-                            [imageQuality]="100"
-                            [cropperMinWidth]="128"
-                            [alignImage]="'center'"
-                            format="png" 
-                            outputType="both"
-                            (imageCropped)="imageCropped($event)" 
-                            (imageLoaded)="imageLoaded()" 
-                            (cropperReady)="cropperReady()"
-                            (loadImageFailed)="loadImageFailed()"
-                            output="base64">
-                        </image-cropper>
-                    </ng-container>
-                    <ng-container *ngIf="companyId == 52">
-                        <image-cropper 
-                            [canvasRotation]="canvasRotation"
-                            [transform]="transform"
-                            [imageChangedEvent]="imageChangedEvent" 
-                            [maintainAspectRatio]="true"
-                            [cropperMinWidth]="360" 
-                            [cropperMinHeight]="320" 
-                            format="png" 
-                            outputType="both"
-                            (imageCropped)="imageCropped($event)" 
-                            (imageLoaded)="imageLoaded()" 
-                            (cropperReady)="cropperReady()"
-                            (loadImageFailed)="loadImageFailed()"
-                            output="base64">
-                        </image-cropper>
-                    </ng-container>
+                    <image-cropper 
+                        [canvasRotation]="canvasRotation"
+                        [transform]="transform"
+                        [imageChangedEvent]="imageChangedEvent" 
+                        [maintainAspectRatio]="true"
+                        [cropperMinWidth]="360" 
+                        [cropperMinHeight]="320" 
+                        format="png" 
+                        outputType="both"
+                        (imageCropped)="imageCropped($event)" 
+                        (imageLoaded)="imageLoaded()" 
+                        (cropperReady)="cropperReady()"
+                        (loadImageFailed)="loadImageFailed()"
+                        output="base64">
+                    </image-cropper>
                 </div>
             </div>
         </div>

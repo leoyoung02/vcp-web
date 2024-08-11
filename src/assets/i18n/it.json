@@ -3322,7 +3322,8 @@
         "daterangedesc": "Seleziona l'intervallo di date (massimo 1 mese). Fai clic su Ripristina per impostare il mese predefinito",
         "noratingsyet": "Ancora nessuna valutazione",
         "edittutor": "Modifica tutor",
-        "italian": "Italiano"
+        "italian": "Italiano",
+        "incompletecalendarsetup": "La configurazione del calendario è incompleta."
     },
     "general-details": {
         "name": "Nome",

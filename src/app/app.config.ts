@@ -38,6 +38,22 @@ import { LoggerModule, NgxLoggerLevel } from 'ngx-logger';
 import { QuillModule } from 'ngx-quill';
 import customersData from "src/assets/data/customers.json";
 
+import { registerLocaleData } from '@angular/common';
+import localeEn from '@angular/common/locales/en';
+import localeEs from '@angular/common/locales/es';
+import localeFr from '@angular/common/locales/fr';
+import localeEu from '@angular/common/locales/eu';
+import localeCa from '@angular/common/locales/ca';
+import localeDe from '@angular/common/locales/de';
+import localeIt from '@angular/common/locales/it';
+registerLocaleData(localeEn);
+registerLocaleData(localeEs);
+registerLocaleData(localeFr);
+registerLocaleData(localeEu);
+registerLocaleData(localeCa);
+registerLocaleData(localeDe);
+registerLocaleData(localeIt);
+
 @Injectable({ providedIn: "root" })
 export class TemplatePageTitleStrategy extends TitleStrategy {
   customers: Customer[] = customersData;

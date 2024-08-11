@@ -197,7 +197,7 @@
                 <div class="py-3" *ngIf="tutor && !tutorCardSmallImage">
                     <div class="flex text-base font-medium flex-wrap">
                         <span>{{tutor?.city}}</span>
-                        <span class="px-2">{{ (tutor?.languages || ('tutors.spanish' | translate)) ? '•' : '' }}</span>
+                        <span class="px-2" *ngIf="tutor?.city">{{ (tutor?.languages || ('tutors.spanish' | translate)) ? '•' : '' }}</span>
                         <span>{{tutor?.languages || ('tutors.spanish' | translate)}}</span>
                     </div>
                 </div>
@@ -211,7 +211,7 @@
                     </div>
                 </div>
                 <div class="pb-3" *ngIf="tutor?.created">
-                    <div>{{ 'tutors.tutorsince' | translate }} <span class="font-bold">{{ tutor?.created | date:'d MMM, yyyy' }}</span></div>
+                    <div>{{ 'tutors.tutorsince' | translate }} <span class="font-bold capitalize">{{ tutor?.created | date:'d MMM, yyyy' : '' : language }}</span></div>
                 </div>
             </ng-container>
         </div>
@@ -290,9 +290,9 @@
                             <div class="capitalize font-bold px-20 text-center">
                                 {{ !canBook() && tutorStripeConnect  ? 
                                     ('course-create.insufficientcredits' | translate) : 
-                                    (!tutorCalendlyUrl || !tutorPersonalAccessToken? 
+                                    (!tutorCalendlyUrl || !tutorPersonalAccessToken ? 
                                         (
-                                            ('company-settings.incomplete' | translate) + ' ' + ('landing.calendar' | translate) + ' ' + ('customer.setup' | translate) + '. ' + ('club-details.pleasecontactadministrator' | translate)
+                                            ('tutors.incompletecalendarsetup' | translate)
                                         ) : 
                                         !tutorStripeConnect && isValidCalenldyAccount ? ('tutors.configurestripeaccount' | translate) : ''
                                     )

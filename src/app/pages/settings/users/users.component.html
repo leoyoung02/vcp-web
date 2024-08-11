@@ -640,7 +640,7 @@
                                                 <div class="-mb-5 signup-date">
                                                     <mat-form-field class="w-full">
                                                         <mat-label>{{ getFieldDisplay(field) }}</mat-label>
-                                                        <input matInput [matDatepicker]="pickerdate" placeholder="{{language == 'en' ? field?.field_display_en : field?.field_display_es}}" formControlName="{{ field?.field }}">
+                                                        <input matInput [matDatepicker]="pickerdate" placeholder="{{ getFieldDisplay(field) }}" formControlName="{{ field?.field }}">
                                                         <mat-datepicker-toggle matIconSuffix [for]="pickerdate"></mat-datepicker-toggle>
                                                         <mat-datepicker #pickerdate>
                                                             <mat-datepicker-actions>
@@ -660,17 +660,21 @@
                                             </label>
                                             <div class="flex items-center justify-center relative">
                                                 <div class="w-full max-w-full">
-                                                    <mat-form-field class="w-full datetime-picker-field">
-                                                        <input 
-                                                            id="start-date"
-                                                            matInput 
-                                                            [ngxMatDatetimePicker]="picker0" 
-                                                            placeholder="{{'company-reports.startdate' | translate}}" 
-                                                            [(ngModel)]="startDate"
-                                                            [ngModelOptions]="{standalone: true}">
-                                                        <ngx-mat-datepicker-toggle matSuffix [for]="picker0"></ngx-mat-datepicker-toggle>
-                                                        <ngx-mat-datetime-picker [hideTime]="false" [showSeconds]="false" #picker0></ngx-mat-datetime-picker>
-                                                    </mat-form-field>
+                                                    <div class="-mb-5 signup-date">
+                                                        <mat-form-field class="w-full">
+                                                            <mat-label>{{'company-reports.startdate' | translate}}</mat-label>
+                                                            <input matInput [matDatepicker]="startpickerdate" placeholder="{{'company-reports.startdate' | translate}}" 
+                                                                [(ngModel)]="startDate"
+                                                                [ngModelOptions]="{standalone: true}">
+                                                            <mat-datepicker-toggle matIconSuffix [for]="startpickerdate"></mat-datepicker-toggle>
+                                                            <mat-datepicker #startpickerdate>
+                                                                <mat-datepicker-actions>
+                                                                    <button mat-button matDatepickerCancel class="uppercase mr-8 text-cyan-400 mb-6 font-semibold">{{ 'settings.cancel' | translate }}</button>
+                                                                    <button mat-raised-button color="primary" matDatepickerApply class="uppercase mr-8 text-cyan-400 mb-6 font-semibold">{{ 'company-settings.apply' | translate }}</button>
+                                                                </mat-datepicker-actions>
+                                                            </mat-datepicker>
+                                                        </mat-form-field>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>

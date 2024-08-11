@@ -48,10 +48,11 @@ import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 import { ClubsService, CoursesService, TutorsService } from "@features/services";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { searchSpecialCase, sortSerchedMembers } from "src/app/utils/search/helper";
+import { DateAdapter } from '@angular/material/core';
+import Fuse from 'fuse.js';
 import moment from "moment";
 import get from "lodash/get";
-import { searchSpecialCase, sortSerchedMembers } from "src/app/utils/search/helper";
-import Fuse from 'fuse.js';
 
 @Component({
   selector: "app-manage-users",
@@ -386,7 +387,8 @@ export class ManageUsersComponent {
     private _localService: LocalService,
     private _excelService: ExcelService,
     private _snackBar: MatSnackBar,
-    private _location: Location
+    private _location: Location,
+    private dateAdapter: DateAdapter<Date>,
   ) {}
 
   async ngOnInit() {
@@ -428,6 +430,8 @@ export class ManageUsersComponent {
 
   initializePage() {
     initFlowbite();
+    this.dateAdapter.setLocale(this.language);
+
     this.tutorDropDownSettings = {
       singleSelection: false,
       idField: "id",
@@ -478,6 +482,7 @@ export class ManageUsersComponent {
       allowSearchFilter: true,
       searchPlaceholderText: this._translateService.instant('guests.search'),
     };
+    
     this.initializeBreadcrumb();
     this.initializeSearch();
     this.fetchManageUsersData();
@@ -4913,7 +4918,6 @@ export class ManageUsersComponent {
           this.potSuperTutor = false
         }
   }
-
 
   assignTutor(row) {
     this.selectedTutor = row;
