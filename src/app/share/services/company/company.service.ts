@@ -2043,7 +2043,6 @@ export class CompanyService {
     ).pipe(map(res => res));
   }
 
-
   getCompanyProfessionals(id): Observable<any> {
     return this._http
       .get(`${COMPANY_PROFESSIONALS_URL}/${id}`, { headers: this.headers })
@@ -2102,5 +2101,11 @@ export class CompanyService {
     return this._http
       .get(`${COMPANY_PROFESSIONALS_URL}/products_subcategory/${company_id}/${subcategory_id}`, { headers: this.headers })
       .pipe(map((res) => res));
+  }
+
+  getCompanyDefaultLanguage(): any {
+    let host = window.location.host;
+    let customer = this.customers?.find((c) => c.url == host || c.url == environment.company);
+    return customer?.language || 'es';
   }
 }

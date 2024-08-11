@@ -217,7 +217,7 @@ export class ExternalCalendlyComponent {
         if (company && company[0]) {
             this.company = company[0];
         }
-        this.language = this._localService.getLocalStorage(environment.lslanguage) || "es";
+        this.language = this._localService.getLocalStorage(environment.lslang) || "es";
         this.userId = this.getParam('user_id');
         this.companyId = this.getParam('company_id');
         this.link = this.getParam('calendly_url') ? decodeURIComponent(this.getParam('calendly_url').toString()) : '';

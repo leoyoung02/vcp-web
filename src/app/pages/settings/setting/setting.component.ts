@@ -771,7 +771,7 @@ export class SettingComponent {
     if(this.setting) {
       title = this.language == 'en' ? this.setting.category_en : (this.language == 'fr' ? this.setting.category_fr : 
         (this.language == 'eu' ? this.setting.category_eu : (this.language == 'ca' ? this.setting.category_ca : 
-        (this.language == 'de' ? this.setting.category_de : this.setting.category_es)))
+        (this.language == 'de' ? this.setting.category_de : (this.language == 'it' ? this.setting.category_it : this.setting.category_es))))
       )
       if(this.setting.category_en == 'Events' ||
         this.setting.category_en == 'Groups'

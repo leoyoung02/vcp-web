@@ -3359,7 +3359,9 @@
         "tiktokstats": "TikTok Estatistikak",
         "daterangedesc": "Hautatu data-tartea (gehienez hilabetekoa). Egin klik berrezarri hilabete lehenetsi gisa ezartzeko",
         "noratingsyet": "Oraindik ez dago baloraziorik",
-        "edittutor": "Editatu tutorea"
+        "edittutor": "Editatu tutorea",
+        "italian": "Italiera",
+        "incompletecalendarsetup": "Egutegiaren konfigurazioa osatu gabe dago."
     },
     "general-details": {
         "name" : "Izena",

@@ -13,10 +13,10 @@
             'h-full max-h-full sm:h-full sm:max-h-full md:h-[300px] md:max-h-[300px] lg:h-[300px] lg:max-h-[300px]': page != 'list' && page != 'detail',
             'h-full max-h-full sm:h-full sm:max-h-full md:h-[339px] md:max-h-[339px] lg:h-[339px] lg:max-h-[339px]': page == 'list',
             'h-full max-h-full min-h-[559px]': page == 'detail'}">
-    <div class="absolute inset-0 flex items-center justify-center rounded-[30px]" 
+    <div class="absolute top-0 bottom-0 right-0 left-0 rounded-[30px]" 
         style="background-image:linear-gradient(0deg, rgba(0, 0, 0, 0.3) 17.36%, rgba(0, 0, 0, 0.1) 35.64%, rgba(0, 0, 0, 0) 50%)" 
         *ngIf="page != 'detail'">
-        <div class="absolute inset-0 flex items-end">
+        <div class="absolute bottom-1 left-1/2 transform -translate-x-1/2">
             <div class="flex flex-col w-full w-max-full">
                 <p class="text-white text-[17px] -mb-[3px] leading-6 text-center font-bold">{{ name || (first_name + ' ' + last_name) }}</p>
                 <app-star-rating *ngIf="page != 'list'" [rating]="rating" [align]="'center'"></app-star-rating>
@@ -38,10 +38,11 @@
                 <ng-container *ngIf="page == 'list'">
                     <div class="flex justify-center items-center text-[13px] text-white flex-wrap">
                         <span class="flex flex-row items-center">
-                            <svg class="w-4 h-4 mr-[2px] text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                            <svg *ngIf="getTutorCity()" class="w-4 h-4 mr-[2px] text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 13a3 3 0 1 0 0-6 3 3 0 0 0 0 6Z"/>
                                 <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.8 13.938h-.011a7 7 0 1 0-11.464.144h-.016l.14.171c.1.127.2.251.3.371L12 21l5.13-6.248c.194-.209.374-.429.54-.659l.13-.155Z"/>
                             </svg>
+                            <div *ngIf="!getTutorCity()">&nbsp;</div>
                             {{ getTutorCity() }}
                         </span>
                         <span class="px-1">{{ rating > 0 ? '•' : '' }}</span>
@@ -53,6 +54,7 @@
                                 <div class="flex-initial max-w-full leading-none text-[10px] font-normal">{{type}}</div>
                             </div>
                         </ng-container>
+                        <div *ngIf="!(types?.length > 0)"  class="-mt-1">&nbsp;</div>
                     </div>
                 </ng-container>
             </div>

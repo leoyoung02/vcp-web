@@ -3380,7 +3380,7 @@
         "transfercompleted": "Transfer completed",
         "pendingtransfer": "Pending transfer",
         "validtoken":"Please provide a valid token to proceed",
-        "notsetupaccount":"This tutor profle is not prpoerly setup.",
+        "notsetupaccount":"This tutor profle is not properly setup.",
         "correctcalendlycredntials":"Please check your calendly credentials to proceed.",
         "perhourrate":"commission per hour of tutoring.",
         "pendingtutorials":"You have pending tutorials to mark complete.",
@@ -3395,7 +3395,9 @@
         "tiktokstats": "TikTok Statistics",
         "daterangedesc": "Select date range (maximum of 1 month). Click reset to set to default month",
         "noratingsyet": "No ratings yet",
-        "edittutor": "Edit tutor"
+        "edittutor": "Edit tutor",
+        "italian": "Italian",
+        "incompletecalendarsetup": "Calendar setup is incomplete."
     },
     "general-details": {
         "name" : "Name",

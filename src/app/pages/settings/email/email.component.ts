@@ -636,12 +636,37 @@ export class EmailComponent {
           return setting.title_en == mapping_title;
         });
       if (setting && setting[0]) {
-        title =
-          this.language == "en"
-            ? setting[0].title_en
-            : this.language == "fr"
-            ? setting[0].title_fr
-            : setting[0].title_es;
+        title = this.language == "en"
+          ? setting[0].title_en
+            ? setting[0].title_en || setting[0].title_es
+            : setting[0].title_es
+          : this.language == "fr"
+          ? setting[0].title_fr
+            ? setting[0].title_fr || setting[0].title_es
+            : setting[0].title_es
+          : this.language == "eu"
+          ? setting[0].title_eu
+            ? setting[0].title_eu || setting[0].title_es
+            : setting[0].title_es
+          : this.language == "ca"
+          ? setting[0].title_ca
+            ? setting[0].title_ca || setting[0].title_es
+            : setting[0].title_es
+          : this.language == "de"
+          ? setting[0].title_de
+            ? setting[0].title_de || setting[0].title_es
+            : setting[0].title_es
+          : this.language == "it"
+          ? setting[0].title_it
+            ? setting[0].title_it || setting[0].title_es
+            : setting[0].title_es
+          : setting[0].title_es;
+          
+          // this.language == "en"
+          //   ? setting[0].title_en
+          //   : this.language == "fr"
+          //   ? setting[0].title_fr
+          //   : setting[0].title_es;
       }
     }
 

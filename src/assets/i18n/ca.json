@@ -3367,7 +3367,9 @@
         "tiktokstats": "Estadístiques de TikTok",
         "daterangedesc": "Seleccioneu l'interval de dates (màxim d'1 mes). Feu clic a Restableix per establir el mes predeterminat",
         "noratingsyet": "Encara no hi ha cap valoració",
-        "edittutor": "Edita el tutor"
+        "edittutor": "Edita el tutor",
+        "italian": "Italià",
+        "incompletecalendarsetup": "Egutegiaren konfigurazioa osatu gabe dago."
     },
     "general-details": {
         "name" : "Nom",

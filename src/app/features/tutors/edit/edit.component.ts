@@ -28,9 +28,11 @@ import {
 } from "@angular-material-components/datetime-picker";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
+import { checkIfValidCalendlyAccount } from "src/app/utils/calendly/helper";
+import { MatDatepickerModule } from "@angular/material/datepicker";
+import { DateAdapter, MatNativeDateModule } from '@angular/material/core';
 import moment from "moment";
 import get from "lodash/get";
-import { checkIfValidCalendlyAccount } from "src/app/utils/calendly/helper";
 
 @Component({
   selector: "app-tutors-edit",
@@ -49,6 +51,8 @@ import { checkIfValidCalendlyAccount } from "src/app/utils/calendly/helper";
     NgxMatNativeDateModule,
     MatFormFieldModule,
     MatInputModule,
+    MatNativeDateModule,
+    MatDatepickerModule,
     PageTitleComponent,
     NoAccessComponent,
   ],
@@ -125,7 +129,8 @@ export class TutorEditComponent {
     private _translateService: TranslateService,
     private _localService: LocalService,
     private _companyService: CompanyService,
-    private _tutorsService: TutorsService
+    private _tutorsService: TutorsService,
+    private dateAdapter: DateAdapter<Date>,
   ) {}
 
   @HostListener("window:resize", [])
@@ -177,6 +182,7 @@ export class TutorEditComponent {
   }
 
   initializePage() {
+    this.dateAdapter.setLocale(this.language);
     this.tutorTypeDropdownSettings = {
       singleSelection: false,
       idField: 'id',

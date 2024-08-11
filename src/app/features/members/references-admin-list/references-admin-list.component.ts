@@ -87,7 +87,7 @@ export class ReferencesAdminListComponent {
 
     async ngOnInit() {
       this.onResize();
-      this.language = this._localService.getLocalStorage(environment.lslanguage) || "es";
+      this.language = this._localService.getLocalStorage(environment.lslang) || "es";
       this.userId = this._localService.getLocalStorage(environment.lsuserId);
       this.companyId = this._localService.getLocalStorage(environment.lscompanyId);
       this._translateService.use(this.language || "es");

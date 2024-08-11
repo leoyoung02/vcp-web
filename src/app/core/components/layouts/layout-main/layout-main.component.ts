@@ -279,7 +279,7 @@ export class LayoutMainComponent {
     private _pushNotificationService: PushNotificationService,
     private cd: ChangeDetectorRef
   ) {
-    this.language = this._localService.getLocalStorage(environment.lslanguage);
+    this.language = this._localService.getLocalStorage(environment.lslang);
     this._translateService.setDefaultLang(this.language || "es");
     this._translateService.use(this.language || "es");
 
