@@ -817,6 +817,9 @@ export const EDIT_ABOUT_ME_URL = `${API_BASE}/v3/professional/about-me/edit`;
 export const ADD_MULTIMEDIA_IMAGE_URL = `${API_BASE}//v3/professional/multimedia/image/add`;
 export const COMPANY_PROFESSIONALS_URL = `${API_BASE}/company/professionals`;
 export const PROFESSIONAL_TRANSACTIONS_URL = `${API_BASE}/v3/panel/transactions`;
+export const WALLET_DATA_URL = `${API_BASE}/v3/wallet-data`;
+export const EDIT_WALLET_SETTINGS_URL = `${API_BASE}/v3/professional/wallet/settings/edit`;
+export const WITHDRAW_URL = `${API_BASE}/v3/professional/wallet/withdraw`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;

@@ -3825,7 +3825,12 @@
         "callprofessional": "Chiama un professionista",
         "videocallprofessional": "Videochiama un professionista",
         "addreview": "Aggiungi commento",
-        "gettoknowthespecialties": "Conosci le Specialità"
+        "gettoknowthespecialties": "Conosci le Specialità",
+        "walletdesc": "Ricevi il pagamento per i tuoi servizi",
+        "withdraw": "Ritirare",
+        "withdrawalmethods": "Metodi di prelievo",
+        "stripedescription": "Accetta pagamenti sul tuo account Stripe Connect",
+        "paypaldescription": "Ricevi pagamenti sul tuo account PayPal"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

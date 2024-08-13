@@ -2871,12 +2871,13 @@ export class LayoutMainComponent {
 
   getProfessionalsHomeData() {
     this._professionalsService
-      .getProfessionalsHomeData(this.company?.id)
+      .getProfessionalsHomeData(this.company?.id, this.userId)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
         (data) => {
           this.subcategories = data?.subcategories;
           this.subcategoryMapping = data?.subcategory_mapping;
+          this.professional = data?.professional;
           this.formatProfessionalsData(data);
         },
         (error) => {

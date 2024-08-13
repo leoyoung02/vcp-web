@@ -76,7 +76,7 @@ export const routes: Routes = [
         loadComponent: async () => (await import('./account-recharge/account-recharge.component')).AccountRechargeComponent,
     },
     {
-        path: 'panel/:id/:role',
+        path: 'panel/:id/:role/:action',
         title: CustomTitleResolver,
         data: { layout: PageLayout.Main , titleKey: 'user-panel.userpanel' },
         loadComponent: async () => (await import('./panel/panel.component')).UserPanelComponent,

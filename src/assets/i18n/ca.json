@@ -3831,7 +3831,12 @@
         "similarconsultations": "Consultes similars",
         "customerreviews": "Opinions dels Usuaris",
         "addreview": "Afegeix comentari",
-        "gettoknowthespecialties": "Coneix les especialitats"
+        "gettoknowthespecialties": "Coneix les especialitats",
+        "walletdesc": "Rebreu un pagament pels vostres serveis",
+        "withdraw": "Retirar",
+        "withdrawalmethods": "Mètodes de retirada",
+        "stripedescription": "Accepteu pagaments al vostre compte de Stripe Connect",
+        "paypaldescription": "Rebre pagaments al teu compte de PayPal"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

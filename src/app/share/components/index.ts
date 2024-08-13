@@ -47,6 +47,8 @@ export * from './astro-ideal/charts/donut/donut.component';
 export * from './astro-ideal/charts/timeline/timeline.component';
 export * from './astro-ideal/charts/stacked-bar-chart/stacked-bar-chart.component';
 export * from './astro-ideal/charts/line-chart/line-chart.component';
+export * from './astro-ideal/panel/wallet/wallet.component';
+export * from './astro-ideal/panel/withdrawal-methods/withdrawal-methods.component';
 export * from './tarot-card/tarot-card.component';
 export * from './date-picker/date-picker.component';
 export * from './free-services/free-services.component';

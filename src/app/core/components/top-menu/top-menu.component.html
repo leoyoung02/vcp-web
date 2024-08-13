@@ -44,12 +44,23 @@
               <ng-container *ngIf="userid">
                 <div class="flex justify-center">
                   <div class="flex items-center text-white ml-4 mr-9">
-                    <div class="ml-2 font-semibold text-base" *ngIf="currentUser">{{ (currentUser?.available_balance || 0) | currency: (currentUser?.currency || 'EUR') : 'code' : '1.2' : language }}</div>
+                    <div class="ml-2 font-semibold text-base" *ngIf="currentUser">
+                      <ng-container *ngIf="!(professional?.id > 0)">{{ (currentUser?.available_balance || 0) | currency: (currentUser?.currency || 'EUR') : 'code' : '1.2' : language }}</ng-container>
+                      <ng-container *ngIf="professional?.id > 0">{{ (professional?.wallet_amount || 0) | currency: (currentUser?.currency || 'EUR') : 'code' : '1.2' : language }}</ng-container>
+                    </div>
                     <button
+                      *ngIf="customMemberTypeId != 327"
                       class="text-sm text-white font-semibold px-5 py-1.5 ml-4 border border-white rounded-lg"
                       (click)="goToPage('/users/account-recharge')"
                       [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}">
                           {{ 'professionals.recharge' | translate }}
+                    </button>
+                    <button
+                      *ngIf="customMemberTypeId == 327 || professional?.id > 0"
+                      class="text-sm text-white font-semibold px-5 py-1.5 ml-4 border border-white rounded-lg"
+                      (click)="goToPage('professional-wallet')"
+                      [ngStyle]="{'border-color': buttonColor, 'color': buttonColor}">
+                          {{ 'professionals.withdraw' | translate }}
                     </button>
                   </div>
                 </div>

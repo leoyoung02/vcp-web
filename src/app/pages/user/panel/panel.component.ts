@@ -18,6 +18,7 @@ import {
   MultimediaContentComponent,
   PageTitleComponent,
   PanelMenuComponent,
+  WithdrawalMethodsComponent,
   PersonalInformationComponent,
   PieChartComponent,
   PricePerServiceComponent,
@@ -25,7 +26,8 @@ import {
   SemiDonutComponent,
   StackedBarChartComponent,
   ToastComponent,
-  TransactionsComponent
+  TransactionsComponent,
+  WalletComponent
 } from "@share/components";
 import { AuthService } from "@lib/services";
 import { ProfessionalsService } from "@features/services";
@@ -59,6 +61,8 @@ import get from "lodash/get";
     DonutComponent,
     StackedBarChartComponent,
     LineChartComponent,
+    WalletComponent,
+    WithdrawalMethodsComponent,
   ],
   templateUrl: "./panel.component.html"
 })
@@ -67,6 +71,7 @@ export class UserPanelComponent {
 
   @Input() id!: number;
   @Input() role: any;
+  @Input() action: any;
 
   languageChangeSubscription;
   language: any;
@@ -134,6 +139,10 @@ export class UserPanelComponent {
   currentDay: any;
   currentYear: any;
   currentDate: any;
+  withdrawalMethodsTitle: any;
+  withdrawalMethods: boolean = false;
+  walletAmount: any;
+  walletData: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -225,7 +234,10 @@ export class UserPanelComponent {
           this.subcategories = this.formatSubcategories(data?.subcategories);
           this.subcategoryMapping = data?.subcategory_mapping;
           this.specialties = this.formatSpecialties(data);
-          if (this.role == 'professional') { this.initializeProfessionalProfile(data); }
+          if (this.role == 'professional') { 
+            this.initializeProfessionalProfile(data); 
+            this.initializeWallet();
+          }
         },
         (error) => {
           console.log(error);
@@ -485,9 +497,16 @@ export class UserPanelComponent {
           action: 'services-created',
           show_right_content: true,
         })
+        this.menuItems.push({
+          index: 3,
+          text: this._translateService.instant('professionals.wallet'),
+          subtext: this._translateService.instant('professionals.walletdesc'),
+          action: 'wallet',
+          show_right_content: true,
+        })
       }
       this.menuItems.push({
-        index: 3,
+        index: 4,
         text: this._translateService.instant('user-panel.transactions'),
         subtext: this._translateService.instant('user-panel.transactionsdesc'),
         alternative_text: this._translateService.instant('user-panel.earnings'),
@@ -512,7 +531,7 @@ export class UserPanelComponent {
     }
 
     this.menuItems.push({
-      index: 4,
+      index: 5,
       text: this._translateService.instant('notification-popup.notifications'),
       subtext: this._translateService.instant('user-panel.notificationsdesc'),
       action: 'notifications',
@@ -521,7 +540,7 @@ export class UserPanelComponent {
 
     if (this.isAdmin) {
       this.menuItems.push({
-        index: 5,
+        index: 6,
         text: this._translateService.instant('company-settings.settings'),
         subtext: '',
         action: 'settings',
@@ -530,14 +549,14 @@ export class UserPanelComponent {
     }
 
     this.menuItems.push({
-      index: 6,
+      index: 7,
       text: this._translateService.instant('user-popup.logout'),
       subtext: '',
       action: 'logout',
       show_right_content: false,
     });
     this.menuItems.push({
-      index: 7,
+      index: 8,
       text: this._translateService.instant('user-panel.deleteaccount'),
       subtext: this._translateService.instant('user-panel.deletteaccountdesc'),
       action: 'delete-account',
@@ -550,7 +569,16 @@ export class UserPanelComponent {
       if (menu_item) {
         initial_menu = menu_item
       }
+    } else {
+      if(this.action) {
+        let menu_item = this.menuItems.find((c) => c.action == this.action);
+        if (menu_item) {
+          initial_menu = menu_item
+        }
+      }
     }
+
+    if(this.action == 'wallet') { this.initializeWallet(); }
     this.initializeMenuDetails(initial_menu);
   }
 
@@ -571,6 +599,9 @@ export class UserPanelComponent {
         break;
       case 'transactions':
         this.initializeTransactions();
+        break;
+      case 'wallet':
+        this.initializeWallet();
         break;
       case 'notifications':
         this.navigateToPage(`/users/notifications/${this.id}`);
@@ -729,6 +760,28 @@ export class UserPanelComponent {
 
       this._excelService.exportAsExcelFile(data, 'Contacto_con_profesional_' + new Date().getTime());
       this.open(this._translateService.instant("dialog.savedsuccessfully"), "");
+    }
+  }
+
+  initializeWallet() {
+    if(this.me) {
+      this.withdrawalMethodsTitle = this._translateService.instant('professionals.withdrawalmethods');
+      this._professionalsService
+        .getWalletData(
+          this.companyId,
+          this.me?.id,
+        )
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+            (data) => {
+              this.withdrawalMethods = data?.payment_methods;
+              this.walletAmount = data?.wallet_amount;
+              this.walletData = data?.wallet_data;
+            },
+            (error) => {
+              console.log(error);
+            }
+        );
     }
   }
 

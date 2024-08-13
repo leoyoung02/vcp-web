@@ -3848,7 +3848,12 @@
         "similarconsultations": "Consultas similares", 
         "customerreviews": "Opiniones de los Usuarios", 
         "addreview": "Agregar comentario",
-        "gettoknowthespecialties": "Conoce las Especialidades"
+        "gettoknowthespecialties": "Conoce las Especialidades",
+        "walletdesc": "Recibe dinero por tus servicios",
+        "withdraw": "Retirar",
+        "withdrawalmethods": "Métodos de retiro",
+        "stripedescription": "Acepta pagos en tu cuenta Stripe Connect",
+        "paypaldescription": "Recibe pagos en tu cuenta PayPal"
     },
     "my-account": {
         "availablebalance": "Saldo disponible",

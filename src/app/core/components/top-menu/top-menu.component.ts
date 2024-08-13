@@ -64,6 +64,7 @@ export class TopMenuComponent {
   @Input() categories: any;
   @Input() customMemberTypeId: any;
   @Input() hasBlog: any;
+  @Input() professional: any;
 
   logoSrc: string = COMPANY_IMAGE_URL;
   companyName: any;
@@ -149,11 +150,17 @@ export class TopMenuComponent {
   goToPage(link, type: string = '') {
     if(type == 'panel') {
       if(this.company?.id == 67 && this.customMemberTypeId == 327) {
-        link += '/professional';
+        link += '/professional/personal-info';
       } else {
-        link += '/user';
+        link += '/user/personal-info';
       }
       this._router.navigate([link])
+      .then(() => {
+        window.location.reload();
+      });
+    } else if(link == 'professional-wallet') {
+      let new_link = `/users/panel/${this.userid}/professional/wallet`;
+      this._router.navigate([new_link])
       .then(() => {
         window.location.reload();
       });

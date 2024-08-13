@@ -3823,7 +3823,12 @@
         "similarconsultations": "Ähnliche Abfragen",
         "customerreviews": "Benutzerrezensionen",
         "addreview": "Kommentar hinzufügen",
-        "gettoknowthespecialties": "Kennen Sie die Spezialitäten"
+        "gettoknowthespecialties": "Kennen Sie die Spezialitäten",
+        "walletdesc": "Lassen Sie sich für Ihre Dienste bezahlen",
+        "withdraw": "Zurückziehen",
+        "withdrawalmethods": "Auszahlungsmethoden",
+        "stripedescription": "Zahlungen auf Ihrem Stripe Connect-Konto akzeptieren",
+        "paypaldescription": "Zahlungen auf Ihrem PayPal-Konto erhalten"
     },
     "my-account": {
         "availablebalance": "Verfügbares Guthaben",

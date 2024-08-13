@@ -1,0 +1,128 @@
+<div class="pb-8">
+    <div class="flex items-center justify-between">
+        <div class="font-semibold text-xl">{{ title }}</div>
+        <div>
+            <button (click)="saveWithdrawalInformation()" 
+                class="bg-[#D9D9D9] rounded-[7px] py-2 px-6 flex items-center justify-center"
+                [ngClass]="{'opacity-50': !canSave()}"
+                [disabled]="!canSave()">
+                <svg class="w-6 h-6 textblack" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m17 21-5-4-5 4V3.889a.92.92 0 0 1 .244-.629.808.808 0 0 1 .59-.26h8.333a.81.81 0 0 1 .589.26.92.92 0 0 1 .244.63V21Z"/>
+                </svg>
+                <span class="ml-2 text-base font-semibold">{{ 'your-admin-area.save' | translate }}</span>
+            </button>
+        </div>
+    </div>
+</div>
+<div class="lg:flex lg:items-start lg:gap-12 xl:gap-16">
+    <div class="min-w-0 flex-1 space-y-8">
+        <div class="space-y-4">
+            <ul class="grid w-full gap-6 md:grid-cols-2 mb-8">
+                <li *ngIf="stripeActive">
+                    <input 
+                        type="radio" 
+                        id="payment-method-stripe" 
+                        name="payment-method" 
+                        value="Stripe" 
+                        class="hidden peer" 
+                        required
+                        (change)="handleChangePaymentMethod($event)" />
+                    <label for="payment-method-stripe" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
+                        [ngClass]="{'border-blue-600 text-blue-600': selectedMethod == 'Stripe'}"> 
+                        <div class="block">
+                            <div class="flex items-center mb-4">
+                                <img src="./assets/professional-icons/stripe-connect.png" class="w-[160px] h-6 object-cover -ml-[8px]" loading="lazy" />
+                            </div>
+                            <div class="w-full text-lg font-semibold -mt-[8px]">Stripe Connect</div>
+                            <div class="w-full text-sm">{{ 'professionals.stripedescription' | translate }}</div>
+                        </div>
+                    </label>
+                </li>
+                <li *ngIf="paypalActive">
+                    <input 
+                        type="radio" 
+                        id="payment-method-paypal" 
+                        name="payment-method" 
+                        value="PayPal" 
+                        class="hidden peer"
+                        required
+                        (change)="handleChangePaymentMethod($event)" />
+                    <label for="payment-method-paypal" class="inline-flex items-center justify-between w-full p-5 bg-white border rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
+                        [ngClass]="{'border-blue-600 text-blue-600': selectedMethod == 'PayPal', 'border-gray-200 text-gray-500': selectedMethod != 'PayPal'}">
+                        <div class="block">
+                            <img class="mb-2 h-6 object-contain" src="./assets/professional-icons/paypal.png" />
+                            <div class="w-full text-lg font-semibold">PayPal</div>
+                            <div class="w-full text-sm">{{ 'professionals.paypaldescription' | translate }}</div>
+                        </div>
+                    </label>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<div *ngIf="selectedMethod" class="w-full max-w-full relative pb-4">
+    <div class="mt-8 relative">
+        <div class="font-semibold text-xl">{{ 'members.basicinformation' | translate }}</div>
+        <hr class="h-px mt-2 mb-4 bg-gray-200 border-0">
+    </div>
+    <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-6">
+        <ng-container *ngIf="selectedMethod == 'PayPal'">
+            <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                <label for="email" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    <div class="flex items-center justify-between">
+                        <div>PayPal {{ 'signup.emailaddress' | translate }}</div>
+                    </div>
+                </label>
+                <input 
+                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !email && !validatePhoneForE164() }"
+                    type="text" 
+                    class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                    [(ngModel)]="email"
+                    [ngModelOptions]="{ standalone: true }" 
+                    placeholder="{{ 'signup.emailaddress' | translate }}"
+                    [required]="selectedMethod == 'PayPal' ? true : false"
+                    pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
+            </div>
+            <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                <label for="email" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    <div class="flex items-center justify-between">
+                        <div>{{ 'general-details.phonenumber' | translate }}</div>
+                    </div>
+                </label>
+                <input 
+                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !phone }"
+                    type="text" 
+                    class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                    [(ngModel)]="phone"
+                    [ngModelOptions]="{ standalone: true }" 
+                    placeholder="{{ 'general-details.phonenumber' | translate }}"
+                    [required]="selectedMethod == 'PayPal' ? true : false">
+            </div>
+        </ng-container>
+        <ng-container *ngIf="selectedMethod == 'Stripe'">
+            <div class="text-center relative col-span-2 sm:col-span-2 md:col-span-1 lg:col-span-1">
+                <label for="email" class="text-left block mb-2 text-sm font-semibold text-gray-900 dark:text-white">
+                    <div class="flex items-center justify-between">
+                        <div>{{ 'tutor-stripe.accountid' | translate }}</div>
+                    </div>
+                </label>
+                <input 
+                    [ngClass]="{'bg-red-50 border border-red-500 text-red-900 placeholder-red-700': !email }"
+                    type="text" 
+                    class="text-sm shadow appearance-none border border-[#677173] rounded-[10px] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-none" 
+                    [(ngModel)]="accountId"
+                    [ngModelOptions]="{ standalone: true }" 
+                    placeholder="{{ 'tutor-stripe.accountid' | translate }}"
+                    [required]="selectedMethod == 'Stripe' ? true : false"
+                    readonly>
+            </div>
+            <div class="mt-[25px]">
+                <button class="rounded-[7px] py-2 px-6 flex items-center justify-center"
+                    [ngStyle]="{'background-color': buttonColor}"
+                    (click)="accessStripe()">
+                    <span class="ml-2 text-base font-semibold text-white">{{ accountId ? ('stripe-account.setupaccount' | translate) : (('member-type-registration.access' | translate) + ' Stripe') }}</span>
+                </button>
+            </div>
+        </ng-container>
+    </div>
+</div>

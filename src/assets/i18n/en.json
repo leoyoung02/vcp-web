@@ -3860,7 +3860,12 @@
         "similarconsultations": "Similar consultations",
         "customerreviews": "Customer reviews", 
         "addreview": "Add review",
-        "gettoknowthespecialties": "Get to know the specialties"
+        "gettoknowthespecialties": "Get to know the specialties",
+        "walletdesc": "Get paid on your services",
+        "withdraw": "Withdraw",
+        "withdrawalmethods": "Withdrawal methods",
+        "stripedescription": "Accept payments on your Stripe Connect account",
+        "paypaldescription": "Receive payments on your PayPal account"
     },
     "my-account": {
         "availablebalance": "Available balance",

@@ -3823,7 +3823,12 @@
         "iam": "naiz",
         "similarconsultations": "Antzeko kontsultak",
         "customerreviews": "Erabiltzaileen iritziak",
-        "gettoknowthespecialties": "Espezialitateak ezagutu"
+        "gettoknowthespecialties": "Espezialitateak ezagutu",
+        "walletdesc": "Jaso ordaindu zure zerbitzuengatik",
+        "withdraw": "Erretiratu",
+        "withdrawalmethods": "Erretiratzeko metodoak",
+        "stripedescription": "Onartu ordainketak zure Stripe Connect kontuan",
+        "paypaldescription": "Jaso ordainketak zure PayPal kontuan"
     },
     "my-account": {
         "availablebalance": "Saldo erabilgarria",
