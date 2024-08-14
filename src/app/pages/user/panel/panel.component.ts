@@ -785,6 +785,10 @@ export class UserPanelComponent {
     }
   }
 
+  handleWithdraw(event) {
+    this.walletAmount = event;
+  }
+
   ngOnDestroy() {
     localStorage.removeItem('professional_gallery_image_file');
     this.languageChangeSubscription?.unsubscribe();

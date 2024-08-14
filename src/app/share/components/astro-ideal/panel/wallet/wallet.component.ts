@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ProfessionalsService } from "@features/services";
 import { initFlowbite } from "flowbite";
 import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
+import { Router, RouterModule } from "@angular/router";
 
 @Component({
     selector: "app-astro-ideal-wallet",
@@ -22,6 +23,7 @@ import { MatSnackBar, MatSnackBarModule } from "@angular/material/snack-bar";
         FormsModule,
         ReactiveFormsModule,
         MatSnackBarModule,
+        RouterModule,
     ],
     templateUrl: "./wallet.component.html",
     changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,12 +32,14 @@ export class WalletComponent {
     private destroy$ = new Subject<void>();
 
     @Input() id: any;
+    @Input() userId: any;
     @Input() companyId: any;
     @Input() buttonColor: any;
     @Input() userCurrency: any;
     @Input() walletAmount: any;
     @Input() walletData: any;
     @Input() withdrawAmount: any;
+    @Output() onWithdraw = new EventEmitter();
 
     languageChangeSubscription;
     language: any;
@@ -48,6 +52,7 @@ export class WalletComponent {
     | undefined;
 
     constructor(
+        private _router: Router,
         private _translateService: TranslateService,
         private _localService: LocalService,
         private _professionalsService: ProfessionalsService,
@@ -55,7 +60,6 @@ export class WalletComponent {
     ) { }
 
     async ngOnInit() {
-        initFlowbite();
         this.language = this._localService.getLocalStorage(environment.lslang);
         this._translateService.use(this.language || "es");
 
@@ -76,7 +80,10 @@ export class WalletComponent {
 
     withdraw() {
         this.withdrawAmount = this.walletAmount;
-        this.modalbutton2?.nativeElement?.click();
+        initFlowbite();
+        setTimeout(() => {
+            this.modalbutton2?.nativeElement?.click();
+        })
     }
 
     proceedToWithdraw() {
@@ -91,6 +98,15 @@ export class WalletComponent {
             .subscribe(
                 (response) => {
                     this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+                    this.onWithdraw.emit(response.wallet_amount);
+
+                    setTimeout(() => {
+                        let link= `/users/panel/${this.userId}/professional/wallet`;
+                        this._router.navigate([link])
+                        .then(() => {
+                            window.location.reload();
+                        });
+                    }, 500)
                 },
                 (error) => {
                     this.open(this._translateService.instant("dialog.error"), "");

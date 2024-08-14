@@ -176,6 +176,8 @@ export class FeatureComponent {
   paypalSecret: any;
   stripePublicKey: any;
   stripeSecretKey: any;
+  showPlatformPercentageModal: boolean = false;
+  platformPercentage: any;
 
   constructor(
     private _route: ActivatedRoute,
@@ -409,6 +411,7 @@ export class FeatureComponent {
       { id: 39, name_en: "Mentee Limit" },
       { id: 40, name_en: "Minimum balance" },
       { id: 41, name_en: "Payment methods" },
+      { id: 42, name_en: "Platform percentage" },
     ];
   }
 
@@ -525,6 +528,7 @@ export class FeatureComponent {
       case "Mentee Limit":
       case "Minimum balance":
       case "Payment methods":
+      case "Platform percentage":
       case "Candidates display":
         this.openSettingModal(row);
         break;
@@ -645,6 +649,10 @@ export class FeatureComponent {
         this.getPaymentMethods();
         this.settingmodalbutton?.nativeElement.click();
         break;
+      case "Platform percentage":
+        this.getPlatformPercentage();
+        this.settingmodalbutton?.nativeElement.click();
+        break;
       case "Filter":
       case "Members filter":
       case "Tutors filter":
@@ -674,6 +682,7 @@ export class FeatureComponent {
     this.menteeLimitSettings = false;
     this.showMinimumBalanceModal = false;
     this.showPaymentMethodsModal = false;
+    this.showPlatformPercentageModal = false;
   }
 
   goToAdminList(row) {
@@ -2506,6 +2515,42 @@ export class FeatureComponent {
         console.log(error)
       }
     )
+  }
+
+  getPlatformPercentage() {
+    this._professionalsService.getMinimumBalance(this.companyId)
+      .subscribe(
+        async (response) => {
+          this.professionalSettings = response.settings;
+          if(this.professionalSettings) {
+            this.platformPercentage = this.professionalSettings.platform_percentage || '';
+          }
+          this.showPlatformPercentageModal = true;
+        },
+        error => {
+          console.log(error)
+        }
+      )
+  }
+
+  savePlatformPercentage() {
+    if(this.platformPercentage) {
+      let params = {
+        company_id: this.companyId,
+        platform_percentage: this.platformPercentage
+      }
+      this._professionalsService.updatePlatformPercentage(params)
+      .subscribe(
+        response => {
+          this.open(this._translateService.instant('dialog.savedsuccessfully'), '');
+          this.showPlatformPercentageModal = false;
+          this.closesettingmodalbutton?.nativeElement.click();
+        },
+        error => {
+          console.log(error)
+        }
+      )
+    }
   }
 
   handleGoBack() {

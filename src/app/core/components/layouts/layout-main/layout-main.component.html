@@ -215,6 +215,7 @@
                 <source src="./assets/audio/ring.mp3" type="audio/mpeg" />
             </audio>
             <app-call-notification-popup
+                class="relative z-50"
                 *ngIf="!callPage"
                 [showToast]="showToast"
                 [company]="company"

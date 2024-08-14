@@ -422,6 +422,7 @@ export class ProfessionalsListComponent {
         video_call: this.hasVideoCall && item.video_call == 1 ? true : false,
         chat: this.hasChat && item.chat == 1 ? true : false,
         specialties: this.getSpecialties(item),
+        online_status: item?.video_call == 1 || item?.voice_call == 1 || item?.chat == 1
       };
     });
 
@@ -1015,19 +1016,19 @@ export class ProfessionalsListComponent {
 
     if(this.showChat) {
       professionals = professionals?.filter(professional => {
-        return professional.chat == 1 && professional?.online_status == 1
+        return professional.chat == 1
       })
     }
 
     if(this.showVideoCall) {
       professionals = professionals?.filter(professional => {
-        return professional.video_call == 1 && professional?.online_status == 1
+        return professional.video_call == 1
       })
     }
 
     if(this.showVoiceCall) {
       professionals = professionals?.filter(professional => {
-        return professional.voice_call == 1 && professional?.online_status == 1
+        return professional.voice_call == 1
       })
     }
 

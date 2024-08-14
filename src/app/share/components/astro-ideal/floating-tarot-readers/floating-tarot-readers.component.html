@@ -46,7 +46,7 @@
           <div class="absolute top-3 right-3">
             <img width="12" height="12" 
                 class="w-3 h-3 object-cover"
-                [src]="item?.online_status == 1 ? './src/assets/professional-icons/online-dark.png' : './src/assets/professional-icons/offline.png'" alt="" />
+                [src]="(item?.voice_call == 1 || item?.video_call == 1 || item?.chat == 1) ? './src/assets/professional-icons/online-dark.png' : './src/assets/professional-icons/offline.png'" alt="" />
           </div>
         </div>
       </ng-container>

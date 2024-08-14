@@ -1,5 +1,5 @@
 <div id="toast-message-cta" *ngIf="showToast"
-    class="bg-yellow-50 fixed top-1/3 md:translate-x-2/4 lg:translate-x-2/4 flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x divide-gray-200 rounded-lg shadow dark:text-gray-400 dark:divide-gray-700 space-x dark:bg-gray-800" 
+    class="mx-auto inset-x-0 bg-yellow-50 fixed top-2/4 flex items-center w-full max-w-xs p-4 space-x-4 text-gray-500 bg-white divide-x divide-gray-200 rounded-lg shadow space-x" 
     style="left:20%;"
     role="alert">
     <div class="flex">
@@ -19,6 +19,11 @@
                 *ngIf="(communicationMode == 'call' && toastMode == 'accept-call') || 
                     (communicationMode == 'video' && toastMode == 'accept-video-call') ||
                     (communicationMode == 'chat' && toastMode == 'accept-chat')" 
+                href="javascript:;" 
+                (click)="handleAcceptCall()">
+                {{ 'notification-popup.accept' | translate }}
+            </a>
+            <a class="mt-2 inline-flex px-2.5 py-1.5 text-xs font-medium text-center text-white bg-blue-600 rounded-lg hover:bg-black focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-500 dark:hover:bg-blue-600 dark:focus:ring-blue-800"
                 href="javascript:;" 
                 (click)="handleAcceptCall()">
                 {{ 'notification-popup.accept' | translate }}

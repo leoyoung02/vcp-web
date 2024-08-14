@@ -27,8 +27,8 @@
                         class="hidden peer" 
                         required
                         (change)="handleChangePaymentMethod($event)" />
-                    <label for="payment-method-stripe" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border border-gray-200 rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
-                        [ngClass]="{'border-blue-600 text-blue-600': selectedMethod == 'Stripe'}"> 
+                    <label for="payment-method-stripe" class="inline-flex items-center justify-between w-full p-5 text-gray-500 bg-white border rounded-lg cursor-pointer peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-gray-600 hover:bg-gray-100"
+                        [ngClass]="{'border-blue-600 text-blue-600': selectedMethod == 'Stripe', 'border-gray-200 text-gray-500': selectedMethod != 'Stripe'}">
                         <div class="block">
                             <div class="flex items-center mb-4">
                                 <img src="./assets/professional-icons/stripe-connect.png" class="w-[160px] h-6 object-cover -ml-[8px]" loading="lazy" />
@@ -120,7 +120,7 @@
                 <button class="rounded-[7px] py-2 px-6 flex items-center justify-center"
                     [ngStyle]="{'background-color': buttonColor}"
                     (click)="accessStripe()">
-                    <span class="ml-2 text-base font-semibold text-white">{{ accountId ? ('stripe-account.setupaccount' | translate) : (('member-type-registration.access' | translate) + ' Stripe') }}</span>
+                    <span class="ml-2 text-base font-semibold text-white">{{ accountId ? (('member-type-registration.access' | translate) + ' Stripe') : ('stripe-account.setupaccount' | translate) }}</span>
                 </button>
             </div>
         </ng-container>

@@ -150,7 +150,47 @@ export class WithdrawalMethodsComponent {
     };
 
     accessStripe() {
+        if(this.accountId) {
+            this.configureStripeConnect();
+        } else {
+            this.getStripeLoginLink();
+        }
+    }
 
+    configureStripeConnect() {
+        let params = {
+            id: this.id,
+            company_id: this.companyId,
+        }
+    
+        this._professionalsService.configureStripeConnect(params).subscribe(
+          async response => {
+            if(response?.stripe_url){
+              window.open(response.stripe_url, "_self")
+            } else{
+              location.reload()
+            }
+          }
+        )
+    }
+
+    getStripeLoginLink() {
+        let params = {
+            company_id: this.companyId,
+            account_id: this.accountId,
+            stripe_id: 0,
+            multiple: 0,
+        }
+        
+        this._professionalsService.getStripeLoginLink(params).subscribe(
+          async response => {
+            if(response?.loginLink){
+                window.open(response.loginLink, "_blank")
+            } else {
+              
+            }
+          }
+        )
     }
 
     async open(message: string, action: string) {

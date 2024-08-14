@@ -299,6 +299,7 @@ export class LayoutMainComponent {
   }
 
   mapRoutes(url) {
+    console.log('mapRoutes: ' + url)
     switch(url) {
       case '/':
         this.homePage = true;
@@ -309,9 +310,10 @@ export class LayoutMainComponent {
       case '/professionals':
         this.professionalsListPage = true;
         break;
-      case '/call':
-        this.callPage = true;
-        break;
+    }
+
+    if(url?.indexOf('/call') >= 0) {
+      this.callPage = true;
     }
   }
 

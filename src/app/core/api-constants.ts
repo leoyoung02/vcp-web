@@ -820,6 +820,8 @@ export const PROFESSIONAL_TRANSACTIONS_URL = `${API_BASE}/v3/panel/transactions`
 export const WALLET_DATA_URL = `${API_BASE}/v3/wallet-data`;
 export const EDIT_WALLET_SETTINGS_URL = `${API_BASE}/v3/professional/wallet/settings/edit`;
 export const WITHDRAW_URL = `${API_BASE}/v3/professional/wallet/withdraw`;
+export const SETUP_STRIPE_CONNECT_URL = `${API_BASE}/v3/professional/stripe-connect/add`;
+export const EDIT_PLATFORM_PERCENTAGE_URL = `${API_BASE}/v3/professional/platform-percentage/edit`;
 
 // BUDDIES
 export const BUDDIES_DATA_URL = `${API_BASE}/v2/buddies-data`;

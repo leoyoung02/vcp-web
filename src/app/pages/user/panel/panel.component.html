@@ -116,11 +116,13 @@
             <ng-container *ngIf="role == 'professional' && selectedMenu?.action == 'wallet'">
                 <app-astro-ideal-wallet
                     [id]="me?.id"
+                    [userId]="id"
                     [companyId]="companyId"
                     [buttonColor]="buttonColor"
                     [userCurrency]="me?.currency || 'EUR'"
                     [walletAmount]="walletAmount"
-                    [walletData]="walletData">
+                    [walletData]="walletData"
+                    (onWithdraw)="handleWithdraw($event)">
                 </app-astro-ideal-wallet>
             </ng-container>
         </div>
