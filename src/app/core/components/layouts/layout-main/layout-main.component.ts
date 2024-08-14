@@ -299,7 +299,6 @@ export class LayoutMainComponent {
   }
 
   mapRoutes(url) {
-    console.log('mapRoutes: ' + url)
     switch(url) {
       case '/':
         this.homePage = true;
